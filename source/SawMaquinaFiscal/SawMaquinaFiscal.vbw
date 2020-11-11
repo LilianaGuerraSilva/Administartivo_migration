@@ -1,0 +1,10 @@
+clsDatosImprFiscal = 175, 175, 1365, 686, C
+clsUtilImprFiscal = 0, 0, 0, 0, C
+frmImpresorasFiscales = 0, 0, 0, 0, C, 25, 25, 916, 350, C
+modVariablesGlobales = 0, 0, 0, 0, C
+clsInitSawmaquina = 0, 0, 0, 0, C
+clsUtilImpFiscalBMC = 0, 0, 0, 0, C
+clsImpFiscalQPrint = 0, 0, 0, 0, C
+clsImpFiscalFamFactory = 0, 0, 0, 0, C
+clsImpFiscalEleposVMAX = 0, 0, 0, 0, C
+clsImpFiscalFromAOS = 0, 0, 0, 0, C
