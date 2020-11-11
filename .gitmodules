@@ -47,10 +47,6 @@
 	path = source/Lib/VbaLib
 	url = https://chronos.galac.local:10207/desa/vbalib.git
 	branch = release-V1901
-[submodule "vbacomun"]
-	path = vbacomun
-	url = https://chronos.galac.local:10207/desa/vbacomun.git
-	branch = release-SAW-V18.3
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
 	url = https://chronos.galac.local:10207/desa/retencionesvb.git
