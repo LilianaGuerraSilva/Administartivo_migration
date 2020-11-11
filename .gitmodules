@@ -36,3 +36,21 @@
 	path = bin/binLibVb
 	url = https://chronos.galac.local:10207/desa/binlibvb.git
 	branch = release-V1901
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://chronos.galac.local:10207/desa/contabilidadvb.git
+[submodule "source/Lib/AosLib"]
+	path = source/Lib/AosLib
+	url = https://chronos.galac.local:10207/desa/aoslib.git
+	branch = release-V5.10.1.0
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
+	url = https://chronos.galac.local:10207/desa/vbalib.git
+	branch = release-V1901
+[submodule "vbacomun"]
+	path = vbacomun
+	url = https://chronos.galac.local:10207/desa/vbacomun.git
+	branch = release-SAW-V18.3
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://chronos.galac.local:10207/desa/retencionesvb.git
