@@ -52,3 +52,7 @@
 	path = bin/binAdministrativoAos
 	url = https://chronos.galac.local:10207/desa/binadministrativoaos.git
 	branch = release-V2.50.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://chronos.galac.local:10207/desa/bincontabilidadaos.git
+	branch = release-V2.35.9.0
