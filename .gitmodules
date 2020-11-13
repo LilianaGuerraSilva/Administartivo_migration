@@ -1,6 +1,3 @@
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://chronos.galac.local:10207/desa/binadministrativoaos.git
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://chronos.galac.local:10207/desa/bincomunaos.git
