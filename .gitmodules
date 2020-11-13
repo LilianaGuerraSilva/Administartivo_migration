@@ -51,3 +51,7 @@
 	path = source/vbaComun
 	url = https://chronos.galac.local:10207/desa/vbacomun.git
 	branch = release-SAW-V18.3
+[submodule "bin/binAdministrativoVb"]
+	path = bin/binAdministrativoVb
+	url = https://chronos.galac.local:10207/desa/binadministrativovb.git
+	branch = release-V2010
