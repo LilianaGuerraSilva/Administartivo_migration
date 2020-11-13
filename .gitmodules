@@ -4,7 +4,7 @@
 [submodule "bin/binAdministrativoVb"]
 	path = bin/binAdministrativoVb
 	url = https://chronos.galac.local:10207/desa/binadministrativovb.git
-	branch = release-V2007
+	branch = release-V2010
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://chronos.galac.local:10207/desa/bincomunaos.git
