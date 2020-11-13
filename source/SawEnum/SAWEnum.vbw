@@ -1,3 +1,6 @@
 modVariablesGlobales = -164, 87, 727, 412, C
 clsEnumAdministrativo = 25, 25, 1190, 537, C
 clsEnumTablaRetencion = 50, 50, 1215, 562, C
+clsInitSawEnum = 0, 0, 0, 0, C
+clsEnumContabilidad = 0, 0, 0, 0, C
+clsDefFacturaCotizacion = 0, 0, 0, 0, C
