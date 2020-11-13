@@ -1,6 +1,6 @@
-clsDatosImprFiscal = 175, 175, 1365, 686, C
+clsDatosImprFiscal = 0, 0, 0, 0, C
 clsUtilImprFiscal = 0, 0, 0, 0, C
-frmImpresorasFiscales = 0, 0, 0, 0, C, 25, 25, 916, 350, C
+frmImpresorasFiscales = 0, 0, 0, 0, C, 0, 0, 0, 0, C
 modVariablesGlobales = 0, 0, 0, 0, C
 clsInitSawmaquina = 0, 0, 0, 0, C
 clsUtilImpFiscalBMC = 0, 0, 0, 0, C
