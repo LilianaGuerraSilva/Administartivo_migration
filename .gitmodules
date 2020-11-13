@@ -52,3 +52,7 @@
 	path = bin/binAdministrativoVb
 	url = https://chronos.galac.local:10207/desa/binadministrativovb.git
 	branch = release-V2010
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
+	url = https://chronos.galac.local:10207/desa/binadministrativoaos.git
+	branch = release-V2.50.0.0
