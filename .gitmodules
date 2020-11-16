@@ -59,3 +59,7 @@
 [submodule "source/IvaVb"]
 	path = source/IvaVb
 	url = https://chronos.galac.local:10207/desa/ivavb.git
+[submodule "source/AxI"]
+	path = source/AxI
+	url = https://chronos.galac.local:10207/desa/axi.git
+	branch = release-V32.0.0.0
