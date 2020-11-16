@@ -56,3 +56,6 @@
 	path = bin/binContabilidadVb
 	url = https://chronos.galac.local:10207/desa/bincontabilidadvb.git
 	branch = release-V2004
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://chronos.galac.local:10207/desa/ivavb.git
