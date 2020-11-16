@@ -2,10 +2,6 @@
 	path = bin/binComunAos
 	url = https://chronos.galac.local:10207/desa/bincomunaos.git
 	branch = release-V2.35.9.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://chronos.galac.local:10207/desa/bincontabilidadvb.git
-	branch = release-V2002
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://chronos.galac.local:10207/desa/binesqniif.git
