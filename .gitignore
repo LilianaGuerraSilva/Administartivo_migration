@@ -1,0 +1,5 @@
+source/.vs/
+bin/*.dll
+*.pdb
+bin/*.xml
+obj
