@@ -3,3 +3,4 @@ bin/*.dll
 *.pdb
 bin/*.xml
 obj
+bin/es-PE
