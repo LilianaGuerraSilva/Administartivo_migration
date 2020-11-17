@@ -6,10 +6,6 @@
 	path = bin/binEsqNiif
 	url = https://chronos.galac.local:10207/desa/binesqniif.git
 	branch = release-V2.36.0.0
-[submodule "bin/binLibAos"]
-	path = bin/binLibAos
-	url = https://chronos.galac.local:10207/desa/binlibaos.git
-	branch = release-V5.10.1.0
 [submodule "bin/binLibNet"]
 	path = bin/binLibNet
 	url = https://chronos.galac.local:10207/desa/binlibnet.git
