@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +29,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -114,7 +114,7 @@
     </Reference>
     <Reference Include="Galac.Contab.Uil.Tablas">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Contab.Uil.Tablas.dll</HintPath>
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Uil.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Saw.Brl.Contabilizacion">
       <SpecificVersion>False</SpecificVersion>
@@ -177,62 +177,62 @@
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.Vehiculo.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Catching">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cib">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Cib.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Cnf">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal.PASOnLine">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Dal.PASOnLine.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.PASOnLine.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Dal.Settings">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Dal.Settings.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.Settings.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Wpf">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfControls">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfMainInterop">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.WpfMainInterop.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfMainInterop.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Uil.Usal">
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Vbwa.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Vbwa.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -248,13 +248,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Lib\IWrpVb.cs">
+    <Compile Include="..\Lib\AosLib\IWrpVb.cs">
       <Link>IWrpVb.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\Lib\IwrpVbDDL.cs">
+    <Compile Include="..\Lib\AosLib\IwrpVbDDL.cs">
       <Link>IwrpVbDDL.cs</Link>
     </Compile>
-    <Compile Include="..\..\clsNivelesDeSeguridad.cs">
+    <Compile Include="..\Galac.Saw\clsNivelesDeSeguridad.cs">
       <Link>clsNivelesDeSeguridad.cs</Link>
     </Compile>
     <Compile Include="clsLibSawDDL.cs" />
