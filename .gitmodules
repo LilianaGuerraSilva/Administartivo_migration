@@ -63,3 +63,7 @@
 	path = source/ContabIwrp
 	url = https://chronos.galac.local:10207/desa/contabiwrp.git
 	branch = release-V2.35.8.0
+[submodule "bin/binLibAos"]
+	path = bin/binLibAos
+	url = https://chronos.galac.local:10207/desa/binlibaos.git
+	branch = release-V5.10.1.0
