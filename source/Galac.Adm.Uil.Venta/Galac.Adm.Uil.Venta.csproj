@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E8AC8D72-32B9-4E08-AE7F-9A248FD5B179}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Adm.Uil.Venta</RootNamespace>
+    <AssemblyName>Galac.Adm.Uil.Venta</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\binLibAos\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\binLibAos\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Adm.Brl.CAnticipo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.CAnticipo.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Brl.DispositivosExternos">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.DispositivosExternos.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Brl.Venta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.Venta.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.Banco">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Banco.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.CAnticipo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.CAnticipo.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.DispositivosExternos">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.DispositivosExternos.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.Venta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Venta.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Dal.CAnticipo">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.CAnticipo.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Dal.Venta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.Venta.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Rpt.Venta">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Galac.Adm.Rpt.Venta\obj\Debug\Galac.Adm.Rpt.Venta.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Uil.DispositivosExternos">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Uil.DispositivosExternos.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Brl.Impuesto">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.Impuesto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Brl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.Impuesto">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.Impuesto.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.SttDef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Cliente">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Cliente.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Vendedor">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Vendedor.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Cliente">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Vendedor">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Vendedor.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib.Uil">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Uil.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.ARRpt">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl.IdFiscal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.IdFiscal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.IdFiscal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Ccl.IdFiscal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.Usal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Ccl.Usal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Cib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cib.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Cnf">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Dal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil.Usal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsCajaAperturaMenu.cs" />
+    <Compile Include="clsCajaMenu.cs" />
+    <Compile Include="clsClienteInsercionRapidaMenu.cs" />
+    <Compile Include="clsCobroRapidoMultimonedaMenu.cs" />
+    <Compile Include="clsFacturaRapidaMenu.cs" />
+    <Compile Include="clsVentaInformesMenu.cs" />
+    <Compile Include="LibSaw.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes\clsCajasAperturadasViewModel.cs" />
+    <Compile Include="Reportes\clsComisionDeVendedoresViewModel.cs" />
+    <Compile Include="Reportes\clsCuadreCajaConDetalleFormaPagoViewModel.cs" />
+    <Compile Include="Reportes\clsCuadreCajaPorTipoCobroViewModel.cs" />
+    <Compile Include="Reportes\clsCuadreCajaPorTipoCobroYUsuarioViewModel.cs" />
+    <Compile Include="Reportes\clsCuadreCajaPorUsuarioViewModel.cs" />
+    <Compile Include="Reportes\GSCajasAperturadas.xaml.cs">
+      <DependentUpon>GSCajasAperturadas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSComisionDeVendedores.xaml.cs">
+      <DependentUpon>GSComisionDeVendedores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCuadreCajaConDetalleFormaPago.xaml.cs">
+      <DependentUpon>GSCuadreCajaConDetalleFormaPago.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCuadreCajaPorTipoCobroYUsuario.xaml.cs">
+      <DependentUpon>GSCuadreCajaPorTipoCobroYUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\clsCajaInformesViewModel.cs" />
+    <Compile Include="Reportes\clsCobranzasEntreFechasViewModel.cs" />
+    <Compile Include="Reportes\clsCuadreCajaCobroMultimonedaDetalladoViewModel.cs" />
+    <Compile Include="Reportes\GSCobranzasEntreFechas.xaml.cs">
+      <DependentUpon>GSCobranzasEntreFechas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCuadreCajaCobroMultimonedaDetalladoView.xaml.cs">
+      <DependentUpon>GSCuadreCajaCobroMultimonedaDetalladoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCuadreCajaPorTipoCobro.xaml.cs">
+      <DependentUpon>GSCuadreCajaPorTipoCobro.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCuadreCajaPorUsuario.xaml.cs">
+      <DependentUpon>GSCuadreCajaPorUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIMefVentaCaja.cs" />
+    <Compile Include="UIMefVentaCajaApertura.cs" />
+    <Compile Include="UIMefVentaFacturaRapidaInformes.cs" />
+    <Compile Include="UIMefVentaFacturaRapida.cs" />
+    <Compile Include="UIMefVentaFacturaRapidaCobroMultimoneda.cs" />
+    <Compile Include="ViewModel\BuscarPrecioDeArticuloViewModel.cs" />
+    <Compile Include="ViewModel\CajaAperturaMngViewModel.cs" />
+    <Compile Include="ViewModel\CajaAperturaViewModel.cs" />
+    <Compile Include="ViewModel\CajaDiagnosticoViewModel.cs" />
+    <Compile Include="ViewModel\CajaMngViewModel.cs" />
+    <Compile Include="ViewModel\CajaViewModel.cs" />
+    <Compile Include="ViewModel\ClienteInsercionRapidaViewModel.cs" />
+    <Compile Include="ViewModel\clsFKViewModelVenta.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaAnticipoDetalleMngViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaAnticipoDetalleViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaAnticipoMngViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaAnticipoViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaDepositoTransfDetalleMngViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaDepositoTransfDetalleViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaDepositoTransfMngViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaDepositoTransfViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaEfectivoViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaTarjetaDetalleMngViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaTarjetaDetalleViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaTarjetaMngViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaTarjetaViewModel.cs" />
+    <Compile Include="ViewModel\CobroDeFacturaRapidaViewModel.cs" />
+    <Compile Include="ViewModel\CobroRapidoMultimonedaViewModel.cs" />
+    <Compile Include="ViewModel\CobroRapidoViewModelBase.cs" />
+    <Compile Include="ViewModel\CobroRapidoVzlaViewModelBase.cs" />
+    <Compile Include="ViewModel\CuadroDeBusquedaDeArticulosViewModel.cs" />
+    <Compile Include="ViewModel\CuadroDeBusquedaDeClientesViewModel.cs" />
+    <Compile Include="ViewModel\FacturaRapidaDetalleMngViewModel.cs" />
+    <Compile Include="ViewModel\FacturaRapidaDetalleViewModel.cs" />
+    <Compile Include="ViewModel\FacturaRapidaMngViewModel.cs" />
+    <Compile Include="ViewModel\FacturaRapidaViewModel.cs" />
+    <Compile Include="ViewModel\TasaDelDiaViewModel.cs" />
+    <Compile Include="Views\GSBuscarPrecioDeArticuloView.xaml.cs">
+      <DependentUpon>GSBuscarPrecioDeArticuloView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCajaAperturaView.xaml.cs">
+      <DependentUpon>GSCajaAperturaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCajaDiagnosticoView.xaml.cs">
+      <DependentUpon>GSCajaDiagnosticoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCajaView.xaml.cs">
+      <DependentUpon>GSCajaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSClienteInsercionRapidaView.xaml.cs">
+      <DependentUpon>GSClienteInsercionRapidaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroDeFacturaRapidaAnticipoDetalleView.xaml.cs">
+      <DependentUpon>GSCobroDeFacturaRapidaAnticipoDetalleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroDeFacturaRapidaAnticipoView.xaml.cs">
+      <DependentUpon>GSCobroDeFacturaRapidaAnticipoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroDeFacturaRapidaDepositoTransfDetalleView.xaml.cs">
+      <DependentUpon>GSCobroDeFacturaRapidaDepositoTransfDetalleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroDeFacturaRapidaDepositoTransfView.xaml.cs">
+      <DependentUpon>GSCobroDeFacturaRapidaDepositoTransfView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroDeFacturaRapidaEfectivoView.xaml.cs">
+      <DependentUpon>GSCobroDeFacturaRapidaEfectivoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroDeFacturaRapidaTarjetaDetalleView.xaml.cs">
+      <DependentUpon>GSCobroDeFacturaRapidaTarjetaDetalleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroDeFacturaRapidaTarjetaView.xaml.cs">
+      <DependentUpon>GSCobroDeFacturaRapidaTarjetaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroDeFacturaRapidaView.xaml.cs">
+      <DependentUpon>GSCobroDeFacturaRapidaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCobroRapidoMultimonedaView.xaml.cs">
+      <DependentUpon>GSCobroRapidoMultimonedaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaRapidaDetalleView.xaml.cs">
+      <DependentUpon>GSFacturaRapidaDetalleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaRapidaView.xaml.cs">
+      <DependentUpon>GSFacturaRapidaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSTasaDelDiaView.xaml.cs">
+      <DependentUpon>GSTasaDelDiaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\clsCobranzaInformesViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Reportes\GSCajasAperturadas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reportes\GSCobranzasEntreFechas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSComisionDeVendedores.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCuadreCajaCobroMultimonedaDetalladoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCuadreCajaConDetalleFormaPago.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCuadreCajaPorTipoCobro.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCuadreCajaPorTipoCobroYUsuario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCuadreCajaPorUsuario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSBuscarPrecioDeArticuloView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCajaAperturaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCajaDiagnosticoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCajaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSClienteInsercionRapidaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroDeFacturaRapidaAnticipoDetalleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroDeFacturaRapidaAnticipoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroDeFacturaRapidaDepositoTransfDetalleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroDeFacturaRapidaDepositoTransfView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroDeFacturaRapidaEfectivoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroDeFacturaRapidaTarjetaDetalleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroDeFacturaRapidaTarjetaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroDeFacturaRapidaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCobroRapidoMultimonedaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaRapidaDetalleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaRapidaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSTasaDelDiaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt1.png" />
+    <Resource Include="Images\Alt10.png" />
+    <Resource Include="Images\Alt11.png" />
+    <Resource Include="Images\Alt12.png" />
+    <Resource Include="Images\Alt2.png" />
+    <Resource Include="Images\Alt3.png" />
+    <Resource Include="Images\Alt4.png" />
+    <Resource Include="Images\Alt5.png" />
+    <Resource Include="Images\Alt6.png" />
+    <Resource Include="Images\Alt7.png" />
+    <Resource Include="Images\Alt8.png" />
+    <Resource Include="Images\Alt9.png" />
+    <Resource Include="Images\F1.png" />
+    <Resource Include="Images\F10.png" />
+    <Resource Include="Images\F11.png" />
+    <Resource Include="Images\F12.png" />
+    <Resource Include="Images\F2.png" />
+    <Resource Include="Images\F3.png" />
+    <Resource Include="Images\F4.png" />
+    <Resource Include="Images\F5.png" />
+    <Resource Include="Images\F6.png" />
+    <Resource Include="Images\F7.png" />
+    <Resource Include="Images\F8.png" />
+    <Resource Include="Images\F9.png" />
+    <Resource Include="Images\Close.png" />
+    <Resource Include="Images\Open.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

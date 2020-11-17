@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.GestionCompras.Views.GSCompraDetalleDistribucion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionCompras.ViewModel"
+             xmlns:nsV="clr-namespace:Galac.Adm.Uil.GestionCompras.Views"
+             xmlns:nsRes="clr-namespace:Galac.Adm.Uil.GestionCompras.Properties" mc:Ignorable="d" d:DesignHeight="469" d:DesignWidth="1211">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="363*" />        
+        </Grid.RowDefinitions>        
+            <ScrollViewer  VerticalScrollBarVisibility="Auto" Margin="3,3,0,0" >
+                <TabControl Grid.Row="0" Grid.Column ="0" Grid.ColumnSpan="3" Margin="3" Name="tbcCompra" >
+                    <TabItem Header="Articulos" Name="tbiSeccionCompraDetalleArticuloInventario"  >
+                        <Grid Name="gtSeccionCompraDetalleArticuloInventario">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <nsWpfControls:GSDataGrid Grid.Row="2" Style="{StaticResource GSDataGridStyle}" MinHeight="200" MinWidth="250" Name="dgArticulo" KeyboardNavigation.IsTabStop="False"
+                                              IsSynchronizedWithCurrentItem="True" Height="420" Width="1150" HorizontalScrollBarVisibility="Auto" 
+                                              Focusable="False"
+                                              IsReadOnly="True"
+                                              ItemsSource="{Binding Path=Compra.DetailCompraDetalleArticuloInventario.Items}"
+                                              SelectedItem="{Binding Path=Compra.DetailCompraDetalleArticuloInventario.SelectedItem, Mode=OneWayToSource}"
+                                              ColumnsMap="{Binding Path=Compra.DetailCompraDetalleArticuloInventario.VisibleColumnsParaDistribucionAutomatica}" Grid.Column="2" Margin="0,2,0,-2" >
+                            </nsWpfControls:GSDataGrid>
+                        </Grid>
+                    </TabItem>                    
+                </TabControl>
+            </ScrollViewer>
+    </Grid>
+</UserControl>

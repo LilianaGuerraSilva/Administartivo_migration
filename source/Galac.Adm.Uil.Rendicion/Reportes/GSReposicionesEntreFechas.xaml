@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.CajaChica.Reportes.GSReposicionesEntreFechas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" d:DesignHeight="212" d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />                
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="GroupBoxHeaderTemplate">
+                <TextBlock Text="{Binding }" FontWeight="Bold" Foreground="Navy" />
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="Fecha Inicial" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="0" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaInicial"
+            SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Fecha Final" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="1" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaFinal"
+            SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
+        <GroupBox Style="{StaticResource GroupBoxStyle}" HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"  Grid.Row="2" Grid.ColumnSpan="2" Header="Caja Chica" Margin="2">
+            <Grid Width="400">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="200" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Name="lblCantidadAImprimir" Content="Cantidad a Imprimir" Style="{StaticResource LabelPrompt}" />
+                <ComboBox Grid.Row="0" Grid.Column="1" x:Name="cmbCantidadAImprimir" Style="{StaticResource ComboBoxStyle}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ECantidadAImprimir}"
+                    SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Grid.Row="1" Grid.Column="0" Name="lblCajaChica" Content="Caja Chica" Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtCodigoCtaBancariaCajaChica" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabledCajaChica}"
+                        DisplayMemberPath="Codigo"
+                        Model="{Binding Path=ConexionCodigoCtaBancariaCajaChica, Mode=TwoWay}"
+                        ConnectionValue="{Binding Path=CodigoCtaBancariaCajaChica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        SearchCommand="{Binding Path=ChooseCodigoCtaBancariaCajaChicaCommand}" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Name="lblNombreCtaBancariaCajaChica" Text="{Binding Path=NombreCtaBancariaCajaChica}" Style="{StaticResource TextBlockFeatureInfo}" Width="180" MinHeight="50" Margin="3" />
+                <Label Grid.Row="3" Grid.Column="0" Name="lblAgruparCajaChica" Content="Una Página Por Caja Chica" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="3" Grid.Column="1" Name="chkUnaPaginaPorCajaChica" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UnaPaginaPorCajaChica}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabledUnaPaginaPorCajaChica}"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

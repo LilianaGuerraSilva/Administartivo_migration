@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using LibGalac.Aos.Base.Dal;
+using LibGalac.Aos.Dal.Settings;
+using LibGalac.Aos.Base;
+using System.Threading;
+using System.Data;
+using LibGalac.Aos.Dal.Usal;
+using LibGalac.Aos.Dal;
+using LibGalac.Aos.DefGen;
+using System.Transactions;
+using Galac.Comun.Ccl.SttDef;
+
+namespace Galac.Saw.DDL.VersionesReestructuracion {
+    class clsVersion6_06 : clsVersionARestructurar {
+        public clsVersion6_06(string valCurrentDataBaseName)
+            : base(valCurrentDataBaseName) {
+            _VersionDataBase = "6.06";
+        }
+
+        public override bool UpdateToVersion() {
+            StartConnectionNoTransaction();
+            CrearParametrosCxC();
+            DisposeConnectionNoTransaction();
+            return true;
+        }
+
+        private void CrearParametrosCxC() {
+            AgregarNuevoParametro("NombrePlantillaImpresionCodigoBarrasCompras", "CxP/Compras", 6, "6.1.- Compras", 1, "", eTipoDeDatoParametros.String, "", 'N', "rpxImpresionDeCodigoDeBarrasCompras");
+        }
+    }
+}

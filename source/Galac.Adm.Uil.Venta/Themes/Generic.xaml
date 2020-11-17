@@ -1,0 +1,80 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSV="clr-namespace:Galac.Adm.Uil.Venta.Views"
+    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.Venta.ViewModel"
+    xmlns:nsReportesView="clr-namespace:Galac.Adm.Uil.Venta.Reportes">
+
+    <DataTemplate DataType="{x:Type nsCSVM:ClienteInsercionRapidaViewModel}">
+        <nsCSV:GSClienteInsercionRapidaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaRapidaViewModel}">
+        <nsCSV:GSFacturaRapidaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaRapidaDetalleViewModel}">
+        <nsCSV:GSFacturaRapidaDetalleView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaViewModel}">
+        <nsCSV:GSCobroDeFacturaRapidaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaEfectivoViewModel}">
+        <nsCSV:GSCobroDeFacturaRapidaEfectivoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaTarjetaViewModel}">
+        <nsCSV:GSCobroDeFacturaRapidaTarjetaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaTarjetaDetalleViewModel}">
+        <nsCSV:GSCobroDeFacturaRapidaTarjetaDetalleView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaDepositoTransfViewModel}">
+        <nsCSV:GSCobroDeFacturaRapidaDepositoTransfView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaDepositoTransfDetalleViewModel}">
+        <nsCSV:GSCobroDeFacturaRapidaDepositoTransfDetalleView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaAnticipoViewModel}">
+        <nsCSV:GSCobroDeFacturaRapidaAnticipoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaAnticipoDetalleViewModel}">
+        <nsCSV:GSCobroDeFacturaRapidaAnticipoDetalleView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:TasaDelDiaViewModel}">
+        <nsCSV:GSTasaDelDiaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CobroRapidoMultimonedaViewModel}">
+        <nsCSV:GSCobroRapidoMultimonedaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCobranzasEntreFechasViewModel}">
+        <nsReportesView:GSCobranzasEntreFechas />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCuadreCajaCobroMultimonedaDetalladoViewModel}">
+        <nsReportesView:GSCuadreCajaCobroMultimonedaDetalladoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCajasAperturadasViewModel}">
+        <nsReportesView:GSCajasAperturadas />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCuadreCajaPorTipoCobroViewModel}">
+        <nsReportesView:GSCuadreCajaPorTipoCobro />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCuadreCajaConDetalleFormaPagoViewModel}">
+        <nsReportesView:GSCuadreCajaConDetalleFormaPago />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCuadreCajaPorTipoCobroYUsuarioViewModel}">
+        <nsReportesView:GSCuadreCajaPorTipoCobroYUsuario />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCuadreCajaPorUsuarioViewModel}">
+        <nsReportesView:GSCuadreCajaPorUsuario />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CajaViewModel}">
+        <nsCSV:GSCajaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CajaAperturaViewModel}">
+        <nsCSV:GSCajaAperturaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CajaDiagnosticoViewModel}">
+        <nsCSV:GSCajaDiagnosticoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsComisionDeVendedoresViewModel}">
+        <nsReportesView:GSComisionDeVendedores />
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.Inventario.Input.GSAlmacen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="182" d:DesignWidth="503" >
+    <Grid Name="gwMain" Width="503" Height="178">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigo" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Código"></Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="174,0,0,0" MaxLength="5" Name="txtCodigo" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="0" Width="92" Height="22" />
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreAlmacen" Margin="10,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Nombre Almacén</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="174,28,0,0" MaxLength="40" Name="txtNombreAlmacen" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="1" Width="317" Height="22" />
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDeAlmacen" Margin="10,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Tipo De Almacén</Label>
+        <nsWpfControls:GSComboBoxWpf Height="23" HorizontalAlignment="Left" Margin="174,56,0,0" Name="cmbTipoDeAlmacen" VerticalAlignment="Top" Width="135" BorderThickness="1" TabIndex="2"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoDelCliente" Margin="10,84,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Código Cliente</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="String" Height="23" HorizontalAlignment="Left" Margin="174,85,0,0" Name="txtCodigoDelCliente" VerticalAlignment="Top" Width="92" MaxLength="11" TextAlignment="Left" BorderThickness="1" TabIndex="3" InvalidCharacters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLAMNOPQRSTUVWXYZnÑ#|"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelCalculatedField}}" Name="lneNombreCliente" Margin="272,84,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="219">lneNombreCliente</Label>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoCc" Margin="10,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden">Código Centro de Costos</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="174,140,0,0" MaxLength="5" Name="txtCodigoCc" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="5" Width="92" Height="22" Visibility="Hidden" />
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="280,140,0,0" MaxLength="40" Name="txtDescripcion" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="6" Width="211" Height="22" IsEnabled="False" IsReadOnly="True" Visibility="Hidden" />
+    </Grid>
+</UserControl>

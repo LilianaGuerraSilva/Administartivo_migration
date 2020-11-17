@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.DispositivosExternos.Views.GSEmitirFacturaFiscalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Adm.Uil.DispositivosExternos.ViewModel" mc:Ignorable="d" Height="132" Width="344">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtNumeroFatura}" Height="161" Width="343">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="128*" />
+            <ColumnDefinition Width="219" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47*" />
+            <RowDefinition Height="34*" />
+            <RowDefinition Height="69*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" Content="NRO FACTURA:" Style="{StaticResource LabelHeaderStyle}" HorizontalAlignment="Right" Background="{x:Null}" Foreground="Navy" FontSize="14" Width="128" FlowDirection="LeftToRight" FontWeight="Normal" />
+        <Label Grid.Column="2" Content="{Binding Path=NumeroFactura}" Style="{StaticResource LabelHeaderStyle}" HorizontalAlignment="Left" Background="{x:Null}" Foreground="Navy" Width="217" FontSize="15" Margin="2,9,0,12" FontWeight="Black" HorizontalContentAlignment="Left" Height="26" />
+        <Label Grid.Row="2" Grid.Column="1" Content="SERIAL:" Style="{StaticResource LabelHeaderStyle}" HorizontalAlignment="Left" Background="{x:Null}" Foreground="Navy" Height="24" VerticalAlignment="Bottom" FontSize="10" Margin="59,0,0,50" FontWeight="Normal" />
+        <ProgressBar Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="12,4,0,0" Name="progressBar1" VerticalAlignment="Top" Width="325" Grid.ColumnSpan="2" Value="{Binding Path=ProgressBarValue}" IsIndeterminate="True" />
+        <Label  Content="{Binding Path=SerialImpresoraFiscal}" Foreground="Navy" Grid.Column="2" Height="24" HorizontalAlignment="Left" Style="{StaticResource LabelHeaderStyle}" VerticalAlignment="Bottom" Grid.Row="2" Width="211" Margin="2,0,0,50" FontStyle="Normal" FontWeight="Black" FlowDirection="LeftToRight" HorizontalContentAlignment="Left" Background="{x:Null}" />
+    </Grid>
+</UserControl>

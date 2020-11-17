@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.Venta.Reportes.GSCuadreCajaCobroMultimonedaDetalladoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=dtpFechaInicial}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Name="lblFechaInicial" Content="Fecha Inicial" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="0" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaInicial"
+                                       SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
+        <Label Grid.Row="1" Grid.Column="0" Name="lblFechaFinal" Content="Fecha Final" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="1" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaFinal"
+                                       SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
+        <Label Grid.Row="2" Grid.Column="0" Name="lblMoneda" Content="Moneda" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbMoneda" Width="120"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=MonedaDeReporte}"
+                SelectedItem="{Binding Path=Moneda, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="3" Grid.Column="0" Name="lblCantidadAImprimir" Content="Cantidad de operadores" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="3" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbCantidadAImprimir" Width="120"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayCantidadOperadorDeReporte}"
+                SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="4" Grid.Column="0" Name="lblNombreDelUsuario" Content="Cajero" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleNombreDelUsuario, Converter={StaticResource booleanToVisibilityConverter}}"/>
+        <nsWpfControls:GSSeekConnection Grid.Row="4" Grid.Column="1" Name="txtNombreDelUsuario" Height="23" Margin="3"         HorizontalAlignment="Left" Width="120"
+                IsEnabled="{Binding Path=IsEnabledNombreDelUsuario}"
+                Visibility="{Binding Path=IsVisibleNombreDelUsuario, Converter={StaticResource booleanToVisibilityConverter}}"
+                DisplayMemberPath="Codigo"
+                Model="{Binding Path=ConexionNombreDelUsuario, Mode=TwoWay}"
+                ConnectionValue="{Binding Path=NombreDelUsuario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}" />
+        <Label Grid.Row="5" Grid.Column="0" Name="lblTotalesTipoCobro" Content="Totales de Tipo de Cobro" Style="{StaticResource LabelPrompt}" />
+        <CheckBox Grid.Row="5" Grid.Column="1" Name="chkTotalesTipoCobro" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=TotalesTipoCobro}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+    </Grid>
+</UserControl>

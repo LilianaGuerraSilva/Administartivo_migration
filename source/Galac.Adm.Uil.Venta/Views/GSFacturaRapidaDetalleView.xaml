@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.Venta.Views.GSFacturaRapidaDetalleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsLibSaw="clr-namespace:Galac.Adm.Uil.Venta" 
+             xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Venta.ViewModel" Height="40" mc:Ignorable="d">
+    <UserControl.InputBindings>
+        <KeyBinding Key="F8"  Command="{Binding Path=CantidadCommand}" CommandParameter=""  />
+    </UserControl.InputBindings>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+         </ResourceDictionary>
+    </UserControl.Resources>
+
+    
+</UserControl>

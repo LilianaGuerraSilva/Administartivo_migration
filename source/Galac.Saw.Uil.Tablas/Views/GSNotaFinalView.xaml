@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.Tablas.Views.GSNotaFinalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Tablas.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigoDeLaNota}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Name="lblCodigoDeLaNota" Content="Código" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtCodigoDeLaNota" nsWpf:LibFocusManager.IsFocused="True" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="10" Width="130" IsEnabled="{Binding Path=IsEnabledCodigo}"
+                                    Text="{Binding Path=CodigoDeLaNota, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label Grid.Row="1" Grid.Column="0" Name="lblDescripcion" Content="Descripción" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextAreaWpf Grid.Row="1" Grid.Column="1" Name="txtDescripcion" Style="{StaticResource TextBoxInputStyle}" MaxLength="255" Width="400" Height="100" VerticalScrollBarVisibility="Auto" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=Descripcion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+    </Grid>
+</UserControl>

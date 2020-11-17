@@ -1,0 +1,39 @@
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.CajaChica.Sch.GSAlicuotaIVASch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFechaDeInicioDeVigencia" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,12,0,0">Fecha De Inicio De Vigencia</Label>
+        <nsWpfControls:GSDateSearchBoxWpf Name="dtpFechaDeInicioDeVigencia" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,12,0,0" ToolTip="Fecha De Inicio De Vigencia" DbColumnName="FechaDeInicioDeVigencia" BorderThickness="1" TabIndex = "0"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMontoAlicuotaGeneral" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,40,0,0">Monto Alicuota General</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtMontoAlicuotaGeneral" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" ToolTip="Monto Alicuota General" DbColumnName="MontoAlicuotaGeneral" BorderThickness="1" TabIndex = "1" InputDataType="igDec"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMontoAlicuota2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,68,0,0">Monto Alicuota 2</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtMontoAlicuota2" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,68,0,0" ToolTip="Monto Alicuota 2" DbColumnName="MontoAlicuota2" BorderThickness="1" TabIndex = "2" InputDataType="igDec"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMontoAlicuota3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,96,0,0">Monto Alicuota 3</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtMontoAlicuota3" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,96,0,0" ToolTip="Monto Alicuota 3" DbColumnName="MontoAlicuota3" BorderThickness="1" TabIndex = "3" InputDataType="igDec"/>
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(FechaDeInicioDeVigencia)" Value="FechaDeInicioDeVigencia"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Fecha De Inicio De Vigencia" Value="FechaDeInicioDeVigencia"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Monto Alicuota General" Value="MontoAlicuotaGeneral"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Monto Alicuota 2" Value="MontoAlicuota2"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Monto Alicuota 3" Value="MontoAlicuota3"/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                    <Field Header="Fecha De Inicio De Vigencia" XPath="FechaDeInicioDeVigencia" Width="100" DataType="date" DateFormat="dd/MM/yyyy" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Monto Alicuota General" XPath="MontoAlicuotaGeneral" Width="100" TextAlignment="Right" DataType="decimal" DecimalDigits="2" ColumnLengthForPrinting="20"></Field>
+                    <Field Header="Monto Alicuota 2" XPath="MontoAlicuota2" Width="100" TextAlignment="Right" DataType="decimal" DecimalDigits="2" ColumnLengthForPrinting="20"></Field>
+                    <Field Header="Monto Alicuota 3" XPath="MontoAlicuota3" Width="100" TextAlignment="Right" DataType="decimal" DecimalDigits="2" ColumnLengthForPrinting="20"></Field>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

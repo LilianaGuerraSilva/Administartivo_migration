@@ -1,0 +1,218 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Security;
+using System.Security.Permissions;
+using System.Xml;
+using System.Xml.Linq;
+using LibGalac.Aos.Base;
+using LibGalac.Aos.Brl;
+using LibGalac.Aos.Base.Dal;
+using Galac.Adm.Ccl.GestionProduccion;
+using System.Collections.ObjectModel;
+using Galac.Saw.Ccl.Inventario;
+
+namespace Galac.Adm.Brl.GestionProduccion {
+    public partial class clsOrdenDeProduccionDetalleMaterialesNav: LibBaseNavDetail<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>> {
+        #region Variables
+        #endregion //Variables
+        #region Propiedades
+        #endregion //Propiedades
+        #region Constructores
+
+        public clsOrdenDeProduccionDetalleMaterialesNav() {
+        }
+        #endregion //Constructores
+        #region Metodos Generados
+
+        protected override ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>> GetDataInstance() {
+            return new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDetalleMaterialesDat();
+        }
+
+        private void FillWithForeignInfo(ref IList<OrdenDeProduccionDetalleMateriales> refData) {
+            FillWithForeignInfoOrdenDeProduccionDetalleMateriales(ref refData);            
+        }
+        #region OrdenDeProduccionDetalleMateriales
+
+        private void FillWithForeignInfoOrdenDeProduccionDetalleMateriales(ref IList<OrdenDeProduccionDetalleMateriales> refData) {
+            XElement vInfoConexionAlmacen = FindInfoAlmacen(refData);
+            var vListAlmacen = (from vRecord in vInfoConexionAlmacen.Descendants("GpResult")
+                                      select new {
+                                          ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),                                          
+                                          Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo")), 
+                                          Codigo = vRecord.Element("Codigo").Value, 
+                                          NombreAlmacen = vRecord.Element("NombreAlmacen").Value, 
+                                          TipoDeAlmacen = vRecord.Element("TipoDeAlmacen").Value, 
+                                          ConsecutivoCliente = LibConvert.ToInt(vRecord.Element("ConsecutivoCliente")),                                           
+                                          CodigoCc = vRecord.Element("CodigoCc").Value, 
+                                          Descripcion = vRecord.Element("Descripcion").Value
+                                      }).Distinct();
+            XElement vInfoConexionArticuloInventario = FindInfoArticuloInventario(refData);
+            var vListArticuloInventario = (from vRecord in vInfoConexionArticuloInventario.Descendants("GpResult")
+                                      select new {
+                                          ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),                                          
+                                          Codigo = vRecord.Element("Codigo").Value, 
+                                          Descripcion = vRecord.Element("Descripcion").Value, 
+                                          LineaDeProducto = vRecord.Element("LineaDeProducto").Value, 
+                                          StatusdelArticulo = vRecord.Element("StatusdelArticulo").Value, 
+                                          TipoDeArticulo = (eTipoDeArticulo)LibConvert.DbValueToEnum(vRecord.Element("TipoDeArticulo").Value),
+                                          TipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum( vRecord.Element("TipoArticuloInv").Value),
+                                          Categoria = vRecord.Element("Categoria").Value,
+                                          UnidadDeVenta = vRecord.Element("UnidadDeVenta").Value,
+                                          AlicuotaIVA = vRecord.Element("AlicuotaIVA").Value
+                                      }).Distinct();
+            foreach (OrdenDeProduccionDetalleMateriales vItem in refData) {
+                var vItemAlmacen = vListAlmacen.Where(p => p.Consecutivo == vItem.ConsecutivoAlmacen).Select(p => p).FirstOrDefault();
+                vItem.CodigoAlmacen = vItemAlmacen.Codigo;
+                vItem.NombreAlmacen = vItemAlmacen.NombreAlmacen;
+                var vItemArticulo = vListArticuloInventario.Where(p => p.Codigo  == vItem.CodigoArticulo).Select(p => p).FirstOrDefault();
+                vItem.DescripcionArticulo = vItemArticulo.Descripcion;
+                vItem.TipoDeArticuloAsEnum  = vItemArticulo.TipoDeArticulo;
+            }
+        }
+
+        private XElement FindInfoAlmacen(IList<OrdenDeProduccionDetalleMateriales> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach(OrdenDeProduccionDetalleMateriales vItem in valData) {
+                vXElement.Add(FilterOrdenDeProduccionDetalleMaterialesByDistinctAlmacen(vItem).Descendants("GpResult"));
+            }
+            ILibPdn insAlmacen = new Galac.Saw.Brl.Inventario.clsAlmacenNav();
+            XElement vXElementResult = insAlmacen.GetFk("OrdenDeProduccionDetalleMateriales", ParametersGetFKAlmacenForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            return vXElementResult;
+        }
+
+        private XElement FilterOrdenDeProduccionDetalleMaterialesByDistinctAlmacen(OrdenDeProduccionDetalleMateriales valRecord) {
+            XElement vXElement = new XElement("GpData",
+                new XElement("GpResult",
+                    new XElement("Consecutivo", valRecord.ConsecutivoAlmacen)));
+            return vXElement;
+        }
+
+        private StringBuilder ParametersGetFKAlmacenForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddReturn();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInXml("XmlData", valXElement);
+            vResult = vParams.Get();
+            return vResult;
+        }
+
+        internal XElement FindInfoArticuloInventario(IList<OrdenDeProduccionDetalleMateriales> valData) {
+            XElement vXElement = new XElement("GpData");
+            foreach(OrdenDeProduccionDetalleMateriales vItem in valData) {
+                vXElement.Add(FilterOrdenDeProduccionDetalleMaterialesByDistinctArticuloInventario(vItem).Descendants("GpResult"));
+            }
+            ILibPdn insArticuloInventario = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
+            XElement vXElementResult = insArticuloInventario.GetFk("Orden de Producción", ParametersGetFKArticuloInventarioForXmlSubSet(valData[0].ConsecutivoCompania, vXElement));
+            return vXElementResult;
+        }
+
+        private XElement FilterOrdenDeProduccionDetalleMaterialesByDistinctArticuloInventario(OrdenDeProduccionDetalleMateriales valRecord) {
+            XElement vXElement = new XElement("GpData",
+               new XElement("GpResult",
+                    new XElement("Codigo", valRecord.CodigoArticulo)));
+            return vXElement;
+        }
+
+        private StringBuilder ParametersGetFKArticuloInventarioForXmlSubSet(int valConsecutivoCompania, XElement valXElement) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddReturn();
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParams.AddInXml("XmlData", valXElement);
+            vResult = vParams.Get();
+            return vResult;
+        }
+        #endregion //OrdenDeProduccionDetalleMateriales
+        
+        #endregion //Metodos Generados
+        #region Codigo Ejemplo
+        /* Codigo de Ejemplo
+
+        bool IOrdenDeProduccionDetalleMaterialesPdn.InsertDefaultRecord(int valConsecutivoCompania) {
+            ILibDataComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>> instanciaDal = new clsOrdenDeProduccionDetalleMaterialesDat();
+            IList<OrdenDeProduccionDetalleMateriales> vLista = new List<OrdenDeProduccionDetalleMateriales>();
+            OrdenDeProduccionDetalleMateriales vCurrentRecord = new Galac.Adm.Dal.GestionProduccionOrdenDeProduccionDetalleMateriales();
+            vCurrentRecord.ConsecutivoCompania = valConsecutivoCompania;
+            vCurrentRecord.ConsecutivoCompania = 0;
+            vCurrentRecord.ConsecutivoOrdenDeProduccion = 0;
+            vCurrentRecord.ConsecutivoOrdenDeProduccionDetalleArticulo = 0;
+            vCurrentRecord.Consecutivo = 0;
+            vCurrentRecord.ConsecutivoAlmacen = 0;
+            vCurrentRecord.CodigoArticulo = "";
+            vCurrentRecord.Cantidad = 0;
+            vCurrentRecord.CantidadReservadaInventario = 0;
+            vCurrentRecord.CantidadConsumida = 0;
+            vCurrentRecord.CostoUnitarioArticuloInventario = 0;
+            vCurrentRecord.MontoSubtotal = 0;
+            vCurrentRecord.AjustadoPostCierreAsBool = false;
+            vCurrentRecord.CantidadAjustada = 0;
+            vLista.Add(vCurrentRecord);
+            return instanciaDal.Insert(vLista).Success;
+        }
+
+        private List<OrdenDeProduccionDetalleMateriales> ParseToListEntity(XElement valXmlEntity) {
+            List<OrdenDeProduccionDetalleMateriales> vResult = new List<OrdenDeProduccionDetalleMateriales>();
+            var vEntity = from vRecord in valXmlEntity.Descendants("GpResult")
+                          select vRecord;
+            foreach (XElement vItem in vEntity) {
+                OrdenDeProduccionDetalleMateriales vRecord = new OrdenDeProduccionDetalleMateriales();
+                vRecord.Clear();
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoCompania"), null))) {
+                    vRecord.ConsecutivoCompania = LibConvert.ToInt(vItem.Element("ConsecutivoCompania"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoOrdenDeProduccion"), null))) {
+                    vRecord.ConsecutivoOrdenDeProduccion = LibConvert.ToInt(vItem.Element("ConsecutivoOrdenDeProduccion"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoOrdenDeProduccionDetalleArticulo"), null))) {
+                    vRecord.ConsecutivoOrdenDeProduccionDetalleArticulo = LibConvert.ToInt(vItem.Element("ConsecutivoOrdenDeProduccionDetalleArticulo"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Consecutivo"), null))) {
+                    vRecord.Consecutivo = LibConvert.ToInt(vItem.Element("Consecutivo"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoAlmacen"), null))) {
+                    vRecord.ConsecutivoAlmacen = LibConvert.ToInt(vItem.Element("ConsecutivoAlmacen"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CodigoArticulo"), null))) {
+                    vRecord.CodigoArticulo = vItem.Element("CodigoArticulo").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Cantidad"), null))) {
+                    vRecord.Cantidad = LibConvert.ToDec(vItem.Element("Cantidad"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CantidadReservadaInventario"), null))) {
+                    vRecord.CantidadReservadaInventario = LibConvert.ToDec(vItem.Element("CantidadReservadaInventario"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CantidadConsumida"), null))) {
+                    vRecord.CantidadConsumida = LibConvert.ToDec(vItem.Element("CantidadConsumida"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CostoUnitarioArticuloInventario"), null))) {
+                    vRecord.CostoUnitarioArticuloInventario = LibConvert.ToDec(vItem.Element("CostoUnitarioArticuloInventario"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MontoSubtotal"), null))) {
+                    vRecord.MontoSubtotal = LibConvert.ToDec(vItem.Element("MontoSubtotal"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AjustadoPostCierre"), null))) {
+                    vRecord.AjustadoPostCierre = vItem.Element("AjustadoPostCierre").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CantidadAjustada"), null))) {
+                    vRecord.CantidadAjustada = LibConvert.ToDec(vItem.Element("CantidadAjustada"));
+                }
+                vResult.Add(vRecord);
+            }
+            return vResult;
+        }
+        */
+        #endregion //Codigo Ejemplo
+
+
+        internal ObservableCollection<OrdenDeProduccionDetalleMateriales> FillWithForeignInfo(OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo) {
+            IList<OrdenDeProduccionDetalleMateriales> vList = vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales .ToList();
+            FillWithForeignInfo(ref vList);
+            return new ObservableCollection<OrdenDeProduccionDetalleMateriales>(vList);
+        }
+    } //End of class clsOrdenDeProduccionDetalleMaterialesNav
+
+} //End of namespace Galac.Adm.Brl.GestionProduccion
+

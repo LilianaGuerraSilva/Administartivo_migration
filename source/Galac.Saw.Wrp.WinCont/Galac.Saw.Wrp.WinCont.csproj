@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C52D02C8-F199-4884-AE6E-858BE0E99F18}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Saw.Wrp.WinCont</RootNamespace>
+    <AssemblyName>Galac.Saw.Wrp.WinCont</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>true</RegisterForComInterop>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Axi.Ccl.Balances">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binEsqNiif\Galac.Axi.Ccl.Balances.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Axi.Uil.Balances">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binEsqNiif\Galac.Axi.Uil.Balances.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Brl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Brl.WinCont">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Ccl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Ccl.WinCont">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.TablasVbSinMigrar">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.TablasVbSinMigrar.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Uil.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Uil.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Uil.WinCont">
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Uil.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibNet\LibGalac.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Cib">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.Cib.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Cnf">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil.Usal">
+      <HintPath>..\..\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Vbwa">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\binLibAos\LibGalac.Aos.Vbwa.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Cswa">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibNet\LibGalac.Cswa.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Contabilidad\Componentes\Interfaces\IWrpAuxiliar.cs">
+      <Link>IWrpAuxiliar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Contabilidad\Componentes\Interfaces\IWrpCentroDeCostos.cs">
+      <Link>IWrpCentroDeCostos.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Contabilidad\Componentes\Interfaces\IWrpCuenta.cs">
+      <Link>IWrpCuenta.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Contabilidad\Componentes\Interfaces\IWrpParametrosConciliacion.cs">
+      <Link>IWrpParametrosConciliacion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Contabilidad\Componentes\Interfaces\IWrpParametrosContables.cs">
+      <Link>IWrpParametrosContables.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Contabilidad\Componentes\Interfaces\IWrpTipoDeComprobante.cs">
+      <Link>IWrpTipoDeComprobante.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\IWrpVb.cs">
+      <Link>IWrpVb.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Lib\LibWrpMain.cs">
+      <Link>LibWrpMain.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wrpAuxiliar.cs" />
+    <Compile Include="wrpBalance.cs" />
+    <Compile Include="wrpCentroDeCostos.cs" />
+    <Compile Include="wrpCuenta.cs" />
+    <Compile Include="wrpParametrosConciliacion.cs" />
+    <Compile Include="wrpParametrosContables.cs" />
+    <Compile Include="wrpTipoDeComprobante.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

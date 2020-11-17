@@ -1,0 +1,59 @@
+<UserControl x:Class="Galac.Adm.Uil. GestionProduccion.Reportes.GSProduccionPorEstatusEntreFecha"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" d:DesignHeight="180" d:DesignWidth="350">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"></BooleanToVisibilityConverter>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Width="340">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="89" />
+            <ColumnDefinition Width="266" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Name="lblEstatus" Content="Estatus" Style="{StaticResource LabelPrompt}" />
+        <ComboBox x:Name="cmbEstatus" Grid.Column="1" Style="{StaticResource ComboBoxStyle}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=EEstatus}"
+                    SelectedItem="{Binding Path=Estatus, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="3,4,0,3" HorizontalAlignment="Left" Width="135" />
+        <Label Grid.Row="1" Grid.Column="0" Name="lblGenerarPor" Content="Generar Por" Style="{StaticResource LabelPrompt}" />
+        <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cmbGenerarPor" Style="{StaticResource ComboBoxStyle}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=EGeneradoPor}"
+                    SelectedItem="{Binding Path=GeneradoPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label Grid.Row="2" Name="lblOrdenDeProduccion" Content="Orden" Style="{StaticResource LabelPrompt}" Margin="3,3,0,0" Width="76" />
+        <nsWpfControls:GSSeekConnection Grid.Row="2" Grid.Column="1" Name="txtOrdenDeProduccion"  Height="23" Margin="3" HorizontalAlignment="Left" Width="220" IsEnabled="{Binding Path=IsEnabledCodigoDeOrden}"
+                        DisplayMemberPath="Codigo"
+                        Model="{Binding Path=ConexionCodigoDeOrden, Mode=TwoWay}"
+                        ConnectionValue="{Binding Path=CodigoDeOrden, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        SearchCommand="{Binding Path=ChooseCodigoDeOrdenCommand}" />
+
+        <Label Grid.Row="5" Name="lblInicial" Content="Fecha Inicial" Style="{StaticResource LabelPrompt}" Margin="3,3,0,0" Width="86" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="5" Grid.Column="1" Height="23" Width="135" HorizontalAlignment="Center" IsEnabled="{Binding Path=IsEnabledFecha}"  SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DatePickerStyle}" Margin="10,4,131,0" />
+        <Label Grid.Row="6" Name="lblFinal" Content="Fecha Final" Style="{StaticResource LabelPrompt}" Margin="3,3,0,0" Width="86" />
+            <nsWpfControls:GSDatePickerWpf Grid.Row="6" Grid.Column="1" Height="23" Width="135" HorizontalAlignment="Center" IsEnabled="{Binding Path=IsEnabledFecha}" SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DatePickerStyle}" Margin="10,4,131,0" />
+
+
+
+    </Grid>
+</UserControl>

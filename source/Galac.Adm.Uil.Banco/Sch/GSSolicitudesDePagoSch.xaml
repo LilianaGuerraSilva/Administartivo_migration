@@ -1,0 +1,58 @@
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.Banco.Sch.GSSolicitudesDePagoSch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroDocumentoOrigen" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,12,0,0" Width="117">Numero Documento Origen</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtNumeroDocumentoOrigen" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,12,0,0" ToolTip="Numero Documento Origen" DbColumnName="NumeroDocumentoOrigen" BorderThickness="1" TabIndex = "0" InputDataType="igInt"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFechaSolicitud" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,40,0,0">Fecha de Solicitud</Label>
+        <nsWpfControls:GSDateSearchBoxWpf Name="dtpFechaSolicitud" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" ToolTip="Fecha de Solicitud" DbColumnName="FechaSolicitud" BorderThickness="1" TabIndex = "1"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,68,0,0">Status</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbStatus" DisplayMemberPath="Text" DbMemberPath="Value" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,68,0,0" ToolTip="Status" SelectedIndex="0" DbColumnName="Status" BorderThickness="1" TabIndex = "2">
+            <nsWpfControls:LibGSCmbGenericItem Text="Todos (as)" Value=""/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Por Procesar" Value="0"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Procesada" Value="1"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Parcialmente  Procesada" Value="2"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Anulada" Value="3"/>
+        </nsWpfControls:GSComboBoxWpf>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblGeneradoPor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,96,0,0">Generada</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbGeneradoPor" DisplayMemberPath="Text" DbMemberPath="Value" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,96,0,0" ToolTip="Generada" SelectedIndex="0" DbColumnName="GeneradoPor" BorderThickness="1" TabIndex = "3">
+            <nsWpfControls:LibGSCmbGenericItem Text="Todos (as)" Value=""/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Calculos De Nomina" Value="0"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Vacaciones" Value="1"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Utilidades" Value="2"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Pago De Intereses" Value="3"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Fideicomiso" Value="4"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="No Aplica" Value="5"/>
+        </nsWpfControls:GSComboBoxWpf>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblObservaciones" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,124,0,0">Observaciones</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtObservaciones" Height="23" Width="218" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,124,0,0" ToolTip="Observaciones" DbColumnName="Observaciones" BorderThickness="1" TabIndex = "4" InputDataType="igString"/>
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(ConsecutivoCompania, ConsecutivoSolicitud)" Value="ConsecutivoCompania, ConsecutivoSolicitud"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Numero Documento Origen" Value="NumeroDocumentoOrigen"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Fecha de Solicitud" Value="FechaSolicitud"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Status" Value="Status"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Generada" Value="GeneradoPor"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Observaciones" Value="Observaciones"/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                    <Field Header="Consecutivo Solicitud" XPath="ConsecutivoSolicitud" Width="100" TextAlignment="Right" DataType="int" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Numero Documento Origen" XPath="NumeroDocumentoOrigen" Width="100" TextAlignment="Right" DataType="int" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Fecha de Solicitud" XPath="FechaSolicitud" Width="100" DataType="date" DateFormat="dd/MM/yyyy" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Status" XPath="StatusStr" Width="140" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Generada" XPath="GeneradoPorStr" Width="140" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Observaciones" XPath="Observaciones" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

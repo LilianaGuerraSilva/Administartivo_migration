@@ -1,0 +1,9 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSVM="clr-namespace:Galac.Saw.Uil.Integracion.ViewModel"
+    xmlns:nsCSV="clr-namespace:Galac.Saw.Uil.Integracion.Views">
+    <DataTemplate DataType="{x:Type nsCSVM:IntegracionViewModel}">
+        <nsCSV:GSIntegracionView />
+    </DataTemplate>
+</ResourceDictionary>

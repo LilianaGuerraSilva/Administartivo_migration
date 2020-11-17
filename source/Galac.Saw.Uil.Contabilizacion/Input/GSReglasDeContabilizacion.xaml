@@ -1,0 +1,1277 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.Contabilizacion.Input.GSReglasDeContabilizacion"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="600">
+    <Grid Name="gwMain" Width="600" Height="596">
+        <TabControl   Margin="12" Name="tbcReglasDeContabilizacion">
+            <TabItem Header="General" Name="tbiAlicuotasdeIVA" TabIndex="1">
+                <Grid Name="gtAlicuotasdeIVA">
+                    <Grid Margin="10,54,24,0" Height="192" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" >
+                        <StackPanel  >
+                            <Border CornerRadius="7,7,0,0" Height="25">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF320000" Offset="0.895" />
+                                        <GradientStop Color="#FF730000" Offset="0.494" />
+                                        <GradientStop Color="White" Offset="0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Label Content="Cuentas Contables del IVA" Foreground="White"     />
+                            </Border>
+                            <Grid  >
+                                <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="219,0,0,0" Width="309" />
+                                <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="374,0,0,0" Width="188" />
+                            </Grid>
+                            <Grid  >
+                                <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="243*" />
+                                        <ColumnDefinition Width="243*" />
+                                        <ColumnDefinition Width="243*" />
+                                    </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="52*" />
+                                    <RowDefinition Height="106*" />
+                                </Grid.RowDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"  >
+                                    <StackPanel  >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaIva1Debito" TabIndex="0" FontSize="10" />
+                                        <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaIva1Debito" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaIva1Debito" FontSize="10" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"   />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"   />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"    >
+                                    <StackPanel  >
+                                        <Label Content="IVA Débito Fiscal" Name="lblCuentaIva1Credito" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        <Label Content="Retención I.V.A. (**)"   Name="lblCuentaRetencionIva" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="39" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1"  >
+                                    <StackPanel   >
+                                        <Label Content="IVA Crédito Fiscal" Name="lblCuentaIva1Debito" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"   />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" >
+                                    <StackPanel>
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaIva1Credito" TabIndex="1" FontSize="10" />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaIva1Credito" Foreground="Black"    Name="lblDescripcionCuentaIva1Credito" FontSize="10" />
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaRetencionIva" TabIndex="2" FontSize="10" />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaRetencionIva" Foreground="Black"    Name="lblDescripcionCuentaRetencionIva" FontSize="10" />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    </Grid>
+                    <GroupBox Header="Cuenta Contable Diferencia en Cambio y Cálculo" Height="98" HorizontalAlignment="Left" Margin="19,320,0,0" Name="gbxGeneral" VerticalAlignment="Top" Width="529">
+                        <Grid>
+                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionDiferenciaEnCambioyCalculo" FontSize="10" Foreground="Black" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="193,38,0,11" Name="lblDescripcionDiferenciaEnCambioyCalculo" Width="228" />
+                            <Label Content="Diferencia En Cambio y Calculo" HorizontalAlignment="Left" Margin="10,10,0,0" Name="lblDiferenciaEnCambioyCalculo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" HorizontalAlignment="Left" InputDataType="String"  Margin="212,12,0,0" MaxLength="30" Name="txtDiferenciaEnCambioyCalculo" TabIndex="4" VerticalAlignment="Top" Width="282" />
+                        </Grid>
+                    </GroupBox>
+                    <Label Content="(** )Sólo aplica para Contribuyentes Especiales" HorizontalAlignment="Left" Margin="276,282,0,0" Name="lblLeyenda" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Width="263" />
+                    <Label Content="Contabilizar la Retención de I.V.A. en (**)" HorizontalAlignment="Left" Margin="180,252,0,0" Name="lblDondeContabilizarRetIva" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" HorizontalAlignment="Left" Margin="416,252,0,0" Name="cmbDondeContabilizarRetIva" TabIndex="3" Width="120" Height="23" VerticalAlignment="Top" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Cuentas por Cobrar" Name="tbiCuentasporCobrar" TabIndex="2">
+                <Grid Name="gtCuentasporCobrar" Height="465">
+                    <Grid Height="216" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <StackPanel >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" HorizontalAlignment="Left" Margin="5,5,245,5" Name="chkEditarComprobanteAfterInsertCxC" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" VerticalAlignment="Top" Width="300" />
+                                <Border CornerRadius="7,7,0,0" Height="25">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable de CxC" Foreground="White"  />
+                                </Border>
+                                <Grid >
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="188,0,187,0" Width="187"  HorizontalContentAlignment="Center" />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="376,0,0,0" Width="186"  HorizontalContentAlignment="Center"   />
+                                </Grid>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="52*" />
+                                        <RowDefinition Height="106*" />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" >
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaCxCClientes" TabIndex="1"  />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCxCClientes" Foreground="Black"  Name="lblDescripcionCuentaCxCClientes" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"  />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"  />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" >
+                                        <StackPanel >
+                                            <Label Content="IVA Débito Fiscal"  Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                            <Label Content="Ingresos" Height="42" Name="lblCuentaCxCIngresos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1">
+                                        <StackPanel >
+                                            <Label Content="CxC Clientes" Name="lblCuentaCxCClientes" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1">
+                                        <StackPanel >
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblCopiaCuentaIVAHaber" Foreground="Black"   HorizontalContentAlignment="Left" Name="lblCopiaCuentaIVAHaberCxc"  />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCopiaCuentaIVAHaber" Foreground="Black"   HorizontalContentAlignment="Center" Name="lblDescripcionCopiaCuentaIVAHabercxc"   />
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaCxCIngresos" TabIndex="2"   />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaCxCIngresos" Foreground="Black"   HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCxCIngresos"   />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Label Content="Tipo Contabilizacion Cx C" HorizontalAlignment="Left" Margin="11,250,0,0" Name="lblTipoContabilizacionCxC" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Right" Margin="0,251,283,0" Name="cmbTipoContabilizacionCxC" TabIndex="4" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="11,222,0,0" Name="lblContabIndividualCxc" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="163,222,0,0" Name="cmbContabIndividualCxc" TabIndex="5" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Uil Por Lote Cx C" HorizontalAlignment="Left" Margin="15,287,0,0" Name="lblContabPorLoteCxC" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="163,287,0,0" Name="cmbContabPorLoteCxC" TabIndex="6" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="313,224,0,0" Name="lblCxCTipoComprobante" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" HorizontalAlignment="Left" InputDataType="String" Margin="500,224,0,220" MaxLength="2" Name="txtCxCTipoComprobante" TabIndex="3"  Width="60" />
+                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Cuentas por Pagar" Name="tbiCuentasporPagar" TabIndex="3">
+                <Grid Name="gtCuentasporPagar">
+                    <Grid Height="341" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7"  >
+                            <StackPanel>
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" HorizontalAlignment="Left" Margin="5,5,245,5" Name="chkEditarComprobanteAfterInsertCxP" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" VerticalAlignment="Top" Width="300" />
+                                <Border CornerRadius="7,7,0,0" >
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable de CxP" Foreground="White"  />
+                                </Border>
+                                <Grid >
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Height="29" HorizontalContentAlignment="Center" Margin="187,7,188,6" Name="label28" Width="187" />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" HorizontalContentAlignment="Center" Margin="375,6,4,0" Name="label30" Width="183" />
+                                </Grid>
+                                <Grid  >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="98*" />
+                                        <RowDefinition Height="165*" />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"  >
+                                        <StackPanel >
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaCxPGasto" TabIndex="1" FontSize="10" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCxPGasto" Foreground="Black" HorizontalContentAlignment="Center" Name="blDescripcionCuentaCxPGasto" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="CopiaCuentaIVADebe" Foreground="Black" HorizontalContentAlignment="Left" Name="lblCopiaCuentaIVADebeCxp" FontStretch="Normal" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCopiaCuentaIVADebe" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCopiaCuentaIVADebecxp" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="0">
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1">
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"  />
+
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" >
+                                        <StackPanel >
+                                            <Label Content="Cuenta CxP Proveedores" Name="lblCuentaCxPProveedores" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="21" />
+                                            <Label Content="Retención I.V.A. (**)" Height="48" Name="lblRetencionIVA" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"  />
+                                            <Label Content="Retención Impuesto Municipal" Height="50" Name="lblRetencionImpuestoMunicipal" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"  />
+
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1">
+                                        <StackPanel >
+                                            <Label Content="Cuenta CxP Gasto" Name="lblCuentaCxPGasto" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                            <Label Content="IVA Crédito Fiscal" Name="lblIVACreditoFiscal" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="48" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" >
+                                        <StackPanel >
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaCxPProveedores" TabIndex="2" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaCxPProveedores" Foreground="Black"  HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCxPProveedores" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblCopiaCuentaRetencionIVA" Foreground="Black"  HorizontalContentAlignment="Left" Name="lblCopiaCuentaRetencionIVA" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionlblCopiaCuentaRetencionIVA" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCopiaCuentaRetencionIVA" FontSize="10" />
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1"  InputDataType="String"  MaxLength="30" Name="txtCuentaRetencionImpuestoMunicipal" TabIndex="3" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionlblCuentaRetencionImpuestoMunicipal" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionlblCuentaRetencionImpuestoMunicipal" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Label Content="Tipo Contabilizacion Cx P" HorizontalAlignment="Left" Margin="2,426,0,0" Name="lblTipoContabilizacionCxP" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="157,415,0,0" Name="cmbTipoContabilizacionCxP" TabIndex="7" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="6,376,0,0" Name="lblContabIndividualCxP" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="157,376,0,0" Name="cmbContabIndividualCxP" TabIndex="6" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Contab Por Lote Cx P" HorizontalAlignment="Left" Margin="6,466,0,0" Name="lblContabPorLoteCxP" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="157,466,0,0" Name="cmbContabPorLoteCxP" TabIndex="8" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Siglas del Tipo de Comprobantebante" HorizontalAlignment="Left" Margin="286,377,0,0" Name="lblCxPTipoComprobante" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" InputDataType="String" Margin="502,376,0,0" MaxLength="2" Name="txtCxPTipoComprobante" TabIndex="4" VerticalAlignment="Top" Width="58" />
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Cobranza" Name="tbiCobranza" TabIndex="4">
+                <Grid Name="gtCobranza">
+                    <Grid Height="435" VerticalAlignment="Top">
+                  <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7"  >
+                    <StackPanel>
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertCobranza" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                                <Border CornerRadius="7,7,0,0" Height="25">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF320000" Offset="0.895" />
+                                    <GradientStop Color="#FF730000" Offset="0.494" />
+                                    <GradientStop Color="White" Offset="0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Label Content="Cuentas del Comprobante Contable de Cobranza" Foreground="White"   />
+                        </Border>
+                        <Grid  >
+                            <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="189,0,172,0" Width="201" HorizontalContentAlignment="Center"   />
+                            <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="391,0,0,0" Width="171" HorizontalContentAlignment="Center"  />
+
+                        </Grid>
+                        <Grid  >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="259*" />
+                                <ColumnDefinition Width="280*" />
+                                <ColumnDefinition Width="238*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="332*" />
+                                <RowDefinition Height="80*" />
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0"  >
+                                
+                                <StackPanel  >
+                                    <Label Content="Cobrado En Efectivo" Name="lblCuentaCobranzaCobradoEnEfectivo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                    <Label Content="Cobrado En Cheque" Height="45" Name="lblCuentaCobranzaCobradoEnCheque" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                    <Label Content="Cobrado En Tarjeta" Height="47" Name="lblCuentaCobranzaCobradoEnTarjeta" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                    <Label Content="Otros" Height="43" Name="lblCuentaCobranzaOtros" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                    <Label Content="Retención ISLR" Height="43" Name="lblcuentaCobranzaRetencionISLR" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                    <Label Content="Retencion IVA" Height="46" Name="lblcuentaCobranzaRetencionIVA" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                            <Label Content="Cobrado Anticipo" Height="53" Name="lblCuentaCobranzaCobradoAnticipo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                        </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1"  >
+                                <StackPanel  >
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCobranzaCxCClientes" TabIndex="12"  />
+                                    <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaCobranzaCxCClientes" FontSize="10" Foreground="Black" Height="28" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCobranzaCxCClientes" />
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1"    Grid.Column="1"  >
+                                <StackPanel  >
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCobranzaCobradoEnEfectivo" TabIndex="4"  />
+                                    <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCobranzaCobradoEnEfectivo" FontSize="10" Foreground="Black"  HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCobranzaCobradoEnEfectivo" />
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCobranzaCobradoEnCheque" TabIndex="5"   />
+                                    <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCobranzaCobradoEnCheque" FontSize="10" Foreground="Black"  HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCobranzaCobradoEnCheque" />
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCobranzaCobradoEnTarjeta" TabIndex="6"  />
+                                    <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCobranzaCobradoEnTarjeta" FontSize="10" Foreground="Black"  HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCobranzaCobradoEnTarjeta" />
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCobranzaOtros" TabIndex="8"  />
+                                    <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCobranzaOtros" FontSize="10" Foreground="Black" Height="27" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCobranzaOtros" />
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtcuentaCobranzaRetencionISLR" TabIndex="9"  />
+                                    <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcioncuentaCobranzaRetencionISLR" FontSize="10" Foreground="Black" Height="27" HorizontalContentAlignment="Center" Name="lblDescripcioncuentaCobranzaRetencionISLR" />
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtcuentaCobranzaRetencionIVA" TabIndex="10"  />
+                                    <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcioncuentaCobranzaRetencionIVA" FontSize="10" Foreground="Black" Height="27" HorizontalContentAlignment="Center" Name="lblDescripcioncuentaCobranzaRetencionIVA" />
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCobranzaCobradoAnticipo" TabIndex="11"  />
+                                    <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCobranzaCobradoAnticipo" FontSize="10" Foreground="Black" Height="32" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCobranzaCobradoAnticipo" />
+                                </StackPanel>
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="0"  >
+                                
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1" >
+                                
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"  >
+                                <Label Content="Cuenta Cobranza CxC Clientes" Name="lblCuentaCobranzaCxCClientes" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="43" FontSize="10" />
+                            </Border>
+                            <Border BorderBrush="Black" BorderThickness="1"   VerticalAlignment="Top"   Grid.Column="1" Grid.Row="1" />
+                        </Grid>
+                    </StackPanel>
+                  </Border>
+                    </Grid>
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="451,471,0,0" Name="cmbTipoContabilizacionCobranza" TabIndex="1" VerticalAlignment="Top" Visibility="Hidden" Width="109" />
+                    <Label Content="Tipo Contabilizacion Cobranza" HorizontalAlignment="Left" Margin="272,472,0,0" Name="lblTipoContabilizacionCobranza" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" Width="173" />
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="3,441,0,35" Name="lblContabIndividualCobranza" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"  />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="155,444,0,33" Name="cmbContabIndividualCobranza" TabIndex="2"  Width="120" />
+                    <Label Content="Contab Por Lote Cobranza" HorizontalAlignment="Left" Margin="2,470,0,0" Name="lblContabPorLoteCobranza" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" Width="152" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="155,471,0,0" Name="cmbContabPorLoteCobranza" TabIndex="3"  Visibility="Hidden" Width="120" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" HorizontalAlignment="Left" InputDataType="String" Margin="494,443,0,35" MaxLength="2" Name="txtCobranzaTipoComprobante" TabIndex="13"  Width="66" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="277,443,0,0" Name="lblCobranzaTipoComprobante" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Pagos" Name="tbiPagos" TabIndex="5">
+                <Grid Name="gtPagos">
+                    <Grid Height="366" VerticalAlignment="Top">
+                        
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" Margin="0,0,0,-17">
+                            <StackPanel >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertPagos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                                <Border CornerRadius="7,7,0,0" Height="25">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable de Pagos" Foreground="White"  />
+                                </Border>
+                                <Grid >
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="121,0,221,0" Width="220" HorizontalContentAlignment="Center"  />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="343,0,0,0" Width="219" HorizontalContentAlignment="Center"  />
+                                </Grid>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130*" />
+                                        <ColumnDefinition Width="243*" />
+                                        <ColumnDefinition Width="240*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="53*" />
+                                        <RowDefinition Height="364*" />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"  >
+                                        <StackPanel >
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaPagosCxPProveedores" TabIndex="1" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaPagosCxPProveedores" Foreground="Black" Name="lblDescripcionCuentaPagosCxPProveedores" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="2">
+                                        <StackPanel>
+                                            <Border  BorderThickness="1">
+                                            <Label Content="(**) Sólo aplica para Contribuyentes " Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="226" />
+                                         </Border>
+                                          <Border BorderBrush="Black" BorderThickness="1">
+                                            <Label Content="Especiales" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                          </Border>
+                                       </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" >
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" >
+                                        <StackPanel>
+                                            <Label Content="Banco" Name="lblCuentaPagosBanco" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                            <Label Content="Otros" Name="lblCuentaPagosOtros" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="42" FontSize="10" />
+                                            <Label Content="Retencion ISLR" Name="lblCuentaPagosRetencionISLR" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="50" FontSize="10" />
+                                            <Label Content="Pagado Anticipo" Name="lblCuentaPagosPagadoAnticipo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="52" FontSize="10" />
+                                            <Label Content="Retención I.V.A. (**)"   Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="62" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" >
+                                        <StackPanel >
+                                            <Label Content="CxP Proveedores" Name="lblCuentaPagosCxPProveedores" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" >
+                                        <StackPanel >
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" Height="20" InputDataType="String" MaxLength="30" Name="txtCuentaPagosBanco" TabIndex="2" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaPagosBanco" Foreground="Black"   Name="lblDescripcionCuentaPagosBanco" FontSize="10" />
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaPagosOtros" TabIndex="3" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaPagosOtros" Foreground="Black"  Name="lblDescripcionCuentaPagosOtros" FontSize="10" />
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaPagosRetencionISLR" TabIndex="4" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaPagosRetencionISLR" Foreground="Black"  Name="lblDescripcionCuentaPagosRetencionISLR" FontSize="10" />
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaPagosPagadoAnticipo" TabIndex="5" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaPagosPagadoAnticipo" Foreground="Black"  Name="lblDescripcionCuentaPagosPagadoAnticipo" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblCopiaCuentaRetencionIVA" Foreground="Black"  Name="lblCopiaCuentaRetencionIVAPago" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCopiaCuentaRetencionIVAPago" Foreground="Black"  Name="lblDescripcionCopiaCuentaRetencionIVAPago" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Label Content="Tipo Contabilizacion Pagos" HorizontalAlignment="Left" Margin="6,398,0,0" Name="lblTipoContabilizacionPagos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Right" Margin="0,399,275,0" Name="cmbTipoContabilizacionPagos" TabIndex="1" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="15,391,0,0" Name="lblContabIndividualPagos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="171,391,0,0" Name="cmbContabIndividualPagos" TabIndex="2" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Contab Por Lote Pagos" HorizontalAlignment="Left" Margin="297,397,0,0" Name="lblContabPorLotePagos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="440,398,0,0" Name="cmbContabPorLotePagos" TabIndex="3" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="297,389,0,0" Name="lblPagoTipoComprobante" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" HorizontalAlignment="Left" InputDataType="String" Margin="495,391,0,0" MaxLength="2" Name="txtPagoTipoComprobante" TabIndex="6" VerticalAlignment="Top" Width="65" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Factura" Name="tbiFactura" TabIndex="6">
+                <Grid Name="gtFactura" >
+                  <Grid Margin="3,0,0,0"  VerticalAlignment="Top" Height="328"> 
+                    <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <StackPanel >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertFactura" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                                <Border CornerRadius="7,7,0,0">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF320000" Offset="0.895" />
+                                        <GradientStop Color="#FF730000" Offset="0.494" />
+                                        <GradientStop Color="White" Offset="0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Label Content="Cuentas del Comprobante Contable de Facturación" Foreground="White"  />
+                            </Border>
+                            <Grid >
+                                <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="186,0,188,0" Width="188" HorizontalContentAlignment="Center"  />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="374,0,0,0" Width="188" HorizontalContentAlignment="Center" />
+                            </Grid>
+                            <Grid >
+                               <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="243*" />
+                                    <ColumnDefinition Width="243*" />
+                                    <ColumnDefinition Width="243*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="100" />
+                                    <RowDefinition Height="170" />
+                                    
+                                </Grid.RowDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"  >
+                                    <StackPanel >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaFacturacionCxCClientes" TabIndex="1" FontSize="10" />
+                                        <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaFacturacionCxCClientes" Foreground="Black"  Name="lblDescripcionCuentaFacturacionCxCClientes" FontSize="10" />
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaFacturacionDescuentos" TabIndex="2" FontSize="10" />
+                                        <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaFacturacionDescuentos" Foreground="Black"  Name="lblDescripcionCuentaFacturacionDescuentos" FontSize="10" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" >
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                        <Label Content="Cargos" Name="lblCuentaFacturacionCargos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        <Label Content="IVA Débito Fiscal" Name="lblIVADebitoFiscal" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="51" />
+                                        <Label Content="Total Factura" Name="lblCuentaFacturacionMontoTotalFactura" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Height="44" />
+                                    </StackPanel>
+                               </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0">
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Label Content="CxC Clientes" Name="lblCuentaFacturacionCxCClientes" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        <Label Content="Descuentos"  Name="lblCuentaFacturacionDescuentos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                               </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" >
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaFacturacionCargos" TabIndex="3" FontSize="10" />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaFacturacionCargos" Foreground="Black"   Name="lblDescripcionCuentaFacturacionCargos" FontSize="10" />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblCopiaCuentaIVAHaber" Foreground="Black"   Name="lblCopiaCuentaIVAHaberFactura" FontSize="10" />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCopiaCuentaIVAHaber" Foreground="Black"  Name="lblDescripcionCopiaCuentaIVAHaberFactura" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="10" />
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaFacturacionMontoTotalFactura" TabIndex="4" FontSize="10" />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaFacturacionMontoTotalFactura" Foreground="Black"   Name="lblDescripcionCuentaFacturacionMontoTotalFactura" FontSize="10" />
+                                    </StackPanel>
+                               </Border>
+                                <Border  BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="2">
+                                
+                                </Border>
+                                <Border  BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="0">
+
+                                </Border>
+                                </Grid>
+                        </StackPanel>
+                    </Border>
+                    </Grid>
+                    <nsWpfControls:GSTextAreaWpf Text="Al contabilizar Factura, será usada la Cuenta Contable asignada a cada Artículo de Inventario.Para los que no se les asigne cuenta contable, será usada la cuenta indicada para 'Total Factura'. " Height="53" HorizontalAlignment="Left" Margin="12,429,0,0" Name="lblLeyendaFactura" VerticalAlignment="Top" Width="346" FontSize="10" FontStretch="Normal" IsEnabled="False" />
+                    <CheckBox BorderThickness="1" Content="Agrupar Por Cuenta De Articulo" Height="16" HorizontalAlignment="Right" Margin="0,351,6,0" Name="chkAgruparPorCuentaDeArticulo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="7" VerticalAlignment="Top" Width="206" />
+                    <CheckBox BorderThickness="1" Content="Agrupar Por Cargos Descuentos" Height="16" HorizontalAlignment="Right" Margin="0,373,6,0" Name="chkAgruparPorCargosDescuentos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="8" VerticalAlignment="Top" Width="205" />
+                    <Label Content="Tipo Contabilizacion Facturación" HorizontalAlignment="Left" Margin="12,400,0,0" Name="lblTipoContabilizacionFacturacion" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" Width="188" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="437,440,0,0" Name="cmbTipoContabilizacionFacturacion" TabIndex="1" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="12,373,0,0" Name="lblContabIndividualFacturacion" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="202,373,0,0" Name="cmbContabIndividualFacturacion" TabIndex="6" VerticalAlignment="Top" Width="120" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="202,400,0,0" Name="cmbContabPorLoteFacturacion" TabIndex="10" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <CheckBox BorderThickness="1" Content="Contabilizar Por Artículo  " Height="16" HorizontalAlignment="Left" Margin="12,351,0,0" Name="chkContabilizarPorArticulo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="5" VerticalAlignment="Top" Width="203" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="323,397,0,0" Name="lblFacturaTipoComprobante" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                  
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" HorizontalAlignment="Left" InputDataType="String" Margin="505,400,0,0" MaxLength="2" Name="txtFacturaTipoComprobante" TabIndex="9" VerticalAlignment="Top" Width="56" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Resumen Diario de Ventas" Name="tbiResumenDiariodeVentas" TabIndex="7">
+                <Grid Name="gtResumenDiariodeVentas">
+                    <Grid Margin="0,0,6,280">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7"    >
+                        <StackPanel  >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertResDia" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                                <Border CornerRadius="7,7,0,0" >
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF320000" Offset="0.895" />
+                                        <GradientStop Color="#FF730000" Offset="0.494" />
+                                        <GradientStop Color="White" Offset="0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Label Content="Cuentas del Comprobante Contable de Resumen Diario de Ventas" Foreground="White"    />
+                            </Border>
+                            <Grid  >
+                                <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="188,0,0,0" Width="374" />
+                                <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="375,0,0,0" Width="187" />
+                            </Grid>
+                            <Grid  >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="52*" />
+                                    <RowDefinition Height="106*" />
+                                </Grid.RowDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"  >
+                                    <StackPanel   Name="stackPanel43"  >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaRDVtasCaja" TabIndex="1"   />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcioncCuentaRDVtasCaja" Foreground="Black"  Name="lblDescripcionCuentaRDVtasCaja"   />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"   />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"  />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"    >
+                                    <StackPanel  >
+                                        <Label Content="IVA Débito Fiscal"   Name="lblIVADebitoFiscalResumen" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        <Label Content="Total Resumen"   Name="lblCuentaRDVtasMontoTotal" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" >
+                                    <StackPanel  >
+                                        <Label Content="Caja" Name="lblCuentaRDVtasCaja" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" Margin="0,1,0,0" Name="border70">
+                                    <StackPanel  >
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblCopiaCuentaIVAHaber" Foreground="Black"   Name="lblCopiaCuentaIVAHaberResumen"   />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCopiaCuentaIVAHaber" Foreground="Black"   Name="lblDescripcionCopiaCuentaIVAHaberResumen"   />
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaRDVtasMontoTotal" TabIndex="2"   />
+                                        <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaRDVtasMontoTotal" Foreground="Black"   Name="lblDescripcionCuentaRDVtasMontoTotal"   />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    </Grid>
+                    <Label Content="Tipo Contabilizacion RDVtas" HorizontalAlignment="Left" Margin="8,255,0,0" Name="lblTipoContabilizacionRDVtas" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" IsEnabled="True" Margin="178,256,0,0" Name="cmbTipoContabilizacionRDVtas" TabIndex="1" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="8,225,0,0" Name="lblContabIndividualRDVtas" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="178,226,0,0" Name="cmbContabIndividualRDVtas" TabIndex="2" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Contab Por Lote RDVtas" HorizontalAlignment="Left" Margin="16,285,0,0" Name="lblContabPorLoteRDVtas" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="178,285,0,0" Name="cmbContabPorLoteRDVtas" TabIndex="3" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <CheckBox BorderThickness="1" Content="Contabilizar Por Articulo RDVtas" Height="16" HorizontalAlignment="Left" Margin="362,226,0,0" Name="chkContabilizarPorArticuloRDVtas" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="4" VerticalAlignment="Top" Width="190" />
+                    <CheckBox BorderThickness="1" Content="Agrupar Por Cuenta De Articulo RDVtas" Height="16" HorizontalAlignment="Left" Margin="337,248,0,0" Name="chkAgruparPorCuentaDeArticuloRDVtas" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="5" VerticalAlignment="Top" Width="215" />
+                </Grid>
+            </TabItem>
+            <TabItem Header=" Movimiento Bancario" Name="tbiMovimientoBancario" TabIndex="8">
+                <Grid Name="gtMovimientoBancario">
+                    <Grid Margin="0,0,0,340">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" Height="160" VerticalAlignment="Top">
+                            <StackPanel >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertMovBan" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                            <Border CornerRadius="7,7,0,0" Height="25">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF320000" Offset="0.895" />
+                                        <GradientStop Color="#FF730000" Offset="0.494" />
+                                        <GradientStop Color="White" Offset="0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable de Movimientos Bancarios - INGRESOS" Foreground="White"  />
+                                </Border>
+                            <Grid >
+                                <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="187,0" Width="188" HorizontalContentAlignment="Center"  />
+                                <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="375,0,0,0" Width="187" HorizontalContentAlignment="Center"  />
+                            </Grid>
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="243*" />
+                                        <ColumnDefinition Width="243*" />
+                                        <ColumnDefinition Width="243*" />
+                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="53*" />
+                                    <RowDefinition Height="47*" />
+                                </Grid.RowDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" >
+                                    <StackPanel >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaMovBancarioBancosDebe" TabIndex="1"  />
+                                        <Label Content="lblDescripcionCuentaMovBancarioBancosDebe" Height="30" Name="lblDescripcionCuentaMovBancarioBancosDebe"  />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"  />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" >
+                                    <StackPanel  >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaMovBancarioIngresos" TabIndex="2"  />
+                                        <Label Content="DescripcionCuentaMovBancarioIngresos"  Name="lblDescripcionCuentaMovBancarioIngresos"  />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"  />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" >
+                                    <StackPanel >
+                                        <Label Content="Ingresos"  Name="lblCuentaMovBancarioIngresos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" >
+                                    <StackPanel >
+                                        <Label Content="Bancos"  Name="lblCuentaMovBancarioBancosDebe" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                         </StackPanel> 
+                      </Border> 
+                     
+                    </Grid>
+
+                    <Grid Margin="2,163,13,0" Height="159" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" Margin="0,0,-10,0" Width="561">
+                            <StackPanel >
+                            <Border CornerRadius="7,7,0,0" Height="25">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF320000" Offset="0.895" />
+                                        <GradientStop Color="#FF730000" Offset="0.494" />
+                                        <GradientStop Color="White" Offset="0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Label Content="Cuentas del Comprobante Contable de Movimientos Bancarios - EGRESOS" Foreground="White"    />
+                            </Border>
+                            <Grid  >
+                                <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="183,0,184,0" HorizontalContentAlignment="Center"  />
+                                <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="365,0,0,0" Width="182" HorizontalContentAlignment="Center" />
+                            </Grid>
+                            <Grid  >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="53*" />
+                                    <RowDefinition Height="47*" />
+                                </Grid.RowDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"  >
+                                    <StackPanel  >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaMovBancarioGasto" TabIndex="3"   />
+                                        <Label Content="lblDescripcionCuentaMovBancarioGasto" Height="30" Name="lblDescripcionCuentaMovBancarioGasto"   />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"   />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1"  >
+                                    <StackPanel  >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaMovBancarioBancosHaber" TabIndex="4"  />
+                                        <Label Content="DescripcionCuentaMovBancarioBancosHaber"   Name="lblDescripcionCuentaMovBancarioBancosHaber"   />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"   />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"  >
+                                    <StackPanel  >
+                                        <Label Content="Bancos" Name="lblCuentaMovBancarioBancosHaber" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1"  >
+                                    <StackPanel  >
+                                        <Label Content="Gasto" Name="lblCuentaMovBancarioGasto" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                                </Border>
+                                </Grid>
+                        </StackPanel>
+                     </Border> 
+                   
+                 </Grid>
+                    <Label Content="Tipo Contabilizacion Mov Bancario" HorizontalAlignment="Left" Margin="5,341,0,0" Name="lblTipoContabilizacionMovBancario" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" Width="186" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="191,341,0,0" Name="cmbTipoContabilizacionMovBancario" TabIndex="1" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="191,400,0,0" Name="cmbContabIndividualMovBancario" TabIndex="2" VerticalAlignment="Top" Width="120" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="191,0,0,106" Name="cmbContabPorLoteMovBancario" TabIndex="3" VerticalAlignment="Bottom" Visibility="Hidden" Width="120" />
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="11,399,0,0" Name="lblContabIndividualMovBancario" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Width="181" />
+                    <Label Content="Contab Por Lote Mov Bancario" HorizontalAlignment="Left" Margin="11,370,0,0" Name="lblContabPorLoteMovBancario" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" Width="181" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="315,340,0,136" Name="lblMovimientoBancarioTipoComprobante" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"  />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1"  InputDataType="String" Margin="492,340,6,138" MaxLength="2" Name="txtMovimientoBancarioTipoComprobante" TabIndex="5"   />
+                </Grid> 
+            </TabItem>
+            <TabItem Header="Impuestos a las TransaccionesBancarias" Name="tbiImpuestosalasTransaccionesBancarias" TabIndex="9">
+                <Grid Name="gtImpuestosalasTransaccionesBancarias">
+                    <Grid Height="163" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7"  >
+                            <StackPanel  >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertImpTraBan" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                                <Border CornerRadius="7,7,0,0" >
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable del Impuesto Bancario por Egresos" Foreground="White"   />
+                                </Border>
+                                <Grid  >
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="188,0,187,0" Width="187" HorizontalContentAlignment="Center"  />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="375,0,0,0" Width="187" HorizontalContentAlignment="Center"  />
+                                </Grid>
+                                <Grid  >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="53*" />
+                                        <RowDefinition Height="47*" />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"  >
+                                        <StackPanel  >
+                                            <nsWpfControls:GSTextBoxWpf BorderBrush="Black" BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaDebitoBancarioGasto" TabIndex="1" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaDebitoBancarioBancos" Foreground="Black"   Name="lblDescripcionCuentaDebitoBancarioGasto" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"  ></Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1"  >
+                                        <StackPanel  >
+                                            <nsWpfControls:GSTextBoxWpf BorderBrush="Black" BorderThickness="1"   InputDataType="String" MaxLength="30" Name="txtCuentaDebitoBancarioBancos" TabIndex="2" FontSize="10" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaDebitoBancarioGasto" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaDebitoBancarioBancos" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1" Name="border18" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Margin="6,0,0,0" Name="border19">
+                                        <Label Content="Banco" Height="27" Name="label10" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Width="224" />
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Margin="6,0,0,0" Name="border20">
+                                        <Label BorderBrush="{x:Null}" BorderThickness="1" Content="Gastos" Height="24" Name="label11" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Width="231" />
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Grid Margin="5,169,3,0" Height="158" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E"  BorderThickness="2" CornerRadius="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <StackPanel  >
+                                <Border CornerRadius="7,7,0,0" Height="25">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable del Impuesto Bancario por Ingresos" Foreground="White"   />
+                                </Border>
+                                <Grid >
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="186,0,184,0" Width="184" HorizontalContentAlignment="Center" />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="370,0,0,0" Width="184" HorizontalContentAlignment="Center"  />
+                                </Grid>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="53*" />
+                                        <RowDefinition Height="47*" />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" >
+                                        <StackPanel >
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaCreditoBancarioGasto" TabIndex="3" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripCuentaCreditoBancarioGastos" Foreground="Black"   Name="lblDescripcionCuentaCreditoBancarioGasto" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" ></Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" >
+                                        <StackPanel >
+                                            <nsWpfControls:GSTextBoxWpf BorderBrush="{x:Null}" BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaCreditoBancarioBancos" TabIndex="4" FontSize="10" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCreditoBancarioBancos" Foreground="Black"  HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCreditoBancarioBancos" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"  />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" >
+                                        <StackPanel >
+                                            <Label Content="Bancos" Name="lblCuentaCreditoBancarioBancos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"  />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" >
+                                        <StackPanel   >
+                                            <Label Content="Gastos" Name="lblCuentaCreditoBancarioGasto" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"  />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid> 
+                </Grid>
+                    
+            </TabItem>
+            <TabItem Header="Anticipo" Name="tbiAnticipo" TabIndex="10">
+                <Grid Name="gtAnticipo">
+                    <Grid Height="209" VerticalAlignment="Top" Margin="0,0,12,0">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <StackPanel  >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertAnticipo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                                <Border CornerRadius="7,7,0,0" Height="25">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable de Anticipo Cobrado" Foreground="White"   />
+                                </Border>
+                                <Grid  >
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="189,0,180,0" Width="181" HorizontalContentAlignment="Center"  />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="375,0,0,0" Width="175" HorizontalContentAlignment="Center"  />
+                                </Grid>
+                                <Grid  >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="52*" />
+                                        <RowDefinition Height="106*" />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" >
+                                        <StackPanel >
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaAnticipoCaja" TabIndex="1" FontSize="10" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaAnticipoCaja" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaAnticipoCaja" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"  />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"  />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"   >
+                                        <StackPanel  >
+                                            <Label Content="Cuenta Anticipo Cobrado"   Name="lblCuentaAnticipoCobrado" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                            <Label Content="Cuenta Anticipo Otros Ingresos" Name="lblCuentaAnticipoOtrosIngresos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1"  >
+                                        <StackPanel  >
+                                            <Label Content="Cuenta Anticipo Caja"   Name="lblCuentaAnticipoCaja" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1"  >
+                                        <StackPanel  >
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaAnticipoCobrado" TabIndex="2" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaAnticipoCobrado" Foreground="Black"     Name="lblDescripcionCuentaAnticipoCobrado" FontSize="10" />
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaAnticipoOtrosIngresos" TabIndex="3" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaAnticipoOtrosIngresos" Foreground="Black"    Name="lblDescripcionCuentaAnticipoOtrosIngresos" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                     </Grid>
+                    <Grid Margin="4,218,9,71" >
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7">
+                            <StackPanel>
+                                <Border CornerRadius="7,7,0,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable de Anticipo Pagado" Foreground="White" />
+                                </Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="9" />
+                                        <RowDefinition Height="17" />
+                                    </Grid.RowDefinitions>
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Grid.RowSpan="2" Margin="186,0,183,0" Width="180" />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="369,0,0,0" Width="180" Grid.RowSpan="2" HorizontalContentAlignment="Center"   />
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaAnticipoPagado" TabIndex="4" FontSize="10" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaAnticipoPagado" Foreground="Black" Height="27" Name="lblDescripcionCuentaAnticipoPagado" FontSize="10" />
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaAnticipoOtrosEgresos" TabIndex="5" FontSize="10" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaAnticipoOtrosEgresos" Foreground="Black" Name="lblDescripcionCuentaAnticipoOtrosEgresos" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"></Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1">
+                                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Label Content="Cuenta Anticipo Banco" Name="lblCuentaAnticipoBanco" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1">
+                                        <StackPanel>
+                                            <Label Content="Cuenta Anticipo Pagado" Name="lblCuentaAnticipoPagado" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                            <Label Content="Cuenta Anticipo Otros Egresos" Name="lblCuentaAnticipoOtrosEgresos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1">
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaAnticipoBanco" TabIndex="6" FontSize="10" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblDescripcionCuentaAnticipoBanco" Foreground="Black" Name="lblDescripcionCuentaAnticipoBanco" FontSize="10" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Label Content="como contabilizar" HorizontalAlignment="Left" Margin="7,462,0,0" Name="lblContabIndividualAnticipo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Width="164" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="177,463,0,0" Name="cmbContabIndividualAnticipo" TabIndex="8" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Tipo Contabilizacion Anticipo" HorizontalAlignment="Left" Margin="7,434,0,0" Name="lblTipoContabilizacionAnticipo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="177,434,0,0" Name="cmbTipoContabilizacionAnticipo" TabIndex="7" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Contab Por Lote Anticipo" HorizontalAlignment="Left" Margin="297,433,0,0" Name="lblContabPorLoteAnticipo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" Width="147" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Right" Margin="0,434,12,0" Name="cmbContabPorLoteAnticipo" TabIndex="3" VerticalAlignment="Top" Visibility="Hidden" Width="107" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="297,462,0,0" Name="lblAnticipoTipoComprobante" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" HorizontalAlignment="Left" InputDataType="String" Margin="488,462,0,0" MaxLength="2" Name="txtAnticipoTipoComprobante" TabIndex="9" VerticalAlignment="Top" Width="66" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Inventario" Name="tbiInventario" TabIndex="12">
+                <Grid Name="gtInventario">
+                    <Grid Height="186" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" >
+                        <StackPanel  >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertInventario" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                                <Border CornerRadius="7,7,0,0"  >
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF320000" Offset="0.895" />
+                                        <GradientStop Color="#FF730000" Offset="0.494" />
+                                        <GradientStop Color="White" Offset="0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Label Content="Inventario" Foreground="White"     Name="lblCuentasContablesPagoSueldos" Height="27" />
+                            </Border>
+                            <Grid  >
+                                <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="190,0,187,0" Width="185" HorizontalContentAlignment="Center"  />
+                                <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="378,0,0,0" Width="188" HorizontalContentAlignment="Center" />
+                            </Grid>
+                            <Grid  >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="53*" />
+                                    <RowDefinition Height="47*" />
+                                </Grid.RowDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Name="border10">
+                                    <StackPanel  >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaCostoDeVenta" TabIndex="1"   />
+                                        <Label Content="Descripcion Cuenta Costo De Venta"   Name="lblDescripcionCuentaCostoDeVenta"   />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"   />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1"  >
+                                    <StackPanel  >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaInventario" TabIndex="2"  />
+                                        <Label Content="Descripcion Cuenta Inventario"   Name="lblDescripcionCuentaInventario"  />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"   />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"    >
+                                    <StackPanel  >
+                                        <Label Content="Cuenta Inventario" Name="lblCuentaInventario" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"   />
+                                    </StackPanel>
+                                </Border>
+
+                                    <Border  BorderBrush="Black" BorderThickness="1" Grid.Column="0" Grid.Row="0" >
+                                    <StackPanel>
+                                        <Label Content="Cuenta Costo De Venta"   Name="lblCuentaCostoDeVenta" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="12,192,0,0" Name="lblTipoContabilizacionInventario" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Width="150" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Right" Margin="0,193,190,0" Name="cmbTipoContabilizacionInventario" TabIndex="3" VerticalAlignment="Top" Width="120" />
+                    <CheckBox BorderThickness="1" Content="Agrupar Por Cuenta De Articulo Inven" Height="18" HorizontalAlignment="Left" Margin="20,221,0,0" Name="chkAgruparPorCuentaDeArticuloInven" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="3" VerticalAlignment="Top" Width="249" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="12,246,0,0" Name="lblInventarioTipoComprobante" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" HorizontalAlignment="Left" InputDataType="String" Margin="256,246,0,0" MaxLength="2" Name="txtInventarioTipoComprobante" TabIndex="4" VerticalAlignment="Top" Width="38" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Solicitudes De Pago" Name="tbiSolicitudesDePago" TabIndex="13">
+                <Grid Name="gtSolicitudesDePago">
+                    <Grid Margin="10,6,24,0" Height="161" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-24,0" Width="556">
+                            <StackPanel >
+                                <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteDePagosSueldos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="300" Margin="5,5,245,5" />
+                                <Border CornerRadius="7,7,0,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas Solicitudes de Pago" Foreground="White"   HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch"   Name="label38"   />
+                                </Border>
+                                <Grid  >
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Margin="190,0,187,0" Width="185" HorizontalContentAlignment="Center"  />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" Margin="378,0,0,0" Width="188" HorizontalContentAlignment="Center" />
+                                </Grid>
+                                <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  />
+                                    <ColumnDefinition Width="243*" />
+                                    <ColumnDefinition Width="243*" />
+                                    <ColumnDefinition Width="243*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>  
+                               </Grid.RowDefinitions>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Name="border71">
+                                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                        <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCtaDePagosSueldos" TabIndex="1" FontSize="10" />
+                                        <Label Content="Descripcion Cta Solicitudes de Pago" Height="30" Name="lblDescripcionCtaDePagosSueldos" FontSize="10" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="3" Name="border72" />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="3" Grid.Row="1" Name="border73">
+                                    <StackPanel   Name="stackPanel7"  >
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCtaDePagosSueldosBanco" TabIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="10" />
+                                            <Label Content="Descripcion Pagos SueldosBanco"   Name="lblDescripcionCtaDePagosSueldosBanco" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="10" />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" Name="border74" />
+                                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"  Name="border89" Grid.Column="1">
+                                 <StackPanel  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"   >
+                                        <Label Content="Banco" Name="lblBancoPagoSueldo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}"   />
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderBrush="Black" BorderThickness="1"   Grid.Column="1">
+                                    <StackPanel   Name="stackPanel47"  >
+                                        <Label Content="Solicitudes de Pago"   Name="lblPagoSueldo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </StackPanel>
+                                </Border>
+                                 </Grid>
+                              </StackPanel> 
+                        </Border>
+                    </Grid>
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="23,269,0,0" Name="lblTipoDeComprobantePagoSueldo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" HorizontalAlignment="Right" InputDataType="String" Margin="0,271,218,0" MaxLength="2" Name="txtPagosSueldosTipoComprobante" TabIndex="6" VerticalAlignment="Top" Width="38" />
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="19,239,0,0" Name="lblcmbContabIndividualPagosSueldos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Width="150" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Right" Margin="0,240,136,0" Name="cmbContabIndividualPagosSueldos" TabIndex="5" VerticalAlignment="Top" Width="120" />
+                    
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="310,299,0,0" Name="cmbTipoContabilizacionDePagosSueldos" TabIndex="7" VerticalAlignment="Top" Visibility="Hidden" Width="120" />
+                    <Label Content="Contab Por Lote Anticipo" HorizontalAlignment="Left" Margin="23,299,0,0" Name="lblcmbTipoContabilizacionDePagosSueldos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" Visibility="Hidden" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Caja Chica" Name="tbiCajaChica" TabIndex="15">
+                <Grid Name="gtCajaChica">
+                    <Grid Height="351" Margin="10,10,-12,0" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" Margin="0,0,10,0" Width="556">
+                            <StackPanel Width="545" Height="333">
+  			                    <CheckBox BorderThickness="1" Content="Editar inmediatamente el Comprobante Generado" Height="17" Name="chkEditarComprobanteAfterInsertCajaChica" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="0" Width="350" HorizontalAlignment="Left" />
+                                <Border CornerRadius="7,7,0,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable de Caja Chica" Foreground="White" />
+                                </Border>
+                                <Grid>
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Height="29" HorizontalContentAlignment="Center" Margin="187,7,188,6" Name="label1" Width="187" />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" HorizontalContentAlignment="Center" Margin="375,6,4,0" Name="label2" Width="183" />
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="98*" />
+                                        <RowDefinition Height="68" />
+                                        <RowDefinition Height="165*" />
+                                        <RowDefinition Height="165*" />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="3" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="3" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="3">
+                                        <Label Content="Cuenta de Banco" Height="23" Name="lblCuentaCajaChicaBanco" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="3">
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCajaChicaBanco" TabIndex="5" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCajaChicaBanco" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCajaChicaBanco" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="2" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="2" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2">
+                                        <Label Content="Cuenta de Banco Caja Chica" Height="23" Name="lblCuentaCajaChicaBancoDebe" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="2">
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCajaChicaBancoDebe" TabIndex="4" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCajaChicaBancoDebe" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCajaChicaBancoDebe" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCajaChicaGasto" TabIndex="1" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCajaChicaGasto" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCajaChicaGasto" />
+                                            <Label BorderBrush="Black" BorderThickness="1" Content="lblCopiaCuentaCajaChicaIva" Foreground="Black"   Name="lblCopiaCuentaCajaChicaIva" FontSize="10" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaCajaChicaIva" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaCajaChicaIva" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="0" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"></Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1">
+                                        <StackPanel>
+                                            <Label Content="Cuenta de Banco Caja Chica" Height="27" Name="lblCuentaCajaChicaBancoHaber" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1">
+                                        <StackPanel>
+                                            <Label Content="Cuenta Gastos" Name="lblCuentaCajaChicaGasto" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                            <Label Content="IVA Crédito Fiscal" Height="48" Name="lblCuentaCajaChicaIva" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1">
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaCajaChicaBancoHaber" TabIndex="3" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaBancoCajaChicaHaber" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaBancoCajaChicaHaber" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border CornerRadius="7,7,0,0" Grid.ColumnSpan="3" Margin="0,43,0,46" Grid.Row="1" Grid.RowSpan="2">
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FF320000" Offset="0.895" />
+                                                <GradientStop Color="#FF730000" Offset="0.494" />
+                                                <GradientStop Color="White" Offset="0" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <Label Content="Reposición" Foreground="White" />
+                                    </Border>
+                                    <!--<Label Content="Reposición de Caja Chica" Foreground="#FFF2E9E9" Name="label5" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.ColumnSpan="3" Margin="0,43,0,1" Grid.Row="1">
+                                        <Label.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#FFB12020" Offset="0" />
+                                                <GradientStop Color="#FF6F0909" Offset="1" />
+                                            </LinearGradientBrush>
+                                        </Label.Background>
+                                    </Label>-->
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="16,386,0,0" Name="lblContabIndividualCajaChica" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="167,386,0,0" Name="cmbContabIndividualCajaChica" TabIndex="6" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="296,387,0,0" Name="lblSiglasTipoComprobanteCajaChica" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" InputDataType="String" Margin="502,387,0,0" MaxLength="2" Name="txtSiglasTipoComprobanteCajaChica" TabIndex="7" VerticalAlignment="Top" Width="58" />
+                    <CheckBox BorderThickness="1" Content="Mostrar Desglosado" Height="16" Margin="18,425,362,59" Name="chkMostrarDesglosadoCajaChica" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="8" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Rendiciones" Name="tbiRendiciones" TabIndex="16" Visibility="Collapsed" >
+                <Grid Name="gtRendiciones">
+                    <Grid Height="310" Margin="10,10,-12,0" VerticalAlignment="Top">
+                        <Border BorderBrush="#FF831E1E" BorderThickness="2" CornerRadius="7" Margin="0,12,12,20" Width="556">
+                            <StackPanel Width="545" Height="260">
+                                <Border CornerRadius="7,7,0,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF320000" Offset="0.895" />
+                                            <GradientStop Color="#FF730000" Offset="0.494" />
+                                            <GradientStop Color="White" Offset="0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Label Content="Cuentas del Comprobante Contable de Rendiciones" Foreground="White" />
+                                </Border>
+                                <Grid>
+                                    <Label Background="{x:Null}" Content="DEBE" Foreground="Black" Height="29" HorizontalContentAlignment="Center" Margin="187,7,188,6" Name="label3" Width="187" />
+                                    <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" Content="HABER" Foreground="Black" HorizontalContentAlignment="Center" Margin="375,6,4,0" Name="label4" Width="183" />
+                                </Grid>
+                                <Grid Height="214">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="182*" />
+                                        <ColumnDefinition Width="183*" />
+                                        <ColumnDefinition Width="180*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="100*" />
+                                        <RowDefinition Height="54*" />
+                                        <RowDefinition Height="84*" />
+                                        <RowDefinition Height="0*" />
+                                    </Grid.RowDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="2" Margin="0,0,0,28" Grid.RowSpan="2" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="2" Margin="0,0,0,28" Grid.RowSpan="2" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Margin="0,0,0,28" Grid.RowSpan="2">
+                                        <Label Content="Anticipos" Height="23" Name="lblAnticiposRendiciones" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="2" Margin="0,0,0,28" Grid.RowSpan="2">
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaRendicionesAnticipos" TabIndex="5" Height="24" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaRendicionesAnticipos" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaRendicionesAnticipos" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Margin="0,0,1,0">
+                                        <StackPanel>
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaRendicionesGasto" TabIndex="1" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaRendicionesGasto" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaRendicionesGasto" />
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaRendicionesIva" TabIndex="2" IsEnabled="False" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaRendicionesIva" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaRendicionesIva" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="0" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,1,0">
+                                        <StackPanel Width="361" Height="51">
+                                            <nsWpfControls:GSTextBoxWpf BorderThickness="1" FontSize="10" InputDataType="String" MaxLength="30" Name="txtCuentaRendicionesBanco" TabIndex="5" Height="23" Width="360" />
+                                            <Label BorderBrush="{x:Null}" BorderThickness="1" Content="lblDescripcionCuentaRendicionesBanco" FontSize="10" Foreground="Black" HorizontalContentAlignment="Center" Name="lblDescripcionCuentaRendicionesBanco" Width="360" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" />
+                                    <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1">
+                                        <StackPanel>
+                                            <Label Content="Cuenta de Banco" Height="33" Name="lblCuentaBancoHaberTitulo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border BorderBrush="Black" BorderThickness="1">
+                                        <StackPanel>
+                                            <Label Content="Cuenta Gastos" Name="label14" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                            <Label Content="IVA Crédito Fiscal" Height="48" Name="label15" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Label Content="Como contabilizar" HorizontalAlignment="Left" Margin="16,386,0,0" Name="lblComoContabilizarRendiciones" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSComboBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" Margin="167,386,0,0" Name="cmbContabIndividualRendiciones" TabIndex="6" VerticalAlignment="Top" Width="120" />
+                    <Label Content="Siglas del Tipo de Comprobante" HorizontalAlignment="Left" Margin="296,387,0,0" Name="lblSiglasTipoComprobanteRendiciones" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" VerticalAlignment="Top" />
+                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" Height="23" HorizontalAlignment="Left" InputDataType="String" Margin="502,387,0,0" MaxLength="2" Name="txtSiglasTipoComprobanteRendiciones" TabIndex="7" VerticalAlignment="Top" Width="58" />
+                    <CheckBox BorderThickness="1" Content="Mostrar Desglosado" Height="16" Margin="18,428,362,56" Name="chkMostrarDesglosadoRendiciones" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" TabIndex="8" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+       
+    </Grid>
+</UserControl>

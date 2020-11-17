@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8E98879-0458-41B6-B914-5F2C5CC28351}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Adm.Rpt.Venta</RootNamespace>
+    <AssemblyName>Galac.Adm.Rpt.Venta</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveReports.Document, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Common Files\GrapeCity\ActiveReports 6\ActiveReports.Document.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveReports.Viewer6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Common Files\GrapeCity\ActiveReports 6\ActiveReports.Viewer6.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveReports6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Common Files\GrapeCity\ActiveReports 6\ActiveReports6.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Brl.Venta">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.Venta.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.Venta">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Venta.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Brl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.SttDef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Vendedor">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Vendedor.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Vendedor">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Vendedor.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Dal">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.ARRpt">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel.Composition" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsCajasAperturadas.cs" />
+    <Compile Include="clsCobranzasEntreFechas.cs" />
+    <Compile Include="clsComisionDeVendedoresPorCobranzaMontoResumido.cs" />
+    <Compile Include="clsCuadreCajaCobroMultimonedaDetallado.cs" />
+    <Compile Include="clsCuadreCajaConDetalleFormaPagoResumido.cs" />
+    <Compile Include="clsCuadreCajaConDetalleFormaPago.cs" />
+    <Compile Include="clsCuadreCajaPorTipoCobro.cs" />
+    <Compile Include="clsCuadreCajaPorTipoCobroYUsuario.cs" />
+    <Compile Include="clsCuadreCajaPorUsuario.cs" />
+    <Compile Include="clsCuadreCajaPorUsuarioResumido.cs" />
+    <Compile Include="clsComisionDeVendedoresPorCobranzaMonto.cs" />
+    <Compile Include="dsrCobranzasEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCobranzasEntreFechas.Designer.cs">
+      <DependentUpon>dsrCobranzasEntreFechas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCajasAperturadas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCajasAperturadas.Designer.cs">
+      <DependentUpon>dsrCajasAperturadas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrComisionDeVendedoresPorCobranzaMontoResumido.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrComisionDeVendedoresPorCobranzaMontoResumido.Designer.cs">
+      <DependentUpon>dsrComisionDeVendedoresPorCobranzaMontoResumido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCuadreCajaCobroMultimonedaDetallado.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCuadreCajaCobroMultimonedaDetallado.Designer.cs">
+      <DependentUpon>dsrCuadreCajaCobroMultimonedaDetallado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCuadreCajaConDetalleFormaPago.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCuadreCajaConDetalleFormaPago.Designer.cs">
+      <DependentUpon>dsrCuadreCajaConDetalleFormaPago.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCuadreCajaConDetalleFormaPagoResumido.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCuadreCajaConDetalleFormaPagoResumido.Designer.cs">
+      <DependentUpon>dsrCuadreCajaConDetalleFormaPagoResumido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCuadreCajaPorTipoCobro.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCuadreCajaPorTipoCobro.Designer.cs">
+      <DependentUpon>dsrCuadreCajaPorTipoCobro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCuadreCajaPorTipoCobroYUsuario.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCuadreCajaPorTipoCobroYUsuario.Designer.cs">
+      <DependentUpon>dsrCuadreCajaPorTipoCobroYUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCuadreCajaPorUsuario.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCuadreCajaPorUsuario.Designer.cs">
+      <DependentUpon>dsrCuadreCajaPorUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCuadreCajaPorUsuarioResumido.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCuadreCajaPorUsuarioResumido.Designer.cs">
+      <DependentUpon>dsrCuadreCajaPorUsuarioResumido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrComisionDeVendedoresPorCobranzaMonto.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrComisionDeVendedoresPorCobranzaMonto.Designer.cs">
+      <DependentUpon>dsrComisionDeVendedoresPorCobranzaMonto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="dsrCajasAperturadas.resx">
+      <DependentUpon>dsrCajasAperturadas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCobranzasEntreFechas.resx">
+      <DependentUpon>dsrCobranzasEntreFechas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrComisionDeVendedoresPorCobranzaMontoResumido.resx">
+      <DependentUpon>dsrComisionDeVendedoresPorCobranzaMontoResumido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCuadreCajaCobroMultimonedaDetallado.resx">
+      <DependentUpon>dsrCuadreCajaCobroMultimonedaDetallado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCuadreCajaConDetalleFormaPago.resx">
+      <DependentUpon>dsrCuadreCajaConDetalleFormaPago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCuadreCajaConDetalleFormaPagoResumido.resx">
+      <DependentUpon>dsrCuadreCajaConDetalleFormaPagoResumido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCuadreCajaPorTipoCobro.resx">
+      <DependentUpon>dsrCuadreCajaPorTipoCobro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCuadreCajaPorTipoCobroYUsuario.resx">
+      <DependentUpon>dsrCuadreCajaPorTipoCobroYUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCuadreCajaPorUsuario.resx">
+      <DependentUpon>dsrCuadreCajaPorUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCuadreCajaPorUsuarioResumido.resx">
+      <DependentUpon>dsrCuadreCajaPorUsuarioResumido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrComisionDeVendedoresPorCobranzaMonto.resx">
+      <DependentUpon>dsrComisionDeVendedoresPorCobranzaMonto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

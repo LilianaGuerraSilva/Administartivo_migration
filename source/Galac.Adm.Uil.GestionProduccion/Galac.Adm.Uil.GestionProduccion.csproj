@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9901AFDA-4F43-4D66-8773-343946F12E0D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Adm.Uil.GestionProduccion</RootNamespace>
+    <AssemblyName>Galac.Adm.Uil.GestionProduccion</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Adm.Brl.GestionProduccion">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.GestionProduccion.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.GestionProduccion">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.GestionProduccion.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Rpt.GestionProduccion">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Rpt.GestionProduccion.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.ARRpt">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Cib">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Cib.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsListaDeMaterialesMenu.cs" />
+    <Compile Include="clsOrdenDeProduccionMenu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reportes\clsCostoMatServUtilizadosEnProduccionInvViewModel.cs" />
+    <Compile Include="Reportes\clsCostoProduccionInventarioEntreFechasViewModel.cs" />
+    <Compile Include="Reportes\clsDetalleDeCostoDeProduccionViewModel.cs" />
+    <Compile Include="Reportes\clsListaDeMaterialesDeInventarioAProducirViewModel.cs" />
+    <Compile Include="Reportes\clsListaDeMaterialesInformesViewModel.cs" />
+    <Compile Include="Reportes\clsOrdenDeProduccionInformesViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reportes\clsOrdenDeProduccionRptViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reportes\clsProduccionPorEstatusEntreFechaViewModel.cs" />
+    <Compile Include="Reportes\clsRequisicionDeMaterialesViewModel.cs" />
+    <Compile Include="Reportes\GSCostoMatServUtilizadosEnProduccionInv.xaml.cs">
+      <DependentUpon>GSCostoMatServUtilizadosEnProduccionInv.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCostoProduccionInventarioEntreFechas.xaml.cs">
+      <DependentUpon>GSCostoProduccionInventarioEntreFechas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSDetalleDeCostoDeProduccion.xaml.cs">
+      <DependentUpon>GSDetalleDeCostoDeProduccion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSListaDeMaterialesDeInventarioAProducir.xaml.cs">
+      <DependentUpon>GSListaDeMaterialesDeInventarioAProducir.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSOrdenDeProduccionRpt.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionRpt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSProduccionPorEstatusEntreFecha.xaml.cs">
+      <DependentUpon>GSProduccionPorEstatusEntreFecha.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSRequisicionDeMateriales.xaml.cs">
+      <DependentUpon>GSRequisicionDeMateriales.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIMefGestionProduccionOrdenDeProduccion.cs" />
+    <Compile Include="UIMefGestionProduccionListaDeMateriales.cs" />
+    <Compile Include="ViewModel\OrdenDeProduccionDetalleArticuloMngViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeProduccionDetalleArticuloViewModel.cs" />
+    <Compile Include="ViewModel\clsFKViewModel.cs" />
+    <Compile Include="ViewModel\ListaDeMaterialesDetalleArticuloMngViewModel.cs" />
+    <Compile Include="ViewModel\ListaDeMaterialesDetalleArticuloViewModel.cs" />
+    <Compile Include="ViewModel\ListaDeMaterialesMngViewModel.cs" />
+    <Compile Include="ViewModel\ListaDeMaterialesViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeProduccionDetalleMaterialesMngViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeProduccionDetalleMaterialesViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeProduccionMngViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeProduccionViewModel.cs" />
+    <Compile Include="Views\GSListaDeMaterialesDetalleArticuloView.xaml.cs">
+      <DependentUpon>GSListaDeMaterialesDetalleArticuloView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSListaDeMaterialesView.xaml.cs">
+      <DependentUpon>GSListaDeMaterialesView.xaml</DependentUpon>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionDetalleArticuloView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSOrdenDeProduccionDetalleMaterialesView.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionDetalleMaterialesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSOrdenDeProduccionView.xaml.cs">
+      <DependentUpon>GSOrdenDeProduccionView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Reportes\GSCostoMatServUtilizadosEnProduccionInv.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCostoProduccionInventarioEntreFechas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSDetalleDeCostoDeProduccion.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSListaDeMaterialesDeInventarioAProducir.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSOrdenDeProduccionRpt.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSProduccionPorEstatusEntreFecha.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSRequisicionDeMateriales.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSListaDeMaterialesDetalleArticuloView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSListaDeMaterialesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSOrdenDeProduccionDetalleArticuloView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSOrdenDeProduccionDetalleMaterialesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSOrdenDeProduccionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
+      <Project>{A28FB32D-B951-4D64-8FEB-74A261425585}</Project>
+      <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{73FA7756-3070-4E0A-AD4E-1141F4F04696}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Saw.Uil.Inventario</RootNamespace>
+    <AssemblyName>Galac.Saw.Uil.Inventario</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Comun.Brl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.SttDef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Uil.ContabAdm">
+      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Uil.ContabAdm.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Cliente">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib.Uil">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Rpt.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Rpt.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Uil.Cliente">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.Cliente.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.ARRpt">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Dal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Cib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Cib.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil.Usal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsAlmacenMenu.cs" />
+    <Compile Include="clsArticuloInventarioMenu.cs" />
+    <Compile Include="clsCategoriaMenu.cs" />
+    <Compile Include="clsColorMenu.cs" />
+    <Compile Include="clsAsignarBalanzaMenu.cs" />
+    <Compile Include="clsTallaMenu.cs" />
+    <Compile Include="clsVerificadorDePreciosMenu.cs" />
+    <Compile Include="Reportes\clsListadoDeArticulosBalanzaViewModel.cs" />
+    <Compile Include="Reportes\clsValoracionDeInventarioViewModel.cs" />
+    <Compile Include="Reportes\GSListadoDeArticulosBalanza.xaml.cs">
+      <DependentUpon>GSListadoDeArticulosBalanza.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+    </Compile>
+    <Compile Include="Reportes\clsArticuloInventarioInformesViewModel.cs" />
+    <Compile Include="Reportes\clsListadoDePreciosViewModel.cs" />
+    <Compile Include="Reportes\GSListadoDePrecios.xaml.cs">
+      <DependentUpon>GSListadoDePrecios.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSValoracionDeInventario.xaml.cs">
+      <DependentUpon>GSValoracionDeInventario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIMefInventarioInformes.cs" />
+    <Compile Include="UIMefInventarioAlmacen.cs" />
+    <Compile Include="UIMefInventarioCategoria.cs" />
+    <Compile Include="UIMefInventarioColor.cs" />
+    <Compile Include="UIMefInventarioTalla.cs" />
+    <Compile Include="UIMefInventarioVerificadorDePrecios.cs" />
+    <Compile Include="ViewModel\ImportarPreciosDeArticuloViewModel.cs" />
+    <Compile Include="ViewModel\AlmacenMngViewModel.cs" />
+    <Compile Include="ViewModel\AlmacenViewModel.cs" />
+    <Compile Include="ViewModel\ArticuloInventarioMngViewModel.cs" />
+    <Compile Include="ViewModel\ArticuloInventarioViewModel.cs" />
+    <Compile Include="ViewModel\CategoriaMngViewModel.cs" />
+    <Compile Include="ViewModel\CategoriaViewModel.cs" />
+    <Compile Include="ViewModel\clsFKViewModel.cs" />
+    <Compile Include="ViewModel\ColorMngViewModel.cs" />
+    <Compile Include="ViewModel\ColorViewModel.cs" />
+    <Compile Include="ViewModel\AsignarBalanzaMngViewModel.cs" />
+    <Compile Include="ViewModel\AsignarBalanzaViewModel.cs" />
+    <Compile Include="ViewModel\CuadroDeBusquedaDeArticulosViewModel.cs" />
+    <Compile Include="ViewModel\TallaMngViewModel.cs" />
+    <Compile Include="ViewModel\TallaViewModel.cs" />
+    <Compile Include="ViewModel\VerificadorDePreciosMngViewModel.cs" />
+    <Compile Include="ViewModel\VerificadorDePreciosViewModel.cs" />
+    <Compile Include="Views\GSAlmacenView.xaml.cs">
+      <DependentUpon>GSAlmacenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCategoriaView.xaml.cs">
+      <DependentUpon>GSCategoriaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSColorView.xaml.cs">
+      <DependentUpon>GSColorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSAsignarBalanzaView.xaml.cs">
+      <DependentUpon>GSAsignarBalanzaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSImportarPreciosDeArticuloView.xaml.cs">
+      <DependentUpon>GSImportarPreciosDeArticuloView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSTallaView.xaml.cs">
+      <DependentUpon>GSTallaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSVerificadorDePreciosView.xaml.cs">
+      <DependentUpon>GSVerificadorDePreciosView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Reportes\GSListadoDePrecios.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSListadoDeArticulosBalanza.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSValoracionDeInventario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSAlmacenView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCategoriaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSColorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSAsignarBalanzaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSImportarPreciosDeArticuloView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GSTallaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSVerificadorDePreciosView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\galac.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

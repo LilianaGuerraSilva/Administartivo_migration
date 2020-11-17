@@ -1,0 +1,14 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.Tablas.Input.GSNotaFinal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="131" d:DesignWidth="332">
+    <Grid Name="gwMain" Height="116" Width="326">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoDeLaNota" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Código De La Nota</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,0,0,0" MaxLength="10" Name="txtCodigoDeLaNota" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="0" Width="120" />
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblDescripcion" Margin="10,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Descripción</Label>
+        <nsWpfControls:GSTextAreaWpf HorizontalAlignment="Left" Margin="120,28,0,0" Name="txtDescripcion" VerticalAlignment="Top" Width="194" MaxLength="255" BorderThickness="1" TabIndex="1" Height="76" />
+    </Grid>
+</UserControl>

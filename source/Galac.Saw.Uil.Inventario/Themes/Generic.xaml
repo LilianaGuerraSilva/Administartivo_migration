@@ -1,0 +1,34 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSV="clr-namespace:Galac.Saw.Uil.Inventario.Views"
+    xmlns:nsCSVM="clr-namespace:Galac.Saw.Uil.Inventario.ViewModel"
+    xmlns:nsReportesView="clr-namespace:Galac.Saw.Uil.Inventario.Reportes">
+    <DataTemplate DataType="{x:Type nsCSVM:AlmacenViewModel}">
+        <nsCSV:GSAlmacenView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CategoriaViewModel}">
+        <nsCSV:GSCategoriaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ColorViewModel}">
+        <nsCSV:GSColorView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:TallaViewModel}">
+        <nsCSV:GSTallaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:AsignarBalanzaViewModel}">
+        <nsCSV:GSAsignarBalanzaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsListadoDePreciosViewModel}">
+        <nsReportesView:GSListadoDePrecios />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsListadoDeArticulosBalanzaViewModel}">
+        <nsReportesView:GSListadoDeArticulosBalanza />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsValoracionDeInventarioViewModel}">
+        <nsReportesView:GSValoracionDeInventario />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ImportarPreciosDeArticuloViewModel}">
+        <nsCSV:GSImportarPreciosDeArticuloView />
+    </DataTemplate>
+</ResourceDictionary>

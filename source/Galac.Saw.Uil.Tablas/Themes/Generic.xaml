@@ -1,0 +1,39 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSVM="clr-namespace:Galac.Saw.Uil.Tablas.ViewModel"
+    xmlns:nsCSV="clr-namespace:Galac.Saw.Uil.Tablas.Views">
+    <DataTemplate DataType="{x:Type nsCSVM:UrbanizacionZPViewModel}">
+        <nsCSV:GSUrbanizacionZPView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ZonaCobranzaViewModel}">
+        <nsCSV:GSZonaCobranzaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:PropAnalisisVencViewModel}">
+        <nsCSV:GSPropAnalisisVencView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:NotaFinalViewModel}">
+        <nsCSV:GSNotaFinalView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:TipoProveedorViewModel}">
+        <nsCSV:GSTipoProveedorView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:MaquinaFiscalViewModel}">
+        <nsCSV:GSMaquinaFiscalView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:UnidadDeVentaViewModel}">
+        <nsCSV:GSUnidadDeVentaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FormaDelCobroViewModel}">
+        <nsCSV:GSFormaDelCobroView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CondicionesDePagoViewModel}">
+        <nsCSV:GSCondicionesDePagoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:LineaDeProductoViewModel}">
+        <nsCSV:GSLineaDeProductoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ImpuestoBancarioViewModel}">
+        <nsCSV:GSImpuestoBancarioView />
+    </DataTemplate>
+</ResourceDictionary>

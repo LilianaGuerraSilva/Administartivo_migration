@@ -1,0 +1,16 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.CajaChica.ViewModel"
+    xmlns:nsCSV="clr-namespace:Galac.Adm.Uil.CajaChica.Views"
+    xmlns:nsReportesView="clr-namespace:Galac.Adm.Uil.CajaChica.Reportes">
+    <DataTemplate DataType="{x:Type nsCSVM:RendicionViewModel}">
+        <nsCSV:GSRendicionView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:DetalleDeRendicionViewModel}">
+        <nsCSV:GSDetalleDeRendicionView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsReposicionesEntreFechasViewModel}">
+        <nsReportesView:GSReposicionesEntreFechas />
+    </DataTemplate>
+</ResourceDictionary>

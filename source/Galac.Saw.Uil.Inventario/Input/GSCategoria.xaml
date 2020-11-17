@@ -1,0 +1,12 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.Inventario.Input.GSCategoria"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" Height="26" Width="267">
+    <Grid Name="gwMain" Width="272">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblDescripcion" VerticalAlignment="Top" Height="23.583" Margin="0,0,209.9,0">Categoría</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="86,0,12,4.04" MaxLength="20" Name="txtDescripcion" BorderThickness="1" TabIndex="0"  />
+    </Grid>
+</UserControl>

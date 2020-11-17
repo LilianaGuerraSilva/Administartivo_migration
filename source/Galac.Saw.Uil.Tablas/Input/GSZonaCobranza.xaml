@@ -1,0 +1,16 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.Tablas.Input.GSZonaCobranza"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <Grid Name="gwMain" Width="420">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170*" />
+            <ColumnDefinition Width="250*" />
+        </Grid.ColumnDefinitions>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombre" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Nombre</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,0,0,0" MaxLength="100" Name="txtNombre" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="0" Width="300" Grid.ColumnSpan="2" InvalidCharacters="Ññ" />
+    </Grid>
+</UserControl>

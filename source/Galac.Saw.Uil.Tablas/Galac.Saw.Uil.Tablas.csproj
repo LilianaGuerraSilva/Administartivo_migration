@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{005FABDF-508B-4757-8A54-BE3603405283}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Saw.Uil.Tablas</RootNamespace>
+    <AssemblyName>Galac.Saw.Uil.Tablas</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Saw.Brl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.ARRpt">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <Name>LibGalac.Aos.Base</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <Name>LibGalac.Aos.Catching</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <Name>LibGalac.Aos.UI.Wpf</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <Name>LibGalac.Aos.UI.WpfControls</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <Name>LibGalac.Aos.UI.WpfRD</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <Name>LibGalac.Aos.DefGen</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <Name>LibGalac.Aos.Uil</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <Name>LibGalac.Aos.Brl</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsFormaDelCobroMenu.cs" />
+    <Compile Include="clsImpuestoBancarioMenu.cs" />
+    <Compile Include="clsLineaDeProductoMenu.cs" />
+    <Compile Include="clsMaquinaFiscalMenu.cs" />
+    <Compile Include="clsNotaFinalMenu.cs" />
+    <Compile Include="clsPropAnalisisVencMenu.cs" />
+    <Compile Include="clsTipoProveedorMenu.cs" />
+    <Compile Include="clsUnidadDeVentaMenu.cs" />
+    <Compile Include="clsUrbanizacionZPMenu.cs" />
+    <Compile Include="clsZonaCobranzaMenu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="UIMefTablasCondicionesDePago.cs" />
+    <Compile Include="UIMefTablasFormaDelCobro.cs" />
+    <Compile Include="UIMefTablasImpuestoBancario.cs" />
+    <Compile Include="UIMefTablasLineaDeProducto.cs" />
+    <Compile Include="UIMefTablasMaquinaFiscal.cs" />
+    <Compile Include="UIMefTablasNotaFinal.cs" />
+    <Compile Include="UIMefTablasPropAnalisisVenc.cs" />
+    <Compile Include="UIMefTablasTipoProveedor.cs" />
+    <Compile Include="UIMefTablasUnidadDeVenta.cs" />
+    <Compile Include="UIMefTablasUrbanizacionZP.cs" />
+    <Compile Include="UIMefTablasZonaCobranza.cs" />
+    <Compile Include="ViewModel\clsFKViewModelTablas.cs" />
+    <Compile Include="ViewModel\CondicionesDePagoMngViewModel.cs" />
+    <Compile Include="ViewModel\CondicionesDePagoViewModel.cs" />
+    <Compile Include="ViewModel\FormaDelCobroMngViewModel.cs" />
+    <Compile Include="ViewModel\FormaDelCobroViewModel.cs" />
+    <Compile Include="ViewModel\ImpuestoBancarioMngViewModel.cs" />
+    <Compile Include="ViewModel\ImpuestoBancarioViewModel.cs" />
+    <Compile Include="ViewModel\LineaDeProductoMngViewModel.cs" />
+    <Compile Include="ViewModel\LineaDeProductoViewModel.cs" />
+    <Compile Include="ViewModel\MaquinaFiscalMngViewModel.cs" />
+    <Compile Include="ViewModel\MaquinaFiscalViewModel.cs" />
+    <Compile Include="ViewModel\NotaFinalMngViewModel.cs" />
+    <Compile Include="ViewModel\NotaFinalViewModel.cs" />
+    <Compile Include="ViewModel\PropAnalisisVencMngViewModel.cs" />
+    <Compile Include="ViewModel\PropAnalisisVencViewModel.cs" />
+    <Compile Include="ViewModel\TipoProveedorMngViewModel.cs" />
+    <Compile Include="ViewModel\TipoProveedorViewModel.cs" />
+    <Compile Include="ViewModel\UnidadDeVentaMngViewModel.cs" />
+    <Compile Include="ViewModel\UnidadDeVentaViewModel.cs" />
+    <Compile Include="ViewModel\UrbanizacionZPMngViewModel.cs" />
+    <Compile Include="ViewModel\UrbanizacionZPViewModel.cs" />
+    <Compile Include="ViewModel\ZonaCobranzaMngViewModel.cs" />
+    <Compile Include="ViewModel\ZonaCobranzaViewModel.cs" />
+    <Compile Include="Views\GSCondicionesDePagoView.xaml.cs">
+      <DependentUpon>GSCondicionesDePagoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFormaDelCobroView.xaml.cs">
+      <DependentUpon>GSFormaDelCobroView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSImpuestoBancarioView.xaml.cs">
+      <DependentUpon>GSImpuestoBancarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSLineaDeProductoView.xaml.cs">
+      <DependentUpon>GSLineaDeProductoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSMaquinaFiscalView.xaml.cs">
+      <DependentUpon>GSMaquinaFiscalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSNotaFinalView.xaml.cs">
+      <DependentUpon>GSNotaFinalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSPropAnalisisVencView.xaml.cs">
+      <DependentUpon>GSPropAnalisisVencView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSTipoProveedorView.xaml.cs">
+      <DependentUpon>GSTipoProveedorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSUnidadDeVentaView.xaml.cs">
+      <DependentUpon>GSUnidadDeVentaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSUrbanizacionZPView.xaml.cs">
+      <DependentUpon>GSUrbanizacionZPView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSZonaCobranzaView.xaml.cs">
+      <DependentUpon>GSZonaCobranzaView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCondicionesDePagoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFormaDelCobroView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSImpuestoBancarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSLineaDeProductoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSMaquinaFiscalView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSNotaFinalView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSPropAnalisisVencView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSTipoProveedorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSUnidadDeVentaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSUrbanizacionZPView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSZonaCobranzaView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{706F412D-F9E1-4E0B-A740-9CA195272AB8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Adm.Uil.GestionCompras</RootNamespace>
+    <AssemblyName>Galac.Adm.Uil.GestionCompras</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Adm.Brl.GestionCompras">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.GestionCompras.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.Banco">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Banco.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.CajaChica">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.CajaChica.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.GestionCompras">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.GestionCompras.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Rpt.GestionCompras">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Rpt.GestionCompras.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Brl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Brl.TablasLey">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasLey.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.SttDef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.TablasLey">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasLey.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.TablasLey">
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasLey.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Ccl.WinCont">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\bin\Contabilidad\Galac.Contab.Ccl.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Contab.Uil.WinCont">
+      <HintPath>..\..\..\..\..\bin\Contabilidad\Galac.Contab.Uil.WinCont.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib.Uil">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Uil.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.ARRpt">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl.IdFiscal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.IdFiscal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Ccl.IdFiscal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Ccl.IdFiscal.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Cib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Cib.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsCargaInicialMenu.cs" />
+    <Compile Include="clsAjusteDePrecioPorCostoMenu.cs" />
+    <Compile Include="clsLibroDeComprasMenu.cs" />
+    <Compile Include="clsProveedorMenu.cs" />
+    <Compile Include="Reportes\clsImprimirCostoDeCompraEntreFechasViewModel.cs" />
+    <Compile Include="Reportes\clsImprimirComprasEntreFechasViewModel.cs" />
+    <Compile Include="Reportes\clsImprimirCotizacionOrdenDeCompraViewModel.cs" />
+    <Compile Include="Reportes\clsImprimirHistoricoDeComprasViewModel.cs" />
+    <Compile Include="Reportes\GSImpresionDeEtiquetasPorComprasView.xaml.cs">
+      <DependentUpon>GSImpresionDeEtiquetasPorComprasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSImprimirCotizacionOrdenDeCompra.xaml.cs">
+      <DependentUpon>GSImprimirCotizacionOrdenDeCompra.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSImprimirHistoricoDeComprasView.xaml.cs">
+      <DependentUpon>GSImprimirHistoricoDeComprasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\frmCompraInformes.xaml.cs">
+      <DependentUpon>frmCompraInformes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSImprimirCostoDeCompraEntreFechasView.xaml.cs">
+      <DependentUpon>GSImprimirCostoDeCompraEntreFechasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSImprimirComprasEntreFechas.xaml.cs">
+      <DependentUpon>GSImprimirComprasEntreFechas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSImprimirMargenSobreCostoPromedioDeCompraView.xaml.cs">
+      <DependentUpon>GSImprimirMargenSobreCostoPromedioDeCompraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\clsImprimirMargenSobreCostoPromedioDeCompraViewModel.cs" />
+    <Compile Include="Reportes\GSImprimirOrdenesDeComprasView.xaml.cs">
+      <DependentUpon>GSImprimirOrdenesDeComprasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\clsImprimirOrdenesDeComprasViewModel.cs" />
+    <Compile Include="Reportes\clsImpresionDeEtiquetasPorComprasViewModel.cs" />
+    <Compile Include="UIMefGestionComprasCargaInicial.cs" />
+    <Compile Include="UIMefGestionComprasLibroDeCompras.cs" />
+    <Compile Include="UIMefGestionComprasOrdenDeCompraImportacion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.es-PE.Designer.cs">
+      <DependentUpon>Resources.es-PE.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reportes\clsCompraInformesViewModel.cs" />
+    <Compile Include="UIMefGestionComprasImportacion.cs" />
+    <Compile Include="UIMefGestionComprasCompra.cs" />
+    <Compile Include="UIMefGestionComprasOrdenDeCompra.cs" />
+    <Compile Include="UIMefGestionComprasProveedor.cs" />
+    <Compile Include="ViewModel\AjusteDePrecioPorCostosViewModel.cs" />
+    <Compile Include="ViewModel\ArticuloCargaInicialViewModel.cs" />
+    <Compile Include="ViewModel\CargaInicialMngViewModel.cs" />
+    <Compile Include="ViewModel\CargaInicialViewModel.cs" />
+    <Compile Include="ViewModel\clsFKViewModelGestionCompras.cs" />
+    <Compile Include="ViewModel\CompraDetalleArticuloInventarioMngViewModel.cs" />
+    <Compile Include="ViewModel\CompraDetalleArticuloInventarioViewModel.cs" />
+    <Compile Include="ViewModel\CompraSerialRolloViewModel.cs" />
+    <Compile Include="ViewModel\CompraDetalleGastoMngViewModel.cs" />
+    <Compile Include="ViewModel\CompraDetalleGastoViewModel.cs" />
+    <Compile Include="ViewModel\CompraDetalleSerialRolloMngViewModel.cs" />
+    <Compile Include="ViewModel\CompraDetalleSerialRolloViewModel.cs" />
+    <Compile Include="ViewModel\CompraMngViewModel.cs" />
+    <Compile Include="ViewModel\CompraCambiarStatusViewModel.cs" />
+    <Compile Include="ViewModel\CompraViewModel.cs" />
+    <Compile Include="ViewModel\LibroDeComprasMngViewModel.cs" />
+    <Compile Include="ViewModel\LibroDeComprasViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeCompraDetalleArticuloInventarioMngViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeCompraDetalleArticuloInventarioViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeCompraMngViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeCompraViewModel.cs" />
+    <Compile Include="ViewModel\ProveedorMngViewModel.cs" />
+    <Compile Include="ViewModel\ProveedorViewModel.cs" />
+    <Compile Include="ViewModel\CompraDetalleDistribucionViewModel.cs" />
+    <Compile Include="ViewModel\TasaDelDiaViewModel.cs" />
+    <Compile Include="Views\GSCargaInicialView.xaml.cs">
+      <DependentUpon>GSCargaInicialView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSLibroDeComprasView.xaml.cs">
+      <DependentUpon>GSLibroDeComprasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSProveedorView.xaml.cs">
+      <DependentUpon>GSProveedorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSAjusteDePreciosPorCostos.xaml.cs">
+      <DependentUpon>GSAjusteDePreciosPorCostos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCompraDetalleArticuloInventarioDistribucionView.xaml.cs">
+      <DependentUpon>GSCompraDetalleArticuloInventarioDistribucionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCompraDetalleArticuloInventarioView.xaml.cs">
+      <DependentUpon>GSCompraDetalleArticuloInventarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCompraDetalleSerialRolloView.xaml.cs">
+      <DependentUpon>GSCompraDetalleSerialRolloView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCompraSerialRollo.xaml.cs">
+      <DependentUpon>GSCompraSerialRollo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCompraDetalleGastoView.xaml.cs">
+      <DependentUpon>GSCompraDetalleGastoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCompraDetalleDistribucion.xaml.cs">
+      <DependentUpon>GSCompraDetalleDistribucion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCompraCambiarStatusView.xaml.cs">
+      <DependentUpon>GSCompraCambiarStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCompraView.xaml.cs">
+      <DependentUpon>GSCompraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSOrdenDeCompraDetalleArticuloInventarioView.xaml.cs">
+      <DependentUpon>GSOrdenDeCompraDetalleArticuloInventarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSOrdenDeCompraView.xaml.cs">
+      <DependentUpon>GSOrdenDeCompraView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSTasaDelDiaView.xaml.cs">
+      <DependentUpon>GSTasaDelDiaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InputDialog.xaml.cs">
+      <DependentUpon>InputDialog.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Reportes\GSImpresionDeEtiquetasPorComprasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSImprimirCotizacionOrdenDeCompra.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSImprimirHistoricoDeComprasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\frmCompraInformes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSImprimirCostoDeCompraEntreFechasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSImprimirComprasEntreFechas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSImprimirMargenSobreCostoPromedioDeCompraView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSImprimirOrdenesDeComprasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCargaInicialView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSLibroDeComprasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSProveedorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSAjusteDePreciosPorCostos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCompraDetalleArticuloInventarioDistribucionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCompraDetalleArticuloInventarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCompraDetalleSerialRolloView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCompraSerialRollo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCompraDetalleGastoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCompraDetalleDistribucion.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCompraCambiarStatusView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCompraView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSOrdenDeCompraDetalleArticuloInventarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSOrdenDeCompraView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSTasaDelDiaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\InputDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.es-PE.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.es-PE.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Alt9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F11.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F12.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\F9.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

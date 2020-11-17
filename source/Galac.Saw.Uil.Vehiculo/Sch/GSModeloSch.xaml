@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.Vehiculo.Sch.GSModeloSch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombre" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,12,0,0">Nombre</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNombre" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,12,0,0" ToolTip="Nombre" DbColumnName="Saw.Gv_Modelo_B1.Nombre" BorderThickness="1" TabIndex = "0" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMarca" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,40,0,0">Marca</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtMarca" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" ToolTip="Marca" DbColumnName="Saw.Gv_Modelo_B1.Marca" BorderThickness="1" TabIndex = "1" InputDataType="igString"/>
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(Nombre)" Value="Saw.Gv_Modelo_B1.Nombre"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Nombre" Value="Saw.Gv_Modelo_B1.Nombre"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Marca" Value="Saw.Gv_Modelo_B1.Marca"/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                    <Field Header="Nombre" XPath="Nombre" Width="250" DataType="string" ColumnLengthForPrinting="25"></Field>
+                    <Field Header="Marca" XPath="Marca" Width="250" DataType="string" ColumnLengthForPrinting="55"></Field>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

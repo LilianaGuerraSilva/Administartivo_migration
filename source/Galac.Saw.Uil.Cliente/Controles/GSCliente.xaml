@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.Cliente.Controles.GSCliente"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigo" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Código</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,0,0,0" MaxLength="10" Name="txtCodigo" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="0"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombre" Margin="10,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Nombre</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,28,0,0" MaxLength="80" Name="txtNombre" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="1"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroRIF" Margin="10,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">N° R.I.F.</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,56,0,0" MaxLength="20" Name="txtNumeroRIF" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="2"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroNIT" Margin="10,84,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">N° N.I.T.</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,84,0,0" MaxLength="12" Name="txtNumeroNIT" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="3"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblDireccion" Margin="10,112,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Dirección</Label>
+        <nsWpfControls:GSTextAreaWpf HorizontalAlignment="Left" Margin="120,112,0,0" Name="txtDireccion" VerticalAlignment="Top" Width="120" MaxLength="255" BorderThickness="1" TabIndex="4"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCiudad" Margin="10,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Ciudad</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,140,0,0" MaxLength="100" Name="txtCiudad" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="5"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblZonaPostal" Margin="10,168,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Zona Postal</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,168,0,0" MaxLength="7" Name="txtZonaPostal" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="6"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTelefono" Margin="10,196,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Teléfonos</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,196,0,0" MaxLength="40" Name="txtTelefono" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="7"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFAX" Margin="10,224,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Nº Fax</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,224,0,0" MaxLength="25" Name="txtFAX" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="8"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblStatus" Margin="10,252,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Status</Label>
+        <nsWpfControls:GSComboBoxWpf Height="23" HorizontalAlignment="Left" Margin="120,252,0,0" Name="cmbStatus" VerticalAlignment="Top" Width="120" BorderThickness="1" TabIndex="9"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblContacto" Margin="10,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Contacto</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,280,0,0" MaxLength="35" Name="txtContacto" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="10"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblZonaDeCobranza" Margin="10,308,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Zona De Cobranza</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,308,0,0" MaxLength="20" Name="txtZonaDeCobranza" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="11"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoVendedor" Margin="10,336,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Código del Vendedor</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,336,0,0" MaxLength="5" Name="txtCodigoVendedor" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="12"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblRazonInactividad" Margin="10,364,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Razon Inactividad</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,364,0,0" MaxLength="35" Name="txtRazonInactividad" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="13"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblEmail" Margin="10,392,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Email</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,392,0,0" MaxLength="40" Name="txtEmail" VerticalAlignment="Top" HorizontalAlignment="Left" BorderThickness="1" TabIndex="14"/>
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Height="16" HorizontalAlignment="Right" Margin="0,0,12,0" Name="chkActivarAvisoAlEscoger" VerticalAlignment="Top" Width="177" BorderThickness="1" TabIndex="15">Activar Aviso Al Escoger</CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTextoDelAviso" Margin="0,28,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Texto Del Aviso</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="0,28,12,0" MaxLength="150" Name="txtTextoDelAviso" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" TabIndex="16"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCuentaContableCxC" Margin="0,56,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Cuenta Contable Cx C</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="0,56,12,0" MaxLength="30" Name="txtCuentaContableCxC" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" TabIndex="17"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCuentaContableIngresos" Margin="0,84,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Cuenta Contable Ingresos</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="0,84,12,0" MaxLength="30" Name="txtCuentaContableIngresos" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" TabIndex="18"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCuentaContableAnticipo" Margin="0,112,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Cuenta Contable Anticipo</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="0,112,12,0" MaxLength="30" Name="txtCuentaContableAnticipo" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" TabIndex="19"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSectorDeNegocio" Margin="0,140,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Sector De Negocio</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="0,140,12,0" MaxLength="20" Name="txtSectorDeNegocio" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" TabIndex="20"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoLote" Margin="0,168,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Codigo Lote</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="0,168,12,0" MaxLength="10" Name="txtCodigoLote" VerticalAlignment="Top" HorizontalAlignment="Right" BorderThickness="1" TabIndex="21"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNivelDePrecio" Margin="0,196,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Nivel De Precio</Label>
+        <nsWpfControls:GSComboBoxWpf Height="23" HorizontalAlignment="Right" Margin="0,196,12,0" Name="cmbNivelDePrecio" VerticalAlignment="Top" Width="120" BorderThickness="1" TabIndex="22"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblOrigen" Margin="0,224,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Origen</Label>
+        <nsWpfControls:GSComboBoxWpf Height="23" HorizontalAlignment="Right" Margin="0,224,12,0" Name="cmbOrigen" VerticalAlignment="Top" Width="120" BorderThickness="1" TabIndex="23"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblDiaCumpleanos" Margin="0,252,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Dia Cumpleanos</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UInteger" Height="23" HorizontalAlignment="Right" Margin="0,252,12,0" Name="txtDiaCumpleanos" VerticalAlignment="Top" Width="120" MaxLength="11" TextAlignment="Right" BorderThickness="1" TabIndex="24"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMesCumpleanos" Margin="0,280,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Mes Cumpleanos</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UInteger" Height="23" HorizontalAlignment="Right" Margin="0,280,12,0" Name="txtMesCumpleanos" VerticalAlignment="Top" Width="120" MaxLength="11" TextAlignment="Right" BorderThickness="1" TabIndex="25"/>
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Height="16" HorizontalAlignment="Right" Margin="0,308,12,0" Name="chkCorrespondenciaXEnviar" VerticalAlignment="Top" Width="177" BorderThickness="1" TabIndex="26">Correspondencia XEnviar</CheckBox>
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Height="16" HorizontalAlignment="Right" Margin="0,336,12,0" Name="chkEsExtranjero" VerticalAlignment="Top" Width="177" BorderThickness="1" TabIndex="27">Es Extranjero</CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblClienteDesdeFecha" Margin="0,364,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Cliente Desde</Label>
+        <nsWpfControls:GSDatePickerWpf Height="23" Margin="0,364,12,0" Name="dtpClienteDesdeFecha" VerticalAlignment="Top" HorizontalAlignment="Right" Width="115" BorderThickness="1" TabIndex="28"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDocumentoIdentificacion" Margin="0,392,160,0" HorizontalAlignment="Right" VerticalAlignment="Top">Tipo Documento Identificacion</Label>
+        <nsWpfControls:GSComboBoxWpf Height="23" HorizontalAlignment="Right" Margin="0,392,12,0" Name="cmbTipoDocumentoIdentificacion" VerticalAlignment="Top" Width="120" BorderThickness="1" TabIndex="29"/>
+    </Grid>
+</UserControl>

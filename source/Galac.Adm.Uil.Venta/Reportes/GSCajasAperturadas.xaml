@@ -1,0 +1,34 @@
+<UserControl x:Class="Galac.Adm.Uil.Venta.Reportes.GSCajasAperturadas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" d:DesignHeight="212" d:DesignWidth="233">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+<!--
+        <Label Grid.Row="0" Grid.Column="0" Content="Cantidad a Imprimir" Style="{StaticResource LabelPrompt}" />
+        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="cmbCantidadAImprimir" Style="{StaticResource ComboBoxStyle}"  Width="150"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ECantidadAImprimir}"
+                SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtSiglasPrograma" Height="23" Margin="3" Width="150" HorizontalAlignment="Left"
+                                        DisplayMemberPath="Siglas"
+                                        Model="{Binding Path=Programa, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=SiglasDelPrograma, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseProgramaCommand}"
+                                        Visibility="{Binding Path=ShowSiglasDelPrograma, Converter={StaticResource BooleanToCollapsedVisibility}}" />
+-->
+    </Grid>
+</UserControl>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ActualizarFactura">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GUID" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Factura" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Control" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="CodigoUsu" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="FechaEmision" type="xs:dateTime" />
+        <xs:element minOccurs="0" name="uname" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizarFacturaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ActualizarFacturaResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AnularFactura">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Factura" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AnularFacturaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AnularFacturaResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizarDeuda">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Factura" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="MontoAbonado" type="xs:decimal" />
+        <xs:element minOccurs="0" name="DeudaVencida" type="xs:decimal" />
+        <xs:element minOccurs="0" name="DeudaNoVencida" type="xs:decimal" />
+        <xs:element minOccurs="0" name="DeudaTotal" type="xs:decimal" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizarDeudaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ActualizarDeudaResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

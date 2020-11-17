@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.GestionCompras.Reportes.GSImprimirOrdenesDeComprasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Comun.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=dtpFechaInicial}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Name="lblFechaInicial" Content="Fecha Inicial" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="0" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaInicial"
+                                       SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
+        <Label Grid.Row="1" Grid.Column="0" Name="lblFechaFinal" Content="Fecha Final" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="1" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaFinal"
+                                       SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
+        <Label Grid.Row="2" Grid.Column="0" Name="lblImprimirRenglones" Content="Imprimir Renglones" Style="{StaticResource LabelPrompt}" />
+        <CheckBox Grid.Row="2" Grid.Column="1" Name="chkImprimirRenglones" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ImprimirRenglones}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+        <GroupBox Grid.Row="3" Grid.ColumnSpan ="2"  Margin="3" Style="{StaticResource GroupBoxStyle}" Header="Status de Orden de Compra">
+            <!--<nsWpfControls:GSComboBoxWpf Grid.Row="3" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbStatusDeOrdenDeCompra" Width="120"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayStatusDeOrdenDeCompra}"
+                SelectedItem="{Binding Path=StatusDeOrdenDeCompra, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Name="lblOriginal" Content="Completamente Procesada" Style="{StaticResource LabelPrompt}"/>
+                <RadioButton Grid.Row="0" Grid.Column="1" Name="rdOriginal" IsChecked="{Binding Path=CompletamenteProcesada}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Grid.Row="1" Grid.Column="0" Name="v" Content="Parcialmente Procesada" Style="{StaticResource LabelPrompt}"/>
+                <RadioButton Grid.Row="1" Grid.Column="1" Name="rdvcb" IsChecked="{Binding Path=ParcialmenteProcesada}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Grid.Row="2" Grid.Column="0" Name="lbcvb" Content="Sin Procesar" Style="{StaticResource LabelPrompt}"/>
+                <RadioButton Grid.Row="2" Grid.Column="1" Name="rdcvb" IsChecked="{Binding Path=SinProcesar}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

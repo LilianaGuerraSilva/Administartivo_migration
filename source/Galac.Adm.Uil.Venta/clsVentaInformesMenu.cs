@@ -1,0 +1,30 @@
+using LibGalac.Aos.Base;
+using LibGalac.Aos.UI.Mvvm.Messaging;
+using Galac.Adm.Uil.Venta.Reportes;
+using Galac.Saw.Lib;
+using LibGalac.Aos.UI.Mvvm;
+
+namespace Galac.Adm.Uil.Venta {
+
+    public class clsVentaInformesMenu:ILibMenu {
+        #region Variables
+        #endregion //Variables
+        #region Metodos Generados       
+        void ILibMenu.Ejecuta(eAccionSR valAction,int valUseInterop) {
+            eSystemModules vSystemModule = (eSystemModules)valUseInterop;
+            LibReportsViewModel _LibReportsViewModel = null;
+            switch(vSystemModule) {
+                case eSystemModules.Cobranza:
+                    _LibReportsViewModel = new clsCobranzaInformesViewModel();
+                break;
+                case eSystemModules.Caja:
+                    _LibReportsViewModel = new clsCajaInformesViewModel();
+                break;
+            }
+            if(LibMessages.ReportsView.ShowReportsView(_LibReportsViewModel,true)) {
+            }
+        }
+        #endregion //Metodos Generados
+    } //End of class clsVentaInfromesMenu
+} //End of namespace Galac.Adm.Uil.Venta
+

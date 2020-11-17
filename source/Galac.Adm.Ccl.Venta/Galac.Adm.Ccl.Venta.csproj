@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F6BE19AB-C04F-44FE-B68F-62BC8CC4CDB0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Adm.Ccl.Venta</RootNamespace>
+    <AssemblyName>Galac.Adm.Ccl.Venta</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\bin\Administrativo\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Adm.Ccl.Banco">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Banco.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.DispositivosExternos">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.DispositivosExternos.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.SttDef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Cliente">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Inventario">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil.Usal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Caja.cs" />
+    <Compile Include="CajaApertura.cs" />
+    <Compile Include="Cobranza.cs" />
+    <Compile Include="CobroDeFacturaRapidaAnticipo.cs" />
+    <Compile Include="CobroDeFacturaRapidaAnticipoDetalle.cs" />
+    <Compile Include="CobroDeFacturaRapidaDepositoTransf.cs" />
+    <Compile Include="CobroDeFacturaRapidaDepositoTransfDetalle.cs" />
+    <Compile Include="IActualizarArticuloInventarioPdn.cs" />
+    <Compile Include="ICajaAperturaPdn.cs" />
+    <Compile Include="ICajaInformes.cs" />
+    <Compile Include="ICobranzaInformes.cs" />
+    <Compile Include="ICobranzaPdn.cs" />
+    <Compile Include="ICXCPdn.cs" />
+    <Compile Include="IFkCajaAperturaViewModel.cs" />
+    <Compile Include="IFkCajaViewModel.cs" />
+    <Compile Include="IMovimientoBancarioPuntoDeVentaPdn.cs" />
+    <Compile Include="IRenglonCobroDeFacturaDalPdn.cs" />
+    <Compile Include="CobroDeFacturaRapidaTarjeta.cs" />
+    <Compile Include="CobroDeFacturaRapidaTarjetaDetalle.cs" />
+    <Compile Include="IRenglonCobroDeFacturaPdn.cs" />
+    <Compile Include="clsEnumVenta.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CobroDeFacturaRapida.cs" />
+    <Compile Include="CobroDeFacturaRapidaDetalle.cs" />
+    <Compile Include="CobroDeFacturaRapidaEfectivo.cs" />
+    <Compile Include="FacturaRapida.cs" />
+    <Compile Include="FacturaRapidaDetalle.cs" />
+    <Compile Include="ICajaPdn.cs" />
+    <Compile Include="IFacturaRapidaPdn.cs" />
+    <Compile Include="IFkCobroDeFacturaRapidaDetalleViewModel.cs" />
+    <Compile Include="IFkCobroDeFacturaRapidaViewModel.cs" />
+    <Compile Include="IFkFacturaRapidaDetalleViewModel.cs" />
+    <Compile Include="IFkFacturaRapidaViewModel.cs" />
+    <Compile Include="IFkRenglonCobroDeFacturaViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RenglonCobroDeFactura.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

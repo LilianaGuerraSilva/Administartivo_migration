@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Adm.Uil.GestionCompras.Input.GSTablaRetencion"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDePersona" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Tipo De Persona</Label>
+        <nsWpfControls:GSComboBoxWpf Height="23" HorizontalAlignment="Left" Margin="120,0,0,0" Name="cmbTipoDePersona" VerticalAlignment="Top" Width="120" BorderThickness="1" TabIndex="0"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigo" Margin="10,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Código de Retención</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,28,0,0" MaxLength="6" Name="txtCodigo" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="1"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoSeniat" Margin="10,56,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Codigo Seniat</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,56,0,0" MaxLength="3" Name="txtCodigoSeniat" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="2"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDePago" Margin="10,84,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Descripción</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,84,0,0" MaxLength="50" Name="txtTipoDePago" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="3"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblComentarios" Margin="10,112,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Comentarios</Label>
+        <nsWpfControls:GSTextAreaWpf HorizontalAlignment="Left" Margin="120,112,0,0" Name="txtComentarios" VerticalAlignment="Top" Width="120" MaxLength="255" BorderThickness="1" TabIndex="4"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblBaseImponible" Margin="10,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">% Base Imponible</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UDecimal" Height="23" HorizontalAlignment="Left" Margin="120,140,0,0" Name="txtBaseImponible" VerticalAlignment="Top" Width="120" MaxLength="28" TextAlignment="Right" BorderThickness="1" TabIndex="5"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTarifa" Margin="10,168,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Porcentaje de retención</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UDecimal" Height="23" HorizontalAlignment="Left" Margin="120,168,0,0" Name="txtTarifa" VerticalAlignment="Top" Width="120" MaxLength="28" TextAlignment="Right" BorderThickness="1" TabIndex="6"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblParaPagosMayoresDe" Margin="10,196,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Para pagos mayores de</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UDecimal" Height="23" HorizontalAlignment="Left" Margin="120,196,0,0" Name="txtParaPagosMayoresDe" VerticalAlignment="Top" Width="120" MaxLength="28" TextAlignment="Right" BorderThickness="1" TabIndex="7"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFechaAplicacion" Margin="10,224,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Fecha Aplicacion</Label>
+        <nsWpfControls:GSDatePickerWpf Height="23" Margin="120,224,0,0" Name="dtpFechaAplicacion" VerticalAlignment="Top" HorizontalAlignment="Left" Width="115" BorderThickness="1" TabIndex="8"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSustraendo" Margin="10,252,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Sustraendo</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UDecimal" Height="23" HorizontalAlignment="Left" Margin="120,252,0,0" Name="txtSustraendo" VerticalAlignment="Top" Width="120" MaxLength="28" TextAlignment="Right" BorderThickness="1" TabIndex="9"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblAcumulaParaPJND" Margin="10,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Acumula Para PJND</Label>
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Height="16" HorizontalAlignment="Left" Margin="120,280,0,0" Name="chkAcumulaParaPJND" VerticalAlignment="Top" BorderThickness="1" TabIndex="10"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSecuencialDePlantilla" Margin="10,308,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Secuencial De Plantilla</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,308,0,0" MaxLength="5" Name="txtSecuencialDePlantilla" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="11"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoMoneda" Margin="10,336,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Código</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="String" Margin="120,336,0,0" MaxLength="4" Name="txtCodigoMoneda" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="12"/>
+    </Grid>
+</UserControl>

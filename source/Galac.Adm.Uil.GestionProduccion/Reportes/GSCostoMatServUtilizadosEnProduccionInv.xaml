@@ -1,0 +1,45 @@
+<UserControl x:Class="Galac.Adm.Uil. GestionProduccion.Reportes.GSCostoMatServUtilizadosEnProduccionInv"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" d:DesignHeight="140" d:DesignWidth="350">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Name="lblGenerarPor" Content="Generar Por" Style="{StaticResource LabelPrompt}" />
+        <ComboBox Grid.Row="0" Grid.Column="1" x:Name="cmbGenerarPor" Style="{StaticResource ComboBoxStyle}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=EGeneradoPor}"
+                    SelectedItem="{Binding Path=GeneradoPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Grid.Row="1" Name="lblOrdenDeProduccion" Content="Orden" Style="{StaticResource LabelPrompt}" Margin="3,3,0,0" Width="76" />
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtOrdenDeProduccion"  Height="23" Margin="3" HorizontalAlignment="Left" Width="220" IsEnabled="{Binding Path=IsEnabledCodigoDeOrden}"
+                        DisplayMemberPath="Codigo"
+                        Model="{Binding Path=ConexionCodigoDeOrden, Mode=TwoWay}"
+                        ConnectionValue="{Binding Path=CodigoDeOrden, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        SearchCommand="{Binding Path=ChooseCodigoDeOrdenCommand}" />
+
+        <Label Grid.Row="2" Grid.Column="0" Content="Fecha Inicial" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="2" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaInicial"
+            SelectedDate="{Binding Path=FechaInicial, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Path=IsEnabledFecha}"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="Fecha Final" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="3" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaFinal"
+            SelectedDate="{Binding Path=FechaFinal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding Path=IsEnabledFecha}"/>
+    </Grid>
+</UserControl>

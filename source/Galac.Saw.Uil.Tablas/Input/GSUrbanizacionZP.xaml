@@ -1,0 +1,14 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.Tablas.Input.GSUrbanizacionZP"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="51" d:DesignWidth="352">
+    <Grid Name="gwMain" Height="52" Width="348">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblUrbanizacion" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Urbanización</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="120,0,0,0" MaxLength="30" Name="txtUrbanizacion" HorizontalAlignment="Left" BorderThickness="1" TabIndex="0" Height="22" VerticalAlignment="Top" Width="228" InvalidCharacters="Ññ" />
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblZonaPostal" Margin="10,28,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Zona Postal</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="String" Margin="120,0,0,1" MaxLength="7" Name="txtZonaPostal" VerticalAlignment="Bottom" HorizontalAlignment="Left" BorderThickness="1" TabIndex="1" Width="100" InvalidCharacters="'*#|" />
+    </Grid>
+</UserControl>

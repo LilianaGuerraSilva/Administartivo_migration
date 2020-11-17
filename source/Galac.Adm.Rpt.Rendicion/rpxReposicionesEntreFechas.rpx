@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ActiveReportsLayout Version="3.1" PrintWidth="10935" DocumentName="ARNet Document" ScriptLang="C#" MasterReport="0">
+  <StyleSheet>
+    <Style Name="Normal" Value="font-family: Arial; font-style: normal; text-decoration: none; font-weight: normal; font-size: 10pt; color: Black" />
+    <Style Name="Heading1" Value="font-size: 16pt; font-weight: bold" />
+    <Style Name="Heading2" Value="font-family: Times New Roman; font-size: 14pt; font-weight: bold; font-style: italic" />
+    <Style Name="Heading3" Value="font-size: 13pt; font-weight: bold" />
+  </StyleSheet>
+  <Sections>
+    <Section Type="PageHeader" Name="PageHeader" Height="1440" BackColor="16777215">
+      <Control Type="AR.Field" Name="txtNombreCompania" Left="90" Top="180" Width="5895" Height="224.64" Text="txtNombreCompania" Style="text-align: center" />
+      <Control Type="AR.Field" Name="txtNroDePagina" Left="9405" Top="157.5" Width="1305" Height="224.64" Text="txtNroDePagina" Style="font-size: 8.25pt" />
+      <Control Type="AR.Label" Name="lblFechaYHoraDeEmision" Left="90" Top="945" Width="5895" Height="224.64" Caption="lblFechaYHoraDeEmision" Style="font-size: 8.25pt; text-align: center" />
+      <Control Type="AR.Label" Name="lblTituloInforme" Left="90" Top="472.5" Width="5895" Height="224.64" Caption="Reposiciones de Caja Chica Entre Fechas" Style="font-size: 8.25pt; text-align: center" />
+      <Control Type="AR.Label" Name="lblFechaInicialYFinal" Left="135" Top="675" Width="5895" Height="224.64" Caption="lblFechaInicialYFinal" Style="font-size: 8.25pt; text-align: center" />
+    </Section>
+    <Section Type="GroupHeader" Name="GHSecCajaChica" Height="900" BackColor="16777215">
+      <Control Type="AR.Label" Name="lblCodigoCtaBancariaCajaChica" Left="0" Top="0" Width="2160" Height="225" Caption="Caja Chica" Style="font-size: 8.25pt; font-weight: bold; ddo-char-set: 0 " />
+      <Control Type="AR.Field" Name="txtCodigoCtaBancariaCajaChica" Left="2160" Top="0" Width="2160" Height="225" Text="txtCodigoCtaBancariaCajaChica" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblNombreCuentaBancariaCajaChica" Left="0" Top="225" Width="2160" Height="225" Caption="Nombre Caja Chica" Style="font-size: 8.25pt; font-weight: bold; ddo-char-set: 0 " />
+      <Control Type="AR.Field" Name="txtNombreCuentaBancariaCajaChica" Left="2160" Top="225" Width="2160" Height="225" Text="txtNombreCuentaBancariaCajaChica" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblFechaApertura" BorderBottomStyle="1" Left="0" Top="450" Width="990" Height="225" Caption="Apertura" Style="font-size: 8pt; font-weight: bold; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblFechaCierre" BorderBottomStyle="1" Left="990" Top="450" Width="810" Height="225" Caption="Cierre" Style="font-size: 8pt; font-weight: bold; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblDescripcion" BorderBottomStyle="1" Left="1800" Top="450" Width="4500" Height="225" Caption="Descripción" Style="font-size: 8pt; font-weight: bold; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblNumero" BorderBottomStyle="1" Left="6300" Top="450" Width="1890" Height="225" Caption="N° de Rendición" Style="font-size: 8pt; font-weight: bold; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblStatusRendicion" BorderBottomStyle="1" Left="8190" Top="450" Width="900" Height="225" Caption="Estatus" Style="font-size: 8pt; font-weight: bold; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblTotalGastos" BorderBottomStyle="1" Left="9090" Top="450" Width="2790" Height="225" Caption="Monto de la Reposición" Style="font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1 " />
+      <Control Type="AR.Label" Name="lblNumeroDocumento" BorderBottomStyle="1" Left="11880" Top="450" Width="1530" Height="225" Caption="N° de Cheque" Style="font-size: 8pt; font-weight: bold; ddo-char-set: 1 " />
+    </Section>
+    <Section Type="Detail" Name="Detail" Height="225" BackColor="16777215">
+      <Control Type="AR.Field" Name="txtFechaApertura" Left="0" Top="0" Width="990" Height="225" Text="txtFechaApertura" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Field" Name="txtFechaCierre" Left="990" Top="0" Width="810" Height="225" Text="txtFechaCierre" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Field" Name="txtDescripcion" Left="1800" Top="0" Width="4500" Height="225" Text="txtDescripcion" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Field" Name="txtNumero" Left="6300" Top="0" Width="1890" Height="225" Text="txtNumero" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Field" Name="txtStatusRendicion" Left="8190" Top="0" Width="900" Height="225" Text="txtStatusRendicion" Style="font-size: 8pt; ddo-char-set: 1 " />
+      <Control Type="AR.Field" Name="txtTotalGastos" Left="9090" Top="0" Width="2790" Height="225" Text="txtTotalGastos" Style="font-size: 8pt; text-align: right; ddo-char-set: 1 " />
+      <Control Type="AR.Field" Name="txtNumeroDocumento" Left="11880" Top="0" Width="1530" Height="225" Text="txtNumeroDocumento" Style="font-size: 8pt; ddo-char-set: 1 " />
+    </Section>
+    <Section Type="GroupFooter" Name="GFSecCajaChica" Height="225" BackColor="16777215">
+    </Section>
+    <Section Type="PageFooter" Name="PageFooter" Height="0" BackColor="16777215"/>
+  </Sections>
+  <ReportComponentTray />
+  <PageSettings />
+  <Parameters />
+</ActiveReportsLayout>

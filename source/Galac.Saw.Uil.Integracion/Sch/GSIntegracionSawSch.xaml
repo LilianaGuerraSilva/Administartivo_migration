@@ -1,0 +1,35 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.Integracion.Sch.GSIntegracionSawSch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoIntegracion" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,12,0,0">Tipo de Integracion</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbTipoIntegracion" DisplayMemberPath="Text" DbMemberPath="Value" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,12,0,0" ToolTip="Tipo de Integracion" SelectedIndex="0" DbColumnName="TipoIntegracion" BorderThickness="1" TabIndex = "0">
+            <nsWpfControls:LibGSCmbGenericItem Text="Todos (as)" Value=""/>
+            <nsWpfControls:LibGSCmbGenericItem Text="N OMINA" Value="0"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="R IS" Value="1"/>
+        </nsWpfControls:GSComboBoxWpf>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblversion" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,40,0,0">version</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtversion" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" ToolTip="version" DbColumnName="version" BorderThickness="1" TabIndex = "1" InputDataType="igString"/>
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(TipoIntegracion, version)" Value="TipoIntegracion, version"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Tipo de Integracion" Value="TipoIntegracion"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="version" Value="version"/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                    <Field Header="Tipo de Integracion" XPath="TipoIntegracionStr" Width="140" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="version" XPath="version" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

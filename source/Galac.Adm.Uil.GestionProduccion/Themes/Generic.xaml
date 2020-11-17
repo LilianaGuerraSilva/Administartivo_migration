@@ -1,0 +1,43 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.GestionProduccion.ViewModel"
+    xmlns:nsCSV="clr-namespace:Galac.Adm.Uil.GestionProduccion.Views"
+    xmlns:nsReportesView="clr-namespace:Galac.Adm.Uil.GestionProduccion.Reportes">
+    <DataTemplate DataType="{x:Type nsCSVM:ListaDeMaterialesViewModel }">
+        <nsCSV:GSListaDeMaterialesView  />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ListaDeMaterialesDetalleArticuloViewModel }">
+        <nsCSV:GSListaDeMaterialesDetalleArticuloView  />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsListaDeMaterialesDeInventarioAProducirViewModel}">
+        <nsReportesView:GSListaDeMaterialesDeInventarioAProducir />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsOrdenDeProduccionRptViewModel}">
+        <nsReportesView:GSOrdenDeProduccionRpt />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsRequisicionDeMaterialesViewModel}">
+        <nsReportesView:GSRequisicionDeMateriales />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCostoProduccionInventarioEntreFechasViewModel}">
+        <nsReportesView:GSCostoProduccionInventarioEntreFechas />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCostoMatServUtilizadosEnProduccionInvViewModel}">
+        <nsReportesView:GSCostoMatServUtilizadosEnProduccionInv />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsDetalleDeCostoDeProduccionViewModel}">
+        <nsReportesView:GSDetalleDeCostoDeProduccion />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsProduccionPorEstatusEntreFechaViewModel}">
+        <nsReportesView:GSProduccionPorEstatusEntreFecha />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionDetalleMaterialesViewModel }">
+        <nsCSV:GSOrdenDeProduccionDetalleMaterialesView  />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionViewModel }">
+        <nsCSV:GSOrdenDeProduccionView  />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:OrdenDeProduccionDetalleArticuloViewModel }">
+        <nsCSV:GSOrdenDeProduccionDetalleArticuloView  />
+    </DataTemplate>
+</ResourceDictionary>

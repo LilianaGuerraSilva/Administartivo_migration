@@ -1,0 +1,256 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Adm.Uil.GestionCompras.Input.GSProveedor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="730" d:DesignHeight="487">
+    <Grid Name="gwMain" Height="487">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="66*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+        <GroupBox Grid.Row="0" Grid.Column="0" Header="Datos Proveedor" Margin="3">
+            <Grid Name="GridSub" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoProveedor" HorizontalAlignment="Left" VerticalAlignment="Top" >Código</Label>
+                <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="10" Name="txtCodigoProveedor" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="0" Margin="60,0,0,0" />
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipodeProveedor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="246,0,0,0">Tipo</Label>
+                <nsWpfControls:GSTextBoxWpf InputDataType="String"  MaxLength="20" Name="txtTipodeProveedor" VerticalAlignment="Top"  Width="155" HorizontalAlignment="Left" BorderThickness="1" TabIndex="1" Margin="285,0,0,0" />
+                <Label Grid.Row="1" Grid.Column="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroRIF" HorizontalAlignment="Left" VerticalAlignment="Top">R.I.F.</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Row="1" InputDataType="Alfanumeric" MaxLength="20" Name="txtNumeroRIF" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="2" Margin="60,0,0,0" />
+                <Button Grid.Row="1" Grid.Column="0" Name="btnValidaRIF" Content="Validar RIF en la Web" Width="130" Margin="200,0,0,0" HorizontalAlignment="Left" TabIndex="100"/>
+                <Label Grid.Row="1" Grid.Column="0" Name="lblValidarRIF" Width="100" HorizontalAlignment="Left" Margin="340,0,0,0" FontWeight="Bold" HorizontalContentAlignment="Center" />
+                <Label Grid.Row="2" Grid.Column="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreProveedor" HorizontalAlignment="Left" VerticalAlignment="Top">Nombre</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Row="2" InputDataType="String" MaxLength="60" Name="txtNombreProveedor" VerticalAlignment="Top"  Width="380" HorizontalAlignment="Left" BorderThickness="1" TabIndex="3" Margin="60,2,0,0" InvalidCharacters="'*#|()$%¿?¡!°/´+¨}{:;^"/>
+                <Label Grid.Row="3" Grid.Column="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroNIT" HorizontalAlignment="Left" VerticalAlignment="Top">N.I.T.</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Row="3" InputDataType="Alfanumeric" MaxLength="12" Name="txtNumeroNIT" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="4" Margin="60,0,0,0" />
+            </Grid>    
+        </GroupBox>
+        
+        <TabControl Height="295"  Grid.Row="1"  Name="tabGeneral" >
+            <TabItem Header="Contacto / Pago / Retenciones" Name="tab1">
+                
+                    <Grid Name="g1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Name="frameDatos" Header="Datos de Contacto" Background="GhostWhite">
+                        <Grid Name="g1a" Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="0,5,0,0" Name="lblContacto" HorizontalAlignment="Left" VerticalAlignment="Top">Contacto</Label>
+                            <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="80,5,0,0" MaxLength="35" Name="txtContacto" VerticalAlignment="Top"  Width="250" HorizontalAlignment="Left" BorderThickness="1" TabIndex="5"/>
+                            <Label Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblEmail" HorizontalAlignment="Left" VerticalAlignment="Top">E -mail</Label>
+                            <nsWpfControls:GSTextBoxWpf Grid.Row="1" InputDataType="String" Margin="80,0,0,0" MaxLength="40" Name="txtEmail" VerticalAlignment="Top"  Width="250" HorizontalAlignment="Left" BorderThickness="1" TabIndex="6" InvalidCharacters="'*#|()$%¿?¡!°/´+¨}{:;^"/>
+                            <Label Grid.Row="2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTelefonos" HorizontalAlignment="Left" VerticalAlignment="Top">Teléfonos</Label>
+                            <nsWpfControls:GSTextBoxWpf Grid.Row="2" InputDataType="Alfanumeric" Margin="80,0,0,0" MaxLength="40" Name="txtTelefonos" VerticalAlignment="Top"  Width="250" HorizontalAlignment="Left" BorderThickness="1" TabIndex="7"/>
+                            <Label Grid.Row="3" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFax" HorizontalAlignment="Left" VerticalAlignment="Top">Nº Fax</Label>
+                            <nsWpfControls:GSTextBoxWpf Grid.Row="3" InputDataType="Alfanumeric" Margin="80,0,0,0" MaxLength="25" Name="txtFax" VerticalAlignment="Top"  Width="250" HorizontalAlignment="Left" BorderThickness="1" TabIndex="8"/>
+                            <Label Grid.Row="4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblDireccion" HorizontalAlignment="Left" VerticalAlignment="Top">Dirección</Label>
+                            <nsWpfControls:GSTextAreaWpf MinLines="2" Grid.RowSpan="2" Grid.Row="4" HorizontalAlignment="Left" Margin="80,0,0,0" Height="90" Name="txtDireccion" VerticalAlignment="Top" Width="250" MaxLength="255" BorderThickness="1" TabIndex="9" InvalidCharacters="'*#|()$%¿?¡!°/´+¨}{:;^"/>
+                            
+                        </Grid>
+                    </GroupBox>
+
+                        <Grid Name="g1b" Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                        <GroupBox Name="framePago" Header="Pago" Grid.Row="0" Background="GhostWhite">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblUsarBeneficiarioImpCheq" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Usar Beneficiario al Imprimir Cheque</Label>
+                                <CheckBox Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Height="16" HorizontalAlignment="Left" Margin="5,5,0,0" Name="chkUsarBeneficiarioImpCheq" VerticalAlignment="Top" BorderThickness="1" TabIndex="10"/>
+                                <GroupBox Header="Beneficiario" Grid.Row="1" Margin="0,0,0,1">
+                                    <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="60" Name="txtBeneficiario" VerticalAlignment="Top"  Width="336" HorizontalAlignment="Left" BorderThickness="1" TabIndex="11"/>
+                                </GroupBox>
+
+                                <Label Grid.Row="2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroCuentaBancaria" HorizontalAlignment="Left" VerticalAlignment="Top">Número Cuenta Bancaria</Label>
+                                <nsWpfControls:GSTextBoxWpf Grid.Row="2" InputDataType="Alfanumeric" Margin="160,0,0,0" MaxLength="20" Name="txtNumeroCuentaBancaria" VerticalAlignment="Top"  Width="182" HorizontalAlignment="Left" BorderThickness="1" TabIndex="12"/>
+                            </Grid>
+
+                        </GroupBox>
+
+                        <GroupBox Header="Datos de Retención ISLR" Grid.Row="1" Margin="0,3,0,5" Name="frameISLR"  Background="GhostWhite">
+                                <Grid Name="g1b1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDePersona" HorizontalAlignment="Left" VerticalAlignment="Top">Tipo De Persona</Label>
+                                    <nsWpfControls:GSComboBoxWpf Height="23" HorizontalAlignment="Left" Margin="110,0,0,0" Name="cmbTipoDePersona" VerticalAlignment="Top" Width="232" BorderThickness="1" TabIndex="13"/>
+                                    <Label Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoRetencionUsual"  HorizontalAlignment="Left" VerticalAlignment="Top">Retención Usual</Label>
+                                    <nsWpfControls:GSTextBoxWpf Grid.Row="1" InputDataType="String" Margin="110,2,0,0" MaxLength="6" Name="txtCodigoRetencionUsual" VerticalAlignment="Top"  Width="69" HorizontalAlignment="Left" BorderThickness="1" TabIndex="14" Height="21"/>
+                                    <Label Grid.Row="1" BorderThickness="1" Content="" Foreground="Black"  Name="lblDescripcionRetencion" HorizontalAlignment="Right" Width="163" Height="24" VerticalAlignment="Top" HorizontalContentAlignment="Left" />
+                            </Grid>
+                            </GroupBox>
+                            <GroupBox Grid.Row="2" Name="frameImpMunicipales" Header="Impuestos Municipales" Background="GhostWhite">
+                                    <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                    <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoContribuyente" HorizontalAlignment="Left" VerticalAlignment="Top" Width="145">Código Contribuyente</Label>
+                                    <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric"  MaxLength="20" Name="txtCodigoContribuyente" VerticalAlignment="Top" Width="194" HorizontalAlignment="Right" BorderThickness="1" TabIndex="15" Height="21" />
+                                
+                                        <Label Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroRUC" HorizontalAlignment="Left" VerticalAlignment="Top" Width="146">R.U.C.</Label>
+                                        <nsWpfControls:GSTextBoxWpf Grid.Row="1" InputDataType="Alfanumeric" Margin="154,0,0,0" MaxLength="20" Name="txtNumeroRUC" VerticalAlignment="Top"  Width="194" HorizontalAlignment="Left" BorderThickness="1" TabIndex="27" Height="21"/>
+                                        
+                                    </Grid>
+                                </GroupBox>
+
+                        
+                    </Grid>
+                    </Grid>
+                
+            </TabItem>
+            <TabItem Header="Información Contable" Name="tab2" TabIndex="18">
+                <GroupBox Header="Reglas de Contabilización" Background="GhostWhite" Name="frameReglas">
+                    <!--<Grid Name="g3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                    </Grid>-->
+                    <StackPanel  >
+                    <Grid  >
+                        <Label Background="{x:Null}" Content="DEBE" Foreground="Black" FontWeight="Bold"  Margin="188,0,0,0" Width="450" HorizontalAlignment="Right"/>
+                            <Label Background="{x:Null}" BorderBrush="Black" BorderThickness="0" FontWeight="Bold" Content="HABER" Foreground="Black" Margin="375,0,0,0" Width="170" HorizontalAlignment="Right" />
+                    </Grid>
+                    <Grid  >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="52*" />
+                            <RowDefinition Height="106*" />
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"  >
+                            <StackPanel   Name="stackPanel43"  >
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaContableGastos" TabIndex="19"   />
+                                    <Label BorderBrush="Black" Background="LightGray" Height="24" BorderThickness="1" Content="" Foreground="Black"  Name="lblCuentaContableGastos"   />
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaContableAnticipo" TabIndex="20"   />
+                                    <Label BorderBrush="Black" Height="24" Background="LightGray"  BorderThickness="1" Content="" Foreground="Black" Name="lblCuentaContableAnticipo" />
+                                </StackPanel>
+                        </Border>
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2"   />
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1" Grid.Row="1"  />
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"    >
+                            <StackPanel  >
+                                    <Label HorizontalAlignment="Center" Content="CxP Proveedor" Height="35"  Name="lblCxPProveedor" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="Black" BorderThickness="1" >
+                            <StackPanel  >
+                                <Label HorizontalAlignment="Center" Height="35" Content="Gastos" Name="lblGastos" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                                <Label HorizontalAlignment="Center"  Height="45" Content="Anticipo" Name="lblAnticipo" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" />
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2" Grid.Row="1" Margin="0,1,0,0" Name="border70">
+                            <StackPanel  >
+                                    <nsWpfControls:GSTextBoxWpf BorderThickness="1" InputDataType="String" MaxLength="30" Name="txtCuentaContableCxP" TabIndex="21"   />
+                                    <Label BorderBrush="Black" Background="LightGray" Height="24"  BorderThickness="1" Content="" Foreground="Black"   Name="lblCuentaContableCxP"   />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    </StackPanel>
+                </GroupBox>
+            </TabItem>
+        </TabControl>
+        
+        <GroupBox Header="Datos en Libros Fiscales" Grid.Row="2" Name="frameDatosFiscales" Margin="0,7,0,13">
+            <Grid Name="g4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDeProveedorDeLibrosFiscales" HorizontalAlignment="Left" VerticalAlignment="Top">Tipo De Proveedor</Label>
+                <nsWpfControls:GSComboBoxWpf Grid.Row="0" Grid.Column="0" Height="23" HorizontalAlignment="Left" Margin="120,0,0,0" Name="cmbTipoDeProveedorDeLibrosFiscales" VerticalAlignment="Top" Width="200" BorderThickness="1" TabIndex="16"/>
+                <Label Grid.Row="0" Grid.Column="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="100,0,0,0" Name="lblPorcentajeRetencionIVA" HorizontalAlignment="Left" VerticalAlignment="Top">Porcentaje Retención IVA</Label>
+                <nsWpfControls:GSComboBoxWpf Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="250,0,0,0" Name="cmbPorcentajeRetencionIVA" VerticalAlignment="Top" Width="59" BorderThickness="1" TabIndex="17"/>
+		        </Grid>
+        </GroupBox>
+        
+        <!--
+        
+        
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoLote" Margin="270,183,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Codigo Lote</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="380,183,0,0" MaxLength="10" Name="txtCodigoLote" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="17"/>
+        
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDocumentoIdentificacion" Margin="270,274,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Tipo Documento Identificacion</Label>
+        <nsWpfControls:GSComboBoxWpf Height="23" HorizontalAlignment="Left" Margin="380,274,0,0" Name="cmbTipoDocumentoIdentificacion" VerticalAlignment="Top" Width="120" BorderThickness="1" TabIndex="20"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblEsAgenteDeRetencionIva" Margin="270,302,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Es Agente De Retencion Iva</Label>
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Height="16" HorizontalAlignment="Left" Margin="380,302,0,0" Name="chkEsAgenteDeRetencionIva" VerticalAlignment="Top" BorderThickness="1" TabIndex="21"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombre" Margin="270,330,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Nombre</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="380,330,0,0" MaxLength="20" Name="txtNombre" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="22"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblApellidoPaterno" Margin="270,358,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Apellido Paterno</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="380,358,0,0" MaxLength="20" Name="txtApellidoPaterno" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="23"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblApellidoMaterno" Margin="270,386,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Apellido Materno</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Margin="380,386,0,0" MaxLength="20" Name="txtApellidoMaterno" VerticalAlignment="Top"  Width="120" HorizontalAlignment="Left" BorderThickness="1" TabIndex="24"/>
+        -->
+        
+    </Grid>
+</UserControl>
+
+    

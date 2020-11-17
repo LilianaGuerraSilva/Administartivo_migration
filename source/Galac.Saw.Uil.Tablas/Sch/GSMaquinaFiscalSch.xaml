@@ -1,0 +1,35 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.Tablas.Sch.GSMaquinaFiscalSch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblConsecutivoMaquinaFiscal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,12,0,0">Consecutivo</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtConsecutivoMaquinaFiscal" Height="23" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,12,0,0" ToolTip="Consecutivo" DbColumnName="ConsecutivoMaquinaFiscal" BorderThickness="1" TabIndex = "0" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblDescripcion" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,40,0,0">Descripción</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtDescripcion" Height="23" Width="270" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" ToolTip="Descripcion" DbColumnName="Descripcion" BorderThickness="1" TabIndex = "1" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroRegistro" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,68,0,0">Nro.Registro</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNumeroRegistro" Height="23" Width="170" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,68,0,0" ToolTip="Nro.Registro" DbColumnName="NumeroRegistro" BorderThickness="1" TabIndex = "2" InputDataType="igString"/>
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(ConsecutivoCompania, ConsecutivoMaquinaFiscal)" Value="ConsecutivoCompania, ConsecutivoMaquinaFiscal"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Consecutivo" Value="ConsecutivoMaquinaFiscal"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Descripcion" Value="Descripcion"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Nro.Registro" Value="NumeroRegistro"/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                    <Field Header="Consecutivo" XPath="ConsecutivoMaquinaFiscal" Width="100" DataType="string" ColumnLengthForPrinting="25"></Field>
+                    <Field Header="Descripción" XPath="Descripcion" Width="300" DataType="string" ColumnLengthForPrinting="30"></Field>
+                    <Field Header="Nro.Registro" XPath="NumeroRegistro" Width="200" DataType="string" ColumnLengthForPrinting="25"></Field>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.GestionCompras.Views.GSCargaInicialView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionCompras.ViewModel"
+             Background="{x:Null}"
+             MinHeight="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="13"/>
+            </Style>
+            <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+            <Style x:Key="pvSeekConnection" TargetType="{x:Type nsWpfControls:GSSeekConnection}">
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="MaxHeight" Value="22"/>
+                <Setter Property="Foreground" Value="#FF616165"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style  x:Key="GsDataGridStylePV"  TargetType="{x:Type DataGrid}">
+                <Setter Property="CellStyle">
+                    <Setter.Value>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource DataGridSelectedRowBackground}" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Trigger>
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="BorderThickness" Value="2" />
+                                    <Setter Property="BorderBrush" Value="Orange" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Width="Auto"
+          
+          Height="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Background="AliceBlue"
+              Margin="0 0 0 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="170*"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="180*"/>
+            </Grid.ColumnDefinitions>
+            <Label  Content="Rango de Artículos:"/>
+            <nsWpfControls:GSSeekConnection Panel.ZIndex="2" Grid.Column="1" Margin="3" Focusable="True" Model="{Binding Path=CodigoArticuloDesde, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            ConnectionValue="{Binding Path=CodigoArticuloDesde, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                            SearchCommand="{Binding Path=ChooseCodigoDesdeArticuloCommand}"
+                                            Foreground="#FF616165" IsVisibleExecuteSearchButton="True" VerticalContentAlignment="Center" 
+                                            Style="{StaticResource pvSeekConnection}" MaxLength="12" DisplayMemberPath="" Background="Transparent"/>
+            <nsWpfControls:GSSeekConnection Grid.Column="1" Grid.Row="1" Margin="3" Focusable="True" Model="{Binding Path=ConexionNumeroRIF, Mode=TwoWay}"
+                                            ConnectionValue="{Binding Path=CodigoArticuloHasta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                            SearchCommand="{Binding Path=ChooseCodigoHastaArticuloCommand}"
+                                            Foreground="#FF616165" IsVisibleExecuteSearchButton="True" VerticalContentAlignment="Center" 
+                                            Style="{StaticResource pvSeekConnection}" MaxLength="12" DisplayMemberPath="" Background="Transparent"/>
+            <Label  Grid.Row="2" Content="Linea de Producto:"/>
+            <nsWpfControls:GSSeekConnection Grid.Column="1" Grid.Row="2" Margin="3" Focusable="True"
+                                            ConnectionValue="{Binding Path=LineaDeProducto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                            SearchCommand="{Binding Path=ChooseLineaDeProductoCommand, UpdateSourceTrigger=Explicit}"  Foreground="#FF616165" IsVisibleExecuteSearchButton="True"
+                                            VerticalContentAlignment="Center" Style="{StaticResource pvSeekConnection}" MaxLength="12" Width="Auto"
+                                            DisplayMemberPath="" Background="Transparent"/>
+            <Label  Grid.Column="2" Content="Marca:"/>
+            <TextBox Grid.Column="3" Text="{Binding Marca, UpdateSourceTrigger=PropertyChanged}" Margin="3"
+                     FontSize="12" MaxHeight="22" />
+
+            <Label  Grid.Column="2" Grid.Row="1"  Content="Categoria:"/>
+            <nsWpfControls:GSSeekConnection Grid.Column="3" Grid.Row="1" Margin="3" Focusable="True"
+                                            ConnectionValue="{Binding Path=Categoria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                            SearchCommand="{Binding Path=ChooseCategoriaCommand, UpdateSourceTrigger=Default}"  Foreground="#FF616165" IsVisibleExecuteSearchButton="True"
+                                            VerticalContentAlignment="Center" Style="{StaticResource pvSeekConnection}" MaxLength="12"
+                                            DisplayMemberPath="" Background="Transparent"/>
+            <Button Content="{Binding TextoBotonFiltrado, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Transparent" Background="LightGray" Padding="2" Grid.Column="3" Grid.Row="2"
+                    IsDefault="True" Margin="2" MaxHeight="26" Command="{Binding FiltrarBusquedaCommand}"/>
+        </Grid>
+        <Rectangle Fill="DarkBlue" Grid.Row="1"  Width="Auto"/>
+        <StackPanel Grid.Row="2" VerticalAlignment="Bottom" Panel.ZIndex="2"  Width="Auto"
+                    Visibility="{Binding EstaOcupadoBuscando, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource VisibilityConverter}}">
+            <TextBlock Text="Procesando... Por favor Espere" FontWeight="Bold" FontSize="16" Foreground="Black" Margin="10 0 0 0"/>
+            <ProgressBar Grid.Row="2" IsIndeterminate="True" Width="Auto" Margin="10" Padding="15 5 10 15" Foreground="DarkBlue" Height="20"/>
+        </StackPanel>
+        <nsWpfControls:GSDataGrid   Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource GsDataGridStylePV}" RowHeight="27" nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                                    CanUserAddRows="True" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False"  Panel.ZIndex="1" MaxWidth="600"
+                                    MinHeight="150" AutoGenerateColumns="False" KeyboardNavigation.IsTabStop="True" Focusable="True" UseComboBoxYesNoForBooleans="False" 
+                                    MaxHeight="450" Width="Auto" ItemsSource="{Binding Path=Articulos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=ArticuloSeleccionado}"
+                                    IsSynchronizedWithCurrentItem="True" ShowRowNumbers="True" CanUserSortColumns="False" FontSize="13" IsReadOnly="{Binding ElCampoCostoEsSoloLectura}"
+                                    VerticalScrollBarVisibility="Auto" IsTabStop="True" BorderThickness="0" UpdateSourceTrigger="PropertyChanged" AlternatingRowBackground="#FFCBE8F6" VerticalGridLinesBrush="#FF9FC0C7"
+                                    AreRowDetailsFrozen="True" HorizontalScrollBarVisibility="Auto" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Código Inventario" Width="*" MinWidth="150" Binding="{Binding CodigoArticulo, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Cantidad" Width="*" MinWidth="150" Binding="{Binding Cantidad, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Costo" Width="*" MinWidth="150" Binding="{Binding Costo, UpdateSourceTrigger=PropertyChanged}" 
+                                    IsReadOnly="{Binding ElCampoCostoEsSoloLectura, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+        </nsWpfControls:GSDataGrid>
+    </Grid>
+</UserControl>

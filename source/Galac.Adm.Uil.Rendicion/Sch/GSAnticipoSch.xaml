@@ -1,0 +1,90 @@
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.CajaChica.Sch.GSAnticipoSch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,12,0,0">Status</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbStatus" DisplayMemberPath="Text" DbMemberPath="Value" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,12,0,0" ToolTip="Status" SelectedIndex="0" DbColumnName="Status" BorderThickness="1" TabIndex = "0">
+            <nsWpfControls:LibGSCmbGenericItem Text="Todos (as)" Value=""/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Vigente" Value="0"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Anulado" Value="1"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Parcialmente  Usado" Value="2"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Completamente  Usado" Value="3"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Completamente  Devuelto" Value="4"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Parcialmente  Devuelto" Value="5"/>
+        </nsWpfControls:GSComboBoxWpf>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,40,0,0">Tipo</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbTipo" DisplayMemberPath="Text" DbMemberPath="Value" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" ToolTip="Tipo" SelectedIndex="0" DbColumnName="Tipo" BorderThickness="1" TabIndex = "1">
+            <nsWpfControls:LibGSCmbGenericItem Text="Todos (as)" Value=""/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Cobrado" Value="0"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Pagado" Value="1"/>
+        </nsWpfControls:GSComboBoxWpf>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFecha" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,68,0,0">Fecha</Label>
+        <nsWpfControls:GSDateSearchBoxWpf Name="dtpFecha" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,68,0,0" ToolTip="Fecha" DbColumnName="Fecha" BorderThickness="1" TabIndex = "2"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumero" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,96,0,0">Numero</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNumero" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,96,0,0" ToolTip="Numero" DbColumnName="Numero" BorderThickness="1" TabIndex = "3" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCoonsecutivoBeneficiario" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,124,0,0">Código del        Beneficiario</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtCoonsecutivoBeneficiario" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,124,0,0" ToolTip="Código del        Beneficiario" DbColumnName="CoonsecutivoBeneficiario" BorderThickness="1" TabIndex = "4" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoCliente" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,152,0,0">Código del Proveedor</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtCodigoCliente" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,152,0,0" ToolTip="Código del Proveedor" DbColumnName="CodigoCliente" BorderThickness="1" TabIndex = "5" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreCliente" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,180,0,0">Nombre Cliente</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNombreCliente" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,180,0,0" ToolTip="Nombre Cliente" DbColumnName="NombreCliente" BorderThickness="1" TabIndex = "6" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoProveedor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,208,0,0">Código del Proveedor</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtCodigoProveedor" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,208,0,0" ToolTip="Código del Proveedor" DbColumnName="CodigoProveedor" BorderThickness="1" TabIndex = "7" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreProveedor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,236,0,0">Nombre Proveedor</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNombreProveedor" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,236,0,0" ToolTip="Nombre Proveedor" DbColumnName="NombreProveedor" BorderThickness="1" TabIndex = "8" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMontoTotal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,264,0,0">Monto Total</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtMontoTotal" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,264,0,0" ToolTip="Monto Total" DbColumnName="MontoTotal" BorderThickness="1" TabIndex = "9" InputDataType="igDec"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMontoUsado" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,292,0,0">Monto Usado</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtMontoUsado" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,292,0,0" ToolTip="Monto Usado" DbColumnName="MontoUsado" BorderThickness="1" TabIndex = "10" InputDataType="igDec"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMontoDevuelto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,320,0,0">Monto Devuelto</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtMontoDevuelto" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,320,0,0" ToolTip="Monto Devuelto" DbColumnName="MontoDevuelto" BorderThickness="1" TabIndex = "11" InputDataType="igDec"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroCheque" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,348,0,0">Número Cheque</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNumeroCheque" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,348,0,0" ToolTip="Número Cheque" DbColumnName="NumeroCheque" BorderThickness="1" TabIndex = "12" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblConsecutivoRendicion" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,376,0,0">Rendicion</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtConsecutivoRendicion" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,376,0,0" ToolTip="Rendicion" DbColumnName="ConsecutivoRendicion" BorderThickness="1" TabIndex = "13" InputDataType="igInt"/>
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(ConsecutivoCompania, ConsecutivoAnticipo)" Value="ConsecutivoCompania, ConsecutivoAnticipo"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Status" Value="Status"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Tipo" Value="Tipo"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Fecha" Value="Fecha"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Numero" Value="Numero"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Código del        Beneficiario" Value="CoonsecutivoBeneficiario"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Código del Proveedor" Value="CodigoCliente"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Nombre Cliente" Value="NombreCliente"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Código del Proveedor" Value="CodigoProveedor"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Nombre Proveedor" Value="NombreProveedor"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Monto Total" Value="MontoTotal"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Monto Usado" Value="MontoUsado"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Monto Devuelto" Value="MontoDevuelto"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Número Cheque" Value="NumeroCheque"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Rendicion" Value="ConsecutivoRendicion"/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                    <Field Header="Status" XPath="StatusStr" Width="140" DataType="string"  ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Tipo" XPath="TipoStr" Width="140" DataType="string"  ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Fecha" XPath="Fecha" Width="100" DataType="date" DateFormat="dd/MM/yyyy" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Numero" XPath="Numero" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Código del        Beneficiario" XPath="CoonsecutivoBeneficiario" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Código del Proveedor" XPath="CodigoCliente" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Nombre Cliente" XPath="NombreCliente" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Código del Proveedor" XPath="CodigoProveedor" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Nombre Proveedor" XPath="NombreProveedor" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Monto Total" XPath="MontoTotal" Width="100" TextAlignment="Right" DataType="decimal" DecimalDigits="2" ColumnLengthForPrinting="20"></Field>
+                    <Field Header="Monto Usado" XPath="MontoUsado" Width="100" TextAlignment="Right" DataType="decimal" DecimalDigits="2" ColumnLengthForPrinting="20"></Field>
+                    <Field Header="Monto Devuelto" XPath="MontoDevuelto" Width="100" TextAlignment="Right" DataType="decimal" DecimalDigits="2" ColumnLengthForPrinting="20"></Field>
+                    <Field Header="Número Cheque" XPath="NumeroCheque" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

@@ -1,0 +1,203 @@
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.GestionCompras.Views.GSCompraDetalleArticuloInventarioView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionCompras.ViewModel"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label
+            Name="lblCodigoArticulo"
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Código Inventario"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            Name="txtCodigoArticulo"
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="120"
+            Height="23"
+            Margin="3"
+            HorizontalAlignment="Left"
+            ConnectionValue="{Binding Path=CodigoArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            DisplayMemberPath="Codigo"
+            IsEnabled="{Binding Path=IsEnabledCodigoArticulo}"
+            Model="{Binding Path=ConexionCodigoArticulo, Mode=TwoWay}"
+            SearchCommand="{Binding Path=ChooseCodigoArticuloCommand}" />
+        <Label
+            Name="lneDescripcionArticulo"
+            Grid.Column="2"
+            Grid.ColumnSpan="4"
+            Width="330"
+            Margin="3,3,0,0"
+            Content="{Binding Path=DescripcionArticulo}"
+            Style="{StaticResource LabelCalculatedField}" />
+        <Label
+            Name="lblCantidad"
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Cantidad"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidad"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding Path=DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="28"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblCostoUnitario"
+            Grid.Row="1"
+            Grid.Column="2"
+            Content="Precio Unitario"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtPrecioUnitario"
+            Grid.Row="1"
+            Grid.Column="3"
+            Width="120"
+            Margin="3,3,0,3"
+            BorderThickness="1"
+            DecimalDigits="{Binding DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="28"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=PrecioUnitario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblCantidadRecibida"
+            Grid.Row="1"
+            Grid.Column="4"
+            Content="Cantidad Disponible"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleCantidadRecibida, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtCantidadRecibida"
+            Grid.Row="1"
+            Grid.Column="5"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding Path=DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="False"
+            MaxLength="28"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleCantidadRecibida, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=CantidadRecibida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid Grid.Row="2" Grid.ColumnSpan="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+
+            </Grid.RowDefinitions>
+            <Label
+                Name="lblMontoDistribucion"
+                Grid.Row="0"
+                Grid.Column="0"
+                Content="Monto Distribucion"
+                Style="{StaticResource LabelPrompt}"
+                Visibility="{Binding Path=IsVisiblePorDistribucionPorMonto, Converter={StaticResource booleanToVisibilityConverter}}" />
+            <nsWpfControls:GSNumericBoxWpf
+                Name="txtMontoDistribucion"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="120"
+                BorderThickness="1"
+                DecimalDigits="{Binding Path=DecimalDigits}"
+                InputDataType="UDecimal"
+                IsEnabled="{Binding Path=IsEnabled}"
+                MaxLength="28"
+                Style="{StaticResource TextBoxInputStyle}"
+                Visibility="{Binding Path=IsVisiblePorDistribucionPorMonto, Converter={StaticResource booleanToVisibilityConverter}}"
+                Value="{Binding Path=MontoDistribucion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Label
+                Name="lblPorcentajeDistribucion"
+                Grid.Row="0"
+                Grid.Column="2"
+                Content="Porcentaje Distribucion"
+                Style="{StaticResource LabelPrompt}"
+                Visibility="{Binding Path=IsVisiblePorDistribucionPorPorcentaje, Converter={StaticResource booleanToVisibilityConverter}}" />
+            <nsWpfControls:GSNumericBoxWpf
+                Name="txtPorcentajeDistribucion"
+                Grid.Row="0"
+                Grid.Column="3"
+                Width="120"
+                BorderThickness="1"
+                DecimalDigits="{Binding Path=DecimalDigits}"
+                InputDataType="UDecimal"
+                IsEnabled="{Binding Path=IsEnabled}"
+                MaxLength="28"
+                Maximum="100"
+                Minimum="0"
+                Style="{StaticResource TextBoxInputStyle}"
+                Visibility="{Binding Path=IsVisiblePorDistribucionPorPorcentaje, Converter={StaticResource booleanToVisibilityConverter}}"
+                Value="{Binding Path=PorcentajeDeDistribucion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+        <Label
+            Name="lblPorcentajeSeguro"
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Porcentaje Seguro"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleUsaSeguro, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtPorcentajeSeguro"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding Path=DecimalDigits}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="28"
+            Style="{StaticResource TextBoxInputStyle}"
+            Visibility="{Binding Path=IsVisibleUsaSeguro, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=PorcentajeSeguro, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
+
+    </Grid>
+</UserControl>

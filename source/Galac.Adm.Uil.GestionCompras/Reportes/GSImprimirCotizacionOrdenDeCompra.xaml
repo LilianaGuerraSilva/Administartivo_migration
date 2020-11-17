@@ -1,0 +1,38 @@
+<UserControl x:Class="Galac.Adm.Uil.GestionCompras.Reportes.GSImprimirCotizacionOrdenDeCompra"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=dtpFechaInicial}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Name="lblImprimirRenglones" Content="Seleccionar Numero" Style="{StaticResource LabelPrompt}" Margin="3,3,3,0" Width="130" />
+        <CheckBox Grid.Row="0" Grid.Column="1" Name="chkImprimirRenglones" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=IsEnabled}" HorizontalAlignment="Left"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Name="lblNumeroCotizacion" Content="Numero Cotizacion" Style="{StaticResource LabelPrompt}" 
+                Visibility="{Binding Path=IsEnabled, Converter={StaticResource booleanToVisibilityConverter}}" Width="125"/>
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtNumeroCotizacion" Width="150" Height="23" Margin="3" HorizontalAlignment="Left"
+                                        DisplayMemberPath="Numero"
+                                        ConnectionValue="{Binding Path=NumeroCotizacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" BorderThickness="1"
+                                        SearchCommand="{Binding Path=ChooseNumeroCotizacionCommand}"
+                                        Visibility="{Binding Path=IsEnabled, Converter={StaticResource booleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

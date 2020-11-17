@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.GestionCompras.Views.GSCompraCambiarStatusView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionCompras.ViewModel"
+             xmlns:nsV="clr-namespace:Galac.Adm.Uil.GestionCompras.Views"
+             xmlns:nsRes="clr-namespace:Galac.Adm.Uil.GestionCompras.Properties" Height="333" Width="875">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+            <Style x:Key="LabelPromptStatusCompra" TargetType="Label"  BasedOn="{StaticResource LabelStatusGreen}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding StatusCompra}" Value="0">
+                        <Setter Property="Foreground" Value="Green"  />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding StatusCompra}" Value="1">
+                        <Setter Property="Foreground" Value="Red" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <DataTemplate x:Key="GroupBoxHeaderTemplate">
+                <TextBlock Text="{Binding }" FontWeight="Bold" Foreground="Navy" />
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtSerie}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Margin="3" Header="Datos Generales" Style="{StaticResource GroupBoxStyle}" HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}" >
+            <Grid Grid.Column="0" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Name="lblSerieNumero" Content="{x:Static nsRes:Resources.lblEtiquetaNumeroCompra}" Style="{StaticResource LabelPrompt}" />
+                <Grid Grid.Row="0"  Grid.Column="1" Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    
+                    <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="0" Name="txtSerie" nsWpf:LibFocusManager.IsFocused="True" nsWpf:LibFocusManager.FocusedPropertyName="Serie" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="4" Width="120" IsEnabled="False" 
+                                    Text="{Binding Path=Serie, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Visibility="{Binding Path=IsVisibleSerie, Converter={StaticResource booleanToVisibilityConverter}}"/>
+                    <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtNumero" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="20" Width="120" IsEnabled="False" 
+                                    Text="{Binding Path=Numero, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                    <Label Grid.Row="0" Grid.Column="2" Name="lblFecha" Content="Fecha" Style="{StaticResource LabelPrompt}" />              
+                    
+                    <nsWpfControls:GSDatePickerWpf Grid.Row="0" Grid.Column="3" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFecha"
+                                       SelectedDate="{Binding Path=Fecha, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False" />
+                </Grid>
+
+               
+                
+                <Grid Name="gdMoneda" Grid.Row="0" Grid.Column="5"  Margin="3" Width="181" HorizontalAlignment="Center"   Visibility="{Binding Path=IsVisibleMonedaActual, Converter={StaticResource booleanToVisibilityConverter}}" >
+                    <Label Content="{Binding MonedaActual}" Foreground="Yellow" Style="{StaticResource LabelStatusRed}"  HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center"  />
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Background" Value="Green" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UsaBolivarFuerte}" Value="False">
+                                    <Setter Property="Background" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                </Grid>
+
+
+
+                <Label Grid.Row="1" Grid.Column="0" Name="lblCodigoProveedor" Content="Proveedor" Style="{StaticResource LabelPrompt}" />
+                
+                <Label Grid.Row="1" Grid.Column="2" Name="lneNombreProveedor" Content="{Binding Path=NombreProveedor}" Style="{StaticResource LabelCalculatedField}" Margin="3,3,0,0" Width="330" Grid.ColumnSpan="3" />
+
+                <Label Grid.Row="1" Grid.Column="1" Name="lneCodigoProveedor" Content="{Binding Path=CodigoProveedor}" Style="{StaticResource LabelCalculatedField}" Margin="3,3,0,0" Width="180" />
+                
+                <Label Grid.Row="1" Grid.Column="5" Name="lblStatusCompra" Content="{Binding Path=StatusCompra}" Style="{StaticResource LabelPromptStatusCompra}" Margin="3"  VerticalAlignment="Top"/>
+                <Label Grid.Row="2" Grid.Column="0" Name="lblCodigoAlmacen" Content="Almacén" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label Grid.Row="2" Grid.Column="1" Name="lnCodigoAlmacen" Content="{Binding Path=CodigoAlmacen}" Style="{StaticResource LabelCalculatedField}" Margin="3,3,0,0" Width="180" Grid.ColumnSpan="3" Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"/>
+                <Label Grid.Row="2" Grid.Column="2" Name="lneNombreAlmacen" Content="{Binding Path=NombreAlmacen}" Style="{StaticResource LabelCalculatedField}" Margin="3,3,0,0" Width="330" Grid.ColumnSpan="3" Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}"/>
+
+                <Label Grid.Row="3" Grid.Column="0" Name="lblMoneda" Content="Moneda" Style="{StaticResource LabelPrompt}" />
+                <Label Grid.Row="3" Grid.Column="1" Name="lneMoneda" Content="{Binding Path=Moneda}" Style="{StaticResource LabelCalculatedField}" Margin="3,3,3,3" Width="180" />
+                
+                <Label Grid.Row="3" Grid.Column="2" Name="lblCambioABolivares" Content="{Binding Path=lblCambioAMonedaLocalActual}" Style="{StaticResource LabelPrompt}"  Width="150"/>
+                <nsWpfControls:GSNumericBoxWpf Grid.Row="3" Grid.Column="3" Name="txtCambioABolivares" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="False" 
+                                    Value="{Binding Path=CambioABolivares, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Label Grid.Row="3" Grid.Column="4" Name="lblGenerarCXP" Content="Generar CxP" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="3" Grid.Column="5" Name="chkGenerarCXP" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=GenerarCXP}" HorizontalAlignment="Left" IsEnabled="False" />
+
+                <Label Grid.Row="4" Grid.Column="0" Name="lblTipoDeDistribucion" Content="Tipo De Distribución" Style="{StaticResource LabelPrompt}" />
+                <Label Grid.Row="4" Grid.Column="1" Name="lnTipoDeDistribucion" Content="{Binding Path=TipoDeDistribucion}" Style="{StaticResource LabelCalculatedField}" Margin="3,3,3,3" Width="245" Grid.ColumnSpan="2" />
+               
+                <Label Grid.Row="4" Grid.Column="3" Name="lblUsaSeguro" Content="Usa Seguro" Style="{StaticResource LabelPrompt}"  Visibility="{Binding Path=IsVisibleUsaSeguro, Converter={StaticResource booleanToVisibilityConverter}}"/>
+                <CheckBox Grid.Row="4" Grid.Column="4" Name="chkUsaSeguro" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaSeguro}" HorizontalAlignment="Left" IsEnabled="False"   Visibility="{Binding Path=IsVisibleUsaSeguro, Converter={StaticResource booleanToVisibilityConverter}}"/>
+
+                <Label Grid.Row="5" Grid.Column="0" Name="lblFechaDeAnulacion" Content="Fecha De Anulacion" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleFechaAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" Height="24" Margin="3,3,0,0" Width="118"/>
+                <nsWpfControls:GSDatePickerWpf Grid.Row="5" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaDeAnulacion" Margin="3,3,0,0" VerticalAlignment="Top"
+                                       SelectedDate="{Binding Path=FechaDeAnulacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsVisibleFechaAnulacion, Converter={StaticResource booleanToVisibilityConverter}}"/>
+
+            </Grid >
+        </GroupBox>
+        
+            <GroupBox Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" Header="Datos de la Compra" Style="{StaticResource GroupBoxStyle}" HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}" >
+                <Grid Grid.Column="0" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Name="lblOtrosGastos" Content="Total Gastos" Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSNumericBoxWpf Grid.Row="0" Grid.Column="1" Name="txtOtrosGastos" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="False"  
+                                    Value="{Binding Path=TotalOtrosGastos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                    <Label Grid.Row="1" Grid.Column="0" Name="lblTotalRenglones" Content="Total Renglones" Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSNumericBoxWpf Grid.Row="1" Grid.Column="1" Name="txtTotalRenglones" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="False" 
+                                    Value="{Binding Path=TotalRenglones, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                    <Label Grid.Column="1" Grid.Row="2" Background="Blue"  Height="2" Width="140" HorizontalAlignment="Left" />
+                    <Label Grid.Row="3" Grid.Column="0" Name="lblTotalCompra" Content="Total Compra" Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSNumericBoxWpf Grid.Row="3" Grid.Column="1" Name="txtTotalCompra" Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" MaxLength="28" Width="120" IsEnabled="False"  
+                                    Value="{Binding Path=TotalCompra, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                </Grid >
+            </GroupBox>
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--
+        
+        
+        <Label Grid.Row="6" Grid.Column="2" Name="lblDistribuirGastos" Content="Distribuir Gastos" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="6" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Name="cmbDistribuirGastos" Width="120"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayMontoPorcentaje}"
+                SelectedItem="{Binding Path=DistribuirGastos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />
+        
+       
+        
+       
+        <Label Grid.Row="4" Grid.Column="4" Name="lblTipoDeCompraParaCxP" Content="Tipo De Compra Para Cx P" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="4" Grid.Column="5" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDeCompraParaCxP" Width="120"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayTipoDeCompra}"
+                SelectedItem="{Binding Path=TipoDeCompraParaCxP, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />-->
+
+
+    </Grid>
+</UserControl>

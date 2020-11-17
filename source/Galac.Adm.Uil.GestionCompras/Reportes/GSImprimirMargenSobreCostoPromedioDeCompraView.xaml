@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.GestionCompras.Reportes.GSImprimirMargenSobreCostoPromedioDeCompraView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Adm.Uil.GestionCompras.Reportes">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=dtpFechaInicial}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="2" Grid.Column="0" Name="lblNivelDePrecio" Content="Nivel de Precio" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbNivelDePrecio" Width="130"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayNivelDePrecio}"
+                SelectedItem="{Binding Path=NivelDePrecio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="3" Grid.Column="0" Name="lblCantidadAImprimir" Content="Cantidad a Imprimir" Style="{StaticResource LabelPrompt}"  Width="125"/>
+        <nsWpfControls:GSComboBoxWpf Grid.Row="3" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbCantidadAImprimir" Width="130"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayMonedaParaImpresion}"
+                SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="4" Grid.Column="0" Name="lblCodigoProducto" Content="{Binding Path=EntidadABuscar, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource LabelPrompt}" 
+                Visibility="{Binding Path=IsVisible, Converter={StaticResource booleanToVisibilityConverter}}" Width="125"/>
+        <nsWpfControls:GSSeekConnection Grid.Row="4" Grid.Column="1" Name="txtCodigoProducto" Width="150" Height="23" Margin="3" HorizontalAlignment="Left"
+                                        DisplayMemberPath="Codigo"
+                                        ConnectionValue="{Binding Path=CodigoProducto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" BorderThickness="1"
+                                        SearchCommand="{Binding Path=ChooseCodigoProductoCommand}"
+                                        Visibility="{Binding Path=IsVisible, Converter={StaticResource booleanToVisibilityConverter}}" IsEnabled="{Binding Path=IsVisible}"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,1286 @@
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.Venta.Views.GSFacturaRapidaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    xmlns:nsV="clr-namespace:Galac.Saw.Lib.Uil.Controls;assembly=Galac.Saw.Lib.Uil"
+    Background="{x:Null}">
+    <UserControl.InputBindings>
+        <KeyBinding
+            Command="{Binding Path=BuscarClienteCommand}"
+            Gesture="Alt+F1" />
+        <KeyBinding
+            Key="F1"
+            Command="{Binding Path=BuscarArticuloCommand}" />
+        <KeyBinding
+            Key="F3"
+            Command="{Binding Path=CantidadCommand}" />
+        <KeyBinding
+            Key="F4"
+            Command="{Binding Path=MoverRegistrosGridCommand}" />
+        <KeyBinding
+            Command="{Binding Path=BuscarVendedorCommand}"
+            Gesture="Alt+F5" />
+        <KeyBinding
+            Key="F6"
+            Command="{Binding Path=CobrarCommand}" />
+        <KeyBinding
+            Key="F8"
+            Command="{Binding Path=NuevaFacturaCommand}" />
+        <KeyBinding
+            Key="F9"
+            Command="{Binding Path=FacturaEnEsperaCommand}" />
+        <KeyBinding
+            Key="F10"
+            Command="{Binding Path=BuscarFacturaEnEsperaCommand}" />
+        <KeyBinding
+            Command="{Binding Path=BuscarPrecioDeArticuloCommand}"
+            Gesture="Alt+F11" />
+        <KeyBinding
+            Key="F11"
+            Command="{Binding Path=AplicaDecretoIvaEspecialCommand}" />
+        <KeyBinding
+            Key="F12"
+            Command="{Binding Path=IrADescripcionGridCommand}" />
+        <KeyBinding
+            Command="{Binding Path=AbrirConsultorDePreciosCommand}"
+            Gesture="Alt+F12" />
+        <KeyBinding
+            Command="{Binding Path=BuscarMonedaDeCobroCommand}"
+            Gesture="Alt+F10" />
+        <KeyBinding
+            Command="{Binding Path=AsignarDescuentoCommand}"
+            Gesture="Alt+F9" />
+
+    </UserControl.InputBindings>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
+                <ResourceDictionary
+                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary
+                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter
+                x:Key="booleanToVisibilityConverter" />
+            <Style
+                x:Key="LabelCliente"
+                TargetType="{x:Type Label}">
+                <Setter
+                    Property="FontSize"
+                    Value="16" />
+                <Setter
+                    Property="FontFamily"
+                    Value="Arial" />
+                <Setter
+                    Property="FontWeight"
+                    Value="DemiBold" />
+                <Setter
+                    Property="Foreground"
+                    Value="White" />
+                <Setter
+                    Property="VerticalContentAlignment"
+                    Value="Stretch" />
+                <Setter
+                    Property="Margin"
+                    Value="5" />
+            </Style>
+            <Style
+                x:Key="pvSeekConnection"
+                TargetType="{x:Type nsWpfControls:GSSeekConnection}">
+                <Setter
+                    Property="Background"
+                    Value="White" />
+                <Setter
+                    Property="FontWeight"
+                    Value="SemiBold" />
+                <Setter
+                    Property="FontFamily"
+                    Value="Arial" />
+                <Setter
+                    Property="FontSize"
+                    Value="22" />
+                <Setter
+                    Property="Foreground"
+                    Value="#FF616165" />
+                <Setter
+                    Property="VerticalContentAlignment"
+                    Value="Center" />
+                <Setter
+                    Property="VerticalAlignment"
+                    Value="Center" />
+                <Setter
+                    Property="Margin"
+                    Value="5" />
+            </Style>
+                
+            <Style
+                x:Key="pvNumericBoxWpf"
+                TargetType="{x:Type nsWpfControls:GSNumericBoxWpf}">
+                <Setter
+                    Property="Background"
+                    Value="White" />
+                <Setter
+                    Property="FontWeight"
+                    Value="SemiBold" />
+                <Setter
+                    Property="FontFamily"
+                    Value="Arial" />
+                <Setter
+                    Property="FontSize"
+                    Value="22" />
+                <Setter
+                    Property="Foreground"
+                    Value="#FF616165" />
+                <Setter
+                    Property="VerticalContentAlignment"
+                    Value="Center" />
+                <Setter
+                    Property="VerticalAlignment"
+                    Value="Center" />
+                <Setter
+                    Property="Height"
+                    Value="32" />
+                <Setter
+                    Property="Margin"
+                    Value="5" />
+            </Style>
+            <Style
+                x:Key="pvNumericRateBoxWpf"
+                TargetType="{x:Type nsWpfControls:GSNumericBoxWpf}">
+                <Setter
+                    Property="Background"
+                    Value="White" />
+                <Setter
+                    Property="FontWeight"
+                    Value="SemiBold" />
+                <Setter
+                    Property="FontFamily"
+                    Value="Arial" />
+                <Setter
+                    Property="FontSize"
+                    Value="22" />
+                <Setter
+                    Property="Foreground"
+                    Value="#FF00040A" />
+                <Setter
+                    Property="VerticalContentAlignment"
+                    Value="Center" />
+                <Setter
+                    Property="VerticalAlignment"
+                    Value="Center" />
+                <Setter
+                    Property="Margin"
+                    Value="5" />
+            </Style>
+            <Style
+                x:Key="GsDataGridStylePV"
+                TargetType="{x:Type DataGrid}">
+                <Setter
+                    Property="CellStyle">
+                    <Setter.Value>
+                        <Style
+                            TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <Trigger
+                                    Property="IsSelected"
+                                    Value="True">
+                                    <Setter
+                                        Property="Background"
+                                        Value="{StaticResource DataGridSelectedRowBackground}" />
+                                    <Setter
+                                        Property="Foreground"
+                                        Value="White" />
+                                    <Setter
+                                        Property="BorderThickness"
+                                        Value="0" />
+                                </Trigger>
+                                <Trigger
+                                    Property="IsFocused"
+                                    Value="True">
+                                    <Setter
+                                        Property="BorderThickness"
+                                        Value="2" />
+                                    <Setter
+                                        Property="BorderBrush"
+                                        Value="Orange" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid
+        FocusManager.FocusedElement="{Binding ElementName=txtNumeroRIF}">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="*" />
+            <RowDefinition
+                Height="*" />
+            <RowDefinition
+                Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Comienza el grid de cliente  -->
+        <Grid
+            Name="gClienteCodigo"
+            Grid.Row="0"
+            Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="*" />
+            </Grid.ColumnDefinitions>
+            <!--  Grid del rif  -->
+            <Grid
+                Grid.Column="0">
+                <Grid.Resources>
+                    <Style
+                        TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding BuscaClienteXRifAlFacturar}"
+                                Value="true">
+                                <Setter
+                                    Property="Background"
+                                    Value="#FF3375A0" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding BuscaClienteXRifAlFacturar}"
+                                Value="false">
+                                <Setter
+                                    Property="Background"
+                                    Value="#823A91AD" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="Auto"
+                        MinWidth="82" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Cliente"
+                    Foreground="White"
+                    Style="{StaticResource LabelCliente}" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtNumeroRIF"
+                    Grid.Column="1"
+                    Width="320"
+                    HorizontalAlignment="Left"
+                    VerticalContentAlignment="Center"
+                    nsWpf:LibFocusManager.FocusedPropertyName="NumeroRIF"
+                    ConnectionValue="{Binding Path=NumeroRIF, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="NumeroRIF"
+                    Focusable="True"
+                    FontFamily="Arial"
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Foreground="#FF616165"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsVisibleExecuteSearchButton="True"
+                    MaxLength="12"
+                    Model="{Binding Path=ConexionNumeroRIF, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseNumeroRIFCommand}"
+                    Style="{StaticResource pvSeekConnection}"
+                    Visibility="{Binding Path=IsVisibleNumeroRif, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Grid.Column="1"
+                    Width="330"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="1"
+                    Content="{Binding Path=NumeroRIF}"
+                    FontFamily="Arial"
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Foreground="Black"
+                    Visibility="{Binding Path=IsVisibleLabelNumeroRif, Converter={StaticResource booleanToVisibilityConverter}}" />
+            </Grid>
+            <!--  termina grid del rif  -->
+
+            <!--  comienza grid del nombre  -->
+            <Grid
+                Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style
+                        TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding BuscaClienteXRifAlFacturar}"
+                                Value="false">
+                                <Setter
+                                    Property="Background"
+                                    Value="#FF3375A0" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding BuscaClienteXRifAlFacturar}"
+                                Value="true">
+                                <Setter
+                                    Property="Background"
+                                    Value="#823A91AD" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <nsWpfControls:GSSeekConnection
+                    Name="txtNombreCliente"
+                    VerticalAlignment="Center"
+                    nsWpf:LibFocusManager.FocusedPropertyName="NombreCliente"
+                    ConnectionValue="{Binding Path=NombreCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="Nombre"
+                    Focusable="True"
+                    FontFamily="Arial"
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Foreground="#FF616165"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsVisibleExecuteSearchButton="True"
+                    MaxLength="160"
+                    Model="{Binding Path=ConexionNombreCliente, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseNombreClienteCommand}"
+                    Style="{StaticResource pvSeekConnection}"
+                    Visibility="{Binding Path=IsVisibleNombreCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    HorizontalAlignment="Stretch"
+                    BorderThickness="1"
+                    Content="{Binding Path=NombreCliente}"
+                    FontFamily="Arial"
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Foreground="Black"
+                    Visibility="{Binding Path=IsVisibleLabelNombreCliente, Converter={StaticResource booleanToVisibilityConverter}}" />
+
+            </Grid>
+            <!--  hasta aqui el grid del nombre  -->
+        </Grid>
+        <!--  hasta aquí el grid de cliente  -->
+
+        <!--  Comienza el groupbox para trabajar con los artículos  -->
+        <GroupBox
+            Grid.Row="1"
+            Margin="2,2"
+            FontFamily="Arial"
+            FontSize="12"
+            FontWeight="Bold"
+            Header="Items"
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid
+                Name="tbiSeccionDetalleFacturacionRapida"
+                MinHeight="100">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="*" />
+                </Grid.RowDefinitions>
+                <nsV:GSCuadroDeBusqueda
+                    Grid.Column="0"
+                    Width="320"
+                    Height="150"
+                    Margin="85,-60,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="1000"
+                    nsWpf:LibFocusManager.FocusedPropertyName="NombreCliente"
+                    nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                    DataContext="{Binding CuadroDeBusquedaDeClientesViewModel, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    Focusable="True"
+                    Visibility="{Binding IsVisibleCuadroDeBusqueda, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Grid
+                    Grid.Column="0"
+                    Panel.ZIndex="4"
+                    VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="80" />
+                        <ColumnDefinition
+                            Width="*" />
+                        <ColumnDefinition
+                            Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <nsWpfControls:GSSeekConnection
+                        Name="txtArticulo"
+                        Grid.Column="1"
+                        Width="320"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Panel.ZIndex="100"
+                        nsWpf:LibFocusManager.FocusedPropertyName="Articulo"
+                        nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                        ConnectionValue="{Binding Path=Articulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                        DisplayMemberPath="Codigo"
+                        Focusable="True"
+                        Foreground="#FF616165"
+                        IsEnabled="{Binding Path=IsEnabled}"
+                        IsVisibleExecuteSearchButton="True"
+                        MaxLength="30"
+                        Model="{Binding Path=Articulo, Mode=TwoWay}"
+                        SearchCommand="{Binding Path=ChooseArticuloCommand}"
+                        Style="{StaticResource pvSeekConnection}"
+                        Visibility="{Binding IsVisibleArticulo, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    <Grid
+                        Grid.Column="0"
+                        VerticalAlignment="Top"
+                        Panel.ZIndex="4"
+                        Background="#FF3375A0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="Auto"
+                                MinWidth="80" />
+                            <ColumnDefinition
+                                Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid
+                            Grid.Column="0"
+                            MaxHeight="40">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Content="Artículo"
+                                FontFamily="Arial"
+                                FontWeight="SemiBold"
+                                Foreground="#FFFFF8F8"
+                                Style="{StaticResource LabelCliente}" />
+                            <Grid
+                                Grid.RowSpan="2"
+                                Grid.Column="1" />
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        Background="#823A91AD"
+                        Opacity="1">
+                        <Label
+                            Height="34"
+                            MaxWidth="700"
+                            Margin="325,2,0,6"
+                            ToolTip="{Binding Path=Descripcion}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Content="{Binding Path=DescripcionCorta}"
+                            FontFamily="Arial"
+                            FontSize="22"
+                            FontWeight="SemiBold"
+                            Foreground="Black" />
+                    </Grid>
+                    <Grid
+                        Grid.Column="2"
+                        Background="#FF3375A0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Content="Cantidad"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="#FFFFF8F8"
+                            Style="{StaticResource LabelCliente}" />
+                        <nsWpfControls:GSNumericBoxWpf
+                            Name="txtCantidad"
+                            Grid.Column="1"
+                            Width="130"
+                            Height="32"
+                            VerticalAlignment="Center"
+                            nsWpf:LibFocusManager.FocusedPropertyName="Cantidad"
+                            nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                            BorderThickness="1"
+                            DecimalDigits="3"
+                            InputDataType="Decimal"
+                            MaxLength="7"
+                            Style="{StaticResource pvNumericBoxWpf}"
+                            UnitDigits="7"
+                            Value="{Binding Path=Cantidad, NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
+                    </Grid>
+                </Grid>
+                <Grid
+                    Width="Auto"
+                    Margin="0,42,0,0"
+                    Panel.ZIndex="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="55*" />
+                        <ColumnDefinition
+                            Width="551*" />
+                        <ColumnDefinition
+                            Width="251*" />
+                        <ColumnDefinition
+                            Width="29*" />
+                        <ColumnDefinition
+                            Width="114*" />
+                    </Grid.ColumnDefinitions>
+                    <nsV:GSCuadroDeBusqueda
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Width="320"
+                        Height="150"
+                        Margin="85,-35,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Panel.ZIndex="1000"
+                        nsWpf:LibFocusManager.FocusedPropertyName="Articulo"
+                        nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                        DataContext="{Binding CuadroDeBusquedaDeArticulosViewModel}"
+                        Focusable="True"
+                        Visibility="{Binding IsVisibleCuadroDeBusqueda, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    <nsWpfControls:GSDataGrid
+                        Name="dFacturaRapidaDetalle"
+                        MinWidth="807"
+                        MinHeight="158"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        nsWpf:LibFocusManager.FocusedPropertyName="DetailFacturaRapidaDetalle"
+                        nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                        AlternatingRowBackground="#FFCBE8F6"
+                        AreRowDetailsFrozen="True"
+                        BorderThickness="0"
+                        CanUserAddRows="True"
+                        CanUserReorderColumns="False"
+                        CanUserResizeColumns="False"
+                        CanUserResizeRows="False"
+                        CanUserSortColumns="False"
+                        ColumnsMap="{Binding Path=DetailFacturaRapidaDetalle.VisibleColumns}"
+                        Focusable="True"
+                        FontSize="15"
+                        HorizontalScrollBarVisibility="Auto"
+                        IsReadOnly="{Binding IsReadOnlyDetalle}"
+                        IsSynchronizedWithCurrentItem="True"
+                        IsTabStop="True"
+                        ItemsSource="{Binding Path=DetailFacturaRapidaDetalle.Items}"
+                        KeyboardNavigation.IsTabStop="True"
+                        RowHeight="27"
+                        SelectedIndex="{Binding Path=DetailFacturaRapidaDetalle.SelectedIndex}"
+                        SelectedItem="{Binding Path=DetailFacturaRapidaDetalle.SelectedItem, Mode=TwoWay}"
+                        ShowRowNumbers="True"
+                        Style="{StaticResource GsDataGridStylePV}"
+                        UpdateSourceTrigger="PropertyChanged"
+                        UseComboBoxYesNoForBooleans="False"
+                        VerticalGridLinesBrush="#FF9FC0C7"
+                        VerticalScrollBarVisibility="Auto"
+                        Panel.ZIndex="4"
+                        Grid.ColumnSpan="3" />
+                </Grid>
+            </Grid>
+        </GroupBox>
+        <!--  hasta aquí el group box de artículos  -->
+
+        <!--  grid de los totales  -->
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            BorderBrush="LightGray"
+            BorderThickness="0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    Width="250"
+                    Background="{x:Null}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition
+                            Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Width="99"
+                        Height="26"
+                        Margin="3,3,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Total de Items: "
+                        FontFamily="Calibri"
+                        FontSize="14"
+                        FontWeight="Bold" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Height="26"
+                        Margin="3"
+                        VerticalAlignment="Top"
+                        Content="{Binding Path=TotalDeItems}"
+                        ContentStringFormat="N2"
+                        FontFamily="Calibri"
+                        FontSize="14"
+                        FontWeight="Bold" />
+                    <Grid
+                        Grid.Row="2"
+                        Grid.ColumnSpan="3"
+                        Height="30"
+                        VerticalAlignment="Top"
+                        Visibility="{Binding Path=IsVisibleAplicaDecretoIvaEspecial, Converter={StaticResource booleanToVisibilityConverter}}">
+                        <Grid.Resources>
+                            <Style
+                                TargetType="Grid">
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding BackgroundDecretoIvaEspecial}"
+                                        Value="true">
+                                        <Setter
+                                            Property="Background"
+                                            Value="LightGreen" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding BackgroundDecretoIvaEspecial}"
+                                        Value="false">
+                                        <Setter
+                                            Property="Background"
+                                            Value="#823A91AD" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <CheckBox
+                            Name="chkAplicaDecretoIvaEspecial"
+                            HorizontalAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            Content="Aplica Decreto I.V.A. Especial"
+                            FlowDirection="RightToLeft"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="#FF070707"
+                            IsChecked="{Binding Path=AplicaDecretoIvaEspecial}"
+                            IsEnabled="False"
+                            Style="{StaticResource CheckBoxStyle}" />
+                    </Grid>
+
+                </Grid>
+
+                <Border
+                    Grid.Column="1"
+                    BorderBrush="Transparent"
+                    BorderThickness="1">
+                    <Grid
+                        Background="#823A91AD">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition
+                                Width="*"
+                                MinWidth="220" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label
+                            Name="lblTotalMontoExento"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="Exento"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="Normal"
+                            Style="{StaticResource LabelPrompt}"
+                            Margin="0,0,0,0" />
+                        <Label
+                            Name="lneTotalMontoExento"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Right"
+                            BorderBrush="{x:Null}"
+                            Content="{Binding Path=TotalMontoExento}"
+                            ContentStringFormat="N2"
+                            DataContext="{Binding}"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="#FF1B468D"
+                            Margin="0,0,0,0"
+                            Style="{StaticResource LabelCalculatedField}" />
+
+                        <Label
+                            Name="lblTotalBaseImponible"
+                            Grid.Row="1"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="Base Imponible"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="Normal"
+                            Style="{StaticResource LabelPrompt}"
+                            Margin="0,-5,0,0" />
+                        <Label
+                            Name="lneTotalBaseImponible"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Right"
+                            BorderBrush="{x:Null}"
+                            Content="{Binding Path=TotalBaseImponible}"
+                            ContentStringFormat="N2"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="#FF1B468D"
+                            Style="{StaticResource LabelCalculatedField}"
+                            Margin="0,-5,0,0" />
+                        <Label
+                            Name="lblPorcentajeDescuento"
+                            Grid.Row="2"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="Descuento %"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="Normal"
+                            Style="{StaticResource LabelPrompt}"
+                            Margin="0,0,0,0" />
+                        <Grid
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="0,-5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="Auto" />
+                                <ColumnDefinition
+                                    Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <nsWpfControls:GSNumericBoxWpf
+                                Name="txtPorcentajeDescuento"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Width="57"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                HorizontalAlignment="Left"
+                                HorizontalContentAlignment="Left"
+                                nsWpf:LibFocusManager.FocusedPropertyName="PorcentajeDescuento"
+                                nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                                DecimalDigits="2"
+                                InputDataType="Decimal"
+                                MaxLength="5"
+                                Style="{StaticResource pvNumericBoxWpf}"
+                                UnitDigits="2"
+                                Value="{Binding Path=PorcentajeDescuento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                FontSize="16"
+                                Height="25"
+                                IsEnabled="{Binding MostrarPorcentajeDescuento}" />
+                            <Label
+                                Name="lneDescuento"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                HorizontalContentAlignment="Right"
+                                BorderBrush="{x:Null}"
+                                Content="{Binding Path=TotalDescuento}"
+                                ContentStringFormat="N2"
+                                FontFamily="Arial"
+                                FontSize="16"
+                                FontWeight="SemiBold"
+                                Foreground="#FF1B468D"
+                                Style="{StaticResource LabelCalculatedField}" />
+                        </Grid>
+                        <Label
+                            Name="lblTotalIVA"
+                            Grid.Row="3"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="I.V.A."
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="Normal"
+                            Style="{StaticResource LabelPrompt}"
+                            Margin="0,-5,0,0" />
+                        <Label
+                            Name="lneTotalIVA"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Right"
+                            BorderBrush="{x:Null}"
+                            Content="{Binding Path=TotalIVA}"
+                            ContentStringFormat="N2"
+                            FontFamily="Arial"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="#FF1B468D"
+                            Style="{StaticResource LabelCalculatedField}"
+                            Margin="0,0,0,0" />
+                    </Grid>
+                </Border>
+
+                <Border
+                    Grid.Column="2"
+                    Background="#823A91AD"
+                    BorderBrush="Transparent"
+                    BorderThickness="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="*" />
+                            <ColumnDefinition
+                                Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="*" />
+                            <RowDefinition
+                                Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="3"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Content="Total Factura"
+                            FontFamily="Arial"
+                            FontSize="32"
+                            FontWeight="Bold"
+                            Foreground="#FF00040A"
+                            Style="{StaticResource LabelPrompt}" />
+                        <Label
+                            Name="lneTotalFactura"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="3"
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Right"
+                            BorderBrush="{x:Null}"
+                            Content="{Binding Path=TotalFactura}"
+                            ContentStringFormat="N2"
+                            FontFamily="Arial"
+                            FontSize="40"
+                            FontWeight="SemiBold"
+                            Foreground="#FF00040A"
+                            Style="{StaticResource LabelCalculatedField}" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="3"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Content="Total en Divisas"
+                            FontFamily="Arial"
+                            FontSize="26"
+                            FontWeight="Bold"
+                            Foreground="#FF00040A"
+                            Style="{StaticResource LabelPrompt}"
+                            Visibility="{Binding SeMuestraTotalEnDivisas, Converter={StaticResource booleanToVisibilityConverter}}" />
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="3"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Visibility="{Binding SeMuestraTotalEnDivisas, Converter={StaticResource booleanToVisibilityConverter}}">
+                            <Label
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                BorderBrush="{x:Null}"
+                                Content="{Binding SimboloMonedaParaTotalEnDivisas}"
+                                ContentStringFormat="N2"
+                                FontFamily="Arial"
+                                FontSize="26"
+                                FontWeight="SemiBold"
+                                Foreground="#FF00040A"
+                                Style="{StaticResource LabelCalculatedField}"
+                                Visibility="{Binding SeMuestraTotalEnDivisas, Converter={StaticResource booleanToVisibilityConverter}}" />
+                            <Label
+                                Name="lneTotalFacturaDivisas"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                HorizontalContentAlignment="Right"
+                                BorderBrush="{x:Null}"
+                                Content="{Binding TotalFacturaDivisas}"
+                                ContentStringFormat="N2"
+                                FontFamily="Arial"
+                                FontSize="32"
+                                FontWeight="SemiBold"
+                                Foreground="#FF00040A"
+                                Style="{StaticResource LabelCalculatedField}"
+                                Visibility="{Binding SeMuestraTotalEnDivisas, Converter={StaticResource booleanToVisibilityConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+        <!--  Termina el grid de  los totales  -->
+
+        <Grid
+            Grid.Row="4"
+            Grid.Column="0"
+            Background="#FF3375A0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="223*" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Name="lblCodigoVendedor"
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Content="Vendedor"
+                FontFamily="Arial"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Foreground="#FFFFF8F8"
+                Style="{StaticResource LabelCliente}" />
+            <nsWpfControls:GSSeekConnection
+                Name="txtNombreVendedor"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="200"
+                VerticalAlignment="Center"
+                nsWpf:LibFocusManager.FocusedPropertyName="NombreVendedor"
+                nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                ConnectionValue="{Binding Path=NombreVendedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                DisplayMemberPath="NombreVendedor"
+                IsEnabled="{Binding Path=IsEnabled}"
+                Model="{Binding Path=ConexionNombreVendedor, Mode=TwoWay}"
+                PreviewKeyDown="txtNombreVendedor_PreviewKeyDown"
+                PreviewKeyUp="txtNombreVendedor_PreviewKeyUp"
+                SearchCommand="{Binding Path=ChooseNombreVendedorCommand}"
+                Style="{StaticResource pvSeekConnection}" />
+            <Label
+                Name="MonedaDeCobro"
+                Grid.Row="0"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Content="Moneda de Cobro"
+                FontFamily="Arial"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Foreground="#FFFFF8F8"
+                Style="{StaticResource LabelCliente}" />
+            <nsWpfControls:GSSeekConnection
+                Name="txtMonedaDeCobro"
+                Grid.Row="0"
+                Grid.Column="3"
+                Width="200"
+                VerticalAlignment="Center"
+                nsWpf:LibFocusManager.FocusedPropertyName="NombreMonedaDeCobro"
+                nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
+                ConnectionValue="{Binding Path=NombreMonedaDeCobro, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                DisplayMemberPath="NombreMonedaDeCobro"
+                IsEnabled="{Binding Path=IsEnabled}"
+                Model="{Binding Path=ConexionNombreMonedaDeCobro, Mode=TwoWay}"
+                PreviewKeyDown="txtNombreVendedor_PreviewKeyDown"
+                PreviewKeyUp="txtNombreVendedor_PreviewKeyUp"
+                SearchCommand="{Binding Path=ChooseNombreMonedaDeCobroCommand}"
+                Style="{StaticResource pvSeekConnection}" />
+            <Label
+                Name="lblCambioABolivares"
+                Grid.Row="0"
+                Grid.Column="4"
+                Width="130"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                FontFamily="Arial"
+                FontSize="14"
+                FontWeight="SemiBold"
+                Foreground="#FFFFF8F8"
+                Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
+                Content="Tasa de cambio"
+                Style="{StaticResource LabelCliente}" />
+            <nsWpfControls:GSNumericBoxWpf
+                Name="txtCambioABolivares"
+                Grid.Row="0"
+                Grid.Column="5"
+                Width="120"
+                DecimalDigits="{Binding DecimalesTasaDeCambio, UpdateSourceTrigger=PropertyChanged}"
+                InputDataType="UDecimal"
+                IsEnabled="{Binding Path=IsEnabledCambio}"
+                Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
+                MaxLength="28"
+                Style="{StaticResource pvNumericRateBoxWpf}"
+                Value="{Binding Path=CambioMostrarTotalEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Label
+                Grid.Column="6"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="Cajero"
+                FontFamily="Arial"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="White" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="7"
+                Margin="5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Stretch"
+                VerticalContentAlignment="Center"
+                Content="{Binding Path=NombreCajero}"
+                FontFamily="Arial"
+                FontSize="14"
+                FontStyle="Italic"
+                FontWeight="Bold"
+                Foreground="White" />
+        </Grid>
+
+        <!--  Grid de la información  -->
+        <Border
+            Grid.RowSpan="5"
+            Grid.Column="3"
+            Width="240"
+            BorderThickness="1"
+            Visibility="Collapsed">
+            <!--<Grid Name="gInfoCliente"  Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Background="White" Width="192" Height="579" Visibility="{Binding Path=IsVisibleInfoCliente, Converter={StaticResource booleanToVisibilityConverter}}"  >-->
+            <Grid
+                Background="#FFF2F2F2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="*" />
+                </Grid.RowDefinitions>
+
+                <GroupBox
+                    Name="InfoCliente"
+                    Grid.Column="0"
+                    Visibility="{Binding Path=IsVisibleInfoCliente, Converter={StaticResource booleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Name="lblInfoCliente1"
+                            Grid.Row="0"
+                            Height="16"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="SemiBold"
+                            Foreground="#FF656565"
+                            Text="Dirección" />
+                        <TextBlock
+                            Name="tbInfoCliente1"
+                            Grid.Row="1"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="Navy"
+                            Text="{Binding Path=InfoCliente1}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Name="lblInfoCliente2"
+                            Grid.Row="2"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="SemiBold"
+                            Foreground="#FF656565"
+                            Text="Teléfono" />
+                        <TextBlock
+                            Name="tbInfoCliente2"
+                            Grid.Row="3"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="Navy"
+                            Text="{Binding Path=InfoCliente2}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Name="lblInfoCliente3"
+                            Grid.Row="4"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="SemiBold"
+                            Foreground="#FF656565"
+                            Text="Cliente Desde" />
+                        <TextBlock
+                            Name="tbInfoCliente3"
+                            Grid.Row="5"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="Navy"
+                            Text="{Binding Path=InfoCliente3}"
+                            TextWrapping="Wrap" />
+
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox
+                    Name="InfoArticulo"
+                    Grid.Column="1"
+                    Visibility="{Binding Path=IsVisibleInfoArticulo, Converter={StaticResource booleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Name="lblInfoArticulo1"
+                            Grid.Row="0"
+                            Height="16"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="SemiBold"
+                            Foreground="#FF656565"
+                            Text="Categoría" />
+                        <TextBlock
+                            Name="tbInfoArticulo1"
+                            Grid.Row="1"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="Navy"
+                            Text="{Binding Path=InfoArticulo1}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Name="lblInfoArticulo2"
+                            Grid.Row="2"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="SemiBold"
+                            Foreground="#FF656565"
+                            Text="Línea de Producto" />
+                        <TextBlock
+                            Name="tbInfoArticulo2"
+                            Grid.Row="3"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="Navy"
+                            Text="{Binding Path=InfoArticulo2}"
+                            TextWrapping="Wrap" />
+                        <TextBlock
+                            Name="lblInfoArticulo3"
+                            Grid.Row="4"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            FontStyle="Normal"
+                            FontWeight="SemiBold"
+                            Foreground="#FF656565"
+                            Text="Existencia" />
+                        <TextBlock
+                            Name="tbInfoArticulo3"
+                            Grid.Row="5"
+                            FontFamily="Arial"
+                            FontSize="14"
+                            Foreground="Navy"
+                            Text="{Binding Path=InfoArticulo3}"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </Border>
+        <!--  hasta aqui el grid de la informacion  -->
+    </Grid>
+</UserControl>
+

@@ -1,0 +1,86 @@
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.Venta.Views.GSTasaDelDiaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtcambioAMonedaLocal}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label
+            Name="lblMoneda"
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Nombre Moneda"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf
+            Name="txtMoneda"
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="50"
+            nsWpf:LibFocusManager.FocusedPropertyName="Moneda"
+            nsWpf:LibFocusManager.IsFocused="True"
+            BorderThickness="1"
+            InputDataType="Alfanumeric"
+            IsEnabled="False"
+            MaxLength="4"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Path=Moneda, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <nsWpfControls:GSTextBoxWpf
+            Name="txtNombreMonedaigito"
+            Grid.Row="0"
+            Grid.Column="2"
+            Width="150"
+            BorderThickness="1"
+            InputDataType="Alfanumeric"
+            IsEnabled="False"
+            MaxLength="100"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Path=NombreMoneda, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            VerticalScrollBarVisibility="Auto" />
+        <Label
+            Name="lblcambioAMonedaLocal"
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Cambio a Moneda Local"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtcambioAMonedaLocal"
+            Grid.Row="1"
+            Grid.Column="2"
+            Width="120"
+            BorderThickness="1"
+            DecimalDigits="{Binding DecimalesTasaDeCambio}"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="28"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=CambioAMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.ColumnSpan="3"
+            Width="424"
+            Margin="10"
+            Style="{StaticResource TextBlockFeatureInfo}"
+            Text="NOTA: a continuación deberá ingresar la tasa de cambio del día. Caso contrario se cancelará el proceso en ejecución"
+            TextWrapping="Wrap " />
+    </Grid>
+</UserControl>
