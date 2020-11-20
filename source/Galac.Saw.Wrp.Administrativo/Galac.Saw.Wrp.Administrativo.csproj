@@ -248,6 +248,15 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AdminIwrp\IWrpAlmacenVb.cs">
+      <Link>IWrpAlmacenVb.cs</Link>
+    </Compile>
+    <Compile Include="..\AdminIwrp\IWrpCuentaBancariaVb.cs">
+      <Link>IWrpCuentaBancariaVb.cs</Link>
+    </Compile>
+    <Compile Include="..\AdminIwrp\IWrpIntegracionSawVb.cs">
+      <Link>IWrpIntegracionSawVb.cs</Link>
+    </Compile>
     <Compile Include="..\Lib\AosLib\IWrpVb.cs">
       <Link>IWrpVb.cs</Link>
     </Compile>
@@ -283,10 +292,7 @@
     <Compile Include="wrpMenuBarInventario.cs" />
     <Compile Include="wrpReconv.cs" />
     <Compile Include="IWrpReconvVb.cs" />
-    <Compile Include="IWrpAlmacenVb.cs" />
-    <Compile Include="IWrpCuentaBancariaVb.cs" />
     <Compile Include="IWrpDispositivosExternosMfVb.cs" />
-    <Compile Include="IWrpIntegracionSawVb.cs" />
     <Compile Include="IWrpLineaDeProducto.cs" />
     <Compile Include="IWrpProveedorVb.cs" />
     <Compile Include="IWrpReglasDeContabilizacionVb.cs" />
