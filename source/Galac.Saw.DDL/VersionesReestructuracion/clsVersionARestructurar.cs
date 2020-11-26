@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.Base;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
 using System.Xml;
 

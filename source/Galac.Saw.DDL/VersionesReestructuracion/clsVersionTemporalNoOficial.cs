@@ -2,7 +2,7 @@
 using System.Data;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 

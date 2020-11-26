@@ -51,10 +51,6 @@
     <Reference Include="Galac.Comun.Brl.TablasLey">
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasLey.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Ccl.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
@@ -93,6 +89,10 @@
     <Reference Include="Galac.Saw.Ccl.Inventario">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.SttDef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Saw.Ccl.Tablas">
       <SpecificVersion>False</SpecificVersion>

@@ -17,7 +17,7 @@ using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using LibGalac.Aos.Uil;
 using System.Xml.Linq;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.GestionCompras.Reportes {
     public class clsImprimirMargenSobreCostoPromedioDeCompraViewModel : LibInputRptViewModelBase<Compra> {

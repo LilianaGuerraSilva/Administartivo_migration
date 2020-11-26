@@ -1,0 +1,578 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.SttDef.Views.GSFacturaFacturacionContView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid
+        Name="GVMain"
+        Margin="3"
+        FocusManager.FocusedElement="{Binding ElementName=chkForzarFechaFacturaAmesEspecifico}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <GroupBox
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="3"
+            Header="Facturación Extemporánea"
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Name="lblForzarFechaFacturaAmesEspecifico"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Forzar Fecha Factura a mes Especifico......."
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkForzarFechaFacturaAmesEspecifico"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=ForzarFechaFacturaAmesEspecifico}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+                <Label
+                    Name="lblMesFacturacionEnCurso"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Mes Facturación en Curso............................"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf
+                    Name="cmbMesFacturacionEnCurso"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="120"
+                    IsEnabled="{Binding Path=IsEnabledMesFacturacionEnCurso}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayMes}"
+                    SelectedItem="{Binding Path=MesFacturacionEnCurso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ComboBoxStyle}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="3"
+            Header="Facturación Histórica"
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="29*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Name="lblPermitirIncluirFacturacionHistorica"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Permitir Incluir Facturacion Histórica............"
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkPermitirIncluirFacturacionHistorica"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=PermitirIncluirFacturacionHistorica}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+                <Label
+                    Name="lblUltimaFechaDeFacturacionHistorica"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Ultima Fecha de Facturación Histórica........."
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsChecked, ElementName=chkPermitirIncluirFacturacionHistorica}" />
+                <nsWpfControls:GSDatePickerWpf
+                    Name="dtpUltimaFechaDeFacturacionHistorica"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="120"
+                    IsEnabled="{Binding Path=IsEnabledUltimaFechaDeFacturacionHistorica}"
+                    SelectedDate="{Binding Path=UltimaFechaDeFacturacionHistorica, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource DatePickerStyle}" />
+                <Label
+                    Name="lblGenerarCxCalEmitirUnaFacturaHistorica"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Content="Generar CxC al Emitir una Factura Histórica"
+                    Style="{StaticResource LabelPrompt}" />
+                <Border
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="0,-3,3,3"
+                    HorizontalAlignment="Left"
+                    BorderBrush="Black"
+                    BorderThickness="0.5">
+                    <StackPanel HorizontalAlignment="Left">
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Foreground="#FFC00000"
+                            Text="La configuración de Facturación Histórica aplica tanto para" />
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Foreground="#FFC00000"
+                            Text="Factura como para Nota de Crédito y Nota de Débitos." />
+                    </StackPanel>
+                </Border>
+
+                <CheckBox
+                    Name="chkGenerarCxCalEmitirUnaFacturaHistorica"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=GenerarCxCalEmitirUnaFacturaHistorica}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+
+
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="3"
+            Header="Anular Documentos Asociados a Factura"
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="417*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="7*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Name="lblAccionAlAnularFactDeMesesAnt"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Acción al Anular Factura de Meses Anteriores"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf
+                    Name="cmbAccionAlAnularFactDeMesesAnt"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Width="200"
+                    Margin="3"
+                    HorizontalAlignment="Right"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayAccionAlAnularFactDeMesesAnt}"
+                    SelectedItem="{Binding Path=AccionAlAnularFactDeMesesAnt, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ComboBoxStyle}" />
+
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="3"
+            Header="Otros Cargos / Campos Extra en Detalle"
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="417*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Name="lblUsarOtrosCargoDeFactura"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Usar Otros Cargo de Factura.................."
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleUsarOtrosCargoDeFactura, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <CheckBox
+                    Name="chkUsarOtrosCargoDeFactura"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=UsarOtrosCargoDeFactura}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}"
+                    Visibility="{Binding Path=IsVisibleUsarOtrosCargoDeFactura, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Name="lblUsaCamposExtrasEnRenglonFactura"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Usa Campos Extras en Renglon Factura"
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkUsaCamposExtrasEnRenglonFactura"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=UsaCamposExtrasEnRenglonFactura}"
+                    IsEnabled="{Binding Path=IsEnabledCamposExtrasEnRenglonFactura}"
+                    Style="{StaticResource CheckBoxStyle}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="3"
+            Header="Cobro Directo"
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" MinWidth="140" />
+
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Name="lblEmitirDirecto"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Emitir Directo............................"
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkEmitirDirecto"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=EmitirDirecto}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+                <Label
+                    Name="lblUsaCobroDirecto"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Usa Cobro Directo...................."
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkUsaCobroDirecto"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=UsaCobroDirecto}"
+                    IsEnabled="{Binding Path=IsEnabledEmitirDirecto}"
+                    Style="{StaticResource CheckBoxStyle}" />
+                <Label
+                    Name="lblUsaCobroDirectoMultimoneda"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Content="Usa Cobro Directo en Multimoneda..."
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkUsaCobroDirectoMultimoneda"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=UsaCobroDirectoEnMultimoneda}"
+                    IsEnabled="{Binding Path=IsEnabledUsaCobroDirectoEnMultimoneda}"
+                    Style="{StaticResource CheckBoxStyle}"
+                    Margin="3,8,0,0"
+                    VerticalAlignment="Top" />
+                <Label
+                    Name="lblCuentaBancariaCobroDirecto"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Content="Cuenta Bancaria Cobro Directo"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtCuentaBancariaCobroDirecto"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Height="23"
+                    Margin="3"
+                    HorizontalAlignment="Stretch"
+                    ConnectionValue="{Binding Path=CuentaBancariaCobroDirecto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="Codigo"
+                    IsEnabled="{Binding Path=IsEnabledCuentaBancariaCobroDirecto}"
+                    Model="{Binding Path=ConexionCuentaBancariaCobroDirecto, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseCuentaBancariaCobroDirectoCommand}" />
+                <Label
+                    Name="lblConceptoBancarioCobroDirecto"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Content="Concepto Bancario..................."
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtConceptoBancarioCobroDirecto"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Height="23"
+                    Margin="3"
+                    HorizontalAlignment="Stretch"
+                    ConnectionValue="{Binding Path=ConceptoBancarioCobroDirecto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="codigo"
+                    IsEnabled="{Binding Path=IsEnabledConceptoBancarioCobroDirecto}"
+                    Model="{Binding Path=ConexionConceptoBancarioCobroDirecto, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseConceptoBancarioCobroDirectoCommand}" />
+                <Label
+                    Name="lblCuentaBancariaDivisa"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Content="Cuenta Bancaria para Cobro en Multimoneda"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtCuentaBancariaDivisa"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Height="23"
+                    Margin="3"
+                    HorizontalAlignment="Stretch"
+                    ConnectionValue="{Binding Path=CuentaBancariaCobroMultimoneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="Codigo"
+                    IsEnabled="{Binding Path=IsEnabledCuentaBancariaCobroMultimoneda}"
+                    Model="{Binding Path=ConexionCuentaBancariaCobroMultimoneda, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseCuentaBancariaCobroMultimonedaCommand}" />
+                <Label
+                    Name="lblConceptoBancarioDivisa"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Content="Concepto Bancario para Cobro en Multimoneda"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtConceptoBancarioCobroMultimoneda"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Height="23"
+                    Margin="3"
+                    HorizontalAlignment="Stretch"
+                    ConnectionValue="{Binding Path=ConceptoBancarioCobroMultimoneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="codigo"
+                    IsEnabled="{Binding Path=IsEnabledConceptoBancarioCobroMultimoneda}"
+                    Model="{Binding Path=ConexionConceptoBancarioCobroMultimoneda, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseConceptoBancarioCobroMultimonedaCommand}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="3"
+            Header="Descuentos en Facturas"
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" MinWidth="140" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Name="lblPermitirDobleDescuentoEnFactura"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Permitir Doble Descuento"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="Hidden" />
+                <CheckBox
+                    Name="chkPermitirDobleDescuentoEnFactura"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=PermitirDobleDescuentoEnFactura}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}"
+                    Visibility="Hidden" />
+                <Label
+                    Name="lblMaximoDescuentoEnFactura"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Máximo Descuento en Factura"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtMaximoDescuentoEnFactura"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    BorderThickness="1"
+                    DecimalDigits="2"
+                    InputDataType="Decimal"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    MaxLength="5"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    UnitDigits="3"
+                    Value="{Binding Path=MaximoDescuentoEnFactura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="3"
+            Header="Bloquear Emisión Al Perder Conexión con la Impresora Fiscal"
+            Style="{StaticResource GroupBoxStyle}"
+            Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Grid Width="376">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+
+                <Label
+                    Name="lblBloquearEmision"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Bloquear Emisión Al Perder Conexión con la Impresora..."
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf
+                    Name="cmbBloquearEmision"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Width="200"
+                    Margin="3"
+                    HorizontalAlignment="Right"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayBloquearEmision}"
+                    SelectedItem="{Binding Path=BloquearEmision, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ComboBoxStyle}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="2,3,4,3"
+            Header="Observación en Facturas"
+            Style="{StaticResource GroupBoxStyle}"
+            Visibility="{Binding Path=IsVisibleIFFechaReconversion, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Name="lblMostrarMtoTotalBsFEnObservaciones"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Mostrar Total En Bolívares Fuertes"
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkMostrarMtoTotalBsFEnObservaciones"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=MostrarMtoTotalBsFEnObservaciones}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="3"
+            Header="Facturación en Divisas"
+            Style="{StaticResource GroupBoxStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Name="lblUsaListaDePrecioEnMonedaExtranjera"  Content="Usar Lista de Precios en Moneda Extranjera..................." Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="0" Grid.Column="1" Name="chkUsaListaDePrecioEnMonedaExtranjera" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjera}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="1" Name="lblUsarListaDePreciosEnMonedaExtranjeraCXC" Content="Generar CxC en Moneda Extranjera.................................." Style="{StaticResource LabelPrompt}"/>
+                <CheckBox 
+                    Grid.Row="1" 
+                    Grid.Column="1" Name="chkUsarListaDePreciosEnMonedaExtranjeraCXC" 
+                    Style="{StaticResource CheckBoxStyle}" 
+                    IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjeraCXC}" 
+                    HorizontalAlignment="Left" 
+                    IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Content="Mostrar Total en Divisas ......................................................." Style="{StaticResource LabelPrompt}" Grid.Column="0" Grid.Row="2" />
+                <CheckBox
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Name="chkMostrarTotalEnDivisas"
+                    IsChecked="{Binding SeMuestraTotalEnDivisas}" 
+                    Style="{StaticResource CheckBoxStyle}" 
+                    IsEnabled="{Binding Path= IsEnabled}" 
+                    HorizontalAlignment="Left"/>
+                    <Label Content="Número Días A Mantener Tasa De Cambio ........................" Style="{StaticResource LabelPrompt}" Grid.Column="0" Grid.Row="3" />
+                     <nsWpfControls:GSNumericBoxWpf
+                        Name="txtNroDiasMantenerTasaCambio"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        BorderThickness="1"
+                        DecimalDigits="2"
+                        InputDataType="UInteger"
+                        IsEnabled="{Binding Path=IsEnabled}"
+                        MaxLength="3"
+                        Style="{StaticResource TextBoxInputStyle}"
+                        UnitDigits="0"
+                        Value="{Binding Path=NroDiasMantenerTasaCambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                
+            </Grid>
+        </GroupBox>
+    </Grid>
+
+</UserControl>

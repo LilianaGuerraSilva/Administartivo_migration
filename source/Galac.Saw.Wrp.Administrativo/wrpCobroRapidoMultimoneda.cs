@@ -10,7 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Galac.Adm.Brl.Venta;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
 
 namespace Galac.Saw.Wrp.Venta {

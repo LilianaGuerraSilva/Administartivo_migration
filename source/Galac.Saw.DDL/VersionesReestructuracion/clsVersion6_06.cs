@@ -11,7 +11,7 @@ using LibGalac.Aos.Dal.Usal;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using System.Transactions;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersion6_06 : clsVersionARestructurar {

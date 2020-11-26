@@ -5,7 +5,7 @@ using System.Text;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Ccl.CAnticipo;
 using Galac.Comun.Ccl.TablasGen;

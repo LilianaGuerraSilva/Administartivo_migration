@@ -135,8 +135,8 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Adm.Dal.Banco.clsCuentaBancariaED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsClasificadorActividadEconomicaED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().InstalarVistasYSps();
-            vResult = vResult && new Galac.Comun.Dal.SttDef.clsSettDefinitionED().InstalarVistasYSps();
-            vResult = vResult && new Galac.Comun.Dal.SttDef.clsSettValueByCompanyED().InstalarVistasYSps();
+            vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettDefinitionED().InstalarVistasYSps();
+            vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Vendedor.clsVendedorED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsConceptoBancarioED().InstalarVistasYSps();
             //vResult = vResult && new Galac.Adm.Dal.CajaChica.clsAnticipoED().InstalarVistasYSps();
@@ -210,8 +210,8 @@ namespace Galac.Saw.DDL {
             //vResult = vResult && new Galac.Adm.Dal.CajaChica.clsAnticipoED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsConceptoBancarioED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Vendedor.clsVendedorED().BorrarVistasYSps();
-            vResult = vResult && new Galac.Comun.Dal.SttDef.clsSettValueByCompanyED().BorrarVistasYSps();
-            vResult = vResult && new Galac.Comun.Dal.SttDef.clsSettDefinitionED().BorrarVistasYSps();
+            vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().BorrarVistasYSps();
+            vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettDefinitionED().BorrarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().BorrarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsClasificadorActividadEconomicaED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsCuentaBancariaED().BorrarVistasYSps();

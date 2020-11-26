@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.SttDef.Views.GSFacturaPuntoDeVentaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Column="0" Grid.Row="0" Header="Punto De Venta" Margin="3" Style="{StaticResource GroupBoxStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />                
+		<RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Name="lblAcumularItemsEnRenglonesDeFactura" Content="Acumular Items En Renglones De Factura................" Style="{StaticResource LabelPrompt}" />
+            <CheckBox Grid.Row="0" Grid.Column="1" Name="chkAcumularItemsEnRenglonesDeFactura" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=AcumularItemsEnRenglonesDeFactura}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+            <Label Grid.Row="1" Grid.Column="0" Name="lblUsaClienteGenericoAlFacturar" Content="Usar Cliente Genérico al facturar..............................." Style="{StaticResource LabelPrompt}" />
+            <CheckBox Grid.Row="1" Grid.Column="1" Name="chkUsaClienteGenericoAlFacturar" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaClienteGenericoAlFacturar}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+            <Label Grid.Row="2" Grid.Column="0" Name="lblUsarBalanza" Content="Usar Balanza Electónica............................................." Style="{StaticResource LabelPrompt}" />
+            <CheckBox Grid.Row="2" Grid.Column="1" Name="chkUsarBalanza" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsarBalanza}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+            <Label
+	        Name="lblUsaBusquedaDinamicaEnPuntoDeVenta"
+	        Grid.Row="3"
+	        Grid.Column="0"
+	        Content="Usar Cuadro de Búsqueda Dinámico........................"
+	        Style="{StaticResource LabelPrompt}" />
+	    <CheckBox
+	        Name="chkUsaBusquedaDinamicaEnPuntoDeVenta"
+	        Grid.Row="3"
+	        Grid.Column="1"
+	        HorizontalAlignment="Left"
+	        IsChecked="{Binding Path=UsaBusquedaDinamicaEnPuntoDeVenta}"
+	        IsEnabled="{Binding Path=IsEnabled}"
+	        Style="{StaticResource CheckBoxStyle}" />
+        </Grid>
+    </GroupBox>
+    <GroupBox Grid.Column="0" Grid.Row="1" Header="Configuración Común de Factura" Margin="3" Style="{StaticResource GroupBoxStyle}">
+    <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+        <Label Grid.Row="1" Grid.Column="0" Name="lblUsaPrecioSinIva" Content="Usa Precio Sin Iva....................................................." Style="{StaticResource LabelPrompt}" Visibility="Collapsed" />
+        <CheckBox Grid.Row="1" Grid.Column="1" Name="chkUsaPrecioSinIva" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaPrecioSinIva}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabledUsaPrecioSinIva}" Visibility="Collapsed" />
+                <Label Grid.Row="2" Grid.Column="0" Name="lblTipoDeNivelDePrecios" Content="Dónde se Define el Nivel de Precio........................." Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDeNivelDePrecios" Width="120"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayTipoDeNivelDePrecios}"
+                SelectedItem="{Binding Path=TipoDeNivelDePrecios, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="4" Name="lblConceptoBancarioCobroDirecto" Content="Concepto Bancario Para Cobro Directo................." Style="{StaticResource LabelPrompt}" Margin="4,3,0,0" />
+                <nsWpfControls:GSSeekConnection Grid.Row="4" Grid.Column="1" Name="txtConceptoBancarioCobroDirecto" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabledConceptoBancarioCobroDirecto}"
+                                        DisplayMemberPath="codigo"
+                                        Model="{Binding Path=ConexionConceptoBancarioCobroDirecto, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=ConceptoBancarioCobroDirecto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseConceptoBancarioCobroDirectoCommand}" />
+        <Label Grid.Row="3" Grid.Column="0" Name="lblCuentaBancariaCobroDirecto" Content="Cuenta Bancaria Para Cobro Directo....................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection Grid.Row="3" Grid.Column="1" Name="txtCuentaBancariaCobroDirecto" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabledCuentaBancariaCobroDirecto}"
+                                        DisplayMemberPath="Codigo"
+                                        Model="{Binding Path=ConexionCuentaBancariaCobroDirecto, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=CuentaBancariaCobroDirecto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseCuentaBancariaCobroDirectoCommand}" />
+        <Label Grid.Row="5" Grid.Column="0" Name="lblImprimeDireccionAlFinalDelComprobanteFiscal" Content="Imprime Dirección Al Final Del Comprobante Físcal" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="5" Grid.Column="1" Name="chkImprimeDireccionAlFinalDelComprobanteFiscal" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ImprimeDireccionAlFinalDelComprobanteFiscal}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Border Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0.5" Margin="1,-3,3,3">
+                    <StackPanel>
+                        <TextBlock Margin="1,0,0,0" Width="400" TextWrapping="WrapWithOverflow" Text="Al cambiar las opciones de esta sección de configuración se modificará también el comportamiento del módulo de facturación tradicional." Foreground="#FFC00000" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+    </GroupBox>
+    </Grid>
+</UserControl>

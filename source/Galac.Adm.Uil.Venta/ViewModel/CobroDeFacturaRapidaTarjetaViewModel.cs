@@ -14,7 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CobroDeFacturaRapidaTarjetaViewModel : LibInputMasterViewModelMfc<CobroDeFacturaRapidaTarjeta> {

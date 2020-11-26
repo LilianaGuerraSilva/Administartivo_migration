@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.SttDef.Views.GSCxPComprasRetIVAView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <GroupBox Style="{StaticResource GroupBoxStyle}" Header=" "  IsEnabled="{Binding Path=IsEnabledDatosRetIva}" >
+        <Grid FocusManager.FocusedElement="{Binding ElementName=cmbEnDondeRetenerIVA}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Name="lblEnDondeRetenerIVA" Content="{Binding Path=CaptionEnDondeRetenerIVA}" Style="{StaticResource LabelPrompt}" IsEnabled="{Binding Path=IsEnabledDatosRetIva}" />
+            <nsWpfControls:GSComboBoxWpf Grid.Row="0" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbEnDondeRetenerIVA" Width="200"
+                                         IsSynchronizedWithCurrentItem="True"
+                                         ItemsSource="{Binding Path=ArrayDondeSeEfectuaLaRetencionIVA}"
+                                         SelectedItem="{Binding Path=EnDondeRetenerIVA, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Grid.Row="1" Grid.Column="0" Name="lblUsaMismoNumeroCompRetTodasCxP" Content="Usa Mismo Número Comp Ret Todas  CxP......................................."  Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleUsaMismoNumeroCompRetTodasCxP, Converter={StaticResource booleanToVisibilityConverter}}" IsEnabled="{Binding Path=IsEnabledDatosRetIva}" />
+            <CheckBox Grid.Row="1" Grid.Column="1" Name="chkUsaMismoNumeroCompRetTodasCxP" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaMismoNumeroCompRetTodasCxP}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabledDatosRetIva}" Visibility="{Binding Path=IsVisibleUsaMismoNumeroCompRetTodasCxP, Converter={StaticResource booleanToVisibilityConverter}}"/>
+            <Label Grid.Row="2" Grid.Column="0" Name="lblPrimerNumeroComprobanteRetIva" Content="{Binding Path=CaptionImprimirComprobanteDeRetIVA}" Style="{StaticResource LabelPrompt}" IsEnabled="{Binding Path=IsEnabledDatosRetIva}" />
+            <nsWpfControls:GSNumericBoxWpf Grid.Row="2" Grid.Column="1" Name="txtPrimerNumeroComprobanteRetIva" Style="{StaticResource TextBoxInputStyle}" InputDataType="UInteger" MaxLength="11" Width="120" IsEnabled="{Binding Path=IsEnabledDatosRetIva}"
+                                           Value="{Binding Path=PrimerNumeroComprobanteRetIva, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+            <Label Grid.Row="3" Grid.Column="0" Name="lblFormaDeReiniciarElNumeroDeComprobanteRetIva" Content="{Binding Path=CaptionFormaDeReiniciarElNumeroDeComprobanteRetIva}" Style="{StaticResource LabelPrompt}" IsEnabled="{Binding Path=IsEnabledDatosRetIva}" />
+            <nsWpfControls:GSComboBoxWpf Grid.Row="3" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbFormaDeReiniciarElNumeroDeComprobanteRetIva" Width="200"
+                                         IsSynchronizedWithCurrentItem="True"
+                                         ItemsSource="{Binding Path=ArrayFormaDeReiniciarComprobanteRetIVA}"
+                                         SelectedItem="{Binding Path=FormaDeReiniciarElNumeroDeComprobanteRetIva, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                         IsEnabled="{Binding Path=IsEnabledDatosRetIva}" />
+            <Label Grid.Row="4" Grid.Column="0" Name="lblImprimirComprobanteDeRetIva" Content="{Binding Path=CaptionImprimirComprobanteDeRetIva}" Style="{StaticResource LabelPrompt}" IsEnabled="{Binding Path=IsEnabledDatosRetIva}" />
+            <CheckBox Grid.Row="4" Grid.Column="1" Name="chkImprimirComprobanteDeRetIva" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ImprimirComprobanteDeRetIva}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabledDatosRetIva}"/>
+            <Label Grid.Row="5" Grid.Column="0" Name="lblNumeroDeCopiasComprobanteRetencionIva" Content="{Binding Path=CaptionNumeroDeCopiasComprobanteRetencionIva}" Style="{StaticResource LabelPrompt}"  IsEnabled="{Binding Path=IsEnabledDatosRetIva}"  />
+            <nsWpfControls:GSNumericBoxWpf Grid.Row="5" Grid.Column="1" Name="txtNumeroDeCopiasComprobanteRetencionIva" Style="{StaticResource TextBoxInputStyle}" InputDataType="UInteger" MaxLength="2" Width="30" IsEnabled="{Binding Path=IsEnabledDatosRetIva}"
+                                           Value="{Binding Path=NumeroDeCopiasComprobanteRetencionIva, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+            <Label Grid.Row="6" Grid.Column="0" Name="lblUnComprobanteDeRetIvaporHoja" Content="{Binding Path=CaptionComprobanteDeRetIvaporHoja}" Style="{StaticResource LabelPrompt}"  IsEnabled="{Binding Path=IsEnabledDatosRetIva}" />
+            <CheckBox Grid.Row="6" Grid.Column="1" Name="chkUnComprobanteDeRetIvaporHoja" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UnComprobanteDeRetIvaporHoja}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabledDatosRetIva}"/>
+            <Label Grid.Row="7" Grid.Column="0" Name="lblNombrePlantillaComprobanteDeRetIVA" Content="{Binding Path=CaptionNombrePlantillaComprobanteDeRetIVA}" Style="{StaticResource LabelPrompt}"  IsEnabled="{Binding Path=IsEnabledDatosRetIva}"  />
+            <nsWpfControls:GSTextBoxWpf Grid.Row="7" Grid.Column="1" Name="txtNombrePlantillaComprobanteDeRetIVA" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="200" IsEnabled="{Binding Path=IsEnabledDatosRetIva}"
+                                        Text="{Binding Path=NombrePlantillaComprobanteDeRetIVA, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+            <Button Grid.Row="7" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="203,0,0,0" Name="btnTemplate" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabledDatosRetIva}" Command="{Binding Path=ChooseTemplateCommand}">...</Button>
+            <Label Grid.Row="8" Grid.Column="0" Name="lblGenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero" Content="{Binding Path=CaptionGenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero}" Style="{StaticResource LabelPrompt}"  IsEnabled="{Binding Path=IsEnabledDatosRetIva}"  />
+            <CheckBox Grid.Row="8" Grid.Column="1" Name="chkGenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=GenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabledDatosRetIva}"/>
+        </Grid>
+    </GroupBox>
+</UserControl>

@@ -1,0 +1,442 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2B1FA9B0-AD50-4C75-805F-D9EFC6B236AB}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Saw.Uil.SttDef</RootNamespace>
+    <AssemblyName>Galac.Saw.Uil.SttDef</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\bin\Comun\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Adm.Brl.Banco">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.Banco.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Ccl.Banco">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Banco.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Adm.Uil.Banco">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Uil.Banco.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Brl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Cliente">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Cliente.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.Inventario">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Brl.SttDef">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.SttDef.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Cliente">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Inventario">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.SttDef">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Vendedor">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Vendedor.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Reconv">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Reconv.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <Name>LibGalac.Aos.Base</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <Name>LibGalac.Aos.Catching</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <Name>LibGalac.Aos.UI.Wpf</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <Name>LibGalac.Aos.UI.WpfControls</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <Name>LibGalac.Aos.UI.WpfRD</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <Name>LibGalac.Aos.DefGen</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <Name>LibGalac.Aos.Uil</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BooleanNotOperatorConverter.cs" />
+    <Compile Include="clsGlobalValues.cs" />
+    <Compile Include="clsSettDefinitionMenu.cs" />
+    <Compile Include="clsSettValueByCompanyMenu.cs" />
+    <Compile Include="clsUtilParameters.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UIMefParameters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIMefSettDefinition.cs" />
+    <Compile Include="ViewModel\BancosAnticipoViewModel.cs" />
+    <Compile Include="ViewModel\BancosMonedaViewModel.cs" />
+    <Compile Include="ViewModel\BancosMovimientoBancarioViewModel.cs" />
+    <Compile Include="ViewModel\BancosViewModel.cs" />
+    <Compile Include="ViewModel\clsFKViewModel.cs" />
+    <Compile Include="ViewModel\CxPComprasPlanillaIVAViewModel.cs" />
+    <Compile Include="ViewModel\CxPComprasRetISLRViewModel.cs" />
+    <Compile Include="ViewModel\CxPComprasRetIVAViewModel.cs" />
+    <Compile Include="ViewModel\CxPComprasCxCProveedorViewModel.cs" />
+    <Compile Include="ViewModel\CxPComprasViewModel.cs" />
+    <Compile Include="ViewModel\FacturaBalanzaEtiquetasViewModel.cs" />
+    <Compile Include="ViewModel\FacturaPuntoDeVentaViewModel.cs" />
+    <Compile Include="ViewModel\InventarioMetodoCostoViewModel.cs" />
+    <Compile Include="ViewModel\CotizacionNotaDebitoCreditoViewModel.cs" />
+    <Compile Include="ViewModel\CotizacionVendedorViewModel.cs" />
+    <Compile Include="ViewModel\CotizacionViewModel.cs" />
+    <Compile Include="ViewModel\CXCCobranzasClienteViewModel.cs" />
+    <Compile Include="ViewModel\CXCCobranzasComisionesViewModel.cs" />
+    <Compile Include="ViewModel\CXCCobranzasViewModel.cs" />
+    <Compile Include="ViewModel\FacturaCamposDefiniblesViewModel.cs" />
+    <Compile Include="ViewModel\FacturaFacturacionContViewModel.cs" />
+    <Compile Include="ViewModel\DatosGeneralesCompaniaViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\DatosGeneralesViewModel.cs" />
+    <Compile Include="ViewModel\FacturaFacturacionViewModel.cs" />
+    <Compile Include="ViewModel\FacturaImpresionViewModel.cs" />
+    <Compile Include="ViewModel\FacturaModeloFacturaViewModel.cs" />
+    <Compile Include="ViewModel\InventarioNotaEntradaSalidaViewModel.cs" />
+    <Compile Include="ViewModel\InventarioViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModel\NotasDeEntregaViewModel.cs" />
+    <Compile Include="ViewModel\ParametersMngViewModel.cs" />
+    <Compile Include="ViewModel\ParametersViewModel.cs" />
+    <Compile Include="ViewModel\SettDefinitionMngViewModel.cs" />
+    <Compile Include="ViewModel\SettDefinitionViewModel.cs" />
+    <Compile Include="ViewModel\VerificadorDePreciosViewModel.cs" />
+    <Compile Include="Views\GSBancosAnticipoView.xaml.cs">
+      <DependentUpon>GSBancosAnticipoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSBancosMonedaView.xaml.cs">
+      <DependentUpon>GSBancosMonedaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSBancosMovimientoBancarioView.xaml.cs">
+      <DependentUpon>GSBancosMovimientoBancarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSBancosView.xaml.cs">
+      <DependentUpon>GSBancosView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCotizacionNotaDebitoCreditoView.xaml.cs">
+      <DependentUpon>GSCotizacionNotaDebitoCreditoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCotizacionVendedorView.xaml.cs">
+      <DependentUpon>GSCotizacionVendedorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCotizacionView.xaml.cs">
+      <DependentUpon>GSCotizacionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCXCCobranzasClienteView.xaml.cs">
+      <DependentUpon>GSCXCCobranzasClienteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCXCCobranzasComisionesView.xaml.cs">
+      <DependentUpon>GSCXCCobranzasComisionesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCXCCobranzasView.xaml.cs">
+      <DependentUpon>GSCXCCobranzasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCxPComprasCxCProveedorView.xaml.cs">
+      <DependentUpon>GSCxPComprasCxCProveedorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCxPComprasPlanillaIVAView.xaml.cs">
+      <DependentUpon>GSCxPComprasPlanillaIVAView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCxPComprasRetISLRView.xaml.cs">
+      <DependentUpon>GSCxPComprasRetISLRView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCxPComprasRetIVAView.xaml.cs">
+      <DependentUpon>GSCxPComprasRetIVAView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCxPComprasView.xaml.cs">
+      <DependentUpon>GSCxPComprasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSDatosGeneralesCompaniaView.xaml.cs">
+      <DependentUpon>GSDatosGeneralesCompaniaView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\GSDatosGeneralesView.xaml.cs">
+      <DependentUpon>GSDatosGeneralesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaBalanzaEtiquetasView.xaml.cs">
+      <DependentUpon>GSFacturaBalanzaEtiquetasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaCamposDefiniblesView.xaml.cs">
+      <DependentUpon>GSFacturaCamposDefiniblesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaFacturacionContView.xaml.cs">
+      <DependentUpon>GSFacturaFacturacionContView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaFacturacionView.xaml.cs">
+      <DependentUpon>GSFacturaFacturacionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaImpresionView.xaml.cs">
+      <DependentUpon>GSFacturaImpresionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaModeloFacturaView.xaml.cs">
+      <DependentUpon>GSFacturaModeloFacturaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSFacturaPuntoDeVentaView.xaml.cs">
+      <DependentUpon>GSFacturaPuntoDeVentaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSInventarioMetodoCostoView.xaml.cs">
+      <DependentUpon>GSInventarioMetodoCostoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSInventarioNotaEntradaSalidaView.xaml.cs">
+      <DependentUpon>GSInventarioNotaEntradaSalidaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSInventarioView.xaml.cs">
+      <DependentUpon>GSInventarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSNotasDeEntregaView.xaml.cs">
+      <DependentUpon>GSNotasDeEntregaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSParametersView.xaml.cs">
+      <DependentUpon>GSParametersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSVerificadorDePreciosView.xaml.cs">
+      <DependentUpon>GSVerificadorDePreciosView.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\rsdGroupBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSBancosAnticipoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSBancosMonedaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSBancosMovimientoBancarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSBancosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCotizacionNotaDebitoCreditoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCotizacionVendedorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCotizacionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCXCCobranzasClienteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCXCCobranzasComisionesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCXCCobranzasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCxPComprasCxCProveedorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCxPComprasPlanillaIVAView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCxPComprasRetISLRView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCxPComprasRetIVAView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCxPComprasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSDatosGeneralesCompaniaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GSDatosGeneralesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaBalanzaEtiquetasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaCamposDefiniblesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaFacturacionContView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaFacturacionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaImpresionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaModeloFacturaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSFacturaPuntoDeVentaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSInventarioMetodoCostoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSInventarioNotaEntradaSalidaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSInventarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSNotasDeEntregaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSParametersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GSVerificadorDePreciosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

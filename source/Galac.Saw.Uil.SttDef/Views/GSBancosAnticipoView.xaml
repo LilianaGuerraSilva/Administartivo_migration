@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.SttDef.Views.GSBancosAnticipoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+        <Grid FocusManager.FocusedElement="{Binding ElementName=chkSugerirConsecutivoAnticipo}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+        <GroupBox Grid.Row="0" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Name="lblCuentaBancariaAnticipo" Content="Cuenta Bancaria Genérica.." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="1" Name="txtCuentaBancariaAnticipo" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Codigo"
+                                        Model="{Binding Path=ConexionCuentaBancariaAnticipo, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=CuentaBancariaAnticipo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseCuentaBancariaAnticipoCommand}" />
+                <Label Grid.Row="1" Grid.Column="0" Name="lblSugerirConsecutivoAnticipo" Content="Sugerir Número de Anticipo" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="1" Grid.Column="1" Name="chkSugerirConsecutivoAnticipo" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=SugerirConsecutivoAnticipo}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="Anticipo Cobrado">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Name="lblConceptoBancarioAnticipoCobrado" Content="Concepto Bancario del Anticipo..............." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="1" Name="txtConceptoBancarioAnticipoCobrado" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="codigo"
+                                        Model="{Binding Path=ConexionConceptoBancarioAnticipoCobrado, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=ConceptoBancarioAnticipoCobrado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseConceptoBancarioAnticipoCobradoCommand}" />
+                <Label Grid.Row="1" Grid.Column="0" Name="lblConceptoBancarioReversoAnticipoCobrado" Content="Concepto Bancario Reverso / Devolución" Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtConceptoBancarioReversoAnticipoCobrado" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="codigo"
+                                        Model="{Binding Path=ConexionConceptoBancarioReversoAnticipoCobrado, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=ConceptoBancarioReversoAnticipoCobrado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseConceptoBancarioReversoAnticipoCobradoCommand}" />
+                <Label Grid.Row="2" Grid.Column="0" Name="lblNombrePlantillaReciboDeAnticipoCobrado" Content="Plantilla Impresión...................................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="2" Grid.Column="1" Name="txtNombrePlantillaReciboDeAnticipoCobrado" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="300" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=NombrePlantillaReciboDeAnticipoCobrado, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Button Grid.Row="2" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="305,0,0,0" Name="btnTemplateAC" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=ChooseTemplateCommandAntCobrado}">...</Button>
+
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="2" Margin="3" Style="{StaticResource GroupBoxStyle}" Header="Anticipo Pagado">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Name="lblConceptoBancarioAnticipoPagado" Content="Concepto Bancario del Anticipo...................." Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="1" Name="txtConceptoBancarioAnticipoPagado" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                                    DisplayMemberPath="codigo"                                        Model="{Binding Path=ConexionConceptoBancarioAnticipoPagado, Mode=TwoWay}"
+                                                    ConnectionValue="{Binding Path=ConceptoBancarioAnticipoPagado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                                    SearchCommand="{Binding Path=ChooseConceptoBancarioAnticipoPagadoCommand}" />
+                    <Label Grid.Row="1" Grid.Column="0" Name="lblConceptoBancarioReversoAnticipoPagado" Content="Concepto Bancario Reverso / Devolución...." Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtConceptoBancarioReversoAnticipoPagado" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                            DisplayMemberPath="codigo"
+                                            Model="{Binding Path=ConexionConceptoBancarioReversoAnticipoPagado, Mode=TwoWay}"
+                                            ConnectionValue="{Binding Path=ConceptoBancarioReversoAnticipoPagado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                            SearchCommand="{Binding Path=ChooseConceptoBancarioReversoAnticipoPagadoCommand}" />
+                    <Label Grid.Row="2" Grid.Column="0" Name="lblNombrePlantillaReciboDeAnticipoPagado" Content="Plantilla Impresión........................................." Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSTextBoxWpf Grid.Row="2" Grid.Column="1" Name="txtNombrePlantillaReciboDeAnticipoPagado" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="300" IsEnabled="{Binding Path=IsEnabled}"
+                                            Text="{Binding Path=NombrePlantillaReciboDeAnticipoPagado, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                    <Button Grid.Row="2" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="305,0,0,0" Name="btnTemplateAP" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=ChooseTemplateCommandAntPagado}">...</Button>
+
+                <Label Grid.Row="3" Grid.Column="0" Name="lblTipoComprobanteDeAnticipoAImprimir" Content="Tipo de Comprobante de Anticipo a Imprimir" Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="3" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoComprobanteDeAnticipoAImprimir" Width="180"
+                                    IsSynchronizedWithCurrentItem="True"
+                                    ItemsSource="{Binding Path=ArrayComprobanteConCheque}"
+                                    SelectedItem="{Binding Path=TipoComprobanteDeAnticipoAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{Binding Path=IsEnabled}" />
+            
+            </Grid>
+        </GroupBox>        
+        
+        </Grid>  
+</UserControl>

@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.SttDef.Views.GSCXCCobranzasComisionesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <GroupBox Style="{StaticResource GroupBoxStyle}" Header="">
+        <Grid FocusManager.FocusedElement="{Binding ElementName=cmbFormaDeCalcularComisionesSobreCobranza}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Name="lblFormaDeCalcularComisionesSobreCobranza" Content="Opciones para Calcular las Comisiones Sobre Cobranza" Style="{StaticResource LabelPrompt}" Visibility="{Binding Path=IsVisibleFormaDeCalcularComisionesSobreCobranza, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="0" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbFormaDeCalcularComisionesSobreCobranza" Width="200"
+                                     IsSynchronizedWithCurrentItem="True"
+                                     ItemsSource="{Binding Path=ArrayCalculoParaComisionesSobreCobranzaEnBaseA}"
+                                     SelectedItem="{Binding Path=FormaDeCalcularComisionesSobreCobranza, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsVisibleFormaDeCalcularComisionesSobreCobranza, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <Label Grid.Row="1" Grid.Column="0" Name="lblNombrePlantillaComisionSobreCobranza" Content="Nombre Plantilla Comisión Sobre Cobranza...................." Style="{StaticResource LabelPrompt}" Visibility="Hidden" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtNombrePlantillaComisionSobreCobranza" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="200" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=NombrePlantillaComisionSobreCobranza, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Visibility="Hidden"/>
+        <Button Grid.Row="1" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="203,0,0,0" Name="btnTemplate" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=ChooseTemplateCommand}" Visibility="Hidden">...</Button>
+        </Grid>
+    </GroupBox>
+    
+</UserControl>

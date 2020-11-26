@@ -1,0 +1,171 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSSettValueByCompany"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    xmlns:nsCcl="clr-namespace:Galac.Saw.Ccl.SttDef;assembly=Galac.Saw.Ccl.SttDef"
+    xmlns:nsInput="clr-namespace:Galac.Saw.Uil.SttDef.Input" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="658">
+    
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type nsCcl:AnticipoStt}">
+            <nsInput:GSAnticipoStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:BancosStt}">
+            <nsInput:GSBancosStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:CamposDefiniblesStt}">
+            <nsInput:GSCamposDefiniblesStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:ClienteStt}">
+            <nsInput:GSClienteStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:CobranzasStt}">
+            <nsInput:GSCobranzasStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:ComisionesStt}">
+            <nsInput:GSComisionesStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:CompaniaStt}">
+            <nsInput:GSCompaniaStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:ComprasStt}">
+            <nsInput:GSComprasStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:CotizacionStt}">
+            <nsInput:GSCotizacionStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:CxPProveedorPagosStt}">
+            <nsInput:GSCxPProveedorPagosStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:FacturacionContinuacionStt}">
+            <nsInput:GSFacturacionContinuacionStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:FacturacionStt}">
+            <nsInput:GSFacturacionStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:GeneralStt}">
+            <nsInput:GSGeneralStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:ImpresiondeFacturaStt}">
+            <nsInput:GSImpresiondeFacturaStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:InventarioStt}">
+            <nsInput:GSInventarioStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:MetododecostosStt}">
+            <nsInput:GSMetododecostosStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:ModeloDeFacturaStt}">
+            <nsInput:GSModeloDeFacturaStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:MonedaStt}">
+            <nsInput:GSMonedaStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:MovimientoBancarioStt}">
+            <nsInput:GSMovimientoBancarioStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:NotaEntradaSalidaStt}">
+            <nsInput:GSNotaEntradaSalidaStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:NotaEntregaStt}">
+            <nsInput:GSNotaEntregaStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:NotasDebitoCreditoEntregaStt}">
+            <nsInput:GSNotasDebitoCreditoEntregaStt  />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:PlanillaDeIVAStt}">
+            <nsInput:GSPlanillaDeIVAStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:ProcesosStt}">
+            <nsInput:GSProcesosStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:RetencionISLRStt}">
+            <nsInput:GSRetencionISLRStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:RetencionIVAStt}">
+            <nsInput:GSRetencionIVAStt />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type nsCcl:VendedorStt}">
+            <nsInput:GSVendedorStt />
+        </DataTemplate>
+
+        <Style TargetType="{x:Type HeaderedContentControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
+                        <StackPanel Margin="2,0">
+                            <Grid Margin="1">
+                                <Rectangle Fill="DarkGray" Height="2" Margin="0,-5" Opacity="0.6" RadiusX="8" RadiusY="8" VerticalAlignment="Bottom"  />
+                                <ContentPresenter ContentSource="Header" 
+                                                  TextBlock.FontSize="16" 
+                                                  TextBlock.FontWeight="DemiBold" 
+                                                  TextBlock.Foreground="Brown" 
+                                                  HorizontalAlignment="Left" 
+                                                  VerticalAlignment="Center" />
+                                <Grid.Effect>
+                                    <DropShadowEffect Opacity="0.1" />
+                                </Grid.Effect>
+                            </Grid>
+                            <Grid>
+                                <Rectangle Fill="{TemplateBinding Background}" />
+                                <ContentPresenter ContentSource="Content" Margin="3,5" />
+                            </Grid>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+    
+    <Grid Name="gwMain" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="270" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <syncfusion:GroupBar Name="gbMenu" FontFamily="Arial" FontSize="12"
+                             ItemsSource="{Binding Path=ModuleList}" 
+                             VisualMode="StackMode" 
+                             IsToolBarEnabled="False" 
+                             Margin="0,0,0,-5"
+                             syncfusion:SkinStorage.VisualStyle="Office2010Silver" >
+            <syncfusion:GroupBar.ItemContainerStyle>
+                <Style TargetType="{x:Type syncfusion:GroupBarItem}">
+                    <Setter Property="Header" Value="{Binding}"/>
+                    <Setter Property="Content" Value="{Binding }"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Border BorderBrush="LightGray" BorderThickness="0,1,0,0">
+                                    <TextBlock Text="{Binding Path=DisplayName}" FontWeight="Bold" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                                </Border>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ContentTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <ListView ItemsSource="{Binding Path=Groups}" SelectedItem="{Binding Path=SelectedItem}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate DataType="ListViewItem">
+                                            <TextBlock Text="{Binding Path=DisplayName}" TextWrapping="Wrap" Margin="3" Foreground="Brown"  />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </syncfusion:GroupBar.ItemContainerStyle>
+        </syncfusion:GroupBar>
+        
+        <HeaderedContentControl x:Name="ccContent" Grid.Column="1" Margin="5" 
+                                Header="{Binding Path=GroupName}"
+                                DataContext="{Binding Path=SelectedContent.SelectedItem.Content, ElementName=gbMenu}"
+                                Content="{Binding }" />
+    </Grid>
+</UserControl>

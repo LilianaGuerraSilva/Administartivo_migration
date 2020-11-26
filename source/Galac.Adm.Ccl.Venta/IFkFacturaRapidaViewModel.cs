@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 namespace Galac.Adm.Ccl.Venta {
 
     public interface IFkFacturaRapidaViewModel {

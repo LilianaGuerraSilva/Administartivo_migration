@@ -45,9 +45,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.DispositivosExternos.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Ccl.SttDef">
+    <Reference Include="Galac.Saw.Ccl.SttDef">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>

@@ -1,0 +1,96 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSVM="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel"
+    xmlns:nsCSV="clr-namespace:Galac.Saw.Uil.SttDef.Views">
+    <DataTemplate DataType="{x:Type nsCSVM:DatosGeneralesCompaniaViewModel}">
+        <nsCSV:GSDatosGeneralesCompaniaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:DatosGeneralesViewModel}">
+        <nsCSV:GSDatosGeneralesView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaFacturacionViewModel}">
+        <nsCSV:GSFacturaFacturacionView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaFacturacionContViewModel}">
+        <nsCSV:GSFacturaFacturacionContView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaImpresionViewModel}">
+        <nsCSV:GSFacturaImpresionView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaModeloFacturaViewModel}">
+        <nsCSV:GSFacturaModeloFacturaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaCamposDefiniblesViewModel}">
+        <nsCSV:GSFacturaCamposDefiniblesView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaPuntoDeVentaViewModel}">
+        <nsCSV:GSFacturaPuntoDeVentaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:FacturaBalanzaEtiquetasViewModel}">
+        <nsCSV:GSFacturaBalanzaEtiquetasView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CotizacionViewModel}">
+        <nsCSV:GSCotizacionView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CotizacionNotaDebitoCreditoViewModel}">
+        <nsCSV:GSCotizacionNotaDebitoCreditoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CotizacionVendedorViewModel}">
+        <nsCSV:GSCotizacionVendedorView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CXCCobranzasClienteViewModel}">
+        <nsCSV:GSCXCCobranzasClienteView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CXCCobranzasViewModel}">
+        <nsCSV:GSCXCCobranzasView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CXCCobranzasComisionesViewModel}">
+        <nsCSV:GSCXCCobranzasComisionesView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:InventarioViewModel}">
+        <nsCSV:GSInventarioView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:InventarioNotaEntradaSalidaViewModel}">
+        <nsCSV:GSInventarioNotaEntradaSalidaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:InventarioMetodoCostoViewModel}">
+        <nsCSV:GSInventarioMetodoCostoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CxPComprasViewModel}">
+        <nsCSV:GSCxPComprasView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CxPComprasCxCProveedorViewModel}">
+        <nsCSV:GSCxPComprasCxCProveedorView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CxPComprasRetIVAViewModel}">
+        <nsCSV:GSCxPComprasRetIVAView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CxPComprasRetISLRViewModel}">
+        <nsCSV:GSCxPComprasRetISLRView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:CxPComprasPlanillaIVAViewModel}">
+        <nsCSV:GSCxPComprasPlanillaIVAView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:BancosViewModel}">
+        <nsCSV:GSBancosView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:BancosMonedaViewModel}">
+        <nsCSV:GSBancosMonedaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:BancosAnticipoViewModel}">
+        <nsCSV:GSBancosAnticipoView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:BancosMovimientoBancarioViewModel}">
+        <nsCSV:GSBancosMovimientoBancarioView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:ParametersViewModel}">
+        <nsCSV:GSParametersView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:NotasDeEntregaViewModel}">
+        <nsCSV:GSNotasDeEntregaView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:VerificadorDePreciosViewModel}">
+        <nsCSV:GSVerificadorDePreciosView />
+    </DataTemplate>
+</ResourceDictionary>

@@ -19,7 +19,7 @@ using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Dal.Venta;
 using Galac.Saw.Ccl.Tablas;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Uil.DispositivosExternos.ViewModel;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;

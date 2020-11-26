@@ -7,7 +7,7 @@ using LibGalac.Aos.UI.Mvvm.Helpers;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.Vendedor;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.Tablas;
 using Galac.Comun.Ccl.TablasGen;

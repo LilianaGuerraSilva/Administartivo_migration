@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="Galac.Dbo.Uil.CuentaBancaria.Sch.GSCuentaBancariaSch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,12,0,0">Código Cuenta Bancaria</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtCodigo" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,12,0,0" ToolTip="Código Cuenta Bancaria" DbColumnName="Codigo" BorderThickness="1" TabIndex = "0" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblStatus" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,40,0,0">Status</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbStatus" DisplayMemberPath="Text" DbMemberPath="Value" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" ToolTip="Status" SelectedIndex="0" DbColumnName="Status" BorderThickness="1" TabIndex = "1">
+            <nsWpfControls:LibGSCmbGenericItem Text="Todos (as)" Value=""/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Activo" Value="0"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Inactivo" Value="1"/>
+        </nsWpfControls:GSComboBoxWpf>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroCuenta" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,68,0,0">Nº de Cuenta Bancaria</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNumeroCuenta" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,68,0,0" ToolTip="Nº de Cuenta Bancaria" DbColumnName="NumeroCuenta" BorderThickness="1" TabIndex = "2" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreCuenta" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,96,0,0">Nombre de la Cuenta</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNombreCuenta" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,96,0,0" ToolTip="Nombre de la Cuenta" DbColumnName="NombreCuenta" BorderThickness="1" TabIndex = "3" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoBanco" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,124,0,0">Código del Banco</Label>
+        <nsWpfControls:GSNumericBoxWpfSch Name="txtCodigoBanco" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,124,0,0" ToolTip="Código del Banco" DbColumnName="CodigoBanco" BorderThickness="1" TabIndex = "4" InputDataType="igInt"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreBanco" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,152,0,0">Nombre del Banco</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNombreBanco" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,152,0,0" ToolTip="Nombre del Banco" DbColumnName="NombreBanco" BorderThickness="1" TabIndex = "5" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoCtaBancaria" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,180,0,0">Tipo de Cuenta</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbTipoCtaBancaria" DisplayMemberPath="Text" DbMemberPath="Value" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,180,0,0" ToolTip="Tipo de Cuenta" SelectedIndex="0" DbColumnName="TipoCtaBancaria" BorderThickness="1" TabIndex = "6">
+            <nsWpfControls:LibGSCmbGenericItem Text="Todos (as)" Value=""/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Corriente" Value="0"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Ahorros" Value="1"/>
+            <nsWpfControls:LibGSCmbGenericItem Text="Activos  Liquidos" Value="2"/>
+        </nsWpfControls:GSComboBoxWpf>
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(ConsecutivoCompania, Codigo)" Value="ConsecutivoCompania, Codigo"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Código Cuenta Bancaria" Value="Codigo"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Status" Value="Status"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Nº de Cuenta Bancaria" Value="NumeroCuenta"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Nombre de la Cuenta" Value="NombreCuenta"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Código del Banco" Value="CodigoBanco"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Nombre del Banco" Value="NombreBanco"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Tipo de Cuenta" Value="TipoCtaBancaria"/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                    <Field Header="Código Cuenta Bancaria" XPath="Codigo" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Status" XPath="StatusStr" Width="140" DataType="string"  ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Nº de Cuenta Bancaria" XPath="NumeroCuenta" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Nombre de la Cuenta" XPath="NombreCuenta" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Código del Banco" XPath="CodigoBanco" Width="100" TextAlignment="Right" DataType="int" ColumnLengthForPrinting="20"></Field>
+                    <Field Header="Nombre del Banco" XPath="NombreBanco" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

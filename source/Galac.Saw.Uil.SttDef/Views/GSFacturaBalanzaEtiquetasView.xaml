@@ -1,0 +1,186 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.SttDef.Views.GSFacturaBalanzaEtiquetasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="430" />
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Header="Configuración de Lectura Especial de Código de Barras con Peso/Precio" Style="{StaticResource GroupBoxStyle}">
+            <Grid Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350" />
+                    <ColumnDefinition Width="430" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />                    
+                </Grid.RowDefinitions>            
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="0.5" Margin="1,1,1,1" Width="Auto">
+                    <TextBlock Margin="2,1,3,1" Width="Auto" TextWrapping="WrapWithOverflow" 
+                        Text="Esta sección está destinada para configurar el módulo de punto de venta para la lectura de códigos de barra de las etiquetas impresas por balanzas electrónicas con la codificación EAN-13. También se pueden leer códigos de barra de etiquetas personalizadas siempre y se respete la estructura aquí configurada"
+                        Foreground="#FFC00000" >
+                    </TextBlock>                    
+                </Border>
+                <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Configuración de Estructura del Código de Barras con Artículo y Peso" Style="{StaticResource GroupBoxStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>                            
+                            <ColumnDefinition Width="290" />
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="290" />
+                            <ColumnDefinition Width="60" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />                            
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Name="lblUsaPesoEnCodigo" Content="Usa Peso en el Código de Barras............................." Style="{StaticResource LabelPrompt}" />
+                    <CheckBox Grid.Row="0" Grid.Column="1" Name="chkUsaPesoEnCodigo" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaPesoEnCodigo}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" />
+                    <Label Grid.Row="1" Grid.Column="0" Name="lblPrefijoCodigoPeso" Content="Prefijo del Código de Barras...................................." Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtPrefijoCodigoPeso" Style="{StaticResource TextBoxInputStyle}" InputDataType="Digit" MaxLength="2" Width="30" IsEnabled="{Binding Path=IsEnabledPesoEnCodigo}"
+                        Text="{Binding Path=PrefijoCodigoPeso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" InvalidCharacters="&quot;|-" Block.TextAlignment="Right" />
+                    <Label Grid.Row="1" Grid.Column="2" Name="lblCaracteresRestantesPeso" Content="Caracteres Restantes:" Style="{StaticResource LabelPrompt}" />
+                    <Label Grid.Row="1" Grid.Column="3" Name="lblNumeroDeCaracteresRestantesCodPeso" Content="{Binding Path=NumeroDeCaracteresRestantesCodPeso}" Style="{StaticResource LabelPrompt}" Foreground="#FFC00000" FontWeight="Bold" />
+                    <GroupBox Block.LineHeight="3" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Header="Configuración del Articulo en el Código de Barras" Margin="2,2,2,2" Style="{StaticResource SubGroupBoxStyle}" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="290" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="290" />
+                                <ColumnDefinition Width="60" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Name="lblNumeroDigitosCodArticuloPeso" Content="N° Dígitos del Código del Artículo(A)......................." Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSNumericBoxWpf Grid.Row="0" Grid.Column="1" Name="txtNumeroDigitosCodArticuloPeso" Style="{StaticResource TextBoxInputStyle}" InputDataType="Integer" MaxLength="2" Width="30" IsEnabled="{Binding Path=IsEnabledPesoEnCodigo}"
+                                Value="{Binding Path=NumDigitosCodigoArticuloPeso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" UnitDigits="2" DecimalDigits="0" InvalidCharacters="&quot;|-" />
+                            <Label Grid.Row="0" Grid.Column="2" Name="lblPosicionCodArticuloPeso" Content="Posición en el Código de Barras.............................." Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSComboBoxWpf Grid.Row="0" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Name="cmbPosicionCodArticuloPeso" Width="40"
+                                IsSynchronizedWithCurrentItem="True"
+                                ItemsSource="{Binding Path=ArrayPosicionCodArticuloPeso}"
+                                SelectedItem="{Binding Path=PosicionCodigoArticuloPeso, NotifyOnValidationError=True, ValidatesOnDataErrors=True,
+                                UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding Path=IsEnabledPosicionArticuloPeso}"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Block.LineHeight="3" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header="Configuración del Peso en el Código de Barras" Margin="2,2,2,2" Style="{StaticResource SubGroupBoxStyle}" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="290" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="290" />
+                                <ColumnDefinition Width="60" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0" Name="lblNumeroDigitosPeso" Content="Número Total de Dígitos del Peso (P)...................." Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSNumericBoxWpf Grid.Row="0" Grid.Column="1" Name="txtNumeroDigitosPeso" Style="{StaticResource TextBoxInputStyle}" InputDataType="Integer" MaxLength="2" Width="30" IsEnabled="False"
+                                Value="{Binding Path=NumDigitosPeso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" UnitDigits="2" DecimalDigits="0" InvalidCharacters="&quot;|-" />
+                            <Label Grid.Row="0" Grid.Column="2" Name="lblNumDecimalesPeso" Content="Número de Decimales del Peso (D).........................." Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSNumericBoxWpf Grid.Row="0" Grid.Column="3" Name="txtNumeroDecimalesPeso" Style="{StaticResource TextBoxInputStyle}" InputDataType="Integer" MaxLength="2" Width="30" IsEnabled="{Binding Path=IsEnabledPesoEnCodigo}"
+                                Value="{Binding Path=NumDecimalesPeso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" UnitDigits="2" DecimalDigits="0" InvalidCharacters="&quot;|-" />
+                        </Grid>
+                    </GroupBox>
+                    <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" Name="lblEjemploPeso" HorizontalAlignment="Right" Content="Ejemplo: " Style="{StaticResource LabelPrompt}" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Name="lblEjemploCodigoPeso" VerticalAlignment="Center" Text="{Binding Path=CodigoEjemploPeso}" FontWeight="Bold" Foreground="#FFC00000" TextWrapping="WrapWithOverflow" />
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="Configuración de Estructura del Código de Barras con Artículo y Precio" Style="{StaticResource GroupBoxStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="290" />
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="290" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Name="lblUsaPrecioEnCodigo" Content="Usa Precio en el Código de Barras......................." Style="{StaticResource LabelPrompt}" Margin="3,0,0,0" />
+                        <CheckBox Grid.Row="0" Grid.Column="1" Name="chkUsaPrecioEnCodigo" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaPrecioEnCodigo}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" />
+                        <Label Grid.Row="1" Grid.Column="0" Name="lblPrefijoCodigoPrecio" Content="Prefijo del Código de Barras...................................." Style="{StaticResource LabelPrompt}" />
+                        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtPrefijoCodigoPrecio" Style="{StaticResource TextBoxInputStyle}" InputDataType="Digit" MaxLength="2" Width="30" IsEnabled="{Binding Path=IsEnabledPrecioEnCodigo}"
+                            Text="{Binding Path=PrefijoCodigoPrecio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" InvalidCharacters="&quot;|-" />
+                        <Label Grid.Row="1" Grid.Column="2" Name="lblCaracteresRestantesPrecio" Content="Caracteres Restantes:" Style="{StaticResource LabelPrompt}" />
+                        <Label Grid.Row="1" Grid.Column="3" Name="lblNumeroDeCaracteresRestantesPrecio" Content="{Binding Path=NumeroDeCaracteresRestantesCodPrecio}" Style="{StaticResource LabelPrompt}" Foreground="#FFC00000" FontWeight="Bold" />
+                        <GroupBox Block.LineHeight="3" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Header="Configuración del Articulo en el Código de Barras" Margin="2,2,2,2" Style="{StaticResource SubGroupBoxStyle}" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="290" />
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="290" />
+                                    <ColumnDefinition Width="60" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Name="lblNumeroDigitosCodArticuloPrecio" Content="N° Dígitos del Código del Artículo (A)......................" Style="{StaticResource LabelPrompt}" />
+                                <nsWpfControls:GSNumericBoxWpf Grid.Row="0" Grid.Column="1" Name="txtNumeroDigitosCodArticuloPrecio" Style="{StaticResource TextBoxInputStyle}" InputDataType="Integer" MaxLength="2" Width="30" IsEnabled="{Binding Path=IsEnabledPrecioEnCodigo}"
+                                    Value="{Binding Path=NumDigitosCodigoArticuloPrecio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" UnitDigits="2" DecimalDigits="0" InvalidCharacters="&quot;|-" />
+                                <Label Grid.Row="0" Grid.Column="2" Name="lblPosicionCodArticuloPrecioPrecio" Content="Posición en el Código de Barras.............................." Style="{StaticResource LabelPrompt}" />
+                                <nsWpfControls:GSComboBoxWpf Grid.Row="0" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Name="cmbPosicionCodArticuloPrecio" Width="40"
+                                    IsSynchronizedWithCurrentItem="True"
+                                    ItemsSource="{Binding Path=ArrayPosicionCodArticuloPrecio}"
+                                    SelectedItem="{Binding Path=PosicionCodigoArticuloPrecio, NotifyOnValidationError=True, ValidatesOnDataErrors=True,
+                                    UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding Path=IsEnabledPosicionArticuloPrecio}" />
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Block.LineHeight="3" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Header="Configuración del Precio en el Código de Barras" Margin="2,2,2,2" Style="{StaticResource SubGroupBoxStyle}" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="290" />
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="290" />
+                                    <ColumnDefinition Width="60" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Name="lblNumeroDigitosPrecio" Content="Número de Total Dígitos del Precio (P)..................." Style="{StaticResource LabelPrompt}" />
+                                <nsWpfControls:GSNumericBoxWpf Grid.Row="0" Grid.Column="1" Name="txtNumeroDigitosPrecio" Style="{StaticResource TextBoxInputStyle}" InputDataType="Integer" MaxLength="2" Width="30" IsEnabled="False"
+                                    Value="{Binding Path=NumDigitosPrecio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" UnitDigits="2" DecimalDigits="0" InvalidCharacters="&quot;|-" />
+                                <Label Grid.Row="0" Grid.Column="2" Name="lblNumDecimalesPrecio" Content="Número de Decimales del Precio (D)......................." Style="{StaticResource LabelPrompt}" />
+                                <nsWpfControls:GSNumericBoxWpf Grid.Row="0" Grid.Column="3" Name="txtNumeroDecimalesPrecio" Style="{StaticResource TextBoxInputStyle}" InputDataType="Integer" MaxLength="2" Width="30" IsEnabled="{Binding Path=IsEnabledPrecioEnCodigo}"
+                                    Value="{Binding Path=NumDecimalesPrecio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" UnitDigits="2" DecimalDigits="0" InvalidCharacters="&quot;|-" />
+                            </Grid>
+                        </GroupBox>
+
+                        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="1" Name="lblEjemploPrecio" HorizontalAlignment="Right" Content="Ejemplo: " Style="{StaticResource LabelPrompt}" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Name="lblEjemploCodigoPrecio" VerticalAlignment="Center" Text="{Binding Path=CodigoEjemploPrecio}" FontWeight="Bold" Foreground="#FFC00000" TextWrapping="WrapWithOverflow" />
+                        <Label Grid.Row="5" Grid.Column="0" Name="lblPrecioIncluyeIva" Content="Precio en el Código Incluye IVA.............................." Style="{StaticResource LabelPrompt}" />
+                        <CheckBox Grid.Row="5" Grid.Column="1" Name="chkPrecioIncluyeIva" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=PrecioIncluyeIva}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabledPrecioEnCodigo}" />
+                    </Grid>
+            </GroupBox>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

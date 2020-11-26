@@ -1,4 +1,4 @@
-﻿using Galac.Comun.Ccl.SttDef;
+﻿using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.Wrp.Administrativo {
     public interface IWrpClienteInsercionRapida {

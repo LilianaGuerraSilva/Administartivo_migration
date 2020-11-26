@@ -1,0 +1,78 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSClienteStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsLocal="clr-namespace:Galac.Saw.Uil.SttDef"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" >
+    <UserControl.Resources>
+        <nsLocal:BooleanNotOperatorConverter  x:Key="notOperatorConverter" />
+    </UserControl.Resources>
+    <GroupBox Header=" " Margin="3">
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="275*" />
+        </Grid.ColumnDefinitions>
+        
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoGenericoCliente" Margin="3" Content="Cliente Genérico............................................................................."></Label>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" >
+            <nsWpfControls:GSTextBoxWpf InputDataType="String" Name="txtCodigoGenericoCliente" BorderThickness="1" Margin="3" Width="110" HorizontalAlignment="Left" InvalidCharacters="'¬|%()$#,;:.=" />
+            <nsWpfControls:GSTextBoxWpf InputDataType="String" Name="txtNombreGenericoCliente" BorderThickness="1" Margin="3" Width="200" HorizontalAlignment="Left" />
+        </StackPanel>
+        
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblLongitudCodigoCliente" Grid.Row="1" Margin="3" Content="Longitud del Código del Cliente......................................................"></Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UInteger" Name="txtLongitudCodigoCliente" MaxLength="11" TextAlignment="Right" BorderThickness="1" TabIndex="1" Grid.Column="1" Grid.Row="1" Margin="3" Width="50" HorizontalContentAlignment="Left" HorizontalAlignment="Left" />
+
+        <Label Content="Avisar si el Cliente Tiene una Deuda............................................." Name="label1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="3" Margin="3" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkAvisoDeClienteConDeuda" BorderThickness="1" TabIndex="2" Grid.Column="1" Grid.Row="3" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left"></CheckBox>
+
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblMontoApartirDelCualEnviarAvisoDeuda" Grid.Row="4" Margin="3" Content="Monto a Partir del Cual Enviar Aviso Deuda.................................."></Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="Decimal" Name="txtMontoApartirDelCualEnviarAvisoDeuda" MaxLength="12" BorderThickness="1" Grid.Column="1" Grid.Row="4" Margin="3" Width="110" HorizontalContentAlignment="Left" HorizontalAlignment="Left" />
+
+        <Label Content="Usar el Código del Cliente al Realizar una Búsqueda...................." Name="label2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="5" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkBuscarClienteXRifAlFacturar, Converter={StaticResource notOperatorConverter}}"/>
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" IsEnabled="{Binding Path=IsChecked, ElementName=chkBuscarClienteXRifAlFacturar, Converter={StaticResource notOperatorConverter}}" Name="chkUsaCodigoClienteEnPantalla" BorderThickness="1" TabIndex="4" Grid.Column="1" Grid.Row="5" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left"></CheckBox>
+
+        <Label Content="Usar el Rif del Cliente al Realizar una Búsqueda..........................." Name="label3" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="6" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaCodigoClienteEnPantalla, Converter={StaticResource notOperatorConverter}}"/>
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaCodigoClienteEnPantalla, Converter={StaticResource notOperatorConverter}}" Name="chkBuscarClienteXRifAlFacturar" BorderThickness="1" TabIndex="5" Grid.Column="1" Grid.Row="6" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left"></CheckBox>
+
+        <Label Content="Colocar en Factura y Cotización el Vendedor Asignado al Cliente" Name="label4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="7" Margin="3" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkColocarEnFacturaElVendedorAsinagoAlCliente" BorderThickness="1" TabIndex="6" Grid.Column="1" Grid.Row="7" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left"></CheckBox>
+
+        <Label Content="Imprimir Datos del Cliente en Comprobante de Impresión Fiscal.." Name="label5" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="8" Margin="3" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkImprimirDatosClienteEnCompFiscal" BorderThickness="1" TabIndex="7" Grid.Column="1" Grid.Row="8" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left"></CheckBox>
+
+        <Label Content="Aviso al Facturar al Mismo Cliente en un periodo menor a 30 días" Name="label6" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="9" Margin="3" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkAvisoDeFacturacionMenor" BorderThickness="1" TabIndex="8" Grid.Column="1" Grid.Row="9" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left"></CheckBox>
+
+        <GroupBox Margin="3" Grid.Row="10" Grid.ColumnSpan="2" Header="Cliente - Campos Definibles">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreCampoDefinibleCliente1" Margin="3">Campo Definible 1</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" InputDataType="Alfanumeric" MaxLength="20" Name="txtNombreCampoDefinibleCliente1" BorderThickness="1" Margin="3" Width="300" HorizontalContentAlignment="Left" HorizontalAlignment="Left" />
+            </Grid>
+        </GroupBox>
+
+        <Label Content="Rellena ceros a la izquierda..........................................................." Name="lblRellenaCerosAlaIzquierda" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="2" Margin="3" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkRellenaCerosAlaIzquierda" BorderThickness="1" TabIndex="10" Grid.Column="1" Grid.Row="2" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left" HorizontalContentAlignment="Left"></CheckBox>
+        
+    </Grid>
+    </GroupBox>
+</UserControl>

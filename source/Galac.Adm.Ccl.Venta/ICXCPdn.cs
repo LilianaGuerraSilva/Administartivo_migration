@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Text;
 using Galac.Adm.Ccl.Venta;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.Venta {

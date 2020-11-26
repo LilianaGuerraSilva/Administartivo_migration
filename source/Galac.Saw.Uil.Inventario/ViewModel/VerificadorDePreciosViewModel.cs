@@ -1,5 +1,5 @@
 using Galac.Comun.Brl.TablasGen;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Saw.Brl.Inventario;

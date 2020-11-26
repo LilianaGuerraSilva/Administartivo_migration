@@ -4,7 +4,7 @@ using System.Text;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.Dal.Contracts;
 using Galac.Adm.Ccl.Venta;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Dal.Venta {
     [LibMefDalComponentMetadata(typeof(clsRenglonFacturaED))]

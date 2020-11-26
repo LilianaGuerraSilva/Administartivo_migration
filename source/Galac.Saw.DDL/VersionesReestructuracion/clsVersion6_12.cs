@@ -6,7 +6,7 @@ using System.Data;
 using LibGalac.Aos.Dal.Usal;
 using System.Collections.Generic;
 using LibGalac.Aos.DefGen;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base.Dal;
 using System.Linq;
 using System.Xml.Linq;
