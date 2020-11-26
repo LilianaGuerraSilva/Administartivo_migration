@@ -7,7 +7,7 @@ using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Dal.Venta;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Adm.Brl.Venta {

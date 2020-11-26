@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Xml.Linq;
 using System.Text;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Ccl.DispositivosExternos;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;

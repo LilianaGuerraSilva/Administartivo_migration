@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using LibGalac.Aos.Base.Dal;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersion5_82 : clsVersionARestructurar {

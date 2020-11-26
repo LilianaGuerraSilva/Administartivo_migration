@@ -15,7 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Ccl.Venta;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Brl.Venta;
 using LibGalac.Aos.Ccl.Usal;
 using System.Collections.ObjectModel;

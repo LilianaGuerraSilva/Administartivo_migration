@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.SttDef.Views.GSCxPComprasCxCProveedorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtNumCopiasComprobantepago}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Pagos / Orden de Pago" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Margin="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Name="lblNumCopiasComprobantepago" Content="Número de Copias del Comprobante de Pago........." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSNumericBoxWpf  Grid.Row="0" Grid.Column="1" Name="txtNumCopiasComprobantepago" Style="{StaticResource TextBoxInputStyle}" MaxLength="5" Width="50" IsEnabled="{Binding Path=IsEnabled}" InputDataType="UInteger" 
+                                    Value="{Binding Path=NumCopiasComprobantepago, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Label Grid.Row="1" Grid.Column="0" Name="lblNombrePlantillaComprobanteDePago" Content="Plantilla de Impresión................................................" Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtNombrePlantillaComprobanteDePago" nsWpf:LibFocusManager.IsFocused="True" nsWpf:LibFocusManager.FocusedPropertyName="NombrePlantillaComprobanteDePago" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="200" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=NombrePlantillaComprobanteDePago, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Button Grid.Row="1" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="203,0,0,0" Name="btnTemplateOP" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=ChooseTemplateCommandOrdenPago}">...</Button>
+                <Label Grid.Row="2" Grid.Column="0" Name="lblTipoDeOrdenDePagoAImprimir" Content="Tipo de Orden de Pago............................................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDeOrdenDePagoAImprimir" Width="180"
+                                             IsSynchronizedWithCurrentItem="True"
+                                             ItemsSource="{Binding Path=ArrayTipoDeOrdenDePagoAImprimir}"
+                                             SelectedItem="{Binding Path=TipoDeOrdenDePagoAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="{Binding Path=IsEnabled}" />
+                <Label Grid.Row="3" Grid.Column="0" Name="lblConfirmarImpresionPorSecciones" Content="Confirmar Impresión por Secciones.........................." Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="3" Grid.Column="1" Name="chkConfirmarImpresionPorSecciones" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ConfirmarImpresionPorSecciones}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="4" Grid.Column="0" Name="lblImprimirComprobanteContableDePago" Content="Imprimir Comprobante Contable de Pago................" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="4" Grid.Column="1" Name="chkImprimirComprobanteContableDePago" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ImprimirComprobanteContableDePago}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="5" Grid.Column="0" Name="lblNoImprimirComprobanteDePago" Content="No Imprimir Comprobante de Pago Inmediatamente" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="5" Grid.Column="1" Name="chkNoImprimirComprobanteDePago" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=NoImprimirComprobanteDePago}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="6" Grid.Column="0" Name="lblConceptoBancarioReversoDePago" Content="Concepto Bancario de Reverso de Pago.................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection Grid.Row="6" Grid.Column="1" Name="txtConceptoBancarioReversoDePago" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="codigo"
+                                        Model="{Binding Path=ConexionConceptoBancarioReversoDePago, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=ConceptoBancarioReversoDePago, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseConceptoBancarioReversoDePagoCommand}" />
+                <Label Grid.Row="7" Grid.Column="0" Name="lblAvisarSiProveedorTieneAnticipos" Content="Avisar si Proveedor Tiene Anticipos Pendientes......" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="7" Grid.Column="1" Name="chkAvisarSiProveedorTieneAnticipos" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=AvisarSiProveedorTieneAnticipos}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="8" Grid.Column="0" Name="lblOrdenarCxPPorFacturaDocumento" Content="Ordernar CxP por Número de Factura / Documento" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="8" Grid.Column="1" Name="chkOrdenarCxPPorFacturaDocumento" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=OrdenarCxPPorFacturaDocumento}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Cuentas por Pagar" Grid.Column="1" Grid.Row="1" Margin="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Name="lblExigirInformacionLibroDeCompras" Content="Exigir Informacion Libro de Compras" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="0" Grid.Column="1" Name="chkExigirInformacionLibroDeCompras" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ExigirInformacionLibroDeCompras}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="1" Grid.Column="0" Name="lblFechaSugeridaRetencionesCxP" Content="Fecha Sugerida para Retenciones de la CxP" Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbFechaSugeridaRetencionesCxP" Width="180"
+                                             IsSynchronizedWithCurrentItem="True"
+                                             ItemsSource="{Binding Path=ArrayFechaSugeridaRetencionesCxP}"
+                                             SelectedItem="{Binding Path=FechaSugeridaRetencionesCxP, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="{Binding Path=IsEnabled}" />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Proveedor" Grid.Column="0" Grid.Row="1" Margin="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Name="lblUsarCodigoProveedorEnPantalla" Content="Usar Código Proveedor al Realizar Búsqueda" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="0" Grid.Column="1" Name="chkUsarCodigoProveedorEnPantalla" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsarCodigoProveedorEnPantalla}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="1" Grid.Column="0" Name="lblLongitudCodigoProveedor" Content="Longitud del Código de Proveedor.................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSNumericBoxWpf Grid.Row="1" Grid.Column="1" Name="txtLongitudCodigoProveedor" Style="{StaticResource TextBoxInputStyle}" InputDataType="UInteger" MaxLength="11" Width="50" IsEnabled="{Binding Path=IsEnabled}"
+                                    Value="{Binding Path=LongitudCodigoProveedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Header="Impuestos Municipales" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Visibility="{Binding Path=IsVisibleRetieneImpuestoMunicipal, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Name="lblRetieneImpuestoMunicipal" Content="Retiene Impuesto Municipal........" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="0" Grid.Column="1" Name="chkRetieneImpuestoMunicipal" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=RetieneImpuestoMunicipal}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="1" Grid.Column="0" Name="lblNombrePlantillaRetencionImpuestoMunicipal" Content="Plantilla de Impresión.................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtNombrePlantillaRetencionImpuestoMunicipal" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="200" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=NombrePlantillaRetencionImpuestoMunicipal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Button Grid.Row="1" Grid.Column="2" Height="23" HorizontalAlignment="Left" Name="btnTemplateCC" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=ChooseTemplateCommandRetencionImpuestoMunicipal}">...</Button>
+                <Label Grid.Row="2" Grid.Column="0" Name="lblPrimerNumeroComprobanteRetImpuestoMunicipal" Content="Primer Número de Comprobante" Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSNumericBoxWpf  Grid.Row="2" Grid.Column="1" Name="txtPrimerNumeroComprobanteRetImpuestoMunicipal" Style="{StaticResource TextBoxInputStyle}" InputDataType="UInteger" MaxLength="11" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+                                    Value="{Binding Path=PrimerNumeroComprobanteRetImpuestoMunicipal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Label Grid.Row="3" Grid.Column="0" Name="lblNombrePlantillaRetencionImpuestoMunicipalInforme" Content="Plantilla de Impresión Informe....." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="3" Grid.Column="1" Name="txtNombrePlantillaRetencionImpuestoMunicipalInforme" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="200" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=NombrePlantillaRetencionImpuestoMunicipalInforme, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Button Grid.Row="3" Grid.Column="2" Height="23" HorizontalAlignment="Left" Name="btnTemplateCCInforme" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabled}" Command="{Binding Path=ChooseTemplateCommandRetencionImpuestoMunicipalInforme}">...</Button>
+            </Grid>
+        </GroupBox>
+        
+    </Grid>
+</UserControl>

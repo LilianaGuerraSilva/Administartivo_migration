@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSNotaEntradaSalidaStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <GroupBox Header=" " Margin="3">
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="180*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Content="Imprimir Nota de Entrada / Salida al Insertar..................." Name="label1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Grid.Column="1" Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkImprimirReporteAlIngresarNotaEntradaSalida" BorderThickness="1" Margin="3" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalAlignment="Center"></CheckBox>
+
+        <Label Grid.Column="0" Grid.Row="1" Content="Plantilla de Impresión......................................................" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaNotaEntradaSalida" Margin="3" />
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+            <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaNotaEntradaSalida" BorderThickness="1" Margin="3" HorizontalAlignment="Left" Width="200"  IsEnabled="{Binding Path=IsChecked, ElementName=chkImprimirReporteAlIngresarNotaEntradaSalida}" />
+            <Button Content="..." Width="20" Height="23" Margin="0,3,3,3" Name="btnBuscarRpxNES"  IsEnabled="{Binding Path=IsChecked, ElementName=chkImprimirReporteAlIngresarNotaEntradaSalida}" />
+        </StackPanel>
+
+        <Label Grid.Column="0" Grid.Row="2" Content="Plantilla de Impresión de Codigos De Barras.................." Name="label2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+            <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaCodigoDeBarras" BorderThickness="1" Margin="3" HorizontalAlignment="Left" Width="200" />
+            <Button Content="..." Width="20" Height="23" Margin="0,3,3,3" Name="btnBuscarRpxImpresionCodigoDeBarras" />
+        </StackPanel>
+
+        <TextBlock Foreground="Navy" TextWrapping="WrapWithOverflow" Width="300" HorizontalAlignment="Left" Text="Imprimir Precio de los Artículos en el Comprobante de Nota de Entrada /Salida al Insertar" Name="label3" Grid.Row="3" Margin="10,3,3,3" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkImprimirNotaESconPrecio" BorderThickness="1" TabIndex="3" Grid.Column="1" Grid.Row="3" Margin="3" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalAlignment="Center"></CheckBox>
+    </Grid>
+    </GroupBox>
+</UserControl>

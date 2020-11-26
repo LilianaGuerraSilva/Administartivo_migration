@@ -1,0 +1,23 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.SttDef.Sch.GSInventarioSttSch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(, NOT FOUND = )" Value=", NOT FOUND = "/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

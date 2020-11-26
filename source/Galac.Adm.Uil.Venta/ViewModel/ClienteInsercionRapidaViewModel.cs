@@ -14,7 +14,7 @@ using Galac.Adm.Brl.Venta;
 using System.Xml;
 using LibGalac.Aos.UI.Wpf;
 using Galac.Comun.Brl.TablasGen;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class ClienteInsercionRapidaViewModel:LibGenericViewModel {

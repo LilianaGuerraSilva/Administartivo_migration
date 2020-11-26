@@ -1,0 +1,169 @@
+﻿<UserControl x:Class="Galac.Saw.Uil.SttDef.Views.GSFacturaModeloFacturaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=cmbModeloDeFactura}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="410" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Grid.Row="0" Header="Talonario No. 1"  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="0,0,-12,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="27*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Name="lblModeloDeFactura" Content="Modelo De Factura............" Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="0" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbModeloDeFactura" Width="180"
+                                             IsSynchronizedWithCurrentItem="True"
+                                             ItemsSource="{Binding Path=ArrayModeloDeFactura}"
+                                             SelectedItem="{Binding Path=ModeloDeFactura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="{Binding Path=IsEnabled}" />
+                <Label Grid.Row="1" Grid.Column="0" Name="lblNombrePlantillaFactura" Content="Nombre Plantilla Factura..." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtNombrePlantillaFactura" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="200" IsEnabled="{Binding Path=IsEnabledPlantillaFactura}"
+                                            Text="{Binding Path=NombrePlantillaFactura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+
+                <Button Grid.Row="1" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="203,0,0,0" Name="btnTemplateTalonario1" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabledPlantillaFactura}" Command="{Binding Path=ChooseTemplateCommandTalonario1}">...</Button>
+                
+                <Label Grid.Row="2" Grid.Column="0" Name="lblFacturaPreNumerada" Content="Factura Pre Numerada......" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="2" Grid.Column="1" Name="chkFacturaPreNumerada" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=FacturaPreNumerada}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+                <Label Grid.Row="3" Grid.Column="0" Name="lblPrimeraFactura" Content="Primera Factura................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="3" Grid.Column="1" Name="txtPrimeraFactura" Style="{StaticResource TextBoxInputStyle}" InputDataType="Digit" MaxLength="11" Width="180" IsEnabled="{Binding Path=IsEnabledPrimeraFactura}"
+                                    Text="{Binding Path=PrimeraFactura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Label Grid.Row="4" Grid.Column="0" Name="lblTipoDePrefijo" Content="Tipo de Prefijo...................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="4" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDePrefijo" Width="180"
+                                             IsSynchronizedWithCurrentItem="True"
+                                             ItemsSource="{Binding Path=ArrayTipoDePrefijo}"
+                                             SelectedItem="{Binding Path=TipoDePrefijo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="{Binding Path=IsEnabledTipoPrefijo}" />
+                <Label Grid.Row="5" Name="lblPrefijo" Content="Prefijo................................." Style="{StaticResource LabelPrompt}" Margin="3,3,0,0" Grid.RowSpan="2" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="5" Grid.Column="1" Name="txtPrefijo" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="5" Width="180" IsEnabled="{Binding Path=IsEnabledPrefijo}"
+                                    Text="{Binding Path=Prefijo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Margin="3,3,0,0" />
+                <Label Grid.Row="6" Name="lblModeloFacturaModoTexto" Content="Modelo Factura Modo Texto" Style="{StaticResource LabelPrompt}"  Visibility="{Binding Path=IsVisibleModeloFacturaModoTexto, Converter={StaticResource booleanToVisibilityConverter}}" Margin="0,4,0,0" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="6" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbModeloDeFacturaModoTexto" Width="200"
+                                             IsSynchronizedWithCurrentItem="True"
+                                             ItemsSource="{Binding Path=ArrayModeloFacturaModoTexto}"
+                                             SelectedItem="{Binding Path=ModeloFacturaModoTexto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsVisibleModeloFacturaModoTexto, Converter={StaticResource booleanToVisibilityConverter}}" Margin="0,4,0,0" />
+
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="1" Grid.Column="0" Name="lblUsarDosTalonarios" Content="Usar Talonario 2" Style="{StaticResource LabelPrompt}" />
+            <CheckBox Grid.Row="1" Grid.Column="1" Name="chkUsarDosTalonarios" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsarDosTalonarios}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+        </Grid>
+
+        <GroupBox Style="{StaticResource GroupBoxStyle}" Grid.Row="2" Header="Talonario No. 2"  HorizontalAlignment="Stretch"  Name="groupTalonarioNo2" VerticalAlignment="Stretch" Margin="0,0,-12,0" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsarDosTalonarios}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+
+                <Label Grid.Row="0" Grid.Column="0" Name="lblModeloDeFactura2" Content="Modelo De Factura 2.............." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="0" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbModeloDeFactura2" Width="180"
+                                             IsSynchronizedWithCurrentItem="True"
+                                             ItemsSource="{Binding Path=ArrayModeloDeFactura}"
+                                             SelectedItem="{Binding Path=ModeloDeFactura2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="{Binding Path=IsEnabled}" />
+
+
+
+                <Label Grid.Row="1" Grid.Column="0" Name="lblNombrePlantillaFactura2" Content="Nombre Plantilla Factura 2....." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtNombrePlantillaFactura2" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="200" IsEnabled="{Binding Path=IsEnabledPlantillaFactura2}"
+                                            Text="{Binding Path=NombrePlantillaFactura2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+                <Button Grid.Row="1" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="203,0,0,0" Name="btnTemplateTalonario2" VerticalAlignment="Center" Width="30" IsEnabled="{Binding Path=IsEnabledPlantillaFactura2}" Command="{Binding Path=ChooseTemplateCommandTalonario2}">...</Button>
+
+                <Label Grid.Row="2" Grid.Column="0" Name="lblFacturaPreNumerada2" Content="Factura Pre Numerada 2........" Style="{StaticResource LabelPrompt}" />
+                <CheckBox Grid.Row="2" Grid.Column="1" Name="chkFacturaPreNumerada2" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=FacturaPreNumerada2}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
+
+
+                <Label Grid.Row="3" Grid.Column="0" Name="lblPrimeraFactura2" Content="Primera Factura 2..................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="3" Grid.Column="1" Name="txtPrimeraFactura2" Style="{StaticResource TextBoxInputStyle}" InputDataType="Digit" MaxLength="11" Width="180" IsEnabled="{Binding Path=IsEnabledPrimeraFactura2}"
+                                    Text="{Binding Path=PrimeraFactura2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+
+                <Label Grid.Row="4" Grid.Column="0" Name="lblTipoDePrefijo2" Content="Tipo de Prefijo 2....................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="4" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDePrefijo2" Width="180"
+                                             IsSynchronizedWithCurrentItem="True"
+                                             ItemsSource="{Binding Path=ArrayTipoDePrefijo}"
+                                             SelectedItem="{Binding Path=TipoDePrefijo2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="{Binding Path=IsEnabledTipoPrefijo2}" />
+
+
+                <Label Grid.Row="5" Grid.Column="0" Name="lblPrefijo2" Content="Prefijo 2.................................." Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf Grid.Row="5" Grid.Column="1" Name="txtPrefijo2" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="5" Width="180" IsEnabled="{Binding Path=IsEnabledPrefijo2}"
+                                    Text="{Binding Path=Prefijo2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+
+
+                <Label Grid.Row="6" Grid.Column="0" Name="lblModeloFacturaModoTexto2" Content="Modelo Factura Modo Texto 2" Style="{StaticResource LabelPrompt}"  Visibility="{Binding Path=IsVisibleModeloFacturaModoTexto2, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <nsWpfControls:GSComboBoxWpf Grid.Row="6" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbModeloDeFacturaModoTexto2" Width="200"
+                                             IsSynchronizedWithCurrentItem="True"
+                                             ItemsSource="{Binding Path=ArrayModeloFacturaModoTexto}"
+                                             SelectedItem="{Binding Path=ModeloFacturaModoTexto2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                             IsEnabled="{Binding Path=IsEnabled}" Visibility="{Binding Path=IsVisibleModeloFacturaModoTexto2, Converter={StaticResource booleanToVisibilityConverter}}"/>
+            </Grid>
+        </GroupBox>
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </Grid>
+</UserControl>

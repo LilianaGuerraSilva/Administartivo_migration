@@ -7,7 +7,7 @@ using LibGalac.Aos.Uil.Usal;
 using System.Runtime.InteropServices;
 using Galac.Adm.Uil.Venta;
 using Galac.Saw.Wrp.Administrativo;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.Wrp.Venta {
     [ClassInterface(ClassInterfaceType.None)]

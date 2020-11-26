@@ -6,7 +6,7 @@ using LibGalac.Aos.Dal;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Dal.Usal;
 using LibGalac.Aos.Base.Dal;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {

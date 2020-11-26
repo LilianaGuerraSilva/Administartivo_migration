@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Xml;
 using LibGalac.Aos.Base;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Ccl.Venta {

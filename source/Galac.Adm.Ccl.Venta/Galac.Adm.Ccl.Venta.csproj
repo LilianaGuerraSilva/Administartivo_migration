@@ -41,10 +41,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.DispositivosExternos.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Ccl.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Saw.Ccl.Cliente">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
@@ -52,6 +48,10 @@
     <Reference Include="Galac.Saw.Ccl.Inventario">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.SttDef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Saw.Lib">
       <SpecificVersion>False</SpecificVersion>

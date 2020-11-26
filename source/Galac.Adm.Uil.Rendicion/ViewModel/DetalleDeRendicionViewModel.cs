@@ -17,7 +17,7 @@ using Galac.Adm.Ccl.CajaChica;
 using Galac.Adm.Ccl.Banco;
 using Galac.Comun.Ccl.Impuesto;
 using Galac.Comun.Brl.Impuesto;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.CajaChica.ViewModel {
     public class DetalleDeRendicionViewModel : LibInputDetailViewModelMfc<DetalleDeRendicion> {

@@ -1,0 +1,82 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSNotaEntregaStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    xmlns:nslocal="clr-namespace:Galac.Saw.Uil.SttDef">
+    <UserControl.Resources>
+        <nslocal:BooleanNotOperatorConverter x:Key="notOperatorConverter" />
+    </UserControl.Resources>
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Margin="3" Grid.Row="0" Header=" ">
+            <Grid>
+                <Grid.RowDefinitions>                    
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="210" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblModeloNotaEntrega" Margin="3">Modelo Nota Entrega........................</Label>
+                <nsWpfControls:GSComboBoxWpf Grid.Column="1" Grid.Row="1" Name="cmbModeloNotaEntrega" BorderThickness="1" Margin="3" Width="200" HorizontalAlignment="Left" />
+
+                <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaNotaEntrega" Margin="3">Plantilla de Impresión.......................</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="2" InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaNotaEntrega" BorderThickness="1" Margin="3,3,0,3" Width="164" HorizontalAlignment="Left" />
+                
+
+                <Label Grid.Column="0" Grid.Row="3" Content="Usa Nota de Entrega Pre-Numerada" Name="label1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+                <CheckBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkNotaEntregaPreNumerada" BorderThickness="1" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+
+                <Label Grid.Column="0" Grid.Row="4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblPrimeraNotaEntrega" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkNotaEntregaPreNumerada, Converter={StaticResource notOperatorConverter}}">Número Incial...................................</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="4" InputDataType="Alfanumeric" MaxLength="11" Name="txtPrimeraNotaEntrega" BorderThickness="1" Margin="3" Width="200" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsChecked, ElementName=chkNotaEntregaPreNumerada, Converter={StaticResource notOperatorConverter}}"/>
+
+                <Label Grid.Column="0" Grid.Row="5" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoPrefijoNotaEntrega" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkNotaEntregaPreNumerada, Converter={StaticResource notOperatorConverter}}">Tipo de Prefijo...................................</Label>
+                <nsWpfControls:GSComboBoxWpf Grid.Column="1" Grid.Row="5" Name="cmbTipoPrefijoNotaEntrega" BorderThickness="1" Margin="3" Width="200" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsChecked, ElementName=chkNotaEntregaPreNumerada, Converter={StaticResource notOperatorConverter}}"/>
+
+                <Label Grid.Column="0" Grid.Row="6" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblPrefijoNotaEntrega" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkNotaEntregaPreNumerada, Converter={StaticResource notOperatorConverter}}">Prefijo...............................................</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="6" InputDataType="Alfanumeric" MaxLength="5" Name="txtPrefijoNotaEntrega" BorderThickness="1" Margin="3" Width="200" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsChecked, ElementName=chkNotaEntregaPreNumerada, Converter={StaticResource notOperatorConverter}}"/>
+                <Button Content="..." Grid.Row="2" Height="23" Margin="173,2,13,4" Name="btnBuscarRpxNotaEntrega" Width="20" Grid.Column="1" />
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblModeloNotaEntregaModoTexto" Grid.Column="0" Grid.Row="7" >Modelo Nota de Entrega Modo Texto</Label>
+                <nsWpfControls:GSComboBoxWpf  Name="cmbModeloNotaEntregaModoTexto" BorderThickness="1" TabIndex="7" Grid.Column="1" Grid.Row="7"  />
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Margin="3" Grid.Row="1" Header="Ordenes de Despacho">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaOrdenDeDespacho" Margin="3">Planilla de Impresión</Label>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" >
+                    <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaOrdenDeDespacho" BorderThickness="1" Margin="3" Width="200" HorizontalAlignment="Left" />
+                    <Button Content="..." Width="20" Height="23" Margin="0,3,3,3" Name="btnBuscarRpxOrdenDeDespacho"/>
+                </StackPanel>
+
+                <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumCopiasOrdenDeDespacho" Margin="3">Número de Copias</Label>
+                <nsWpfControls:GSNumericBoxWpf Grid.Column="1" Grid.Row="1" InputDataType="UInteger" Name="txtNumCopiasOrdenDeDespacho" MaxLength="11" TextAlignment="Right" BorderThickness="1" Margin="3" Width="50" HorizontalAlignment="Left" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

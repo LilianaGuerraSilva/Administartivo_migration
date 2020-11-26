@@ -1,0 +1,83 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSMovimientoBancarioStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <GroupBox Header=" " Margin="3">
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="193*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Content="Mostrar Mensaje de Número de Movimiento Bancario..............." Name="label1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Grid.Column="1" Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkMandarMensajeNumeroDeMovimientoBancario" BorderThickness="1" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+
+        <Label Grid.Column="0" Grid.Row="1" Content="Generar Movimiento Bancario Desde Cobro.............................." Name="label2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkGenerarMovBancarioDesdeCobro" BorderThickness="1" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+        <Border Grid.Column="0" Grid.Row="2" BorderBrush="Black" BorderThickness="0.5" Margin="8,-6,3,3">
+            <StackPanel>
+                <TextBlock Margin="10,0,0,0" Width="280" TextWrapping="WrapWithOverflow" Text="Aplica solo para cobranzas manuales y para cobranzas generadas desde cobro directo." Foreground="#FFC00000" />
+            </StackPanel>
+        </Border>
+
+        <Label Grid.Column="0" Grid.Row="3" Content="Usa Codigo de Concepto Bancario en Pantalla.........................." Name="label3" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkUsaCodigoConceptoBancarioEnPantalla" BorderThickness="1" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+
+        <Label Grid.Column="0" Grid.Row="4" Content="Generar Movimiento Bancario Desde Pago..............................." Name="label4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Grid.Column="1" Grid.Row="4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkGenerarMovBancarioDesdePago" BorderThickness="1" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+
+        <Label Grid.Column="0" Grid.Row="5" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumCopiasComprobanteMovBancario" Margin="3">Número de Copias para Comprobante de Movimiento Bancario</Label>
+        <nsWpfControls:GSNumericBoxWpf Grid.Column="1" Grid.Row="5" InputDataType="UInteger" Name="txtNumCopiasComprobanteMovBancario" MaxLength="11" TextAlignment="Right" BorderThickness="1" Margin="3" Width="100" HorizontalAlignment="Left" />
+
+        <Label Grid.Column="0" Grid.Row="6" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaComprobanteDeMovBancario" Margin="3">Plantilla de Impresión de Movimiento Bancario..........................</Label>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="6" >
+            <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="60" Name="txtNombrePlantillaComprobanteDeMovBancario" BorderThickness="1" Margin="3" Width="200" HorizontalAlignment="Left" />
+            <Button Name="btnNombrePlantillaComprobanteDeMovBancario" Content="..." Width="20" Height="23" Margin="0,3,3,3" />
+        </StackPanel>
+
+        <Label Grid.Column="0" Grid.Row="7" Content="Confirmar Impresion por Secciones..........................................." Name="label5" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Grid.Column="1" Grid.Row="7" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkConfirmarImpresionMovBancarioPorSecciones" BorderThickness="1" Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+
+        <Label Grid.Column="0" Grid.Row="8" Content="Imprimir Comprobante de Cheque Inmediatamente..................." Name="label6" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Grid.Column="1" Grid.Row="8" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkImprimirCompContDespuesDeChequeMovBancario" BorderThickness="1"  Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+
+        <Label Grid.Column="0" Grid.Row="9" Content="Imprimir Comprobante Contable de Cheque.............................." Name="label7" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkImprimirCompContDespuesDeChequeMovBancario}" />
+        <CheckBox Grid.Column="1" Grid.Row="9" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkImprimirComprobanteDeMovBancario" BorderThickness="1"  Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="{Binding Path=IsChecked, ElementName=chkImprimirCompContDespuesDeChequeMovBancario}"></CheckBox>
+
+        <Label Grid.Column="0" Grid.Row="10" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblBeneficiarioGenerico" Margin="3">Código de Beneficiario...............................................................</Label>
+        <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="10" InputDataType="String" Name="txtBeneficiarioGenerico" MaxLength="10" TextAlignment="Right" BorderThickness="1"  Margin="3,3,0,3" Width="100" HorizontalAlignment="Left" InvalidCharacters="'¬|%()$#,;:.="/>
+
+        <Label Grid.Column="0" Grid.Row="11" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblConceptoBancarioReversoSolicitudDePago" Margin="3">Concepto de Reverso de Solicitud de Pago...............................</Label>
+        <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="11" InputDataType="String" MaxLength="8" Name="txtConceptoBancarioReversoSolicitudDePago" BorderThickness="1"  Margin="3" Width="100" HorizontalAlignment="Left" InvalidCharacters="'¬|%()$#,;:.="/>
+        <Label Grid.Column="0" Grid.Row="13" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaComprobanteDePagoSueldo" Margin="3">Plantilla de Impresión de Comprobante de Pago Sueldo...........</Label>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="13" >
+            <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaComprobanteDePagoSueldo" BorderThickness="1"  Margin="3" Width="200" HorizontalAlignment="Left" />
+            <Button Content="..." Width="20" Height="23" Margin="0,3,3,3" Name="btnNombrePlantillaComprobanteDePagoSueldo" Click="btnNombrePlantillaComprobanteDePagoSueldo_Click" />
+        </StackPanel>
+
+            <Label Grid.Column="0" Grid.Row="14" Content="Generar Movimiento de Reverso si Anula Pago........................." Name="lblGenerarMovReversoSiAnulaPago" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Grid.Column="1" Grid.Row="14" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkGenerarMovReversoSiAnulaPago" BorderThickness="1"  Margin="3" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>        
+    </Grid>
+    </GroupBox>
+</UserControl>

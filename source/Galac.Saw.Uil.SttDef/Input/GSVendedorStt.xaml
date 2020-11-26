@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSVendedorStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <GroupBox Header=" " Margin="3">
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="110" />
+            <ColumnDefinition Width="200*" />
+        </Grid.ColumnDefinitions>
+        
+        <Label Content="Al Realizar Una Búsqueda Usar el Código del Vendedor" Name="label1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkUsaCodigoVendedorEnPantalla" BorderThickness="1" TabIndex="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3"></CheckBox>
+
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoGenericoVendedor" Grid.Row="1" Content="Vendedor Genérico........................................................." Margin="3"></Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="String" MaxLength="5" Name="txtCodigoGenericoVendedor" BorderThickness="1" TabIndex="1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="3,3,0,3" Width="105" InvalidCharacters="'¬|%()$#,;:.=" />
+
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblLongitudCodigoVendedor" Grid.Row="2" Margin="3" Visibility="Hidden">Longitud del código del Vendedor...................................</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UInteger" Name="txtLongitudCodigoVendedor" MaxLength="11" TextAlignment="Right" BorderThickness="1" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="3" Width="50" Visibility="Hidden" />
+        
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" Name="txtNombreVendedor" MaxLength="200" BorderThickness="1" Grid.Row="1" Grid.Column="2" Width="200" HorizontalAlignment="Left" Margin="3" IsEnabled="False"></nsWpfControls:GSTextBoxWpf>
+        </Grid>
+    </GroupBox>
+</UserControl>

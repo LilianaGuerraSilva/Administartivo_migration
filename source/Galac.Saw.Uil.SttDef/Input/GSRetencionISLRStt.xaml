@@ -1,0 +1,91 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSRetencionISLRStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <GroupBox Margin="3" Grid.Row="0" Header=" ">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="206*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Content="Usar Módulo de Retenciones.........................................................................." Name="label1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+                <CheckBox Grid.Column="1" Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkUsaRetencion" BorderThickness="1" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"></CheckBox>
+
+                <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumCopiasComprobanteRetencion" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}" >Número de Copias del Comprobante Retención............................................</Label>
+                <nsWpfControls:GSNumericBoxWpf Grid.Column="1" Grid.Row="1" InputDataType="UInteger" Name="txtNumCopiasComprobanteRetencion" MaxLength="11" TextAlignment="Right" BorderThickness="1" HorizontalAlignment="Left" Width="25" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}"/>
+
+                <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblDiaDelCierreFiscal" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}">Dia / Mes de Cierre Fiscal................................................................................</Label>
+                <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                    <nsWpfControls:GSNumericBoxWpf InputDataType="UInteger" MaxLength="2" Name="txtDiaDelCierreFiscal" BorderThickness="1" HorizontalAlignment="Left" Width="25" Margin="3,3,1,3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}" Minimum="1" Maximum="31" />
+                    <nsWpfControls:GSNumericBoxWpf InputDataType="UInteger" MaxLength="2" Name="txtMesDelCierreFiscal" BorderThickness="1" HorizontalAlignment="Left" Width="25" Margin="1,3,3,3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}" Minimum="1" Maximum="12" />
+                </StackPanel>
+
+                <Label Grid.Column="0" Grid.Row="4" Content="Tomar en Cuenta Retenciones en Cero (0) en la Relación Anual y los ARCV" Name="label2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}" />
+                <CheckBox Grid.Column="1" Grid.Row="4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkTomarEnCuentaRetencionesCeroParaARCVyRA" BorderThickness="1" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}"></CheckBox>
+
+                <Label Grid.Column="0" Grid.Row="5" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblEnDondeRetenerISLR" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}">Donde Se Efectua La Retencion ISLR............................................................</Label>
+                <nsWpfControls:GSComboBoxWpf Grid.Column="1" Grid.Row="5" Name="cmbEnDondeRetenerISLR" BorderThickness="1" HorizontalAlignment="Left" Width="200" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}" />
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Margin="3" Grid.Row="1" Header="Representante Legal">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroRIFR" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}">RIF......................................</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="0" InputDataType="Alfanumeric" MaxLength="20" Name="txtNumeroRIFR" BorderThickness="1" HorizontalAlignment="Left" Width="170" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}"/>
+
+                <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreYApellidoR" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}">Nombre Y Apellido..............</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="1" InputDataType="Alfanumeric" MaxLength="50" Name="txtNombreYApellidoR" BorderThickness="1" HorizontalAlignment="Left" Width="300" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}" />
+
+                <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodTelfR" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}">Teléfono (Código / Número)</Label>                
+                <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                    <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="5" Name="txtCodTelfR" BorderThickness="1" HorizontalAlignment="Left" Width="50" Margin="3,3,1,3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}"/>
+                    <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="20" Name="txtTelefonoR" BorderThickness="1" HorizontalAlignment="Left" Width="118" Margin="1,3,3,3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}"/>
+                </StackPanel>
+
+                <Label Grid.Column="0" Grid.Row="4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblDireccionR" Margin="3" VerticalAlignment="Top" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}">Dirección.............................</Label>
+                <nsWpfControls:GSTextAreaWpf Grid.Column="1" Grid.Row="4" Name="txtDireccionR" MaxLength="255" BorderThickness="1" HorizontalAlignment="Left" Width="300" Margin="3" Height="80" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}" />
+
+                <Label Grid.Column="0" Grid.Row="5" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCiudadRepLegal" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}">Ciudad................................</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="5" InputDataType="Alfanumeric" MaxLength="100" Name="txtCiudadRepLegal" BorderThickness="1" HorizontalAlignment="Left" Width="300" Margin="3,3,0,3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}"/>
+
+                <Label Grid.Column="0" Grid.Row="6" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCorreoElectronicoRepLegal" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}">Correo Electrónico..............</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="6" InputDataType="String" MaxLength="40" Name="txtCorreoElectronicoRepLegal" BorderThickness="1" HorizontalAlignment="Left" Width="300" Margin="3" IsEnabled="{Binding Path=IsChecked, ElementName=chkUsaRetencion}" InvalidCharacters="'*#|"/>
+
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

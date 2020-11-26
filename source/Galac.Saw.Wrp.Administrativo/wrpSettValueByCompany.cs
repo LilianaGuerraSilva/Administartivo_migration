@@ -13,7 +13,7 @@ using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Wrp.SttDef;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.SttDef {
@@ -39,7 +39,7 @@ namespace Galac.Saw.Wrp.SttDef {
         #endregion //Propiedades
         #region Constructores
         private void RegistraCliente() {
-            _Reglas = new Galac.Comun.Brl.SttDef.clsSettValueByCompanyNav();
+            _Reglas = new Galac.Saw.Brl.SttDef.clsSettValueByCompanyNav();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -48,7 +48,7 @@ namespace Galac.Saw.Wrp.SttDef {
         void IWrpSettValueByCompanyVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 LibGlobalValues insGV = CreateGlobalValues(vfwCurrentMfc, vfwCurrentParameters);
-                ILibMenuMultiFile insMenu = new Galac.Comun.Uil.SttDef.clsSettValueByCompanyMenu();
+                ILibMenuMultiFile insMenu = new Galac.Saw.Uil.SttDef.clsSettValueByCompanyMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, insGV.GVDictionary);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);

@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LibGalac.Aos.Base">
-      <HintPath>..\..\..\bin\Lib\LibGalac.Aos.Base.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.UI.Mvvm">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>

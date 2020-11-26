@@ -17,7 +17,7 @@ using Galac.Adm.Dal.Venta;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using LibGalac.Aos.Catching;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaNav:LibBaseNav<IList<Caja>,IList<Caja>>, ICajaPdn {

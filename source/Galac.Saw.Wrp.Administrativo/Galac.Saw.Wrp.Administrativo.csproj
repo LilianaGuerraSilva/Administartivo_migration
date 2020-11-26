@@ -88,17 +88,17 @@
     <Reference Include="Galac.Adm.Uil.Venta">
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Uil.Venta.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Brl.SttDef">
+    <Reference Include="Galac.Saw.Brl.SttDef">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.SttDef.dll</HintPath>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.SttDef.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Ccl.SttDef">
+    <Reference Include="Galac.Saw.Ccl.SttDef">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Uil.SttDef">
+    <Reference Include="Galac.Saw.Uil.SttDef">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.SttDef.dll</HintPath>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.SttDef.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.Tablas">
       <SpecificVersion>False</SpecificVersion>

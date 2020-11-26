@@ -7,7 +7,7 @@ using System.Xml;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.GestionCompras;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.Ccl.Inventario {
     [Serializable]
