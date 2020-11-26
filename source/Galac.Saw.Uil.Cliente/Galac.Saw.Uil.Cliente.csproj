@@ -34,25 +34,25 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Saw.Brl.Cliente">
+    <Reference Include="Galac.Saw.Brl.Cliente, Version=2.50.0.1, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Cliente.dll</HintPath>
+      <HintPath>..\..\bin\Galac.Saw.Brl.Cliente.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Ccl.Cliente">
+    <Reference Include="Galac.Saw.Ccl.Cliente, Version=2.35.1.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
+      <HintPath>..\..\bin\Galac.Saw.Ccl.Cliente.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Ccl.Inventario">
+    <Reference Include="Galac.Saw.Ccl.Inventario, Version=2.35.5.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
+      <HintPath>..\..\bin\Galac.Saw.Ccl.Inventario.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Lib">
+    <Reference Include="Galac.Saw.Lib, Version=2.50.0.1, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+      <HintPath>..\..\bin\Galac.Saw.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Lib.Uil">
+    <Reference Include="Galac.Saw.Lib.Uil, Version=2.35.2.1, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.Uil.dll</HintPath>
+      <HintPath>..\..\bin\Galac.Saw.Lib.Uil.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
@@ -82,17 +82,15 @@
       <Name>LibGalac.Aos.UI.WpfControls</Name>
       <HintPath>..\..\bin\binLibAosLibGalac.Aos.UI.WpfControls.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <Name>LibGalac.Aos.UI.WpfRD</Name>
-      <HintPath>..\..\bin\binLibAosLibGalac.Aos.UI.WpfRD.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
       <Name>LibGalac.Aos.DefGen</Name>
       <HintPath>..\..\bin\binLibAosLibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <Name>LibGalac.Aos.Uil</Name>
-      <HintPath>..\..\bin\binLibAosLibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
