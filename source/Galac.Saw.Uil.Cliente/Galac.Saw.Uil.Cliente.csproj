@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
     </Reference>
+    <Reference Include="Galac.Saw.Lib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
     <Reference Include="Galac.Saw.Lib.Uil">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.Uil.dll</HintPath>

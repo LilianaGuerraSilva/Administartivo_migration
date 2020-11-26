@@ -81,9 +81,9 @@
       <Name>Galac.Saw.Dal.Inventario</Name>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Inventario.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Lib.Uil">
+    <Reference Include="Galac.Saw.Lib">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.Uil.dll</HintPath>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Saw.Reconv">
       <SpecificVersion>False</SpecificVersion>

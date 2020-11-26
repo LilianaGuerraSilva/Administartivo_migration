@@ -7,7 +7,7 @@ using Entity = Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.Cliente;
 using LibGalac.Aos.Base.Dal;
 using System.Xml.Linq;
-using Galac.Saw.Lib.Uil;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Brl.Cliente {
     public partial class clsClienteNav : LibBaseNav<IList<Entity.Cliente>, IList<Entity.Cliente>>, ILibPdn, IClientePdn, ILookupDataService {
