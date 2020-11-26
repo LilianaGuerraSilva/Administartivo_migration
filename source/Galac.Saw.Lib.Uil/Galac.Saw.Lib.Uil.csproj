@@ -32,6 +32,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Galac.Saw.Lib">
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\..\..\bin\Lib\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
@@ -62,7 +65,6 @@
     </Compile>
     <Compile Include="DoubleClickCommand.cs" />
     <Compile Include="eTipoDeBusquedaEnDb.cs" />
-    <Compile Include="ILookupDataService.cs" />
     <Compile Include="LimitarTamanoCadenaConverter.cs" />
     <Compile Include="LookupItem.cs" />
     <Compile Include="MonitorHasTextProperty.cs" />

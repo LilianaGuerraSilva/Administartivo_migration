@@ -95,6 +95,7 @@
     <Compile Include="ConexionWebSunat.cs" />
     <Compile Include="ConfigHelper.cs" />
     <Compile Include="ConfigLocalHelper.cs" />
+    <Compile Include="ILookupDataService.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="SettingsJsonHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

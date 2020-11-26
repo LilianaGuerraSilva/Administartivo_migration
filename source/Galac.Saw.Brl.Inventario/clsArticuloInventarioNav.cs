@@ -9,7 +9,7 @@ using LibGalac.Aos.Brl;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Comun.Ccl.SttDef;
 using LibGalac.Aos.Dal;
-using Galac.Saw.Lib.Uil;
+using Galac.Saw.Lib;
 using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Saw.Brl.Inventario {
