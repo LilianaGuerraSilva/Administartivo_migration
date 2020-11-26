@@ -14,7 +14,7 @@ using Galac.Saw.Brl.Tablas;
 using Galac.Adm.Brl.CAnticipo;
 using Galac.Adm.Ccl.CAnticipo;
 using LibGalac.Aos.Catching;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCobroDeFacturaRapidaNav:LibBaseNavMaster<IList<CobroDeFacturaRapida>, IList<CobroDeFacturaRapida>>, ILibPdn {

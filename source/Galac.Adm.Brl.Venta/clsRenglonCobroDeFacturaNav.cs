@@ -12,7 +12,7 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Dal.Venta;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsRenglonCobroDeFacturaNav : LibBaseNavDetail<IList<RenglonCobroDeFactura>, IList<RenglonCobroDeFactura>>, IRenglonCobroDeFacturaPdn {

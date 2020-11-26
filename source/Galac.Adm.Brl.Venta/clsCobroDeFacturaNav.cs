@@ -2,7 +2,7 @@
 using Galac.Adm.Ccl.Banco;
 using Galac.Adm.Ccl.Venta;
 using Galac.Comun.Brl.TablasGen;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Catching;

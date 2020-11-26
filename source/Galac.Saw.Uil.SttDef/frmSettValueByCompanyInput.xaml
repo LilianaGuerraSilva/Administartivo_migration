@@ -1,0 +1,70 @@
+<nsWpf:LibFrmInputBase
+    x:Class="Galac.Saw.Uil.SttDef.frmSettValueByCompanyInput"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    xmlns:ctls="clr-namespace:Galac.Saw.Uil.SttDef.Input"
+
+    Title="frmSettValueByCompanyInput" Height="550" Width="1010" MinWidth="900" MinHeight="705" ResizeMode="NoResize"
+    nsWpf:LibKeyboardListener.UseEnterKeyLikeTab="true" WindowStartupLocation="CenterScreen" VerticalAlignment="Center" HorizontalAlignment="Center">
+    
+    <nsWpf:LibFrmInputBase.Resources>
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" />
+        <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
+
+        <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFE9EDF1" Offset="0" />
+                    <GradientStop Color="#FFDADEE3" Offset="1" />
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#CCC" Offset="0.0"/>
+                    <GradientStop Color="#444" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Control.Foreground" Value="#4C4C4C"/>
+            <Setter Property="Control.Margin" Value="3"/>
+            <Setter Property="Control.Padding" Value="3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" Background="{StaticResource LightBrush}" BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="1"  CornerRadius="2,2,0,0" >
+                                <ContentPresenter Margin="4" HorizontalAlignment="Center" ContentSource="Header"  RecognizesAccessKey="True" />
+                            </Border>
+                            <Border Grid.Row="1" Background="{StaticResource WindowBackgroundBrush}" BorderBrush="{StaticResource SolidBorderBrush}"  BorderThickness="1,0,1,1" CornerRadius="0,0,2,2" >
+                                <ContentPresenter Margin="4" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>        
+    </nsWpf:LibFrmInputBase.Resources>
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <ctls:GSSettValueByCompany Grid.Row="0" x:Name="gucSettValueByCompany"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="btnStore" Grid.Row="1" Height="25" Width="75" Margin="5" Command="nsWpf:LibRoutedCommand.F6Command" >_Grabar</Button>
+            <Button Name="btnExit" Grid.Row="1" Height="25" Width="75" Margin="5" Command="nsWpf:LibRoutedCommand.EscCommand">_Salir</Button>
+        </StackPanel>
+    </Grid>
+</nsWpf:LibFrmInputBase>

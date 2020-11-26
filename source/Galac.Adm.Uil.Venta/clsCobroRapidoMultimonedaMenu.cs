@@ -1,6 +1,6 @@
 ﻿using Galac.Adm.Brl.Venta;
 using Galac.Adm.Uil.Venta.ViewModel;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.Uil;

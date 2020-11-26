@@ -5,7 +5,7 @@ using System.Text;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
 using Galac.Saw.Ccl.Inventario;
 

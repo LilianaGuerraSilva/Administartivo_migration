@@ -6,7 +6,7 @@ using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.GestionCompras;
 using LibGalac.Aos.Base;
 using Galac.Saw.Ccl.Inventario;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
 

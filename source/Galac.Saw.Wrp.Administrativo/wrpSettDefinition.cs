@@ -37,7 +37,7 @@ namespace Galac.Saw.Wrp.SttDef {
 
         void IWrpVb.Execute(string vfwAction) {
             try {
-                ILibMenu insMenu = new Galac.Comun.Uil.SttDef.clsSettDefinitionMenu();
+                ILibMenu insMenu = new Galac.Saw.Uil.SttDef.clsSettDefinitionMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
@@ -58,7 +58,7 @@ namespace Galac.Saw.Wrp.SttDef {
                 vSearchValues = insLibSearch.CreateListOfParameter(vfwParamInitializationList);
                 vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);
                 System.Xml.XmlDocument vXmlDocument = null;
-                if (Galac.Comun.Uil.SttDef.clsSettValueByCompanyMenu.ChooseFromInterop(ref vXmlDocument, vSearchValues, vFixedValues)) {
+                if (Galac.Saw.Uil.SttDef.clsSettValueByCompanyMenu.ChooseFromInterop(ref vXmlDocument, vSearchValues, vFixedValues)) {
                     vResult = vXmlDocument.InnerXml;
                 }
                 return vResult;

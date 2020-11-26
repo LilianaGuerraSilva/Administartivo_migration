@@ -3,7 +3,7 @@ using System.Text;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Base;
 using Galac.Adm.Ccl.GestionCompras;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.GestionCompras.Reportes {
     public class clsCompraSql

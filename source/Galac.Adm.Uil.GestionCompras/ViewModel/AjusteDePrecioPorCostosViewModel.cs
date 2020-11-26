@@ -14,7 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Ccl.GestionCompras;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Brl.Inventario;
 using LibGalac.Aos.Uil;

@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using Galac.Saw.Ccl.Inventario;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Dal;
 using Galac.Saw.Lib;
 using LibGalac.Aos.Base.Dal;

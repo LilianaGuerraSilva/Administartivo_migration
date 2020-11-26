@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.Cliente;
 

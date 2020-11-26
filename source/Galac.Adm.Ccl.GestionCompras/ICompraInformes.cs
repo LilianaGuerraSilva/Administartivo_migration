@@ -1,5 +1,5 @@
 ﻿using System;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Ccl.GestionCompras {
     public interface ICompraInformes {

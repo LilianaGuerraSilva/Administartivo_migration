@@ -2,7 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Xml;
 using LibGalac.Aos.Base;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Ccl.Venta {
     [Serializable]

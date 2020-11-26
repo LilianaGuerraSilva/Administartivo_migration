@@ -416,11 +416,11 @@ namespace Galac.Saw.DDL {
         }
 
         public bool CrearSettDefinition() {
-            bool vResult = new Galac.Comun.Dal.SttDef.clsSettDefinitionED().InstalarTabla();
+            bool vResult = new Galac.Saw.Dal.SttDef.clsSettDefinitionED().InstalarTabla();
             return vResult;
         }
         public bool CrearSettValueByCompany() {
-            bool vResult = new Galac.Comun.Dal.SttDef.clsSettValueByCompanyED().InstalarTabla();
+            bool vResult = new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarTabla();
             return vResult;
         }
         public bool BorrarTablaAnterior(string valTableName) {
@@ -787,10 +787,10 @@ namespace Galac.Saw.DDL {
                 vResult = vResult && new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().InstalarVistasYSps();
             }
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "SettDefinition")) {
-                vResult = vResult && new Galac.Comun.Dal.SttDef.clsSettDefinitionED().InstalarVistasYSps();
+                vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettDefinitionED().InstalarVistasYSps();
             }
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "SettValueByCompany")) {
-                vResult = vResult && new Galac.Comun.Dal.SttDef.clsSettValueByCompanyED().InstalarVistasYSps();
+                vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarVistasYSps();
             }
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Vendedor")) {
                 vResult = vResult && new Galac.Saw.Dal.Vendedor.clsVendedorED().InstalarVistasYSps();

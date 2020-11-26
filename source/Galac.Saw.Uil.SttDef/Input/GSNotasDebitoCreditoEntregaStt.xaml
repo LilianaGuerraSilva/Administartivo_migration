@@ -1,0 +1,126 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSNotasDebitoCreditoEntregaStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="480">
+    <Grid Name="gwMain">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="660*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Header="Nota de Crédito" Margin="3" Grid.Column="0" Grid.Row="0">
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="247*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaNotaDeCredito" Margin="3" Content="Plantilla de Impresión..........."/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" IsEnabled="{Binding Path=IsChecked, ElementName=chkImprimirAnexoDeSerial}">
+                    <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaNotaDeCredito" BorderThickness="1" Margin="3" Width="260" HorizontalAlignment="Left" />
+                    <Button Content="..." Width="20" Height="23" Margin="3" Name="btnBuscarRpxNotaDeCredito"/>
+                </StackPanel>
+
+                <Label Content="Usar Factura Pre-Numerada" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="1" Margin="3" />
+                <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkNCPreNumerada" BorderThickness="1" TabIndex="1" Grid.Column="1" Grid.Row="1" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left"></CheckBox>
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblPrimeraNotaDeCredito" Grid.Row="2" Margin="3" Content="Número Inicial......................"></Label>
+                <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="11" Name="txtPrimeraNotaDeCredito" BorderThickness="1" TabIndex="2" Grid.Column="1" Grid.Row="2" Margin="3" Width="100" HorizontalAlignment="Left" IsEnabled="{Binding Path=!IsChecked, ElementName=chkNCPreNumerada}"/>
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDePrefijoNC" Grid.Row="3" Margin="3" Content="Tipo de Prefijo......................"></Label>
+                <nsWpfControls:GSComboBoxWpf Name="cmbTipoDePrefijoNC" BorderThickness="1" TabIndex="3" Grid.Column="1" Grid.Row="3" Margin="3" Width="100" HorizontalAlignment="Left" IsEnabled="{Binding Path=!IsChecked, ElementName=chkNCPreNumerada}"/>
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblPrefijoNC" Grid.Row="4" Margin="3" >Prefijo..................................</Label>
+                <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="5" Name="txtPrefijoNC" BorderThickness="1" TabIndex="4" Grid.Column="1" Grid.Row="4" Margin="3" Width="100" HorizontalAlignment="Left" IsEnabled="{Binding Path=!IsChecked, ElementName=chkNCPreNumerada}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Nota de Débito" Margin="3" Grid.Column="0" Grid.Row="1">
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />                    
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaNotaDeDebito" Margin="3" Content="Planilla de Impresión............" />
+                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" IsEnabled="{Binding Path=IsChecked, ElementName=chkImprimirAnexoDeSerial}">
+                    <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaNotaDeDebito" BorderThickness="1" Grid.Column="1" Grid.Row="7" Margin="3" Width="260" HorizontalAlignment="Left" />
+                    <Button Content="..." Width="20" Height="23" Margin="3" Name="btnBuscarRpxNotaDeDebito"/>
+                </StackPanel>
+
+                <Label Content="Usar Factura Pre-Numerada" Name="label2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="1" Margin="3" />
+                <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkNDPreNumerada" BorderThickness="1" Grid.Column="1" Grid.Row="1" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Left"></CheckBox>
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblPrimeraNotaDeDebito" Grid.Row="2" Margin="3" Content="Número Inicial......................"></Label>
+                <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="11" Name="txtPrimeraNotaDeDebito" BorderThickness="1" Grid.Column="1" Grid.Row="2" Margin="3" Width="100" HorizontalAlignment="Left" IsEnabled="{Binding Path=!IsChecked, ElementName=chkNDPreNumerada}"/>
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDePrefijoND" Grid.Row="3" Margin="3" Content="Tipo de Prefijo......................" />
+                <nsWpfControls:GSComboBoxWpf Name="cmbTipoDePrefijoND" BorderThickness="1" Grid.Column="1" Grid.Row="3" Margin="3" Width="100" HorizontalAlignment="Left" IsEnabled="{Binding Path=!IsChecked, ElementName=chkNDPreNumerada}"/>
+
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblPrefijoNC1" Grid.Row="4" Margin="3" Content="Prefijo.................................." />
+                <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="5" Name="txtPrefijoND" BorderThickness="1" Grid.Column="1" Grid.Row="4" Margin="3,3,0,0" Width="100" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" IsEnabled="{Binding Path=!IsChecked, ElementName=chkNDPreNumerada}"/>
+            </Grid>
+        </GroupBox>     
+        
+        <GroupBox Header="Boleta (Factura sin Información Fiscal del Cliente)" Grid.Column="0" Grid.Row="2" Margin="3" Visibility="Hidden">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblPrimeraBoleta" Margin="3" Content="Número Inicial" />
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" InputDataType="Alfanumeric" MaxLength="11" Name="txtPrimeraBoleta" BorderThickness="1" Margin="3,3,3,3" Width="100" HorizontalAlignment="Left" />
+
+                <Label Grid.Column="2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaBoleta" Margin="3" Content="Planilla de Impresión" HorizontalAlignment="Right"></Label>
+                <StackPanel Grid.Column="3" Orientation="Horizontal" IsEnabled="{Binding Path=IsChecked, ElementName=chkImprimirAnexoDeSerial}">
+                    <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaBoleta" BorderThickness="1" Margin="3" Width="280" HorizontalAlignment="Left" />
+                    <Button Content="..." Width="20" Height="23" Margin="3" Name="btnBuscarRpxBoleta"/>
+                </StackPanel>
+
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

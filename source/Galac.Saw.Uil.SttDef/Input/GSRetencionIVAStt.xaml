@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSRetencionIVAStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <GroupBox Header=" " Margin="3" Name="groupboxMain">
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="210" />
+        </Grid.ColumnDefinitions>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblEnDondeRetenerIVA" Margin="3">En Donde Retener IVA.......................................................................</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbEnDondeRetenerIVA" BorderThickness="1" TabIndex="0" Grid.Column="1" Margin="3" Width="200" HorizontalAlignment="Left" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkUsaMismoNumeroCompRetTodasCxP" BorderThickness="1" TabIndex="1" Grid.Column="1" Grid.Row="1" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblPrimerNumeroComprobanteRetIVA" Grid.Row="2" Margin="3">Primer Numero Comprobante Ret IVA................................................</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UInteger" Name="txtPrimerNumeroComprobanteRetIVA" MaxLength="11" TextAlignment="Right" BorderThickness="1" TabIndex="2" Grid.Column="1" Grid.Row="2" Margin="3" Width="200" HorizontalAlignment="Left" />
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFormaDeReiniciarElNumeroDeComprobanteRetIVA" Grid.Row="3" Margin="3">Forma De Reiniciar El Numero De Comprobante Ret IVA..................</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbFormaDeReiniciarElNumeroDeComprobanteRetIVA" BorderThickness="1" TabIndex="3" Grid.Column="1" Grid.Row="3" Margin="3" Width="200" HorizontalAlignment="Left" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkImprimirComprobanteDeRetIVA" BorderThickness="1" TabIndex="4" Grid.Column="1" Grid.Row="4" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroDeCopiasComprobanteRetencionIVA" Grid.Row="5" Margin="3">Numero De Copias Comprobante Retencion IVA...............................</Label>
+        <nsWpfControls:GSNumericBoxWpf InputDataType="UInteger" Name="txtNumeroDeCopiasComprobanteRetencionIVA" MaxLength="11" TextAlignment="Right" BorderThickness="1" TabIndex="5" Grid.Column="1" Grid.Row="5" Margin="3" Width="200" HorizontalAlignment="Left" Minimum="1" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkUnComprobanteDeRetIVAPorHoja" BorderThickness="1" TabIndex="6" Grid.Column="1" Grid.Row="6" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombrePlantillaComprobanteDeRetIVA" Grid.Row="7" Margin="3">Nombre Plantilla Comprobante De Ret IVA........................................</Label>
+        <nsWpfControls:GSTextBoxWpf InputDataType="Alfanumeric" MaxLength="50" Name="txtNombrePlantillaComprobanteDeRetIVA" BorderThickness="1" TabIndex="7" Grid.Column="1" Grid.Row="7" Margin="3,3,0,3" Width="178" HorizontalAlignment="Left" MaxWidth="178" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkGenerarNumCompDeRetIVASoloSiPorcentajeEsMayorACero" BorderThickness="1" TabIndex="8" Grid.Column="1" Grid.Row="8" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+            <Label Content="Usa el Mismo Numero de Comp. de Ret IVA para todas las CxP......" Name="lblUsaMismoNumeroCompRetTodasCxP" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="1" Margin="3" />
+        <Label Content="Imprimir el Comprobante de Retención de IVA al ingresar el Pago...." Name="lblImprimirComprobanteDeRetIVA" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="4" Margin="3" />
+        <Label Content="Un Comprobante De Ret IVA Por Hoja..............................................." Name="label3" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="6" Margin="3" />
+        <Label Content="Generar NumComp De Ret IVA Solo Si Porcentaje Es Mayor A Cero" Name="label4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="8" Margin="3" />
+        <Button Content="..." Width="20" Height="23" Margin="182,4,4,3" Name="btnBuscarRpxRetIVA" Grid.Column="1" Grid.Row="7" />
+    </Grid>
+    </GroupBox>
+</UserControl>

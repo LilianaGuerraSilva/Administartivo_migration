@@ -1,0 +1,48 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSCompaniaStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <GroupBox Header="" Margin="3">
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="28" />
+            <RowDefinition Height="27" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="189*" />
+        </Grid.ColumnDefinitions>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFormaDeEscogerCompania" Margin="3" Grid.Row="1">Forma de Escoger Compania..........................................................</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbFormaDeEscogerCompania" BorderThickness="1" Grid.Column="1" Grid.Row="1" Width="200" Margin="3" HorizontalAlignment="Left" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkEscogerCompaniaAlEntrar" BorderThickness="1" Grid.Column="1" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFechaDeInicioContabilizacion" Grid.Row="2" Margin="3">Fecha de Inicio Contabilizacion.......................................................</Label>
+        <nsWpfControls:GSDatePickerWpf Name="dtpFechaDeInicioContabilizacion" BorderThickness="1" Grid.Column="1" Grid.Row="2" Margin="3,3,0,0" Width="120" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkEsAsociadoEnCtaDeParticipacion" BorderThickness="1" Grid.Column="1" Grid.Row="3" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left"></CheckBox>
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkVerificarDocumentoSinContabilizar" BorderThickness="1" Grid.Column="1" Grid.Row="4" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left"></CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoDeAgrupacionParaLibrosDeVenta" Grid.Row="5" Margin="3">Tipo de Agrupacion Para Libros de Venta........................................</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbTipoDeAgrupacionParaLibrosDeVenta" BorderThickness="1" Grid.Column="1" Grid.Row="5" Margin="3" Width="250" HorizontalAlignment="Left" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkIntegracionRIS" BorderThickness="1" Grid.Column="1" Grid.Row="6" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Left"></CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblFechaMinimaIngresarDatos" Grid.Row="7" Margin="6,25,0,0" Grid.RowSpan="2">Fecha Minima Ingresar Datos..........................................................</Label>
+        <nsWpfControls:GSDatePickerWpf Name="dtpFechaMinimaIngresarDatos" BorderThickness="1" Grid.Column="1" Grid.Row="8" Margin="3" Width="120" HorizontalAlignment="Left" Height="24" />
+        <CheckBox Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkAutorellenaResumenDiario" BorderThickness="1" Grid.Column="1" Grid.Row="7" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center" Height="14"></CheckBox>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTipoNegocio" Grid.Row="9" Margin="3">Tipo Negocio....................................................................................</Label>
+        <nsWpfControls:GSComboBoxWpf Name="cmbTipoNegocio" BorderThickness="1" Grid.Column="1" Grid.Row="9" Margin="3" Width="200" HorizontalAlignment="Left" />
+        <Label Content="Es Asociado en Cta de Participación..............................................." Name="label1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="3" Margin="3" />
+        <Label Content="Verificar Documento Sin Contabilizar..............................................." Name="label2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="4" Margin="3" />
+        <Label Content="Integración con Sistema Medico (RIS)............................................." Name="label3" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="6" Margin="3" />
+        <Label Content="Autorellena con (0) el Número DESDE/HASTA en Resumen Diario" Name="label4" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Grid.Row="7" Margin="3" />
+        <Label Content="Escoger Compania Al Entrar............................................................" Name="label5" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+    </Grid>
+    </GroupBox>
+</UserControl>

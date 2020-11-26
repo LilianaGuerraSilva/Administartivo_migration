@@ -1,0 +1,61 @@
+﻿<UserControl
+    x:ClassModifier="internal"
+    x:Class="Galac.Saw.Uil.SttDef.Input.GSPlanillaDeIVAStt"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <Grid Name="gwMain">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <GroupBox Margin="3" Grid.Row="0" Header=" " >
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="187*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Content="Imprimir Céntimos en Planilla Forma 00030" Name="label1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Margin="3" />
+                <CheckBox Grid.Column="1" Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.CheckBoxStd}}" Name="chkImprimirCentimosEnPlanilla" BorderThickness="1" Margin="3" HorizontalAlignment="Left" VerticalAlignment="Center"></CheckBox>
+
+                <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblModeloPlanillaForma00030" Margin="3">Modelo Planilla Forma 00030......................</Label>
+                <nsWpfControls:GSComboBoxWpf Grid.Column="1" Grid.Row="1" Name="cmbModeloPlanillaForma00030" BorderThickness="1" Margin="3" HorizontalAlignment="Left" Width="200" />
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Margin="3" Grid.Row="1" Header="Contador">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCedulaContador" Margin="3">Cédula</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="0" InputDataType="Alfanumeric" MaxLength="10" Name="txtCedulaContador" BorderThickness="1" Margin="3" HorizontalAlignment="Left" Width="100" />
+
+                <Label Grid.Column="0" Grid.Row="1" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroCPC" Margin="3">Número CPC</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="1" InputDataType="Alfanumeric" MaxLength="10" Name="txtNumeroCPC" BorderThickness="1" Margin="3" HorizontalAlignment="Left" Width="100" />
+
+                <Label Grid.Column="0" Grid.Row="2" Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreContador" Margin="3">Nombre</Label>
+                <nsWpfControls:GSTextBoxWpf Grid.Column="1" Grid.Row="2" InputDataType="Alfanumeric" MaxLength="20" Name="txtNombreContador" BorderThickness="1" Margin="3" HorizontalAlignment="Left" Width="300" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+    
+</UserControl>

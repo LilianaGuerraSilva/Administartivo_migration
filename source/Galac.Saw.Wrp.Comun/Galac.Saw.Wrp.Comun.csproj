@@ -80,11 +80,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.LeyCosto.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Uil.SttDef, Version=2.30.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Saw.Uil.SttDef">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.SttDef.dll</HintPath>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.SttDef.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Uil.TablasGen, Version=2.30.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Comun.Uil.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
@@ -134,7 +134,7 @@
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa, Version=5.6.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Vbwa.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Vbwa.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

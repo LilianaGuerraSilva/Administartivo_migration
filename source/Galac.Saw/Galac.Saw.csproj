@@ -57,8 +57,9 @@
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Ccl.SttDef">
-      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.SttDef.dll</HintPath>
+    <Reference Include="Galac.Saw.Ccl.SttDef">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasLey">
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasLey.dll</HintPath>
@@ -91,10 +92,6 @@
     <Reference Include="Galac.Saw.SLev">
       <Name>Galac.Saw.SLev</Name>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.SLev.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Soin.SLev, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binSoporte\Galac.Soin.SLev.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>

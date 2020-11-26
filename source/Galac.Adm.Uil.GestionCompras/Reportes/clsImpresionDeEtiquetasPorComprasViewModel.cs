@@ -15,7 +15,7 @@ using Galac.Adm.Brl.GestionCompras;
 using Galac.Adm.Ccl.GestionCompras;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Adm.Uil.GestionCompras.ViewModel;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.GestionCompras.Reportes {
     public class clsImpresionDeEtiquetasPorComprasViewModel : LibInputRptViewModelBase<Compra> {

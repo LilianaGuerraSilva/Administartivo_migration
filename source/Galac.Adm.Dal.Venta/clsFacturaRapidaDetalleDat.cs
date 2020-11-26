@@ -14,7 +14,7 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Venta;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Dal.Venta {
     public class clsFacturaRapidaDetalleDat: LibData, ILibDataDetailComponent<IList<FacturaRapidaDetalle>, IList<FacturaRapidaDetalle>> {

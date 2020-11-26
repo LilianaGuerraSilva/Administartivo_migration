@@ -1,0 +1,45 @@
+﻿<UserControl
+    x:Class="Galac.Dbo.Uil.Proveedor.Sch.GSProveedorSch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfRd="clr-namespace:LibGalac.Aos.UI.WpfRD;assembly=LibGalac.Aos.UI.WpfRD"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"    Height="150" Width="725">
+    <Grid Name="gwMain">
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoProveedor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,12,0,0">Código</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtCodigoProveedor" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,12,0,0" ToolTip="Código" DbColumnName="CodigoProveedor" BorderThickness="1" TabIndex = "0" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNombreProveedor" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,40,0,0">Nombre Proveedor</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNombreProveedor" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,40,0,0" ToolTip="Nombre Proveedor" DbColumnName="NombreProveedor" BorderThickness="1" TabIndex = "1" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblContacto" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,68,0,0">Contacto</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtContacto" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,68,0,0" ToolTip="Contacto" DbColumnName="Contacto" BorderThickness="1" TabIndex = "2" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblNumeroRIF" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,96,0,0">N° R.I.F.</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtNumeroRIF" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,96,0,0" ToolTip="N° R.I.F." DbColumnName="NumeroRIF" BorderThickness="1" TabIndex = "3" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblCodigoRetencionUsual" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,124,0,0">Codigo Retencion Usual</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtCodigoRetencionUsual" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,124,0,0" ToolTip="Codigo Retencion Usual" DbColumnName="CodigoRetencionUsual" BorderThickness="1" TabIndex = "4" InputDataType="igString"/>
+        <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblTelefonos" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,152,0,0">Teléfonos</Label>
+        <nsWpfControls:GSTextBoxWpfSch Name="txtTelefonos" Height="23" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,152,0,0" ToolTip="Teléfonos" DbColumnName="Telefonos" BorderThickness="1" TabIndex = "5" InputDataType="igString"/>
+        <DockPanel Name="dpnSort" Height="26" Width="350" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,0" MinWidth="315" MinHeight="26" >
+                <Label Style="{DynamicResource {x:Static nsWpfRd:rsdInputWin.LabelPrompt}}" Name="lblSortOrder">Ordenar Por:</Label>
+            <nsWpfControls:GSComboBoxWpf Name="cmbSortOrder" SelectedIndex="0" BorderThickness="1"  DisplayMemberPath="Text" DbMemberPath="Value">
+                <nsWpfControls:LibGSCmbGenericItem Text="(ConsecutivoCompania, CodigoProveedor)" Value="ConsecutivoCompania, CodigoProveedor"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Código" Value="CodigoProveedor"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Nombre Proveedor" Value="NombreProveedor"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Contacto" Value="Contacto"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="N° R.I.F." Value="NumeroRIF"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Codigo Retencion Usual" Value="CodigoRetencionUsual"/>
+                <nsWpfControls:LibGSCmbGenericItem Text="Teléfonos" Value="Telefonos"/>
+            </nsWpfControls:GSComboBoxWpf>
+        </DockPanel>
+    </Grid>
+    <UserControl.Resources>
+        <XmlDataProvider x:Key="listFormat" IsInitialLoadEnabled="True" IsAsynchronous="False">
+            <x:XData>
+                <Fields>
+                    <Field Header="Código" XPath="CodigoProveedor" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Nombre Proveedor" XPath="NombreProveedor" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="N° R.I.F." XPath="NumeroRIF" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                    <Field Header="Codigo Retencion Usual" XPath="CodigoRetencionUsual" Width="100" DataType="string" ColumnLengthForPrinting="15"></Field>
+                </Fields>
+            </x:XData>
+        </XmlDataProvider>
+    </UserControl.Resources>
+</UserControl>

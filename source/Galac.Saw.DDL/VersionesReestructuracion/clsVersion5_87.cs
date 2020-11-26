@@ -5,7 +5,7 @@ using System.Text;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Dal.Settings;
 using Galac.Adm.Ccl.Banco;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {

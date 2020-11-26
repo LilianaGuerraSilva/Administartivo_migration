@@ -1,7 +1,7 @@
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
 using Galac.Comun.Brl.TablasGen;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Saw.Lib;

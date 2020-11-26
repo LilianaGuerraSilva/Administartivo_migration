@@ -11,7 +11,7 @@ using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using Galac.Adm.Ccl.Venta;
-using Galac.Comun.Ccl.SttDef;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Ccl.TablasGen;
