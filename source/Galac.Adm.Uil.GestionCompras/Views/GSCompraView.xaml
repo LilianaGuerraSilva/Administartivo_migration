@@ -324,7 +324,7 @@
                     Name="lblGenerarCXP"
                     Grid.Row="3"
                     Grid.Column="4"
-                    Content="Generar CxP"
+                    Content="{Binding Path=GenerarOActualizarCxP}"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=IsVisibleGenerarCxPDesdeCompra, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <CheckBox

@@ -9,7 +9,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
         bool InsertaTasaDeCambioParaElDia(string valMoneda, DateTime valFechaVigencia, string valNombre, decimal valCambioAbolivares);
         bool CambiarStatusCompra(Compra valCompra, eAccionSR valAction);
         decimal TasaDeDolarVigente(string valMoneda);
-        bool GenerarCxP(Compra valRecord, string valNumeroControl, eAccionSR valAction);
+        bool GenerarCxP(Compra valRecord, string valNumeroControl, eAccionSR valAction, string NumeroDeCompraOriginal= "", string CodigoDeProveedorOriginal= "");
         XElement BuscarSerial(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoGrupo);
         void ActualizaElCostoUnitario(Compra valRecord, bool valEsMonedaLocal);
         void ProcesaCostoPromedio(int valConsecutivoCompania, bool valVieneDeOperaciones, DateTime valFechaOperacion, string valCodigo, string valDocumento, string valOperacion);

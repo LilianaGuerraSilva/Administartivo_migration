@@ -63,6 +63,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private const string IsVisibleMonedaActualPropertyName = "IsVisibleMonedaActual";
         private const string DifereciaDistribucionPropertyName = "DifereciaDistribucion";
         private const string IsVisibleParaDistribucionAutomaticaPropertyName = "IsVisibleParaDistribucionAutomatica";
+        private const string GenerarOActualizarCxPPropertyName = "GenerarOActualizarCxP";
 
         bool _IsEnabledTipoDistribucion;
         private FkProveedorViewModel _ConexionCodigoProveedor = null;
@@ -71,6 +72,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private FkOrdenDeCompraViewModel _ConexionNumeroDeOrdenDeCompra = null;
         private FkMonedaViewModel _ConexionCodigoMoneda = null;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
+        private string _NumeroDeCompraOriginal;
+        private string _CodigoProveedorOriginal;
+        private string _GenerarOActualizarCxP;
         public event EventHandler MoveFocusArticuloInventarioEvent;
         public event EventHandler AjustaColumnasSegunTipoEvent;
 
@@ -319,6 +323,17 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
+        public string GenerarOActualizarCxP {
+            get {
+                return _GenerarOActualizarCxP;
+            }
+            set {
+                if(_GenerarOActualizarCxP != value) {
+                    _GenerarOActualizarCxP = value;
+                    RaisePropertyChanged(GenerarOActualizarCxPPropertyName);
+                }
+            }
+        }
         public bool UsaSeguro {
             get {
                 return Model.UsaSeguroAsBool;
@@ -920,6 +935,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 vMonedaLocal = new Saw.Lib.clsNoComunSaw();
             }
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            ActualizarNumeroYCodigoProveedorOriginal();
             DecimalesTasaDeCambio = LibDefGen.ProgramInfo.IsCountryPeru() ? 3 : 4;
             InitializeDetails();
         }
@@ -974,6 +990,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             LibBusinessProcess.Register(this, "MensajeDeRecalcularSiEsElCaso", EjecutarProcesosMensajeDeRecalcularSiEsElCaso);
             RaiseMoveFocus(DefaultFocusedPropertyName);
             IsEnabledOrdenDeCompra = VieneDeOrdenDeCompra;
+            AsignarMensajeDeGeneracionOActualizacionDeCxP();
         }
 
         protected override void InitializeCommands() {
@@ -1204,6 +1221,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 }
             }
             ActualizaTotales();
+            ActualizarNumeroYCodigoProveedorOriginal();
         }
 
         protected override void ExecuteSpecialAction(eAccionSR valAction) {
@@ -1260,6 +1278,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         protected override bool UpdateRecord() {
             bool vResut = base.UpdateRecord();
             bool vContinue = true;
+            string vTextIN = string.Empty;
             if(vResut) {
                 if(GenerarCXP) {
                     Views.InputDialog inputDialog = new Views.InputDialog("Introduzca el Numero de Control", "");
@@ -1269,7 +1288,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     }
                     if(vContinue) {
                         ICompraPdn vPdn = new clsCompraNav();
-                        vPdn.GenerarCxP(Model, inputDialog.Answer, Action);
+                        vTextIN = inputDialog.Answer;
+                        vTextIN = LibString.Left(vTextIN, 11);
+                        vPdn.GenerarCxP(Model, vTextIN, Action, _NumeroDeCompraOriginal, _CodigoProveedorOriginal);
+                    } else {
+                        throw new GalacException("Debe asignar el Número de Control, para poder Continuar.", eExceptionManagementType.Alert);
                     }
                 }
             }
@@ -1831,6 +1854,20 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             return vCambioResult;
         }
 
+        private void ActualizarNumeroYCodigoProveedorOriginal() {
+            if(Action == eAccionSR.Modificar) {
+                _NumeroDeCompraOriginal = Model.Numero;
+                _CodigoProveedorOriginal = Model.CodigoProveedor;
+            }
+        }
+        private void AsignarMensajeDeGeneracionOActualizacionDeCxP() {
+            GenerarOActualizarCxP = "Generar CxP";
+            if(Action == eAccionSR.Modificar) {
+                if(Model.GenerarCXPAsBool) {
+                    GenerarOActualizarCxP = "Actualizar CxP";
+                }
+            }
+        }
         #endregion
 
     } //End of class CompraViewModel
