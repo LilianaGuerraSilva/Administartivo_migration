@@ -34,12 +34,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Saw.Brl.Integracion">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Integracion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Integracion">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Integracion.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
@@ -117,6 +111,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Input\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Brl.Integracion\Galac.Saw.Brl.Integracion.csproj">
+      <Project>{d88aebaa-f8cb-46fe-b89a-2bbefd99d0aa}</Project>
+      <Name>Galac.Saw.Brl.Integracion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Integracion\Galac.Saw.Ccl.Integracion.csproj">
+      <Project>{6ccb893a-b5c6-48f7-95b5-d9f456e4938a}</Project>
+      <Name>Galac.Saw.Ccl.Integracion</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

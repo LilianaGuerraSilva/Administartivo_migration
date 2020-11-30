@@ -34,24 +34,21 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Contab.Brl.Tablas">
+    <Reference Include="Galac.Contab.Brl.Tablas, Version=2.35.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Brl.WinCont">
       <Name>Galac.Contab.Brl.WinCont</Name>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Contab.Ccl.Tablas">
+    <Reference Include="Galac.Contab.Ccl.Tablas, Version=2.35.1.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.Tablas.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
       <Name>Galac.Contab.Ccl.WinCont</Name>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Contabilizacion">
-      <Name>Galac.Saw.Ccl.Contabilizacion</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Contabilizacion.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Saw.Dal.Contabilizacion">
       <Name>Galac.Saw.Dal.Contabilizacion</Name>
@@ -81,6 +78,12 @@
     <Compile Include="clsReglasDeContabilizacionNav.cs" />
     <Compile Include="LibLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Contabilizacion\Galac.Saw.Ccl.Contabilizacion.csproj">
+      <Project>{8e983401-52bc-4828-838c-01585fe3a8e7}</Project>
+      <Name>Galac.Saw.Ccl.Contabilizacion</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -37,18 +37,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Brl.DispositivosExternos">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.DispositivosExternos.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.DispositivosExternos">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.DispositivosExternos.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
@@ -151,6 +139,20 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\F4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.DispositivosExternos\Galac.Adm.Brl.DispositivosExternos.csproj">
+      <Project>{ccdf88d8-37dd-4e46-aead-350bd211bd75}</Project>
+      <Name>Galac.Adm.Brl.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.DispositivosExternos\Galac.Adm.Ccl.DispositivosExternos.csproj">
+      <Project>{eea8e05e-9a11-4d51-aa9c-aacd7245952f}</Project>
+      <Name>Galac.Adm.Ccl.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

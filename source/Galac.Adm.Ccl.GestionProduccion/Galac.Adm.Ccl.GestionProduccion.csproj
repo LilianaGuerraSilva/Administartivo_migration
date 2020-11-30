@@ -68,7 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
-      <Project>{A28FB32D-B951-4D64-8FEB-74A261425585}</Project>
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
       <Name>Galac.Saw.Ccl.Inventario</Name>
     </ProjectReference>
   </ItemGroup>

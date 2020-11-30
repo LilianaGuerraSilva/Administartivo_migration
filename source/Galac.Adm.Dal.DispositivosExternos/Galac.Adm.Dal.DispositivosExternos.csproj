@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Adm.Ccl.DispositivosExternos\Galac.Adm.Ccl.DispositivosExternos.csproj">
-      <Project>{EEA8E05E-9A11-4D51-AA9C-AACD7245952F}</Project>
+      <Project>{eea8e05e-9a11-4d51-aa9c-aacd7245952f}</Project>
       <Name>Galac.Adm.Ccl.DispositivosExternos</Name>
     </ProjectReference>
   </ItemGroup>

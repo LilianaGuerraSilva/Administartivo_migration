@@ -33,26 +33,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Ccl.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.GestionProduccion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.GestionProduccion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Inventario">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Inventario">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Lib, Version=2.50.0.1, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
@@ -90,7 +70,32 @@
     <Compile Include="Reportes\clsOrdenDeProduccionRpt.cs" />
     <Compile Include="Reportes\clsOrdenDeProduccionSql.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Ccl.GestionProduccion\Galac.Adm.Ccl.GestionProduccion.csproj">
+      <Project>{67b40f04-aebb-4db9-bd11-feabcfc4c02d}</Project>
+      <Name>Galac.Adm.Ccl.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.GestionProduccion\Galac.Adm.Dal.GestionProduccion.csproj">
+      <Project>{03af24e0-ccd8-42c4-a6af-34d0e1139746}</Project>
+      <Name>Galac.Adm.Dal.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Inventario\Galac.Saw.Brl.Inventario.csproj">
+      <Project>{bbb05009-adca-47a1-9a3f-49421928f380}</Project>
+      <Name>Galac.Saw.Brl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
+      <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib.Uil\Galac.Saw.Lib.Uil.csproj">
+      <Project>{ae2fdf07-4a14-48bd-ba32-d1701f5514d0}</Project>
+      <Name>Galac.Saw.Lib.Uil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

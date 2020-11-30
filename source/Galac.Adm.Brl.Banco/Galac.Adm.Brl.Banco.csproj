@@ -34,12 +34,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Ccl.Banco">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Banco.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.Banco">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.Banco.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
@@ -89,6 +83,16 @@
     <Compile Include="Reportes\clsConceptoBancarioRpt.cs" />
     <Compile Include="Reportes\clsCuentaBancariaRpt.cs" />
     <Compile Include="Reportes\clsSolicitudesDePagoRpt.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Banco\Galac.Adm.Ccl.Banco.csproj">
+      <Project>{295d5b19-4600-48c4-9da1-879a1875fbb9}</Project>
+      <Name>Galac.Adm.Ccl.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Banco\Galac.Adm.Dal.Banco.csproj">
+      <Project>{d0277dda-3eab-41b6-b6c0-a23c6bfb4306}</Project>
+      <Name>Galac.Adm.Dal.Banco</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

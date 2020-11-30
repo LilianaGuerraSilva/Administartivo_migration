@@ -42,10 +42,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Ccl.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
@@ -56,38 +52,6 @@
     <Reference Include="Galac.Contab.Ccl.WinCont">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Cliente">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Cliente">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Inventario">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Inventario">
-      <Name>Galac.Saw.Dal.Inventario</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Lib">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Reconv">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Reconv.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <Name>LibGalac.Aos.Base</Name>
@@ -148,6 +112,44 @@
     <Compile Include="Reportes\clsCategoriaRpt.cs" />
     <Compile Include="Reportes\clsColorRpt.cs" />
     <Compile Include="Reportes\clsTallaRpt.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Brl.Cliente\Galac.Saw.Brl.Cliente.csproj">
+      <Project>{78d48369-e4e8-4c92-8f1d-ce3369911509}</Project>
+      <Name>Galac.Saw.Brl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
+      <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
+      <Name>Galac.Saw.Ccl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
+      <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
+      <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
+      <Name>Galac.Saw.Ccl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Inventario\Galac.Saw.Dal.Inventario.csproj">
+      <Project>{cfea97d4-b3bd-4a5d-b129-be81d7b096b6}</Project>
+      <Name>Galac.Saw.Dal.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Reconvert\Galac.Saw.Reconv.csproj">
+      <Project>{bf877c20-f113-46f1-b3f5-42cbbd123908}</Project>
+      <Name>Galac.Saw.Reconv</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

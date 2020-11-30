@@ -34,38 +34,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Brl.Banco">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.Banco.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Brl.GestionCompras">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.GestionCompras.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.Banco">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Banco.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.CajaChica">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.CajaChica.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.GestionCompras">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.GestionCompras.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.CajaChica">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.CajaChica.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Contabilizacion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Contabilizacion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Contabilizacion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Contabilizacion.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
@@ -104,6 +72,44 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reportes\clsRendicionRpt.cs" />
     <Compile Include="Reportes\clsRendicionSql.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.Banco\Galac.Adm.Brl.Banco.csproj">
+      <Project>{a7b9fb1e-47a1-4a4f-aeb5-7aef55d39b11}</Project>
+      <Name>Galac.Adm.Brl.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.GestionCompras\Galac.Adm.Brl.GestionCompras.csproj">
+      <Project>{624fa464-54be-4395-b969-536c0a4de820}</Project>
+      <Name>Galac.Adm.Brl.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Banco\Galac.Adm.Ccl.Banco.csproj">
+      <Project>{295d5b19-4600-48c4-9da1-879a1875fbb9}</Project>
+      <Name>Galac.Adm.Ccl.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.GestionCompras\Galac.Adm.Ccl.GestionCompras.csproj">
+      <Project>{c9e84c15-9dab-4e42-95a9-08c4b09e1f74}</Project>
+      <Name>Galac.Adm.Ccl.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
+      <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>
+      <Name>Galac.Adm.Ccl.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Banco\Galac.Adm.Dal.Banco.csproj">
+      <Project>{d0277dda-3eab-41b6-b6c0-a23c6bfb4306}</Project>
+      <Name>Galac.Adm.Dal.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Rendicion\Galac.Adm.Dal.CajaChica.csproj">
+      <Project>{107e9af9-6b99-4340-8f06-579732bcb132}</Project>
+      <Name>Galac.Adm.Dal.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Contabilizacion\Galac.Saw.Brl.Contabilizacion.csproj">
+      <Project>{54c04b57-b724-4112-9529-3ce7294597a1}</Project>
+      <Name>Galac.Saw.Brl.Contabilizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Contabilizacion\Galac.Saw.Ccl.Contabilizacion.csproj">
+      <Project>{8e983401-52bc-4828-838c-01585fe3a8e7}</Project>
+      <Name>Galac.Saw.Ccl.Contabilizacion</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

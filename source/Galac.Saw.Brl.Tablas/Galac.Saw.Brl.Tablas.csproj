@@ -42,10 +42,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Ccl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Tablas.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <Name>LibGalac.Aos.Base</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
@@ -92,8 +88,12 @@
     <Compile Include="Reportes\clsZonaCobranzaRpt.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
+      <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
+      <Name>Galac.Saw.Ccl.Tablas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Dal.Tablas\Galac.Saw.Dal.Tablas.csproj">
-      <Project>{9E67E076-0E4B-43B0-BE51-C58E9F819150}</Project>
+      <Project>{9e67e076-0e4b-43b0-be51-c58e9f819150}</Project>
       <Name>Galac.Saw.Dal.Tablas</Name>
     </ProjectReference>
   </ItemGroup>
