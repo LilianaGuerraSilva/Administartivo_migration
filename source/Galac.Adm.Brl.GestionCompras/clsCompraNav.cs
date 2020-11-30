@@ -527,13 +527,13 @@ namespace Galac.Adm.Brl.GestionCompras {
             return vResult;
         }
 
-        bool ICompraPdn.GenerarCxP(Compra valRecord, string valNumeroControl, eAccionSR valAction) {
+        bool ICompraPdn.GenerarCxP(Compra valRecord, string valNumeroControl, eAccionSR valAction, string valNumeroDeCompraOriginal, string valCodigoDeProveedorOriginal) {
             if (valAction == eAccionSR.Modificar) {
-                string vNumero = valRecord.Numero;
+                string vNumero = valNumeroDeCompraOriginal;
                 if (LibDefGen.ProgramInfo.IsCountryPeru()) {
-                    vNumero = valRecord.Serie + "-" + valRecord.Numero;
+                    vNumero = valRecord.Serie + "-" + valNumeroDeCompraOriginal;
                 }
-                new clsCxPNav().EliminarCxPDesdeCompra(valRecord.ConsecutivoCompania, vNumero, valRecord.CodigoProveedor);
+                new clsCxPNav().EliminarCxPDesdeCompra(valRecord.ConsecutivoCompania, vNumero, valCodigoDeProveedorOriginal);
             }
             decimal MontoExento = valRecord.DetailCompraDetalleArticuloInventario.Where(p=>p.TipoDeAlicuota == 0).Sum(p => p.CostoUnitario * p.Cantidad);
             decimal MontoIVAGeneral = valRecord.DetailCompraDetalleArticuloInventario.Where(p => p.TipoDeAlicuota == 1).Sum(p => p.CostoUnitario * p.Cantidad);

@@ -54,9 +54,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Vehiculo.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Lib.Uil">
+    <Reference Include="Galac.Saw.Lib, Version=2.50.0.1, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.Uil.dll</HintPath>
+      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <Name>LibGalac.Aos.Base</Name>

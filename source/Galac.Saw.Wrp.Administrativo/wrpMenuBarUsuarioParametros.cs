@@ -108,7 +108,7 @@ namespace Galac.Saw.Wrp.MenuBar {
 
         private List<string> ComponentsList() {
             List<string> vResult = new List<string>();
-            vResult.Add("Galac.Comun.Uil.SttDef");
+            vResult.Add("Galac.Saw.Uil.SttDef");
             vResult.Add("Galac.Contab.Uil.WinCont");
             vResult.Add("LibGalac.Aos.Uil.Usal");
             return vResult;

@@ -1073,6 +1073,27 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
         #endregion // ComprasStt
+        #region CxPCompras
+        bool ISettValueByCompanyPdn.ExistenCxPGeneradasDesdeCompra(int valConsecutivoCompania) {
+            bool vResult = false;
+            StringBuilder vSql = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            XElement CxPGeneradasDesdeCompra;
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vSql.AppendLine("   SELECT COUNT(Consecutivo) AS CantidadDeCxPGeneradasDesdeCompras");
+            vSql.AppendLine("   FROM Adm.Compra");
+            vSql.AppendLine("   WHERE GenerarCXP = 'S'");
+            vSql.AppendLine("   AND ConsecutivoCompania = @ConsecutivoCompania");
+            CxPGeneradasDesdeCompra = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), string.Empty, 0);
+            if(CxPGeneradasDesdeCompra != null) {
+                int vCantidadDeCxPGeneradasDesdeCompras = CxPGeneradasDesdeCompra.Descendants().Select(s => (int)s.Element("CantidadDeCxPGeneradasDesdeCompras")).FirstOrDefault();
+                if(vCantidadDeCxPGeneradasDesdeCompras > 0) {
+                    vResult = true;
+                }
+            }
+            return vResult;
+        }
+        #endregion
         #region CxPProveedorPagosStt
         private CxPProveedorPagosStt CxPProveedorPagosSttPorDefecto() {
             CxPProveedorPagosStt insEntidad = new CxPProveedorPagosStt();
