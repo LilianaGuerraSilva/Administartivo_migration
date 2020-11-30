@@ -1081,7 +1081,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool MostrarTasaDeCambio {
             get {
-                return !_clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro) && NombreMonedaDeCobro != string.Empty;
+                return EsPosibleMostrarTasaDeCambio();
             }
         }
 
@@ -2824,6 +2824,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             return vResult;
         }
+
+        private bool EsPosibleMostrarTasaDeCambio() {
+            bool vResult = false;
+            bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
+            bool vEsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro);
+            if (vMuestraTotalEnDivisas) {
+                if(!LibString.IsNullOrEmpty(NombreMonedaDeCobro)) {
+                    vResult = true;
+                }
+            } else {
+                if(!vEsFacturaEnMonedaLocal && !LibString.IsNullOrEmpty(NombreMonedaDeCobro)) {
+                    vResult = true;
+                }
+            }
+            return vResult;
+        }
         #endregion
 
         private void MoverFocoACliente() {
@@ -3135,7 +3151,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vMoneda = CodigoMonedaDeCobro;
             }
             vConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda",LibSearchCriteria.CreateCriteriaFromText("Codigo",vMoneda));
-            bool vInsertarCambio = !_clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro) ? true : LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","SeMuestraTotalEnDivisas") ? true : false;
+            bool vInsertarCambio = EsNecesarioInsertarCambio();
             if(vInsertarCambio) {
                 decimal vTasa = 1;
                 DateTime vFecha = LibDate.Today();
@@ -3169,18 +3185,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
         private bool AsignarTasaDeCambio(bool valFacturaEnEspera,bool valEsMonedaLocal,decimal valTasa,DateTime valFecha) {
-            if(valFacturaEnEspera && !valEsMonedaLocal) {
-                if(CambioMostrarTotalEnDivisas != valTasa) {
-                    StringBuilder vMensaje = new StringBuilder();
-                    vMensaje.AppendLine("La factura que está cargando se guardó con Moneda de Cobro " + NombreMonedaDeCobro + ",");
-                    vMensaje.AppendLine(" con tasa de cambio " + LibConvert.ToStr(CambioMostrarTotalEnDivisas) + " el día " + LibConvert.ToStr(Fecha) + ".\n");
-                    vMensaje.AppendLine("La tasa de cambio actual para " + NombreMonedaDeCobro + " es " + LibConvert.ToStr(valTasa) + " del día " + LibConvert.ToStr(valFecha) + ".\n");
-                    vMensaje.AppendLine("¿Desea actualizar la tasa?");
-                    if(LibMessages.MessageBox.YesNo(this,vMensaje.ToString(),"Tasa de Cambio")) {
+            if (CambioMostrarTotalEnDivisas != valTasa) {
+                if (valFacturaEnEspera) {
+                    if(DeseaActualizarLaTasaDeCambioDeLaFacturaEnEspera(valEsMonedaLocal, valTasa, valFecha)) {
                         CambioMostrarTotalEnDivisas = valTasa;
                     }
+                } else {
+                    CambioMostrarTotalEnDivisas = valTasa;
                 }
-            } else if(CambioMostrarTotalEnDivisas == 1) {
+            } else if (CambioMostrarTotalEnDivisas == 1) {
                 CambioMostrarTotalEnDivisas = valTasa;
             }
             return true;
@@ -3267,5 +3280,32 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             cuadroDeBusqueda.HideListCommand.Execute(null);
         }
 
+        private bool EsNecesarioInsertarCambio() {
+            bool vResult = false;
+            bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
+            bool vEsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro);
+            if(!vEsFacturaEnMonedaLocal || vMuestraTotalEnDivisas) {
+                vResult = true;
+            }
+            return vResult;
+        }
+
+        private bool DeseaActualizarLaTasaDeCambioDeLaFacturaEnEspera(bool valEsMonedaLocal, decimal valTasa, DateTime valFecha) {
+            bool vResult = false;
+            StringBuilder vMensaje = new StringBuilder(); 
+            if (!valEsMonedaLocal) {
+                vMensaje.Append("La factura que está cargando se guardó con Moneda de Cobro " + NombreMonedaDeCobro + ",");
+                vMensaje.AppendLine(" con tasa de cambio " + LibConvert.ToStr(CambioMostrarTotalEnDivisas) + " el día " + LibConvert.ToStr(Fecha)).AppendLine();
+                vMensaje.AppendLine("La tasa de cambio actual para " + NombreMonedaDeCobro + " es " + LibConvert.ToStr(valTasa) + " del día " + LibConvert.ToStr(valFecha)).AppendLine();
+            } else {
+                vMensaje.Append("La factura que está cargando se guardó con tasa de cambio " + LibConvert.ToStr(CambioMostrarTotalEnDivisas) + " el día " + LibConvert.ToStr(Fecha));
+                vMensaje.AppendLine(" y la tasa de cambio actual de la moneda extranjera es " + LibConvert.ToStr(valTasa) + " del día " + LibConvert.ToStr(valFecha)).AppendLine();
+            }
+            vMensaje.AppendLine("¿Desea actualizar la tasa de cambio?");
+            if (LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Tasa de Cambio")) {
+                vResult = true;
+            }
+            return vResult;
+        }
     } //End of class FacturacionRapidaViewModel
 } //End of namespace Galac.Adm.Uil.Venta
