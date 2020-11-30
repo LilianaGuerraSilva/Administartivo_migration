@@ -34,12 +34,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Saw.Ccl.Vendedor">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Vendedor.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Vendedor">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Vendedor.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <Name>LibGalac.Aos.Base</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
@@ -62,6 +56,16 @@
   <ItemGroup>
     <Compile Include="clsVendedorNav.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Vendedor\Galac.Saw.Ccl.Vendedor.csproj">
+      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
+      <Name>Galac.Saw.Ccl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Vendedor\Galac.Saw.Dal.Vendedor.csproj">
+      <Project>{c97096c2-6491-48ba-a7bc-a9cce5b101b5}</Project>
+      <Name>Galac.Saw.Dal.Vendedor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

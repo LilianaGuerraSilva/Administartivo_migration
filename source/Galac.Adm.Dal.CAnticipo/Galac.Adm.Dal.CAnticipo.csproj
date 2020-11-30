@@ -45,14 +45,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Ccl.CAnticipo">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.CAnticipo.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.Venta">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Venta.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
@@ -74,6 +66,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Ccl.CAnticipo\Galac.Adm.Ccl.CAnticipo.csproj">
+      <Project>{002d527c-ec0e-4817-955f-538d36e16885}</Project>
+      <Name>Galac.Adm.Ccl.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
+      <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
+      <Name>Galac.Adm.Ccl.Venta</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

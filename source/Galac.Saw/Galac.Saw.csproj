@@ -57,10 +57,6 @@
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Ccl.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasLey">
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasLey.dll</HintPath>
     </Reference>
@@ -84,14 +80,6 @@
     </Reference>
     <Reference Include="Galac.Ent.Uil.Empresarial">
       <HintPath>..\..\bin\binComunAos\Galac.Ent.Uil.Empresarial.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.DDL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.DDL.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.SLev">
-      <Name>Galac.Saw.SLev</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.SLev.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
@@ -290,6 +278,20 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.DDL\Galac.Saw.DDL.csproj">
+      <Project>{9b7c2108-236b-4b69-849a-460f36b23363}</Project>
+      <Name>Galac.Saw.DDL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.SLev\Galac.Saw.SLev.csproj">
+      <Project>{a84d308c-d997-4550-800b-7c46e8cb02e3}</Project>
+      <Name>Galac.Saw.SLev</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

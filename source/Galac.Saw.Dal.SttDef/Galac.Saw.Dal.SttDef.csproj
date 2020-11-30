@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Saw.Ccl.SttDef">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <Name>LibGalac.Aos.Base</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
@@ -65,6 +62,12 @@
     <Compile Include="clsSettValueByCompanyDat.cs" />
     <Compile Include="clsSettValueByCompanyED.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -80,10 +80,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.LeyCosto.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Uil.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.SttDef.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Uil.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
@@ -190,6 +186,12 @@
     <Compile Include="wrpTablaRetencion.cs" />
     <Compile Include="wrpTarifaN2.cs" />
     <Compile Include="wrpValorUT.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Uil.SttDef\Galac.Saw.Uil.SttDef.csproj">
+      <Project>{2b1fa9b0-ad50-4c75-805f-d9efc6b236ab}</Project>
+      <Name>Galac.Saw.Uil.SttDef</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

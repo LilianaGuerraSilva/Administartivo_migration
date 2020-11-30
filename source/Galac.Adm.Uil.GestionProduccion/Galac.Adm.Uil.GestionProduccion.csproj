@@ -37,18 +37,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Brl.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.GestionProduccion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.GestionProduccion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Rpt.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Rpt.GestionProduccion.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
@@ -224,12 +212,23 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.GestionProduccion\Galac.Adm.Brl.GestionProduccion.csproj">
+      <Project>{d42e386c-a71c-45cd-95f4-41a820faaff4}</Project>
+      <Name>Galac.Adm.Brl.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.GestionProduccion\Galac.Adm.Ccl.GestionProduccion.csproj">
+      <Project>{67b40f04-aebb-4db9-bd11-feabcfc4c02d}</Project>
+      <Name>Galac.Adm.Ccl.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.GestionProduccion\Galac.Adm.Rpt.GestionProduccion.csproj">
+      <Project>{cc1bc3eb-53ea-484c-a5fc-bfb46db1f403}</Project>
+      <Name>Galac.Adm.Rpt.GestionProduccion</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
-      <Project>{A28FB32D-B951-4D64-8FEB-74A261425585}</Project>
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
       <Name>Galac.Saw.Ccl.Inventario</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

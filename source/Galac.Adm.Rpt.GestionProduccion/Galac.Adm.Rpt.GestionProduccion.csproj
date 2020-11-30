@@ -39,14 +39,6 @@
     <Reference Include="ActiveReports.Document, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
     <Reference Include="ActiveReports.Viewer6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
     <Reference Include="ActiveReports6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
-    <Reference Include="Galac.Adm.Brl.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.GestionProduccion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.GestionProduccion.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
@@ -155,6 +147,16 @@
       <DependentUpon>dsrRequisicionDeMateriales.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.GestionProduccion\Galac.Adm.Brl.GestionProduccion.csproj">
+      <Project>{d42e386c-a71c-45cd-95f4-41a820faaff4}</Project>
+      <Name>Galac.Adm.Brl.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.GestionProduccion\Galac.Adm.Ccl.GestionProduccion.csproj">
+      <Project>{67b40f04-aebb-4db9-bd11-feabcfc4c02d}</Project>
+      <Name>Galac.Adm.Ccl.GestionProduccion</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
