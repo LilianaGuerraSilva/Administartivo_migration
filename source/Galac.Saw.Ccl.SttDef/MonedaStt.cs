@@ -11,8 +11,24 @@ using Galac.Saw.Ccl.SttDef;
 namespace Galac.Saw.Ccl.SttDef {
     [Serializable]
     public class MonedaStt : ISettDefinition {
+
+        #region Variables
+
         private string _GroupName = null;
         private string _Module = null;
+        private string _CodigoMonedaLocal;
+        private string _NombreMonedaLocal;
+        private bool _UsaMonedaExtranjera;
+        private eTipoDeSolicitudDeIngresoDeTasaDeCambio _SolicitarIngresoDeTasaDeCambioAlEmitir;
+        private string _CodigoMonedaExtranjera;
+        private string _NombreMonedaExtranjera;
+        private bool _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
+        private long _fldTimeStamp;
+        XmlDocument _datos;
+
+        #endregion //Variables
+
+        #region Propiedades
 
         public string GroupName {
             get { return _GroupName; }
@@ -23,17 +39,6 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return _Module; }
             set { _Module = value; }
         }
-        #region Variables
-        private string _CodigoMonedaLocal;
-        private string _NombreMonedaLocal;
-        private bool _UsaMonedaExtranjera;
-        private eTipoDeSolicitudDeIngresoDeTasaDeCambio _SolicitarIngresoDeTasaDeCambioAlEmitir;
-        private string _CodigoMonedaExtranjera;
-        private string _NombreMonedaExtranjera;
-        private long _fldTimeStamp;
-        XmlDocument _datos;
-        #endregion //Variables
-        #region Propiedades
 
         public string CodigoMonedaLocal {
             get { return _CodigoMonedaLocal; }
@@ -53,7 +58,6 @@ namespace Galac.Saw.Ccl.SttDef {
         public string UsaMonedaExtranjera {
             set { _UsaMonedaExtranjera = LibConvert.SNToBool(value); }
         }
-
 
         public eTipoDeSolicitudDeIngresoDeTasaDeCambio SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum {
             get { return _SolicitarIngresoDeTasaDeCambioAlEmitir; }
@@ -82,6 +86,11 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _NombreMonedaExtranjera = LibString.Mid(value, 0, 80); }
         }
 
+        public bool UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool {
+            get { return _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos; }
+            set { _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos = value; }
+        }
+
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
             set { _fldTimeStamp = value; }
@@ -91,13 +100,17 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return _datos; }
             set { _datos = value; }
         }
+
         #endregion //Propiedades
+
         #region Constructores
 
         public MonedaStt() {
             Clear();
         }
+
         #endregion //Constructores
+
         #region Metodos Generados
 
         public object TextDateLastModifiedForInput() {
@@ -111,6 +124,7 @@ namespace Galac.Saw.Ccl.SttDef {
             SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = eTipoDeSolicitudDeIngresoDeTasaDeCambio.SiempreAlEmitirPrimeraFactura;
             CodigoMonedaExtranjera = "";
             NombreMonedaExtranjera = "";
+            UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = false;
             fldTimeStamp = 0;
         }
 
@@ -122,6 +136,7 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = _SolicitarIngresoDeTasaDeCambioAlEmitir;
             vResult.CodigoMonedaExtranjera = _CodigoMonedaExtranjera;
             vResult.NombreMonedaExtranjera = _NombreMonedaExtranjera;
+            vResult.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
@@ -132,8 +147,10 @@ namespace Galac.Saw.Ccl.SttDef {
                "\nUsa Moneda Extranjera = " + _UsaMonedaExtranjera +
                "\nSolicitar Ingreso De Tasa De Cambio Al Emitir = " + _SolicitarIngresoDeTasaDeCambioAlEmitir.ToString() +
                "\nCodigo Moneda Extranjera = " + _CodigoMonedaExtranjera +
-               "\nNombre Moneda Extranjera = " + _NombreMonedaExtranjera;
+               "\nNombre Moneda Extranjera = " + _NombreMonedaExtranjera +
+               "\nUsa Divisa como Moneda Principal de Ingreso de Datos = " + _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
         }
+
         #endregion //Metodos Generados
 
 

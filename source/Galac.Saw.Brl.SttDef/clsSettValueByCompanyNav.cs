@@ -1343,6 +1343,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = eTipoDeSolicitudDeIngresoDeTasaDeCambio.SiempreAlEmitirPrimeraFactura;
             return insEntidad;
         }
+
         private void LlenaListado(MonedaStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaLocal, "CodigoMonedaLocal", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaLocal, "NombreMonedaLocal", valConsecutivoCompania));
@@ -1350,6 +1351,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(valRecord.SolicitarIngresoDeTasaDeCambioAlEmitirAsDB, "SolicitarIngresoDeTasaDeCambioAlEmitir", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaExtranjera, "CodigoMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaExtranjera, "NombreMonedaExtranjera", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool), "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos", valConsecutivoCompania));
         }
 
         MonedaStt GetMonedaStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -1362,6 +1364,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = (eTipoDeSolicitudDeIngresoDeTasaDeCambio)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "SolicitarIngresoDeTasaDeCambioAlEmitir"));
             vResult.CodigoMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "CodigoMonedaExtranjera");
             vResult.NombreMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "NombreMonedaExtranjera");
+            vResult.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"));
             return vResult;
         }
         #endregion // MonedaStt

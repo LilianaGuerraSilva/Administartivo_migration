@@ -942,7 +942,12 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         protected override void InitializeLookAndFeel(Compra valModel) {
             base.InitializeLookAndFeel(valModel);
-            string vCodigoMonedaSegunModulo = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            string vCodigoMonedaSegunModulo = string.Empty;
+            if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                vCodigoMonedaSegunModulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            } else {
+                vCodigoMonedaSegunModulo = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            }
             if(Consecutivo == 0) {
                 Consecutivo = GenerarProximoConsecutivo();
             }
