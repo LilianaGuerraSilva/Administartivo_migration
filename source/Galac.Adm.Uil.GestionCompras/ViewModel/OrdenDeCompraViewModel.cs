@@ -27,34 +27,34 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         #region Constantes
 
-        public const string SeriePropertyName = "Serie";
-        public const string NumeroPropertyName = "Numero";
-        public const string FechaPropertyName = "Fecha";
-        public const string ConsecutivoProveedorPropertyName = "ConsecutivoProveedor";
-        public const string CodigoProveedorPropertyName = "CodigoProveedor";
-        public const string NombreProveedorPropertyName = "NombreProveedor";
-        public const string MonedaPropertyName = "Moneda";
-        public const string CodigoMonedaPropertyName = "CodigoMoneda";
-        public const string CambioAMonedaLocalPropertyName = "CambioAMonedaLocal";
-        public const string TotalRenglonesPropertyName = "TotalRenglones";
-        public const string TotalCompraPropertyName = "TotalCompra";
-        public const string TipoDeCompraPropertyName = "TipoDeCompra";
-        public const string ComentariosPropertyName = "Comentarios";
-        public const string StatusOrdenDeCompraPropertyName = "StatusOrdenDeCompra";
-        public const string FechaDeAnulacionPropertyName = "FechaDeAnulacion";
-        public const string CondicionesDeEntregaPropertyName = "CondicionesDeEntrega";
-        public const string CondicionesDePagoPropertyName = "CondicionesDePago";
-        public const string DescripcionCondicionesDePagoPropertyName = "DescripcionCondicionesDePago";
-        public const string CondicionesDeImportacionPropertyName = "CondicionesDeImportacion";
-        public const string NumeroCotizacionPropertyName = "NumeroCotizacion";
-        public const string NombreOperadorPropertyName = "NombreOperador";
-        public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
-        public const string IsEnabledCambioPropertyName = "IsEnabledCambio";
-        public const string MonedaActualPropertyName = "MonedaActual";
-        public const string IsVisibleMonedaActualPropertyName = "IsVisibleMonedaActual";
-        public const string IsEnableSeriePropertyName = "IsEnableSerie";
-        public const string IsEnableNumeroPropertyName = "IsEnableNumero";
-        public const string IsVisibleCondicionesImportacionPropertyName = "IsVisibleCondicionesImportacion";
+        private const string SeriePropertyName = "Serie";
+        private const string NumeroPropertyName = "Numero";
+        private const string FechaPropertyName = "Fecha";
+        private const string ConsecutivoProveedorPropertyName = "ConsecutivoProveedor";
+        private const string CodigoProveedorPropertyName = "CodigoProveedor";
+        private const string NombreProveedorPropertyName = "NombreProveedor";
+        private const string MonedaPropertyName = "Moneda";
+        private const string CodigoMonedaPropertyName = "CodigoMoneda";
+        private const string CambioAMonedaLocalPropertyName = "CambioAMonedaLocal";
+        private const string TotalRenglonesPropertyName = "TotalRenglones";
+        private const string TotalCompraPropertyName = "TotalCompra";
+        private const string TipoDeCompraPropertyName = "TipoDeCompra";
+        private const string ComentariosPropertyName = "Comentarios";
+        private const string StatusOrdenDeCompraPropertyName = "StatusOrdenDeCompra";
+        private const string FechaDeAnulacionPropertyName = "FechaDeAnulacion";
+        private const string CondicionesDeEntregaPropertyName = "CondicionesDeEntrega";
+        private const string CondicionesDePagoPropertyName = "CondicionesDePago";
+        private const string DescripcionCondicionesDePagoPropertyName = "DescripcionCondicionesDePago";
+        private const string CondicionesDeImportacionPropertyName = "CondicionesDeImportacion";
+        private const string NumeroCotizacionPropertyName = "NumeroCotizacion";
+        private const string NombreOperadorPropertyName = "NombreOperador";
+        private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
+        private const string IsEnabledCambioPropertyName = "IsEnabledCambio";
+        private const string MonedaActualPropertyName = "MonedaActual";
+        private const string IsVisibleMonedaActualPropertyName = "IsVisibleMonedaActual";
+        private const string IsEnableSeriePropertyName = "IsEnableSerie";
+        private const string IsEnableNumeroPropertyName = "IsEnableNumero";
+        private const string IsVisibleCondicionesImportacionPropertyName = "IsVisibleCondicionesImportacion";
 
         #endregion
 
@@ -701,7 +701,12 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         protected override void InitializeLookAndFeel(OrdenDeCompra valModel) {
             base.InitializeLookAndFeel(valModel);
-            string vCodigoMonedaSegunModulo = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            string vCodigoMonedaSegunModulo = string.Empty;
+            if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                vCodigoMonedaSegunModulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            } else {
+                vCodigoMonedaSegunModulo = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            }
             if (Consecutivo == 0) {
                 Consecutivo = GenerarProximoConsecutivo();
             }

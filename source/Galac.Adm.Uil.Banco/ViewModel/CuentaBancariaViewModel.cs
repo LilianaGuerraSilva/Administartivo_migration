@@ -23,24 +23,24 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
         #region Constantes
 
-        public const string CodigoPropertyName = "Codigo";
-        public const string StatusPropertyName = "Status";
-        public const string NumeroCuentaPropertyName = "NumeroCuenta";
-        public const string NombreCuentaPropertyName = "NombreCuenta";
-        public const string CodigoBancoPropertyName = "CodigoBancoPant";
-        public const string NombreBancoPropertyName = "NombreBanco";
-        public const string NombreSucursalPropertyName = "NombreSucursal";
-        public const string TipoCtaBancariaPropertyName = "TipoCtaBancaria";
-        public const string ManejaDebitoBancarioPropertyName = "ManejaDebitoBancario";
-        public const string ManejaCreditoBancarioPropertyName = "ManejaCreditoBancario";
-        public const string SaldoDisponiblePropertyName = "SaldoDisponible";
-        public const string NombreDeLaMonedaPropertyName = "NombreDeLaMoneda";
-        public const string NombrePlantillaChequePropertyName = "NombrePlantillaCheque";
-        public const string CuentaContablePropertyName = "CuentaContable";
-        public const string CodigoMonedaPropertyName = "CodigoMoneda";
-        public const string EsCajaChicaPropertyName = "EsCajaChica";
-        public const string NombreOperadorPropertyName = "NombreOperador";
-        public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
+        private const string CodigoPropertyName = "Codigo";
+        private const string StatusPropertyName = "Status";
+        private const string NumeroCuentaPropertyName = "NumeroCuenta";
+        private const string NombreCuentaPropertyName = "NombreCuenta";
+        private const string CodigoBancoPropertyName = "CodigoBancoPant";
+        private const string NombreBancoPropertyName = "NombreBanco";
+        private const string NombreSucursalPropertyName = "NombreSucursal";
+        private const string TipoCtaBancariaPropertyName = "TipoCtaBancaria";
+        private const string ManejaDebitoBancarioPropertyName = "ManejaDebitoBancario";
+        private const string ManejaCreditoBancarioPropertyName = "ManejaCreditoBancario";
+        private const string SaldoDisponiblePropertyName = "SaldoDisponible";
+        private const string NombreDeLaMonedaPropertyName = "NombreDeLaMoneda";
+        private const string NombrePlantillaChequePropertyName = "NombrePlantillaCheque";
+        private const string CuentaContablePropertyName = "CuentaContable";
+        private const string CodigoMonedaPropertyName = "CodigoMoneda";
+        private const string EsCajaChicaPropertyName = "EsCajaChica";
+        private const string NombreOperadorPropertyName = "NombreOperador";
+        private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 
         #endregion
 
@@ -542,8 +542,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
         protected override void InitializeLookAndFeel(CuentaBancaria valModel) {
             base.InitializeLookAndFeel(valModel);
+            IMonedaLocalActual vMonedaLocalActual = new clsMonedaLocalActual();
+            vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (Action == eAccionSR.Insertar) {
-                SetMonedaDefault(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "CodigoMonedaLocal"));
+                if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                    SetMonedaDefault(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "CodigoMonedaExtranjera"));
+                } else {
+                    SetMonedaDefault(vMonedaLocalActual.GetHoyCodigoMoneda());
+                }
             }
         }
 
