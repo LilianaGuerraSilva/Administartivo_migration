@@ -681,7 +681,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 XElement ImpresoraXmlFiscalData = BuildImpresoraFiscalData(ModeloDeMaquinaFiscal, PuertoMaquinaFiscal);
                 IImpresoraFiscalPdn insIMaquinaFiscal = new clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
-                CajaDiagnosticoViewModel vViewModel = new CajaDiagnosticoViewModel(insIMaquinaFiscal);
+                CajaDiagnosticoViewModel vViewModel = new CajaDiagnosticoViewModel(insIMaquinaFiscal,FamiliaImpresoraFiscal);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             } catch(GalacException vEx) {
                 LibExceptionDisplay.Show(vEx);

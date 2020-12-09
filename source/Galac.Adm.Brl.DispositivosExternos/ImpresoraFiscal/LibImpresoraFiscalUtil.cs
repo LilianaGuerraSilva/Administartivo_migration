@@ -95,8 +95,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             valNumero = SetDecimalSeparator(valNumero);
             vDecimalValue = LibMath.RoundToNDecimals(LibImportData.ToDec(valNumero),valCantidadDecimales);
             vDecimalValue = LibMath.Abs(vDecimalValue);
-            vDecimalValue = LibImportData.ToDec(((double)vDecimalValue * Math.Pow(10,valCantidadDecimales)).ToString());
-            vValorFinal = vDecimalValue.ToString();
+            vDecimalValue = LibImportData.ToDec(((double)vDecimalValue * Math.Pow(10,valCantidadDecimales)).ToString(CultureInfo.InvariantCulture));
+            vValorFinal = vDecimalValue.ToString(CultureInfo.InvariantCulture);
             if(LibString.Len(WithDecimalSeparator) > 0) {
                 vValorFinal = LibString.InsertAt(vValorFinal,WithDecimalSeparator,LibString.Len(vValorFinal) - valCantidadDecimales);
             } else {
@@ -119,6 +119,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
+        public static string DecimalToStringFormat(decimal valDecimalInput, int valDecimalRound) {
+            string vResult = "";
+            CultureInfo vCultureInfo = CultureInfo.InvariantCulture;
+            valDecimalInput = LibMath.RoundToNDecimals(valDecimalInput,valDecimalRound);
+            vResult = valDecimalInput.ToString(vCultureInfo);
+            return vResult;
+        }
 
         public static string RemoverCaracteresInvalidosParaNumeros(string valEntrada) {
             string vPatronEspacios = "\\s+";

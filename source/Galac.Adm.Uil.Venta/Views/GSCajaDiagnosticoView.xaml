@@ -2,227 +2,239 @@
     x:Class="Galac.Adm.Uil.Venta.Views.GSCajaDiagnosticoView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Venta.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Venta.ViewModel">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
-                <ResourceDictionary
-                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <GroupBox
-        Style="{StaticResource GroupBoxStyle}"
+        Name="gbDiagnostico"
         Header="Diagnóstico de Maquina Fiscal"
-        Name="gbDiagnostico">
-        <Grid
-            FocusManager.FocusedElement="{Binding ElementName=txtEstatusDeComunicacion}">
+        Style="{StaticResource GroupBoxStyle}">
+        <Grid FocusManager.FocusedElement="{Binding ElementName=txtEstatusDeComunicacion}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Label
+                Name="lblEstatusDeComunicacion"
                 Grid.Row="0"
                 Grid.Column="0"
-                Name="lblEstatusDeComunicacion"
+                VerticalAlignment="Center"
                 Content="Estatus de Comunicación"
-                Style="{StaticResource LabelPrompt}"
-                VerticalAlignment="Center" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSTextBoxWpf
+                Name="txtEstatusDeComunicacion"
                 Grid.Row="0"
                 Grid.Column="1"
-                Name="txtEstatusDeComunicacion"
-                HorizontalContentAlignment="Stretch"
-                nsWpf:LibFocusManager.IsFocused="True"
-                nsWpf:LibFocusManager.FocusedPropertyName="EstatusDeComunicacion"
-                Style="{StaticResource TextBoxInputStyle}"
-                InputDataType="Alfanumeric"
-                MaxLength="250"
                 Width="220"
                 Height="60"
-                VerticalScrollBarVisibility="Auto"
+                HorizontalContentAlignment="Stretch"
+                nsWpf:LibFocusManager.FocusedPropertyName="EstatusDeComunicacion"
+                nsWpf:LibFocusManager.IsFocused="True"
+                BorderThickness="1"
+                InputDataType="Alfanumeric"
                 IsReadOnly="True"
+                MaxLength="250"
+                Style="{StaticResource TextBoxInputStyle}"
+                Text="{Binding Path=EstatusDeComunicacionDescription, NotifyOnValidationError=True, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap"
-                Text="{Binding Path=EstatusDeComunicacionDescription, NotifyOnValidationError=True,Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                BorderThickness="1" />
+                VerticalScrollBarVisibility="Auto" />
             <Label
+                Name="lblEstatusDeComunicacionCheck"
                 Grid.Row="0"
                 Grid.Column="2"
-                Name="lblEstatusDeComunicacionCheck"
+                Width="60"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 Content="{Binding Path=EstatusDeComunicacion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource LabelPrompt}"
-                Width="60"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Foreground="{Binding Path=ColorStatusEstatusDeComunicacion}"
                 FontSize="15"
-                FontWeight="Bold" />
+                FontWeight="Bold"
+                Foreground="{Binding Path=ColorStatusEstatusDeComunicacion}"
+                Style="{StaticResource LabelPrompt}" />
             <Label
+                Name="lblEstatusDeControladores"
                 Grid.Row="1"
                 Grid.Column="0"
-                Name="lblEstatusDeControladores"
+                VerticalAlignment="Center"
                 Content="Versión de Controladores"
-                Style="{StaticResource LabelPrompt}"
-                VerticalAlignment="Center" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSTextBoxWpf
+                Name="txtEstatusDeControladores"
                 Grid.Row="1"
                 Grid.Column="1"
-                Name="txtEstatusDeControladores"
-                HorizontalContentAlignment="Stretch"
-                Style="{StaticResource TextBoxInputStyle}"
-                InputDataType="Alfanumeric"
-                MaxLength="250"
                 Width="220"
                 Height="60"
-                VerticalScrollBarVisibility="Auto"
+                HorizontalContentAlignment="Stretch"
+                BorderThickness="1"
+                InputDataType="Alfanumeric"
                 IsReadOnly="True"
+                MaxLength="250"
+                Style="{StaticResource TextBoxInputStyle}"
+                Text="{Binding Path=VersionDeControladoresDescription, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap"
-                Text="{Binding Path=VersionDeControladoresDescription,Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                BorderThickness="1" />
+                VerticalScrollBarVisibility="Auto" />
             <Label
+                Name="lblEstatusDeControladoresCheck"
                 Grid.Row="1"
                 Grid.Column="2"
-                Name="lblEstatusDeControladoresCheck"
-                HorizontalContentAlignment="Center"
-                Content="{Binding Path=VersionDeControladores,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource LabelPrompt}"
                 Width="60"
-                VerticalAlignment="Center"
                 HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Content="{Binding Path=VersionDeControladores, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                FontSize="15"
+                FontWeight="Bold"
                 Foreground="{Binding Path=ColorStatusVersionDeControladores}"
-                FontSize="15"
-                FontWeight="Bold" />
+                Style="{StaticResource LabelPrompt}" />
             <Label
-                Grid.Row="2"
-                Grid.Column="0"
                 Name="lblEstatusDocPendiente"
+                Grid.Row="2"
+                Grid.Column="0"
+                VerticalAlignment="Center"
                 Content="Documentos En Cola"
-                Style="{StaticResource LabelPrompt}"
-                VerticalAlignment="Center" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSTextBoxWpf
+                Name="txtEstatusDocPendiente"
                 Grid.Row="2"
                 Grid.Column="1"
-                Name="txtEstatusDocPendiente"
-                HorizontalContentAlignment="Stretch"
-                Style="{StaticResource TextBoxInputStyle}"
-                InputDataType="Alfanumeric"
-                MaxLength="250"
                 Width="220"
                 Height="60"
-                VerticalScrollBarVisibility="Auto"
+                HorizontalContentAlignment="Stretch"
+                BorderThickness="1"
+                InputDataType="Alfanumeric"
                 IsReadOnly="True"
+                MaxLength="250"
+                Style="{StaticResource TextBoxInputStyle}"
+                Text="{Binding Path=ColaDeImpresionDescription, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap"
-                Text="{Binding Path=ColaDeImpresionDescription,Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                BorderThickness="1" />
+                VerticalScrollBarVisibility="Auto" />
             <Label
+                Name="lblDocPendienteCheck"
+                Grid.Row="2"
+                Grid.Column="2"
+                Width="60"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Content="{Binding Path=ColaDeImpresion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                FontSize="15"
+                FontWeight="Bold"
+                Foreground="{Binding Path=ColorStatusColaDeImpresion}"
+                Style="{StaticResource LabelPrompt}" />
+            <Button
+                Name="btCierreZ"
                 Grid.Row="2"
                 Grid.Column="3"
-                Name="lblDocPendienteCheck"
-                HorizontalContentAlignment="Center"
-                Content="{Binding Path=ColaDeImpresion,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource LabelPrompt}"
-                Width="60"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Foreground="{Binding Path=ColorStatusColaDeImpresion }"
-                FontSize="15"
-                FontWeight="Bold" />
+                Width="12"
+                Height="58"
+                Margin="5,0,5,0"
+                Command="{Binding Path=CierreZCommand}"
+                Content="Z"
+                FontWeight="Bold"
+                Visibility="{Binding Path=IsVisibleCierreZ, Converter={StaticResource booleanToVisibilityConverter}}" />
             <Label
+                Name="lblEstatusReloj"
                 Grid.Row="3"
                 Grid.Column="0"
-                Name="lblEstatusReloj"
+                VerticalAlignment="Center"
                 Content="Fecha y Hora"
-                Style="{StaticResource LabelPrompt}"
-                VerticalAlignment="Center" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSTextBoxWpf
+                Name="txtEstatusDeReloj"
                 Grid.Row="3"
                 Grid.Column="1"
-                Name="txtEstatusDeReloj"
-                HorizontalContentAlignment="Stretch"
-                Style="{StaticResource TextBoxInputStyle}"
-                InputDataType="Alfanumeric"
-                MaxLength="250"
                 Width="220"
                 Height="60"
-                VerticalScrollBarVisibility="Auto"
+                HorizontalContentAlignment="Stretch"
+                BorderThickness="1"
+                InputDataType="Alfanumeric"
                 IsReadOnly="True"
+                MaxLength="250"
+                Style="{StaticResource TextBoxInputStyle}"
+                Text="{Binding Path=FechaYHoraDescription, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap"
-                Text="{Binding Path=FechaYHoraDescription,Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                BorderThickness="1" />
+                VerticalScrollBarVisibility="Auto" />
             <Label
-                Grid.Row="3"
-                Grid.Column="3"
                 Name="lblEstatusDeRelojCheck"
+                Grid.Row="3"
+                Grid.Column="2"
+                Width="60"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 Content="{Binding Path=FechaYHora, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource LabelPrompt}"
-                Width="60"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                Foreground="{Binding Path=ColorStatusFechaYHora}"
                 FontSize="15"
-                FontWeight="Bold" />
+                FontWeight="Bold"
+                Foreground="{Binding Path=ColorStatusFechaYHora}"
+                Style="{StaticResource LabelPrompt}" />
             <Label
+                Name="lblEstatusDeAlicuotas"
                 Grid.Row="4"
                 Grid.Column="0"
-                Name="lblEstatusDeAlicuotas"
-                Content="Alícuotas Registradas"
-                Style="{StaticResource LabelPrompt}"
+                Margin="3,23,0,19"
                 VerticalAlignment="Center"
-                Margin="3,23,0,19" />
+                Content="Alícuotas Registradas"
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSTextBoxWpf
+                Name="txtEstatusDeAlicuotas"
                 Grid.Row="4"
                 Grid.Column="1"
-                Name="txtEstatusDeAlicuotas"
-                HorizontalContentAlignment="Stretch"
-                Style="{StaticResource TextBoxInputStyle}"
-                InputDataType="Alfanumeric"
-                MaxLength="250"
                 Width="220"
                 Height="60"
-                VerticalScrollBarVisibility="Auto"
+                HorizontalContentAlignment="Stretch"
+                BorderThickness="1"
+                InputDataType="Alfanumeric"
                 IsReadOnly="True"
+                MaxLength="250"
+                Style="{StaticResource TextBoxInputStyle}"
+                Text="{Binding Path=AlicuotasRegistradasDescription, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap"
-                Text="{Binding Path=AlicuotasRegistradasDescription,Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                BorderThickness="1" />
+                VerticalScrollBarVisibility="Auto" />
             <Label
-                Grid.Row="4"
-                Grid.Column="3"
                 Name="lblEstatusDeAlicuotasCheck"
-                Content="{Binding Path=AlicuotasRegistradas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                HorizontalContentAlignment="Center"
-                Style="{StaticResource LabelPrompt}"
+                Grid.Row="4"
+                Grid.Column="2"
                 Width="60"
-                VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                Foreground="{Binding Path=ColorStatusAlicuotasRegistradas }"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Content="{Binding Path=AlicuotasRegistradas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 FontSize="15"
-                FontWeight="Bold" />
+                FontWeight="Bold"
+                Foreground="{Binding Path=ColorStatusAlicuotasRegistradas}"
+                Style="{StaticResource LabelPrompt}" />
+            <ProgressBar
+                Name="ProgressProcess"
+                Grid.Row="5"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                Width="445"
+                Height="12"
+                Margin="10,10,10,10"
+                IsIndeterminate="True"
+                Visibility="{Binding Path=ShowProgress, Converter={StaticResource booleanToVisibilityConverter}}" />
         </Grid>
     </GroupBox>
 </UserControl>

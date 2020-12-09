@@ -15,7 +15,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsBMC:IImpresoraFiscalPdn {
         #region constantes
         const string VersionApi = "2, 3, 1, 5";
-        const string DllApiName = @"\FPCTRL.dll";
+        const string DllApiName = @"FPCTRL.dll";
         const string _S1Test = "01\n00000000001000000\n00000015\n00008\n00000000\n00000\n00000005\n00000\n0001\n0001\nJ-395211990\nNA00500441\n070410\n200720\n";
         #endregion
 
@@ -642,7 +642,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"CodigoFormaDelCobro"));
                         vFormatoDeCobro = FormaDeCobro(vMedioDePago);
                         vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"Monto"));
-                        if(LibConvert.ToDec(vMonto) > 0) {
+                        if(LibImportData.ToDec(vMonto) > 0) {
                             vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto,_EnterosParaPagos,_DecimalesParaPagos);
                             vCmd = "2" + vFormatoDeCobro + vMonto;
                         } else {
@@ -888,8 +888,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vDir = "";            
 #if  DEBUG
             vDir = LibApp.AppPath() + DllApiName;
-#else
-    vDir = System.IO.Path.Combine(LibApp.AppPath(),"CDP") + DllApiName;
+#else              
+             vDir = System.IO.Path.Combine(LibApp.AppPath()+"CDP",DllApiName);
 #endif
             System.Windows.Forms.MessageBox.Show(vDir,"");            
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);

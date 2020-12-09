@@ -490,7 +490,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vResult &= ImprimeCamposDefinibles(vDocumentoFiscal);
                 }
 
-                if (LibConvert.ToDec(vMontoDescuentoGlobal) > 0) {
+                if (LibImportData.ToDec(vMontoDescuentoGlobal) > 0) {
                     vResult &= AplicarDescuentoGlobal(vMontoDescuentoGlobal);
                 }
 
@@ -587,7 +587,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vRollo = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement, "Rollo"), 20);
                         vTotalDevolucion = CalcularTotalDevolucion(vPrcDescuento, vMonto, vCantidad);
 
-                        if (LibConvert.ToDec(vTotalDevolucion) > _NumeroMaximo || LibConvert.ToDec(vCantidad) >= 1000 || LibConvert.ToDec(vMonto) > _NumeroMaximo) {
+                        if (LibImportData.ToDec(vTotalDevolucion) > _NumeroMaximo || LibImportData.ToDec(vCantidad) >= 1000 || LibImportData.ToDec(vMonto) > _NumeroMaximo) {
                             vEstatus = false;
                             CancelarDocumentoFiscalEnImpresion(false);
                             throw new GalacException("Limites Máximos Superados", eExceptionManagementType.Alert);
@@ -632,7 +632,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (LibString.Len(valDescripcion) > 24) {
                     EnviarDatosAdicionales(LibString.SubString(valDescripcion, 25));
                 }
-                if (LibConvert.ToDec(valPrcDescuento) > 0) {
+                if (LibImportData.ToDec(valPrcDescuento) > 0) {
                     vCmd = _RealizarDescuentoEnRenglon + vSingleSeparator + vStringField + "Monto Desc. -" + vStringField + vSingleSeparator + valPrcDescuento + ";;46;";
                     vResult = CheckRequest(vRequest, ref vMensaje);
                 }
@@ -643,14 +643,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string CalcularTotalDevolucion(string valPrcDescuento, string valMonto, string valCantidad) {
             string vResult = "";
             decimal vRenglonDescuento = 0;
-            decimal vMontoDescuento = 0;
-            string vTokenSeparator = "";
-
-            vRenglonDescuento = LibConvert.ToDec(valCantidad) * LibConvert.ToDec(valMonto) * LibConvert.ToDec(valPrcDescuento) / 100;
-            vMontoDescuento = LibConvert.ToDec(valMonto) - vRenglonDescuento;
-            vResult = LibConvert.ToStr(vMontoDescuento, 2);
-            vTokenSeparator = LibConvert.CurrentGroupSeparator();
-            vResult = LibString.EraseCharacter(vResult, vTokenSeparator);
+            decimal vMontoDescuento = 0;            
+            vRenglonDescuento = LibImportData.ToDec(valCantidad) * LibImportData.ToDec(valMonto) * LibImportData.ToDec(valPrcDescuento) / 100;
+            vMontoDescuento = LibImportData.ToDec(valMonto) - vRenglonDescuento;
+            vResult = LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDescuento, 2);            
             return vResult;
         }
 
