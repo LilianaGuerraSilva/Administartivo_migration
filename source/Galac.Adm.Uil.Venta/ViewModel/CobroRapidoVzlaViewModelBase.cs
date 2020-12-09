@@ -68,14 +68,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobro) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw();
-            List<RenglonCobroDeFactura> vcloneListCobro = valListDeCobro.Select(t => t.Clone()).ToList();
+            List<RenglonCobroDeFactura> vCloneListCobro = valListDeCobro.Select(t => t.Clone()).ToList();
             XElement vResult = null;
             XElement xElementFacturaRapida = LibParserHelper.ParseToXElement(valFactura);
             XElement xElementGpDataDetailRenglonFactura = new XElement("GpDataDetailRenglonFactura");
-            string vTotalesEnDivisas = "";
-            bool vAplicaIvaEspecial = LibConvert.SNToBool(LibXml.GetPropertyString(xElementFacturaRapida, "AplicaDecretoIvaEspecial"));
-            int vParametro = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "AplicarIVAEspecial");
-            foreach (var item in valFactura.DetailFacturaRapidaDetalle) {
+            decimal Diferencia = 0;           
+            bool vAplicaIvaEspecial = LibConvert.SNToBool(LibXml.GetPropertyString(xElementFacturaRapida,"AplicaDecretoIvaEspecial"));
+            int vParametro = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida","AplicarIVAEspecial");
+            decimal vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida,"TotalFactura"));
+            decimal vTotalPagos = 0;
+            foreach(var item in valFactura.DetailFacturaRapidaDetalle) {
                 XElement xDetail = LibParserHelper.ParseToXElement(item);
                 XElement xElementGpResultDetailRenglonFactura = new XElement("GpResultDetailRenglonFactura");
                 if (vAplicaIvaEspecial) {
@@ -94,17 +96,32 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonFactura);
 
             XElement xElementGpDataDetailRenglonCobro = new XElement("GpDataDetailRenglonCobro");
-            foreach (var item in vcloneListCobro) {
-                if (item.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()) {
-                    item.Monto = item.Monto * item.CambioAMonedaLocal;
+            foreach(var renglon in vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())) {
+                renglon.Monto *= renglon.CambioAMonedaLocal;
+            }
+            if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaCobroDirectoEnMultimoneda") && vCloneListCobro.Count > 1) {
+                vTotalPagos = vCloneListCobro.Sum(s => s.Monto);
+                if(TotalFactura > vTotalPagos) {
+                    Diferencia = TotalFactura - vTotalPagos;
+                    vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())
+                                   .FirstOrDefault().Monto += Diferencia;
+                } else if(vTotalPagos > TotalFactura) {
+                    Diferencia = vTotalPagos - TotalFactura;
+                    vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())
+                                   .FirstOrDefault().Monto -= Diferencia;
                 }
+            } else if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaCobroDirectoEnMultimoneda") && vCloneListCobro[0].Monto < TotalFactura && vCloneListCobro.Count == 1) {
+                vCloneListCobro[0].Monto = TotalFactura;
+            }
+
+            foreach(var item in vCloneListCobro) {  
                 XElement xDetail = LibParserHelper.ParseToXElement(item);
                 XElement xElementGpResultDetailRenglonCobro = new XElement("GpResultDetailRenglonCobro");
                 xElementGpResultDetailRenglonCobro.Add(xDetail.Descendants("GpResult").Elements());
                 xElementGpDataDetailRenglonCobro.Add(xElementGpResultDetailRenglonCobro);
             }            
             if(valFactura.CodigoMonedaDeCobro != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()) {
-                vTotalesEnDivisas = MostrarTotalesEnDivisasImprFiscal(valFactura);                
+                string vTotalesEnDivisas = MostrarTotalesEnDivisasImprFiscal(valFactura);                
                 XElement xTotalesEnDivisa = new XElement("TotalMonedaExtranjera",vTotalesEnDivisas);
                 xElementFacturaRapida.Element("GpResult").Add(xTotalesEnDivisa);
             }

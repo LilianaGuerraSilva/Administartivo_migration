@@ -378,7 +378,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
             try {
                 vGetResult = SetDecimalSeparator((LibXml.GetPropertyString(valDocumentoFiscal,"PorcentajeDescuento")));
-                vPrcDescuentoTotal = LibMath.Abs(LibConvert.ToDec(vGetResult));
+                vPrcDescuentoTotal = LibMath.Abs(LibImportData.ToDec(vGetResult));
                 List<XElement> vRecord = valDocumentoFiscal.Descendants("GpResultDetailRenglonFactura").ToList();
                 foreach(XElement vXElement in vRecord) {
                     vDescripcion = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"Descripcion"));
@@ -386,18 +386,18 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vTipoTasa = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"AlicuotaIva"));
                     vTipoTasa = DarFormatoAlicuotaIva((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
                     vGetResult = SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"Cantidad"));
-                    vCantidad = LibMath.Abs(LibConvert.ToDec(vGetResult));
-                    vCantidadFormat = DarFormatoNumericoParaImpresion(vGetResult,_EnterosParaCantidad,_DecimalParaCantidad);
+                    vCantidad = LibMath.Abs(LibImportData.ToDec(vGetResult));
+                    vCantidadFormat = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vGetResult,_EnterosParaCantidad,_DecimalParaCantidad);
                     //
                     vGetResult = SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"PrecioSinIVA"));
-                    vMonto = LibMath.Abs(LibConvert.ToDec(vGetResult));
-                    vMontoFormat = DarFormatoNumericoParaImpresion(vGetResult,_EnterosParaMonto,_DecimalParaMonto);
+                    vMonto = LibMath.Abs(LibImportData.ToDec(vGetResult));
+                    vMontoFormat = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vGetResult,_EnterosParaMonto,_DecimalParaMonto);
                     //                        
                     vGetResult = SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeDescuento"));
-                    vPrcDescuento = LibMath.Abs(LibConvert.ToDec(vGetResult));
+                    vPrcDescuento = LibMath.Abs(LibImportData.ToDec(vGetResult));
                     vMontoDescuento = CalcularMontoDescuento(vMonto,vPrcDescuento,vCantidad);
                     vMontoDescuento = (vMonto * vCantidad) - vMontoDescuento;
-                    vMontoDctoFormat = DarFormatoNumericoParaImpresion(LibConvert.ToStr(vMontoDescuento),_EnterosParaMonto,_DecimalParaMonto);
+                    vMontoDctoFormat = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDescuento,_DecimalParaMonto),_EnterosParaMonto,_DecimalParaMonto);
                     //
                     vMontoDctoTotal = CalcularMontoDescuentoTotal(vMontoDescuento,vCantidad,vMonto,vPrcDescuentoTotal);
                     TotalizarDescuentoGlobalPorAlicuota(vTipoTasa,vMontoDctoTotal,ref vMontoDescuentoAlicuotaG,ref vMontoDescuentoAlicuotaA,ref vMontoDescuentoAlicuotaR,ref vMontoDescuentoAlicuotaE);
@@ -413,10 +413,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                 }
                 if(vMontoDctoTotal > 0) {
-                    vSDescuentoAlicuotaA = DarFormatoNumericoParaImpresion(LibConvert.ToStr(vMontoDescuentoAlicuotaA),10,_DecimalParaMonto);
-                    vSDescuentoAlicuotaG = DarFormatoNumericoParaImpresion(LibConvert.ToStr(vMontoDescuentoAlicuotaG),10,_DecimalParaMonto);
-                    vSDescuentoAlicuotaR = DarFormatoNumericoParaImpresion(LibConvert.ToStr(vMontoDescuentoAlicuotaR),10,_DecimalParaMonto);
-                    vSDescuentoAlicuotaE = DarFormatoNumericoParaImpresion(LibConvert.ToStr(vMontoDescuentoAlicuotaE),10,_DecimalParaMonto);
+                    vSDescuentoAlicuotaA = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDescuentoAlicuotaA,_DecimalParaMonto),10,_DecimalParaMonto);
+                    vSDescuentoAlicuotaG = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDescuentoAlicuotaG,_DecimalParaMonto),10,_DecimalParaMonto);
+                    vSDescuentoAlicuotaR = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDescuentoAlicuotaR,_DecimalParaMonto),10,_DecimalParaMonto);
+                    vSDescuentoAlicuotaE = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDescuentoAlicuotaE,_DecimalParaMonto),10,_DecimalParaMonto);
                     mVMax.DescuentoCF(ref vDescripcionDescuentoTotal,ref vSDescuentoAlicuotaE,ref vSDescuentoAlicuotaG,ref vSDescuentoAlicuotaR,ref vSDescuentoAlicuotaA);
                 }
                 mVMax.SubTotal();
@@ -452,7 +452,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 mVMax.TextoDNF(ref vSubstring);  
             }
 
-            if (LibConvert.ToDec(valMtoDescuento) > 0) {
+            if (LibImportData.ToDec(valMtoDescuento) > 0) {
                 vResult &= mVMax.ItemDesc(ref vDescripcionDescuento, ref valMtoDescuento, ref valImpuesto);
             }
             return vResult;
@@ -478,21 +478,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vResult = valNumero;
             }
             return vResult;
-        }
-
-        private string DarFormatoNumericoParaImpresion(string valNumero, int valCantidadEnteros, int valCantidadDecimales) {
-            string vValorFinal = "";            
-            decimal vDecResult = 0;            
-            valNumero = LibText.Trim(valNumero);
-            valNumero = SetDecimalSeparator(valNumero);
-            vDecResult = LibConvert.ToDec(valNumero);
-            vDecResult = LibMath.RoundToNDecimals(vDecResult, valCantidadDecimales);
-            vDecResult = LibMath.Abs(vDecResult);
-            vDecResult = LibConvert.ToDec((double)vDecResult * Math.Pow(10, valCantidadDecimales));
-            vValorFinal = vDecResult.ToString();
-            vValorFinal = LibText.FillWithCharToLeft(vValorFinal,"0",LibConvert.ToByte(valCantidadEnteros+valCantidadDecimales));
-            return vValorFinal;
-        }      
+        }         
 
         private void TotalizarDescuentoGlobalPorAlicuota( string valAlicuotas, decimal valMontoDesctotal, ref decimal refMontoDescuentoAlicuotaG, ref decimal refMontoDescuentoAlicuotaA, ref decimal refMontoDescuentoAlicuotaR, ref decimal refMontoDescuentoAlicuotaE ) {
             switch (valAlicuotas) {
@@ -530,7 +516,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                         vMedioDePago = FormaDeCobro(vMedioDePago);
                         vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                        vMonto = DarFormatoNumericoParaImpresion(vMonto, _EnterosParaMonto, _DecimalParaMonto);                        
+                        vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaMonto, _DecimalParaMonto);                        
                         mVMax.PagoCF(ref vMedioDePago, ref vMonto, ref vTipoPago);                        
                     }
                 }

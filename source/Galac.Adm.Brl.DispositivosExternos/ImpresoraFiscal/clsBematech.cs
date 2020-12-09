@@ -1101,8 +1101,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vIsSameVersion = false;
             string vVersion = "";          
             string vDir = "";
-
-
             if(Environment.Is64BitOperatingSystem) {
                 vDir = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + @"\BemaFi32.dll";
             } else {

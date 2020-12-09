@@ -38,6 +38,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string ColorStatusAlicuotasRegistradasPropertyName = "ColorStatusAlicuotasRegistradas";
         private const string ColorStatusVersionDeControladoresPropertyName = "ColorStatusVersionDeControladores";
         private const string ColorStatusEstatusDeComunicacionPropertyName = "ColorStatusEstatusDeComunicacion";
+        private const string ShowProgressPropertyName = "ShowProgress";
+        private const string IsVisibleCierreZPropertyName = "IsVisibleCierreZ";
         #endregion
         #region Propiedades
 
@@ -50,17 +52,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string _FechaYHora;
         string _FechaYHoraDescription;
         string _ColaDeImpresion;
-        string _ColaDeImpresionDescription;        
+        string _ColaDeImpresionDescription;
         string _ColorStatusColaDeImpresion;
         string _ColorStatusFechaYHora;
         string _ColorStatusAlicuotasRegistradas;
         string _ColorStatusVersionDeControladores;
         string _ColorStatusEstatusDeComunicacion;
+        bool _ShowProgress;
         bool _IsRunning = false;
-        
+
         IFDiagnostico _Diagnostico;
         IImpresoraFiscalPdn _ImpresoraFiscal;
-        
+        eFamiliaImpresoraFiscal _FamImprFiscal;
+
         public override string ModuleName {
             get { return "Diagnostico Maquina Fiscal"; }
         }
@@ -71,7 +75,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             private set;
         }
 
+        public RelayCommand CierreZCommand {
+            get;
+            private set;
+        }
+
         private bool CanExecuteDiagnosticarCommand() {
+            return true;
+        }
+
+        private bool CanExecuteCierreZCommand() {
             return true;
         }
 
@@ -82,10 +95,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             set {
                 if(_EstatusDeComunicacion != value) {
-                    _EstatusDeComunicacion = value;                   
+                    _EstatusDeComunicacion = value;
                     RaisePropertyChanged(EstatusDeComunicacionPropertyName);
                     RaisePropertyChanged(ColorStatusEstatusDeComunicacionPropertyName);
-                }                
+                }
             }
         }
 
@@ -101,16 +114,28 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public bool ShowProgress {
+            get {
+                return _ShowProgress;
+            }
+            set {
+                if(_ShowProgress != value) {
+                    _ShowProgress = value;
+                    RaisePropertyChanged(ShowProgressPropertyName);
+                }
+            }
+        }
+
         public string VersionDeControladores {
             get {
                 return _VersionDeControladores;
             }
             set {
                 if(_VersionDeControladores != value) {
-                    _VersionDeControladores = value;                   
+                    _VersionDeControladores = value;
                     RaisePropertyChanged(VersionDeControladoresPropertyName);
                     RaisePropertyChanged(ColorStatusVersionDeControladoresPropertyName);
-                }                
+                }
             }
         }
 
@@ -132,7 +157,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             set {
                 if(_AlicuotasRegistradas != value) {
-                    _AlicuotasRegistradas = value;                   
+                    _AlicuotasRegistradas = value;
                     RaisePropertyChanged(AlicuotasRegistradasPropertyName);
                     RaisePropertyChanged(ColorStatusAlicuotasRegistradasPropertyName);
                 }
@@ -157,10 +182,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             set {
                 if(_FechaYHora != value) {
-                    _FechaYHora = value;                    
+                    _FechaYHora = value;
                     RaisePropertyChanged(FechaYHoraPropertyName);
                     RaisePropertyChanged(ColorStatusFechaYHoraPropertyName);
-                }                
+                }
             }
         }
 
@@ -182,10 +207,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             set {
                 if(_ColaDeImpresion != value) {
-                    _ColaDeImpresion = value;                    
+                    _ColaDeImpresion = value;
                     RaisePropertyChanged(ColaDeImpresionPropertyName);
                     RaisePropertyChanged(ColorStatusColaDeImpresionPropertyName);
-                }               
+                }
             }
         }
 
@@ -197,21 +222,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if(ColaDeImpresionDescription != value) {
                     _ColaDeImpresionDescription = value;
                     RaisePropertyChanged(ColaDeImpresionDescriptionPropertyName);
+                    RaisePropertyChanged(IsVisibleCierreZPropertyName);
                 }
             }
         }
-    
+
         public string ColorStatusColaDeImpresion {
             get {
-               return  _ColorStatusColaDeImpresion;
+                return _ColorStatusColaDeImpresion;
             }
             set {
                 if(_ColorStatusColaDeImpresion != value) {
                     _ColorStatusColaDeImpresion = value;
                     RaisePropertyChanged(ColorStatusColaDeImpresionPropertyName);
                 }
-                
-            }           
+
+            }
         }
 
         public string ColorStatusFechaYHora {
@@ -224,7 +250,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     RaisePropertyChanged(ColorStatusFechaYHoraPropertyName);
                 }
             }
-            
+
         }
 
         public string ColorStatusAlicuotasRegistradas {
@@ -244,7 +270,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return _ColorStatusVersionDeControladores;
             }
             set {
-                if(_ColorStatusVersionDeControladores!=value) {
+                if(_ColorStatusVersionDeControladores != value) {
                     _ColorStatusVersionDeControladores = value;
                     RaisePropertyChanged(ColorStatusVersionDeControladoresPropertyName);
                 }
@@ -261,14 +287,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     RaisePropertyChanged(ColorStatusEstatusDeComunicacionPropertyName);
                 }
             }
-        }     
+        }
 
+        public bool IsVisibleCierreZ {
+            get {
+                return _FamImprFiscal == eFamiliaImpresoraFiscal.EPSONPNP && ColaDeImpresionDescription.Contains("Más de un Día desde el ultimo cierre Z");
+            }
+        }
 
         #endregion //Propiedades
         #region Constructores
-        public CajaDiagnosticoViewModel(IImpresoraFiscalPdn valImpresoraFiscal)
+        public CajaDiagnosticoViewModel(IImpresoraFiscalPdn valImpresoraFiscal,eFamiliaImpresoraFiscal valFamImprFiscal)
             : this(eAccionSR.Insertar) {
-            _ImpresoraFiscal = valImpresoraFiscal;           
+            _ImpresoraFiscal = valImpresoraFiscal;
+            _FamImprFiscal = valFamImprFiscal;
         }
         public CajaDiagnosticoViewModel(eAccionSR initAction)
             : base() {
@@ -278,12 +310,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Metodos Generados
 
         protected override void InitializeLookAndFeel() {
-            base.InitializeLookAndFeel();            
+            base.InitializeLookAndFeel();
+            ShowProgress = false;
+            ColaDeImpresionDescription = string.Empty;
         }
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
             DiagnosticoCommand = new RelayCommand(ExecuteDiganosticoCommand,CanExecuteDiagnosticarCommand);
+            CierreZCommand = new RelayCommand(ExecuteCierreZCommand,CanExecuteCierreZCommand);
         }
 
         protected override void InitializeRibbon() {
@@ -300,14 +335,28 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 if(!_IsRunning) {
                     _IsRunning = true;
-                    EjecutarDiagnosticoTask();                    
+                    EjecutarDiagnosticoTask();
                 }
             } catch(Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
         }
 
-        private void RefreshProperties() {           
+        private void ExecuteCierreZCommand() {
+            if(_ImpresoraFiscal.AbrirConexion()) {
+                ShowProgress = true;
+                RaisePropertyChanged(ShowProgressPropertyName);
+                _ImpresoraFiscal.RealizarReporteZ();
+                ShowProgress = false;
+                RaisePropertyChanged(ShowProgressPropertyName);
+                ColaDeImpresion = (statusIsGood);
+                ColorStatusColaDeImpresion = SetStatusColor(true);
+                ColaDeImpresionDescription = "Lista, En Espera";
+                RaisePropertyChanged(IsVisibleCierreZPropertyName);
+            }
+        }
+
+        private void RefreshProperties() {
             EstatusDeComunicacion = (_Diagnostico.EstatusDeComunicacion ? statusIsGood : statusIsBad);
             ColorStatusEstatusDeComunicacion = SetStatusColor(_Diagnostico.EstatusDeComunicacion);
             EstatusDeComunicacionDescription = _Diagnostico.EstatusDeComunicacionDescription;
@@ -328,25 +377,28 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private string SetStatusColor(bool valStatus) {
             return (valStatus ? "Green" : "Red");
         }
-     
 
-        private void EjecutarDiagnosticoTask() {                        
+
+        private void EjecutarDiagnosticoTask() {
+            ShowProgress = true;
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             Task IfDiagnosticoTask = Task.Factory.StartNew(() => {
                 _Diagnostico = _ImpresoraFiscal.RealizarDiagnotsico(true);
                 RefreshProperties();
             });
             IfDiagnosticoTask.ContinueWith((t) => {
+                ShowProgress = false;
                 _IsRunning = false;
                 if(t.IsCompleted) {
                     LibMessages.MessageBox.Information(null,"El proceso fue completado con exito","");
                 } else {
                     LibMessages.MessageBox.Alert(null,"El proceso fue cancelado","");
-                   
+
                 }
             },cancellationTokenSource.Token,TaskContinuationOptions.OnlyOnRanToCompletion,TaskScheduler.FromCurrentSynchronizationContext());
             IfDiagnosticoTask.ContinueWith((t) => {
-                _IsRunning = false;               
+                ShowProgress = false;
+                _IsRunning = false;
                 if(t.Exception.InnerException != null) {
                     LibMessages.MessageBox.Alert(this,t.Exception.InnerException.Message,"Información");
                 } else {
@@ -354,7 +406,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             },cancellationTokenSource.Token,TaskContinuationOptions.OnlyOnCanceled,TaskScheduler.FromCurrentSynchronizationContext());
             IfDiagnosticoTask.ContinueWith((t) => {
-                _IsRunning = false;               
+                ShowProgress = false;
+                _IsRunning = false;
                 if(t.Exception.InnerException != null) {
                     LibMessages.MessageBox.Alert(this,t.Exception.InnerException.Message,"Información");
                 } else {
@@ -382,7 +435,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
 
-        string SerialPortFormat(ePuerto ePuerto) {            
+        string SerialPortFormat(ePuerto ePuerto) {
             return Regex.Replace(ePuerto.GetDescription(),"[A-Z-az]","",RegexOptions.Compiled);
         }
 

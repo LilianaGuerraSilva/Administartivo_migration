@@ -534,6 +534,7 @@ Private Function fGenerarDatosDeLosProductosParaXml(ByVal valDatosArticulo As AD
             vDescuento = rsDatosArticulo.Fields("Descuento").Value
             vRenglonItems = "<GpResultDetailRenglonFactura>" & vSiguienteLinea & _
                                  "<Descripcion>" & fCaracteresXMLValidosEnDatosImprFiscal(vDescripcion) & "</Descripcion>" & vSiguienteLinea & _
+                                 "<Articulo>" & vCodigoArticulo & "</Articulo>" & vSiguienteLinea & _
                                  "<Cantidad>" & vCantidad & "</Cantidad>" & vSiguienteLinea & _
                                  "<PrecioSinIVA>" & vPrecio & "</PrecioSinIVA>" & vSiguienteLinea & _
                                  "<AlicuotaIva>" & vAlicuota & "</AlicuotaIva>" & vSiguienteLinea & _
