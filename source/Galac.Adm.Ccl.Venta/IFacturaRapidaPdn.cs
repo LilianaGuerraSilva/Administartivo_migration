@@ -18,6 +18,7 @@ namespace Galac.Adm.Ccl.Venta {
         bool ExisteTasaDeCambioParaElDia(string valMoneda, DateTime valFecha, out decimal outTasa);
         bool InsertaTasaDeCambioParaElDia(string valMoneda, DateTime valFechaVigencia, string valNombre, decimal valCambioAbolivares);
         decimal TasaDeDolarVigente(string valMoneda);
+        bool EsCuentaBancariaValidaParaCobro(int valConsecutivoCompania, string valCodigoCuentaBancaria, string valCodigoMonedaEmpresa, out string outNombreMonedaCuentaBancaria);
     } //End of class IFacturaRapidaPdn
 
 } //End of namespace Galac.Adm.Ccl.Venta
