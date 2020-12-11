@@ -108,6 +108,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string CuadroDeBusquedaDeArticulosViewModelPropertyName = "CuadroDeBusquedaDeArticulosViewModel";
         private const string CuadroDeBusquedaDeClientesViewModelPropertyName = "CuadroDeBusquedaDeClientesViewModel";
         private const string TotalDescuentoPropertyName = "TotalDescuento";
+        private const string SimboloMonedaDeFacturaPropertyName = "SimboloMonedaDeFactura";
         #endregion
 
         #region Variables
@@ -151,6 +152,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool _UsaListaDePrecioEnMonedaExtranjera = false;
         private bool _MostrarPorcentajeDescuento;
         private decimal totalDescuento;
+        private string _SimboloMonedaDeFactura;
 
 
         #endregion //Variables
@@ -362,7 +364,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         public bool SeMuestraTotalEnDivisas {
-            get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","SeMuestraTotalEnDivisas"); }
+            get { return EsPosibleMostrarTotalEnDivisas(); }
         }
 
         [LibGridColum("Total Factura",eGridColumType.Numeric)]
@@ -1108,6 +1110,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string SimboloMonedaDeFactura {
+            get {
+                return _SimboloMonedaDeFactura;
+            }
+            set {
+                if(_SimboloMonedaDeFactura != value) {
+                    _SimboloMonedaDeFactura = value;
+                    RaisePropertyChanged(SimboloMonedaDeFacturaPropertyName);
+                }
+            }
+        }
 
         public BalanzaTomarPesoViewModel BalanzaTomarPesoViewModel {
             get {
@@ -1526,8 +1539,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             TotalDeItems = 0;
             EsFacturaEnEspera = false;
             CambioABolivares = 1;
-            CodigoMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
-            NombreMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+            AsignarMonedaDeCobroFacturaSegunCorresponda();
             EmpresaAplicaIVAEspecial = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida","AplicarIVAEspecial");
             EmpresaUsaPrecioSinIva = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida","UsaPrecioSinIva"));
             _CantidadDeDecimales = LibConvert.ToInt(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida","CantidadDeDecimales"));
@@ -1567,10 +1579,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
                 NombreCajero = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
                 TipoDeDocumento = eTipoDocumentoFactura.ComprobanteFiscal;
-                CodigoMoneda = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
-                Moneda = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
-                CodigoMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
-                NombreMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+                AsignarMonedaDeFacturaSegunCorresponda();
+                AsignarMonedaDeCobroFacturaSegunCorresponda();
                 CargaVendedorGenerico();
                 CargaDeAlicuotasIva();
                 Articulo = string.Empty;
@@ -1992,6 +2002,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa",LibConvert.BoolToSN(true));
                 vFixedCriteria.Add("TipoDeMoneda",eBooleanOperatorType.IdentityEquality,eTipoDeMoneda.Fisica);
                 AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
+                AgregarCriteriaParaExcluirLasMonedasExtranjerasSiAplica(ref vFixedCriteria);
                 FkMonedaViewModel vConexionNombreMonedaDeCobro = ChooseRecord<FkMonedaViewModel>("Moneda",vDefaultCriteria,vFixedCriteria,string.Empty);
                 ConexionNombreMonedaDeCobro = null;
                 if(vConexionNombreMonedaDeCobro != null) {
@@ -2021,6 +2032,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         vFixedCriteria.Add("Codigo",eBooleanOperatorType.IdentityInequality,vMoneda.CodigoMoneda);
                     }
                 }
+            }
+        }
+
+        private void AgregarCriteriaParaExcluirLasMonedasExtranjerasSiAplica(ref LibSearchCriteria vFixedCriteria) {
+            FkMonedaViewModel insMonedaExtranjera = new FkMonedaViewModel();
+            string vCodigoMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            if (EmpresaUsaMonedaExtranjeraComoPredeterminada(ref insMonedaExtranjera)) {
+                vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityEquality, vCodigoMonedaLocal);
+                vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityEquality, insMonedaExtranjera.Codigo, eLogicOperatorType.Or);
             }
         }
 
@@ -2128,7 +2148,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     }*/
                     ExecuteAction();
                     if(DialogResult) {
-                        if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaCobroDirectoEnMultimoneda") == LibConvert.BoolToSN(true)) {
+                        bool vUsaCobroDirectoMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
+                        if(vUsaCobroDirectoMultimoneda || EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
                             CobroRapidoMultimonedaViewModel vViewModelCobroMultimoneda = new CobroRapidoMultimonedaViewModel(Action,FacturaRapidaACobrar,ListDeCobroMaster,_AlicuotaIvaASustituir,CambioMostrarTotalEnDivisas,false);
                             vViewModelCobroMultimoneda.XmlDatosImprFiscal = _XmlDatosImprFiscal;
                             vViewModelCobroMultimoneda.SeCobro += (arg) => vResultCobro = arg;
@@ -2830,14 +2851,23 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vResult = false;
             bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
             bool vEsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro);
-            if (vMuestraTotalEnDivisas) {
-                if(!LibString.IsNullOrEmpty(NombreMonedaDeCobro)) {
-                    vResult = true;
-                }
+            if(EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
+                vResult = true;
             } else {
-                if(!vEsFacturaEnMonedaLocal && !LibString.IsNullOrEmpty(NombreMonedaDeCobro)) {
-                    vResult = true;
+                if(!LibString.IsNullOrEmpty(NombreMonedaDeCobro)) {
+                    if(vMuestraTotalEnDivisas || !vEsFacturaEnMonedaLocal) {
+                        vResult = true;
+                    }
                 }
+            }
+            return vResult;
+        }
+
+        private bool EsPosibleMostrarTotalEnDivisas() {
+            bool vResult = false;
+            bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
+            if (vMuestraTotalEnDivisas && !EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
+                vResult = true;
             }
             return vResult;
         }
@@ -3197,6 +3227,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } else if (CambioMostrarTotalEnDivisas == 1) {
                 CambioMostrarTotalEnDivisas = valTasa;
             }
+            if (EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
+                CambioABolivares = valTasa;
+            }
             return true;
         }
 
@@ -3306,7 +3339,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vResult = false;
             bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
             bool vEsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro);
-            if(!vEsFacturaEnMonedaLocal || vMuestraTotalEnDivisas) {
+            if(!vEsFacturaEnMonedaLocal || vMuestraTotalEnDivisas || EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
                 vResult = true;
             }
             return vResult;
@@ -3328,6 +3361,54 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vResult = true;
             }
             return vResult;
+        }
+        
+        private bool EmpresaUsaMonedaExtranjeraComoPredeterminada(ref FkMonedaViewModel refMonedaExtranjera) {
+            bool vResult = false;
+            bool vUsaMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera");
+            bool vUsaMonedaExtranjeraComoMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            if(vUsaMonedaExtranjera && vUsaMonedaExtranjeraComoMonedaPredeterminada && !LibString.IsNullOrEmpty(vCodigoMonedaExtranjera)) {
+                FkMonedaViewModel vConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaExtranjera));
+                refMonedaExtranjera = vConexionMoneda;
+                vResult = true;
+            }
+            return vResult;
+        }
+
+        private bool EmpresaUsaMonedaExtranjeraComoPredeterminada() {
+            bool vResult = false;
+            bool vUsaMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera");
+            bool vUsaMonedaExtranjeraComoMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            if (vUsaMonedaExtranjera && vUsaMonedaExtranjeraComoMonedaPredeterminada && !LibString.IsNullOrEmpty(vCodigoMonedaExtranjera)) {
+                vResult = true;
+            }
+            return vResult;
+        }
+
+        private void AsignarMonedaDeCobroFacturaSegunCorresponda() {
+            FkMonedaViewModel insMonedaExtranjera = new FkMonedaViewModel();
+            if (EmpresaUsaMonedaExtranjeraComoPredeterminada(ref insMonedaExtranjera)) {
+                CodigoMonedaDeCobro = insMonedaExtranjera.Codigo;
+                NombreMonedaDeCobro = insMonedaExtranjera.Nombre;
+            } else {
+               CodigoMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+               NombreMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+            }
+        }
+
+        private void AsignarMonedaDeFacturaSegunCorresponda() {
+            FkMonedaViewModel insMonedaExtranjera = new FkMonedaViewModel();
+            if (EmpresaUsaMonedaExtranjeraComoPredeterminada(ref insMonedaExtranjera)) {
+                CodigoMoneda = insMonedaExtranjera.Codigo;
+                SimboloMonedaDeFactura = insMonedaExtranjera.Simbolo;
+                Moneda = insMonedaExtranjera.Nombre;
+            } else {
+                CodigoMoneda = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+                SimboloMonedaDeFactura = _clsNoComun.InstanceMonedaLocalActual.SimboloMoneda(LibDate.Today());
+                Moneda = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+            }
         }
     } //End of class FacturacionRapidaViewModel
 } //End of namespace Galac.Adm.Uil.Venta

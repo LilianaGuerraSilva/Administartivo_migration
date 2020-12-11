@@ -89,7 +89,7 @@ namespace Galac.Adm.Dal.Venta {
             string vNombreOperador = LibXml.GetPropertyString(valData, "NombreOperador");
             string vCodigoMoneda = LibXml.GetPropertyString(valData, "CodigoMoneda");
             string vMoneda = LibXml.GetPropertyString(valData, "Moneda");
-            decimal vCambioABolivar = 1;
+            decimal vCambioABolivar = AsignarCambioABolivares(valData);
             string vNumeroControl = "0";
             string vCodigoLote = "0";
             string vCentroDeCostos = "";
@@ -130,6 +130,12 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-             
+        private decimal AsignarCambioABolivares(XElement valFactura) {
+            decimal vCambioABolivares = 1;
+            if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
+                vCambioABolivares = LibImportData.ToDec(LibXml.GetPropertyString(valFactura, "CambioABolivares"), 2);
+            }
+            return vCambioABolivares;
+        }
     }
 }
