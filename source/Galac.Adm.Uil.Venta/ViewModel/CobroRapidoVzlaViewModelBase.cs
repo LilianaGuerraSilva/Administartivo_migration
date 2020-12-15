@@ -78,7 +78,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             decimal vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida,"TotalFactura"));
             decimal vTotalPagos = 0;
             foreach(var item in valFactura.DetailFacturaRapidaDetalle) {
-                XElement xDetail = LibParserHelper.ParseToXElement(item);
+                item.PrecioSinIVA = item.PrecioSinIVA * valFactura.CambioABolivares;
+                XElement xDetail = LibParserHelper.ParseToXElement(item);                
                 XElement xElementGpResultDetailRenglonFactura = new XElement("GpResultDetailRenglonFactura");
                 if (vAplicaIvaEspecial) {
                     var detalle = xDetail.Descendants("GpResult")
@@ -130,11 +131,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vResult = xElementFacturaRapida;
             return vResult;
         }
-        
+
         private string MostrarTotalesEnDivisasImprFiscal(FacturaRapida valFactura) {
             StringBuilder vResult = new StringBuilder();
             FkMonedaViewModel MonedaDeCobro;
-            string vTexto =""; 
+            string vTexto = "";
             string vSimboloMonedaMe = "";
             decimal vCambioEnBs = valFactura.CambioMostrarTotalEnDivisas;
             decimal vBaseImponibleMEAlicuotaGeneral = 0;
@@ -149,19 +150,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 MonedaDeCobro = new FacturaRapidaViewModel().FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda",LibSearchCriteria.CreateCriteriaFromText("Codigo",valFactura.CodigoMonedaDeCobro));
                 if(MonedaDeCobro != null) {
-                    vSimboloMonedaMe = MonedaDeCobro.Simbolo + " ";                    
+                    vSimboloMonedaMe = MonedaDeCobro.Simbolo + " ";
                 }
+                bool vDivisaMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaMonedaExtranjera") &&
+                                                           LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
                 vResult.AppendLine("Cambio del día " + LibConvert.NumToString(vCambioEnBs,2));
+                vCambioEnBs = vDivisaMonedaPredeterminada ? 1 : vCambioEnBs;                
                 if(valFactura.TotalMontoExento > 0) {
                     vMontoExento = valFactura.TotalMontoExento / vCambioEnBs;
-                    vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vMontoExento,2),vSimboloMonedaMe,"Exento" ,eTipoDeAlicuota.Exento,false);
+                    vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vMontoExento,2),vSimboloMonedaMe,"Exento",eTipoDeAlicuota.Exento,false);
                     vResult.AppendLine(vTexto);
                 }
                 if(valFactura.MontoGravableAlicuota1 > 0) {
                     vBaseImponibleMEAlicuotaGeneral = valFactura.MontoGravableAlicuota1 / vCambioEnBs;
-                    vMontoIvaMEAlicuotaGeneral = valFactura.MontoIvaAlicuota1 / vCambioEnBs;                    
+                    vMontoIvaMEAlicuotaGeneral = valFactura.MontoIvaAlicuota1 / vCambioEnBs;
                     vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vBaseImponibleMEAlicuotaGeneral,2),vSimboloMonedaMe,LibConvert.NumToString(valFactura.PorcentajeAlicuota1,2),eTipoDeAlicuota.AlicuotaGeneral,true);
-                    vResult.AppendLine(vTexto);                    
+                    vResult.AppendLine(vTexto);
                     vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vMontoIvaMEAlicuotaGeneral,2),vSimboloMonedaMe,LibConvert.NumToString(valFactura.PorcentajeAlicuota1,2),eTipoDeAlicuota.AlicuotaGeneral,false);
                     vResult.AppendLine(vTexto);
                 }
@@ -178,15 +182,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vMontoIvaMEAlicuotaAdicional = valFactura.MontoIvaAlicuota3 / vCambioEnBs;
                     vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vBaseImponibleMEAlicuotaAdicional,2),vSimboloMonedaMe,LibConvert.NumToString(valFactura.PorcentajeAlicuota3,2),eTipoDeAlicuota.Alicuota3,true);
                     vResult.AppendLine(vTexto);
-                    vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vMontoIvaMEAlicuotaAdicional,2),vSimboloMonedaMe,LibConvert.NumToString(valFactura.PorcentajeAlicuota3,2),eTipoDeAlicuota.Alicuota3,false);                    
+                    vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vMontoIvaMEAlicuotaAdicional,2),vSimboloMonedaMe,LibConvert.NumToString(valFactura.PorcentajeAlicuota3,2),eTipoDeAlicuota.Alicuota3,false);
                     vResult.AppendLine(vTexto);
                 }
-                vTotalFactura = valFactura.TotalFactura / vCambioEnBs;                
+                vTotalFactura = valFactura.TotalFactura / vCambioEnBs;
                 vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vTotalFactura,2),vSimboloMonedaMe,"Total Factura",eTipoDeAlicuota.Exento,false);
                 vResult.AppendLine(vTexto);
             } catch(System.Exception) {
                 throw;
-            }            
+            }
             return vResult.ToString();
         }
 
