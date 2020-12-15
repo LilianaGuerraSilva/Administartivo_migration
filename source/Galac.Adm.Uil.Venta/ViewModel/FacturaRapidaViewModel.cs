@@ -2631,9 +2631,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 decimal vBI2 = MontoGravableAlicuota2 - MontoIvaAlicuota2;
                 decimal vBI3 = MontoGravableAlicuota3 - MontoIvaAlicuota3;
 
-                CalcularDescuentoCuandoPrecioVieneConIVA(vTotalMontoExento,vBI1,vBI2,vBI3,vDescuento);
-
-                //TotalFactura = TotalMontoExento + MontoGravableAlicuota1 + MontoGravableAlicuota2 + MontoGravableAlicuota3;
+                CalcularDescuentoCuandoPrecioVieneConIVA(vTotalMontoExento,vBI1,vBI2,vBI3,vDescuento);                               
 
                 TotalIVA = MontoIvaAlicuota1 + MontoIvaAlicuota2 + MontoIvaAlicuota3;
                 decimal vTotalBaseImponibleSinDescuento = vBI1 + vBI2 + vBI3;
@@ -2667,12 +2665,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if(!vAcumularItemsEnRenglonesDeFactura || !vYaExiste) {
                     switch(_UsaListaDePrecioEnMonedaExtranjera) {
                     case true:
+                        bool vDivisaMonedaPredeterminada=  LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaMonedaExtranjera") &&
+                                                           LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
                         int vNivelDePrecio = 0;
                         decimal vMePrecioSinIva = 0;
                         decimal vMePrecioConIva = 0;
+                        decimal vCambio = vDivisaMonedaPredeterminada ? 1 : CambioMostrarTotalEnDivisas;
                         vNivelDePrecio = new clsLibSaw().ObtenerNivelDePrecio(ConsecutivoCompania,CodigoCliente);
                         ObtenerPrecioConYSinIvaSegunNivelDePrecio(vNivelDePrecio,ref vMePrecioSinIva,ref vMePrecioConIva);
-                        DetailFacturaRapidaDetalle.InsertRow(Articulo,Descripcion,Cantidad,vMePrecioSinIva * CambioMostrarTotalEnDivisas,vMePrecioConIva * CambioMostrarTotalEnDivisas,(eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA,LibConvert.ToDec(ConexionArticulo.PorcentajeBaseImponible),ConexionArticulo.TipoDeArticulo,ConexionArticulo.TipoArticuloInv);
+                        DetailFacturaRapidaDetalle.InsertRow(Articulo,Descripcion,Cantidad,vMePrecioSinIva * vCambio,vMePrecioConIva * CambioMostrarTotalEnDivisas,(eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA,LibConvert.ToDec(ConexionArticulo.PorcentajeBaseImponible),ConexionArticulo.TipoDeArticulo,ConexionArticulo.TipoArticuloInv);
                         break;
                     case false:
                         DetailFacturaRapidaDetalle.InsertRow(Articulo,Descripcion,Cantidad,LibConvert.ToDec(ConexionArticulo.PrecioSinIVA),LibConvert.ToDec(ConexionArticulo.PrecioConIVA),(eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA,LibConvert.ToDec(ConexionArticulo.PorcentajeBaseImponible),ConexionArticulo.TipoDeArticulo,ConexionArticulo.TipoArticuloInv);

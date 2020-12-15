@@ -201,12 +201,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool EmpresaUsaMonedaExtranjeraComoPredeterminada(out string outCodigoMonedaExtranjera) {
             bool vResult = false;
-            bool vUsaMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera");
-            bool vUsaMonedaExtranjeraComoMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
-            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
-            if (vUsaMonedaExtranjera && vUsaMonedaExtranjeraComoMonedaPredeterminada && !LibString.IsNullOrEmpty(vCodigoMonedaExtranjera)) {
-                vResult = true;
-            }
+            bool vUsaMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaMonedaExtranjera");
+            bool vUsaMonedaExtranjeraComoMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","CodigoMonedaExtranjera");
+            vResult = vUsaMonedaExtranjera && vUsaMonedaExtranjeraComoMonedaPredeterminada && !LibString.IsNullOrEmpty(vCodigoMonedaExtranjera);
             outCodigoMonedaExtranjera = vCodigoMonedaExtranjera;
             return vResult;
         }
