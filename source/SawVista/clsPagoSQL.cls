@@ -1135,6 +1135,7 @@ Private Function fSQLDecInfMontoDocumento(ByVal valTipoDeDocumento As Integer, B
    Dim varListaComparativa As String
    Dim varListaResultante As String
    Dim sqlFecha As String
+   Dim sqlMontoExentoDeIvaConCambioSiAplica As String
    
    On Error GoTo h_ERROR
    varListaComparativa = gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda) & gListLibrary.getSeparadorGenericoDeElementos & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMonedaAnt)
@@ -1161,9 +1162,14 @@ Private Function fSQLDecInfMontoDocumento(ByVal valTipoDeDocumento As Integer, B
          sqlCampoMoneda = gUtilSQL.getIIF("Cxp.OrigenDeLaRetencion" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeSeEfectuaLaRetencionIVA.eDS_CXP), _
                "Cxp.Moneda", fSubSQLDecInfCambioOMonedaOriginalDesdePago(False, valConsecutivoCompania), True)
-               
          'sqlMontoDocumento = gUtilSQL.DfSQLCaseIf(sqlCampoMoneda, varListaComparativa, varListaResultante, gListLibrary.getSeparadorGenericoDeElementos, "=", "")
-         sqlMontoDocumento = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCampoCambio, sqlCampoMoneda, sqlMontoDocumento, True, "")
+         
+         sqlSuma = "(ABS(" & sqlMtoGravable & ") + ABS(" & sqlMontoIva & "))"
+         sqlMontoDocumento = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCampoCambio, sqlCampoMoneda, sqlSuma, True, "")
+         sqlMontoExentoDeIvaConCambioSiAplica = fSQLDecInfMontoExentoDeIva(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, True)
+         sqlMontoDocumento = "ABS(" & sqlMontoDocumento & " + " & sqlMontoExentoDeIvaConCambioSiAplica & ")"
+         sqlMontoDocumento = gUtilSQL.getIIF(sqlMtoGravable & " <> 0 ", sqlMontoDocumento, "0", True)
+         
       Else
          sqlMontoDocumento = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlMontoDocumento, "Cxp.Fecha")
       End If
