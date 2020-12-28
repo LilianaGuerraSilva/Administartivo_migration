@@ -52,13 +52,9 @@ namespace Galac.Adm.Rpt.Venta {
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("RifCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRif"));
-//            LibGlobalValues.Instance.GetMfcInfo().GetStr()
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("FechaInicialYFinal", string.Format("desde {0} hasta {1}", LibConvert.ToStr(FechaInicial, "dd/MM/yyyy"), LibConvert.ToStr(FechaFinal, "dd/MM/yyyy")));
             vParams.Add("EnMonedaOriginal", LibConvert.BoolToSN(LibEnum.Equals(MonedaDeReporte, Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal)));
-
-            //vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
-            //vParams.Add("TituloInforme", vTitulo);
             return vParams;
         }
 
@@ -77,7 +73,6 @@ namespace Galac.Adm.Rpt.Venta {
             dsrCuadreCajaPorUsuario vRpt = new dsrCuadreCajaPorUsuario();
             vRpt.CodigoMonedaExtranjera = CodigoMonedaExtrajera;
             vRpt.SimboloMonedaExtranjera = SimboloMonedaExtranjera;
-            //LibIO.WriteLineInFile("C:/LogsAOS/LogDeCaja.txt", "NumeroDeRif" + vParams["RifCompania"], true);
             if (Data.Rows.Count < 1) {
                 throw new GalacException("No existen datos para mostrar", eExceptionManagementType.Alert);
             }
