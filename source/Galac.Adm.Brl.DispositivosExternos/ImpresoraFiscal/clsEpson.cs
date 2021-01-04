@@ -98,7 +98,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         const string ConsultaEstatusContadores = "N";
         const string ConsultaUltimaNotaDeCredito = "T";
         const string ConsultaEstadoPapel = "U";
-        const int _EnterosParaMonto = 8;
+        const int _EnterosParaMonto = 10;
         const int _DecimalesParaMonto = 2;
         const int _EnterosParaCantidad = 5;
         const int _DecimalesParaCantidad = 3;
