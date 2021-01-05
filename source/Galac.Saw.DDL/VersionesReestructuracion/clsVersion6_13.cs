@@ -10,8 +10,7 @@ using System.Linq;
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersion6_13:clsVersionARestructurar {
 
-        public clsVersion6_13(string valCurrentDataBaseName)
-            : base(valCurrentDataBaseName) {
+        public clsVersion6_13(string valCurrentDataBaseName) : base(valCurrentDataBaseName) {
             _VersionDataBase = "6.13";
         }
 
@@ -37,12 +36,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 vSql.Clear();
                 foreach(XElement vXmlCompania in vListCompania) {
                     int vConsecutivoCompania = LibImportData.ToInt(LibXml.GetElementValueOrEmpty(vXmlCompania,"ConsecutivoCompania"));
+                    vSql.AppendLine("IF(SELECT UsaModuloDeContabilidad FROM Compania WHERE ConsecutivoCompania = " + _insSql.ToSqlValue(vConsecutivoCompania) + ") =" + _insSql.ToSqlValue(true));
+                    vSql.AppendLine(" BEGIN ");
                     vSql.AppendLine("INSERT INTO Comun.ElementoDelCosto");
                     vSql.AppendLine("(ConsecutivoCompania,Consecutivo,Tipo,OrdenParaInforme,Nombre,NombreOperador,FechaUltimaModificacion)");
                     vSql.AppendLine("VALUES");
                     vSql.AppendLine(ElementoDelCostoPorDefectoRow(vConsecutivoCompania,1,1,0,"Sin Asignar") + ",");
                     vSql.AppendLine(ElementoDelCostoPorDefectoRow(vConsecutivoCompania,2,0,1,"Adquisición") + ",");
                     vSql.AppendLine(ElementoDelCostoPorDefectoRow(vConsecutivoCompania,3,0,1,"Conversión"));
+                    vSql.AppendLine(" END ");
                     Execute(vSql.ToString(),0);
                     vSql.Clear();
                 }
