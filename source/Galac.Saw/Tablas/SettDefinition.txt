@@ -1,0 +1,321 @@
+FechaDeInicioContabilizacion;DatosGenerales;1;1.1.-Compania;1;;Date;;N
+EsAsociadoEnCtaDeParticipacion;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+VerificarDocumentoSinContabilizar;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+TipoDeAgrupacionParaLibrosDeVenta;DatosGenerales;1;1.1.-Compania;1;;Enumerativo;;N
+AplicacionAlicuotaEspecial;DatosGenerales;1;1.1.-Compania;1;;Enumerativo;;N
+AplicarIVAEspecial;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+BaseDeCalculoParaAlicuotaEspecial;DatosGenerales;1;1.1.-Compania;1;;Enumerativo;;N
+ImprimirMensajeAplicacionDecreto;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+FechaInicioAlicuotaIva10Porciento;DatosGenerales;1;1.1.-Compania;1;;Date;;N
+FechaFinAlicuotaIva10Porciento;DatosGenerales;1;1.1.-Compania;1;;Date;;N
+FacturarPorDefectoIvaEspecial;DatosGenerales;1;1.1.-Compania;1;;Bool;;S
+IntegracionRIS;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+FechaMinimaIngresarDatos;DatosGenerales;1;1.1.-Compania;1;;Date;;N
+TipoNegocio;DatosGenerales;1;1.1.-Compania;1;;Enumerativo;;N
+AutorellenaResumenDiario;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+UsaNotaEntrega;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+UsarVentasConIvaDiferido;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+ImprimirVentasDiferidas;DatosGenerales;1;1.1.-Compania;1;;Bool;;N
+PermitirEditarIVAenCxC_CxP;DatosGenerales;1;1.2.-General;2;;Bool;;S
+UsaMultiplesAlicuotas;DatosGenerales;1;1.2.-General;2;;Bool;;N
+OrdenamientoDeCodigoString;DatosGenerales;1;1.2.-General;2;;Enumerativo;;S
+ImprimirComprobanteDeCxC;DatosGenerales;1;1.2.-General;2;;Bool;;S
+ImprimirComprobanteDeCxP;DatosGenerales;1;1.2.-General;2;;Bool;;S
+ValidarRifEnLaWeb;DatosGenerales;1;1.2.-General;2;;Bool;;S
+EsSistemaParaIG;DatosGenerales;1;1.2.-General;2;;Bool;;S
+VerificarFacturasManualesFaltantes;Factura;2;2.1.- Facturación ;1;;Bool;;S
+NumFacturasManualesFaltantes;Factura;2;2.1.- Facturación ;1;;Int;;S
+PermitirFacturarConCantidadCero;Factura;2;2.1.- Facturación ;1;;Bool;;N
+DevolucionReversoSeGeneraComo;Factura;2;2.1.- Facturación ;1;;Enumerativo;;S
+ExigirRifdeClienteAlEmitirFactura;Factura;2;2.1.- Facturación ;1;;Bool;;N
+SugerirNumeroControlFactura;Factura;2;2.1.- Facturación ;1;;Bool;;N
+PedirInformacionLibroVentasXlsalEmitirFactura;Factura;2;2.1.- Facturación ;1;;Bool;;N
+TipoDeNivelDePrecios;Factura;2;2.1.- Facturación ;1;;Enumerativo;;N
+ComplConComodinEnBusqDeArtInv;Factura;2;2.1.- Facturación ;1;;Bool;;N
+UsarResumenDiarioDeVentas;Factura;2;2.1.- Facturación ;1;;Bool;;N
+ItemsMonto;Factura;2;2.1.- Facturación ;1;;Enumerativo;;N
+ComisionesEnFactura;Factura;2;2.1.- Facturación ;1;;Enumerativo;;N
+ComisionesEnRenglones;Factura;2;2.1.- Facturación ;1;;Enumerativo;;N
+CambiarFechaEnCuotasLuegoDeFijarFechaEntrega;Factura;2;2.1.- Facturación ;1;;Bool;;N
+BuscarArticuloXSerialAlFacturar;Factura;2;2.1.- Facturación ;1;;Bool;;N
+NombreVendedorUno;Factura;2;2.1.- Facturación ;1;;String;;N
+NombreVendedorDos;Factura;2;2.1.- Facturación ;1;;String;;N
+NombreVendedorTres;Factura;2;2.1.- Facturación ;1;;String;;N
+UsaPrecioSinIva;Factura;2;2.1.- Facturación ;1;;Bool;;N
+UsaPrecioSinIvaEnResumenVtas;Factura;2;2.1.- Facturación ;1;;Bool;;N
+ResumenVtasAfectaInventario;Factura;2;2.1.- Facturación ;1;;Bool;;N
+UsarRenglonesEnResumenVtas;Factura;2;2.1.- Facturación ;1;;Bool;;N
+PermitirCambioTasaMondExtrajalEmitirFactura;Factura;2;2.1.- Facturación ;1;;Bool;;N
+ForzarFechaFacturaAmesEspecifico;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+MesFacturacionEnCurso;Factura;2;2.2.- Facturación (Continuación) ;2;;Enumerativo;;N
+PermitirIncluirFacturacionHistorica;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+UltimaFechaDeFacturacionHistorica;Factura;2;2.2.- Facturación (Continuación) ;2;;Date;;N
+GenerarCxCalEmitirUnaFacturaHistorica;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+AccionAlAnularFactDeMesesAnt;Factura;2;2.2.- Facturación (Continuación) ;2;;Enumerativo;;N
+UsarOtrosCargoDeFactura;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+UsaCamposExtrasEnRenglonFactura;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+EmitirDirecto;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+UsaCobroDirecto;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+CuentaBancariaCobroDirecto;Factura;2;2.2.- Facturación (Continuación) ;2;;String;;N
+ConceptoBancarioCobroDirecto;Factura;2;2.2.- Facturación (Continuación) ;2;;String;;N
+PermitirDobleDescuentoEnFactura;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+MaximoDescuentoEnFactura;Factura;2;2.2.- Facturación (Continuación) ;2;;Decimal;;N
+BloquearEmision;Factura;2;2.2.- Facturación (Continuación) ;2;;Enumerativo;;N
+MostrarMtoTotalBsFEnObservaciones;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+UsaCobroDirectoEnMultimoneda;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+CuentaBancariaCobroMultimoneda;Factura;2;2.2.- Facturación (Continuación) ;2;;String;;N
+ConceptoBancarioCobroMultimoneda;Factura;2;2.2.- Facturación (Continuación) ;2;;String;;N
+UsaListaDePrecioEnMonedaExtranjera;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+UsaListaDePrecioEnMonedaExtranjeraCXC;Factura;2;2.1.- Facturación ;1;;Bool;;N
+SeMuestraTotalEnDivisas;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
+NroDiasMantenerTasaCambio;Factura;2;2.1.- Facturación ;2;;Int;;N
+NumeroDeDigitosEnFactura;Factura;2;2.3.- Impresión de Factura;3;;int;;N
+CantidadDeCopiasDeLaFacturaAlImprimir;Factura;2;2.3.- Impresión de Factura;3;;int;;N
+UsarDecimalesAlImprimirCantidad;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+DetalleProdCompFactura;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+FormaDeOrdenarDetalleFactura;Factura;2;2.3.- Impresión de Factura;3;;Enumerativo;;N
+ImprimirFacturaConSubtotalesPorLineaDeProducto;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+NoImprimirFactura;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+ImprimirBorradorAlInsertarFactura;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+ImprimeDireccionAlFinalDelComprobanteFiscal;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+ConcatenaLetraEaArticuloExento;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+ImprimirTipoCobroEnFactura;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+NumItemImprimirFactura;Factura;2;2.3.- Impresión de Factura;3;;int;;N
+AccionLimiteItemsFactura;Factura;2;2.3.- Impresión de Factura;3;;Enumerativo;;N
+FormatoDeFecha;Factura;2;2.3.- Impresión de Factura;3;;Enumerativo;;N
+FormatoDeFechaTexto;Factura;2;2.3.- Impresión de Factura;3;;String;;N
+ImprimirAnexoDeSerial;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+NombrePlantillaAnexoSeriales;Factura;2;2.3.- Impresión de Factura;3;;String;;N
+ImprimirComprobanteFiscalEnContrato;Factura;2;2.3.- Impresión de Factura;3;;Bool;;N
+ModeloDeFactura;Factura;2; 2.4.- Modelo de Factura ;4;;Enumerativo;;N
+NombrePlantillaFactura;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
+FacturaPreNumerada;Factura;2; 2.4.- Modelo de Factura ;2;;Bool;;N
+PrimeraFactura;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
+TipoDePrefijo;Factura;2; 2.4.- Modelo de Factura ;4;;Enumerativo;;N
+Prefijo;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
+ModeloFacturaModoTexto;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
+ModeloDeFactura2;Factura;2; 2.4.- Modelo de Factura ;4;;Enumerativo;;N
+NombrePlantillaFactura2;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
+FacturaPreNumerada2;Factura;2; 2.4.- Modelo de Factura ;4;;Bool;;N
+PrimeraFactura2;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
+TipoDePrefijo2;Factura;2; 2.4.- Modelo de Factura ;4;;Enumerativo;;N
+Prefijo2;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
+ModeloFacturaModoTexto2;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
+UsarDosTalonarios;Factura;2; 2.4.- Modelo de Factura;4 ;;Bool;;N
+UsaCamposDefinibles;Factura;2;2.5.- Campos Definibles;5;;Bool;;N
+NombreCampoDefinible1;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible2;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible3;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible4;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible5;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible6;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible7;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible8;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible9;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible10;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible11;Factura;2;2.5.- Campos Definibles;5;;String;;N
+NombreCampoDefinible12;Factura;2;2.5.- Campos Definibles;5;;String;;N
+AcumularItemsEnRenglonesDeFactura;Factura;2;2.6.- Punto de Venta;6;;Bool;;N
+UsaClienteGenericoAlFacturar;Factura;2;2.6.- Punto de Venta;6;;Bool;;N
+UsarBalanza;Factura;2;2.6.- Punto de Venta;6;;Bool;;N
+UsaBusquedaDinamicaEnPuntoDeVenta;Factura;2;2.6.- Punto de Venta;6;;Bool;;N
+UsaPesoEnCodigo;Factura;2;2.7.- Balanza - Etiqueta;7;;Bool;;N
+PrefijoCodigoPeso;Factura;2;2.7.- Balanza - Etiqueta;7;;String;;N
+NumDigitosCodigoArticuloPeso;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
+PosicionCodigoArticuloPeso;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
+NumDigitosPeso;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
+NumDecimalesPeso;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
+UsaPrecioEnCodigo;Factura;2;2.7.- Balanza - Etiqueta;7;;Bool;;N
+PrefijoCodigoPrecio;Factura;2;2.7.- Balanza - Etiqueta;7;;String;;N
+NumDigitosCodigoArticuloPrecio;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
+PosicionCodigoArticuloPrecio;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
+NumDigitosPrecio;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
+NumDecimalesPrecio;Factura;2;2.7.- Balanza - Etiqueta;7;;int;;N
+PrecioIncluyeIva;Factura;2;2.7.- Balanza - Etiqueta;7;;Bool;;N
+NombrePlantillaCotizacion;Cotización;3;3.1.- Cotización ;1;;String;;N
+DetalleProdCompCotizacion;Cotización;3;3.1.- Cotización ;1;;Bool;;N
+UsaControlDespacho;Cotización;3;3.1.- Cotización ;1;;Bool;;N
+LimpiezaDeCotizacionXFactura;Cotización;3;3.1.- Cotización ;1;;Bool;;N
+ValidarArticulosAlGenerarFactura;Cotización;3;3.1.- Cotización ;1;;Bool;;N
+CampoCodigoAlternativoDeArticulo;Cotización;3;3.1.- Cotización ;1;;Enumerativo;;N
+NombrePlantillaNotaDeCredito;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;String;;N
+PrimeraNotaDeCredito;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;String;;N
+TipoDePrefijoNC;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;Enumerativo;;N
+PrefijoNC;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;String;;N
+PrimeraBoleta;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;String;;N
+NombrePlantillaBoleta;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;String;;N
+NombrePlantillaNotaDeDebito;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;String;;N
+NDPreNumerada;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;Bool;;N
+PrimeraNotaDeDebito;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;String;;N
+TipoDePrefijoND;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;Enumerativo;;N
+PrefijoND;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;String;;N
+NCPreNumerada;Cotización;3;3.2.- Nota de Débito / Crédito ;2;;Bool;;N
+UsaCodigoVendedorEnPantalla;Cotización;3;3.3.- Vendedor ;3;;Bool;;S
+CodigoGenericoVendedor;Cotización;3;3.3.- Vendedor ;3;;String;;N
+LongitudCodigoVendedor;Cotización;3;3.3.- Vendedor ;3;;int;;S
+CodigoGenericoCliente;CXC/Cobranzas;4;4.1.- Cliente ;1;;String;;N
+LongitudCodigoCliente;CXC/Cobranzas;4;4.1.- Cliente ;1;;int;;S
+RellenaCerosAlaIzquierda;CXC/Cobranzas;4;4.1.- Cliente ;1;;Bool;;N
+AvisoDeClienteConDeuda;CXC/Cobranzas;4;4.1.- Cliente ;1;;Bool;;S
+MontoApartirDelCualEnviarAvisoDeuda;CXC/Cobranzas;4;4.1.- Cliente ;1;;Decimal;;S
+UsaCodigoClienteEnPantalla;CXC/Cobranzas;4;4.1.- Cliente ;1;;Bool;;S
+BuscarClienteXRifAlFacturar;CXC/Cobranzas;4;4.1.- Cliente ;1;;Bool;;S
+ColocarEnFacturaElVendedorAsinagoAlCliente;CXC/Cobranzas;4;4.1.- Cliente ;1;;Bool;;N
+ImprimirDatosClienteEnCompFiscal;CXC/Cobranzas;4;4.1.- Cliente ;1;;Bool;;N
+AvisoDeFacturacionMenor;CXC/Cobranzas;4;4.1.- Cliente ;1;;Bool;;N
+NombreCampoDefinibleCliente1;CXC/Cobranzas;4;4.1.- Cliente ;1;;String;;N
+UsarZonaCobranza;CXC/Cobranzas;4;4.2.- Cobranzas;2;;Bool;;S
+SugerirConsecutivoEnCobranza;CXC/Cobranzas;4;4.2.- Cobranzas;2;;Bool;;N
+ConceptoReversoCobranza;CXC/Cobranzas;4;4.2.- Cobranzas;2;;String;;N
+ImprimirCombrobanteAlIngresarCobranza;CXC/Cobranzas;4;4.2.- Cobranzas;2;;Bool;;N
+NombrePlantillaCompobanteCobranza;CXC/Cobranzas;4;4.2.- Cobranzas;2;;String;;N
+AsignarComisionDeVendedorEnCobranza;CXC/Cobranzas;4;4.2.- Cobranzas;2;;Bool;;N
+CambiarCobradorVendedor;CXC/Cobranzas;4;4.2.- Cobranzas;2;;Bool;;N
+BloquearNumeroCobranza;CXC/Cobranzas;4;4.2.- Cobranzas;2;;Bool;;N
+FormaDeCalcularComisionesSobreCobranza;CXC/Cobranzas;4;4.3.- Comisiones ;3;;Enumerativo;;N
+NombrePlantillaComisionSobreCobranza;CXC/Cobranzas;4;4.3.- Comisiones ;3;;String;;N
+UsarBaseImponibleDiferenteA0Y100;Inventario;5;5.1.- Inventario;1;;Bool;;N
+UsaAlmacen;Inventario;5;5.1.- Inventario;1;;Bool;;N
+CodigoAlmacenGenerico;Inventario;5;5.1.- Inventario;1;;String;;N
+ConsecutivoAlmacenGenerico;Inventario;5;5.1.- Inventario;1;;int;;N
+PermitirSobregiro;Inventario;5;5.1.- Inventario;1;;Enumerativo;;N
+ActivarFacturacionPorAlmacen;Inventario;5;5.1.- Inventario;1;;Bool;;N
+SinonimoGrupo;Inventario;5;5.1.- Inventario;1;;String;;N
+SinonimoTalla;Inventario;5;5.1.- Inventario;1;;String;;N
+SinonimoColor;Inventario;5;5.1.- Inventario;1;;String;;N
+SinonimoSerial;Inventario;5;5.1.- Inventario;1;;String;;N
+SinonimoRollo;Inventario;5;5.1.- Inventario;1;;String;;N
+ImprimirTransferenciaAlInsertar;Inventario;5;5.1.- Inventario;1;;Bool;;N
+CantidadDeDecimales;Inventario;5;5.1.- Inventario;1;;Enumerativo;;N
+NombreCampoDefinibleInventario1;Inventario;5;5.1.- Inventario;1;;String;;N
+NombreCampoDefinibleInventario2;Inventario;5;5.1.- Inventario;1;;String;;N
+NombreCampoDefinibleInventario3;Inventario;5;5.1.- Inventario;1;;String;;N
+NombreCampoDefinibleInventario4;Inventario;5;5.1.- Inventario;1;;String;;N
+NombreCampoDefinibleInventario5;Inventario;5;5.1.- Inventario;1;;String;;N
+AsociaCentroDeCostoyAlmacen;Inventario;5;5.1.- Inventario;1;;Bool;;N
+AvisoDeReservasvencidas;Inventario;5;5.1.- Inventario;1;;Bool;;N
+VerificarStock;Inventario;5;5.1.- Inventario;1;;Bool;;N
+ImprimeSerialRolloLuegoDeDescripArticulo;Inventario;5;5.1.- Inventario;1;;Bool;;N
+ImprimirReporteAlIngresarNotaEntradaSalida;Inventario;5;5.2- Nota Entrada/Salida;2;;Bool;;N
+NombrePlantillaNotaEntradaSalida;Inventario;5;5.2- Nota Entrada/Salida;2;;String;;N
+NombrePlantillaCodigoDeBarras;Inventario;5;5.2- Nota Entrada/Salida;2;;String;;N
+ImprimirNotaESconPrecio;Inventario;5;5.2- Nota Entrada/Salida;2;;Bool;;N
+MetodoDeCosteo;Inventario;5;5.3.- Método  de costos;3;;Enumerativo;;N
+CalculoAutomaticoDeCosto;Inventario;5;5.3.- Método de costos;3;;Bool;;N
+MaximoGastosAdmisibles;Inventario;5;5.3.- Método de costos;3;;Decimal;;N
+FechaDesdeUsoMetodoDeCosteo;Inventario;5;5.3.- Método de costos;3;;Date;;N
+ComprobanteCostoDetallado;Inventario;5;5.3.- Método  de costos;3;;Bool;;N
+FechaContabilizacionDeCosteo;Inventario;5;5.3.- Método  de costos;3;;Date;;N
+DuracionEnPantallaEnSegundos;Inventario;5;5.4-. Verificador de Precios;4;;int;;N
+RutaImagen;Inventario;5;5.4-. Verificador de Precios;4;;String;;N
+TipoDePrecioAMostrarEnVerificador;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
+TipoDeBusquedaArticulo;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
+NivelDePrecioAMostrar;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
+GenerarCxpDesdeCompra;CxP/Compras;6;6.1.- Compras;1;;Bool;;S
+ImprimirOrdenDeCompra;CxP/Compras;6;6.1.- Compras;1;;Bool;;N
+NombrePlantillaOrdenDeCompra;CxP/Compras;6;6.1.- Compras;1;;String;;N
+NombrePlantillaImpresionCodigoBarrasCompras;CxP/Compras;6;6.1.- Compras;1;;String;;N
+IvaEsCostoEnCompras;CxP/Compras;6;6.1.- Compras;1;;Bool;;N
+ImprimirCompraAlInsertar;CxP/Compras;6;6.1.- Compras;1;;Bool;;N
+NombrePlantillaCompra;CxP/Compras;6;6.1.- Compras;1;;String;;N
+SugerirNumeroDeOrdenDeCompra;CxP/Compras;6;6.1.- Compras;1;;Bool;;S
+ExigirInformacionLibroDeCompras;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;N
+UsarCodigoProveedorEnPantalla;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;S
+LongitudCodigoProveedor;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;int;;S
+NumCopiasComprobantepago;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;int;;N
+NombrePlantillaComprobanteDePago;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;String;;N
+TipoDeOrdenDePagoAImprimir;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Enumerativo;;N
+ConfirmarImpresionPorSecciones;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;S
+NoImprimirComprobanteDePago;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;N
+ImprimirComprobanteContableDePago;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;N
+ConceptoBancarioReversoDePago;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;String;;N
+AvisarSiProveedorTieneAnticipos;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;S
+RetieneImpuestoMunicipal;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;N
+NombrePlantillaRetencionImpuestoMunicipal;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;String;;N
+NombrePlantillaRetencionImpuestoMunicipalInforme;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;String;;N
+PrimerNumeroComprobanteRetImpuestoMunicipal;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;int;;N
+OrdenarCxPPorFacturaDocumento;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Bool;;N
+FechaSugeridaRetencionesCxP;CxP/Compras;6;6.2.- CxP / Proveedor / Pagos;2;;Enumerativo;;N
+EnDondeRetenerIVA;CxP/Compras;6;6.3.- Retención IVA;3;;Enumerativo;;N
+UsaMismoNumeroCompRetTodasCxP;CxP/Compras;6;6.3.- Retención IVA;3;;Bool;;N
+PrimerNumeroComprobanteRetIva;CxP/Compras;6;6.3.- Retención IVA;3;;int;;N
+FormaDeReiniciarElNumeroDeComprobanteRetIva;CxP/Compras;6;6.3.- Retención IVA;3;;Enumerativo;;N
+ImprimirComprobanteDeRetIva;CxP/Compras;6;6.3.- Retención IVA;3;;Bool;;N
+NumeroDeCopiasComprobanteRetencionIva;CxP/Compras;6;6.3.- Retención IVA;3;;int;;N
+UnComprobanteDeRetIvaporHoja;CxP/Compras;6;6.3.- Retención IVA;3;;Bool;;N
+NombrePlantillaComprobanteDeRetIVA;CxP/Compras;6;6.3.- Retención IVA;3;;String;;N
+GenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero;CxP/Compras;6;6.3.- Retención IVA;3;;Bool;;N
+UsaRetencion;CxP/Compras;6;6.4.- Retención ISLR;4;;Bool;;N
+NumCopiasComprobanteRetencion;CxP/Compras;6;6.4.- Retención ISLR;4;;int;;N
+DiaDelCierreFiscal;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+MesDelCierreFiscal;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+TomarEnCuentaRetencionesCeroParaArcvyRa;CxP/Compras;6;6.4.- Retención ISLR;4;;Bool;;N
+EnDondeRetenerISLR;CxP/Compras;6;6.4.- Retención ISLR;4;;Enumerativo;;N
+NumeroRifr;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+NombreYapellidor;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+CodTelfr;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+Telefonor;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+Direccionr;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+CiudadRepLegal;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+CorreoElectronicoRepLegal;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+NombrePlantillaComprobanteDeRetISRL;CxP/Compras;6;6.4.- Retención ISLR;4;;String;;N
+ImprimirCentimosEnPlanilla;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;Bool;;N
+ModeloPlanillaForma00030;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;Enumerativo;;N
+NombreContador;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
+CedulaContador;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
+NumeroCpc;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
+UsaCodigoBancoEnPantalla;Bancos;7;7.1.- Bancos;1;;Bool;;S
+CodigoGenericoCuentaBancaria;Bancos;7;7.1.- Bancos;1;;String;;N
+ManejaDebitoBancario;Bancos;7;7.1.- Bancos;1;;Bool;;N
+RedondeaMontoDebitoBancario;Bancos;7;7.1.- Bancos;1;;Bool;;N
+ConceptoDebitoBancario;Bancos;7;7.1.- Bancos;1;;String;;N
+ConsideraConciliadosLosMovIngresadosAntesDeFecha;Bancos;7;7.1.- Bancos;1;;Bool;;N
+FechaDeInicioConciliacion;Bancos;7;7.1.- Bancos;1;;Date;;N
+ManejaCreditoBancario;Bancos;7;7.1.- Bancos;1;;Bool;;N
+RedondeaMontoCreditoBancario;Bancos;7;7.1.- Bancos;1;;Bool;;N
+ConceptoCreditoBancario;Bancos;7;7.1.- Bancos;1;;String;;N
+CodigoMonedaLocal;Bancos;7;7.2-Moneda;2;;String;;S
+UsaMonedaExtranjera;Bancos;7;7.2-Moneda;2;;Bool;;N
+SolicitarIngresoDeTasaDeCambioAlEmitir;Bancos;7;7.2-Moneda;2;;Enumerativo;;N
+CodigoMonedaExtranjera;Bancos;7;7.2-Moneda;2;;String;;S
+NombreMonedaExtranjera;Bancos;7;7.2-Moneda;2;;String;;S
+NombreMonedaLocal;Bancos;7;7.2-Moneda;2;;String;;S
+CuentaBancariaAnticipo;Bancos;7;7.3.- Anticipo;3;;String;;N
+SugerirConsecutivoAnticipo;Bancos;7;7.3.- Anticipo;3;;Bool;;N
+ConceptoBancarioAnticipoCobrado;Bancos;7;7.3.- Anticipo;3;;String;;N
+ConceptoBancarioReversoAnticipoCobrado;Bancos;7;7.3.- Anticipo;3;;String;;N
+NombrePlantillaReciboDeAnticipoCobrado;Bancos;7;7.3.- Anticipo;3;;String;;N
+ConceptoBancarioAnticipoPagado;Bancos;7;7.3.- Anticipo;3;;String;;N
+ConceptoBancarioReversoAnticipoPagado;Bancos;7;7.3.- Anticipo;3;;String;;N
+NombrePlantillaReciboDeAnticipoPagado;Bancos;7;7.3.- Anticipo;3;;String;;N
+TipoComprobanteDeAnticipoAImprimir;Bancos;7;7.3.- Anticipo;3;;Enumerativo;;N
+MandarMensajeNumeroDeMovimientoBancario;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;S
+GenerarMovBancarioDesdeCobro;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;S
+UsaCodigoConceptoBancarioEnPantalla;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;S
+GenerarMovBancarioDesdePago;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;S
+NumCopiasComprobanteMovBancario;Bancos;7;7.4.- Movimiento Bancario;4;;int;;N
+NombrePlantillaComprobanteDeMovBancario;Bancos;7;7.4.- Movimiento Bancario;4;;String;;N
+ConfirmarImpresionMovBancarioPorSecciones;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;N
+ImprimirCompContDespuesDeChequeMovBancario;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;N
+ImprimirComprobanteDeMovBancario;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;N
+BeneficiarioGenerico;Bancos;7;7.4.- Movimiento Bancario;4;;int;;N
+ConceptoBancarioReversoSolicitudDePago;Bancos;7;7.4.- Movimiento Bancario;4;;String;;N
+NombrePlantillaComprobanteDePagoSueldo;Bancos;7;7.4.- Movimiento Bancario;4;;String;;N
+GenerarMovReversoSiAnulaPago;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;N
+ModeloNotaEntrega;NotasDeEntrega;8;8.1-Notas de entrega;1;;Enumerativo;;N
+NotaEntregaPreNumerada;NotasDeEntrega;8;8.1-Notas de entrega;1;;Bool;;N
+PrimeraNotaEntrega;NotasDeEntrega;8;8.1-Notas de entrega;1;;String;;N
+TipoPrefijoNotaEntrega;NotasDeEntrega;8;8.1-Notas de entrega;1;;Enumerativo;;N
+PrefijoNotaEntrega;NotasDeEntrega;8;8.1-Notas de entrega;1;;String;;N
+NombrePlantillaNotaEntrega;NotasDeEntrega;8;8.1-Notas de entrega;1;;String;;N
+NombrePlantillaOrdenDeDespacho;NotasDeEntrega;8;8.1-Notas de entrega;1;;String;;N
+NumCopiasOrdenDeDespacho;NotasDeEntrega;8;8.1-Notas de entrega;1;;int;;N
+ModeloNotaEntregaModoTexto;NotasDeEntrega;8;8.1-Notas de entrega;1;;String;;N
+SeResincronizaronLosSupervisores;Proceso;9;9.1-Procesos;1;;Bool;;S
+InsertandoPorPrimeraVez;Proceso;9;9.1-Procesos;1;;Bool;;N
+CodigoEmpresaIntegrada;Proceso;9;9.1-Procesos;1;;String;;S
+PuedeUsarS10;Proceso;9;9.1-Procesos;1;;Bool;;S
+S10DBName;Proceso;9;9.1-Procesos;1;;String;;S
+UsaMostrarPreciosEnDivisa;Inventario;5;5.4-. Verificador de Precios;4;;Bool;;N
+TipoDeConversionParaPrecios;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
+UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;Bancos;7;7.2-Moneda;2;;Bool;;N
