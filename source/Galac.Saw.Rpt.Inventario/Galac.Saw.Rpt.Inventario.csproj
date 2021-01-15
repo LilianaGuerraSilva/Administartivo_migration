@@ -72,21 +72,15 @@
     <Compile Include="clsListadoDePrecios.cs" />
     <Compile Include="clsListdoDeArticulosBalanza.cs" />
     <Compile Include="clsValoracionDeInventario.cs" />
-    <Compile Include="dsrListadoDePrecios.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="dsrListadoDePrecios.cs" />
     <Compile Include="dsrListadoDePrecios.Designer.cs">
       <DependentUpon>dsrListadoDePrecios.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrListadoDeArticulosBalanza.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="dsrListadoDeArticulosBalanza.cs" />
     <Compile Include="dsrListadoDeArticulosBalanza.Designer.cs">
       <DependentUpon>dsrListadoDeArticulosBalanza.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrValoracionDeInventario.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="dsrValoracionDeInventario.cs" />
     <Compile Include="dsrValoracionDeInventario.Designer.cs">
       <DependentUpon>dsrValoracionDeInventario.cs</DependentUpon>
     </Compile>
