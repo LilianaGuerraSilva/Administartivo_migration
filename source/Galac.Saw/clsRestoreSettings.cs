@@ -153,5 +153,9 @@ namespace Galac.Saw {
         public string SqlUpdateMFC(System.Data.DataRow valRow, ref string refNameMFCForDelete) {
             throw new NotImplementedException();
         }
+
+        public bool IsValidBackupCountry() {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,34 +1,7 @@
-[submodule "bin/binComunAos"]
-	path = bin/binComunAos
-	url = https://chronos.galac.local:10207/desa/bincomunaos.git
-	branch = release-V2.35.9.0
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://chronos.galac.local:10207/desa/binesqniif.git
-	branch = release-V2.36.0.0
-[submodule "bin/binLibNet"]
-	path = bin/binLibNet
-	url = https://chronos.galac.local:10207/desa/binlibnet.git
-	branch = release-V5.8.4.0
 [submodule "bin/binLibProtec"]
 	path = bin/binLibProtec
 	url = https://chronos.galac.local:10207/desa/binlibprotec.git
 	branch = release-V18.2.0.0
-[submodule "bin/binLibVb"]
-	path = bin/binLibVb
-	url = https://chronos.galac.local:10207/desa/binlibvb.git
-	branch = release-V1901
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://chronos.galac.local:10207/desa/contabilidadvb.git
-[submodule "source/Lib/AosLib"]
-	path = source/Lib/AosLib
-	url = https://chronos.galac.local:10207/desa/aoslib.git
-	branch = release-V5.10.1.0
-[submodule "source/Lib/VbaLib"]
-	path = source/Lib/VbaLib
-	url = https://chronos.galac.local:10207/desa/vbalib.git
-	branch = release-V1901
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
 	url = https://chronos.galac.local:10207/desa/retencionesvb.git
@@ -40,18 +13,10 @@
 	path = bin/binAdministrativoAos
 	url = https://chronos.galac.local:10207/desa/binadministrativoaos.git
 	branch = release-V2.50.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://chronos.galac.local:10207/desa/bincontabilidadaos.git
-	branch = release-V2.35.9.0
 [submodule "source/vbaComun"]
 	path = source/vbaComun
 	url = https://chronos.galac.local:10207/desa/vbacomun.git
 	branch = release-SAW-V18.4
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://chronos.galac.local:10207/desa/bincontabilidadvb.git
-	branch = release-V2004
 [submodule "source/IvaVb"]
 	path = source/IvaVb
 	url = https://chronos.galac.local:10207/desa/ivavb.git
@@ -63,7 +28,43 @@
 	path = source/ContabIwrp
 	url = https://chronos.galac.local:10207/desa/contabiwrp.git
 	branch = release-V2.35.8.0
+[submodule "bin/binEsqNiif"]
+	path = bin/binEsqNiif
+	url = https://chronos.galac.local:10207/desa/binesqniif.git
+	branch = release-V2.50.0.0
+[submodule "bin/binLibNet"]
+	path = bin/binLibNet
+	url = https://chronos.galac.local:10207/desa/binlibnet.git
+	branch = release-V5.12.1.0
+[submodule "bin/binLibVb"]
+	path = bin/binLibVb
+	url = https://chronos.galac.local:10207/desa/binlibvb.git
+	branch = release-V2001
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://chronos.galac.local:10207/desa/bincontabilidadvb.git
+	branch = release-V2101
+[submodule "source/Lib/AosLib"]
+	path = source/Lib/AosLib
+	url = https://chronos.galac.local:10207/desa/aoslib.git
+	branch = release-V5.12.0.0
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
+	url = https://chronos.galac.local:10207/desa/vbalib.git
+	branch = release-V2001
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://chronos.galac.local:10207/desa/contabilidadvb.git
+	branch = develop
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
+	url = https://chronos.galac.local:10207/desa/bincomunaos.git
+	branch = release-V2.50.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://chronos.galac.local:10207/desa/bincontabilidadaos.git
+	branch = release-v2.50.0.0
 [submodule "bin/binLibAos"]
 	path = bin/binLibAos
 	url = https://chronos.galac.local:10207/desa/binlibaos.git
-	branch = release-V5.10.1.0
+	branch = release-V5.12.2.0

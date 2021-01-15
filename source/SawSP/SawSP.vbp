@@ -1,6 +1,6 @@
 Type=OleDll
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\system32\stdole2.tlb#OLE Automation
-Reference=*\G{00000205-0000-0010-8000-00AA006D2EA4}#2.5#0#C:\Program Files\Common Files\System\ado\msado25.tlb#Microsoft ActiveX Data Objects 2.5 Library
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\Windows\system32\stdole2.tlb#OLE Automation
+Reference=*\G{00000205-0000-0010-8000-00AA006D2EA4}#2.5#0#..\..\..\..\Program Files\Common Files\System\ado\msado25.tlb#Microsoft ActiveX Data Objects 2.5 Library
 Reference=*\G{4C66F44B-D9C8-4DF7-B4F5-688F6449008A}#5.0#0#..\..\bin\binLibVb\LibGalacCI_2001.dll#LibGalacCI_2001
 Class=clsSawSP; clsSawSP.cls
 Module=modVarGlobalesSawSP; modVarGlobalesSawSP.bas

@@ -1,7 +1,7 @@
 Type=OleDll
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\system32\stdole2.tlb#OLE Automation
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\..\Windows\system32\stdole2.tlb#OLE Automation
 Reference=*\G{4C66F44B-D9C8-4DF7-B4F5-688F6449008A}#5.0#0#..\..\bin\binLibVb\LibGalacCI_2001.dll#LibGalacCI_2001
-Reference=*\G{67223711-AF1F-48A9-87BA-0800021C52BD}#3.0#0#..\..\bin\binAdministrativoVb\SAWEnum_2012.dll#SAWEnum_2012
+Reference=*\G{E0E63FC5-192C-4271-A171-4A8AF9FC47BF}#1.0#0#..\..\bin\binAdministrativoVb\SAWEnum_2012.dll#SAWEnum_2012
 Module=modVarGlobalesSawVista; modVarGlobalesSawVista.bas
 Class=clsClienteVista; clsClienteVista.cls
 Class=clsInitSawVista; clsInitSawVista.cls

@@ -1319,8 +1319,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     InfoCliente2 = string.Empty;
                     InfoCliente3 = string.Empty;
                 }
-                RaisePropertyChanged("IsVisibleExportacion");
-                RaisePropertyChanged("IsVisibleVentaInterna");
             }
         }
 
