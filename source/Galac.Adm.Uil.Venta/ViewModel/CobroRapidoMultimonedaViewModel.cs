@@ -21,9 +21,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Variables y Constantes
 
         private const string NombreDeMonedaLocalPropertyName = "NombreDeMonedaLocal";
-        private const string NombreDeMonedaDivisaPropertyName = "NombreDeMonedaDivisa";
+        private const string NombreDeMonedaDivisaPropertyName = "NombreMonedaDivisa";
         private const string TotalFacturaEnDivisasPropertyName = "TotalFacturaEnDivisas";
-        private const string CambioAMonedaLocalPropertyName = "CambioAMonedaLOcal";
+        private const string CambioAMonedaLocalPropertyName = "CambioAMonedaLocal";
         private const string EfectivoEnMonedaLocalPropertyName = "EfectivoEnMonedaLocal";
         private const string EfectivoEnDivisasPropertyName = "EfectivoEnDivisas";
         private const string TarjetaUnoPropertyName = "TarjetaUno";
