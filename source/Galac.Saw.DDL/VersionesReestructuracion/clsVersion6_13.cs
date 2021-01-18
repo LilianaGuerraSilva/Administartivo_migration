@@ -18,6 +18,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StartConnectionNoTransaction();
             AgregarParametroUsaDivisaComoMonedaPrincipalDeIngresoDeDatos();
             InsertarElementoDelCostoPorDefectos();
+            CrearnNuevosCamposDeContabilidad();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -62,6 +63,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vResult += InsSql.ToSqlValue(((CustomIdentity)Thread.CurrentPrincipal.Identity).Login) + ",";
             vResult += InsSql.ToSqlValue(LibDate.Today()) + ")";
             return vResult;
+        }
+
+        private void CrearnNuevosCamposDeContabilidad() {
+            AddColumnBoolean("Contab.ParametrosConciliacion", "CalcularSaldoInicialDesdeElPrimerPeriodo", "CONSTRAINT nnParExpresarBalances NOT NULL", false);
+            AddColumnString("Contab.ParametrosGen", "NombreBalanceGeneral", 30, "", "Balance General");
+            AddColumnString("Contab.ParametrosGen", "NombreEstadoDeResultado", 30, "", "Estado De Resultado");
         }
     }
 }
