@@ -36,10 +36,19 @@ namespace Galac.Saw.Wrp.TablasLey {
         #region Metodos Generados
         #region Miembros de IWrpVb
 
-        void IWrpTarifaN2.Execute(string vfwAction) {
+        void IWrpTarifaN2.Execute(string vfwAction, string vfwIsReInstall) {
             try {
                 ILibMenu insMenu = new Galac.Comun.Uil.TablasLey.clsTarifaN2Menu();
-                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
+                bool vIsInstall = (eAccionSR)new LibEAccionSR().ToInt(vfwAction) == eAccionSR.Instalar;
+                if (vIsInstall) {
+                    if (LibConvert.SNToBool(vfwIsReInstall)) {
+                        insMenu.Ejecuta(eAccionSR.ReInstalar, 1);
+                    } else {
+                        insMenu.Ejecuta(eAccionSR.Instalar, 1);
+                    }
+                } else {
+                    insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
+                }
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
             } catch (Exception vEx) {

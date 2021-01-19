@@ -15,7 +15,7 @@ namespace Galac.Saw.Uil.Tablas {
 
         void ILibMenu.Ejecuta(eAccionSR valAction, int valUseInterop) {
             if (valAction == eAccionSR.Instalar || valAction == eAccionSR.ReInstalar) {
-                new ImpuestoBancarioMngViewModel().InstallOrReInstallDataFromFile(valAction);
+                new ImpuestoBancarioMngViewModel().InstallOrReInstallDataFromFile(valAction, true);
             } else {
                 ImpuestoBancarioMngViewModel vViewModel = new ImpuestoBancarioMngViewModel();
                 vViewModel.ExecuteSearchAndInitLookAndFeel();

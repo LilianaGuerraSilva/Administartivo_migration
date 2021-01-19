@@ -116,13 +116,13 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             return vResult;
         }
 
-        internal bool InstallOrReInstallDataFromFile(eAccionSR valAction) {
+        internal bool InstallOrReInstallDataFromFile(eAccionSR valAction, bool valVieneDeReestructurar = false) {
             bool vResult = false;
             string vFileName = System.IO.Path.Combine(LibWorkPaths.TablesDir,"ImpuestoBancario.txt");
             if(valAction == eAccionSR.Instalar) {
                 vResult = LibImportExport.InstallData(vFileName,ModuleName,new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv));
             } else {
-                vResult = LibImportExport.ReInstallData(vFileName,ModuleName,new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv));
+                vResult = LibImportExport.ReInstallData(vFileName,ModuleName,new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv), !valVieneDeReestructurar, valVieneDeReestructurar);
             }
             return vResult;
         }
