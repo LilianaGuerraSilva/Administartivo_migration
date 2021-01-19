@@ -157,6 +157,10 @@
     </Compile>
     <Compile Include="IWrpAlicuotaImpuestoEspecial.cs" />
     <Compile Include="IWrpArancelesVb.cs" />
+    <Compile Include="IWrpMonedaLocal.cs" />
+    <Compile Include="IWrpDetraccion.cs" />
+    <Compile Include="IWrpMunicipioCiudad.cs" />
+    <Compile Include="IWrpMunicipio.cs" />
     <Compile Include="IWrpCambio.cs" />
     <Compile Include="IWrpClasificadorActividadVb.cs" />
     <Compile Include="IWrpFormatosImpMunicipalesVb.cs" />

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Galac.Saw.Wrp.Impuesto {
     public interface IWrpAlicuotaImpuestoEspecial {
-        void Execute(string vfwAction);
+        void Execute(string vfwAction, string vfwIsReInstall = "N");
         string Choose(string vfwParamInitializationList, string vfwParamFixedList);
         void InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath);
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);
