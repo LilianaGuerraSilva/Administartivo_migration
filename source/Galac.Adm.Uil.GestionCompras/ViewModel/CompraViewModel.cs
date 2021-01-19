@@ -158,7 +158,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     RaisePropertyChanged(FechaPropertyName);
                     RaisePropertyChanged(MonedaActualPropertyName);
                     RaisePropertyChanged("UsaBolivarFuerte");
-                    AsignaTasaDelDia();
+                    AsignaTasaDelDia(CodigoMoneda);
                 }
             }
         }
@@ -967,7 +967,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
                 }
                 GenerarCXP = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "GenerarCxPDesdeCompra");
-                AsignaTasaDelDia();
+                AsignaTasaDelDia(CodigoMoneda);
             }
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             TipoDeCompra = TipoModulo;
@@ -1429,7 +1429,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     ConexionCodigoMoneda = vConexionCodigoMoneda;
                     CodigoMoneda = ConexionCodigoMoneda.Codigo;
                     Moneda = ConexionCodigoMoneda.Nombre;
-                    AsignaTasaDelDia();
+                    AsignaTasaDelDia(CodigoMoneda);
                     if(ConexionNumeroDeOrdenDeCompra != null && DetailCompraDetalleArticuloInventario.Items.Count > 0) {
                         ActualizarMontosPorCambioDeMoneda(vCodigoMonedaAnterior);
                     }
@@ -1750,14 +1750,18 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        private void AsignaTasaDelDia() {
+        public bool AsignaTasaDelDia(string valCodigoMoneda) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-            if(!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda)) {
+            if(!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
                 decimal vTasa = 1;
+                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
+                CodigoMoneda = ConexionCodigoMoneda.Codigo;
+                Moneda = ConexionCodigoMoneda.Nombre;
                 if(((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Fecha, out vTasa)) {
                     CambioAMonedaLocal = vTasa;
+                    return true;
                 } else {
-                    CambioViewModel vViewModel = new CambioViewModel(CodigoMoneda);
+                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda);
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
                     vViewModel.FechaDeVigencia = Fecha;
@@ -1766,13 +1770,18 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     vViewModel.IsEnabledFecha = false;
                     bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
                     if(!vResult) {
+                        if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                            return false;
+                        }
                         AsignarValoresDeMonedaPorDefecto();
                     }
+                    return true;
                 }
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
                 Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
                 CambioAMonedaLocal = 1;
+                return true;
             }
         }
 
@@ -1785,7 +1794,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", "USD"));
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
                 Moneda = ConexionCodigoMoneda.Nombre;
-                AsignaTasaDelDia();
+                AsignaTasaDelDia(CodigoMoneda);
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
                 Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
