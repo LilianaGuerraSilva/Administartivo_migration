@@ -327,7 +327,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             private set {
                 if(_AgruparPorLbl != value) {
                     _AgruparPorLbl = value;
-                    RaisePropertyChanged("AgruparPorLblPropertyName");
+                    RaisePropertyChanged(AgruparPorLblPropertyName);
                 }
             }
         }
