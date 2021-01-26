@@ -863,12 +863,12 @@ Private Function fSQLDeclaracionInformativa(ByVal valFechaInicial As Date, ByVal
    SQL = SQL & fSQLDecInfNumeroDeRif(valTipoDeDocumento, rifContribuyente) & " AS NumeroDeRif, "
    SQL = SQL & fSQLDecInfNumeroDeDocumento(valTipoDeDocumento) & " AS NumeroDeDocumento, "
    SQL = SQL & fSQLDecInfNumeroDeControl(valTipoDeDocumento) & " AS NumeroDeControlDeFactura, "
-   SQL = SQL & fSQLDecInfMontoDocumento(valTipoDeDocumento, valAlicuota, valConsecutivoCompania) & " AS MontoDocumento, "
-   SQL = SQL & fSQLDecInfBaseImponible(valTipoDeDocumento, valAlicuota, valConsecutivoCompania) & " AS BaseImponible, "
+   SQL = SQL & fSQLDecInfMontoDocumento(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, valIncluirRegistrosMtoRetIvaCero) & " AS MontoDocumento, "
+   SQL = SQL & fSQLDecInfBaseImponible(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, valIncluirRegistrosMtoRetIvaCero) & " AS BaseImponible, "
    SQL = SQL & sqlMontoIvaRetenido & " AS MontoIvaRet, "
    SQL = SQL & fSQLDecInfNumeroDeDocumentoAfectado(valTipoDeDocumento) & " AS NumeroDeDocumentoAfectado, "
    SQL = SQL & fSQLDecInfNumeroDeComprobante(valTipoDeDocumento, periodoDeImposicion, valConsecutivoCompania) & " AS NumeroDeComprobante, "
-   SQL = SQL & fSQLDecInfMontoExentoDeIva(valTipoDeDocumento, valAlicuota, valConsecutivoCompania) & " AS MontoExentoDeIVA, "
+   SQL = SQL & fSQLDecInfMontoExentoDeIva(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, False, valIncluirRegistrosMtoRetIvaCero) & " AS MontoExentoDeIVA, "
    SQL = SQL & fSQLDecInfAlicuota(valTipoDeDocumento, valAlicuota) & " AS Alicuota, "
    SQL = SQL & fSQLDecInfNumeroDeExpediente(valTipoDeDocumento) & " AS NumeroDeExpediente "
    If valPreliminar Then
@@ -891,12 +891,12 @@ Private Function fSQLDeclaracionInformativa(ByVal valFechaInicial As Date, ByVal
       SQL = SQL & fSQLDecInfNumeroDeRif(valTipoDeDocumento, rifContribuyente) & " AS NumeroDeRif, "
       SQL = SQL & fSQLDecInfNumeroDeDocumento(valTipoDeDocumento) & " AS NumeroDeDocumento, "
       SQL = SQL & fSQLDecInfNumeroDeControl(valTipoDeDocumento) & " AS NumeroDeControlDeFactura, "
-      SQL = SQL & fSQLDecInfMontoDocumento(valTipoDeDocumento, valAlicuota, valConsecutivoCompania) & " AS MontoDocumento, "
-      SQL = SQL & fSQLDecInfBaseImponible(valTipoDeDocumento, valAlicuota, valConsecutivoCompania) & " AS BaseImponible, "
+      SQL = SQL & fSQLDecInfMontoDocumento(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, valIncluirRegistrosMtoRetIvaCero) & " AS MontoDocumento, "
+      SQL = SQL & fSQLDecInfBaseImponible(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, valIncluirRegistrosMtoRetIvaCero) & " AS BaseImponible, "
       SQL = SQL & sqlMontoIvaRetenido & " AS MontoIvaRet, "
       SQL = SQL & fSQLDecInfNumeroDeDocumentoAfectado(valTipoDeDocumento) & " AS NumeroDeDocumentoAfectado, "
       SQL = SQL & fSQLDecInfNumeroDeComprobante(valTipoDeDocumento, periodoDeImposicion, valConsecutivoCompania) & " AS NumeroDeComprobante, "
-      SQL = SQL & fSQLDecInfMontoExentoDeIva(valTipoDeDocumento, valAlicuota, valConsecutivoCompania) & " AS MontoExentoDeIVA, "
+      SQL = SQL & fSQLDecInfMontoExentoDeIva(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, False, valIncluirRegistrosMtoRetIvaCero) & " AS MontoExentoDeIVA, "
       SQL = SQL & fSQLDecInfAlicuota(valTipoDeDocumento, valAlicuota) & " AS Alicuota, "
       SQL = SQL & fSQLDecInfNumeroDeExpediente(valTipoDeDocumento) & " AS NumeroDeExpediente "
       If valPreliminar Then
@@ -1124,7 +1124,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLDecInfNumeroDeControl", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSQLDecInfMontoDocumento(ByVal valTipoDeDocumento As Integer, ByVal valAlicuota As enum_TipoDeAlicuota, ByVal valConsecutivoCompania As Long) As String
+Private Function fSQLDecInfMontoDocumento(ByVal valTipoDeDocumento As Integer, ByVal valAlicuota As enum_TipoDeAlicuota, ByVal valConsecutivoCompania As Long, ByVal valIncluirRegistrosMtoRetIvaCero As Boolean) As String
    Dim sqlMontoDocumento As String
    Dim sqlSuma As String
    Dim sqlMtoGravable As String
@@ -1158,15 +1158,15 @@ Private Function fSQLDecInfMontoDocumento(ByVal valTipoDeDocumento As Integer, B
       If mUsaMonedaExtranjera Then
          sqlCampoCambio = gUtilSQL.getIIF("Cxp.OrigenDeLaRetencion" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeSeEfectuaLaRetencionIVA.eDS_CXP), _
-               "Cxp.CambioABolivares", fSubSQLDecInfCambioOMonedaOriginalDesdePago(True, valConsecutivoCompania), True)
+               "Cxp.CambioABolivares", fSubSQLDecInfCambioOMonedaOriginalDesdePago(True, valConsecutivoCompania, False, valIncluirRegistrosMtoRetIvaCero), True)
          sqlCampoMoneda = gUtilSQL.getIIF("Cxp.OrigenDeLaRetencion" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeSeEfectuaLaRetencionIVA.eDS_CXP), _
-               "Cxp.Moneda", fSubSQLDecInfCambioOMonedaOriginalDesdePago(False, valConsecutivoCompania), True)
+               "Cxp.Moneda", fSubSQLDecInfCambioOMonedaOriginalDesdePago(False, valConsecutivoCompania, False, valIncluirRegistrosMtoRetIvaCero), True)
          'sqlMontoDocumento = gUtilSQL.DfSQLCaseIf(sqlCampoMoneda, varListaComparativa, varListaResultante, gListLibrary.getSeparadorGenericoDeElementos, "=", "")
          
          sqlSuma = "(ABS(" & sqlMtoGravable & ") + ABS(" & sqlMontoIva & "))"
          sqlMontoDocumento = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCampoCambio, sqlCampoMoneda, sqlSuma, True, "")
-         sqlMontoExentoDeIvaConCambioSiAplica = fSQLDecInfMontoExentoDeIva(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, True)
+         sqlMontoExentoDeIvaConCambioSiAplica = fSQLDecInfMontoExentoDeIva(valTipoDeDocumento, valAlicuota, valConsecutivoCompania, True, valIncluirRegistrosMtoRetIvaCero)
          sqlMontoDocumento = "ABS(" & sqlMontoDocumento & " + " & sqlMontoExentoDeIvaConCambioSiAplica & ")"
          sqlMontoDocumento = gUtilSQL.getIIF(sqlMtoGravable & " <> 0 ", sqlMontoDocumento, "0", True)
          
@@ -1191,7 +1191,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLDecInfMontoDocumento", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSQLDecInfBaseImponible(ByVal valTipoDeDocumento As Integer, ByVal valAlicuota As enum_TipoDeAlicuota, ByVal valConsecutivoCompania As Long) As String
+Private Function fSQLDecInfBaseImponible(ByVal valTipoDeDocumento As Integer, ByVal valAlicuota As enum_TipoDeAlicuota, ByVal valConsecutivoCompania As Long, ByVal valIncluirRegistrosMtoRetIvaCero As Boolean) As String
    Dim sqlBaseImponible As String
    Dim sqlMtoGravable As String
    Dim sqlCampoCambio As String
@@ -1215,10 +1215,10 @@ Private Function fSQLDecInfBaseImponible(ByVal valTipoDeDocumento As Integer, By
       If mUsaMonedaExtranjera Then
          sqlCampoCambio = gUtilSQL.getIIF("Cxp.OrigenDeLaRetencion" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeSeEfectuaLaRetencionIVA.eDS_CXP), _
-               "Cxp.CambioABolivares", fSubSQLDecInfCambioOMonedaOriginalDesdePago(True, valConsecutivoCompania), True)
+               "Cxp.CambioABolivares", fSubSQLDecInfCambioOMonedaOriginalDesdePago(True, valConsecutivoCompania, False, valIncluirRegistrosMtoRetIvaCero), True)
          sqlCampoMoneda = gUtilSQL.getIIF("Cxp.OrigenDeLaRetencion" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeSeEfectuaLaRetencionIVA.eDS_CXP), _
-               "Cxp.Moneda", fSubSQLDecInfCambioOMonedaOriginalDesdePago(False, valConsecutivoCompania), True)
+               "Cxp.Moneda", fSubSQLDecInfCambioOMonedaOriginalDesdePago(False, valConsecutivoCompania, False, valIncluirRegistrosMtoRetIvaCero), True)
          'sqlBaseImponible = gUtilSQL.DfSQLCaseIf(sqlCampoMoneda, varListaComparativa, varListaResultante, gListLibrary.getSeparadorGenericoDeElementos, "=", "")
          sqlBaseImponible = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(sqlCampoCambio, sqlCampoMoneda, sqlBaseImponible, True, "")
       Else
@@ -1333,7 +1333,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLDecInfNumeroDeComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSQLDecInfMontoExentoDeIva(ByVal valTipoDeDocumento As Integer, ByVal valAlicuota As enum_TipoDeAlicuota, ByVal valConsecutivoCompania As Long, Optional ByVal valVieneDeOtroCalculo As Boolean = False) As String
+Private Function fSQLDecInfMontoExentoDeIva(ByVal valTipoDeDocumento As Integer, ByVal valAlicuota As enum_TipoDeAlicuota, ByVal valConsecutivoCompania As Long, Optional ByVal valVieneDeOtroCalculo As Boolean = False, Optional ByVal valIncluirRegistrosMtoRetIvaCero As Boolean = False) As String
    Dim sqlMtoExento As String
    Dim SQL As String
    Dim cxpMtoGravG As String
@@ -1370,10 +1370,10 @@ Private Function fSQLDecInfMontoExentoDeIva(ByVal valTipoDeDocumento As Integer,
       If mUsaMonedaExtranjera Then
          sqlCampoCambio = gUtilSQL.getIIF("Cxp.OrigenDeLaRetencion" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeSeEfectuaLaRetencionIVA.eDS_CXP), _
-               "Cxp.CambioABolivares", fSubSQLDecInfCambioOMonedaOriginalDesdePago(True, valConsecutivoCompania), True)
+               "Cxp.CambioABolivares", fSubSQLDecInfCambioOMonedaOriginalDesdePago(True, valConsecutivoCompania, False, valIncluirRegistrosMtoRetIvaCero), True)
          sqlCampoMoneda = gUtilSQL.getIIF("Cxp.OrigenDeLaRetencion" & _
                " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeSeEfectuaLaRetencionIVA.eDS_CXP), _
-               "Cxp.Moneda", fSubSQLDecInfCambioOMonedaOriginalDesdePago(False, valConsecutivoCompania), True)
+               "Cxp.Moneda", fSubSQLDecInfCambioOMonedaOriginalDesdePago(False, valConsecutivoCompania, False, valIncluirRegistrosMtoRetIvaCero), True)
          If Not valVieneDeOtroCalculo Then
             sqlMtoExento = gUtilSQL.DfSQLCaseIf(sqlCampoMoneda, varListaComparativa, varListaResultante, gListLibrary.getSeparadorGenericoDeElementos, "=", "")
          End If
@@ -2274,7 +2274,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLNoExistenRegistros", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSubSQLDecInfCambioOMonedaOriginalDesdePago(ByVal valQuieroElCampoCambio As Boolean, ByVal valConsecutivoCompania As Long, Optional ByVal valIncluirMontoComprobantesAnulados As Boolean) As String
+Public Function fSubSQLDecInfCambioOMonedaOriginalDesdePago(ByVal valQuieroElCampoCambio As Boolean, ByVal valConsecutivoCompania As Long, Optional ByVal valIncluirMontoComprobantesAnulados As Boolean, Optional ByVal valIncluirRegistrosMtoRetIvaCero As Boolean = False) As String
    Dim sqlCampoPago As String
    Dim Mensaje As String
    On Error GoTo h_ERROR
@@ -2310,7 +2310,9 @@ Public Function fSubSQLDecInfCambioOMonedaOriginalDesdePago(ByVal valQuieroElCam
    sqlCampoPago = sqlCampoPago & " AND pago.StatusOrdenDePago = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusPago.eSP_VIGENTE)
    sqlCampoPago = sqlCampoPago & " AND pago.Fecha = cxP.FechaAplicacionRetIVA"
    sqlCampoPago = sqlCampoPago & " AND pago.CodigoProveedor = cxP.CodigoProveedor"
-   sqlCampoPago = sqlCampoPago & " AND documentoPagado.MontoIvaRetenido <> 0 "
+   If valIncluirRegistrosMtoRetIvaCero = False Then
+      sqlCampoPago = sqlCampoPago & " AND documentoPagado.MontoIvaRetenido <> 0 "
+   End If
    sqlCampoPago = sqlCampoPago & ")"
 h_EXIT:
    fSubSQLDecInfCambioOMonedaOriginalDesdePago = sqlCampoPago
@@ -2406,7 +2408,7 @@ Public Function fConstruirSQLDelReporteComprobanteDePago(ByVal valCodigoBanco As
          sqlMontoRetenidoCompDePago = "cxp.MontoRetenido / Pago.CambioABolivares"
          sqlMontoRetenidoCompDeIVA = "cxp.MontoRetenido"
          sqlMontoAbonado = "documentoPagado.MontoAbonado AS MontoAbonado, "
-         sqlTotalCxP = sqlTotalCxP '& " / Pago.CambioABolivares"
+         sqlTotalCxP = gUtilSQL.getIIF("cxP.CodigoMoneda = Pago.CodigoMoneda", sqlTotalCxP, "DocumentoPagado.MontoTotalDeCxP", True) '& " / Pago.CambioABolivares"
       End If
    End If
 '   If valComprobanteAImprimir = eQI_RETENCION_IVA Then
@@ -2418,7 +2420,7 @@ Public Function fConstruirSQLDelReporteComprobanteDePago(ByVal valCodigoBanco As
    SQL = SQL & sqlMontoAbonado
    SQL = SQL & "banco.Nombre, "
    SQL = SQL & sqlTotalCxP & " As TotalCXP, "
-   SQL = SQL & "(DocumentoPagado.MontoEnMonedaOriginalDeCxP * DocumentoPagado.CambioAMonedaDelPago) As TotalCXPCambio, "
+   SQL = SQL & gUtilSQL.getIIF("cxP.CodigoMoneda = '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "' AND Pago.CodigoMoneda <> '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "'", "DocumentoPagado.MontoTotalDeCxP * DocumentoPagado.CambioAMonedaDelPago", gUtilSQL.getIIF("cxP.CodigoMoneda <> '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "' AND Pago.CodigoMoneda = '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "'", "DocumentoPagado.MontoEnMonedaOriginalDeCxP * DocumentoPagado.CambioAMonedaDelPago", "DocumentoPagado.MontoEnMonedaOriginalDeCxP", True), True) & " AS TotalCXPCambio, "
    SQL = SQL & sqlTotalCxPComprobanteRetIva & " AS TotalCXPComprobanteRetIva, "
    SQL = SQL & "proveedor.Direccion, "
    SQL = SQL & "proveedor.Telefonos, "
@@ -2505,7 +2507,7 @@ Public Function fConstruirSQLDelReporteComprobanteDePago(ByVal valCodigoBanco As
    SQL = SQL & sqlMontoAbonado
    SQL = SQL & "banco.Nombre, "
    SQL = SQL & sqlTotalCxP & " As TotalCXP, "
-   SQL = SQL & "(DocumentoPagado.MontoEnMonedaOriginalDeCxP * DocumentoPagado.CambioAMonedaDelPago) As TotalCXPCambio, "
+   SQL = SQL & gUtilSQL.getIIF("cxP.CodigoMoneda = '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "' AND Pago.CodigoMoneda <> '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "'", "DocumentoPagado.MontoTotalDeCxP * DocumentoPagado.CambioAMonedaDelPago", gUtilSQL.getIIF("cxP.CodigoMoneda <> '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "' AND Pago.CodigoMoneda = '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "'", "DocumentoPagado.MontoEnMonedaOriginalDeCxP * DocumentoPagado.CambioAMonedaDelPago", "DocumentoPagado.MontoEnMonedaOriginalDeCxP", True), True) & " AS TotalCXPCambio, "
    SQL = SQL & sqlTotalCxPComprobanteRetIva & " AS TotalCXPComprobanteRetIva, "
    SQL = SQL & "proveedor.Direccion, "
    SQL = SQL & "proveedor.Telefonos, "
