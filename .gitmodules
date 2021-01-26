@@ -13,10 +13,6 @@
 	path = bin/binAdministrativoAos
 	url = https://chronos.galac.local:10207/desa/binadministrativoaos.git
 	branch = release-V2.50.0.0
-[submodule "source/vbaComun"]
-	path = source/vbaComun
-	url = https://chronos.galac.local:10207/desa/vbacomun.git
-	branch = release-SAW-V18.4
 [submodule "source/IvaVb"]
 	path = source/IvaVb
 	url = https://chronos.galac.local:10207/desa/ivavb.git
@@ -68,3 +64,7 @@
 	path = bin/binLibAos
 	url = https://chronos.galac.local:10207/desa/binlibaos.git
 	branch = release-V5.12.2.0
+[submodule "source/vbaComun"]
+	path = source/vbaComun
+	url = https://chronos.galac.local:10207/desa/vbacomun.git
+	branch = release-SAW-V18.4
