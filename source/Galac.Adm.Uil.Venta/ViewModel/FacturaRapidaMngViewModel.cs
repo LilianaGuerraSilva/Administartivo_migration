@@ -21,7 +21,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
     public class FacturaRapidaMngViewModel : LibMngMasterViewModelMfc<FacturaRapidaViewModel, FacturaRapida> {
         #region Variables
-        private clsNoComunSaw _clsNoComun = null;
+        private clsNoComunSaw _clsNoComun = new clsNoComunSaw();
         #endregion //Variables
         #region Propiedades
 

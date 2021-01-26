@@ -2661,14 +2661,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 bool vYaExiste = DetailFacturaRapidaDetalle.Items.Any(i => i.Articulo == ConexionArticulo.Codigo);
                 bool vAcumularItemsEnRenglonesDeFactura = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida","AcumularItemsEnRenglonesDeFactura ");
                 if(!vAcumularItemsEnRenglonesDeFactura || !vYaExiste) {
-                    switch(_UsaListaDePrecioEnMonedaExtranjera) {
+                    bool vUsaDivisaMonedaPredeterminada = EmpresaUsaMonedaExtranjeraComoPredeterminada();
+                    bool vEsNecesarioUsarPrecioMe = _UsaListaDePrecioEnMonedaExtranjera || vUsaDivisaMonedaPredeterminada;
+                    switch (vEsNecesarioUsarPrecioMe) {
                     case true:
-                        bool vDivisaMonedaPredeterminada=  LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaMonedaExtranjera") &&
-                                                           LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
                         int vNivelDePrecio = 0;
                         decimal vMePrecioSinIva = 0;
                         decimal vMePrecioConIva = 0;
-                        decimal vCambio = vDivisaMonedaPredeterminada ? 1 : CambioMostrarTotalEnDivisas;
+                        decimal vCambio = vUsaDivisaMonedaPredeterminada ? 1 : CambioMostrarTotalEnDivisas;
                         vNivelDePrecio = new clsLibSaw().ObtenerNivelDePrecio(ConsecutivoCompania,CodigoCliente);
                         ObtenerPrecioConYSinIvaSegunNivelDePrecio(vNivelDePrecio,ref vMePrecioSinIva,ref vMePrecioConIva);
                         DetailFacturaRapidaDetalle.InsertRow(Articulo,Descripcion,Cantidad,vMePrecioSinIva * vCambio,vMePrecioConIva * CambioMostrarTotalEnDivisas,(eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA,LibConvert.ToDec(ConexionArticulo.PorcentajeBaseImponible),ConexionArticulo.TipoDeArticulo,ConexionArticulo.TipoArticuloInv);
@@ -3337,15 +3337,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool EsNecesarioInsertarCambio() {
             bool vResult = false;
             bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
+            bool vUsaListaDePrecioEnMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
             bool vEsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro);
-            if(!vEsFacturaEnMonedaLocal || vMuestraTotalEnDivisas || EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
-                vResult = true;
-            }
-            return vResult;
+            bool vEmpresaUsaMonedaExtranjeraPredeterminada = EmpresaUsaMonedaExtranjeraComoPredeterminada();
+            vResult = !vEsFacturaEnMonedaLocal || vMuestraTotalEnDivisas || vUsaListaDePrecioEnMonedaExtranjera || vEmpresaUsaMonedaExtranjeraPredeterminada;            return vResult;
         }
 
         private bool DeseaActualizarLaTasaDeCambioDeLaFacturaEnEspera(bool valEsMonedaLocal, decimal valTasa, DateTime valFecha) {
-            bool vResult = false;
             StringBuilder vMensaje = new StringBuilder(); 
             if (!valEsMonedaLocal) {
                 vMensaje.Append("La factura que está cargando se guardó con Moneda de Cobro " + NombreMonedaDeCobro + ",");
@@ -3356,10 +3354,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vMensaje.AppendLine(" y la tasa de cambio actual de la moneda extranjera es " + LibConvert.ToStr(valTasa) + " del día " + LibConvert.ToStr(valFecha)).AppendLine();
             }
             vMensaje.AppendLine("¿Desea actualizar la tasa de cambio?");
-            if (LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Tasa de Cambio")) {
-                vResult = true;
-            }
-            return vResult;
+            return LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Tasa de Cambio");
         }
         
         private bool EmpresaUsaMonedaExtranjeraComoPredeterminada(ref FkMonedaViewModel refMonedaExtranjera) {

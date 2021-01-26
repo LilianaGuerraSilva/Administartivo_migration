@@ -282,8 +282,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } else {
                 BusquedaPorCodigo = false;
                 CuadroDeBusquedaDeArticulosViewModel.IsControlVisible = true;
-            }
-            RaisePropertyChanged("BusquedaDinamica");
+            }            
             RaisePropertyChanged("BusquedaPorCodigo");
         }
         #endregion
