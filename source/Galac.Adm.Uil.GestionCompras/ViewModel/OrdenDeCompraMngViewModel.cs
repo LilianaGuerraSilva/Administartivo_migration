@@ -328,10 +328,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             } else if((vUsaDivisaComoMonedaPrincipalDeIngresoDeDatos || vViewModel.TipoModulo == eTipoCompra.Importacion) && vViewModel.AsignaTasaDelDia(vCodigoMonedaExtranjera)) {
                 base.ExecuteCreateCommand();
             } else {
-                LibMessages.MessageBox.Information(this, "No se puede continuar sin establecer la Tasa de Cambio del día.", "Debe insertar un de Cambio válido.");
+                LibMessages.MessageBox.Information(this, "No se puede continuar sin establecer la Tasa de Cambio del día.", "Debe insertar una tasa de cambio válida.");
             }
         }
-
     } //End of class CompraMngViewModel
 
 } //End of namespace Galac.Adm.Uil.GestionCompras

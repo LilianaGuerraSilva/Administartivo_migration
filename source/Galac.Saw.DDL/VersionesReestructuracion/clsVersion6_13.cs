@@ -18,7 +18,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StartConnectionNoTransaction();
             AgregarParametroUsaDivisaComoMonedaPrincipalDeIngresoDeDatos();
             InsertarElementoDelCostoPorDefectos();
-            CrearnNuevosCamposDeContabilidad();
+            CrearNuevosCamposDeContabilidad();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -65,7 +65,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             return vResult;
         }
 
-        private void CrearnNuevosCamposDeContabilidad() {
+        private void CrearNuevosCamposDeContabilidad() {
             AddColumnBoolean("Contab.ParametrosConciliacion", "CalcularSaldoInicialDesdeElPrimerPeriodo", "CONSTRAINT nnParExpresarBalances NOT NULL", false);
             AddColumnString("Contab.ParametrosGen", "NombreBalanceGeneral", 30, "", "Balance General");
             AddColumnString("Contab.ParametrosGen", "NombreEstadoDeResultado", 30, "", "Estado De Resultado");

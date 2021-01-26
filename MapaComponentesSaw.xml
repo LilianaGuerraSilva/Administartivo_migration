@@ -125,17 +125,17 @@
     <Galac.Comun.Rpt.LeyCosto>2.50.0.0</Galac.Comun.Rpt.LeyCosto>
     <Galac.Comun.Uil.LeyCosto>2.50.0.0</Galac.Comun.Uil.LeyCosto>
 
-    <Galac.Contab.Ccl.WinCont>2.50.0.0</Galac.Contab.Ccl.WinCont>    
-    <Galac.Contab.Dal.WinCont>2.50.0.0</Galac.Contab.Dal.WinCont>
-    <Galac.Contab.Brl.WinCont>2.50.0.0</Galac.Contab.Brl.WinCont>
-    <Galac.Contab.Uil.WinCont>2.50.0.0</Galac.Contab.Uil.WinCont>    
+    <Galac.Contab.Ccl.WinCont>2.50.1.0</Galac.Contab.Ccl.WinCont>   
+    <Galac.Contab.Dal.WinCont>2.50.1.0</Galac.Contab.Dal.WinCont> 
+    <Galac.Contab.Brl.WinCont>2.50.1.0</Galac.Contab.Brl.WinCont>
+    <Galac.Contab.Uil.WinCont>2.50.1.0</Galac.Contab.Uil.WinCont>    
                                  
-    <Galac.Contab.Ccl.Tablas>2.50.0.0</Galac.Contab.Ccl.Tablas>
-    <Galac.Contab.Dal.Tablas>2.50.0.0</Galac.Contab.Dal.Tablas>
-    <Galac.Contab.Brl.Tablas>2.50.0.0</Galac.Contab.Brl.Tablas>
-    <Galac.Contab.Uil.Tablas>2.50.0.0</Galac.Contab.Uil.Tablas>
+    <Galac.Contab.Ccl.Tablas>2.50.1.0</Galac.Contab.Ccl.Tablas>
+    <Galac.Contab.Dal.Tablas>2.50.1.0</Galac.Contab.Dal.Tablas>
+    <Galac.Contab.Brl.Tablas>2.50.1.0</Galac.Contab.Brl.Tablas>
+    <Galac.Contab.Uil.Tablas>2.50.1.0</Galac.Contab.Uil.Tablas>
 
-    <Galac.Contab.TablasVbSinMigrar>2.50.0.0</Galac.Contab.TablasVbSinMigrar>
+    <Galac.Contab.TablasVbSinMigrar>2.50.1.0</Galac.Contab.TablasVbSinMigrar>
 
     <Galac.Saw.Ccl.Contabilizacion>2.50.0.0</Galac.Saw.Ccl.Contabilizacion>
     <Galac.Saw.Dal.Contabilizacion>2.50.0.0</Galac.Saw.Dal.Contabilizacion>
@@ -162,7 +162,7 @@
     <Galac.Saw.Uil.Inventario>2.50.0.0</Galac.Saw.Uil.Inventario>
 
     <Galac.Saw.SLev>2.50.0.0</Galac.Saw.SLev>
-    <Galac.Contab.SLev>2.50.0.0</Galac.Contab.SLev>
+    <Galac.Contab.SLev>2.50.1.0</Galac.Contab.SLev>
 
     <Galac.Saw.Ccl.Vehiculo>2.50.0.0</Galac.Saw.Ccl.Vehiculo>
     <Galac.Saw.Dal.Vehiculo>2.50.0.0</Galac.Saw.Dal.Vehiculo>

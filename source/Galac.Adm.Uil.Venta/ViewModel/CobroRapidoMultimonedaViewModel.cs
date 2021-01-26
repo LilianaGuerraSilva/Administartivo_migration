@@ -372,7 +372,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             FechaDeFactura = insFactura.Fecha;
             AsignarValoresDeMonedas(insFactura.CodigoMoneda, insFactura.CodigoMonedaDeCobro);
             CambioAMonedaLocal = valCambioAMonedaLocal;
-            if (_MonedaLocalNav.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valFactura.CodigoMonedaDeCobro) && valEsFacturaTradicional){
+            bool vEsFacturaEnMonedaLocal = _MonedaLocalNav.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valFactura.CodigoMonedaDeCobro);
+            bool vEsNecesarioBuscarCambio = valCambioAMonedaLocal == 1;
+            if (vEsFacturaEnMonedaLocal && (valEsFacturaTradicional || vEsNecesarioBuscarCambio)){
                 decimal vTasa = 1;
                 DateTime vFecha = LibDate.Today();
                 string vMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");

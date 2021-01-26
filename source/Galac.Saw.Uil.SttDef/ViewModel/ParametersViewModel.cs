@@ -257,8 +257,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     RibbonData.TabDataCollection[0].AddTabGroupData(CreateAccionesRibbonGroup());
                 }
             }
-
-
+            (ModuleList.Where(w => w.DisplayName == "7 - Bancos").FirstOrDefault().Groups.Where(y => y.DisplayName == "7.2-Moneda").FirstOrDefault()
+                       .Content as BancosMonedaViewModel).ParametrosViewModel = this;
         }
 
         public static void Send<T>(string valPropertyName,T valValue) {

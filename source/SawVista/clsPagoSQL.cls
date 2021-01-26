@@ -2406,7 +2406,7 @@ Public Function fConstruirSQLDelReporteComprobanteDePago(ByVal valCodigoBanco As
          sqlMontoRetenidoCompDePago = "cxp.MontoRetenido / Pago.CambioABolivares"
          sqlMontoRetenidoCompDeIVA = "cxp.MontoRetenido"
          sqlMontoAbonado = "documentoPagado.MontoAbonado AS MontoAbonado, "
-         sqlTotalCxP = sqlTotalCxP '& " / Pago.CambioABolivares"
+         sqlTotalCxP = gUtilSQL.getIIF("cxP.CodigoMoneda = Pago.CodigoMoneda", sqlTotalCxP, "DocumentoPagado.MontoTotalDeCxP", True) '& " / Pago.CambioABolivares"
       End If
    End If
 '   If valComprobanteAImprimir = eQI_RETENCION_IVA Then
@@ -2418,7 +2418,7 @@ Public Function fConstruirSQLDelReporteComprobanteDePago(ByVal valCodigoBanco As
    SQL = SQL & sqlMontoAbonado
    SQL = SQL & "banco.Nombre, "
    SQL = SQL & sqlTotalCxP & " As TotalCXP, "
-   SQL = SQL & "(DocumentoPagado.MontoEnMonedaOriginalDeCxP * DocumentoPagado.CambioAMonedaDelPago) As TotalCXPCambio, "
+   SQL = SQL & gUtilSQL.getIIF("cxP.CodigoMoneda = '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "' AND Pago.CodigoMoneda <> '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "'", "DocumentoPagado.MontoTotalDeCxP * DocumentoPagado.CambioAMonedaDelPago", gUtilSQL.getIIF("cxP.CodigoMoneda <> '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "' AND Pago.CodigoMoneda = '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "'", "DocumentoPagado.MontoEnMonedaOriginalDeCxP * DocumentoPagado.CambioAMonedaDelPago", "DocumentoPagado.MontoEnMonedaOriginalDeCxP", True), True) & " AS TotalCXPCambio, "
    SQL = SQL & sqlTotalCxPComprobanteRetIva & " AS TotalCXPComprobanteRetIva, "
    SQL = SQL & "proveedor.Direccion, "
    SQL = SQL & "proveedor.Telefonos, "
@@ -2505,7 +2505,7 @@ Public Function fConstruirSQLDelReporteComprobanteDePago(ByVal valCodigoBanco As
    SQL = SQL & sqlMontoAbonado
    SQL = SQL & "banco.Nombre, "
    SQL = SQL & sqlTotalCxP & " As TotalCXP, "
-   SQL = SQL & "(DocumentoPagado.MontoEnMonedaOriginalDeCxP * DocumentoPagado.CambioAMonedaDelPago) As TotalCXPCambio, "
+   SQL = SQL & gUtilSQL.getIIF("cxP.CodigoMoneda = '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "' AND Pago.CodigoMoneda <> '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "'", "DocumentoPagado.MontoTotalDeCxP * DocumentoPagado.CambioAMonedaDelPago", gUtilSQL.getIIF("cxP.CodigoMoneda <> '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "' AND Pago.CodigoMoneda = '" & gMonedaLocalActual.GetHoyCodigoMoneda() & "'", "DocumentoPagado.MontoEnMonedaOriginalDeCxP * DocumentoPagado.CambioAMonedaDelPago", "DocumentoPagado.MontoEnMonedaOriginalDeCxP", True), True) & " AS TotalCXPCambio, "
    SQL = SQL & sqlTotalCxPComprobanteRetIva & " AS TotalCXPComprobanteRetIva, "
    SQL = SQL & "proveedor.Direccion, "
    SQL = SQL & "proveedor.Telefonos, "

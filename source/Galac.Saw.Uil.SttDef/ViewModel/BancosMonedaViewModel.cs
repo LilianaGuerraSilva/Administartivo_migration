@@ -17,6 +17,7 @@ using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Uil;
 using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
+using System.Text;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class BancosMonedaViewModel : LibInputViewModelMfc<MonedaStt> {
@@ -39,6 +40,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private FkMonedaViewModel _ConexionNombreMonedaExtranjera = null;
         private FkMonedaViewModel _ConexionNombreMonedaLocal = null;
         private IMonedaLocalActual vMonedaLocal = null;
+        private ParametersViewModel _ParametrosViewModel;
 
         #endregion //Variables
 
@@ -122,6 +124,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        [LibCustomValidation("UsaDivisaComoMonedaPrincipalDeIngresoDeDatosValidating")]
         public bool UsaDivisaComoMonedaPrincipalDeIngresoDeDatos {
             get {
                 return Model.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool;
@@ -220,6 +223,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return !clsUtilParameters.EsSistemaParaIG();
             }
         }
+
+        public ParametersViewModel ParametrosViewModel {
+            get { return _ParametrosViewModel; }
+            set { _ParametrosViewModel = value; }
+        }
+
 
         #endregion //Propiedades
 
@@ -330,6 +339,44 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } else {
                 if(LibString.IsNullOrEmpty(CodigoMonedaExtranjera)) {
                     vResult = new ValidationResult("El Campo " + ModuleName + "-> Nombre Moneda Extranjera, es Requerido.");
+                }
+            }
+            return vResult;
+        }
+
+        private ValidationResult UsaDivisaComoMonedaPrincipalDeIngresoDeDatosValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else {
+                StringBuilder vResponse = new StringBuilder();
+                bool vRequirementsAreMissing = false;
+                vResponse.AppendLine($"Para usar el Parámetro {this.ModuleName} - Usar Divisa como Moneda Principal de Ingreso de Datos, debe ajustar los siguientes parámetros previamente:");
+                vResponse.AppendLine();
+                FacturaFacturacionContViewModel vFacturaFacturacionContViewModel = ParametrosViewModel.ModuleList[1].Groups[1].Content as FacturaFacturacionContViewModel;
+                BancosAnticipoViewModel vBancosAnticipoViewModel = ParametrosViewModel.ModuleList[6].Groups[2].Content as BancosAnticipoViewModel;
+                bool vUsaCobroMultimoneda = vFacturaFacturacionContViewModel.UsaCobroDirectoEnMultimoneda;
+                bool vUsaListaDePrecioEnMonedaExtranjera = vFacturaFacturacionContViewModel.UsaListaDePrecioEnMonedaExtranjera;
+                bool vMostrarTotalEnDivisa = vFacturaFacturacionContViewModel.SeMuestraTotalEnDivisas;
+                FkCuentaBancariaViewModel vCuentaBancariaGenericaAnticipo = vBancosAnticipoViewModel.ConexionCuentaBancariaAnticipo;
+                if(!vUsaCobroMultimoneda) {
+                    vResponse.AppendLine($"- Activar {vFacturaFacturacionContViewModel.ModuleName} - Usa Cobro Directo en Multimoneda.");
+                    vRequirementsAreMissing = true;
+                }
+                if(!vUsaListaDePrecioEnMonedaExtranjera) {
+                    vResponse.AppendLine($"- Activar {vFacturaFacturacionContViewModel.ModuleName} - Usar Lista de Precios en Moneda Extranjera.");
+                    vRequirementsAreMissing = true;
+                }
+                if(!vMostrarTotalEnDivisa) {
+                    vResponse.AppendLine($"- Activar {vFacturaFacturacionContViewModel.ModuleName} - Mostrar Total en Divisas.");
+                    vRequirementsAreMissing = true;
+                }
+                if(vCuentaBancariaGenericaAnticipo.CodigoMoneda != CodigoMonedaExtranjera) {
+                    vResponse.AppendLine($"- Asignar cuenta en moneda extranjera ({CodigoMonedaExtranjera} - {NombreMonedaExtranjera}) en {vBancosAnticipoViewModel.ModuleName} - Cuenta Bancaria Genérica.");
+                    vRequirementsAreMissing = true;
+                }
+                if(UsaDivisaComoMonedaPrincipalDeIngresoDeDatos && vRequirementsAreMissing) {
+                    vResult = new ValidationResult(vResponse.ToString());
                 }
             }
             return vResult;
