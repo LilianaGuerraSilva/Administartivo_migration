@@ -166,7 +166,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         #endregion
 
         #region Constantes
-        const string VersionApi = "5, 4, 0, 3";
+        const string VersionApi1 = "5, 4, 1, 0";
+        const string VersionApi2 = "5, 4, 1, 24";
         const string DllApiName = @"BemaFI32.dll";               
         const byte _EnterosMontosLargos = 10;
         const byte _EnterosMontosCortos = 2;
@@ -1099,17 +1100,17 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public bool VersionDeControladores(IFDiagnostico vDiagnostico) {
             bool vResult = false;
             bool vIsSameVersion = false;
-            string vVersion = "";          
+            string vVersion = "";
             string vDir = "";
             if(Environment.Is64BitOperatingSystem) {
                 vDir = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + @"\BemaFi32.dll";
             } else {
                 vDir = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\BemaFi32.dll";
-            }      
+            }
             vResult = LibFile.FileExists(vDir);
             if(vResult) {
                 vResult &= LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
-                vIsSameVersion = (vVersion == VersionApi);
+                vIsSameVersion = (vVersion == VersionApi1 || vVersion == VersionApi2);
                 vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
                 vResult = vIsSameVersion;
             } else {

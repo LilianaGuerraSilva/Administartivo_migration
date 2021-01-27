@@ -1053,11 +1053,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vIsSameVersion = false;
             string vVersion = "";
             string vDir = "";
-#if DEBUG
-            vDir = LibApp.AppPath() + DllApiName;
-#else
             vDir = System.IO.Path.Combine(LibApp.AppPath()+"CDP",DllApiName);
-#endif
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
@@ -1080,7 +1076,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             //Alicuota2 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[1],".",2),2);
             //Alicuota3 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[2],".",2),2);
             //vResult = LibImpresoraFiscalUtil.ValidarAlicuotasRegistradas(AlicuotaGeneral,Alicuota2,Alicuota3,ref refAlicoutasRegistradasDescription);
-            vDiagnostico.AlicoutasRegistradasDescription = "Funcion no Implementada para este Modelo";
+            vDiagnostico.AlicoutasRegistradasDescription = "Función no Implementada para este Modelo";
             return vResult;
         }
 
