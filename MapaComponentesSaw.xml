@@ -99,20 +99,20 @@
     <Galac.Ent.Ccl.Empresarial>2.50.0.0</Galac.Ent.Ccl.Empresarial>
     <Galac.Ent.Dal.Empresarial>2.50.0.0</Galac.Ent.Dal.Empresarial>
 
-    <Galac.Comun.Ccl.TablasGen>2.50.0.0</Galac.Comun.Ccl.TablasGen>
-    <Galac.Comun.Dal.TablasGen>2.50.0.0</Galac.Comun.Dal.TablasGen>
-    <Galac.Comun.Brl.TablasGen>2.50.0.0</Galac.Comun.Brl.TablasGen>
-    <Galac.Comun.Uil.TablasGen>2.50.0.0</Galac.Comun.Uil.TablasGen>
+    <Galac.Comun.Ccl.TablasGen>2.50.2.0</Galac.Comun.Ccl.TablasGen>
+    <Galac.Comun.Dal.TablasGen>2.50.2.0</Galac.Comun.Dal.TablasGen>
+    <Galac.Comun.Brl.TablasGen>2.50.2.0</Galac.Comun.Brl.TablasGen>
+    <Galac.Comun.Uil.TablasGen>2.50.2.0</Galac.Comun.Uil.TablasGen>
 
-    <Galac.Comun.Ccl.TablasLey>2.50.0.0</Galac.Comun.Ccl.TablasLey>
-    <Galac.Comun.Dal.TablasLey>2.50.0.0</Galac.Comun.Dal.TablasLey>
-    <Galac.Comun.Brl.TablasLey>2.50.0.0</Galac.Comun.Brl.TablasLey>
-    <Galac.Comun.Uil.TablasLey>2.50.0.0</Galac.Comun.Uil.TablasLey>
+    <Galac.Comun.Ccl.TablasLey>2.50.1.0</Galac.Comun.Ccl.TablasLey>
+    <Galac.Comun.Dal.TablasLey>2.50.1.0</Galac.Comun.Dal.TablasLey>
+    <Galac.Comun.Brl.TablasLey>2.50.1.0</Galac.Comun.Brl.TablasLey>
+    <Galac.Comun.Uil.TablasLey>2.50.1.0</Galac.Comun.Uil.TablasLey>
 
-    <Galac.Comun.Brl.Impuesto>2.50.0.0</Galac.Comun.Brl.Impuesto>
-    <Galac.Comun.Ccl.Impuesto>2.50.0.0</Galac.Comun.Ccl.Impuesto>
-    <Galac.Comun.Dal.Impuesto>2.50.0.0</Galac.Comun.Dal.Impuesto>
-    <Galac.Comun.Uil.Impuesto>2.50.0.0</Galac.Comun.Uil.Impuesto>
+    <Galac.Comun.Brl.Impuesto>2.50.1.0</Galac.Comun.Brl.Impuesto>
+    <Galac.Comun.Ccl.Impuesto>2.50.1.0</Galac.Comun.Ccl.Impuesto>
+    <Galac.Comun.Dal.Impuesto>2.50.1.0</Galac.Comun.Dal.Impuesto>
+    <Galac.Comun.Uil.Impuesto>2.50.1.0</Galac.Comun.Uil.Impuesto>
 
     <Galac.Saw.Brl.SttDef>2.50.0.0</Galac.Saw.Brl.SttDef>
     <Galac.Saw.Ccl.SttDef>2.50.0.0</Galac.Saw.Ccl.SttDef>
