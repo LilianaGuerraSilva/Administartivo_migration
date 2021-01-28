@@ -355,11 +355,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vResponse.AppendLine();
                 FacturaFacturacionContViewModel vFacturaFacturacionContViewModel = ParametrosViewModel.ModuleList[1].Groups[1].Content as FacturaFacturacionContViewModel;
                 BancosAnticipoViewModel vBancosAnticipoViewModel = ParametrosViewModel.ModuleList[6].Groups[2].Content as BancosAnticipoViewModel;
+                bool vUsaCobroDirecto = vFacturaFacturacionContViewModel.UsaCobroDirecto;
                 bool vUsaCobroMultimoneda = vFacturaFacturacionContViewModel.UsaCobroDirectoEnMultimoneda;
                 bool vUsaListaDePrecioEnMonedaExtranjera = vFacturaFacturacionContViewModel.UsaListaDePrecioEnMonedaExtranjera;
                 bool vMostrarTotalEnDivisa = vFacturaFacturacionContViewModel.SeMuestraTotalEnDivisas;
                 FkCuentaBancariaViewModel vCuentaBancariaGenericaAnticipo = vBancosAnticipoViewModel.ConexionCuentaBancariaAnticipo;
-                if(!vUsaCobroMultimoneda) {
+                if(vUsaCobroDirecto && !vUsaCobroMultimoneda) {
                     vResponse.AppendLine($"- Activar {vFacturaFacturacionContViewModel.ModuleName} - Usa Cobro Directo en Multimoneda.");
                     vRequirementsAreMissing = true;
                 }
