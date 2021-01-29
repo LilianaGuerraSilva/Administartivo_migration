@@ -1883,25 +1883,35 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vParams.AddInEnum("StatusFactura",LibConvert.EnumToDbValue((int)eStatusFactura.Borrador));
             vFacturaEnEspera = BusinessComponent.GetData(eProcessMessageType.SpName,"FacturaRapidaGET",vParams.Get(),UseDetail).FirstOrDefault();
             if(vFacturaEnEspera != null) {
-                RecargarValoresDeFactura(vFacturaEnEspera);
-                if(!EsValidaFacturaParaDecretoIvaEspecial()) {
-                    AplicaDecretoIvaEspecial = false;
+                bool vPuedeContinuar = true;
+                bool EsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(vFacturaEnEspera.CodigoMoneda);
+                FkMonedaViewModel vMonedaExtranjera = new FkMonedaViewModel();
+                if (EsFacturaEnEspera && EsFacturaEnMonedaLocal && EmpresaUsaMonedaExtranjeraComoPredeterminada(ref vMonedaExtranjera)) {
+                    NotificarQueNoPuedeFacturarEnOtraMoneda(vFacturaEnEspera, vMonedaExtranjera);
+                    RecargarValoresDeFactura(new FacturaRapida());
+                    vPuedeContinuar = false;
                 }
-                CambioMostrarTotalEnDivisas = vFacturaEnEspera.CambioMostrarTotalEnDivisas;
-                InitializeLookAndFeel(GetModel());
-                DetailFacturaRapidaDetalle = new FacturaRapidaDetalleMngViewModel(this,Model.DetailFacturaRapidaDetalle,Action);
-                if(!EsValidaFacturaParaDecretoIvaEspecial()) {
-                    DetailFacturaRapidaDetalle.SelectedIndex = 0;
-                    ActualizaSaldos(true);
+                if (vPuedeContinuar) {
+                    RecargarValoresDeFactura(vFacturaEnEspera);
+                    if (!EsValidaFacturaParaDecretoIvaEspecial()) {
+                        AplicaDecretoIvaEspecial = false;
+                    }
+                    CambioMostrarTotalEnDivisas = vFacturaEnEspera.CambioMostrarTotalEnDivisas;
+                    InitializeLookAndFeel(GetModel());
+                    DetailFacturaRapidaDetalle = new FacturaRapidaDetalleMngViewModel(this, Model.DetailFacturaRapidaDetalle, Action);
+                    if (!EsValidaFacturaParaDecretoIvaEspecial()) {
+                        DetailFacturaRapidaDetalle.SelectedIndex = 0;
+                        ActualizaSaldos(true);
+                    }
+                    InitializeDetails();
+                    NotificarcambiosEnTodasLasPropiedades();
+                    ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeArticulosViewModel, string.Empty);
+                    ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeClientesViewModel, NombreCliente);
+                    ReloadRelatedConnections();
+                    TotalDeItems = DetailFacturaRapidaDetalle.Items.Sum(p => p.Cantidad);
+                    CalcularTotalFacturaDivisas();
+                    AsignarTasaDeCambioDeMonedaDeCobroYParaMostrarTotales(true);
                 }
-                InitializeDetails();
-                NotificarcambiosEnTodasLasPropiedades();
-                ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeArticulosViewModel,string.Empty);
-                ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeClientesViewModel,NombreCliente);
-                ReloadRelatedConnections();
-                TotalDeItems = DetailFacturaRapidaDetalle.Items.Sum(p => p.Cantidad);
-                CalcularTotalFacturaDivisas();
-                AsignarTasaDeCambioDeMonedaDeCobroYParaMostrarTotales(true);
             }
         }
         #endregion
@@ -3340,7 +3350,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vUsaListaDePrecioEnMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
             bool vEsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro);
             bool vEmpresaUsaMonedaExtranjeraPredeterminada = EmpresaUsaMonedaExtranjeraComoPredeterminada();
-            vResult = !vEsFacturaEnMonedaLocal || vMuestraTotalEnDivisas || vUsaListaDePrecioEnMonedaExtranjera || vEmpresaUsaMonedaExtranjeraPredeterminada;            return vResult;
+            vResult = !vEsFacturaEnMonedaLocal || vMuestraTotalEnDivisas || vUsaListaDePrecioEnMonedaExtranjera || vEmpresaUsaMonedaExtranjeraPredeterminada;
+            return vResult;
         }
 
         private bool DeseaActualizarLaTasaDeCambioDeLaFacturaEnEspera(bool valEsMonedaLocal, decimal valTasa, DateTime valFecha) {
@@ -3404,5 +3415,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Moneda = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
             }
         }
+
+        private void NotificarQueNoPuedeFacturarEnOtraMoneda(FacturaRapida valFacturaEnEspera, FkMonedaViewModel valMonedaExtranjera) {
+            StringBuilder vMensajeAdvertencia = new StringBuilder();
+            vMensajeAdvertencia.Append($"La factura ({valFacturaEnEspera.Numero}) colocada en espera el dia {valFacturaEnEspera.Fecha.ToShortDateString()}");
+            vMensajeAdvertencia.AppendLine($" es una factura en {valFacturaEnEspera.Moneda.ToLower()} y su configuracin de parmetros espera procesar las facturas en espera en {valMonedaExtranjera.Nombre.ToLower()}.");
+            vMensajeAdvertencia.AppendLine($"Si desea procesar esta factura es necesario que desactive el parmetro \"Usa divisa como moneda principal de ingreso de datos\".");
+            LibMessages.MessageBox.Warning(this, vMensajeAdvertencia.ToString(), "Cargar Factura en Espera");
+        }
+
     } //End of class FacturacionRapidaViewModel
 } //End of namespace Galac.Adm.Uil.Venta
