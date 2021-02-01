@@ -52,10 +52,6 @@
 	path = source/ContabilidadVb
 	url = https://chronos.galac.local:10207/desa/contabilidadvb.git
 	branch = develop
-[submodule "bin/binComunAos"]
-	path = bin/binComunAos
-	url = https://chronos.galac.local:10207/desa/bincomunaos.git
-	branch = release-V2.50.0.0
 [submodule "bin/binContabilidadAos"]
 	path = bin/binContabilidadAos
 	url = https://chronos.galac.local:10207/desa/bincontabilidadaos.git
@@ -68,3 +64,7 @@
 	path = source/vbaComun
 	url = https://chronos.galac.local:10207/desa/vbacomun.git
 	branch = release-SAW-V18.4
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
+	url = https://chronos.galac.local:10207/desa/bincomunaos.git
+	branch = release-V2.50.2.0
