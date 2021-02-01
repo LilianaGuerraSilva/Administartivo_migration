@@ -53,10 +53,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Saw.Ccl.Integracion">
-      <Name>Galac.Saw.Ccl.Integracion</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Integracion.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <Name>LibGalac.Aos.Base</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
@@ -110,6 +106,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Integracion\Galac.Saw.Ccl.Integracion.csproj">
+      <Project>{6ccb893a-b5c6-48f7-95b5-d9f456e4938a}</Project>
+      <Name>Galac.Saw.Ccl.Integracion</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

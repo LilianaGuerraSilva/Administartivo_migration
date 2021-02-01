@@ -10,7 +10,7 @@ namespace Galac.Saw.Wrp.TablasLey {
         void InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath);
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);
         void InitializeContext(string vfwInfo);        
-        void Execute(string vfwAction);
+        void Execute(string vfwAction, string vfwIsReInstall = "N");
         decimal CalculaMontoRetencionTarifaN2(int valConsecutivoCompania, string valCodigoProveedor, string valCodigoRetencion, DateTime valFecha, DateTime valFechaApertura, DateTime valFechaCierre, decimal valMontoBaseImponible);
         decimal BuscaPorcentajeRetencionTarifaN2(int valConsecutivoCompania, string valCodigoProveedor, string valCodigoRetencion, DateTime valFecha, DateTime valFechaApertura, DateTime valFechaCierre, decimal valMontoBaseImponible);
         decimal BuscaSustraendoRetencionTarifaN2(int valConsecutivoCompania, string valCodigoProveedor, string valCodigoRetencion, DateTime valFecha, DateTime valFechaApertura, DateTime valFechaCierre, decimal valMontoBaseImponible);             

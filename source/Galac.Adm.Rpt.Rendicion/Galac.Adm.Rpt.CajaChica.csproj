@@ -56,12 +56,6 @@
     <Reference Include="ActiveReports.Document, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
     <Reference Include="ActiveReports.Viewer6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
     <Reference Include="ActiveReports6, Version=6.2.3164.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff" />
-    <Reference Include="Galac.Adm.Brl.CajaChica">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.CajaChica.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.CajaChica">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.CajaChica.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
     </Reference>
@@ -84,9 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsReposicionesEntreFechas.cs" />
-    <Compile Include="dsrReposicionesEntreFechas.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="dsrReposicionesEntreFechas.cs" />
     <Compile Include="dsrReposicionesEntreFechas.Designer.cs">
       <DependentUpon>dsrReposicionesEntreFechas.cs</DependentUpon>
     </Compile>
@@ -118,6 +110,16 @@
     <EmbeddedResource Include="dsrReposicionesEntreFechas.resx">
       <DependentUpon>dsrReposicionesEntreFechas.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.Rendicion\Galac.Adm.Brl.CajaChica.csproj">
+      <Project>{58cefb81-7d8c-4039-84af-80eebe9f2f28}</Project>
+      <Name>Galac.Adm.Brl.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
+      <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>
+      <Name>Galac.Adm.Ccl.CajaChica</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

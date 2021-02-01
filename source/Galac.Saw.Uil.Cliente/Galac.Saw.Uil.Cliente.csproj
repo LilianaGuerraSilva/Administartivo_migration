@@ -34,26 +34,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Saw.Brl.Cliente, Version=2.50.0.1, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Brl.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Cliente, Version=2.35.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Ccl.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Inventario, Version=2.35.5.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Ccl.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Lib, Version=2.50.0.1, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Lib.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Lib.Uil, Version=2.35.2.1, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\Galac.Saw.Lib.Uil.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAosLibGalac.Aos.ARRpt.dll</HintPath>
@@ -82,15 +62,17 @@
       <Name>LibGalac.Aos.UI.WpfControls</Name>
       <HintPath>..\..\bin\binLibAosLibGalac.Aos.UI.WpfControls.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <Name>LibGalac.Aos.UI.WpfRD</Name>
+      <HintPath>..\..\bin\binLibAosLibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
       <Name>LibGalac.Aos.DefGen</Name>
       <HintPath>..\..\bin\binLibAosLibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Uil">
-      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+      <Name>LibGalac.Aos.Uil</Name>
+      <HintPath>..\..\bin\binLibAosLibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -130,7 +112,28 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Brl.Cliente\Galac.Saw.Brl.Cliente.csproj">
+      <Project>{78d48369-e4e8-4c92-8f1d-ce3369911509}</Project>
+      <Name>Galac.Saw.Brl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
+      <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
+      <Name>Galac.Saw.Ccl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
+      <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib.Uil\Galac.Saw.Lib.Uil.csproj">
+      <Project>{ae2fdf07-4a14-48bd-ba32-d1701f5514d0}</Project>
+      <Name>Galac.Saw.Lib.Uil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

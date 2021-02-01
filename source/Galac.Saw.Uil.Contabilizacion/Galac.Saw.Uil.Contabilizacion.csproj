@@ -34,10 +34,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Ccl.CajaChica">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.CajaChica.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Contab.Ccl.Tablas">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.Tablas.dll</HintPath>
@@ -45,14 +41,6 @@
     <Reference Include="Galac.Contab.Ccl.WinCont">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Contabilizacion">
-      <Name>Galac.Saw.Brl.Contabilizacion</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Contabilizacion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Contabilizacion">
-      <Name>Galac.Saw.Ccl.Contabilizacion</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Contabilizacion.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
@@ -133,6 +121,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
+      <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>
+      <Name>Galac.Adm.Ccl.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Contabilizacion\Galac.Saw.Brl.Contabilizacion.csproj">
+      <Project>{54c04b57-b724-4112-9529-3ce7294597a1}</Project>
+      <Name>Galac.Saw.Brl.Contabilizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Contabilizacion\Galac.Saw.Ccl.Contabilizacion.csproj">
+      <Project>{8e983401-52bc-4828-838c-01585fe3a8e7}</Project>
+      <Name>Galac.Saw.Ccl.Contabilizacion</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

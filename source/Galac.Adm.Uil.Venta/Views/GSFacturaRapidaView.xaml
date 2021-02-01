@@ -900,21 +900,39 @@
                             FontWeight="Bold"
                             Foreground="#FF00040A"
                             Style="{StaticResource LabelPrompt}" />
-                        <Label
-                            Name="lneTotalFactura"
+                        <StackPanel
                             Grid.Row="1"
                             Grid.Column="1"
-                            Margin="3"
                             HorizontalAlignment="Right"
-                            HorizontalContentAlignment="Right"
-                            BorderBrush="{x:Null}"
-                            Content="{Binding Path=TotalFactura}"
-                            ContentStringFormat="N2"
-                            FontFamily="Arial"
-                            FontSize="40"
-                            FontWeight="SemiBold"
-                            Foreground="#FF00040A"
-                            Style="{StaticResource LabelCalculatedField}" />
+                            Orientation="Horizontal"
+                            >
+                            <Label 
+                                Content="{Binding Path=SimboloMonedaDeFactura}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                BorderBrush="{x:Null}"
+                                ContentStringFormat="N2"
+                                FontFamily="Arial"
+                                FontSize="40"
+                                FontWeight="SemiBold"
+                                Foreground="#FF00040A"
+                                Style="{StaticResource LabelCalculatedField}" 
+                                />
+
+                            <Label
+                                Name="lneTotalFactura"
+                                Margin="3"
+                                HorizontalAlignment="Right"
+                                HorizontalContentAlignment="Right"
+                                BorderBrush="{x:Null}"
+                                Content="{Binding Path=TotalFactura}"
+                                ContentStringFormat="N2"
+                                FontFamily="Arial"
+                                FontSize="40"
+                                FontWeight="SemiBold"
+                                Foreground="#FF00040A"
+                                Style="{StaticResource LabelCalculatedField}" />
+                        </StackPanel>
                         <Label
                             Grid.Row="0"
                             Grid.Column="0"
@@ -1058,20 +1076,26 @@
                 FontWeight="SemiBold"
                 Foreground="#FFFFF8F8"
                 Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
-                Content="Tasa de cambio"
+                Content="Tasa de cambio:"
                 Style="{StaticResource LabelCliente}" />
-            <nsWpfControls:GSNumericBoxWpf
-                Name="txtCambioABolivares"
+            <Label 
+                Name="lneCambioABolivares"
                 Grid.Row="0"
                 Grid.Column="5"
-                Width="120"
-                DecimalDigits="{Binding DecimalesTasaDeCambio, UpdateSourceTrigger=PropertyChanged}"
-                InputDataType="UDecimal"
-                IsEnabled="{Binding Path=IsEnabledCambio}"
-                Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
-                MaxLength="28"
-                Style="{StaticResource pvNumericRateBoxWpf}"
-                Value="{Binding Path=CambioMostrarTotalEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                Margin="3"
+                VerticalAlignment="Center"
+                VerticalContentAlignment="Center"
+                HorizontalAlignment="Right"
+                HorizontalContentAlignment="Right"
+                BorderBrush="{x:Null}"
+                Content="{Binding Path=CambioMostrarTotalEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                ContentStringFormat="N2"
+                FontFamily="Arial"
+                FontSize="18"
+                FontWeight="SemiBold"
+                Foreground="#FFFFF8F8"
+                Style="{StaticResource LabelCalculatedField}"
+                Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
             <Label
                 Grid.Column="6"
                 HorizontalAlignment="Right"

@@ -33,12 +33,21 @@ namespace Galac.Saw.Wrp.Tablas {
         #region Constructores
         #endregion //Constructores
         #region Metodos Generados
-        #region Miembros de IWrpVb
+        #region Miembros de IWrpImpuestoBancarioVb
 
-        void IWrpImpuestoBancarioVb.Execute(string vfwAction) {
+        void IWrpImpuestoBancarioVb.Execute(string vfwAction, string vfwIsReInstall) {
             try {
                 ILibMenu insMenu = new Galac.Saw.Uil.Tablas.clsImpuestoBancarioMenu();
-                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction),1);
+                bool vIsInstall = (eAccionSR)new LibEAccionSR().ToInt(vfwAction) == eAccionSR.Instalar;
+                if (vIsInstall) {
+                    if (LibConvert.SNToBool(vfwIsReInstall)) {
+                        insMenu.Ejecuta(eAccionSR.ReInstalar, 1);
+                    } else {
+                        insMenu.Ejecuta(eAccionSR.Instalar, 1);
+                    }
+                } else {
+                    insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
+                }
             } catch(GalacException gEx) {
                 LibExceptionDisplay.Show(gEx,null,Title + " - " + vfwAction);
             } catch(Exception vEx) {

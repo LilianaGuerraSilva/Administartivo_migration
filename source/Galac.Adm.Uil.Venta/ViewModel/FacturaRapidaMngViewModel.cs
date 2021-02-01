@@ -12,11 +12,16 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using System.Xml.Linq;
 using Galac.Adm.Uil.DispositivosExternos.ViewModel;
+using Galac.Saw.Lib;
+using System.Text;
+using Galac.Comun.Brl.TablasGen;
+using Galac.Comun.Ccl.TablasGen;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
     public class FacturaRapidaMngViewModel : LibMngMasterViewModelMfc<FacturaRapidaViewModel, FacturaRapida> {
         #region Variables
+        private clsNoComunSaw _clsNoComun = new clsNoComunSaw();
         #endregion //Variables
         #region Propiedades
 
@@ -32,6 +37,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, Numero, TipoDeDocumento";
+            _clsNoComun = new clsNoComunSaw();
             #region Codigo Ejemplo
             /* Codigo de Ejemplo
             OrderByDirection = "DESC";
@@ -131,14 +137,29 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }        
 
-        private bool SeDefinieronParametrosBancarios() {
+        private bool SeDefinieronParametrosBancariosValidos() {
             bool SeDetectaronParametrosBancarios = false;
-            SeDetectaronParametrosBancarios = false;
             try {
-                string vCodigoCuentaBancaria = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CuentaBancariaCobroDirecto");
-                string vConceptoBancario = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "ConceptoBancarioCobroDirecto");
-                if (!LibString.IsNullOrEmpty(vCodigoCuentaBancaria) && !LibString.IsNullOrEmpty(vConceptoBancario)) {
-                    SeDetectaronParametrosBancarios = true;
+                string vCodigoMonedaExtranjera = string.Empty;
+                bool vUsaCobroDirectoMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
+                if (EmpresaUsaMonedaExtranjeraComoPredeterminada(out vCodigoMonedaExtranjera)) {
+                    if(vUsaCobroDirectoMultimoneda) {
+                        if (EsPosibleCobroDirectoMultimoneda(vCodigoMonedaExtranjera)) {
+                            SeDetectaronParametrosBancarios = true;
+                        }
+                    } else {
+                        NotificarQueEsNecesarioCobroDirectoMultimoneda(vCodigoMonedaExtranjera);
+                    }
+                } else {
+                    if (vUsaCobroDirectoMultimoneda) {
+                        if (EsPosibleCobroDirectoMultimoneda(vCodigoMonedaExtranjera)) {
+                            SeDetectaronParametrosBancarios = true;
+                        }
+                    } else {
+                        if (EsPosibleCobroDirecto()) {
+                            SeDetectaronParametrosBancarios = true;
+                        }
+                    }
                 }
             } catch (GalacException vEx) {
                 SeDetectaronParametrosBancarios = false;
@@ -150,15 +171,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void ExecuteCreateCommand() {                   
             BalanzaTomarPesoViewModel vBalanzaTomarPesoViewModel = null;
             bool vUsarBalanza = false;
-            bool parametrosBancarios = SeDefinieronParametrosBancarios();
             bool vBalanzaIsValid = InitializeBalanza(ref vBalanzaTomarPesoViewModel, ref vUsarBalanza);
+            bool vUsaTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
+            bool vUsaListaDePrecioEnMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
             RemoveColumnsIfNecesary();
             if (vBalanzaIsValid) {
-                if (parametrosBancarios) {
+                if (SeDefinieronParametrosBancariosValidos()) {
                     FacturaRapidaViewModel vViewModel = CreateNewElement(new FacturaRapida(), eAccionSR.Insertar);
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas")
-                        || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera")) {
+                    if(vUsaTotalEnDivisas || vUsaListaDePrecioEnMonedaExtranjera || EmpresaUsaMonedaExtranjeraComoPredeterminada(out string vCodigoMonedaExtranjeraPredeterminada)) {
                         if(!vViewModel.AsignarTasaDeCambioDeMonedaDeCobroYParaMostrarTotales()) {
                             LibMessages.MessageBox.Information(this,"Esta usando la opción de punto de venta y no se ha ingresado la tasa de cambio del día, favor ingrese un cambio válido para continuar","Punto de Venta");
                             return;
@@ -173,9 +194,96 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         SearchItems();
                     }
                 } else {
-                    LibMessages.MessageBox.Information(this, "No se han definido los parametros bancarios de Cobro Directo, Debe configurar y asignarlos para continuar", "");
+                    return;
                 }
             }
+        }
+
+        private bool EmpresaUsaMonedaExtranjeraComoPredeterminada(out string outCodigoMonedaExtranjera) {
+            bool vResult = false;
+            bool vUsaMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaMonedaExtranjera");
+            bool vUsaMonedaExtranjeraComoMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","CodigoMonedaExtranjera");
+            vResult = vUsaMonedaExtranjera && vUsaMonedaExtranjeraComoMonedaPredeterminada && !LibString.IsNullOrEmpty(vCodigoMonedaExtranjera);
+            outCodigoMonedaExtranjera = vCodigoMonedaExtranjera;
+            return vResult;
+        }
+
+        private bool EsPosibleCobroDirecto() {
+            bool vResult = false;
+            string vCodigoCuentaBancaria = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CuentaBancariaCobroDirecto");
+            string vConceptoBancario = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "ConceptoBancarioCobroDirecto");
+            if (!LibString.IsNullOrEmpty(vCodigoCuentaBancaria) && !LibString.IsNullOrEmpty(vConceptoBancario)) {
+                IFacturaRapidaPdn insFacturaRapida = new clsFacturaRapidaNav();
+                string vCodigoMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+                if (insFacturaRapida.EsCuentaBancariaValidaParaCobro(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vCodigoCuentaBancaria, vCodigoMonedaLocal, out string vNombreMonedaCuentaBancaria)) {
+                    vResult = true;
+                } else {
+                    if(!LibString.IsNullOrEmpty(vNombreMonedaCuentaBancaria)) {
+                        string vNombreMonedaParametroCobroDirecto = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+                        NotificarQueParametrosBancariosDeCobroDirectoSonIncorrectos(vNombreMonedaParametroCobroDirecto, vNombreMonedaCuentaBancaria, false);
+                    } else {
+                        NotificarQueFaltaDefinirParametrosBancarios();
+                    }
+                }
+            } else {
+                NotificarQueFaltaDefinirParametrosBancarios();
+            }
+            return vResult;
+        }
+
+        private bool EsPosibleCobroDirectoMultimoneda(string valCodigoMonedaExtranjeraPredeterminada) {
+            bool vResult = false;
+            string vCodigoCuentaBancaria = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CuentaBancariaCobroMultimoneda");
+            string vConceptoBancario = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoBancarioCobroMultimoneda");
+            if (!LibString.IsNullOrEmpty(vCodigoCuentaBancaria) && !LibString.IsNullOrEmpty(vConceptoBancario) && !LibString.IsNullOrEmpty(valCodigoMonedaExtranjeraPredeterminada)) {
+                IFacturaRapidaPdn insFacturaRapida = new clsFacturaRapidaNav();
+                string vNombreMonedaCuentaBancaria = string.Empty;
+                if (insFacturaRapida.EsCuentaBancariaValidaParaCobro(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vCodigoCuentaBancaria, valCodigoMonedaExtranjeraPredeterminada, out vNombreMonedaCuentaBancaria)) {
+                    vResult = true;
+                } else {
+                    if(!LibString.IsNullOrEmpty(vNombreMonedaCuentaBancaria)) {
+                        string vNombreMonedaExtrajeraParametro = ((IMonedaPdn)new clsMonedaNav()).GetNombreMoneda(valCodigoMonedaExtranjeraPredeterminada);
+                        NotificarQueParametrosBancariosDeCobroDirectoSonIncorrectos(vNombreMonedaExtrajeraParametro, vNombreMonedaCuentaBancaria, true);
+                    } else {
+                        NotificarQueFaltaDefinirParametrosBancarios();
+                    }
+                }
+            } else {
+                NotificarQueFaltaDefinirParametrosBancarios();
+            }
+            return vResult;
+        }
+
+        private void NotificarQueFaltaDefinirParametrosBancarios() {
+            string vMensajeParametrosNoDefinidos = "No se han definido los parametros bancarios de Cobro Directo validos, Debe configurar y asignarlos para continuar";
+            LibMessages.MessageBox.Information(this, vMensajeParametrosNoDefinidos, "Punto de Venta");
+        }
+
+        private void NotificarQueParametrosBancariosDeCobroDirectoSonIncorrectos(string valNombreMonedaDeParametro, string valNombreMonedaCuentaBancaria, bool EsCobroDirectoMultimoneda) {
+            StringBuilder vMensajeMonedaDeCuentaBancariaInvalida = new StringBuilder();
+            clsLibSaw insLibSaw = new clsLibSaw();
+            vMensajeMonedaDeCuentaBancariaInvalida.AppendLine("Los parámetros bancarios definidos son incorrectos.");
+            string vNombreMonedaCuentaBancaria = insLibSaw.Plural(valNombreMonedaCuentaBancaria).ToLower();
+            string vNombreMonedaDeParametro = insLibSaw.Plural(valNombreMonedaDeParametro).ToLower();
+            if(EsCobroDirectoMultimoneda) {
+                vMensajeMonedaDeCuentaBancariaInvalida.AppendLine($"La moneda de la cuenta bancaria seleccionada para el cobro directo multimoneda es {vNombreMonedaCuentaBancaria} y se espera que la moneda de la cuenta bancaria sea {vNombreMonedaDeParametro}.");
+                vMensajeMonedaDeCuentaBancariaInvalida.AppendLine($"Debe configurar una cuenta bancaria cuya moneda sea {vNombreMonedaDeParametro}, para poder continuar.");
+            } else {
+                vMensajeMonedaDeCuentaBancariaInvalida.AppendLine($"La moneda de la cuenta bancaria seleccionada para el cobro directo es {vNombreMonedaCuentaBancaria} y se espera que la moneda de la cuenta bancaria sea {vNombreMonedaDeParametro}.");
+                vMensajeMonedaDeCuentaBancariaInvalida.AppendLine($"Debe configurar una cuenta bancaria cuya moneda sea {vNombreMonedaDeParametro}, para poder continuar.");
+            }
+            LibMessages.MessageBox.Warning(this, vMensajeMonedaDeCuentaBancariaInvalida.ToString(), "Punto de Venta");
+        }
+
+        private void NotificarQueEsNecesarioCobroDirectoMultimoneda(string valCodigoMonedaExtranjeraPredeterminada) {
+            StringBuilder vSolicitudDelCobroMultimoneda = new StringBuilder();
+            string vNombreMonedaExtrajeraParametro = ((IMonedaPdn)new clsMonedaNav()).GetNombreMoneda(valCodigoMonedaExtranjeraPredeterminada);
+            clsLibSaw insLibSaw = new clsLibSaw();
+            string vNombreMonedaExtranjeraFormateada = insLibSaw.Plural(vNombreMonedaExtrajeraParametro).ToLower();
+            vSolicitudDelCobroMultimoneda.Append($"Su moneda predeterminada es {vNombreMonedaExtranjeraFormateada}, ");
+            vSolicitudDelCobroMultimoneda.AppendLine("por lo tanto, es necesario que active el parámetro \"cobro directo multimoneda\", para poder iniciar el punto de venta con su moneda extranjera predeterminada");
+            LibMessages.MessageBox.Warning(this, vSolicitudDelCobroMultimoneda.ToString(), "Punto de Venta");
         }
     } //End of class FacturacionRapidaMngViewModel
 

@@ -34,28 +34,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Saw.Brl.Cliente">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Vehiculo">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Vehiculo.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Inventario">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Vehiculo">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Vehiculo">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Vehiculo.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Uil.Inventario">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.Inventario.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
@@ -182,6 +160,32 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Input\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Saw.Brl.Cliente\Galac.Saw.Brl.Cliente.csproj">
+      <Project>{78d48369-e4e8-4c92-8f1d-ce3369911509}</Project>
+      <Name>Galac.Saw.Brl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Vehiculo\Galac.Saw.Brl.Vehiculo.csproj">
+      <Project>{ebe0f0a8-cd61-4625-8786-d8c8c4d08551}</Project>
+      <Name>Galac.Saw.Brl.Vehiculo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
+      <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
+      <Name>Galac.Saw.Ccl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
+      <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Vehiculo\Galac.Saw.Ccl.Vehiculo.csproj">
+      <Project>{5b2a6b9e-8a4f-4c8d-b7b6-072aad2fd261}</Project>
+      <Name>Galac.Saw.Ccl.Vehiculo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Inventario\Galac.Saw.Uil.Inventario.csproj">
+      <Project>{73fa7756-3070-4e0a-ad4e-1141f4f04696}</Project>
+      <Name>Galac.Saw.Uil.Inventario</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

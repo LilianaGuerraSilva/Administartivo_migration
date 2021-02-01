@@ -10,6 +10,7 @@ using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.Cliente;
+using Galac.Adm.Ccl.Banco;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsFacturaRapidaNav : LibBaseNavMaster<IList<FacturaRapida>, IList<FacturaRapida>>, IFacturaRapidaPdn {
@@ -364,6 +365,34 @@ namespace Galac.Adm.Brl.Venta {
             }
             return vResult;
         }
+
+        bool IFacturaRapidaPdn.EsCuentaBancariaValidaParaCobro(int valConsecutivoCompania, string valCodigoCuentaBancariaDeCobroDirecto, string valCodigoMonedaEmpresa, out string outNombreMonedaCuentaBancaria) {
+            bool vResult = false;
+            StringBuilder vSql = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInString("Status", LibConvert.EnumToDbValue((int) eStatusCtaBancaria.Activo), 1);
+            vParams.AddInString("Codigo", valCodigoCuentaBancariaDeCobroDirecto, 5);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vSql.AppendLine("   SELECT TOP 1");
+            vSql.AppendLine("   CodigoMoneda");
+            vSql.AppendLine("   , NombreDeLaMoneda");
+            vSql.AppendLine("   FROM Saw.CuentaBancaria");
+            vSql.AppendLine("   WHERE");
+            vSql.AppendLine("	    Status = @Status");
+            vSql.AppendLine("	    AND Codigo = @Codigo");
+            vSql.AppendLine("	    AND ConsecutivoCompania = @ConsecutivoCompania");
+            XElement vData = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+            outNombreMonedaCuentaBancaria = string.Empty;
+            if (vData != null && vData.HasElements) {
+                string vCodigoMonedaCuentaBancaria = LibXml.GetPropertyString(vData, "CodigoMoneda");
+                outNombreMonedaCuentaBancaria = LibXml.GetPropertyString(vData, "NombreDeLaMoneda");
+                if(LibString.S1IsEqualToS2(vCodigoMonedaCuentaBancaria, valCodigoMonedaEmpresa)) {
+                    vResult = true;
+                }
+            }
+            return vResult;
+        }
+
     } //End of class clsFacturaRapidaNav
 
 } //End of namespace Galac.Adm.Brl.Venta

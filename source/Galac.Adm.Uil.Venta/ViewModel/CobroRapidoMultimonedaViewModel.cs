@@ -21,9 +21,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Variables y Constantes
 
         private const string NombreDeMonedaLocalPropertyName = "NombreDeMonedaLocal";
-        private const string NombreDeMonedaDivisaPropertyName = "NombreDeMonedaDivisa";
+        private const string NombreDeMonedaDivisaPropertyName = "NombreMonedaDivisa";
         private const string TotalFacturaEnDivisasPropertyName = "TotalFacturaEnDivisas";
-        private const string CambioAMonedaLocalPropertyName = "CambioAMonedaLOcal";
+        private const string CambioAMonedaLocalPropertyName = "CambioAMonedaLocal";
         private const string EfectivoEnMonedaLocalPropertyName = "EfectivoEnMonedaLocal";
         private const string EfectivoEnDivisasPropertyName = "EfectivoEnDivisas";
         private const string TarjetaUnoPropertyName = "TarjetaUno";
@@ -372,7 +372,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             FechaDeFactura = insFactura.Fecha;
             AsignarValoresDeMonedas(insFactura.CodigoMoneda, insFactura.CodigoMonedaDeCobro);
             CambioAMonedaLocal = valCambioAMonedaLocal;
-            if (_MonedaLocalNav.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valFactura.CodigoMonedaDeCobro)){
+            bool vEsFacturaEnMonedaLocal = _MonedaLocalNav.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valFactura.CodigoMonedaDeCobro);
+            bool vEsNecesarioBuscarCambio = valCambioAMonedaLocal == 1;
+            if (vEsFacturaEnMonedaLocal && (valEsFacturaTradicional || vEsNecesarioBuscarCambio)){
                 decimal vTasa = 1;
                 DateTime vFecha = LibDate.Today();
                 string vMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
@@ -416,7 +418,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void ExecuteCobrarCommand() {
             bool SeImprimio = true;
-            if (MontoRestantePorPagar <= 0) {
+            if(MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                 clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                 List<RenglonCobroDeFactura> vListaDecobro = new List<RenglonCobroDeFactura>();
                 int vCodigoBancoParaMonedaLocal = insCobroNav.ObtenerCodigoBancoAsociadoACuentaBancaria(ConsecutivoCompania, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CuentaBancariaCobroDirecto"));
@@ -499,19 +501,31 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void AsignarValoresInicialesDeTotales(string valCodigoMonedaDeLaFactura, decimal valTotalFactura) {
             if (_MonedaLocalNav.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMonedaDeLaFactura)) {
                 TotalFactura = valTotalFactura;
-                TotalFacturaEnDivisas = LibMath.RoundToNDecimals((TotalFactura / CambioAMonedaLocal), 2);
-            } else {
+                TotalFacturaEnDivisas = LibMath.RoundToNDecimals(TotalFactura / CambioAMonedaLocal,2);
+            } else {                
                 TotalFacturaEnDivisas = valTotalFactura;
-                TotalFactura = LibMath.RoundToNDecimals((TotalFacturaEnDivisas * CambioAMonedaLocal), 2);
+                TotalFactura = LibMath.RoundToNDecimals(TotalFacturaEnDivisas * CambioAMonedaLocal,2);
             }
             MontoRestantePorPagar = TotalFactura;
+            MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
         }
 
         public override void CalcularTotales() {
-            decimal EfectivoDivisasEnMonedaLocal = EfectivoEnDivisas * CambioAMonedaLocal;
-            decimal TransferenciaDivisasEnMonedaLocal = TransferenciaEnDivisas * CambioAMonedaLocal;
-            MontoRestantePorPagar = LibMath.RoundToNDecimals((TotalFactura - EfectivoEnMonedaLocal - EfectivoDivisasEnMonedaLocal - TarjetaUno - TarjetaDos - TransferenciaEnMonedaLocal - TransferenciaDivisasEnMonedaLocal), 2);
-            MontoRestantePorPagarEnDivisas = LibMath.RoundToNDecimals((MontoRestantePorPagar / CambioAMonedaLocal), 2);
+            decimal TotalPagosMe = EfectivoEnDivisas + TransferenciaEnDivisas;
+            decimal TotalPagoMonedaLocal = EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal;
+            decimal vTotalRestanteBS = 0;
+            if(TotalPagosMe == 0) {
+                MontoRestantePorPagar = TotalFactura - TotalPagoMonedaLocal;
+                MontoRestantePorPagarEnDivisas = LibMath.RoundToNDecimals(MontoRestantePorPagar / CambioAMonedaLocal,2);
+            } else {
+                MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas - TotalPagosMe - LibMath.RoundToNDecimals(TotalPagoMonedaLocal / CambioAMonedaLocal,2);
+                vTotalRestanteBS = LibMath.RoundToNDecimals(TotalFacturaEnDivisas * CambioAMonedaLocal,2) - LibMath.RoundToNDecimals(TotalPagosMe * CambioAMonedaLocal,2) - TotalPagoMonedaLocal;
+                if(MontoRestantePorPagarEnDivisas == 0) {
+                    MontoRestantePorPagar = vTotalRestanteBS;
+                } else {
+                    MontoRestantePorPagar = MontoRestantePorPagarEnDivisas * CambioAMonedaLocal;
+                }
+            }            
             MontoRestantePorPagarEnMonedaLocalParaMostrar = SimboloMonedaLocal + ". " + LibConvert.ToStr(LibMath.Abs(MontoRestantePorPagar));
             MontoRestantePorPagarEnDivisasParaMostrar = SimboloDivisa + LibConvert.ToStr(LibMath.Abs(MontoRestantePorPagarEnDivisas));
             RaisePropertyChanged(lblPorPagarYVueltoPropertyName);

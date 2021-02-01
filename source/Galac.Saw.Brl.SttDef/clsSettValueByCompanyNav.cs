@@ -1073,6 +1073,27 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
         #endregion // ComprasStt
+        #region CxPCompras
+        bool ISettValueByCompanyPdn.ExistenCxPGeneradasDesdeCompra(int valConsecutivoCompania) {
+            bool vResult = false;
+            StringBuilder vSql = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            XElement CxPGeneradasDesdeCompra;
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vSql.AppendLine("   SELECT COUNT(Consecutivo) AS CantidadDeCxPGeneradasDesdeCompras");
+            vSql.AppendLine("   FROM Adm.Compra");
+            vSql.AppendLine("   WHERE GenerarCXP = 'S'");
+            vSql.AppendLine("   AND ConsecutivoCompania = @ConsecutivoCompania");
+            CxPGeneradasDesdeCompra = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), string.Empty, 0);
+            if(CxPGeneradasDesdeCompra != null) {
+                int vCantidadDeCxPGeneradasDesdeCompras = CxPGeneradasDesdeCompra.Descendants().Select(s => (int)s.Element("CantidadDeCxPGeneradasDesdeCompras")).FirstOrDefault();
+                if(vCantidadDeCxPGeneradasDesdeCompras > 0) {
+                    vResult = true;
+                }
+            }
+            return vResult;
+        }
+        #endregion
         #region CxPProveedorPagosStt
         private CxPProveedorPagosStt CxPProveedorPagosSttPorDefecto() {
             CxPProveedorPagosStt insEntidad = new CxPProveedorPagosStt();
@@ -1322,6 +1343,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = eTipoDeSolicitudDeIngresoDeTasaDeCambio.SiempreAlEmitirPrimeraFactura;
             return insEntidad;
         }
+
         private void LlenaListado(MonedaStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaLocal, "CodigoMonedaLocal", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaLocal, "NombreMonedaLocal", valConsecutivoCompania));
@@ -1329,6 +1351,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(valRecord.SolicitarIngresoDeTasaDeCambioAlEmitirAsDB, "SolicitarIngresoDeTasaDeCambioAlEmitir", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaExtranjera, "CodigoMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaExtranjera, "NombreMonedaExtranjera", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool), "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos", valConsecutivoCompania));
         }
 
         MonedaStt GetMonedaStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -1341,6 +1364,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = (eTipoDeSolicitudDeIngresoDeTasaDeCambio)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "SolicitarIngresoDeTasaDeCambioAlEmitir"));
             vResult.CodigoMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "CodigoMonedaExtranjera");
             vResult.NombreMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "NombreMonedaExtranjera");
+            vResult.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"));
             return vResult;
         }
         #endregion // MonedaStt

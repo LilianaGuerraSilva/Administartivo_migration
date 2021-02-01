@@ -21,7 +21,7 @@ namespace Galac.Saw.Wrp.TablasGen {
 
     [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpMonedaLocal: System.EnterpriseServices.ServicedComponent, IWrpVb {
+    public class wrpMonedaLocal: System.EnterpriseServices.ServicedComponent, IWrpMonedaLocal {
        #region Variables
        string _Title = "Moneda Local";
        #endregion //Variables
@@ -34,13 +34,22 @@ namespace Galac.Saw.Wrp.TablasGen {
        #region Constructores
        #endregion //Constructores
        #region Metodos Generados
-       #region Miembros de IWrpVb
+       #region Miembros de IWrpMonedaLocal
 
-       void IWrpVb.Execute(string vfwAction) {
+       void IWrpMonedaLocal.Execute(string vfwAction, string vfwIsReInstall) {
           try {
-             ILibMenu insMenu = new Galac.Comun.Uil.TablasGen.clsMonedaLocalMenu();
-             insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
-          } catch (GalacException gEx) {
+                ILibMenu insMenu = new Galac.Comun.Uil.TablasGen.clsMonedaLocalMenu();
+                bool vIsInstall = (eAccionSR)new LibEAccionSR().ToInt(vfwAction) == eAccionSR.Instalar;
+                if (vIsInstall) {
+                    if (LibConvert.SNToBool(vfwIsReInstall)) {
+                        insMenu.Ejecuta(eAccionSR.ReInstalar, 1);
+                    } else {
+                        insMenu.Ejecuta(eAccionSR.Instalar, 1);
+                    }
+                } else {
+                    insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
+                }
+            } catch(GalacException gEx) {
              LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
           } catch (Exception vEx) {
              if (vEx is AccessViolationException) {
@@ -50,11 +59,11 @@ namespace Galac.Saw.Wrp.TablasGen {
           }
        }
 
-       string IWrpVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
+       string IWrpMonedaLocal.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
           throw new NotImplementedException();
        }
 
-       void IWrpVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
+       void IWrpMonedaLocal.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
           try {
              LibWrp.SetAppConfigToCurrentDomain(vfwPath);
              LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
@@ -66,7 +75,7 @@ namespace Galac.Saw.Wrp.TablasGen {
           }
        }
 
-       void IWrpVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
+       void IWrpMonedaLocal.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
           try {
              string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
              LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
@@ -79,7 +88,7 @@ namespace Galac.Saw.Wrp.TablasGen {
           }
        }
 
-       void IWrpVb.InitializeContext(string vfwInfo) {
+       void IWrpMonedaLocal.InitializeContext(string vfwInfo) {
           try {
              LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
           } catch (Exception vEx) {
@@ -89,7 +98,7 @@ namespace Galac.Saw.Wrp.TablasGen {
              throw new GalacWrapperException(Title + " - Inicialización", vEx);
           }
        }
-       #endregion //Miembros de IWrpVb
+       #endregion //Miembros de IWrpMonedaLocal
 
 
         #endregion //Metodos Generados

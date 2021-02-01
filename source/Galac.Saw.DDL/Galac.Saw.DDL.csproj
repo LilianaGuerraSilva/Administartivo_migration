@@ -38,51 +38,12 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Ccl.Banco">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Banco.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.GestionProduccion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.Venta">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Venta.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.Banco">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.Banco.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.CajaChica">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.CajaChica.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.CAnticipo">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.CAnticipo.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.GestionCompras">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.GestionCompras.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.GestionProduccion">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.GestionProduccion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.Venta">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.Venta.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.DispositivosExternos.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Brl.TablasLey">
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasLey.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
@@ -96,10 +57,6 @@
     </Reference>
     <Reference Include="Galac.Comun.Dal.LeyCosto">
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Dal.LeyCosto.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.SttDef.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Comun.Dal.TablasGen">
       <Name>Galac.Comun.Dal.TablasGen</Name>
@@ -122,50 +79,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Ent.Dal.Empresarial.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Brl.Integracion">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Integracion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Integracion">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Integracion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Cliente">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Contabilizacion">
-      <Name>Galac.Saw.Dal.Contabilizacion</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Contabilizacion.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Integracion">
-      <Name>Galac.Saw.Dal.Integracion</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Integracion.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Contab.Dal.Tablas">
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Dal.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Inventario">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Tablas">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Vehiculo">
-      <Name>Galac.Saw.Dal.Vehiculo</Name>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Vehiculo.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Dal.Vendedor">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Dal.Vendedor.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Lib">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
@@ -267,6 +182,7 @@
     <Compile Include="VersionesReestructuracion\clsVersion6_04.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_10.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_09.cs" />
+    <Compile Include="VersionesReestructuracion\clsVersion6_13.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_12.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_11.cs" />
     <Compile Include="VersionesReestructuracion\clsVersionARestructurar.cs" />
@@ -294,6 +210,104 @@
     <Compile Include="VersionesReestructuracion\clsVersion6_06.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_07.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_08.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Banco\Galac.Adm.Ccl.Banco.csproj">
+      <Project>{295d5b19-4600-48c4-9da1-879a1875fbb9}</Project>
+      <Name>Galac.Adm.Ccl.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.GestionProduccion\Galac.Adm.Ccl.GestionProduccion.csproj">
+      <Project>{67b40f04-aebb-4db9-bd11-feabcfc4c02d}</Project>
+      <Name>Galac.Adm.Ccl.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
+      <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
+      <Name>Galac.Adm.Ccl.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Banco\Galac.Adm.Dal.Banco.csproj">
+      <Project>{d0277dda-3eab-41b6-b6c0-a23c6bfb4306}</Project>
+      <Name>Galac.Adm.Dal.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.CAnticipo\Galac.Adm.Dal.CAnticipo.csproj">
+      <Project>{8d2d8050-8576-48df-98b1-46e383d1c929}</Project>
+      <Name>Galac.Adm.Dal.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.DispositivosExternos\Galac.Adm.Dal.DispositivosExternos.csproj">
+      <Project>{3fbaca54-7fc5-4af8-a087-13ebbba543df}</Project>
+      <Name>Galac.Adm.Dal.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.GestionCompras\Galac.Adm.Dal.GestionCompras.csproj">
+      <Project>{06669565-4466-4b48-8890-0179143f9b8b}</Project>
+      <Name>Galac.Adm.Dal.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.GestionProduccion\Galac.Adm.Dal.GestionProduccion.csproj">
+      <Project>{03af24e0-ccd8-42c4-a6af-34d0e1139746}</Project>
+      <Name>Galac.Adm.Dal.GestionProduccion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Rendicion\Galac.Adm.Dal.CajaChica.csproj">
+      <Project>{107e9af9-6b99-4340-8f06-579732bcb132}</Project>
+      <Name>Galac.Adm.Dal.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Venta\Galac.Adm.Dal.Venta.csproj">
+      <Project>{91e8ebac-7e53-48eb-9220-f5d2397c9446}</Project>
+      <Name>Galac.Adm.Dal.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Integracion\Galac.Saw.Brl.Integracion.csproj">
+      <Project>{d88aebaa-f8cb-46fe-b89a-2bbefd99d0aa}</Project>
+      <Name>Galac.Saw.Brl.Integracion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Integracion\Galac.Saw.Ccl.Integracion.csproj">
+      <Project>{6ccb893a-b5c6-48f7-95b5-d9f456e4938a}</Project>
+      <Name>Galac.Saw.Ccl.Integracion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
+      <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
+      <Name>Galac.Saw.Ccl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Cliente\Galac.Saw.Dal.Cliente.csproj">
+      <Project>{97ebd59c-47ce-4886-85b4-f3cf2551b63c}</Project>
+      <Name>Galac.Saw.Dal.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Contabilizacion\Galac.Saw.Dal.Contabilizacion.csproj">
+      <Project>{cf9436b4-345e-439f-98e9-0721f5c591a8}</Project>
+      <Name>Galac.Saw.Dal.Contabilizacion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Integracion\Galac.Saw.Dal.Integracion.csproj">
+      <Project>{7ce635e3-e3f5-4390-9f85-c817c8e733d4}</Project>
+      <Name>Galac.Saw.Dal.Integracion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Inventario\Galac.Saw.Dal.Inventario.csproj">
+      <Project>{cfea97d4-b3bd-4a5d-b129-be81d7b096b6}</Project>
+      <Name>Galac.Saw.Dal.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.SttDef\Galac.Saw.Dal.SttDef.csproj">
+      <Project>{5b6c365d-a26f-428c-b7d4-8536ed0b38cb}</Project>
+      <Name>Galac.Saw.Dal.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Tablas\Galac.Saw.Dal.Tablas.csproj">
+      <Project>{9e67e076-0e4b-43b0-be51-c58e9f819150}</Project>
+      <Name>Galac.Saw.Dal.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Vehiculo\Galac.Saw.Dal.Vehiculo.csproj">
+      <Project>{229d4734-87dc-46f1-a2f2-fc1cc0d849fb}</Project>
+      <Name>Galac.Saw.Dal.Vehiculo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Dal.Vendedor\Galac.Saw.Dal.Vendedor.csproj">
+      <Project>{c97096c2-6491-48ba-a7bc-a9cce5b101b5}</Project>
+      <Name>Galac.Saw.Dal.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

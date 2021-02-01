@@ -33,50 +33,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Brl.CAnticipo">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.CAnticipo.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Brl.DispositivosExternos">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.DispositivosExternos.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Brl.Venta">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.Venta.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.Banco">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Banco.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.CAnticipo">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.CAnticipo.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.DispositivosExternos">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.DispositivosExternos.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.Venta">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Venta.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.CAnticipo">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.CAnticipo.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Dal.Venta">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Dal.Venta.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Rpt.Venta">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Galac.Adm.Rpt.Venta\obj\Debug\Galac.Adm.Rpt.Venta.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Uil.DispositivosExternos">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Uil.DispositivosExternos.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Brl.Impuesto">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.Impuesto.dll</HintPath>
@@ -89,10 +45,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.Impuesto.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Ccl.SttDef">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.SttDef.dll</HintPath>
-    </Reference>
     <Reference Include="Galac.Comun.Ccl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
@@ -100,50 +52,6 @@
     <Reference Include="Galac.Comun.Uil.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Cliente">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Inventario">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Brl.Vendedor">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Brl.Vendedor.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Cliente">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Cliente.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Inventario">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Inventario.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Tablas">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Tablas.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Ccl.Vendedor">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Ccl.Vendedor.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Lib">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Lib.Uil">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Lib.Uil.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Saw.Uil.Inventario">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Saw.Uil.Inventario.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
@@ -493,6 +401,100 @@
     <Resource Include="Images\F9.png" />
     <Resource Include="Images\Close.png" />
     <Resource Include="Images\Open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.CAnticipo\Galac.Adm.Brl.CAnticipo.csproj">
+      <Project>{74d3e1bd-b636-4640-8fc5-e943935a708a}</Project>
+      <Name>Galac.Adm.Brl.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.DispositivosExternos\Galac.Adm.Brl.DispositivosExternos.csproj">
+      <Project>{ccdf88d8-37dd-4e46-aead-350bd211bd75}</Project>
+      <Name>Galac.Adm.Brl.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">
+      <Project>{ae95f4aa-3119-4d39-96fb-95a53b7abb65}</Project>
+      <Name>Galac.Adm.Brl.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Banco\Galac.Adm.Ccl.Banco.csproj">
+      <Project>{295d5b19-4600-48c4-9da1-879a1875fbb9}</Project>
+      <Name>Galac.Adm.Ccl.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.CAnticipo\Galac.Adm.Ccl.CAnticipo.csproj">
+      <Project>{002d527c-ec0e-4817-955f-538d36e16885}</Project>
+      <Name>Galac.Adm.Ccl.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.DispositivosExternos\Galac.Adm.Ccl.DispositivosExternos.csproj">
+      <Project>{eea8e05e-9a11-4d51-aa9c-aacd7245952f}</Project>
+      <Name>Galac.Adm.Ccl.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
+      <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
+      <Name>Galac.Adm.Ccl.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.CAnticipo\Galac.Adm.Dal.CAnticipo.csproj">
+      <Project>{8d2d8050-8576-48df-98b1-46e383d1c929}</Project>
+      <Name>Galac.Adm.Dal.CAnticipo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Venta\Galac.Adm.Dal.Venta.csproj">
+      <Project>{91e8ebac-7e53-48eb-9220-f5d2397c9446}</Project>
+      <Name>Galac.Adm.Dal.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Rpt.Venta\Galac.Adm.Rpt.Venta.csproj">
+      <Project>{f8e98879-0458-41b6-b914-5f2c5cc28351}</Project>
+      <Name>Galac.Adm.Rpt.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.DispositivosExternos\Galac.Adm.Uil.DispositivosExternos.csproj">
+      <Project>{2844e837-4a95-4eb6-b663-fba990615ba3}</Project>
+      <Name>Galac.Adm.Uil.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Cliente\Galac.Saw.Brl.Cliente.csproj">
+      <Project>{78d48369-e4e8-4c92-8f1d-ce3369911509}</Project>
+      <Name>Galac.Saw.Brl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Inventario\Galac.Saw.Brl.Inventario.csproj">
+      <Project>{bbb05009-adca-47a1-9a3f-49421928f380}</Project>
+      <Name>Galac.Saw.Brl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Vendedor\Galac.Saw.Brl.Vendedor.csproj">
+      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
+      <Name>Galac.Saw.Brl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
+      <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
+      <Name>Galac.Saw.Ccl.Cliente</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Inventario\Galac.Saw.Ccl.Inventario.csproj">
+      <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
+      <Name>Galac.Saw.Ccl.Inventario</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
+      <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
+      <Name>Galac.Saw.Ccl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.Vendedor\Galac.Saw.Ccl.Vendedor.csproj">
+      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
+      <Name>Galac.Saw.Ccl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib.Uil\Galac.Saw.Lib.Uil.csproj">
+      <Project>{ae2fdf07-4a14-48bd-ba32-d1701f5514d0}</Project>
+      <Name>Galac.Saw.Lib.Uil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
+      <Name>Galac.Saw.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Inventario\Galac.Saw.Uil.Inventario.csproj">
+      <Project>{73fa7756-3070-4e0a-ad4e-1141f4f04696}</Project>
+      <Name>Galac.Saw.Uil.Inventario</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

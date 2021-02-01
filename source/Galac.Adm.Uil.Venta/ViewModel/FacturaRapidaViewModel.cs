@@ -108,6 +108,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string CuadroDeBusquedaDeArticulosViewModelPropertyName = "CuadroDeBusquedaDeArticulosViewModel";
         private const string CuadroDeBusquedaDeClientesViewModelPropertyName = "CuadroDeBusquedaDeClientesViewModel";
         private const string TotalDescuentoPropertyName = "TotalDescuento";
+        private const string SimboloMonedaDeFacturaPropertyName = "SimboloMonedaDeFactura";
         #endregion
 
         #region Variables
@@ -151,6 +152,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool _UsaListaDePrecioEnMonedaExtranjera = false;
         private bool _MostrarPorcentajeDescuento;
         private decimal totalDescuento;
+        private string _SimboloMonedaDeFactura;
 
 
         #endregion //Variables
@@ -362,7 +364,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         public bool SeMuestraTotalEnDivisas {
-            get { return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","SeMuestraTotalEnDivisas"); }
+            get { return EsPosibleMostrarTotalEnDivisas(); }
         }
 
         [LibGridColum("Total Factura",eGridColumType.Numeric)]
@@ -382,7 +384,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void CalcularTotalFacturaDivisas() {
             if(CambioMostrarTotalEnDivisas != 0) {
-                TotalFacturaDivisas = TotalFactura / CambioMostrarTotalEnDivisas;
+                TotalFacturaDivisas = LibMath.RoundToNDecimals(TotalFactura / CambioMostrarTotalEnDivisas,2);
             } else {
                 TotalFacturaDivisas = 0;
             }
@@ -1081,7 +1083,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool MostrarTasaDeCambio {
             get {
-                return !_clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro) && NombreMonedaDeCobro != string.Empty;
+                return EsPosibleMostrarTasaDeCambio();
             }
         }
 
@@ -1108,6 +1110,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string SimboloMonedaDeFactura {
+            get {
+                return _SimboloMonedaDeFactura;
+            }
+            set {
+                if(_SimboloMonedaDeFactura != value) {
+                    _SimboloMonedaDeFactura = value;
+                    RaisePropertyChanged(SimboloMonedaDeFacturaPropertyName);
+                }
+            }
+        }
 
         public BalanzaTomarPesoViewModel BalanzaTomarPesoViewModel {
             get {
@@ -1306,8 +1319,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     InfoCliente2 = string.Empty;
                     InfoCliente3 = string.Empty;
                 }
-                RaisePropertyChanged("IsVisibleExportacion");
-                RaisePropertyChanged("IsVisibleVentaInterna");
             }
         }
 
@@ -1526,8 +1537,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             TotalDeItems = 0;
             EsFacturaEnEspera = false;
             CambioABolivares = 1;
-            CodigoMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
-            NombreMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+            AsignarMonedaDeCobroFacturaSegunCorresponda();
             EmpresaAplicaIVAEspecial = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida","AplicarIVAEspecial");
             EmpresaUsaPrecioSinIva = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida","UsaPrecioSinIva"));
             _CantidadDeDecimales = LibConvert.ToInt(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida","CantidadDeDecimales"));
@@ -1567,10 +1577,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
                 NombreCajero = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
                 TipoDeDocumento = eTipoDocumentoFactura.ComprobanteFiscal;
-                CodigoMoneda = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
-                Moneda = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
-                CodigoMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
-                NombreMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+                AsignarMonedaDeFacturaSegunCorresponda();
+                AsignarMonedaDeCobroFacturaSegunCorresponda();
                 CargaVendedorGenerico();
                 CargaDeAlicuotasIva();
                 Articulo = string.Empty;
@@ -1875,25 +1883,35 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vParams.AddInEnum("StatusFactura",LibConvert.EnumToDbValue((int)eStatusFactura.Borrador));
             vFacturaEnEspera = BusinessComponent.GetData(eProcessMessageType.SpName,"FacturaRapidaGET",vParams.Get(),UseDetail).FirstOrDefault();
             if(vFacturaEnEspera != null) {
-                RecargarValoresDeFactura(vFacturaEnEspera);
-                if(!EsValidaFacturaParaDecretoIvaEspecial()) {
-                    AplicaDecretoIvaEspecial = false;
+                bool vPuedeContinuar = true;
+                bool EsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(vFacturaEnEspera.CodigoMoneda);
+                FkMonedaViewModel vMonedaExtranjera = new FkMonedaViewModel();
+                if (EsFacturaEnEspera && EsFacturaEnMonedaLocal && EmpresaUsaMonedaExtranjeraComoPredeterminada(ref vMonedaExtranjera)) {
+                    NotificarQueNoPuedeFacturarEnOtraMoneda(vFacturaEnEspera, vMonedaExtranjera);
+                    RecargarValoresDeFactura(new FacturaRapida());
+                    vPuedeContinuar = false;
                 }
-                CambioMostrarTotalEnDivisas = vFacturaEnEspera.CambioMostrarTotalEnDivisas;
-                InitializeLookAndFeel(GetModel());
-                DetailFacturaRapidaDetalle = new FacturaRapidaDetalleMngViewModel(this,Model.DetailFacturaRapidaDetalle,Action);
-                if(!EsValidaFacturaParaDecretoIvaEspecial()) {
-                    DetailFacturaRapidaDetalle.SelectedIndex = 0;
-                    ActualizaSaldos(true);
+                if (vPuedeContinuar) {
+                    RecargarValoresDeFactura(vFacturaEnEspera);
+                    if (!EsValidaFacturaParaDecretoIvaEspecial()) {
+                        AplicaDecretoIvaEspecial = false;
+                    }
+                    CambioMostrarTotalEnDivisas = vFacturaEnEspera.CambioMostrarTotalEnDivisas;
+                    InitializeLookAndFeel(GetModel());
+                    DetailFacturaRapidaDetalle = new FacturaRapidaDetalleMngViewModel(this, Model.DetailFacturaRapidaDetalle, Action);
+                    if (!EsValidaFacturaParaDecretoIvaEspecial()) {
+                        DetailFacturaRapidaDetalle.SelectedIndex = 0;
+                        ActualizaSaldos(true);
+                    }
+                    InitializeDetails();
+                    NotificarcambiosEnTodasLasPropiedades();
+                    ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeArticulosViewModel, string.Empty);
+                    ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeClientesViewModel, NombreCliente);
+                    ReloadRelatedConnections();
+                    TotalDeItems = DetailFacturaRapidaDetalle.Items.Sum(p => p.Cantidad);
+                    CalcularTotalFacturaDivisas();
+                    AsignarTasaDeCambioDeMonedaDeCobroYParaMostrarTotales(true);
                 }
-                InitializeDetails();
-                NotificarcambiosEnTodasLasPropiedades();
-                ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeArticulosViewModel,string.Empty);
-                ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeClientesViewModel,NombreCliente);
-                ReloadRelatedConnections();
-                TotalDeItems = DetailFacturaRapidaDetalle.Items.Sum(p => p.Cantidad);
-                CalcularTotalFacturaDivisas();
-                AsignarTasaDeCambioDeMonedaDeCobroYParaMostrarTotales(true);
             }
         }
         #endregion
@@ -1992,6 +2010,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa",LibConvert.BoolToSN(true));
                 vFixedCriteria.Add("TipoDeMoneda",eBooleanOperatorType.IdentityEquality,eTipoDeMoneda.Fisica);
                 AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
+                AgregarCriteriaParaExcluirLasMonedasExtranjerasSiAplica(ref vFixedCriteria);
                 FkMonedaViewModel vConexionNombreMonedaDeCobro = ChooseRecord<FkMonedaViewModel>("Moneda",vDefaultCriteria,vFixedCriteria,string.Empty);
                 ConexionNombreMonedaDeCobro = null;
                 if(vConexionNombreMonedaDeCobro != null) {
@@ -2021,6 +2040,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         vFixedCriteria.Add("Codigo",eBooleanOperatorType.IdentityInequality,vMoneda.CodigoMoneda);
                     }
                 }
+            }
+        }
+
+        private void AgregarCriteriaParaExcluirLasMonedasExtranjerasSiAplica(ref LibSearchCriteria vFixedCriteria) {
+            FkMonedaViewModel insMonedaExtranjera = new FkMonedaViewModel();
+            string vCodigoMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            if (EmpresaUsaMonedaExtranjeraComoPredeterminada(ref insMonedaExtranjera)) {
+                vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityEquality, vCodigoMonedaLocal);
+                vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityEquality, insMonedaExtranjera.Codigo, eLogicOperatorType.Or);
             }
         }
 
@@ -2128,7 +2156,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     }*/
                     ExecuteAction();
                     if(DialogResult) {
-                        if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaCobroDirectoEnMultimoneda") == LibConvert.BoolToSN(true)) {
+                        bool vUsaCobroDirectoMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
+                        if(vUsaCobroDirectoMultimoneda || EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
                             CobroRapidoMultimonedaViewModel vViewModelCobroMultimoneda = new CobroRapidoMultimonedaViewModel(Action,FacturaRapidaACobrar,ListDeCobroMaster,_AlicuotaIvaASustituir,CambioMostrarTotalEnDivisas,false);
                             vViewModelCobroMultimoneda.XmlDatosImprFiscal = _XmlDatosImprFiscal;
                             vViewModelCobroMultimoneda.SeCobro += (arg) => vResultCobro = arg;
@@ -2580,26 +2609,27 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ActualizaTotalesDeFactura() {
             decimal vDescuento = (Model.PorcentajeDescuento / 100);
             if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida","UsaPrecioSinIva") == true) {
-                decimal vTotalMontoExento = DetailFacturaRapidaDetalle.MontoTotalExento(_CantidadDeDecimales);
+                decimal vTotalMontoExento = DetailFacturaRapidaDetalle.MontoTotalExento(3);
                 TotalMontoExento = CalcularDescuentoAlActualizarFactura(vTotalMontoExento,vDescuento);
-                MontoIvaAlicuota1 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaGeneral(_CantidadDeDecimales),vDescuento);
-                MontoGravableAlicuota1 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableGeneral(_CantidadDeDecimales),vDescuento);
-                MontoIvaAlicuota2 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaReducida(_CantidadDeDecimales),vDescuento);
-                MontoGravableAlicuota2 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableReducida(_CantidadDeDecimales),vDescuento);
-                MontoIvaAlicuota3 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaExtendida(_CantidadDeDecimales),vDescuento);
-                MontoGravableAlicuota3 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableExtendida(_CantidadDeDecimales),vDescuento);
+                MontoIvaAlicuota1 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaGeneral(3),vDescuento);
+                MontoGravableAlicuota1 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableGeneral(3),vDescuento);
+                MontoIvaAlicuota2 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaReducida(3),vDescuento);
+                MontoGravableAlicuota2 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableReducida(3),vDescuento);
+                MontoIvaAlicuota3 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaExtendida(3),vDescuento);
+                MontoGravableAlicuota3 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableExtendida(3),vDescuento);
 
                 TotalIVA = MontoIvaAlicuota1 + MontoIvaAlicuota2 + MontoIvaAlicuota3;
                 decimal vTotalBaseImponible = DetailFacturaRapidaDetalle.CalcularTotalMontoBaseImponible();
                 TotalBaseImponible = CalcularDescuentoAlActualizarFactura(vTotalBaseImponible,vDescuento);
                 TotalRenglones = vTotalMontoExento + vTotalBaseImponible;
                 TotalFactura = TotalMontoExento + TotalIVA + TotalBaseImponible;
-            } else {
-                decimal vTotalMontoExento = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoTotalExento(_CantidadDeDecimales),2);
 
-                MontoGravableAlicuota1 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableGeneralConIva(_CantidadDeDecimales),2);
-                MontoGravableAlicuota2 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableReducidaConIva(_CantidadDeDecimales),2);
-                MontoGravableAlicuota3 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableReducidaConIva(_CantidadDeDecimales),2);
+            } else {
+                decimal vTotalMontoExento = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoTotalExento(3),2);
+
+                MontoGravableAlicuota1 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableGeneralConIva(3),2);
+                MontoGravableAlicuota2 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableReducidaConIva(3),2);
+                MontoGravableAlicuota3 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableReducidaConIva(3),2);
 
                 MontoIvaAlicuota1 = LibMath.RoundToNDecimals(MontoGravableAlicuota1 - (MontoGravableAlicuota1 / (1 + (PorcentajeAlicuota1 / 100))),2);
                 MontoIvaAlicuota2 = LibMath.RoundToNDecimals(MontoGravableAlicuota2 - (MontoGravableAlicuota2 / (1 + (PorcentajeAlicuota2 / 100))),2);
@@ -2609,9 +2639,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 decimal vBI2 = MontoGravableAlicuota2 - MontoIvaAlicuota2;
                 decimal vBI3 = MontoGravableAlicuota3 - MontoIvaAlicuota3;
 
-                CalcularDescuentoCuandoPrecioVieneConIVA(vTotalMontoExento,vBI1,vBI2,vBI3,vDescuento);
-
-                //TotalFactura = TotalMontoExento + MontoGravableAlicuota1 + MontoGravableAlicuota2 + MontoGravableAlicuota3;
+                CalcularDescuentoCuandoPrecioVieneConIVA(vTotalMontoExento,vBI1,vBI2,vBI3,vDescuento);                               
 
                 TotalIVA = MontoIvaAlicuota1 + MontoIvaAlicuota2 + MontoIvaAlicuota3;
                 decimal vTotalBaseImponibleSinDescuento = vBI1 + vBI2 + vBI3;
@@ -2643,14 +2671,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 bool vYaExiste = DetailFacturaRapidaDetalle.Items.Any(i => i.Articulo == ConexionArticulo.Codigo);
                 bool vAcumularItemsEnRenglonesDeFactura = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida","AcumularItemsEnRenglonesDeFactura ");
                 if(!vAcumularItemsEnRenglonesDeFactura || !vYaExiste) {
-                    switch(_UsaListaDePrecioEnMonedaExtranjera) {
+                    bool vUsaDivisaMonedaPredeterminada = EmpresaUsaMonedaExtranjeraComoPredeterminada();
+                    bool vEsNecesarioUsarPrecioMe = _UsaListaDePrecioEnMonedaExtranjera || vUsaDivisaMonedaPredeterminada;
+                    switch (vEsNecesarioUsarPrecioMe) {
                     case true:
                         int vNivelDePrecio = 0;
                         decimal vMePrecioSinIva = 0;
                         decimal vMePrecioConIva = 0;
+                        decimal vCambio = vUsaDivisaMonedaPredeterminada ? 1 : CambioMostrarTotalEnDivisas;
                         vNivelDePrecio = new clsLibSaw().ObtenerNivelDePrecio(ConsecutivoCompania,CodigoCliente);
                         ObtenerPrecioConYSinIvaSegunNivelDePrecio(vNivelDePrecio,ref vMePrecioSinIva,ref vMePrecioConIva);
-                        DetailFacturaRapidaDetalle.InsertRow(Articulo,Descripcion,Cantidad,vMePrecioSinIva * CambioMostrarTotalEnDivisas,vMePrecioConIva * CambioMostrarTotalEnDivisas,(eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA,LibConvert.ToDec(ConexionArticulo.PorcentajeBaseImponible),ConexionArticulo.TipoDeArticulo,ConexionArticulo.TipoArticuloInv);
+                        DetailFacturaRapidaDetalle.InsertRow(Articulo,Descripcion,Cantidad,vMePrecioSinIva * vCambio,vMePrecioConIva * CambioMostrarTotalEnDivisas,(eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA,LibConvert.ToDec(ConexionArticulo.PorcentajeBaseImponible),ConexionArticulo.TipoDeArticulo,ConexionArticulo.TipoArticuloInv);
                         break;
                     case false:
                         DetailFacturaRapidaDetalle.InsertRow(Articulo,Descripcion,Cantidad,LibConvert.ToDec(ConexionArticulo.PrecioSinIVA),LibConvert.ToDec(ConexionArticulo.PrecioConIVA),(eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA,LibConvert.ToDec(ConexionArticulo.PorcentajeBaseImponible),ConexionArticulo.TipoDeArticulo,ConexionArticulo.TipoArticuloInv);
@@ -2821,6 +2852,31 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     AplicaDecretoIvaEspecial = false;
                     LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(this,"Para aplicar el Decreto del IVA al " + _PorcentajeAlicuotaEspecial.ToString() + " %, el cliente debe tener otro tipo de RIF.","Información");
                 }
+            }
+            return vResult;
+        }
+
+        private bool EsPosibleMostrarTasaDeCambio() {
+            bool vResult = false;
+            bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
+            bool vEsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro);
+            if(EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
+                vResult = true;
+            } else {
+                if(!LibString.IsNullOrEmpty(NombreMonedaDeCobro)) {
+                    if(vMuestraTotalEnDivisas || !vEsFacturaEnMonedaLocal) {
+                        vResult = true;
+                    }
+                }
+            }
+            return vResult;
+        }
+
+        private bool EsPosibleMostrarTotalEnDivisas() {
+            bool vResult = false;
+            bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
+            if (vMuestraTotalEnDivisas && !EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
+                vResult = true;
             }
             return vResult;
         }
@@ -3135,7 +3191,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vMoneda = CodigoMonedaDeCobro;
             }
             vConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda",LibSearchCriteria.CreateCriteriaFromText("Codigo",vMoneda));
-            bool vInsertarCambio = !_clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro) ? true : LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","SeMuestraTotalEnDivisas") ? true : false;
+            bool vInsertarCambio = EsNecesarioInsertarCambio();
             if(vInsertarCambio) {
                 decimal vTasa = 1;
                 DateTime vFecha = LibDate.Today();
@@ -3169,19 +3225,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
         private bool AsignarTasaDeCambio(bool valFacturaEnEspera,bool valEsMonedaLocal,decimal valTasa,DateTime valFecha) {
-            if(valFacturaEnEspera && !valEsMonedaLocal) {
-                if(CambioMostrarTotalEnDivisas != valTasa) {
-                    StringBuilder vMensaje = new StringBuilder();
-                    vMensaje.AppendLine("La factura que está cargando se guardó con Moneda de Cobro " + NombreMonedaDeCobro + ",");
-                    vMensaje.AppendLine(" con tasa de cambio " + LibConvert.ToStr(CambioMostrarTotalEnDivisas) + " el día " + LibConvert.ToStr(Fecha) + ".\n");
-                    vMensaje.AppendLine("La tasa de cambio actual para " + NombreMonedaDeCobro + " es " + LibConvert.ToStr(valTasa) + " del día " + LibConvert.ToStr(valFecha) + ".\n");
-                    vMensaje.AppendLine("¿Desea actualizar la tasa?");
-                    if(LibMessages.MessageBox.YesNo(this,vMensaje.ToString(),"Tasa de Cambio")) {
+            if (CambioMostrarTotalEnDivisas != valTasa) {
+                if (valFacturaEnEspera) {
+                    if(DeseaActualizarLaTasaDeCambioDeLaFacturaEnEspera(valEsMonedaLocal, valTasa, valFecha)) {
                         CambioMostrarTotalEnDivisas = valTasa;
                     }
+                } else {
+                    CambioMostrarTotalEnDivisas = valTasa;
                 }
-            } else if(CambioMostrarTotalEnDivisas == 1) {
+            } else if (CambioMostrarTotalEnDivisas == 1) {
                 CambioMostrarTotalEnDivisas = valTasa;
+            }
+            if (EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
+                CambioABolivares = valTasa;
             }
             return true;
         }
@@ -3210,26 +3266,47 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             Model.fldTimeStamp = vFacturaEnEspera.fldTimeStamp;
         }
 
+        decimal FactorBaseAlicuotaIva(eTipoDeAlicuota valTipoDeAlicuota) {
+            decimal vResult = 0;
+            switch(valTipoDeAlicuota) {
+            case eTipoDeAlicuota.Exento:
+                vResult = 1m;
+                break;
+            case eTipoDeAlicuota.AlicuotaGeneral:
+                vResult = 1 + (PorcentajeAlicuota1 / 100m);
+                break;
+            case eTipoDeAlicuota.Alicuota2:
+                vResult = 1 + (PorcentajeAlicuota2 / 100m);
+                break;
+            case eTipoDeAlicuota.Alicuota3:
+                vResult = 1 + (PorcentajeAlicuota3 / 100m);
+                break;
+            default:
+                vResult = 1 + (PorcentajeAlicuota1 / 100m);
+                break;
+            }
+            return vResult;
+        }
         private void ObtenerPrecioConYSinIvaSegunNivelDePrecio(int valNivelDePrecio,ref decimal valMePrecioSinIva,ref decimal valMePrecioConIva) {
             switch(valNivelDePrecio) {
             case 1:
-                valMePrecioSinIva = ConexionArticulo.MePrecioSinIva;
+                valMePrecioSinIva = ConexionArticulo.MePrecioConIva / FactorBaseAlicuotaIva((eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA);
                 valMePrecioConIva = ConexionArticulo.MePrecioConIva;
                 break;
             case 2:
-                valMePrecioSinIva = ConexionArticulo.MePrecioSinIva2;
+                valMePrecioSinIva = ConexionArticulo.MePrecioConIva2 / FactorBaseAlicuotaIva((eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA);
                 valMePrecioConIva = ConexionArticulo.MePrecioConIva2;
                 break;
             case 3:
-                valMePrecioSinIva = ConexionArticulo.MePrecioSinIva3;
+                valMePrecioSinIva = ConexionArticulo.MePrecioConIva3 / FactorBaseAlicuotaIva((eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA);
                 valMePrecioConIva = ConexionArticulo.MePrecioConIva3;
                 break;
             case 4:
-                valMePrecioSinIva = ConexionArticulo.MePrecioSinIva4;
+                valMePrecioSinIva = ConexionArticulo.MePrecioConIva4 / FactorBaseAlicuotaIva((eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA);
                 valMePrecioConIva = ConexionArticulo.MePrecioConIva4;
                 break;
             default:
-                valMePrecioSinIva = ConexionArticulo.MePrecioSinIva;
+                valMePrecioSinIva = ConexionArticulo.MePrecioConIva / FactorBaseAlicuotaIva((eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA);
                 valMePrecioConIva = ConexionArticulo.MePrecioConIva;
                 break;
             }
@@ -3265,6 +3342,86 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ActualizarValoresCuadrosDeBusqueda(ISearchBoxViewModel cuadroDeBusqueda,string valor) {
             cuadroDeBusqueda.Filter = valor;
             cuadroDeBusqueda.HideListCommand.Execute(null);
+        }
+
+        private bool EsNecesarioInsertarCambio() {
+            bool vResult = false;
+            bool vMuestraTotalEnDivisas = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SeMuestraTotalEnDivisas");
+            bool vUsaListaDePrecioEnMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
+            bool vEsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaDeCobro);
+            bool vEmpresaUsaMonedaExtranjeraPredeterminada = EmpresaUsaMonedaExtranjeraComoPredeterminada();
+            vResult = !vEsFacturaEnMonedaLocal || vMuestraTotalEnDivisas || vUsaListaDePrecioEnMonedaExtranjera || vEmpresaUsaMonedaExtranjeraPredeterminada;
+            return vResult;
+        }
+
+        private bool DeseaActualizarLaTasaDeCambioDeLaFacturaEnEspera(bool valEsMonedaLocal, decimal valTasa, DateTime valFecha) {
+            StringBuilder vMensaje = new StringBuilder(); 
+            if (!valEsMonedaLocal) {
+                vMensaje.Append("La factura que está cargando se guardó con Moneda de Cobro " + NombreMonedaDeCobro + ",");
+                vMensaje.AppendLine(" con tasa de cambio " + LibConvert.ToStr(CambioMostrarTotalEnDivisas) + " el día " + LibConvert.ToStr(Fecha)).AppendLine();
+                vMensaje.AppendLine("La tasa de cambio actual para " + NombreMonedaDeCobro + " es " + LibConvert.ToStr(valTasa) + " del día " + LibConvert.ToStr(valFecha)).AppendLine();
+            } else {
+                vMensaje.Append("La factura que está cargando se guardó con tasa de cambio " + LibConvert.ToStr(CambioMostrarTotalEnDivisas) + " el día " + LibConvert.ToStr(Fecha));
+                vMensaje.AppendLine(" y la tasa de cambio actual de la moneda extranjera es " + LibConvert.ToStr(valTasa) + " del día " + LibConvert.ToStr(valFecha)).AppendLine();
+            }
+            vMensaje.AppendLine("¿Desea actualizar la tasa de cambio?");
+            return LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Tasa de Cambio");
+        }
+        
+        private bool EmpresaUsaMonedaExtranjeraComoPredeterminada(ref FkMonedaViewModel refMonedaExtranjera) {
+            bool vResult = false;
+            bool vUsaMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera");
+            bool vUsaMonedaExtranjeraComoMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            if(vUsaMonedaExtranjera && vUsaMonedaExtranjeraComoMonedaPredeterminada && !LibString.IsNullOrEmpty(vCodigoMonedaExtranjera)) {
+                FkMonedaViewModel vConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaExtranjera));
+                refMonedaExtranjera = vConexionMoneda;
+                vResult = true;
+            }
+            return vResult;
+        }
+
+        private bool EmpresaUsaMonedaExtranjeraComoPredeterminada() {
+            bool vResult = false;
+            bool vUsaMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera");
+            bool vUsaMonedaExtranjeraComoMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
+            string vCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            if (vUsaMonedaExtranjera && vUsaMonedaExtranjeraComoMonedaPredeterminada && !LibString.IsNullOrEmpty(vCodigoMonedaExtranjera)) {
+                vResult = true;
+            }
+            return vResult;
+        }
+
+        private void AsignarMonedaDeCobroFacturaSegunCorresponda() {
+            FkMonedaViewModel insMonedaExtranjera = new FkMonedaViewModel();
+            if (EmpresaUsaMonedaExtranjeraComoPredeterminada(ref insMonedaExtranjera)) {
+                CodigoMonedaDeCobro = insMonedaExtranjera.Codigo;
+                NombreMonedaDeCobro = insMonedaExtranjera.Nombre;
+            } else {
+               CodigoMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+               NombreMonedaDeCobro = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+            }
+        }
+
+        private void AsignarMonedaDeFacturaSegunCorresponda() {
+            FkMonedaViewModel insMonedaExtranjera = new FkMonedaViewModel();
+            if (EmpresaUsaMonedaExtranjeraComoPredeterminada(ref insMonedaExtranjera)) {
+                CodigoMoneda = insMonedaExtranjera.Codigo;
+                SimboloMonedaDeFactura = insMonedaExtranjera.Simbolo;
+                Moneda = insMonedaExtranjera.Nombre;
+            } else {
+                CodigoMoneda = _clsNoComun.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+                SimboloMonedaDeFactura = _clsNoComun.InstanceMonedaLocalActual.SimboloMoneda(LibDate.Today());
+                Moneda = _clsNoComun.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+            }
+        }
+
+        private void NotificarQueNoPuedeFacturarEnOtraMoneda(FacturaRapida valFacturaEnEspera, FkMonedaViewModel valMonedaExtranjera) {
+            StringBuilder vMensajeAdvertencia = new StringBuilder();
+            vMensajeAdvertencia.Append($"La factura ({valFacturaEnEspera.Numero}) colocada en espera el dia {valFacturaEnEspera.Fecha.ToShortDateString()}");
+            vMensajeAdvertencia.AppendLine($" es una factura en {valFacturaEnEspera.Moneda.ToLower()} y su configuracin de parmetros espera procesar las facturas en espera en {valMonedaExtranjera.Nombre.ToLower()}.");
+            vMensajeAdvertencia.AppendLine($"Si desea procesar esta factura es necesario que desactive el parmetro \"Usa divisa como moneda principal de ingreso de datos\".");
+            LibMessages.MessageBox.Warning(this, vMensajeAdvertencia.ToString(), "Cargar Factura en Espera");
         }
 
     } //End of class FacturacionRapidaViewModel

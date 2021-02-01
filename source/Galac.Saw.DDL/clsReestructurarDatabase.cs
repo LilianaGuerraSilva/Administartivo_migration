@@ -615,16 +615,16 @@ namespace Galac.Saw.DDL {
                 if(HasToUpgradeToVersion("6.04")) {
                     vResult = vResult && new clsVersion6_04(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.05")) {
+                if(HasToUpgradeToVersion("6.05")) {
                     vResult = vResult && new clsVersion6_05(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.06")) {
+                if(HasToUpgradeToVersion("6.06")) {
                     vResult = vResult && new clsVersion6_06(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.07")) {
+                if(HasToUpgradeToVersion("6.07")) {
                     vResult = vResult && new clsVersion6_07(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.08")) {
+                if(HasToUpgradeToVersion("6.08")) {
                     vResult = vResult && new clsVersion6_08(_CurrentDataBaseName).UpdateToVersion();
                 }
                 if(HasToUpgradeToVersion("6.09")) {
@@ -633,11 +633,14 @@ namespace Galac.Saw.DDL {
                 if(HasToUpgradeToVersion("6.10")) {
                     vResult = vResult && new clsVersion6_10(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.11")) {
+                if(HasToUpgradeToVersion("6.11")) {
                     vResult = vResult && new clsVersion6_11(_CurrentDataBaseName).UpdateToVersion();
                 }
                 if(HasToUpgradeToVersion("6.12")) {
                     vResult = vResult && new clsVersion6_12(_CurrentDataBaseName).UpdateToVersion();
+                }
+                if(HasToUpgradeToVersion("6.13")) {
+                    vResult = vResult && new clsVersion6_13(_CurrentDataBaseName).UpdateToVersion();
                 }
                 vResult = vResult && new clsVersionTemporalNoOficial(_CurrentDataBaseName).UpdateToVersion();
                 //vResult = vResult && CreateLostFields();

@@ -28,6 +28,7 @@ namespace Galac.Saw.Ccl.SttDef {
         bool PuedeActivarModulo(string valCodigoMunicipio);
         string BuscaNombreMoneda(string valCodigoMoneda);
         int CopiarParametrosAdministrativos(int valConsecutivoCompaniaOrigen, int valConsecutivoCompaniaDestino);
+        bool ExistenCxPGeneradasDesdeCompra(int valConsecutivoCompania);
     }
 }
 

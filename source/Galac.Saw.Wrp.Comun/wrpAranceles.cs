@@ -18,7 +18,7 @@ namespace Galac.Saw.Wrp.Impuesto {
 
     [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpAranceles : System.EnterpriseServices.ServicedComponent, IWrpVb {
+    public class wrpAranceles : System.EnterpriseServices.ServicedComponent, IWrpArancelesVb {
         #region Variables
         string _Title = "Aranceles";
         ILibBusinessComponentWithSearch<IList<Aranceles>, IList<Aranceles>> _Reglas;
@@ -36,11 +36,20 @@ namespace Galac.Saw.Wrp.Impuesto {
         }
         #endregion //Constructores
         #region Metodos Generados
-        #region Miembros de IWrpVb
-        void IWrpVb.Execute(string vfwAction) {
+        #region Miembros de IWrpArancelesVb
+        void IWrpArancelesVb.Execute(string vfwAction, string vfwIsReInstall) {
             try {
-                ILibMenu insMenu = new Galac.Comun.Uil.Impuesto.clsArancelesMenu ();
-                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
+                ILibMenu insMenu = new Galac.Comun.Uil.Impuesto.clsArancelesMenu();
+                bool vIsInstall = (eAccionSR)new LibEAccionSR().ToInt(vfwAction) == eAccionSR.Instalar;
+                if (vIsInstall) {
+                    if (LibConvert.SNToBool(vfwIsReInstall)) {
+                        insMenu.Ejecuta(eAccionSR.ReInstalar, 1);
+                    } else {
+                        insMenu.Ejecuta(eAccionSR.Instalar, 1);
+                    }
+                } else {
+                    insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
+                }
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
             } catch (Exception vEx) {
@@ -51,7 +60,7 @@ namespace Galac.Saw.Wrp.Impuesto {
             }
         }
 
-        void IWrpVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
+        void IWrpArancelesVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
@@ -63,7 +72,7 @@ namespace Galac.Saw.Wrp.Impuesto {
             }
         }
 
-        void IWrpVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
+        void IWrpArancelesVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
                 LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
@@ -76,7 +85,7 @@ namespace Galac.Saw.Wrp.Impuesto {
             }
         }
 
-        void IWrpVb.InitializeContext(string vfwInfo) {
+        void IWrpArancelesVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
             } catch (Exception vEx) {
@@ -87,7 +96,7 @@ namespace Galac.Saw.Wrp.Impuesto {
             }
         }
 
-        string IWrpVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
+        string IWrpArancelesVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
             LibSearch insLibSearch = new LibSearch();
             List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
@@ -110,7 +119,7 @@ namespace Galac.Saw.Wrp.Impuesto {
             }
             return "";
         }
-        #endregion //Miembros de IWrpVb
+        #endregion //Miembros de IWrpArancelesVb
         void RegisterDefaultTypesIfMissing() {
             LibGalac.Aos.Uil.LibMessagesHandler.RegisterMessages();
         }

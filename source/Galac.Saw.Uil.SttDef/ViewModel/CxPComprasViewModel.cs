@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Xml.Linq;
+using System.Text;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.DefGen;
@@ -81,6 +82,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.GenerarCxPdesdeCompraAsBool != value) {
                     Model.GenerarCxPdesdeCompraAsBool = value;
                     IsDirty = true;
+                    AdvertirQuePoseeCxPGeneradasDesdeCompra();
                     RaisePropertyChanged(GenerarCxpDesdeCompraPropertyName);
                 }
             }
@@ -174,6 +176,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
         #endregion //Propiedades
+        #region Variables
+        private bool _GenerarCxPDesdeCompraOriginal;
+        #endregion
         #region Constructores
         public CxPComprasViewModel()
             : this(new ComprasStt(), eAccionSR.Insertar) {
@@ -181,6 +186,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CxPComprasViewModel(ComprasStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ImprimirOrdenDeCompraPropertyName;
+            _GenerarCxPDesdeCompraOriginal = initModel.GenerarCxPdesdeCompraAsBool;
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -294,7 +300,27 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
+        private void AdvertirQuePoseeCxPGeneradasDesdeCompra() {
+            ISettValueByCompanyPdn insParametrosByCompany = new clsSettValueByCompanyNav();
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            bool vExistenCxPGeneradasDesdeCompra = insParametrosByCompany.ExistenCxPGeneradasDesdeCompra(vConsecutivoCompania);
+            StringBuilder vMensaje = new StringBuilder();
+            vMensaje.Append("Desactivar este parámetro puede traer inconsistencias");
+            vMensaje.AppendLine(" en sus Cuentas por Pagar (CxP) generadas desde compras.");
+            vMensaje.AppendLine("Si necesita más información, comuníquese con Gálac Software.\n");
+            vMensaje.Append("Presione \"Si\" para continuar.");
 
+            if (Action == eAccionSR.Modificar) {
+                if (_GenerarCxPDesdeCompraOriginal && !Model.GenerarCxPdesdeCompraAsBool && vExistenCxPGeneradasDesdeCompra) {
+                    bool vDesactivarParametro = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), "Parámetro \"Generar CxP desde Compra\"");
+                    if(vDesactivarParametro == true) {
+                        GenerarCxpDesdeCompra = false;
+                    } else {
+                        GenerarCxpDesdeCompra = true;
+                    }
+                }
+            }
+        }
     } //End of class CxPComprasViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef

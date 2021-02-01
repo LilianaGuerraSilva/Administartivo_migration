@@ -319,6 +319,18 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
+        protected override void ExecuteCreateCommand() {
+            OrdenDeCompraViewModel vViewModel = CreateNewElement(new OrdenDeCompra(), eAccionSR.Insertar);
+            string vCodigoMonedaExtranjera = vViewModel.TipoModulo == eTipoCompra.Importacion ? "USD" : LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            bool vUsaDivisaComoMonedaPrincipalDeIngresoDeDatos = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"));
+            if(!vUsaDivisaComoMonedaPrincipalDeIngresoDeDatos) {
+                base.ExecuteCreateCommand();
+            } else if((vUsaDivisaComoMonedaPrincipalDeIngresoDeDatos || vViewModel.TipoModulo == eTipoCompra.Importacion) && vViewModel.AsignaTasaDelDia(vCodigoMonedaExtranjera)) {
+                base.ExecuteCreateCommand();
+            } else {
+                LibMessages.MessageBox.Information(this, "No se puede continuar sin establecer la Tasa de Cambio del día.", "Debe insertar una tasa de cambio válida.");
+            }
+        }
     } //End of class CompraMngViewModel
 
 } //End of namespace Galac.Adm.Uil.GestionCompras

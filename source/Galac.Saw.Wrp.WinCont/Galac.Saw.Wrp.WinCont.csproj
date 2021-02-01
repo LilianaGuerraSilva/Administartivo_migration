@@ -110,8 +110,7 @@
       <HintPath>..\..\binLibAos\LibGalac.Aos.Uil.Usal.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Vbwa">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\binLibAos\LibGalac.Aos.Vbwa.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Vbwa.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Cswa">
       <SpecificVersion>False</SpecificVersion>

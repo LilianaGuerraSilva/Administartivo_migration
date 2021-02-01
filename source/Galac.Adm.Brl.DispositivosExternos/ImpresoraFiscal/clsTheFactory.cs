@@ -21,8 +21,8 @@ using System.Reflection;
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsTheFactory:IImpresoraFiscalPdn {
         #region constantes
-        const string VersionApi = "1.7.4.8";
-        const string DllApiName = @"\TfhkaNet.dll";
+        const string VersionApi = "1.7.5.0";
+        const string DllApiName = @"TfhkaNet.dll";
         #endregion
 
         #region variables
@@ -686,7 +686,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"CodigoFormaDelCobro"));
                         vFormatoDeCobro = FormaDeCobro(vMedioDePago);
                         vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"Monto"));
-                        if(LibConvert.ToDec(vMonto) > 0) {
+                        if(LibImportData.ToDec(vMonto) > 0) {
                             vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto,_EnterosParaPagos,_DecimalesParaPagos);
                             vCmd = "2" + vFormatoDeCobro + vMonto;
                         } else {
@@ -958,12 +958,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vIsSameVersion = false;
             string vVersion = "";
             string vDir = "";            
-#if  DEBUG
-            vDir = LibApp.AppPath() + DllApiName;            
-#else
-    vDir = System.IO.Path.Combine(LibApp.AppPath(),"CDP") + DllApiName;
-#endif
-                        
+            vDir = System.IO.Path.Combine(LibApp.AppPath()+"CDP",DllApiName);                        
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
