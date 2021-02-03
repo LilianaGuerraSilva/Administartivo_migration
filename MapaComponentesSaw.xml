@@ -237,8 +237,8 @@
     <Microsoft.Practices.Unity.Interception>2.0.414.0</Microsoft.Practices.Unity.Interception>
     <AxInterop.VMAXOCX>3.0.0.0</AxInterop.VMAXOCX>
     <Interop.VMAXOCX>3.0.0.0</Interop.VMAXOCX>
-    <TfhkaNet>1.7.4.8</TfhkaNet>
-    <pnpdll>10.2.1.2</pnpdll>
+    <TfhkaNet>1.7.5.0</TfhkaNet>
+    <pnpdll>10.2.1.10</pnpdll>
     <FpCtrl>2.3.1.5</FpCtrl>	
     <RibbonControlsLibrary>4.0.0.11019</RibbonControlsLibrary>
     <Microsoft.Windows.Shell>3.5.41019.1</Microsoft.Windows.Shell>
