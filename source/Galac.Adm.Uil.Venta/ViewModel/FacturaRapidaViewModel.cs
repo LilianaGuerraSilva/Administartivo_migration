@@ -1884,10 +1884,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vFacturaEnEspera = BusinessComponent.GetData(eProcessMessageType.SpName,"FacturaRapidaGET",vParams.Get(),UseDetail).FirstOrDefault();
             if(vFacturaEnEspera != null) {
                 bool vPuedeContinuar = true;
-                bool EsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(vFacturaEnEspera.CodigoMoneda);
-                FkMonedaViewModel vMonedaExtranjera = new FkMonedaViewModel();
-                if (EsFacturaEnEspera && EsFacturaEnMonedaLocal && EmpresaUsaMonedaExtranjeraComoPredeterminada(ref vMonedaExtranjera)) {
-                    NotificarQueNoPuedeFacturarEnOtraMoneda(vFacturaEnEspera, vMonedaExtranjera);
+                FkMonedaViewModel vMoneda = new FkMonedaViewModel();
+                if (EsFacturaEnEspera && !EsPosibleCargarFacturaEnEspera(ref vFacturaEnEspera, ref vMoneda)) {
+                    NotificarQueNoPuedeFacturarEnOtraMoneda(vFacturaEnEspera, vMoneda);
                     RecargarValoresDeFactura(new FacturaRapida());
                     vPuedeContinuar = false;
                 }
@@ -1897,6 +1896,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         AplicaDecretoIvaEspecial = false;
                     }
                     CambioMostrarTotalEnDivisas = vFacturaEnEspera.CambioMostrarTotalEnDivisas;
+                    Fecha = LibDate.Today();
                     InitializeLookAndFeel(GetModel());
                     DetailFacturaRapidaDetalle = new FacturaRapidaDetalleMngViewModel(this, Model.DetailFacturaRapidaDetalle, Action);
                     if (!EsValidaFacturaParaDecretoIvaEspecial()) {
@@ -3416,11 +3416,30 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        private void NotificarQueNoPuedeFacturarEnOtraMoneda(FacturaRapida valFacturaEnEspera, FkMonedaViewModel valMonedaExtranjera) {
+        private bool EsPosibleCargarFacturaEnEspera(ref FacturaRapida refFacturaEnEspera, ref FkMonedaViewModel refMonedaExtranjera) {
+            bool vResult = true;
+            bool EsFacturaEnMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.EsMonedaLocalDelPais(refFacturaEnEspera.CodigoMoneda);
+            if (EsFacturaEnMonedaLocal && EmpresaUsaMonedaExtranjeraComoPredeterminada(ref refMonedaExtranjera)) {
+                vResult = false;
+            } else if(!EsFacturaEnMonedaLocal && !EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
+                string vCodigoMonedaExtranjera = _clsNoComun.InstanceMonedaLocalActual.GetHoyCodigoMoneda();
+                FkMonedaViewModel vConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaExtranjera));
+                refMonedaExtranjera = vConexionMoneda;
+                vResult = false;
+            }
+            return vResult;
+        }
+
+        private void NotificarQueNoPuedeFacturarEnOtraMoneda(FacturaRapida valFacturaEnEspera, FkMonedaViewModel valMoneda) {
             StringBuilder vMensajeAdvertencia = new StringBuilder();
+            string vCodigoMonedaLocal = _clsNoComun.InstanceMonedaLocalActual.GetHoyCodigoMoneda();
             vMensajeAdvertencia.Append($"La factura ({valFacturaEnEspera.Numero}) colocada en espera el dia {valFacturaEnEspera.Fecha.ToShortDateString()}");
-            vMensajeAdvertencia.AppendLine($" es una factura en {valFacturaEnEspera.Moneda.ToLower()} y su configuracin de parmetros espera procesar las facturas en espera en {valMonedaExtranjera.Nombre.ToLower()}.");
-            vMensajeAdvertencia.AppendLine($"Si desea procesar esta factura es necesario que desactive el parmetro \"Usa divisa como moneda principal de ingreso de datos\".");
+            vMensajeAdvertencia.AppendLine($" es una factura en {valFacturaEnEspera.Moneda.ToLower()} y su configuracin de parámetros espera procesar las facturas en espera en {valMoneda.Nombre.ToLower()}.");
+            if(LibString.S1IsEqualToS2(valMoneda.Codigo, vCodigoMonedaLocal)) {
+                vMensajeAdvertencia.AppendLine($"Si desea procesar esta factura es necesario que active el parámetro \"Usa divisa como moneda principal de ingreso de datos\".");
+            } else {
+                vMensajeAdvertencia.AppendLine($"Si desea procesar esta factura es necesario que desactive el parámetro \"Usa divisa como moneda principal de ingreso de datos\".");
+            }
             LibMessages.MessageBox.Warning(this, vMensajeAdvertencia.ToString(), "Cargar Factura en Espera");
         }
 
