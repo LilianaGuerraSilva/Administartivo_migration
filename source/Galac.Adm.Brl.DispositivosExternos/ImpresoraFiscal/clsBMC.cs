@@ -890,8 +890,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             System.Windows.Forms.MessageBox.Show(vDir,"");            
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
-            vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
-            vResult = vIsSameVersion;            
+            vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir,vVersion,VersionApi);
+            vResult = vIsSameVersion;
             return vResult;
         }
 

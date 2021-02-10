@@ -89,7 +89,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         #endregion
 
         #region constantes
-        const string VersionApi = "10.2.1.2";
+        const string VersionApi = "10.2.1.10";
         const string DllApiName = @"PNPDLL.dll";
         #endregion
 
@@ -336,13 +336,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vMensaje = "";
             try {
                 AbrirConexion();
-                vResult = PFrepz();
-                vEstatus = CheckRequest(vResult,ref vMensaje);
+                vResult = PFrepz();                
                 Thread.Sleep(400);
-                CerrarConexion();
-                if(!vEstatus) {
-                    throw new GalacException(vMensaje,eExceptionManagementType.Controlled);
-                }
+                CerrarConexion();                
                 return vEstatus;
             } catch(Exception vEx) {
                 throw vEx;
@@ -355,12 +351,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vMensaje = "";
             try {
                 AbrirConexion();
-                vResult = PFrepx();
-                vEstatus = CheckRequest(vResult,ref vMensaje);
-                CerrarConexion();
-                if(!vEstatus) {
-                    throw new GalacException(vMensaje,eExceptionManagementType.Controlled);
-                }
+                vResult = PFrepx();                
+                CerrarConexion();                
                 return vEstatus;
             } catch(Exception vEx) {
                 throw vEx;
@@ -497,25 +489,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private bool AbrirComprobanteFiscal(XElement valDocumentoFiscal) {
             try {
                 string vRazonSocial = LibText.Trim(LibXml.GetPropertyString(valDocumentoFiscal,"NombreCliente"));
-                string vRif = LibString.Left(LibXml.GetPropertyString(valDocumentoFiscal,"NumeroRIF"),12);               
-                string vRazonSocialCont = "";
+                string vRif = LibString.Left(LibXml.GetPropertyString(valDocumentoFiscal,"NumeroRIF"),12);
                 bool vEstado = false;
                 string vRepuesta = "";
                 string vMensaje = "";
                 AjustarAnchoDeLineaSegunModelo();
-                if(LibString.Len(vRazonSocial) > 38) {
-                    vRazonSocialCont = "NOMBRE:" + vRazonSocial; 
-                    vRazonSocial = LibText.FillWithCharToLeft("","\u0020",20);
-                }
                 vRepuesta = PFabrefiscal(vRazonSocial,vRif);
-                vEstado = CheckRequest(vRepuesta,ref vMensaje);                
-                if(LibString.Len(vRazonSocialCont) > 0) {
-                    vRazonSocial = LibString.Left(vRazonSocialCont,_MaxCantidadCaracteres);
-                    vRazonSocialCont = LibString.SubString(vRazonSocialCont,_MaxCantidadCaracteres,_MaxCantidadCaracteres);
-                    PFTfiscal(vRazonSocial);
-                    PFTfiscal(vRazonSocialCont);
-                    PFTfiscal(LineaSeparador());
-                }
+                vEstado = CheckRequest(vRepuesta,ref vMensaje);
                 if(!vEstado) {
                     throw new GalacException("error al abrir comprobante fiscal " + vMensaje,eExceptionManagementType.Controlled);
                 }
@@ -787,36 +767,46 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vMonto = string.Empty;
             decimal vMontoDec = 0;
             string vMensaje = string.Empty;
-            bool vEstado = false;
+            bool vEstado = true;
             string vResult = string.Empty;
             decimal vTotalMontosPagados = 0;
             decimal vTotalFacturaDec = 0;
             string vTotalFacturaStr = string.Empty;
             decimal vMontoDiferencia = 0;
+            decimal vCambioABs = 0;
 
             try {
+                vCambioABs = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago,"CambioABolivares"));
                 vTotalFacturaStr = LibXml.GetPropertyString(valMedioDePago,"TotalFactura");
                 vTotalFacturaStr = SetDecimalSeparator(vTotalFacturaStr,_DecimalesParaMonto);
-                vTotalFacturaDec = LibMath.Abs(LibImportData.ToDec(vTotalFacturaStr,3));
+                vTotalFacturaDec = LibMath.Abs(LibImportData.ToDec(vTotalFacturaStr,3)) * vCambioABs;
                 List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").ToList();
                 if(vNodos.Count > 1) {
                     foreach(XElement vXElement in vNodos) {
-                        vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"CodigoFormaDelCobro"));
-                        vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"Monto"));
+                        vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"CodigoFormaDelCobro"));                        
                         vMedioDePago = FormaDeCobro(vMedioDePago);
+                        vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"Monto"));
                         vMontoDec = LibImportData.ToDec(vMonto,3);
                         vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto,_EnterosParaMonto,_DecimalesParaMonto,".");
                         vTotalMontosPagados += vMontoDec;
                         vResult = PFTfiscal(vMedioDePago + " : Bs " + LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDec,2));
-                        vEstado = CheckRequest(vResult,ref vMensaje);
+                        vEstado &= CheckRequest(vResult,ref vMensaje);
                     }
                 } else {
-                    return true;
+                    XElement vElement = vNodos.ElementAt(0);
+                    vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vElement,"Monto"));
+                    vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vElement,"CodigoFormaDelCobro"));
+                    vMedioDePago = FormaDeCobro(vMedioDePago);
+                    vTotalMontosPagados = LibImportData.ToDec(vMonto,3);
+                    if(LibMath.Abs(vTotalFacturaDec - vTotalMontosPagados) > 0.01M) {
+                        vResult = PFTfiscal(vMedioDePago + " : Bs " + LibImpresoraFiscalUtil.DecimalToStringFormat(vTotalMontosPagados,2));
+                        vEstado &= CheckRequest(vResult,ref vMensaje);
+                    }
                 }
                 vMontoDiferencia = LibMath.Abs(vTotalFacturaDec - vTotalMontosPagados);
                 if(vMontoDiferencia > 0.01M) {
                     vResult = PFTfiscal("Cambio Bs : " + LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDiferencia,2));
-                    vEstado = CheckRequest(vResult,ref vMensaje);
+                    vEstado &= CheckRequest(vResult,ref vMensaje);
                 }
                 return vEstado;
             } catch(Exception vEx) {
@@ -843,26 +833,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vSerialMaquina = LibXml.GetPropertyString(valDocumentoFiscal,"SerialMaquinaFiscal");
             string vFecha = LibXml.GetPropertyString(valDocumentoFiscal,"Fecha");
             string vHora = LibXml.GetPropertyString(valDocumentoFiscal,"HoraModificacion");
-            string vRazonSocialCont = "";
             vFecha = LibGalac.Aos.Base.LibString.Replace(vFecha,"-","/");
             vFecha = LibConvert.ToStr(LibConvert.ToDate(vFecha),"dd/MM/yy");
             vRif = LibText.SubString(vRif,0,12);
             string vReq = "";
             string vMensaje = "";
             AjustarAnchoDeLineaSegunModelo();
-            if(LibString.Len(vRazonSocial) > 38) {
-                vRazonSocialCont = "NOMBRE:" + vRazonSocial;
-                vRazonSocial = LibText.FillWithCharToLeft("","\u0020",20);
-            }
             vReq = PFDevolucion(vRazonSocial,vRif,vNumFactura,vSerialMaquina,vFecha,vHora);
             vResult = CheckRequest(vReq,ref vMensaje);
-            if(LibString.Len(vRazonSocialCont) > 0) {
-                vRazonSocial = LibString.Left(vRazonSocialCont,_MaxCantidadCaracteres);
-                vRazonSocialCont = LibString.SubString(vRazonSocialCont,_MaxCantidadCaracteres,_MaxCantidadCaracteres);
-                PFTfiscal(vRazonSocial);
-                PFTfiscal(vRazonSocialCont);
-                PFTfiscal(LineaSeparador());
-            }
             if(!vResult) {
                 throw new GalacException("error al abrir la nota de crédito " + vMensaje,eExceptionManagementType.Controlled);
             }
@@ -1056,7 +1034,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vDir = System.IO.Path.Combine(LibApp.AppPath()+"CDP",DllApiName);
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
-            vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
+            vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir,vVersion,VersionApi);
             vResult = vIsSameVersion;
             return vResult;
         }
