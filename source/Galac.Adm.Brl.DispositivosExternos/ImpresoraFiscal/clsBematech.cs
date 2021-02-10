@@ -1107,14 +1107,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             } else {
                 vDir = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\BemaFi32.dll";
             }
+            string vDllVersionModel = VersionApi1; // (vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI ? VersionApi2 : VersionApi1);
             vResult = LibFile.FileExists(vDir);
             if(vResult) {
                 vResult &= LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
                 vIsSameVersion = (vVersion == VersionApi1 || vVersion == VersionApi2);
-                vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
+                vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir,vVersion,vDllVersionModel);
                 vResult = vIsSameVersion;
             } else {
-                vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
+                vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir,vVersion,vDllVersionModel);
             }
             return vResult;
         }

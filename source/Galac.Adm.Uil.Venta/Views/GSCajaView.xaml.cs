@@ -31,19 +31,24 @@ namespace Galac.Adm.Uil.Venta.Views {
         }
 
         private void cmbFamiliaDeMaquinaFiscal_SelectionChanged(object sender,SelectionChangedEventArgs e) {
-            var ViewModel = ((CajaViewModel)DataContext);            
-            Galac.Adm.Uil.Venta.ViewModel.CajaViewModel vViewModel = DataContext as Galac.Adm.Uil.Venta.ViewModel.CajaViewModel;
-            ViewModel.LlenarEnumerativosImpresoraFiscal();
-            ViewModel.MoverFocoSiCambiaTab();
+            var vViewModel = ((CajaViewModel)DataContext);            
+            eImpresoraFiscal vMaquinaFiscal = vViewModel.ModeloDeMaquinaFiscal;            
+            vViewModel.LlenarEnumerativosImpresoraFiscal();
+            vMaquinaFiscal = vViewModel.ListarMaquinaFiscal.Contains(vMaquinaFiscal) ? vMaquinaFiscal : vViewModel.ListarMaquinaFiscal[0];
+            vViewModel.MoverFocoSiCambiaTab();
             if(LibString.IsNullOrEmpty(cmbModeloDeMaquinaFiscal.Text) && (vViewModel.Action == eAccionSR.Insertar || vViewModel.Action == eAccionSR.Modificar)) {
-                vViewModel.ModeloDeMaquinaFiscal = vViewModel.ListarMaquinaFiscal[0];
+                vViewModel.ModeloDeMaquinaFiscal = vMaquinaFiscal;
             }
         }
 
         private void cmbModeloDeMaquinaFiscal_SelectionChangedEventHandler(object sender,SelectionChangedEventArgs e) {
             var vViewModel = ((CajaViewModel)DataContext);
-            if(LibString.IsNullOrEmpty(cmbModeloDeMaquinaFiscal.Text) && (vViewModel.Action == eAccionSR.Insertar|| vViewModel.Action == eAccionSR.Modificar)) {
-                vViewModel.ModeloDeMaquinaFiscal = vViewModel.ListarMaquinaFiscal[0];
+            eImpresoraFiscal vMaquinaFiscal = vViewModel.ModeloDeMaquinaFiscal;
+            if(vViewModel.ListarMaquinaFiscal.Count > 0) {
+                vMaquinaFiscal = vViewModel.ListarMaquinaFiscal.Contains(vMaquinaFiscal) ? vMaquinaFiscal : vViewModel.ListarMaquinaFiscal[0];
+            }
+            if(LibString.IsNullOrEmpty(cmbModeloDeMaquinaFiscal.Text) && (vViewModel.Action == eAccionSR.Insertar || vViewModel.Action == eAccionSR.Modificar)) {
+                vViewModel.ModeloDeMaquinaFiscal = vMaquinaFiscal;
             }
         }
 

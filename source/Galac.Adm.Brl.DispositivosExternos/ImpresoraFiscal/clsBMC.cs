@@ -885,13 +885,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vResult = false;
             bool vIsSameVersion = false;
             string vVersion = "";
-            string vDir = "";                         
-            vDir = System.IO.Path.Combine(LibApp.AppPath()+"CDP",DllApiName);
-            System.Windows.Forms.MessageBox.Show(vDir,"");            
+            string vDir = "";
+
+            vDir = System.IO.Path.Combine(LibApp.AppPath() + "CDP",DllApiName);
+            System.Windows.Forms.MessageBox.Show(vDir,"");
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
-            vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
-            vResult = vIsSameVersion;            
+            vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir,vVersion,VersionApi);
+            vResult = vIsSameVersion;
             return vResult;
         }
 

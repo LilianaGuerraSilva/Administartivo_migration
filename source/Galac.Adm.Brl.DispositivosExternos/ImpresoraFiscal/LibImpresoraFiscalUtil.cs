@@ -87,11 +87,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 throw new LibGalac.Aos.Catching.GalacWrapperException("El formato del Xml Generado para el documento Fiscal no es valido, Nodo " + valNombreNodo,vEx);
             }
         }
-        
-        public static string DarFormatoNumericoParaImpresion(string valNumero,int valCantidadEnteros,int valCantidadDecimales,string WithDecimalSeparator = "") {            
+
+        public static string DarFormatoNumericoParaImpresion(string valNumero,int valCantidadEnteros,int valCantidadDecimales,string WithDecimalSeparator = "") {
             string vValorFinal = "";
-            decimal vDecimalValue = 0;            
-            valNumero = LibText.Trim(valNumero);            
+            decimal vDecimalValue = 0;
+            valNumero = LibText.Trim(valNumero);
             valNumero = SetDecimalSeparator(valNumero);
             vDecimalValue = LibMath.RoundToNDecimals(LibImportData.ToDec(valNumero),valCantidadDecimales);
             vDecimalValue = LibMath.Abs(vDecimalValue);
@@ -99,6 +99,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vValorFinal = vDecimalValue.ToString(CultureInfo.InvariantCulture);
             if(LibString.Len(WithDecimalSeparator) > 0) {
                 vValorFinal = LibString.InsertAt(vValorFinal,WithDecimalSeparator,LibString.Len(vValorFinal) - valCantidadDecimales);
+                vValorFinal = (vDecimalValue == 0) ? "0" + WithDecimalSeparator + "00" : vValorFinal;
             } else {
                 vValorFinal = LibText.FillWithCharToLeft(vValorFinal,"0",LibConvert.ToByte(valCantidadEnteros + valCantidadDecimales));
             }
@@ -207,9 +208,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return valStatus ? "Correcto, en espera" : "No se pudo establecer comunicación, verifícar puertos y cableados";
         }
 
-        public static string EstatusVersionDeControladorDescription(bool valStatus,bool valControllerIsSame,string valPath) {
+        public static string EstatusVersionDeControladorDescription(bool valStatus,bool valControllerIsSame,string valPath, string valOldVersion, string valNewVersion) {
             if(valStatus) {
-                return valControllerIsSame ? "Controladores Actualizados" : "Controladores No  Actualizados, actualice el controaldor en la ruta de instalación " + valPath;
+                return valControllerIsSame ? "Controladores Actualizados" : $"Controladores No  Actualizados. Se encontró {valOldVersion}, se esperaba {valNewVersion} \r\nactualice el controlador en la ruta de instalación " + valPath;
 
             } else {
                 return "Controlador no encontrado, actualice el controaldor en la ruta de instalación";
