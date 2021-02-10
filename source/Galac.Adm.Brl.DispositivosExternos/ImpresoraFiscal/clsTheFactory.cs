@@ -958,10 +958,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vIsSameVersion = false;
             string vVersion = "";
             string vDir = "";            
-            vDir = System.IO.Path.Combine(LibApp.AppPath()+"CDP",DllApiName);                        
+            vDir = System.IO.Path.Combine(LibApp.AppPath()+"CDP",DllApiName);            
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
-            vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir);
+            vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir,vVersion,VersionApi);
             vResult = vIsSameVersion;            
             return vResult;
         }

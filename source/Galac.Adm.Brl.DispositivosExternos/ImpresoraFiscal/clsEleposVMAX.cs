@@ -399,8 +399,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vMontoDescuento = (vMonto * vCantidad) - vMontoDescuento;
                     vMontoDctoFormat = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDescuento,_DecimalParaMonto),_EnterosParaMonto,_DecimalParaMonto);
                     //
-                    vMontoDctoTotal = CalcularMontoDescuentoTotal(vMontoDescuento,vCantidad,vMonto,vPrcDescuentoTotal);
-                    TotalizarDescuentoGlobalPorAlicuota(vTipoTasa,vMontoDctoTotal,ref vMontoDescuentoAlicuotaG,ref vMontoDescuentoAlicuotaA,ref vMontoDescuentoAlicuotaR,ref vMontoDescuentoAlicuotaE);
+                    if(vPrcDescuentoTotal > 0) {
+                        vMontoDctoTotal = CalcularMontoDescuentoTotal(vMontoDescuento,vCantidad,vMonto,vPrcDescuentoTotal);
+                        TotalizarDescuentoGlobalPorAlicuota(vTipoTasa,vMontoDctoTotal,ref vMontoDescuentoAlicuotaG,ref vMontoDescuentoAlicuotaA,ref vMontoDescuentoAlicuotaR,ref vMontoDescuentoAlicuotaE);
+                    }
                     //
                     vSerial = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"Serial"));
                     vRollo = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"Rollo"));
