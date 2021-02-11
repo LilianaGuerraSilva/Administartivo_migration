@@ -26,7 +26,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         protected override bool CanExecuteCobrarCommand() {
-            return XmlDatosImprFiscal != null;            
+            return XmlDatosImprFiscal != null;
         }
 
 
@@ -37,8 +37,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             set {
                 _XmlDatosImprFiscal = value;
             }
-        }      
-        
+        }
+
         #endregion
 
         #region Metodos
@@ -48,51 +48,51 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             string vSerialMaquinaFiscal = "";
             string vComprobanteFiscal = "";
             try {
-                XElement xElementFacturaRapida = DarFormatoADatosDeFactura(insFactura, valListDeCobro);
-                if (vResult) {
+                XElement xElementFacturaRapida = DarFormatoADatosDeFactura(insFactura,valListDeCobro);
+                if(vResult) {
                     vResult = false;
-                    ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(_XmlDatosImprFiscal, xElementFacturaRapida, eTipoDocumentoFiscal.FacturaFiscal);
-                    LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel, true);
+                    ImpresoraFiscalViewModel insImpresoraFiscalViewModel = new ImpresoraFiscalViewModel(_XmlDatosImprFiscal,xElementFacturaRapida,eTipoDocumentoFiscal.FacturaFiscal);
+                    LibMessages.EditViewModel.ShowEditor(insImpresoraFiscalViewModel,true);
                     vSerialMaquinaFiscal = insImpresoraFiscalViewModel.SerialImpresoraFiscal;
                     vComprobanteFiscal = insImpresoraFiscalViewModel.NumeroComprobante;
                     vResult = insImpresoraFiscalViewModel.SeImprimioDocumento;
                 }
-                if (vResult) {
-                    ActualizarCamposEnFactura(xElementFacturaRapida, vComprobanteFiscal, vSerialMaquinaFiscal, valListDeCobro);
+                if(vResult) {
+                    ActualizarCamposEnFactura(xElementFacturaRapida,vComprobanteFiscal,vSerialMaquinaFiscal,valListDeCobro);
                 }
-            } catch (GalacException vEx) {
+            } catch(GalacException vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
             return vResult;
         }
 
-        private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobro) {
+        private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura,List<RenglonCobroDeFactura> valListDeCobro) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw();
             List<RenglonCobroDeFactura> vCloneListCobro = valListDeCobro.Select(t => t.Clone()).ToList();
             XElement vResult = null;
             XElement xElementFacturaRapida = LibParserHelper.ParseToXElement(valFactura);
             XElement xElementGpDataDetailRenglonFactura = new XElement("GpDataDetailRenglonFactura");
-            decimal Diferencia = 0;           
+            decimal Diferencia = 0;
             bool vAplicaIvaEspecial = LibConvert.SNToBool(LibXml.GetPropertyString(xElementFacturaRapida,"AplicaDecretoIvaEspecial"));
             int vParametro = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida","AplicarIVAEspecial");
             decimal vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida,"TotalFactura"));
             decimal vTotalPagos = 0;
             foreach(var item in valFactura.DetailFacturaRapidaDetalle) {
                 item.PrecioSinIVA = item.PrecioSinIVA * valFactura.CambioABolivares;
-                XElement xDetail = LibParserHelper.ParseToXElement(item);                
+                XElement xDetail = LibParserHelper.ParseToXElement(item);
                 XElement xElementGpResultDetailRenglonFactura = new XElement("GpResultDetailRenglonFactura");
-                if (vAplicaIvaEspecial) {
+                if(vAplicaIvaEspecial) {
                     var detalle = xDetail.Descendants("GpResult")
                         .Where(s => (eTipoDeAlicuota)LibConvert.ToInt(s.Element("AlicuotaIva").Value) == eTipoDeAlicuota.AlicuotaGeneral)
                         .FirstOrDefault();
-                    if (detalle != null) {
+                    if(detalle != null) {
                         detalle.Element("AlicuotaIva").SetValue(LibConvert.EnumToDbValue((int)_AlicuotaIvaASustituir));
                     }
                 }
                 xElementGpResultDetailRenglonFactura.Add(xDetail.Descendants("GpResult").Elements());
                 xElementGpDataDetailRenglonFactura.Add(xElementGpResultDetailRenglonFactura);
-            }           
-            DarFormatoNumericoARenglonCantidad(xElementGpDataDetailRenglonFactura, valFactura);
+            }
+            DarFormatoNumericoARenglonCantidad(xElementGpDataDetailRenglonFactura,valFactura);
             DarFormatoASerialyRollo(xElementGpDataDetailRenglonFactura);
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonFactura);
 
@@ -101,33 +101,37 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 renglon.Monto *= renglon.CambioAMonedaLocal;
             }
             if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaCobroDirectoEnMultimoneda") && vCloneListCobro.Count > 1) {
+                Diferencia = TotalFactura - vTotalPagos;
                 vTotalPagos = vCloneListCobro.Sum(s => s.Monto);
                 if(TotalFactura > vTotalPagos) {
-                    Diferencia = TotalFactura - vTotalPagos;
-                    vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())
-                                   .FirstOrDefault().Monto += Diferencia;
+                    var xPago = vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()).FirstOrDefault();
+                    if(xPago != null) {
+                        xPago.Monto += Diferencia;
+                    }                    
                 } else if(vTotalPagos > TotalFactura) {
-                    Diferencia = vTotalPagos - TotalFactura;
-                    vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())
-                                   .FirstOrDefault().Monto -= Diferencia;
+                    Diferencia = vTotalPagos - TotalFactura;                    
+                    var xPago = vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()).FirstOrDefault();
+                    if(xPago != null) {
+                        xPago.Monto += Diferencia;
+                    }
                 }
             } else if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaCobroDirectoEnMultimoneda") && vCloneListCobro[0].Monto < TotalFactura && vCloneListCobro.Count == 1) {
                 vCloneListCobro[0].Monto = TotalFactura;
             }
 
-            foreach(var item in vCloneListCobro) {  
+            foreach(var item in vCloneListCobro) {
                 XElement xDetail = LibParserHelper.ParseToXElement(item);
                 XElement xElementGpResultDetailRenglonCobro = new XElement("GpResultDetailRenglonCobro");
                 xElementGpResultDetailRenglonCobro.Add(xDetail.Descendants("GpResult").Elements());
                 xElementGpDataDetailRenglonCobro.Add(xElementGpResultDetailRenglonCobro);
-            }            
+            }
             if(valFactura.CodigoMonedaDeCobro != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()) {
-                string vTotalesEnDivisas = MostrarTotalesEnDivisasImprFiscal(valFactura);                
+                string vTotalesEnDivisas = MostrarTotalesEnDivisasImprFiscal(valFactura);
                 XElement xTotalesEnDivisa = new XElement("TotalMonedaExtranjera",vTotalesEnDivisas);
                 xElementFacturaRapida.Element("GpResult").Add(xTotalesEnDivisa);
             }
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonCobro);
-            DarFormatoAFechasEnFactura(xElementFacturaRapida, insFactura);
+            DarFormatoAFechasEnFactura(xElementFacturaRapida,insFactura);
             vResult = xElementFacturaRapida;
             return vResult;
         }
@@ -155,7 +159,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 bool vDivisaMonedaPredeterminada = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaMonedaExtranjera") &&
                                                            LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaDivisaComoMonedaPrincipalDeIngresoDeDatos");
                 vResult.AppendLine("Cambio del día " + LibConvert.NumToString(vCambioEnBs,2));
-                vCambioEnBs = vDivisaMonedaPredeterminada ? 1 : vCambioEnBs;                
+                vCambioEnBs = vDivisaMonedaPredeterminada ? 1 : vCambioEnBs;
                 if(valFactura.TotalMontoExento > 0) {
                     vMontoExento = valFactura.TotalMontoExento / vCambioEnBs;
                     vTexto = DarFormatoATotalesEnDivisaImprFiscal(LibConvert.NumToString(vMontoExento,2),vSimboloMonedaMe,"Exento",eTipoDeAlicuota.Exento,false);
@@ -197,10 +201,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private string DarFormatoATotalesEnDivisaImprFiscal(string valMonto,string valSimboloMoneda,string valPorcentajeAlicuota,eTipoDeAlicuota valAlicuota,bool valEsBaseImponibleOIva) {
             string TextoSalida = "";
             int FinTexto;
-            string vTexto="";            
+            string vTexto = "";
             int InicioMonto;
             string vSimboloAlicuota = ((valAlicuota == eTipoDeAlicuota.Exento) ? "" : (valAlicuota == eTipoDeAlicuota.AlicuotaGeneral) ? "G " : (valAlicuota == eTipoDeAlicuota.Alicuota2) ? "R " : (valAlicuota == eTipoDeAlicuota.Alicuota3) ? "A " : "");
-            string vSimboloItem =  (valAlicuota==eTipoDeAlicuota.Exento)?"":(valEsBaseImponibleOIva ? "BI  " : "IVA ");
+            string vSimboloItem = (valAlicuota == eTipoDeAlicuota.Exento) ? "" : (valEsBaseImponibleOIva ? "BI  " : "IVA ");
             vTexto = vSimboloItem + vSimboloAlicuota + valPorcentajeAlicuota + " " + (valAlicuota == eTipoDeAlicuota.Exento ? "" : "%") + " " + valSimboloMoneda;
             TextoSalida = LibString.NCar('\u0020',40);
             FinTexto = LibString.Len(vTexto);
@@ -210,39 +214,39 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return TextoSalida;
         }
 
-        private void DarFormatoAFechasEnFactura(XElement valXlmFacturaRapida, FacturaRapida valFacturaRapida) {
+        private void DarFormatoAFechasEnFactura(XElement valXlmFacturaRapida,FacturaRapida valFacturaRapida) {
             var vXml = valXlmFacturaRapida.Descendants("GpResult");
-            foreach (var vItem in vXml) {
+            foreach(var vItem in vXml) {
                 XElement vXElemet = vItem.Element("Fecha");
-                if (vXElemet != null) {
+                if(vXElemet != null) {
                     vXElemet.Value = LibConvert.ToStr(valFacturaRapida.Fecha);
                 }
             }
         }
 
-        private void DarFormatoNumericoARenglonCantidad(XElement valXlmRenglonFactura, FacturaRapida valFacturaRapida) {
+        private void DarFormatoNumericoARenglonCantidad(XElement valXlmRenglonFactura,FacturaRapida valFacturaRapida) {
             var vXml = valXlmRenglonFactura.Descendants("GpResultDetailRenglonFactura");
             int vFila = 0;
-            foreach (var vItem in vXml) {
+            foreach(var vItem in vXml) {
                 XElement vXElemet = vItem.Element("Cantidad");
-                vXElemet.Value = LibConvert.ToStr(valFacturaRapida.DetailFacturaRapidaDetalle[vFila].Cantidad, 3);
+                vXElemet.Value = LibConvert.ToStr(valFacturaRapida.DetailFacturaRapidaDetalle[vFila].Cantidad,3);
                 vFila++;
             }
         }
 
         private void DarFormatoASerialyRollo(XElement valXlmRenglonFactura) {
             var vXml = valXlmRenglonFactura.Descendants("GpResultDetailRenglonFactura");
-            foreach (var vItem in vXml) {
+            foreach(var vItem in vXml) {
                 XElement vXElemet = vItem.Element("Rollo");
-                if (vXElemet.Value == "0") {
+                if(vXElemet.Value == "0") {
                     vXElemet.Value = "";
                 }
                 vXElemet = vItem.Element("Serial");
-                if (vXElemet.Value == "0") {
+                if(vXElemet.Value == "0") {
                     vXElemet.Value = "";
                 }
             }
-        }       
+        }
         #endregion
 
     }
