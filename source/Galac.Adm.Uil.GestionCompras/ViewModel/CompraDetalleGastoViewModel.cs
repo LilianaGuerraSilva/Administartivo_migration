@@ -268,7 +268,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                         bool vExisteCambioDelDía = ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Master.Fecha, out  vCambio);
                         if(!vExisteCambioDelDía) {
                             vCambio = 1;
-                            CambioViewModel vViewModel = new CambioViewModel(CodigoMoneda);
+                            bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
+                            bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                            decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
+                            CambioViewModel vViewModel = new CambioViewModel(CodigoMoneda,vUsarLimiteMaximoParaIngresoDeTasaDeCambio,vMaximoLimitePermitidoParaLaTasaDeCambio,vElProgramaEstaEnModoAvanzado);                            
                             vViewModel.InitializeViewModel(eAccionSR.Insertar);
                             vViewModel.FechaDeVigencia = Master.Fecha;
                             vViewModel.IsEnabledFecha = vViewModel.IsEnabledMoneda = false;
