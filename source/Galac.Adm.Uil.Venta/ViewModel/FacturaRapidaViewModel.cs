@@ -2303,6 +2303,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteria("dbo.Gv_ArticuloInventario_B1.Codigo",valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("dbo.Gv_ArticuloInventario_B1.ConsecutivoCompania",LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("TipoArticuloInv",eTipoArticuloInv.Simple),eLogicOperatorType.And);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo", eStatusArticulo.Vigente), eLogicOperatorType.And);
                 var vConexionArticulo = ChooseRecord<FkArticuloInventarioViewModel>("Articulo Inventario",vDefaultCriteria,vFixedCriteria,string.Empty);
                 if(vConexionArticulo != null) {
                     if(_UsaPrecioEnCodigo && vPrecioBase != 0) {
