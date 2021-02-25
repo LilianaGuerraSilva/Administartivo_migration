@@ -35,7 +35,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private const string UsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName = "UsarLimiteMaximoParaIngresoDeTasaDeCambio";
         private const string MaximoLimitePermitidoParaLaTasaDeCambioPropertyName = "MaximoLimitePermitidoParaLaTasaDeCambio";
         private const string IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambioPropertyName = "IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambio";
-
+        private const string IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName = "IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambio";        
         #endregion
 
         #region Variables
@@ -122,6 +122,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     UsaDivisaComoMonedaPrincipalDeIngresoDeDatos = value == false ? false : UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
                     RaisePropertyChanged(UsaMonedaExtranjeraPropertyName);
                     RaisePropertyChanged(IsEnabledDatosMonedaExtrangeraPropertyName);
+                    RaisePropertyChanged(IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName);
                     LibMessages.Notification.Send<bool>(Model.UsaMonedaExtranjeraAsBool,UsaMonedaExtranjeraPropertyName);
                 }
             }
@@ -257,7 +258,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambio {
             get {
-                return IsEnabled && AppMemoryInfo.GlobalValuesGetBool("Parametros","EsUsuarioSupervisor");
+                return IsEnabled && UsaMonedaExtranjera && AppMemoryInfo.GlobalValuesGetBool("Parametros","EsUsuarioSupervisor");
             }
         }
 
