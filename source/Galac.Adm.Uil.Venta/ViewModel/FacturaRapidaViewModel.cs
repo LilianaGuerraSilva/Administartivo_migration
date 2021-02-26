@@ -3214,16 +3214,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool SolicitarTasaDeCambio(string valMoneda,DateTime valFecha,FkMonedaViewModel valConexionMoneda) {
             bool vResult = false;
-            CambioViewModel vViewModel = new CambioViewModel(valMoneda);
+            bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
+            bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+            decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");            
+            CambioViewModel vViewModel = new CambioViewModel(valMoneda,vUsarLimiteMaximoParaIngresoDeTasaDeCambio,vMaximoLimitePermitidoParaLaTasaDeCambio,vElProgramaEstaEnModoAvanzado);
             vViewModel.InitializeViewModel(eAccionSR.Insertar);
             vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
             vViewModel.FechaDeVigencia = valFecha;
             vViewModel.IsEnabledFecha = false;
             vViewModel.CodigoMoneda = valConexionMoneda.Codigo;
             vViewModel.NombreMoneda = valConexionMoneda.Nombre;
-            vResult = LibMessages.EditViewModel.ShowEditor(vViewModel,true);
+            vResult = LibMessages.EditViewModel.ShowEditor(vViewModel,true);          
             return vResult;
         }
+
         private bool AsignarTasaDeCambio(bool valFacturaEnEspera,bool valEsMonedaLocal,decimal valTasa,DateTime valFecha) {
             if (CambioMostrarTotalEnDivisas != valTasa) {
                 if (valFacturaEnEspera) {

@@ -10,7 +10,7 @@ using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.Ccl.SttDef {
     [Serializable]
-    public class MonedaStt : ISettDefinition {
+    public class MonedaStt:ISettDefinition {
 
         #region Variables
 
@@ -23,6 +23,8 @@ namespace Galac.Saw.Ccl.SttDef {
         private string _CodigoMonedaExtranjera;
         private string _NombreMonedaExtranjera;
         private bool _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
+        private bool _UsarLimiteMaximoParaIngresoDeTasaDeCambio;
+        private decimal _MaximoLimitePermitidoParaLaTasaDeCambio;
         private long _fldTimeStamp;
         XmlDocument _datos;
 
@@ -42,12 +44,12 @@ namespace Galac.Saw.Ccl.SttDef {
 
         public string CodigoMonedaLocal {
             get { return _CodigoMonedaLocal; }
-            set { _CodigoMonedaLocal = LibString.Mid(value, 0, 4); }
+            set { _CodigoMonedaLocal = LibString.Mid(value,0,4); }
         }
 
         public string NombreMonedaLocal {
             get { return _NombreMonedaLocal; }
-            set { _NombreMonedaLocal = LibString.Mid(value, 0, 80); }
+            set { _NombreMonedaLocal = LibString.Mid(value,0,80); }
         }
 
         public bool UsaMonedaExtranjeraAsBool {
@@ -69,7 +71,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string SolicitarIngresoDeTasaDeCambioAlEmitirAsDB {
-            get { return LibConvert.EnumToDbValue((int) _SolicitarIngresoDeTasaDeCambioAlEmitir); }
+            get { return LibConvert.EnumToDbValue((int)_SolicitarIngresoDeTasaDeCambioAlEmitir); }
         }
 
         public string SolicitarIngresoDeTasaDeCambioAlEmitirAsString {
@@ -78,17 +80,28 @@ namespace Galac.Saw.Ccl.SttDef {
 
         public string CodigoMonedaExtranjera {
             get { return _CodigoMonedaExtranjera; }
-            set { _CodigoMonedaExtranjera = LibString.Mid(value, 0, 4); }
+            set { _CodigoMonedaExtranjera = LibString.Mid(value,0,4); }
         }
 
         public string NombreMonedaExtranjera {
             get { return _NombreMonedaExtranjera; }
-            set { _NombreMonedaExtranjera = LibString.Mid(value, 0, 80); }
+            set { _NombreMonedaExtranjera = LibString.Mid(value,0,80); }
         }
 
         public bool UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool {
             get { return _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos; }
             set { _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos = value; }
+        }
+
+        public bool UsarLimiteMaximoParaIngresoDeTasaDeCambio {
+            get { return _UsarLimiteMaximoParaIngresoDeTasaDeCambio; }
+            set { _UsarLimiteMaximoParaIngresoDeTasaDeCambio = value; }
+        }
+
+        public decimal MaximoLimitePermitidoParaLaTasaDeCambio {
+            get { return _MaximoLimitePermitidoParaLaTasaDeCambio; }
+            set { _MaximoLimitePermitidoParaLaTasaDeCambio = value; }
+
         }
 
         public long fldTimeStamp {
@@ -125,6 +138,8 @@ namespace Galac.Saw.Ccl.SttDef {
             CodigoMonedaExtranjera = "";
             NombreMonedaExtranjera = "";
             UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = false;
+            UsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
+            MaximoLimitePermitidoParaLaTasaDeCambio = 30m;
             fldTimeStamp = 0;
         }
 
@@ -137,23 +152,24 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.CodigoMonedaExtranjera = _CodigoMonedaExtranjera;
             vResult.NombreMonedaExtranjera = _NombreMonedaExtranjera;
             vResult.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
+            vResult.UsarLimiteMaximoParaIngresoDeTasaDeCambio = _UsarLimiteMaximoParaIngresoDeTasaDeCambio;
+            vResult.MaximoLimitePermitidoParaLaTasaDeCambio = _MaximoLimitePermitidoParaLaTasaDeCambio;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
 
         public override string ToString() {
-           return "Código = " + _CodigoMonedaLocal +
-               "\nNombre Moneda Local = " + _NombreMonedaLocal +
-               "\nUsa Moneda Extranjera = " + _UsaMonedaExtranjera +
-               "\nSolicitar Ingreso De Tasa De Cambio Al Emitir = " + _SolicitarIngresoDeTasaDeCambioAlEmitir.ToString() +
-               "\nCodigo Moneda Extranjera = " + _CodigoMonedaExtranjera +
-               "\nNombre Moneda Extranjera = " + _NombreMonedaExtranjera +
-               "\nUsa Divisa como Moneda Principal de Ingreso de Datos = " + _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
+            return "Código = " + _CodigoMonedaLocal +
+                "\nNombre Moneda Local = " + _NombreMonedaLocal +
+                "\nUsa Moneda Extranjera = " + _UsaMonedaExtranjera +
+                "\nSolicitar Ingreso De Tasa De Cambio Al Emitir = " + _SolicitarIngresoDeTasaDeCambioAlEmitir.ToString() +
+                "\nCodigo Moneda Extranjera = " + _CodigoMonedaExtranjera +
+                "\nNombre Moneda Extranjera = " + _NombreMonedaExtranjera +
+                "\nUsa Divisa como Moneda Principal de Ingreso de Datos = " + _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos +
+                "\nUsar Limite Máximo Para Ingreso De Tasa De Cambio = " + _UsarLimiteMaximoParaIngresoDeTasaDeCambio +
+                 "\nMáximo Limite Permitido Para La Tasa De Cambio = " + _MaximoLimitePermitidoParaLaTasaDeCambio;
         }
-
         #endregion //Metodos Generados
-
-
     } //End of class MonedaStt
 
 } //End of namespace Galac.Saw.Ccl.SttDef

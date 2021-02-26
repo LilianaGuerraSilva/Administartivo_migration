@@ -1132,7 +1132,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     CambioAMonedaLocal = vTasa;
                     return true;
                 } else {
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda);
+                    bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
+                    bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
+                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda,vUsarLimiteMaximoParaIngresoDeTasaDeCambio,vMaximoLimitePermitidoParaLaTasaDeCambio,vElProgramaEstaEnModoAvanzado);                    
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
                     vViewModel.FechaDeVigencia = Fecha;
