@@ -386,7 +386,7 @@ namespace Galac.Saw.ViewModel {
                 new XElement("CodigoMonedaExtranjera","USD"),
                 new XElement("UsaListaDePrecioEnMonedaExtranjera","S"),
                 new XElement("UsaCobroDirectoEnMultimoneda","N"),
-                new XElement("CuentaBancariaCobroMultimoneda","EXT"),
+                new XElement("CuentaBancariaCobroMultimoneda","00004"),
                 new XElement("ConceptoBancarioCobroMultimoneda","60340"),
                 new XElement("EsModoAvanzado","N"),
                 new XElement("UsarLimiteMaximoParaIngresoDeTasaDeCambio","S"),
