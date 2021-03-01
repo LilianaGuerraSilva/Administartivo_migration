@@ -41,7 +41,7 @@
             <CheckBox Grid.Row="0" Grid.Column="1" Name="chkAcumularItemsEnRenglonesDeFactura" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=AcumularItemsEnRenglonesDeFactura}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
             <Label Grid.Row="1" Grid.Column="0" Name="lblUsaClienteGenericoAlFacturar" Content="Usar Cliente Genérico al facturar..............................." Style="{StaticResource LabelPrompt}" />
             <CheckBox Grid.Row="1" Grid.Column="1" Name="chkUsaClienteGenericoAlFacturar" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaClienteGenericoAlFacturar}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
-            <Label Grid.Row="2" Grid.Column="0" Name="lblUsarBalanza" Content="Usar Balanza Electónica............................................." Style="{StaticResource LabelPrompt}" />
+            <Label Grid.Row="2" Grid.Column="0" Name="lblUsarBalanza" Content="Usar Balanza Electrónica............................................." Style="{StaticResource LabelPrompt}" />
             <CheckBox Grid.Row="2" Grid.Column="1" Name="chkUsarBalanza" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsarBalanza}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
             <Label
 	        Name="lblUsaBusquedaDinamicaEnPuntoDeVenta"

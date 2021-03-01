@@ -137,7 +137,7 @@
             <Label
                 Grid.Row="4"
                 Grid.Column="0"
-                Content="Usar Divisa como Moneda Principal de Ingreso de Datos"
+                Content="Usar Moneda Extranjera como Moneda Preferida de Operación"
                 IsEnabled="{Binding Path=IsEnabledDatosMonedaExtrangera}"
                 Style="{StaticResource LabelPrompt}" />
             <CheckBox
