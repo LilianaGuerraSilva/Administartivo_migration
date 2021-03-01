@@ -915,7 +915,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("	AS");
             SQL.AppendLine("	(SELECT art.Codigo, art.Descripcion");
             SQL.AppendLine("	FROM ArticuloInventario art ");
-            SQL.AppendLine("	WHERE art.ConsecutivoCompania=@consecutivoCompania AND art.[Descripcion] LIKE '%' + @filtro + '%'");
+            SQL.AppendLine("	WHERE art.StatusdelArticulo = " + InsSql.EnumToSqlValue((int)eStatusArticulo.Vigente));
+            SQL.AppendLine("	AND art.ConsecutivoCompania=@consecutivoCompania");
             SQL.AppendLine("	AND art.[Descripcion] LIKE '%' + @filtro + '%'");
             SQL.AppendLine("	AND art.[Codigo] NOT LIKE 'RD_%'");
             SQL.AppendLine("	),");
@@ -934,7 +935,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("	AS");
             SQL.AppendLine("	(SELECT art.Codigo, art.Descripcion");
             SQL.AppendLine("	FROM ArticuloInventario art ");
-            SQL.AppendLine("	WHERE art.ConsecutivoCompania=@consecutivoCompania AND art.[Codigo] LIKE '%' + @filtro + '%'");
+            SQL.AppendLine("	WHERE art.StatusdelArticulo = "+ InsSql.EnumToSqlValue((int)eStatusArticulo.Vigente));
+            SQL.AppendLine("	AND art.ConsecutivoCompania=@consecutivoCompania");
             SQL.AppendLine("	AND art.[Codigo] LIKE '%' + @filtro + '%'");
             SQL.AppendLine("	AND art.[Codigo] NOT LIKE 'RD_%'");
             SQL.AppendLine("	),");
