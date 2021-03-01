@@ -17,7 +17,7 @@ namespace Galac.Saw.Lib.Uil {
         private const string FilterPropertyName = "Filter";
         private const string CurrentPagePropertyName = "CurrentPage";
         private const string ListVisibilityPropertyName = "ListVisibility";
-        private const string IsControlVisiblePropertyName = "IsContrlVisible";
+        private const string IsControlVisiblePropertyName = "IsControlVisible";
         private const string SelectedItemPropertyName = "SelectedItem";
         private const string ItemsListPropertyName = "ItemsList";
         private const string IsEnabledPropertyName = "IsEnabled";
