@@ -833,7 +833,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return ValidationResult.Success;
             } else {
                 if(UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
-                    vResult = new ValidationResult($"No es posible usar el parámetro {this.ModuleName} - Generar CxC en Moneda Extranjera si a su vez está activo el parámetro {this.ModuleName} - Cobro Directo.");
+                    vResult = new ValidationResult($"No es posible activar los parámetros \"{this.ModuleName} - Generar CxC en Moneda Extranjera\" y \"{this.ModuleName} - Cobro Directo\" simultaneamente. Para hacer uso del parámetro \"Cobro Directo\", por favor desactive \"Generar CXC en Moneda Extranjera\".");
                 }
             }
             return vResult;
