@@ -120,8 +120,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if(Model.UsaMonedaExtranjeraAsBool != value) {
                     Model.UsaMonedaExtranjeraAsBool = value;
                     UsaDivisaComoMonedaPrincipalDeIngresoDeDatos = value == false ? false : UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
+                    UsarLimiteMaximoParaIngresoDeTasaDeCambio = value == false ? false : UsarLimiteMaximoParaIngresoDeTasaDeCambio;
                     RaisePropertyChanged(UsaMonedaExtranjeraPropertyName);
                     RaisePropertyChanged(IsEnabledDatosMonedaExtrangeraPropertyName);
+                    RaisePropertyChanged(UsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName);
                     RaisePropertyChanged(IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName);
                     LibMessages.Notification.Send<bool>(Model.UsaMonedaExtranjeraAsBool,UsaMonedaExtranjeraPropertyName);
                 }
