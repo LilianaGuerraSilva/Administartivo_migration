@@ -2617,45 +2617,28 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ActualizaTotalesDeFactura() {
             decimal vDescuento = (Model.PorcentajeDescuento / 100);
-            if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida","UsaPrecioSinIva") == true) {
-                decimal vTotalMontoExento = DetailFacturaRapidaDetalle.MontoTotalExento(3);
-                TotalMontoExento = CalcularDescuentoAlActualizarFactura(vTotalMontoExento,vDescuento);
-                MontoIvaAlicuota1 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaGeneral(3),vDescuento);
-                MontoGravableAlicuota1 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableGeneral(3),vDescuento);
-                MontoIvaAlicuota2 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaReducida(3),vDescuento);
-                MontoGravableAlicuota2 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableReducida(3),vDescuento);
-                MontoIvaAlicuota3 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoIvaExtendida(3),vDescuento);
-                MontoGravableAlicuota3 = CalcularDescuentoAlActualizarFactura(DetailFacturaRapidaDetalle.MontoGravableExtendida(3),vDescuento);
+            // Para evitar problemas con decimales, se obtiene el PrcioSinIVA calculado a raiz del PrecioConIVA
+            decimal vTotalMontoExento = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoTotalExento(3),2);
 
-                TotalIVA = MontoIvaAlicuota1 + MontoIvaAlicuota2 + MontoIvaAlicuota3;
-                decimal vTotalBaseImponible = DetailFacturaRapidaDetalle.CalcularTotalMontoBaseImponible();
-                TotalBaseImponible = CalcularDescuentoAlActualizarFactura(vTotalBaseImponible,vDescuento);
-                TotalRenglones = vTotalMontoExento + vTotalBaseImponible;
-                TotalFactura = TotalMontoExento + TotalIVA + TotalBaseImponible;
+            MontoGravableAlicuota1 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableGeneralConIva(3),2);
+            MontoGravableAlicuota2 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableReducidaConIva(3),2);
+            MontoGravableAlicuota3 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableExtendidaConIva(3),2);
 
-            } else {
-                decimal vTotalMontoExento = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoTotalExento(3),2);
+            MontoIvaAlicuota1 = LibMath.RoundToNDecimals(MontoGravableAlicuota1 - (MontoGravableAlicuota1 / (1 + (PorcentajeAlicuota1 / 100))),2);
+            MontoIvaAlicuota2 = LibMath.RoundToNDecimals(MontoGravableAlicuota2 - (MontoGravableAlicuota2 / (1 + (PorcentajeAlicuota2 / 100))),2);
+            MontoIvaAlicuota3 = LibMath.RoundToNDecimals(MontoGravableAlicuota3 - (MontoGravableAlicuota3 / (1 + (PorcentajeAlicuota3 / 100))),2);
 
-                MontoGravableAlicuota1 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableGeneralConIva(3),2);
-                MontoGravableAlicuota2 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableReducidaConIva(3),2);
-                MontoGravableAlicuota3 = LibMath.RoundToNDecimals(DetailFacturaRapidaDetalle.MontoGravableReducidaConIva(3),2);
+            decimal vBI1 = MontoGravableAlicuota1 - MontoIvaAlicuota1;
+            decimal vBI2 = MontoGravableAlicuota2 - MontoIvaAlicuota2;
+            decimal vBI3 = MontoGravableAlicuota3 - MontoIvaAlicuota3;
 
-                MontoIvaAlicuota1 = LibMath.RoundToNDecimals(MontoGravableAlicuota1 - (MontoGravableAlicuota1 / (1 + (PorcentajeAlicuota1 / 100))),2);
-                MontoIvaAlicuota2 = LibMath.RoundToNDecimals(MontoGravableAlicuota2 - (MontoGravableAlicuota2 / (1 + (PorcentajeAlicuota2 / 100))),2);
-                MontoIvaAlicuota3 = LibMath.RoundToNDecimals(MontoGravableAlicuota3 - (MontoGravableAlicuota3 / (1 + (PorcentajeAlicuota3 / 100))),2);
+            CalcularDescuentoCuandoPrecioVieneConIVA(vTotalMontoExento,vBI1,vBI2,vBI3,vDescuento);                               
 
-                decimal vBI1 = MontoGravableAlicuota1 - MontoIvaAlicuota1;
-                decimal vBI2 = MontoGravableAlicuota2 - MontoIvaAlicuota2;
-                decimal vBI3 = MontoGravableAlicuota3 - MontoIvaAlicuota3;
-
-                CalcularDescuentoCuandoPrecioVieneConIVA(vTotalMontoExento,vBI1,vBI2,vBI3,vDescuento);                               
-
-                TotalIVA = MontoIvaAlicuota1 + MontoIvaAlicuota2 + MontoIvaAlicuota3;
-                decimal vTotalBaseImponibleSinDescuento = vBI1 + vBI2 + vBI3;
-                TotalBaseImponible = MontoGravableAlicuota1 + MontoGravableAlicuota2 + MontoGravableAlicuota3;
-                TotalFactura = TotalMontoExento + TotalBaseImponible + TotalIVA;
-                TotalRenglones = vTotalMontoExento + vTotalBaseImponibleSinDescuento;
-            }
+            TotalIVA = MontoIvaAlicuota1 + MontoIvaAlicuota2 + MontoIvaAlicuota3;
+            decimal vTotalBaseImponibleSinDescuento = vBI1 + vBI2 + vBI3;
+            TotalBaseImponible = MontoGravableAlicuota1 + MontoGravableAlicuota2 + MontoGravableAlicuota3;
+            TotalFactura = TotalMontoExento + TotalBaseImponible + TotalIVA;
+            TotalRenglones = vTotalMontoExento + vTotalBaseImponibleSinDescuento;
             CalcularTotalDescuento();
             TotalDeItems = DetailFacturaRapidaDetalle.Items.Sum(p => p.Cantidad);
         }
