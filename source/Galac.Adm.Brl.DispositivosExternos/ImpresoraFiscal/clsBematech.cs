@@ -166,10 +166,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         #endregion
 
         #region Constantes
-        const string VersionApi1 = "5, 4, 1, 0";
-        const string VersionApi2 = "5, 4, 1, 24";
+        const string MinVersionApi = "5, 4, 1, 0";
+        const string MaxVersionApi = "5, 4, 1, 29";
         const string DllApiName = @"BemaFI32.dll";               
         const byte _EnterosMontosLargos = 10;
+        const byte _EnterosCantidad = 4;
         const byte _EnterosMontosCortos = 2;
         const byte _Decimales3Digitos = 3;                
         const byte _Decimales2Digitos = 2;
@@ -719,6 +720,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
+        private string FormatoCantidadBematech(string valCantidadInput, string valDecimalSep) {
+            string vResult = "";                
+            vResult = LibText.ExtractUntilSeparatorAndCut(ref valCantidadInput,valDecimalSep);
+            vResult = LibText.Left(vResult,_EnterosCantidad)+valDecimalSep + valCantidadInput;
+            return vResult;
+        }
+
         private bool ImprimirTodosLosArticulos(XElement valDocumentoFiscal) {
             bool vEstatus = false;
             int vResultado = 0;
@@ -731,7 +739,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vPrcDescuento;
             string vPorcentajeAlicuota = "";
             const string vFormatoCantidad = "F";
-            const int vCantidaDecimales = 3;
+            const int vCantidaDecimales = 2;
             const string vFormatoDescuento = "%";
             string vSerial;
             string vRollo;
@@ -742,13 +750,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 List<XElement> vRecord = valDocumentoFiscal.Descendants("GpResultDetailRenglonFactura").ToList();
                 foreach(XElement vXElement in vRecord) {
                     PrintStatus = EstadoDelPapel(false);
-                    vCodigo = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Descripcion"),0,12);
+                    vCodigo = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Articulo"),0,12);
                     vDescripcionResumida = LibImpresoraFiscalUtil.CadenaCaracteresValidos(LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Descripcion"),0,29));
                     vDescripcionExtendida = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Descripcion"),0,150);
                     vCantidad = LibXml.GetElementValueOrEmpty(vXElement,"Cantidad");
-                    vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad,_EnterosMontosLargos,_Decimales3Digitos,","); //DarFormatoNumericoParaImpresion(vCantidad);
+                    vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad,_EnterosCantidad,_Decimales3Digitos,",");
+                    vCantidad = FormatoCantidadBematech(vCantidad,",");
                     vMonto = LibXml.GetElementValueOrEmpty(vXElement,"PrecioSinIVA");
-                    vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto,_EnterosMontosLargos,_Decimales3Digitos,",");//DarFormatoNumericoParaImpresion(vMonto);
+                    vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto,_EnterosMontosLargos,_Decimales2Digitos,",");
                     vTipoAlicuota = (eTipoDeAlicuota)LibConvert.DbValueToEnum(LibXml.GetElementValueOrEmpty(vXElement,"AlicuotaIva"));
                     vPorcentajeAlicuota = LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeAlicuota");
                     vPorcentajeAlicuota = DarFormatoNumericoYCompletaConCero(vPorcentajeAlicuota,vTipoAlicuota,_EnterosMontosCortos,_Decimales2Digitos,true);
@@ -763,21 +772,21 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vRollo = "\u0020" + LibText.SubString(vRollo,0,20);
                     }
                     vDescripcionExtendida = vDescripcionExtendida + (LibString.IsNullOrEmpty(vSerial) ? "" : vSerial) + (LibString.IsNullOrEmpty(vRollo) ? "" : vRollo);
-                    vResultado =  Bematech_FI_ExtenderDescripcionArticulo(vDescripcionExtendida);
+                    vResultado = Bematech_FI_ExtenderDescripcionArticulo(vDescripcionExtendida);
                     vEstatus = RetornoStatus(vResultado,out vMensaje);
-                    vResultado = Bematech_FI_VendeArticulo("",vDescripcionResumida,vPorcentajeAlicuota,vFormatoCantidad,vCantidad,vCantidaDecimales,vMonto,vFormatoDescuento,vPrcDescuento);
+                    vResultado = Bematech_FI_VendeArticulo(vCodigo,vDescripcionResumida,vPorcentajeAlicuota,vFormatoCantidad,vCantidad,vCantidaDecimales,vMonto,vFormatoDescuento,vPrcDescuento);
                     vEstatus &= RetornoStatus(vResultado,out vMensaje);
                     if(vResultado != 1) {
-                        throw new GalacException("Error al Imprimir Articulo ",eExceptionManagementType.Controlled);
-                    }                   
+                        throw new GalacException("Error al Imprimir Articulo " + vMensaje,eExceptionManagementType.Controlled);
+                    }
                 }
                 return vEstatus;
             } catch(Exception vEx) {
                 CancelarDocumentoFiscalEnImpresion(false);
                 CerrarConexion();
                 throw (vEx);
-            }           
-        }       
+            }
+        }      
 
         private string DarFormatoNumericoYCompletaConCero(string valNumero,eTipoDeAlicuota valTipoAlicuota, byte valCantidadEnteros,byte valCantidadDecimales ,bool valEsAlicuota = false) {
             string vValorFinal = "";
@@ -1107,11 +1116,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             } else {
                 vDir = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\BemaFi32.dll";
             }
-            string vDllVersionModel = VersionApi1;  //(vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI ? VersionApi2 : VersionApi1);
+            string vDllVersionModel = MinVersionApi;  //(vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI ? VersionApi2 : VersionApi1);
             vResult = LibFile.FileExists(vDir);
             if(vResult) {
                 vResult &= LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir,ref vVersion);
-                vIsSameVersion = (vVersion == VersionApi1 || vVersion == VersionApi2);
+                vIsSameVersion = (vVersion == MinVersionApi || vVersion == MaxVersionApi);
                 vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult,vIsSameVersion,vDir,vVersion,vDllVersionModel);
                 vResult = vIsSameVersion;
             } else {
