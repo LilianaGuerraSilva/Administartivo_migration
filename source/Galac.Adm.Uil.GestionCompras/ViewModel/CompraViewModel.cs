@@ -945,10 +945,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         protected override void InitializeLookAndFeel(Compra valModel) {
             base.InitializeLookAndFeel(valModel);
-            string vCodigoMonedaSegunModulo = string.Empty;
-            _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
-            _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-            _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
+            string vCodigoMonedaSegunModulo = string.Empty;            
             if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
                 vCodigoMonedaSegunModulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             } else {
@@ -1767,6 +1764,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     CambioAMonedaLocal = vTasa;
                     return true;
                 } else {
+                    _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
+                    _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                    _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
                     CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda,_UsarLimiteMaximoParaIngresoDeTasaDeCambio,_MaximoLimitePermitidoParaLaTasaDeCambio,_ElProgramaEstaEnModoAvanzado);
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
@@ -1856,6 +1856,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     if(vExisteCambioDelDía) {
                         vCambioResult = vCambioDelDía;
                     } else {
+                        _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
+                        _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                        _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
                         CambioViewModel vViewModel = new CambioViewModel(ConexionNumeroDeOrdenDeCompra.CodigoMoneda,_UsarLimiteMaximoParaIngresoDeTasaDeCambio,_MaximoLimitePermitidoParaLaTasaDeCambio,_ElProgramaEstaEnModoAvanzado);
                         vViewModel.InitializeViewModel(eAccionSR.Insertar);
                         vViewModel.FechaDeVigencia = LibDate.Today();
