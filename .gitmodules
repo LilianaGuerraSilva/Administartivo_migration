@@ -31,11 +31,11 @@
 [submodule "bin/binLibNet"]
 	path = bin/binLibNet
 	url = https://chronos.galac.local:10207/desa/binlibnet.git
-	branch = release-V5.12.1.0
+	branch = release-V5.13.0.0
 [submodule "bin/binLibVb"]
 	path = bin/binLibVb
 	url = https://chronos.galac.local:10207/desa/binlibvb.git
-	branch = release-V2001
+	branch = release-V2102
 [submodule "bin/binContabilidadVb"]
 	path = bin/binContabilidadVb
 	url = https://chronos.galac.local:10207/desa/bincontabilidadvb.git
