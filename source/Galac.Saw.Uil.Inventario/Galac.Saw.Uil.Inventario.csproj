@@ -45,9 +45,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Contab.Uil.ContabAdm">
-      <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Uil.ContabAdm.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
