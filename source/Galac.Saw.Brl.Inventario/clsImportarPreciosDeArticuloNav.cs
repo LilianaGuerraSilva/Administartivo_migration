@@ -22,6 +22,7 @@ namespace Galac.Saw.Brl.Inventario {
         private ePrecioAjustar TipoDePrecio = ePrecioAjustar.PrecioSinIVA;
         private decimal Porcentage;
         List<string> ListaDeArticulosQueNoExisten = null;
+        List<string> ListaDeLineasConError = null;
         bool ExistenLineasConFormatoIncorrecto = false;
         bool ExisteAlMenosUnArticuloValido = false;
 
@@ -52,11 +53,13 @@ namespace Galac.Saw.Brl.Inventario {
             Porcentage = 0;
             OnProgressPercentChanged.Invoke(Porcentage);
             List<string> vLines = new List<string>();
+            ListaDeLineasConError = new List<string>();
             using(StreamReader vStreamReader = new StreamReader(valPathFile, System.Text.Encoding.UTF8)) {
                 vLines = vStreamReader.Lines().ToList();
             }
             OnProgressPercentChanged.Invoke(Porcentage += 20);
             decimal vProgressPercentPerLine = 60 / (vLines.Count + 1);
+            int vCont = 1;
             foreach(var vLine in vLines) {
                 string[] vElement = LibString.Split(vLine, ";", false);
                 if(vElement.Length == 10) {
@@ -67,7 +70,9 @@ namespace Galac.Saw.Brl.Inventario {
                     }
                 } else {
                     ExistenLineasConFormatoIncorrecto = true;
+                    ListaDeLineasConError.Add(vCont.ToString());
                 }
+                vCont++;
                 OnProgressPercentChanged.Invoke(Porcentage += vProgressPercentPerLine);
             }
             ActualizarPreciosEnmonedaLocal(CrearXmlDePreciosEnMonedaLocal());
@@ -110,14 +115,23 @@ namespace Galac.Saw.Brl.Inventario {
                     vRespuesta.AppendLine();
                 }
                 if(ExistenLineasConFormatoIncorrecto) {
-                    vRespuesta.AppendLine("     {vCont}. Existen líneas que no tienen un formato valido.");
+                    vRespuesta.AppendLine($"     {vCont}. Existen líneas que no tienen un formato valido.");
+                    string vMensajeDeLineasConError = "Líneas: ";
+                    foreach(var vLine in ListaDeLineasConError) {
+                        vMensajeDeLineasConError = $"{vMensajeDeLineasConError}{vLine}";
+                        var x = ListaDeLineasConError[ListaDeLineasConError.Count() - 1].ToString();
+                        if(vLine != ListaDeLineasConError[ListaDeLineasConError.Count() - 1].ToString()) {
+                            vMensajeDeLineasConError += ", ";
+                        }
+                    }
+                    vRespuesta.AppendLine(vMensajeDeLineasConError);
                     vRespuesta.AppendLine();
                     vCont++;
                 }
                 if(ListaDeArticulosQueNoExisten != null) {
-                    vRespuesta.AppendLine("     {vCont}. Los siguientes artículos no existen:");
+                    vRespuesta.AppendLine($"     {vCont}. Los siguientes artículos no existen:");
                     foreach(var vArticulo in ListaDeArticulosQueNoExisten) {
-                        vRespuesta.AppendLine("            - {vArticulo}");
+                        vRespuesta.AppendLine($"            - {vArticulo}");
                     }
                 }
             }
