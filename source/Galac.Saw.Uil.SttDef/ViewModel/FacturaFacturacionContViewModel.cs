@@ -102,6 +102,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        [LibCustomValidation("CobroDirectoValidating")]
         public bool UsaCobroDirecto {
             get {
                 return Model.UsaCobroDirectoAsBool;
@@ -821,6 +822,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } else {
                 if (UsaCobroDirectoEnMultimoneda && LibString.IsNullOrEmpty(CuentaBancariaCobroMultimoneda)) {
                     vResult = new ValidationResult(this.ModuleName + "-> Debe indicar una cuenta bancaria en moneda extranjera para Cobro en Multimoneda");
+                }
+            }
+            return vResult;
+        }
+
+        private ValidationResult  CobroDirectoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+                return ValidationResult.Success;
+            } else {
+                if(UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
+                    vResult = new ValidationResult($"No es posible activar los parámetros \"{this.ModuleName} - Generar CxC en Moneda Extranjera\" y \"{this.ModuleName} - Cobro Directo\" simultaneamente. Para hacer uso del parámetro \"Cobro Directo\", por favor desactive \"Generar CXC en Moneda Extranjera\".");
                 }
             }
             return vResult;

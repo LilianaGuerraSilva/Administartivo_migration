@@ -531,20 +531,23 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaisePropertyChanged(lblPorPagarYVueltoPropertyName);
         }
 
-        private void AsignarTasaDeCambioDelDia(string valCodigoMoneda, DateTime valFechaDeVigencia) {
-                decimal vTasa = 1;
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, out vTasa)) {
-                    CambioAMonedaLocal = vTasa;
-                } else {
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda);
-                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
-                    vViewModel.FechaDeVigencia = valFechaDeVigencia;
-                    vViewModel.IsEnabledFecha = false;
-                    vViewModel.CodigoMoneda = valCodigoMoneda;
-                    vViewModel.NombreMoneda = NombreMonedaDivisa;
-                    bool result = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                }
+        private void AsignarTasaDeCambioDelDia(string valCodigoMoneda,DateTime valFechaDeVigencia) {
+            decimal vTasa = 1;
+            if(((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(valCodigoMoneda,valFechaDeVigencia,out vTasa)) {
+                CambioAMonedaLocal = vTasa;
+            } else {
+                bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
+                bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
+                CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda,vUsarLimiteMaximoParaIngresoDeTasaDeCambio,vMaximoLimitePermitidoParaLaTasaDeCambio,vElProgramaEstaEnModoAvanzado);
+                vViewModel.InitializeViewModel(eAccionSR.Insertar);
+                vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
+                vViewModel.FechaDeVigencia = valFechaDeVigencia;
+                vViewModel.IsEnabledFecha = false;
+                vViewModel.CodigoMoneda = valCodigoMoneda;
+                vViewModel.NombreMoneda = NombreMonedaDivisa;
+                bool result = LibMessages.EditViewModel.ShowEditor(vViewModel,true);
+            }
         }
 
         private void CambioChanged(decimal valCambio) {

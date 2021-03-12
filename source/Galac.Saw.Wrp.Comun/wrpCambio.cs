@@ -119,13 +119,13 @@ namespace Galac.Saw.Wrp.TablasGen {
             return vExiste;
         }
 
-        string IWrpCambio.InsertaTasaDeCambioParaElDia(string valCodigoMoneda, DateTime valFechaDeVigencia) {
+        string IWrpCambio.InsertaTasaDeCambioParaElDia(string valCodigoMoneda,DateTime valFechaDeVigencia,bool valUsarLimiteMaximoParaIngresoDeTasaDeCambio,decimal valMaximoLimitePermitidoParaLaTasaDeCambio,bool valEsModoAvanzado) {
             clsCambioMenu vCambioMenu = new clsCambioMenu();
             string vTasaDecimal = "0";
-            if(((IWrpCambio)this).ExisteTasaDeCambioParaElDia(valCodigoMoneda,valFechaDeVigencia, out vTasaDecimal)) {
+            if(((IWrpCambio)this).ExisteTasaDeCambioParaElDia(valCodigoMoneda,valFechaDeVigencia,out vTasaDecimal)) {
                 return vTasaDecimal;
-            } else {
-                return vCambioMenu.MostrarPantallaParaInsertarCambio(valCodigoMoneda, valFechaDeVigencia);
+            } else {                
+                return vCambioMenu.MostrarPantallaParaInsertarCambio(valCodigoMoneda,valFechaDeVigencia,valUsarLimiteMaximoParaIngresoDeTasaDeCambio,valMaximoLimitePermitidoParaLaTasaDeCambio,valEsModoAvanzado);
             }
         }
 

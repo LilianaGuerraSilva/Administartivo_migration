@@ -132,6 +132,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Add(vGpResult);
             return vResult;
         }
+
         string ISettValueByCompanyPdn.ListadoParametrosGenerales() {
             string vResult = "";
             QAdvSql insQAdvSql = new QAdvSql("");
@@ -1341,6 +1342,9 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.CodigoMonedaExtranjera = valCodigoMonedaExtranjera;
             insEntidad.NombreMonedaExtranjera = valNombreMonedaExtranjera;
             insEntidad.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = eTipoDeSolicitudDeIngresoDeTasaDeCambio.SiempreAlEmitirPrimeraFactura;
+            insEntidad.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = false;
+            insEntidad.UsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
+            insEntidad.MaximoLimitePermitidoParaLaTasaDeCambio=30m;
             return insEntidad;
         }
 
@@ -1352,6 +1356,8 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaExtranjera, "CodigoMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaExtranjera, "NombreMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool), "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsarLimiteMaximoParaIngresoDeTasaDeCambio),"UsarLimiteMaximoParaIngresoDeTasaDeCambio",valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.MaximoLimitePermitidoParaLaTasaDeCambio),"MaximoLimitePermitidoParaLaTasaDeCambio",valConsecutivoCompania));
         }
 
         MonedaStt GetMonedaStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -1365,6 +1371,8 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.CodigoMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "CodigoMonedaExtranjera");
             vResult.NombreMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "NombreMonedaExtranjera");
             vResult.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"));
+            vResult.UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany,"UsarLimiteMaximoParaIngresoDeTasaDeCambio"));
+            vResult.MaximoLimitePermitidoParaLaTasaDeCambio = LibImportData.ToDec(ValorSegunColumna(valListGetSettValueByCompany,"MaximoLimitePermitidoParaLaTasaDeCambio"));
             return vResult;
         }
         #endregion // MonedaStt
@@ -1880,29 +1888,32 @@ namespace Galac.Saw.Brl.SttDef {
             List<SettValueByCompany> vList = new List<SettValueByCompany>();
 
             foreach (Module vModule in valModules) {
-                foreach (Group vGroup in vModule.Groups) {                                        
-                    var vModel = LibReflection.GetPropertyValue(vGroup.Content,"Model", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                foreach(Group vGroup in vModule.Groups) {
+                    var vModel = LibReflection.GetPropertyValue(vGroup.Content,"Model",System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
                     var vProperties = vModel.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
                         .Where(p => p.CanRead);
-                    foreach (var vProperty in vProperties) {
+                    foreach(var vProperty in vProperties) {
                         string vNameSettDefinition = vProperty.Name;
-                        
-                        if (vNameSettDefinition == "GroupName" || vNameSettDefinition == "Module" ||
+
+                        if(vNameSettDefinition == "GroupName" || vNameSettDefinition == "Module" ||
                             vNameSettDefinition == "fldTimeStamp" || vNameSettDefinition == "Datos" ||
                             vNameSettDefinition.LastIndexOf("AsString") > 0 ||
                             vProperty.PropertyType.IsEnum) {
                             continue;
                         }
-                        vNameSettDefinition = vNameSettDefinition.Replace("AsDB", "").Replace("AsBool", "");
+                        vNameSettDefinition = vNameSettDefinition.Replace("AsDB","").Replace("AsBool","");
                         SettValueByCompany insSettValueByCompany = new SettValueByCompany();
                         insSettValueByCompany.ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
                         insSettValueByCompany.NameSettDefinition = vNameSettDefinition;
-                        object vValue = vProperty.GetValue(vModel, null);
-                        if (!Object.ReferenceEquals(vValue, null)) {
-                            if (vProperty.PropertyType.Equals(typeof(DateTime))) {
+                        object vValue = vProperty.GetValue(vModel,null);
+                        if(!Object.ReferenceEquals(vValue,null)) {
+                            if(vProperty.PropertyType.Equals(typeof(DateTime))) {
                                 insSettValueByCompany.Value = (LibConvert.ToDate(vValue)).ToString("yyyy-MM-dd HH:mm:ss");
-                            }else if (vProperty.PropertyType.Equals(typeof(Boolean))) {
+                            } else if(vProperty.PropertyType.Equals(typeof(Boolean))) {
                                 insSettValueByCompany.Value = LibConvert.BoolToSN(LibConvert.ToBool(vValue));
+                            } else if(vProperty.PropertyType.Equals(typeof(decimal)) || vProperty.PropertyType.Equals(typeof(double)) || vProperty.PropertyType.Equals(typeof(float))) {
+                                var floatStrValue = LibImportData.ToDec(vValue.ToString());
+                                insSettValueByCompany.Value = floatStrValue.ToString(CultureInfo.InvariantCulture);
                             } else {
                                 insSettValueByCompany.Value = vValue.ToString();
                             }

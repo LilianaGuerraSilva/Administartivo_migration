@@ -20,7 +20,7 @@ using Galac.Comun.Brl.TablasGen;
 using System.Text;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    public class BancosMonedaViewModel : LibInputViewModelMfc<MonedaStt> {
+    public class BancosMonedaViewModel:LibInputViewModelMfc<MonedaStt> {
 
         #region Constantes
 
@@ -32,7 +32,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private const string SolicitarIngresoDeTasaDeCambioAlEmitirPropertyName = "SolicitarIngresoDeTasaDeCambioAlEmitir";
         private const string IsEnabledDatosMonedaExtrangeraPropertyName = "IsEnabledDatosMonedaExtrangera";
         private const string UsaDivisaComoMonedaPrincipalDeIngresoDeDatosPropertyName = "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos";
-
+        private const string UsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName = "UsarLimiteMaximoParaIngresoDeTasaDeCambio";
+        private const string MaximoLimitePermitidoParaLaTasaDeCambioPropertyName = "MaximoLimitePermitidoParaLaTasaDeCambio";
+        private const string IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambioPropertyName = "IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambio";
+        private const string IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName = "IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambio";
         #endregion
 
         #region Variables
@@ -86,7 +89,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.NombreMonedaExtranjera = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombreMonedaExtranjeraPropertyName);
-                    if(LibString.IsNullOrEmpty(NombreMonedaExtranjera, true)) {
+                    if(LibString.IsNullOrEmpty(NombreMonedaExtranjera,true)) {
                         ConexionNombreMonedaExtranjera = null;
                     }
                 }
@@ -102,7 +105,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.NombreMonedaLocal = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombreMonedaLocalPropertyName);
-                    if(LibString.IsNullOrEmpty(NombreMonedaLocal, true)) {
+                    if(LibString.IsNullOrEmpty(NombreMonedaLocal,true)) {
                         ConexionNombreMonedaLocal = null;
                     }
                 }
@@ -117,9 +120,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if(Model.UsaMonedaExtranjeraAsBool != value) {
                     Model.UsaMonedaExtranjeraAsBool = value;
                     UsaDivisaComoMonedaPrincipalDeIngresoDeDatos = value == false ? false : UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
+                    UsarLimiteMaximoParaIngresoDeTasaDeCambio = value == false ? false : UsarLimiteMaximoParaIngresoDeTasaDeCambio;
                     RaisePropertyChanged(UsaMonedaExtranjeraPropertyName);
                     RaisePropertyChanged(IsEnabledDatosMonedaExtrangeraPropertyName);
-                    LibMessages.Notification.Send<bool>(Model.UsaMonedaExtranjeraAsBool, UsaMonedaExtranjeraPropertyName);
+                    RaisePropertyChanged(UsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName);
+                    RaisePropertyChanged(IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName);
+                    LibMessages.Notification.Send<bool>(Model.UsaMonedaExtranjeraAsBool,UsaMonedaExtranjeraPropertyName);
                 }
             }
         }
@@ -153,6 +159,34 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public eTipoDeSolicitudDeIngresoDeTasaDeCambio[] ArrayTipoDeSolicitudDeIngresoDeTasaDeCambio {
             get {
                 return LibEnumHelper<eTipoDeSolicitudDeIngresoDeTasaDeCambio>.GetValuesInArray();
+            }
+        }
+
+        public bool UsarLimiteMaximoParaIngresoDeTasaDeCambio {
+            get {
+                return Model.UsarLimiteMaximoParaIngresoDeTasaDeCambio;
+            }
+            set {
+                if(Model.UsarLimiteMaximoParaIngresoDeTasaDeCambio != value) {
+                    Model.UsarLimiteMaximoParaIngresoDeTasaDeCambio = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(UsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName);
+                    RaisePropertyChanged(IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambioPropertyName);
+                }
+            }
+        }
+
+        [LibCustomValidation("MaximoLimitePermitidoParaLaTasaDeCambioValidating")]
+        public decimal MaximoLimitePermitidoParaLaTasaDeCambio {
+            get {
+                return Model.MaximoLimitePermitidoParaLaTasaDeCambio;
+            }
+            set {
+                if(Model.MaximoLimitePermitidoParaLaTasaDeCambio != value) {
+                    Model.MaximoLimitePermitidoParaLaTasaDeCambio = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MaximoLimitePermitidoParaLaTasaDeCambioPropertyName);
+                }
             }
         }
 
@@ -204,10 +238,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleMonedaLocal {
             get {
-                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "SesionEspecialProgramador"))) {
+                if(LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros","SesionEspecialProgramador"))) {
                     return false;
                 } else {
-                    return AppMemoryInfo.GlobalValuesGetBool("Parametros", "SesionEspecialProgramador");
+                    return AppMemoryInfo.GlobalValuesGetBool("Parametros","SesionEspecialProgramador");
                 }
             }
         }
@@ -224,6 +258,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambio {
+            get {
+                return IsEnabled && UsaMonedaExtranjera && AppMemoryInfo.GlobalValuesGetBool("Parametros","EsUsuarioSupervisor");
+            }
+        }
+
+        public bool IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambio {
+            get {
+                return IsEnabled && UsarLimiteMaximoParaIngresoDeTasaDeCambio && IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambio;
+            }
+        }
+
         public ParametersViewModel ParametrosViewModel {
             get { return _ParametrosViewModel; }
             set { _ParametrosViewModel = value; }
@@ -235,13 +281,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #region Constructores
 
         public BancosMonedaViewModel()
-            : this(new MonedaStt(), eAccionSR.Insertar) {
+            : this(new MonedaStt(),eAccionSR.Insertar) {
         }
-        public BancosMonedaViewModel(MonedaStt initModel, eAccionSR initAction)
-            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+        public BancosMonedaViewModel(MonedaStt initModel,eAccionSR initAction)
+            : base(initModel,initAction,LibGlobalValues.Instance.GetAppMemInfo(),LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CodigoMonedaExtranjeraPropertyName;
             vMonedaLocal = new clsMonedaLocalActual();
-            vMonedaLocal.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
+            vMonedaLocal.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country,LibDate.Today());
         }
 
         #endregion //Constructores
@@ -259,7 +305,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return valModel;
         }
 
-        protected override ILibBusinessComponentWithSearch<IList<MonedaStt>, IList<MonedaStt>> GetBusinessComponent() {
+        protected override ILibBusinessComponentWithSearch<IList<MonedaStt>,IList<MonedaStt>> GetBusinessComponent() {
             return null;
         }
 
@@ -271,8 +317,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            ConexionNombreMonedaExtranjera = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Nombre", NombreMonedaExtranjera), new clsSettValueByCompanyNav());
-            ConexionNombreMonedaLocal = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Nombre", NombreMonedaLocal), new clsSettValueByCompanyNav());
+            ConexionNombreMonedaExtranjera = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda",LibSearchCriteria.CreateCriteria("Nombre",NombreMonedaExtranjera),new clsSettValueByCompanyNav());
+            ConexionNombreMonedaLocal = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda",LibSearchCriteria.CreateCriteria("Nombre",NombreMonedaLocal),new clsSettValueByCompanyNav());
         }
 
         private void ExecuteChooseNombreMonedaExtranjeraCommand(string valNombre) {
@@ -283,20 +329,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 XElement vXmlMonedaLocales = ((IMonedaLocalPdn)new clsMonedaLocalProcesos()).BusquedaTodasLasMonedasLocales(LibDefGen.ProgramInfo.Country);
                 IList<MonedaLocalActual> vListaDeMonedaLocales = new List<MonedaLocalActual>();
                 vListaDeMonedaLocales = vXmlMonedaLocales != null ? LibParserHelper.ParseToList<MonedaLocalActual>(new XDocument(vXmlMonedaLocales)) : null;
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Moneda_B1.Nombre", valNombre);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
-                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Moneda_B1.Nombre",valNombre);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa",LibConvert.BoolToSN(true));
+                vFixedCriteria.Add("TipoDeMoneda",eBooleanOperatorType.IdentityEquality,eTipoDeMoneda.Fisica);
                 if(vListaDeMonedaLocales != null && !LibDefGen.ProgramInfo.IsCountryEcuador()) {
                     foreach(MonedaLocalActual vMoneda in vListaDeMonedaLocales) {
-                        vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityInequality, vMoneda.CodigoMoneda);
+                        vFixedCriteria.Add("Codigo",eBooleanOperatorType.IdentityInequality,vMoneda.CodigoMoneda);
                     }
                 }
                 ConexionNombreMonedaExtranjera = null;
-                ConexionNombreMonedaExtranjera = LibFKRetrievalHelper.ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
+                ConexionNombreMonedaExtranjera = LibFKRetrievalHelper.ChooseRecord<FkMonedaViewModel>("Moneda",vDefaultCriteria,vFixedCriteria,string.Empty);
             } catch(System.AccessViolationException) {
                 throw;
             } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,ModuleName);
             }
         }
 
@@ -305,14 +351,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if(valNombre == null) {
                     valNombre = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Moneda_B1.Nombre", valNombre);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Moneda_B1.Nombre",valNombre);
                 LibSearchCriteria vFixedCriteria = null;
                 ConexionNombreMonedaLocal = null;
-                ConexionNombreMonedaLocal = LibFKRetrievalHelper.ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
+                ConexionNombreMonedaLocal = LibFKRetrievalHelper.ChooseRecord<FkMonedaViewModel>("Moneda",vDefaultCriteria,vFixedCriteria,string.Empty);
             } catch(System.AccessViolationException) {
                 throw;
             } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,ModuleName);
             }
         }
 
@@ -383,9 +429,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
+        private ValidationResult MaximoLimitePermitidoParaLaTasaDeCambioValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if(MaximoLimitePermitidoParaLaTasaDeCambio < 1m) {
+                vResult = new ValidationResult("El máximo limite permitido no puede ser menor a " + LibConvert.NumToString(1m,2));
+            } else if(MaximoLimitePermitidoParaLaTasaDeCambio > 100m) {
+                vResult = new ValidationResult("El máximo limite permitido no puede ser mayor a " + LibConvert.NumToString(100m,2));
+            }
+            return vResult;
+        }
         #endregion
-
     } //End of class BancosMonedaViewModel
-
 } //End of namespace Galac.Saw.Uil.SttDef
 

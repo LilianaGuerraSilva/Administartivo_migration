@@ -410,6 +410,35 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             refPrecio = refPrecio * LibConvert.ToDec(Math.Pow(10, vDecimalesEnPrecio));
         }
 
+        public void RecalcularRenglonesDeFacturaEnEspera() {
+            foreach (FacturaRapidaDetalleViewModel vItem in Items) {
+                vItem.PrecioConIVA = LibMath.RoundToNDecimals((vItem.PrecioConIVA / Master._CambioOriginalDeFacturaEnEspera) * Master.CambioMostrarTotalEnDivisas, Master._CantidadDeDecimales);
+                vItem.PrecioSinIVA = LibMath.RoundToNDecimals(vItem.PrecioConIVA / FactorBaseAlicuotaIva(vItem.AlicuotaIva), Master._CantidadDeDecimales);
+            }
+        }
+
+        private decimal FactorBaseAlicuotaIva(eTipoDeAlicuota valTipoDeAlicuota) {
+            decimal vResult = 0;
+            switch(valTipoDeAlicuota) {
+            case eTipoDeAlicuota.Exento:
+                vResult = 1m;
+                break;
+            case eTipoDeAlicuota.AlicuotaGeneral:
+                vResult = 1 + (Master.PorcentajeAlicuota1 / 100m);
+                break;
+            case eTipoDeAlicuota.Alicuota2:
+                vResult = 1 + (Master.PorcentajeAlicuota2 / 100m);
+                break;
+            case eTipoDeAlicuota.Alicuota3:
+                vResult = 1 + (Master.PorcentajeAlicuota3 / 100m);
+                break;
+            default:
+                vResult = 1 + (Master.PorcentajeAlicuota1 / 100m);
+                break;
+            }
+            return vResult;
+        }
+
     } //End of class FacturaRapidaDetalleMngViewModel
 }//End of namespace Galac.Adm.Uil.Venta
 

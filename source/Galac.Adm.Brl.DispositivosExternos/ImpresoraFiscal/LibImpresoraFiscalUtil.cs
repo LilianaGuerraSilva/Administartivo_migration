@@ -100,6 +100,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             if(LibString.Len(WithDecimalSeparator) > 0) {
                 vValorFinal = LibString.InsertAt(vValorFinal,WithDecimalSeparator,LibString.Len(vValorFinal) - valCantidadDecimales);
                 vValorFinal = (vDecimalValue == 0) ? "0" + WithDecimalSeparator + "00" : vValorFinal;
+                vValorFinal = (LibString.SubString(vValorFinal,0,1) == WithDecimalSeparator ? "0" + vValorFinal : vValorFinal);
             } else {
                 vValorFinal = LibText.FillWithCharToLeft(vValorFinal,"0",LibConvert.ToByte(valCantidadEnteros + valCantidadDecimales));
             }
