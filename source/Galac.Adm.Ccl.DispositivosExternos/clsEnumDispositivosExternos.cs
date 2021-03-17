@@ -223,9 +223,9 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         [LibEnumDescription("QPRINT MF",Index =0)]
         [LibEnumDescription("QPRINT",Index = 1)]
         QPRINT_MF,
-        [LibEnumDescription("ELEPOS VMAX",Index =0)]
+        [LibEnumDescription("ELEPOS VMAX 580",Index =0)]
         [LibEnumDescription("ELEPOS VMAX",Index = 1)]
-        ELEPOSVMAX,
+        ELEPOSVMAX_580,
         [LibEnumDescription("DASCOM TALLY DT230",Index =0)]
         [LibEnumDescription("THEFACTORY",Index = 1)]
         DASCOMTALLYDT230,
@@ -246,7 +246,16 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         HKA112,
         [LibEnumDescription("BMC TH34 EJ",Index = 0)]
         [LibEnumDescription("BMC",Index = 1)]
-        BMC_TH34_EJ
+        BMC_TH34_EJ,
+        [LibEnumDescription("Bematech MP 4000 FI",Index = 0)]
+        [LibEnumDescription("BEMATECH",Index = 1)]
+        BEMATECH_MP_4000_FI,
+        [LibEnumDescription("ELEPOS VMAX 220 F",Index = 0)]
+        [LibEnumDescription("ELEPOS VMAX",Index = 1)]
+        ELEPOSVMAX_220_F,
+        [LibEnumDescription("ELEPOS VMAX 300",Index = 0)]
+        [LibEnumDescription("ELEPOS VMAX",Index = 1)]
+        ELEPOSVMAX_300
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]

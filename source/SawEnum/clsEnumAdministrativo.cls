@@ -1301,7 +1301,7 @@ Public Enum Enum_ImpresorasFiscales
    eIF_BEMATECH_MP_2100_FI
    eIF_DASCOM_TALLY_1125
    eIF_QPRINT_MF
-   eIF_ELEPOS_VMAX
+   eIF_ELEPOS_VMAX_580
    eIF_DASCOM_TALLY_DT_230
    eIF_SAMSUNG_BIXOLON_SRP_280
    eIF_ACLAS_PP9
@@ -1309,6 +1309,9 @@ Public Enum Enum_ImpresorasFiscales
    eif_HKA80
    eif_HKA112
    eIF_BMC_TH34_EJ
+   eIF_BEMATECH_MP_4000_FI
+   eIF_ELEPOS_VMAX_220_F
+   eIF_ELEPOS_VMAX_300
 End Enum
 
 Public Enum Enum_EstadoImpresionFiscal
@@ -1649,14 +1652,6 @@ Public Enum enum_TipoDeMercancia
    eTDM_MateriaPrima
    eTDM_ProductoTerminado
 End Enum
-
-
-Public Enum enum_TipoDeMoneda
-   eTDMON_FISICA = 0
-   eTDMON_CRIPTOACTIVO
-   eTDMON_OTRAS
-End Enum
-
 
 Public Enum enum_TipoGeneradoPorNotaDeEntradaSalida
    eTGPNDES_Usuario = 0
@@ -10952,7 +10947,7 @@ Public Function enumImpresorasFiscalesToString(ByVal ImpresorasFiscales As Enum_
       Case eIF_BEMATECH_MP_2100_FI: enumImpresorasFiscalesToString = "BEMATECH MP-2100 FI"
       Case eIF_DASCOM_TALLY_1125: enumImpresorasFiscalesToString = "DASCOM TALLY 1125"
       Case eIF_QPRINT_MF: enumImpresorasFiscalesToString = "QPRINT MF"
-      Case eIF_ELEPOS_VMAX: enumImpresorasFiscalesToString = "ELEPOS VMAX"
+      Case eIF_ELEPOS_VMAX_580: enumImpresorasFiscalesToString = "ELEPOS VMAX 580"
       Case eIF_DASCOM_TALLY_DT_230: enumImpresorasFiscalesToString = "DASCOM TALLY DT 230"
       Case eIF_SAMSUNG_BIXOLON_SRP_280: enumImpresorasFiscalesToString = "BIXOLON SRP 280"
       Case eIF_ACLAS_PP9: enumImpresorasFiscalesToString = "ACLAS PP9"
@@ -10960,6 +10955,9 @@ Public Function enumImpresorasFiscalesToString(ByVal ImpresorasFiscales As Enum_
       Case eif_HKA80: enumImpresorasFiscalesToString = "HKA80"
       Case eif_HKA112: enumImpresorasFiscalesToString = "HKA112"
       Case eIF_BMC_TH34_EJ: enumImpresorasFiscalesToString = "BMC TH34 EJ"
+      Case eIF_BEMATECH_MP_4000_FI: enumImpresorasFiscalesToString = "BEMATECH MP-4000 FI"
+      Case eIF_ELEPOS_VMAX_220_F: enumImpresorasFiscalesToString = "ELEPOS VMAX 220-F"
+      Case eIF_ELEPOS_VMAX_300: enumImpresorasFiscalesToString = "ELEPOS VMAX 300"
       Case Else: enumImpresorasFiscalesToString = enumImpresorasFiscalesToString(0)
    End Select
 End Function
@@ -10968,7 +10966,7 @@ Public Function strImpresorasFiscalesToNum(ByVal ImpresorasFiscales As String, O
    Dim mEnum As Enum_ImpresorasFiscales
    Dim nCount As Integer
    nCount = 0
-   For mEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_BMC_TH34_EJ
+   For mEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300
       If UCase(ImpresorasFiscales) = UCase(enumImpresorasFiscalesToString(mEnum)) Then
          strImpresorasFiscalesToNum = nCount
          GoTo h_EXIT
@@ -11024,7 +11022,7 @@ Public Sub FillComboBoxWithImpresorasFiscales(ByRef varComboBox As Object, Optio
       nCount = nCount + 1
       varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_QPRINT_MF)
       nCount = nCount + 1
-      varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX)
+      varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_580)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_DT_230)
       nCount = nCount + 1
@@ -11039,6 +11037,12 @@ Public Sub FillComboBoxWithImpresorasFiscales(ByRef varComboBox As Object, Optio
       varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eif_HKA112)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_BMC_TH34_EJ)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_BEMATECH_MP_4000_FI)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_220_F)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300)
       varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
       varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    End If
@@ -11055,10 +11059,10 @@ Public Function fEnumImpresorasFiscalesToStringInArray(Optional ByVal valPrepara
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = Enum_ImpresorasFiscales.eIF_BMC_TH34_EJ - Enum_ImpresorasFiscales.eIF_EPSON_PF_220
+   varLimiteSuperior = Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300 - Enum_ImpresorasFiscales.eIF_EPSON_PF_220
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_BMC_TH34_EJ
+   For varEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300
       varArray(nCount) = varCaracterDelimitador & enumImpresorasFiscalesToString(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
@@ -13735,35 +13739,6 @@ Public Sub FillComboBoxWithTipoDeCambioSunat(ByRef varComboBox As Object, Option
    varComboBox.ListIndex = 1  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
-
-Public Function enumTipoDeMonedaToString(TipoDeMoneda As enum_TipoDeMoneda) As String
-   Select Case TipoDeMoneda
-      Case eTDMON_FISICA: enumTipoDeMonedaToString = "Física"
-      Case eTDMON_CRIPTOACTIVO: enumTipoDeMonedaToString = "CriptoActivo"
-      Case eTDMON_OTRAS: enumTipoDeMonedaToString = "Otras"
-      Case Else
-         enumTipoDeMonedaToString = enumTipoDeMonedaToString(0)
-   End Select
-End Function
-
-Public Function strTipoDeMonedaToNum(ByVal TipoDeMoneda As String, Optional ByVal ShowMessage As Boolean = True) As Integer
-   Dim mEnum As enum_TipoDeMoneda
-   Dim nCount As Integer
-   nCount = 0
-   For mEnum = eTDMON_FISICA To eTDMON_OTRAS
-      If UCase(TipoDeMoneda) = UCase(enumTipoDeMonedaToString(mEnum)) Then
-         strTipoDeMonedaToNum = nCount
-         GoTo h_EXIT
-      End If
-      nCount = nCount + 1
-   Next
-   strTipoDeMonedaToNum = 0
-   If ShowMessage Then
-      gMessage.ProgrammerMessage "Valor " & TipoDeMoneda & " no existe en tipo enumerado TipoDeMoneda"
-   End If
-h_EXIT:
-   Exit Function
-End Function
 
 Public Function enumTipoGeneradoPorNotaDeEntradaSalidaToString(TipoGeneradoPorNotaDeEntradaSalida As enum_TipoGeneradoPorNotaDeEntradaSalida) As String
    Select Case TipoGeneradoPorNotaDeEntradaSalida

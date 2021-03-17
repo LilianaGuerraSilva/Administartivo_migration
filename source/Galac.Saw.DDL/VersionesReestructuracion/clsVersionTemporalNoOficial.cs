@@ -10,15 +10,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersionTemporalNoOficial:clsVersionARestructurar {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
-            StartConnectionNoTransaction();
-            AgregarParametroLimiteIngresoTasaDeCambio();
+            StartConnectionNoTransaction();           
             DisposeConnectionNoTransaction();
             return true;
-        }
-
-        private void AgregarParametroLimiteIngresoTasaDeCambio() {
-            AgregarNuevoParametro("UsarLimiteMaximoParaIngresoDeTasaDeCambio","Bancos",7,"7.2-Moneda",2,"",'2',"",'S',"N");
-            AgregarNuevoParametro("MaximoLimitePermitidoParaLaTasaDeCambio","Bancos",7,"7.2-Moneda",2,"",'3',"",'S',"30");
         }
     }
 }

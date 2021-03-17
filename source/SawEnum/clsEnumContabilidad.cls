@@ -452,6 +452,12 @@ Enum enum_Gastos2014
    eGa2014_85LiberalidadesDonacionesAutorizadas
 End Enum
 
+Enum enum_TipoDeMoneda
+   eTM_Fisica = 0
+   eTM_CriptoActivo
+   eTM_Otras
+End Enum
+
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsEnumContabilidad"
 End Function
@@ -3555,5 +3561,35 @@ Public Function fEnumGastos2014ToStringInArray(Optional ByVal valPrepararParaSql
    Next
    fEnumGastos2014ToStringInArray = varArray
    On Error GoTo 0
+End Function
+
+Public Function enumTipoDeMonedaToString(TipoDeMoneda As enum_TipoDeMoneda) As String
+   Select Case TipoDeMoneda
+      Case eTM_Fisica: enumTipoDeMonedaToString = "Física"
+      Case eTM_CriptoActivo: enumTipoDeMonedaToString = "CriptoActivo"
+      Case eTM_Otras: enumTipoDeMonedaToString = "Otras"
+      Case Else
+      enumTipoDeMonedaToString = enumTipoDeMonedaToString(0)
+   End Select
+End Function
+
+Public Function strTipoDeMonedaToNum(ByVal TipoDeMoneda As String, _
+   Optional ByVal ShowMessage As Boolean = True) As Integer
+   Dim mEnum As enum_TipoDeMoneda
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eTM_Fisica To eTM_Otras
+   If UCase(TipoDeMoneda) = UCase(enumTipoDeMonedaToString(mEnum)) Then
+      strTipoDeMonedaToNum = nCount
+      GoTo h_EXIT
+   End If
+   nCount = nCount + 1
+   Next
+   strTipoDeMonedaToNum = 0
+   If ShowMessage Then
+      gMessage.ProgrammerMessage "Valor " & TipoDeMoneda & " no existe en tipo enumerativo TipoDeMoneda"
+   End If
+h_EXIT:
+   Exit Function
 End Function
 

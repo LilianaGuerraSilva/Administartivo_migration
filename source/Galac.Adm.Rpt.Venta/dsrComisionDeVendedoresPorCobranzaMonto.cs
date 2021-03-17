@@ -128,14 +128,14 @@ namespace Galac.Adm.Rpt.Venta {
                         LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoComisionEnMonedaExt", string.Empty, string.Empty, 2);
                     } else {
                         #region Reajuste de la presentacion
-                        LibReport.ChangeControlLocation(this, "lblPorcentajeDeComision", (float)3.85, (float)0.37);
+                        LibReport.ChangeControlLocation(this, "lblPorcentajeDeComision", (float)3.70, (float)0.37);
                         LibReport.ChangeControlLocation(this, "txtPorcentajeDeComision", (float)6.26, (float)0.37);
-                        LibReport.ChangeControlLocation(this, "lblNivelDeComision", (float)3.85, (float)0.53);
+                        LibReport.ChangeControlLocation(this, "lblNivelDeComision", (float)3.70, (float)0.53);
                         LibReport.ChangeControlLocation(this, "txtNivelDeComision", (float)6.25, (float)0.53);
-                        LibReport.ChangeControlLocation(this, "lblTotalesGenerales", (float)3.85, (float)0.69);
-                        LibReport.ChangeControlLocation(this, "lblTotalGeneralComisionable", (float)3.85, (float)0.85);
+                        LibReport.ChangeControlLocation(this, "lblTotalesGenerales", (float)3.70, (float)0.69);
+                        LibReport.ChangeControlLocation(this, "lblTotalGeneralComisionable", (float)3.70, (float)0.85);
                         LibReport.ChangeControlLocation(this, "txtTotalGeneralComisionable", (float)6.25, (float)0.85);
-                        LibReport.ChangeControlLocation(this, "lblTotalGeneralComision", (float)3.85, (float)1.01);
+                        LibReport.ChangeControlLocation(this, "lblTotalGeneralComision", (float)3.70, (float)1.01);
                         LibReport.ChangeControlLocation(this, "txtTotalGeneralComision", (float)6.25, (float)1.01);
                         #endregion
                     }
@@ -181,8 +181,7 @@ namespace Galac.Adm.Rpt.Venta {
                         LibReport.ChangeControlLocation(this, "txtTotalGeneralComisionEnMonedaExt", (float)9.07, (float)0.5);
                         txtTotalGeneralComisionEnMonedaExt.Width = (float)0.85;
                         #endregion
-                    }
-                    else {
+                    } else {
                         #region Ajustar la ubicación de los totales
                         LibReport.ChangeControlLocation(this, "lblTotalesGenerales", (float)4.96, (float)0);
                         lblTotalesGenerales.Width = (float)4.11;
