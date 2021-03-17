@@ -101,15 +101,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 renglon.Monto *= renglon.CambioAMonedaLocal;
             }
             if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaCobroDirectoEnMultimoneda") && vCloneListCobro.Count > 1) {
+                Diferencia = TotalFactura - vTotalPagos;
                 vTotalPagos = vCloneListCobro.Sum(s => s.Monto);
                 if(TotalFactura > vTotalPagos) {
-                    Diferencia = TotalFactura - vTotalPagos;
-                    vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())
-                                   .FirstOrDefault().Monto += Diferencia;
+                    var xPago = vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()).FirstOrDefault();
+                    if(xPago != null) {
+                        xPago.Monto += Diferencia;
+                    }                    
                 } else if(vTotalPagos > TotalFactura) {
-                    Diferencia = vTotalPagos - TotalFactura;
-                    vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())
-                                   .FirstOrDefault().Monto -= Diferencia;
+                    Diferencia = vTotalPagos - TotalFactura;                    
+                    var xPago = vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()).FirstOrDefault();
+                    if(xPago != null) {
+                        xPago.Monto -= Diferencia;
+                    }
                 }
             } else if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsaCobroDirectoEnMultimoneda") && vCloneListCobro[0].Monto < TotalFactura && vCloneListCobro.Count == 1) {
                 vCloneListCobro[0].Monto = TotalFactura;

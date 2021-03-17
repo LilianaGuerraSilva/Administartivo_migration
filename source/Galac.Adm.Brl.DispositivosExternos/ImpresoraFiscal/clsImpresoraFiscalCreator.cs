@@ -15,8 +15,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             switch(vModelo) {
             case eImpresoraFiscal.BEMATECH_MP_20_FI_II:
             case eImpresoraFiscal.BEMATECH_MP_2100_FI:
+            case eImpresoraFiscal.BEMATECH_MP_4000_FI:
                 return new clsBematech(valXmlMaquinaFiscal);
-            case eImpresoraFiscal.ELEPOSVMAX:
+            case eImpresoraFiscal.ELEPOSVMAX_220_F:
+            case eImpresoraFiscal.ELEPOSVMAX_300:
+            case eImpresoraFiscal.ELEPOSVMAX_580:
                 return new clsEleposVMAX(valXmlMaquinaFiscal);
             case eImpresoraFiscal.ACLASPP1F3:
             case eImpresoraFiscal.ACLASPP9:

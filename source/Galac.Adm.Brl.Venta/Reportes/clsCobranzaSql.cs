@@ -235,8 +235,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             QAdvSql vUtilSql = new QAdvSql("");
             bool vParametroUsaOtrosCargosDeFactura = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaOtrosCargosDeFactura"));
             bool vParametroAsignarComisionEnCobranza = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "AsignarComisionDeVendedorEnCobranza"));
-            string vCxCManual = SqlComisionDeVendedoresDetalladoOrigenCxCManual(valConsecutivoCompania, valFechaInicial, valFechaFinal, valMonedaDeReporte, valTasaDeCambioImpresion, valCantidadAImprimir, valCodigoVendedor, valCodigoMonedaLocal, vParametroAsignarComisionEnCobranza);
-            string vCxCDesdeFactura = SqlComisionDeVendedoresDetalladoOrigenFactura(valConsecutivoCompania, valFechaInicial, valFechaFinal, valMonedaDeReporte, valTasaDeCambioImpresion, valCantidadAImprimir, valCodigoVendedor, valCodigoMonedaLocal, vParametroUsaOtrosCargosDeFactura, vParametroAsignarComisionEnCobranza);
+            string vCxCManual = SqlComisionDeVendedoresDetalladoOrigenCxCManual(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTipoDeInforme,valMonedaDeReporte, valTasaDeCambioImpresion, valCantidadAImprimir, valCodigoVendedor, valCodigoMonedaLocal, vParametroAsignarComisionEnCobranza);
+            string vCxCDesdeFactura = SqlComisionDeVendedoresDetalladoOrigenFactura(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTipoDeInforme,valMonedaDeReporte, valTasaDeCambioImpresion, valCantidadAImprimir, valCodigoVendedor, valCodigoMonedaLocal, vParametroUsaOtrosCargosDeFactura, vParametroAsignarComisionEnCobranza);
             vSql.AppendLine(vUtilSql.SetDateFormat());
             if (vParametroUsaOtrosCargosDeFactura) {
                 string vSqlCTETotalRenglonFactura = SqlCTECalcularTotalRenglonFactura(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTasaDeCambioImpresion);
@@ -253,8 +253,12 @@ namespace Galac.Adm.Brl.Venta.Reportes {
                 vSql.AppendLine("       Vendedor.Nombre");
                 vSql.AppendLine("	    , Cobranza.Moneda");
             } else {
-                vSql.AppendLine("	    Cobranza.Moneda");
-                vSql.AppendLine("       , Vendedor.Nombre");
+                if(valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares) {
+                    vSql.AppendLine("   Vendedor.Nombre");
+                } else {
+                    vSql.AppendLine("	    Cobranza.Moneda");
+                    vSql.AppendLine("       , Vendedor.Nombre");
+                }
             }
             vSql.AppendLine("       , Cobranza.Fecha");
             vSql.AppendLine("       , NumeroDelDocumento");
@@ -262,7 +266,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vSql.ToString();
 		}
 
-        private string SqlComisionDeVendedoresDetalladoOrigenCxCManual(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valCodigoMonedaLocal, bool valUsaAsignacionDeComisionEnCobranza) {
+        private string SqlComisionDeVendedoresDetalladoOrigenCxCManual(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valCodigoMonedaLocal, bool valUsaAsignacionDeComisionEnCobranza) {
             QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             #region Filtrado
@@ -290,18 +294,27 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             #region En moneda local - Tasa del dia
             string vMontoAbonadoEnMonedaLocalTasaDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", vMontoAbonadoEnDocumentoCob, false, string.Empty);
             string vMontoComisionableEnMonedaLocalTasaDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", vMontoComisionable, false, string.Empty);
+            string vMontoTasaDeCambioDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", "1", false, string.Empty);
             #endregion
             #endregion
             vSql.AppendLine("SELECT");
             vSql.AppendLine("   Vendedor.Codigo AS CodigoDelVendedor");
             vSql.AppendLine("   , Vendedor.Nombre AS NombreDelVendedor");
-            vSql.AppendLine("   , cobranza.Moneda AS MonedaCobranza");
+            if(valTipoDeInforme == Saw.Lib.eTipoDeInforme.Resumido && valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares) {
+                vSql.AppendLine("   , 'Bolivar' AS MonedaCobranza");
+            } else {
+                vSql.AppendLine("   , cobranza.Moneda AS MonedaCobranza");
+            }
             vSql.AppendLine("   , Cobranza.Fecha AS FechaDoc");
             vSql.AppendLine("   , cxC.Numero AS NumeroDoc");
             vSql.AppendLine("   , ('Cob. ' + Cobranza.Numero + '/ Doc. ' + CxC.NumeroDocumentoOrigen) AS NumeroDelDocumento");
             vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
             vSql.AppendLine("   , documentoCobrado.SimboloMonedaDeCxC AS SimboloMonedaDoc");
-            vSql.AppendLine("   , documentoCobrado.CambioAMonedaLocal AS CambioABolivaresDoc");
+            if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares && valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
+                vSql.AppendLine($"  , {vMontoTasaDeCambioDelDia} AS CambioABolivaresDoc");
+            } else {
+                vSql.AppendLine("   , documentoCobrado.CambioAMonedaLocal AS CambioABolivaresDoc");
+            }
             vSql.AppendLine($"   , {SqlPorcentajeDeComision(valUsaAsignacionDeComisionEnCobranza)} AS PorcentajeDeComision");
             //Prorrateo del IVA
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
@@ -348,7 +361,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vSql.ToString();
         }
 
-        private string SqlComisionDeVendedoresDetalladoOrigenFactura(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valCodigoMonedaLocal, bool valUsaOtrosCargosDeFactura, bool valUsaAsignacionDeComisionEnCobranza) {
+        private string SqlComisionDeVendedoresDetalladoOrigenFactura(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valCodigoMonedaLocal, bool valUsaOtrosCargosDeFactura, bool valUsaAsignacionDeComisionEnCobranza) {
             QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             #region Filtrado
@@ -378,8 +391,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string vMontoComisionable = vUtilSql.RoundToNDecimals(vMontoAbonadoEnDocumentoCob + " - " + vEsPosibleProrrateoIVA, 3);
             string vMontoComisionableConvertido = vMontoComisionable + "* Cobranza.CambioABolivares";
             string vMontoComisionableEnMonedaLocal = vUtilSql.IIF("Cobranza.CodigoMoneda =" + vUtilSql.ToSqlValue(valCodigoMonedaLocal), vMontoComisionable, vMontoComisionableConvertido, true);
+            #region En Moneda Local - Tasa del Dia
             string vMontoAbonadoEnMonedaLocalTasaDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", vMontoAbonadoEnDocumentoCob, false, string.Empty);
             string vMontoComisionableEnMonedaLocalTasaDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", vMontoComisionable, false, string.Empty);
+            string vMontoTasaDeCambioDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", "1", false, string.Empty);
+            #endregion
 
             string esMontoValidoConRenglonFactura = string.Empty;
             string esMontoValidoConOtrosCargosFactura = string.Empty;
@@ -404,13 +420,21 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine(" SELECT");
             vSql.AppendLine("   Vendedor.Codigo AS CodigoDelVendedor");
             vSql.AppendLine("   , Vendedor.Nombre AS NombreDelVendedor");
-            vSql.AppendLine("   , cobranza.Moneda AS MonedaCobranza");
+            if (valTipoDeInforme == Saw.Lib.eTipoDeInforme.Resumido && valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares) {
+                vSql.AppendLine("   , 'Bolivar' AS MonedaCobranza");
+            } else {
+                vSql.AppendLine("   , cobranza.Moneda AS MonedaCobranza");
+            }
             vSql.AppendLine("   , Cobranza.Fecha AS FechaDoc");
             vSql.AppendLine("   , cxC.Numero AS NumeroDoc");
             vSql.AppendLine("   , ('Cob. ' + Cobranza.Numero + '/ Fact. ' + CxC.NumeroDocumentoOrigen) AS NumeroDelDocumento");
             vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
             vSql.AppendLine("   , documentoCobrado.SimboloMonedaDeCxC AS SimboloMonedaDoc");
-            vSql.AppendLine("   , documentoCobrado.CambioAMonedaLocal AS CambioABolivaresDoc");
+            if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares && valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
+                vSql.AppendLine($"  , {vMontoTasaDeCambioDelDia} AS CambioABolivaresDoc");
+            } else {
+                vSql.AppendLine("   , documentoCobrado.CambioAMonedaLocal AS CambioABolivaresDoc");
+            }
             vSql.AppendLine($"   , {SqlPorcentajeDeComision(valUsaAsignacionDeComisionEnCobranza)} AS PorcentajeDeComision");
             //Prorrateo del IVA
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {

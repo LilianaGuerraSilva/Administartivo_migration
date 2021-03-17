@@ -319,5 +319,5 @@ S10DBName;Proceso;9;9.1-Procesos;1;;String;;S
 UsaMostrarPreciosEnDivisa;Inventario;5;5.4-. Verificador de Precios;4;;Bool;;N
 TipoDeConversionParaPrecios;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
 UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;Bancos;7;7.2-Moneda;2;;Bool;;N
-UsarLimiteMaximoParaIngresoDeTasaDeCambio;Bancos;7;7.2-Moneda;2;;Bool;;S
-MaximoLimitePermitidoParaLaTasaDeCambio;Bancos;7;7.2-Moneda;2;;Decimal;;S
+UsarLimiteMaximoParaIngresoDeTasaDeCambio;Bancos;7;7.2-Moneda;2;;Bool;;N
+MaximoLimitePermitidoParaLaTasaDeCambio;Bancos;7;7.2-Moneda;2;;Decimal;;N

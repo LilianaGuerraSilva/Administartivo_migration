@@ -343,7 +343,7 @@ Private Function fAbrirComprobanteFiscal(ByVal valImpresoraFiscal As Enum_Impres
           sAbreCFEpson (valPuerto)
        Case Enum_ImpresorasFiscales.eIF_EPSON_TM_675_PF:              sAbreCFEpson (valPuerto)
        Case Enum_ImpresorasFiscales.eIF_EPSON_TM_950_PF:              sAbreCFEpson (valPuerto)
-       Case Enum_ImpresorasFiscales.eIF_BEMATECH_MP_20_FI_II, Enum_ImpresorasFiscales.eIF_BEMATECH_MP_2100_FI:      sAbreCF_BEMATECH
+       Case Enum_ImpresorasFiscales.eIF_BEMATECH_MP_20_FI_II, Enum_ImpresorasFiscales.eIF_BEMATECH_MP_2100_FI, Enum_ImpresorasFiscales.eIF_BEMATECH_MP_4000_FI: sAbreCF_BEMATECH
         
        Case Enum_ImpresorasFiscales.eIF_BMC_CAMEL, Enum_ImpresorasFiscales.eIF_BMC_SPARK_614, Enum_ImpresorasFiscales.eIF_BMC_TH34_EJ
           Set insImpFiscalBMC = New clsUtilImpFiscalBMC
@@ -357,7 +357,7 @@ Private Function fAbrirComprobanteFiscal(ByVal valImpresoraFiscal As Enum_Impres
           Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
           mReady = insImpFiscalFamFactory.sAbreCF(valPuerto, valImpresoraFiscal)
           Set insImpFiscalFamFactory = Nothing
-       Case eIF_ELEPOS_VMAX
+       Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
           mReady = True
     End Select
    End If
@@ -707,12 +707,12 @@ Private Function fEjecutaCierreZ(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
        Case eIF_EPSON_PF_220II:                                 sCierreZ_EPSON (valPuerto)
        Case eIF_EPSON_TM_675_PF:                                sCierreZ_EPSON (valPuerto)
        Case eIF_EPSON_TM_950_PF:                                sCierreZ_EPSON (valPuerto)
-       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI:  sCierreZ_BEMATECH
+       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: sCierreZ_BEMATECH
        Case eIF_BMC_CAMEL, eIF_BMC_SPARK_614, eIF_BMC_TH34_EJ:                  sCierreZ_BMC
        Case eIF_QPRINT_MF:                                      sCierreZ_QPrintMF valPuerto, valTipoConexion, valIp, valCajaNumero
        Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_OKI_ML_1120, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
           sCierreZ_FamiliaFactory valPuerto, valImpresoraFiscal
-       Case eIF_ELEPOS_VMAX
+       Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
          Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
          insImpFiscalEleposVMAX.InitializeValues obVMAX
          insImpFiscalEleposVMAX.sCierreZ mReady, valPuerto
@@ -793,7 +793,7 @@ Private Function fEjecutaCierreX(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
        Case eIF_EPSON_PF_220II:   sCierreX_EPSON (valPuerto)
        Case eIF_EPSON_TM_675_PF:  sCierreX_EPSON (valPuerto)
        Case eIF_EPSON_TM_950_PF:  sCierreX_EPSON (valPuerto)
-       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI:  sCierreX_BEMATECH
+       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: sCierreX_BEMATECH
        
        Case eIF_BMC_CAMEL, eIF_BMC_SPARK_614, eIF_BMC_TH34_EJ
          Set insImpFiscalBMC = New clsUtilImpFiscalBMC
@@ -809,7 +809,7 @@ Private Function fEjecutaCierreX(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
           Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
           insImpFiscalFamFactory.sCierreX valPuerto, valImpresoraFiscal, mReady
           Set insImpFiscalFamFactory = Nothing
-       Case eIF_ELEPOS_VMAX
+       Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
          Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
          insImpFiscalEleposVMAX.InitializeValues obVMAX
          insImpFiscalEleposVMAX.sCierreX mReady, valPuerto
@@ -1454,7 +1454,7 @@ Private Sub sObtenerSerialImpresoraFiscal(ByVal valImpresoraFiscal As Enum_Impre
           Case eIF_EPSON_PF_220II:            Serial = fSerialMemoriaFiscal_EPSON(valPuerto)
           Case eIF_EPSON_TM_675_PF:           Serial = fSerialMemoriaFiscal_EPSON(valPuerto)
           Case eIF_EPSON_TM_950_PF:           Serial = fSerialMemoriaFiscal_EPSON(valPuerto)
-          Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI: Serial = fSerialMemoriaFiscal_BEMATECH
+          Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: Serial = fSerialMemoriaFiscal_BEMATECH
        Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
              Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
              Serial = insImpFiscalFamFactory.fSerialMemoriaFiscal(mReady, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetImpresoraFiscal)
@@ -1469,7 +1469,7 @@ Private Sub sObtenerSerialImpresoraFiscal(ByVal valImpresoraFiscal As Enum_Impre
             Set insImpFiscalQPrint = New clsImpFiscalQPrint
             Serial = insImpFiscalQPrint.fSerialMemoriaFiscal_QPrintMF(mReady, insDatosImprFiscal.GetPuertoImpresoraFiscal, valTipoConexion, valIp, valCajaNumero)
             Set insImpFiscalQPrint = Nothing
-       Case eIF_ELEPOS_VMAX
+       Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
             Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
             insImpFiscalEleposVMAX.InitializeValues obVMAX
             Serial = insImpFiscalEleposVMAX.fSerialMemoriaFiscal(mReady, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetImpresoraFiscal)
@@ -1678,7 +1678,7 @@ Private Sub sObtenerUltimoNumeroFiscal(ByVal valImpresoraFiscal As Enum_Impresor
    Set insImpFiscalFromAOS = Nothing
    Else
     Select Case valImpresoraFiscal
-       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI: NumeroCupon = fUltimoNumeroMemoriaFiscal_BEMATECH
+       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: NumeroCupon = fUltimoNumeroMemoriaFiscal_BEMATECH
        Case eIF_EPSON_PF_300:                 NumeroCupon = fUltimoNumeroMemoriaFiscal_EPSON(valImpresoraFiscal, valPuerto)
        Case eIF_EPSON_PF_220:                 NumeroCupon = fUltimoNumeroMemoriaFiscal_EPSON(valImpresoraFiscal, valPuerto)
        Case eIF_EPSON_PF_220II:               NumeroCupon = fUltimoNumeroMemoriaFiscal_EPSON(valImpresoraFiscal, valPuerto)
@@ -1698,7 +1698,7 @@ Private Sub sObtenerUltimoNumeroFiscal(ByVal valImpresoraFiscal As Enum_Impresor
           Set insImprFiscalQPrint = New clsImpFiscalQPrint
           NumeroCupon = insImprFiscalQPrint.fUltimoNumeroMemoriaFiscal_QPrintMF(mReady, insDatosImprFiscal, valPuerto, valTipoConexion, valIp, valCajaNumero)
           Set insImprFiscalQPrint = Nothing
-       Case eIF_ELEPOS_VMAX
+       Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
          Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
          insImpFiscalEleposVMAX.InitializeValues obVMAX
          NumeroCupon = insImpFiscalEleposVMAX.fUltimoNumeroMemoriaFiscal(insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetEsNotaDeCredito, mReady)
@@ -1870,7 +1870,7 @@ Private Sub sEfectuaVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, B
              sImprimeVentaArticulo_Epson valPuerto
        Case eIF_EPSON_TM_675_PF:              sImprimeVentaArticulo_Epson valPuerto
        Case eIF_EPSON_TM_950_PF:              sImprimeVentaArticulo_Epson valPuerto
-       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI:         sImprimeVentaArticulo_BEMATECH
+       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: sImprimeVentaArticulo_BEMATECH
        
        Case eIF_BMC_CAMEL, eIF_BMC_SPARK_614, eIF_BMC_TH34_EJ
           Set insImprFiscalBMC = New clsUtilImpFiscalBMC
@@ -1884,7 +1884,7 @@ Private Sub sEfectuaVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, B
           Set insImprFiscalFamFactory = New clsImpFiscalFamFactory
           insImprFiscalFamFactory.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, mReady
           Set insImprFiscalFamFactory = Nothing
-       Case eIF_ELEPOS_VMAX
+       Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
          Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
          insImpFiscalEleposVMAX.InitializeValues obVMAX
          insImpFiscalEleposVMAX.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, False, mReady
@@ -1950,7 +1950,7 @@ Private Sub sEfectuaNotaDeCredito(ByVal valImpresoraFiscal As Enum_ImpresorasFis
             Set insImprFiscalFactory = New clsImpFiscalFamFactory
             insImprFiscalFactory.sImprimeNotaDeCreditoHKA112 valImpresoraFiscal, valPuerto, insDatosImprFiscal, mReady
             Set insImprFiscalFactory = Nothing
-         Case eIF_ELEPOS_VMAX
+         Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
            Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
            insImpFiscalEleposVMAX.InitializeValues obVMAX
            insImpFiscalEleposVMAX.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, True, mReady
@@ -1973,12 +1973,12 @@ Private Sub sCerrarVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, va
       Case eIF_EPSON_PF_300:                 sCierraCF_EPSON (valImpresoraFiscal), valPuerto
       Case eIF_EPSON_TM_675_PF:              sCierraCF_EPSON (valImpresoraFiscal), valPuerto
       Case eIF_EPSON_TM_950_PF:              sCierraCF_EPSON (valImpresoraFiscal), valPuerto
-      Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI: sCierraCF_BEMATECH valImpresoraFiscal
+      Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: sCierraCF_BEMATECH valImpresoraFiscal
       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
          Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
          insImpFiscalFamFactory.sCierraCF True
          Set insImpFiscalFamFactory = Nothing
-     Case eIF_ELEPOS_VMAX
+     Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
      Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
       insImpFiscalEleposVMAX.InitializeValues obVMAX
       insImpFiscalEleposVMAX.sCierraCF
@@ -2159,7 +2159,7 @@ Private Sub sCancelaCuponFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFisca
    Set insImpFiscalFromAOS = Nothing
    Else
     Select Case valImpresoraFiscal
-       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI:          fCancelaCuponFiscal_BEMATECH
+       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: fCancelaCuponFiscal_BEMATECH
        Case eIF_EPSON_PF_300:                 fCancelaCuponFiscal_EPSON valPuerto
        Case eIF_EPSON_PF_220:                 fCancelaCuponFiscal_EPSON valPuerto
        Case eIF_EPSON_PF_220II:               fCancelaCuponFiscal_EPSON valPuerto
@@ -2174,7 +2174,7 @@ Private Sub sCancelaCuponFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFisca
           Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
           insImpFiscalFamFactory.fCancelaCuponFiscal True, valPuerto, valImpresoraFiscal
           Set insImpFiscalFamFactory = Nothing
-       Case eIF_ELEPOS_VMAX
+       Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
          Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
          insImpFiscalEleposVMAX.InitializeValues obVMAX
          insImpFiscalEleposVMAX.fCancelaCuponFiscal True, valPuerto
@@ -2193,7 +2193,7 @@ Private Sub sVerificaVigenciaDeLaAlicuota(ByVal valImpresoraFiscal As Enum_Impre
       Ready = True
    Else
       Select Case valImpresoraFiscal
-         Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI:          fValidaAlicuotaIVA_BEMATECH gAdmAlicuotaIvaActual
+         Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: fValidaAlicuotaIVA_BEMATECH gAdmAlicuotaIvaActual
          Case eIF_EPSON_PF_300:                 fCancelaCuponFiscal_EPSON valPuerto
          Case eIF_EPSON_PF_220:                 fCancelaCuponFiscal_EPSON valPuerto
          Case eIF_EPSON_PF_220II:               fCancelaCuponFiscal_EPSON valPuerto
@@ -2526,7 +2526,7 @@ Private Sub sActivaRedondeo(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales,
    Dim vMensajeError As String
    On Error GoTo h_Error
    Select Case valImpresoraFiscal
-   Case Enum_ImpresorasFiscales.eIF_BEMATECH_MP_20_FI_II, Enum_ImpresorasFiscales.eIF_BEMATECH_MP_2100_FI
+   Case Enum_ImpresorasFiscales.eIF_BEMATECH_MP_20_FI_II, Enum_ImpresorasFiscales.eIF_BEMATECH_MP_2100_FI, Enum_ImpresorasFiscales.eIF_BEMATECH_MP_4000_FI
       sActivaRedondeoBematech (refReady)
       If gTexto.DfLen(vMensajeError) > 0 Then
          gMessage.sCriticalErrorMessage vMensajeError, "Error en Impresora Fiscal"
@@ -2715,7 +2715,7 @@ Public Sub sObtenerUltimoNumeroDeReporteZ(ByVal valImpresoraFiscal As Enum_Impre
    Set insImpFiscalFromAOS = Nothing
    Else
     Select Case valImpresoraFiscal
-        Case Enum_ImpresorasFiscales.eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI:  vUltimoNumeroDeReporteZ = fObtenerUltimoNumeroDeReporteZ_Familia_Bematech
+        Case Enum_ImpresorasFiscales.eIF_BEMATECH_MP_20_FI_II, Enum_ImpresorasFiscales.eIF_BEMATECH_MP_2100_FI, Enum_ImpresorasFiscales.eIF_BEMATECH_MP_4000_FI:  vUltimoNumeroDeReporteZ = fObtenerUltimoNumeroDeReporteZ_Familia_Bematech
         Case Enum_ImpresorasFiscales.eIF_BMC_CAMEL, Enum_ImpresorasFiscales.eIF_BMC_SPARK_614, Enum_ImpresorasFiscales.eIF_BMC_TH34_EJ:
            Set insImpFiscalBMC = New clsUtilImpFiscalBMC
            vUltimoNumeroDeReporteZ = insImpFiscalBMC.fObtenerUltimoReporteZ_BMC(valPuerto)
@@ -2730,7 +2730,7 @@ Public Sub sObtenerUltimoNumeroDeReporteZ(ByVal valImpresoraFiscal As Enum_Impre
            Set insImpFiscalFamiliaFactory = New clsImpFiscalFamFactory
            vUltimoNumeroDeReporteZ = insImpFiscalFamiliaFactory.fObtenerUltimoNumeroDeReporteZ(valPuerto, valImpresoraFiscal)
            Set insImpFiscalFamiliaFactory = Nothing
-        Case eIF_ELEPOS_VMAX
+        Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
           Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
           insImpFiscalEleposVMAX.InitializeValues obVMAX
           vUltimoNumeroDeReporteZ = insImpFiscalEleposVMAX.fObtenerUltimoNumeroDeReporteZ(valPuerto)

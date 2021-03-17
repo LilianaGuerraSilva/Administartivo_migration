@@ -90,7 +90,8 @@ namespace Galac.Adm.Rpt.Venta {
                 } else {
                     LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoTotalCobranza", string.Empty, "MontoAbonado", 2);
 				    LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoComisionable", string.Empty, "MontoComisionableEnMonedaLocal", 2);
-                    LibReport.ConfigSummaryField(this, "txtTotalComisionable", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
+                    LibReport.ConfigLabel(this, "lblMonedaCobranza", "Montos en:");
+                    LibReport.ConfigSummaryField(this, "txtTotalComisionable", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecVendedor", SummaryRunning.Group, SummaryType.SubTotal);
                     LibReport.ConfigSummaryField(this, "txtTotalComisionableEnMonedaLocal", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecVendedor", SummaryRunning.Group, SummaryType.SubTotal); LibReport.ConfigSummaryField(this, "txtTotalGeneralComisionable", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
                     LibReport.ChangeControlVisibility(this, "txtTipoDeCambioAMonedaLocal", true);
                     if (vEsTasaDeCambioOriginalAMonedaLocal) {
