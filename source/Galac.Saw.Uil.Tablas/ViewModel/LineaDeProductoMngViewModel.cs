@@ -80,15 +80,8 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
-            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-                RibbonData.TabDataCollection[0].GroupDataCollection[0].AddRibbonControlData(new LibRibbonButtonData() {
-                    Label = "Reinstalar",
-                    Command = ReinstallCommand,
-                    LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/add.png", UriKind.Relative),
-                    ToolTipDescription = "Reinstalar",
-                    ToolTipTitle = "Reinstalar"
-                });
-            }
+            //if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {                
+            //}
             RibbonData.RemoveRibbonControl("Consultas", "Imprimir Lista");
         }
         #endregion //Metodos Generados
@@ -149,10 +142,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         }
 
         bool ILibMefInstallValues.InstallFromFile() {
-            return InstallOrReInstallDataFromFile(eAccionSR.Instalar);
-     //       string vFileName = System.IO.Path.Combine(LibWorkPaths.PathOfCommonTablesForCountry(""), "LineaDeProducto.txt");
-       //     bool vResult = LibImportExport.InstallData(vFileName, "Línea de Producto", new clsLineaDeProductoImpExp(), LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv));
-        //    return vResult;
+            return InstallOrReInstallDataFromFile(eAccionSR.Instalar);        
         }
 
         internal bool InstallOrReInstallDataFromFile(eAccionSR valAction) {
