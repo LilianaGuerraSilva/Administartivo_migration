@@ -431,10 +431,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private ValidationResult MaximoLimitePermitidoParaLaTasaDeCambioValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if(MaximoLimitePermitidoParaLaTasaDeCambio < 1m) {
-                vResult = new ValidationResult("El máximo limite permitido no puede ser menor a " + LibConvert.NumToString(1m,2));
+            if(MaximoLimitePermitidoParaLaTasaDeCambio < 1/100m) {
+                vResult = new ValidationResult("El máximo límite permitido no puede ser menor a " + LibConvert.NumToString(1m,2));
             } else if(MaximoLimitePermitidoParaLaTasaDeCambio > 100m) {
-                vResult = new ValidationResult("El máximo limite permitido no puede ser mayor a " + LibConvert.NumToString(100m,2));
+                vResult = new ValidationResult("El máximo límite permitido no puede ser mayor a " + LibConvert.NumToString(100m,2));
             }
             return vResult;
         }
