@@ -8,7 +8,7 @@
 [submodule "bin/binAdministrativoVb"]
 	path = bin/binAdministrativoVb
 	url = https://chronos.galac.local:10207/desa/binadministrativovb.git
-	branch = release-V2010
+	branch = release-V2102
 [submodule "bin/binAdministrativoAos"]
 	path = bin/binAdministrativoAos
 	url = https://chronos.galac.local:10207/desa/binadministrativoaos.git
@@ -19,7 +19,7 @@
 [submodule "source/AxI"]
 	path = source/AxI
 	url = https://chronos.galac.local:10207/desa/axi.git
-	branch = develop
+	branch = release-V32.1.0.0
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://chronos.galac.local:10207/desa/contabiwrp.git
@@ -43,11 +43,11 @@
 [submodule "source/Lib/AosLib"]
 	path = source/Lib/AosLib
 	url = https://chronos.galac.local:10207/desa/aoslib.git
-	branch = release-V5.13.0.0
+	branch = release-V5.12.0.0
 [submodule "source/Lib/VbaLib"]
 	path = source/Lib/VbaLib
 	url = https://chronos.galac.local:10207/desa/vbalib.git
-	branch = release-V2102
+	branch = release-V2001
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://chronos.galac.local:10207/desa/contabilidadvb.git
