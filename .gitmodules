@@ -63,7 +63,7 @@
 [submodule "source/vbaComun"]
 	path = source/vbaComun
 	url = https://chronos.galac.local:10207/desa/vbacomun.git
-	branch = release-SAW-18.6
+	branch = release-SAW-V18.6
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://chronos.galac.local:10207/desa/bincomunaos.git
