@@ -23,7 +23,7 @@
     <quorion LiteralName="quorion">1.00</quorion>
   </ComponentesCOM>
   <ComponentesNET>
-    <GSEFF type="exe">5.1.2.0</GSEFF>
+    <GSEFF type="exe">5.2.0.0</GSEFF>
     <GSSDSL type="exe">5.1.0.0</GSSDSL>
     <GSXFV type="exe">5.1.0.0</GSXFV>
     <LibGalac.OIM>5.12.0.0</LibGalac.OIM>
