@@ -309,7 +309,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   , cxC.Numero AS NumeroDoc");
             vSql.AppendLine("   , ('Cob. ' + Cobranza.Numero + '/ Doc. ' + CxC.NumeroDocumentoOrigen) AS NumeroDelDocumento");
             vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
-            vSql.AppendLine("   , documentoCobrado.SimboloMonedaDeCxC AS SimboloMonedaDoc");
+            vSql.AppendLine("   , MonedaCobranza.Simbolo AS SimboloMonedaDoc");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares && valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
                 vSql.AppendLine($"  , {vMontoTasaDeCambioDelDia} AS CambioABolivaresDoc");
             } else {
@@ -325,6 +325,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
                     vSql.AppendLine($"  , {SqlCalculoDeComisionEnCobranza(vMontoComisionable)} AS MontoComision");
                 }
             } else {
+                vSql.AppendLine("   , documentoCobrado.MontoAbonado AS MontoAbonadoOriginal");
                 if (valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.Original) {
                     vSql.AppendLine("   , documentoCobrado.MontoAbonado * DocumentoCobrado.CambioAMonedaDeCobranza AS MontoAbonado");
                     vSql.AppendLine("   ," + vMontoComisionable + " AS MontoComisionable");
@@ -355,6 +356,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   INNER JOIN Cliente");
             vSql.AppendLine("   ON Cliente.Codigo = CxC.CodigoCliente");
             vSql.AppendLine("       AND Cliente.ConsecutivoCompania = CxC.ConsecutivoCompania");
+            vSql.AppendLine("   INNER JOIN Moneda AS MonedaCobranza");
+            vSql.AppendLine("   ON MonedaCobranza.Codigo = Cobranza.CodigoMoneda");
             if (LibString.Len(vSQLWhereCxCManual) > 0) {
                 vSql.AppendLine(vUtilSql.WhereSql(vSQLWhereCxCManual));
             }
@@ -429,7 +432,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   , cxC.Numero AS NumeroDoc");
             vSql.AppendLine("   , ('Cob. ' + Cobranza.Numero + '/ Fact. ' + CxC.NumeroDocumentoOrigen) AS NumeroDelDocumento");
             vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
-            vSql.AppendLine("   , documentoCobrado.SimboloMonedaDeCxC AS SimboloMonedaDoc");
+            vSql.AppendLine("   , MonedaCobranza.Simbolo AS SimboloMonedaDoc");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares && valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
                 vSql.AppendLine($"  , {vMontoTasaDeCambioDelDia} AS CambioABolivaresDoc");
             } else {
@@ -445,6 +448,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
                     vSql.AppendLine($"  , {SqlCalculoDeComisionEnCobranza(vMontoComisionable)} AS MontoComision");
                 }
             } else {
+                vSql.AppendLine("   , documentoCobrado.MontoAbonado AS MontoAbonadoOriginal");
                 if (valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.Original) {
                     vSql.AppendLine("   , documentoCobrado.MontoAbonado * DocumentoCobrado.CambioAMonedaDeCobranza AS MontoAbonado");
                     vSql.AppendLine("   ," + vMontoComisionable + " AS MontoComisionable");
@@ -479,6 +483,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   INNER JOIN Cliente");
             vSql.AppendLine("   ON Cliente.Codigo = CxC.CodigoCliente");
             vSql.AppendLine("       AND Cliente.ConsecutivoCompania = CxC.ConsecutivoCompania");
+            vSql.AppendLine("   INNER JOIN Moneda AS MonedaCobranza");
+            vSql.AppendLine("   ON MonedaCobranza.Codigo = Cobranza.CodigoMoneda");
             if (LibString.Len(vSQLWhereCxCDesdeFactura) > 0) {
                 vSql.AppendLine(vUtilSql.WhereSql(vSQLWhereCxCDesdeFactura));
             }
