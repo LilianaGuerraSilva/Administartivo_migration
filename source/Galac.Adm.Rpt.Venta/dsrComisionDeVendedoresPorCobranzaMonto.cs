@@ -84,7 +84,10 @@ namespace Galac.Adm.Rpt.Venta {
                     LibReport.ChangeControlLocation(this, "txtCodigoVendedor", (float)1.71, (float)0);
                     LibReport.ChangeControlLocation(this, "txtNombreVendedor", (float)2.21, (float)0);
                     #endregion
-				    LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoTotalCobranza", string.Empty, "MontoAbonado", 2);
+                    OcultarColumnasSinMontoCobrado();
+                    OrganizarColumnasSinMontoCobrado();
+                    OrganizarTotalesPorMonedaCobranza();
+                    LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAbonado", string.Empty, "MontoAbonado", 2);
 				    LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoComisionable", string.Empty, "MontoComisionable", 2);
                     LibReport.ConfigSummaryField(this, "txtTotalComisionable", "MontoComisionable", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
                     LibReport.ConfigSummaryField(this, "txtTotalComisionableEnMonedaLocal", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
@@ -103,11 +106,12 @@ namespace Galac.Adm.Rpt.Venta {
                         LibReport.ChangeControlVisibility(this, "lblNivelDeComisionPorMonedaCobranza", true);
                         LibReport.ChangeControlVisibility(this, "txtNivelDeComisionPorMonedaCobranza", true);
                         LibReport.ChangeControlVisibility(this, "txtTotalComisionableEnMonedaLocal", false);
-                        LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFSecMonedaCobranza", true, (float)0.95);
+                        LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFSecMonedaCobranza", true, (float)1);
                         #endregion
                     }
                 } else {
-                    LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoTotalCobranza", string.Empty, "MontoAbonado", 2);
+                    LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoAbonadoOriginal", string.Empty, "MontoAbonadoOriginal", 2);
+                    LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAbonado", string.Empty, "MontoAbonado", 2);
 				    LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoComisionable", string.Empty, "MontoComisionableEnMonedaLocal", 2);
 				    LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalGeneralComisionable", string.Empty, "TotalGeneralComisionable", 2);
 				    LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalGeneralComision", string.Empty, "TotalGeneralComision", 2);
@@ -128,15 +132,15 @@ namespace Galac.Adm.Rpt.Venta {
                         LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoComisionEnMonedaExt", string.Empty, string.Empty, 2);
                     } else {
                         #region Reajuste de la presentacion
-                        LibReport.ChangeControlLocation(this, "lblPorcentajeDeComision", (float)3.70, (float)0.37);
-                        LibReport.ChangeControlLocation(this, "txtPorcentajeDeComision", (float)6.26, (float)0.37);
-                        LibReport.ChangeControlLocation(this, "lblNivelDeComision", (float)3.70, (float)0.53);
-                        LibReport.ChangeControlLocation(this, "txtNivelDeComision", (float)6.25, (float)0.53);
-                        LibReport.ChangeControlLocation(this, "lblTotalesGenerales", (float)3.70, (float)0.69);
-                        LibReport.ChangeControlLocation(this, "lblTotalGeneralComisionable", (float)3.70, (float)0.85);
-                        LibReport.ChangeControlLocation(this, "txtTotalGeneralComisionable", (float)6.25, (float)0.85);
-                        LibReport.ChangeControlLocation(this, "lblTotalGeneralComision", (float)3.70, (float)1.01);
-                        LibReport.ChangeControlLocation(this, "txtTotalGeneralComision", (float)6.25, (float)1.01);
+                        LibReport.ChangeControlLocation(this, "lblPorcentajeDeComision", (float)4.36, (float)0.37);
+                        LibReport.ChangeControlLocation(this, "txtPorcentajeDeComision", (float)7.56, (float)0.37);
+                        LibReport.ChangeControlLocation(this, "lblNivelDeComision", (float)4.36, (float)0.53);
+                        LibReport.ChangeControlLocation(this, "txtNivelDeComision", (float)7.56, (float)0.53);
+                        LibReport.ChangeControlLocation(this, "lblTotalesGenerales", (float)4.36, (float)0.69);
+                        LibReport.ChangeControlLocation(this, "lblTotalGeneralComisionable", (float)4.36, (float)0.85);
+                        LibReport.ChangeControlLocation(this, "txtTotalGeneralComisionable", (float)7.56, (float)0.85);
+                        LibReport.ChangeControlLocation(this, "lblTotalGeneralComision", (float)4.36, (float)1.01);
+                        LibReport.ChangeControlLocation(this, "txtTotalGeneralComision", (float)7.56, (float)1.01);
                         #endregion
                     }
                     #endregion
@@ -160,6 +164,9 @@ namespace Galac.Adm.Rpt.Venta {
                     LibReport.ChangeControlVisibility(this, "lblNivelDeComision", false);
                     LibReport.ChangeControlVisibility(this, "txtNivelDeComision", false);
                     #endregion
+                    OcultarColumnasSinMontoCobrado();
+                    OrganizarColumnasSinMontoCobrado(UsaAsignacionDeComisionEnCobranza);
+                    OrganizarTotalesPorMonedaCobranza();
                     if (vIncluirComisionEnMonedaExt) {
                         #region Ajustar la ubicación de los totales
                         LibReport.ChangeControlLocation(this, "lblTotalesGenerales", (float)6.26, (float)0);
@@ -213,22 +220,66 @@ namespace Galac.Adm.Rpt.Venta {
 				LibReport.ConfigFieldStr(this, "txtNivelDeComision", string.Empty, "NivelDeComision");
                 LibReport.ConfigFieldStr(this, "txtNotaFooter", vNotaFooter, string.Empty);
 
-                LibReport.ConfigSummaryField(this, "txtTotalCobranza", "MontoAbonado", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtTotalAbonadoCobranza", "MontoAbonado", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalGeneralComisionable", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecVendedor", SummaryRunning.Group, SummaryType.SubTotal);
 
 				LibReport.ConfigGroupHeader(this, "GHSecVendedor", "CodigoDelVendedor", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
 				LibReport.ConfigGroupHeader(this, "GHSecMonedaCobranza", "MonedaCobranza", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
-                if(UsaAsignacionDeComisionEnCobranza) {
-                    LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
-                } else {
+                if (EsEnMonedaOriginal) {
                     LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
+                } else {
+                    LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 }
                 return true;
             }
             return false;
         }
         #endregion //Metodos Generados
+        private void OcultarColumnasSinMontoCobrado() {
+            LibReport.ChangeControlVisibility(this, "lblMontoAbonadoOriginal", false);
+            LibReport.ChangeControlVisibility(this, "txtMontoAbonadoOriginal", false);
+        }
+        private void OrganizarColumnasSinMontoCobrado(bool valUsaAsignacionComisionEnCobranza = false) {
+            LibReport.ChangeControlLocation(this, "lblCambioABolivares", (float)4.36, (float)0.16);
+            LibReport.ChangeControlLocation(this, "txtCambioABolivares", (float)4.36, (float)0);
+            LibReport.ChangeControlLocation(this, "lblTotalAbonado", (float)4.96, (float)0.16);
+            LibReport.ChangeControlLocation(this, "txtTotalAbonado", (float)4.96, (float)0);
+            LibReport.ChangeControlLocation(this, "txtTotalAbonadoCobranza", (float)4.96, (float)0);
+            LibReport.ChangeControlLocation(this, "lblMontoComisionable", (float)6.26, (float)0.16);
+            LibReport.ChangeControlLocation(this, "txtMontoComisionable", (float)6.26, (float)0);
+            LibReport.ChangeControlLocation(this, "txtTotalComisionable", (float)6.26, (float)0);
+            LibReport.ChangeControlLocation(this, "lblPorcentajeDeComisionEnCobranza", (float)7.44, (float)0.16);
+            LibReport.ChangeControlLocation(this, "txtPorcentajeDeComisionEnCobranza", (float)7.44, (float)0);
+            LibReport.ChangeControlLocation(this, "lblMontoComisionPorCobranza", (float)8.14, (float)0.16);
+            LibReport.ChangeControlLocation(this, "txtMontoComisionPorCobranza", (float)8.14, (float)0);
+            if(valUsaAsignacionComisionEnCobranza) {
+                LibReport.ChangeControlLocation(this, "txtTotalMontoComisionPorCobranza", (float)7.44, (float)0);
+            } else {
+                LibReport.ChangeControlLocation(this, "txtTotalMontoComisionPorCobranza", (float)8.14, (float)0);
+            }
+            LibReport.ChangeControlLocation(this, "lblMontoComisionPorCobranzaEnMonedaExt", (float)9.07, (float)0.16);
+            LibReport.ChangeControlLocation(this, "txtMontoComisionPorCobranzaEnMonedaExt", (float)9.07, (float)0);
+            LibReport.ChangeControlLocation(this, "txtTotalMontoComisionPorCobranzaEnMonedaExt", (float)9.07, (float)0);
+        }
+        private void OrganizarTotalesPorMonedaCobranza() {
+            lblResumenComisionVendedorPorMonCobranza.Width = (float) 3.59;
+            LibReport.ChangeControlLocation(this, "lblResumenComisionVendedorPorMonCobranza", (float)3.86, (float)0.24);
+            lblTotales.Width = (float)1.1;
+            LibReport.ChangeControlLocation(this, "lblTotales", (float)3.86, (float)0);
+            txtTotalAbonadoCobranza.Width = (float)1.3;
+            LibReport.ChangeControlLocation(this, "txtTotalAbonadoCobranza", (float) 4.96, (float)0);
+            lblMontoComisionPorMonedaCobranza.Width = (float) 2.4;
+            LibReport.ChangeControlLocation(this, "lblMontoComisionPorMonedaCobranza", (float)3.86, (float)0.45);
+            LibReport.ChangeControlLocation(this, "txtMontoComisionPorMonedaCobranza", (float)6.26, (float)0.45);
+            lblPorcentajeDeComisionPorMonedaCobranza.Width = (float)2.4;
+            LibReport.ChangeControlLocation(this, "lblPorcentajeDeComisionPorMonedaCobranza", (float)3.86, (float)0.60);
+            LibReport.ChangeControlLocation(this, "txtPorcentajeDeComisionPorMonedaCobranza", (float)6.26, (float)0.60);
+            lblNivelDeComisionPorMonedaCobranza.Width = (float)2.4;
+            LibReport.ChangeControlLocation(this, "lblNivelDeComisionPorMonedaCobranza", (float)3.86, (float)0.76);
+            LibReport.ChangeControlLocation(this, "txtNivelDeComisionPorMonedaCobranza", (float)6.26, (float)0.76);
+            LibReport.ChangeControlLocation(this, "txtTotalComisionableEnMonedaLocal", (float)6.26, (float)0.92);
+        }
         #region Variables globales para totalizar
         private decimal vTotalMontoComisionEnMonedaExt;
         private decimal vTotalGeneralComisionEnMonedaLocal;
