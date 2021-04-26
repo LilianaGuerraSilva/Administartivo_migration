@@ -229,12 +229,12 @@ namespace Galac.Adm.Rpt.Venta
             this.txtCambioABolivares.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtCambioABolivares.Text = "txtCambioABolivares";
             this.txtCambioABolivares.Top = 0F;
-            this.txtCambioABolivares.Width = 0.6F;
+            this.txtCambioABolivares.Width = 0.8F;
             // 
             // txtTotalAbonado
             // 
             this.txtTotalAbonado.Height = 0.15625F;
-            this.txtTotalAbonado.Left = 6.26F;
+            this.txtTotalAbonado.Left = 6.46F;
             this.txtTotalAbonado.Name = "txtTotalAbonado";
             this.txtTotalAbonado.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalAbonado.Text = "txtTotalAbonado";
@@ -244,7 +244,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtMontoComisionable
             // 
             this.txtMontoComisionable.Height = 0.15625F;
-            this.txtMontoComisionable.Left = 7.56F;
+            this.txtMontoComisionable.Left = 7.76F;
             this.txtMontoComisionable.Name = "txtMontoComisionable";
             this.txtMontoComisionable.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoComisionable.Text = "txtMontoComisionable";
@@ -254,7 +254,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtPorcentajeDeComisionEnCobranza
             // 
             this.txtPorcentajeDeComisionEnCobranza.Height = 0.15625F;
-            this.txtPorcentajeDeComisionEnCobranza.Left = 8.73F;
+            this.txtPorcentajeDeComisionEnCobranza.Left = 8.94F;
             this.txtPorcentajeDeComisionEnCobranza.Name = "txtPorcentajeDeComisionEnCobranza";
             this.txtPorcentajeDeComisionEnCobranza.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtPorcentajeDeComisionEnCobranza.Text = "txtPorcentajeDeComisionEnCobranza";
@@ -265,7 +265,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtMontoComisionPorCobranza
             // 
             this.txtMontoComisionPorCobranza.Height = 0.15625F;
-            this.txtMontoComisionPorCobranza.Left = 9.44F;
+            this.txtMontoComisionPorCobranza.Left = 9.64F;
             this.txtMontoComisionPorCobranza.Name = "txtMontoComisionPorCobranza";
             this.txtMontoComisionPorCobranza.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoComisionPorCobranza.Text = "txtMontoComisionPorCobranza";
@@ -276,7 +276,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtMontoComisionPorCobranzaEnMonedaExt
             // 
             this.txtMontoComisionPorCobranzaEnMonedaExt.Height = 0.15625F;
-            this.txtMontoComisionPorCobranzaEnMonedaExt.Left = 10.37F;
+            this.txtMontoComisionPorCobranzaEnMonedaExt.Left = 10.57F;
             this.txtMontoComisionPorCobranzaEnMonedaExt.Name = "txtMontoComisionPorCobranzaEnMonedaExt";
             this.txtMontoComisionPorCobranzaEnMonedaExt.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoComisionPorCobranzaEnMonedaExt.Text = "txtMontoComisionPorCobranzaEnMonedaExt";
@@ -473,7 +473,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblResumenComisionVendedor.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
             this.lblResumenComisionVendedor.Text = "Resumen Comision por Vendedor";
             this.lblResumenComisionVendedor.Top = 0F;
-            this.lblResumenComisionVendedor.Width = 4.37F;
+            this.lblResumenComisionVendedor.Width = 4.57F;
             // 
             // lblNivelDeComision
             // 
@@ -484,7 +484,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNivelDeComision.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblNivelDeComision.Text = "Nivel de Comisión";
             this.lblNivelDeComision.Top = 0.6770001F;
-            this.lblNivelDeComision.Width = 3.182999F;
+            this.lblNivelDeComision.Width = 3.39F;
             // 
             // lblPorcentajeDeComision
             // 
@@ -495,7 +495,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblPorcentajeDeComision.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblPorcentajeDeComision.Text = "Porcentaje (%) de Comisión";
             this.lblPorcentajeDeComision.Top = 0.521F;
-            this.lblPorcentajeDeComision.Width = 3.182999F;
+            this.lblPorcentajeDeComision.Width = 3.39F;
             // 
             // lblMontoComision
             // 
@@ -506,12 +506,12 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoComision.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblMontoComision.Text = "Monto Comisión";
             this.lblMontoComision.Top = 0.209F;
-            this.lblMontoComision.Width = 3.189001F;
+            this.lblMontoComision.Width = 3.39F;
             // 
             // txtMontoComision
             // 
             this.txtMontoComision.Height = 0.15625F;
-            this.txtMontoComision.Left = 7.549F;
+            this.txtMontoComision.Left = 7.75F;
             this.txtMontoComision.Name = "txtMontoComision";
             this.txtMontoComision.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoComision.Text = "txtMontoComision";
@@ -521,7 +521,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtNivelDeComision
             // 
             this.txtNivelDeComision.Height = 0.15625F;
-            this.txtNivelDeComision.Left = 7.553F;
+            this.txtNivelDeComision.Left = 7.75F;
             this.txtNivelDeComision.Name = "txtNivelDeComision";
             this.txtNivelDeComision.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtNivelDeComision.Text = "txtNivelDeComision";
@@ -531,7 +531,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtPorcentajeDeComision
             // 
             this.txtPorcentajeDeComision.Height = 0.15625F;
-            this.txtPorcentajeDeComision.Left = 7.553F;
+            this.txtPorcentajeDeComision.Left = 7.75F;
             this.txtPorcentajeDeComision.Name = "txtPorcentajeDeComision";
             this.txtPorcentajeDeComision.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtPorcentajeDeComision.Text = "txtPorcentajeDeComision";
@@ -547,7 +547,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalGeneralComision.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblTotalGeneralComision.Text = "Total General Comisión";
             this.lblTotalGeneralComision.Top = 1.189F;
-            this.lblTotalGeneralComision.Width = 3.183F;
+            this.lblTotalGeneralComision.Width = 3.39F;
             // 
             // lblTotalesGenerales
             // 
@@ -560,7 +560,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalesGenerales.Style = "font-size: 8.25pt; font-weight: bold; text-align: center; ddo-char-set: 0";
             this.lblTotalesGenerales.Text = "Totales Generales";
             this.lblTotalesGenerales.Top = 0.8330001F;
-            this.lblTotalesGenerales.Width = 4.37F;
+            this.lblTotalesGenerales.Width = 4.57F;
             // 
             // lblTotalGeneralComisionable
             // 
@@ -571,12 +571,12 @@ namespace Galac.Adm.Rpt.Venta
             this.lblTotalGeneralComisionable.Style = "font-size: 8pt; font-weight: bold; text-align: left; ddo-char-set: 1";
             this.lblTotalGeneralComisionable.Text = "Total General Comisionable";
             this.lblTotalGeneralComisionable.Top = 1.033F;
-            this.lblTotalGeneralComisionable.Width = 3.183F;
+            this.lblTotalGeneralComisionable.Width = 3.39F;
             // 
             // txtTotalGeneralComisionable
             // 
             this.txtTotalGeneralComisionable.Height = 0.15625F;
-            this.txtTotalGeneralComisionable.Left = 7.549F;
+            this.txtTotalGeneralComisionable.Left = 7.75F;
             this.txtTotalGeneralComisionable.Name = "txtTotalGeneralComisionable";
             this.txtTotalGeneralComisionable.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalGeneralComisionable.Text = "txtTotalGeneralComisionable";
@@ -586,7 +586,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtTotalGeneralComision
             // 
             this.txtTotalGeneralComision.Height = 0.15625F;
-            this.txtTotalGeneralComision.Left = 7.549F;
+            this.txtTotalGeneralComision.Left = 7.75F;
             this.txtTotalGeneralComision.Name = "txtTotalGeneralComision";
             this.txtTotalGeneralComision.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalGeneralComision.Text = "txtTotalGeneralComision";
@@ -596,7 +596,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtMontoComisionEnMonedaExt
             // 
             this.txtMontoComisionEnMonedaExt.Height = 0.15625F;
-            this.txtMontoComisionEnMonedaExt.Left = 7.549F;
+            this.txtMontoComisionEnMonedaExt.Left = 7.75F;
             this.txtMontoComisionEnMonedaExt.Name = "txtMontoComisionEnMonedaExt";
             this.txtMontoComisionEnMonedaExt.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoComisionEnMonedaExt.Text = "txtMontoComisionEnMonedaExt";
@@ -614,7 +614,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoComisionEnMonedaExt.Text = "Monto Comisión en ";
             this.lblMontoComisionEnMonedaExt.Top = 0.365F;
             this.lblMontoComisionEnMonedaExt.Visible = false;
-            this.lblMontoComisionEnMonedaExt.Width = 3.189001F;
+            this.lblMontoComisionEnMonedaExt.Width = 3.39F;
             // 
             // txtTotalGeneralComisionEnMonedaExt
             // 
@@ -737,14 +737,14 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCambioABolivares.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblCambioABolivares.Text = "Cambio";
             this.lblCambioABolivares.Top = 0.156F;
-            this.lblCambioABolivares.Width = 0.6F;
+            this.lblCambioABolivares.Width = 0.8F;
             // 
             // lblTotalAbonado
             // 
             this.lblTotalAbonado.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblTotalAbonado.Height = 0.15625F;
             this.lblTotalAbonado.HyperLink = null;
-            this.lblTotalAbonado.Left = 6.26F;
+            this.lblTotalAbonado.Left = 6.46F;
             this.lblTotalAbonado.Name = "lblTotalAbonado";
             this.lblTotalAbonado.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblTotalAbonado.Text = "Total Abonado";
@@ -756,7 +756,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoComisionable.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMontoComisionable.Height = 0.15625F;
             this.lblMontoComisionable.HyperLink = null;
-            this.lblMontoComisionable.Left = 7.56F;
+            this.lblMontoComisionable.Left = 7.76F;
             this.lblMontoComisionable.Name = "lblMontoComisionable";
             this.lblMontoComisionable.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblMontoComisionable.Text = "Comisionable";
@@ -768,7 +768,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblPorcentajeDeComisionEnCobranza.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPorcentajeDeComisionEnCobranza.Height = 0.15625F;
             this.lblPorcentajeDeComisionEnCobranza.HyperLink = null;
-            this.lblPorcentajeDeComisionEnCobranza.Left = 8.74F;
+            this.lblPorcentajeDeComisionEnCobranza.Left = 8.94F;
             this.lblPorcentajeDeComisionEnCobranza.Name = "lblPorcentajeDeComisionEnCobranza";
             this.lblPorcentajeDeComisionEnCobranza.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblPorcentajeDeComisionEnCobranza.Text = "% Comisión";
@@ -781,7 +781,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoComisionPorCobranza.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMontoComisionPorCobranza.Height = 0.15625F;
             this.lblMontoComisionPorCobranza.HyperLink = null;
-            this.lblMontoComisionPorCobranza.Left = 9.44F;
+            this.lblMontoComisionPorCobranza.Left = 9.64F;
             this.lblMontoComisionPorCobranza.Name = "lblMontoComisionPorCobranza";
             this.lblMontoComisionPorCobranza.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblMontoComisionPorCobranza.Text = "Monto Comisión";
@@ -794,7 +794,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoComisionPorCobranzaEnMonedaExt.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblMontoComisionPorCobranzaEnMonedaExt.Height = 0.15625F;
             this.lblMontoComisionPorCobranzaEnMonedaExt.HyperLink = null;
-            this.lblMontoComisionPorCobranzaEnMonedaExt.Left = 10.37F;
+            this.lblMontoComisionPorCobranzaEnMonedaExt.Left = 10.57F;
             this.lblMontoComisionPorCobranzaEnMonedaExt.Name = "lblMontoComisionPorCobranzaEnMonedaExt";
             this.lblMontoComisionPorCobranzaEnMonedaExt.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblMontoComisionPorCobranzaEnMonedaExt.Text = "Comisión en ";
@@ -855,13 +855,13 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalAbonadoCobranza.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalAbonadoCobranza.Text = "txtTotalAbonadoCobranza";
             this.txtTotalAbonadoCobranza.Top = 0F;
-            this.txtTotalAbonadoCobranza.Width = 1.896F;
+            this.txtTotalAbonadoCobranza.Width = 2.1F;
             // 
             // txtTotalComisionable
             // 
             this.txtTotalComisionable.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalComisionable.Height = 0.15625F;
-            this.txtTotalComisionable.Left = 7.56F;
+            this.txtTotalComisionable.Left = 7.76F;
             this.txtTotalComisionable.Name = "txtTotalComisionable";
             this.txtTotalComisionable.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalComisionable.Text = "txtTotalComisionable";
@@ -872,7 +872,7 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtTotalComisionableEnMonedaLocal.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalComisionableEnMonedaLocal.Height = 0.15625F;
-            this.txtTotalComisionableEnMonedaLocal.Left = 7.559F;
+            this.txtTotalComisionableEnMonedaLocal.Left = 7.76F;
             this.txtTotalComisionableEnMonedaLocal.Name = "txtTotalComisionableEnMonedaLocal";
             this.txtTotalComisionableEnMonedaLocal.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalComisionableEnMonedaLocal.Text = "txtTotalComisionableEnMonedaLocal";
@@ -890,7 +890,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNivelDeComisionPorMonedaCobranza.Text = "Nivel de Comisión";
             this.lblNivelDeComisionPorMonedaCobranza.Top = 0.7550001F;
             this.lblNivelDeComisionPorMonedaCobranza.Visible = false;
-            this.lblNivelDeComisionPorMonedaCobranza.Width = 3.199001F;
+            this.lblNivelDeComisionPorMonedaCobranza.Width = 3.4F;
             // 
             // lblResumenComisionVendedorPorMonCobranza
             // 
@@ -904,7 +904,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblResumenComisionVendedorPorMonCobranza.Text = "Resumen Comision Vendedor por Moneda";
             this.lblResumenComisionVendedorPorMonCobranza.Top = 0.2420001F;
             this.lblResumenComisionVendedorPorMonCobranza.Visible = false;
-            this.lblResumenComisionVendedorPorMonCobranza.Width = 4.386002F;
+            this.lblResumenComisionVendedorPorMonCobranza.Width = 4.59F;
             // 
             // lblMontoComisionPorMonedaCobranza
             // 
@@ -916,12 +916,12 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoComisionPorMonedaCobranza.Text = "Monto Comisión";
             this.lblMontoComisionPorMonedaCobranza.Top = 0.447F;
             this.lblMontoComisionPorMonedaCobranza.Visible = false;
-            this.lblMontoComisionPorMonedaCobranza.Width = 3.2F;
+            this.lblMontoComisionPorMonedaCobranza.Width = 3.4F;
             // 
             // txtMontoComisionPorMonedaCobranza
             // 
             this.txtMontoComisionPorMonedaCobranza.Height = 0.15625F;
-            this.txtMontoComisionPorMonedaCobranza.Left = 7.56F;
+            this.txtMontoComisionPorMonedaCobranza.Left = 7.76F;
             this.txtMontoComisionPorMonedaCobranza.Name = "txtMontoComisionPorMonedaCobranza";
             this.txtMontoComisionPorMonedaCobranza.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtMontoComisionPorMonedaCobranza.Text = "txtMontoComisionPorMonedaCobranza";
@@ -932,7 +932,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtNivelDeComisionPorMonedaCobranza
             // 
             this.txtNivelDeComisionPorMonedaCobranza.Height = 0.15625F;
-            this.txtNivelDeComisionPorMonedaCobranza.Left = 7.559F;
+            this.txtNivelDeComisionPorMonedaCobranza.Left = 7.76F;
             this.txtNivelDeComisionPorMonedaCobranza.Name = "txtNivelDeComisionPorMonedaCobranza";
             this.txtNivelDeComisionPorMonedaCobranza.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtNivelDeComisionPorMonedaCobranza.Text = "txtNivelDeComisionPorMonedaCobranza";
@@ -943,7 +943,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtPorcentajeDeComisionPorMonedaCobranza
             // 
             this.txtPorcentajeDeComisionPorMonedaCobranza.Height = 0.15625F;
-            this.txtPorcentajeDeComisionPorMonedaCobranza.Left = 7.56F;
+            this.txtPorcentajeDeComisionPorMonedaCobranza.Left = 7.76F;
             this.txtPorcentajeDeComisionPorMonedaCobranza.Name = "txtPorcentajeDeComisionPorMonedaCobranza";
             this.txtPorcentajeDeComisionPorMonedaCobranza.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtPorcentajeDeComisionPorMonedaCobranza.Text = "txtPorcentajeDeComisionPorMonedaCobranza";
@@ -961,13 +961,13 @@ namespace Galac.Adm.Rpt.Venta
             this.lblPorcentajeDeComisionPorMonedaCobranza.Text = "Porcentaje (%) de Comisión";
             this.lblPorcentajeDeComisionPorMonedaCobranza.Top = 0.599F;
             this.lblPorcentajeDeComisionPorMonedaCobranza.Visible = false;
-            this.lblPorcentajeDeComisionPorMonedaCobranza.Width = 3.199001F;
+            this.lblPorcentajeDeComisionPorMonedaCobranza.Width = 3.4F;
             // 
             // txtTotalMontoComisionPorCobranza
             // 
             this.txtTotalMontoComisionPorCobranza.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalMontoComisionPorCobranza.Height = 0.15625F;
-            this.txtTotalMontoComisionPorCobranza.Left = 8.74F;
+            this.txtTotalMontoComisionPorCobranza.Left = 8.94F;
             this.txtTotalMontoComisionPorCobranza.Name = "txtTotalMontoComisionPorCobranza";
             this.txtTotalMontoComisionPorCobranza.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalMontoComisionPorCobranza.Text = "txtTotalMontoComisionPorCobranza";
@@ -979,7 +979,7 @@ namespace Galac.Adm.Rpt.Venta
             // 
             this.txtTotalMontoComisionPorCobranzaEnMonedaExt.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txtTotalMontoComisionPorCobranzaEnMonedaExt.Height = 0.15625F;
-            this.txtTotalMontoComisionPorCobranzaEnMonedaExt.Left = 10.37F;
+            this.txtTotalMontoComisionPorCobranzaEnMonedaExt.Left = 10.57F;
             this.txtTotalMontoComisionPorCobranzaEnMonedaExt.Name = "txtTotalMontoComisionPorCobranzaEnMonedaExt";
             this.txtTotalMontoComisionPorCobranzaEnMonedaExt.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
             this.txtTotalMontoComisionPorCobranzaEnMonedaExt.Text = "txtTotalMontoComisionPorCobranzaEnMonedaExt";

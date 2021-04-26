@@ -133,14 +133,14 @@ namespace Galac.Adm.Rpt.Venta {
                     } else {
                         #region Reajuste de la presentacion
                         LibReport.ChangeControlLocation(this, "lblPorcentajeDeComision", (float)4.36, (float)0.37);
-                        LibReport.ChangeControlLocation(this, "txtPorcentajeDeComision", (float)7.56, (float)0.37);
+                        LibReport.ChangeControlLocation(this, "txtPorcentajeDeComision", (float)7.76, (float)0.37);
                         LibReport.ChangeControlLocation(this, "lblNivelDeComision", (float)4.36, (float)0.53);
-                        LibReport.ChangeControlLocation(this, "txtNivelDeComision", (float)7.56, (float)0.53);
+                        LibReport.ChangeControlLocation(this, "txtNivelDeComision", (float)7.76, (float)0.53);
                         LibReport.ChangeControlLocation(this, "lblTotalesGenerales", (float)4.36, (float)0.69);
                         LibReport.ChangeControlLocation(this, "lblTotalGeneralComisionable", (float)4.36, (float)0.85);
-                        LibReport.ChangeControlLocation(this, "txtTotalGeneralComisionable", (float)7.56, (float)0.85);
+                        LibReport.ChangeControlLocation(this, "txtTotalGeneralComisionable", (float)7.76, (float)0.85);
                         LibReport.ChangeControlLocation(this, "lblTotalGeneralComision", (float)4.36, (float)1.01);
-                        LibReport.ChangeControlLocation(this, "txtTotalGeneralComision", (float)7.56, (float)1.01);
+                        LibReport.ChangeControlLocation(this, "txtTotalGeneralComision", (float)7.76, (float)1.01);
                         #endregion
                     }
                     #endregion
