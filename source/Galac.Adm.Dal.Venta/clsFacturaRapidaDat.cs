@@ -14,9 +14,10 @@ using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
+using System.Data;
 
 namespace Galac.Adm.Dal.Venta {
-    public class clsFacturaRapidaDat : LibData, ILibDataMasterComponentWithSearch<IList<FacturaRapida>, IList<FacturaRapida>> {
+    public class clsFacturaRapidaDat : LibData, ILibDataMasterComponentWithSearch<IList<FacturaRapida>, IList<FacturaRapida>>, ILibDataRpt {
         #region Variables
         LibTrn insTrn;
         FacturaRapida _CurrentRecord;
@@ -611,6 +612,13 @@ namespace Galac.Adm.Dal.Venta {
             }
             vResult = vParams.Get();
             return vResult;
+        }
+
+        System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        }
+        System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
         }
 
         #endregion //Metodos Generados

@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="Galac.Adm.Uil.Venta.Reportes.GSNotaDeEntregaEntreFechasPorClienteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+             xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Venta.Reportes">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=dtpNotaDeEntregaDesde}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               Name="lblNotaDeEntregaDesde"
+               Content="Fecha Desde"
+               Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="0"
+                                       Grid.Column="1"
+                                       Width="150"
+                                       Style="{StaticResource DatePickerStyle}"
+                                       Name="dtpNotaDeEntregaDesde"
+                                       SelectedDate="{Binding Path=FechaDesde, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                       IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Name="lblNotaDeEntregaHasta"
+               Content="Fecha Hasta"
+               Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="1"
+                                       Grid.Column="1"
+                                       Width="150"
+                                       Style="{StaticResource DatePickerStyle}"
+                                       Name="dtpNotaDeEntregaHasta"
+                                       SelectedDate="{Binding Path=FechaHasta, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                       IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="2"
+               Grid.Column="0"
+               Name="lblCantidadAImprimir"
+               Content="Cantidad a Imprimir"
+               Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="2"
+                                     Grid.Column="1"
+                                     Style="{StaticResource ComboBoxStyle}"
+                                     Name="cmbCantidadAImprimir"
+                                     Width="150"
+                                     IsSynchronizedWithCurrentItem="True"
+                                     ItemsSource="{Binding Path=ArrayCantidadAImprimir}"
+                                     SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="3"
+               Grid.Column="0"
+               Name="lblCliente"
+               Content="Cliente"
+               Style="{StaticResource LabelPrompt}"
+               IsEnabled="{Binding Path=IsEnabledCliente}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="3"
+                                        Grid.Column="1"
+                                        Name="txtCliente"
+                                        Width="150"
+                                        Height="23"
+                                        Margin="3"
+                                        HorizontalAlignment="Left"
+                                        DisplayMemberPath="Nombre"
+                                        ConnectionValue="{Binding Path=NombreCliente, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        BorderThickness="1"
+                                        SearchCommand="{Binding Path=ChooseNombreClienteCommand}"
+                                        IsEnabled="{Binding Path=IsEnabledCliente}" />
+        <Label Grid.Row="4"
+               Grid.Column="0"
+               Name="lblMonedaDelReporte"
+               Content="Moneda del Reporte"
+               Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf Grid.Row="4"
+                                     Grid.Column="1"
+                                     Style="{StaticResource ComboBoxStyle}"
+                                     Name="cmbMonedaDelReporte"
+                                     Width="150"
+                                     IsSynchronizedWithCurrentItem="True"
+                                     ItemsSource="{Binding Path=ListarMoneda}"
+                                     SelectedItem="{Binding Path=MonedaDelReporte, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                     IsEnabled="{Binding Path=IsEnabled}" />
+        <Label Grid.Row="5"
+               Grid.Column="0"
+               Name="lblIncluirNotasDeEntregasAnuladas"
+               Content="Mostrar Notas de Entregas Anuladas"
+               Style="{StaticResource LabelPrompt}" />
+        <CheckBox Grid.Row="5"
+                  Grid.Column="1"
+                  Name="chkIncluirNotasDeEntregasAnuladas"
+                  Style="{StaticResource CheckBoxStyle}"
+                  IsChecked="{Binding Path=IncluirNotasDeEntregasAnuladas}"
+                  HorizontalAlignment="Left"
+                  IsEnabled="{Binding Path=IsEnabled}" />
+    </Grid>
+</UserControl>

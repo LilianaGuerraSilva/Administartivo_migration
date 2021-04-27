@@ -151,6 +151,8 @@
     <Compile Include="Reportes\clsCuadreCajaPorTipoCobroViewModel.cs" />
     <Compile Include="Reportes\clsCuadreCajaPorTipoCobroYUsuarioViewModel.cs" />
     <Compile Include="Reportes\clsCuadreCajaPorUsuarioViewModel.cs" />
+    <Compile Include="Reportes\clsNotaDeEntregaEntreFechasPorClienteViewModel.cs" />
+    <Compile Include="Reportes\clsNotaDeEntregaInformesViewModel.cs" />
     <Compile Include="Reportes\GSCajasAperturadas.xaml.cs">
       <DependentUpon>GSCajasAperturadas.xaml</DependentUpon>
     </Compile>
@@ -177,6 +179,9 @@
     </Compile>
     <Compile Include="Reportes\GSCuadreCajaPorUsuario.xaml.cs">
       <DependentUpon>GSCuadreCajaPorUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSNotaDeEntregaEntreFechasPorClienteView.xaml.cs">
+      <DependentUpon>GSNotaDeEntregaEntreFechasPorClienteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UIMefVentaCaja.cs" />
     <Compile Include="UIMefVentaCajaApertura.cs" />
@@ -298,6 +303,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Reportes\GSCuadreCajaPorUsuario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSNotaDeEntregaEntreFechasPorClienteView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
