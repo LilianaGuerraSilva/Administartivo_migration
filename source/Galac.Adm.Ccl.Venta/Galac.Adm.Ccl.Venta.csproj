@@ -68,6 +68,8 @@
     <Compile Include="IFkCajaAperturaViewModel.cs" />
     <Compile Include="IFkCajaViewModel.cs" />
     <Compile Include="IMovimientoBancarioPuntoDeVentaPdn.cs" />
+    <Compile Include="INotaDeEntregaInformes.cs" />
+    <Compile Include="INotaDeEntregaPdn.cs" />
     <Compile Include="IRenglonCobroDeFacturaDalPdn.cs" />
     <Compile Include="CobroDeFacturaRapidaTarjeta.cs" />
     <Compile Include="CobroDeFacturaRapidaTarjetaDetalle.cs" />

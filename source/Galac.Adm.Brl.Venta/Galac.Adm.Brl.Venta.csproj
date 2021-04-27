@@ -113,6 +113,8 @@
     <Compile Include="Reportes\clsCajaSql.cs" />
     <Compile Include="Reportes\clsCobranzaRpt.cs" />
     <Compile Include="Reportes\clsCobranzaSql.cs" />
+    <Compile Include="Reportes\clsNotaDeEntregaRpt.cs" />
+    <Compile Include="Reportes\clsNotaDeEntregaSql.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Adm.Brl.Banco\Galac.Adm.Brl.Banco.csproj">

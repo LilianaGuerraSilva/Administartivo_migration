@@ -20,6 +20,9 @@ namespace Galac.Adm.Uil.Venta {
                 case eSystemModules.Caja:
                     _LibReportsViewModel = new clsCajaInformesViewModel();
                 break;
+                case eSystemModules.NotaDeEntrega:
+                    _LibReportsViewModel = new clsNotaDeEntregaInformesViewModel();
+                break;
             }
             if(LibMessages.ReportsView.ShowReportsView(_LibReportsViewModel,true)) {
             }
