@@ -137,9 +137,10 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigSummaryField(this, "txtTotalCobranza", "MontoAbonado", SummaryFunc.Sum, "GHSecVendedor", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalGeneralCobranzas", "MontoAbonado", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
 
-				LibReport.ConfigGroupHeader(this, "GHSecMonedaCobranza", "MonedaCobranza", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHSecVendedor", "CodigoDelVendedor", GroupKeepTogether.All,RepeatStyle.OnPage, false, NewPage.None);
                 LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "Detail", false, 0);
+				LibReport.ConfigGroupHeader(this, "GHSecNotaDeCambio", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+				LibReport.ConfigGroupHeader(this, "GHSecMonedaCobranza", "MonedaCobranza", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+				LibReport.ConfigGroupHeader(this, "GHSecVendedor", "CodigoDelVendedor", GroupKeepTogether.None,RepeatStyle.OnPage, true, NewPage.None);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Landscape);
                 return true;
             }
