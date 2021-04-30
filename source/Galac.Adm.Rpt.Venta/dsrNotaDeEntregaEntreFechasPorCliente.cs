@@ -60,15 +60,16 @@ namespace Galac.Adm.Rpt.Venta
 //				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort); esta sobrecarga no está en versión 5.0.2.0 de lib, temporalmente pasar formato directo
 				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
 				LibReport.ConfigFieldStr(this, "txtNroDocumento", string.Empty, "Numero");
-				LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "Moneda");
+				LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDoc");
 				LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
+				LibReport.ConfigFieldDec(this, "txtAnulada", string.Empty, "EsAnulada");
 				LibReport.ConfigFieldDec(this, "txtMontoTotal", string.Empty, "TotalFactura");
                 LibReport.ConfigSummaryField(this, "txtSumMontoTotal", "TotalFactura", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.Group, SummaryType.SubTotal);
 
                 //LibReport.ConfigSummaryField(this, "txtT_SumMontoTotal_SecMoneda", "SumMontoTotal", SummaryFunc.Sum, "GHSecMoneda", SummaryRunning.Group, SummaryType.SubTotal);
 
-                LibReport.ConfigGroupHeader(this, "GHSecCliente", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHSecMoneda", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecCliente", "Cliente", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+				LibReport.ConfigGroupHeader(this, "GHSecMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
