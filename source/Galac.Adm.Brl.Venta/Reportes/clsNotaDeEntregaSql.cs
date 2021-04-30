@@ -37,11 +37,13 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			} else {
 				vSql.AppendLine("   [F].[Moneda] AS Moneda,");
 			}
+			vSql.AppendLine("		[F].[Moneda] AS MonedaDoc,");
 			vSql.AppendLine("       [F].[CambioABolivares]		AS Cambio,");
+			vSql.AppendLine("       IIF([F].[StatusFactura] = 1, 'Anulada', '') AS EsAnulada,");
 			if (valMonedaDelReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares) {
-				vSql.AppendLine("   [F].[TotalFactura] * [F].[CambioABolivares] AS TotalFactura");
+				vSql.AppendLine("   IIF([F].[StatusFactura] = 1, 0, [F].[TotalFactura] * [F].[CambioABolivares]) AS TotalFactura");
 			} else {
-				vSql.AppendLine("   [F].[TotalFactura] AS TotalFactura");
+				vSql.AppendLine("   IIF([F].[StatusFactura] = 1, 0, [F].[TotalFactura]) AS TotalFactura");
 			}
 			vSql.AppendLine("FROM [dbo].[factura]			AS [F]");
 			vSql.AppendLine("INNER JOIN [dbo].[Cliente]		AS [C] ON [C].[Codigo] = [F].[CodigoCliente] AND [C].[ConsecutivoCompania] = [F].[ConsecutivoCompania]");

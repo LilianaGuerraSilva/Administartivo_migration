@@ -9,6 +9,7 @@ using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Lib;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Rpt.Venta {
 
@@ -83,10 +84,14 @@ namespace Galac.Adm.Rpt.Venta {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrNotaDeEntregaEntreFechasPorCliente vRpt = new dsrNotaDeEntregaEntreFechasPorCliente();
-            if (vRpt.ConfigReport(Data, vParams)) {
-                LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsNotaDeEntregaEntreFechasPorCliente.ReportName, true, ExportFileFormat, "", false);
+            if (Data.Rows.Count >= 1) {
+                if (vRpt.ConfigReport(Data, vParams)) {
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsNotaDeEntregaEntreFechasPorCliente.ReportName, true, ExportFileFormat, "", false);
+                }
+                WorkerReportProgress(100, "Finalizando...");
+            } else {
+                throw new GalacException("No se encontró información para imprimir", eExceptionManagementType.Alert);
             }
-            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
 
