@@ -205,10 +205,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         protected override ComprasStt FindCurrentRecord(ComprasStt valModel) {
             if (valModel == null) {
                 return new ComprasStt();
-            }
-            //LibGpParams vParams = new LibGpParams();
-            //vParams.AddInString("ImprimirOrdenDeCompra", valModel.ImprimirOrdenDeCompra, 0);
-            //return BusinessComponent.GetData(eProcessMessageType.SpName, "CxPComprasGET", vParams.Get()).FirstOrDefault();
+            }            
             return valModel;
         }
 

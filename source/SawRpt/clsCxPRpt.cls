@@ -1079,7 +1079,7 @@ h_EXIT:
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNombreDelRpxDeComprobanteDeRetencionDeActividadesEconomicas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEconomicas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valNombrePlantillaNombrePlantillaRetencionImpuestoMunicipal) As Boolean
+Public Function fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEconomicas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valNombrePlantillaNombrePlantillaRetencionImpuestoMunicipal, ByVal valRutaNombreExtencionArchivoImagenLogo As String, ByVal valRutaNombreExtencionArchivoImagenSello As String, ByVal valRutaNombreExtencionArchivoImagenFirma As String, ByVal valLibSaw As Object) As Boolean
    Dim nombreDelFileXML As String
    Dim exito As Boolean
    On Error GoTo h_ERROR
@@ -1138,6 +1138,11 @@ Public Function fConfigurarDatosDelReporteComprobanteDeRetencionDeActividadesEco
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtT_ALICUOTA_SecAgenteRetencion", "", "ALICUOTA"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtT_ImpuestoMunicipalRetenido_SecAgenteRetencion", "", "ImpuestoMunicipalRetenido"
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHSecAgenteRetencion", "Numero", ddGrpFirstDetail, ddRepeatOnPage, True, ddNPNone
+                  
+         valLibSaw.sConfiguracionParaCampoImagenRpt refRpt, "imgLogo", valLibSaw.fRutaNombreExtencionArchivoImagen(valRutaNombreExtencionArchivoImagenLogo)
+         valLibSaw.sConfiguracionParaCampoImagenRpt refRpt, "imgFirma", valLibSaw.fRutaNombreExtencionArchivoImagen(valRutaNombreExtencionArchivoImagenFirma)
+         valLibSaw.sConfiguracionParaCampoImagenRpt refRpt, "imgSello", valLibSaw.fRutaNombreExtencionArchivoImagen(valRutaNombreExtencionArchivoImagenSello)
+                  
          gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape, fNombreFileDeImpresionDelReporteDeCxP(eCxPRpt_COMPROBANTE_DE_RETENCION_DE_ACTIVIDADES_ECONOMICAS)
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          Call refRpt.AddNamedItem("gConvert", gConvert)

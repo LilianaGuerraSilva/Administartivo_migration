@@ -4,6 +4,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
 using Galac.Saw.Ccl.SttDef;
 using System.Threading;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 

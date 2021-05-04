@@ -1,13 +1,13 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.DispositivosExternos.ViewModel"
-    xmlns:nsCSV="clr-namespace:Galac.Adm.Uil.DispositivosExternos.Views">    
-    <DataTemplate DataType="{x:Type nsCSVM:BalanzaViewModel}">        
-        <nsCSV:GSBalanzaView />              
-    </DataTemplate>        
+    xmlns:nsCSV="clr-namespace:Galac.Adm.Uil.DispositivosExternos.Views"
+    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.DispositivosExternos.ViewModel">
+    <DataTemplate DataType="{x:Type nsCSVM:BalanzaViewModel}">
+        <nsCSV:GSBalanzaView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:BalanzaTomarPesoViewModel}">
-        <nsCSV:GSBalanzaTomarPesoView />    
+        <nsCSV:GSBalanzaTomarPesoView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:ImpresoraFiscalViewModel}">
         <nsCSV:GSImpresoraFiscalView />

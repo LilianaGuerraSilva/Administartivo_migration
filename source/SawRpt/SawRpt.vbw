@@ -1,5 +1,5 @@
 clsArticuloInvRpt = 23, 23, 732, 643, C
-modVarGlobalesSawRpt = 154, 154, 733, 766, C
+modVarGlobalesSawRpt = 154, 154, 733, 766, 
 clsInitSawRpt = 100, 100, 1409, 763, C
 clsAnticipoRpt = 184, 184, 927, 741, C
 clsARCVRpt = 125, 125, 900, 586, C
@@ -21,7 +21,7 @@ rptFacturacionPorVendedor = 0, 0, 0, 0, C, 75, 75, 1235, 843, C
 rptFacturacionPorVendedorMonedaOrig = 0, 0, 0, 0, C, 100, 100, 908, 711, C
 rptResumenFacturacMensual = 0, 0, 0, 0, C, 125, 125, 1285, 893, C
 clsUtilDsr = 0, 0, 0, 0, C
-clsCxPRpt = 0, 0, 0, 0, C
+clsCxPRpt = 125, 125, 937, 496, 
 RptImprimirFactura = 0, 0, 0, 0, C, 150, 150, 1438, 918, C
 rptLibroDeVentasNAlicuotas = 0, 0, 0, 0, C, 175, 175, 1207, 943, C
 rptLibroDeVentas = 0, 0, 0, 0, C, 200, 200, 1360, 968, C
