@@ -167,7 +167,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         #region Constantes
         const string MinVersionApi = "5, 4, 1, 0";
-        const string MaxVersionApi = "5, 4, 1, 29";
+        const string MaxVersionApi = "5, 4, 1, 30";
         const string DllApiName = @"BemaFI32.dll";               
         const byte _EnterosMontosLargos = 10;
         const byte _EnterosCantidad = 4;

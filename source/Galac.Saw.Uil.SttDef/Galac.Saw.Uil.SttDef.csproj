@@ -133,6 +133,7 @@
     <Compile Include="ViewModel\CxPComprasRetISLRViewModel.cs" />
     <Compile Include="ViewModel\CxPComprasRetIVAViewModel.cs" />
     <Compile Include="ViewModel\CxPComprasCxCProveedorViewModel.cs" />
+    <Compile Include="ViewModel\CxPComprasImagenesComprobanteRetViewModel.cs" />
     <Compile Include="ViewModel\CxPComprasViewModel.cs" />
     <Compile Include="ViewModel\FacturaBalanzaEtiquetasViewModel.cs" />
     <Compile Include="ViewModel\FacturaPuntoDeVentaViewModel.cs" />
@@ -203,6 +204,9 @@
     </Compile>
     <Compile Include="Views\GSCxPComprasRetIVAView.xaml.cs">
       <DependentUpon>GSCxPComprasRetIVAView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSCxPComprasImagenesComprobanteRetViewModel.xaml.cs">
+      <DependentUpon>GSCxPComprasImagenesComprobanteRetViewModel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSCxPComprasView.xaml.cs">
       <DependentUpon>GSCxPComprasView.xaml</DependentUpon>
@@ -326,6 +330,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSCxPComprasRetIVAView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSCxPComprasImagenesComprobanteRetViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

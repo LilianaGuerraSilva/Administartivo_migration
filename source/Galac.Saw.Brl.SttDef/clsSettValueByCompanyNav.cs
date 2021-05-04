@@ -1281,8 +1281,34 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
 
+        #endregion //  ImagenesComprobantesRetencionStt
+        #region  ImagenesComprobantesRetencionStt
 
-        #endregion //  PlanillaDeIVAStt
+        private ImagenesComprobantesRetencionStt ImagenesComprobantesRetencionSttPorDefecto() {
+            ImagenesComprobantesRetencionStt insEntidad = new ImagenesComprobantesRetencionStt();
+            insEntidad.NombreFirma = string.Empty;
+            insEntidad.NombreLogo = string.Empty;
+            insEntidad.NombreSello = string.Empty;
+            return insEntidad;
+        }
+
+        private void LlenaListado(ImagenesComprobantesRetencionStt valRecord,ref List<SettValueByCompany> valBusinessObject,int valConsecutivoCompania) {            
+            valBusinessObject.Add(ConvierteValor(valRecord.NombreSello,"NombreSello",valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.NombreLogo,"NombreLogo",valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.NombreFirma,"NombreFirma",valConsecutivoCompania));            
+        }
+
+        private ImagenesComprobantesRetencionStt GetImagenesComprobantesRetencionStt(List<SettValueByCompany> valListGetSettValueByCompany) {
+            ImagenesComprobantesRetencionStt vResult = new ImagenesComprobantesRetencionStt();
+            vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany,"NombreFirma");
+            vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany,"NombreFirma");
+            vResult.NombreFirma = ValorSegunColumna(valListGetSettValueByCompany,"NombreFirma");
+            vResult.NombreLogo = ValorSegunColumna(valListGetSettValueByCompany,"NombreLogo");
+            vResult.NombreSello = ValorSegunColumna(valListGetSettValueByCompany,"NombreSello");
+            return vResult;
+        }
+
+        #endregion  ImagenesComprobantesRetencionStt
         #region BancosStt
         private BancosStt BancosSttPorDefecto() {
             BancosStt insEntidad = new BancosStt();
@@ -1685,6 +1711,7 @@ namespace Galac.Saw.Brl.SttDef {
             LlenaListado(ProcesosSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
             LlenaListado(NotaEntregaSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
             LlenaListado(VerificadorDePreciosSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
+            LlenaListado(ImagenesComprobantesRetencionSttPorDefecto(),ref vResul,valConsecutivoCompania);
             return vResul;
         }
 
@@ -1729,6 +1756,7 @@ namespace Galac.Saw.Brl.SttDef {
             insParametros.ParametrosRetencionIVAStt = GetRetencionIVAStt(vListGetSettValueByCompany);
             insParametros.ParametrosVendedorStt = GetVendedorStt(vListGetSettValueByCompany);
             insParametros.ParametrosVerificadorDePreciosStt = GetVerificadorDePreciosStt(vListGetSettValueByCompany);
+            insParametros.ParametrosImagenesComprobantesRetencionStt = GetImagenesComprobantesRetencionStt(vListGetSettValueByCompany);
             insParametrosList.Add(insParametros);
             return insParametrosList;
         }
@@ -1795,6 +1823,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Add(GetProcesosStt(vListGetSettValueByCompany));
             vResult.Add(GetRetencionIVAStt(vListGetSettValueByCompany));
             vResult.Add(GetVendedorStt(vListGetSettValueByCompany));
+            vResult.Add(GetImagenesComprobantesRetencionStt(vListGetSettValueByCompany));
             return vResult;
         }
 

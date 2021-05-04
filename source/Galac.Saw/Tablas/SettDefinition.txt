@@ -264,6 +264,9 @@ ModeloPlanillaForma00030;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;Enume
 NombreContador;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
 CedulaContador;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
 NumeroCpc;CxP/Compras;6;6.5.- Planilla de IVA (Forma 30);5;;String;;N
+NombreLogo;CxP/Compras;6;6.6.- Imágenes para Comprobantes;6;;String;;N
+NombreSello;CxP/Compras;6;6.6.- Imágenes para Comprobantes;6;;String;;N
+NombreFirma;CxP/Compras;6;6.6.- Imágenes para Comprobantes;6;;String;;N
 UsaCodigoBancoEnPantalla;Bancos;7;7.1.- Bancos;1;;Bool;;S
 CodigoGenericoCuentaBancaria;Bancos;7;7.1.- Bancos;1;;String;;N
 ManejaDebitoBancario;Bancos;7;7.1.- Bancos;1;;Bool;;N

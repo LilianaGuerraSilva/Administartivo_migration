@@ -60,6 +60,7 @@
     <Compile Include="CobranzasStt.cs" />
     <Compile Include="ComisionesStt.cs" />
     <Compile Include="CompaniaStt.cs" />
+    <Compile Include="ImagenesComprobantesRetencionStt.cs" />
     <Compile Include="ComprasStt.cs" />
     <Compile Include="CotizacionStt.cs" />
     <Compile Include="CxPProveedorPagosStt.cs" />

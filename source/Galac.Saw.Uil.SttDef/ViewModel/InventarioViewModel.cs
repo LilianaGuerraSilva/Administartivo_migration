@@ -395,7 +395,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledUsalAlmacen {
             get {
-                return IsEnabled && !UsaAlmacen && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
+                return IsEnabled && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
             }
         }
 

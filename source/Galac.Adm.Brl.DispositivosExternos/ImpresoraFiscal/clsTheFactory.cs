@@ -64,15 +64,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private void ConfigurarImpresora(XElement valXmlDatosImpresora) {
-            try {// Pendiente  Bixlon350, HASAR HSP-7000
+            try {// Pendiente  Bixlon350, HASAR HSP-7000, Qustom Kube
                 ePuerto ePuerto = (ePuerto)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora,"PuertoMaquinaFiscal"));
                 _CommPort = ePuerto.GetDescription(0);
                 _ModeloFactory = (eImpresoraFiscal)LibConvert.DbValueToEnum(LibImpresoraFiscalUtil.ObtenerValorDesdeXML(valXmlDatosImpresora,"ModeloDeMaquinaFiscal"));
                 _ModelosAntiguos = (_ModeloFactory == eImpresoraFiscal.BIXOLON270 || _ModeloFactory == eImpresoraFiscal.OKIML1120 || _ModeloFactory == eImpresoraFiscal.BIXOLON350 || _ModeloFactory == eImpresoraFiscal.ACLASPP1F3);
                 _MaxLongitudDeTexto = (_ModelosAntiguos ? 30 : 40);
                 //                
-                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230);
-                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9);
+                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA112);
+                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.HKA112);
                 //                
                 _FormatoFirmwareTipo1 = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125);
                 //
@@ -95,7 +95,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private void AjustarFormatosNumericosSegunModelo() {
             if(_ModeloUsaFlags) {
                 _EstaActivoFlag21 = FlagEstaActivo(21,30); //Flag21=30-> firmware actualizado soporta montos altos
-                _ModeloSoportaComandosGenerales &= _EstaActivoFlag21;
+                _ModeloSoportaComandosGenerales &= !_EstaActivoFlag21;
             }
             _EnterosParaDescuento = 2;
             _DecimalesParaDescuento = 2;
@@ -104,7 +104,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _DecimalesParaCantidad = 3; //Para Comandos Tradicionales, Firmware1 Actualizado
                 _EnterosParaMonto = 14;
                 _DecimalesParaMonto = 2;
-                _EnterosParaPagos = 15;
+                _EnterosParaPagos = 10;
                 _DecimalesParaPagos = 2;
                 _ModeloSoportaComandosGenerales = false;
             } else if(_FormatoFirmwareTipo1 && _ModeloSoportaComandosGenerales) {
@@ -119,7 +119,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _DecimalesParaCantidad = 3;
                 _EnterosParaMonto = 14;  //Para Comandos Tradicionles, Firmware2 Actualizado
                 _DecimalesParaMonto = 2;
-                _EnterosParaPagos = 15;
+                _EnterosParaPagos = 10;
                 _DecimalesParaPagos = 2;
                 _ModeloSoportaComandosGenerales = false;
             } else if(_FormatoFirmwareTipo2 && _ModeloSoportaComandosGenerales) {
@@ -127,12 +127,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _DecimalesParaCantidad = 3;
                 _EnterosParaMonto = 14;  //Para Comandos Generales, Firmware2 Actualizado
                 _DecimalesParaMonto = 2;
-                _EnterosParaPagos = 15;
+                _EnterosParaPagos = 10;
                 _DecimalesParaPagos = 2;
             } else if(_ModeloSoportaComandosGenerales) {
-                _EnterosParaCantidad = 9;
+                _EnterosParaCantidad = 14;
                 _DecimalesParaCantidad = 3;
-                _EnterosParaMonto = 9; // Firmware Anterior - Comandos Generales
+                _EnterosParaMonto = 14; // Firmware Anterior - Comandos Generales
                 _DecimalesParaMonto = 2;
                 _EnterosParaPagos = 10;
                 _DecimalesParaPagos = 2;
@@ -503,7 +503,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vRif = LibXml.GetPropertyString(valDocumentoFiscal,"NumeroRIF");
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal,"NombreCliente");
             string vTelefono = LibXml.GetPropertyString(valDocumentoFiscal,"TelefonoCliente");
-            string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal,"Observaciones");
+            string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal,"Observaciones");           
 
             bool vResult = false;
             try {
@@ -681,7 +681,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
             try {
                 List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").ToList();
-                if(vNodos.Count > 0) {
+                if(vNodos.Count > 1) {
                     foreach(XElement vXElement in vNodos) {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"CodigoFormaDelCobro"));
                         vFormatoDeCobro = FormaDeCobro(vMedioDePago);
