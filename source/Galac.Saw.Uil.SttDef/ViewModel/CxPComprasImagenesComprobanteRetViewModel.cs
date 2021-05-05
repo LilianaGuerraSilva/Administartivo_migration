@@ -2,18 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Xml.Linq;
-using System.Text;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
-using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
-using LibGalac.Aos.UI.Mvvm.Helpers;
-using LibGalac.Aos.UI.Mvvm.Messaging;
-using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
-using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
 using Microsoft.Win32;
 using System.IO;
@@ -61,7 +54,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
-        
+
         [LibCustomValidation("NombreSelloValidating")]
         public string NombreSello {
             get {
@@ -104,10 +97,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             get;
             private set;
         }
-
-
-
-
         #endregion //Propiedades      
         #region Constructores
         public CxPComprasImagenesComprobanteRetViewModel()
@@ -132,7 +121,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         protected override void InitializeLookAndFeel(ImagenesComprobantesRetencionStt valModel) {
             base.InitializeLookAndFeel(valModel);
-            _LogosPath = LibString.ToTitleCase( System.IO.Path.Combine(LibWorkPaths.LogicUnitDir,"Logos"));
+            _LogosPath = LibString.ToTitleCase(System.IO.Path.Combine(LibWorkPaths.LogicUnitDir,"Logos"));
         }
 
         protected override ImagenesComprobantesRetencionStt FindCurrentRecord(ImagenesComprobantesRetencionStt valModel) {
@@ -213,22 +202,22 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         private string BuscarNombreImagen() {
-            string vResult = "";           
+            string vResult = "";
             const char _BackSlash = '\u005c';
             const char _Point = '\u002e';
             OpenFileDialog vOpenFileDialog = new OpenFileDialog();
-            string vSelectedPath = "";          
+            string vSelectedPath = "";
             vOpenFileDialog.AddExtension = false;
             vOpenFileDialog.ReadOnlyChecked = true;
             vOpenFileDialog.Multiselect = false;
             vOpenFileDialog.Filter = "Imagenes (*.jpg)|*.jpg";
             vOpenFileDialog.InitialDirectory = _LogosPath;
-            bool vSeleccionoImagen = (bool)vOpenFileDialog.ShowDialog();                        
+            bool vSeleccionoImagen = (bool)vOpenFileDialog.ShowDialog();
             if(vSeleccionoImagen) {
                 vSelectedPath = vOpenFileDialog.FileName;
                 vSelectedPath = LibString.ToTitleCase(LibString.SubString(vSelectedPath,0,vSelectedPath.LastIndexOf(_BackSlash)));
-                if(vSelectedPath!=_LogosPath) {
-                    throw new GalacException($"El directorio seleccionado no es valído, debe seleccionar el directorio predeterminado {_LogosPath}",eExceptionManagementType.Alert);
+                if(vSelectedPath != _LogosPath) {
+                    throw new GalacException($"El directorio seleccionado no es válido, debe seleccionar el directorio predeterminado {_LogosPath}",eExceptionManagementType.Alert);
                 }
                 vResult = vOpenFileDialog.SafeFileName;
                 vResult = LibString.SubString(vResult,0,vResult.LastIndexOf(_Point));
@@ -236,10 +225,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vResult = string.Empty;
             }
             return vResult;
-        }        
+        }
 
         internal static bool EsValidoNombreImagen(string valRutaLogo,string valNameImagenes) {
-            valRutaLogo = Path.Combine(valRutaLogo,valNameImagenes)+".jpg";
+            valRutaLogo = Path.Combine(valRutaLogo,valNameImagenes) + ".jpg";
             return File.Exists(valRutaLogo);
         }
 
@@ -247,9 +236,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else {                                 
+            } else {
                 if(!LibString.IsNullOrEmpty(NombreLogo) && !EsValidoNombreImagen(_LogosPath,NombreLogo)) {
-                    vResult = new ValidationResult($"La imágen {  NombreLogo  }, No Existe en el directorio predeterminado {_LogosPath}");
+                    vResult = new ValidationResult($"La imágen {  NombreLogo  }, No existe en el directorio predeterminado {_LogosPath}");
                 }
             }
             return vResult;
@@ -261,7 +250,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return ValidationResult.Success;
             } else {
                 if(!LibString.IsNullOrEmpty(NombreFirma) && !EsValidoNombreImagen(_LogosPath,NombreFirma)) {
-                    vResult = new ValidationResult($"La imágen {  NombreFirma  }, No Existe en el directorio predeterminado {_LogosPath}");
+                    vResult = new ValidationResult($"La imágen {  NombreFirma  }, No existe en el directorio predeterminado {_LogosPath}");
                 }
             }
             return vResult;
@@ -274,14 +263,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return ValidationResult.Success;
             } else {
                 if(!LibString.IsNullOrEmpty(NombreSello) && !EsValidoNombreImagen(_LogosPath,NombreSello)) {
-                    vResult = new ValidationResult($"La imágen {  NombreSello  }, No Existe en el directorio predeterminado {_LogosPath}");
+                    vResult = new ValidationResult($"La imágen {  NombreSello  }, No existe en el directorio predeterminado {_LogosPath}");
                 }
             }
             return vResult;
         }
-
-
-
         #endregion //Metodos Generados        
     } //End of class ImagenesComprobantesRetencionStt
 } //End of namespace Galac.Saw.Uil.SttDef
