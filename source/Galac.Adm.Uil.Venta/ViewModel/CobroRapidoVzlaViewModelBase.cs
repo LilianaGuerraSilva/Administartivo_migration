@@ -26,7 +26,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         protected override bool CanExecuteCobrarCommand() {
-            return XmlDatosImprFiscal != null;            
+            return XmlDatosImprFiscal != null;
         }
 
 

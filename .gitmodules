@@ -1,70 +1,70 @@
-[submodule "bin/binlibprotec"]
-	path = bin/binlibprotec
+[submodule "bin/binLibProtec"]
+	path = bin/binLibProtec
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibprotec.git
 	branch = release-V18.2.0.0
-[submodule "source/retencionesvb"]
-	path = source/retencionesvb
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
 	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
-[submodule "bin/binadministrativovb"]
-	path = bin/binadministrativovb
+[submodule "bin/binAdministrativoVb"]
+	path = bin/binAdministrativoVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativovb.git
 	branch = release-V2102
-[submodule "bin/binadministrativoaos"]
-	path = bin/binadministrativoaos
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
 	branch = release-V2.52.1.0
-[submodule "source/ivavb"]
-	path = source/ivavb
+[submodule "source/IvaVb"]
+	path = source/IvaVb
 	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
-[submodule "source/axi"]
-	path = source/axi
+[submodule "source/AxI"]
+	path = source/AxI
 	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
 	branch = release-V32.1.0.0
-[submodule "source/contabiwrp"]
-	path = source/contabiwrp
+[submodule "source/ContabIwrp"]
+	path = source/ContabIwrp
 	url = https://gitlab.com/galac-software-enterprise/desa/contabiwrp.git
 	branch = release-V2.35.8.0
-[submodule "bin/binesqniif"]
-	path = bin/binesqniif
+[submodule "bin/binEsqNiif"]
+	path = bin/binEsqNiif
 	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
 	branch = release-V2.52.0.0
-[submodule "bin/binlibnet"]
-	path = bin/binlibnet
+[submodule "bin/binLibNet"]
+	path = bin/binLibNet
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibnet.git
 	branch = release-V5.13.0.0
-[submodule "bin/binlibvb"]
-	path = bin/binlibvb
+[submodule "bin/binLibVb"]
+	path = bin/binLibVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibvb.git
 	branch = release-V2102
-[submodule "bin/bincontabilidadvb"]
-	path = bin/bincontabilidadvb
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release-V2104
-[submodule "source/lib/aoslib"]
-	path = source/lib/aoslib
+	branch = release-V2103
+[submodule "source/Lib/AosLib"]
+	path = source/Lib/AosLib
 	url = https://gitlab.com/galac-software-enterprise/desa/aoslib.git
 	branch = release-V5.12.0.0
-[submodule "source/lib/vbalib"]
-	path = source/lib/vbalib
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
 	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
 	branch = release-V2001
-[submodule "source/contabilidadvb"]
-	path = source/contabilidadvb
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
 	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
-	branch = release-V15.9
-[submodule "bin/bincontabilidadaos"]
-	path = bin/bincontabilidadaos
+	branch = release-V15.8
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
-	branch = release-v2.52.1.0
-[submodule "bin/binlibaos"]
-	path = bin/binlibaos
+	branch = release-v2.52.0.0
+[submodule "bin/binLibAos"]
+	path = bin/binLibAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibaos.git
 	branch = release-V5.13.0.0
-[submodule "source/vbacomun"]
-	path = source/vbacomun
+[submodule "source/vbaComun"]
+	path = source/vbaComun
 	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
 	branch = release-SAW-V18.6
-[submodule "bin/bincomunaos"]
-	path = bin/bincomunaos
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincomunaos.git
 	branch = release-V2.52.0.0
