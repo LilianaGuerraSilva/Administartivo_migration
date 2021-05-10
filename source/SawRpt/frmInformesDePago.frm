@@ -2309,7 +2309,7 @@ Private Sub sMuestraComprobanteResumenIVA()
       periodoDelResumen = mesAno
    End If
    Set reporte = New DDActiveReports2.ActiveReport
-   Set reporte = insRptPagoConfigurar.getSubReportComprobanteDeRetencionIVA(SqlDelReporte, True, periodoDelResumen)
+   Set reporte = insRptPagoConfigurar.getSubReportComprobanteDeRetencionIVA(SqlDelReporte, True, periodoDelResumen, gProyParametrosCompania.GetNombreLogo, gProyParametrosCompania.GetNombreSello, gProyParametrosCompania.GetNombreFirma)
    reporte.Sections("GHTotalesRetencion").DataField = "CodigoProveedor"
    gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Comprobante Resumen " & gGlobalization.fPromptIVA
    Set reporte = Nothing
