@@ -545,7 +545,7 @@ Private Function fSqlConvierteMonto(ByVal valValor As String, ByVal valAnoAplica
    ' de forma correcta
    vSQL = vSQL & gUtilSQL.getIIF("((" & valFecha & " <= '31/12/2007' AND " & valAnoAplicacion & " >= '2008'))", _
                            "(" & gUtilSQL.getIIF(" factura.CodigoMoneda = 'VEB' ", valValor & " * 0.001 ", valValor & " * factura.CambioABolivares * 0.001 ", False) & ")", _
-                           "(" & gUtilSQL.getIIF(valValor & " >= factura.MontoIvaRetenido ", valValor, valValor & " * factura.CambioABolivares ", False) & ")")
+                           "(" & gUtilSQL.getIIF("ABS(" & valValor & ") >= factura.MontoIvaRetenido ", valValor, valValor & " * factura.CambioABolivares ", False) & ")")
                            'valValor & " * factura.CambioABolivares")
    'OJO LA FUNCION NO GENERA ERRORES Y DEVUELVE LOS RESULTADO ESPERADOS PERO DEBE SER EVALUADA
    fSqlConvierteMonto = vSQL
@@ -566,7 +566,7 @@ Private Function fSqlConvierteMontoCXC(ByVal valValor As String, ByVal valAnoApl
    
    vSQL = vSQL & gUtilSQL.getIIF("((" & valFecha & " <= '31/12/2007' AND " & valAnoAplicacion & " >= '2008'))", _
                            "(" & gUtilSQL.getIIF(" cxC.CodigoMoneda = 'VEB' ", valValor & " * 0.001 ", valValor & " * cxC.CambioABolivares * 0.001 ", False) & ")", _
-                           "(" & gUtilSQL.getIIF(valValor & " >= cxC.MontoIva ", valValor, valValor & " * cxC.CambioABolivares ", False) & ")")
+                           "(" & gUtilSQL.getIIF("ABS(" & valValor & ") >= cxC.MontoIva ", valValor, valValor & " * cxC.CambioABolivares ", False) & ")")
                            
 '"(" & gUtilSQL.getIIF(" cxC.CodigoMoneda = 'VEB' ", valValor & " * 0.001 ", valValor & " * cxC.CambioABolivares * 0.001 ", False) & ")", valValor & " * cxC.CambioABolivares")
 
@@ -1291,7 +1291,7 @@ Private Function fSqlConvierteMontoFacturaBase(ByVal valValor As String, ByVal v
    ' de forma correcta
    vSQL = vSQL & gUtilSQL.getIIF("((" & valFecha & " <= '31/12/2007' AND " & valAnoAplicacion & " >= '2008'))", _
                            "(" & gUtilSQL.getIIF(" IGV_FacturaBase.CodigoMoneda = 'VEB' ", valValor & " * 0.001 ", valValor & " * IGV_FacturaBase.CambioABolivares * 0.001 ", False) & ")", _
-                           "(" & gUtilSQL.getIIF(valValor & " >= IGV_FacturaBase.MontoIvaRetenido ", valValor, valValor & " * IGV_FacturaBase.CambioABolivares ", False) & ")")
+                           "(" & gUtilSQL.getIIF("ABS(" & valValor & ") >= IGV_FacturaBase.MontoIvaRetenido ", valValor, valValor & " * IGV_FacturaBase.CambioABolivares ", False) & ")")
                            'valValor & " * IGV_FacturaBase.CambioABolivares")
    fSqlConvierteMontoFacturaBase = vSQL
    Set gEnumProyecto = Nothing
