@@ -8,14 +8,15 @@ using LibGalac.Aos.Catching;
 using System.Threading;
 
 namespace Galac.Adm.Brl.DispositivosExternos.BalanzaElectronica {
-    class clsBalanzaOHAUST23:clsBalanza {
+    class clsBalanzaCAS: clsBalanza {
 
         public static string NO_VALIDO = "NO_VALIDO";
         private string _Respuesta = "";
+        private bool _PuertoEstaAbierto;
 
-        public clsBalanzaOHAUST23(clsConexionPuertoSerial conexion)
+        public clsBalanzaCAS(clsConexionPuertoSerial conexion, eModeloDeBalanza valModelo)
             : base(conexion) {
-
+                ModeloAsEnum = valModelo;
         }
 
         #region Comunicacion Basico
@@ -23,36 +24,44 @@ namespace Galac.Adm.Brl.DispositivosExternos.BalanzaElectronica {
             bool enviado = false;
             enviado = base.Conexion.enviarDatosSync(valComando,false);
             _Respuesta = LeerPeso();
-            enviado &= !LibString.IsNullOrEmpty(_Respuesta);
             return enviado;
-        }
+        }     
         #endregion
         #region Comandos Preestablecidos
         private bool traerPeso() {
-            return enviarComandoBalanza("P\r\n");
+            return enviarComandoBalanza("\u0011");
         }
+
         public override bool colocarEnCero() {
-            return enviarComandoBalanza("Z\r\n");
+            return true;
         }
 
         public override bool VerficarEstado() {
-            bool vEstado = false;
+            bool vChecked = false;
+            string vRequest = string.Empty;
             if(abrirConexion()) {
-                vEstado = enviarComandoBalanza("P\r\n");
+                vChecked = base.Conexion.enviarDatosSync("\u0005",true);
+                Thread.Sleep(350);
+                vRequest = base.Conexion.recibirDatos();                
+                vChecked = vChecked && LibString.S1IsInS2("\u0006",vRequest);
                 cerrarConexion();
             }
-            return vEstado;
+            return vChecked;
         }
         #endregion
         #region Respuestas
 
         public static string analizarRespuesta(string respuesta) {
-            String resultado = respuesta;
-            if(LibText.S1IsInS2("Kg",respuesta)) {
-                resultado = resultado.Substring(1,resultado.IndexOf("g"));
-            } else {
-                resultado = NO_VALIDO;
-            }
+            string resultado = LibText.UCase(respuesta);
+            int vPosInit = 0;
+            int vPosEnd = 0;
+            if(!LibString.IsNullOrEmpty(resultado)) {
+                vPosInit = LibString.IndexOf(resultado,'\u0002')+2;
+                vPosEnd = LibString.IndexOf(resultado,'\u0003')-vPosInit-1;
+                if(vPosInit >= 0 && vPosEnd > vPosInit) {
+                    resultado = LibString.Trim(LibString.SubString(resultado,vPosInit,vPosEnd));
+                }
+            }           
             return resultado;
         }
 
@@ -60,15 +69,17 @@ namespace Galac.Adm.Brl.DispositivosExternos.BalanzaElectronica {
             string vResult = "";
             vResult = base.Conexion.recibirDatos();
             vResult = analizarRespuesta(vResult);
-            if(LibText.S1IsInS2(NO_VALIDO,vResult)) {
-                throw new GalacException("Error de Datos",eExceptionManagementType.Alert);
+            if (LibText.S1IsInS2(NO_VALIDO, vResult)) {
+                cerrarConexion();
+                throw new GalacException("Datos Inválidos ", eExceptionManagementType.Validation);
             }
             return vResult;
-        }
+        }       
 
         public override bool abrirConexion() {
             bool vResult = false;
             vResult = base.Conexion.abrirConexion();
+            _PuertoEstaAbierto = vResult;
             Thread.Sleep(100);
             return vResult;
         }
@@ -77,6 +88,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.BalanzaElectronica {
             bool vResult = false;
             base.Conexion.liberarBuffer();
             vResult = base.Conexion.cerrarConexion();
+            _PuertoEstaAbierto = false;
             Thread.Sleep(100);
             return vResult;
         }
@@ -89,5 +101,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.BalanzaElectronica {
             return vResult;
         }
 
+       
     }
 }

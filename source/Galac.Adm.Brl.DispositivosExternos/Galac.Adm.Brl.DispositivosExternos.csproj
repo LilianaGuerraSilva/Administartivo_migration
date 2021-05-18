@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BalanzaElectronica\clsBalanzaCAS.cs" />
     <Compile Include="BalanzaElectronica\clsBalanzaNav.cs" />
     <Compile Include="BalanzaElectronica\clsBalanzaCreator.cs" />
     <Compile Include="BalanzaElectronica\clsBalanzaOHAUST23.cs" />
