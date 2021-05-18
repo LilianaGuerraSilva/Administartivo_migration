@@ -22,7 +22,7 @@ using Galac.Saw.Lib;
 using LibGalac.Aos.Ccl.Usal;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CajaViewModel: LibInputViewModel<Caja> {
+    public class CajaViewModel : LibInputViewModel<Caja> {
 
         #region Constantes y Variables
 
@@ -173,7 +173,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
 
         [LibRequired(ErrorMessage = "El campo Nombre Caja es requerido.")]
-        [LibGridColum("Nombre Caja",eGridColumType.Connection,IsForSearch = true,IsForList = true,ConnectionSearchCommandName = "ChooseNombreCajaCommand",ColumnOrder = 0,Width = 190)]
+        [LibGridColum("Nombre Caja", eGridColumType.Connection, IsForSearch = true, IsForList = true, ConnectionSearchCommandName = "ChooseNombreCajaCommand", ColumnOrder = 0, Width = 190)]
         public string NombreCaja {
             get {
                 return Model.NombreCaja;
@@ -281,7 +281,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         [LibCustomValidation("SerialDeMaquinaFiscalValidating")]
-        [LibGridColum("SerialDeMaquinaFiscal",eGridColumType.Generic,IsForList = true,IsForSearch = true,Header = "Serial",Width = 80,ColumnOrder = 6)]
+        [LibGridColum("SerialDeMaquinaFiscal", eGridColumType.Generic, IsForList = true, IsForSearch = true, Header = "Serial", Width = 80, ColumnOrder = 6)]
         public string SerialDeMaquinaFiscal {
             get {
                 return Model.SerialDeMaquinaFiscal;
@@ -472,14 +472,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("UsaMaquinaFiscal",eGridColumType.Generic,Header = "Usa Maquina Fiscal",IsForSearch = false,Alignment = eTextAlignment.Center,Width = 150)]
+        [LibGridColum("UsaMaquinaFiscal", eGridColumType.Generic, Header = "Usa Maquina Fiscal", IsForSearch = false, Alignment = eTextAlignment.Center, Width = 150)]
         public string UsaMaquinaFiscalStr {
             get {
                 return Model.UsaMaquinaFiscalAsBool ? "\u2713" : "";
             }
         }
 
-        [LibGridColum("ModeloDeMaquinaFiscal",eGridColumType.Generic,Header = "Modelo de Maquina Fiscal",IsForSearch = false,Alignment = eTextAlignment.Center,Width = 200)]
+        [LibGridColum("ModeloDeMaquinaFiscal", eGridColumType.Generic, Header = "Modelo de Maquina Fiscal", IsForSearch = false, Alignment = eTextAlignment.Center, Width = 200)]
         public string ModeloDeMaquinaFiscalStr {
             get {
                 return Model.UsaMaquinaFiscalAsBool ? LibEnumHelper.GetDescription(ModeloDeMaquinaFiscal) : "";
@@ -513,11 +513,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public bool IsEnableModoMejorado {
             get {
                 return IsEnabled && FamiliaValidaParaModoMejorado(FamiliaImpresoraFiscal) &&
-                     LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora","Activar Modo Mejorado");
+                     LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Activar Modo Mejorado");
             }
         }
 
-        private bool FamiliaValidaParaModoMejorado(eFamiliaImpresoraFiscal  valFamilia) {
+        private bool FamiliaValidaParaModoMejorado(eFamiliaImpresoraFiscal valFamilia) {
             return (valFamilia == eFamiliaImpresoraFiscal.EPSONPNP
                     || valFamilia == eFamiliaImpresoraFiscal.THEFACTORY
                     || valFamilia == eFamiliaImpresoraFiscal.BMC
@@ -539,7 +539,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsEnabledCancelarComprobanteFiscal {
             get {
-                return IsEnabled || LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora","Cancelar Documento");
+                return IsEnabled || LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Cancelar Documento");
             }
         }
 
@@ -561,19 +561,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Constructores e Inicializadores
 
         public CajaViewModel()
-            : this(new Caja(),eAccionSR.Insertar) {
+            : this(new Caja(), eAccionSR.Insertar) {
         }
 
-        public CajaViewModel(Caja initModel,eAccionSR initAction)
+        public CajaViewModel(Caja initModel, eAccionSR initAction)
             : base(initModel, initAction) {
-             Model.ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            Model.ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             DefaultFocusedPropertyName = NombreCajaPropertyName;
             ListarPuertos = new ObservableCollection<ePuerto>();
             ListarPuertosImpFiscal = new ObservableCollection<ePuerto>();
             ListarMaquinaFiscal = new ObservableCollection<eImpresoraFiscal>();
             if(initAction == eAccionSR.Insertar) {
                 FamiliaImpresoraFiscal = eFamiliaImpresoraFiscal.THEFACTORY;
-            }           
+            }
             PuertoSerial = new Brl.DispositivosExternos.clsConexionPuertoSerial();
         }
 
@@ -663,7 +663,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             base.ExecuteProcessBeforeAction();
             ActualizarRegistroDeMaquinaFiscal();
             MoveFocusIfNecessary();
-        }       
+        }
 
         private void ExecuteAbrirGaveta() {
             bool vReturn = false;
@@ -681,7 +681,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 XElement ImpresoraXmlFiscalData = BuildImpresoraFiscalData(ModeloDeMaquinaFiscal, PuertoMaquinaFiscal);
                 IImpresoraFiscalPdn insIMaquinaFiscal = new clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
-                CajaDiagnosticoViewModel vViewModel = new CajaDiagnosticoViewModel(insIMaquinaFiscal,FamiliaImpresoraFiscal);
+                CajaDiagnosticoViewModel vViewModel = new CajaDiagnosticoViewModel(insIMaquinaFiscal, FamiliaImpresoraFiscal);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             } catch(GalacException vEx) {
                 LibExceptionDisplay.Show(vEx);
@@ -847,31 +847,31 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return null;
             }
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania",valModel.ConsecutivoCompania);
-            vParams.AddInInteger("Consecutivo",valModel.Consecutivo);
-            return BusinessComponent.GetData(eProcessMessageType.SpName,"CajaGET",vParams.Get()).FirstOrDefault();
+            vParams.AddInInteger("ConsecutivoCompania", valModel.ConsecutivoCompania);
+            vParams.AddInInteger("Consecutivo", valModel.Consecutivo);
+            return BusinessComponent.GetData(eProcessMessageType.SpName, "CajaGET", vParams.Get()).FirstOrDefault();
         }
 
-        protected override ILibBusinessComponentWithSearch<IList<Caja>,IList<Caja>> GetBusinessComponent() {
+        protected override ILibBusinessComponentWithSearch<IList<Caja>, IList<Caja>> GetBusinessComponent() {
             return new clsCajaNav();
         }
-        
+
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            LibSearchCriteria vCajaCriteria = LibSearchCriteria.CreateCriteria("NombreCaja",NombreCaja);
+            LibSearchCriteria vCajaCriteria = LibSearchCriteria.CreateCriteria("NombreCaja", NombreCaja);
             vCajaCriteria.Add("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-            ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja Registradora",vCajaCriteria);
+            ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja Registradora", vCajaCriteria);
         }
 
-        XElement BuildImpresoraFiscalData(eImpresoraFiscal vImpresoraFiscal,ePuerto ePuerto) {
+        XElement BuildImpresoraFiscalData(eImpresoraFiscal vImpresoraFiscal, ePuerto ePuerto) {
             string vPuerto = SerialPortFormat(ePuerto);
-            XElement vResult = new XElement("GpData",new XElement("GpResult",
-                new XElement("ModeloDeMaquinaFiscal",LibConvert.EnumToDbValue((int)vImpresoraFiscal)),
-                new XElement("PuertoMaquinaFiscal",vPuerto)
+            XElement vResult = new XElement("GpData", new XElement("GpResult",
+                new XElement("ModeloDeMaquinaFiscal", LibConvert.EnumToDbValue((int)vImpresoraFiscal)),
+                new XElement("PuertoMaquinaFiscal", vPuerto)
                 ));
             return vResult;
         }
-        
+
 
         string SerialPortFormat(ePuerto ePuerto) {
             return LibConvert.EnumToDbValue((int)ePuerto);
@@ -882,9 +882,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if(valNombreCaja == null) {
                     valNombreCaja = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("NombreCaja",valNombreCaja);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("NombreCaja", valNombreCaja);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-                ConexionNombreCaja = ChooseRecord<FkCajaViewModel>("Caja Registradora",vDefaultCriteria,vFixedCriteria,string.Empty);
+                ConexionNombreCaja = ChooseRecord<FkCajaViewModel>("Caja Registradora", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if(ConexionNombreCaja != null) {
                     NombreCaja = ConexionNombreCaja.NombreCaja;
                 } else {
@@ -893,14 +893,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } catch(System.AccessViolationException) {
                 throw;
             } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,ModuleName);
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         private void ActualizarRegistroDeMaquinaFiscal() {
             ICajaPdn insCaja = new Brl.Venta.clsCajaNav();
             if(UsaMaquinaFiscal && (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar)) {
-                insCaja.ActualizarRegistroDeMaquinaFiscal(Action,ConsecutivoCompania,ModeloDeMaquinaFiscal,SerialDeMaquinaFiscal,UltimoNumeroCompFiscal,NombreOperador);
+                insCaja.ActualizarRegistroDeMaquinaFiscal(Action, ConsecutivoCompania, ModeloDeMaquinaFiscal, SerialDeMaquinaFiscal, UltimoNumeroCompFiscal, NombreOperador);
             }
         }
 

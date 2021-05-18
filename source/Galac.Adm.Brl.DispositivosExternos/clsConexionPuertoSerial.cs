@@ -54,19 +54,21 @@ namespace Galac.Adm.Brl.DispositivosExternos {
             return vResult;
         }
 
-        public override bool enviarDatosSync(string datos) {
+        public override bool enviarDatosSync(string datos,bool sendEnquire) {
             bool vReq = false;
             byte NumIntentos = 0;
             bool vCheck = false;
+            int vTop = 0;
             try {
                 do {
+                    vTop = sendEnquire ? 1 : 6;
                     vPuertoSerial.Write(datos);
                     Sleep(100);
                     _DataInAux = vPuertoSerial.ReadExisting();
                     if(_DataInAux==string.Empty){
                         NumIntentos++;
                     }
-                    vCheck=LibString.Len(_DataInAux) < 6;
+                    vCheck=LibString.Len(_DataInAux) < vTop;
                     vCheck |= (_DataInAux == string.Empty);
                     vCheck &=NumIntentos<3;
                 } while(vCheck);
@@ -154,14 +156,14 @@ namespace Galac.Adm.Brl.DispositivosExternos {
             SetPortValues();
             vBaudRate = BaudRateParse(_BaudRate);
             vPuertoCom = PuertoComParse(_Puerto);
+            vPuertoCom = LibString.IsNullOrEmpty(vPuertoCom) ? System.IO.Ports.SerialPort.GetPortNames()[0] : vPuertoCom;
             vBitsDatos = BitsDatosParse(_BitsDeDatos);
             vBitsDeParada = StopBitParse(_BitsDeParada);
             vParidad = ParityParse(_Paridad);
             vHandShake = HandShakeParse(_ControlFlujo);
             vPuertoSerial = new SerialPort(vPuertoCom,vBaudRate,vParidad,vBitsDatos,vBitsDeParada);
             vPuertoSerial.Handshake = vHandShake;
-            vPuertoSerial.Encoding = Encoding.UTF8;
-            //vPuertoSerial.DataReceived += new SerialDataReceivedEventHandler(PuertoSerialDataReceived);// Recepcion Automatica Puerto Serie
+            vPuertoSerial.Encoding = Encoding.UTF8;            
         }
 
         public override string[] ListarPuertos() {
@@ -172,24 +174,7 @@ namespace Galac.Adm.Brl.DispositivosExternos {
                 throw;
             }
             return vListarPuertos;
-        }
-
-        //private void PuertoSerialDataReceived(object sender, SerialDataReceivedEventArgs e) {
-        //    try {
-        //        do {
-        //            _DataInAux = vPuertoSerial.ReadExisting();
-        //            Thread.Sleep(150);
-        //        } while (_DataInAux.Length < 5);
-        //        vPuertoSerial.DiscardInBuffer();
-        //        if (_DataInAux != _DataIn) {
-        //            _DataIn = _DataInAux;
-        //            _DataInAux = "";
-        //        }
-        //        //
-        //    } catch (Exception) {
-
-        //    }
-        //} 
+        }       
 
         #endregion MetodosDeLaClase
         #region ParseValues

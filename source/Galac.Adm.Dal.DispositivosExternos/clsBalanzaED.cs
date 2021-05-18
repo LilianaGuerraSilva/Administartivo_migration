@@ -62,16 +62,16 @@ namespace Galac.Adm.Dal.DispositivosExternos {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT ConsecutivoCompania, Consecutivo, Modelo, " + DbSchema + ".Gv_EnumModeloBalanza.StrValue AS ModeloStr, Nombre");
-            SQL.AppendLine(", Puerto, " + DbSchema + ".Gv_EnumPuertoDeCaja.StrValue AS PuertoStr, BitsDatos, " + DbSchema + ".Gv_EnumBitsDatos.StrValue AS BitsDatosStr, Paridad, " + DbSchema + ".Gv_EnumParidad.StrValue AS ParidadStr, BitDeParada, " + DbSchema + ".Gv_EnumBitDeParada.StrValue AS BitDeParadaStr");
+            SQL.AppendLine(", Puerto, " + DbSchema + ".Gv_EnumPuertoBalanza.StrValue AS PuertoStr, BitsDatos, " + DbSchema + ".Gv_EnumBitsDatos.StrValue AS BitsDatosStr, Paridad, " + DbSchema + ".Gv_EnumParidad.StrValue AS ParidadStr, BitDeParada, " + DbSchema + ".Gv_EnumBitDeParada.StrValue AS BitDeParadaStr");
             SQL.AppendLine(", BaudRate, " + DbSchema + ".Gv_EnumBaudRate.StrValue AS BaudRateStr, ControlDeFlujo, " + DbSchema + ".Gv_EnumControlFlujo.StrValue AS ControlDeFlujoStr");
             SQL.AppendLine(", Balanza.fldTimeStamp, CAST(Balanza.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".Balanza");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumModeloBalanza");
             SQL.AppendLine("ON " + DbSchema + ".Balanza.Modelo COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumModeloBalanza.DbValue");
-            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumPuertoDeCaja");
+            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumPuertoBalanza");
             SQL.AppendLine("ON " + DbSchema + ".Balanza.Puerto COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumPuertoDeCaja.DbValue");
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumPuertoBalanza.DbValue");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumBitsDatos");
             SQL.AppendLine("ON " + DbSchema + ".Balanza.BitsDatos COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumBitsDatos.DbValue");
@@ -392,7 +392,7 @@ namespace Galac.Adm.Dal.DispositivosExternos {
             bool vResult = false;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_EnumModeloBalanza", LibTpvCreator.SqlViewStandardEnum(typeof(eModeloDeBalanza), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumPuertoDeCaja", LibTpvCreator.SqlViewStandardEnum(typeof(ePuerto), InsSql), true, true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumPuertoBalanza", LibTpvCreator.SqlViewStandardEnum(typeof(ePuerto), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_EnumBitsDatos", LibTpvCreator.SqlViewStandardEnum(typeof(eBitsDeDatos), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_EnumParidad", LibTpvCreator.SqlViewStandardEnum(typeof(eParidad), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_EnumBitDeParada", LibTpvCreator.SqlViewStandardEnum(typeof(eBitsDeParada), InsSql), true, true);
@@ -448,7 +448,7 @@ namespace Galac.Adm.Dal.DispositivosExternos {
             vResult = insSp.Drop(DbSchema + ".Gp_BalanzaSCH") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_Balanza_B1") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumModeloBalanza") && vResult;
-            vResult = insVista.Drop(DbSchema + ".Gv_EnumPuertoDeCaja") && vResult;
+            vResult = insVista.Drop(DbSchema + ".Gv_EnumPuertoBalanza") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumBitsDatos") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumParidad") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumBitDeParada") && vResult;

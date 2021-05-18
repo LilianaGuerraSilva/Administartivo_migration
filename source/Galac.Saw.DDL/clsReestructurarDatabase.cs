@@ -122,6 +122,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Adm.Dal.Banco.clsBeneficiarioED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsSolicitudesDePagoED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsRenglonSolicitudesDePagoED().InstalarVistasYSps();
+            vResult = vResult && new Galac.Adm.Dal.DispositivosExternos.clsBalanzaED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Integracion.clsIntegracionSawED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Contabilizacion.clsReglasDeContabilizacionED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Tablas.clsFormaDelCobroED().InstalarVistasYSps();
@@ -225,6 +226,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Saw.Dal.Tablas.clsFormaDelCobroED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Contabilizacion.clsReglasDeContabilizacionED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Integracion.clsIntegracionSawED().BorrarVistasYSps();
+            vResult = vResult && new Galac.Adm.Dal.DispositivosExternos.clsBalanzaED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsSolicitudesDePagoED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsRenglonSolicitudesDePagoED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsBeneficiarioED().BorrarVistasYSps();

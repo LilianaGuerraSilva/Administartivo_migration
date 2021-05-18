@@ -44,7 +44,7 @@
         <Label Grid.Row="2" Grid.Column="0" Name="lblPuerto" Content="Puerto" Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbPuerto" Width="120"
                 IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayPuerto}"
+                ItemsSource="{Binding Path=ListarPuertos}"
                 SelectedItem="{Binding Path=Puerto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 IsEnabled="{Binding Path=EscogerEnabled}" />
         <Label Grid.Row="3" Grid.Column="0" Name="lblBitsDatos" Content="Bits Datos" Style="{StaticResource LabelPrompt}" />

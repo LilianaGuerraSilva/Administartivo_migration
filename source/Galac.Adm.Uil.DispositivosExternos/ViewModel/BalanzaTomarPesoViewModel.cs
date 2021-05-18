@@ -94,7 +94,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 ActivarBWorker = true;
                 BWorker.RunWorkerAsync();
             } else {
-                throw new GalacException("Error al abrir el puerto de comunicacíon, revisar conexiones",eExceptionManagementType.Alert);
+                throw new GalacException("Error al abrir el puerto de comunicacÃ­on, revisar conexiones",eExceptionManagementType.Alert);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
 
         private void BWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
             if (e.Cancelled) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(this, "La acción ha sido cancelada por el dispositivo , revisar estado de la balanza.", "Leer Peso");
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(this, "La acciÃ³n ha sido cancelada por el dispositivo , revisar estado de la balanza.", "Leer Peso");
                 CancelCommand.RaiseCanExecuteChanged();
                 RaiseRequestCloseEvent();
             }
@@ -168,7 +168,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                 Command = TomarPesoCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F6.png", UriKind.Relative),
                 ToolTipDescription = "Guarda los cambios en " + ModuleName + ".",
-                ToolTipTitle = "Ejecutar Acción (F6)",
+                ToolTipTitle = "Ejecutar AcciÃ³n (F6)",
                 IsVisible = true,
                 KeyTip = "F6"
             };
@@ -208,7 +208,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
 
         public void ExecuteTomarPesoCommand() {
             if(PesoBalanza > 0) {
-                if(LibMessages.MessageBox.YesNo(this,"¿Peso correcto?","")) {
+                if(LibMessages.MessageBox.YesNo(this,"Â¿Peso correcto?","")) {
                     ActivarBWorker = false;
                     GuardarPeso = true;
                 }
