@@ -142,10 +142,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         vItem.PrecioConIVA = LibMath.RoundToNDecimals(vItem.CalcularPreciosPorDetail(vItem.PrecioSinIVA, Master.PorcentajeAlicuota3, true, vItem.PorcentajeBaseImponible), Master._CantidadDeDecimales);
                         vItem.PorcentajeAlicuota = Master.PorcentajeAlicuota3;
                     }                    
-                vItem.TotalRenglon = LibMath.RoundToNDecimals(LibMath.RoundToNDecimals(vItem.PrecioSinIVA, 2) * vItem.Cantidad, 2);
+                    vItem.TotalRenglon = LibMath.RoundToNDecimals(LibMath.RoundToNDecimals(vItem.PrecioSinIVA, Master._CantidadDeDecimales) * vItem.Cantidad, 2);
                 } else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva") == false) {
                     if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "AcumularItemsEnRenglonesDeFactura ") == true) {
-                        vItem.TotalRenglon = LibMath.RoundToNDecimals(LibMath.RoundToNDecimals(vItem.PrecioConIVA, 2) * vItem.Cantidad, 2);
+                        vItem.TotalRenglon = LibMath.RoundToNDecimals(LibMath.RoundToNDecimals(vItem.PrecioConIVA, Master._CantidadDeDecimales) * vItem.Cantidad, 2);
                     } else {
                         vItem.TotalRenglon = LibMath.RoundToNDecimals(vItem.PrecioConIVA * vItem.Cantidad, 2);
                     }
