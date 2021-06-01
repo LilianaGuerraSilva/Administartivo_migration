@@ -12,7 +12,7 @@
 [submodule "bin/binadministrativoaos"]
 	path = bin/binadministrativoaos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
-	branch = release-V2.52.1.0
+	branch = release-V2.52.2.0
 [submodule "source/ivavb"]
 	path = source/ivavb
 	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
@@ -51,11 +51,11 @@
 [submodule "source/contabilidadvb"]
 	path = source/contabilidadvb
 	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
-	branch = release-V15.9
+	branch = release-IVA-v27.2
 [submodule "bin/bincontabilidadaos"]
 	path = bin/bincontabilidadaos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
-	branch = release-v2.52.1.0
+	branch = release-v2.52.2.0
 [submodule "bin/binlibaos"]
 	path = bin/binlibaos
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibaos.git

@@ -13,10 +13,10 @@
     <SawImportExport>2102</SawImportExport>
     <SawMaquinaFiscal>2102</SawMaquinaFiscal>
     <SawNav>2102</SawNav>
-    <SawRpt>2103</SawRpt>
+    <SawRpt>2104/SawRpt>
     <SawSP>2102</SawSP>
     <SawTbls>2102</SawTbls>
-    <SawVista>2102</SawVista>    
+    <SawVista>2103</SawVista>    
     <ContabRpt>2104</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0003</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -126,17 +126,18 @@
     <Galac.Comun.Rpt.LeyCosto>2.52.0.0</Galac.Comun.Rpt.LeyCosto>
     <Galac.Comun.Uil.LeyCosto>2.52.0.0</Galac.Comun.Uil.LeyCosto>
 
-    <Galac.Contab.Ccl.WinCont>2.52.0.0</Galac.Contab.Ccl.WinCont>   
-    <Galac.Contab.Dal.WinCont>2.52.0.0</Galac.Contab.Dal.WinCont> 
-    <Galac.Contab.Brl.WinCont>2.52.0.0</Galac.Contab.Brl.WinCont>
-    <Galac.Contab.Uil.WinCont>2.52.0.0</Galac.Contab.Uil.WinCont>    
+    <Galac.Contab.Ccl.WinCont>2.52.2.0</Galac.Contab.Ccl.WinCont>   
+    <Galac.Contab.Dal.WinCont>2.52.2.0</Galac.Contab.Dal.WinCont> 
+    <Galac.Contab.Brl.WinCont>2.52.2.0</Galac.Contab.Brl.WinCont>
+    <Galac.Contab.Uil.WinCont>2.52.2.0</Galac.Contab.Uil.WinCont>    
                                  
     <Galac.Contab.Ccl.Tablas>2.52.0.0</Galac.Contab.Ccl.Tablas>
     <Galac.Contab.Dal.Tablas>2.52.0.0</Galac.Contab.Dal.Tablas>
     <Galac.Contab.Brl.Tablas>2.52.0.0</Galac.Contab.Brl.Tablas>
     <Galac.Contab.Uil.Tablas>2.52.0.0</Galac.Contab.Uil.Tablas>
 
-    <Galac.Contab.TablasVbSinMigrar>2.52.1.0</Galac.Contab.TablasVbSinMigrar>
+    <Galac.Contab.TablasVbSinMigrar>2.52.2.0</Galac.Contab.TablasVbSinMigrar>
+    <DocumentFormat.OpenXml>2.5.5631.0</DocumentFormat.OpenXml>
 
     <Galac.Saw.Ccl.Contabilizacion>2.52.0.0</Galac.Saw.Ccl.Contabilizacion>
     <Galac.Saw.Dal.Contabilizacion>2.52.0.0</Galac.Saw.Dal.Contabilizacion>
