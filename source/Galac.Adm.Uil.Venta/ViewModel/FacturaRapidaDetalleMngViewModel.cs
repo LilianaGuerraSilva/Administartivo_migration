@@ -128,7 +128,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         internal void ActualizaTotalRenglon() {
 
             foreach (FacturaRapidaDetalleViewModel vItem in Items) {
-                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva") == true) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva")) {
                     if (vItem.AlicuotaIva == eTipoDeAlicuota.Exento) {
                         vItem.PrecioConIVA = LibMath.RoundToNDecimals(vItem.CalcularPreciosPorDetail(vItem.PrecioSinIVA, 0, true, 100), Master._CantidadDeDecimales);
                         vItem.PorcentajeAlicuota = 0;
@@ -142,10 +142,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         vItem.PrecioConIVA = LibMath.RoundToNDecimals(vItem.CalcularPreciosPorDetail(vItem.PrecioSinIVA, Master.PorcentajeAlicuota3, true, vItem.PorcentajeBaseImponible), Master._CantidadDeDecimales);
                         vItem.PorcentajeAlicuota = Master.PorcentajeAlicuota3;
                     }                    
-                vItem.TotalRenglon = LibMath.RoundToNDecimals(LibMath.RoundToNDecimals(vItem.PrecioSinIVA, 2) * vItem.Cantidad, 2);
-                } else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva") == false) {
-                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "AcumularItemsEnRenglonesDeFactura ") == true) {
-                        vItem.TotalRenglon = LibMath.RoundToNDecimals(LibMath.RoundToNDecimals(vItem.PrecioConIVA, 2) * vItem.Cantidad, 2);
+                    vItem.TotalRenglon = LibMath.RoundToNDecimals(vItem.PrecioSinIVA * vItem.Cantidad, 2);
+                } else if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaPrecioSinIva")) {
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "AcumularItemsEnRenglonesDeFactura ")) {
+                        vItem.TotalRenglon = LibMath.RoundToNDecimals(vItem.PrecioConIVA * vItem.Cantidad, 2);
                     } else {
                         vItem.TotalRenglon = LibMath.RoundToNDecimals(vItem.PrecioConIVA * vItem.Cantidad, 2);
                     }
