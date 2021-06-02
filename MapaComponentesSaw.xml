@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="18.8" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="18.9" Siglas="Saw">
   <Proteccion>1802</Proteccion>
   <Libreria>
     <LibGalacCI>2102</LibGalacCI>

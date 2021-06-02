@@ -8,7 +8,7 @@
 [submodule "bin/binadministrativovb"]
 	path = bin/binadministrativovb
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativovb.git
-	branch = release-V2102
+	branch = release-V2103
 [submodule "bin/binadministrativoaos"]
 	path = bin/binadministrativoaos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
