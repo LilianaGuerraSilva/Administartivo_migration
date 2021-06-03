@@ -46,3 +46,27 @@
 	path = bin/binesqniif
 	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
 	branch = release/SawV18.9.0.0
+[submodule "source/axi"]
+	path = source/axi
+	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
+	branch = release/SawV18.9.0.0
+[submodule "source/contabilidadvb"]
+	path = source/contabilidadvb
+	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
+	branch = release/SawV18.9.0.0
+[submodule "source/contabiwrp"]
+	path = source/contabiwrp
+	url = https://gitlab.com/galac-software-enterprise/desa/contabiwrp.git
+	branch = release/SawV18.9.0.0
+[submodule "source/ivavb"]
+	path = source/ivavb
+	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
+	branch = release/SawV18.9.0.0
+[submodule "source/retencionesvb"]
+	path = source/retencionesvb
+	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
+	branch = release/SawV18.9.0.0
+[submodule "source/vbacomun"]
+	path = source/vbacomun
+	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
+	branch = release/SawV18.9.0.0
