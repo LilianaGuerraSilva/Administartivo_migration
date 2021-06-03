@@ -13,9 +13,6 @@
 	path = bin/binadministrativoaos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
 	branch = release-V2.52.2.0
-[submodule "source/ivavb"]
-	path = source/ivavb
-	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
 [submodule "source/axi"]
 	path = source/axi
 	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
@@ -68,3 +65,7 @@
 	path = bin/bincomunaos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincomunaos.git
 	branch = release-V2.52.0.0
+[submodule "source/ivavb"]
+	path = source/ivavb
+	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
+	branch = release-V27.1
