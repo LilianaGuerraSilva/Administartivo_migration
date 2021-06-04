@@ -1,21 +1,21 @@
-[submodule "bin/binlibprotec"]
-	path = bin/binlibprotec
+[submodule "bin/binLibProtec"]
+	path = bin/binLibProtec
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibprotec.git
 	branch = release-V18.2.0.0
 [submodule "bin/binlibnet"]
 	path = bin/binlibnet
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibnet.git
 	branch = release-V5.13.0.0
-[submodule "bin/binlibvb"]
-	path = bin/binlibvb
+[submodule "bin/binLibVb"]
+	path = bin/binLibVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibvb.git
 	branch = release-V2102
 [submodule "source/lib/aoslib"]
 	path = source/lib/aoslib
 	url = https://gitlab.com/galac-software-enterprise/desa/aoslib.git
 	branch = release-V5.12.0.0
-[submodule "source/lib/vbalib"]
-	path = source/lib/vbalib
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
 	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
 	branch = release-V2001
 [submodule "bin/binlibaos"]
