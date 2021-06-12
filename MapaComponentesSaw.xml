@@ -62,6 +62,7 @@
     <LibGalac.Aos.Uil.Usal>5.13.0.0</LibGalac.Aos.Uil.Usal>
     <LibGalac.Aos.ARRpt>5.13.0.0</LibGalac.Aos.ARRpt>
     <LibGalac.Aos.ObRpt>5.13.0.0</LibGalac.Aos.ObRpt>
+    <LibGalac.Aos.OXml>5.13.0.0</LibGalac.Aos.OXml>
     <LibGalac.Aos.Cib>5.13.0.0</LibGalac.Aos.Cib>
     <LibGalac.Aos.UI.Cib>5.13.0.0</LibGalac.Aos.UI.Cib>
     <LibGalac.Aos.Vbwa>5.13.0.0</LibGalac.Aos.Vbwa>
@@ -135,6 +136,7 @@
     <Galac.Contab.Dal.Tablas>2.52.0.0</Galac.Contab.Dal.Tablas>
     <Galac.Contab.Brl.Tablas>2.52.0.0</Galac.Contab.Brl.Tablas>
     <Galac.Contab.Uil.Tablas>2.52.0.0</Galac.Contab.Uil.Tablas>
+    <Galac.Contab.RptOXml.Wincont>2.52.2.0</Galac.Contab.RptOXml.Wincont>
 
     <Galac.Contab.TablasVbSinMigrar>2.52.2.0</Galac.Contab.TablasVbSinMigrar>
     <DocumentFormat.OpenXml>2.5.5631.0</DocumentFormat.OpenXml>
