@@ -22,7 +22,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.BalanzaElectronica {
         #region Comunicacion Basico
         private bool enviarComandoBalanza(string valComando) {
             bool enviado = false;
-            enviado = base.Conexion.enviarDatosSync(valComando);
+            enviado = base.Conexion.enviarDatosSync(valComando,false);
             _Respuesta = LeerPeso();
             return enviado;
         }     
@@ -40,12 +40,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.BalanzaElectronica {
             string vRequest = string.Empty;
             if(abrirConexion()) {
                 if(ModeloAsEnum == eModeloDeBalanza.Xacta) {
-                    vChecked = base.Conexion.enviarDatosSync("S\r");
+                    vChecked = base.Conexion.enviarDatosSync("S\r",false);
                     Thread.Sleep(350);
                     vRequest = base.Conexion.recibirDatos();
                     vChecked = vChecked && LibString.S1IsInS2("S00",vRequest);
                 } else if(ModeloAsEnum == eModeloDeBalanza.AclasOS2X) {
-                    vChecked = base.Conexion.enviarDatosSync("W");
+                    vChecked = base.Conexion.enviarDatosSync("W",false);
                     Thread.Sleep(350);
                     vRequest = base.Conexion.recibirDatos();
                     vChecked = vChecked && vRequest != string.Empty;

@@ -145,8 +145,12 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         [LibEnumDescription("Aclas OS 2X")]
         AclasOS2X,
         [LibEnumDescription("OHAUS T-23 / T-33")]
-        OHAUST23, 
-	}    
+        OHAUST23,
+        [LibEnumDescription("CAS PR II")]
+        CAS_PR_II,
+        [LibEnumDescription("CAS JP 2")]
+        CAS_JP_2
+    }    
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusImpresorasFiscales {
