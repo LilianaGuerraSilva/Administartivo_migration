@@ -2,10 +2,6 @@
 	path = bin/binLibProtec
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibprotec.git
 	branch = release-V18.2.0.0
-[submodule "bin/binlibnet"]
-	path = bin/binlibnet
-	url = https://gitlab.com/galac-software-enterprise/desa/binlibnet.git
-	branch = release-V5.13.0.0
 [submodule "bin/binLibVb"]
 	path = bin/binLibVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibvb.git
@@ -18,34 +14,6 @@
 	path = source/Lib/VbaLib
 	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
 	branch = release-V2001
-[submodule "bin/binlibaos"]
-	path = bin/binlibaos
-	url = https://gitlab.com/galac-software-enterprise/desa/binlibaos.git
-	branch = release-V5.13.0.0
-[submodule "bin/binadministrativoaos"]
-	path = bin/binadministrativoaos
-	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
-	branch = release/V18.9.0.0
-[submodule "bin/binadministrativovb"]
-	path = bin/binadministrativovb
-	url = https://gitlab.com/galac-software-enterprise/desa/administrativovb.git
-	branch = release/V18.9.0.0
-[submodule "bin/bincomunaos"]
-	path = bin/bincomunaos
-	url = https://gitlab.com/galac-software-enterprise/desa/bincomunaos.git
-	branch = release/SawV18.9.0.0
-[submodule "bin/bincontabilidadaos"]
-	path = bin/bincontabilidadaos
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
-	branch = release/SawV18.9.0.0
-[submodule "bin/bincontabilidadvb"]
-	path = bin/bincontabilidadvb
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release/SawV18.9.0.0
-[submodule "bin/binesqniif"]
-	path = bin/binesqniif
-	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
-	branch = release/SawV18.9.0.0
 [submodule "source/axi"]
 	path = source/axi
 	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
