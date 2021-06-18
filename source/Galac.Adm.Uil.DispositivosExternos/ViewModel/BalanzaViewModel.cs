@@ -19,7 +19,7 @@ using LibGalac.Aos.UI.Wpf;
 using System.Collections.ObjectModel;
 
 namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
-    public class BalanzaViewModel : LibInputViewModelMfc<Balanza> {
+    public class BalanzaViewModel : LibInputViewModel<Balanza> {
         #region Constantes
         public const string ConsecutivoPropertyName = "Consecutivo";
         public const string ModeloPropertyName = "Modelo";
@@ -30,12 +30,14 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
         public const string BitDeParadaPropertyName = "BitDeParada";
         public const string BaudRatePropertyName = "BaudRate";
         public const string ControlDeFlujoPropertyName = "ControlDeFlujo";
+        public const string ExecuteEnabledPropertyName = "ExecuteEnabled";
+        public const string OtrasAccionesEnabledPropertyName = "OtrasAccionesEnabled";
         #endregion
         #region Propiedades
 
         eAccionSR eAccion;
-        bool ExecuteEnabled;
-        bool _PortIsEnable;
+        bool _ExecuteEnabled;
+        bool _OtrasAccionesEnabled;
 
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
 
@@ -89,7 +91,6 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     Model.ModeloAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(ModeloPropertyName);
-                    ExecuteEnabled = false;
                     ExecuteActionCommand.RaiseCanExecuteChanged();
                     ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
                 }
@@ -121,7 +122,6 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     Model.PuertoAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(PuertoPropertyName);
-                    ExecuteEnabled = false;
                     ExecuteActionCommand.RaiseCanExecuteChanged();
                     ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
                 }
@@ -137,7 +137,6 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     Model.BitsDeDatosAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(BitsDatosPropertyName);
-                    ExecuteEnabled = false;
                     ExecuteActionCommand.RaiseCanExecuteChanged();
                     ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
                 }
@@ -153,7 +152,6 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     Model.ParidadAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(ParidadPropertyName);
-                    ExecuteEnabled = false;
                     ExecuteActionCommand.RaiseCanExecuteChanged();
                     ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
                 }
@@ -169,7 +167,6 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     Model.BitDeParadaAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(BitDeParadaPropertyName);
-                    ExecuteEnabled = false;
                     ExecuteActionCommand.RaiseCanExecuteChanged();
                     ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
                 }
@@ -185,7 +182,6 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     Model.BaudRateAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(BaudRatePropertyName);
-                    ExecuteEnabled = false;
                     ExecuteActionCommand.RaiseCanExecuteChanged();
                     ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
                 }
@@ -201,7 +197,6 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     Model.ControlDeFlujoAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(ControlDeFlujoPropertyName);
-                    ExecuteEnabled = false;
                     ExecuteActionCommand.RaiseCanExecuteChanged();
                     ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
                 }
@@ -251,24 +246,43 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
         }
 
         protected override bool CanExecuteAction() {
-            return ExecuteEnabled;
+            return _ExecuteEnabled;
         }
 
         protected override bool CanExecuteExecuteActionAndCloseCommand() {
-            return ExecuteEnabled;
+            return _ExecuteEnabled;
         }
 
-        public bool CanExecuteEscogerrBalanza() {
-            return true;
+        public bool CanExecuteEscogerBalanza() {
+            return !_OtrasAccionesEnabled;
         }
 
         public bool CanExecuteProbarConexion() {
             return true;
         }
 
-        public bool EscogerEnabled {
-            get;
-            set;
+        public bool OtrasAccionesEnabled {
+            get {
+                return _OtrasAccionesEnabled;
+            }
+            set {
+                if (_OtrasAccionesEnabled != value) {
+                    _OtrasAccionesEnabled = value;
+                    RaisePropertyChanged(OtrasAccionesEnabledPropertyName);
+                }
+            }
+        }
+
+        public bool ExecuteEnabled {
+            get {
+                return _ExecuteEnabled;
+            }
+            set {
+                if (_ExecuteEnabled != value) {
+                    _ExecuteEnabled = value;
+                    RaisePropertyChanged(ExecuteEnabledPropertyName);
+                }
+            }
         }
 
         #endregion //Propiedades
@@ -278,10 +292,11 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
         }
 
         public BalanzaViewModel(Balanza initModel, eAccionSR initAction)
-            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+             : base(initModel, initAction) {
             DefaultFocusedPropertyName = ModeloPropertyName;
-            Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            Model.ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             PuertoSerial = new Brl.DispositivosExternos.clsConexionPuertoSerial();
+            CloseOnActionComplete = true;
         }
 
         private string[] GetSerialPort() {
@@ -297,10 +312,13 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
         public override void InitializeViewModel(eAccionSR valAction) {
             base.InitializeViewModel(valAction);
             eAccion = valAction;
-            EscogerEnabled = (eAccion == eAccionSR.Modificar || eAccion == eAccionSR.Insertar);
+            _OtrasAccionesEnabled = (eAccion == eAccionSR.Modificar || eAccion == eAccionSR.Insertar);
+            RaisePropertyChanged(OtrasAccionesEnabledPropertyName);
             ListarPuertos = new ObservableCollection<ePuerto>();
             LlenarEnumerativosPuertos();
+            ActivarButtonActions(eAccion == eAccionSR.Eliminar);
             InitializeRibbon();
+            RibbonData.RemoveRibbonControl("Acciones", "Modificar");
         }
 
         #endregion //Constructores
@@ -312,7 +330,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            EscogerBalanzaCommand = new RelayCommand(ExecuteEscogerCommand, CanExecuteEscogerrBalanza);
+            EscogerBalanzaCommand = new RelayCommand(ExecuteEscogerCommand, CanExecuteEscogerBalanza);
             ProbarConexionCommand = new RelayCommand(ExecuteProbarConexionCommand, CanExecuteProbarConexion);
         }
 
@@ -330,6 +348,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             return new clsBalanzaNav();
         }
 
+
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
@@ -339,7 +358,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     RibbonData.TabDataCollection[0].GroupDataCollection.Add(new LibRibbonGroupData("Gestionar"));
                     vRibbonGroup = RibbonData.GetRibbonGroupData("Gestionar");
                     if (vRibbonGroup != null) {
-                        vRibbonGroup.ControlDataCollection.Add(CreateAsignarRibbonButtonGroup());
+                        vRibbonGroup.ControlDataCollection.Add(CreateEscogerBalanzaRibbonButtonGroup());
                     }
                 } else if (eAccion == eAccionSR.Insertar || eAccion == eAccionSR.Modificar) {
                     int vTop = RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection.Count;
@@ -348,7 +367,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             }
         }
 
-        private LibRibbonButtonData CreateAsignarRibbonButtonGroup() {
+        private LibRibbonButtonData CreateEscogerBalanzaRibbonButtonGroup() {
             LibRibbonButtonData vResult = new LibRibbonButtonData() {
                 Label = "Escoger",
                 Command = EscogerBalanzaCommand,
@@ -375,12 +394,15 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
         }
 
         public void ExecuteEscogerCommand() {
-            int vConsecutivo = Model.Consecutivo;
-            clsBalanzaNav insBalanzaNav = new clsBalanzaNav();
             try {
+                int vConsecutivo = Model.Consecutivo;
+                clsBalanzaNav insBalanzaNav = new clsBalanzaNav();
                 if (insBalanzaNav.EscogerBalanzaEnPOS(vConsecutivo)) {
-                    LibMessages.MessageBox.Information(null, "Balanza seleccionada con exíto", "");
+                    LibMessages.MessageBox.Information(null, "Balanza seleccionada con éxito", Title);
+                } else {
+                    LibMessages.MessageBox.Information(null, "La balanza seleccionada no pudo ser escogida", Title);
                 }
+                CancelCommand.Execute(null);
             } catch (Exception vEx) {
                 LibExceptionDisplay.Show(vEx);
             }
@@ -392,9 +414,7 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
             try {
                 if (insBalanza.VerficarEstado()) {
                     LibMessages.MessageBox.Information(null, "Comunicación exitosa", "");
-                    ExecuteEnabled = true;
-                    ExecuteActionCommand.RaiseCanExecuteChanged();
-                    ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
+                    ActivarButtonActions(true);
                 } else {
                     LibMessages.MessageBox.Information(null, "Error de comunicación, Verficar cableados y conexiones", "");
                 }
@@ -414,11 +434,32 @@ namespace Galac.Adm.Uil.DispositivosExternos.ViewModel {
                     Model.PuertoAsEnum = ListarPuertos.First();
                     LibMessages.MessageBox.Information(this, "Se detectó un cambio del puerto de comunicación de este equipo, recuerde guardar la configuración actual para tomar el cambio", "");
                 }
-                _PortIsEnable = true;
-            } else {
-                _PortIsEnable = false;
             }
         }
+
+        private void ActivarButtonActions(bool valActivate) {
+            _ExecuteEnabled = valActivate;
+            RaisePropertyChanged(ExecuteEnabledPropertyName);
+            ExecuteActionCommand.RaiseCanExecuteChanged();
+            ExecuteActionAndCloseCommand.RaiseCanExecuteChanged();
+        }
+
+        protected override void ExecuteAction() {
+            ExecuteExecuteActionAndCloseCommand();
+        }
+
+        protected override void ExecuteExecuteActionAndCloseCommand() {
+            try {
+                CloseOnActionComplete = true;
+                base.ExecuteAction();
+                CloseOnActionComplete = false;
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
         #endregion //Metodos Generados
     } //End of class BalanzaViewModel
 } //End of namespace Galac.Adm.Uil.DispositivosExternos

@@ -1,13 +1,14 @@
-﻿<UserControl x:Class="Galac.Adm.Uil.DispositivosExternos.Views.GSBalanzaView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-             xmlns:nsVm="clr-namespace:Galac.Adm.Uil.DispositivosExternos.ViewModel">
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.DispositivosExternos.Views.GSBalanzaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsVm="clr-namespace:Galac.Adm.Uil.DispositivosExternos.ViewModel"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
     <UserControl.InputBindings>
-        <KeyBinding Key="F4"  Command="{Binding Path=AsignarBalanzaCommand}" />        
+        <KeyBinding Key="F4" Command="{Binding Path=AsignarBalanzaCommand}" />
     </UserControl.InputBindings>
     <UserControl.Resources>
         <ResourceDictionary>
@@ -32,50 +33,134 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Name="lblModelo" Content="Modelo" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="0" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbModelo" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayModeloBalanza}"
-                SelectedItem="{Binding Path=Modelo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=EscogerEnabled}" />
-        <Label Grid.Row="1" Grid.Column="0" Name="lblNombre" Content="Nombre" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtNombre" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="40" Width="120" IsEnabled="{Binding Path=EscogerEnabled}"
-                                    Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
-        <Label Grid.Row="2" Grid.Column="0" Name="lblPuerto" Content="Puerto" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="2" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbPuerto" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ListarPuertos}"
-                SelectedItem="{Binding Path=Puerto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=EscogerEnabled}" />
-        <Label Grid.Row="3" Grid.Column="0" Name="lblBitsDatos" Content="Bits Datos" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="3" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbBitsDatos" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayBitsDatos}"
-                SelectedItem="{Binding Path=BitsDatos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=EscogerEnabled}" />
-        <Label Grid.Row="4" Grid.Column="0" Name="lblParidad" Content="Paridad" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="4" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbParidad" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayParidad}"
-                SelectedItem="{Binding Path=Paridad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=EscogerEnabled}" />
-        <Label Grid.Row="5" Grid.Column="0" Name="lblBitDeParada" Content="Bit De Parada" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="5" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbBitDeParada" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayBitDeParada}"
-                SelectedItem="{Binding Path=BitDeParada, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=EscogerEnabled}" />
-        <Label Grid.Row="6" Grid.Column="0" Name="lblBaudRate" Content="Baud Rate" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="6" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbBaudRate" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayBaudRate}"
-                SelectedItem="{Binding Path=BaudRate, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=EscogerEnabled}" />
-        <Label Grid.Row="7" Grid.Column="0" Name="lblControlDeFlujo" Content="Control De Flujo" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="7" Grid.Column="1" Style="{StaticResource ComboBoxStyle}" Name="cmbControlDeFlujo" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayControlFlujo}"
-                SelectedItem="{Binding Path=ControlDeFlujo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=EscogerEnabled}" />
+        <Label
+            Name="lblModelo"
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Modelo"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbModelo"
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=OtrasAccionesEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArrayModeloBalanza}"
+            SelectedItem="{Binding Path=Modelo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblNombre"
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="Nombre"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf
+            Name="txtNombre"
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="120"
+            BorderThickness="1"
+            InputDataType="Alfanumeric"
+            IsEnabled="{Binding Path=OtrasAccionesEnabled}"
+            MaxLength="40"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+            Name="lblPuerto"
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Puerto"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbPuerto"
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=OtrasAccionesEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ListarPuertos}"
+            SelectedItem="{Binding Path=Puerto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblBitsDatos"
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Bits Datos"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbBitsDatos"
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=OtrasAccionesEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArrayBitsDatos}"
+            SelectedItem="{Binding Path=BitsDatos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblParidad"
+            Grid.Row="4"
+            Grid.Column="0"
+            Content="Paridad"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbParidad"
+            Grid.Row="4"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=OtrasAccionesEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArrayParidad}"
+            SelectedItem="{Binding Path=Paridad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblBitDeParada"
+            Grid.Row="5"
+            Grid.Column="0"
+            Content="Bit De Parada"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbBitDeParada"
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=OtrasAccionesEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArrayBitDeParada}"
+            SelectedItem="{Binding Path=BitDeParada, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblBaudRate"
+            Grid.Row="6"
+            Grid.Column="0"
+            Content="Baud Rate"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbBaudRate"
+            Grid.Row="6"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=OtrasAccionesEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArrayBaudRate}"
+            SelectedItem="{Binding Path=BaudRate, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblControlDeFlujo"
+            Grid.Row="7"
+            Grid.Column="0"
+            Content="Control De Flujo"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbControlDeFlujo"
+            Grid.Row="7"
+            Grid.Column="1"
+            Width="120"
+            IsEnabled="{Binding Path=OtrasAccionesEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ArrayControlFlujo}"
+            SelectedItem="{Binding Path=ControlDeFlujo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
     </Grid>
 </UserControl>
