@@ -14,30 +14,6 @@
 	path = bin/binLibAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibaos.git
 	branch = release-V5.13.0.0
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
-	branch = release/V18.9.0.0
-[submodule "bin/binAdministrativoVb"]
-	path = bin/binAdministrativoVb
-	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativovb.git
-	branch = release/V18.9.0.0
-[submodule "bin/binComunAos"]
-	path = bin/binComunAos
-	url = https://gitlab.com/galac-software-enterprise/desa/bincomunaos.git
-	branch = release/SawV18.9.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
-	branch = release/SawV18.9.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release/SawV18.9.0.0
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
-	branch = release/SawV18.9.0.0
 [submodule "source/Lib/AosLib"]
 	path = source/Lib/AosLib
 	url = https://gitlab.com/galac-software-enterprise/desa/aoslib.git
@@ -46,27 +22,3 @@
 	path = source/Lib/VbaLib
 	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
 	branch = release-V2001
-[submodule "source/Axi"]
-	path = source/Axi
-	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
-	branch = release/SawV18.9.0.0
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
-	branch = release/SawV18.9.0.0
-[submodule "source/ContabIwrp"]
-	path = source/ContabIwrp
-	url = https://gitlab.com/galac-software-enterprise/desa/contabiwrp.git
-	branch = release/SawV18.9.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
-	branch = release/SawV18.9.0.0
-[submodule "source/RetencionesVb"]
-	path = source/RetencionesVb
-	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
-	branch = release/SawV18.9.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
-	branch = release/SawV18.9.0.0
