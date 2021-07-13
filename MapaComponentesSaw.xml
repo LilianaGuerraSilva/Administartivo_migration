@@ -181,20 +181,20 @@
     <Galac.Saw.Brl.Tablas>2.52.0.0</Galac.Saw.Brl.Tablas>
     <Galac.Saw.Uil.Tablas>2.52.0.0</Galac.Saw.Uil.Tablas>
 
-    <Galac.Saw.Brl.Integracion>2.52.0.0</Galac.Saw.Brl.Integracion>
-    <Galac.Saw.Dal.Integracion>2.52.0.0</Galac.Saw.Dal.Integracion>
-    <Galac.Saw.Ccl.Integracion>2.52.0.0</Galac.Saw.Ccl.Integracion>
-    <Galac.Saw.Uil.Integracion>2.52.0.0</Galac.Saw.Uil.Integracion>
+    <Galac.Saw.Brl.Integracion>2.52.1.0</Galac.Saw.Brl.Integracion>
+    <Galac.Saw.Dal.Integracion>2.52.1.0</Galac.Saw.Dal.Integracion>
+    <Galac.Saw.Ccl.Integracion>2.52.1.0</Galac.Saw.Ccl.Integracion>
+    <Galac.Saw.Uil.Integracion>2.52.1.0</Galac.Saw.Uil.Integracion>
 
     <Galac.Saw.Ccl.Vendedor>2.52.0.0</Galac.Saw.Ccl.Vendedor>
     <Galac.Saw.Dal.Vendedor>2.52.0.0</Galac.Saw.Dal.Vendedor>
     <Galac.Saw.Brl.Vendedor>2.52.0.0</Galac.Saw.Brl.Vendedor>
 
-    <Galac.Adm.Ccl.Banco>2.52.0.0</Galac.Adm.Ccl.Banco>
-    <Galac.Adm.Dal.Banco>2.52.0.0</Galac.Adm.Dal.Banco>
-    <Galac.Adm.Brl.Banco>2.52.0.0</Galac.Adm.Brl.Banco>
-    <Galac.Adm.Uil.Banco>2.52.0.0</Galac.Adm.Uil.Banco>
-    <Galac.Adm.Uil.Banco.resources>2.52.0.0</Galac.Adm.Uil.Banco.resources>
+    <Galac.Adm.Ccl.Banco>2.53.0.0</Galac.Adm.Ccl.Banco>
+    <Galac.Adm.Dal.Banco>2.53.0.0</Galac.Adm.Dal.Banco>
+    <Galac.Adm.Brl.Banco>2.53.0.0</Galac.Adm.Brl.Banco>
+    <Galac.Adm.Uil.Banco>2.53.0.0</Galac.Adm.Uil.Banco>
+    <Galac.Adm.Uil.Banco.resources>2.53.0.0</Galac.Adm.Uil.Banco.resources>
 
     <Galac.Adm.Ccl.CajaChica>2.52.0.0</Galac.Adm.Ccl.CajaChica>
     <Galac.Adm.Dal.CajaChica>2.52.0.0</Galac.Adm.Dal.CajaChica>
@@ -231,7 +231,7 @@
     <Galac.Saw.Wrp.Comun>2.52.0.0</Galac.Saw.Wrp.Comun>                      
     <Galac.Saw.Wrp.Crm>2.52.0.0</Galac.Saw.Wrp.Crm>
     <Galac.Saw.Wrp.WinCont>2.52.0.0</Galac.Saw.Wrp.WinCont>
-    <Galac.Saw.DDL>2.52.2.0</Galac.Saw.DDL>
+    <Galac.Saw.DDL>2.53.0.0</Galac.Saw.DDL>
 
     <Microsoft.Practices.Unity>2.0.414.0</Microsoft.Practices.Unity>
     <Microsoft.Practices.EnterpriseLibrary.Data>5.0.414.0</Microsoft.Practices.EnterpriseLibrary.Data>

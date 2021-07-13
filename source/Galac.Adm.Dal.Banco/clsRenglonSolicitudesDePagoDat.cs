@@ -47,6 +47,8 @@ namespace Galac.Adm.Dal.Banco {
             vParams.AddInDecimal("Monto", valRecord.Monto, 2);
             vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 15);
             vParams.AddInBoolean("Contabilizado", valRecord.ContabilizadoAsBool);
+            vParams.AddInDecimal("TasaDeCambio", TasaDeCambioValida(valRecord.TasaDeCambio), 4);
+            vParams.AddInString("CodigoMoneda", CodigoMonedaValido(valRecord.CodigoMoneda), 4);
             vResult = vParams.Get();
             return vResult;
         }
@@ -95,7 +97,7 @@ namespace Galac.Adm.Dal.Banco {
             List<SolicitudesDePago> vListEntidades = new List<SolicitudesDePago>();
             vListEntidades.Add(valEntidad);
             XElement vXElement = new XElement("GpData",
-                from vEntity in vListEntidades
+            from vEntity in vListEntidades
                 select new XElement("GpResult",
                     new XElement("ConsecutivoCompania", vEntity.ConsecutivoCompania),
                     new XElement("ConsecutivoSolicitud", vEntity.ConsecutivoSolicitud),
@@ -116,7 +118,9 @@ namespace Galac.Adm.Dal.Banco {
                     new XElement("Status", vEntity.StatusAsDB),
                     new XElement("Monto", vEntity.Monto),
                     new XElement("NumeroDocumento", vEntity.NumeroDocumento),
-                    new XElement("Contabilizado", LibConvert.BoolToSN(vEntity.ContabilizadoAsBool))));
+                    new XElement("Contabilizado", LibConvert.BoolToSN(vEntity.ContabilizadoAsBool)),
+                    new XElement("TasaDeCambio", vEntity.TasaDeCambio),
+                    new XElement("CodigoMoneda", vEntity.CodigoMoneda)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<RenglonSolicitudesDePago>, IList<RenglonSolicitudesDePago>>
@@ -168,6 +172,7 @@ namespace Galac.Adm.Dal.Banco {
             vResult = IsValidConsecutivoBeneficiario(valAction, CurrentRecord.ConsecutivoBeneficiario) && vResult;
             vResult = IsValidMonto(valAction, CurrentRecord.Monto) && vResult;
             vResult = IsValidNumeroDocumento(valAction, CurrentRecord.NumeroDocumento) && vResult;
+            vResult = IsValidCodigoMoneda(valAction, CurrentRecord.CodigoMoneda) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -234,6 +239,21 @@ namespace Galac.Adm.Dal.Banco {
             return vResult;
         }
 
+        private bool IsValidCodigoMoneda(eAccionSR valAction, string valCodigoMoneda) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar))
+            {
+                return true;
+            }
+            valCodigoMoneda = LibString.Trim(valCodigoMoneda);
+            if (LibString.IsNullOrEmpty(valCodigoMoneda, true))
+            {
+                BuildValidationInfo(MsgRequiredField("Codigo Moneda"));
+                vResult = false;
+            }
+            return vResult;
+        }
+
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoSolicitud, int valconsecutivoRenglon) {
             bool vResult = false;
             RenglonSolicitudesDePago vRecordBusqueda = new RenglonSolicitudesDePago();
@@ -261,7 +281,30 @@ namespace Galac.Adm.Dal.Banco {
             return vResult;
         }
         #endregion //Metodos Generados
+        private string CodigoMonedaValido(string valCodigoMoneda) {
+            string vResult = string.Empty;
+            if (LibString.IsNullOrEmpty(valCodigoMoneda, true)) {
+                vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "CodigoMoneda");
+                if (LibString.IsNullOrEmpty(vResult, true)) {
+                    if (LibDefGen.ProgramInfo.IsCountryEcuador()) {
+                        vResult = "USD";
+                    } else {
+                        vResult = "VES";
+                    }
+                }
+            } else {
+                vResult = valCodigoMoneda;
+            }
+            return vResult;
+        }
 
+        private decimal TasaDeCambioValida(decimal valTasaDeCambio) {
+            Decimal vResult = 1;
+            if (valTasaDeCambio != 0) {
+                vResult = valTasaDeCambio;
+            }
+            return vResult;
+        }
 
     } //End of class clsRenglonSolicitudesDePagoDat
 

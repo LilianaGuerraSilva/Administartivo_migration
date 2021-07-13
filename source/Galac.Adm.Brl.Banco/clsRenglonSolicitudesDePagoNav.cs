@@ -37,6 +37,7 @@ namespace Galac.Adm.Brl.Banco {
                 RenglonSolicitudesDePago insDetail = new RenglonSolicitudesDePago();
                 insDetail.ConsecutivoCompania = valConsecutivoCompania;
                 insDetail.CuentaBancaria = "";
+                insDetail.TasaDeCambio = 1;
                 if (!(System.NullReferenceException.ReferenceEquals(vItemDetail.Element("CedulaDeIdentidad"), null))) {
                     insDetail.ConsecutivoBeneficiario = GetConsecutivoBeneficiario(valConsecutivoCompania, vItemDetail.Element("CedulaDeIdentidad").Value, false);
                 } else {
@@ -48,12 +49,16 @@ namespace Galac.Adm.Brl.Banco {
                 insDetail.NumeroDocumento = "";
                 insDetail.CuentaBancaria = valCuentaBancariaGenerica;
                 insDetail.ContabilizadoAsBool = false;
+                if (System.NullReferenceException.ReferenceEquals(vItemDetail.Element("Moneda"), null)) {
+                    insDetail.CodigoMoneda = CodigoMonedaValido(string.Empty);
+                    insDetail.TasaDeCambio = 1;
+                }else{
+                    insDetail.CodigoMoneda = CodigoMonedaValido(vItemDetail.Element("Moneda").Value);
+                    insDetail.TasaDeCambio = TasaDeCambioValida(LibConvert.ToDec(vItemDetail.Element("TasaDeCambio"), 4));
+                }
                 refDetailList.Add(insDetail);
             }
-
         }
-
-
 
         private int GetConsecutivoBeneficiario(int valConsecutivoCompania, string valRif, bool valTraerBeneficiarioGenerico) {
             int vResult = 0;
@@ -77,6 +82,7 @@ namespace Galac.Adm.Brl.Banco {
             }
             return vResult;
         }
+		
         private eTipoDeFormaDePagoSolicitud ToEnumFromFormaDePagoSolicitud(string valValor) {
             switch (valValor) {
                 case "Cheque": return eTipoDeFormaDePagoSolicitud.Cheque;
@@ -85,6 +91,31 @@ namespace Galac.Adm.Brl.Banco {
                 default:
                     return eTipoDeFormaDePagoSolicitud.Cheque;
             }
+        }
+
+        private string CodigoMonedaValido(string valCodigoMoneda) {
+            string vResult = string.Empty;
+            if (LibString.IsNullOrEmpty(valCodigoMoneda, true)) {
+                vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "CodigoMoneda");
+                if (LibString.IsNullOrEmpty(vResult, true)) {
+                    if (LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.IsCountryEcuador()) {
+                        vResult = "USD";
+                    } else {
+                        vResult = "VES";
+                    }
+                }
+            } else {
+                vResult = valCodigoMoneda;
+            }
+            return vResult;
+        }
+
+        private decimal TasaDeCambioValida(decimal valTasaDeCambio) {
+            Decimal vResult = 1;
+            if (valTasaDeCambio != 0) {
+                vResult = valTasaDeCambio;
+            }
+            return vResult;
         }
     } //End of class clsRenglonSolicitudesDePagoNav
 
