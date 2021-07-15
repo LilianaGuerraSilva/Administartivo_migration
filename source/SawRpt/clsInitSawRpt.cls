@@ -200,4 +200,33 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsInitSawRpt", "sLlamarfrmInformesDeCxC", "clsInitSawRpt", 0, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Public Sub sLlamarfrmInformesDeCobranza(ByVal valVendedorNavegator As Object, _
+                                                   ByVal valClienteNavegator As Object, _
+                                                      ByVal valCuentaBancariaNavegator As Object, _
+                                                         ByVal valComprobanteNavegator As Object, _
+                                                            ByVal valConexionSAWAos As Object, _
+                                                               ByVal valCobranzasNavegator As Object, _
+                                                                  ByVal valRenglonFacturaNavegator As Object, _
+                                                                     ByVal valFacturaNavegator As Object, _
+                                                                        ByVal valArtInventarioNavegator As Object, _
+                                                                           ByVal valOtrosCargosFacturaNavegator As Object, _
+                                                                              ByVal valRenglonOtrosCargosFactNavegator As Object, _
+                                                                                 ByVal valZonaCobranzaNavegator As Object, _
+                                                                                    ByVal valProyCompaniaActual As Object)
 
+   Dim insInformesDeCobranza As frmInformesDeCobranza
+   On Error GoTo h_ERROR
+   Set insInformesDeCobranza = New frmInformesDeCobranza
+   frmInformesDeCobranza.sLoadObjectValues valVendedorNavegator, valClienteNavegator, valCuentaBancariaNavegator, _
+                           valComprobanteNavegator, valConexionSAWAos, valCobranzasNavegator, _
+                           valRenglonFacturaNavegator, valFacturaNavegator, valArtInventarioNavegator, _
+                           valOtrosCargosFacturaNavegator, valRenglonOtrosCargosFactNavegator, _
+                           valZonaCobranzaNavegator, valProyCompaniaActual
+
+   frmInformesDeCobranza.sInitLookAndFeel
+   frmInformesDeCobranza.Show
+   Set frmInformesDeCobranza = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsInitSawRpt", "sLlamarfrmInformesDeCobranza", "clsInitSawRpt", 0, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
