@@ -1653,6 +1653,11 @@ Public Enum enum_TipoDeMercancia
    eTDM_ProductoTerminado
 End Enum
 
+Public Enum enum_FormaDeCalculoDePrecioRenglonFactura
+   eFDCDPRF_APartirDelPrecioSinIVA = 0
+   eFDCDPRF_APartirDelPrecioConIVA
+End Enum
+
 Public Enum enum_TipoGeneradoPorNotaDeEntradaSalida
    eTGPNDES_Usuario = 0
    eTGPNDES_OrdenDeProduccion
@@ -13838,3 +13843,48 @@ Public Sub FillComboBoxWithTipoNotaProduccion(ByRef varComboBox As Object, Optio
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
 
+Public Function enumFormaDeCalculoDePrecioRenglonFacturaToString(FormaDeCalculoDePrecioRenglonFactura As enum_FormaDeCalculoDePrecioRenglonFactura) As String
+   Select Case FormaDeCalculoDePrecioRenglonFactura
+      Case eFDCDPRF_APartirDelPrecioSinIVA: enumFormaDeCalculoDePrecioRenglonFacturaToString = "A Partir del Precio Sin IVA"
+      Case eFDCDPRF_APartirDelPrecioConIVA: enumFormaDeCalculoDePrecioRenglonFacturaToString = "A Partir del Precio Con IVA"
+      Case Else
+         enumFormaDeCalculoDePrecioRenglonFacturaToString = enumFormaDeCalculoDePrecioRenglonFacturaToString(0)
+   End Select
+End Function
+
+Public Function strFormaDeCalculoDePrecioRenglonFacturaToNum(ByVal FormaDeCalculoDePrecioRenglonFactura As String, Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_FormaDeCalculoDePrecioRenglonFactura
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eFDCDPRF_APartirDelPrecioSinIVA To eFDCDPRF_APartirDelPrecioConIVA
+      If UCase(FormaDeCalculoDePrecioRenglonFactura) = UCase(enumFormaDeCalculoDePrecioRenglonFacturaToString(mEnum)) Then
+         strFormaDeCalculoDePrecioRenglonFacturaToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strFormaDeCalculoDePrecioRenglonFacturaToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & FormaDeCalculoDePrecioRenglonFactura & " no existe en tipo enumerado FormaDeCalculoDePrecioRenglonFactura"
+   End If
+h_EXIT:
+   Exit Function
+End Function
+
+Public Sub FillComboBoxWithFormaDeCalculoDePrecioRenglonFactura(ByRef varComboBox As Object, Optional action As AccionSobreRecord = Abrir)
+   Dim nCount As Integer
+   varComboBox.Clear
+   nCount = 0
+   If action = Buscar Then
+      varComboBox.Text = gDefGen.getSearchAllComboBox()
+      varComboBox.List(nCount) = gDefGen.getSearchAllComboBox()
+      nCount = nCount + 1
+   Else
+      varComboBox.Text = enumFormaDeCalculoDePrecioRenglonFacturaToString(enum_FormaDeCalculoDePrecioRenglonFactura.eFDCDPRF_APartirDelPrecioSinIVA)
+   End If
+   varComboBox.List(nCount) = enumFormaDeCalculoDePrecioRenglonFacturaToString(enum_FormaDeCalculoDePrecioRenglonFactura.eFDCDPRF_APartirDelPrecioSinIVA)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumFormaDeCalculoDePrecioRenglonFacturaToString(enum_FormaDeCalculoDePrecioRenglonFactura.eFDCDPRF_APartirDelPrecioConIVA)
+   varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
+   varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
+End Sub

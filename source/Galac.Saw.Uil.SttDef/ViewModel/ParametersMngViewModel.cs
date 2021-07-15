@@ -59,7 +59,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private bool CanExecuteUpdateCommand() {
             bool vResult = false;
             if (LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania") > 0) {
-                vResult = true; //Validar
+                vResult = LibSecurityManager.CurrentUserHasAccessTo("Parámetros", "Modificar");
             }
             return vResult;
         }
@@ -82,8 +82,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private bool CanExecuteReadCommand() {
             bool vResult = false;
             if (LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania") > 0) {
-                vResult = true; //Validar
-             }
+                vResult =  LibSecurityManager.CurrentUserHasAccessTo("Parámetros", "Consultar");
+            }
              return vResult;
         }
 
