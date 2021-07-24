@@ -251,7 +251,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private decimal CalcularPrecioSinIvaDeEtiquetas(decimal valPrecioConIva, decimal valPorcentajeBaseImponible, eTipoDeAlicuota valAlicuotaIva) {
             decimal vResult = 0;
             FacturaRapidaDetalleViewModel vItem = new FacturaRapidaDetalleViewModel();
-
             if (valAlicuotaIva == eTipoDeAlicuota.Exento) {
                 vResult = LibMath.RoundToNDecimals(vItem.CalcularPreciosPorDetail(valPrecioConIva, 0, false, 100), Master._CantidadDeDecimales);
             } else if (valAlicuotaIva == eTipoDeAlicuota.AlicuotaGeneral) {
