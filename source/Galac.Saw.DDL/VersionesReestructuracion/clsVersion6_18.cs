@@ -46,6 +46,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 }
             }
             return vResult;
+        }
+
         private void AgregarParametroFormaDeCalcularElPrecioConIvaEnRenglonFactura() {
             AgregarNuevoParametro("FormaDeCalculoDePrecioRenglonFactura", "Factura", 2, "2.1.- Facturación", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', LibConvert.EnumToDbValue((int)eFormaDeCalculoDePrecioRenglonFactura.APartirDelPrecioConIVA));
         }
