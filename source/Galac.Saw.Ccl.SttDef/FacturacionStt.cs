@@ -46,9 +46,11 @@ namespace Galac.Saw.Ccl.SttDef {
         private bool _UsaPrecioSinIvaEnResumenVtas;
         private bool _UsaListaDePrecioEnMonedaExtranjera;
         private bool _ResumenVtasAfectaInventario;
-        private bool _UsarRenglonesEnResumenVtas;        
+        private bool _UsarRenglonesEnResumenVtas;
+        private eFormaDeCalculoDePrecioRenglonFactura _FormaDeCalculoDePrecioRenglonFactura;
         private bool _PermitirCambioTasaMondExtrajalEmitirFactura;
         private bool _UsaListaDePrecioEnMonedaExtranjeraCXC;
+
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -89,7 +91,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string DevolucionReversoSeGeneraComoAsDB {
-            get { return LibConvert.EnumToDbValue((int) _DevolucionReversoSeGeneraComo); }
+            get { return LibConvert.EnumToDbValue((int)_DevolucionReversoSeGeneraComo); }
         }
 
         public string DevolucionReversoSeGeneraComoAsString {
@@ -136,7 +138,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string TipoDeNivelDePreciosAsDB {
-            get { return LibConvert.EnumToDbValue((int) _TipoDeNivelDePrecios); }
+            get { return LibConvert.EnumToDbValue((int)_TipoDeNivelDePrecios); }
         }
 
         public string TipoDeNivelDePreciosAsString {
@@ -173,7 +175,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string ItemsMontoAsDB {
-            get { return LibConvert.EnumToDbValue((int) _ItemsMonto); }
+            get { return LibConvert.EnumToDbValue((int)_ItemsMonto); }
         }
 
         public string ItemsMontoAsString {
@@ -190,7 +192,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string ComisionesEnFacturaAsDB {
-            get { return LibConvert.EnumToDbValue((int) _ComisionesEnFactura); }
+            get { return LibConvert.EnumToDbValue((int)_ComisionesEnFactura); }
         }
 
         public string ComisionesEnFacturaAsString {
@@ -207,7 +209,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public string ComisionesEnRenglonesAsDB {
-            get { return LibConvert.EnumToDbValue((int) _ComisionesEnRenglones); }
+            get { return LibConvert.EnumToDbValue((int)_ComisionesEnRenglones); }
         }
 
         public string ComisionesEnRenglonesAsString {
@@ -273,7 +275,7 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _UsaListaDePrecioEnMonedaExtranjera = value; }
         }
         public string UsaListaDePrecioEnMonedaExtranjera {
-            set {_UsaListaDePrecioEnMonedaExtranjera = LibConvert.SNToBool(value);}
+            set { _UsaListaDePrecioEnMonedaExtranjera = LibConvert.SNToBool(value); }
         }
 
         public bool ResumenVtasAfectaInventarioAsBool {
@@ -301,6 +303,23 @@ namespace Galac.Saw.Ccl.SttDef {
 
         public string PermitirCambioTasaMondExtrajalEmitirFactura {
             set { _PermitirCambioTasaMondExtrajalEmitirFactura = LibConvert.SNToBool(value); }
+        }
+
+        public eFormaDeCalculoDePrecioRenglonFactura FormaDeCalculoDePrecioRenglonFacturaAsEnum {
+            get { return _FormaDeCalculoDePrecioRenglonFactura; }
+            set { _FormaDeCalculoDePrecioRenglonFactura = value; }
+        }
+
+        public string FormaDeCalculoDePrecioRenglonFactura {
+            set { _FormaDeCalculoDePrecioRenglonFactura = (eFormaDeCalculoDePrecioRenglonFactura)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string FormaDeCalculoDePrecioRenglonFacturaAsDB {
+            get { return LibConvert.EnumToDbValue((int)_FormaDeCalculoDePrecioRenglonFactura); }
+        }
+
+        public string FormaDeCalculoDePrecioRenglonFacturaAsString {
+            get { return LibEnumHelper.GetDescription(_FormaDeCalculoDePrecioRenglonFactura); }
         }
 
         public string UsaListaDePrecioEnMonedaExtranjeraCXC {
@@ -356,7 +375,7 @@ namespace Galac.Saw.Ccl.SttDef {
             ResumenVtasAfectaInventarioAsBool = false;
             UsarRenglonesEnResumenVtasAsBool = false;
             PermitirCambioTasaMondExtrajalEmitirFacturaAsBool = false;
-            
+            FormaDeCalculoDePrecioRenglonFacturaAsEnum = eFormaDeCalculoDePrecioRenglonFactura.APartirDelPrecioSinIVA;
             fldTimeStamp = 0;
         }
 
@@ -385,6 +404,7 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.ResumenVtasAfectaInventarioAsBool = _ResumenVtasAfectaInventario;
             vResult.UsarRenglonesEnResumenVtasAsBool = _UsarRenglonesEnResumenVtas;
             vResult.PermitirCambioTasaMondExtrajalEmitirFacturaAsBool = _PermitirCambioTasaMondExtrajalEmitirFactura;
+            vResult.FormaDeCalculoDePrecioRenglonFacturaAsEnum = _FormaDeCalculoDePrecioRenglonFactura;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
@@ -413,12 +433,10 @@ namespace Galac.Saw.Ccl.SttDef {
                 "\nResumen Vtas Afecta Inventario = " + _ResumenVtasAfectaInventario +
                 "\nUsar Renglones En Resumen Vtas = " + _UsarRenglonesEnResumenVtas +
                 "\nPermitirCambio de Tasa de Monda Extrajera al Emitir Factura = " + _PermitirCambioTasaMondExtrajalEmitirFactura +
-                "\nUsar Lista De Precios En Moneda Extranjera en CXC = " + _UsaListaDePrecioEnMonedaExtranjeraCXC;
+                "\nUsar Lista De Precios En Moneda Extranjera en CXC = " + _UsaListaDePrecioEnMonedaExtranjeraCXC +
+                "\nForma de cálculo del precio de los artículos a facturar = " + _FormaDeCalculoDePrecioRenglonFactura.ToString();
         }
         #endregion //Metodos Generados
-
-
     } //End of class FacturacionStt
-
 } //End of namespace Galac.Saw.Ccl.SttDef
 

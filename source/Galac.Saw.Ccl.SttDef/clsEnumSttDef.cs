@@ -5,146 +5,146 @@ using LibGalac.Aos.Base;
 namespace Galac.Saw.Ccl.SttDef {
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eItemsMontoFactura {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eItemsMontoFactura {
         [LibEnumDescription("No Permitir ITEMS Negativos")]
-        NO_PERMITIR_ITEMS_NEGATIVOS = 0, 
+        NO_PERMITIR_ITEMS_NEGATIVOS = 0,
         [LibEnumDescription("Permitir con Autorización")]
-        PERMITIR_CON_AUTORIZACION, 
+        PERMITIR_CON_AUTORIZACION,
         [LibEnumDescription("Permitir Siempre")]
         PERMITIR_SIEMPRE
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDePrefijoFactura {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDePrefijoFactura {
         [LibEnumDescription("Sin Prefijo")]
         SinPrefijo = 0,
         [LibEnumDescription("Año")]
         Ano,
         [LibEnumDescription("Indicar")]
         Indicar
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eCantidadDeDecimales {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eCantidadDeDecimales {
         [LibEnumDescription("Dos")]
-        Dos = 0, 
+        Dos = 0,
         [LibEnumDescription("Tres")]
-        Tres, 
+        Tres,
         [LibEnumDescription("Cuatro")]
         Cuatro
-	}
+    }
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeMetodoDeCosteo {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeMetodoDeCosteo {
         [LibEnumDescription("Último Costo")]
-        UltimoCosto = 0, 
+        UltimoCosto = 0,
         [LibEnumDescription("Costo Promedio")]
         CostoPromedio
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeOrdenDePagoAImprimir {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeOrdenDePagoAImprimir {
         [LibEnumDescription("Orden de  Pago con  Cheque")]
-        OrdendePagoconCheque = 0, 
+        OrdendePagoconCheque = 0,
         [LibEnumDescription("Solo  Orden de  Pago")]
-        SoloOrdendePago, 
+        SoloOrdendePago,
         [LibEnumDescription("Orden de  Pago separada de  Cheque")]
         OrdendePagoseparadadeCheque
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eFormaDeReiniciarComprobanteRetIVA {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eFormaDeReiniciarComprobanteRetIVA {
         [LibEnumDescription("Sin  Escoger")]
-        SinEscoger = 0, 
+        SinEscoger = 0,
         [LibEnumDescription("Por  Mes")]
-        PorMes, 
+        PorMes,
         [LibEnumDescription("Por  Año")]
-        PorAno, 
+        PorAno,
         [LibEnumDescription("Al  Completar")]
         AlCompletar
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eDondeSeEfectuaLaRetencionIVA {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eDondeSeEfectuaLaRetencionIVA {
         [LibEnumDescription("No  Retenida")]
-        NoRetenida = 0, 
+        NoRetenida = 0,
         [LibEnumDescription("CxP")]
-        CxP, 
+        CxP,
         [LibEnumDescription("Pago")]
         Pago
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eDondeSeEfectuaLaRetencionISLR {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eDondeSeEfectuaLaRetencionISLR {
         [LibEnumDescription("No  Retenida")]
-        NoRetenida = 0, 
+        NoRetenida = 0,
         [LibEnumDescription("Cx P")]
-        CxP, 
+        CxP,
         [LibEnumDescription("Pago")]
         Pago
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeSolicitudDeIngresoDeTasaDeCambio {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeSolicitudDeIngresoDeTasaDeCambio {
         [LibEnumDescription("Siempre Al Emitir Primera Factura")]
-        SiempreAlEmitirPrimeraFactura = 0, 
+        SiempreAlEmitirPrimeraFactura = 0,
         [LibEnumDescription("Solo Si Es Necesario")]
         SoloSiEsNecesario
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eComprobanteConCheque {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eComprobanteConCheque {
         [LibEnumDescription("Comprobante con  Cheque")]
-        ComprobanteconCheque = 0, 
+        ComprobanteconCheque = 0,
         [LibEnumDescription("Solo  Comprobante")]
-        SoloComprobante, 
+        SoloComprobante,
         [LibEnumDescription("Comprobante separado de  Cheque")]
         ComprobanteseparadodeCheque
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeAgrupacionParaLibrosDeVenta {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeAgrupacionParaLibrosDeVenta {
         [LibEnumDescription("POR RESUMEN DE VENTAS")]
-        PORRESUMENDEVENTAS = 0, 
+        PORRESUMENDEVENTAS = 0,
         [LibEnumDescription("POR TIPO DE CONTRIBUYENTE")]
-        PORTIPODECONTRIBUYENTE, 
+        PORTIPODECONTRIBUYENTE,
         [LibEnumDescription("DETALLADO POR FACTURA")]
         DETALLADOPORFACTURA
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eFormaDeOrdenarCodigos {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eFormaDeOrdenarCodigos {
         [LibEnumDescription("NORMAL")]
-        NORMAL = 0, 
+        NORMAL = 0,
         [LibEnumDescription("ESPECIAL")]
         ESPECIAL
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eDecision {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eDecision {
         [LibEnumDescription("Sí")]
-        Si = 0, 
+        Si = 0,
         [LibEnumDescription("No")]
         No
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eCalculoParaComisionesSobreCobranzaEnBaseA {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eCalculoParaComisionesSobreCobranzaEnBaseA {
         [LibEnumDescription("Monto")]
-        Monto = 0, 
+        Monto = 0,
         [LibEnumDescription("Días Vencidos")]
         DiasVencidos,
         [LibEnumDescription("Porcentaje por Artículo")]
@@ -153,16 +153,16 @@ namespace Galac.Saw.Ccl.SttDef {
         Porcentaje_por_Linea_de_Producto,
         [LibEnumDescription("Mixto")]
         Mixto
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eFormaDeEscogerCompania {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eFormaDeEscogerCompania {
         [LibEnumDescription("Por Nombre")]
-        PorNombre = 0, 
+        PorNombre = 0,
         [LibEnumDescription("Por Código")]
         PorCodigo
-	}
+    }
 
 
     //[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
@@ -193,40 +193,40 @@ namespace Galac.Saw.Ccl.SttDef {
     //    Diciembre
     //}
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoReverso {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoReverso {
         [LibEnumDescription("NOTA DE CRÉDITO")]
-        NOTADECREDITO = 0, 
+        NOTADECREDITO = 0,
         [LibEnumDescription("FACTURA")]
         FACTURA
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eAccionAlAnularFactDeMesesAnt {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eAccionAlAnularFactDeMesesAnt {
         [LibEnumDescription("Permitir  Anular  Sin  Chequear")]
-        PermitirAnularSinChequear = 0, 
+        PermitirAnularSinChequear = 0,
         [LibEnumDescription("Preguntar  Si  Desea  Anular")]
-        PreguntarSiDeseaAnular, 
+        PreguntarSiDeseaAnular,
         [LibEnumDescription("No  Permitir  Anular")]
         NoPermitirAnular
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDocumentoFactura {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDocumentoFactura {
         [LibEnumDescription("Factura")]
-        Factura = 0, 
+        Factura = 0,
         [LibEnumDescription("Nota De Crédito")]
-        NotaDeCredito, 
+        NotaDeCredito,
         [LibEnumDescription("Nota De Débito")]
-        NotaDeDebito, 
+        NotaDeDebito,
         [LibEnumDescription("Resumen Diario De Ventas")]
-        ResumenDiarioDeVentas, 
+        ResumenDiarioDeVentas,
         [LibEnumDescription("No Asignado")]
-        NoAsignado, 
+        NoAsignado,
         [LibEnumDescription("Comprobante Fiscal")]
-        ComprobanteFiscal, 
+        ComprobanteFiscal,
         [LibEnumDescription("Boleta")]
         Boleta,
         [LibEnumDescription("Nota de Crédito Comprobante Fiscal")]
@@ -235,134 +235,134 @@ namespace Galac.Saw.Ccl.SttDef {
         NotaEntrega,
         [LibEnumDescription("Todos")]
         Todos
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeNivelDePrecios {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeNivelDePrecios {
         [LibEnumDescription("Por Usuario")]
-        PorUsuario = 0, 
+        PorUsuario = 0,
         [LibEnumDescription("Por Cliente")]
         PorCliente
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eComisionesEnFactura {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eComisionesEnFactura {
         [LibEnumDescription("Sobre Total Factura")]
-        SobreTotalFactura = 0, 
+        SobreTotalFactura = 0,
         [LibEnumDescription("Sobre Renglones")]
-        SobreRenglones, 
+        SobreRenglones,
         [LibEnumDescription("Sobre Total Factura y Renglones")]
         SobreTotalFacturayRenglones
-	}
-	
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eBloquearEmision {
+    }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eBloquearEmision {
         [LibEnumDescription("No Bloquear")]
-        NoBloquear = 0, 
+        NoBloquear = 0,
         [LibEnumDescription("Bloquear Por Caja")]
-        BloquearPorCaja, 
+        BloquearPorCaja,
         [LibEnumDescription("Bloqueo General")]
         BloqueoGeneral
-	}
+    }
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eComisionesEnRenglones {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eComisionesEnRenglones {
         [LibEnumDescription("Por Un Vendedor")]
-        PorUnVendedor = 0, 
+        PorUnVendedor = 0,
         [LibEnumDescription("Por Dos Vendedores")]
-        PordosVendedores, 
+        PordosVendedores,
         [LibEnumDescription("Por Tres Vendedores")]
         PorTresVendedores
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eFormaDeOrdenarDetalleFactura {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eFormaDeOrdenarDetalleFactura {
         [LibEnumDescription("Como fue cargada")]
-        Comofuecargada = 0, 
+        Comofuecargada = 0,
         [LibEnumDescription("Por Código de Artículo")]
-        PorCodigodeArticulo, 
+        PorCodigodeArticulo,
         [LibEnumDescription("Por Descripción de Artículo")]
         PorDescripciondeArticulo
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eAccionLimiteItemsFactura {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eAccionLimiteItemsFactura {
         [LibEnumDescription("Solo Advertir")]
-        SoloAdvertir = 0, 
+        SoloAdvertir = 0,
         [LibEnumDescription("No Exceder Número Items")]
         NoExedernumeroItems
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum ePermitirSobregiro {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum ePermitirSobregiro {
         [LibEnumDescription("No Chequear Existencia")]
-        NoChequearExistencia = 0, 
+        NoChequearExistencia = 0,
         [LibEnumDescription("Permitir Sobregiro")]
-        PermitirSobregiro, 
+        PermitirSobregiro,
         [LibEnumDescription("No Permitir Sobregiro")]
         NoPermitirSobregiro
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eModeloDeFactura {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eModeloDeFactura {
         [LibEnumDescription("Forma Libre (Carta)")]
         eMD_FORMALIBRE = 0,
         [LibEnumDescription("Otro")]
         eMD_OTRO,
         [LibEnumDescription("Impresión Modo Texto")]
-        eMD_IMPRESION_MODO_TEXTO 
-        
-	}
-     
+        eMD_IMPRESION_MODO_TEXTO
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDePrefijo {
+    }
+
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDePrefijo {
         [LibEnumDescription("Sin Prefijo")]
-        SinPrefijo = 0, 
+        SinPrefijo = 0,
         [LibEnumDescription("Año")]
-        Ano, 
+        Ano,
         [LibEnumDescription("Indicar")]
         Indicar
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eModeloPlanillaForma00030 {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eModeloPlanillaForma00030 {
         [LibEnumDescription("F 00030_ F03_ Grafibond")]
-        F00030_F03_Grafibond = 0, 
+        F00030_F03_Grafibond = 0,
         [LibEnumDescription("F 00030_ F03_ Olivenca")]
-        F00030_F03_Olivenca, 
+        F00030_F03_Olivenca,
         [LibEnumDescription("F 00030_ F04_ Grafibond")]
         F00030_F04_Grafibond
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoNegocio {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoNegocio {
         [LibEnumDescription("General")]
-        eTN_General = 0, 
+        eTN_General = 0,
         [LibEnumDescription("Taller Mecánico")]
         eTN_TallerMecanico
-	}
+    }
 
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeDatoParametros {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeDatoParametros {
         [LibEnumDescription("Enumerativo")]
-        Enumerativo = 0, 
+        Enumerativo = 0,
         [LibEnumDescription("Int")]
-        Int, 
+        Int,
         [LibEnumDescription("String")]
-        String, 
+        String,
         [LibEnumDescription("Decimal")]
         Decimal
-	}
+    }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeFormatoFecha {
@@ -420,13 +420,13 @@ namespace Galac.Saw.Ccl.SttDef {
         Error_Al_Copiar_Parametros
     }
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eFechaSugeridaRetencionesCxP {
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eFechaSugeridaRetencionesCxP {
         [LibEnumDescription("Fecha de la factura de la CxP")]
-        FechaFacturaCxP = 0, 
+        FechaFacturaCxP = 0,
         [LibEnumDescription("Fecha de registro de la CxP")]
         FechaRegistroCxP
-	}
+    }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eBaseCalculoParaAlicuotaEspecial {
@@ -479,4 +479,11 @@ namespace Galac.Saw.Ccl.SttDef {
         DivisaAMonedaLocal
     }
 
-    } //End of namespace namespace Galac.Saw.Ccl.SttDef
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eFormaDeCalculoDePrecioRenglonFactura {
+        [LibEnumDescription("A Partir del Precio Sin IVA")]
+        APartirDelPrecioSinIVA = 0, 
+        [LibEnumDescription("A Partir del Precio Con IVA")]
+        APartirDelPrecioConIVA
+    }
+} //End of namespace namespace Galac.Saw.Ccl.SttDef
