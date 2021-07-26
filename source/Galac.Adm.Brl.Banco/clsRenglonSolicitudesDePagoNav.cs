@@ -37,6 +37,7 @@ namespace Galac.Adm.Brl.Banco {
                 RenglonSolicitudesDePago insDetail = new RenglonSolicitudesDePago();
                 insDetail.ConsecutivoCompania = valConsecutivoCompania;
                 insDetail.CuentaBancaria = "";
+                insDetail.TasaDeCambio = 1;
                 if (!(System.NullReferenceException.ReferenceEquals(vItemDetail.Element("CedulaDeIdentidad"), null))) {
                     insDetail.ConsecutivoBeneficiario = GetConsecutivoBeneficiario(valConsecutivoCompania, vItemDetail.Element("CedulaDeIdentidad").Value, false);
                 } else {
