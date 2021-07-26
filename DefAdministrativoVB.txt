@@ -156,6 +156,7 @@ unBaseCalculoParaAlicuotaEspecial=(Total Factura,Monto Exento más Base Imponible
 unStatusFacturaElectronica=(Sin Procesar,Aceptada,Rechazada);//e
 unTipoDePersonaLibrosElectronicos=(Natural,Juridico,NoDomiciliado);//e
 unStatusCompania=(Activa, Inactiva);//e
+unFormaDeCalculoDePrecioRenglonFactura = (APartirDelPrecioSinIVA, APartirDelPrecioConIVA); //e
 
 {@S}UrbanizacionZP = record //"Urbanización - Zona Postal",
    Urbanización: str30; //o,g,SEARCH

@@ -3,14 +3,14 @@ using LibGalac.Aos.DefGen;
 using LibGalac.Aos.Cnf;
 
 public class clsDefProg {
-    public const string VersionDelPrograma = "18.9";
-    public const string VersionBaseDeDatos = "6.17";
+    public const string VersionDelPrograma = "19.1";
+    public const string VersionBaseDeDatos = "6.18";
     public const string HoraDeLaVersion = "12:00 A.M.";
-    private static DateTime mFechaDelaVersion = new DateTime(2021, 06, 09);
+    private static DateTime mFechaDelaVersion = new DateTime(2021, 07, 21);
     private static string _Pais = "VE";
     private static int _CMTO = -1;
 
-    private clsDefProg() {
+    private clsDefProg() {        
     }
 
     public static string SiglasDelPrograma {

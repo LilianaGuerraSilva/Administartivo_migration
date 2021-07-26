@@ -19,6 +19,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             CrearNuevosCamposDeRenglonSolicitudDePago();
+            AgregarParametroFormaDeCalcularElPrecioConIvaEnRenglonFactura();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -44,6 +45,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 }
             }
             return vResult;
+        private void AgregarParametroFormaDeCalcularElPrecioConIvaEnRenglonFactura() {
+            AgregarNuevoParametro("FormaDeCalculoDePrecioRenglonFactura", "Factura", 2, "2.1.- Facturación", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', LibConvert.EnumToDbValue((int)eFormaDeCalculoDePrecioRenglonFactura.APartirDelPrecioConIVA));
         }
     }
 }

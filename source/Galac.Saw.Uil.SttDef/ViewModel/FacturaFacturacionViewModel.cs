@@ -46,7 +46,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsVisibleRenglonVendedor2PropertyName = "IsVisibleRenglonVendedor2";
         public const string IsVisibleRenglonVendedor3PropertyName = "IsVisibleRenglonVendedor3";
         public const string EnabledComisionRenglonesPropertyName = "EnabledComisionRenglones";     
-        #endregion
+        public const string FormaDeCalculoDePrecioRenglonFacturaPropertyName = "FormaDeCalculoDePrecioRenglonFactura";
+	    #endregion
         #region Propiedades
 
         public bool InitFirstTime { get; set; }
@@ -369,8 +370,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        
-       
+        public eFormaDeCalculoDePrecioRenglonFactura  FormaDeCalculoDePrecioRenglonFactura {
+            get {
+                return Model.FormaDeCalculoDePrecioRenglonFacturaAsEnum;
+            }
+            set {
+                if (Model.FormaDeCalculoDePrecioRenglonFacturaAsEnum != value) {
+                    Model.FormaDeCalculoDePrecioRenglonFacturaAsEnum = value;                   
+                    RaisePropertyChanged(FormaDeCalculoDePrecioRenglonFacturaPropertyName);
+                }
+            }
+        }
 
         public eComisionesEnFactura[] ArrayComisionesEnFactura {
             get {
@@ -401,7 +411,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return LibEnumHelper<eTipoDeNivelDePrecios>.GetValuesInArray();
             }
         }
-
+		
+        public eFormaDeCalculoDePrecioRenglonFactura[] ArrayFormaDeCalculoDePrecioRenglonFactura {
+            get {
+                return LibEnumHelper<eFormaDeCalculoDePrecioRenglonFactura>.GetValuesInArray();
+            }
+        }
+		
         public bool IsEnabledUsaPrecioSinIva {
             get {
                 if (LibString.IsNullOrEmpty(AppMemoryInfo.GlobalValuesGetString("Parametros", "SesionEspecialPrecioSinIva"))) {
@@ -540,8 +556,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return vResult;
             }
         }
-        #endregion //Metodos Generados
 
+        public bool IsEnabledFormaDeCalculoDePrecioRenglonFactura {
+            get {
+                return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsPrimeraVezCompania");
+            }
+        }
+        #endregion //Metodos Generados
     } //End of class FacturaFacturacionViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef
