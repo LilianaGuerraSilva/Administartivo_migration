@@ -13,7 +13,7 @@ namespace Galac.Saw.SLev {
         /// <param name="valLevel"></param>
         /// <returns></returns>
         public List<CustomRole> PlantillaPermisos() {
-           
+
             List<CustomRole> vPermisos = new List<CustomRole>();
 
             #region Compania
@@ -43,7 +43,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Factura", "Insertar Factura Histórica", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Nota de Crédito Histórica", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Insertar Nota de Débito Histórica", "Principal", 1));
-            vPermisos.Add(new CustomRole("Factura", "Imprimir Orden De Despacho", "Principal", 1)); 
+            vPermisos.Add(new CustomRole("Factura", "Imprimir Orden De Despacho", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Generar Factura desde Contrato", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Generar Factura desde Cotización", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Informes Gerenciales", "Principal", 1));
@@ -270,7 +270,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Movimiento Bancario", "Eliminar", "Bancos", 8));
             vPermisos.Add(new CustomRole("Movimiento Bancario", "Anular", "Bancos", 8));
             vPermisos.Add(new CustomRole("Movimiento Bancario", "Reimprimir", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Movimiento Bancario", "Informes", "Bancos", 8));            
+            vPermisos.Add(new CustomRole("Movimiento Bancario", "Informes", "Bancos", 8));
             vPermisos.Add(new CustomRole("Movimiento Bancario", "Reimprimir Cheque", "Bancos", 8));
             #endregion
 
@@ -357,7 +357,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Planilla Forma 00030", "Borrador", "Retenciones / Forma 30", 6));
             #endregion
 
-			#region Tabla Retencion
+            #region Tabla Retencion
             vPermisos.Add(new CustomRole("Tabla Retención", "Consultar", "Retenciones / Forma 30", 6));
             vPermisos.Add(new CustomRole("Tabla Retención", "Reinstalar", "Retenciones / Forma 30", 6));
             #endregion
@@ -403,12 +403,12 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Caja Registradora", "Insertar", "Principal", 1));
             vPermisos.Add(new CustomRole("Caja Registradora", "Modificar", "Principal", 1));
             vPermisos.Add(new CustomRole("Caja Registradora", "Eliminar", "Principal", 1));
-            vPermisos.Add(new CustomRole("Caja Registradora", "Abrir Gaveta", "Principal", 1));            
-            vPermisos.Add(new CustomRole("Caja Registradora","Cancelar Documento","Principal",1));                        
+            vPermisos.Add(new CustomRole("Caja Registradora", "Abrir Gaveta", "Principal", 1));
+            vPermisos.Add(new CustomRole("Caja Registradora", "Cancelar Documento", "Principal", 1));
             vPermisos.Add(new CustomRole("Caja Registradora", "Asignar Caja Registradora", "Principal", 1));
             vPermisos.Add(new CustomRole("Caja Registradora", "Informes", "Principal", 1));
-            vPermisos.Add(new CustomRole("Caja Registradora","Crear Caja Generica","Principal",1));
-            vPermisos.Add(new CustomRole("Caja Registradora","Activar Modo Mejorado","Principal",1));
+            vPermisos.Add(new CustomRole("Caja Registradora", "Crear Caja Generica", "Principal", 1));
+            vPermisos.Add(new CustomRole("Caja Registradora", "Activar Modo Mejorado", "Principal", 1));
             #endregion
 
             #region Color
@@ -468,7 +468,7 @@ namespace Galac.Saw.SLev {
 
             #region Parametros Activo Fijo
             #endregion
-            
+
             #region Niveles de Precio
             vPermisos.Add(new CustomRole("Niveles de Precio", "Nivel 1", "Compañía / Parámetros / Niveles de Precio", 2));
             vPermisos.Add(new CustomRole("Niveles de Precio", "Nivel 2", "Compañía / Parámetros / Niveles de Precio", 2));
@@ -481,7 +481,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Tablas", "Reinstalar", "Tablas Generales", 10));
             vPermisos.Add(new CustomRole("Tablas", "Ingresar Cambio de Fechas Adelantadas", "Tablas Generales", 10));
             #endregion
- 
+
             #region Vehiculos
             vPermisos.Add(new CustomRole("Vehículo", "Consultar", "Vehículos", 11));
             vPermisos.Add(new CustomRole("Vehículo", "Insertar", "Vehículos", 11));
@@ -503,17 +503,17 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Marca", "Modificar", "Vehículos", 11));
             vPermisos.Add(new CustomRole("Marca", "Eliminar", "Vehículos", 11));
             #endregion
-          
+
             #region Solicitudes de pago
-            vPermisos.Add(new CustomRole("Solicitudes De Pago", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de pago", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de pago", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de pago", "Eliminar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de pago", "Informes", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de pago", "Procesar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de pago", "Anular", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de pago", "Reimprimir Cheque", "Bancos", 8));
-            
+            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Consultar", "Bancos", 8));
+            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Insertar", "Bancos", 8));
+            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Modificar", "Bancos", 8));
+            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Eliminar", "Bancos", 8));
+            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Informes", "Bancos", 8));
+            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Procesar", "Bancos", 8));
+            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Anular", "Bancos", 8));
+            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Reimprimir Cheque", "Bancos", 8));
+
             #endregion
 
             #region  Beneficiario
@@ -551,7 +551,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Cierre", "Caja chica", 12));
             vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Informes", "Caja chica", 12));
             vPermisos.Add(new CustomRole("Reposicion de Caja Chica", "Reimprimir Comprobante", "Caja chica", 12));
-            
+
             #endregion
 
             #region  Rendiciones
@@ -578,10 +578,10 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Dispositivos Externos
-            vPermisos.Add(new CustomRole("Balanza","Insertar" ,"Principal",1));
-            vPermisos.Add(new CustomRole("Balanza","Consultar","Principal",1));
-            vPermisos.Add(new CustomRole("Balanza","Modificar","Principal",1));
-            vPermisos.Add(new CustomRole("Balanza","Eliminar" ,"Principal",1));          
+            vPermisos.Add(new CustomRole("Balanza", "Insertar", "Principal", 1));
+            vPermisos.Add(new CustomRole("Balanza", "Consultar", "Principal", 1));
+            vPermisos.Add(new CustomRole("Balanza", "Modificar", "Principal", 1));
+            vPermisos.Add(new CustomRole("Balanza", "Eliminar", "Principal", 1));
             #endregion
 
             #region Orden de Compra
@@ -590,7 +590,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Orden de Compra", "Modificar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Orden de Compra", "Eliminar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Orden de Compra", "Anular", "Inventario", 4));
-            
+
             #endregion
 
             #region Carga Inicial
@@ -604,7 +604,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Lotes", "Modificar", "Mantenimiento", 2));
             vPermisos.Add(new CustomRole("Lotes", "Eliminar", "Mantenimiento", 2));
             #endregion
-			
+
             #region Lista de Materiales 
             vPermisos.Add(new CustomRole("Lista de Materiales", "Consultar", "Produccíon", 13));
             vPermisos.Add(new CustomRole("Lista de Materiales", "Insertar", "Produccíon", 13));
@@ -612,7 +612,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Lista de Materiales", "Eliminar", "Produccíon", 13));
             vPermisos.Add(new CustomRole("Lista de Materiales", "Informes", "Produccíon", 13));
             #endregion
-			
+
             #region Orden de Produción 
             vPermisos.Add(new CustomRole("Orden De Producción", "Consultar", "Produccíon", 13));
             vPermisos.Add(new CustomRole("Orden De Producción", "Insertar", "Produccíon", 13));
@@ -623,8 +623,8 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Orden De Producción", "Anular", "Produccíon", 13));
             vPermisos.Add(new CustomRole("Orden De Producción", "Cerrar", "Produccíon", 13));
             #endregion
-			
+
             return vPermisos;
-        }        
+        }
     }
 }
