@@ -32,6 +32,8 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenSolDePagMonto NOT NULL, ");
             SQL.AppendLine("NumeroDocumento" + InsSql.VarCharTypeForDb(15) + " CONSTRAINT nnRenSolDePagNumeroDocu NOT NULL, ");
             SQL.AppendLine("Contabilizado" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRenSolDePagContabiliz NOT NULL, ");
+            SQL.AppendLine("CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_RenSolDePagCoMo NOT NULL, ");
+            SQL.AppendLine("TasaDeCambio" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_RenSolDePagTaCa NOT NULL, ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_RenglonSolicitudesDePago PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoSolicitud ASC, consecutivoRenglon ASC)");
@@ -45,21 +47,21 @@ namespace Galac.Adm.Dal.Banco {
 
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT RenglonSolicitudesDePago.ConsecutivoCompania, RenglonSolicitudesDePago.ConsecutivoSolicitud, RenglonSolicitudesDePago.consecutivoRenglon, RenglonSolicitudesDePago.CuentaBancaria");
-            SQL.AppendLine(", RenglonSolicitudesDePago.ConsecutivoBeneficiario, RenglonSolicitudesDePago.FormaDePago, " + DbSchema + ".Gv_EnumTipoDeFormaDePagoSolicitud.StrValue AS FormaDePagoStr, RenglonSolicitudesDePago.Status, " + DbSchema + ".Gv_EnumStatusSolicitudRenglon.StrValue AS StatusStr, RenglonSolicitudesDePago.Monto");
-            SQL.AppendLine(", RenglonSolicitudesDePago.NumeroDocumento, RenglonSolicitudesDePago.Contabilizado");
-            SQL.AppendLine(", RenglonSolicitudesDePago.fldTimeStamp, CAST(RenglonSolicitudesDePago.fldTimeStamp AS bigint) AS fldTimeStampBigint");
-            SQL.AppendLine(" FROM " + DbSchema + ".RenglonSolicitudesDePago");
-            SQL.AppendLine(" INNER JOIN " + DbSchema + ".Gv_EnumTipoDeFormaDePagoSolicitud");
-            SQL.AppendLine(" ON " + DbSchema + ".RenglonSolicitudesDePago.FormaDePago COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoDeFormaDePagoSolicitud.DbValue");
-            SQL.AppendLine(" INNER JOIN " + DbSchema + ".Gv_EnumStatusSolicitudRenglon");
-            SQL.AppendLine(" ON " + DbSchema + ".RenglonSolicitudesDePago.Status COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusSolicitudRenglon.DbValue");
-            SQL.AppendLine(" INNER JOIN Saw.CuentaBancaria ON  " + DbSchema + ".RenglonSolicitudesDePago.CuentaBancaria = Saw.CuentaBancaria.Codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".RenglonSolicitudesDePago.ConsecutivoCompania = Saw.CuentaBancaria.ConsecutivoCompania");
-            SQL.AppendLine(" INNER JOIN Saw.Beneficiario ON  " + DbSchema + ".RenglonSolicitudesDePago.ConsecutivoBeneficiario = Saw.Beneficiario.Consecutivo");
-            SQL.AppendLine("      AND " + DbSchema + ".RenglonSolicitudesDePago.ConsecutivoCompania = Saw.Beneficiario.ConsecutivoCompania");
+            SQL.AppendLine("SELECT RenglonSolicitudesDePago.ConsecutivoCompania, RenglonSolicitudesDePago.ConsecutivoSolicitud, RenglonSolicitudesDePago.consecutivoRenglon, RenglonSolicitudesDePago.CuentaBancaria, ");
+            SQL.AppendLine("RenglonSolicitudesDePago.ConsecutivoBeneficiario, RenglonSolicitudesDePago.FormaDePago, Saw.Gv_EnumTipoDeFormaDePagoSolicitud.StrValue AS FormaDePagoStr, RenglonSolicitudesDePago.Status, Saw.Gv_EnumStatusSolicitudRenglon.StrValue AS StatusStr, RenglonSolicitudesDePago.Monto, ");
+            SQL.AppendLine("RenglonSolicitudesDePago.NumeroDocumento, RenglonSolicitudesDePago.Contabilizado, RenglonSolicitudesDePago.CodigoMoneda, RenglonSolicitudesDePago.TasaDeCambio, ");
+            SQL.AppendLine("RenglonSolicitudesDePago.fldTimeStamp, CAST(RenglonSolicitudesDePago.fldTimeStamp AS bigint) AS fldTimeStampBigint");
+            SQL.AppendLine(" FROM Saw.RenglonSolicitudesDePago");
+            SQL.AppendLine(" INNER JOIN Saw.Gv_EnumTipoDeFormaDePagoSolicitud");
+            SQL.AppendLine(" ON Saw.RenglonSolicitudesDePago.FormaDePago COLLATE MODERN_SPANISH_CS_AS");
+            SQL.AppendLine(" = Saw.Gv_EnumTipoDeFormaDePagoSolicitud.DbValue");
+            SQL.AppendLine(" INNER JOIN Saw.Gv_EnumStatusSolicitudRenglon");
+            SQL.AppendLine(" ON Saw.RenglonSolicitudesDePago.Status COLLATE MODERN_SPANISH_CS_AS");
+            SQL.AppendLine(" = Saw.Gv_EnumStatusSolicitudRenglon.DbValue");
+            SQL.AppendLine(" INNER JOIN Saw.CuentaBancaria ON  Saw.RenglonSolicitudesDePago.CuentaBancaria = Saw.CuentaBancaria.Codigo");
+            SQL.AppendLine("      AND Saw.RenglonSolicitudesDePago.ConsecutivoCompania = Saw.CuentaBancaria.ConsecutivoCompania");
+            SQL.AppendLine(" INNER JOIN Saw.Beneficiario ON  Saw.RenglonSolicitudesDePago.ConsecutivoBeneficiario = Saw.Beneficiario.Consecutivo");
+            SQL.AppendLine("      AND Saw.RenglonSolicitudesDePago.ConsecutivoCompania = Saw.Beneficiario.ConsecutivoCompania");
             return SQL.ToString();
         }
 
@@ -74,7 +76,9 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("@Status" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@NumeroDocumento" + InsSql.VarCharTypeForDb(15) + " = '',");
-            SQL.AppendLine("@Contabilizado" + InsSql.CharTypeForDb(1) + " = 'N'");
+            SQL.AppendLine("@Contabilizado" + InsSql.CharTypeForDb(1) + " = 'N',");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.CharTypeForDb(4) + ",");
+            SQL.AppendLine("@TasaDeCambio" + InsSql.DecimalTypeForDb(25, 4) + " = '' ");
             return SQL.ToString();
         }
 
@@ -96,7 +100,9 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("         Status,");
             SQL.AppendLine("         Monto,");
             SQL.AppendLine("         NumeroDocumento,");
-            SQL.AppendLine("         Contabilizado)");
+            SQL.AppendLine("         Contabilizado,");
+            SQL.AppendLine("         CodigoMoneda,");
+            SQL.AppendLine("         TasaDeCambio)");
             SQL.AppendLine("      VALUES(");
             SQL.AppendLine("         @ConsecutivoCompania,");
             SQL.AppendLine("         @ConsecutivoSolicitud,");
@@ -107,7 +113,9 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("         @Status,");
             SQL.AppendLine("         @Monto,");
             SQL.AppendLine("         @NumeroDocumento,");
-            SQL.AppendLine("         @Contabilizado)");
+            SQL.AppendLine("         @Contabilizado,");
+            SQL.AppendLine("         @CodigoMoneda,");
+            SQL.AppendLine("         @TasaDeCambio)");
             SQL.AppendLine("   SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("   COMMIT TRAN");
             SQL.AppendLine("   RETURN @ReturnValue ");
@@ -130,6 +138,8 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@NumeroDocumento" + InsSql.VarCharTypeForDb(15) + ",");
             SQL.AppendLine("@Contabilizado" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.CharTypeForDb(4) + ",");
+            SQL.AppendLine("@TasaDeCambio" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -160,7 +170,9 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("               Status = @Status,");
             SQL.AppendLine("               Monto = @Monto,");
             SQL.AppendLine("               NumeroDocumento = @NumeroDocumento,");
-            SQL.AppendLine("               Contabilizado = @Contabilizado");
+            SQL.AppendLine("               Contabilizado = @Contabilizado,");
+            SQL.AppendLine("               CodigoMoneda = @CodigoMoneda,");
+            SQL.AppendLine("               TasaDeCambio = @TasaDeCambio");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND ConsecutivoSolicitud = @ConsecutivoSolicitud");
@@ -277,6 +289,8 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("         RenglonSolicitudesDePago.Monto,");
             SQL.AppendLine("         RenglonSolicitudesDePago.NumeroDocumento,");
             SQL.AppendLine("         RenglonSolicitudesDePago.Contabilizado,");
+            SQL.AppendLine("         RenglonSolicitudesDePago.CodigoMoneda,");
+            SQL.AppendLine("         RenglonSolicitudesDePago.TasaDeCambio,");
             SQL.AppendLine("         CAST(RenglonSolicitudesDePago.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         RenglonSolicitudesDePago.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".RenglonSolicitudesDePago");
@@ -311,6 +325,8 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("        Monto,");
             SQL.AppendLine("        NumeroDocumento,");
             SQL.AppendLine("        Contabilizado,");
+            SQL.AppendLine("        CodigoMoneda,");
+            SQL.AppendLine("        TasaDeCambio,");
             SQL.AppendLine("        fldTimeStamp");
             SQL.AppendLine("    FROM RenglonSolicitudesDePago");
             SQL.AppendLine(" 	WHERE ConsecutivoSolicitud = @ConsecutivoSolicitud");
@@ -366,8 +382,10 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("	        Status,");
 			SQL.AppendLine("	        Monto,");
 			SQL.AppendLine("	        NumeroDocumento,");
-			SQL.AppendLine("	        Contabilizado)");
-		    SQL.AppendLine("	    SELECT ");
+			SQL.AppendLine("	        Contabilizado,");
+            SQL.AppendLine("	        CodigoMoneda,");
+            SQL.AppendLine("	        TasaDeCambio)");
+            SQL.AppendLine("	    SELECT ");
 			SQL.AppendLine("	        @ConsecutivoCompania,");
 			SQL.AppendLine("	        @ConsecutivoSolicitud,");
 			SQL.AppendLine("	        consecutivoRenglon,");
@@ -377,8 +395,10 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("	        Status,");
 			SQL.AppendLine("	        Monto,");
 			SQL.AppendLine("	        NumeroDocumento,");
-			SQL.AppendLine("	        Contabilizado");
-		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataRenglonSolicitudesDePago/GpDetailRenglonSolicitudesDePago',2) ");
+			SQL.AppendLine("	        Contabilizado,");
+            SQL.AppendLine("	        CodigoMoneda,");
+            SQL.AppendLine("	        TasaDeCambio");
+            SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataRenglonSolicitudesDePago/GpDetailRenglonSolicitudesDePago',2) ");
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        consecutivoRenglon " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        CuentaBancaria " + InsSql.VarCharTypeForDb(5) + ",");
@@ -387,7 +407,9 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("	        Status " + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("	        Monto " + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("	        NumeroDocumento " + InsSql.VarCharTypeForDb(15) + ",");
-            SQL.AppendLine("	        Contabilizado " + InsSql.CharTypeForDb(1) + ") AS XmlDocDetailOfSolicitudesDePago");
+            SQL.AppendLine("	        Contabilizado " + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("	        CodigoMoneda " + InsSql.CharTypeForDb(4) + ",");
+            SQL.AppendLine("	        TasaDeCambio " + InsSql.DecimalTypeForDb(25, 4) + ") AS XmlDocDetailOfSolicitudesDePago");
             SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("	    RETURN @ReturnValue");
@@ -569,6 +591,8 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine(DbSchema + ".Gv_SolicitudesDePago_B1.ConsecutivoCompania,");
             SQL.AppendLine(DbSchema + ".Gv_SolicitudesDePago_B1.ConsecutivoSolicitud,");
             SQL.AppendLine(DbSchema + ".RenglonSolicitudesDePago.FormaDePago,");
+            SQL.AppendLine(DbSchema + ".RenglonSolicitudesDePago.CodigoMoneda,");
+            SQL.AppendLine(DbSchema + ".RenglonSolicitudesDePago.TasaDeCambio,");
             SQL.AppendLine(DbSchema + ".Gv_SolicitudesDePago_B1.GeneradoPor,");
             SQL.AppendLine(insQAdvSql.IIF(vCondicion, insQAdvSql.ToSqlValue(false), insQAdvSql.ToSqlValue(true), true) + " AS PuedoProcesar");
             SQL.AppendLine(" FROM  " + DbSchema + ".Gv_SolicitudesDePago_B1 INNER JOIN ");
@@ -582,6 +606,8 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine(DbSchema + ".Gv_SolicitudesDePago_B1.ConsecutivoCompania,");
             SQL.AppendLine(DbSchema + ".Gv_SolicitudesDePago_B1.ConsecutivoSolicitud,");
             SQL.AppendLine(DbSchema + ".RenglonSolicitudesDePago.FormaDePago,");
+            SQL.AppendLine(DbSchema + ".RenglonSolicitudesDePago.CodigoMoneda,");
+            SQL.AppendLine(DbSchema + ".RenglonSolicitudesDePago.TasaDeCambio,");
             SQL.AppendLine(DbSchema + ".RenglonSolicitudesDePago.Status,");
             SQL.AppendLine(DbSchema + ".Gv_SolicitudesDePago_B1.GeneradoPor");
             return SQL.ToString();
