@@ -20,6 +20,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StartConnectionNoTransaction();
             CrearNuevosCamposDeRenglonSolicitudDePago();
             AgregarParametroFormaDeCalcularElPrecioConIvaEnRenglonFactura();
+            ActualizaPermisoSolicitudesDePago();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -47,6 +48,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             return vResult;
         private void AgregarParametroFormaDeCalcularElPrecioConIvaEnRenglonFactura() {
             AgregarNuevoParametro("FormaDeCalculoDePrecioRenglonFactura", "Factura", 2, "2.1.- Facturación", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', LibConvert.EnumToDbValue((int)eFormaDeCalculoDePrecioRenglonFactura.APartirDelPrecioConIVA));
+        }
+
+        private void ActualizaPermisoSolicitudesDePago() {
+            string vSql;
+            vSql = "UPDATE Lib.GUserSecurity SET ProjectModule = 'Solicitudes de Pago' WHERE ProjectModule = 'Solicitudes de Pago'";
+            Execute(vSql, 0);
         }
     }
 }
