@@ -138,8 +138,7 @@ namespace Galac.Adm.Dal.Banco {
             insDb.Dispose();
             return vResult;
         }
-
-        [PrincipalPermission(SecurityAction.Demand, Role = "Renglon Solicitudes De Pago.Insertar")]
+        
         LibResponse ILibDataDetailComponent<IList<RenglonSolicitudesDePago>, IList<RenglonSolicitudesDePago>>.Insert(IList<RenglonSolicitudesDePago> refRecord, XmlReader valExtended) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
