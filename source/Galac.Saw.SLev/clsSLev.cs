@@ -606,22 +606,22 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Lista de Materiales 
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Consultar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Insertar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Modificar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Eliminar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Lista de Materiales", "Informes", "Produccíon", 13));
+            vPermisos.Add(new CustomRole("Lista de Materiales", "Consultar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Lista de Materiales", "Insertar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Lista de Materiales", "Modificar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Lista de Materiales", "Eliminar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Lista de Materiales", "Informes", "Producción", 13));
             #endregion
 
             #region Orden de Produción 
-            vPermisos.Add(new CustomRole("Orden De Producción", "Consultar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Insertar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Modificar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Eliminar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Informes", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Iniciar", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Anular", "Produccíon", 13));
-            vPermisos.Add(new CustomRole("Orden De Producción", "Cerrar", "Produccíon", 13));
+            vPermisos.Add(new CustomRole("Orden De Producción", "Consultar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Orden De Producción", "Insertar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Orden De Producción", "Modificar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Orden De Producción", "Eliminar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Orden De Producción", "Informes", "Producción", 13));
+            vPermisos.Add(new CustomRole("Orden De Producción", "Iniciar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Orden De Producción", "Anular", "Producción", 13));
+            vPermisos.Add(new CustomRole("Orden De Producción", "Cerrar", "Producción", 13));
             #endregion
 
             return vPermisos;
