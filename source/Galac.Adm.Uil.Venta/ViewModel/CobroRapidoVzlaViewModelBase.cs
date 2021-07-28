@@ -62,9 +62,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobro) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw();
-            List<RenglonCobroDeFactura> vCloneListCobro = valListDeCobro.Select(t => t.Clone()).ToList();
-            decimal vCambioABolivares = (valFactura.CambioABolivares == 0) ? 1 : valFactura.CambioABolivares;
-            valFactura.TotalFactura = LibMath.RoundToNDecimals(valFactura.TotalFactura * vCambioABolivares, 2);
+            List<RenglonCobroDeFactura> vCloneListCobro = valListDeCobro.Select(t => t.Clone()).ToList();           
             XElement vResult = null;
             XElement xElementFacturaRapida = LibParserHelper.ParseToXElement(valFactura);
             XElement xElementGpDataDetailRenglonFactura = new XElement("GpDataDetailRenglonFactura");

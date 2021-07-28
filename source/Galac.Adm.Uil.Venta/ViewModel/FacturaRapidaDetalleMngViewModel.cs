@@ -218,7 +218,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private decimal CalcularMontoBaseImponible(decimal valPrecioSinIva, decimal valCantidad, decimal valPorcentajeBaseImponible) {
             decimal vResult = 0;
             if ((valPrecioSinIva > 0) && (valCantidad > 0) && (valPorcentajeBaseImponible > 0)) {
-                vResult = ((valPrecioSinIva * valCantidad) * valPorcentajeBaseImponible) / 100;
+                vResult = LibMath.RoundToNDecimals((valPrecioSinIva * valCantidad) * (valPorcentajeBaseImponible / 100), 2);
             }
             return vResult;
         }
