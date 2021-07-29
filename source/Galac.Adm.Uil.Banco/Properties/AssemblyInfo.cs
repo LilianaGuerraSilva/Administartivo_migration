@@ -33,8 +33,8 @@ using System.Windows;
 // Puede especificar todos los valores o establecer como predeterminados los números de versión de compilación y de revisión 
 // mediante el asterisco ('*'), como se muestra a continuación:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.53.0.0")]
-[assembly: AssemblyFileVersion("2.53.0.0")]
+[assembly: AssemblyVersion("2.52.1.0")]
+[assembly: AssemblyFileVersion("2.52.1.0")]
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.ExternalAssembly, //where theme specific resource dictionaries are located 
     ResourceDictionaryLocation.SourceAssembly //where the generic resource dictionary is located 
