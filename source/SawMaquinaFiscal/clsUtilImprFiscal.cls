@@ -383,7 +383,7 @@ Public Function fGenerarXmlConDatosDeLaVenta(ByVal valDatosImprFiscal As clsDato
    vSiguienteLinea = vbCrLf
    vDatosDeCamposDefinibles = ""
    vUsaCamposDefinibles = valDatosImprFiscal.GetImprimeCamposDefinibles
-   vTotalFactura = Abs(gConvert.fConvertStringToCurrency(valDatosImprFiscal.GetTotalFactura))
+   vTotalFactura = gConvert.fConvierteAString(Abs(valDatosImprFiscal.GetTotalFactura))
    
    If valDatosImprFiscal.GetEsNotaDeCredito Then
       vTipoDocumento = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL

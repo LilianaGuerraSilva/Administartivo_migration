@@ -21,6 +21,8 @@ namespace Galac.Adm.Ccl.Banco {
         private decimal _Monto;
         private string _NumeroDocumento;
         private bool _Contabilizado;
+        private decimal _TasaDeCambio;
+        private string _CodigoMoneda;
         #endregion //Variables
         #region Propiedades
 
@@ -102,6 +104,15 @@ namespace Galac.Adm.Ccl.Banco {
             set { _Contabilizado = LibConvert.SNToBool(value); }
         }
 
+        public decimal TasaDeCambio{
+            get { return _TasaDeCambio; }
+            set { _TasaDeCambio = value; }
+        }
+
+        public string CodigoMoneda{
+            get { return _CodigoMoneda; }
+            set { _CodigoMoneda = LibString.Mid(value, 0, 4); }
+        }
         #endregion //Propiedades
         #region Constructores
         #endregion //Constructores
@@ -122,6 +133,8 @@ namespace Galac.Adm.Ccl.Banco {
             Monto = 0;
             NumeroDocumento = "";
             ContabilizadoAsBool = false;
+            TasaDeCambio = 1;
+            CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "CodigoMoneda");
         }
 
         public RenglonSolicitudesDePago Clone() {
@@ -136,6 +149,8 @@ namespace Galac.Adm.Ccl.Banco {
             vResult.Monto = _Monto;
             vResult.NumeroDocumento = _NumeroDocumento;
             vResult.ContabilizadoAsBool = _Contabilizado;
+            vResult.CodigoMoneda = _CodigoMoneda;
+            vResult.TasaDeCambio = _TasaDeCambio;
             return vResult;
         }
 
@@ -149,7 +164,10 @@ namespace Galac.Adm.Ccl.Banco {
                "\nStatus = " + _Status.ToString() +
                "\nMonto = " + _Monto.ToString() +
                "\nNumero Documento  = " + _NumeroDocumento +
-               "\nContabilizado = " + _Contabilizado;
+               "\nContabilizado = " + _Contabilizado +
+               "\nCódigo = " + _CodigoMoneda +
+               "\nTasa de Cambio = " + _TasaDeCambio;
+
         }
 
         #region Miembros de IEquatable<RenglonSolicitudesDePago>

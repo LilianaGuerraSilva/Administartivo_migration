@@ -102,7 +102,7 @@ namespace Galac.Adm.Dal.Banco {
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Solicitudes De Pago.Eliminar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Solicitudes de Pago.Eliminar")]
         LibResponse ILibDataMasterComponent<IList<SolicitudesDePago>, IList<SolicitudesDePago>>.Delete(IList<SolicitudesDePago> refRecord) {
             LibResponse vResult = new LibResponse();
             try {
@@ -145,7 +145,7 @@ namespace Galac.Adm.Dal.Banco {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Solicitudes De Pago.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Solicitudes de Pago.Insertar")]
         LibResponse ILibDataMasterComponent<IList<SolicitudesDePago>, IList<SolicitudesDePago>>.Insert(IList<SolicitudesDePago> refRecord, bool valUseDetail) {
             LibResponse vResult = new LibResponse();
             try {
@@ -197,7 +197,7 @@ namespace Galac.Adm.Dal.Banco {
             throw new NotImplementedException();
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Solicitudes De Pago.Modificar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Solicitudes de Pago.Modificar")]
         LibResponse ILibDataMasterComponent<IList<SolicitudesDePago>, IList<SolicitudesDePago>>.Update(IList<SolicitudesDePago> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
             try {
@@ -389,7 +389,7 @@ namespace Galac.Adm.Dal.Banco {
                     if (ValidateDetail(valRecordMaster, eAccionSR.Insertar, out vErrMsg)) {
                         vResult = true;
                     } else {
-                        throw new GalacValidationException("Solicitudes De Pago (detalle)\n" + vErrMsg);
+                        throw new GalacValidationException("Solicitudes de Pago (detalle)\n" + vErrMsg);
                     }
                 } else {
                     vResult = true;

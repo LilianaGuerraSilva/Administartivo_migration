@@ -46,6 +46,7 @@ UsaPrecioSinIvaEnResumenVtas;Factura;2;2.1.- Facturación ;1;;Bool;;N
 ResumenVtasAfectaInventario;Factura;2;2.1.- Facturación ;1;;Bool;;N
 UsarRenglonesEnResumenVtas;Factura;2;2.1.- Facturación ;1;;Bool;;N
 PermitirCambioTasaMondExtrajalEmitirFactura;Factura;2;2.1.- Facturación ;1;;Bool;;N
+FormaDeCalculoDePrecioRenglonFactura;Factura;2;2.1.- Facturación;1;;Enumerativo;;N
 ForzarFechaFacturaAmesEspecifico;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N
 MesFacturacionEnCurso;Factura;2;2.2.- Facturación (Continuación) ;2;;Enumerativo;;N
 PermitirIncluirFacturacionHistorica;Factura;2;2.2.- Facturación (Continuación) ;2;;Bool;;N

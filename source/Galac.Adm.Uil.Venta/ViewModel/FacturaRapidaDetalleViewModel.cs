@@ -46,7 +46,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get { return "Punto de Venta Detalle"; }
         }
 
-        public int  ConsecutivoCompania {
+        public int ConsecutivoCompania {
             get {
                 return Model.ConsecutivoCompania;
             }
@@ -57,7 +57,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public string  NumeroFactura {
+        public string NumeroFactura {
             set {
                 if (Model.NumeroFactura != value) {
                     Model.NumeroFactura = value;
@@ -65,7 +65,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public eTipoDocumentoFactura  TipoDeDocumento {
+        public eTipoDocumentoFactura TipoDeDocumento {
             get {
                 return Model.TipoDeDocumentoAsEnum;
             }
@@ -78,7 +78,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public int  ConsecutivoRenglon {
+        public int ConsecutivoRenglon {
             get {
                 return Model.ConsecutivoRenglon;
             }
@@ -89,8 +89,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("Código", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "Codigo", ConnectionSearchCommandName = "ChooseCodigoCommand", Width = 250, MaxLength = 250, ColumnOrder=0, ConditionalPropertyIsReadOnly = "IsReadOnlyColunm")]
-        public string  Articulo {
+        [LibGridColum("Código", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "Codigo", ConnectionSearchCommandName = "ChooseCodigoCommand", Width = 250, MaxLength = 250, ColumnOrder = 0, ConditionalPropertyIsReadOnly = "IsReadOnlyColunm")]
+        public string Articulo {
             get {
                 return Model.Articulo;
             }
@@ -102,13 +102,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     //if (LibString.IsNullOrEmpty(Articulo, true)) {
                     //    ConexionArticulo = null;
                     //}
-                    
+
                 }
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Generic, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "Descripcion",  Trimming = System.Windows.TextTrimming.WordEllipsis, ColumnOrder=1, Width=0)]
-        public string  Descripcion {
+        [LibGridColum("Descripción", eGridColumType.Generic, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "Descripcion", Trimming = System.Windows.TextTrimming.WordEllipsis, ColumnOrder = 1, Width = 0)]
+        public string Descripcion {
             get {
                 return Model.Descripcion;
             }
@@ -124,7 +124,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public eTipoDeAlicuota  AlicuotaIva {
+        public eTipoDeAlicuota AlicuotaIva {
             get {
                 return Model.AlicuotaIvaAsEnum;
             }
@@ -136,11 +136,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-		
+
         [LibRequired(ErrorMessage = "El campo Cantidad es requerido.")]
         //[LibCustomValidation("CantidadValidating")]
         [LibGridColum("Cantidad", eGridColumType.Numeric, Width = 80, ConditionalPropertyDecimalDigits = "CantidadDeDecimales", MaxLength = 7, ColumnOrder = 2)]
-        public decimal  Cantidad {
+        public decimal Cantidad {
             get {
                 return Model.Cantidad;
             }
@@ -149,7 +149,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     _OldCantidad = Model.Cantidad;
                     Model.Cantidad = value;
                     IsDirty = true;
-                    RaisePropertyChanged(CantidadPropertyName);                
+                    RaisePropertyChanged(CantidadPropertyName);
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         //[LibCustomValidation("PrecioConIvaValidating")]
         [LibGridColum("Precio", eGridColumType.Numeric, Width = 150, ConditionalPropertyDecimalDigits = "CantidadDeDecimales", MaxLength = 10, ColumnOrder = 4)]
-        public decimal  PrecioConIVA {
+        public decimal PrecioConIVA {
             get {
                 return Model.PrecioConIVA;
             }
@@ -189,7 +189,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public decimal  PorcentajeDescuento {
+        public decimal PorcentajeDescuento {
             get {
                 return Model.PorcentajeDescuento;
             }
@@ -202,7 +202,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public decimal  MontoBrutoSinIva {
+        public decimal MontoBrutoSinIva {
             get {
                 return Model.MontoBrutoSinIva;
             }
@@ -213,7 +213,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public decimal  MontoBrutoConIva {
+        public decimal MontoBrutoConIva {
             get {
                 return Model.MontoBrutoConIva;
             }
@@ -224,8 +224,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("Total", eGridColumType.Numeric, Width = 200, BindingStringFormat="N2", MaxLength = 200, ColumnOrder = 5, ConditionalPropertyIsReadOnly = "IsReadOnlyColunm")]
-        public decimal  TotalRenglon {
+        [LibGridColum("Total", eGridColumType.Numeric, Width = 200, BindingStringFormat = "N2", MaxLength = 200, ColumnOrder = 5, ConditionalPropertyIsReadOnly = "IsReadOnlyColunm")]
+        public decimal TotalRenglon {
             get {
                 return Model.TotalRenglon;
             }
@@ -238,7 +238,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public decimal  PorcentajeBaseImponible {
+        public decimal PorcentajeBaseImponible {
             get {
                 return Model.PorcentajeBaseImponible;
             }
@@ -251,7 +251,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public string  Serial {
+        public string Serial {
             get {
                 return Model.Serial;
             }
@@ -264,7 +264,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public string  Rollo {
+        public string Rollo {
             get {
                 return Model.Rollo;
             }
@@ -277,7 +277,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public decimal  PorcentajeAlicuota {
+        public decimal PorcentajeAlicuota {
             get {
                 return Model.PorcentajeAlicuota;
             }
@@ -291,7 +291,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
 
-        public eTipoDeArticulo  TipoDeArticulo {
+        public eTipoDeArticulo TipoDeArticulo {
             get {
                 return Model.TipoDeArticuloAsEnum;
             }
@@ -303,7 +303,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public eTipoArticuloInv  TipoArticuloInv {
+        public eTipoArticuloInv TipoArticuloInv {
             get {
                 return Model.TipoArticuloInvAsEnum;
             }
@@ -347,7 +347,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public string Categoria {
             get;
             set;
-        }        
+        }
         #endregion //Propiedades
         #region Constructores
         public FacturaRapidaDetalleViewModel()
@@ -356,7 +356,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public FacturaRapidaDetalleViewModel(FacturaRapidaViewModel initMaster, FacturaRapidaDetalle initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
-            
+
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -383,27 +383,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         #endregion //Metodos Generados
-		
-		  public bool IsReadOnlyColunm {
+
+        public bool IsReadOnlyColunm {
             get {
                 return true;
             }
         }
 
-          internal decimal CalcularPreciosPorDetail(decimal valPrecio, decimal valPorcentaje, bool valEsPrecioSinIva, decimal valPorcentajeBaseImponible) {
-              decimal vResult = 0;
-              int valCantidad = 1;
-              
-              if ((valPrecio > 0) && (valCantidad > 0)) {
-                  if (valEsPrecioSinIva) {
-                      vResult = (valPrecio * valCantidad) * (1 + (valPorcentajeBaseImponible * valPorcentaje) / 10000);
-                  } else {
-                      vResult = (valPrecio * valCantidad) / (1 + (valPorcentajeBaseImponible * valPorcentaje) / 10000);
-                  }
-              }
-              return vResult;
-          }
-
+        internal decimal CalcularPreciosPorDetail(decimal valPrecio, decimal valPorcentaje, bool valEsPrecioSinIva, decimal valPorcentajeBaseImponible) {
+            decimal vResult = 0;
+            if (valPrecio > 0) {
+                if (valEsPrecioSinIva) {
+                    vResult = valPrecio * (1 + (valPorcentajeBaseImponible * valPorcentaje) / 10000);
+                } else {
+                    vResult = valPrecio / (1 + (valPorcentajeBaseImponible * valPorcentaje) / 10000);
+                }
+            }
+            return vResult;
+        }
     } //End of class FacturaRapidaDetalleViewModel
 
 } //End of namespace Galac.Adm.Uil.Venta

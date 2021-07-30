@@ -140,7 +140,7 @@ namespace Galac.Saw.Brl.Integracion {
             if (LibDefGen.ProgramInfo.IsCountryVenezuela())
                 vResult = insDespro.Version();
             else {
-                vResult = "2.0.0.0";
+                vResult = "2.52.1.0";
             }
             return vResult;
         }
