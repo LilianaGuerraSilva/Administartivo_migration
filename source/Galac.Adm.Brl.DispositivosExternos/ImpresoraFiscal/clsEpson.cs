@@ -779,7 +779,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalFacturaStr = SetDecimalSeparator(vTotalFacturaStr, _DecimalesParaMonto);
                 vTotalFacturaDec = LibMath.Abs(LibImportData.ToDec(vTotalFacturaStr, 2));
                 List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").ToList();
-                if (vNodos.Count > 1) {
+                if (vNodos.Count > 0) {
                     foreach (XElement vXElement in vNodos) {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                         vMedioDePago = FormaDeCobro(vMedioDePago);
@@ -791,15 +791,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vEstado &= CheckRequest(vResult, ref vMensaje);
                     }
                 } else {
-                    XElement vElement = vNodos.ElementAt(0);
-                    vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vElement, "Monto"));
-                    vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vElement, "CodigoFormaDelCobro"));
-                    vMedioDePago = FormaDeCobro(vMedioDePago);
-                    vTotalMontosPagados = LibImportData.ToDec(vMonto, 3);
-                    if (LibMath.Abs(vTotalFacturaDec - vTotalMontosPagados) > 0.01M) {
-                        vResult = PFTfiscal(vMedioDePago + " : Bs " + LibImpresoraFiscalUtil.DecimalToStringFormat(vTotalMontosPagados, 2));
-                        vEstado &= CheckRequest(vResult, ref vMensaje);
-                    }
+                    vMedioDePago = FormaDeCobro("00001");
+                    vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vTotalFacturaStr, _EnterosParaMonto, _DecimalesParaMonto, ".");
+                    vResult = PFTfiscal(vMedioDePago + " : Bs " + LibImpresoraFiscalUtil.DecimalToStringFormat(vMontoDec, 2));
+                    vEstado &= CheckRequest(vResult, ref vMensaje);
+                    return vEstado;
                 }
                 vMontoDiferencia = LibMath.Abs(vTotalFacturaDec - vTotalMontosPagados);
                 if (vMontoDiferencia > 0.01M) {
@@ -812,11 +808,27 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        private string FormaDeCobro(string vFormaDeCobro) {
+        private string FormaDeCobro(string valFormaDeCobro) {
             string vResultado = "";
-            vResultado = LibImpresoraFiscalUtil.GetFormaDePago(vFormaDeCobro);
-            if (vResultado.Equals("")) {
-                vResultado = "Efectivo";
+            switch (valFormaDeCobro) {
+                case "00001":
+                    vResultado = "Efectivo";
+                    break;
+                case "00002":
+                    vResultado = "Tarjeta";
+                    break;
+                case "00003":
+                    vResultado = "Cheque";
+                    break;
+                case "00004":
+                    vResultado = "Depósito";
+                    break;
+                case "00005":
+                    vResultado = "Anticipo";
+                    break;
+                default:
+                    vResultado = "Efectivo";
+                    break;
             }
             return vResultado;
         }

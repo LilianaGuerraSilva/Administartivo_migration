@@ -1004,27 +1004,42 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
             try {
                 List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").ToList();
-                if(vNodos.Count > 0) {
-                    foreach(XElement vXElement in vNodos) {
-                        vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"CodigoFormaDelCobro"));
-                        vMontoCancelado = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"Monto"));
+                if (vNodos.Count > 0) {
+                    foreach (XElement vXElement in vNodos) {
+                        vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
+                        vMontoCancelado = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                         vMedioDePago = FormaDeCobro(vMedioDePago);
-                        vMontoCancelado = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoCancelado,_EnterosMontosLargos,_Decimales2Digitos,","); //DarFormatoNumericoParaLosPagos(vMontoCancelado);
-                        vResult = Bematech_FI_EfectuaFormaPagoDescripcionForma(vMedioDePago,vMontoCancelado,"");
+                        vMontoCancelado = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoCancelado, _EnterosMontosLargos, _Decimales2Digitos, ","); //DarFormatoNumericoParaLosPagos(vMontoCancelado);
+                        vResult = Bematech_FI_EfectuaFormaPagoDescripcionForma(vMedioDePago, vMontoCancelado, "");
                     }
                 }
                 return true;
-            } catch(Exception vEx) {
-                throw new GalacException(vEx.Message,eExceptionManagementType.Controlled);
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
         private string FormaDeCobro(string valFormaDeCobro) {
             string vResultado = "";
-
-            vResultado = LibImpresoraFiscalUtil.GetFormaDePago(valFormaDeCobro);
-            if(vResultado.Equals("")) {
-                vResultado = "Efectivo";
+            switch (valFormaDeCobro) {
+                case "00001":
+                    vResultado = "Efectivo";
+                    break;
+                case "00002":
+                    vResultado = "Tarjeta";
+                    break;
+                case "00003":
+                    vResultado = "Cheque";
+                    break;
+                case "00004":
+                    vResultado = "Depósito";
+                    break;
+                case "00005":
+                    vResultado = "Anticipo";
+                    break;
+                default:
+                    vResultado = "Efectivo";
+                    break;
             }
             return vResultado;
         }
