@@ -17,6 +17,7 @@ using TfhkaNet.IF.VE;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
 using System.Reflection;
+using LibGalac.Aos.Cnf;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsTheFactory : IImpresoraFiscalPdn {
@@ -99,12 +100,26 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
             _EnterosParaDescuento = 2;
             _DecimalesParaDescuento = 2;
+            string vPersonalizar = LibAppSettings.ReadAppSettingsKey("PersonalizarTheFactory");
+            if (LibString.Len(vPersonalizar) > 0) {
+                string[] vTheFactoryStt = LibString.Split(vPersonalizar, ';');
+                if (vTheFactoryStt.Count() == 7) {
+                    _EnterosParaCantidad = LibConvert.ToInt(vTheFactoryStt[0]);
+                    _DecimalesParaCantidad = LibConvert.ToInt(vTheFactoryStt[1]);
+                    _EnterosParaMonto = LibConvert.ToInt(vTheFactoryStt[2]);
+                    _DecimalesParaMonto = LibConvert.ToInt(vTheFactoryStt[3]);
+                    _EnterosParaPagos = LibConvert.ToInt(vTheFactoryStt[4]);
+                    _DecimalesParaPagos = LibConvert.ToInt(vTheFactoryStt[5]);
+                    _ModeloSoportaComandosGenerales = LibConvert.SNToBool(vTheFactoryStt[6]);
+                    return;
+                }
+            }
             if (_FormatoFirmwareTipo1 && _EstaActivoFlag21) {
                 _EnterosParaCantidad = 14;
                 _DecimalesParaCantidad = 3; //Para Comandos Tradicionales, Firmware1 Actualizado
                 _EnterosParaMonto = 14;
                 _DecimalesParaMonto = 2;
-                _EnterosParaPagos = 10;
+                _EnterosParaPagos = 15;
                 _DecimalesParaPagos = 2;
                 _ModeloSoportaComandosGenerales = false;
             } else if (_FormatoFirmwareTipo1 && _ModeloSoportaComandosGenerales) {
@@ -119,7 +134,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _DecimalesParaCantidad = 3;
                 _EnterosParaMonto = 14;  //Para Comandos Tradicionles, Firmware2 Actualizado
                 _DecimalesParaMonto = 2;
-                _EnterosParaPagos = 10;
+                _EnterosParaPagos = 15;
                 _DecimalesParaPagos = 2;
                 _ModeloSoportaComandosGenerales = false;
             } else if (_FormatoFirmwareTipo2 && _ModeloSoportaComandosGenerales) {
@@ -498,15 +513,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         public bool ImprimirFacturaFiscal(XElement valDocumentoFiscal) {
-
             string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal, "DireccionCliente");
             string vRif = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroRIF");
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
             string vTelefono = LibXml.GetPropertyString(valDocumentoFiscal, "TelefonoCliente");
             string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
-
             bool vResult = false;
-            try {
+            try {                
                 List<XElement> vCamposDefinibles = valDocumentoFiscal.Descendants("GpResultDetailCamposDefinibles").ToList();
                 _ExtenderLineasAdicionales = LibString.Len(LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera")) > 0 || vCamposDefinibles.Count > 0;
                 if (!_TfhkPrinter.StatusPort) {
@@ -575,7 +588,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vCmd = "";
             string vTotalesEnDivisa;
             string vDescuentoTotal = LibXml.GetPropertyString(valDocumentoFiscal, "PorcentajeDescuento");
-
             vDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vDescuentoTotal, _EnterosParaDescuento, _DecimalesParaDescuento);
             vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
             if (LibText.Len(vTotalesEnDivisa) > 0 && !_ModelosAntiguos) {
@@ -677,26 +689,25 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vFormatoDeCobro = "";
             string vMonto = "";
             string vCmd = "";
-            bool vResult = false;
-
+            decimal vTotalFactura = 0;
+            bool vResult = true;
             try {
+                vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalFactura"));
                 List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").ToList();
-                if (vNodos.Count > 1) {
+                int vNodosCount = vNodos.Count;
+                if (vNodosCount > 0) {
                     foreach (XElement vXElement in vNodos) {
+                        vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                         vFormatoDeCobro = FormaDeCobro(vMedioDePago);
-                        vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                        if (LibImportData.ToDec(vMonto) > 0) {
+                        if ((vNodosCount == 1) && (LibImportData.ToDec(vMonto) == vTotalFactura)) {
+                            vCmd = "1" + vFormatoDeCobro;
+                        } else {
                             vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
                             vCmd = "2" + vFormatoDeCobro + vMonto;
-                        } else {
-                            vCmd = "1" + FormaDeCobro("00003");//Debito     
                         }
-                        vResult = _TfhkPrinter.SendCmd(vCmd);
+                        vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                     }
-                } else {
-                    vCmd = "1" + FormaDeCobro("00003"); //Debito                     
-                    vResult = _TfhkPrinter.SendCmd(vCmd);
                 }
                 if (!vResult) {
                     CancelarDocumentoFiscalEnImpresion(false);
@@ -812,21 +823,21 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string FormaDeCobro(string valFormaDeCobro) {
             string vResultado = "";
             if (_ModelosAntiguos || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125) {
-                if (valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Efectivo.GetDescription(1))) {
+                if (valFormaDeCobro.Equals("00001")) { // efectivo
                     vResultado = "01";
-                } else if (valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Cheque.GetDescription(1))) {
+                } else if (valFormaDeCobro.Equals("00003")) { // cheque
                     vResultado = "05";
-                } else if (valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Tarjeta.GetDescription(1))) {
+                } else if (valFormaDeCobro.Equals("00002")) { // tarjeta
                     vResultado = "09";
                 } else {
                     vResultado = "01";
                 }
-            } else {
-                if (valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Efectivo.GetDescription(1))) { //Nuevos Modelos
+            } else {//Nuevos Modelos
+                if (valFormaDeCobro.Equals("00001")) { // efectivo
                     vResultado = "01";
-                } else if (valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Cheque.GetDescription(1))) {
+                } else if (valFormaDeCobro.Equals("00003")) { // cheque
                     vResultado = "07";
-                } else if (valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Tarjeta.GetDescription(1))) {
+                } else if (valFormaDeCobro.Equals("00002")) { // tarjeta
                     vResultado = "13";
                 } else {
                     vResultado = "01";

@@ -738,12 +738,27 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        private string FormaDeCobro(string vFormaDeCobro) {
+        private string FormaDeCobro(string valFormaDeCobro) {
             string vResultado = "";
-
-            vResultado = LibImpresoraFiscalUtil.GetFormaDePago(vFormaDeCobro);
-            if (vResultado.Equals("")) {
-                vResultado = "Efectivo";
+            switch (valFormaDeCobro) {
+                case "00001":
+                    vResultado = "Efectivo";
+                    break;
+                case "00002":
+                    vResultado = "Tarjeta";
+                    break;
+                case "00003":
+                    vResultado = "Cheque";
+                    break;
+                case "00004":
+                    vResultado = "Depósito";
+                    break;
+                case "00005":
+                    vResultado = "Anticipo";
+                    break;
+                default:
+                    vResultado = "Efectivo";
+                    break;
             }
             return vResultado;
         }
