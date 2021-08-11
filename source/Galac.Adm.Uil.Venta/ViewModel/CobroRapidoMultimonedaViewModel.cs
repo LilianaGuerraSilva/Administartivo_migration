@@ -418,7 +418,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void ExecuteCobrarCommand() {
             bool SeImprimio = true;
-            if(MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
+            if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                 clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                 List<RenglonCobroDeFactura> vListaDecobro = new List<RenglonCobroDeFactura>();
                 int vCodigoBancoParaMonedaLocal = insCobroNav.ObtenerCodigoBancoAsociadoACuentaBancaria(ConsecutivoCompania, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CuentaBancariaCobroDirecto"));
@@ -433,10 +433,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         IRenglonCobroDeFacturaPdn vRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
                         DialogResult = vRenglonCobro.InsertChildRenglonCobroDeFactura(ConsecutivoCompania, NumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, vListaDecobro).Success;
                         if (DialogResult) {
-                            SeImprimio =ImprimirFacturaFiscal(vListaDecobro);                            
+                            SeImprimio = ImprimirFacturaFiscal(vListaDecobro);
                         }
                         if (SeCobro != null) SeCobro.Invoke(SeImprimio);
-                    } catch (Exception vEx) {                       
+                    } catch (Exception vEx) {
                         throw vEx;
                     }
                 }
@@ -600,7 +600,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     NumeroFactura = NumeroFactura,
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = "00003",
+                    CodigoFormaDelCobro = (_EsFacturaTradicional ? "00003" : "00002"),
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = TarjetaUno,
                     CodigoMoneda = "VES",
@@ -614,7 +614,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     NumeroFactura = NumeroFactura,
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = "00003",
+                    CodigoFormaDelCobro = (_EsFacturaTradicional ? "00003" : "00002"),
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = TarjetaDos,
                     CodigoMoneda = "VES",
