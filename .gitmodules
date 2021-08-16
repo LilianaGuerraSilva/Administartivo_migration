@@ -58,15 +58,3 @@
 	path = source/VbaComun
 	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
 	branch = release/SawV19.1.0.0
-[submodule "bin/binLibAos"]
-	path = bin/binLibAos
-	url = https://gitlab.com/galac-software-enterprise/desa/binlibaos.git
-	branch = hotfix/V5.13.2.5
-[submodule "bin/binLibVb"]
-	path = bin/binLibVb
-	url = https://gitlab.com/galac-software-enterprise/desa/binlibvb.git
-	branch = release/V2103
-[submodule "source/Lib/VbaLib"]
-	path = source/Lib/VbaLib
-	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
-	branch = release/V2103
