@@ -95,7 +95,7 @@ namespace Galac.Saw.Rpt.Inventario {
             this.txtEnBsS3,
             this.txtPrecio4,
             this.txtEnBsS4});
-            this.Detail.Height = 0.15625F;
+            this.Detail.Height = 0.33525F;
             this.Detail.Name = "Detail";
             // 
             // txtCodigo
@@ -103,100 +103,100 @@ namespace Galac.Saw.Rpt.Inventario {
             this.txtCodigo.Height = 0.15625F;
             this.txtCodigo.Left = 0F;
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Style = "font-size: 7pt; ddo-char-set: 1";
+            this.txtCodigo.Style = "font-family: Arial Narrow; font-size: 8.25pt; ddo-char-set: 0";
             this.txtCodigo.Text = "txtCodigo";
             this.txtCodigo.Top = 0F;
-            this.txtCodigo.Width = 0.87F;
+            this.txtCodigo.Width = 1.5F;
             // 
             // txtDescripcionArticuloInventario
             // 
             this.txtDescripcionArticuloInventario.Height = 0.15625F;
-            this.txtDescripcionArticuloInventario.Left = 0.8700001F;
+            this.txtDescripcionArticuloInventario.Left = 1.503F;
             this.txtDescripcionArticuloInventario.Name = "txtDescripcionArticuloInventario";
-            this.txtDescripcionArticuloInventario.Style = "font-size: 6.75pt; ddo-char-set: 0";
+            this.txtDescripcionArticuloInventario.Style = "font-family: Arial Narrow; font-size: 8.25pt; ddo-char-set: 0";
             this.txtDescripcionArticuloInventario.Text = "txtDescripcionArticuloInventario";
             this.txtDescripcionArticuloInventario.Top = 0F;
-            this.txtDescripcionArticuloInventario.Width = 1.5F;
+            this.txtDescripcionArticuloInventario.Width = 6F;
             // 
             // txtPrecio
             // 
             this.txtPrecio.Height = 0.15625F;
-            this.txtPrecio.Left = 2.37F;
+            this.txtPrecio.Left = 1.503F;
             this.txtPrecio.Name = "txtPrecio";
-            this.txtPrecio.Style = "font-size: 7.5pt; text-align: right; ddo-char-set: 1";
+            this.txtPrecio.Style = "font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ddo-char-set: 0";
             this.txtPrecio.Text = "txtPrecio";
-            this.txtPrecio.Top = 0F;
-            this.txtPrecio.Width = 0.51F;
+            this.txtPrecio.Top = 0.156F;
+            this.txtPrecio.Width = 0.75F;
             // 
             // txtEnBsS
             // 
             this.txtEnBsS.Height = 0.15625F;
-            this.txtEnBsS.Left = 2.9F;
+            this.txtEnBsS.Left = 2.24F;
             this.txtEnBsS.Name = "txtEnBsS";
-            this.txtEnBsS.Style = "font-size: 7.5pt; text-align: right; ddo-char-set: 1";
+            this.txtEnBsS.Style = "font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ddo-char-set: 0";
             this.txtEnBsS.Text = "txtEnBsS";
-            this.txtEnBsS.Top = 0F;
-            this.txtEnBsS.Width = 0.76F;
+            this.txtEnBsS.Top = 0.156F;
+            this.txtEnBsS.Width = 0.75F;
             // 
             // txtPrecio2
             // 
             this.txtPrecio2.Height = 0.15625F;
-            this.txtPrecio2.Left = 3.66F;
+            this.txtPrecio2.Left = 3.003F;
             this.txtPrecio2.Name = "txtPrecio2";
-            this.txtPrecio2.Style = "font-size: 7.5pt; text-align: right; ddo-char-set: 1";
+            this.txtPrecio2.Style = "font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ddo-char-set: 0";
             this.txtPrecio2.Text = "txtPrecio2";
-            this.txtPrecio2.Top = 0F;
-            this.txtPrecio2.Width = 0.51F;
+            this.txtPrecio2.Top = 0.156F;
+            this.txtPrecio2.Width = 0.75F;
             // 
             // txtEnBsS2
             // 
             this.txtEnBsS2.Height = 0.15625F;
-            this.txtEnBsS2.Left = 4.17F;
+            this.txtEnBsS2.Left = 3.753F;
             this.txtEnBsS2.Name = "txtEnBsS2";
-            this.txtEnBsS2.Style = "font-size: 7.5pt; text-align: right; ddo-char-set: 1";
+            this.txtEnBsS2.Style = "font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ddo-char-set: 0";
             this.txtEnBsS2.Text = "txtEnBsS";
-            this.txtEnBsS2.Top = 0F;
-            this.txtEnBsS2.Width = 0.76F;
+            this.txtEnBsS2.Top = 0.156F;
+            this.txtEnBsS2.Width = 0.75F;
             // 
             // txtPrecio3
             // 
             this.txtPrecio3.Height = 0.15625F;
-            this.txtPrecio3.Left = 4.93F;
+            this.txtPrecio3.Left = 4.503F;
             this.txtPrecio3.Name = "txtPrecio3";
-            this.txtPrecio3.Style = "font-size: 7.5pt; text-align: right; ddo-char-set: 1";
+            this.txtPrecio3.Style = "font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ddo-char-set: 0";
             this.txtPrecio3.Text = "txtPrecio3";
-            this.txtPrecio3.Top = 0F;
-            this.txtPrecio3.Width = 0.51F;
+            this.txtPrecio3.Top = 0.156F;
+            this.txtPrecio3.Width = 0.75F;
             // 
             // txtEnBsS3
             // 
             this.txtEnBsS3.Height = 0.15625F;
-            this.txtEnBsS3.Left = 5.44F;
+            this.txtEnBsS3.Left = 5.253F;
             this.txtEnBsS3.Name = "txtEnBsS3";
-            this.txtEnBsS3.Style = "font-size: 7.5pt; text-align: right; ddo-char-set: 1";
+            this.txtEnBsS3.Style = "font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ddo-char-set: 0";
             this.txtEnBsS3.Text = "txtEnBsS";
-            this.txtEnBsS3.Top = 0F;
-            this.txtEnBsS3.Width = 0.76F;
+            this.txtEnBsS3.Top = 0.156F;
+            this.txtEnBsS3.Width = 0.75F;
             // 
             // txtPrecio4
             // 
             this.txtPrecio4.Height = 0.15625F;
-            this.txtPrecio4.Left = 6.2F;
+            this.txtPrecio4.Left = 6.003F;
             this.txtPrecio4.Name = "txtPrecio4";
-            this.txtPrecio4.Style = "font-size: 7.5pt; text-align: right; ddo-char-set: 1";
+            this.txtPrecio4.Style = "font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ddo-char-set: 0";
             this.txtPrecio4.Text = "txtPrecio4";
-            this.txtPrecio4.Top = 0F;
-            this.txtPrecio4.Width = 0.51F;
+            this.txtPrecio4.Top = 0.156F;
+            this.txtPrecio4.Width = 0.75F;
             // 
             // txtEnBsS4
             // 
             this.txtEnBsS4.Height = 0.15625F;
-            this.txtEnBsS4.Left = 6.710001F;
+            this.txtEnBsS4.Left = 6.753F;
             this.txtEnBsS4.Name = "txtEnBsS4";
-            this.txtEnBsS4.Style = "font-size: 7.5pt; text-align: right; ddo-char-set: 1";
+            this.txtEnBsS4.Style = "font-family: Arial Narrow; font-size: 8.25pt; text-align: right; ddo-char-set: 0";
             this.txtEnBsS4.Text = "txtEnBsS";
-            this.txtEnBsS4.Top = 0F;
-            this.txtEnBsS4.Width = 0.76F;
+            this.txtEnBsS4.Top = 0.156F;
+            this.txtEnBsS4.Width = 0.75F;
             // 
             // PageHeader
             // 
@@ -282,7 +282,7 @@ namespace Galac.Saw.Rpt.Inventario {
             this.lblEnBsS3,
             this.lblPrecio4,
             this.lblEnBsS4});
-            this.GHSecLineaProducto.Height = 0.325F;
+            this.GHSecLineaProducto.Height = 0.4915F;
             this.GHSecLineaProducto.Name = "GHSecLineaProducto";
             // 
             // lblLineaDeProducto
@@ -294,17 +294,17 @@ namespace Galac.Saw.Rpt.Inventario {
             this.lblLineaDeProducto.Style = "font-size: 8.25pt; font-weight: bold; ddo-char-set: 0";
             this.lblLineaDeProducto.Text = "Línea Producto";
             this.lblLineaDeProducto.Top = 0F;
-            this.lblLineaDeProducto.Width = 0.87F;
+            this.lblLineaDeProducto.Width = 1.5F;
             // 
             // txtLineaDeProducto
             // 
             this.txtLineaDeProducto.Height = 0.15625F;
-            this.txtLineaDeProducto.Left = 0.8700001F;
+            this.txtLineaDeProducto.Left = 1.5F;
             this.txtLineaDeProducto.Name = "txtLineaDeProducto";
             this.txtLineaDeProducto.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtLineaDeProducto.Text = "txtLineaDeProducto";
             this.txtLineaDeProducto.Top = 0F;
-            this.txtLineaDeProducto.Width = 1.5F;
+            this.txtLineaDeProducto.Width = 6F;
             // 
             // lblCodigo
             // 
@@ -316,115 +316,115 @@ namespace Galac.Saw.Rpt.Inventario {
             this.lblCodigo.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblCodigo.Text = "Código";
             this.lblCodigo.Top = 0.156F;
-            this.lblCodigo.Width = 0.87F;
+            this.lblCodigo.Width = 1.5F;
             // 
             // lblDescripcionArticuloInventario
             // 
             this.lblDescripcionArticuloInventario.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblDescripcionArticuloInventario.Height = 0.15625F;
             this.lblDescripcionArticuloInventario.HyperLink = null;
-            this.lblDescripcionArticuloInventario.Left = 0.8700001F;
+            this.lblDescripcionArticuloInventario.Left = 1.5F;
             this.lblDescripcionArticuloInventario.Name = "lblDescripcionArticuloInventario";
             this.lblDescripcionArticuloInventario.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblDescripcionArticuloInventario.Text = "Descripción";
-            this.lblDescripcionArticuloInventario.Top = 0.15625F;
-            this.lblDescripcionArticuloInventario.Width = 1.5F;
+            this.lblDescripcionArticuloInventario.Top = 0.156F;
+            this.lblDescripcionArticuloInventario.Width = 6F;
             // 
             // lblPrecio
             // 
             this.lblPrecio.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPrecio.Height = 0.15625F;
             this.lblPrecio.HyperLink = null;
-            this.lblPrecio.Left = 2.37F;
+            this.lblPrecio.Left = 1.5F;
             this.lblPrecio.Name = "lblPrecio";
             this.lblPrecio.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblPrecio.Text = "Precio";
-            this.lblPrecio.Top = 0.15625F;
-            this.lblPrecio.Width = 0.51F;
+            this.lblPrecio.Top = 0.312F;
+            this.lblPrecio.Width = 0.75F;
             // 
             // lblEnBsS
             // 
             this.lblEnBsS.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblEnBsS.Height = 0.15625F;
             this.lblEnBsS.HyperLink = null;
-            this.lblEnBsS.Left = 2.9F;
+            this.lblEnBsS.Left = 2.25F;
             this.lblEnBsS.Name = "lblEnBsS";
             this.lblEnBsS.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblEnBsS.Text = "En BsF.";
-            this.lblEnBsS.Top = 0.15625F;
-            this.lblEnBsS.Width = 0.76F;
+            this.lblEnBsS.Top = 0.312F;
+            this.lblEnBsS.Width = 0.75F;
             // 
             // lblPrecio2
             // 
             this.lblPrecio2.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPrecio2.Height = 0.15625F;
             this.lblPrecio2.HyperLink = null;
-            this.lblPrecio2.Left = 3.66F;
+            this.lblPrecio2.Left = 3.003F;
             this.lblPrecio2.Name = "lblPrecio2";
             this.lblPrecio2.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblPrecio2.Text = "Precio 2";
-            this.lblPrecio2.Top = 0.15625F;
-            this.lblPrecio2.Width = 0.51F;
+            this.lblPrecio2.Top = 0.312F;
+            this.lblPrecio2.Width = 0.75F;
             // 
             // lblEnBsS2
             // 
             this.lblEnBsS2.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblEnBsS2.Height = 0.15625F;
             this.lblEnBsS2.HyperLink = null;
-            this.lblEnBsS2.Left = 4.17F;
+            this.lblEnBsS2.Left = 3.753F;
             this.lblEnBsS2.Name = "lblEnBsS2";
             this.lblEnBsS2.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblEnBsS2.Text = "En BsF.";
-            this.lblEnBsS2.Top = 0.156F;
-            this.lblEnBsS2.Width = 0.76F;
+            this.lblEnBsS2.Top = 0.312F;
+            this.lblEnBsS2.Width = 0.75F;
             // 
             // lblPrecio3
             // 
             this.lblPrecio3.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPrecio3.Height = 0.15625F;
             this.lblPrecio3.HyperLink = null;
-            this.lblPrecio3.Left = 4.93F;
+            this.lblPrecio3.Left = 4.503F;
             this.lblPrecio3.Name = "lblPrecio3";
             this.lblPrecio3.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblPrecio3.Text = "Precio 3";
-            this.lblPrecio3.Top = 0.15625F;
-            this.lblPrecio3.Width = 0.51F;
+            this.lblPrecio3.Top = 0.312F;
+            this.lblPrecio3.Width = 0.75F;
             // 
             // lblEnBsS3
             // 
             this.lblEnBsS3.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblEnBsS3.Height = 0.15625F;
             this.lblEnBsS3.HyperLink = null;
-            this.lblEnBsS3.Left = 5.44F;
+            this.lblEnBsS3.Left = 5.253F;
             this.lblEnBsS3.Name = "lblEnBsS3";
             this.lblEnBsS3.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblEnBsS3.Text = "En BsF.";
-            this.lblEnBsS3.Top = 0.156F;
-            this.lblEnBsS3.Width = 0.76F;
+            this.lblEnBsS3.Top = 0.312F;
+            this.lblEnBsS3.Width = 0.75F;
             // 
             // lblPrecio4
             // 
             this.lblPrecio4.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblPrecio4.Height = 0.15625F;
             this.lblPrecio4.HyperLink = null;
-            this.lblPrecio4.Left = 6.2F;
+            this.lblPrecio4.Left = 6.003F;
             this.lblPrecio4.Name = "lblPrecio4";
             this.lblPrecio4.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblPrecio4.Text = "Precio 4";
-            this.lblPrecio4.Top = 0.156F;
-            this.lblPrecio4.Width = 0.51F;
+            this.lblPrecio4.Top = 0.312F;
+            this.lblPrecio4.Width = 0.75F;
             // 
             // lblEnBsS4
             // 
             this.lblEnBsS4.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblEnBsS4.Height = 0.15625F;
             this.lblEnBsS4.HyperLink = null;
-            this.lblEnBsS4.Left = 6.710001F;
+            this.lblEnBsS4.Left = 6.753F;
             this.lblEnBsS4.Name = "lblEnBsS4";
             this.lblEnBsS4.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.lblEnBsS4.Text = "En BsF.";
-            this.lblEnBsS4.Top = 0.15625F;
-            this.lblEnBsS4.Width = 0.76F;
+            this.lblEnBsS4.Top = 0.312F;
+            this.lblEnBsS4.Width = 0.75F;
             // 
             // GFSecLineaProducto
             // 
@@ -436,7 +436,7 @@ namespace Galac.Saw.Rpt.Inventario {
             this.MasterReport = false;
             this.PageSettings.PaperHeight = 11F;
             this.PageSettings.PaperWidth = 8.5F;
-            this.PrintWidth = 7.516501F;
+            this.PrintWidth = 7.57925F;
             this.Sections.Add(this.PageHeader);
             this.Sections.Add(this.GHSecLineaProducto);
             this.Sections.Add(this.Detail);

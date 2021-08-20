@@ -33,6 +33,7 @@ using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Saw.Lib.Uil;
+using Galac.Saw.Reconv;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class FacturaRapidaViewModel : LibInputMasterViewModelMfc<FacturaRapida> {
@@ -2612,7 +2613,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ActualizaTotalesDeFactura() {
             decimal vFactorDescuento = 0;
-            vFactorDescuento= Model.PorcentajeDescuento / 100;
+            vFactorDescuento = Model.PorcentajeDescuento / 100;
             TotalRenglones = DetailFacturaRapidaDetalle.Items.Sum(p => p.TotalRenglon);
             CalcularTotalDescuento();
             TotalMontoExento = CalcularDescuento(DetailFacturaRapidaDetalle.MontoTotalExento(2), vFactorDescuento);
@@ -2625,6 +2626,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             TotalIVA = MontoIvaAlicuota1 + MontoIvaAlicuota2 + MontoIvaAlicuota3;
             TotalBaseImponible = MontoGravableAlicuota1 + MontoGravableAlicuota2 + MontoGravableAlicuota3;
             TotalFactura = TotalMontoExento + TotalBaseImponible + TotalIVA;
+            decimal vFactorConversion = clsUtilReconv.GetFactorDeConversion();
+            if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
+                    Observaciones = "Monto Tot.: " + LibConvert.NumToString((TotalFactura * CambioABolivares) * vFactorConversion, 2) + " Bolívares Soberanos";
+                } else {
+                    Observaciones = "Monto Tot.: " + LibConvert.NumToString(TotalFactura * vFactorConversion, 2) + " Bolívares Soberanos";
+                }
+            } else if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
+                    Observaciones = "Monto Tot.: " + LibConvert.NumToString((TotalFactura * CambioABolivares) / vFactorConversion, 2) + " Bolívares Digitales";
+                } else {
+                    Observaciones = "Monto Tot.: " + LibConvert.NumToString(TotalFactura / vFactorConversion, 2) + " Bolívares Digitales";
+                }
+            } else {
+                Observaciones = "";
+            }
             TotalDeItems = DetailFacturaRapidaDetalle.Items.Sum(p => p.Cantidad);
         }
         #endregion
@@ -2989,10 +3006,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool EsSerialORollo = false;
             decimal vCantidad = 0;
 
-            for (int index = 0 ;index < DetailFacturaRapidaDetalle.Items.Count() ;index++) {
+            for (int index = 0; index < DetailFacturaRapidaDetalle.Items.Count(); index++) {
                 vCantidad = 0;
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "AcumularItemsEnRenglonesDeFactura") == false) {
-                    for (int i = 0 ;i < DetailFacturaRapidaDetalle.Items.Count() ;i++) {
+                    for (int i = 0; i < DetailFacturaRapidaDetalle.Items.Count(); i++) {
                         if (DetailFacturaRapidaDetalle.Items[index].Articulo == DetailFacturaRapidaDetalle.Items[i].Articulo)
                             vCantidad = vCantidad + DetailFacturaRapidaDetalle.Items[i].Cantidad;
                     }

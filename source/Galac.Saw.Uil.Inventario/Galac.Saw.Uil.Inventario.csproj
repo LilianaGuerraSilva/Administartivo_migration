@@ -45,6 +45,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
+    <Reference Include="Galac.Saw.Reconv">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Galac.Saw.Reconv.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>

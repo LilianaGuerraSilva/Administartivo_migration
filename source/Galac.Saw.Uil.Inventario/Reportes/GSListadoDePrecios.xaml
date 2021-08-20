@@ -5,22 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"	     
              xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
-             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" d:DesignHeight="212" d:DesignWidth="233">
+             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" mc:Ignorable="d" d:DesignHeight="212" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=txtNombreLineaDeProducto}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="29" />
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Name="lblNombreLineaDeProducto" Content="Línea de Producto" Style="{StaticResource LabelPrompt}"/>
         <nsWpfControls:GSSeekConnection Grid.Row="0" Grid.Column="1" Name="txtNombreLineaDeProducto" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsEnabled}"
@@ -28,5 +31,11 @@
                                         Model="{Binding Path=ConexionNombreLineaDeProducto, Mode=TwoWay}"
                                         ConnectionValue="{Binding Path=NombreLineaDeProducto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                         SearchCommand="{Binding Path=ChooseNombreLineaDeProductoCommand}" />
+        <Label Grid.Row="1" Grid.Column="0" Name="lblPrecioVentaEn" Visibility="{Binding Path=IsVisibleME, Converter={StaticResource booleanToVisibilityConverter}}" Content="Precio de Venta en" Style="{StaticResource LabelPrompt}" Margin="0,1,0,0" Height="24" Width="112"/>
+        <StackPanel Grid.Column="1" Visibility="{Binding Path=IsVisibleME, Converter={StaticResource booleanToVisibilityConverter}}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="1" Grid.RowSpan="2" Height="32">
+            <RadioButton Name="rdbEnMonedaLocal" IsChecked="{Binding Path=MonedaDelReporteEnMonedaLocal, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" Content="En Bolívares" Margin="1,0,-1,0"/>
+            <RadioButton Name="rdbEnMonedaLocalDesdeMonedaExtranjera" IsChecked="{Binding Path=MonedaDelReporteDesdeMonedaExtranjera, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" Content="En Bolívares a la Tasa del Día"/>
+        </StackPanel>
+        <Label Grid.Row="2" Grid.Column="1" Name="lnlNota" Content="{Binding Path=EtiquetaMonedaTasa, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}" Style="{StaticResource LabelFeatureInfo}" Height="24"/>
     </Grid>
 </UserControl>

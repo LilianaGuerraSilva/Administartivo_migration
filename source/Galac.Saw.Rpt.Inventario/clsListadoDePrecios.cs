@@ -15,6 +15,10 @@ namespace Galac.Saw.Rpt.Inventario {
 
         protected DataTable Data { get; set; }
         public string LineaDeProducto { get; set; }
+
+        public eMonedaPresentacionDeReporteRM TipoMonedaDelReporte { get; set; }
+
+        public decimal TasaCambio { get; set; }
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
 
@@ -25,9 +29,11 @@ namespace Galac.Saw.Rpt.Inventario {
         #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
-        public clsListadoDePrecios(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string valLineaDeProducto)
+        public clsListadoDePrecios(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string valLineaDeProducto, eMonedaPresentacionDeReporteRM valTipoMonedaReporte, decimal valTasaCambio)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             LineaDeProducto = valLineaDeProducto;
+            TipoMonedaDelReporte = valTipoMonedaReporte;
+            TasaCambio = valTasaCambio;
             #region Codigo Ejemplo
             /* Codigo de Ejemplo
                 FechaDesde = initFechaDesde;
@@ -64,7 +70,7 @@ namespace Galac.Saw.Rpt.Inventario {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             IArticuloInventarioInformes vRpt = new Galac.Saw.Brl.Inventario.Reportes.clsArticuloInventarioRpt() as IArticuloInventarioInformes;
-            Data = vRpt.BuildListadoDePrecios(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LineaDeProducto);
+            Data = vRpt.BuildListadoDePrecios(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LineaDeProducto, TipoMonedaDelReporte, TasaCambio);
         }
 
         public override void SendReportToDevice() {

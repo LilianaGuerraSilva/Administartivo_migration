@@ -34,6 +34,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     AvailableReports.Add(new clsListadoDeArticulosBalanzaViewModel());
                 }
                 AvailableReports.Add(new clsValoracionDeInventarioViewModel());
+                AvailableReports.Add(new clsListadoDePreciosViewModel());
             }
             Title = "Informes de Artículo Inventario";
         }
@@ -56,7 +57,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private ILibRpt ConfigReportListadoDePrecios(clsListadoDePreciosViewModel valViewModel) {
             ILibRpt vResult = null;
             if(valViewModel != null) {
-                vResult = new Galac.Saw.Rpt.Inventario.clsListadoDePrecios(PrintingDevice,ExportFileFormat,AppMemoryInfo,Mfc,valViewModel.NombreLineaDeProducto) {
+                vResult = new Galac.Saw.Rpt.Inventario.clsListadoDePrecios(PrintingDevice,ExportFileFormat,AppMemoryInfo,Mfc,valViewModel.NombreLineaDeProducto,valViewModel.TipoDeMonedaDelReporte ,valViewModel.TasaDeCambio) {
                     Worker = Manager
                 };
             }

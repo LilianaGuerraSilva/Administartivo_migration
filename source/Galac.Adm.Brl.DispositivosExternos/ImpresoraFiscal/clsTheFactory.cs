@@ -741,20 +741,24 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 30, 40));
                     vResult &= _TfhkPrinter.SendCmd(vCMD);
                 } else if (!valObservaciones.Equals("") && valDireccion.Equals("") && !_ModelosAntiguos) {
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Observaciones:" + valObservaciones, 0, 40));
+                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 26, 40));
+                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40));
                     vResult &= _TfhkPrinter.SendCmd(vCMD);
                 } else {
                     vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40));
                     vResult = _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Observaciones:" + valObservaciones, 0, 40));
+                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40));
+                    vResult &= _TfhkPrinter.SendCmd(vCMD);
+                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40));
                     vResult &= _TfhkPrinter.SendCmd(vCMD);
                 }
             } else {
-                vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, _MaxLongitudDeTexto));
+                vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40));
                 vResult = _TfhkPrinter.SendCmd(vCMD);
-                vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Observaciones:" + valObservaciones, 0, _MaxLongitudDeTexto));
+                vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40));
+                vResult &= _TfhkPrinter.SendCmd(vCMD);
+                vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40));
                 vResult &= _TfhkPrinter.SendCmd(vCMD);
             }
             return vResult;
