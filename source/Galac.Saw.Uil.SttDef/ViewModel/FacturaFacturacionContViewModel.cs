@@ -14,7 +14,7 @@ using Galac.Saw.Reconv;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class FacturaFacturacionContViewModel : LibInputViewModelMfc<FacturacionContinuacionStt> {
-       
+
         #region Constantes
         public const string UsarOtrosCargoDeFacturaPropertyName = "UsarOtrosCargoDeFactura";
         public const string UltimaFechaDeFacturacionHistoricaPropertyName = "UltimaFechaDeFacturacionHistorica";
@@ -548,7 +548,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledUsaCobroDirectoEnMultimoneda {
             get {
-				return IsEnabled && UsaCobroDirecto;
+                return IsEnabled && UsaCobroDirecto;
             }
         }
 
@@ -589,7 +589,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public int NroDiasMantenerTasaCambio{
+        public int NroDiasMantenerTasaCambio {
             get {
                 return Model.NroDiasMantenerTasaCambio;
             }
@@ -827,12 +827,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
 
-        private ValidationResult  CobroDirectoValidating() {
+        private ValidationResult CobroDirectoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
+                if (UsaCobroDirecto && UsaListaDePrecioEnMonedaExtranjeraCXC) {
                     vResult = new ValidationResult($"No es posible activar los parámetros \"{this.ModuleName} - Generar CxC en Moneda Extranjera\" y \"{this.ModuleName} - Cobro Directo\" simultaneamente. Para hacer uso del parámetro \"Cobro Directo\", por favor desactive \"Generar CXC en Moneda Extranjera\".");
                 }
             }
@@ -879,14 +879,23 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleIFFechaReconversion {
             get {
-                return LibDate.Today() < clsUtilReconv.GetFechaReconversion();
+                return LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias();
             }
         }
 
+        public string PromptMostrarReconversionEnObservacion {
+            get {
+                string vMensaje = "";
+                if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
+                    vMensaje = "Mostrar Totales en Bolívares Soberanos";
+                } else if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
+                    vMensaje = "Mostrar Totales en Bolívares Digitales";
+                }
+                return vMensaje;
+            }
+        }
         #endregion //Metodos Generados
-
     } //End of class FacturaFacturacionContViewModel
-
 } //End of namespace Galac.Saw.Uil.SttDef
 
 

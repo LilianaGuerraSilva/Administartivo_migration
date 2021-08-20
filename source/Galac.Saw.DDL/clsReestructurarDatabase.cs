@@ -16,7 +16,7 @@ namespace Galac.Saw.DDL {
     /// <summary>
     /// aqui irian los metodos de reestructuracion de la base de datos
     /// </summary>
-    public class clsReestructurarDatabase:QAdvReest, ILibRestructureDb, ILibRestructureToVersion {
+    public class clsReestructurarDatabase : QAdvReest, ILibRestructureDb, ILibRestructureToVersion {
 
 
         string _CurrentVersionInDb { get; set; }
@@ -40,7 +40,7 @@ namespace Galac.Saw.DDL {
             CurrentVersionInDb = initCurrentVersionInDb;
         }
 
-        public clsReestructurarDatabase(string initCurrentVersion,string initVersionToUpdate,string initDatabaseName)
+        public clsReestructurarDatabase(string initCurrentVersion, string initVersionToUpdate, string initDatabaseName)
            : base() {
             _CurrentVersionInDb = initCurrentVersion;
             _VersionToUpdate = initVersionToUpdate;
@@ -48,7 +48,7 @@ namespace Galac.Saw.DDL {
             _TodayAsSqlValue = InsSql.ToSqlValue(LibDate.Today());
         }
 
-        public clsReestructurarDatabase(string initCurrentVersion,string initVersionToUpdate,string initConfigKeyForDbService,string initDatabaseName)
+        public clsReestructurarDatabase(string initCurrentVersion, string initVersionToUpdate, string initConfigKeyForDbService, string initDatabaseName)
            : base(initConfigKeyForDbService) {
             _CurrentVersionInDb = initCurrentVersion;
             _VersionToUpdate = initVersionToUpdate;
@@ -86,11 +86,11 @@ namespace Galac.Saw.DDL {
             get { return "2.21"; }
         }
 
-        void ILibRestructureToVersion.UpgradeToNewVersion(string valCurrentVersionInDb,System.ComponentModel.BackgroundWorker valBgWorker) {
-            UpgradeToNewVersion(valCurrentVersionInDb,string.Empty);
+        void ILibRestructureToVersion.UpgradeToNewVersion(string valCurrentVersionInDb, System.ComponentModel.BackgroundWorker valBgWorker) {
+            UpgradeToNewVersion(valCurrentVersionInDb, string.Empty);
         }
 
-        void ILibRestructureToVersion.UpgradeToTempNonOfficialVersion(string valCurrentVersionInDb,System.ComponentModel.BackgroundWorker valBgWorker) {
+        void ILibRestructureToVersion.UpgradeToTempNonOfficialVersion(string valCurrentVersionInDb, System.ComponentModel.BackgroundWorker valBgWorker) {
 
         }
         #endregion
@@ -158,7 +158,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsTablaDetraccionED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsAlicuotaImpuestoEspecialED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsOrdenDeCompraED().InstalarVistasYSps();
-            vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCompraED().InstalarVistasYSps();            
+            vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCompraED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCargaInicialED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsArancelesED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Tablas.clsImpuestoBancarioED().InstalarVistasYSps();
@@ -190,7 +190,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Comun.Dal.TablasGen.clsUbigeoED().BorrarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsArancelesED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsOrdenDeCompraED().BorrarVistasYSps();
-            vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCompraED().BorrarVistasYSps();            
+            vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCompraED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.GestionCompras.clsCargaInicialED().BorrarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsAlicuotaImpuestoEspecialED().BorrarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsTablaDetraccionED().BorrarVistasYSps();
@@ -251,7 +251,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Comun.Dal.TablasGen.clsMonedaED().BorrarVistasYSps();
             vResult = vResult && new LibGalac.Aos.Dal.Settings.LibDiagnosticSttED().BorrarVistasYSps();
             vResult = vResult && new LibGalac.Aos.Dal.PASOnLine.LibDiagnosticED().BorrarVistasYSps();
-            vResult = vResult && new Galac.Saw.Dal.Tablas.clsImpuestoBancarioED().BorrarVistasYSps();            
+            vResult = vResult && new Galac.Saw.Dal.Tablas.clsImpuestoBancarioED().BorrarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.TablasGen.clsCambioED().BorrarVistasYSps();
             new LibDbo().Drop("dbo.Gf_UsaDataTemporalParaLibros", eDboType.Funcion);
             return vResult;
@@ -260,45 +260,45 @@ namespace Galac.Saw.DDL {
         private bool BorrarVistasDeCompatibilidad() {
             bool vResult = true;
             LibDbo insDbo = new LibDbo();
-            vResult = vResult && insDbo.Drop("dbo.RenglonCompraXSerial",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.RenglonCompra",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Compra",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Proveedor",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.TablaRetencion",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.TarifaN2",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.ConceptoBancario",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.CuentaBancaria",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Almacen",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Vehiculo",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.FormaDelCobro",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.ReglasDeContabilizacion",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.TipoProveedor",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.NotaFinal",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Color",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Talla",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.PropAnalisisVenc",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.MaquinaFiscal",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.ZonaCobranza",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.UrbanizacionZP",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.UnidadDeVenta",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Categoria",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Ciiu2004",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Ciiu",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Pais",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.MonedaLocal",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Banco",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.SectorDeNegocio",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Ciudad",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Usuario",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Auxiliar",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.CentroDeCostos",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.TipoDeComprobante",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.ImpTransacBancarias",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Compra",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.RenglonCompra",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.RenglonCompraXSerial",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.CajaApertura",eDboType.Vista);
-            vResult = vResult && insDbo.Drop("dbo.Caja",eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.RenglonCompraXSerial", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.RenglonCompra", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Compra", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Proveedor", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.TablaRetencion", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.TarifaN2", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.ConceptoBancario", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.CuentaBancaria", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Almacen", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Vehiculo", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.FormaDelCobro", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.ReglasDeContabilizacion", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.TipoProveedor", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.NotaFinal", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Color", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Talla", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.PropAnalisisVenc", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.MaquinaFiscal", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.ZonaCobranza", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.UrbanizacionZP", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.UnidadDeVenta", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Categoria", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Ciiu2004", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Ciiu", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Pais", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.MonedaLocal", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Banco", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.SectorDeNegocio", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Ciudad", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Usuario", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Auxiliar", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.CentroDeCostos", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.TipoDeComprobante", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.ImpTransacBancarias", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Compra", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.RenglonCompra", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.RenglonCompraXSerial", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.CajaApertura", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Caja", eDboType.Vista);
             return vResult;
         }
 
@@ -370,7 +370,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Comun.Dal.LeyCosto.clsElementoDelCostoED().InstalarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.LeyCosto.clsCriterioDeDistribucionED().InstalarVistasYSps();
             LibViews insVistas = new LibViews(Galac.Contab.Ccl.WinCont.clsCkn.ConfigKeyForDbService);
-            vResult = vResult && insVistas.Create("Contab" + ".Gv_EnumComprobanteGeneradoPor",LibTpvCreator.SqlViewStandardEnum(typeof(eComprobanteGeneradoPor),InsSql),true,true);
+            vResult = vResult && insVistas.Create("Contab" + ".Gv_EnumComprobanteGeneradoPor", LibTpvCreator.SqlViewStandardEnum(typeof(eComprobanteGeneradoPor), InsSql), true, true);
             return vResult;
         }
         #endregion Vistas
@@ -380,7 +380,7 @@ namespace Galac.Saw.DDL {
         private bool HasToUpgradeToVersion(string valVersion) {
             bool vResult;
             vResult = false;
-            if(LibGalac.Aos.Base.LibString.S1IsLessThanS2(CurrentVersionInDb,valVersion)) {
+            if (LibGalac.Aos.Base.LibString.S1IsLessThanS2(CurrentVersionInDb, valVersion)) {
                 vResult = true;
             }
             return vResult;
@@ -395,41 +395,41 @@ namespace Galac.Saw.DDL {
             bool vResult = true;
             //StartConnectionNoTransaction();
             #region Campos extraviados de la version 9_04
-            if(!ColumnExists("Cotizacion","promocion")) {
-                vResult = vResult && AddColumnString("Cotizacion","promocion",1,"promocion NOT NULL","");
+            if (!ColumnExists("Cotizacion", "promocion")) {
+                vResult = vResult && AddColumnString("Cotizacion", "promocion", 1, "promocion NOT NULL", "");
             }
-            if(!ColumnExists("Cotizacion","Confirmada")) {
-                vResult = vResult && AddColumnString("Cotizacion","Confirmada",1,"Confirmada NOT NULL","");
+            if (!ColumnExists("Cotizacion", "Confirmada")) {
+                vResult = vResult && AddColumnString("Cotizacion", "Confirmada", 1, "Confirmada NOT NULL", "");
             }
-            if(!ColumnExists("Cotizacion","ModificadoPorOperador")) {
-                vResult = vResult && AddColumnString("Cotizacion","ModificadoPorOperador",10,"","");
+            if (!ColumnExists("Cotizacion", "ModificadoPorOperador")) {
+                vResult = vResult && AddColumnString("Cotizacion", "ModificadoPorOperador", 10, "", "");
             }
-            if(!ColumnExists("Cotizacion","Seguimiento")) {
-                vResult = vResult && AddColumnString("Cotizacion","Seguimiento",255,"","");
+            if (!ColumnExists("Cotizacion", "Seguimiento")) {
+                vResult = vResult && AddColumnString("Cotizacion", "Seguimiento", 255, "", "");
             }
-            if(!ColumnExists("Cotizacion","FechaDeProximaLlamada")) {
-                vResult = vResult && AddColumnDate("Cotizacion","FechaDeProximaLlamada","");
+            if (!ColumnExists("Cotizacion", "FechaDeProximaLlamada")) {
+                vResult = vResult && AddColumnDate("Cotizacion", "FechaDeProximaLlamada", "");
             }
-            if(!ColumnExists("Cotizacion","EstadoDeLaCotizacion")) {
-                vResult = vResult && AddColumnString("Cotizacion","EstadoDeLaCotizacion",1,"","");
+            if (!ColumnExists("Cotizacion", "EstadoDeLaCotizacion")) {
+                vResult = vResult && AddColumnString("Cotizacion", "EstadoDeLaCotizacion", 1, "", "");
             }
-            if(!ColumnExists("Cotizacion","FormaDeEnvio")) {
-                vResult = vResult && AddColumnString("Cotizacion","FormaDeEnvio",1,"","");
+            if (!ColumnExists("Cotizacion", "FormaDeEnvio")) {
+                vResult = vResult && AddColumnString("Cotizacion", "FormaDeEnvio", 1, "", "");
             }
-            if(!ColumnExists("Cotizacion","FechaDeUltimaEmisionDeFax")) {
-                vResult = vResult && AddColumnDate("Cotizacion","FechaDeUltimaEmisionDeFax","");
+            if (!ColumnExists("Cotizacion", "FechaDeUltimaEmisionDeFax")) {
+                vResult = vResult && AddColumnDate("Cotizacion", "FechaDeUltimaEmisionDeFax", "");
             }
-            if(!ColumnExists("Cotizacion","NumeroDeVecesFaxeado")) {
-                vResult = vResult && AddColumnNumeric("Cotizacion","NumeroDeVecesFaxeado",20,0,"",0);
+            if (!ColumnExists("Cotizacion", "NumeroDeVecesFaxeado")) {
+                vResult = vResult && AddColumnNumeric("Cotizacion", "NumeroDeVecesFaxeado", 20, 0, "", 0);
             }
-            if(!ColumnExists("Cotizacion","NumeroParaResumen")) {
-                vResult = vResult && AddColumnNumeric("Cotizacion","NumeroParaResumen",12,0,"",0);
+            if (!ColumnExists("Cotizacion", "NumeroParaResumen")) {
+                vResult = vResult && AddColumnNumeric("Cotizacion", "NumeroParaResumen", 12, 0, "", 0);
             }
-            if(!ColumnExists("cliente","AQueSeDedicaElCliente")) {
-                vResult = vResult && AddColumnString("cliente","AQueSeDedicaElCliente",100,"","");
+            if (!ColumnExists("cliente", "AQueSeDedicaElCliente")) {
+                vResult = vResult && AddColumnString("cliente", "AQueSeDedicaElCliente", 100, "", "");
             }
-            if(!ColumnExists("cliente","InfoGalac")) {
-                vResult = vResult && AddColumnString("cliente","InfoGalac",1,"","");
+            if (!ColumnExists("cliente", "InfoGalac")) {
+                vResult = vResult && AddColumnString("cliente", "InfoGalac", 1, "", "");
             }
             #endregion Campos extraviados de la version 9_04
             //DisposeConnectionNoTransaction();
@@ -457,209 +457,212 @@ namespace Galac.Saw.DDL {
         //}
 
 
-        public bool UpgradeToNewVersion(string valCurrentVersionInDb,string valDestinyVersion) {
+        public bool UpgradeToNewVersion(string valCurrentVersionInDb, string valDestinyVersion) {
             bool vResult = true;
             try {
                 CurrentVersionInDb = valCurrentVersionInDb;
-                if(HasToUpgradeToVersion("5.53")) {
+                if (HasToUpgradeToVersion("5.53")) {
                     vResult = vResult && new clsVersion5_53(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.54")) {
+                if (HasToUpgradeToVersion("5.54")) {
                     vResult = vResult && new clsVersion5_54(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.55")) {
+                if (HasToUpgradeToVersion("5.55")) {
                     vResult = vResult && new clsVersion5_55(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.56")) {
+                if (HasToUpgradeToVersion("5.56")) {
                     vResult = vResult && new clsVersion5_56(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.57")) {
+                if (HasToUpgradeToVersion("5.57")) {
                     vResult = vResult && new clsVersion5_57(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.58")) {
+                if (HasToUpgradeToVersion("5.58")) {
                     vResult = vResult && new clsVersion5_58(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.59")) {
+                if (HasToUpgradeToVersion("5.59")) {
                     vResult = vResult && new clsVersion5_59(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.60")) {
+                if (HasToUpgradeToVersion("5.60")) {
                     vResult = vResult && new clsVersion5_60(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.61")) {
+                if (HasToUpgradeToVersion("5.61")) {
                     vResult = vResult && new clsVersion5_61(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.62")) {
+                if (HasToUpgradeToVersion("5.62")) {
                     vResult = vResult && new clsVersion5_62(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.63")) {
+                if (HasToUpgradeToVersion("5.63")) {
                     vResult = vResult && new clsVersion5_63(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.64")) {
+                if (HasToUpgradeToVersion("5.64")) {
                     vResult = vResult && new clsVersion5_64(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.65")) {
+                if (HasToUpgradeToVersion("5.65")) {
                     vResult = vResult && new clsVersion5_65(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.66")) {
+                if (HasToUpgradeToVersion("5.66")) {
                     vResult = vResult && new clsVersion5_66(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.67")) {
+                if (HasToUpgradeToVersion("5.67")) {
                     vResult = vResult && new clsVersion5_67(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.68")) {
+                if (HasToUpgradeToVersion("5.68")) {
                     vResult = vResult && new clsVersion5_68(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.69")) {
+                if (HasToUpgradeToVersion("5.69")) {
                     vResult = vResult && new clsVersion5_69(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.70")) {
+                if (HasToUpgradeToVersion("5.70")) {
                     vResult = vResult && new clsVersion5_70(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.71")) {
+                if (HasToUpgradeToVersion("5.71")) {
                     vResult = vResult && new clsVersion5_71(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.72")) {
+                if (HasToUpgradeToVersion("5.72")) {
                     vResult = vResult && new clsVersion5_72(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.73")) {
+                if (HasToUpgradeToVersion("5.73")) {
                     vResult = vResult && new clsVersion5_73(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.74")) {
+                if (HasToUpgradeToVersion("5.74")) {
                     vResult = vResult && new clsVersion5_74(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.75")) {
+                if (HasToUpgradeToVersion("5.75")) {
                     vResult = vResult && new clsVersion5_75(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.76")) {
+                if (HasToUpgradeToVersion("5.76")) {
                     vResult = vResult && new clsVersion5_76(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.77")) {
+                if (HasToUpgradeToVersion("5.77")) {
                     vResult = vResult && new clsVersion5_77(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.78")) {
+                if (HasToUpgradeToVersion("5.78")) {
                     vResult = vResult && new clsVersion5_78(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.79")) {
+                if (HasToUpgradeToVersion("5.79")) {
                     vResult = vResult && new clsVersion5_79(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.80")) {
+                if (HasToUpgradeToVersion("5.80")) {
                     vResult = vResult && new clsVersion5_80(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.81")) {
+                if (HasToUpgradeToVersion("5.81")) {
                     vResult = vResult && new clsVersion5_81(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.82")) {
+                if (HasToUpgradeToVersion("5.82")) {
                     vResult = vResult && new clsVersion5_82(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.83")) {
+                if (HasToUpgradeToVersion("5.83")) {
                     vResult = vResult && new clsVersion5_83(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.84")) {
+                if (HasToUpgradeToVersion("5.84")) {
                     vResult = vResult && new clsVersion5_84(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.85")) {
+                if (HasToUpgradeToVersion("5.85")) {
                     vResult = vResult && new clsVersion5_85(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.86")) {
+                if (HasToUpgradeToVersion("5.86")) {
                     vResult = vResult && new clsVersion5_86(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.87")) {
+                if (HasToUpgradeToVersion("5.87")) {
                     vResult = vResult && new clsVersion5_87(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.88")) {
+                if (HasToUpgradeToVersion("5.88")) {
                     vResult = vResult && new clsVersion5_88(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.89")) { // usada en Peru, SAW 11.5, en espera de merge
+                if (HasToUpgradeToVersion("5.89")) { // usada en Peru, SAW 11.5, en espera de merge
                     vResult = vResult && new clsVersion5_89(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.90")) {
+                if (HasToUpgradeToVersion("5.90")) {
                     vResult = vResult && new clsVersion5_90(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.91")) {
+                if (HasToUpgradeToVersion("5.91")) {
                     vResult = vResult && new clsVersion5_91(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.92")) {
+                if (HasToUpgradeToVersion("5.92")) {
                     vResult = vResult && new clsVersion5_92(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.93")) {
+                if (HasToUpgradeToVersion("5.93")) {
                     vResult = vResult && new clsVersion5_93(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.94")) {
+                if (HasToUpgradeToVersion("5.94")) {
                     vResult = vResult && new clsVersion5_94(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.95")) {
+                if (HasToUpgradeToVersion("5.95")) {
                     vResult = vResult && new clsVersion5_95(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.96")) {
+                if (HasToUpgradeToVersion("5.96")) {
                     vResult = vResult && new clsVersion5_96(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.97")) {
+                if (HasToUpgradeToVersion("5.97")) {
                     vResult = vResult && new clsVersion5_97(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.98")) {
+                if (HasToUpgradeToVersion("5.98")) {
                     vResult = vResult && new clsVersion5_98(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("5.99")) {
+                if (HasToUpgradeToVersion("5.99")) {
                     vResult = vResult && new clsVersion5_99(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.00")) {
+                if (HasToUpgradeToVersion("6.00")) {
                     vResult = vResult && new clsVersion6_00(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.01")) {
+                if (HasToUpgradeToVersion("6.01")) {
                     vResult = vResult && new clsVersion6_01(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.02")) {
+                if (HasToUpgradeToVersion("6.02")) {
                     vResult = vResult && new clsVersion6_02(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.03")) {
+                if (HasToUpgradeToVersion("6.03")) {
                     vResult = vResult && new clsVersion6_03(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.04")) {
+                if (HasToUpgradeToVersion("6.04")) {
                     vResult = vResult && new clsVersion6_04(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.05")) {
+                if (HasToUpgradeToVersion("6.05")) {
                     vResult = vResult && new clsVersion6_05(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.06")) {
+                if (HasToUpgradeToVersion("6.06")) {
                     vResult = vResult && new clsVersion6_06(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.07")) {
+                if (HasToUpgradeToVersion("6.07")) {
                     vResult = vResult && new clsVersion6_07(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.08")) {
+                if (HasToUpgradeToVersion("6.08")) {
                     vResult = vResult && new clsVersion6_08(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.09")) {
+                if (HasToUpgradeToVersion("6.09")) {
                     vResult = vResult && new clsVersion6_09(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.10")) {
+                if (HasToUpgradeToVersion("6.10")) {
                     vResult = vResult && new clsVersion6_10(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.11")) {
+                if (HasToUpgradeToVersion("6.11")) {
                     vResult = vResult && new clsVersion6_11(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.12")) {
+                if (HasToUpgradeToVersion("6.12")) {
                     vResult = vResult && new clsVersion6_12(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.13")) {
+                if (HasToUpgradeToVersion("6.13")) {
                     vResult = vResult && new clsVersion6_13(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.14")) {
+                if (HasToUpgradeToVersion("6.14")) {
                     vResult = vResult && new clsVersion6_14(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if(HasToUpgradeToVersion("6.16")) {
+                if (HasToUpgradeToVersion("6.16")) {
                     vResult = vResult && new clsVersion6_16(_CurrentDataBaseName).UpdateToVersion();
                 }
                 if (HasToUpgradeToVersion("6.17")) {
                     vResult = vResult && new clsVersion6_17(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.18")){
+                if (HasToUpgradeToVersion("6.18")) {
                     vResult = vResult && new clsVersion6_18(_CurrentDataBaseName).UpdateToVersion();
+                }
+                if (HasToUpgradeToVersion("6.19")) {
+                    vResult = vResult && new clsVersion6_19(_CurrentDataBaseName).UpdateToVersion();
                 }
                 vResult = vResult && new clsVersionTemporalNoOficial(_CurrentDataBaseName).UpdateToVersion();
                 //vResult = vResult && CreateLostFields();
                 return vResult;
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 throw vEx;
             }
         }
