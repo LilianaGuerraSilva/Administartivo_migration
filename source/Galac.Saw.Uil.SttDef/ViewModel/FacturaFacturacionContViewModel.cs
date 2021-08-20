@@ -879,7 +879,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsVisibleIFFechaReconversion {
             get {
-                return LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias();
+                return true;
             }
         }
 
@@ -888,7 +888,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 string vMensaje = "";
                 if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
                     vMensaje = "Mostrar Totales en Bolívares Soberanos";
-                } else if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
+                } else {
                     vMensaje = "Mostrar Totales en Bolívares Digitales";
                 }
                 return vMensaje;
