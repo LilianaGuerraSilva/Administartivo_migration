@@ -53,6 +53,7 @@ namespace Galac.Saw.Rpt.Inventario {
                 }
             }
             if (LibReport.ConfigDataSource(this, valDataSource)) {
+                int vCantDecimales = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
                 LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaInicialYFinal", string.Empty);
@@ -72,14 +73,14 @@ namespace Galac.Saw.Rpt.Inventario {
                 LibReport.ConfigFieldStr(this, "txtLineaDeProducto", string.Empty, "LineaDeProducto");
                 LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
                 LibReport.ConfigFieldStr(this, "txtDescripcionArticuloInventario", string.Empty, "Descripcion");
-                LibReport.ConfigFieldDec(this, "txtPrecio", string.Empty, "PrecioConIva");
-                LibReport.ConfigFieldDec(this, "txtEnBsS", string.Empty, "EnBsS");
-                LibReport.ConfigFieldDec(this, "txtPrecio2", string.Empty, "PrecioConIva2");
-                LibReport.ConfigFieldDec(this, "txtEnBsS2", string.Empty, "EnBsS2");
-                LibReport.ConfigFieldDec(this, "txtPrecio3", string.Empty, "PrecioConIva3");
-                LibReport.ConfigFieldDec(this, "txtEnBsS3", string.Empty, "EnBsS3");
-                LibReport.ConfigFieldDec(this, "txtPrecio4", string.Empty, "PrecioConIva4");
-                LibReport.ConfigFieldDec(this, "txtEnBsS4", string.Empty, "EnBsS4");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPrecio", string.Empty, "PrecioConIva", vCantDecimales);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtEnBsS", string.Empty, "EnBsS", vCantDecimales);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPrecio2", string.Empty, "PrecioConIva2", vCantDecimales);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtEnBsS2", string.Empty, "EnBsS2", vCantDecimales);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPrecio3", string.Empty, "PrecioConIva3", vCantDecimales);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtEnBsS3", string.Empty, "EnBsS3", vCantDecimales);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPrecio4", string.Empty, "PrecioConIva4", vCantDecimales);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtEnBsS4", string.Empty, "EnBsS4", vCantDecimales);
                 LibReport.ConfigGroupHeader(this, "GHSecLineaProducto", "LineaDeProducto", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);

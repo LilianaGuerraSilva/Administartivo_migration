@@ -36,6 +36,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
 
         System.Data.DataTable IArticuloInventarioInformes.BuildListadoDePrecios(int valConsecutivoCompania, string valNombreLineaDeProducto, eMonedaPresentacionDeReporteRM valTipoMonedaReporte, decimal valTasaCambio) {
             string vSql = "";
+            int vCantDecimales = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
             if (LibString.IsNullOrEmpty(valNombreLineaDeProducto,true)) {
                 valNombreLineaDeProducto = string.Empty;
             }
@@ -43,15 +44,15 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             LibGalac.Aos.Base.ILibDataRpt insListadoDePrecios = new Galac.Saw.Dal.Inventario.clsArticuloInventarioDat();
             if (valTipoMonedaReporte == eMonedaPresentacionDeReporteRM.EnMonedaExtranjera) {
                 if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
-                    vSql = insArticuloInventarioSql.SqlListadoDePreciosME(valConsecutivoCompania, valNombreLineaDeProducto, valTasaCambio);
+                    vSql = insArticuloInventarioSql.SqlListadoDePreciosME(valConsecutivoCompania, valNombreLineaDeProducto, valTasaCambio, vCantDecimales);
                 } else if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
-                    vSql = insArticuloInventarioSql.SqlListadoDePreciosBsDME(valConsecutivoCompania, valNombreLineaDeProducto, valTasaCambio);
+                    vSql = insArticuloInventarioSql.SqlListadoDePreciosBsDME(valConsecutivoCompania, valNombreLineaDeProducto, valTasaCambio, vCantDecimales);
                 }
             } else {
                 if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
-                    vSql = insArticuloInventarioSql.SqlListadoDePrecios(valConsecutivoCompania, valNombreLineaDeProducto);
+                    vSql = insArticuloInventarioSql.SqlListadoDePrecios(valConsecutivoCompania, valNombreLineaDeProducto, vCantDecimales);
                 } else if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
-                    vSql = insArticuloInventarioSql.SqlListadoDePreciosBsD(valConsecutivoCompania, valNombreLineaDeProducto);
+                    vSql = insArticuloInventarioSql.SqlListadoDePreciosBsD(valConsecutivoCompania, valNombreLineaDeProducto, vCantDecimales);
                 }
             }
             return insListadoDePrecios.GetDt(vSql, 0);

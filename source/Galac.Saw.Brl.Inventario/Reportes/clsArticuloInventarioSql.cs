@@ -9,21 +9,22 @@ using LibGalac.Aos.Base.Report;
 namespace Galac.Saw.Brl.Inventario.Reportes {
     public class clsArticuloInventarioSql {
         #region Metodos Generados
-        public string SqlListadoDePrecios(int valConsecutivoCompania, string valNombreLineaDeProducto) {
+        public string SqlListadoDePrecios(int valConsecutivoCompania, string valNombreLineaDeProducto, int valCantidadDecimales) {
             StringBuilder vSql = new StringBuilder();
             QAdvSql insSql = new QAdvSql("");
             string vFactor = insSql.ToSqlValue(Galac.Saw.Reconv.clsUtilReconv.GetFactorDeConversion());
+            string vCantidadDecimales = LibConvert.ToStr(valCantidadDecimales);
             string vSQLWhere = "";
             vSql.AppendLine("SELECT Codigo");
             vSql.AppendLine("			, Descripcion");
             vSql.AppendLine("			, PrecioConIva");
-            vSql.AppendLine("			, ROUND(PrecioConIva * " + vFactor + ",2) AS EnBsS");
+            vSql.AppendLine("			, ROUND(PrecioConIva * " + vFactor + "," + vCantidadDecimales + ") AS EnBsS");
             vSql.AppendLine("			, PrecioConIva2");
-            vSql.AppendLine("			, ROUND(PrecioConIva2 *  " + vFactor + ",2) AS EnBsS2");
+            vSql.AppendLine("			, ROUND(PrecioConIva2 *  " + vFactor + "," + vCantidadDecimales + ") AS EnBsS2");
             vSql.AppendLine("			, PrecioConIva3");
-            vSql.AppendLine("			, ROUND(PrecioConIva3 * " + vFactor + ",2) AS EnBsS3");
+            vSql.AppendLine("			, ROUND(PrecioConIva3 * " + vFactor + "," + vCantidadDecimales + ") AS EnBsS3");
             vSql.AppendLine("			, PrecioConIva4");
-            vSql.AppendLine("			, ROUND(PrecioConIva4*" + vFactor + ",2) AS EnBsS4");
+            vSql.AppendLine("			, ROUND(PrecioConIva4*" + vFactor + "," + vCantidadDecimales + ") AS EnBsS4");
             vSql.AppendLine("			, LineaDeProducto");
             vSql.AppendLine("			 FROM ArticuloInventario");
             vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "ConsecutivoCompania", valConsecutivoCompania);
@@ -126,21 +127,22 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             return vSql.ToString();
         }
 
-        public string SqlListadoDePreciosBsD(int valConsecutivoCompania, string valNombreLineaDeProducto) {
+        public string SqlListadoDePreciosBsD(int valConsecutivoCompania, string valNombreLineaDeProducto, int valCantidadDecimales) {
             StringBuilder vSql = new StringBuilder();
             QAdvSql insSql = new QAdvSql("");
+            string vCantidadDecimales = LibConvert.ToStr(valCantidadDecimales);
             string vFactor = insSql.ToSqlValue(Galac.Saw.Reconv.clsUtilReconv.GetFactorDeConversion());
             string vSQLWhere = "";
             vSql.AppendLine("SELECT Codigo");
             vSql.AppendLine("			, Descripcion");
             vSql.AppendLine("			, PrecioConIva");
-            vSql.AppendLine("			, ROUND(PrecioConIva / " + vFactor + ",2) AS EnBsS");
+            vSql.AppendLine("			, ROUND(PrecioConIva / " + vFactor + "," + vCantidadDecimales + ") AS EnBsS");
             vSql.AppendLine("			, PrecioConIva2");
-            vSql.AppendLine("			, ROUND(PrecioConIva2 /  " + vFactor + ",2) AS EnBsS2");
+            vSql.AppendLine("			, ROUND(PrecioConIva2 /  " + vFactor + "," + vCantidadDecimales + ") AS EnBsS2");
             vSql.AppendLine("			, PrecioConIva3");
-            vSql.AppendLine("			, ROUND(PrecioConIva3 / " + vFactor + ",2) AS EnBsS3");
+            vSql.AppendLine("			, ROUND(PrecioConIva3 / " + vFactor + "," + vCantidadDecimales + ") AS EnBsS3");
             vSql.AppendLine("			, PrecioConIva4");
-            vSql.AppendLine("			, ROUND(PrecioConIva4 / " + vFactor + ",2) AS EnBsS4");
+            vSql.AppendLine("			, ROUND(PrecioConIva4 / " + vFactor + "," + vCantidadDecimales + ") AS EnBsS4");
             vSql.AppendLine("			, LineaDeProducto");
             vSql.AppendLine("			 FROM ArticuloInventario");
             vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "ConsecutivoCompania", valConsecutivoCompania);
@@ -153,23 +155,24 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             return vSql.ToString();
         }
 
-        public string SqlListadoDePreciosME(int valConsecutivoCompania, string valNombreLineaDeProducto, decimal valTasaCambio)
+        public string SqlListadoDePreciosME(int valConsecutivoCompania, string valNombreLineaDeProducto, decimal valTasaCambio, int valCantidadDecimales)
         {
             StringBuilder vSql = new StringBuilder();
             QAdvSql insSql = new QAdvSql("");
             string vFactor = insSql.ToSqlValue(Galac.Saw.Reconv.clsUtilReconv.GetFactorDeConversion());
             string vTasaCambio = insSql.ToSqlValue(valTasaCambio);
+            string vCantidadDecimales = LibConvert.ToStr(valCantidadDecimales);
             string vSQLWhere = "";
             vSql.AppendLine("SELECT ArticuloInventario.Codigo");
             vSql.AppendLine("			, ArticuloInventario.Descripcion");
-            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva * " + vTasaCambio + ",2) AS PrecioConIva");
-            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva * " + vTasaCambio + ") * " + vFactor + ",2) AS EnBsS");
-            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva2 * " + vTasaCambio + ",2) AS PrecioConIva2");
-            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva2 * " + vTasaCambio + ") *  " + vFactor + ",2) AS EnBsS2");
-            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva3 * " + vTasaCambio + ",2) AS PrecioConIva3");
-            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva3 * " + vTasaCambio + ") * " + vFactor + ",2) AS EnBsS3");
-            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva4 * " + vTasaCambio + ",2) AS PrecioConIva4");
-            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva4 * " + vTasaCambio + ") * " + vFactor + ",2) AS EnBsS4");
+            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva * " + vTasaCambio + "," + vCantidadDecimales + ") AS PrecioConIva");
+            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva * " + vTasaCambio + ") * " + vFactor + "," + vCantidadDecimales + ") AS EnBsS");
+            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva2 * " + vTasaCambio + "," + vCantidadDecimales + ") AS PrecioConIva2");
+            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva2 * " + vTasaCambio + ") *  " + vFactor + "," + vCantidadDecimales + ") AS EnBsS2");
+            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva3 * " + vTasaCambio + "," + vCantidadDecimales + ") AS PrecioConIva3");
+            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva3 * " + vTasaCambio + ") * " + vFactor + "," + vCantidadDecimales + ") AS EnBsS3");
+            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva4 * " + vTasaCambio + "," + vCantidadDecimales + ") AS PrecioConIva4");
+            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva4 * " + vTasaCambio + ") * " + vFactor + "," + vCantidadDecimales + ") AS EnBsS4");
             vSql.AppendLine("			, ArticuloInventario.LineaDeProducto");
             vSql.AppendLine("			 FROM ArticuloInventario");
             vSql.AppendLine("  INNER JOIN");
@@ -185,23 +188,24 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
             vSql.AppendLine(" ORDER BY  ArticuloInventario.LineaDeProducto, ArticuloInventario.Codigo ");
             return vSql.ToString();
         }
-        public string SqlListadoDePreciosBsDME(int valConsecutivoCompania, string valNombreLineaDeProducto, decimal valTasaCambio)
+        public string SqlListadoDePreciosBsDME(int valConsecutivoCompania, string valNombreLineaDeProducto, decimal valTasaCambio, int valCantidadDecimales)
         {
             StringBuilder vSql = new StringBuilder();
             QAdvSql insSql = new QAdvSql("");
             string vFactor = insSql.ToSqlValue(Galac.Saw.Reconv.clsUtilReconv.GetFactorDeConversion());
             string vTasaCambio = insSql.ToSqlValue(valTasaCambio);
+            string vCantidadDecimales = LibConvert.ToStr(valCantidadDecimales);
             string vSQLWhere = "";
             vSql.AppendLine("SELECT ArticuloInventario.Codigo");
             vSql.AppendLine("			, ArticuloInventario.Descripcion");
-            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva * " + vTasaCambio + ",2) AS PrecioConIva");
-            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva * " + vTasaCambio + ") / " + vFactor + ",2) AS EnBsS");
-            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva2 * " + vTasaCambio + ",2) AS PrecioConIva2");
-            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva2 * " + vTasaCambio + ") /  " + vFactor + ",2) AS EnBsS2");
-            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva3 * " + vTasaCambio + ",2) AS PrecioConIva3");
-            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva3 * " + vTasaCambio + ") / " + vFactor + ",2) AS EnBsS3");
-            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva4 * " + vTasaCambio + ",2) AS PrecioConIva4");
-            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva4 * " + vTasaCambio + ") / " + vFactor + ",2) AS EnBsS4");
+            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva * " + vTasaCambio + "," + vCantidadDecimales + ") AS PrecioConIva");
+            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva * " + vTasaCambio + ") / " + vFactor + "," + vCantidadDecimales + ") AS EnBsS");
+            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva2 * " + vTasaCambio + "," + vCantidadDecimales + ") AS PrecioConIva2");
+            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva2 * " + vTasaCambio + ") /  " + vFactor + "," + vCantidadDecimales + ") AS EnBsS2");
+            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva3 * " + vTasaCambio + "," + vCantidadDecimales + ") AS PrecioConIva3");
+            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva3 * " + vTasaCambio + ") / " + vFactor + "," + vCantidadDecimales + ") AS EnBsS3");
+            vSql.AppendLine("			, ROUND(CamposMonedaExtranjera.MePrecioConIva4 * " + vTasaCambio + "," + vCantidadDecimales + ") AS PrecioConIva4");
+            vSql.AppendLine("			, ROUND((CamposMonedaExtranjera.MePrecioConIva4 * " + vTasaCambio + ") / " + vFactor + "," + vCantidadDecimales + ") AS EnBsS4");
             vSql.AppendLine("			, ArticuloInventario.LineaDeProducto");
             vSql.AppendLine("			 FROM ArticuloInventario");
             vSql.AppendLine("  INNER JOIN");
