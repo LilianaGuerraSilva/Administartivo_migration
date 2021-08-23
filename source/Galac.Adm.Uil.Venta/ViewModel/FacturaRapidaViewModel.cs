@@ -2626,27 +2626,29 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             TotalIVA = MontoIvaAlicuota1 + MontoIvaAlicuota2 + MontoIvaAlicuota3;
             TotalBaseImponible = MontoGravableAlicuota1 + MontoGravableAlicuota2 + MontoGravableAlicuota3;
             TotalFactura = TotalMontoExento + TotalBaseImponible + TotalIVA;
-            decimal vFactorConversion = clsUtilReconv.GetFactorDeConversion();
-            if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
-                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
-                    Observaciones = "Monto Total " + LibConvert.NumToString((TotalFactura * CambioABolivares) * vFactorConversion, 2) + " Bolívares Soberanos";
-                } else {
-                    Observaciones = "Monto Total " + LibConvert.NumToString(TotalFactura * vFactorConversion, 2) + " Bolívares Soberanos";
-                }
-            } else if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
-                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
-                    Observaciones = "Monto Total " + LibConvert.NumToString((TotalFactura * CambioABolivares) / vFactorConversion, 2) + " Bolívares Digitales";
-                } else {
-                    Observaciones = "Monto Total " + LibConvert.NumToString(TotalFactura / vFactorConversion, 2) + " Bolívares Digitales";
-                }
+            TotalDeItems = DetailFacturaRapidaDetalle.Items.Sum(p => p.Cantidad);
+            if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
+                MensajeDeConversionABolivaresRM();
             } else {
                 Observaciones = "";
             }
-            TotalDeItems = DetailFacturaRapidaDetalle.Items.Sum(p => p.Cantidad);
         }
         #endregion
-
         #region Métodos Programados
+        private void MensajeDeConversionABolivaresRM() {
+            decimal vTotalRM = 0;
+            decimal vFactorConversion = clsUtilReconv.GetFactorDeConversion();
+            decimal vCambioABolivares = ((CambioABolivares == 0) ? 1 : CambioABolivares);
+            vTotalRM = LibMath.RoundToNDecimals(TotalFactura * vCambioABolivares, 2);
+            if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
+                vTotalRM = LibMath.RoundToNDecimals(vTotalRM * vFactorConversion, 2);
+                Observaciones = "Monto Total " + LibConvert.NumToString(vTotalRM, 2) + " Bolívares Soberanos";
+            } else if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
+                vTotalRM = LibMath.RoundToNDecimals(vTotalRM / vFactorConversion, 2);
+                Observaciones = "Monto Total " + LibConvert.NumToString(vTotalRM, 2) + " Bolívares Digitales";
+            }
+        }
+
         private bool SumarArticuloExistenteEnGrid() {
             bool vResult = false;
             foreach (var item in DetailFacturaRapidaDetalle.Items) {
@@ -3439,4 +3441,4 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             LibMessages.MessageBox.Warning(this, vMensajeAdvertencia.ToString(), "Cargar Factura en Espera");
         }
     } //End of class FacturacionRapidaViewModel
-} //End of namespace Galac.Adm.Uil.Venta
+}//End of namespace Galac.Adm.Uil.Venta

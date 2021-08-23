@@ -37,7 +37,7 @@ namespace Galac.Saw.Brl.Inventario.Reportes {
         System.Data.DataTable IArticuloInventarioInformes.BuildListadoDePrecios(int valConsecutivoCompania, string valNombreLineaDeProducto, eMonedaPresentacionDeReporteRM valTipoMonedaReporte, decimal valTasaCambio) {
             string vSql = "";
             int vCantDecimales = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
-            if (LibString.IsNullOrEmpty(valNombreLineaDeProducto,true)) {
+            if (LibString.IsNullOrEmpty(valNombreLineaDeProducto, true)) {
                 valNombreLineaDeProducto = string.Empty;
             }
             clsArticuloInventarioSql insArticuloInventarioSql = new clsArticuloInventarioSql();
