@@ -34,7 +34,6 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
                     AvailableReports.Add(new clsListadoDeArticulosBalanzaViewModel());
                 }
                 AvailableReports.Add(new clsValoracionDeInventarioViewModel());
-                AvailableReports.Add(new clsListadoDePreciosViewModel());
             }
             Title = "Informes de Artículo Inventario";
         }
