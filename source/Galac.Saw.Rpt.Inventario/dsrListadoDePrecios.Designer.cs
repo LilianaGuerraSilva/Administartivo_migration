@@ -309,7 +309,7 @@ namespace Galac.Saw.Rpt.Inventario {
             // lblCodigo
             // 
             this.lblCodigo.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblCodigo.Height = 0.15625F;
+            this.lblCodigo.Height = 0.31225F;
             this.lblCodigo.HyperLink = null;
             this.lblCodigo.Left = 0F;
             this.lblCodigo.Name = "lblCodigo";
