@@ -2636,6 +2636,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion
         #region Métodos Programados
         private void MensajeDeConversionABolivaresRM() {
+            if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "MostrarMtoTotalBsFEnObservaciones")) {
+                Observaciones = "";
+                return;
+            }
             decimal vTotalRM = 0;
             decimal vFactorConversion = clsUtilReconv.GetFactorDeConversion();
             decimal vCambioABolivares = ((CambioABolivares == 0) ? 1 : CambioABolivares);
