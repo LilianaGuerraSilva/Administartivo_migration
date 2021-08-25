@@ -56,7 +56,7 @@ namespace Galac.Saw.Uil.Inventario.Reportes {
         private ILibRpt ConfigReportListadoDePrecios(clsListadoDePreciosViewModel valViewModel) {
             ILibRpt vResult = null;
             if(valViewModel != null) {
-                vResult = new Galac.Saw.Rpt.Inventario.clsListadoDePrecios(PrintingDevice,ExportFileFormat,AppMemoryInfo,Mfc,valViewModel.NombreLineaDeProducto) {
+                vResult = new Galac.Saw.Rpt.Inventario.clsListadoDePrecios(PrintingDevice,ExportFileFormat,AppMemoryInfo,Mfc,valViewModel.NombreLineaDeProducto,valViewModel.TipoDeMonedaDelReporte ,valViewModel.TasaDeCambio) {
                     Worker = Manager
                 };
             }

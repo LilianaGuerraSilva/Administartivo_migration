@@ -167,7 +167,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         #region Constantes
         const string MinVersionApi = "5, 4, 1, 0";
-        const string MaxVersionApi = "5, 4, 1, 30";
+        const string MaxVersionApi = "5, 4, 1, 32";
         const string DllApiName = @"BemaFI32.dll";               
         const byte _EnterosMontosLargos = 10;
         const byte _EnterosCantidad = 4;
@@ -547,7 +547,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vResult = false;
             try {
                 AbrirConexion();
-                if(AbrirNotaDeCredito(vRazonSocial,vRif,vNumeroComprobanteFiscal,vSerialMaquina,vFecha,vHora)) {
+                CancelarDocumentoFiscalEnImpresion(false);
+                if (AbrirNotaDeCredito(vRazonSocial,vRif,vNumeroComprobanteFiscal,vSerialMaquina,vFecha,vHora)) {
                     vResult = ImprimirTodosLosArticulos(valDocumentoFiscal);
                     vResult &= CerrarComprobanteFiscal(valDocumentoFiscal,true);
                 }
@@ -568,6 +569,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vResult = false;
             try {
                 AbrirConexion();
+                CancelarDocumentoFiscalEnImpresion(false);
                 if(AbrirComprobanteFiscal(vRazonSocial,vRif,vDireccion)) {
                     vResult = ImprimirTodosLosArticulos(valDocumentoFiscal);
                     vResult &= CerrarComprobanteFiscal(valDocumentoFiscal);
@@ -671,8 +673,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vTotalMonedaExtranjera = "";
                     }
                     if(LibText.Len(vObservaciones) > 0) {
+                        if (LibText.S1IsInS2("Total", vObservaciones)) {
+                            vObservaciones = LibText.Replace(vObservaciones, "Total","Tot..");
+                        }
                         vTexto = (LibString.IsNullOrEmpty(vTexto) ? "" : vTexto + "\r\n");
-                        vTexto += LibText.Left("Observaciones:" + vObservaciones,Math.Abs(320 - vCaracteresRestantes));
+                        vTexto += LibText.Left("Obs.:" + vObservaciones,Math.Abs(320 - vCaracteresRestantes));
                         vCaracteresRestantes = LibString.Len(vTexto) - vCaracteresRestantes;
                     } else {
                         vCaracteresRestantes = 1;

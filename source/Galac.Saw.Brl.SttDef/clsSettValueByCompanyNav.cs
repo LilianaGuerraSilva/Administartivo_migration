@@ -379,7 +379,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.UsaCamposExtrasEnRenglonFacturaAsBool = false;
             insEntidad.MaximoDescuentoEnFactura = 100;
             insEntidad.PermitirDobleDescuentoEnFacturaAsBool = false;
-            insEntidad.MostrarMtoTotalBsFEnObservacionesAsBool = false;
+            insEntidad.MostrarMtoTotalBsFEnObservacionesAsBool = true;
             insEntidad.UsaCobroDirectoEnMultimonedaAsBool = false;
             insEntidad.SeMuestraTotalEnDivisasAsBool = false;
             insEntidad.UsaListaDePrecioEnMonedaExtranjeraAsBool = false;
@@ -406,7 +406,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.PermitirDobleDescuentoEnFacturaAsBool), "PermitirDobleDescuentoEnFactura", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.MaximoDescuentoEnFactura), "MaximoDescuentoEnFactura", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.BloquearEmisionAsDB), "BloquearEmision", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.MostrarMtoTotalBsFEnObservacionesAsBool), "MostrarMtoTotalBsFEnObservaciones", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.MostrarMtoTotalBsFEnObservacionesAsBool), "MostrarMtoTotalBsFEnObservaciones", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.SeMuestraTotalEnDivisasAsBool), "SeMuestraTotalEnDivisas", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaListaDePrecioEnMonedaExtranjeraAsBool), "UsaListaDePrecioEnMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool), "UsaListaDePrecioEnMonedaExtranjeraCXC", valConsecutivoCompania));
@@ -2219,8 +2219,5 @@ namespace Galac.Saw.Brl.SttDef {
                        }).FirstOrDefault().Cantidad;
             return vResult;
         }
-
     } //End of class clsSettValueByCompanyNav
-
 } //End of namespace Galac.Saw.Brl.PrdStt
-
