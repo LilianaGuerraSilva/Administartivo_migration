@@ -69,4 +69,4 @@
 [submodule "binAdministrativoAos"]
 	path = binAdministrativoAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
-	branch = feature\\AdaptacionCotizacionGalac360
+	branch = feature\\AdaptacionCotizacionGalac360\\bin
