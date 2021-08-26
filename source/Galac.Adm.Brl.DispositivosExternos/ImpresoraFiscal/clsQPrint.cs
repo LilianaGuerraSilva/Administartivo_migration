@@ -420,7 +420,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vCMD += FormatoParaDatosDelCliente("Telefono: " + valTelefono);
                 }
                 if (!LibString.IsNullOrEmpty(valObservaciones)) {
-                    vCMD += FormatoParaDatosDelCliente("Observaciones: " + valObservaciones);
+                    vCMD += FormatoParaDatosDelCliente("Obs.: " + valObservaciones);
                 }
                 vRepuesta = SendCMD(vCMD, ref vMensaje);
                 vEstado = CheckRequest(vRepuesta, ref vMensaje);

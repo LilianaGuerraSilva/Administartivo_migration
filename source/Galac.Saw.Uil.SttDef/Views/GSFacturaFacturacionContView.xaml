@@ -508,7 +508,7 @@
                     Name="lblMostrarMtoTotalBsFEnObservaciones"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Mostrar Total En Bolívares Fuertes"
+                    Content="{Binding Path=PromptMostrarReconversionEnObservacion}"
                     Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkMostrarMtoTotalBsFEnObservaciones"

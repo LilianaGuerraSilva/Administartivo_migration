@@ -27,7 +27,7 @@ namespace Galac.Saw.Wrp.Reconv {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        void IWrpReconvVb.InitializeComponent(string vfwLogin,string vfwPassword,string vfwPath) {
+        void IWrpReconvVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
@@ -39,7 +39,7 @@ namespace Galac.Saw.Wrp.Reconv {
             }
         }
 
-        void IWrpReconvVb.InitializeDefProg(string vfwProgramInitials,string vfwProgramVersion,string vfwDbVersion,string vfwStrDateOfVersion,string vfwStrHourOfVersion,string vfwValueSpecialCharacteristic,string vfwCountry,string vfwCMTO,bool vfwUsePASOnLine) {
+        void IWrpReconvVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
                 LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
@@ -68,9 +68,9 @@ namespace Galac.Saw.Wrp.Reconv {
         string IWrpReconvVb.GetFechaReconversion() {
             string vFechaReconversion = "";
             try {
-                vFechaReconversion = LibConvert.ToStr(Galac.Saw.Reconv.clsUtilReconv.GetFechaReconversion());               
+                vFechaReconversion = LibConvert.ToStr(Galac.Saw.Reconv.clsUtilReconv.GetFechaReconversion());
             } catch (GalacException gEx) {
-                LibExceptionDisplay.Show(gEx,null,Title + " - " + "FechaReconversion");
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + "FechaReconversion");
             } catch (Exception vEx) {
                 if (vEx is AccessViolationException) {
                     throw;
@@ -83,19 +83,19 @@ namespace Galac.Saw.Wrp.Reconv {
         string IWrpReconvVb.GetFactorReconversion() {
             string vFactorReconversion = "";
             try {
-                vFactorReconversion = LibConvert.ToStr(Galac.Saw.Reconv.clsUtilReconv.GetFactorDeConversion());                               
-            } catch(GalacException gEx) {
-                LibExceptionDisplay.Show(gEx,null,Title + " - " + "FactorReconversion");
-            } catch(Exception vEx) {
-                if(vEx is AccessViolationException) {
+                vFactorReconversion = LibConvert.ToStr(Galac.Saw.Reconv.clsUtilReconv.GetFactorDeConversion());
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + "FactorReconversion");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
                 LibExceptionDisplay.Show(vEx);
             }
             return vFactorReconversion;
-        }        
+        }
 
-        private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {      	
+        private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {
             LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(valCurrentMfc));
             LibGlobalValues.Instance.GetMfcInfo().Add("Periodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("RecordName", "ConsecutivoPeriodo"));
@@ -105,9 +105,22 @@ namespace Galac.Saw.Wrp.Reconv {
         void RegisterDefaultTypesIfMissing() {
             LibGalac.Aos.Uil.LibMessagesHandler.RegisterMessages();
         }
+        string IWrpReconvVb.GetFechaDisposicionesTransitorias() {
+            string vFechaDisposicionesTransitorias = "";
+            try {
+                vFechaDisposicionesTransitorias = LibConvert.ToStr(Galac.Saw.Reconv.clsUtilReconv.GetFechaDisposicionesTransitorias());
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + "FechaDisposicionesTransitorias");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+            return vFechaDisposicionesTransitorias;
+        }
+
         #endregion //Metodos Generados
-
     } //End of class wrpReconv
-
 } //End of namespace Galac.Saw.Wrp.Reconv
 

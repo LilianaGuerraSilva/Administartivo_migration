@@ -212,4 +212,12 @@ namespace Galac.Saw.Ccl.Inventario {
         Anulada
 	}
 
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eMonedaPresentacionDeReporteRM {
+        [LibEnumDescription("En Bolivares")]
+        EnBolivares = 0,
+        [LibEnumDescription("En Bolivares a la Tasa del Dia")]
+        EnMonedaExtranjera
+    }
+
 } //End of namespace namespace Galac.Saw.Ccl.Inventario

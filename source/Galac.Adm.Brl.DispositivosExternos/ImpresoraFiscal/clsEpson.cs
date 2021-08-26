@@ -545,7 +545,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 if (!vObservaciones.Equals(string.Empty)) {
                     PFTfiscal(LineaSeparador());
-                    vTexto = "Observaciones: " + LibText.Trim(LibText.SubString(vObservaciones, 0, 25));
+                    vTexto = "Obs.: " + LibText.Trim(LibText.SubString(vObservaciones, 0, 25));
                     PFTfiscal(vTexto);
                     vEstado &= CheckRequest(vResult, ref vMensaje);
                     vTexto = LibText.Trim(LibText.SubString(vObservaciones, 25, 40));
