@@ -362,6 +362,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnabledUsaMonedaExtranjera {
+            get {
+                return IsEnabled && !UsaMonedaExtranjera;
+            }
+        }
         #endregion //Metodos Generados
 
         #region Validations

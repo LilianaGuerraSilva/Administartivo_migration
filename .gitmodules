@@ -22,10 +22,6 @@
 	path = source/Lib/VbaLib
 	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
 	branch = release-V2001
-[submodule "source/Contabilidadvb"]
-	path = source/Contabilidadvb
-	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
-	branch = release/SawV19.2.0.0
 [submodule "source/Axi"]
 	path = source/Axi
 	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
@@ -33,10 +29,6 @@
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://gitlab.com/galac-software-enterprise/desa/contabiwrp.git
-	branch = release/SawV19.2.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
 	branch = release/SawV19.2.0.0
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
@@ -58,15 +50,23 @@
 	path = bin/binEsqNiif
 	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
 	branch = release/SawV19.2.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
-	branch = release/SawV19.2.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release/SawV19.2.0.0
 [submodule "bin/binAdministrativoAos"]
 	path = bin/binAdministrativoAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
 	branch = release/V19.2.0.0
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
+	branch = release/V27.4.0.0
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
+	branch = release-V2107
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
+	branch = release-V2.52.4.1
+[submodule "source/Contabilidadvb"]
+	path = source/Contabilidadvb
+	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
+	branch = release/IVA-V27.4

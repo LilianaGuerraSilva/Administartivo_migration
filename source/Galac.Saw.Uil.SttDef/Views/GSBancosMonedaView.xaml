@@ -78,7 +78,7 @@
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 IsChecked="{Binding Path=UsaMonedaExtranjera}"
-                IsEnabled="{Binding Path=IsEnabled}"
+                IsEnabled="{Binding Path=IsEnabledUsaMonedaExtranjera}"
                 Style="{StaticResource CheckBoxStyle}" />
             <Label
                 Name="lblSolicitarIngresoDeTasaDeCambioAlEmitir"
