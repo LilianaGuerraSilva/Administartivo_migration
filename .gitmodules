@@ -66,7 +66,3 @@
 	path = bin/binContabilidadVb
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
 	branch = release/SawV19.2.0.0
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
-	branch = feature\\AdaptacionCotizacionGalac360
