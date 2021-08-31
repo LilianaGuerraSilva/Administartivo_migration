@@ -44,7 +44,6 @@ namespace Galac.Adm.Dal.Venta {
         private StringBuilder ParametrosActualizacion(FacturaRapida valRecord, eAccionSR valAction) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            int vGeneradoPor = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "GeneradoPor");
             vParams.AddReturn();
             vParams.AddInDateFormat("DateFormat");
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
@@ -150,7 +149,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("CodigoMonedaDeCobro", valRecord.CodigoMonedaDeCobro, 4);
             vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInInteger("NroDiasMantenerCambioAMonedaLocal",valRecord.NumeroDiasMantenerCambioAMonedaLocal);
-            vParams.AddInEnum("GeneradoPor", LibConvert.EnumToDbValue(vGeneradoPor));
+            vParams.AddInEnum("GeneradoPor", 0);
             vParams.AddInDateTime("FechaLimiteCambioAMonedaLocal",LibDate.Today());
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
