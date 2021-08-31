@@ -104,6 +104,7 @@ Enum enum_ComprobanteGeneradoPor
    eCG_RENDICION
    eCG_REPOSICION
    eCG_ANULACION_REPOSICION
+   eCG_GANANCIA_PERDIDA_CAMBIARIA = 80
 End Enum
 
 Enum enum_NaturalezaDeLaCuenta
@@ -458,6 +459,12 @@ Enum enum_TipoDeMoneda
    eTM_Otras
 End Enum
 
+Enum enum_GenerarComprobanteDeDiferenciaCambiaria
+   eGC_Mensual = 0
+   eGc_Anual
+   eGC_Nunca
+End Enum
+
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsEnumContabilidad"
 End Function
@@ -636,6 +643,7 @@ Public Function enumComprobanteGeneradoPorToString(comprobanteGeneradoPor As enu
       Case eCG_RENDICION: enumComprobanteGeneradoPorToString = "Rendición"
       Case eCG_REPOSICION: enumComprobanteGeneradoPorToString = "Reposición de Caja Chica"
       Case eCG_ANULACION_REPOSICION: enumComprobanteGeneradoPorToString = "Anulación de Reposición de Caja Chica"
+      Case eCG_GANANCIA_PERDIDA_CAMBIARIA: enumComprobanteGeneradoPorToString = "Ganancia/Pérdida Cambiaria"
       Case Else: enumComprobanteGeneradoPorToString = enumComprobanteGeneradoPorToString(0)
    End Select
 End Function
@@ -651,7 +659,7 @@ Public Function strComprobanteGeneradoPorToNum(ByVal comprobanteGeneradoPor As S
    Dim mEnum As enum_ComprobanteGeneradoPor
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eCG_USUARIO To eCG_ANULACION_REPOSICION
+   For mEnum = eCG_USUARIO To eCG_GANANCIA_PERDIDA_CAMBIARIA
    If UCase(comprobanteGeneradoPor) = UCase(enumComprobanteGeneradoPorToString(mEnum)) Then
       strComprobanteGeneradoPorToNum = nCount
       GoTo h_EXIT
@@ -739,6 +747,8 @@ A_Partir_De_Aqui:
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_REPOSICION)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_ANULACION_REPOSICION)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_GANANCIA_PERDIDA_CAMBIARIA)
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
 End Sub
@@ -775,8 +785,8 @@ Public Sub FillComboBoxWithComprobanteGeneradoPorSinComprobanteDeApertura(ByRef 
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_CONCILIACION)
    If gGlobalization.fEsCodigoVenezuela Then
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_RECONVERSION)
+   	nCount = nCount + 1
+   	varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_RECONVERSION)
    End If
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_CXC)
@@ -797,8 +807,8 @@ Public Sub FillComboBoxWithComprobanteGeneradoPorSinComprobanteDeApertura(ByRef 
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_RENDICION)
    If gGlobalization.fEsCodigoVenezuela Then
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_INVENTARIO)
+   	nCount = nCount + 1
+   	varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_INVENTARIO)
    End If
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_ANULACION_COBRANZA)
@@ -814,6 +824,8 @@ Public Sub FillComboBoxWithComprobanteGeneradoPorSinComprobanteDeApertura(ByRef 
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_REPOSICION)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_ANULACION_REPOSICION)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_GANANCIA_PERDIDA_CAMBIARIA)
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
 End Sub
@@ -3593,3 +3605,51 @@ h_EXIT:
    Exit Function
 End Function
 
+Public Function enumGenerarComprobanteDeDiferenciaCambiariaToString(GeneraComprobanteDiferenciaCambiaria As enum_GenerarComprobanteDeDiferenciaCambiaria) As String
+   Select Case GeneraComprobanteDiferenciaCambiaria
+      Case eGC_Mensual: enumGenerarComprobanteDeDiferenciaCambiariaToString = "Mensual"
+      Case eGc_Anual: enumGenerarComprobanteDeDiferenciaCambiariaToString = "Anual"
+      Case eGC_Nunca: enumGenerarComprobanteDeDiferenciaCambiariaToString = "Nunca"
+      Case Else
+         enumGenerarComprobanteDeDiferenciaCambiariaToString = enumGenerarComprobanteDeDiferenciaCambiariaToString(0)
+   End Select
+End Function
+
+Public Function strGenerarComprobanteDeDiferenciaCambiariaToNum(ByVal GenerarComprobanteDeDiferenciaCambiaria As String, _
+   Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_GenerarComprobanteDeDiferenciaCambiaria
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eGC_Mensual To eGC_Nunca
+   If UCase(GenerarComprobanteDeDiferenciaCambiaria) = UCase(enumGenerarComprobanteDeDiferenciaCambiariaToString(mEnum)) Then
+      strGenerarComprobanteDeDiferenciaCambiariaToNum = nCount
+      GoTo h_EXIT
+   End If
+   nCount = nCount + 1
+   Next
+   strGenerarComprobanteDeDiferenciaCambiariaToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & GenerarComprobanteDeDiferenciaCambiaria & " no existe en tipo enumerativo GenerarComprobanteDeDiferenciaCambiaria"
+   End If
+h_EXIT:
+   Exit Function
+End Function
+
+Public Sub FillComboBoxWithGenerarComprobanteDeDiferenciaCambiaria(ByRef varComboBox As Object, Optional action As AccionSobreRecord = Abrir)
+   Dim nCount As Integer
+   nCount = 0
+   If action = Buscar Then
+      varComboBox.Text = gDefGen.getSearchAllComboBox()
+      varComboBox.List(nCount) = gDefGen.getSearchAllComboBox()
+      nCount = nCount + 1
+   Else
+      varComboBox.Text = enumGenerarComprobanteDeDiferenciaCambiariaToString(enum_GenerarComprobanteDeDiferenciaCambiaria.eGC_Mensual)
+   End If
+   varComboBox.List(nCount) = enumGenerarComprobanteDeDiferenciaCambiariaToString(enum_GenerarComprobanteDeDiferenciaCambiaria.eGC_Mensual)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumGenerarComprobanteDeDiferenciaCambiariaToString(enum_GenerarComprobanteDeDiferenciaCambiaria.eGc_Anual)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumGenerarComprobanteDeDiferenciaCambiariaToString(enum_GenerarComprobanteDeDiferenciaCambiaria.eGC_Nunca)
+   varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
+   varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
+End Sub
