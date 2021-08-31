@@ -142,6 +142,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("SeContabilizoIvaDiferido" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapSeContabil NOT NULL, ");
             SQL.AppendLine("AplicaDecretoIvaEspecial" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapAplicaDecr NOT NULL, ");
             SQL.AppendLine("EsGeneradaPorPuntoDeVenta" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapEsGenerada NOT NULL, ");
+            SQL.AppendLine("GeneradoPor" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapGeneradoPo NOT NULL, ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
