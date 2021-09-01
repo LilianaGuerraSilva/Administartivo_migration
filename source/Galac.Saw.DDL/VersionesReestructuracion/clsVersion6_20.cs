@@ -40,7 +40,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             if (AddColumnString("dbo.Cuenta", "CodigoMoneda", 4, "CONSTRAINT nnCodigoMoneda NOT NULL", "VES")) {
                 AddForeignKey("dbo.Moneda", "dbo.Cuenta", new string[] { "Codigo" }, new string[] { "CodigoMoneda" }, false);
             }
-            AddColumnIfNotExist("dbo.ASIENTO", "EsAsientoDiferenciaCambiaria", "bit", "CONSTRAINT nnEsAsientoDiferenciaCambiaria NOT NULL", "0"); 
+            AddColumnIfNotExist("dbo.ASIENTO", "EsAsientoDiferenciaCambiaria", "bit", "CONSTRAINT nnEsAsientoDiferenciaCambiaria NOT NULL", "0");
             AddColumnCurrency("dbo.ASIENTO", "TasaDeCambio", "", 0);
             AddColumnBoolean("Contab.ParametrosConciliacion", "UsaMonedaExtranjera", "CONSTRAINT nnParUsaMonedaxtranjera NOT NULL", false);
             AddColumnString("dbo.Periodo", "GananciaPerdidaCambiaria", 30, "", "");
@@ -49,16 +49,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         private void AgregarTipoDeComprobante() {
             StringBuilder vSql = new StringBuilder();
-            QAdvSql insSql = new QAdvSql("");
-            vSql.AppendLine("SET DATEFORMAT DMY ");
-            vSql.AppendLine("IF NOT EXISTS (SELECT * FROM Contab.TipoDeComprobante WHERE Codigo='9Z' AND Nombre = 'Ganancia/Pérdida Cambiaria')");
-            vSql.AppendLine("BEGIN");
-            vSql.AppendLine("INSERT INTO Contab.TipoDeComprobante(Codigo,Nombre,NombreOperador,FechaUltimaModificacion,fldOrigen)");
-            vSql.AppendLine("VALUES ('9Z','Ganancia/Pérdida Cambiaria','JEFE'," + insSql.ToSqlValue(LibDate.Today()) + ",'0')");
-            vSql.AppendLine("END");
+            QAdvSql insSql = new QAdvSql("");            
+            vSql.AppendLine("IF NOT EXISTS (SELECT * FROM Contab.TipoDeComprobante WHERE Codigo = " + InsSql.ToSqlValue("9F") + " OR Nombre = " + InsSql.ToSqlValue("Ganancia/Pérdida Cambiaria") );
+            vSql.AppendLine(") INSERT INTO Contab.TipoDeComprobante");
+            vSql.AppendLine("(Codigo,Nombre,NombreOperador,FechaUltimaModificacion,fldOrigen) VALUES (");
+            vSql.AppendLine(InsSql.ToSqlValue("9Z") + ", " + InsSql.ToSqlValue("Ganancia/Pérdida Cambiaria") + "," + InsSql.ToSqlValue(((CustomIdentity)Thread.CurrentPrincipal.Identity).Login) + "," + InsSql.ToSqlValue(LibDate.Today()) + "," + InsSql.ToSqlValue("1") + ")");
             Execute(vSql.ToString(), 0);
         }
-
 
         private void AgregaCamposTablaCuentaTemp() {
             AddColumnBoolean("dbo.tblCuentaTemp", "EsMonedaExtranjera", "CONSTRAINT nnEsMonedaExtranjera NOT NULL", false);
@@ -72,11 +69,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine("SET tbParametrosConciliacion.UsaMonedaExtranjera = tbSettValueByCompany.Value ");
             vSql.AppendLine("FROM Contab.ParametrosConciliacion tbParametrosConciliacion ");
             vSql.AppendLine("INNER JOIN Comun.SettValueByCompany tbSettValueByCompany ON ");
-            vSql.AppendLine("tbParametrosConciliacion.ConsecutivoCompania =tbSettValueByCompany.ConsecutivoCompania ");
+            vSql.AppendLine("tbParametrosConciliacion.ConsecutivoCompania = tbSettValueByCompany.ConsecutivoCompania ");
             vSql.AppendLine("INNER JOIN COMPANIA tbCOMPANIA ON ");
             vSql.AppendLine("tbParametrosConciliacion.ConsecutivoCompania = tbCOMPANIA.ConsecutivoCompania ");
-            vSql.AppendLine("WHERE tbSettValueByCompany.NameSettDefinition = 'UsaMonedaExtranjera' ");
-            vSql.AppendLine("AND tbCOMPANIA.UsaModuloDeContabilidad=" + insSql.ToSqlValue(true));
+            vSql.AppendLine("WHERE tbSettValueByCompany.NameSettDefinition = 'UsaMonedaExtranjera' ");            
             Execute(vSql.ToString(), 0);
         }
     }
