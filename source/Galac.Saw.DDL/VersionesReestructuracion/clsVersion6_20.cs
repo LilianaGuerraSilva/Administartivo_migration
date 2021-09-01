@@ -22,6 +22,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             CrearNuevosCamposWinCont();
             AgregarTipoDeComprobante();
             ActualizarParametroUsaMEEnParametrosConciliacion();
+            AgregaCamposTablaCuentaTemp();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -35,15 +36,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void CrearNuevosCamposWinCont() {
-            AddColumnBoolean("Cuenta", "EsMonedaExtranjera", "", false);            
-            if (AddColumnString("Cuenta", "CodigoMoneda", 4, "", "VES")) {
-                AddForeignKey("Moneda", "Cuenta", new string[] { "Codigo" }, new string[] { "CodigoMoneda" }, false);
+            AddColumnBoolean("dbo.Cuenta", "EsMonedaExtranjera", "", false);
+            if (AddColumnString("dbo.Cuenta", "CodigoMoneda", 4, "CONSTRAINT nnCodigoMoneda NOT NULL", "VES")) {
+                AddForeignKey("dbo.Moneda", "dbo.Cuenta", new string[] { "Codigo" }, new string[] { "CodigoMoneda" }, false);
             }
-            AddColumnBoolean("Asiento", "EsAsientoDiferenciaCambiaria", "", false);
-            AddColumnCurrency("Asiento", "TasaDeCambio", "", 0);
-            AddColumnBoolean("Contab.ParametrosConciliacion", "UsaMonedaExtranjera", "", false);
-            AddColumnString("Periodo", "GananciaPerdidaCambiaria", 30, "", "");
-            AddColumnEnumerative("Periodo", "GenerarComprobanteDeDiferenciaCambiaria", "", 1); //DV=Anual=1
+            AddColumnIfNotExist("dbo.ASIENTO", "EsAsientoDiferenciaCambiaria", "bit", "CONSTRAINT nnEsAsientoDiferenciaCambiaria NOT NULL", "0"); 
+            AddColumnCurrency("dbo.ASIENTO", "TasaDeCambio", "", 0);
+            AddColumnBoolean("Contab.ParametrosConciliacion", "UsaMonedaExtranjera", "CONSTRAINT nnParUsaMonedaxtranjera NOT NULL", false);
+            AddColumnString("dbo.Periodo", "GananciaPerdidaCambiaria", 30, "", "");
+            AddColumnEnumerative("dbo.Periodo", "GenerarComprobanteDeDiferenciaCambiaria", "", 1); //DV=Anual=1
         }
 
         private void AgregarTipoDeComprobante() {
@@ -56,6 +57,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine("VALUES ('9Z','Ganancia/Pérdida Cambiaria','JEFE'," + insSql.ToSqlValue(LibDate.Today()) + ",'0')");
             vSql.AppendLine("END");
             Execute(vSql.ToString(), 0);
+        }
+
+
+        private void AgregaCamposTablaCuentaTemp() {
+            AddColumnBoolean("dbo.tblCuentaTemp", "EsMonedaExtranjera", "CONSTRAINT nnEsMonedaExtranjera NOT NULL", false);
+            AddColumnString("dbo.tblCuentaTemp", "CodigoMoneda", 4, "CONSTRAINT nnCodigoMoneda NOT NULL", "VES");
         }
 
         private void ActualizarParametroUsaMEEnParametrosConciliacion() {
