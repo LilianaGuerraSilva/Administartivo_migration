@@ -14,6 +14,7 @@ using LibGalac.Aos.Uil;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Galac.Saw.Reconv;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class VerificadorDePreciosViewModel : LibGenericViewModel, ILibInputViewModel {
@@ -35,6 +36,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private const string ImpuestoPropertyName = "Impuesto";
         private const string CodigoMonedaDivisaPropertyName = "CodigoMonedaDivisa";
         private const string UsaMonedaExtranjeraPropertyName = "UsaMonedaExtranjera";
+        private const string PrecioSinIVAReexpresadoPropertyName = "PrecioSinIVAReexpresado";
+        private const string PrecioConIVAReexpresadoPropertyName = "PrecioConIVAReexpresado";
+        private const string ImpuestoReexpresadoPropertyName = "ImpuestoReexpresado";
+        private const string PromtPrecioConIVAPropertyName = "PromtPrecioConIVA";
+        private const string PromtPrecioSinIVAPropertyName = "PromtPrecioSinIVA";
+        private const string PromtImpuestoPropertyName = "PromtImpuesto";
 
         #endregion
 
@@ -50,7 +57,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private eTipoDePrecioAMostrarEnVerificador _TipoDePrecioAMostrarEnVerificador = (eTipoDePrecioAMostrarEnVerificador)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "TipoDePrecioAMostrarEnVerificador");
         private decimal _PrecioSinIVADivisa;
         private decimal _PrecioConIVADivisa;
-        private string _CodigoMonedaDivisa; 
+        private string _CodigoMonedaDivisa;
         private string _SimboloMonedaDivisa;
         private decimal _Tasa;
         private decimal _Impuesto;
@@ -61,6 +68,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private decimal _ImpuestoDivisa;
         private FkMonedaViewModel _ConexionMonedaDivisa = null;
         private bool _UsaMonedaExtranjera;
+        private decimal _PrecioSinIVAReexpresado;
+        private decimal _PrecioConIVAReexpresado;
+        private decimal _ImpuestoReexpresado;
+        private string _PromtPrecioConIVA;
+        private string _PromtPrecioSinIVA;
+        private string _PromtImpuesto;
         #endregion
 
         #region Propiedades
@@ -210,7 +223,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_PrecioSinIVA != value) {
                     _PrecioSinIVA = value;
-                    RaisePropertyChanged(PrecioSinIVAPropertyName);
+                    RaisePropertyChanged(PrecioSinIVAPropertyName);                    
+                    if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
+                        PrecioSinIVAReexpresado = ReexpresarRM(PrecioSinIVA);
+                        PromtPrecioSinIVA = LibConvert.NumToString(PrecioSinIVA, 2) + "   (" + LibConvert.NumToString(PrecioSinIVAReexpresado, 2) + ")";
+                    } else {
+                        PromtPrecioSinIVA = LibConvert.NumToString(PrecioSinIVA, 2);
+                    }
                 }
             }
         }
@@ -220,7 +239,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_PrecioConIVA != value) {
                     _PrecioConIVA = value;
-                    RaisePropertyChanged(PrecioConIVAPropertyName);
+                    RaisePropertyChanged(PrecioConIVAPropertyName);                    
+                    if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
+                        PrecioConIVAReexpresado = ReexpresarRM(PrecioConIVA);
+                        PromtPrecioConIVA = LibConvert.NumToString(PrecioConIVA, 2) + "   (" + LibConvert.NumToString(PrecioConIVAReexpresado, 2) + ")";
+                    } else {
+                        PromtPrecioConIVA = LibConvert.NumToString(PrecioConIVA, 2);
+                    }
                 }
             }
         }
@@ -230,7 +255,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_Impuesto != value) {
                     _Impuesto = value;
-                    RaisePropertyChanged(ImpuestoPropertyName);
+                    RaisePropertyChanged(ImpuestoPropertyName);                    
+                    if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
+                        ImpuestoReexpresado = ReexpresarRM(Impuesto);
+                        PromtImpuesto = LibConvert.NumToString(Impuesto, 2) + "   (" + LibConvert.NumToString(ImpuestoReexpresado, 2) + ")";
+                    } else {
+                        PromtImpuesto = LibConvert.NumToString(Impuesto, 2);
+                    }
                 }
             }
         }
@@ -263,6 +294,65 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             get { return UsaMonedaExtranjera && UsaMostrarPreciosEnDivisa; }
         }
 
+        public decimal PrecioSinIVAReexpresado {
+            get { return _PrecioSinIVAReexpresado; }
+            set {
+                if (_PrecioSinIVAReexpresado != value) {
+                    _PrecioSinIVAReexpresado = value;
+                    RaisePropertyChanged(PrecioSinIVAReexpresadoPropertyName);
+                }
+            }
+        }
+
+        public decimal PrecioConIVAReexpresado {
+            get { return _PrecioConIVAReexpresado; }
+            set {
+                if (_PrecioConIVAReexpresado != value) {
+                    _PrecioConIVAReexpresado = value;
+                    RaisePropertyChanged(PrecioConIVAReexpresadoPropertyName);
+                }
+            }
+        }
+
+        public decimal ImpuestoReexpresado {
+            get { return _ImpuestoReexpresado; }
+            set {
+                if (_ImpuestoReexpresado != value) {
+                    _ImpuestoReexpresado = value;
+                    RaisePropertyChanged(ImpuestoReexpresadoPropertyName);
+                }
+            }
+        }
+
+        public string PromtPrecioConIVA {
+            get { return _PromtPrecioConIVA; }
+            set {
+                if (_PromtPrecioConIVA != value) {
+                    _PromtPrecioConIVA = value;
+                    RaisePropertyChanged(PromtPrecioConIVAPropertyName);
+                }
+            }
+        }
+
+        public string PromtPrecioSinIVA {
+            get { return _PromtPrecioSinIVA; }
+            set {
+                if (_PromtPrecioSinIVA != value) {
+                    _PromtPrecioSinIVA = value;
+                    RaisePropertyChanged(PromtPrecioSinIVAPropertyName);
+                }
+            }
+        }
+
+        public string PromtImpuesto {
+            get { return _PromtImpuesto; }
+            set {
+                if (_PromtImpuesto != value) {
+                    _PromtImpuesto = value;
+                    RaisePropertyChanged(PromtImpuestoPropertyName);
+                }
+            }
+        }
         #endregion
 
         #region Constructor
@@ -282,7 +372,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } else {
                 BusquedaPorCodigo = false;
                 CuadroDeBusquedaDeArticulosViewModel.IsControlVisible = true;
-            }            
+            }
             RaisePropertyChanged("BusquedaPorCodigo");
         }
         #endregion
@@ -301,7 +391,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             } else {
                 UsaMostrarPreciosEnDivisa = false;
             }
-            
+
             LimpiarPantalla();
         }
 
@@ -342,8 +432,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     SimboloMonedaDivisa = ConexionMonedaDivisa.Simbolo;
                     AsignaTasaDelDia();
                     CalcularPrecios(vConexionArticulo.PrecioSinIVA, vConexionArticulo.PrecioConIVA, _Tasa, vConexionArticulo.Impuesto, vConexionArticulo.MePrecioSinIva, vConexionArticulo.MePrecioConIva, vConexionArticulo.ImpuestoMe);
-                }
-                else {
+                } else {
                     CalcularPrecios(vConexionArticulo.PrecioSinIVA, vConexionArticulo.PrecioConIVA, _Tasa, vConexionArticulo.Impuesto, vConexionArticulo.MePrecioSinIva, vConexionArticulo.MePrecioConIva, vConexionArticulo.ImpuestoMe);
                 }
             } else {
@@ -402,45 +491,36 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
 
         private void CalcularPreciosEnDivisas(decimal valPrecioSinIva, decimal valPrecioConIva, decimal valTasa, decimal valImpuesto, decimal valPrecioSinIvaDivisa, decimal valPrecioConIvaDivisa, decimal valImpuestoDivisa) {
             if (valTasa > 0) {
-                    switch (UsaMostrarPreciosEnDivisa) {
-                        case true:
-                            switch (_TipoDeConversionParaPrecios) {
-                                case eTipoDeConversionParaPrecios.MonedaLocalADivisa:
-                                if ((valPrecioConIva > 0) && (valPrecioSinIva > 0)) {
-                                    PrecioSinIVADivisa = (valPrecioSinIva / valTasa);
-                                    PrecioConIVADivisa = (valPrecioConIva / valTasa);
-                                    ImpuestoDivisa = (valImpuesto / valTasa);
-                                    PrecioSinIVA = valPrecioSinIva;
-                                    PrecioConIVA = valPrecioConIva;
-                                    Impuesto = valImpuesto;
-                                } else {
-                                    MensajeInformativo();
-                                }
-                                break;
-                            case eTipoDeConversionParaPrecios.DivisaAMonedaLocal:
-                                if ((valPrecioConIvaDivisa > 0) && (valPrecioSinIvaDivisa > 0)) {
-                                    PrecioSinIVA = (valPrecioSinIvaDivisa * valTasa);
-                                    PrecioConIVA = (valPrecioConIvaDivisa * valTasa);
-                                    Impuesto = (valImpuestoDivisa * valTasa);
-                                    PrecioSinIVADivisa = valPrecioSinIvaDivisa;
-                                    PrecioConIVADivisa = valPrecioConIvaDivisa;
-                                    ImpuestoDivisa = valImpuestoDivisa;
-                                }
-                                else {
-                                    MensajeInformativo();
-                                }
-                                break;
-                            }
-                            break;
-                        case false:
-                            CalcularPreciosEnMonedaLocal(valPrecioSinIva, valPrecioConIva, valTasa, valImpuesto, valPrecioSinIvaDivisa, valPrecioConIvaDivisa, valImpuestoDivisa);
-                            break;
-                        default:
-                            break;
+                if (UsaMostrarPreciosEnDivisa) {
+                    if (_TipoDeConversionParaPrecios == eTipoDeConversionParaPrecios.MonedaLocalADivisa) {
+                        if ((valPrecioConIva > 0) && (valPrecioSinIva > 0)) {
+                            PrecioSinIVADivisa = (valPrecioSinIva / valTasa);
+                            PrecioConIVADivisa = (valPrecioConIva / valTasa);
+                            ImpuestoDivisa = (valImpuesto / valTasa);
+                            PrecioSinIVA = valPrecioSinIva;
+                            PrecioConIVA = valPrecioConIva;
+                            Impuesto = valImpuesto;
+                        } else {
+                            MensajeInformativo();
+                        }
+                    } else { //if (_TipoDeConversionParaPrecios == eTipoDeConversionParaPrecios.DivisaAMonedaLocal) { 
+                        if ((valPrecioConIvaDivisa > 0) && (valPrecioSinIvaDivisa > 0)) {
+                            PrecioSinIVA = (valPrecioSinIvaDivisa * valTasa);
+                            PrecioConIVA = (valPrecioConIvaDivisa * valTasa);
+                            Impuesto = (valImpuestoDivisa * valTasa);
+                            PrecioSinIVADivisa = valPrecioSinIvaDivisa;
+                            PrecioConIVADivisa = valPrecioConIvaDivisa;
+                            ImpuestoDivisa = valImpuestoDivisa;
+                        } else {
+                            MensajeInformativo();
+                        }
                     }
                 } else {
-                    MensajeInformativo();
+                    CalcularPreciosEnMonedaLocal(valPrecioSinIva, valPrecioConIva, valTasa, valImpuesto, valPrecioSinIvaDivisa, valPrecioConIvaDivisa, valImpuestoDivisa);
                 }
+            } else {
+                MensajeInformativo();
+            }
         }
 
         public bool AsignaTasaDelDia() {
@@ -452,10 +532,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     _Tasa = vTasa;
                     vResult = true;
                 } else {
-                    bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
-                    bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
-                    CambioViewModel vViewModel = new CambioViewModel(CodigoMonedaDivisa,vUsarLimiteMaximoParaIngresoDeTasaDeCambio,vMaximoLimitePermitidoParaLaTasaDeCambio,vElProgramaEstaEnModoAvanzado);                    
+                    bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                    bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                    CambioViewModel vViewModel = new CambioViewModel(CodigoMonedaDivisa, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado);
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += (cambio) => _Tasa = cambio;
                     vViewModel.FechaDeVigencia = vFechaActual;
@@ -485,7 +565,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         private void CalcularPreciosEnMonedaLocal(decimal valPrecioSinIva, decimal valPrecioConIva, decimal valTasa, decimal valImpuesto, decimal valPrecioSinIvaDivisa, decimal valPrecioConIvaDivisa, decimal valImpuestoDivisa) {
-            if(valPrecioSinIva > 0 && valPrecioConIva > 0) {
+            if (valPrecioSinIva > 0 && valPrecioConIva > 0) {
                 PrecioSinIVA = valPrecioSinIva;
                 PrecioConIVA = valPrecioConIva;
                 Impuesto = valImpuesto;
@@ -503,13 +583,20 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         #endregion
-
         #region Métodos Heredados
 
         public object GetModel() {
             return null;
         }
-
         #endregion
+        private decimal ReexpresarRM(decimal valPrecio) {
+            decimal vResult = 0;
+            if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaReconversion())) {
+                vResult = LibMath.RoundToNDecimals(valPrecio * clsUtilReconv.GetFactorDeConversion(), 2);
+            } else if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
+                vResult = LibMath.RoundToNDecimals(valPrecio / clsUtilReconv.GetFactorDeConversion(), 2);
+            }
+            return vResult;
+        }
     }
 }
