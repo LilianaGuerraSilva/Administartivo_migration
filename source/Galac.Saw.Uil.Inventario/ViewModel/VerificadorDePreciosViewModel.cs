@@ -74,6 +74,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private string _PromtPrecioConIVA;
         private string _PromtPrecioSinIVA;
         private string _PromtImpuesto;
+        private string _BsRM;
         #endregion
 
         #region Propiedades
@@ -223,10 +224,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_PrecioSinIVA != value) {
                     _PrecioSinIVA = value;
-                    RaisePropertyChanged(PrecioSinIVAPropertyName);                    
+                    RaisePropertyChanged(PrecioSinIVAPropertyName);
                     if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
                         PrecioSinIVAReexpresado = ReexpresarRM(PrecioSinIVA);
-                        PromtPrecioSinIVA = LibConvert.NumToString(PrecioSinIVA, 2) + "   (" + LibConvert.NumToString(PrecioSinIVAReexpresado, 2) + ")";
+                        PromtPrecioSinIVA = LibConvert.NumToString(PrecioSinIVA, 2) + "   (" + _BsRM + LibConvert.NumToString(PrecioSinIVAReexpresado, 2) + ")";
                     } else {
                         PromtPrecioSinIVA = LibConvert.NumToString(PrecioSinIVA, 2);
                     }
@@ -239,10 +240,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_PrecioConIVA != value) {
                     _PrecioConIVA = value;
-                    RaisePropertyChanged(PrecioConIVAPropertyName);                    
+                    RaisePropertyChanged(PrecioConIVAPropertyName);
                     if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
                         PrecioConIVAReexpresado = ReexpresarRM(PrecioConIVA);
-                        PromtPrecioConIVA = LibConvert.NumToString(PrecioConIVA, 2) + "   (" + LibConvert.NumToString(PrecioConIVAReexpresado, 2) + ")";
+                        PromtPrecioConIVA = LibConvert.NumToString(PrecioConIVA, 2) + "   (" + _BsRM + LibConvert.NumToString(PrecioConIVAReexpresado, 2) + ")";
                     } else {
                         PromtPrecioConIVA = LibConvert.NumToString(PrecioConIVA, 2);
                     }
@@ -255,10 +256,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             set {
                 if (_Impuesto != value) {
                     _Impuesto = value;
-                    RaisePropertyChanged(ImpuestoPropertyName);                    
+                    RaisePropertyChanged(ImpuestoPropertyName);
                     if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
                         ImpuestoReexpresado = ReexpresarRM(Impuesto);
-                        PromtImpuesto = LibConvert.NumToString(Impuesto, 2) + "   (" + LibConvert.NumToString(ImpuestoReexpresado, 2) + ")";
+                        PromtImpuesto = LibConvert.NumToString(Impuesto, 2) + "   (" + _BsRM + LibConvert.NumToString(ImpuestoReexpresado, 2) + ")";
                     } else {
                         PromtImpuesto = LibConvert.NumToString(Impuesto, 2);
                     }
@@ -593,8 +594,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             decimal vResult = 0;
             if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaReconversion())) {
                 vResult = LibMath.RoundToNDecimals(valPrecio * clsUtilReconv.GetFactorDeConversion(), 2);
+                _BsRM = "Bs. S. ";
             } else if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
                 vResult = LibMath.RoundToNDecimals(valPrecio / clsUtilReconv.GetFactorDeConversion(), 2);
+                _BsRM = "Bs. D. ";
             }
             return vResult;
         }
