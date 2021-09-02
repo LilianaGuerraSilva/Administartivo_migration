@@ -66,3 +66,7 @@
 	path = bin/binContabilidadAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
 	branch = release-V2.52.4.1
+[submodule "source/Contabilidadvb"]
+	path = source/Contabilidadvb
+	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
+	branch = feature/ReconversionMonetaria2021
