@@ -158,7 +158,7 @@
                                 FontSize="22"
                                 FontWeight="Bold"
                                 Foreground="#006fb9"
-                                Text="{Binding Path=PrecioConIVA, Converter={StaticResource stringToCurrencyConverter}, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                                Text="{Binding Path=PromtPrecioConIVA, UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError=True, ValidatesOnDataErrors=True}" 
                                 Margin="0,15,0,30" />
                             <StackPanel
                                 Grid.Row="3"
@@ -227,7 +227,7 @@
                                 FontSize="16"
                                 FontWeight="Bold"
                                 Visibility="{Binding MostrarPrecioDesglosado, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}">
-                                <Run Text="{Binding PrecioSinIVA, Converter={StaticResource stringToCurrencyConverter}}" />
+                                <Run Text="{Binding PromtPrecioSinIVA, UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError=True, ValidatesOnDataErrors=True}" />
                             </TextBlock>
                             <TextBlock
                                 Grid.Row="8"
@@ -255,7 +255,7 @@
                                 FontSize="16"
                                 FontWeight="Bold"
                                 Visibility="{Binding MostrarPrecioDesglosado, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource booleanToVisibilityConverter}}" Margin="4,4,14,3">
-                                <Run Text="{Binding Impuesto, Converter={StaticResource stringToCurrencyConverter}}" />
+                                <Run Text="{Binding PromtImpuesto, UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError=True, ValidatesOnDataErrors=True }" />
                             </TextBlock>
                             <TextBlock
                                 Grid.Row="7"
