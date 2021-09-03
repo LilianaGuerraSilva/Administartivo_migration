@@ -591,12 +591,12 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
         #endregion
         private decimal ReexpresarRM(decimal valPrecio) {
-            decimal vResult = 0;
+            decimal vResult = LibMath.RoundToNDecimals(valPrecio, 2);
             if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaReconversion())) {
-                vResult = LibMath.RoundToNDecimals(valPrecio * clsUtilReconv.GetFactorDeConversion(), 2);
+                vResult = LibMath.RoundToNDecimals(vResult * clsUtilReconv.GetFactorDeConversion(), 2);
                 _BsRM = "Bs. S. ";
             } else if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), clsUtilReconv.GetFechaDisposicionesTransitorias())) {
-                vResult = LibMath.RoundToNDecimals(valPrecio / clsUtilReconv.GetFactorDeConversion(), 2);
+                vResult = LibMath.RoundToNDecimals(vResult / clsUtilReconv.GetFactorDeConversion(), 2);
                 _BsRM = "Bs. D. ";
             }
             return vResult;
