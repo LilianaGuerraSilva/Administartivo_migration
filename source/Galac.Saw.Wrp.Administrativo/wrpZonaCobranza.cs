@@ -15,12 +15,12 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Tablas {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Tablas {
 #else
 namespace Galac.Saw.Wrp.Tablas {
 #endif
-
     [ClassInterface(ClassInterfaceType.None)]
-
     public class wrpZonaCobranza : System.EnterpriseServices.ServicedComponent, IWrpMfVb{
 #region Variables
         string _Title = "Zona Cobranza";

@@ -2155,8 +2155,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(new GalacValidationException(Error), ModuleName, ModuleName);
                     return;
                 }
-
                 if (ElMontoEsMayorACero()) {
+                    if (!ValidacionDeTotalPostRM2021()) {
+                        return;
+                    }
                     ExecuteAction();
                     if (DialogResult) {
                         bool vUsaCobroDirectoMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
@@ -3443,6 +3445,26 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vMensajeAdvertencia.AppendLine($"Si desea procesar esta factura es necesario que desactive el parámetro \"Usa divisa como moneda principal de ingreso de datos\".");
             }
             LibMessages.MessageBox.Warning(this, vMensajeAdvertencia.ToString(), "Cargar Factura en Espera");
+        }
+
+        private bool ValidacionDeTotalPostRM2021() {
+            try {
+                bool vResult = true;
+                DateTime vFechaDesde = new DateTime(2021, 10, 1);
+                DateTime vFechaHasta = new DateTime(2021, 12, 31);
+                decimal vTotalTope = 1000000m;
+                StringBuilder vMensaje = new StringBuilder();                
+                if (LibDate.DateIsBetweenF1AndF2(Fecha, vFechaDesde, vFechaHasta)) {
+                    if (TotalBaseImponible >= vTotalTope) {
+                        vMensaje.AppendLine("El documento de Factura tiene un total superior a lo esperado después de la reexpresión del 2.021.");
+                        vMensaje.AppendLine("¿Está seguro de ingresar este valor?");                        
+                        vResult = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), ModuleName);
+                    }
+                }
+                return vResult;
+            } catch (Exception vExeption) {
+                throw vExeption;
+            }
         }
     } //End of class FacturacionRapidaViewModel
 }//End of namespace Galac.Adm.Uil.Venta

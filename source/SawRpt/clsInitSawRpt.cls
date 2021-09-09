@@ -214,19 +214,44 @@ Public Sub sLlamarfrmInformesDeCobranza(ByVal valVendedorNavegator As Object, _
                                                                                  ByVal valZonaCobranzaNavegator As Object, _
                                                                                     ByVal valProyCompaniaActual As Object)
 
-   Dim insInformesDeCobranza As frmInformesDeCobranza
+   Dim insfrmInformesDeCobranza As frmInformesDeCobranza
    On Error GoTo h_ERROR
-   Set insInformesDeCobranza = New frmInformesDeCobranza
-   frmInformesDeCobranza.sLoadObjectValues valVendedorNavegator, valClienteNavegator, valCuentaBancariaNavegator, _
+   Set insfrmInformesDeCobranza = New frmInformesDeCobranza
+   insfrmInformesDeCobranza.sLoadObjectValues valVendedorNavegator, valClienteNavegator, valCuentaBancariaNavegator, _
                            valComprobanteNavegator, valConexionSAWAos, valCobranzasNavegator, _
                            valRenglonFacturaNavegator, valFacturaNavegator, valArtInventarioNavegator, _
                            valOtrosCargosFacturaNavegator, valRenglonOtrosCargosFactNavegator, _
                            valZonaCobranzaNavegator, valProyCompaniaActual
 
-   frmInformesDeCobranza.sInitLookAndFeel
-   frmInformesDeCobranza.Show
-   Set frmInformesDeCobranza = Nothing
+   insfrmInformesDeCobranza.sInitLookAndFeel
+   insfrmInformesDeCobranza.Show
+   Set insfrmInformesDeCobranza = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsInitSawRpt", "sLlamarfrmInformesDeCobranza", "clsInitSawRpt", 0, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
+
+Public Sub sLlamarfrmInformesDeVendedor(ByVal valVendedorNavegator As Object, ByVal valProyCompaniaActual As Object)
+   Dim insInformesDeVendedor As frmInformesDeVendedor
+   On Error GoTo h_ERROR
+   Set insInformesDeVendedor = New frmInformesDeVendedor
+   insInformesDeVendedor.sLoadObjectValues valVendedorNavegator, valProyCompaniaActual
+   insInformesDeVendedor.Show
+   Set insInformesDeVendedor = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsInitSawRpt", "sLlamarfrmInformesDeVendedor", "clsInitSawRpt", 0, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Public Sub sLlamarfrmInformesDeAnticipo(ByVal valVendedorNavigator As Object, ByVal valClienteNavigator As Object, ByVal valProveedorNavigator As Object, ByVal valProyCompaniaActual As Object, ByVal valFacturaNavigator As Object, ByVal valConexionesSawAOS As Object, ByVal valTipoDeAnticipo As enum_TipoDeAnticipo)
+   Dim insfrmInformeDeAnticipo  As frmInformeDeAnticipo
+   On Error GoTo h_ERROR
+   Set insfrmInformeDeAnticipo = New frmInformeDeAnticipo
+   insfrmInformeDeAnticipo.sLoadObjectValues valVendedorNavigator, valClienteNavigator, valProveedorNavigator, valProyCompaniaActual, valFacturaNavigator, valConexionesSawAOS, valTipoDeAnticipo
+   insfrmInformeDeAnticipo.Show
+   Set insfrmInformeDeAnticipo = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsInitSawRpt", "sLlamarfrmInformesDeAnticipo", "clsInitSawRpt", 0, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+

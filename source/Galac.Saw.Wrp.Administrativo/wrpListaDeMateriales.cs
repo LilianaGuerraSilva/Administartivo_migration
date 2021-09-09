@@ -12,7 +12,13 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.Inventario {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Inventario {
+#else
 namespace Galac.Saw.Wrp.Inventario {
+#endif
 
     [ClassInterface(ClassInterfaceType.None)]
 

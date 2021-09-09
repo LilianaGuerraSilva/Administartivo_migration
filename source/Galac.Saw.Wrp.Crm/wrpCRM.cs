@@ -9,6 +9,8 @@ using LibGalac.Aos.Cib;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Crm {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Crm {
 #else
 namespace Galac.Saw.Wrp.Crm {
 #endif

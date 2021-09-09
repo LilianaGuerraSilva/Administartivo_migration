@@ -9,10 +9,10 @@ using System.Linq;
 using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-    class clsVersion6_20 : clsVersionARestructurar {
+    class clsVersion6_50 : clsVersionARestructurar {
 
-        public clsVersion6_20(string valCurrentDataBaseName) : base(valCurrentDataBaseName) {
-            _VersionDataBase = "6.20";
+        public clsVersion6_50(string valCurrentDataBaseName) : base(valCurrentDataBaseName) {
+            _VersionDataBase = "6.50";
         }
 
         public override bool UpdateToVersion() {
@@ -23,6 +23,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregarTipoDeComprobante();
             ActualizarParametroUsaMEEnParametrosConciliacion();
             AgregaCamposTablaCuentaTemp();
+            ActualizarStatusMonetaryReconversionProcess();            
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -75,5 +76,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine("WHERE tbSettValueByCompany.NameSettDefinition = 'UsaMonedaExtranjera' ");
             Execute(vSql.ToString(), 0);
         }
+
+        private void ActualizarStatusMonetaryReconversionProcess() {
+            StringBuilder vSql = new StringBuilder();            
+            vSql.AppendLine("UPDATE COMPANIA SET StatusMonetaryReconversionProcess = '1'");
+            vSql.AppendLine("WHERE StatusMonetaryReconversionProcess = '0' OR StatusMonetaryReconversionProcess = '2'");
+            Execute(vSql.ToString(), 0);            
+        }
+        
     }
 }

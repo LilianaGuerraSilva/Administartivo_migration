@@ -15,6 +15,8 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Tablas {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Tablas {
 #else
 namespace Galac.Saw.Wrp.Tablas {
 #endif

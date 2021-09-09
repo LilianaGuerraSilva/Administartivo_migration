@@ -9,14 +9,16 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Uil;
+using System.Runtime.InteropServices;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.CajaChica {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.CajaChica {
 #else
 namespace Galac.Saw.Wrp.CajaChica {
 #endif
-
-
-    public class wrpDetalleDeRendicion: IWrpMfCs {
+    [ClassInterface(ClassInterfaceType.None)]
+    public class wrpDetalleDeRendicion : IWrpMfCs {
         #region Variables
         string _Title = "Detalle De Rendicion";
         #endregion //Variables
@@ -74,7 +76,7 @@ namespace Galac.Saw.Wrp.CajaChica {
         private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {
             LibGlobalValues insGV = new LibGlobalValues();
             insGV.LoadCompleteAppMemInfo(valCurrentParameters);
-            ((LibXmlMFC)insGV.GVDictionary[LibGlobalValues.NameMFCInfo]).Add("Compania",LibConvert.ToInt(valCurrentMfc));
+            ((LibXmlMFC)insGV.GVDictionary[LibGlobalValues.NameMFCInfo]).Add("Compania", LibConvert.ToInt(valCurrentMfc));
             return insGV;
         }
         #endregion //Metodos Generados

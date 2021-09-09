@@ -17,6 +17,8 @@ using Galac.Saw.Ccl.Integracion;
 using Galac.Saw.Wrp.IntegracionDDL;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.IntegracionDDL {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.IntegracionDDL {
 #else
 namespace Galac.Saw.Wrp.IntegracionDDL {
 #endif

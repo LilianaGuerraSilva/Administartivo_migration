@@ -18,6 +18,8 @@ using System.Xml.Linq;
 using Galac.Saw.Wrp.Impuesto;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Impuesto {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Impuesto {
 #else
 namespace Galac.Saw.Wrp.Impuesto {
 #endif

@@ -20,6 +20,8 @@ using Galac.Saw.Wrp.Banco;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Banco {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Banco {
 #else
 namespace Galac.Saw.Wrp.Banco {
 #endif

@@ -96,11 +96,16 @@ namespace Galac.Adm.Brl.Banco {
             string vResult = string.Empty;
             if (LibString.IsNullOrEmpty(valCodigoMoneda, true)) {
                 vResult = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "CodigoMoneda");
+                if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), new DateTime(2021, 10, 01))) {
+                    vResult = (LibString.IsNullOrEmpty(vResult) ? "VED" : vResult);
+                } else {
+                    vResult = (LibString.IsNullOrEmpty(vResult) ? "VES" : vResult);
+                }
                 if (LibString.IsNullOrEmpty(vResult, true)) {
                     if (LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.IsCountryEcuador()) {
                         vResult = "USD";
                     } else {
-                        vResult = "VES";
+                        vResult = "VED";
                     }
                 }
             } else {

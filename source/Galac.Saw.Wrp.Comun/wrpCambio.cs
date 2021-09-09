@@ -16,6 +16,8 @@ using Galac.Comun.Uil.TablasGen;
 using System.Runtime.InteropServices;
 #if IsExeBsF
 namespace Galac.SawBsf.Wrp.TablasGen {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.TablasGen {
 #else
 namespace Galac.Saw.Wrp.TablasGen {
 #endif

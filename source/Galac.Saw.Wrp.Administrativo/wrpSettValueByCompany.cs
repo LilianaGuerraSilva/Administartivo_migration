@@ -17,6 +17,8 @@ using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Wrp.SttDef;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.SttDef {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.SttDef {
 #else
 namespace Galac.Saw.Wrp.SttDef {
 #endif

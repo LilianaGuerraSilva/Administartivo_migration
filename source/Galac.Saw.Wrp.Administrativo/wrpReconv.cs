@@ -4,9 +4,10 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Vbwa;
-
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Reconv {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Reconv {
 #else
 namespace Galac.Saw.Wrp.Reconv {
 #endif

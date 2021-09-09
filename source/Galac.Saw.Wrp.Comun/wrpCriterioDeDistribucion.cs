@@ -15,6 +15,8 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.LeyCosto  {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.LeyCosto {
 #else
 namespace Galac.Saw.Wrp.LeyCosto {
 #endif

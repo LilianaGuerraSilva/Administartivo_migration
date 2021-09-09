@@ -1455,12 +1455,12 @@ Public Function fConfigurarDatosDelReporteRegistroImpresionDeCodDeBarras(ByRef r
    exito = False
    If gUtilReports.fLoadLayout(refRpt, valNombreDelFileXML) Then
       If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigendata", valSqlDelReporte) Then
-         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", _
-            "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
          gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
          gUtilReports.sDefaultConfigurationForBarcode refRpt, "bcCodigoArticulo", "", "CodArticulo"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecio", "", "Precio"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecioReconvertido", "", "PrecioReconvertido"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcion", "", "Descripcion"
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHArticulo", "CodArticulo", ddGrpFirstDetail, ddRepeatOnPage, True, ddNPBefore
          gUtilMargins.sAsignarMargenesParticularesYLosGrabaSiEsNecesario refRpt, valNombreDelReporte, True, 0.5, True, 0.5, True, 0.5, True, 0.25, True, ddOPortrait, False, True, 5.5, True, 5.5
