@@ -8,8 +8,14 @@ using System.Runtime.InteropServices;
 using Galac.Adm.Uil.Venta;
 using Galac.Saw.Wrp.Administrativo;
 using Galac.Saw.Ccl.SttDef;
-
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.Venta {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Venta {
+#else
 namespace Galac.Saw.Wrp.Venta {
+#endif
+
     [ClassInterface(ClassInterfaceType.None)]
     public class wrpClienteInsercionRapida : System.EnterpriseServices.ServicedComponent, IWrpClienteInsercionRapida  {
         #region Variables

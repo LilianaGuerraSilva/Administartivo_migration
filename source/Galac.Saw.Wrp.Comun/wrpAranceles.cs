@@ -14,8 +14,14 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 using Galac.Comun.Ccl.Impuesto;
-namespace Galac.Saw.Wrp.Impuesto {
 
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.Impuesto {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Impuesto {
+#else
+namespace Galac.Saw.Wrp.Impuesto {
+#endif
     [ClassInterface(ClassInterfaceType.None)]
 
     public class wrpAranceles : System.EnterpriseServices.ServicedComponent, IWrpArancelesVb {

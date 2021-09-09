@@ -1,5 +1,4 @@
-using Galac.Adm.Brl.Venta;
-using LibGalac.Aos.Base;
+﻿using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil;
@@ -12,13 +11,18 @@ using System.Text;
 using Galac.Adm.Brl.Venta;
 using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
-
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.Venta {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Venta {
+#else
 namespace Galac.Saw.Wrp.Venta {
+#endif
 
     [ClassInterface(ClassInterfaceType.None)]
     public class wrpCobroRapidoMultimoneda : IWrpCobroRapidoMultimoneda {
 
-        string _Title = "Cobro R�pido en Multimoneda";
+        string _Title = "Cobro Rápido en Multimoneda";
 
 
         private string Title {
@@ -95,7 +99,7 @@ namespace Galac.Saw.Wrp.Venta {
                 if (vEx is System.AccessViolationException) {
                     throw;
                 }
-                throw new GalacWrapperException(Title + " - Inicializaci�n", vEx);
+                throw new GalacWrapperException(Title + " - Inicialización", vEx);
             }
         }
 

@@ -15,6 +15,8 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Inventario {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Inventario {
 #else
 namespace Galac.Saw.Wrp.Inventario {
 #endif

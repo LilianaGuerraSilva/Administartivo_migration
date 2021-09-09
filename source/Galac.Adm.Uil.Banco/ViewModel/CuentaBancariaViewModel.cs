@@ -430,24 +430,10 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
             } else {
                 if (LibString.IsNullOrEmpty(Model.NombreDeLaMoneda, true)) {
                     vResult = new ValidationResult("Debe seleccionar una moneda");
-                } else {
-                    if (_ConexionMoneda.Codigo != vCodigoMonedaLocal) {
-                        switch (vCodigoPais) {
-                            case "VE":
-                                if (vHoyCodigoMoneda == "VEB" && _ConexionMoneda.Codigo == "VEF") {
-                                    vResult = new ValidationResult("La moneda ==> " + _ConexionMoneda.Nombre + " <== que desea asignar a la cuenta bancaria, no se encuentra en vigencia por lo tanto no puede ser asignada. Por favor cambie la moneda. Moneda Inválida");
-                                } else if (vHoyCodigoMoneda == "VEF" && Model.CodigoMoneda == "VEB") {
-                                    vResult = new ValidationResult("La moneda ==> " + _ConexionMoneda.Nombre + " <== que desea asignar a la cuenta bancaria, no se encuentra en vigencia por lo tanto no puede ser asignada. Por favor cambie la moneda. Moneda Inválida");
-                                }
-                                break;
-                            default: break;
-                        }
-                    }
-
+                } else {                   
                     if (IsVisibleCajaChica && EsCajaChica && CodigoMoneda != vCodigoMonedaLocal) {
                         vResult = new ValidationResult("La moneda debe ser ==> " + vNombreMonedaLocal + "<== debido a que esta marcada la opcion Caja Chica. Por favor cambie la moneda. Moneda Inválida");
                     }
-
                 }
                 return vResult;
             }

@@ -7,13 +7,17 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
-
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.Inventario {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Inventario {
+#else
 namespace Galac.Saw.Wrp.Inventario {
+#endif    
     [ClassInterface(ClassInterfaceType.None)]
     public class wrpVerificadorDePrecios : System.EnterpriseServices.ServicedComponent, IWrpVerificadorDePrecios {
         private string _Title = "Consultor de Precios";
         public string Title { get; private set; }
-
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
@@ -104,7 +108,7 @@ namespace Galac.Saw.Wrp.Inventario {
 
         private void CreateGlobalValues(string valCurrentParameters) {
             LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
-            LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCompania"));            
+            LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCompania"));
         }
 
         void RegisterDefaultTypesIfMissing() {

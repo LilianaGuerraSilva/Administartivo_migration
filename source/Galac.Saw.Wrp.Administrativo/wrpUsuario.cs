@@ -13,6 +13,8 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Usuario {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Usuario {
 #else
 namespace Galac.Saw.Wrp.Usuario {
 #endif

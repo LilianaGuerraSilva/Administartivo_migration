@@ -14,6 +14,8 @@ using LibGalac.Aos.Vbwa;
 using Galac.Saw.Wrp.GestionCompras;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.GestionCompras {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.GestionCompras {
 #else
 namespace Galac.Saw.Wrp.GestionCompras {
 #endif

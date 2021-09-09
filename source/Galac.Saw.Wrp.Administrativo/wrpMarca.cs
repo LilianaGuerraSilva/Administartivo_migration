@@ -16,6 +16,8 @@ using LibGalac.Aos.Vbwa;
 using Galac.Saw.Uil.Vehiculo;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Vehiculo {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Vehiculo {
 #else
 namespace Galac.Saw.Wrp.Vehiculo {
 #endif

@@ -10,6 +10,8 @@ using Galac.Saw;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.DDL {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.DDL {
 #else
 namespace Galac.Saw.Wrp.DDL {
 #endif

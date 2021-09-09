@@ -16,6 +16,8 @@ using LibGalac.Aos.Vbwa;
 using Galac.Contab.Core;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.WinCont {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.WinCont {
 #else
 namespace Galac.Saw.Wrp.WinCont {
 #endif

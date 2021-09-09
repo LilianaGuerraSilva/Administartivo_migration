@@ -16,6 +16,8 @@ using Galac.Axi.Uil.Balances;
 using LibGalac.Aos.Catching;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Balance {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Balance {
 #else
 namespace Galac.Saw.Wrp.Balance {
 #endif

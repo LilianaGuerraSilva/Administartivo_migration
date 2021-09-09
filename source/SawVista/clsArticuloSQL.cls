@@ -315,17 +315,23 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fConstruirSQLDelReporteArticulosReservados", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As Long, ByVal valCodigoDesde As String, _
-                                                   ByVal valCodigoHasta As String, ByVal valNivelDePrecio As enum_NivelDePrecio, ByVal valPrecioSinIva As Boolean)
+                                                   ByVal valCodigoHasta As String, ByVal valNivelDePrecio As enum_NivelDePrecio, ByVal valPrecioSinIva As Boolean, ByVal valUsaPrecioME As Boolean, _
+                                                   ByVal valFechaDeHoy As Date, ByVal valFechaReconversion As Date, ByVal valFechaDeDisposicionesTransitorias As Date, ByVal valFactorReconversion As Currency)
    Dim insArticuloInvVista As clsArticuloInvVista
    Dim SQL As String
    Dim vWhere As String
    Dim vPrecio As String
+   Dim vPrecioME As String
    Dim vDescripcionTallaColor As String
    Set insArticuloInvVista = New clsArticuloInvVista
    On Error GoTo h_ERROR
     vWhere = ""
-    vPrecio = " ArticuloInventario." & fSqlNivelDePrecio(valNivelDePrecio, valPrecioSinIva)
-  
+    If valUsaPrecioME Then
+      vPrecioME = " CamposMonedaExtranjera." & fSqlNivelDePrecioME(valNivelDePrecio, valPrecioSinIva)
+    Else
+      vPrecio = " ArticuloInventario." & fSqlNivelDePrecio(valNivelDePrecio, valPrecioSinIva)
+    End If
+
    If gTexto.DfLen(valCodigoDesde) > 0 And gTexto.DfLen(valCodigoHasta) > 0 Then
     vWhere = gUtilSQL.fSQLStringValueBetween(insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo", valCodigoDesde, valCodigoHasta) & "  AND  "
    End If
@@ -338,12 +344,26 @@ Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As
  SQL = " SELECT "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo AS CodArticulo,"
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion " & " + " & vDescripcionTallaColor & " AS Descripcion, "
- SQL = SQL & vPrecio & " AS Precio "
+ If valUsaPrecioME Then
+   SQL = SQL & vPrecioME & " AS Precio, "
+ Else
+   SQL = SQL & vPrecio & " AS Precio, "
+ End If
+ If (valFechaDeHoy >= valFechaReconversion) Then
+   SQL = SQL & vPrecio & " * " & valFactorReconversion & " AS PrecioReconvertido"
+ ElseIf (valFechaDeHoy >= valFechaDeDisposicionesTransitorias) Then
+   SQL = SQL & vPrecio & " / " & valFactorReconversion & " AS PrecioReconvertido"
+ Else
+   SQL = SQL & " 0  AS PrecioReconvertido"
+ End If
  SQL = SQL & " From "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1
  SQL = SQL & "  INNER JOIN  ArticuloInventario ON "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania  AND "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo = ArticuloInventario.Codigo "
+ SQL = SQL & "  INNER JOIN  CamposMonedaExtranjera ON "
+ SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania  AND "
+ SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo = CamposMonedaExtranjera.Codigo "
  SQL = SQL & " LEFT  JOIN  Talla ON "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania = Talla.ConsecutivoCompania AND "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoTalla = Talla.CodigoTalla"
@@ -351,12 +371,17 @@ Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania = Color.ConsecutivoCompania AND "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoColor = Color.CodigoColor"
  SQL = SQL & vWhere
- SQL = SQL & "Group By "
+ SQL = SQL & " Group By "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo, "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion, "
  SQL = SQL & " Color.DescripcionColor,"
  SQL = SQL & " Talla.DescripcionTalla, "
- SQL = SQL & vPrecio
+ If valUsaPrecioME Then
+   SQL = SQL & vPrecioME
+   
+ Else
+   SQL = SQL & vPrecio
+ End If
  SQL = SQL & " ORDER BY  "
  SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo "
  
@@ -1300,6 +1325,34 @@ Private Function fSqlNivelDePrecioConIva(ByVal valNivelDePrecio As enum_NivelDeP
       Case eND_PRECIO_3: fSqlNivelDePrecioConIva = "PrecioConIva3"
       Case eND_PRECIO_4: fSqlNivelDePrecioConIva = "PrecioConIva4"
       Case Else: fSqlNivelDePrecioConIva = "PrecioSinIva"
+   End Select
+End Function
+
+Public Function fSqlNivelDePrecioME(ByVal valNivelDePrecio As enum_NivelDePrecio, ByVal valPreciosSinIva As Boolean) As String
+      If (valPreciosSinIva) Then
+      fSqlNivelDePrecioME = fSqlNivelDePrecioSinIvaME(valNivelDePrecio)
+       Else
+      fSqlNivelDePrecioME = fSqlNivelDePrecioConIvaME(valNivelDePrecio)
+      End If
+End Function
+
+Private Function fSqlNivelDePrecioSinIvaME(ByVal valNivelDePrecio As enum_NivelDePrecio) As String
+   Select Case valNivelDePrecio
+      Case eND_PRECIO_1: fSqlNivelDePrecioSinIvaME = "MEPrecioSinIva"
+      Case eND_PRECIO_2: fSqlNivelDePrecioSinIvaME = "MEPrecioSinIva2"
+      Case eND_PRECIO_3: fSqlNivelDePrecioSinIvaME = "MEPrecioSinIva3"
+      Case eND_PRECIO_4: fSqlNivelDePrecioSinIvaME = "MEPrecioSinIva4"
+      Case Else: fSqlNivelDePrecioSinIvaME = "MEPrecioSinIva"
+   End Select
+End Function
+
+Private Function fSqlNivelDePrecioConIvaME(ByVal valNivelDePrecio As enum_NivelDePrecio) As String
+   Select Case valNivelDePrecio
+      Case eND_PRECIO_1: fSqlNivelDePrecioConIvaME = "MEPrecioConIva"
+      Case eND_PRECIO_2: fSqlNivelDePrecioConIvaME = "MEPrecioConIva2"
+      Case eND_PRECIO_3: fSqlNivelDePrecioConIvaME = "MEPrecioConIva3"
+      Case eND_PRECIO_4: fSqlNivelDePrecioConIvaME = "MEPrecioConIva4"
+      Case Else: fSqlNivelDePrecioConIvaME = "MEPrecioSinIva"
    End Select
 End Function
 Public Function fSqlCostosReporte(ByVal valManejaCostoPromedio As Boolean, ByVal valConsecutivoCompania As Long, ByVal valCodigoDesde As String, ByVal valCodigoHasta As String, ByVal valFechaCierre As Date, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
