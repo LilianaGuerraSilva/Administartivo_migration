@@ -66,3 +66,7 @@
 	path = bin/binLibNet
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibnet.git
 	branch = release/v5.14.0.0
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
+	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
+	branch = release/v2104
