@@ -62,10 +62,6 @@
 	path = bin/binLibVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibvb.git
 	branch = release/v2104
-[submodule "source/Lib/VbaLib"]
-	path = source/Lib/VbaLib
-	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
-	branch = release/v2104
 [submodule "bin/binLibNet"]
 	path = bin/binLibNet
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibnet.git
