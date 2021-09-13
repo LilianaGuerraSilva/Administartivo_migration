@@ -51,11 +51,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasLey.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Contab.Brl.WinCont, Version=2.35.9.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Contab.Brl.WinCont">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Brl.WinCont.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Contab.Ccl.WinCont, Version=2.35.9.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Contab.Ccl.WinCont">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>

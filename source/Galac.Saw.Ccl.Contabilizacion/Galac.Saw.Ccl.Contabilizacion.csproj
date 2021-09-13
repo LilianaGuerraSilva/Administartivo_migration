@@ -34,7 +34,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Contab.Ccl.WinCont, Version=2.35.9.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Contab.Ccl.WinCont">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
     </Reference>
