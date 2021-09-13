@@ -18,18 +18,10 @@
 	path = source/IvaVb
 	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
 	branch = release/V27.4.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release-V2107
 [submodule "bin/binContabilidadAos"]
 	path = bin/binContabilidadAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
 	branch = release-V2.52.4.1
-[submodule "source/Contabilidadvb"]
-	path = source/Contabilidadvb
-	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
-	branch = feature/ReconversionMonetaria2021
 [submodule "source/Lib/AosLib"]
 	path = source/Lib/AosLib
 	url = https://gitlab.com/galac-software-enterprise/desa/aoslib
