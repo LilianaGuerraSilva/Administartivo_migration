@@ -66,3 +66,7 @@
 	path = bin/binContabilidadVb
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
 	branch = release/V2109
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
+	branch = release/SawV20.0.0.0
