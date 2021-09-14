@@ -3455,7 +3455,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 decimal vTotalTope = 1000000m;
                 StringBuilder vMensaje = new StringBuilder();                
                 if (LibDate.DateIsBetweenF1AndF2(Fecha, vFechaDesde, vFechaHasta)) {
-                    if (TotalBaseImponible >= vTotalTope) {
+                    if (TotalFactura >= vTotalTope) {
                         vMensaje.AppendLine("El documento de Factura tiene un total superior a lo esperado después de la reexpresión del 2.021.");
                         vMensaje.AppendLine("¿Está seguro de ingresar este valor?");                        
                         vResult = LibMessages.MessageBox.YesNo(this, vMensaje.ToString(), ModuleName);
