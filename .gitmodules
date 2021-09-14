@@ -66,3 +66,7 @@
 	path = bin/binContabilidadVb
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
 	branch = release/V2109
+[submodule "source/Axi"]
+	path = source/Axi
+	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
+	branch = release/v2.60.0.0
