@@ -34,10 +34,6 @@
 	path = source/Contabilidadvb
 	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
 	branch = release/V2109
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release/V2109
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
 	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
