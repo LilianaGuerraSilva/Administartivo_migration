@@ -6,10 +6,6 @@
 	path = source/Axi
 	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
 	branch = release/SawV19.2.0.0
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
-	branch = release/SawV19.2.0.0
 [submodule "bin/binContabilidadAos"]
 	path = bin/binContabilidadAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
