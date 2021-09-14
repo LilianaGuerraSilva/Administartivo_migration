@@ -66,7 +66,3 @@
 	path = source/VbaComun
 	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
 	branch = release/SawV20.0.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release/V2109
