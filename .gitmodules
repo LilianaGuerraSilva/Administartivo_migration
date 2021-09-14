@@ -30,10 +30,6 @@
 	path = bin/binAdministrativoAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
 	branch = release/V2.60.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
-	branch = release/SawV20.0.0.0
 [submodule "source/Contabilidadvb"]
 	path = source/Contabilidadvb
 	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
