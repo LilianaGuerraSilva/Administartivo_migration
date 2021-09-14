@@ -2,10 +2,6 @@
 	path = bin/binLibProtec
 	url = https://gitlab.com/galac-software-enterprise/desa/binlibprotec.git
 	branch = release-V18.2.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
-	branch = release-V2.52.4.1
 [submodule "source/Lib/AosLib"]
 	path = source/Lib/AosLib
 	url = https://gitlab.com/galac-software-enterprise/desa/aoslib
