@@ -62,3 +62,11 @@
 	path = bin/binAdministrativoAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
 	branch = release/V2.60.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
+	branch = release/V2.60.0.0
+[submodule "source/Axi"]
+	path = source/Axi
+	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
+	branch = release/v2.60.0.0
