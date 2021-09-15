@@ -26,10 +26,6 @@
 	path = bin/binComunAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincomunaos.git
 	branch = release/V2.60.0.0
-[submodule "source/Contabilidadvb"]
-	path = source/Contabilidadvb
-	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
-	branch = release/V2109
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
 	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
