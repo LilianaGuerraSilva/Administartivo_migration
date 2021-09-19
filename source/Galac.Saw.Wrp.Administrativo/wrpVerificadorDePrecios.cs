@@ -1,4 +1,5 @@
-﻿using LibGalac.Aos.Base;
+﻿using Galac.Saw.Wrp.Inventario;
+using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil;
@@ -24,7 +25,7 @@ namespace Galac.Saw.Wrp.Inventario {
         void IWrpVerificadorDePrecios.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 CreateGlobalValues(vfwCurrentParameters);
-                ILibMenu insMenu = new Uil.Inventario.clsVerificadorDePreciosMenu();
+                ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsVerificadorDePreciosMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);

@@ -14,6 +14,7 @@ using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 using Galac.Comun.Ccl.Impuesto;
+using Galac.Saw.Wrp.Impuesto;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Impuesto {

@@ -4,6 +4,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Vbwa;
+using Galac.Saw.Wrp.VentaInformes;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.VentaInformes {
 #elif IsExeBsS​

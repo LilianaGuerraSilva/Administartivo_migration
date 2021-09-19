@@ -10,6 +10,7 @@ using LibGalac.Aos.Dal;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Wpf;
+using Galac.Saw.Wrp.Administrativo;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Administrativo {
 #elif IsExeBsS​
