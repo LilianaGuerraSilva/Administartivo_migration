@@ -2629,15 +2629,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             decimal vFactorConversion = clsUtilReconv.GetFactorDeConversion();
             if (LibDate.Today() >= clsUtilReconv.GetFechaReconversion()) {
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
-                    Observaciones = "Monto Tot.: " + LibConvert.NumToString((TotalFactura * CambioABolivares) * vFactorConversion, 2) + " Bolívares Soberanos";
+                    Observaciones = "Monto Total " + LibConvert.NumToString((TotalFactura * CambioABolivares) * vFactorConversion, 2) + " Bolívares Soberanos";
                 } else {
-                    Observaciones = "Monto Tot.: " + LibConvert.NumToString(TotalFactura * vFactorConversion, 2) + " Bolívares Soberanos";
+                    Observaciones = "Monto Total " + LibConvert.NumToString(TotalFactura * vFactorConversion, 2) + " Bolívares Soberanos";
                 }
             } else if (LibDate.Today() >= clsUtilReconv.GetFechaDisposicionesTransitorias()) {
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos")) {
-                    Observaciones = "Monto Tot.: " + LibConvert.NumToString((TotalFactura * CambioABolivares) / vFactorConversion, 2) + " Bolívares Digitales";
+                    Observaciones = "Monto Total " + LibConvert.NumToString((TotalFactura * CambioABolivares) / vFactorConversion, 2) + " Bolívares Digitales";
                 } else {
-                    Observaciones = "Monto Tot.: " + LibConvert.NumToString(TotalFactura / vFactorConversion, 2) + " Bolívares Digitales";
+                    Observaciones = "Monto Total " + LibConvert.NumToString(TotalFactura / vFactorConversion, 2) + " Bolívares Digitales";
                 }
             } else {
                 Observaciones = "";
