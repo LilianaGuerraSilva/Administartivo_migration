@@ -18,6 +18,7 @@ using System.Xml.Linq;
 using LibGalac.Aos.Cnf;
 using Galac.Adm.Ccl.DispositivosExternos;
 using LibGalac.Aos.UI.Wpf;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
@@ -108,7 +109,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Command = AbrirCajaCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Open.png", UriKind.Relative),
                 ToolTipDescription = "Abrir Caja Registradora",
-                ToolTipTitle = "Abrir Caja"
+                ToolTipTitle = "Abrir Caja",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             };
         }
 
@@ -118,7 +120,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Command = CerrarCajaCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Close.png", UriKind.Relative),
                 ToolTipDescription = "Cerrar Caja Registradora",
-                ToolTipTitle = "Cerrar Caja"
+                ToolTipTitle = "Cerrar Caja",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             };
         }
 
@@ -128,7 +131,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Command = AsignarCajaCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
                 ToolTipDescription = "Asignar una Caja",
-                ToolTipTitle = "Asignar Caja"
+                ToolTipTitle = "Asignar Caja",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             };
         }
 
@@ -139,7 +143,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png", UriKind.Relative),
                 ToolTipDescription = "Abrir Gaveta",
                 ToolTipTitle = "Abrir Gaveta",
-                KeyTip ="A"
+                KeyTip ="A",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             };
         }
 

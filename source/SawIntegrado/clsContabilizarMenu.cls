@@ -56,8 +56,8 @@ Public Sub sCreaElMenuDeContabilizar(ByRef refForma As Form)
       Call gUtilMenus.fAddMenuItem(refForma, gProyReglasDeContabilizacion.fTextoMenuDeContabilizar(eCG_RESUMEN_DIARIO_VENTAS), numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_RESUMEN_DIARIO_VENTAS) And puedoActivar, False, eSC_NoShortcut, True, 13)
       Call gUtilMenus.fAddMenuItem(refForma, CM_ANTICIPO_COBRADO, numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_ANTICIPO) And puedoActivar, False, eSC_NoShortcut, True, 8)
       Call gUtilMenus.fAddMenuItem(refForma, CM_ANTICIPO_PAGADO, numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_ANTICIPO) And puedoActivar, False, eSC_NoShortcut, True, 8)
-       If insLibServerProperty.fSqlServerVersionIs2008OrHigher Then
-         Call gUtilMenus.fAddMenuItem(refForma, gProyReglasDeContabilizacion.fTextoMenuDeContabilizar(eCG_REPOSICION), numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_REPOSICION) And puedoActivar, False, eSC_NoShortcut, True, 17)
+      If insLibServerProperty.fSqlServerVersionIs2008OrHigher Then
+         Call gUtilMenus.fAddMenuItem(refForma, gProyReglasDeContabilizacion.fTextoMenuDeContabilizar(eCG_REPOSICION), numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_REPOSICION) And puedoActivar, False, eSC_NoShortcut, True, 17, True)
       End If
       Set insLibServerProperty = Nothing
       If gDefgen.GetElProgramaEstaEnModoAvanzado Then

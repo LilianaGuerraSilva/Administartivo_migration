@@ -17,6 +17,7 @@ using LibGalac.Aos.ARRpt.Reports;
 using Galac.Saw.Brl.Tablas;
 using Galac.Saw.Brl.Tablas.Reportes;
 using Galac.Saw.Ccl.Tablas;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.Uil.Tablas.ViewModel {
 
@@ -94,7 +95,8 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
                 Command = ReinstallCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/importExport.png",UriKind.Relative),
                 ToolTipDescription = "Reinstalar datos",
-                ToolTipTitle = "Reinstalar"
+                ToolTipTitle = "Reinstalar",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             };
         }
        
