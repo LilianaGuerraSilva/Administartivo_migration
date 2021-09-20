@@ -16,6 +16,7 @@ using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.UI.Wpf;
 using Galac.Adm.Brl.Venta.Reportes;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
@@ -149,7 +150,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Command = CrearCajaGenericaCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/exec.png",UriKind.Relative),
                 ToolTipDescription = "Crear Caja Genérica",
-                ToolTipTitle = "Crear Caja Genérica"
+                ToolTipTitle = "Crear Caja Genérica",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             };
         }     
         #endregion //Metodos Generados        
