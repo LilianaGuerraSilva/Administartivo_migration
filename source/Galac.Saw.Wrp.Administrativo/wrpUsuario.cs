@@ -77,7 +77,7 @@ namespace Galac.Saw.Wrp.Usuario {
                 GSSearchCriteria SearchCriteria = new GSSearchCriteria();
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
-                Galac.Saw.clsNivelesDeSeguridad.DefinirPlantilla();
+                clsNivelesDeSeguridad.DefinirPlantilla();
             } catch (Exception vEx) {
                 if (vEx is AccessViolationException) {
                     throw;

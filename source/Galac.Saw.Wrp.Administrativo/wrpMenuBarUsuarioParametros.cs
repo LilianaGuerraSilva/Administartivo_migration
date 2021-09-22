@@ -85,7 +85,7 @@ namespace Galac.Saw.Wrp.MenuBar {
         void IWrpMfMenuBarVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
-                Galac.Saw.clsNivelesDeSeguridad.DefinirPlantilla();
+                clsNivelesDeSeguridad.DefinirPlantilla();
             } catch (Exception vEx) {
                 if (vEx is System.AccessViolationException) {
                     throw;
