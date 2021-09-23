@@ -11,6 +11,7 @@ using System.Text;
 using Galac.Adm.Brl.Venta;
 using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
+using Galac.Saw.Wrp.Venta;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
 #elif IsExeBsS​

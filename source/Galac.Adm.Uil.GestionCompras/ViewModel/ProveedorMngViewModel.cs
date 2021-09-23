@@ -18,6 +18,7 @@ using Galac.Adm.Brl.GestionCompras;
 using Galac.Adm.Brl.GestionCompras.Reportes;
 using Galac.Adm.Ccl.GestionCompras;
 using System.Collections.ObjectModel;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
@@ -119,7 +120,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 Command = ReinstallCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/add.png", UriKind.Relative),
                 ToolTipDescription = "Reinstalar datos",
-                ToolTipTitle = "Reinstalar"
+                ToolTipTitle = "Reinstalar",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             };
         }
 

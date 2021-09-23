@@ -14,6 +14,7 @@ using Galac.Comun.Ccl.TablasGen;
 using LibGalac.Aos.Vbwa;
 using Galac.Comun.Uil.TablasGen;
 using System.Runtime.InteropServices;
+using Galac.Saw.Wrp.TablasGen;
 #if IsExeBsF
 namespace Galac.SawBsf.Wrp.TablasGen {
 #elif IsExeBsS​

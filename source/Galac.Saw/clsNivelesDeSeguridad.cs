@@ -4,8 +4,13 @@ using System.Linq;
 using System.Text;
 using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Base;
-
+#if IsExeBsF
+namespace Galac.SawBsF {
+#elif IsExeBsS​
+namespace Galac.SawBsS {
+#else
 namespace Galac.Saw {
+#endif
     public class clsNivelesDeSeguridad {
 
         public static void DefinirPlantilla() {

@@ -15,6 +15,7 @@ using LibGalac.Aos.ARRpt.Reports;
 using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Brl.GestionProduccion.Reportes;
 using Galac.Adm.Ccl.GestionProduccion;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
@@ -91,21 +92,24 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 Command = IniciarCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
                 ToolTipDescription = "Iniciar",
-                ToolTipTitle = "Iniciar"
+                ToolTipTitle = "Iniciar",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Anular",
                 Command = AnularCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
                 ToolTipDescription = "Anular",
-                ToolTipTitle = "Anular"
+                ToolTipTitle = "Anular",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Cerrar",
                 Command = CerrarCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
                 ToolTipDescription = "Cerrar",
-                ToolTipTitle = "Cerrar"
+                ToolTipTitle = "Cerrar",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             });
             return vResult;
         }
