@@ -223,6 +223,7 @@ namespace Galac.Adm.Rpt.Venta
             codMonedaCobroRenglon = txtCodMonedacobro.Text;
             switch (codMonedaCobroRenglon) {
                 case "VES":
+                case "VED":
                     //Caja
                     totalEfectivoBsCaja += LibConvert.ToDec(txtEfectivo.Text);
                     totalTarjetaBsCaja += LibConvert.ToDec(txtTarjeta.Text);

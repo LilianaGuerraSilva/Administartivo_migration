@@ -17,6 +17,8 @@ using System.Xml.Linq;
 using Galac.Saw.Wrp.CajaChica;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.CajaChica {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.CajaChica {
 #else
 namespace Galac.Saw.Wrp.CajaChica {
 #endif

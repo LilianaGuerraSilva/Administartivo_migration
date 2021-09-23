@@ -12,6 +12,7 @@ using Galac.Adm.Brl.GestionCompras;
 using Galac.Adm.Brl.GestionCompras.Reportes;
 using Galac.Adm.Ccl.GestionCompras;
 using System.Collections.ObjectModel;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
@@ -109,7 +110,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 CommandParameter = eAccionSR.Abrir,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/specializedUpdate.png", UriKind.Relative),
                 ToolTipDescription = "Abrir",
-                ToolTipTitle = "Compra"
+                ToolTipTitle = "Compra",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Anular",
@@ -117,7 +119,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 CommandParameter = eAccionSR.Anular,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/specializedUpdate.png", UriKind.Relative),
                 ToolTipDescription = "Anular",
-                ToolTipTitle = "Compra"
+                ToolTipTitle = "Compra",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Informes",
@@ -138,7 +141,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 Command = InsertarDesdeOrdendeCompraCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/specializedUpdate.png", UriKind.Relative),
                 ToolTipDescription = "Insertar desde Orden de Compra",
-                ToolTipTitle = "Compra"
+                ToolTipTitle = "Compra",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             });
             return vResult;
         }

@@ -19,6 +19,8 @@ using Galac.Contab.Ccl.Tablas;
 using System.Xml.Linq;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Tablas {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Tablas {
 #else
 namespace Galac.Saw.Wrp.Tablas {
 #endif

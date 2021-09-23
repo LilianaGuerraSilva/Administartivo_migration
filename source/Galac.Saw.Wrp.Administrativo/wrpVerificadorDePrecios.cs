@@ -1,4 +1,5 @@
-﻿using LibGalac.Aos.Base;
+﻿using Galac.Saw.Wrp.Inventario;
+using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil;
@@ -7,20 +8,24 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
-
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.Inventario {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Inventario {
+#else
 namespace Galac.Saw.Wrp.Inventario {
+#endif    
     [ClassInterface(ClassInterfaceType.None)]
     public class wrpVerificadorDePrecios : System.EnterpriseServices.ServicedComponent, IWrpVerificadorDePrecios {
         private string _Title = "Consultor de Precios";
         public string Title { get; private set; }
-
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
         void IWrpVerificadorDePrecios.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 CreateGlobalValues(vfwCurrentParameters);
-                ILibMenu insMenu = new Uil.Inventario.clsVerificadorDePreciosMenu();
+                ILibMenu insMenu = new Galac.Saw.Uil.Inventario.clsVerificadorDePreciosMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
@@ -104,7 +109,7 @@ namespace Galac.Saw.Wrp.Inventario {
 
         private void CreateGlobalValues(string valCurrentParameters) {
             LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
-            LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCompania"));            
+            LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCompania"));
         }
 
         void RegisterDefaultTypesIfMissing() {

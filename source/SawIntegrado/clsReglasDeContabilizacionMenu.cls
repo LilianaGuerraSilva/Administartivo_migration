@@ -29,7 +29,7 @@ Public Sub sCreaElMenuDeReglasDeContabilizacion(ByRef refForma As Form)
    Dim ID As Long
    On Error GoTo h_ERROR
    numSubMenu = gUtilMenus.fAddSubMenu(refForma, gEnumProyecto.enum_SystemModulesToStr(eSM_ReglasDeContabilizacion), ID, 1)
-   Call gUtilMenus.fAddMenuItem(refForma, gUtilMenus.fCaptionGestionarModulo(gEnumProyecto.enum_SystemModulesToStr(eSM_ReglasDeContabilizacion)), numSubMenu, True, False)
+   Call gUtilMenus.fAddMenuItem(refForma, gUtilMenus.fCaptionGestionarModulo(gEnumProyecto.enum_SystemModulesToStr(eSM_ReglasDeContabilizacion)), numSubMenu, True, False, eSC_NoShortcut, True, 0, True)
    Call gUtilMenus.fAddMenuItem(refForma, gDefgen.AccionSobreRecordStr(imprimir), numSubMenu, gProyUsuarioActual.GetModificarReglasDeContabilizacion, False)
 h_EXIT: On Error GoTo 0
    Exit Sub

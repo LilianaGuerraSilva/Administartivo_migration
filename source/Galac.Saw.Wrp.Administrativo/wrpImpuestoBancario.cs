@@ -12,9 +12,12 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Wrp.Tablas;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Tablas {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Tablas {
 #else
 namespace Galac.Saw.Wrp.Tablas {
 #endif

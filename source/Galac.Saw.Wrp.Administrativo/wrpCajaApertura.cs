@@ -13,9 +13,14 @@ using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using Galac.Adm.Ccl.Venta;
-
+using Galac.Saw.Wrp.Venta;
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.Venta {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Venta {
+#else
 namespace Galac.Saw.Wrp.Venta {
-
+#endif
     [ClassInterface(ClassInterfaceType.None)]
 
     public class wrpCajaApertura: System.EnterpriseServices.ServicedComponent, IWrpCajaApertura {

@@ -18,6 +18,8 @@ using Galac.Comun.Ccl.TablasLey;
 using Galac.Saw.Wrp.TablasLey;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.TablasLey {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.TablasLey {
 #else
 namespace Galac.Saw.Wrp.TablasLey {
 #endif

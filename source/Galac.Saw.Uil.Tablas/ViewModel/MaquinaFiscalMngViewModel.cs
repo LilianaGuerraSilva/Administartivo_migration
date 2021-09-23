@@ -15,6 +15,7 @@ using LibGalac.Aos.ARRpt.Reports;
 using Galac.Saw.Brl.Tablas;
 using Galac.Saw.Brl.Tablas.Reportes;
 using Galac.Saw.Ccl.Tablas;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.Uil.Tablas.ViewModel {
 
@@ -141,7 +142,8 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
                 Command = ActivarCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/edit.png", UriKind.Relative),
                 ToolTipDescription = "Muestra el elemento actual en la lista en el editor para Activar.",
-                ToolTipTitle = "Activar"
+                ToolTipTitle = "Activar",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             });
             return vResult;
         }
@@ -185,7 +187,8 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
                 Command = DesactivarCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/edit.png", UriKind.Relative),
                 ToolTipDescription = "Muestra el elemento actual en la lista en el editor para Desactivar.",
-                ToolTipTitle = "Desactivar"
+                ToolTipTitle = "Desactivar",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             });
             return vResult;
         }

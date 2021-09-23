@@ -622,6 +622,12 @@ namespace Galac.Adm.Brl.Venta {
             decimal vTotalCobrado = LibImportData.ToDec(LibXml.GetPropertyString(valDatosRenglonCobro, "Monto"));
             string vCodigoCuentaBancaria = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CuentaBancariaCobroDirecto");
             string vConceptoBancario = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoBancarioCobroDirecto");
+            string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+            if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), Galac.Saw.Reconv.clsUtilReconv.GetFechaReconversion())) {
+                vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VED" : vCodigoMonedaLocal);
+            } else {
+                vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VES" : vCodigoMonedaLocal);
+            }
             XElement vXmlCobranza = new XElement("GpData");
             vXmlCobranza.Add(new XElement("GpResult",
                 new XElement("ConsecutivoCompania", valConsecutivoCompania),
@@ -658,7 +664,7 @@ namespace Galac.Adm.Brl.Venta {
                 new XElement("DescProntoPagoPorc", 0),
                 new XElement("ComisionVendedor", 0),
                 new XElement("AplicaCreditoBancario", false),
-                new XElement("CodigoMoneda", "VES"),
+                new XElement("CodigoMoneda", vCodigoMonedaLocal),
                 new XElement("NumeroDeComprobanteISLR", 0),
                 new XElement("TipoDeDocumento", ""),
                 new XElement("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login)));
@@ -669,6 +675,12 @@ namespace Galac.Adm.Brl.Venta {
 
         private void InsertarDocumentoCobradoDeCobranzaParaNotaDeCredito(int valConsecutivoCompania, string valNumeroCobranza, string valNumeroFactura, decimal valTotalFactura, decimal valTotalCobrado, eTipoDeTransaccion valTipoDeCxc) {
             XElement vXmlDocumentoCobrado = new XElement("GpData");
+            string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+            if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), Galac.Saw.Reconv.clsUtilReconv.GetFechaReconversion())) {
+                vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VED" : vCodigoMonedaLocal);
+            } else {
+                vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VES" : vCodigoMonedaLocal);
+            }
             vXmlDocumentoCobrado.Add(new XElement("GpResult",
                 new XElement("ConsecutivoCompania", valConsecutivoCompania),
                 new XElement("NumeroCobranza", valNumeroCobranza),
@@ -678,7 +690,7 @@ namespace Galac.Adm.Brl.Venta {
                 new XElement("MontoAbonado", valTotalCobrado),
                 new XElement("SimboloMonedaDeCxC", "Bs"),
                 new XElement("MontoTotalDeCxC", valTotalFactura),
-                new XElement("CodigoMonedaDeCxC", "VES"),
+                new XElement("CodigoMonedaDeCxC", vCodigoMonedaLocal),
                 new XElement("CambioAMonedaDeCobranza", "1"),
                 new XElement("MontoEnMonedaOriginalDeCxC", valTotalFactura),
                 new XElement("MontoIvaDeCxC", 0),

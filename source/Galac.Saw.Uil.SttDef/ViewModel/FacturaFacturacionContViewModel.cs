@@ -711,12 +711,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         private void ExecuteChooseCuentaBancariaCobroMultimonedaCommand(string valCodigo) {
             try {
+                string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+                vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? (LibDate.F1IsLessThanF2(LibDate.Today(), Galac.Saw.Reconv.clsUtilReconv.GetFechaReconversion()) ? "VES" : "VED") : vCodigoMonedaLocal);
                 if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_CuentaBancaria_B1.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.EsCajaChica", LibConvert.BoolToSN(false));
-                vFixedCriteria.Add("Gv_CuentaBancaria_B1.CodigoMoneda", eBooleanOperatorType.IdentityInequality, "VES");
+                vFixedCriteria.Add("Gv_CuentaBancaria_B1.CodigoMoneda", eBooleanOperatorType.IdentityInequality, vCodigoMonedaLocal);
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
                 ConexionCuentaBancariaCobroMultimoneda = null;
                 ConexionCuentaBancariaCobroMultimoneda = LibFKRetrievalHelper.ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);

@@ -15,6 +15,8 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.CajaChica {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.CajaChica {
 #else
 namespace Galac.Saw.Wrp.CajaChica {
 #endif

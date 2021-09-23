@@ -11,8 +11,13 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.Vbwa;
 using System.Reflection;
-
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.MenuBar {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.MenuBar {
+#else
 namespace Galac.Saw.Wrp.MenuBar {
+#endif
     [ClassInterface(ClassInterfaceType.None)]
     public class wrpMenuBarInventario : System.EnterpriseServices.ServicedComponent, IWrpMfMenuBarVb {
         #region Variables

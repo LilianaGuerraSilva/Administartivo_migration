@@ -12,8 +12,11 @@ using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
+using Galac.Saw.Wrp.Impuesto;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Impuesto {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Impuesto {
 #else
 namespace Galac.Saw.Wrp.Impuesto {
 #endif

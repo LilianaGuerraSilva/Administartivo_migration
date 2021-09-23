@@ -18,6 +18,8 @@ using Galac.Saw.Wrp.Administrativo;
 using Galac.Saw.Uil.Inventario;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Inventario {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Inventario {
 #else
 namespace Galac.Saw.Wrp.Inventario {
 #endif

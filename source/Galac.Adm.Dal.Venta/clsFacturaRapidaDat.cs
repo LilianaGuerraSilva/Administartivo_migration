@@ -149,6 +149,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("CodigoMonedaDeCobro", valRecord.CodigoMonedaDeCobro, 4);
             vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInInteger("NroDiasMantenerCambioAMonedaLocal",valRecord.NumeroDiasMantenerCambioAMonedaLocal);
+            vParams.AddInEnum("GeneradoPor", 0);
             vParams.AddInDateTime("FechaLimiteCambioAMonedaLocal",LibDate.Today());
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {

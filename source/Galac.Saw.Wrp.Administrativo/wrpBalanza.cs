@@ -12,8 +12,11 @@ using LibGalac.Aos.Uil;
 using System.Runtime.InteropServices;
 using LibGalac.Aos.Vbwa;
 using Galac.Adm.Uil.DispositivosExternos;
+using Galac.Saw.Wrp.DispositivosExternos;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.DispositivosExternos {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.DispositivosExternos {
 #else
 namespace Galac.Saw.Wrp.DispositivosExternos {
 #endif

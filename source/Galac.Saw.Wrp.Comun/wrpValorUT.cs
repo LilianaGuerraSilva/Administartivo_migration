@@ -17,12 +17,12 @@ using Galac.Comun.Ccl.TablasLey;
 using Galac.Saw.Wrp.TablasLey;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.TablasLey {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.TablasLey {
 #else
 namespace Galac.Saw.Wrp.TablasLey {
 #endif
-
     [ClassInterface(ClassInterfaceType.None)]
-
     public class wrpValorUT:System.EnterpriseServices.ServicedComponent, IWrpTablasLeyVb {
         #region Variables
         string _Title = "Unidad Tributaria";

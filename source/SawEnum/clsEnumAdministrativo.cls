@@ -1670,6 +1670,11 @@ Public Enum enum_TipoNotaProduccion
    eTNP_Ajuste
 End Enum
 
+Public Enum enum_FacturaGeneradaPor
+   eFGP_Usuario = 0
+   eFGP_Cotizacion
+   eFGP_Galac360
+End Enum
 
 Public Function me_saw() As Long
    me_saw = 1
@@ -13888,3 +13893,31 @@ Public Sub FillComboBoxWithFormaDeCalculoDePrecioRenglonFactura(ByRef varComboBo
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
+Public Function enumFacturaGeneradaPorToString(FacturaGeneradaPor As enum_FacturaGeneradaPor) As String
+   Select Case FacturaGeneradaPor
+      Case eFGP_Usuario: enumFacturaGeneradaPorToString = "Usuario"
+      Case eFGP_Cotizacion: enumFacturaGeneradaPorToString = "Cotizacion"
+      Case eFGP_Galac360: enumFacturaGeneradaPorToString = "Galac 360"
+      Case Else
+         enumFacturaGeneradaPorToString = enumFacturaGeneradaPorToString(0)
+   End Select
+End Function
+
+Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, Optional ByVal ShowMessage As Boolean = True) As Integer
+   Dim mEnum As enum_FacturaGeneradaPor
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eFGP_Usuario To eFGP_Galac360
+      If UCase(FacturaGeneradaPor) = UCase(enumFacturaGeneradaPorToString(mEnum)) Then
+         strFacturaGeneradaPorToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strFacturaGeneradaPorToNum = 0
+   If ShowMessage Then
+      gMessage.ProgrammerMessage "Valor " & FacturaGeneradaPor & " no existe en tipo enumerado FacturaGeneradaPor"
+   End If
+h_EXIT:
+   Exit Function
+End Function

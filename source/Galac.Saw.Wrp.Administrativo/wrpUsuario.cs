@@ -13,6 +13,8 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Usuario {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Usuario {
 #else
 namespace Galac.Saw.Wrp.Usuario {
 #endif
@@ -75,7 +77,7 @@ namespace Galac.Saw.Wrp.Usuario {
                 GSSearchCriteria SearchCriteria = new GSSearchCriteria();
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
-                Galac.Saw.clsNivelesDeSeguridad.DefinirPlantilla();
+                clsNivelesDeSeguridad.DefinirPlantilla();
             } catch (Exception vEx) {
                 if (vEx is AccessViolationException) {
                     throw;

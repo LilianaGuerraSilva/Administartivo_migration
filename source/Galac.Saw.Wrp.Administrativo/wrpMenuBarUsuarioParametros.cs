@@ -16,6 +16,8 @@ using System.Reflection;
 using System.Xml;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.MenuBar {
 #else
 namespace Galac.Saw.Wrp.MenuBar {
 #endif
@@ -83,7 +85,7 @@ namespace Galac.Saw.Wrp.MenuBar {
         void IWrpMfMenuBarVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
-                Galac.Saw.clsNivelesDeSeguridad.DefinirPlantilla();
+                clsNivelesDeSeguridad.DefinirPlantilla();
             } catch (Exception vEx) {
                 if (vEx is System.AccessViolationException) {
                     throw;

@@ -15,9 +15,10 @@ using LibGalac.Aos.Vbwa;
 using System.Reflection;
 using System.Xml;
 using LibGalac.Aos.DefGen;
-
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.MenuBar {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.MenuBar {
 #else
 namespace Galac.Saw.Wrp.MenuBar {
 #endif

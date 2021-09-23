@@ -17,6 +17,8 @@ using Galac.Saw.Ccl.Contabilizacion;
 using Galac.Saw.Wrp.Contabilizacion;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Contabilizacion {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Contabilizacion {
 #else
 namespace Galac.Saw.Wrp.Contabilizacion {
 #endif

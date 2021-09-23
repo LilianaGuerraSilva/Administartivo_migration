@@ -134,6 +134,7 @@ namespace Galac.Adm.Rpt.Venta
 
             switch (codMonedaCobro) {
                 case "VES":
+                case "VED":
                     if (codFormaDeCobro == eFormaDeCobro.Efectivo) {
                         totalEfectivoBs += LibConvert.ToDec(txtMontoCobro.Text);
                     } else if (codFormaDeCobro == eFormaDeCobro.Tarjeta) {

@@ -126,7 +126,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("HoraModificacion" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_FacRapHoMo DEFAULT (''), ");
             SQL.AppendLine("FormaDeCobro" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_FacRapFoDeCo DEFAULT ('0'), ");
             SQL.AppendLine("OtraFormaDeCobro" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_FacRapOtFoDeCo DEFAULT (''), ");
-            SQL.AppendLine("NoCotizacionDeOrigen" + InsSql.VarCharTypeForDb(11) + " CONSTRAINT d_FacRapNoCoDeOr DEFAULT (''), ");
+            SQL.AppendLine("NoCotizacionDeOrigen" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_FacRapNoCoDeOr DEFAULT (''), ");
             SQL.AppendLine("NoContrato" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_FacRapNoCo DEFAULT (''), ");
             SQL.AppendLine("ConsecutivoVehiculo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_FacRapCoVe DEFAULT (0), ");
             SQL.AppendLine("ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_FacRapCoAl DEFAULT (0), ");
@@ -142,6 +142,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("SeContabilizoIvaDiferido" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapSeContabil NOT NULL, ");
             SQL.AppendLine("AplicaDecretoIvaEspecial" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapAplicaDecr NOT NULL, ");
             SQL.AppendLine("EsGeneradaPorPuntoDeVenta" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapEsGenerada NOT NULL, ");
+            SQL.AppendLine("GeneradoPor" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapGeneradoPo NOT NULL, ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -188,7 +189,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(", Factura.CodigoAlmacen, Factura.ImprimeFiscal, Factura.NumeroControl, Factura.CodigoMoneda ");
             SQL.AppendLine(", Factura.SerialMaquinaFiscal, Factura.AplicaDecretoIvaEspecial ");
             SQL.AppendLine(", Factura.EsGeneradaPorPuntoDeVenta, Factura.CambioMostrarTotalEnDivisas, Factura.CodigoMonedaDeCobro, MonedaDeCobro.Nombre AS NombreMonedaDeCobro, Factura.NombreOperador");
-            SQL.AppendLine(", Factura.NroDiasMantenerCambioAMonedaLocal, Factura.FechaLimiteCambioAMonedaLocal, Factura.FechaUltimaModificacion");
+            SQL.AppendLine(", Factura.NroDiasMantenerCambioAMonedaLocal, Factura.FechaLimiteCambioAMonedaLocal, Factura.GeneradoPor, Factura.FechaUltimaModificacion");
             SQL.AppendLine(", Factura.fldTimeStamp, CAST(Factura.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".Factura");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumStatusFactura");
@@ -294,7 +295,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@HoraModificacion" + InsSql.VarCharTypeForDb(5) + " = '',");
             SQL.AppendLine("@FormaDeCobro" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@OtraFormaDeCobro" + InsSql.VarCharTypeForDb(20) + " = '',");
-            SQL.AppendLine("@NoCotizacionDeOrigen" + InsSql.VarCharTypeForDb(11) + " = '',");
+            SQL.AppendLine("@NoCotizacionDeOrigen" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@NoContrato" + InsSql.VarCharTypeForDb(5) + " = '',");
             SQL.AppendLine("@ConsecutivoVehiculo" + InsSql.NumericTypeForDb(10, 0) + " = 0,");
             SQL.AppendLine("@ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + " = 0,");
@@ -314,6 +315,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@CodigoMonedaDeCobro" + InsSql.VarCharTypeForDb(4) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@NroDiasMantenerCambioAMonedaLocal" + InsSql.NumericTypeForDb(10,0) + " = 0,");
+            SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@FechaLimiteCambioAMonedaLocal" + InsSql.DateTypeForDb() + " = '01/01/1980',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -432,6 +434,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            CodigoMonedaDeCobro,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            NroDiasMantenerCambioAMonedaLocal,");
+            SQL.AppendLine("            GeneradoPor,");
             SQL.AppendLine("            FechaLimiteCambioAMonedaLocal,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -538,6 +541,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @CodigoMonedaDeCobro,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @NroDiasMantenerCambioAMonedaLocal,");
+            SQL.AppendLine("            @GeneradoPor,");
             SQL.AppendLine("            @FechaLimiteCambioAMonedaLocal,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -636,7 +640,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@HoraModificacion" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@FormaDeCobro" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@OtraFormaDeCobro" + InsSql.VarCharTypeForDb(20) + ",");
-            SQL.AppendLine("@NoCotizacionDeOrigen" + InsSql.VarCharTypeForDb(11) + ",");
+            SQL.AppendLine("@NoCotizacionDeOrigen" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@NoContrato" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@ConsecutivoVehiculo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoAlmacen" + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -656,6 +660,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@CodigoMonedaDeCobro" + InsSql.VarCharTypeForDb(4) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@NroDiasMantenerCambioAMonedaLocal" + InsSql.NumericTypeForDb(10,0) + ",");
+            SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@FechaLimiteCambioAMonedaLocal" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -783,6 +788,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               CodigoMonedaDeCobro = @CodigoMonedaDeCobro,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               NroDiasMantenerCambioAMonedaLocal = @NroDiasMantenerCambioAMonedaLocal,");
+            SQL.AppendLine("               GeneradoPor = @GeneradoPor,");
             SQL.AppendLine("               FechaLimiteCambioAMonedaLocal = @FechaLimiteCambioAMonedaLocal,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");

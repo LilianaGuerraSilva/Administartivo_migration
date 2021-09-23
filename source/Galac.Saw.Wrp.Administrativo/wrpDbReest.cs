@@ -7,9 +7,12 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Saw.DDL;
 using Galac.Saw;
+using Galac.Saw.Wrp.DDL;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.DDL {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.DDL {
 #else
 namespace Galac.Saw.Wrp.DDL {
 #endif

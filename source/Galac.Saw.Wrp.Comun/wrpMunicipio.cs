@@ -13,8 +13,11 @@ using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
+using Galac.Saw.Wrp.TablasGen;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.TablasGen {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.TablasGen {
 #else
 namespace Galac.Saw.Wrp.TablasGen {
 #endif

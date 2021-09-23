@@ -20,6 +20,8 @@ using System.Xml.Linq;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.WinCont {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.WinCont {
 #else
 namespace Galac.Saw.Wrp.WinCont {
 #endif

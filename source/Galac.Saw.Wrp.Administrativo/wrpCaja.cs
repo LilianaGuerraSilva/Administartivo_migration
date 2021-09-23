@@ -15,8 +15,11 @@ using LibGalac.Aos.Uil;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Ccl.DispositivosExternos;
 using System.Xml.Linq;
+using Galac.Saw.Wrp.Venta;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Venta {
 #else
 namespace Galac.Saw.Wrp.Venta {
 #endif

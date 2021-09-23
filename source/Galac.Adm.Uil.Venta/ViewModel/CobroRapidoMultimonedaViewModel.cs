@@ -567,6 +567,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private List<RenglonCobroDeFactura> CrearListaDeCobro(eTipoDocumentoFactura valTipoDeDocumento, int valCodigoBancoParaMonedaLocal, int valCodigoBancoParaDivisa) {
             List<RenglonCobroDeFactura> vRenglonesDeCobro = new List<RenglonCobroDeFactura>();
             int vConsecutivoRenglon = 0;
+            string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
+            if (LibDate.F1IsGreaterOrEqualThanF2(LibDate.Today(), Galac.Saw.Reconv.clsUtilReconv.GetFechaReconversion())) {
+                vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VED" : vCodigoMonedaLocal);
+            } else {
+                vCodigoMonedaLocal = (LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VES" : vCodigoMonedaLocal);
+            }
             if (EfectivoEnMonedaLocal != 0) {
                 vConsecutivoRenglon += 1;
                 vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
@@ -576,7 +582,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ConsecutivoRenglon = vConsecutivoRenglon,
                     CodigoFormaDelCobro = "00001",
                     Monto = EfectivoEnMonedaLocal,
-                    CodigoMoneda = "VES",
+                    CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1
                 });
             }
@@ -603,7 +609,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     CodigoFormaDelCobro = (_EsFacturaTradicional ? "00003" : "00002"),
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = TarjetaUno,
-                    CodigoMoneda = "VES",
+                    CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1
                 });
             }
@@ -617,7 +623,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     CodigoFormaDelCobro = (_EsFacturaTradicional ? "00003" : "00002"),
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = TarjetaDos,
-                    CodigoMoneda = "VES",
+                    CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1
                 });
             }
@@ -631,7 +637,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     CodigoFormaDelCobro = "00006",
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = TransferenciaEnMonedaLocal,
-                    CodigoMoneda = "VES",
+                    CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1
                 });
             }

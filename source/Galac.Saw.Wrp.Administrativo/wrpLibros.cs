@@ -10,8 +10,14 @@ using LibGalac.Aos.Dal;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Wpf;
-
+using Galac.Saw.Wrp.Administrativo;
+#if IsExeBsF
+namespace Galac.SawBsF.Wrp.Administrativo {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Administrativo {
+#else
 namespace Galac.Saw.Wrp.Administrativo {
+#endif    
     [ClassInterface(ClassInterfaceType.None)]
     public class wrpLibros : System.EnterpriseServices.ServicedComponent, IWrpLibros {
         public string Title { get { return "Util - Libros"; } }
@@ -62,7 +68,7 @@ namespace Galac.Saw.Wrp.Administrativo {
                 insParams.AddInDateTime("FechaDesde", vfwFechaDesde);
                 insParams.AddInDateTime("FechaHasta", vfwFechaHasta);
                 StringBuilder vSbParams = insParams.Get();
-                insDb.ExecSpNonQueryNonTransaction("dbo.Gp_TraspasarDataParaLibros", ref vSbParams, 120); 
+                insDb.ExecSpNonQueryNonTransaction("dbo.Gp_TraspasarDataParaLibros", ref vSbParams, 120);
             }
         }
         #endregion //Miembros de IWrpLibros

@@ -12,6 +12,8 @@ using LibGalac.Aos.Uil;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
+#elif IsExeBsS​
+namespace Galac.SawBsS.Wrp.Venta {
 #else
 namespace Galac.Saw.Wrp.Venta {
 #endif
