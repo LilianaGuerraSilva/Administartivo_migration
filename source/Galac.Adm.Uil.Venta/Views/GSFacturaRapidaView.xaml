@@ -1078,7 +1078,7 @@
                 Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
                 Content="Tasa de cambio:"
                 Style="{StaticResource LabelCliente}" />
-   	<nsWpfControls:GSNumericBoxWpf
+            <nsWpfControls:GSNumericBoxWpfSch
                 Grid.Row="0"
                 Grid.Column="5"
                 Margin="3"
@@ -1094,7 +1094,7 @@
                 FontSize="20"
                 FontStyle="Normal"
                 FontWeight="Bold"
-                Foreground="#FFFFF8F8"
+                Foreground="#FFFFF8F8"   
                 InputDataType="igDec"
                 IsReadOnly="True"
                 Text="{Binding Mode=OneWay, Path=PromptMostrarCambio}"
