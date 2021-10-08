@@ -2,9 +2,9 @@
     x:Class="Galac.Adm.Uil.Venta.Views.GSFacturaRapidaView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsV="clr-namespace:Galac.Saw.Lib.Uil.Controls;assembly=Galac.Saw.Lib.Uil"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    xmlns:nsV="clr-namespace:Galac.Saw.Lib.Uil.Controls;assembly=Galac.Saw.Lib.Uil"
     Background="{x:Null}">
     <UserControl.InputBindings>
         <KeyBinding
@@ -1078,23 +1078,26 @@
                 Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
                 Content="Tasa de cambio:"
                 Style="{StaticResource LabelCliente}" />
-            <Label 
-                Name="lneCambioABolivares"
+   	<nsWpfControls:GSNumericBoxWpf
                 Grid.Row="0"
                 Grid.Column="5"
                 Margin="3"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
                 HorizontalAlignment="Right"
+                VerticalAlignment="Center"
                 HorizontalContentAlignment="Right"
-                BorderBrush="{x:Null}"
-                Content="{Binding Path=CambioMostrarTotalEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                ContentStringFormat="N2"
-                FontFamily="Arial"
-                FontSize="18"
-                FontWeight="SemiBold"
+                VerticalContentAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                DecimalDigits="4"
+                Focusable="False"
+                FontFamily="Calibri"
+                FontSize="20"
+                FontStyle="Normal"
+                FontWeight="Bold"
                 Foreground="#FFFFF8F8"
-                Style="{StaticResource LabelCalculatedField}"
+                InputDataType="igDec"
+                IsReadOnly="True"
+                Text="{Binding Mode=OneWay, Path=PromptMostrarCambio}"
                 Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
             <Label
                 Grid.Column="6"

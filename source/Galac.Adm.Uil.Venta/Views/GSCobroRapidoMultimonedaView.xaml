@@ -53,21 +53,26 @@
             FontWeight="Bold"
             Foreground="Green"
             Style="{StaticResource LabelPrompt}" />
-        <Label
+        <nsWpfControls:GSNumericBoxWpfSch
             Grid.Row="0"
             Grid.Column="1"
             Height="30"
-            Margin="2"
+            Margin="0,8,0,0"
             HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
             HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"
-            Content="{Binding Mode=OneWay, Path=CambioAMonedaLocal, Converter={StaticResource StringToCurrencyConverter}}"
+            Background="Transparent"
+            BorderThickness="0"
+            DecimalDigits="4"
+            Focusable="False"
             FontFamily="Calibri"
             FontSize="20"
             FontStyle="Normal"
             FontWeight="Bold"
             Foreground="Green"
-            Style="{StaticResource LabelPrompt}" />
+            InputDataType="igDec"
+            IsReadOnly="True"
+            Text="{Binding Mode=OneWay, Path=CambioAMonedaLocalParaMostrar}" />
         <Border
             Grid.Row="1"
             Grid.Column="0"

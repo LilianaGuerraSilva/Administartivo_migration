@@ -34,7 +34,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string MontoRestantePorPagarEnMonedaLocalParaMostrarPropertyName = "MontoRestantePorPagarEnMonedaLocalParaMostrar";
         private const string MontoRestantePorPagarEnDivisasParaMostrarPropertyName = "MontoRestantePorPagarEnDivisasParaMostrar";
         private const string lblPorPagarYVueltoPropertyName = "lblPorPagarYVuelto";
-        private const string ConexionCodigoMonedaPropertyName = "ConexionCodigoMoneda";
+        private const string ConexionCodigoMonedaPropertyName = "ConexionCodigoMoneda";        
         private string _NombreDeMonedaLocal;
         private string _NombreDeMonedaDivisa;
         private string _SimboloMonedaLocal;
@@ -58,7 +58,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool _IsEnabledEfectivoDivisa;
         private XElement _XmlDatosDelCobro;
         private readonly bool _EsFacturaTradicional;
-        public Action<bool> SeCobro;
+        public Action<bool> SeCobro;       
 
         #endregion
 
@@ -139,7 +139,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             set {
                 if (_CambioAMonedaLocal != value) {
-                    _CambioAMonedaLocal = value;
+                    _CambioAMonedaLocal = value;                    
                     RaisePropertyChanged(CambioAMonedaLocalPropertyName);
                 }
             }
@@ -288,6 +288,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string CambioAMonedaLocalParaMostrar {
+            get {
+                return LibConvert.NumToString(CambioAMonedaLocal,4);
+            }           
+        }
+
         public FkMonedaViewModel ConexionCodigoMoneda {
             get {
                 return _ConexionCodigoMoneda;
@@ -376,14 +382,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             _EsFacturaTradicional = valEsFacturaTradicional;
         }
 
-        public CobroRapidoMultimonedaViewModel(eAccionSR valAction, FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobroMaster, int valAlicuotaIvaASustituir, decimal valCambioAMonedaLocal, bool valEsFacturaTradicional) {
+        public CobroRapidoMultimonedaViewModel(eAccionSR valAction, FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobroMaster, int valAlicuotaIvaASustituir, bool valEsFacturaTradicional) {
             _MonedaLocalNav = new clsNoComunSaw(); // Se Llama desde POS
             insFactura = valFactura;
             ConsecutivoCompania = insFactura.ConsecutivoCompania;
             TipoDeDocumento = insFactura.TipoDeDocumentoAsEnum;
             NumeroFactura = insFactura.Numero;
             FechaDeFactura = insFactura.Fecha;
-            AsignarValoresDeMonedas(insFactura.CodigoMoneda, insFactura.CodigoMonedaDeCobro);            
+            AsignarValoresDeMonedas(insFactura.CodigoMoneda, insFactura.CodigoMonedaDeCobro);
             AsignarValoresInicialesDeTotales(insFactura.CodigoMoneda, insFactura.TotalFactura);
             DeshabilitarControlesSegunTipoDeDocumento(TipoDeDocumento);
             CalcularTotales();
@@ -518,7 +524,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public override void CalcularTotales() {            
             decimal TotalPagosMe = EfectivoEnDivisas + TransferenciaEnDivisas;
             decimal TotalPagoML = EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal;           
-            MontoRestantePorPagar = TotalFactura - (TotalPagoML +  LibMath.RoundToNDecimals(TotalPagosMe * CambioAMonedaLocal,2));
+            MontoRestantePorPagar = LibMath.RoundToNDecimals(TotalFactura - (TotalPagoML +  LibMath.RoundToNDecimals(TotalPagosMe * CambioAMonedaLocal,2)),2);
             MontoRestantePorPagarEnDivisas = LibMath.RoundToNDecimals(MontoRestantePorPagar / CambioAMonedaLocal, 2);
             MontoRestantePorPagarEnMonedaLocalParaMostrar = SimboloMonedaLocal + ". " + LibConvert.ToStr(LibMath.Abs(MontoRestantePorPagar));
             MontoRestantePorPagarEnDivisasParaMostrar = SimboloDivisa + LibConvert.ToStr(LibMath.Abs(MontoRestantePorPagarEnDivisas));
@@ -600,7 +606,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     NumeroFactura = NumeroFactura,
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = (_EsFacturaTradicional ? "00003" : "00002"),
+                    CodigoFormaDelCobro = "00003",
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = TarjetaUno,
                     CodigoMoneda = vCodigoMonedaLocal,
@@ -614,7 +620,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     NumeroFactura = NumeroFactura,
                     TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
                     ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = (_EsFacturaTradicional ? "00003" : "00002"),
+                    CodigoFormaDelCobro = "00003",
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = TarjetaDos,
                     CodigoMoneda = vCodigoMonedaLocal,
