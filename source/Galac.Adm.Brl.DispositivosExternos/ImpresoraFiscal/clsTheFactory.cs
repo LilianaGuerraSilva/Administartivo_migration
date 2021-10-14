@@ -69,15 +69,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 ePuerto ePuerto = (ePuerto)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "PuertoMaquinaFiscal"));
                 _CommPort = ePuerto.GetDescription(0);
                 _ModeloFactory = (eImpresoraFiscal)LibConvert.DbValueToEnum(LibImpresoraFiscalUtil.ObtenerValorDesdeXML(valXmlDatosImpresora, "ModeloDeMaquinaFiscal"));
-                _ModelosAntiguos = (_ModeloFactory == eImpresoraFiscal.BIXOLON270 || _ModeloFactory == eImpresoraFiscal.OKIML1120 || _ModeloFactory == eImpresoraFiscal.BIXOLON350 || _ModeloFactory == eImpresoraFiscal.ACLASPP1F3);
+                _ModelosAntiguos = (_ModeloFactory == eImpresoraFiscal.BIXOLON270 || _ModeloFactory == eImpresoraFiscal.OKIML1120 || _ModeloFactory == eImpresoraFiscal.BIXOLON350 || _ModeloFactory == eImpresoraFiscal.ACLASPP1F3 || _ModeloFactory == eImpresoraFiscal.HKA112);
                 _MaxLongitudDeTexto = (_ModelosAntiguos ? 30 : 40);
                 //                
-                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA112);
-                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.HKA112);
+                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+
+                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
                 //                
                 _FormatoFirmwareTipo1 = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125);
                 //
-                _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.HKA112 || _ModeloFactory == eImpresoraFiscal.ACLASPP9);
+                _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
             } catch (GalacException vEx) {
                 throw vEx;
             }
