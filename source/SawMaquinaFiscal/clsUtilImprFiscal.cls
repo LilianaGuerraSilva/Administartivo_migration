@@ -573,8 +573,7 @@ Private Function fGenerarDatosDeLosPagosParaXml(ByVal valDatosVentImpFiscal As c
    If gDbUtil.fRecordCount(rsFormaDePago) > 0 Then
       rsFormaDePago.MoveFirst
       Do While Not rsFormaDePago.EOF
-         vFormadePago = rsFormaDePago("CodigoFormaDelCobro").Value
-         vFormadePago = fFormaDePago(vFormadePago)
+         vFormadePago = rsFormaDePago("CodigoFormaDelCobro").Value         
          vMontoCancelado = rsFormaDePago("Monto").Value
          vMontoCancelado = gTexto.DfReplace(vMontoCancelado, "-", "")
          vRenglonItems = "<GpResultDetailRenglonCobro>" & vSiguienteLinea & _
@@ -715,18 +714,3 @@ h_EXIT: On Error GoTo 0
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCadenaCaracteresValidos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fFormaDePago(ByVal valFormaDelCobro As String) As String
-   Dim vResult As String
-   On Error GoTo h_Error
-   If valFormaDelCobro = "00002" Then
-      vResult = "00003"
-   ElseIf valFormaDelCobro = "00003" Then
-      vResult = "00002"
-   Else
-      vResult = valFormaDelCobro
-   End If
-h_EXIT: On Error GoTo 0
-   fFormaDePago = vResult
-   Exit Function
-h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fFormaDePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function

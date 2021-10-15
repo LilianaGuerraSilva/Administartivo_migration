@@ -1336,6 +1336,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string PromptMostrarCambio {
+            get {
+                return LibConvert.NumToString(CambioMostrarTotalEnDivisas, 4);
+            }
+        }
+
         public RelayCommand<string> ChooseArticuloCommand {
             get;
             private set;
@@ -2163,7 +2169,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     if (DialogResult) {
                         bool vUsaCobroDirectoMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
                         if (vUsaCobroDirectoMultimoneda || EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
-                            CobroRapidoMultimonedaViewModel vViewModelCobroMultimoneda = new CobroRapidoMultimonedaViewModel(Action, FacturaRapidaACobrar, ListDeCobroMaster, _AlicuotaIvaASustituir, CambioMostrarTotalEnDivisas, false);
+                            CobroRapidoMultimonedaViewModel vViewModelCobroMultimoneda = new CobroRapidoMultimonedaViewModel(Action, FacturaRapidaACobrar, ListDeCobroMaster, _AlicuotaIvaASustituir, false);
                             vViewModelCobroMultimoneda.XmlDatosImprFiscal = _XmlDatosImprFiscal;
                             vViewModelCobroMultimoneda.SeCobro += (arg) => vResultCobro = arg;
                             LibMessages.EditViewModel.ShowEditor(vViewModelCobroMultimoneda, true);
