@@ -65,10 +65,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             List<RenglonCobroDeFactura> vCloneListCobro = valListDeCobro.Select(t => t.Clone()).ToList();           
             XElement vResult = null;
             XElement xElementFacturaRapida = LibParserHelper.ParseToXElement(valFactura);
-            XElement xElementGpDataDetailRenglonFactura = new XElement("GpDataDetailRenglonFactura");            
+            XElement xElementGpDataDetailRenglonFactura = new XElement("GpDataDetailRenglonFactura");
+            decimal Diferencia = 0;
             bool vAplicaIvaEspecial = LibConvert.SNToBool(LibXml.GetPropertyString(xElementFacturaRapida, "AplicaDecretoIvaEspecial"));
             int vParametro = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "AplicarIVAEspecial");
-                        
+            
+            decimal vTotalPagos = 0;
             foreach (var item in valFactura.DetailFacturaRapidaDetalle) {
                 item.PrecioSinIVA = LibMath.RoundToNDecimals(item.PrecioSinIVA * valFactura.CambioABolivares, 2);
                 XElement xDetail = DetailParseToXElement(item);
@@ -86,10 +88,29 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             DarFormatoASerialyRollo(xElementGpDataDetailRenglonFactura);
             xElementFacturaRapida.Element("GpResult").Add(xElementGpDataDetailRenglonFactura);
+
             XElement xElementGpDataDetailRenglonCobro = new XElement("GpDataDetailRenglonCobro");
             foreach (var renglon in vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda())) {
                 renglon.Monto = LibMath.RoundToNDecimals(renglon.Monto * renglon.CambioAMonedaLocal,2);
-            }          
+            }
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda") && vCloneListCobro.Count > 1) {
+                Diferencia = TotalFactura - vTotalPagos;
+                vTotalPagos = vCloneListCobro.Sum(s => s.Monto);
+                if (TotalFactura > vTotalPagos) {
+                    var xPago = vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()).FirstOrDefault();
+                    if (xPago != null) {
+                        xPago.Monto += Diferencia;
+                    }
+                } else if (vTotalPagos > TotalFactura) {
+                    Diferencia = vTotalPagos - TotalFactura;
+                    var xPago = vCloneListCobro.Where(x => x.CodigoMoneda != _MonedaLocalNav.InstanceMonedaLocalActual.GetHoyCodigoMoneda()).FirstOrDefault();
+                    if (xPago != null) {
+                        xPago.Monto -= Diferencia;
+                    }
+                }
+            } else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda") && vCloneListCobro[0].Monto < TotalFactura && vCloneListCobro.Count == 1) {
+                vCloneListCobro[0].Monto = TotalFactura;
+            }
 
             foreach (var item in vCloneListCobro) {
                 XElement xDetail = LibParserHelper.ParseToXElement(item);
