@@ -1029,21 +1029,18 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             switch (valFormaDeCobro) {
                 case "00001":
                     vResultado = "Efectivo";
-                    break;               
+                    break;
                 case "00002":
-                    vResultado = "Cheque";
+                    vResultado = "Tarjeta";
                     break;
                 case "00003":
-                    vResultado = "Tarjeta";
+                    vResultado = "Cheque";
                     break;
                 case "00004":
                     vResultado = "Depósito";
                     break;
                 case "00005":
                     vResultado = "Anticipo";
-                    break;
-                case "00006":
-                    vResultado = "Transferencia";
                     break;
                 default:
                     vResultado = "Efectivo";
