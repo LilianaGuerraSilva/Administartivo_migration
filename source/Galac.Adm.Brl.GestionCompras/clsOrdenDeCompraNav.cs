@@ -313,6 +313,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             SQL.AppendLine(vSelectMax);            
             SQL.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             SQL.AppendLine("AND TipoDeCompra = @TipoDeCompra ");
+            SQL.AppendLine("AND ISNUMERIC(SUBSTRING(OrdenDeCompra.Numero,4,LEN(OrdenDeCompra.Numero)))=1");
             if(LibDefGen.ProgramInfo.IsCountryPeru()) {
                 SQL.AppendLine(" AND Serie = @Serie ");
             }            
