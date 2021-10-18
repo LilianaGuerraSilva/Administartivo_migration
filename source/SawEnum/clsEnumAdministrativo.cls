@@ -1511,6 +1511,7 @@ Public Enum enum_SolicitudGeneradaPor
    eSGP_AdelantoDeVacaciones
    eSGP_AnticipoDePrestaciones
    eSGP_NoAplica
+   eSGP_TicketsAlimentacion
 End Enum
  
 Public Enum enum_StatusSolicitud
@@ -12588,6 +12589,7 @@ Public Function enumSolicitudGeneradaPorToString(SolicitudGeneradaPor As enum_So
       Case eSGP_AdelantoDeVacaciones: enumSolicitudGeneradaPorToString = "Adelanto de Vacaciones"
       Case eSGP_AnticipoDePrestaciones: enumSolicitudGeneradaPorToString = "Anticipo de Prestaciones"
       Case eSGP_NoAplica: enumSolicitudGeneradaPorToString = "No Aplica"
+      Case eSGP_TicketsAlimentacion: enumSolicitudGeneradaPorToString = "Tickets de Alimentación"
       Case Else
          enumSolicitudGeneradaPorToString = enumSolicitudGeneradaPorToString(0)
    End Select
@@ -12597,7 +12599,7 @@ Public Function strSolicitudGeneradaPorToNum(ByVal SolicitudGeneradaPor As Strin
    Dim mEnum As enum_SolicitudGeneradaPor
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eSGP_CalculosDeNomina To eSGP_NoAplica
+   For mEnum = eSGP_CalculosDeNomina To eSGP_TicketsAlimentacion
       If UCase(SolicitudGeneradaPor) = UCase(enumSolicitudGeneradaPorToString(mEnum)) Then
          strSolicitudGeneradaPorToNum = nCount
          GoTo h_EXIT
@@ -12640,6 +12642,8 @@ Public Sub FillComboBoxWithSolicitudGeneradaPor(ByRef varComboBox As Object, Opt
    varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_AnticipoDePrestaciones)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_NoAplica)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_TicketsAlimentacion)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
