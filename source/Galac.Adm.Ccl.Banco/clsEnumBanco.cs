@@ -76,7 +76,7 @@ namespace Galac.Adm.Ccl.Banco {
         AnticipoDePrestaciones, 
         [LibEnumDescription("No Aplica")]
         NoAplica,
-        [LibEnumDescription("Tickets de Alimentacion")]
+        [LibEnumDescription("Tickets de Alimentación")]
         TicketsAlimentacion
     }
 
