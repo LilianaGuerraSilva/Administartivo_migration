@@ -1511,6 +1511,7 @@ Public Enum enum_SolicitudGeneradaPor
    eSGP_Liquidacion
    eSGP_AdelantoDeVacaciones
    eSGP_AnticipoDePrestaciones
+   eSGP_TicketsAlimentacion
    eSGP_NoAplica
 End Enum
  
@@ -12591,6 +12592,7 @@ Public Function enumSolicitudGeneradaPorToString(SolicitudGeneradaPor As enum_So
       Case eSGP_Liquidacion: enumSolicitudGeneradaPorToString = "Liquidación"
       Case eSGP_AdelantoDeVacaciones: enumSolicitudGeneradaPorToString = "Adelanto de Vacaciones"
       Case eSGP_AnticipoDePrestaciones: enumSolicitudGeneradaPorToString = "Anticipo de Prestaciones"
+      Case eSGP_TicketsAlimentacion: enumSolicitudGeneradaPorToString = "Tickets de Alimentación"
       Case eSGP_NoAplica: enumSolicitudGeneradaPorToString = "No Aplica"
       Case Else
          enumSolicitudGeneradaPorToString = enumSolicitudGeneradaPorToString(0)
@@ -12642,6 +12644,8 @@ Public Sub FillComboBoxWithSolicitudGeneradaPor(ByRef varComboBox As Object, Opt
    varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_AdelantoDeVacaciones)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_AnticipoDePrestaciones)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_TicketsAlimentacion)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_NoAplica)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto

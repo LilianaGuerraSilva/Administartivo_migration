@@ -158,6 +158,7 @@ namespace Galac.Adm.Brl.Banco {
 				case "Liquidación": return eSolicitudGeneradaPor.Liquidacion;
                 case "Adelanto de Vacaciones": return eSolicitudGeneradaPor.AdelantoDeVacaciones;
                 case "Anticipo de Prestaciones": return eSolicitudGeneradaPor.AnticipoDePrestaciones;
+                case "Tickets de Alimentacion": return eSolicitudGeneradaPor.TicketsAlimentacion;
                 default:
                     return eSolicitudGeneradaPor.NoAplica;
             }

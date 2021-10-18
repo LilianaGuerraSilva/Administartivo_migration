@@ -190,11 +190,11 @@
     <Galac.Saw.Dal.Vendedor>2.60.0.0</Galac.Saw.Dal.Vendedor>
     <Galac.Saw.Brl.Vendedor>2.60.0.0</Galac.Saw.Brl.Vendedor>
 
-    <Galac.Adm.Ccl.Banco>2.60.0.0</Galac.Adm.Ccl.Banco>
-    <Galac.Adm.Dal.Banco>2.60.1	.0</Galac.Adm.Dal.Banco>
-    <Galac.Adm.Brl.Banco>2.60.0.0</Galac.Adm.Brl.Banco>
-    <Galac.Adm.Uil.Banco>2.60.0.0</Galac.Adm.Uil.Banco>
-    <Galac.Adm.Uil.Banco.resources>2.60.0.0</Galac.Adm.Uil.Banco.resources>
+    <Galac.Adm.Ccl.Banco>2.60.1.0</Galac.Adm.Ccl.Banco>
+    <Galac.Adm.Dal.Banco>2.60.1.0</Galac.Adm.Dal.Banco>
+    <Galac.Adm.Brl.Banco>2.60.1.0</Galac.Adm.Brl.Banco>
+    <Galac.Adm.Uil.Banco>2.60.1.0</Galac.Adm.Uil.Banco>
+    <Galac.Adm.Uil.Banco.resources>2.60.1.0</Galac.Adm.Uil.Banco.resources>
 
     <Galac.Adm.Ccl.CajaChica>2.60.0.0</Galac.Adm.Ccl.CajaChica>
     <Galac.Adm.Dal.CajaChica>2.60.0.0</Galac.Adm.Dal.CajaChica>
