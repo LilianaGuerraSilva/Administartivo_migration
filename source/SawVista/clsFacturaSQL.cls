@@ -1930,46 +1930,42 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFacturaXVistas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Public Function fSQLArticulosSobreGiradosEnPedido(ByVal valConsecutivoCompania As Long, ByVal valNumeroFactura As String) As String
+Public Function fSQLArticulosSobreGiradosEnPedido(ByVal valConsecutivoCompania As Long, ByVal valNumeroFactura As String, ByVal valTipoDocumento As Integer) As String
    Dim vSQL As String
    Dim vSQLWhere  As String
    On Error GoTo h_ERROR
-   
    vSQLWhere = gUtilSQL.fSQLValueWithAnd("", "renglonFactura.NumeroFactura", valNumeroFactura, False)
-   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania)
-   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "renglonFactura.ConsecutivoCompania", valConsecutivoCompania)
+   vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "renglonFactura.TipoDeDocumento", valTipoDocumento)
  
-   vSQL = " SELECT TOP 5  renglonFactura.NumeroFactura,"
-   vSQL = vSQL & " factura.NoCotizacionDeOrigen,"
-   vSQL = vSQL & " renglonFactura.Articulo,"
-   vSQL = vSQL & " renglonFactura.Cantidad,"
-   vSQL = vSQL & " renglonCotizacion.Cantidad AS cantidadpedida,"
-   vSQL = vSQL & " renglonCotizacion.CantidadDespachada, "
-   vSQL = vSQL & " (renglonCotizacion.Cantidad -  renglonCotizacion.CantidadDespachada) AS Resta  "
-   vSQL = vSQL & " FROM factura "
-   vSQL = vSQL & " INNER JOIN  renglonFactura ON "
-   vSQL = vSQL & " factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND"
-   vSQL = vSQL & " factura.Numero = renglonFactura.NumeroFactura AND "
-   vSQL = vSQL & " factura.TipoDeDocumento =  renglonFactura.TipoDeDocumento"
-   vSQL = vSQL & " INNER JOIN  cotizacion ON "
-   vSQL = vSQL & " factura.ConsecutivoCompania = cotizacion.ConsecutivoCompania AND "
-   vSQL = vSQL & " factura.NoCotizacionDeOrigen = cotizacion.Numero "
-   vSQL = vSQL & " INNER JOIN  renglonCotizacion ON "
-   vSQL = vSQL & " renglonFactura.Articulo =  renglonCotizacion.CodigoArticulo AND"
-   vSQL = vSQL & " renglonFactura.Serial =  renglonCotizacion.Serial AND"
-   vSQL = vSQL & " renglonFactura.Rollo =  renglonCotizacion.Rollo AND"
-   vSQL = vSQL & " cotizacion.Numero =  renglonCotizacion.NumeroCotizacion AND"
-   vSQL = vSQL & " cotizacion.ConsecutivoCompania =  renglonCotizacion.ConsecutivoCompania  "
-   vSQL = vSQL & vSQLWhere
-   vSQL = vSQL & " GROUP BY   "
-   vSQL = vSQL & " renglonFactura.NumeroFactura,"
-   vSQL = vSQL & " factura.NoCotizacionDeOrigen,"
-   vSQL = vSQL & " renglonFactura.Articulo,"
-   vSQL = vSQL & " renglonFactura.Cantidad,"
-   vSQL = vSQL & " renglonCotizacion.Cantidad,"
-   vSQL = vSQL & " renglonCotizacion.CantidadDespachada"
-   vSQL = vSQL & "  Having (renglonCotizacion.Cantidad - " & gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("renglonCotizacion.CantidadDespachada"), gUtilSQL.fNumToStrSQL(0), "renglonCotizacion.CantidadDespachada", False) & " < renglonFactura.Cantidad) "
-  fSQLArticulosSobreGiradosEnPedido = vSQL
+   vSQL = "SELECT renglonFactura.NumeroFactura, "
+   vSQL = vSQL & "factura.NoCotizacionDeOrigen, "
+   vSQL = vSQL & "renglonFactura.Articulo, "
+   vSQL = vSQL & "renglonFactura.Cantidad, "
+   vSQL = vSQL & "renglonCotizacion.Cantidad AS CantidadPedida, "
+   vSQL = vSQL & "ISNULL(renglonCotizacion.CantidadDespachada, 0) AS CantidadDespachada, "
+   vSQL = vSQL & "(renglonCotizacion.Cantidad - ISNULL(renglonCotizacion.CantidadDespachada, 0)) AS Resta  "
+  
+   vSQL = vSQL & " FROM renglonFactura INNER JOIN factura "
+   vSQL = vSQL & "   ON renglonFactura.ConsecutivoCompania = factura.ConsecutivoCompania "
+   vSQL = vSQL & "   AND renglonFactura.NumeroFactura = factura.Numero "
+   vSQL = vSQL & "   AND renglonFactura.TipoDeDocumento = factura.TipoDeDocumento "
+   vSQL = vSQL & "   INNER JOIN cotizacion "
+   vSQL = vSQL & "   ON factura.ConsecutivoCompania = cotizacion.ConsecutivoCompania "
+   vSQL = vSQL & "   AND factura.NoCotizacionDeOrigen = cotizacion.Numero "
+   vSQL = vSQL & "   INNER JOIN renglonCotizacion "
+   vSQL = vSQL & "   ON cotizacion.ConsecutivoCompania = renglonCotizacion.ConsecutivoCompania "
+   vSQL = vSQL & "   AND cotizacion.Numero = renglonCotizacion.NumeroCotizacion "
+   vSQL = vSQL & "   AND renglonFactura.Articulo = renglonCotizacion.CodigoArticulo "
+   vSQL = vSQL & "   AND ISNULL(renglonFactura.Serial, '') = ISNULL(renglonCotizacion.Serial, '') "
+   vSQL = vSQL & "   AND ISNULL(renglonFactura.Rollo,'') = ISNULL(renglonCotizacion.Rollo,'') "
+   
+   
+   vSQL = vSQL & gUtilSQL.getWhereSQL(vSQLWhere)
+   vSQL = vSQL & "GROUP BY renglonFactura.NumeroFactura, factura.NoCotizacionDeOrigen, renglonFactura.Articulo, "
+   vSQL = vSQL & "renglonFactura.Cantidad, renglonCotizacion.Cantidad, renglonCotizacion.CantidadDespachada "
+   vSQL = vSQL & "HAVING ((renglonCotizacion.Cantidad - ISNULL(renglonCotizacion.CantidadDespachada, 0)) < renglonFactura.Cantidad) "
+   fSQLArticulosSobreGiradosEnPedido = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
