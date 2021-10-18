@@ -72,7 +72,9 @@ namespace Galac.Adm.Dal.GestionCompras {
             StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
             LibDataScope insDb = new LibDataScope();
             CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".OrdenDeCompra", "Consecutivo", vParametro);
-            CurrentRecord.Numero = ProximoNumero();
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SugerirNumeroDeOrdenDeCompra")){
+                CurrentRecord.Numero = ProximoNumero();
+            }
             return base.ExecuteProcessBeforeInsert();
         }
 
