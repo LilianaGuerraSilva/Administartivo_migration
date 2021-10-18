@@ -94,11 +94,12 @@ namespace Galac.Adm.Dal.GestionCompras {
             }
             SQL.AppendLine(vSelectMax);
             SQL.AppendLine(" WHERE ConsecutivoCompania = " + CurrentRecord.ConsecutivoCompania);
-            SQL.AppendLine("AND TipoDeCompra = " + LibConvert.ToInt(CurrentRecord.TipoDeCompraAsString));
+            SQL.AppendLine("AND TipoDeCompra = " + LibConvert.ToInt(CurrentRecord.TipoDeCompraAsDB));
             SQL.AppendLine("AND ISNUMERIC(SUBSTRING(OrdenDeCompra.Numero,4,LEN(OrdenDeCompra.Numero)))=1");
             if (LibDefGen.ProgramInfo.IsCountryPeru()){
                 SQL.AppendLine(" AND Serie = @Serie ");
             }
+
             object vNumero2 = insDb.ExecuteScalar(SQL.ToString(), -1, false);
             if (vNumero2 != null){
                 vNumero = LibConvert.ToInt(vNumero2);
