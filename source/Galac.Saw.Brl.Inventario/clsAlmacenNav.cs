@@ -157,12 +157,13 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.Append(" AND Codigo = @Codigo");
             
             ILibDataComponent<IList<Almacen>, IList<Almacen>> instanciaDal = GetDataInstance();
-            //XElement vResulset = instanciaDal.QueryInfo(eProcessMessageType.Query, null, vSql);
             XElement vResulset = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), string.Empty, 0);
-            vResult = (from vRecord in vResulset.Descendants("GpResult")
+            if (vResulset != null){
+                vResult = (from vRecord in vResulset.Descendants("GpResult")
                        select new {
                            Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo"))
                        }).FirstOrDefault().Consecutivo;
+            }
             return vResult;
         }
 

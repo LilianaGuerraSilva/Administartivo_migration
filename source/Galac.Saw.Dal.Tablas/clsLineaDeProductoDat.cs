@@ -137,6 +137,7 @@ namespace Galac.Saw.Dal.Tablas {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataComponent<IList<LineaDeProducto>, IList<LineaDeProducto>>.Insert(IList<LineaDeProducto> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";

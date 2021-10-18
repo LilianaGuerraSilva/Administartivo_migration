@@ -123,6 +123,7 @@ namespace Galac.Saw.Dal.SttDef {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Sett Definition.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataComponent<IList<SettDefinition>, IList<SettDefinition>>.Insert(IList<SettDefinition> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
