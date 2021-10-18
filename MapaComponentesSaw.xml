@@ -9,14 +9,14 @@
     <LibGalacXtmCI>2104</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>2107</SawEnum>
-    <SawImportExport>2107</SawImportExport>
-    <SawMaquinaFiscal>2107</SawMaquinaFiscal>
+    <SawEnum>ND</SawEnum>
+    <SawImportExport>ND</SawImportExport>
+    <SawMaquinaFiscal>ND</SawMaquinaFiscal>
     <SawNav>2107</SawNav>
-    <SawRpt>2107</SawRpt>
+    <SawRpt>ND</SawRpt>
     <SawSP>2107</SawSP>
     <SawTbls>2107</SawTbls>
-    <SawVista>2107</SawVista>    
+    <SawVista>ND</SawVista>    
     <ContabRpt>2109</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0003</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -118,7 +118,7 @@
 
     <Galac.Saw.Brl.SttDef>2.60.0.0</Galac.Saw.Brl.SttDef>
     <Galac.Saw.Ccl.SttDef>2.60.0.0</Galac.Saw.Ccl.SttDef>
-    <Galac.Saw.Dal.SttDef>2.60.0.0</Galac.Saw.Dal.SttDef>
+    <Galac.Saw.Dal.SttDef>2.60.1.0</Galac.Saw.Dal.SttDef>
     <Galac.Saw.Uil.SttDef>2.60.0.0</Galac.Saw.Uil.SttDef>
 
     <Galac.Comun.Brl.LeyCosto>2.60.0.0</Galac.Comun.Brl.LeyCosto>
@@ -148,7 +148,7 @@
 
     <Galac.Adm.Ccl.GestionCompras>2.60.0.0</Galac.Adm.Ccl.GestionCompras>
     <Galac.Adm.Brl.GestionCompras>2.60.0.0</Galac.Adm.Brl.GestionCompras>
-    <Galac.Adm.Dal.GestionCompras>2.60.0.0</Galac.Adm.Dal.GestionCompras>
+    <Galac.Adm.Dal.GestionCompras>2.60.1.0</Galac.Adm.Dal.GestionCompras>
     <Galac.Adm.Rpt.GestionCompras>2.60.0.0</Galac.Adm.Rpt.GestionCompras>
     <Galac.Adm.Rpt.GestionCompras.resources>2.60.0.0</Galac.Adm.Rpt.GestionCompras.resources>
     <Galac.Adm.Uil.GestionCompras>2.60.0.0</Galac.Adm.Uil.GestionCompras>
@@ -156,12 +156,12 @@
 
     <Galac.Saw.Ccl.Cliente>2.60.0.0</Galac.Saw.Ccl.Cliente>
     <Galac.Saw.Brl.Cliente>2.60.0.0</Galac.Saw.Brl.Cliente>
-    <Galac.Saw.Dal.Cliente>2.60.0.0</Galac.Saw.Dal.Cliente>
+    <Galac.Saw.Dal.Cliente>2.60.1.0</Galac.Saw.Dal.Cliente>
     <Galac.Saw.Uil.Cliente>2.60.0.0</Galac.Saw.Uil.Cliente>
 
     <Galac.Saw.Ccl.Inventario>2.60.0.0</Galac.Saw.Ccl.Inventario>
-    <Galac.Saw.Dal.Inventario>2.60.0.0</Galac.Saw.Dal.Inventario>
-    <Galac.Saw.Brl.Inventario>2.60.0.0</Galac.Saw.Brl.Inventario>
+    <Galac.Saw.Dal.Inventario>2.60.1.0</Galac.Saw.Dal.Inventario>
+    <Galac.Saw.Brl.Inventario>2.60.1.0</Galac.Saw.Brl.Inventario>
     <Galac.Saw.Rpt.Inventario>2.60.0.0</Galac.Saw.Rpt.Inventario>
     <Galac.Saw.Uil.Inventario>2.60.0.0</Galac.Saw.Uil.Inventario>
 
@@ -177,7 +177,7 @@
     <Galac.Axi.Uil.Balances>2.60.0.0</Galac.Axi.Uil.Balances>
     
     <Galac.Saw.Ccl.Tablas>2.60.0.0</Galac.Saw.Ccl.Tablas>
-    <Galac.Saw.Dal.Tablas>2.60.0.0</Galac.Saw.Dal.Tablas>
+    <Galac.Saw.Dal.Tablas>2.60.1.0</Galac.Saw.Dal.Tablas>
     <Galac.Saw.Brl.Tablas>2.60.0.0</Galac.Saw.Brl.Tablas>
     <Galac.Saw.Uil.Tablas>2.60.0.0</Galac.Saw.Uil.Tablas>
 
@@ -191,7 +191,7 @@
     <Galac.Saw.Brl.Vendedor>2.60.0.0</Galac.Saw.Brl.Vendedor>
 
     <Galac.Adm.Ccl.Banco>2.60.0.0</Galac.Adm.Ccl.Banco>
-    <Galac.Adm.Dal.Banco>2.60.0.0</Galac.Adm.Dal.Banco>
+    <Galac.Adm.Dal.Banco>2.60.1.0</Galac.Adm.Dal.Banco>
     <Galac.Adm.Brl.Banco>2.60.0.0</Galac.Adm.Brl.Banco>
     <Galac.Adm.Uil.Banco>2.60.0.0</Galac.Adm.Uil.Banco>
     <Galac.Adm.Uil.Banco.resources>2.60.0.0</Galac.Adm.Uil.Banco.resources>
@@ -202,10 +202,10 @@
     <Galac.Adm.Rpt.CajaChica>2.60.0.0</Galac.Adm.Rpt.CajaChica>
     <Galac.Adm.Uil.CajaChica>2.60.0.0</Galac.Adm.Uil.CajaChica>
 
-    <Galac.Adm.Ccl.DispositivosExternos>2.60.0.0</Galac.Adm.Ccl.DispositivosExternos>
-    <Galac.Adm.Dal.DispositivosExternos>2.60.0.0</Galac.Adm.Dal.DispositivosExternos>
-    <Galac.Adm.Brl.DispositivosExternos>2.60.0.0</Galac.Adm.Brl.DispositivosExternos>
-    <Galac.Adm.Uil.DispositivosExternos>2.60.0.0</Galac.Adm.Uil.DispositivosExternos>    
+    <Galac.Adm.Ccl.DispositivosExternos>2.60.1.0</Galac.Adm.Ccl.DispositivosExternos>
+    <Galac.Adm.Dal.DispositivosExternos>2.60.1.0</Galac.Adm.Dal.DispositivosExternos>
+    <Galac.Adm.Brl.DispositivosExternos>2.60.1.0</Galac.Adm.Brl.DispositivosExternos>
+    <Galac.Adm.Uil.DispositivosExternos>2.60.1.0</Galac.Adm.Uil.DispositivosExternos>    
 
     <Galac.Adm.Ccl.GestionProduccion>2.60.0.0</Galac.Adm.Ccl.GestionProduccion>
     <Galac.Adm.Dal.GestionProduccion>2.60.0.0</Galac.Adm.Dal.GestionProduccion>
@@ -213,11 +213,11 @@
     <Galac.Adm.Rpt.GestionProduccion>2.60.0.0</Galac.Adm.Rpt.GestionProduccion>		
     <Galac.Adm.Uil.GestionProduccion>2.60.0.0</Galac.Adm.Uil.GestionProduccion>	
     
-    <Galac.Adm.Ccl.Venta>2.60.0.0</Galac.Adm.Ccl.Venta>
-    <Galac.Adm.Dal.Venta>2.60.0.0</Galac.Adm.Dal.Venta>
-    <Galac.Adm.Brl.Venta>2.60.0.0</Galac.Adm.Brl.Venta> 
-    <Galac.Adm.Rpt.Venta>2.60.0.0</Galac.Adm.Rpt.Venta>		
-    <Galac.Adm.Uil.Venta>2.60.0.0</Galac.Adm.Uil.Venta>	
+    <Galac.Adm.Ccl.Venta>2.60.1.0</Galac.Adm.Ccl.Venta>
+    <Galac.Adm.Dal.Venta>2.60.1.0</Galac.Adm.Dal.Venta>
+    <Galac.Adm.Brl.Venta>2.60.1.0</Galac.Adm.Brl.Venta> 
+    <Galac.Adm.Rpt.Venta>2.60.1.0</Galac.Adm.Rpt.Venta>		
+    <Galac.Adm.Uil.Venta>2.60.1.0</Galac.Adm.Uil.Venta>	
     	
     <Galac.Adm.Ccl.CAnticipo>2.60.0.0</Galac.Adm.Ccl.CAnticipo>
     <Galac.Adm.Dal.CAnticipo>2.60.0.0</Galac.Adm.Dal.CAnticipo>
@@ -231,7 +231,7 @@
     <Galac.Saw.Wrp.Comun>2.60.0.0</Galac.Saw.Wrp.Comun>                      
     <Galac.Saw.Wrp.Crm>2.60.0.0</Galac.Saw.Wrp.Crm>
     <Galac.Saw.Wrp.WinCont>2.60.0.0</Galac.Saw.Wrp.WinCont>
-    <Galac.Saw.DDL>2.60.0.0</Galac.Saw.DDL>
+    <Galac.Saw.DDL>2.60.1.0</Galac.Saw.DDL>
 
     <Microsoft.Practices.Unity>2.0.414.0</Microsoft.Practices.Unity>
     <Microsoft.Practices.EnterpriseLibrary.Data>5.0.414.0</Microsoft.Practices.EnterpriseLibrary.Data>
