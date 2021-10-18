@@ -13,7 +13,7 @@
     <SawImportExport>2107</SawImportExport>
     <SawMaquinaFiscal>2107</SawMaquinaFiscal>
     <SawNav>2107</SawNav>
-    <SawRpt>2107</SawRpt>
+    <SawRpt>2108</SawRpt>
     <SawSP>2107</SawSP>
     <SawTbls>2107</SawTbls>
     <SawVista>2107</SawVista>    
@@ -147,8 +147,8 @@
     <Galac.Saw.Uil.Contabilizacion>2.60.0.0</Galac.Saw.Uil.Contabilizacion>
 
     <Galac.Adm.Ccl.GestionCompras>2.60.0.0</Galac.Adm.Ccl.GestionCompras>
-    <Galac.Adm.Brl.GestionCompras>2.60.1.0</Galac.Adm.Brl.GestionCompras>
-    <Galac.Adm.Dal.GestionCompras>2.60.1.0</Galac.Adm.Dal.GestionCompras>
+    <Galac.Adm.Brl.GestionCompras>2.60.0.0</Galac.Adm.Brl.GestionCompras>
+    <Galac.Adm.Dal.GestionCompras>2.60.0.0</Galac.Adm.Dal.GestionCompras>
     <Galac.Adm.Rpt.GestionCompras>2.60.0.0</Galac.Adm.Rpt.GestionCompras>
     <Galac.Adm.Rpt.GestionCompras.resources>2.60.0.0</Galac.Adm.Rpt.GestionCompras.resources>
     <Galac.Adm.Uil.GestionCompras>2.60.0.0</Galac.Adm.Uil.GestionCompras>

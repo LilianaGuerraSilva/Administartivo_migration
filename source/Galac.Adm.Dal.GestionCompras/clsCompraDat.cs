@@ -74,12 +74,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             vResult = vParams.Get();
             return vResult;
         }
-        protected override bool ExecuteProcessBeforeInsert(){
-            StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
-            LibDataScope insDb = new LibDataScope();
-            CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".Compra", "Consecutivo", vParametro);
-            return base.ExecuteProcessBeforeInsert();
-        }
 
         private StringBuilder ParametrosClave(Compra valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
