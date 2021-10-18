@@ -240,7 +240,6 @@ namespace Galac.Adm.Dal.GestionCompras {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Proveedor.Insertar")]
-        [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataComponent<IList<Proveedor>, IList<Proveedor>>.Insert(IList<Proveedor> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";

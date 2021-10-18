@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Object = "{18B1931C-D536-4582-BC33-49A47A9683D0}#3.0#0"; "VMAX.ocx"
 Begin VB.Form frmImpresorasFiscales 
    BackColor       =   &H00FFFFFF&
@@ -353,7 +353,7 @@ Private Function fAbrirComprobanteFiscal(ByVal valImpresoraFiscal As Enum_Impres
           Set insImpFiscalQPrint = New clsImpFiscalQPrint
           insImpFiscalQPrint.sAbreCF_QPrintMF valImpresoraFiscal, insDatosImprFiscal, mReady, valPuerto, valTipoConexion, valIp, valCajaNumero
           Set insImpFiscalQPrint = Nothing
-       Case Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_ACLAS_PP1F3, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+       Case Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_ACLAS_PP1F3, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
           Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
           mReady = insImpFiscalFamFactory.sAbreCF(valPuerto, valImpresoraFiscal)
           Set insImpFiscalFamFactory = Nothing
@@ -710,7 +710,7 @@ Private Function fEjecutaCierreZ(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
        Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: sCierreZ_BEMATECH
        Case eIF_BMC_CAMEL, eIF_BMC_SPARK_614, eIF_BMC_TH34_EJ:                  sCierreZ_BMC
        Case eIF_QPRINT_MF:                                      sCierreZ_QPrintMF valPuerto, valTipoConexion, valIp, valCajaNumero
-       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_OKI_ML_1120, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_OKI_ML_1120, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
           sCierreZ_FamiliaFactory valPuerto, valImpresoraFiscal
        Case eIF_ELEPOS_VMAX_220_F, eIF_ELEPOS_VMAX_300, eIF_ELEPOS_VMAX_580
          Set insImpFiscalEleposVMAX = New clsImpFiscalEleposVMAX
@@ -805,7 +805,7 @@ Private Function fEjecutaCierreX(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
          insImpFiscalQPrintMF.sRealizarCierreX_QPrintMF mReady, valPuerto, valTipoConexion, valIp, valCajaNumero
          Set insImpFiscalQPrintMF = Nothing
        
-       Case eIF_DASCOM_TALLY_1125, eIF_ACLAS_PP1F3, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+       Case eIF_DASCOM_TALLY_1125, eIF_ACLAS_PP1F3, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
           Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
           insImpFiscalFamFactory.sCierreX valPuerto, valImpresoraFiscal, mReady
           Set insImpFiscalFamFactory = Nothing
@@ -1455,7 +1455,7 @@ Private Sub sObtenerSerialImpresoraFiscal(ByVal valImpresoraFiscal As Enum_Impre
           Case eIF_EPSON_TM_675_PF:           Serial = fSerialMemoriaFiscal_EPSON(valPuerto)
           Case eIF_EPSON_TM_950_PF:           Serial = fSerialMemoriaFiscal_EPSON(valPuerto)
           Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: Serial = fSerialMemoriaFiscal_BEMATECH
-       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
              Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
              Serial = insImpFiscalFamFactory.fSerialMemoriaFiscal(mReady, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetImpresoraFiscal)
              Set insImpFiscalFamFactory = Nothing
@@ -1685,7 +1685,7 @@ Private Sub sObtenerUltimoNumeroFiscal(ByVal valImpresoraFiscal As Enum_Impresor
        Case eIF_EPSON_TM_675_PF:              NumeroCupon = fUltimoNumeroMemoriaFiscal_EPSON(valImpresoraFiscal, valPuerto)
        Case eIF_EPSON_TM_950_PF:              NumeroCupon = fUltimoNumeroMemoriaFiscal_EPSON(valImpresoraFiscal, valPuerto)
        
-       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
           Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
           NumeroCupon = insImpFiscalFamFactory.fUltimoNumeroMemoriaFiscal(insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetEsNotaDeCredito, mReady)
           Set insImpFiscalFamFactory = Nothing
@@ -1880,7 +1880,7 @@ Private Sub sEfectuaVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, B
           Set insImprFiscalQPrint = New clsImpFiscalQPrint
           insImprFiscalQPrint.sImprimeVentaArticulo_QPrintMF valImpresoraFiscal, insDatosImprFiscal, mReady, valPuerto, valTipoConexion, valIp, valCajaNumero
           Set insImprFiscalQPrint = Nothing
-       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+       Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
           Set insImprFiscalFamFactory = New clsImpFiscalFamFactory
           insImprFiscalFamFactory.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, mReady
           Set insImprFiscalFamFactory = Nothing
@@ -1942,7 +1942,7 @@ Private Sub sEfectuaNotaDeCredito(ByVal valImpresoraFiscal As Enum_ImpresorasFis
             Set insImprFiscalFactory = New clsImpFiscalFamFactory
             insImprFiscalFactory.sImprimeNotaDeCredito valImpresoraFiscal, valPuerto, insDatosImprFiscal, mReady
             Set insImprFiscalFactory = Nothing
-         Case eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eIF_DASCOM_TALLY_1140
+         Case eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80
             Set insImprFiscalFactory = New clsImpFiscalFamFactory
             insImprFiscalFactory.sImprimeNotaDeCreditoDascomT valImpresoraFiscal, valPuerto, insDatosImprFiscal, mReady
             Set insImprFiscalFactory = Nothing
@@ -1974,7 +1974,7 @@ Private Sub sCerrarVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, va
       Case eIF_EPSON_TM_675_PF:              sCierraCF_EPSON (valImpresoraFiscal), valPuerto
       Case eIF_EPSON_TM_950_PF:              sCierraCF_EPSON (valImpresoraFiscal), valPuerto
       Case eIF_BEMATECH_MP_20_FI_II, eIF_BEMATECH_MP_2100_FI, eIF_BEMATECH_MP_4000_FI: sCierraCF_BEMATECH valImpresoraFiscal
-      Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+      Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_ACLAS_PP1F3, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
          Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
          insImpFiscalFamFactory.sCierraCF True
          Set insImpFiscalFamFactory = Nothing
@@ -2170,7 +2170,7 @@ Private Sub sCancelaCuponFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFisca
           Set insImpFicalBmc = New clsUtilImpFiscalBMC
           insImpFicalBmc.fCancelaCuponFiscal_BMC True, valPuerto
           Set insImpFicalBmc = Nothing
-       Case eIF_DASCOM_TALLY_1125, eIF_ACLAS_PP1F3, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+       Case eIF_DASCOM_TALLY_1125, eIF_ACLAS_PP1F3, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
           Set insImpFiscalFamFactory = New clsImpFiscalFamFactory
           insImpFiscalFamFactory.fCancelaCuponFiscal True, valPuerto, valImpresoraFiscal
           Set insImpFiscalFamFactory = Nothing
@@ -2209,7 +2209,6 @@ Private Sub sVerificaVigenciaDeLaAlicuota(ByVal valImpresoraFiscal As Enum_Impre
          Case eIF_SAMSUNG_BIXOLON_SRP_812:
          Case eif_HKA80:
          Case eif_HKA112:
-         Case eIF_DASCOM_TALLY_1140:
       End Select
    End If
    Ready = mReady
@@ -2727,7 +2726,7 @@ Public Sub sObtenerUltimoNumeroDeReporteZ(ByVal valImpresoraFiscal As Enum_Impre
            vUltimoNumeroDeReporteZ = insImpFiscalQPrint.fObtenerUltimoReporteZ_QPrintMF(valPuerto, valTipoConexion, valIp, valCajaNumero)
            Set insImpFiscalQPrint = Nothing
            
-        Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112, eIF_DASCOM_TALLY_1140:
+        Case eIF_DASCOM_TALLY_1125, eIF_SAMSUNG_BIXOLON_SRP_270, eIF_SAMSUNG_BIXOLON_SRP_350, eIF_OKI_ML_1120, eIF_ACLAS_PP1F3, eIF_DASCOM_TALLY_DT_230, eIF_SAMSUNG_BIXOLON_SRP_280, eIF_ACLAS_PP9, eIF_SAMSUNG_BIXOLON_SRP_812, eif_HKA80, eif_HKA112:
            Set insImpFiscalFamiliaFactory = New clsImpFiscalFamFactory
            vUltimoNumeroDeReporteZ = insImpFiscalFamiliaFactory.fObtenerUltimoNumeroDeReporteZ(valPuerto, valImpresoraFiscal)
            Set insImpFiscalFamiliaFactory = Nothing

@@ -185,7 +185,6 @@ namespace Galac.Saw.Dal.Inventario {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Almacén.Insertar")]
-        [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataComponent<IList<Almacen>, IList<Almacen>>.Insert(IList<Almacen> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";

@@ -933,6 +933,7 @@ Private Function CM_OPT_RETENCION_IVA() As Integer
    CM_OPT_RETENCION_IVA = 4
 End Function
 
+
 Private Function CM_OPT_RETENCION_ISLR() As Integer
    CM_OPT_RETENCION_ISLR = 11
 End Function
@@ -952,11 +953,9 @@ End Function
 Private Function CM_OPT_DESGLOSE_DE_COBRANZAS() As Integer
    CM_OPT_DESGLOSE_DE_COBRANZAS = 8
 End Function
-
 Private Function CM_OPT_COBRANZA_POR_ZONA() As Integer
    CM_OPT_COBRANZA_POR_ZONA = 9
 End Function
-
 Private Function CM_OPT_RETENCION_IVA_FORMAL() As Integer
    CM_OPT_RETENCION_IVA_FORMAL = 10
 End Function
@@ -1014,6 +1013,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "chkComisionDetalladoResumido_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+
 Private Sub CmbCantidadImprimir_Click(Index As Integer)
    Dim Cualcombo As Integer
    On Error GoTo h_ERROR
@@ -1025,6 +1025,7 @@ Private Sub CmbCantidadImprimir_Click(Index As Integer)
             txtNombreDeCliente.Visible = False
             txtCodigoDeCliente.Visible = False
             txtNombreDeCliente.Text = ""
+
             txtCodigoDeCliente.Text = ""
          Else
             lblNombreDeCliente(0).Visible = True
@@ -1110,7 +1111,7 @@ End Sub
 
 Private Sub cmdSalir_KeyDown(KeyCode As Integer, Shift As Integer)
    On Error GoTo h_ERROR
-   sCheckForSpecialKeys KeyCode, Shift
+  sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdSalir_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1258,6 +1259,7 @@ Private Sub optInformesDeCobranzas_Click(Index As Integer)
       Case CM_OPT_DESGLOSE_DE_COBRANZAS: sActivarCamposDeDesgloseDeCobranza
       Case CM_OPT_COBRANZA_POR_ZONA: sActivarCamposDeCobranzaPorZona
       Case CM_OPT_RETENCION_IVA_FORMAL: sActivarCamposDeRetencionIVA (Index)
+
       Case CM_OPT_RETENCION_ISLR: sActivarCamposDeRetencionISLR (Index)
    End Select
 h_EXIT: On Error GoTo 0
@@ -1266,29 +1268,25 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub optTipoDesglose_Click(Index As Integer)
-   On Error GoTo h_ERROR
+ On Error GoTo h_ERROR
    If mInformeSeleccionado = CM_OPT_DESGLOSE_DE_COBRANZAS Then
       frameCliente.Visible = optTipoDesglose(CM_OPT_DIA).Value
       lblCantidadimprimir(0).Visible = optTipoDesglose(CM_OPT_DIA).Value
       CmbCantidadImprimir(0).Visible = optTipoDesglose(CM_OPT_DIA).Value
-   End If
-   txtNombreDeCliente.Text = ""
+    End If
+     txtNombreDeCliente.Text = ""
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTipoDesglose_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optTipoDetalleComisionCob_Click(Index As Integer)
-   On Error GoTo h_ERROR
    If Index = 0 Then
       chkDiasTranscurridosCXC.Visible = True
    Else
       chkDiasTranscurridosCXC.Value = False
       chkDiasTranscurridosCXC.Visible = False
    End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTipoDetalleComisionCob_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtAnoFinal_GotFocus()
@@ -1347,25 +1345,28 @@ Private Sub txtCodigoDeCliente_KeyDown(KeyCode As Integer, Shift As Integer)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeCliente_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+
 End Sub
 
 Private Sub txtCodigoDeCliente_Validate(Cancel As Boolean)
-   On Error GoTo h_ERROR
+ On Error GoTo h_ERROR
    Cancel = False
    If LenB(txtCodigoDeCliente.Text) = 0 Then
       txtCodigoDeCliente.Text = "*"
    End If
-   insCliente.sClrRecord
-   insCliente.SetCodigo txtCodigoDeCliente.Text
-   If insCliente.fSearchSelectConnection(False, False, False, 0, False, True) Then
-      sSelectAndSetValuesOfCliente insCliente
-   Else
-      Cancel = True
-      gAPI.ssSetFocus txtCodigoDeCliente
-   End If
+      insCliente.sClrRecord
+      insCliente.SetCodigo txtCodigoDeCliente.Text
+      If insCliente.fSearchSelectConnection(False, False, False, 0, False, True) Then
+         sSelectAndSetValuesOfCliente insCliente
+      Else
+         Cancel = True
+         gAPI.ssSetFocus txtCodigoDeCliente
+      End If
+   Set insCliente = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeCliente_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+
 End Sub
 
 Private Sub txtCodigoDeVendedor_GotFocus()
@@ -1551,7 +1552,7 @@ Private Sub sInitDefaultValues()
    optDetalladoResumido(CM_OPT_DETALLADO).Value = True
    optTasaDeCambio(CM_OPT_TASA_DEL_DIA).Value = True
    optInformesDeCobranzas(CM_OPT_COMISION_DE_AGENTES).Visible = gProyParametros.GetEsSistemaParaIG
-h_EXIT: On Error GoTo 0
+h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaultValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
@@ -1649,6 +1650,7 @@ Private Sub txtFiltro_Validate(Cancel As Boolean)
             Cancel = True
             GoTo h_EXIT
          End If
+         Set insCnxAos = Nothing
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1672,7 +1674,7 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtNombreDeCliente_Validate(Cancel As Boolean)
-   On Error GoTo h_ERROR
+On Error GoTo h_ERROR
    If LenB(txtNombreDeCliente) = 0 Then
       txtNombreDeCliente = "*"
    End If
@@ -1762,7 +1764,7 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub sSelectAndSetValuesOfVendedor()
-   On Error GoTo h_ERROR
+On Error GoTo h_ERROR
    If insVendedor.fRsRecordCount(False) = 1 Then
       sAssignFieldsFromConnectionVendedor
    ElseIf insVendedor.fRsRecordCount(False) > 1 Then
@@ -1779,9 +1781,9 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Sub
 
 Private Sub sAssignFieldsFromConnectionVendedor()
-   On Error GoTo h_ERROR
-   txtNombreDeVendedor.Text = insVendedor.GetNombre
-   txtCodigoDeVendedor.Text = insVendedor.GetCodigo
+    On Error GoTo h_ERROR
+    txtNombreDeVendedor.Text = insVendedor.GetNombre
+    txtCodigoDeVendedor.Text = insVendedor.GetCodigo
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1874,18 +1876,18 @@ Private Sub sActivarCamposDeDesgloseDeCobranza()
       frameVentasDiferidas.Visible = True
       chkMostrasSoloVentasDiferidas.Value = 0
    End If
-h_EXIT: On Error GoTo 0
+h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeDesgloseDeCobranza", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optTasaDeCambio_Click(Index As Integer)
-   On Error GoTo h_ERROR
-   If Index = 0 Then
+    On Error GoTo h_ERROR
+    If Index = 0 Then
       mUsarCambioOriginal = True
-   Else
+    Else
       mUsarCambioOriginal = False
-   End If
+    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optTasaDeCambio_Click()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1919,13 +1921,13 @@ Private Sub sEjecutaCobranzaXDia()
    Else
       SqlDelReporte = insCobranzaSQL.fConstruirSqlDelReporteCobranzaPorDia(ReporteEnMonedaLocal, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetConsecutivoCompania, gMonedaLocalActual, gUltimaTasaDeCambio, optTasaDeCambio(0).Value, gConvert.ConvertByteToBoolean(chkMostrasSoloVentasDiferidas.Value))
    End If
-   Set rptMostrarReporte = New DDActiveReports2.ActiveReport
-   Set insConfigurar = New clsCobranzaRpt
-   If insConfigurar.fConfigurarDatosDelReporteCobranzaXDia(rptMostrarReporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, mUsarCambioOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gConvert.ConvertByteToBoolean(chkMostrasSoloVentasDiferidas.Value)) Then
-      gUtilReports.sMostrarOImprimirReporte rptMostrarReporte, 1, mDondeImprimir, "Cobranza por Dia"
-   End If
-   Set rptMostrarReporte = Nothing
-   Set insConfigurar = Nothing
+      Set rptMostrarReporte = New DDActiveReports2.ActiveReport
+      Set insConfigurar = New clsCobranzaRpt
+      If insConfigurar.fConfigurarDatosDelReporteCobranzaXDia(rptMostrarReporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, mUsarCambioOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gConvert.ConvertByteToBoolean(chkMostrasSoloVentasDiferidas.Value)) Then
+         gUtilReports.sMostrarOImprimirReporte rptMostrarReporte, 1, mDondeImprimir, "Cobranza por Dia"
+      End If
+      Set rptMostrarReporte = Nothing
+      Set insConfigurar = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCobranzaXDia", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2089,7 +2091,8 @@ Private Sub sEjecutaComisionDeVendedores()
    Set rptMostrarReporte = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaComisionDeVendedores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
+         "sEjecutaComisionDeVendedores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub optTipoDeComision_Click(Index As Integer)
@@ -2159,6 +2162,7 @@ Private Sub sEjecutaComparativoCobranzaPorAnos()
       txtAnoFinal = gConvert.ConvierteAInteger(txtAnoFinal.Text) + 1
    End If
    SqlDelReporte = insCobranzaSQL.fSqlDeComparativoCobranzaPorAnos(gConvert.ConvierteAInteger(txtAnoInicial.Text), gConvert.ConvierteAInteger(txtAnoFinal.Text), gProyCompaniaActual.GetConsecutivoCompania, gMonedaLocalActual, gUltimaTasaDeCambio)
+   
    If insCobranzaConfigurar.fConfigurarComparativoCobranzaPorAnos(rptMostrarReporte, SqlDelReporte, gConvert.ConvierteAInteger(txtAnoInicial.Text), gConvert.ConvierteAInteger(txtAnoFinal.Text), gProyCompaniaActual.GetNombreCompaniaParaInformes(True)) Then
       gUtilReports.sMostrarOImprimirReporte rptMostrarReporte, 1, mDondeImprimir, "Comparativo de Cobranza Entre Años"
    End If
@@ -2188,26 +2192,28 @@ h_ERROR: Err.Raise Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM
 End Sub
 
 Private Function fEjecutaElReportedetalladoPorCobro(ByVal OpcionesComisionesSobreCobranza As String, ByRef refCobranzaporDiasVencidos As Boolean) As String
-   Dim sql As String
+   Dim SQL As String
    Dim MonedaDelReporteBs As Boolean
    Dim ValimprimirSoloUno As Boolean
    Dim MostrarDiasTranscurridos As Boolean
    On Error GoTo h_ERROR
+
    refCobranzaporDiasVencidos = False
    Select Case OpcionesComisionesSobreCobranza
       Case gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_MONTO)
-         sql = "(" & insCobranzaSQL.fConstruirSQLPorCobrosDelReporteComisionDeVendedorDetallado(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyParametrosCompania.GetAsignarComisionDeVendedorEnCobranza, chkMontoBruto = vbChecked, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text) & ")"
-         sql = sql & " UNION "
-         sql = sql & "(" & insCobranzaSQL.fConstruirSQLPorCobrosDelReporteComisionDeVendedorDetalladoOrigenFactura(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyParametrosCompania.GetAsignarComisionDeVendedorEnCobranza, chkMontoBruto = vbChecked, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text, gProyParametrosCompania.GetUsarOtrosCargoDeFactura) & ")"
-         sql = sql & " ORDER BY "
+         SQL = "(" & insCobranzaSQL.fConstruirSQLPorCobrosDelReporteComisionDeVendedorDetallado(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyParametrosCompania.GetAsignarComisionDeVendedorEnCobranza, chkMontoBruto = vbChecked, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text) & ")"
+         SQL = SQL & " UNION "
+         SQL = SQL & "(" & insCobranzaSQL.fConstruirSQLPorCobrosDelReporteComisionDeVendedorDetalladoOrigenFactura(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyParametrosCompania.GetAsignarComisionDeVendedorEnCobranza, chkMontoBruto = vbChecked, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text, gProyParametrosCompania.GetUsarOtrosCargoDeFactura) & ")"
+
+         SQL = SQL & " ORDER BY "
          If cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(enum_MonedaDeLosReportes.eMR_EnBs, gProyParametros.GetNombreMonedaLocal) Then
-            sql = sql & insVendedor.GetTableName & ".Codigo, "
+            SQL = SQL & insVendedor.GetTableName & ".Codigo, "
          Else
-            sql = sql & insCobranza.GetTableName & ".Moneda, "
-            sql = sql & insVendedor.GetTableName & ".Codigo, "
+            SQL = SQL & insCobranza.GetTableName & ".Moneda, "
+            SQL = SQL & insVendedor.GetTableName & ".Codigo, "
          End If
-         sql = sql & insCobranza.GetTableName & ".Fecha, "
-         sql = sql & insCobranza.GetTableName & ".Numero"
+         SQL = SQL & insCobranza.GetTableName & ".Fecha, "
+         SQL = SQL & insCobranza.GetTableName & ".Numero"
       Case gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_DIASVENCIDOS)
          If cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(enum_MonedaDeLosReportes.eMR_EnBs, gProyParametros.GetNombreMonedaLocal) Then
              MonedaDelReporteBs = True
@@ -2219,206 +2225,249 @@ Private Function fEjecutaElReportedetalladoPorCobro(ByVal OpcionesComisionesSobr
          Else
             ValimprimirSoloUno = False
          End If
-         sql = insCobranzaSQL.fConstruirSQLPorCobrosDelReporteComisionDeVendedorPorDiasVencidoDetallado(MonedaDelReporteBs, mUsarCambioOriginal, gMonedaLocalActual, gUltimaTasaDeCambio, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, ValimprimirSoloUno, txtNombreDeVendedor.Text, chkDiasTranscurridosCXC.Value)
+         SQL = insCobranzaSQL.fConstruirSQLPorCobrosDelReporteComisionDeVendedorPorDiasVencidoDetallado(MonedaDelReporteBs, mUsarCambioOriginal, gMonedaLocalActual, gUltimaTasaDeCambio, gProyCompaniaActual.GetNombreCompaniaParaInformes(True).GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, ValimprimirSoloUno, txtNombreDeVendedor.Text, chkDiasTranscurridosCXC.Value)
          refCobranzaporDiasVencidos = True
       Case gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_PORCENTAJE_POR_ARTICULO)
-         sql = insCobranzaSQL.fConstruirSQLDelReporteComisionDeVendedorPorCobranzaPorArticuloDetallado(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text)
+         SQL = insCobranzaSQL.fConstruirSQLDelReporteComisionDeVendedorPorCobranzaPorArticuloDetallado(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyCompaniaActual.GetNombreCompaniaParaInformes(True).GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text)
+      
    End Select
-   fEjecutaElReportedetalladoPorCobro = sql
+
+   fEjecutaElReportedetalladoPorCobro = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaElReportedetalladoPorCobro", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
+'
 Private Function fEjecutaElReportedetalladoPorVentas(ByVal OpcionesComisionesSobreCobranza As String) As String
-   Dim sql As String
+   Dim SQL As String
    Dim sqlMontoRenglonSinIvaConDescFact As String
    Dim ReporteEnMonedaLocal As Boolean
    On Error GoTo h_ERROR
+
    If cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal) Then
       ReporteEnMonedaLocal = True
    Else
       ReporteEnMonedaLocal = False
    End If
+
    Select Case OpcionesComisionesSobreCobranza
       Case gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_MONTO)
-         sqlMontoRenglonSinIvaConDescFact = insRenglonFactura.fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura(False, False)
-         sql = insCobranzaSQL.fConstruirSQLPorVentasDelReporteComisionDeVendedorDetallado(sqlMontoRenglonSinIvaConDescFact, ReporteEnMonedaLocal, mUsarCambioOriginal, gUltimaTasaDeCambio, gMonedaLocalActual, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text, gProyCompaniaActual.GetConsecutivoCompania)
+           sqlMontoRenglonSinIvaConDescFact = insRenglonFactura.fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura(False, False)
+           SQL = insCobranzaSQL.fConstruirSQLPorVentasDelReporteComisionDeVendedorDetallado(sqlMontoRenglonSinIvaConDescFact, ReporteEnMonedaLocal, mUsarCambioOriginal, gUltimaTasaDeCambio, gMonedaLocalActual, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text, gProyCompaniaActual.GetConsecutivoCompania)
       Case gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_PORCENTAJE_POR_ARTICULO)
-         sql = "(" & insCobranzaSQL.fConstruirSQLPorVentasDelReporteComisionDeVendedorDetalladoPoArticulo(mUsarCambioOriginal, ReporteEnMonedaLocal, gUltimaTasaDeCambio, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, gMonedaLocalActual, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text) & ")"
-         sql = sql & " UNION "
-         sql = sql & "(" & insCobranzaSQL.fConstruirSQLPorVentasDelReporteComisionDeVendedorDetalladoPoArticuloDeOtrosCargos(mUsarCambioOriginal, ReporteEnMonedaLocal, gMonedaLocalActual, gUltimaTasaDeCambio, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value) & ")"
-         sql = sql & " ORDER BY CodigoVendedor,ColumnaParaGrupoTipoReporte,CodigoArticulo, FechaDeFactura, NumeroDeFactura"
+         SQL = "(" & insCobranzaSQL.fConstruirSQLPorVentasDelReporteComisionDeVendedorDetalladoPoArticulo(mUsarCambioOriginal, ReporteEnMonedaLocal, gUltimaTasaDeCambio, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, gMonedaLocalActual, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text) & ")"
+         SQL = SQL & " UNION "
+         SQL = SQL & "(" & insCobranzaSQL.fConstruirSQLPorVentasDelReporteComisionDeVendedorDetalladoPoArticuloDeOtrosCargos(mUsarCambioOriginal, ReporteEnMonedaLocal, gMonedaLocalActual, gUltimaTasaDeCambio, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value) & ")"
+         SQL = SQL & " ORDER BY CodigoVendedor,ColumnaParaGrupoTipoReporte,CodigoArticulo, FechaDeFactura, NumeroDeFactura"
    End Select
-   fEjecutaElReportedetalladoPorVentas = sql
+   fEjecutaElReportedetalladoPorVentas = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaElReportedetalladoPorVentas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fEjecutaElReportedetalladoPorVentasResumidas(ByVal OpcionesComisionesSobreCobranza As String) As String
-   Dim sql As String
+   Dim SQL As String
    Dim sqlSumaTotalRenglon As String
+   
    On Error GoTo h_ERROR
    sqlSumaTotalRenglon = ""
    sqlSumaTotalRenglon = insRenglonFactura.fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura(False, False)
    sqlSumaTotalRenglon = gUtilSQL.DfCDecSQL(sqlSumaTotalRenglon)
    sqlSumaTotalRenglon = " SUM(" & sqlSumaTotalRenglon & ")"
    sqlSumaTotalRenglon = gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull(sqlSumaTotalRenglon), 0, sqlSumaTotalRenglon, True)
+
    Select Case OpcionesComisionesSobreCobranza
       Case gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_MONTO)
-         sql = insCobranzaSQL.fConstruirSQLPorVentasTotalesDeCadaVendedor(insFactura.getFN_TOTAL_MONTO_EXENTO, insFactura.getFN_TOTAL_FACTURA, mUsarCambioOriginal, gUltimaTasaDeCambio, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetConsecutivoCompania, sqlSumaTotalRenglon, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text)
+         SQL = insCobranzaSQL.fConstruirSQLPorVentasTotalesDeCadaVendedor(insFactura.getFN_TOTAL_MONTO_EXENTO, insFactura.getFN_TOTAL_FACTURA, mUsarCambioOriginal, gUltimaTasaDeCambio, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetNombreCompaniaParaInformes(True).GetConsecutivoCompania, sqlSumaTotalRenglon, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text)
       Case gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_PORCENTAJE_POR_ARTICULO)
-         sql = "(" & fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticulo(mUsarCambioOriginal, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text) & ")"
-         sql = sql & " UNION "
-         sql = sql & "(" & fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticuloDeOtrosCargos(mUsarCambioOriginal) & ")"
-         sql = sql & " ORDER BY CodigoVendedor,ColumnaParaGrupoTipoReporte,CodigoArticulo"
+         SQL = "(" & fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticulo(mUsarCambioOriginal, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text) & ")"
+         SQL = SQL & " UNION "
+         SQL = SQL & "(" & fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticuloDeOtrosCargos(mUsarCambioOriginal) & ")"
+         SQL = SQL & " ORDER BY CodigoVendedor,ColumnaParaGrupoTipoReporte,CodigoArticulo"
    End Select
-   fEjecutaElReportedetalladoPorVentasResumidas = sql
+   fEjecutaElReportedetalladoPorVentasResumidas = SQL
+   Set insFactura = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaElReportedetalladoPorVentasResumidas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticulo(ByVal usarCambioOriginal As Boolean, ByVal valCantidadAImprimir As String, ByVal valNombreDeVendedor As String) As String
-   Dim sql As String
+   Dim SQL As String
    Dim sqlPrecioSinIva As String
    Dim sqlPrecioConIva As String
    Dim sqlMoneda As String
    Dim SqlTasaDeCambio As String
    On Error GoTo h_ERROR
+   
    insFactura.setClaseDeTrabajo eCTFC_Factura
    sqlPrecioConIva = insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_PRECIO_CON_IVA
    sqlPrecioSinIva = insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_PRECIO_SIN_IVA
    sqlMoneda = insFactura.GetTableName & "." & insFactura.getFN_MONEDA
    SqlTasaDeCambio = insFactura.GetTableName & "." & insFactura.getFN_CAMBIO_ABOLIVARES
    If cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal) Then
-      sqlPrecioConIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(SqlTasaDeCambio, sqlMoneda, sqlPrecioConIva, usarCambioOriginal, "")
-      sqlPrecioSinIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(SqlTasaDeCambio, sqlMoneda, sqlPrecioSinIva, usarCambioOriginal, "")
+         sqlPrecioConIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(SqlTasaDeCambio, sqlMoneda, sqlPrecioConIva, usarCambioOriginal, "")
+         sqlPrecioSinIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(SqlTasaDeCambio, sqlMoneda, sqlPrecioSinIva, usarCambioOriginal, "")
    End If
-   sql = "SELECT "
-   sql = sql & gUtilSQL.fSimpleSqlValue("Articulo") & " AS ColumnaParaGrupoTipoReporte, "
-   sql = sql & insVendedor.GetTableName & ".Codigo AS CodigoVendedor,"
-   sql = sql & insVendedor.GetTableName & ".Nombre AS NombreVendedor,"
-   sql = sql & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_ARTICULO & " AS CodigoArticulo,"
-   sql = sql & insFactura.GetTableName & "." & insFactura.getFN_MONEDA & " AS MonedaDeFactura, "
-   sql = sql & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_DESCRIPCION & " AS DescripcionArticulo, "
-   sql = sql & insArticuloInventario.GetTableName & ".PorcentajeComision AS PorcentajeComision,"
-   sql = sql & "SUM(" & sqlPrecioConIva & " * renglonFactura.Cantidad  " & ") AS PrecioConIVA, "
-   sql = sql & "SUM((" & sqlPrecioSinIva & "* renglonFactura.Cantidad " & "-( " & sqlPrecioSinIva & "* renglonFactura.Cantidad  * (renglonFactura.PorcentajeDescuento)/100 ) )" & "- ((" & sqlPrecioSinIva & "* renglonFactura.Cantidad " & "-( " & sqlPrecioSinIva & "* renglonFactura.Cantidad  * (renglonFactura.PorcentajeDescuento)/100 ) )*(Factura.PorcentajeDescuento)/100 ))" & " AS PrecioSinIVA, "
-   sql = sql & "SUM(renglonFactura.Cantidad) AS Cantidad ,"
-   sql = sql & "SUM(((" & sqlPrecioSinIva & "* renglonFactura.Cantidad " & "-( " & sqlPrecioSinIva & "* renglonFactura.Cantidad  * (renglonFactura.PorcentajeDescuento)/100 ) )" & "- ((" & sqlPrecioSinIva & "* renglonFactura.Cantidad " & "-( " & sqlPrecioSinIva & "* renglonFactura.Cantidad  * (renglonFactura.PorcentajeDescuento)/100 ) )*(Factura.PorcentajeDescuento)/100 ))" & "* (PorcentajeComision/100  " & ")) AS Comision "
-   sql = sql & " FROM ((" & insVendedor.GetTableName
-   sql = sql & " INNER JOIN " & insFactura.GetTableName
-   sql = sql & " ON (" & insVendedor.GetTableName & ".Codigo"
-   sql = sql & " = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_VENDEDOR & ")"
-   sql = sql & " AND (" & insVendedor.GetTableName & ".ConsecutivoCompania"
-   sql = sql & " = " & insFactura.GetTableName & "." & "ConsecutivoCompania" & "))"
-   sql = sql & " INNER JOIN (" & insArticuloInventario.GetTableName
-   sql = sql & " INNER JOIN " & insRenglonFactura.GetTableName
-   sql = sql & " ON (" & insArticuloInventario.GetTableName & ".Codigo"
-   sql = sql & " = " & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_ARTICULO & ")"
-   sql = sql & " AND (" & insArticuloInventario.GetTableName & ".ConsecutivoCompania"
-   sql = sql & " = " & insRenglonFactura.GetTableName & "." & "ConsecutivoCompania" & "))"
-   sql = sql & " ON (" & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO
-   sql = sql & " = " & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_TIPO_DE_DOCUMENTO & ")"
-   sql = sql & " AND (" & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
-   sql = sql & " = " & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_NUMERO_FACTURA & ")"
-   sql = sql & " AND (" & insFactura.GetTableName & "." & "ConsecutivoCompania"
-   sql = sql & " = " & insRenglonFactura.GetTableName & "." & "ConsecutivoCompania" & "))"
-   sql = sql & " INNER JOIN " & insCliente.GetTableName
-   sql = sql & " ON (" & insCliente.GetTableName & ".Codigo"
-   sql = sql & " = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE & ")"
-   sql = sql & " AND (" & insCliente.GetTableName & ".ConsecutivoCompania"
-   sql = sql & " = " & insFactura.GetTableName & "." & "ConsecutivoCompania" & ")"
-   sql = sql & " WHERE " & insFactura.GetTableName & "." & "ConsecutivoCompania" & " = " & gProyCompaniaActual.GetConsecutivoCompania
-   sql = sql & " AND " & gUtilSQL.DfSQLDateValueBetween(insFactura.GetTableName & "." & insFactura.getFN_FECHA, dtpFechaInicial.Value, dtpFechaFinal.Value)
-   sql = sql & " AND " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   SQL = "SELECT "
+   SQL = SQL & gUtilSQL.fSimpleSqlValue("Articulo") & " AS ColumnaParaGrupoTipoReporte, "
+   SQL = SQL & insVendedor.GetTableName & ".Codigo AS CodigoVendedor,"
+   SQL = SQL & insVendedor.GetTableName & ".Nombre AS NombreVendedor,"
+   SQL = SQL & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_ARTICULO & " AS CodigoArticulo,"
+   SQL = SQL & insFactura.GetTableName & "." & insFactura.getFN_MONEDA & " AS MonedaDeFactura, "
+   SQL = SQL & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_DESCRIPCION & " AS DescripcionArticulo, "
+   SQL = SQL & insArticuloInventario.GetTableName & ".PorcentajeComision AS PorcentajeComision,"
+   SQL = SQL & "SUM(" & sqlPrecioConIva & " * renglonFactura.Cantidad  " & ") AS PrecioConIVA, "
+   SQL = SQL & "SUM((" & sqlPrecioSinIva & "* renglonFactura.Cantidad " & "-( " & sqlPrecioSinIva & "* renglonFactura.Cantidad  * (renglonFactura.PorcentajeDescuento)/100 ) )" & "- ((" & sqlPrecioSinIva & "* renglonFactura.Cantidad " & "-( " & sqlPrecioSinIva & "* renglonFactura.Cantidad  * (renglonFactura.PorcentajeDescuento)/100 ) )*(Factura.PorcentajeDescuento)/100 ))" & " AS PrecioSinIVA, "
+   SQL = SQL & "SUM(renglonFactura.Cantidad) AS Cantidad ,"
+   SQL = SQL & "SUM(((" & sqlPrecioSinIva & "* renglonFactura.Cantidad " & "-( " & sqlPrecioSinIva & "* renglonFactura.Cantidad  * (renglonFactura.PorcentajeDescuento)/100 ) )" & "- ((" & sqlPrecioSinIva & "* renglonFactura.Cantidad " & "-( " & sqlPrecioSinIva & "* renglonFactura.Cantidad  * (renglonFactura.PorcentajeDescuento)/100 ) )*(Factura.PorcentajeDescuento)/100 ))" & "* (PorcentajeComision/100  " & ")) AS Comision "
+   SQL = SQL & " FROM ((" & insVendedor.GetTableName
+   SQL = SQL & " INNER JOIN " & insFactura.GetTableName
+   SQL = SQL & " ON (" & insVendedor.GetTableName & ".Codigo"
+   SQL = SQL & " = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_VENDEDOR & ")"
+   SQL = SQL & " AND (" & insVendedor.GetTableName & ".ConsecutivoCompania"
+   SQL = SQL & " = " & insFactura.GetTableName & "." & "ConsecutivoCompania" & "))"
+   SQL = SQL & " INNER JOIN (" & insArticuloInventario.GetTableName
+   SQL = SQL & " INNER JOIN " & insRenglonFactura.GetTableName
+   SQL = SQL & " ON (" & insArticuloInventario.GetTableName & ".Codigo"
+   SQL = SQL & " = " & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_ARTICULO & ")"
+   SQL = SQL & " AND (" & insArticuloInventario.GetTableName & ".ConsecutivoCompania"
+   SQL = SQL & " = " & insRenglonFactura.GetTableName & "." & "ConsecutivoCompania" & "))"
+   SQL = SQL & " ON (" & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO
+   SQL = SQL & " = " & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_TIPO_DE_DOCUMENTO & ")"
+   SQL = SQL & " AND (" & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
+   SQL = SQL & " = " & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_NUMERO_FACTURA & ")"
+   SQL = SQL & " AND (" & insFactura.GetTableName & "." & "ConsecutivoCompania"
+   SQL = SQL & " = " & insRenglonFactura.GetTableName & "." & "ConsecutivoCompania" & "))"
+   SQL = SQL & " INNER JOIN " & insCliente.GetTableName
+   SQL = SQL & " ON (" & insCliente.GetTableName & ".Codigo"
+   SQL = SQL & " = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE & ")"
+   SQL = SQL & " AND (" & insCliente.GetTableName & ".ConsecutivoCompania"
+   SQL = SQL & " = " & insFactura.GetTableName & "." & "ConsecutivoCompania" & ")"
+   SQL = SQL & " WHERE " & insFactura.GetTableName & "." & "ConsecutivoCompania" & " = " & gProyCompaniaActual.GetNombreCompaniaParaInformes(True).GetConsecutivoCompania
+   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween(insFactura.GetTableName & "." & insFactura.getFN_FECHA, dtpFechaInicial.Value, dtpFechaFinal.Value)
+   SQL = SQL & " AND " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
    If valCantidadAImprimir <> "Todos" Then
-      sql = sql & " AND " & gUtilSQL.fSQLValue("vendedor.Nombre", valNombreDeVendedor, False)
+      SQL = SQL & " AND " & gUtilSQL.fSQLValue("vendedor.Nombre", valNombreDeVendedor, False)
    End If
-   sql = sql & " AND (" & insFactura.GetTableName & "." & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & ")"
-   sql = sql & " GROUP BY "
-   sql = sql & insVendedor.GetTableName & ".Codigo,"
-   sql = sql & insVendedor.GetTableName & ".Nombre,"
-   sql = sql & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_ARTICULO & ","
-   sql = sql & insFactura.GetTableName & "." & insFactura.getFN_MONEDA & ", "
-   sql = sql & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_DESCRIPCION & ", "
-   sql = sql & insArticuloInventario.GetTableName & ".PorcentajeComision"
-   fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticulo = sql
+    SQL = SQL & " AND (" & insFactura.GetTableName & "." & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & ")"
+   SQL = SQL & " GROUP BY "
+   SQL = SQL & insVendedor.GetTableName & ".Codigo,"
+   SQL = SQL & insVendedor.GetTableName & ".Nombre,"
+   SQL = SQL & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_ARTICULO & ","
+   SQL = SQL & insFactura.GetTableName & "." & insFactura.getFN_MONEDA & ", "
+   SQL = SQL & insRenglonFactura.GetTableName & "." & insRenglonFactura.getFN_DESCRIPCION & ", "
+   SQL = SQL & insArticuloInventario.GetTableName & ".PorcentajeComision"
+   Set insRenglonFactura = Nothing
+   Set insFactura = Nothing
+   Set insArticuloInventario = Nothing
+   fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticulo = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticulo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
+'
 Private Function fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticuloDeOtrosCargos(ByVal usarCambioOriginal As Boolean) As String
-   Dim sql As String
+   Dim SQL As String
+   'Dim insFactura As clsFacturaNavigator
+   'Dim insOtrosCargosDeFacturaNavigator As clsOtrosCargosDeFacturaNavigator
+   'Dim insRenglonOtrosCargosFacturaNav As clsRenglonOtrosCargosFacturaNav
    Dim sqlPrecioSinIva As String
    Dim sqlPrecioConIva As String
    Dim sqlMoneda As String
    Dim SqlTasaDeCambio As String
    On Error GoTo h_ERROR
+   'Set insRenglonOtrosCargosFacturaNav = New clsRenglonOtrosCargosFacturaNav
+   'Set insFactura = New clsFacturaNavigator
+   'Set insVendedor = New clsVendedorNavigator
+   'Set insOtrosCargosDeFacturaNavigator = New clsOtrosCargosDeFacturaNavigator
+   'Set insCliente = New clsClienteNavigator
    insFactura.setClaseDeTrabajo eCTFC_Factura
    sqlPrecioConIva = insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_TOTAL_RENGLON
    sqlPrecioSinIva = insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_TOTAL_RENGLON
    sqlMoneda = insFactura.GetTableName & "." & insFactura.getFN_MONEDA
    SqlTasaDeCambio = insFactura.GetTableName & "." & insFactura.getFN_CAMBIO_ABOLIVARES
    If cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal) Then
-      sqlPrecioConIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(SqlTasaDeCambio, sqlMoneda, sqlPrecioConIva, usarCambioOriginal, "")
-      sqlPrecioSinIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(SqlTasaDeCambio, sqlMoneda, sqlPrecioSinIva, usarCambioOriginal, "")
+         sqlPrecioConIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(SqlTasaDeCambio, sqlMoneda, sqlPrecioConIva, usarCambioOriginal, "")
+         sqlPrecioSinIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio(SqlTasaDeCambio, sqlMoneda, sqlPrecioSinIva, usarCambioOriginal, "")
    End If
-   sql = "SELECT "
-   sql = sql & gUtilSQL.fSimpleSqlValue("Otros Cargos Factura") & " AS ColumnaParaGrupoTipoReporte, "
-   sql = sql & insVendedor.GetTableName & ".Codigo AS CodigoVendedor,"
-   sql = sql & insVendedor.GetTableName & ".Nombre AS NombreVendedor,"
-   sql = sql & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CODIGO_DE_CARGO & " AS CodigoArticulo,"
-   sql = sql & insFactura.GetTableName & "." & insFactura.getFN_MONEDA & " AS MonedaDeFactura, "
-   sql = sql & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_DESCRIPCION & " AS DescripcionArticulo, "
-   sql = sql & insOtrosCargosDeFacturaNavigator.GetTableName & ".PorcentajeComision AS PorcentajeComision,"
-   sql = sql & "SUM(" & sqlPrecioConIva & ") AS PrecioConIVA, "
-   sql = sql & "SUM(" & sqlPrecioSinIva & ") AS PrecioSinIVA, "
-   sql = sql & " 0 , 0"
-   sql = sql & " FROM " & insVendedor.GetTableName
-   sql = sql & " INNER JOIN (" & insCliente.GetTableName
-   sql = sql & " INNER JOIN (" & insFactura.GetTableName
-   sql = sql & " INNER JOIN (" & insOtrosCargosDeFacturaNavigator.GetTableName
-   sql = sql & " INNER JOIN " & insRenglonOtrosCargosFacturaNav.GetTableName
-   sql = sql & " ON (" & insOtrosCargosDeFacturaNavigator.GetTableName & ".Codigo"
-   sql = sql & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CODIGO_DE_CARGO
-   sql = sql & ") AND (" & insOtrosCargosDeFacturaNavigator.GetTableName & ".ConsecutivoCompania"
-   sql = sql & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CONSECUTIVO_COMPANIA
-   sql = sql & ")) ON (" & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO
-   sql = sql & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_TIPO_DE_DOCUMENTO
-   sql = sql & ") AND (" & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
-   sql = sql & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_NUMERO_FACTURA
-   sql = sql & ") AND (" & insFactura.GetTableName & "." & "ConsecutivoCompania"
-   sql = sql & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CONSECUTIVO_COMPANIA
-   sql = sql & ")) ON (" & insCliente.GetTableName & ".Codigo"
-   sql = sql & " = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE
-   sql = sql & ") AND (" & insCliente.GetTableName & ".ConsecutivoCompania"
-   sql = sql & " = " & insFactura.GetTableName & "." & "ConsecutivoCompania"
-   sql = sql & ")) ON (" & insVendedor.GetTableName & ".Codigo"
-   sql = sql & " = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_VENDEDOR
-   sql = sql & ") AND (" & insVendedor.GetTableName & ".ConsecutivoCompania"
-   sql = sql & " = " & insFactura.GetTableName & "." & "ConsecutivoCompania"
-   sql = sql & ") AND (" & insVendedor.GetTableName & ".ConsecutivoCompania"
-   sql = sql & " = " & insCliente.GetTableName & ".ConsecutivoCompania)"
-   sql = sql & " WHERE " & insFactura.GetTableName & "." & "ConsecutivoCompania" & " = " & gProyCompaniaActual.GetConsecutivoCompania
-   sql = sql & " AND " & gUtilSQL.DfSQLDateValueBetween(insFactura.GetTableName & "." & insFactura.getFN_FECHA, dtpFechaInicial.Value, dtpFechaFinal.Value)
-   sql = sql & " AND " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
-   sql = sql & " AND (" & insFactura.GetTableName & "." & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA) & " OR " & insFactura.GetTableName & "." & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & ")"
-   sql = sql & " GROUP BY "
-   sql = sql & insVendedor.GetTableName & ".Codigo,"
-   sql = sql & insVendedor.GetTableName & ".Nombre,"
-   sql = sql & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CODIGO_DE_CARGO & ","
-   sql = sql & insFactura.GetTableName & "." & insFactura.getFN_MONEDA & ", "
-   sql = sql & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_DESCRIPCION & ","
-   sql = sql & insOtrosCargosDeFacturaNavigator.GetTableName & ".PorcentajeComision"
-   fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticuloDeOtrosCargos = sql
+   SQL = "SELECT "
+   SQL = SQL & gUtilSQL.fSimpleSqlValue("Otros Cargos Factura") & " AS ColumnaParaGrupoTipoReporte, "
+   SQL = SQL & insVendedor.GetTableName & ".Codigo AS CodigoVendedor,"
+   SQL = SQL & insVendedor.GetTableName & ".Nombre AS NombreVendedor,"
+   SQL = SQL & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CODIGO_DE_CARGO & " AS CodigoArticulo,"
+   SQL = SQL & insFactura.GetTableName & "." & insFactura.getFN_MONEDA & " AS MonedaDeFactura, "
+   SQL = SQL & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_DESCRIPCION & " AS DescripcionArticulo, "
+   SQL = SQL & insOtrosCargosDeFacturaNavigator.GetTableName & ".PorcentajeComision AS PorcentajeComision,"
+   SQL = SQL & "SUM(" & sqlPrecioConIva & ") AS PrecioConIVA, "
+   SQL = SQL & "SUM(" & sqlPrecioSinIva & ") AS PrecioSinIVA, "
+   SQL = SQL & " 0 , 0"
+   SQL = SQL & " FROM " & insVendedor.GetTableName
+   SQL = SQL & " INNER JOIN (" & insCliente.GetTableName
+   SQL = SQL & " INNER JOIN (" & insFactura.GetTableName
+   SQL = SQL & " INNER JOIN (" & insOtrosCargosDeFacturaNavigator.GetTableName
+   SQL = SQL & " INNER JOIN " & insRenglonOtrosCargosFacturaNav.GetTableName
+   SQL = SQL & " ON (" & insOtrosCargosDeFacturaNavigator.GetTableName & ".Codigo"
+   SQL = SQL & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CODIGO_DE_CARGO
+   SQL = SQL & ") AND (" & insOtrosCargosDeFacturaNavigator.GetTableName & ".ConsecutivoCompania"
+   SQL = SQL & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CONSECUTIVO_COMPANIA
+   SQL = SQL & ")) ON (" & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO
+   SQL = SQL & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_TIPO_DE_DOCUMENTO
+   SQL = SQL & ") AND (" & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
+   SQL = SQL & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_NUMERO_FACTURA
+   SQL = SQL & ") AND (" & insFactura.GetTableName & "." & "ConsecutivoCompania"
+   SQL = SQL & " = " & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CONSECUTIVO_COMPANIA
+   SQL = SQL & ")) ON (" & insCliente.GetTableName & ".Codigo"
+   SQL = SQL & " = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE
+   SQL = SQL & ") AND (" & insCliente.GetTableName & ".ConsecutivoCompania"
+   SQL = SQL & " = " & insFactura.GetTableName & "." & "ConsecutivoCompania"
+   SQL = SQL & ")) ON (" & insVendedor.GetTableName & ".Codigo"
+   SQL = SQL & " = " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_VENDEDOR
+   SQL = SQL & ") AND (" & insVendedor.GetTableName & ".ConsecutivoCompania"
+   SQL = SQL & " = " & insFactura.GetTableName & "." & "ConsecutivoCompania"
+   SQL = SQL & ") AND (" & insVendedor.GetTableName & ".ConsecutivoCompania"
+   SQL = SQL & " = " & insCliente.GetTableName & ".ConsecutivoCompania)"
+   SQL = SQL & " WHERE " & insFactura.GetTableName & "." & "ConsecutivoCompania" & " = " & gProyCompaniaActual.GetNombreCompaniaParaInformes(True).GetConsecutivoCompania
+   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween(insFactura.GetTableName & "." & insFactura.getFN_FECHA, dtpFechaInicial.Value, dtpFechaFinal.Value)
+   SQL = SQL & " AND " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   SQL = SQL & " AND (" & insFactura.GetTableName & "." & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA) & " OR " & insFactura.GetTableName & "." & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & ")"
+   SQL = SQL & " GROUP BY "
+   SQL = SQL & insVendedor.GetTableName & ".Codigo,"
+   SQL = SQL & insVendedor.GetTableName & ".Nombre,"
+   SQL = SQL & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_CODIGO_DE_CARGO & ","
+   SQL = SQL & insFactura.GetTableName & "." & insFactura.getFN_MONEDA & ", "
+   SQL = SQL & insRenglonOtrosCargosFacturaNav.GetTableName & "." & insRenglonOtrosCargosFacturaNav.getFN_DESCRIPCION & ","
+   SQL = SQL & insOtrosCargosDeFacturaNavigator.GetTableName & ".PorcentajeComision"
+   Set insOtrosCargosDeFacturaNavigator = Nothing
+   Set insFactura = Nothing
+   Set insOtrosCargosDeFacturaNavigator = Nothing
+   fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticuloDeOtrosCargos = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLPorVentasDelReporteComisionDeVendedorResumidoPoArticuloDeOtrosCargos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
+'**************************ELIMINAR AL PASAR ÚLTIMO REPORTE SQL A LA DLL************************************************************
+Private Function fSQLConvertirElTipoDeDocumentoCxCATipodeDocumentoFactura(ByVal valCampoTipoCX As String) As String
+   Dim SQL As String
+   On Error GoTo h_ERROR
+   SQL = gUtilSQL.getIIF(valCampoTipoCX & " = " & gUtilSQL.fSimpleSqlValue(enum_TipoDeTransaccion.eTD_FACTURA), _
+         gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_FACTURA), _
+         gUtilSQL.getIIF(valCampoTipoCX & " = " & gUtilSQL.fSimpleSqlValue(enum_TipoDeTransaccion.eTD_NOTADECREDITO), _
+         gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTADECREDITO), _
+         gUtilSQL.getIIF(valCampoTipoCX & " = " & gUtilSQL.fSimpleSqlValue(enum_TipoDeTransaccion.eTD_NOTADEDEBITO), _
+         gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTADEDEBITO), _
+         gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_FACTURA), False), False), True)
+   fSQLConvertirElTipoDeDocumentoCxCATipodeDocumentoFactura = SQL
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
+      "fSQLConvertirElTipoDeDocumentoCxCATipodeDocumentoFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+'*************************************ELIMINAR ARRIBA******************************************************************************
+'
+'
 
 Private Sub sEjecutaElInformeDesgloseDeCobranza()
    Dim reporte As DDActiveReports2.ActiveReport
@@ -2428,6 +2477,7 @@ Private Sub sEjecutaElInformeDesgloseDeCobranza()
    On Error GoTo h_ERROR
    Set insConfigurar = New clsCobranzaRpt
    Set reporte = New DDActiveReports2.ActiveReport
+   
    If gAPI.SelectedElementInComboBoxToString(CmbCantidadImprimir(0)) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
       ImprimirClienteUnico = True
    Else
@@ -2486,7 +2536,6 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeComisionDeAgentes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
 Private Sub sEjecutaComisionDeAgentes()
    Dim SqlDelReporte As String
    Dim insConfigurar As clsCobranzaRpt
@@ -2506,34 +2555,34 @@ h_ERROR: Err.Raise Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM
 End Sub
 
 Private Function fSQLComisionAgentesXLineaDeProducto() As String
-   Dim sql As String
+   Dim SQL As String
    On Error GoTo h_ERROR
-   sql = "SELECT dbo.comisionesAgentesVistaBase.codigovendedor AS CodigoVendedor, MAX(dbo.comisionesAgentesVistaBase.nombreVendedor) AS NombreVendedor, " & _
-               "dbo.comisionesAgentesVistaBase.NumeroCobranza AS NumeroCobranza, dbo.comisionesAgentesVistaBase.FechaCobranza, MIN(dbo.factura.Numero) AS NumeroFactura, " & _
-               "MIN(" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda(), "dbo.factura.TotalBaseImponible", "factura.Fecha") & ") AS MontoFactura, dbo.articuloInventario.LineaDeProducto AS NombreLineaProducto, " & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "SUM(dbo.renglonFactura.TotalRenglon) " & _
-               "/ (1 + dbo.factura.PorcentajeDescuento / 100) / (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END) END)END)END) " & _
-               "", "factura.Fecha") & "AS MontoXLinea, SUM(dbo.renglonFactura.TotalRenglon) / (1 + dbo.factura.PorcentajeDescuento / 100)" & _
-               "/ (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END) END)END)END) / MIN( " & gUtilSQL.getIIF("dbo.factura.TotalBaseImponible = 0 ", "dbo.factura.TotalFactura", "dbo.factura.TotalBaseImponible", False) & ") " & _
-               "* 100 AS PorcentajeLinea, " & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "dbo.comisionesAgentesVistaBase.MontoAbonado", "dbo.comisionesAgentesVistaBase.FechaCobranza") & " / (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END)END)END)END)" & _
-               "AS MontoAbonado, " & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "SUM(dbo.renglonFactura.TotalRenglon) / (1 + dbo.factura.PorcentajeDescuento / 100)/ (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END) END)END)END) / MIN(" & gUtilSQL.getIIF("dbo.factura.TotalBaseImponible = 0", "dbo.factura.TotalFactura", "dbo.factura.TotalBaseImponible") & ")" & _
-               "* MIN(dbo.comisionesAgentesVistaBase.MontoAbonado) / (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END) END)END)END)" & _
-               "", "dbo.comisionesAgentesVistaBase.FechaCobranza") & " AS MontoComisionable, cliente.Nombre as NombreCliente"
-   sql = sql & " FROM renglonFactura INNER JOIN " & _
-               "factura ON renglonFactura.ConsecutivoCompania = factura.ConsecutivoCompania AND renglonFactura.NumeroFactura = factura.Numero AND " & _
-               "renglonFactura.TipoDeDocumento = factura.TipoDeDocumento INNER JOIN " & _
-               "articuloInventario ON renglonFactura.ConsecutivoCompania = articuloInventario.ConsecutivoCompania AND " & _
-               "renglonFactura.Articulo = articuloInventario.Codigo INNER JOIN " & _
-               "comisionesAgentesVistaBase ON factura.Numero = comisionesAgentesVistaBase.NumeroDocumentoOrigen INNER JOIN " & _
-               " cliente ON factura.ConsecutivoCompania = cliente.ConsecutivoCompania AND factura.CodigoCliente = cliente.Codigo "
-   sql = sql & "GROUP BY dbo.articuloInventario.LineaDeProducto, dbo.comisionesAgentesVistaBase.NumeroCobranza, dbo.comisionesAgentesVistaBase.MontoAbonado, " & _
-               "dbo.comisionesAgentesVistaBase.FechaCobranza , fecha, dbo.factura.porcentajeDescuento, dbo.comisionesAgentesVistaBase.CodigoVendedor, cliente.nombre, dbo.comisionesAgentesVistaBase.FechaCxC " & _
-               "HAVING      FechaCobranza BETWEEN " & gUtilSQL.fDateToSQLValue(dtpFechaInicial.Value) & " AND " & gUtilSQL.fDateToSQLValue(dtpFechaFinal.Value) & " "
+SQL = "SELECT dbo.comisionesAgentesVistaBase.codigovendedor AS CodigoVendedor, MAX(dbo.comisionesAgentesVistaBase.nombreVendedor) AS NombreVendedor, " & _
+                      "dbo.comisionesAgentesVistaBase.NumeroCobranza AS NumeroCobranza, dbo.comisionesAgentesVistaBase.FechaCobranza, MIN(dbo.factura.Numero) AS NumeroFactura, " & _
+                      "MIN(" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda(), "dbo.factura.TotalBaseImponible", "factura.Fecha") & ") AS MontoFactura, dbo.articuloInventario.LineaDeProducto AS NombreLineaProducto, " & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "SUM(dbo.renglonFactura.TotalRenglon) " & _
+                      "/ (1 + dbo.factura.PorcentajeDescuento / 100) / (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END) END)END)END) " & _
+                      "", "factura.Fecha") & "AS MontoXLinea, SUM(dbo.renglonFactura.TotalRenglon) / (1 + dbo.factura.PorcentajeDescuento / 100)" & _
+                      "/ (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END) END)END)END) / MIN( " & gUtilSQL.getIIF("dbo.factura.TotalBaseImponible = 0 ", "dbo.factura.TotalFactura", "dbo.factura.TotalBaseImponible", False) & ") " & _
+                      "* 100 AS PorcentajeLinea, " & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "dbo.comisionesAgentesVistaBase.MontoAbonado", "dbo.comisionesAgentesVistaBase.FechaCobranza") & " / (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END)END)END)END)" & _
+                      "AS MontoAbonado, " & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "SUM(dbo.renglonFactura.TotalRenglon) / (1 + dbo.factura.PorcentajeDescuento / 100)/ (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END) END)END)END) / MIN(" & gUtilSQL.getIIF("dbo.factura.TotalBaseImponible = 0", "dbo.factura.TotalFactura", "dbo.factura.TotalBaseImponible") & ")" & _
+                      "* MIN(dbo.comisionesAgentesVistaBase.MontoAbonado) / (CASE WHEN Factura.fecha < CONVERT(DATETIME, '2005-10-01 00:00:00', 102)THEN 1.15 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-03-01 00:00:00', 102) THEN 1.14 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2007-07-01 00:00:00', 102) THEN 1.11 ELSE (CASE WHEN Factura.fecha <CONVERT(DATETIME, '2009-04-01 00:00:00', 102) THEN 1.09 ELSE 1.12 END) END)END)END)" & _
+                      "", "dbo.comisionesAgentesVistaBase.FechaCobranza") & " AS MontoComisionable, cliente.Nombre as NombreCliente"
+SQL = SQL & " FROM renglonFactura INNER JOIN " & _
+                      "factura ON renglonFactura.ConsecutivoCompania = factura.ConsecutivoCompania AND renglonFactura.NumeroFactura = factura.Numero AND " & _
+                      "renglonFactura.TipoDeDocumento = factura.TipoDeDocumento INNER JOIN " & _
+                      "articuloInventario ON renglonFactura.ConsecutivoCompania = articuloInventario.ConsecutivoCompania AND " & _
+                      "renglonFactura.Articulo = articuloInventario.Codigo INNER JOIN " & _
+                      "comisionesAgentesVistaBase ON factura.Numero = comisionesAgentesVistaBase.NumeroDocumentoOrigen INNER JOIN " & _
+                      " cliente ON factura.ConsecutivoCompania = cliente.ConsecutivoCompania AND factura.CodigoCliente = cliente.Codigo "
+SQL = SQL & "GROUP BY dbo.articuloInventario.LineaDeProducto, dbo.comisionesAgentesVistaBase.NumeroCobranza, dbo.comisionesAgentesVistaBase.MontoAbonado, " & _
+                      "dbo.comisionesAgentesVistaBase.FechaCobranza , fecha, dbo.factura.porcentajeDescuento, dbo.comisionesAgentesVistaBase.CodigoVendedor, cliente.nombre, dbo.comisionesAgentesVistaBase.FechaCxC " & _
+"HAVING      FechaCobranza BETWEEN " & gUtilSQL.fDateToSQLValue(dtpFechaInicial.Value) & " AND " & gUtilSQL.fDateToSQLValue(dtpFechaFinal.Value) & " "
    If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      sql = gUtilSQL.fSQLValueWithAnd(sql, "dbo.comisionesAgentesVistaBase.codigovendedor", txtCodigoDeVendedor.Text, False)
+      SQL = gUtilSQL.fSQLValueWithAnd(SQL, "dbo.comisionesAgentesVistaBase.codigovendedor", txtCodigoDeVendedor.Text, False)
    End If
-   sql = sql & "ORDER BY dbo.comisionesAgentesVistaBase.codigovendedor, dbo.comisionesAgentesVistaBase.FechaCobranza, numeroCobranza, numerofactura, lineadeproducto"
-h_EXIT: On Error GoTo 0
-   fSQLComisionAgentesXLineaDeProducto = sql
+   SQL = SQL & "ORDER BY dbo.comisionesAgentesVistaBase.codigovendedor, dbo.comisionesAgentesVistaBase.FechaCobranza, numeroCobranza, numerofactura, lineadeproducto"
+h_EXIT:    On Error GoTo 0
+   fSQLComisionAgentesXLineaDeProducto = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLComisionAgentesXLineaDeProducto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -2541,13 +2590,17 @@ End Function
 
 Private Sub sActivarCamposDeCobranzaPorZona()
    On Error GoTo h_ERROR
+   
    lblDatosDelInforme.Caption = "Datos del Informe - Cobranza Por Zona"
    frameZona.Visible = True
    frameFechas.Visible = True
    frameVendedor.Visible = True
+   'frameVendedor.Caption = "Cobrador"
+   
    cmbMonedaDeLosReportes.Visible = True
    lblMonedaDeLosReportes.Visible = True
    frameTasaDeCambio.Visible = True
+
    If CmbCantidadAImprimir.ListIndex = 1 Then
       lblNombreDeVendedor.Visible = False
       txtNombreDeVendedor.Visible = False
@@ -2564,13 +2617,13 @@ Private Sub sActivarCamposDeCobranzaPorZona()
    End If
    frameVentasDiferidas.Visible = False
    chkMostrasSoloVentasDiferidas.Value = 0
-h_EXIT: On Error GoTo 0
+h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCobranzaPorZona", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub TxtNombreZona_GotFocus()
-   On Error GoTo h_ERROR
+On Error GoTo h_ERROR
    gAPI.SelectAllText txtFiltro
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -2578,7 +2631,7 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub TxtNombreZona_KeyDown(KeyCode As Integer, Shift As Integer)
-   On Error GoTo h_ERROR
+  On Error GoTo h_ERROR
    sCheckForSpecialKeys KeyCode, Shift
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -2628,6 +2681,9 @@ Private Sub sEjecutaCobranzaPorZona()
                         gAPI.SelectedElementInComboBoxToString(CmbCantidadImprimirZona), _
                         gProyCompaniaActual.GetConsecutivoCompania, TxtNombreZona.Text, valoptTasaDeCambio, _
                         ReporteEnMonedaLocal, gUltimaTasaDeCambio, txtCodigoDeVendedor.Text)
+      
+      Debug.Print SqlDelReporte
+      
       Titulo = "Cobranza por Zona"
       If insConfigurar.fConfiguraElInformeDeCobranzasPorZona(reporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False)) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, Titulo
@@ -2635,36 +2691,33 @@ Private Sub sEjecutaCobranzaPorZona()
       Set insConfigurar = Nothing
       Set reporte = Nothing
   End If
+
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCobranzaPorZona", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub CmbCantidadImprimirZona_Click()
-   On Error GoTo h_ERROR
-   If CmbCantidadImprimirZona.ListIndex = 1 Then
-      lblNombreDeZona.Visible = False
-      TxtNombreZona.Visible = False
-   Else
-      lblNombreDeZona.Visible = True
-      TxtNombreZona.Text = ""
-      TxtNombreZona.Visible = True
-   End If
+On Error GoTo h_ERROR
+         If CmbCantidadImprimirZona.ListIndex = 1 Then
+            lblNombreDeZona.Visible = False
+            TxtNombreZona.Visible = False
+         Else
+            lblNombreDeZona.Visible = True
+            TxtNombreZona.Text = ""
+            TxtNombreZona.Visible = True
+         End If
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "CmbCantidadImprimirZona_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInitDefaultValuesCasoSistemaInternoParaNivelPorUsuario()
-   On Error GoTo h_ERROR
-   If (gProyParametros.GetEsSistemaParaIG) Then
-      If (gProyUsuarioActual.GetInformesPorVendedorComisiones() And Not gProyUsuarioActual.GetEsSupervisor) Then
-         sAsignaCodigoVendedorFromConexionUsuario
-      End If
+ If (gProyParametros.GetEsSistemaParaIG) Then
+   If (gProyUsuarioActual.GetInformesPorVendedorComisiones() And Not gProyUsuarioActual.GetEsSupervisor) Then
+      sAsignaCodigoVendedorFromConexionUsuario
    End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaultValuesCasoSistemaInternoParaNivelPorUsuario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+ End If
 End Sub
 
 Private Sub sAsignaCodigoVendedorFromConexionUsuario()
@@ -2672,6 +2725,7 @@ Private Sub sAsignaCodigoVendedorFromConexionUsuario()
    sOcultarOtrasOpciones
    CmbCantidadAImprimir.ListIndex = 0
    CmbCantidadAImprimir.Text = "Uno"
+      
    If (insVendedor.fSearchByField("email", gProyUsuarioActual.GetEmail(), False, True, True)) Then
        txtCodigoDeVendedor.Text = insVendedor.GetCodigo
        txtNombreDeVendedor.Text = insVendedor.GetNombre
@@ -2681,7 +2735,7 @@ Private Sub sAsignaCodigoVendedorFromConexionUsuario()
    optInformesDeCobranzas(3).Visible = True
    optInformesDeCobranzas(3).Value = True
    frameInformes.Enabled = False
-h_EXIT: On Error GoTo 0
+h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
@@ -2692,7 +2746,7 @@ Private Sub sOcultarOtrasOpciones()
    For vIndx = 0 To optInformesDeCobranzas.Count - 1 Step 1
       optInformesDeCobranzas(vIndx).Visible = False
    Next vIndx
-h_EXIT: On Error GoTo 0
+h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
@@ -2734,16 +2788,17 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Sub
 
 Private Function fEjecutaElReportePorCobroPorArcituloResumido(ByVal OpcionesComisionesSobreCobranza As String, ByRef refCobranzaporDiasVencidos As Boolean) As String
-   Dim sql As String
+   Dim SQL As String
    Dim MonedaDelReporteBs As Boolean
    Dim ValimprimirSoloUno As Boolean
    On Error GoTo h_ERROR
    refCobranzaporDiasVencidos = False
    Select Case OpcionesComisionesSobreCobranza
       Case gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_PORCENTAJE_POR_ARTICULO)
-         sql = insCobranzaSQL.fConstruirSQLDelReporteComisionDeVendedorPorCobranzaPorArticuloResumido(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyParametrosCompania.GetAsignarComisionDeVendedorEnCobranza, chkMontoBruto = vbChecked, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text)
+         SQL = insCobranzaSQL.fConstruirSQLDelReporteComisionDeVendedorPorCobranzaPorArticuloResumido(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyParametrosCompania.GetAsignarComisionDeVendedorEnCobranza, chkMontoBruto = vbChecked, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text)
    End Select
-   fEjecutaElReportePorCobroPorArcituloResumido = sql
+
+   fEjecutaElReportePorCobroPorArcituloResumido = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaElReportePorCobroPorArcituloResumido", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -2797,6 +2852,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElInformeDeRetencionISLR", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+
 Private Sub sShowMessageForRequiredFieldsCobranzaInformeISLR()
    On Error GoTo h_ERROR
    gMessage.ShowRequiredFields "Nombre Cliente"
@@ -2819,12 +2875,19 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sConfiguracionSegunPais", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sLoadObjectValues(ByVal valVendedorNavigator As Object, ByVal valClienteNavigator As Object, ByVal valCuentaBancariaNavigator As Object, _
-                                    ByVal valComprobanteNavigator As Object, ByVal valCnxAos As Object, ByVal valCobranzaNavigator As Object, _
-                                    ByVal valRenglonFacturaNavigator As Object, ByVal valFacturaNavigator As Object, ByVal valArticuloInventarioNavigator As Object, _
-                                    ByVal valOtrosCargosDeFacturaNavigator As Object, ByVal valRenglonOtrosCargosFacturaNav As Object, _
-                                    ByVal valZonaCobranza As Object, ByVal valProyCompaniaActual As Object)
-   On Error GoTo h_ERROR
+Public Sub sLoadObjectValues(ByVal valVendedorNavigator As Object, ByVal valClienteNavigator As Object, _
+                                 ByVal valCuentaBancariaNavigator As Object, _
+                                    ByVal valComprobanteNavigator As Object, _
+                                       ByVal valCnxAos As Object, _
+                                          ByVal valCobranzaNavigator As Object, _
+                                             ByVal valRenglonFacturaNavigator As Object, _
+                                                ByVal valFacturaNavigator As Object, _
+                                                   ByVal valArticuloInventarioNavigator As Object, _
+                                                      ByVal valOtrosCargosDeFacturaNavigator As Object, _
+                                                         ByVal valRenglonOtrosCargosFacturaNav As Object, _
+                                                            ByVal valZonaCobranza As Object, _
+                                                               ByVal valProyCompaniaActual As Object)
+On Error GoTo h_ERROR
    Set insVendedor = valVendedorNavigator
    Set insCliente = valClienteNavigator
    Set insCuentaBancaria = valCuentaBancariaNavigator

@@ -259,10 +259,7 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         ELEPOSVMAX_220_F,
         [LibEnumDescription("ELEPOS VMAX 300",Index = 0)]
         [LibEnumDescription("ELEPOS VMAX",Index = 1)]
-        ELEPOSVMAX_300,
-        [LibEnumDescription("DASCOM TALLY 1140", Index = 0)]
-        [LibEnumDescription("THEFACTORY", Index = 1)]
-        DASCOMTALLY1140
+        ELEPOSVMAX_300
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]

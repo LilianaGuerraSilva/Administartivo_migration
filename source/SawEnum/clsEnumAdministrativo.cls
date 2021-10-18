@@ -1312,7 +1312,6 @@ Public Enum Enum_ImpresorasFiscales
    eIF_BEMATECH_MP_4000_FI
    eIF_ELEPOS_VMAX_220_F
    eIF_ELEPOS_VMAX_300
-   eIF_DASCOM_TALLY_1140
 End Enum
 
 Public Enum Enum_EstadoImpresionFiscal
@@ -1511,7 +1510,6 @@ Public Enum enum_SolicitudGeneradaPor
    eSGP_Liquidacion
    eSGP_AdelantoDeVacaciones
    eSGP_AnticipoDePrestaciones
-   eSGP_TicketsAlimentacion
    eSGP_NoAplica
 End Enum
  
@@ -10970,7 +10968,6 @@ Public Function enumImpresorasFiscalesToString(ByVal ImpresorasFiscales As Enum_
       Case eIF_BEMATECH_MP_4000_FI: enumImpresorasFiscalesToString = "BEMATECH MP-4000 FI"
       Case eIF_ELEPOS_VMAX_220_F: enumImpresorasFiscalesToString = "ELEPOS VMAX 220-F"
       Case eIF_ELEPOS_VMAX_300: enumImpresorasFiscalesToString = "ELEPOS VMAX 300"
-      Case eIF_DASCOM_TALLY_1140: enumImpresorasFiscalesToString = "DASCOM TALLY 1140"
       Case Else: enumImpresorasFiscalesToString = enumImpresorasFiscalesToString(0)
    End Select
 End Function
@@ -10979,7 +10976,7 @@ Public Function strImpresorasFiscalesToNum(ByVal ImpresorasFiscales As String, O
    Dim mEnum As Enum_ImpresorasFiscales
    Dim nCount As Integer
    nCount = 0
-   For mEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1140
+   For mEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300
       If UCase(ImpresorasFiscales) = UCase(enumImpresorasFiscalesToString(mEnum)) Then
          strImpresorasFiscalesToNum = nCount
          GoTo h_EXIT
@@ -11056,8 +11053,6 @@ Public Sub FillComboBoxWithImpresorasFiscales(ByRef varComboBox As Object, Optio
       varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_220_F)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300)
-      nCount = nCount + 1
-      varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1140)
       varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
       varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    End If
@@ -11074,10 +11069,10 @@ Public Function fEnumImpresorasFiscalesToStringInArray(Optional ByVal valPrepara
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1140 - Enum_ImpresorasFiscales.eIF_EPSON_PF_220
+   varLimiteSuperior = Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300 - Enum_ImpresorasFiscales.eIF_EPSON_PF_220
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1140
+   For varEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300
       varArray(nCount) = varCaracterDelimitador & enumImpresorasFiscalesToString(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
@@ -12592,7 +12587,6 @@ Public Function enumSolicitudGeneradaPorToString(SolicitudGeneradaPor As enum_So
       Case eSGP_Liquidacion: enumSolicitudGeneradaPorToString = "Liquidación"
       Case eSGP_AdelantoDeVacaciones: enumSolicitudGeneradaPorToString = "Adelanto de Vacaciones"
       Case eSGP_AnticipoDePrestaciones: enumSolicitudGeneradaPorToString = "Anticipo de Prestaciones"
-      Case eSGP_TicketsAlimentacion: enumSolicitudGeneradaPorToString = "Tickets de Alimentación"
       Case eSGP_NoAplica: enumSolicitudGeneradaPorToString = "No Aplica"
       Case Else
          enumSolicitudGeneradaPorToString = enumSolicitudGeneradaPorToString(0)
@@ -12644,8 +12638,6 @@ Public Sub FillComboBoxWithSolicitudGeneradaPor(ByRef varComboBox As Object, Opt
    varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_AdelantoDeVacaciones)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_AnticipoDePrestaciones)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_TicketsAlimentacion)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumSolicitudGeneradaPorToString(enum_SolicitudGeneradaPor.eSGP_NoAplica)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto

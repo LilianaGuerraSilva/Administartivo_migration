@@ -146,7 +146,7 @@ unStatusDetraccion= (Autodetraccion,DetraccionPorTercero, NoAplicada);//e,Compon
 unOrigenRendicion = (Manual, Sistema10); //e
 unTipoDeDocumentoRendicion = (Redicion, Reposicion);//e,Componente=CajaChica
 unOrigenBeneficiario = (Administrativo,Nomina);//e,Componente=Banco
-unSolicitudGeneradaPor= (CalculosDeNomina, Vacaciones, Utilidades, PagoDeIntereses, Fideicomiso, Liquidacion, AdelantoDeVacaciones, AdelantoDePrestaciones, TicketsAlimentacion, NoAplica);//e,Componente=Banco
+unSolicitudGeneradaPor= (CalculosDeNomina, Vacaciones, Utilidades, PagoDeIntereses, Fideicomiso, Liquidacion, NoAplica);//e,Componente=Banco
 unStatusSolicitud= (PorProcesar,Procesada,Parcialmente Procesada,Anulada);//e,Componente=Banco
 unStatusSolicitudRenglon= (PorProcesar,Procesada);//e,Componente=Banco
 unTipoDeFormaDePagoSolicitud = (Efectivo, transferencia, Cheque);//e,Componente=Banco
