@@ -699,7 +699,14 @@ namespace Galac.Adm.Dal.GestionCompras {
         System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
             return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
         }
+
         #endregion ////Miembros de ILibDataRpt
+        protected override bool ExecuteProcessBeforeInsert() {
+            StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
+            LibDataScope insDb = new LibDataScope();
+            CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".Compra", "Consecutivo", vParametro);
+            return base.ExecuteProcessBeforeInsert();
+        }
     } //End of class clsCompraDat
 
 } //End of namespace Galac.Adm.Dal.GestionCompras
