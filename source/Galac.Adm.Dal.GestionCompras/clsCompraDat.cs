@@ -700,13 +700,13 @@ namespace Galac.Adm.Dal.GestionCompras {
             return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
         }
 
+        #endregion ////Miembros de ILibDataRpt
         protected override bool ExecuteProcessBeforeInsert() {
             StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
             LibDataScope insDb = new LibDataScope();
             CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".Compra", "Consecutivo", vParametro);
             return base.ExecuteProcessBeforeInsert();
         }
-        #endregion ////Miembros de ILibDataRpt
     } //End of class clsCompraDat
 
 } //End of namespace Galac.Adm.Dal.GestionCompras
