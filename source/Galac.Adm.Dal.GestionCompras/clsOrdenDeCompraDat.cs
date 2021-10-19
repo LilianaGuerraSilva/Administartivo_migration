@@ -68,6 +68,51 @@ namespace Galac.Adm.Dal.GestionCompras {
             return vResult;
         }
 
+        protected override bool ExecuteProcessBeforeInsert(){
+            StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
+            LibDataScope insDb = new LibDataScope();
+            CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".OrdenDeCompra", "Consecutivo", vParametro);
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SugerirNumeroDeOrdenDeCompra")){
+                CurrentRecord.Numero = ProximoNumero();
+            }
+            return base.ExecuteProcessBeforeInsert();
+        }
+
+        private string ProximoNumero() {
+            StringBuilder SQL = new StringBuilder();
+            QAdvSql vAdvSql = new QAdvSql("");
+            LibDatabase insDb = new LibDatabase();
+            int vNumero = 0;
+            string vNumeroString = "";
+            string vNuevoNumero = "";
+            int LongitudParaCorte = 0;
+            string vSelectMax = "";
+            if (LibDefGen.ProgramInfo.IsCountryVenezuela()){
+                vSelectMax = " SELECT ( ISNULL ( MAX( CAST(SUBSTRING(OrdenDeCompra.Numero,4,LEN(OrdenDeCompra.Numero)) AS int) ) , 0 )  +1) AS  Numero FROM Adm.OrdenDeCompra ";
+            } else {
+                vSelectMax = " SELECT(" + vAdvSql.IsNull("MAX(" + vAdvSql.ToInt("OrdenDeCompra.Numero") + ")", "0") + " + 1) AS Numero FROM Adm.OrdenDeCompra ";
+            }
+            SQL.AppendLine(vSelectMax);
+            SQL.AppendLine(" WHERE ConsecutivoCompania = " + CurrentRecord.ConsecutivoCompania);
+            SQL.AppendLine("AND TipoDeCompra = " + LibConvert.ToInt(CurrentRecord.TipoDeCompraAsDB));
+            SQL.AppendLine("AND ISNUMERIC(SUBSTRING(OrdenDeCompra.Numero,4,LEN(OrdenDeCompra.Numero)))=1");
+            if (LibDefGen.ProgramInfo.IsCountryPeru()){
+                SQL.AppendLine(" AND Serie = @Serie ");
+            }
+
+            object vNumero2 = insDb.ExecuteScalar(SQL.ToString(), -1, false);
+            if (vNumero2 != null){
+                vNumero = LibConvert.ToInt(vNumero2);
+            }
+            vNumeroString = LibConvert.IntToStr2(vNumero);
+            LongitudParaCorte = 8 - vNumeroString.Length;
+            for (int i = 0; i < LongitudParaCorte; i++) vNumeroString = "0"+ vNumeroString;
+            if (LibDefGen.ProgramInfo.IsCountryVenezuela()){
+                vNuevoNumero = "OC-" + vNumeroString;
+            }
+            insDb.Dispose();
+            return vNuevoNumero;
+        }
         private StringBuilder ParametrosClave(OrdenDeCompra valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
