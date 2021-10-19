@@ -547,17 +547,21 @@ namespace Galac.Adm.Dal.GestionCompras {
         }
         #endregion ////Miembros de ILibDataRpt
 
-        protected override bool ExecuteProcessBeforeInsert() {
+        #endregion //Metodos Generados
+        protected override bool ExecuteProcessBeforeInsert()
+        {
             StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
             LibDataScope insDb = new LibDataScope();
             CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".OrdenDeCompra", "Consecutivo", vParametro);
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SugerirNumeroDeOrdenDeCompra")){
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SugerirNumeroDeOrdenDeCompra"))
+            {
                 CurrentRecord.Numero = ProximoNumero();
             }
             return base.ExecuteProcessBeforeInsert();
         }
 
-        private string ProximoNumero() {
+        private string ProximoNumero()
+        {
             StringBuilder SQL = new StringBuilder();
             QAdvSql vAdvSql = new QAdvSql("");
             LibDatabase insDb = new LibDatabase();
@@ -574,7 +578,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             insDb.Dispose();
             return vNuevoNumero;
         }
-        #endregion //Metodos Generados
     } //End of class clsOrdenDeCompraDat
 
 } //End of namespace Galac.Adm.Dal.GestionCompras
