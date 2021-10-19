@@ -185,6 +185,7 @@
     <Compile Include="VersionesReestructuracion\clsVersion6_11.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_12.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_13.cs" />
+    <Compile Include="VersionesReestructuracion\clsVersion6_51.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_50.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_19.cs" />
     <Compile Include="VersionesReestructuracion\clsVersion6_14.cs" />
