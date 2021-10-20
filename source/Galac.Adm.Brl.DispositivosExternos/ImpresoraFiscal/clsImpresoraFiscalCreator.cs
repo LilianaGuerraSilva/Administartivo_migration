@@ -32,6 +32,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             case eImpresoraFiscal.HKA80:
             case eImpresoraFiscal.HKA112:
             case eImpresoraFiscal.OKIML1120:
+            case eImpresoraFiscal.DASCOMTALLY1140:
                 return new clsTheFactory(valXmlMaquinaFiscal);
             case eImpresoraFiscal.EPSON_PF_220:
             case eImpresoraFiscal.EPSON_PF_220II:
