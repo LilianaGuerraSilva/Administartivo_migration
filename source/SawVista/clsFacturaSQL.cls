@@ -28,12 +28,9 @@ Private Function GetGender() As Enum_Gender
    GetGender = eg_Female
 End Function
 
-Public Function fSQLFacturacionEntreFechasXCondicionDePago(ByVal gMonedaLocalActual As Object, _
-                                                   ByVal gUltimaTasaDeCambio As Object, _
-                                                    ByVal valReporteEnMonedaLocal As Boolean, _
-                                                     ByVal valConsecutivoCompania As String, _
-                                                      ByVal valFechaInicial As Date, _
-                                                       ByVal valFechaFinal As Date) As String
+Public Function fSQLFacturacionEntreFechasXCondicionDePago(ByVal gMonedaLocalActual As Object, ByVal gUltimaTasaDeCambio As Object, _
+                                                    ByVal valReporteEnMonedaLocal As Boolean, ByVal valConsecutivoCompania As String, _
+                                                      ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
    Dim SQL As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
@@ -46,13 +43,10 @@ Public Function fSQLFacturacionEntreFechasXCondicionDePago(ByVal gMonedaLocalAct
    Else
       SQL = SQL & "Factura.Moneda AS MonedaDelReporte, "
    End If
-   SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), _
-                               "Factura.Numero" & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(" (*)"), _
-                               "Factura.Numero", True) & " AS NumeroFactura, "
+   SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "Factura.Numero" & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(" (*)"), "Factura.Numero", True) & " AS NumeroFactura, "
    SQL = SQL & "cliente.Nombre, "
    SQL = SQL & "Factura.Fecha, "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("Factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_FACTURA, _
-                        gEnumProyecto.fenumTipoDocumentoFacturaToStringInArray(True, False), "") & " AS TipoDeDocumento, "
+   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("Factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_FACTURA, gEnumProyecto.fenumTipoDocumentoFacturaToStringInArray(True, False), "") & " AS TipoDeDocumento, "
    If valReporteEnMonedaLocal Then
       SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), _
                                   0, gUtilSQL.getIIF("Factura.CodigoMoneda <> " & gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyCodigoMoneda) & _
@@ -61,8 +55,7 @@ Public Function fSQLFacturacionEntreFechasXCondicionDePago(ByVal gMonedaLocalAct
                                   gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.TotalFactura", "Factura.Fecha"), _
                                   True), True) & " AS TotalFactura, "
    Else
-      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), _
-                                  0, "Factura.TotalFactura", True) & " AS TotalFactura, "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), 0, "Factura.TotalFactura", True) & " AS TotalFactura, "
    End If
    SQL = SQL & "Factura.Moneda, "
    SQL = SQL & "Factura.CambioABolivares, "
@@ -83,14 +76,11 @@ Public Function fSQLFacturacionEntreFechasXCondicionDePago(ByVal gMonedaLocalAct
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLFacturacionEntreFechasXCondicionDePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLFacturacionEntreFechasXCondicionDePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreFechas(ByVal valConsecutivoCompania As String, _
-                                                                 ByVal valCategoria As String, _
-                                                                  ByVal valFechaInicial As Date, _
-                                                                   ByVal valFechaFinal As Date) As String
+Public Function fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreFechas(ByVal valConsecutivoCompania As String, ByVal valCategoria As String, _
+                                                                  ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = SQL & "SELECT Cliente.Nombre AS NombreCliente, "
@@ -118,14 +108,11 @@ Public Function fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreFechas(ByVal
    fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreFechas = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreCiudades(ByVal valConsecutivoCompania As String, _
-                                                                     ByVal valCategoria As String, _
-                                                                      ByVal valCiudadDesde As String, _
-                                                                       ByVal valCiudadHasta As String) As String
+Public Function fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreCiudades(ByVal valConsecutivoCompania As String, ByVal valCategoria As String, _
+                                                                      ByVal valCiudadDesde As String, ByVal valCiudadHasta As String) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = SQL & "SELECT Cliente.Nombre AS NombreCliente, "
@@ -153,35 +140,24 @@ Public Function fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreCiudades(ByV
    fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreCiudades = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreCiudades", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteProdVenEntreCiudadesXCatEntreCiudades", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSqlDelReporteNotasDeCreditoAsociadasAFacturas(ByVal valUsaCambio As Boolean, _
-                                                                ByVal gMonedaLocalActual As Object, _
-                                                                 ByVal gUltimaTasaDeCambio As Object, _
-                                                                  ByVal valConsecutivoCompania As String, _
-                                                                   ByVal valFechaInicial As Date, _
-                                                                    ByVal valFechaFinal As Date, _
-                                                                     ByVal valCmbStatusNC As String, _
-                                                                      ByVal valCmbStatusNCNumero As Integer)
+Public Function fSqlDelReporteNotasDeCreditoAsociadasAFacturas(ByVal valUsaCambio As Boolean, ByVal gMonedaLocalActual As Object, _
+                                                                 ByVal gUltimaTasaDeCambio As Object, ByVal valConsecutivoCompania As String, _
+                                                                   ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
+                                                                     ByVal valCmbStatusNC As String, ByVal valCmbStatusNCNumero As Integer)
    Dim SQL As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   
    SQL = "SELECT "
-   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("Factura.StatusFactura", enum_StatusFactura.eSF_EMITIDA, _
-                        gEnumProyecto.fEnumStatusFacturaToStringInArray(True, False), "") & " AS StatusNC, "
+   SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("Factura.StatusFactura", enum_StatusFactura.eSF_EMITIDA, gEnumProyecto.fEnumStatusFacturaToStringInArray(True, False), "") & " AS StatusNC, "
    If valUsaCambio Then
-      SQL = SQL & "factura.Numero AS NumeroNC, factura.Fecha AS FechaNC, factura.NumeroFacturaAfectada, " & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", _
-      gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.TotalFactura", "Factura.Fecha"), True, "TotalNotadeCredito") & ","
-      SQL = SQL & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", _
-      gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.totalBaseImponible", "Factura.Fecha"), True, "TotalBaseImponible") & ","
-      SQL = SQL & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", _
-      gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "factura.TotalIVA", "Factura.Fecha"), True, "TotalIVA") & ", factura.TipoDeDocumento, "
-      SQL = SQL & " factura_1.Fecha, factura_1.numero, factura_1.Moneda, factura.Moneda AS MonedaNC, " & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura_1.CambioABolivares", "factura_1.Moneda", _
-      gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "factura_1.TotalFactura", "Factura.Fecha"), True, "TotalFactura")
+      SQL = SQL & "factura.Numero AS NumeroNC, factura.Fecha AS FechaNC, factura.NumeroFacturaAfectada, " & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.TotalFactura", "Factura.Fecha"), True, "TotalNotadeCredito") & ","
+      SQL = SQL & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.totalBaseImponible", "Factura.Fecha"), True, "TotalBaseImponible") & ","
+      SQL = SQL & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "factura.TotalIVA", "Factura.Fecha"), True, "TotalIVA") & ", factura.TipoDeDocumento, "
+      SQL = SQL & " factura_1.Fecha, factura_1.numero, factura_1.Moneda, factura.Moneda AS MonedaNC, " & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura_1.CambioABolivares", "factura_1.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "factura_1.TotalFactura", "Factura.Fecha"), True, "TotalFactura")
    Else
       SQL = SQL & "factura.Numero AS NumeroNC, factura.Fecha AS FechaNC, factura.NumeroFacturaAfectada, (factura.TotalFactura) AS TotalNotadeCredito, factura.TotalBaseImponible, factura.TotalIVA, factura.TipoDeDocumento, factura.Moneda AS MonedaNC, "
       SQL = SQL & "factura_1.Fecha, (factura_1.TotalFactura) AS TotalFactura, factura_1.Numero, factura_1.Moneda"
@@ -206,12 +182,9 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "fSqlDelReporteNotasDeCreditoAsociadasAFacturas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaCambio As Boolean, _
-                                                                     ByVal gMonedaLocalActual As Object, _
-                                                                      ByVal gUltimaTasaDeCambio As Object, _
-                                                                       ByVal valConsecutivoCompania As String, _
-                                                                        ByVal valFechaInicial As Date, _
-                                                                         ByVal valFechaFinal As Date)
+Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaCambio As Boolean, ByVal gMonedaLocalActual As Object, _
+                                                                      ByVal gUltimaTasaDeCambio As Object, ByVal valConsecutivoCompania As String, _
+                                                                        ByVal valFechaInicial As Date, ByVal valFechaFinal As Date)
    Dim SQL As String
    Dim sqlTotalFactura As String
    Dim SQLTotalRenglonOtrosCargos As String
@@ -241,23 +214,16 @@ Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaC
 h_EXIT:
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSqlDelReporteFacturacionConOtrosCargosYDescuentos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDelReporteFacturacionConOtrosCargosYDescuentos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConstruirSQLDelReporteFacturaPorArticuloYPorVendedor(ByVal valInformeDetallado As Boolean, _
-                                                                  ByVal valUsarCambio As Boolean, _
+Public Function fConstruirSQLDelReporteFacturaPorArticuloYPorVendedor(ByVal valInformeDetallado As Boolean, ByVal valUsarCambio As Boolean, _
                                                                    ByVal valCompaniaUsaPrecioSinIvaSegunTipoDocumento As Boolean, _
-                                                                    ByVal gUltimaTasaDeCambio As Object, _
-                                                                     ByVal gMonedaLocalActual As Object, _
-                                                                      ByVal valcodigoDeVendedor As String, _
-                                                                       ByVal valConsecutivoCompania As String, _
-                                                                        ByVal valImprimirSoloUnArticulo As Boolean, _
-                                                                         ByVal valCodigoDeArticulo As String, _
-                                                                          ByVal valFechaInicial As Date, _
-                                                                           ByVal valFechaFinal As Date, _
-                                                                            ByVal valImprimirSoloUnVendedor As Boolean, _
-                                                                             ByVal valComisiones As String) As String
+                                                                    ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, _
+                                                                      ByVal valcodigoDeVendedor As String, ByVal valConsecutivoCompania As String, _
+                                                                        ByVal valImprimirSoloUnArticulo As Boolean, ByVal valCodigoDeArticulo As String, _
+                                                                          ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
+                                                                            ByVal valImprimirSoloUnVendedor As Boolean, ByVal valComisiones As String) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    If valComisiones Then
@@ -416,94 +382,77 @@ Public Function fConstruirSQLDelReporteFacturaPorArticuloYPorVendedor(ByVal valI
    fConstruirSQLDelReporteFacturaPorArticuloYPorVendedor = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConstruirSQLDelReporteFacturaPorArticuloYPorVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteFacturaPorArticuloYPorVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConstruirSQLDelReporteFacturaPorArticuloYPorAlamcen(ByVal valConsecutivoCompania As String, _
-                                    ByVal valImprimirSoloUnAlmacen As Boolean, _
-                                    ByVal valConsecutivoAlmacen As String, _
-                                    ByVal valImprimirSoloUnArticulo As Boolean, _
-                                    ByVal valCodigoDeArticulo As String, _
-                                    ByVal valFechaInicial As Date, _
-                                    ByVal valFechaFinal As Date, _
-                                    ByVal valInformeDetallado As Boolean) As String
+Public Function fConstruirSQLDelReporteFacturaPorArticuloYPorAlamcen(ByVal valConsecutivoCompania As String, ByVal valImprimirSoloUnAlmacen As Boolean, _
+                                    ByVal valConsecutivoAlmacen As String, ByVal valImprimirSoloUnArticulo As Boolean, _
+                                    ByVal valCodigoDeArticulo As String, ByVal valFechaInicial As Date, _
+                                    ByVal valFechaFinal As Date, ByVal valInformeDetallado As Boolean) As String
    Dim SQL As String
    On Error GoTo h_ERROR
-  
-    SQL = "SELECT "
-    SQL = SQL & "Factura.ConsecutivoAlmacen AS CodigoAlmacen, "
-    SQL = SQL & "Almacen.Codigo AS CodigoAlmacen, "
-    SQL = SQL & "Almacen.NombreAlmacen AS NombreAlmacen, "
-    SQL = SQL & "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo, "
-    SQL = SQL & "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion, "
-    SQL = SQL & "ExistenciaPorAlmacen.Cantidad as Existencia, "
-    SQL = SQL & "Factura.Fecha, "
-    
-    If (valInformeDetallado) Then
-        SQL = SQL & "Factura.CodigoCliente As CodigoCliente, "
-        SQL = SQL & "Cliente.Nombre as NombreCliente, "
-        SQL = SQL & "Factura.TipoDeDocumento as TipoDeDocumento, "
-        SQL = SQL & "Factura.Numero as FacturaNumero, "
-        SQL = SQL & "RenglonFactura.Cantidad as Cantidad "
-    Else
-        SQL = SQL & "SUM(RenglonFactura.Cantidad) AS Cantidad "
-    End If
-        SQL = SQL & " FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1"
-          SQL = SQL & " INNER JOIN ArticuloInventario"
-          SQL = SQL & "  ON  (ArticuloInventario.Codigo = IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo)"
-          SQL = SQL & "  AND (ArticuloInventario.ConsecutivoCompania = IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania)"
-         
-          SQL = SQL & " INNER JOIN ((Cliente INNER JOIN Factura ON (Cliente.Codigo = Factura.CodigoCliente) AND (Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania))"
-          SQL = SQL & " INNER JOIN RenglonFactura ON (Factura.TipoDeDocumento = RenglonFactura.TipoDeDocumento)"
-          SQL = SQL & " AND (Factura.Numero = RenglonFactura.NumeroFactura)"
-          SQL = SQL & " AND (Factura.ConsecutivoCompania = RenglonFactura.ConsecutivoCompania)"
-
-          SQL = SQL & " INNER JOIN ExistenciaPorAlmacen ON (Factura.ConsecutivoAlmacen = ExistenciaPorAlmacen.ConsecutivoAlmacen)"
-          SQL = SQL & "  AND (Factura.ConsecutivoCompania = ExistenciaPorAlmacen.ConsecutivoCompania)"
-          SQL = SQL & "  AND (RenglonFactura.Articulo = ExistenciaPorAlmacen.CodigoArticulo)"
- 
-          SQL = SQL & " INNER JOIN Almacen"
-          SQL = SQL & " ON ExistenciaPorAlmacen.ConsecutivoAlmacen = Almacen.Consecutivo"
-          SQL = SQL & " AND ExistenciaPorAlmacen.ConsecutivoCompania= Almacen.ConsecutivoCompania"
-          SQL = SQL & " AND Factura.ConsecutivoAlmacen  = Almacen.Consecutivo"
-          SQL = SQL & " AND Factura.ConsecutivoCompania  = Almacen.ConsecutivoCompania )"
-      
-            SQL = SQL & " ON  (IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = RenglonFactura.Articulo)"
-            SQL = SQL & " AND (IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = RenglonFactura.Serial)"
-            SQL = SQL & " AND (IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = RenglonFactura.Rollo)"
-            SQL = SQL & " AND (IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = RenglonFactura.ConsecutivoCompania)"
- 
-      SQL = SQL & " WHERE Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
-      If valImprimirSoloUnAlmacen Then
-        SQL = SQL & " AND Factura.CodigoAlmacen = '" & valConsecutivoAlmacen & "'"
-      End If
-      If valImprimirSoloUnArticulo Then
-        SQL = SQL & " AND RenglonFactura.Articulo = '" & valCodigoDeArticulo & "'"
-      End If
-     
-      SQL = SQL & " AND Factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
-      SQL = SQL & " AND (Factura.TipoDeDocumento <> " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTAENTREGA) & ") "
-      SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("Factura.Fecha", valFechaInicial, valFechaFinal)
-      SQL = SQL & " AND Factura.ConsecutivoCompania = " & valConsecutivoCompania
-    If (valInformeDetallado) Then
+   SQL = "SELECT "
+   SQL = SQL & "Factura.ConsecutivoAlmacen AS CodigoAlmacen, "
+   SQL = SQL & "Almacen.Codigo AS CodigoAlmacen, "
+   SQL = SQL & "Almacen.NombreAlmacen AS NombreAlmacen, "
+   SQL = SQL & "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo, "
+   SQL = SQL & "IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion, "
+   SQL = SQL & "ExistenciaPorAlmacen.Cantidad as Existencia, "
+   SQL = SQL & "Factura.Fecha, "
+   If (valInformeDetallado) Then
+      SQL = SQL & "Factura.CodigoCliente As CodigoCliente, "
+      SQL = SQL & "Cliente.Nombre as NombreCliente, "
+      SQL = SQL & "Factura.TipoDeDocumento as TipoDeDocumento, "
+      SQL = SQL & "Factura.Numero as FacturaNumero, "
+      SQL = SQL & "RenglonFactura.Cantidad as Cantidad "
+   Else
+      SQL = SQL & "SUM(RenglonFactura.Cantidad) AS Cantidad "
+   End If
+   SQL = SQL & " FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1"
+   SQL = SQL & " INNER JOIN ArticuloInventario"
+   SQL = SQL & "  ON  (ArticuloInventario.Codigo = IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo)"
+   SQL = SQL & "  AND (ArticuloInventario.ConsecutivoCompania = IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania)"
+   SQL = SQL & " INNER JOIN ((Cliente INNER JOIN Factura ON (Cliente.Codigo = Factura.CodigoCliente) AND (Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania))"
+   SQL = SQL & " INNER JOIN RenglonFactura ON (Factura.TipoDeDocumento = RenglonFactura.TipoDeDocumento)"
+   SQL = SQL & " AND (Factura.Numero = RenglonFactura.NumeroFactura)"
+   SQL = SQL & " AND (Factura.ConsecutivoCompania = RenglonFactura.ConsecutivoCompania)"
+   SQL = SQL & " INNER JOIN ExistenciaPorAlmacen ON (Factura.ConsecutivoAlmacen = ExistenciaPorAlmacen.ConsecutivoAlmacen)"
+   SQL = SQL & "  AND (Factura.ConsecutivoCompania = ExistenciaPorAlmacen.ConsecutivoCompania)"
+   SQL = SQL & "  AND (RenglonFactura.Articulo = ExistenciaPorAlmacen.CodigoArticulo)"
+   SQL = SQL & " INNER JOIN Almacen"
+   SQL = SQL & " ON ExistenciaPorAlmacen.ConsecutivoAlmacen = Almacen.Consecutivo"
+   SQL = SQL & " AND ExistenciaPorAlmacen.ConsecutivoCompania= Almacen.ConsecutivoCompania"
+   SQL = SQL & " AND Factura.ConsecutivoAlmacen  = Almacen.Consecutivo"
+   SQL = SQL & " AND Factura.ConsecutivoCompania  = Almacen.ConsecutivoCompania )"
+   SQL = SQL & " ON  (IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.CodigoDelArticulo = RenglonFactura.Articulo)"
+   SQL = SQL & " AND (IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Serial = RenglonFactura.Serial)"
+   SQL = SQL & " AND (IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Rollo = RenglonFactura.Rollo)"
+   SQL = SQL & " AND (IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.ConsecutivoCompania = RenglonFactura.ConsecutivoCompania)"
+   SQL = SQL & " WHERE Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
+   If valImprimirSoloUnAlmacen Then
+      SQL = SQL & " AND Factura.CodigoAlmacen = '" & valConsecutivoAlmacen & "'"
+   End If
+   If valImprimirSoloUnArticulo Then
+      SQL = SQL & " AND RenglonFactura.Articulo = '" & valCodigoDeArticulo & "'"
+   End If
+   SQL = SQL & " AND Factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   SQL = SQL & " AND (Factura.TipoDeDocumento <> " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTAENTREGA) & ") "
+   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("Factura.Fecha", valFechaInicial, valFechaFinal)
+   SQL = SQL & " AND Factura.ConsecutivoCompania = " & valConsecutivoCompania
+   If (valInformeDetallado) Then
       SQL = SQL & " ORDER BY Factura.ConsecutivoAlmacen, IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo, Factura.Fecha, Factura.TipoDeDocumento, Factura.Numero"
-    Else
-       SQL = SQL & " GROUP BY Factura.ConsecutivoAlmacen, Almacen.Codigo, Almacen.NombreAlmacen, IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo,IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion,ExistenciaPorAlmacen.Cantidad, Factura.Fecha  "
-       SQL = SQL & " ORDER BY Factura.ConsecutivoAlmacen, IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo, Factura.Fecha"
-  
-    End If
+   Else
+      SQL = SQL & " GROUP BY Factura.ConsecutivoAlmacen, Almacen.Codigo, Almacen.NombreAlmacen, IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo,IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Descripcion,ExistenciaPorAlmacen.Cantidad, Factura.Fecha  "
+      SQL = SQL & " ORDER BY Factura.ConsecutivoAlmacen, IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1.Codigo, Factura.Fecha"
+   End If
    fConstruirSQLDelReporteFacturaPorArticuloYPorAlamcen = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConstruirSQLDelReporteFacturaPorArticuloYPorAlamcen", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteFacturaPorArticuloYPorAlamcen", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura(ByVal valUsarCambioABolivares As Boolean, _
-                                                                        ByVal valVieneDelLibroDeVentas As Boolean, _
-                                                                         ByVal gUltimaTasaDeCambio As Object, _
-                                                                          ByVal gMonedaLocalActual As Object) As String
+Private Function fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura(ByVal valUsarCambioABolivares As Boolean, ByVal valVieneDelLibroDeVentas As Boolean, _
+                                                                         ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "(RenglonFactura.PrecioSinIVA * RenglonFactura.Cantidad)"
@@ -518,14 +467,11 @@ Private Function fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura(ByVal val
    fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFactura(ByVal valUsarCambioABolivares As Boolean, _
-                                                                        ByVal valVieneDelLibroDeVentas As Boolean, _
-                                                                        ByVal gUltimaTasaDeCambio As Object, _
-                                                                          ByVal gMonedaLocalActual As Object) As String
+Private Function fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFactura(ByVal valUsarCambioABolivares As Boolean, ByVal valVieneDelLibroDeVentas As Boolean, _
+                                                                        ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "((RenglonFactura.PrecioSinIVA * RenglonFactura.Cantidad) * (1 + (PorcentajeAlicuota / 100)))"
@@ -535,30 +481,21 @@ Private Function fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFactura(ByVal val
       SQL = "(" & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", SQL, True, "") & ")"
    End If
    If Not valVieneDelLibroDeVentas Then
-   SQL = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, SQL, "Factura.Fecha")
+      SQL = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, SQL, "Factura.Fecha")
    End If
    fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFactura = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLDeFacturasEntreFechasPorTipoDeArticulo(ByVal valCantidadAImprimirLineaDeProducto As String, _
-                                                             ByVal valLineaDeProductoAImprimir As String, _
-                                                              ByVal valTipoDeArticulo As String, _
-                                                               ByVal usarCambioOriginal As Boolean, _
-                                                                ByVal valReporteEnMonedaLocal As Boolean, _
-                                                                 ByVal gUltimaTasaDeCambio As Object, _
-                                                                  ByVal gMonedaLocalActual As Object, _
-                                                                   ByVal valImprimirUnaLineaDeProducto As Boolean, _
-                                                                    ByVal valImprimirUnTipoDeArticulo As Boolean, _
-                                                                     ByVal valConsecutivoCompania As String, _
-                                                                      ByVal valFechaInicial As Date, _
-                                                                       ByVal valFechaFinal As Date, _
-                                                                        ByVal valUsaPrecioSinIva As Boolean, _
-                                                                         ByVal valInformeResumido As Boolean, _
-                                                                              ByVal valcodigoCliente As String) As String
+Public Function fSQLDeFacturasEntreFechasPorTipoDeArticulo(ByVal valCantidadAImprimirLineaDeProducto As String, ByVal valLineaDeProductoAImprimir As String, _
+                                                              ByVal valTipoDeArticulo As String, ByVal usarCambioOriginal As Boolean, _
+                                                                ByVal valReporteEnMonedaLocal As Boolean, ByVal gUltimaTasaDeCambio As Object, _
+                                                                  ByVal gMonedaLocalActual As Object, ByVal valImprimirUnaLineaDeProducto As Boolean, _
+                                                                    ByVal valImprimirUnTipoDeArticulo As Boolean, ByVal valConsecutivoCompania As String, _
+                                                                      ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
+                                                                        ByVal valUsaPrecioSinIva As Boolean, ByVal valInformeResumido As Boolean, ByVal valcodigoCliente As String) As String
    Dim SQL As String
    Dim sqlPrecioSinIva As String
    Dim sqlPrecioConIva As String
@@ -577,17 +514,12 @@ Public Function fSQLDeFacturasEntreFechasPorTipoDeArticulo(ByVal valCantidadAImp
    Dim sqlMonto As String
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-
-   SqlStatusFactura = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), _
-                                       gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumStatusFacturaToString(eSF_ANULADA)), _
-                                       gUtilSQL.fSimpleSqlValue("Vigente"), True)
-                                       
+   SqlStatusFactura = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumStatusFacturaToString(eSF_ANULADA)), gUtilSQL.fSimpleSqlValue("Vigente"), True)
    If valUsaPrecioSinIva Then
       vPrecio = "RenglonFactura.PrecioSinIva"
    Else
       vPrecio = "RenglonFactura.PrecioConIva"
    End If
-                                       
    sqlRenglon = "(" & vPrecio & " * RenglonFactura.Cantidad)"
    sqlMontoRenglon = "(" & sqlRenglon & " * (1 - (RenglonFactura.PorcentajeDescuento / 100)))"
    sqlDescMonto = "((" & sqlRenglon & ") - (" & sqlMontoRenglon & "))"
@@ -595,32 +527,14 @@ Public Function fSQLDeFacturasEntreFechasPorTipoDeArticulo(ByVal valCantidadAImp
    SqlRenglonTotal = "(" & sqlRenglon & " - " & sqlDescMonto & " - " & sqlFactMonto & ")"
      
    If valReporteEnMonedaLocal Then
-      sqlPrecioConIva = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", _
-            gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", _
-            gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "RenglonFactura.PrecioConIva", "Factura.Fecha"), _
-            usarCambioOriginal, ""), True)
-            
-      sqlPrecioSinIva = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", _
-            gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", _
-            gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "RenglonFactura.PrecioSinIva", "Factura.Fecha"), _
-            usarCambioOriginal, ""), True)
-           
-      SqlTotalRenglon = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", _
-            gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", _
-            gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, SqlRenglonTotal, "Factura.Fecha"), _
-            usarCambioOriginal, ""), True)
+      sqlPrecioConIva = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "RenglonFactura.PrecioConIva", "Factura.Fecha"), usarCambioOriginal, ""), True)
+      sqlPrecioSinIva = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "RenglonFactura.PrecioSinIva", "Factura.Fecha"), usarCambioOriginal, ""), True)
+      SqlTotalRenglon = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, SqlRenglonTotal, "Factura.Fecha"), usarCambioOriginal, ""), True)
    Else
-      sqlPrecioConIva = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", _
-                        "RenglonFactura.PrecioConIva", True)
-      sqlPrecioSinIva = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", _
-                        "RenglonFactura.PrecioSinIva", True)
-      SqlTotalRenglon = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", _
-                        SqlRenglonTotal, True)
+      sqlPrecioConIva = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", "RenglonFactura.PrecioConIva", True)
+      sqlPrecioSinIva = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", "RenglonFactura.PrecioSinIva", True)
+      SqlTotalRenglon = gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", SqlRenglonTotal, True)
    End If
-   
-   
-   
-   
    SQL = "SELECT "
    SQL = SQL & "Factura.Numero, "
    SQL = SQL & "Factura.Moneda, "
@@ -629,25 +543,21 @@ Public Function fSQLDeFacturasEntreFechasPorTipoDeArticulo(ByVal valCantidadAImp
    SQL = SQL & "Cliente.Nombre, "
    SQL = SQL & "Cliente.Contacto, "
    If valInformeResumido Then
-      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", _
-                  "SUM(RenglonFactura.Cantidad)", True) & " AS CantidadDeArticulo, "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", "SUM(RenglonFactura.Cantidad)", True) & " AS CantidadDeArticulo, "
       SQL = SQL & "SUM(" & SqlTotalRenglon & ") AS TotalRenglon "
    Else
       SQL = SQL & "RenglonFactura.Articulo AS CodigoArticulo, "
       SQL = SQL & "RenglonFactura.Descripcion AS DescripcionArticulo, "
       SQL = SQL & "RenglonFactura.PorcentajeDescuento AS PorcDectoRenglon, "
       SQL = SQL & "Factura.PorcentajeDescuento AS PorcDectoFactura, "
-      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", _
-                  "RenglonFactura.Cantidad", True) & " AS CantidadDeArticulo, "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", "RenglonFactura.Cantidad", True) & " AS CantidadDeArticulo, "
       SQL = SQL & sqlPrecioConIva & " AS PrecioConIva, "
       SQL = SQL & sqlPrecioSinIva & " AS PrecioSinIva, "
       SQL = SQL & SqlTotalRenglon & " AS TotalRenglon, "
       SQL = SQL & fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFactura(usarCambioOriginal, False, gUltimaTasaDeCambio, gMonedaLocalActual) & " AS TotalRenglonConIva, "
       SQL = SQL & SqlStatusFactura & " AS StatusFactura, "
-      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", _
-                  sqlDescMonto, True) & " AS MontoDescRenglon, "
-      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", _
-                  sqlFactMonto, True) & " AS MontoDescFactura "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", sqlDescMonto, True) & " AS MontoDescRenglon, "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSimpleSqlValue(enum_StatusFactura.eSF_ANULADA), "0", sqlFactMonto, True) & " AS MontoDescFactura "
    End If
    SQL = SQL & " FROM IGV_ArticulosDeInventarioConOSinExistenPorGrupo_B1"
    SQL = SQL & " INNER JOIN ((Cliente INNER JOIN Factura"
@@ -684,8 +594,7 @@ Public Function fSQLDeFacturasEntreFechasPorTipoDeArticulo(ByVal valCantidadAImp
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLDeFacturasEntreFechasPorTipoDeArticulo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeFacturasEntreFechasPorTipoDeArticulo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLDeFacturasEntreFechas(ByVal valReporteEnMonedaLocal As Boolean, _
@@ -1909,10 +1818,8 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLMontoTotalDelRenglonSinIvaConElDescuentoDeFacturaXVistas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFacturaXVistas(ByVal valUsarCambioABolivares As Boolean, _
-                                                                           ByVal valVieneDelLibroDeVentas As Boolean, _
-                                                                            ByVal gUltimaTasaDeCambio As Object, _
-                                                                             ByVal gMonedaLocalActual As Object) As String
+Private Function fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFacturaXVistas(ByVal valUsarCambioABolivares As Boolean, ByVal valVieneDelLibroDeVentas As Boolean, _
+                                                                            ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "((IGV_VendedorXRenglonFactura.PrecioSinIVA * IGV_VendedorXRenglonFactura.Cantidad) * (1 + (IGV_VendedorXRenglonFactura.PorcentajeAlicuota / 100)))"
@@ -1930,46 +1837,43 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLMontoTotalDelRenglonConIvaConElDescuentoDeFacturaXVistas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Public Function fSQLArticulosSobreGiradosEnPedido(ByVal valConsecutivoCompania As Long, ByVal valNumeroFactura As String) As String
+
+Public Function fSQLArticulosSobreGiradosEnPedido(ByVal valConsecutivoCompania As Long, ByVal valNumeroFactura As String, ByVal valTipoDocumento As Integer) As String
    Dim vSQL As String
    Dim vSQLWhere  As String
    On Error GoTo h_ERROR
-   
    vSQLWhere = gUtilSQL.fSQLValueWithAnd("", "renglonFactura.NumeroFactura", valNumeroFactura, False)
-   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania)
-   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
+   vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "renglonFactura.ConsecutivoCompania", valConsecutivoCompania)
+   vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "renglonFactura.TipoDeDocumento", valTipoDocumento)
  
-   vSQL = " SELECT TOP 5  renglonFactura.NumeroFactura,"
-   vSQL = vSQL & " factura.NoCotizacionDeOrigen,"
-   vSQL = vSQL & " renglonFactura.Articulo,"
-   vSQL = vSQL & " renglonFactura.Cantidad,"
-   vSQL = vSQL & " renglonCotizacion.Cantidad AS cantidadpedida,"
-   vSQL = vSQL & " renglonCotizacion.CantidadDespachada, "
-   vSQL = vSQL & " (renglonCotizacion.Cantidad -  renglonCotizacion.CantidadDespachada) AS Resta  "
-   vSQL = vSQL & " FROM factura "
-   vSQL = vSQL & " INNER JOIN  renglonFactura ON "
-   vSQL = vSQL & " factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND"
-   vSQL = vSQL & " factura.Numero = renglonFactura.NumeroFactura AND "
-   vSQL = vSQL & " factura.TipoDeDocumento =  renglonFactura.TipoDeDocumento"
-   vSQL = vSQL & " INNER JOIN  cotizacion ON "
-   vSQL = vSQL & " factura.ConsecutivoCompania = cotizacion.ConsecutivoCompania AND "
-   vSQL = vSQL & " factura.NoCotizacionDeOrigen = cotizacion.Numero "
-   vSQL = vSQL & " INNER JOIN  renglonCotizacion ON "
-   vSQL = vSQL & " renglonFactura.Articulo =  renglonCotizacion.CodigoArticulo AND"
-   vSQL = vSQL & " renglonFactura.Serial =  renglonCotizacion.Serial AND"
-   vSQL = vSQL & " renglonFactura.Rollo =  renglonCotizacion.Rollo AND"
-   vSQL = vSQL & " cotizacion.Numero =  renglonCotizacion.NumeroCotizacion AND"
-   vSQL = vSQL & " cotizacion.ConsecutivoCompania =  renglonCotizacion.ConsecutivoCompania  "
-   vSQL = vSQL & vSQLWhere
-   vSQL = vSQL & " GROUP BY   "
-   vSQL = vSQL & " renglonFactura.NumeroFactura,"
-   vSQL = vSQL & " factura.NoCotizacionDeOrigen,"
-   vSQL = vSQL & " renglonFactura.Articulo,"
-   vSQL = vSQL & " renglonFactura.Cantidad,"
-   vSQL = vSQL & " renglonCotizacion.Cantidad,"
-   vSQL = vSQL & " renglonCotizacion.CantidadDespachada"
-   vSQL = vSQL & "  Having (renglonCotizacion.Cantidad - " & gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("renglonCotizacion.CantidadDespachada"), gUtilSQL.fNumToStrSQL(0), "renglonCotizacion.CantidadDespachada", False) & " < renglonFactura.Cantidad) "
-  fSQLArticulosSobreGiradosEnPedido = vSQL
+   vSQL = "SELECT renglonFactura.NumeroFactura, "
+   vSQL = vSQL & "factura.NoCotizacionDeOrigen, "
+   vSQL = vSQL & "renglonFactura.Articulo, "
+   vSQL = vSQL & "renglonFactura.Cantidad, "
+   vSQL = vSQL & "renglonCotizacion.Cantidad AS CantidadPedida, "
+   vSQL = vSQL & "ISNULL(renglonCotizacion.CantidadDespachada, 0) AS CantidadDespachada, "
+   vSQL = vSQL & "(renglonCotizacion.Cantidad - ISNULL(renglonCotizacion.CantidadDespachada, 0)) AS Resta  "
+  
+   vSQL = vSQL & " FROM renglonFactura INNER JOIN factura "
+   vSQL = vSQL & "   ON renglonFactura.ConsecutivoCompania = factura.ConsecutivoCompania "
+   vSQL = vSQL & "   AND renglonFactura.NumeroFactura = factura.Numero "
+   vSQL = vSQL & "   AND renglonFactura.TipoDeDocumento = factura.TipoDeDocumento "
+   vSQL = vSQL & "   INNER JOIN cotizacion "
+   vSQL = vSQL & "   ON factura.ConsecutivoCompania = cotizacion.ConsecutivoCompania "
+   vSQL = vSQL & "   AND factura.NoCotizacionDeOrigen = cotizacion.Numero "
+   vSQL = vSQL & "   INNER JOIN renglonCotizacion "
+   vSQL = vSQL & "   ON cotizacion.ConsecutivoCompania = renglonCotizacion.ConsecutivoCompania "
+   vSQL = vSQL & "   AND cotizacion.Numero = renglonCotizacion.NumeroCotizacion "
+   vSQL = vSQL & "   AND renglonFactura.Articulo = renglonCotizacion.CodigoArticulo "
+   vSQL = vSQL & "   AND ISNULL(renglonFactura.Serial, '') = ISNULL(renglonCotizacion.Serial, '') "
+   vSQL = vSQL & "   AND ISNULL(renglonFactura.Rollo,'') = ISNULL(renglonCotizacion.Rollo,'') "
+   
+   
+   vSQL = vSQL & gUtilSQL.getWhereSQL(vSQLWhere)
+   vSQL = vSQL & "GROUP BY renglonFactura.NumeroFactura, factura.NoCotizacionDeOrigen, renglonFactura.Articulo, "
+   vSQL = vSQL & "renglonFactura.Cantidad, renglonCotizacion.Cantidad, renglonCotizacion.CantidadDespachada "
+   vSQL = vSQL & "HAVING ((renglonCotizacion.Cantidad - ISNULL(renglonCotizacion.CantidadDespachada, 0)) < renglonFactura.Cantidad) "
+   fSQLArticulosSobreGiradosEnPedido = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
