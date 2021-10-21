@@ -565,7 +565,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal,"DireccionCliente");
             string vRif = LibXml.GetPropertyString(valDocumentoFiscal,"NumeroRIF");
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal,"NombreCliente");
-            string vVacio = "";
+            string vVacio = "";            
             bool vResult = false;
             try {
                 AbrirConexion();
@@ -724,14 +724,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
             return vResult;
         }
-
-        private string FormatoCantidadBematech(string valCantidadInput, string valDecimalSep) {
-            string vResult = "";                
-            vResult = LibText.ExtractUntilSeparatorAndCut(ref valCantidadInput,valDecimalSep);
-            vResult = LibText.Left(vResult,_EnterosCantidad)+valDecimalSep + valCantidadInput;
-            return vResult;
-        }
-
+       
         private bool ImprimirTodosLosArticulos(XElement valDocumentoFiscal) {
             bool vEstatus = false;
             int vResultado = 0;
@@ -758,9 +751,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vCodigo = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Articulo"),0,12);
                     vDescripcionResumida = LibImpresoraFiscalUtil.CadenaCaracteresValidos(LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Descripcion"),0,29));
                     vDescripcionExtendida = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Descripcion"),0,150);
-                    vCantidad = LibXml.GetElementValueOrEmpty(vXElement,"Cantidad");
-                    vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad,_EnterosCantidad,_Decimales3Digitos,",");
-                    vCantidad = FormatoCantidadBematech(vCantidad,",");
+                    vCantidad = LibXml.GetElementValueOrEmpty(vXElement,"Cantidad");                    
+                    vCantidad = DarFormatoNumericoYCompletaConCero(vCantidad, eTipoDeAlicuota.Exento, _EnterosCantidad, _Decimales3Digitos);                    
                     vMonto = LibXml.GetElementValueOrEmpty(vXElement,"PrecioSinIVA");
                     vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto,_EnterosMontosLargos,_Decimales2Digitos,",");
                     vTipoAlicuota = (eTipoDeAlicuota)LibConvert.DbValueToEnum(LibXml.GetElementValueOrEmpty(vXElement,"AlicuotaIva"));
@@ -791,15 +783,18 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 CerrarConexion();
                 throw (vEx);
             }
-        }      
+        }
 
-        private string DarFormatoNumericoYCompletaConCero(string valNumero,eTipoDeAlicuota valTipoAlicuota, byte valCantidadEnteros,byte valCantidadDecimales ,bool valEsAlicuota = false) {
+        private string DarFormatoNumericoYCompletaConCero(string valNumero, eTipoDeAlicuota valTipoAlicuota, byte valCantidadEnteros, byte valCantidadDecimales, bool valEsAlicuota = false) {
             string vValorFinal = "";
-            if(valTipoAlicuota == eTipoDeAlicuota.Exento && valEsAlicuota) {
+            if (valTipoAlicuota == eTipoDeAlicuota.Exento && valEsAlicuota) {
                 vValorFinal = "FF";
             } else {
-                vValorFinal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(valNumero,valCantidadEnteros,valCantidadDecimales,",");
-                vValorFinal = LibText.FillWithCharToLeft(vValorFinal,"0",5);
+                valNumero = LibConvert.NumToString(LibImportData.ToDec(valNumero), valCantidadDecimales);
+                vValorFinal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(valNumero, valCantidadEnteros, valCantidadDecimales, ",");
+                if (valEsAlicuota) {
+                    vValorFinal = LibText.FillWithCharToLeft(vValorFinal, "0", (byte)(valCantidadEnteros + valCantidadDecimales + 1));
+                }
             }
             return vValorFinal;
         }        
