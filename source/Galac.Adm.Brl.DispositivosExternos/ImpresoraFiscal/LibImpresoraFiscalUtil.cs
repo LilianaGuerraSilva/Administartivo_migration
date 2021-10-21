@@ -91,23 +91,22 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public static string DarFormatoNumericoParaImpresion(string valNumero,int valCantidadEnteros,int valCantidadDecimales,string WithDecimalSeparator = "") {
             string vValorFinal = "";
             decimal vDecimalValue = 0;
+            string CurrentDecimalSep = LibConvert.CurrentDecimalSeparator();
             valNumero = LibText.Trim(valNumero);
-            valNumero = SetDecimalSeparator(valNumero);
-            vDecimalValue = LibMath.RoundToNDecimals(LibImportData.ToDec(valNumero),valCantidadDecimales);
-            vDecimalValue = LibMath.Abs(vDecimalValue);
-            vDecimalValue = LibImportData.ToDec(((double)vDecimalValue * Math.Pow(10,valCantidadDecimales)).ToString(CultureInfo.InvariantCulture));
-            vValorFinal = vDecimalValue.ToString(CultureInfo.InvariantCulture);
+            valNumero = SetDecimalSeparator(valNumero);            
             if(LibString.Len(WithDecimalSeparator) > 0) {
-                vValorFinal = LibString.InsertAt(vValorFinal,WithDecimalSeparator,LibString.Len(vValorFinal) - valCantidadDecimales);
-                vValorFinal = (vDecimalValue == 0) ? "0" + WithDecimalSeparator + "00" : vValorFinal;
-                vValorFinal = (LibString.SubString(vValorFinal,0,1) == WithDecimalSeparator ? "0" + vValorFinal : vValorFinal);
+                vValorFinal = LibText.Replace(valNumero, CurrentDecimalSep, WithDecimalSeparator);                
             } else {
+                vDecimalValue = LibMath.RoundToNDecimals(LibImportData.ToDec(valNumero), valCantidadDecimales);
+                vDecimalValue = LibMath.Abs(vDecimalValue);
+                vDecimalValue = LibImportData.ToDec(((double)vDecimalValue * Math.Pow(10, valCantidadDecimales)).ToString(CultureInfo.InvariantCulture));
+                vValorFinal = vDecimalValue.ToString(CultureInfo.InvariantCulture);
                 vValorFinal = LibText.FillWithCharToLeft(vValorFinal,"0",LibConvert.ToByte(valCantidadEnteros + valCantidadDecimales));
             }
             return vValorFinal;
         }
 
-        private static string SetDecimalSeparator(string valNumero) {
+        public static string SetDecimalSeparator(string valNumero) {
             string vResult = "";
             string CurrentDecimalSep = "";
             CurrentDecimalSep = LibConvert.CurrentDecimalSeparator();
