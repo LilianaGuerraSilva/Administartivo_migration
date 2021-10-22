@@ -655,7 +655,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 vImprimeDireccionALFinalDeLaFactura = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida","ImprimeDireccionAlFinalDelComprobanteFiscal");
                 valDescuentoTotal = LibXml.GetPropertyString(valDocumentoFiscal,"PorcentajeDescuento");
-                valDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(valDescuentoTotal,_EnterosMontosLargos,_Decimales2Digitos,",");
+                valDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(valDescuentoTotal, _EnterosMontosCortos, _Decimales2Digitos);
                 vDireccionFiscal = LibXml.GetPropertyString(valDocumentoFiscal,"DireccionCliente");
                 vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal,"Observaciones");
                 vTotalMonedaExtranjera = LibXml.GetPropertyString(valDocumentoFiscal,"TotalMonedaExtranjera");
@@ -759,7 +759,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vPorcentajeAlicuota = LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeAlicuota");
                     vPorcentajeAlicuota = DarFormatoNumericoYCompletaConCero(vPorcentajeAlicuota,vTipoAlicuota,_EnterosMontosCortos,_Decimales2Digitos,true);
                     vPrcDescuento = (LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeDescuento"));
-                    vPrcDescuento = DarFormatoNumericoYCompletaConCero(vPrcDescuento,vTipoAlicuota,_EnterosMontosCortos,_Decimales2Digitos);
+                    vPrcDescuento = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vPrcDescuento, _EnterosMontosCortos, _Decimales2Digitos);
                     vSerial = LibXml.GetElementValueOrEmpty(vXElement,"Serial");
                     vRollo = LibXml.GetElementValueOrEmpty(vXElement,"Rollo");
                     if(LibString.Len(vSerial) > 0) {
