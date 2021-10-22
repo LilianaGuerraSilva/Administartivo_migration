@@ -754,7 +754,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vCantidad = LibXml.GetElementValueOrEmpty(vXElement,"Cantidad");                    
                     vCantidad = DarFormatoNumericoYCompletaConCero(vCantidad, eTipoDeAlicuota.Exento, _EnterosCantidad, _Decimales3Digitos);                    
                     vMonto = LibXml.GetElementValueOrEmpty(vXElement,"PrecioSinIVA");
-                    vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto,_EnterosMontosLargos,_Decimales2Digitos,",");
+                    vMonto = DarFormatoNumericoYCompletaConCero(vMonto, eTipoDeAlicuota.Exento, _EnterosMontosLargos, _Decimales2Digitos);
                     vTipoAlicuota = (eTipoDeAlicuota)LibConvert.DbValueToEnum(LibXml.GetElementValueOrEmpty(vXElement,"AlicuotaIva"));
                     vPorcentajeAlicuota = LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeAlicuota");
                     vPorcentajeAlicuota = DarFormatoNumericoYCompletaConCero(vPorcentajeAlicuota,vTipoAlicuota,_EnterosMontosCortos,_Decimales2Digitos,true);
