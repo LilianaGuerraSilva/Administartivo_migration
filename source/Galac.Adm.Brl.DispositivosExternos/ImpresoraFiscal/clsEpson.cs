@@ -629,10 +629,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
             try {
                 vPorcDescuentoGlobal = LibXml.GetPropertyString(valDocumentoFiscal, "PorcentajeDescuento");
-                vPorcDescuentoGlobal = SetDecimalSeparator(vPorcDescuentoGlobal, _DecimalesParaMonto);
+                vPorcDescuentoGlobal = LibImpresoraFiscalUtil.SetDecimalSeparator(vPorcDescuentoGlobal);
                 vPorcDescuentoGlobalDec = LibImportData.ToDec(vPorcDescuentoGlobal);
                 vTotalFactura = LibXml.GetPropertyString(valDocumentoFiscal, "TotalFactura");
-                vTotalFactura = SetDecimalSeparator(vTotalFactura, _DecimalesParaMonto);
+                vTotalFactura = LibImpresoraFiscalUtil.SetDecimalSeparator(vTotalFactura);
                 vTotalFacturaDec = LibImportData.ToDec(vTotalFactura);
                 List<XElement> vRecord = valDocumentoFiscal.Descendants("GpResultDetailRenglonFactura").ToList();
                 foreach (XElement vXElement in vRecord) {
@@ -647,9 +647,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vPorcentajeAlicuota = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vPorcentajeAlicuota, 2, 2);
                     vPrcDescuento = LibXml.GetElementValueOrEmpty(vXElement, "PorcentajeDescuento");
                     vTipoAlicuota = LibXml.GetElementValueOrEmpty(vXElement, "AlicuotaIva");
-                    vMonto = SetDecimalSeparator(vMonto, _DecimalesParaMonto);
-                    vCantidad = SetDecimalSeparator(vCantidad, _DecimalesParaCantidad);
-                    vPrcDescuento = SetDecimalSeparator(vPrcDescuento, _DecimalesParaMonto);
+                    vMonto = LibImpresoraFiscalUtil.SetDecimalSeparator(vMonto);
+                    vCantidad = LibImpresoraFiscalUtil.SetDecimalSeparator(vCantidad);
+                    vPrcDescuento = LibImpresoraFiscalUtil.SetDecimalSeparator(vPrcDescuento);
                     vPrcDctoDec = LibImportData.ToDec(vPrcDescuento, 2);
                     if (LibString.Len(vSerial) > 0 && LibString.Len(vDescipcionExtendida) == 0) {
                         vResultado = PFTfiscal(LibText.SubString(vSerial, 0, 20));
@@ -707,24 +707,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal vDescuentoGlobal = 0;
             vDescuentoGlobal = LibMath.RoundToNDecimals((valCantidad * valMonto) * valPrcDescuento / 100m, 3);
             return vDescuentoGlobal;
-        }
-
-        private string SetDecimalSeparator(string valNumero, int vCantidaDecimales) {
-            string vResult = "";
-            string vDecimalSeparator = LibConvert.CurrentDecimalSeparator();
-            string vGroupSeparator = LibConvert.CurrentGroupSeparator();
-            int vPost = 0;
-
-            vPost = LibString.Len(valNumero) - vCantidaDecimales - 1;
-            vPost = LibString.IndexOf(valNumero, vGroupSeparator, vPost);
-            if (vPost > 0) {
-                vResult = LibText.Replace(valNumero, vGroupSeparator, vDecimalSeparator);
-            } else {
-                vResult = valNumero;
-            }
-            vResult = LibString.Replace(vResult, vGroupSeparator, "");
-            return vResult;
-        }
+        }       
 
         private bool AplicaDctoGlobal(string valTipoAlicuota, string valPorcDescuentoGlobal, decimal valMontoDctoAlicuotaGDec, decimal valMontoDctoAlicuotaRDec, decimal valMontoDctoAlicuotaADec, decimal valMontoDctoAlicuotaEDec) {
             string vMontoDctoAlicuotaG = "";
@@ -776,7 +759,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
             try {
                 vTotalFacturaStr = LibXml.GetPropertyString(valMedioDePago, "TotalFactura");
-                vTotalFacturaStr = SetDecimalSeparator(vTotalFacturaStr, _DecimalesParaMonto);
+                vTotalFacturaStr = LibImpresoraFiscalUtil.SetDecimalSeparator(vTotalFacturaStr);
                 vTotalFacturaDec = LibMath.Abs(LibImportData.ToDec(vTotalFacturaStr, 2));
                 List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").ToList();
                 if (vNodos.Count > 0) {
@@ -935,7 +918,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vTrama = "";
             vTrama = PFultimo();
             vField = LibString.Split(vTrama, ',');
-            vResult = vField[vItemCampo];
+            if (vField != null && vField.Length > 0) {
+                vResult = vField[vItemCampo];
+            }            
             return vResult;
         }
 

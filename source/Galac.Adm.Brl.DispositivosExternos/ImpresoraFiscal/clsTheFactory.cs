@@ -459,7 +459,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string SetDecimalSeparator(string valNumero) {
             string vResult = "";
             string TokenSeparator = "";
-
             TokenSeparator = LibConvert.CurrentDecimalSeparator();
             if (LibText.S1IsInS2(".", valNumero) && TokenSeparator.Equals(",")) {
                 vResult = LibText.Replace(valNumero, ".", ",");
