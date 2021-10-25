@@ -433,22 +433,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 break;
             }
             return vValorFinal;
-        }
-
-        private string SetDecimalSeparator(string valNumero) {
-            string vResult = "";
-            string TokenSeparator = "";
-
-            TokenSeparator = LibConvert.CurrentDecimalSeparator();
-            if(LibText.S1IsInS2(".",valNumero) && TokenSeparator.Equals(",")) {
-                vResult = LibText.Replace(valNumero,".",",");
-            } else if(LibText.S1IsInS2(",",valNumero) && TokenSeparator.Equals(".")) {
-                vResult = LibText.Replace(valNumero,",",".");
-            } else {
-                vResult = valNumero;
-            }
-            return vResult;
-        }
+        }       
 
         private string DarFormatoNumericoParaComandosGenerales(string valNumero,int valCantidadEnteros) {
             string vResult = "";
