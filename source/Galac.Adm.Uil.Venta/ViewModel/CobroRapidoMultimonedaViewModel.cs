@@ -298,7 +298,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public string lblPorPagarYVuelto {
             get {
-                if (MontoRestantePorPagar <= 0) {
+                if (MontoXPagarColor == eBorderBackMontoXPagarColor.FaltaPeroSePuede) {
+                    return "DIFERENCIA x CAMBIO";
+                } else if (MontoRestantePorPagar <= 0) {
                     return "VUELTO";
                 } else {
                     return "POR PAGAR";
@@ -617,7 +619,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vCodigoMonedaLocal = LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VED" : vCodigoMonedaLocal;
             } else {
                 vCodigoMonedaLocal = LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VES" : vCodigoMonedaLocal;
-            }            
+            }
             decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal);
             if (TotalPagosML == 0) { //Se cobró todo en ME
                 decimal vCobradoEnDivisasConvertido = 0;
@@ -650,9 +652,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     });
                     vCobradoEnDivisasConvertido += LibMath.RoundToNDecimals(TransferenciaEnDivisas * CambioAMonedaLocal, 2);
                 }
-                if (vCobradoEnDivisasConvertido != 0) {
-                    decimal vDiferencia = 0;
-                    vDiferencia = TotalFactura - vCobradoEnDivisasConvertido;
+                decimal vDiferencia = TotalFactura - vCobradoEnDivisasConvertido;
+                if (vCobradoEnDivisasConvertido != 0 && vDiferencia != 0) {
                     vConsecutivoRenglon += 1;
                     vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
                         ConsecutivoCompania = ConsecutivoCompania,
