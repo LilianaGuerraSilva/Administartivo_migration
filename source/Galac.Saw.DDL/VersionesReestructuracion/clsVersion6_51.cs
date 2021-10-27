@@ -18,6 +18,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             ActualizarNroComprobanteFiscalEnBlanco();
+            DesactivarParametroMostrarTotalEnBolivarDigitaloSoberano();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -29,6 +30,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine("WHERE(LEN(NumeroComprobanteFiscal) = 0 OR NumeroComprobanteFiscal = Null) ");
             vSql.AppendLine("AND LEN(NoCotizacionDeOrigen) > 0 ");
             Execute(vSql.ToString(), 0);
-        }             
+        }
+        private void DesactivarParametroMostrarTotalEnBolivarDigitaloSoberano() {
+            string vSql;
+            vSql = "UPDATE Comun.SettValueByCompany SET value = 'N' WHERE NameSettDefinition = 'MostrarMtoTotalBsFEnObservaciones'";
+            Execute(vSql, 0);
+        }
     }
 }
