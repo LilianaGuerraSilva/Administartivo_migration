@@ -15,14 +15,14 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <sawLibUil:StringToCurrencyConverter x:Key="StringToCurrencyConverter" />            
+            <sawLibUil:StringToCurrencyConverter x:Key="StringToCurrencyConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding Key="F6" Command="{Binding Path=CobrarCommand}" />
         <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />
     </UserControl.InputBindings>
-    <Grid Width="600" Height="auto">
+    <Grid Width="622" Height="auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
