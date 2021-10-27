@@ -14,6 +14,7 @@ using LibGalac.Aos.Uil;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System.Windows.Media;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CobroRapidoMultimonedaViewModel : CobroRapidoVzlaViewModelBase {
@@ -58,9 +59,26 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool _IsEnabledEfectivoDivisa;
         private XElement _XmlDatosDelCobro;
         private readonly bool _EsFacturaTradicional;
-        public Action<bool> SeCobro;       
-
+        public Action<bool> SeCobro;
+        private eBorderBackMontoXPagarColor _MontoXPagarColor = eBorderBackMontoXPagarColor.Falta;
         #endregion
+
+        public enum eBorderBackMontoXPagarColor {
+            Totalmente = 1,
+            Falta,
+            FaltaPeroSePuede
+        }                
+
+        public eBorderBackMontoXPagarColor MontoXPagarColor {
+            get {
+                return _MontoXPagarColor;
+            }
+            set {
+                _MontoXPagarColor = value;
+                RaisePropertyChanged("MontoXPagarColor");
+                RaisePropertyChanged("BGColor");
+            }
+        }
 
         #region Propiedades
 
@@ -365,6 +383,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public SolidColorBrush BGColor {
+            get {
+                if (MontoXPagarColor == eBorderBackMontoXPagarColor.Totalmente) {
+                    return new SolidColorBrush(Colors.Green);
+                } else if (MontoXPagarColor == eBorderBackMontoXPagarColor.FaltaPeroSePuede) {
+                    return new SolidColorBrush(Colors.Orange);
+                } else {
+                    return new SolidColorBrush(Colors.Red);
+                }
+            }
+        }     
+
         #endregion
 
         #region Constructores e Inicializaciores
@@ -483,10 +513,25 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override bool CanExecuteCobrarCommand() {
             bool vResult = false;
-            vResult = MontoRestantePorPagar > 0 ? false
-                : MontoRestantePorPagarEnDivisas > 0 ? false
-                : _EsFacturaTradicional ? true
-                : base.CanExecuteCobrarCommand();
+            vResult = SePuedeCobrar() && (_EsFacturaTradicional || base.CanExecuteCobrarCommand());
+            return vResult;
+        }
+
+        private bool SePuedeCobrar() {
+            bool vResult;
+            CalcularTotales();
+            decimal TotalPagosME = LibMath.Abs(EfectivoEnDivisas + TransferenciaEnDivisas);
+            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal);
+            vResult = ((TotalPagosML == 0) && (MontoRestantePorPagarEnDivisas <= 0))
+                   || ((TotalPagosME == 0) && (MontoRestantePorPagar <= 0));
+            if (!vResult) {
+                vResult = (TotalPagosME != 0) && (TotalPagosML != 0) && (MontoRestantePorPagar <= 0);
+            }
+            if (vResult) {
+                MontoXPagarColor = (MontoRestantePorPagar <= 0) ? eBorderBackMontoXPagarColor.Totalmente : eBorderBackMontoXPagarColor.FaltaPeroSePuede;
+            } else {
+                MontoXPagarColor = eBorderBackMontoXPagarColor.Falta;
+            }
             return vResult;
         }
 
@@ -572,88 +617,138 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 vCodigoMonedaLocal = LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VED" : vCodigoMonedaLocal;
             } else {
                 vCodigoMonedaLocal = LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VES" : vCodigoMonedaLocal;
-            }
-            if (EfectivoEnMonedaLocal != 0) {
-                vConsecutivoRenglon += 1;
-                vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
-                    ConsecutivoCompania = ConsecutivoCompania,
-                    NumeroFactura = NumeroFactura,
-                    TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
-                    ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = "00001",
-                    Monto = EfectivoEnMonedaLocal,
-                    CodigoMoneda = vCodigoMonedaLocal,
-                    CambioAMonedaLocal = 1
-                });
-            }
-            if (EfectivoEnDivisas != 0) {
-                vConsecutivoRenglon += 1;
-                vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
-                    ConsecutivoCompania = ConsecutivoCompania,
-                    NumeroFactura = NumeroFactura,
-                    TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
-                    ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = "00001",
-                    Monto = EfectivoEnDivisas,
-                    CodigoMoneda = CodigoMonedaDivisa,
-                    CambioAMonedaLocal = CambioAMonedaLocal
-                });
-            }
-            if (TarjetaUno != 0) {
-                vConsecutivoRenglon += 1;
-                vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
-                    ConsecutivoCompania = ConsecutivoCompania,
-                    NumeroFactura = NumeroFactura,
-                    TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
-                    ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = "00003",
-                    CodigoBanco = valCodigoBancoParaMonedaLocal,
-                    Monto = TarjetaUno,
-                    CodigoMoneda = vCodigoMonedaLocal,
-                    CambioAMonedaLocal = 1
-                });
-            }
-            if (TarjetaDos != 0) {
-                vConsecutivoRenglon += 1;
-                vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
-                    ConsecutivoCompania = ConsecutivoCompania,
-                    NumeroFactura = NumeroFactura,
-                    TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
-                    ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = "00003",
-                    CodigoBanco = valCodigoBancoParaMonedaLocal,
-                    Monto = TarjetaDos,
-                    CodigoMoneda = vCodigoMonedaLocal,
-                    CambioAMonedaLocal = 1
-                });
-            }
-            if (TransferenciaEnMonedaLocal != 0) {
-                vConsecutivoRenglon += 1;
-                vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
-                    ConsecutivoCompania = ConsecutivoCompania,
-                    NumeroFactura = NumeroFactura,
-                    TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
-                    ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = "00006",
-                    CodigoBanco = valCodigoBancoParaMonedaLocal,
-                    Monto = TransferenciaEnMonedaLocal,
-                    CodigoMoneda = vCodigoMonedaLocal,
-                    CambioAMonedaLocal = 1
-                });
-            }
-            if (TransferenciaEnDivisas != 0) {
-                vConsecutivoRenglon += 1;
-                vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
-                    ConsecutivoCompania = ConsecutivoCompania,
-                    NumeroFactura = NumeroFactura,
-                    TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
-                    ConsecutivoRenglon = vConsecutivoRenglon,
-                    CodigoFormaDelCobro = "00006",
-                    CodigoBanco = valCodigoBancoParaDivisa,
-                    Monto = TransferenciaEnDivisas,
-                    CodigoMoneda = CodigoMonedaDivisa,
-                    CambioAMonedaLocal = CambioAMonedaLocal
-                });
+            }            
+            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal);
+            if (TotalPagosML == 0) { //Se cobró todo en ME
+                decimal vCobradoEnDivisasConvertido = 0;
+                if (EfectivoEnDivisas != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00001",
+                        Monto = EfectivoEnDivisas,
+                        CodigoMoneda = CodigoMonedaDivisa,
+                        CambioAMonedaLocal = CambioAMonedaLocal
+                    });
+                    vCobradoEnDivisasConvertido += LibMath.RoundToNDecimals(EfectivoEnDivisas * CambioAMonedaLocal, 2);
+                }
+                if (TransferenciaEnDivisas != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00006",
+                        CodigoBanco = valCodigoBancoParaDivisa,
+                        Monto = TransferenciaEnDivisas,
+                        CodigoMoneda = CodigoMonedaDivisa,
+                        CambioAMonedaLocal = CambioAMonedaLocal
+                    });
+                    vCobradoEnDivisasConvertido += LibMath.RoundToNDecimals(TransferenciaEnDivisas * CambioAMonedaLocal, 2);
+                }
+                if (vCobradoEnDivisasConvertido != 0) {
+                    decimal vDiferencia = 0;
+                    vDiferencia = TotalFactura - vCobradoEnDivisasConvertido;
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00001",
+                        CodigoBanco = valCodigoBancoParaDivisa,
+                        Monto = vDiferencia,
+                        CodigoMoneda = vCodigoMonedaLocal,
+                        CambioAMonedaLocal = 1
+                    });
+                }
+            } else {
+                if (EfectivoEnMonedaLocal != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00001",
+                        Monto = EfectivoEnMonedaLocal,
+                        CodigoMoneda = vCodigoMonedaLocal,
+                        CambioAMonedaLocal = 1
+                    });
+                }
+                if (EfectivoEnDivisas != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00001",
+                        Monto = EfectivoEnDivisas,
+                        CodigoMoneda = CodigoMonedaDivisa,
+                        CambioAMonedaLocal = CambioAMonedaLocal
+                    });
+                }
+                if (TarjetaUno != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00003",
+                        CodigoBanco = valCodigoBancoParaMonedaLocal,
+                        Monto = TarjetaUno,
+                        CodigoMoneda = vCodigoMonedaLocal,
+                        CambioAMonedaLocal = 1
+                    });
+                }
+                if (TarjetaDos != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00003",
+                        CodigoBanco = valCodigoBancoParaMonedaLocal,
+                        Monto = TarjetaDos,
+                        CodigoMoneda = vCodigoMonedaLocal,
+                        CambioAMonedaLocal = 1
+                    });
+                }
+                if (TransferenciaEnMonedaLocal != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00006",
+                        CodigoBanco = valCodigoBancoParaMonedaLocal,
+                        Monto = TransferenciaEnMonedaLocal,
+                        CodigoMoneda = vCodigoMonedaLocal,
+                        CambioAMonedaLocal = 1
+                    });
+                }
+                if (TransferenciaEnDivisas != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00006",
+                        CodigoBanco = valCodigoBancoParaDivisa,
+                        Monto = TransferenciaEnDivisas,
+                        CodigoMoneda = CodigoMonedaDivisa,
+                        CambioAMonedaLocal = CambioAMonedaLocal
+                    });
+                }
             }
             return vRenglonesDeCobro;
         }
