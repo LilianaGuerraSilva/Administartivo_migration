@@ -622,7 +622,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal);
             if (TotalPagosML == 0) { //Se cobró todo en ME
-                decimal vCobradoEnDivisasConvertido = 0;
+                decimal vCobradoEnDivisasConvertido = 0;                
                 if (EfectivoEnDivisas != 0) {
                     vConsecutivoRenglon += 1;
                     vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
@@ -653,7 +653,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vCobradoEnDivisasConvertido += LibMath.RoundToNDecimals(TransferenciaEnDivisas * CambioAMonedaLocal, 2);
                 }
                 decimal vDiferencia = TotalFactura - vCobradoEnDivisasConvertido;
-                if (vCobradoEnDivisasConvertido != 0 && vDiferencia != 0) {
+                if (vCobradoEnDivisasConvertido != 0 && vDiferencia > 0) {
                     vConsecutivoRenglon += 1;
                     vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
                         ConsecutivoCompania = ConsecutivoCompania,
