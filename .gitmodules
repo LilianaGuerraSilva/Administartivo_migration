@@ -66,3 +66,7 @@
 	path = bin/binAdministrativoVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativovb.git
 	branch = release/V2110
+[submodule "source/ContabIwrp"]
+	path = source/ContabIwrp
+	url = https://gitlab.com/galac-software-enterprise/desa/contabiwrp.git
+	branch = release/SawV21.0.0.0
