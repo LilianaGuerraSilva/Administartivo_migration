@@ -22,26 +22,6 @@
 	path = source/Lib/VbaLib
 	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
 	branch = release/v2104
-[submodule "source/RetencionesVb"]
-	path = source/RetencionesVb
-	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
-	branch = release/SawV20.0.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
-	branch = release/SawV20.0.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
-	branch = release/SawV20.0.0.0
-[submodule "source/Axi"]
-	path = source/Axi
-	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
-	branch = release/v2.60.0.0
-[submodule "source/Contabilidadvb"]
-	path = source/Contabilidadvb
-	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
-	branch = release/WCO-19.0
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincomunaos.git
