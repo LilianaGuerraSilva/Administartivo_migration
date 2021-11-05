@@ -30,22 +30,10 @@
 	path = source/IvaVb
 	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
 	branch = release/SawV20.0.0.0
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
-	branch = release/V2.60.0.0
 [submodule "source/VbaComun"]
 	path = source/VbaComun
 	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
 	branch = release/SawV20.0.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release/V2109
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
-	branch = release/V2.60.0.0
 [submodule "source/Axi"]
 	path = source/Axi
 	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
