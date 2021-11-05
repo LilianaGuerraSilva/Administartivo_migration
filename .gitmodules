@@ -58,3 +58,15 @@
 	path = source/ContabIwrp
 	url = https://gitlab.com/galac-software-enterprise/desa/contabiwrp.git
 	branch = release/SawV21.0.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
+	branch = release/SawV21.0.0.0
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
+	branch = release/SawV21.0.0.0
+[submodule "bin/binEsqNiif"]
+	path = bin/binEsqNiif
+	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
+	branch = release/SawV21.0.0.0
