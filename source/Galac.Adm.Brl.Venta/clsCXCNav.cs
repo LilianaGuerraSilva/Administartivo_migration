@@ -11,7 +11,7 @@ using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Adm.Brl.Venta {
-    public class clsCXCNav : ICXCPdn {
+    public class clsCXCNav : LibBaseNav<IList<CxC>, IList<CxC>>, ICXCPdn {
         bool ICXCPdn.Insert(int valConsecutivoCompnaia, XElement valData) {
             clsCXCDat insCxCDat = new clsCXCDat();
             bool vResult = LibBusiness.ExecuteUpdateOrDelete(insCxCDat.CXCSqlInsertar(), insCxCDat.CXCParametrosInsertar(valConsecutivoCompnaia, valData), "", 0) >= 0;

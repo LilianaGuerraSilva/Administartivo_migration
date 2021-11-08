@@ -64,6 +64,27 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public DateTime ClienteDesdeFecha { get; set; }
         public string TipoDeContribuyente { get; set; }
     }
+	
+    public class FkCxCViewModel : IFkCxCViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Número")]
+        public string Numero { get; set; }
+        [LibGridColum("Status")]
+        public eStatusCXC Status { get; set; }
+        [LibGridColum("Tipo Cx C")]
+        public eTipoDeCxC TipoCxC { get; set; }
+        [LibGridColum("Código del Cliente")]
+        public string CodigoCliente { get; set; }
+        [LibGridColum("Nombre Cliente")]
+        public string NombreCliente { get; set; }
+        [LibGridColum("Fecha")]
+        public DateTime Fecha { get; set; }
+        [LibGridColum("Numero Documento Origen")]
+        public string NumeroDocumentoOrigen { get; set; }
+        [LibGridColum("Tipo de Documento")]
+        public string CodigoTipoDeDocumentoLey { get; set; }
+    }
+	
     public class FkArticuloInventarioViewModel : IFkArticuloInventarioViewModel {
         public int ConsecutivoCompania { get; set; }
         [LibGridColum("Código", DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo", Width = 150)]

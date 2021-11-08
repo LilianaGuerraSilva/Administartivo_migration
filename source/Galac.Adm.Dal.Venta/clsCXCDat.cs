@@ -16,7 +16,7 @@ using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Dal.Venta {
-    public class clsCXCDat : LibData {
+    public class clsCXCDat: LibData, ILibDataRpt {
 
         public string CXCSqlInsertar() {
 
@@ -137,5 +137,16 @@ namespace Galac.Adm.Dal.Venta {
             }
             return vCambioABolivares;
         }
+
+        #region Miembros de ILibDataRpt
+
+        System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
+        }
+
+        System.Data.DataTable ILibDataRpt.GetDt(string valSpName, StringBuilder valXmlParamsExpression, int valCmdTimeout) {
+            return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
+        }
+        #endregion //Miembros de ILibDataRpt
     }
 }

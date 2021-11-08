@@ -55,7 +55,7 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Talonario 2")]
         Talonario2
     }
-
+	
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeVenta {
         [LibEnumDescription("Interna")]
@@ -83,6 +83,24 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Otros")]
         Otros
     }
+
+	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eTipoDeCxC {
+        [LibEnumDescription("Factura")]
+        Factura = 0, 
+        [LibEnumDescription("Cheque Devuelto")]
+        ChequeDevuelto, 
+        [LibEnumDescription("Nota De Credito")]
+        NotaDeCredito, 
+        [LibEnumDescription("Nota De Debito")]
+        NotaDeDebito, 
+        [LibEnumDescription("Nota Entrega")]
+        NotaEntrega, 
+        [LibEnumDescription("Giro")]
+        Giro, 
+        [LibEnumDescription("No Asignado")]
+        NoAsignado
+	}
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeTransaccionDeLibrosFiscales {
