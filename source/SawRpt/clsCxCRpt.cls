@@ -25,8 +25,8 @@ Private Enum eCxCRpt
    eCxCRpt_FACTURAS_ANULADAS_CON_CXC_VIGENTES
    eCxCRpt_CUENTAS_X_COBRAR_CON_DESCRIPCION
    eCxCRpt_CUENTAS_X_COBRAR_ENTRE_FECHAS_MONEDA_ORIGINAL
-   eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS
-   eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL
+   'eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS
+   'eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL
    eCxCRpt_ANALISIS_CxC_HISTORICO
    eCxCRpt_HISTORICO_DE_CLIENTE
    eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS
@@ -63,8 +63,8 @@ Private Function fNombreFileDeImpresionDelReporteDeCxC(ByVal valReporte As eCxCR
       Case eCxCRpt_CUENTAS_X_COBRAR_POR_VENDEDOR_POR_CLIENTE: nombreFileXML = "rpxCxCxVendedorPorCliente"
       Case eCxCRpt_FACTURAS_ANULADAS_CON_CXC_VIGENTES: nombreFileXML = "rpxFacturasAnuladasVsCxCVigentes"
       Case eCxCRpt_CUENTAS_X_COBRAR_CON_DESCRIPCION: nombreFileXML = "rpxCxCConDescripcion"
-      Case eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS: nombreFileXML = "rpxCxCPendientesEntreFechas"
-      Case eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL: nombreFileXML = "rpxCxCPendientesEntreFechasMonedaOrig"
+      'Case eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS: nombreFileXML = "rpxCxCPendientesEntreFechas"
+      'Case eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL: nombreFileXML = "rpxCxCPendientesEntreFechasMonedaOrig"
       Case eCxCRpt_ANALISIS_CxC_HISTORICO: nombreFileXML = "rpxAnalisisDeCxCHistorico"
       Case eCxCRpt_HISTORICO_DE_CLIENTE: nombreFileXML = "rpxHistoricoDeClientes"
       Case eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS: nombreFileXML = "rpxAnalisisDeVencimientoDeCxCEntreFechas"
@@ -107,8 +107,8 @@ Private Function fNombreDelReporteDeCxC(ByVal valReporte As eCxCRpt) As String
       Case eCxCRpt_CUENTAS_X_COBRAR_ENTRE_FECHAS_MONEDA_ORIGINAL: fNombreDelReporteDeCxC = "Cuentas por Cobrar entre Fechas - Moneda Original"
       Case eCxCRpt_FACTURAS_ANULADAS_CON_CXC_VIGENTES: fNombreDelReporteDeCxC = "Facturas Anuladas vs. Cuentas por Cobrar Vigentes"
       Case eCxCRpt_CUENTAS_X_COBRAR_POR_VENDEDOR_POR_CLIENTE: fNombreDelReporteDeCxC = "Cuentas por Cobrar por Vendedor por Cliente"
-      Case eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL: fNombreDelReporteDeCxC = "Cuentas por Cobrar pendientes entre Fechas - Moneda Original"
-      Case eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS: fNombreDelReporteDeCxC = "Cuentas por Cobrar pendientes entre Fechas"
+      'Case eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL: fNombreDelReporteDeCxC = "Cuentas por Cobrar pendientes entre Fechas - Moneda Original"
+      'Case eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS: fNombreDelReporteDeCxC = "Cuentas por Cobrar pendientes entre Fechas"
       Case eCxCRpt_CUENTAS_X_COBRAR_CON_DESCRIPCION: fNombreDelReporteDeCxC = "Cuentas por Cobrar con Descripción"
       Case eCxCRpt_ANALISIS_CxC_HISTORICO: fNombreDelReporteDeCxC = "Análisis de Cuentas por Cobrar Histórico"
       Case eCxCRpt_HISTORICO_DE_CLIENTE: fNombreDelReporteDeCxC = "Histórico de Cliente"
@@ -145,34 +145,34 @@ Public Function fConfiguraLasSeccionesDelReporteDeCxCEntreFechas(ByRef refRpt As
       nombreDelFile = fNombreFileDeImpresionDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_ENTRE_FECHAS)
       NombreDelReporte = fNombreDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_ENTRE_FECHAS)
    End If
-   exito = fConfigurarReportesCxCEntreFechasOCxCPendienteEntreFechas(nombreDelFile, refRpt, valSqlDelReporte, valFechaInicial, valFechaFinal, NombreDelReporte, valNombreCompaniaParaInformes, valUsaCamposDefiniblesFactura, valUsaModuloDeContabilidad, usarContacto)
+   exito = fConfigurarReportesCxCEntreFechas(nombreDelFile, refRpt, valSqlDelReporte, valFechaInicial, valFechaFinal, NombreDelReporte, valNombreCompaniaParaInformes, valUsaCamposDefiniblesFactura, valUsaModuloDeContabilidad, usarContacto)
 h_EXIT: On Error GoTo 0
    fConfiguraLasSeccionesDelReporteDeCxCEntreFechas = exito
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraLasSeccionesDelReporteDeCxCEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valEnMonedaOriginal As Boolean, ByVal valNombreCompaniaParaInformes As String, ByVal valUsaCamposDefiniblesFactura As Boolean, ByVal valUsaModuloDeContabilidad As Boolean, ByVal usarContacto As Boolean) As Boolean
-   Dim nombreDelFile As String
-   Dim NombreDelReporte As String
-   Dim exito As Boolean
-   On Error GoTo h_ERROR
-   exito = False
-   If valEnMonedaOriginal Then
-      nombreDelFile = fNombreFileDeImpresionDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL)
-      NombreDelReporte = fNombreDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL)
-   Else
-      nombreDelFile = fNombreFileDeImpresionDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS)
-      NombreDelReporte = fNombreDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS)
-   End If
-   exito = fConfigurarReportesCxCEntreFechasOCxCPendienteEntreFechas(nombreDelFile, refRpt, valSqlDelReporte, valFechaInicial, valFechaFinal, NombreDelReporte, valNombreCompaniaParaInformes, valUsaCamposDefiniblesFactura, valUsaModuloDeContabilidad, usarContacto)
-h_EXIT: On Error GoTo 0
-   fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas = exito
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
+'Public Function fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valEnMonedaOriginal As Boolean, ByVal valNombreCompaniaParaInformes As String, ByVal valUsaCamposDefiniblesFactura As Boolean, ByVal valUsaModuloDeContabilidad As Boolean, ByVal usarContacto As Boolean) As Boolean
+'   Dim nombreDelFile As String
+'   Dim NombreDelReporte As String
+'   Dim exito As Boolean
+'   On Error GoTo h_ERROR
+'   exito = False
+'   If valEnMonedaOriginal Then
+'      nombreDelFile = fNombreFileDeImpresionDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL)
+'      NombreDelReporte = fNombreDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS_MONEDA_ORIGINAL)
+'   Else
+'      nombreDelFile = fNombreFileDeImpresionDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS)
+'      NombreDelReporte = fNombreDelReporteDeCxC(eCxCRpt_CUENTAS_X_COBRAR_PENDIENTES_ENTRE_FECHAS)
+'   End If
+'   exito = fConfigurarReportesCxCEntreFechas(nombreDelFile, refRpt, valSqlDelReporte, valFechaInicial, valFechaFinal, NombreDelReporte, valNombreCompaniaParaInformes, valUsaCamposDefiniblesFactura, valUsaModuloDeContabilidad, usarContacto)
+'h_EXIT: On Error GoTo 0
+'   fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas = exito
+'   Exit Function
+'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+'End Function
 
-Private Function fConfigurarReportesCxCEntreFechasOCxCPendienteEntreFechas(ByVal valNombreDelFile As String, ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valUsaCamposDefiniblesFactura As Boolean, ByVal valUsaModuloDeContabilidad As Boolean, ByVal usarContacto As Boolean)
+Private Function fConfigurarReportesCxCEntreFechas(ByVal valNombreDelFile As String, ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valUsaCamposDefiniblesFactura As Boolean, ByVal valUsaModuloDeContabilidad As Boolean, ByVal usarContacto As Boolean)
    Dim exito As Boolean
    On Error GoTo h_ERROR
    If gUtilReports.fLoadLayout(refRpt, valNombreDelFile) Then
@@ -213,9 +213,9 @@ Private Function fConfigurarReportesCxCEntreFechasOCxCPendienteEntreFechas(ByVal
       End If
    End If
 h_EXIT: On Error GoTo 0
-   fConfigurarReportesCxCEntreFechasOCxCPendienteEntreFechas = exito
+   fConfigurarReportesCxCEntreFechas = exito
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarReportesCxCEntreFechasOCxCPendienteEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarReportesCxCEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfiguraFaxDeMudanza(ByRef refReporte As DDActiveReports2.ActiveReport, ByVal valNombre As String) As Boolean

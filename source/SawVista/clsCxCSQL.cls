@@ -921,9 +921,9 @@ End Function
 '********************************************************************
 ' mas nuevo aun q el resto
 
-
-Public Function fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(ByVal mUsarCambioOriginal As Boolean, ByVal insCamposDefFactura As Object, _
-               ByVal mMonedaDeLosReportes As String, ByVal mConsecutivoCompania As String, ByVal mInformeSeleccionado As Integer, _
+'ByVal mInformeSeleccionado As Integer,
+Public Function fSQLDelReporteCxCEntreFechas(ByVal mUsarCambioOriginal As Boolean, ByVal insCamposDefFactura As Object, _
+               ByVal mMonedaDeLosReportes As String, ByVal mConsecutivoCompania As String, _
                ByVal mCamposDefinibles As Object, ByVal gProyParametrosCompania As Object, ByVal mStatus As String, _
                ByVal mDtpFechaInicial As Date, ByVal mDtpFechaFinal As Date, _
                ByVal mUsaModuloDeContabilidad As Boolean, ByVal gUltimaTasaDeCambio As Object, ByVal gMonedaLocalActual As Object, _
@@ -961,11 +961,10 @@ Public Function fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(
          sqlMonedaGrupo = gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyNombreMoneda)
          sqlMonto = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlMonto, " CxC.Fecha")
       End If
-   If mInformeSeleccionado = 4 Then
+   'If mInformeSeleccionado = 4 Then
       sqlCamposDefFactura = insCamposDefFactura.fSqlSubConsultSelectCamposDefinibles(" CxC.Numero", _
                      gListLibrary.fAmpersand & gListLibrary.fSeparadorDeColumnasParaSQLSearch(Chr(13)) & gListLibrary.fAmpersand, _
                      True, gProyParametrosCompania.fSelectedIndexCampoDefFromComboBox(mCamposDefinibles))
-         
                      
       If sqlCamposDefFactura <> "" Then
          sqlCamposDefFactura = "(" & sqlCamposDefFactura & ")"
@@ -987,10 +986,10 @@ Public Function fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(
                statusCxC = gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_REFINANCIADO)
          Case Else: statusCxC = ""
       End Select
-   Else
-      sqlCamposDefFactura = "''"
-      statusCxC = ""
-   End If
+   'Else
+   '   sqlCamposDefFactura = "''"
+   '   statusCxC = ""
+   'End If
    SQL = "SELECT "
    If AgruparTipo = "SectorDeNegocio" Then
       SQL = SQL & " Cliente.SectorDeNegocio, "
@@ -1040,15 +1039,15 @@ Public Function fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(
                " = " & mConsecutivoCompania
    SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween(" CxC.Fecha", _
                         mDtpFechaInicial, mDtpFechaFinal)
-   If mInformeSeleccionado = 4 Then
+   'If mInformeSeleccionado = 4 Then
       If statusCxC <> "" Then
          SQL = SQL & " AND  CxC.Status = " & statusCxC
       End If
-   Else 'If mInformeSeleccionado = OPT_CXC_PENDIENTES_ENTRE_FECHAS Then
-      SQL = SQL & " AND CxC.Status" & _
-                       " IN (" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & _
-                       ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ")"
-   End If
+   'Else 'If mInformeSeleccionado = OPT_CXC_PENDIENTES_ENTRE_FECHAS Then
+   '   SQL = SQL & " AND CxC.Status" & _
+   '                    " IN (" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & _
+   '                    ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ")"
+   'End If
    SQL = SQL & " ORDER BY "
    If AgruparTipo = "SectorDeNegocio" Then
       SQL = SQL & " Cliente.SectorDeNegocio, "
@@ -1064,13 +1063,13 @@ Public Function fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(
 '   End If
    SQL = SQL & " CxC.Fecha, "
    SQL = SQL & " CxC.Numero"
-   fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas = SQL
+   fSQLDelReporteCxCEntreFechas = SQL
    Set gEnumProyecto = Nothing
    Set gEnumReport = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+         "fSQLDelReporteCxCEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Private Function fSQGenerarCuentaContable(ByVal mConsecutivoCompania As String, ByVal mDtpFechaInicial As Date, ByVal mDtpFechaFinal As Date) As String
    Dim SQL As String
