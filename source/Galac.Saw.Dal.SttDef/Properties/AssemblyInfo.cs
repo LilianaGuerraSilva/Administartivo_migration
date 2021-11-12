@@ -18,10 +18,8 @@ using System.Runtime.InteropServices;
 // para los componentes COM. Si necesita obtener acceso a un tipo de este ensamblado desde 
 // COM, establezca el atributo ComVisible como true en este tipo.
 [assembly: ComVisible(false)]
-
 // El siguiente GUID sirve como identificador de typelib si este proyecto se expone a COM
 [assembly: Guid("f5a34ecc-daa5-43be-9f5f-7e33eaa6e652")]
-
 // La información de versión de un ensamblado consta de los cuatro valores siguientes:
 //
 //      Versión principal
@@ -32,6 +30,5 @@ using System.Runtime.InteropServices;
 // Puede especificar todos los valores o establecer como predeterminados los números de versión de compilación y de revisión 
 // mediante el asterisco ('*'), como se muestra a continuación:
 // [assembly: AssemblyVersion("1.0.*")]
-
-[assembly: AssemblyVersion("2.60.0.0")]
-[assembly: AssemblyFileVersion("2.60.0.0")]
+[assembly: AssemblyVersion("2.60.1.0")]
+[assembly: AssemblyFileVersion("2.60.1.0")]

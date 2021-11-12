@@ -613,6 +613,9 @@ Private Sub Form_Unload(Cancel As Integer)
    Set gFechasDeLosInformes = Nothing
    Set insCotizacion = Nothing
    Set insAnticipoSQL = Nothing
+   Set insClienteNavigator = Nothing
+   Set insProveedorNavigator = Nothing
+   Set insConexionesSawAOS = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Unload", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -754,39 +757,30 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtCodigo_Validate(Cancel As Boolean)
-   Dim insCliente As Object
-   Dim insProveedor As Object
-   Dim insCnxAos As Object
    Dim refCodigoProveedor As String
    Dim refNombreProveedor As String
    On Error GoTo h_ERROR
    Cancel = False
-   Set insCliente = insCliente
-   Set insProveedor = insProveedor
    If LenB(txtCodigo.Text) = 0 Then
       txtCodigo.Text = "*"
    End If
    If mTipoDeAnticipo = eTDA_COBRADO Then
-      insCliente.sClrRecord
-      insCliente.SetCodigo txtCodigo.Text
-      If insCliente.fSearchSelectConnection(False, False, False, 0, False, True) Then
-         sSelectAndSetValuesOfClienteOProveedor insCliente, Nothing
+      insClienteNavigator.sClrRecord
+      insClienteNavigator.SetCodigo txtCodigo.Text
+      If insClienteNavigator.fSearchSelectConnection(False, False, False, 0, False, True) Then
+         sSelectAndSetValuesOfClienteOProveedor insClienteNavigator, Nothing
       Else
          Cancel = True
          gAPI.ssSetFocus txtCodigo
       End If
    Else
-      Set insCnxAos = insConexionesSawAOS
-      If insCnxAos.fSelectAndSetValuesOfProveedorFromAOS(insProveedor, refCodigoProveedor, refNombreProveedor, txtCodigo.Text, "") Then
-         sSelectAndSetValuesOfClienteOProveedor Nothing, insProveedor
+      If insConexionesSawAOS.fSelectAndSetValuesOfProveedorFromAOS(insProveedorNavigator, refCodigoProveedor, refNombreProveedor, txtCodigo.Text, "") Then
+         sSelectAndSetValuesOfClienteOProveedor Nothing, insProveedorNavigator
       Else
          Cancel = True
          gAPI.ssSetFocus txtCodigo
       End If
-      Set insCnxAos = Nothing
    End If
-   Set insCliente = Nothing
-   Set insProveedor = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Cancel = True
@@ -834,39 +828,30 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtNombre_Validate(Cancel As Boolean)
-   Dim insCliente As Object
-   Dim insProveedor As Object
-   Dim insCnxAos As Object
    Dim refCodigoProveedor As String
    Dim refNombreProveedor As String
    On Error GoTo h_ERROR
-   Set insCliente = insClienteNavigator
-   Set insProveedor = insProveedorNavigator
    Cancel = False
    If LenB(txtNombre.Text) = 0 Then
       txtNombre.Text = "*"
    End If
    If mTipoDeAnticipo = eTDA_COBRADO Then
-      insCliente.sClrRecord
-      insCliente.SetNombre txtNombre.Text
-      If insCliente.fSearchSelectConnection(False, False, False, 0, False, True) Then
-         sSelectAndSetValuesOfClienteOProveedor insCliente, Nothing
+      insClienteNavigator.sClrRecord
+      insClienteNavigator.SetNombre txtNombre.Text
+      If insClienteNavigator.fSearchSelectConnection(False, False, False, 0, False, True) Then
+         sSelectAndSetValuesOfClienteOProveedor insClienteNavigator, Nothing
       Else
          Cancel = True
          gAPI.ssSetFocus txtNombre
       End If
    Else
-      Set insCnxAos = insConexionesSawAOS
-      If insCnxAos.fSelectAndSetValuesOfProveedorFromAOS(insProveedor, refCodigoProveedor, refNombreProveedor, txtNombre.Text, "NombreProveedor") Then
-         sSelectAndSetValuesOfClienteOProveedor Nothing, insProveedor
+      If insConexionesSawAOS.fSelectAndSetValuesOfProveedorFromAOS(insProveedorNavigator, refCodigoProveedor, refNombreProveedor, txtNombre.Text, "NombreProveedor") Then
+         sSelectAndSetValuesOfClienteOProveedor Nothing, insProveedorNavigator
       Else
          Cancel = True
          gAPI.ssSetFocus txtNombre
       End If
-      Set insCnxAos = Nothing
    End If
-   Set insCliente = Nothing
-   Set insProveedor = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Cancel = True
@@ -1187,7 +1172,6 @@ Private Sub sEjecutaInformeAnticipoAUnaFecha()
       End If
       Set rptReporte = Nothing
       Set insConfigurar = Nothing
-  
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeAnticipoAUnaFecha", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)

@@ -565,7 +565,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal,"DireccionCliente");
             string vRif = LibXml.GetPropertyString(valDocumentoFiscal,"NumeroRIF");
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal,"NombreCliente");
-            string vVacio = "";
+            string vVacio = "";            
             bool vResult = false;
             try {
                 AbrirConexion();
@@ -655,7 +655,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 vImprimeDireccionALFinalDeLaFactura = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida","ImprimeDireccionAlFinalDelComprobanteFiscal");
                 valDescuentoTotal = LibXml.GetPropertyString(valDocumentoFiscal,"PorcentajeDescuento");
-                valDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(valDescuentoTotal,_EnterosMontosLargos,_Decimales2Digitos,",");
+                valDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(valDescuentoTotal, _EnterosMontosCortos, _Decimales2Digitos);
                 vDireccionFiscal = LibXml.GetPropertyString(valDocumentoFiscal,"DireccionCliente");
                 vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal,"Observaciones");
                 vTotalMonedaExtranjera = LibXml.GetPropertyString(valDocumentoFiscal,"TotalMonedaExtranjera");
@@ -725,13 +725,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        private string FormatoCantidadBematech(string valCantidadInput, string valDecimalSep) {
-            string vResult = "";                
-            vResult = LibText.ExtractUntilSeparatorAndCut(ref valCantidadInput,valDecimalSep);
-            vResult = LibText.Left(vResult,_EnterosCantidad)+valDecimalSep + valCantidadInput;
-            return vResult;
-        }
-
         private bool ImprimirTodosLosArticulos(XElement valDocumentoFiscal) {
             bool vEstatus = false;
             int vResultado = 0;
@@ -753,55 +746,44 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
             try {
                 List<XElement> vRecord = valDocumentoFiscal.Descendants("GpResultDetailRenglonFactura").ToList();
-                foreach(XElement vXElement in vRecord) {
+                foreach (XElement vXElement in vRecord) {
                     PrintStatus = EstadoDelPapel(false);
-                    vCodigo = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Articulo"),0,12);
-                    vDescripcionResumida = LibImpresoraFiscalUtil.CadenaCaracteresValidos(LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Descripcion"),0,29));
-                    vDescripcionExtendida = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement,"Descripcion"),0,150);
-                    vCantidad = LibXml.GetElementValueOrEmpty(vXElement,"Cantidad");
-                    vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad,_EnterosCantidad,_Decimales3Digitos,",");
-                    vCantidad = FormatoCantidadBematech(vCantidad,",");
-                    vMonto = LibXml.GetElementValueOrEmpty(vXElement,"PrecioSinIVA");
-                    vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto,_EnterosMontosLargos,_Decimales2Digitos,",");
-                    vTipoAlicuota = (eTipoDeAlicuota)LibConvert.DbValueToEnum(LibXml.GetElementValueOrEmpty(vXElement,"AlicuotaIva"));
-                    vPorcentajeAlicuota = LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeAlicuota");
-                    vPorcentajeAlicuota = DarFormatoNumericoYCompletaConCero(vPorcentajeAlicuota,vTipoAlicuota,_EnterosMontosCortos,_Decimales2Digitos,true);
-                    vPrcDescuento = (LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeDescuento"));
-                    vPrcDescuento = DarFormatoNumericoYCompletaConCero(vPrcDescuento,vTipoAlicuota,_EnterosMontosCortos,_Decimales2Digitos);
-                    vSerial = LibXml.GetElementValueOrEmpty(vXElement,"Serial");
-                    vRollo = LibXml.GetElementValueOrEmpty(vXElement,"Rollo");
-                    if(LibString.Len(vSerial) > 0) {
-                        vSerial = "\u0020" + LibText.SubString(vSerial,0,20);
+                    vCodigo = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement, "Articulo"), 0, 12);
+                    vDescripcionResumida = LibImpresoraFiscalUtil.CadenaCaracteresValidos(LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement, "Descripcion"), 0, 29));
+                    vDescripcionExtendida = LibText.SubString(LibXml.GetElementValueOrEmpty(vXElement, "Descripcion"), 0, 150);
+                    vCantidad = LibXml.GetElementValueOrEmpty(vXElement, "Cantidad");
+                    vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad, _EnterosCantidad, _Decimales3Digitos, ",");
+                    vMonto = LibXml.GetElementValueOrEmpty(vXElement, "PrecioSinIVA");
+                    vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosMontosLargos, _Decimales2Digitos, ",");
+                    vTipoAlicuota = (eTipoDeAlicuota)LibConvert.DbValueToEnum(LibXml.GetElementValueOrEmpty(vXElement, "AlicuotaIva"));
+                    vPorcentajeAlicuota = LibXml.GetElementValueOrEmpty(vXElement, "PorcentajeAlicuota");
+                    vPorcentajeAlicuota = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vPorcentajeAlicuota, _EnterosMontosCortos, _Decimales2Digitos);
+                    vPorcentajeAlicuota = (LibImportData.ToDec(vPorcentajeAlicuota) == 0 ? "FF" : vPorcentajeAlicuota);                    
+                    vPrcDescuento = (LibXml.GetElementValueOrEmpty(vXElement, "PorcentajeDescuento"));
+                    vPrcDescuento = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vPrcDescuento, _EnterosMontosCortos, _Decimales2Digitos);
+                    vSerial = LibXml.GetElementValueOrEmpty(vXElement, "Serial");
+                    vRollo = LibXml.GetElementValueOrEmpty(vXElement, "Rollo");
+                    if (LibString.Len(vSerial) > 0) {
+                        vSerial = "\u0020" + LibText.SubString(vSerial, 0, 20);
                     }
-                    if(LibString.Len(vRollo) > 0) {
-                        vRollo = "\u0020" + LibText.SubString(vRollo,0,20);
+                    if (LibString.Len(vRollo) > 0) {
+                        vRollo = "\u0020" + LibText.SubString(vRollo, 0, 20);
                     }
                     vDescripcionExtendida = vDescripcionExtendida + (LibString.IsNullOrEmpty(vSerial) ? "" : vSerial) + (LibString.IsNullOrEmpty(vRollo) ? "" : vRollo);
                     vResultado = Bematech_FI_ExtenderDescripcionArticulo(vDescripcionExtendida);
-                    vEstatus = RetornoStatus(vResultado,out vMensaje);
-                    vResultado = Bematech_FI_VendeArticulo(vCodigo,vDescripcionResumida,vPorcentajeAlicuota,vFormatoCantidad,vCantidad,vCantidaDecimales,vMonto,vFormatoDescuento,vPrcDescuento);
-                    vEstatus &= RetornoStatus(vResultado,out vMensaje);
-                    if(vResultado != 1) {
-                        throw new GalacException("Error al Imprimir Articulo " + vMensaje,eExceptionManagementType.Controlled);
+                    vEstatus = RetornoStatus(vResultado, out vMensaje);
+                    vResultado = Bematech_FI_VendeArticulo(vCodigo, vDescripcionResumida, vPorcentajeAlicuota, vFormatoCantidad, vCantidad, vCantidaDecimales, vMonto, vFormatoDescuento, vPrcDescuento);
+                    vEstatus &= RetornoStatus(vResultado, out vMensaje);
+                    if (vResultado != 1) {
+                        throw new GalacException("Error al Imprimir Articulo " + vMensaje, eExceptionManagementType.Controlled);
                     }
                 }
                 return vEstatus;
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 CancelarDocumentoFiscalEnImpresion(false);
                 CerrarConexion();
                 throw (vEx);
             }
-        }      
-
-        private string DarFormatoNumericoYCompletaConCero(string valNumero,eTipoDeAlicuota valTipoAlicuota, byte valCantidadEnteros,byte valCantidadDecimales ,bool valEsAlicuota = false) {
-            string vValorFinal = "";
-            if(valTipoAlicuota == eTipoDeAlicuota.Exento && valEsAlicuota) {
-                vValorFinal = "FF";
-            } else {
-                vValorFinal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(valNumero,valCantidadEnteros,valCantidadDecimales,",");
-                vValorFinal = LibText.FillWithCharToLeft(vValorFinal,"0",5);
-            }
-            return vValorFinal;
         }        
 
         private bool RetornoStatus(int valStatus,out string valMensajeRetorno) {
@@ -1029,18 +1011,21 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             switch (valFormaDeCobro) {
                 case "00001":
                     vResultado = "Efectivo";
-                    break;
+                    break;               
                 case "00002":
-                    vResultado = "Tarjeta";
+                    vResultado = "Cheque";
                     break;
                 case "00003":
-                    vResultado = "Cheque";
+                    vResultado = "Tarjeta";
                     break;
                 case "00004":
                     vResultado = "Depósito";
                     break;
                 case "00005":
                     vResultado = "Anticipo";
+                    break;
+                case "00006":
+                    vResultado = "Transferencia";
                     break;
                 default:
                     vResultado = "Efectivo";

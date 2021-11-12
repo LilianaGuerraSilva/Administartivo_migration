@@ -154,6 +154,8 @@ namespace Galac.Adm.Dal.Venta {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Caja Registradora.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Caja Registradora.Crear Caja Generica")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataComponent<IList<Caja>, IList<Caja>>.Insert(IList<Caja> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";

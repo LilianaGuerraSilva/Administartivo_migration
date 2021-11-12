@@ -185,7 +185,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Label Name="lblUsarBeneficiarioImpCheq" Content="Usar Beficiario al Imprimir Cheque" Style="{StaticResource LabelPrompt}" Grid.ColumnSpan="2" Margin="22,3,0,0" />
+                            <Label Name="lblUsarBeneficiarioImpCheq" Content="Usar Beneficiario al Imprimir Cheque" Style="{StaticResource LabelPrompt}" Grid.ColumnSpan="2" Margin="22,3,0,0" />
                             <CheckBox Name="chkUsarBeneficiarioImpCheq" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsarBeneficiarioImpCheq}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}" Margin="6,8,0,6" />
 
                             <GroupBox Grid.Row="1" Header="Beneficiario"  HorizontalAlignment="Left" Grid.ColumnSpan="3" Width="397">

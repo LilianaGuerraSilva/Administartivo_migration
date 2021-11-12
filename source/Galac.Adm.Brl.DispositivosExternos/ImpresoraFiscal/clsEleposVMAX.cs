@@ -377,7 +377,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             eStatusImpresorasFiscales PrintStatus;
 
             try {
-                vGetResult = SetDecimalSeparator((LibXml.GetPropertyString(valDocumentoFiscal,"PorcentajeDescuento")));
+                vGetResult = LibImpresoraFiscalUtil.SetDecimalSeparator((LibXml.GetPropertyString(valDocumentoFiscal,"PorcentajeDescuento")));
                 vPrcDescuentoTotal = LibMath.Abs(LibImportData.ToDec(vGetResult));
                 List<XElement> vRecord = valDocumentoFiscal.Descendants("GpResultDetailRenglonFactura").ToList();
                 foreach(XElement vXElement in vRecord) {
@@ -385,15 +385,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vDescripcion = LibImpresoraFiscalUtil.CadenaCaracteresValidos(vDescripcion);
                     vTipoTasa = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement,"AlicuotaIva"));
                     vTipoTasa = DarFormatoAlicuotaIva((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
-                    vGetResult = SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"Cantidad"));
+                    vGetResult = LibImpresoraFiscalUtil.SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"Cantidad"));
                     vCantidad = LibMath.Abs(LibImportData.ToDec(vGetResult));
                     vCantidadFormat = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vGetResult,_EnterosParaCantidad,_DecimalParaCantidad);
                     //
-                    vGetResult = SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"PrecioSinIVA"));
+                    vGetResult = LibImpresoraFiscalUtil.SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"PrecioSinIVA"));
                     vMonto = LibMath.Abs(LibImportData.ToDec(vGetResult));
                     vMontoFormat = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vGetResult,_EnterosParaMonto,_DecimalParaMonto);
                     //                        
-                    vGetResult = SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeDescuento"));
+                    vGetResult = LibImpresoraFiscalUtil.SetDecimalSeparator(LibXml.GetElementValueOrEmpty(vXElement,"PorcentajeDescuento"));
                     vPrcDescuento = LibMath.Abs(LibImportData.ToDec(vGetResult));
                     vMontoDescuento = CalcularMontoDescuento(vMonto,vPrcDescuento,vCantidad);
                     vMontoDescuento = (vMonto * vCantidad) - vMontoDescuento;
@@ -465,22 +465,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vResultado = valMonto * valCantidad - (valMonto * valCantidad * valPorcDescuento / 100m);
             vResultado = LibMath.RoundToNDecimals(vResultado, _DecimalParaMonto);
             return vResultado;
-        }   
-
-        private string SetDecimalSeparator(string valNumero) {
-            string vResult = "";
-            valNumero = LibText.CleanSpacesToBothSides(valNumero);
-            string DecimalSeparator = LibConvert.CurrentDecimalSeparator();
-
-            if (LibString.S1IsInS2(".",valNumero) && !LibString.S1IsInS2( DecimalSeparator,valNumero)) {
-                vResult = LibText.Replace(valNumero, ".", DecimalSeparator);
-            } else if (LibString.S1IsInS2(",", valNumero) && !LibString.S1IsInS2(DecimalSeparator, valNumero)) {
-                vResult = LibText.Replace(valNumero, ",", DecimalSeparator);
-            } else {
-                vResult = valNumero;
-            }
-            return vResult;
-        }         
+        }                
 
         private void TotalizarDescuentoGlobalPorAlicuota( string valAlicuotas, decimal valMontoDesctotal, ref decimal refMontoDescuentoAlicuotaG, ref decimal refMontoDescuentoAlicuotaA, ref decimal refMontoDescuentoAlicuotaR, ref decimal refMontoDescuentoAlicuotaE ) {
             switch (valAlicuotas) {
@@ -533,18 +518,21 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             switch (valFormaDeCobro) {
                 case "00001":
                     vResultado = "Efectivo";
-                    break;
+                    break;                
                 case "00002":
-                    vResultado = "Tarjeta";
+                    vResultado = "Cheque";
                     break;
                 case "00003":
-                    vResultado = "Cheque";
+                    vResultado = "Tarjeta";
                     break;
                 case "00004":
                     vResultado = "Depósito";
                     break;
                 case "00005":
                     vResultado = "Anticipo";
+                    break;
+                case "00006":
+                    vResultado = "Transferencia";
                     break;
                 default:
                     vResultado = "Efectivo";

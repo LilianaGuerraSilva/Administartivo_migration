@@ -16,14 +16,13 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <sawLibUil:StringToCurrencyConverter x:Key="StringToCurrencyConverter" />
-            <sawLibUil:MontoPorPagarToColorConverter x:Key="MontoPorPagarToColorConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding Key="F6" Command="{Binding Path=CobrarCommand}" />
         <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />
     </UserControl.InputBindings>
-    <Grid Width="600" Height="auto">
+    <Grid Width="622" Height="auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -53,21 +52,26 @@
             FontWeight="Bold"
             Foreground="Green"
             Style="{StaticResource LabelPrompt}" />
-        <Label
+        <nsWpfControls:GSNumericBoxWpfSch
             Grid.Row="0"
             Grid.Column="1"
             Height="30"
-            Margin="2"
+            Margin="0,8,0,0"
             HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
             HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"
-            Content="{Binding Mode=OneWay, Path=CambioAMonedaLocal, Converter={StaticResource StringToCurrencyConverter}}"
+            Background="Transparent"
+            BorderThickness="0"
+            DecimalDigits="4"
+            Focusable="False"
             FontFamily="Calibri"
             FontSize="20"
             FontStyle="Normal"
             FontWeight="Bold"
             Foreground="Green"
-            Style="{StaticResource LabelPrompt}" />
+            InputDataType="igDec"
+            IsReadOnly="True"
+            Text="{Binding Mode=OneWay, Path=CambioAMonedaLocalParaMostrar}" />
         <Border
             Grid.Row="1"
             Grid.Column="0"
@@ -406,7 +410,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="4"
             Margin="2"
-            Background="{Binding MontoRestantePorPagar, Converter={StaticResource MontoPorPagarToColorConverter}, ConverterParameter=0}"
+            Background="{Binding Path=BGColor}"
             BorderThickness="1"
             CornerRadius="5" />
         <Label
