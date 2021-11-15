@@ -107,8 +107,7 @@ Public Function fCreateProjectViews(ByVal valShowMessage As Boolean, ByVal valWi
    vResult = vResult And insLibViews.fCreateView(insCxPVista.GetViewNameDocPagadosPorMoneda(), insCxPVista.fSqlViewDocumentoPagado, valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(insCxPVista.GetViewNameCompras(), insCxPVista.fSqlViewCompras, valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(insProveedor.GetViewNameProveedor(), insProveedor.fSqlViewProveedor, valShowMessage, valWithEncryption)
-   vResult = vResult And insLibViews.fCreateView(insCxCVista.GetViewNameRetencionDocumentoCobrado(), insCxCVista.fSqlViewRetencionDocumentoCobrado, valShowMessage, valWithEncryption)
-   vResult = vResult And insLibViews.fCreateView(insCxCVista.GetViewNameBaseimponibleAlicuotasVentas(), insCxCVista.fSqlViewBaseimponibleAlicuotasVentas, valShowMessage, valWithEncryption)
+   vResult = vResult And insLibViews.fCreateView(insCxCVista.GetViewNameRetencionDocumentoCobrado(), insCxCVista.fSqlViewRetencionDocumentoCobrado, valShowMessage, valWithEncryption)   
    
    vResult = vResult And insLibViews.fCreateView(insCxCVista.GetViewNameRetencionesEnVentas(), insCxCVista.fSqlViewRetencionesEnVentas, valShowMessage, valWithEncryption)
    
@@ -330,7 +329,6 @@ Public Function fDropProjectViews(ByVal valShowMessage As Boolean) As Boolean
    vResult = vResult And insLibViews.fDropView(insCxCVista.GetViewNameVentasAgrupado(), valShowMessage)
    vResult = vResult And insLibViews.fDropView(insCxCVista.GetViewNameVentasDetallado(), valShowMessage)
    
-   vResult = vResult And insLibViews.fDropView(insCxCVista.GetViewNameBaseimponibleAlicuotasVentas(), valShowMessage)
    vResult = vResult And insLibViews.fDropView(insCxCVista.GetViewNameRetencionDocumentoCobrado(), valShowMessage)
    vResult = vResult And insLibViews.fDropView(insProveedor.GetViewNameProveedor(), valShowMessage)
    vResult = vResult And insLibViews.fDropView(insCxPVista.GetViewNameCompras(), valShowMessage)
