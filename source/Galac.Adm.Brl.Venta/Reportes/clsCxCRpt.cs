@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using LibGalac.Aos.Base.Report;
 using Galac.Adm.Ccl.Venta;
+using LibGalac.Aos.DefGen;
+using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
 
@@ -11,22 +13,23 @@ namespace Galac.Adm.Brl.Venta.Reportes {
         #region Variables
         private Dictionary<string, Dictionary<string, string>> _PropertiesForReportList;
         #endregion //Variables
+
         #region Propiedades
         Dictionary<string, Dictionary<string, string>> ILibReportInfo.PropertiesForReportList {
             get { return _PropertiesForReportList; }
         }
-
-        private Galac.Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocal = new Galac.Comun.Brl.TablasGen.clsMonedaLocalActual();
+        private Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocal = new Comun.Brl.TablasGen.clsMonedaLocalActual();
         #endregion //Propiedades
-        #region Constructores
 
+        #region Constructores
         public clsCxCRpt() {
             _PropertiesForReportList = new Dictionary<string, Dictionary<string, string>>();
             _PropertiesForReportList.Add("CxC", CxCInfo());
+            vMonedaLocal.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
         }
         #endregion //Constructores
-        #region Metodos Generados
 
+        #region Metodos Generados
         private Dictionary<string, string> CxCInfo() {
             Dictionary<string, string> vResult = new Dictionary<string, string>();
             vResult.Add("SpSearchName", "Adm.Gp_CxCSCH");
@@ -34,17 +37,22 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable ICxCInformes.BuildCxCPendientesEntreFechas(int valConsecutivoCompania, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, DateTime valFechaDesde, DateTime valFechaHasta, bool valUsaCantacto) {
-            string vSql = "";
+        System.Data.DataTable ICxCInformes.BuildCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte) {
+            string vSql;
             clsCxCSql insCxCSql = new clsCxCSql();
-            LibGalac.Aos.Base.ILibDataRpt insCxCPendientesEntreFechas = new Galac.Adm.Dal.Venta.clsCXCDat();
-            string vCodigoMonedaLocal = vMonedaLocal.GetHoyCodigoMoneda();
-
-            vSql = insCxCSql.SqlCxCPendientesEntreFechas(valConsecutivoCompania, valMonedaDelReporte, valFechaDesde, valFechaHasta,valUsaCantacto);
+            ILibDataRpt insCxCPendientesEntreFechas = new Dal.Venta.clsCXCDat();
+            vSql = insCxCSql.SqlCxCPendientesEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valMonedaDelReporte);
             return insCxCPendientesEntreFechas.GetDt(vSql, 0);
         }
-        #endregion //Metodos Generados
 
+        System.Data.DataTable ICxCInformes.BuildCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, eClientesOrdenadosPor valClientesOrdenadosPor) {
+            string vSql;
+            clsCxCSql insCxCSql = new clsCxCSql();
+            ILibDataRpt insCxCPorCliente = new Dal.Venta.clsCXCDat();
+            vSql = insCxCSql.SqlCxCPorCliente(valConsecutivoCompania, valCodigoDelCliente, valZonaCobranza, valFechaDesde, valFechaHasta, valMonedaDelReporte, valClientesOrdenadosPor);
+            return insCxCPorCliente.GetDt(vSql, 0);
+        }
+        #endregion //Metodos Generados
 
     } //End of class clsCxCRpt
 

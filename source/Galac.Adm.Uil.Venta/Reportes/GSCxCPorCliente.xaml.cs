@@ -20,16 +20,16 @@ using LibGalac.Aos.Uil;
 using System.Xml;
 namespace Galac.Adm.Uil.Venta.Reportes {
     /// <summary>
-    /// Lógica de interacción para GSCxCPendientesEntreFechas
+    /// Lógica de interacción para GSCxCPorCliente
     /// </summary>
-    public partial class GSCxCPendientesEntreFechas : UserControl {
+    public partial class GSCxCPorCliente : UserControl {
         #region Constructores
-        public GSCxCPendientesEntreFechas() {
+        public GSCxCPorCliente() {
             InitializeComponent();
         }
         #endregion //Constructores
 
-    } //End of class GSCxCPendientesEntreFechas.xaml
+    } //End of class GSCxCPorCliente.xaml
 
 } //End of namespace Galac.Adm.Uil.Venta
 

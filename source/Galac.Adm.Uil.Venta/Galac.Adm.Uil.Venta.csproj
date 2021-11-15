@@ -157,6 +157,7 @@
     <Compile Include="Reportes\clsCuadreCajaPorUsuarioViewModel.cs" />
     <Compile Include="Reportes\clsCxCInformesViewModel.cs" />
     <Compile Include="Reportes\clsCxCPendientesEntreFechasViewModel.cs" />
+    <Compile Include="Reportes\clsCxCPorClienteViewModel.cs" />
     <Compile Include="Reportes\clsNotaDeEntregaEntreFechasPorClienteViewModel.cs" />
     <Compile Include="Reportes\clsNotaDeEntregaInformesViewModel.cs" />
     <Compile Include="Reportes\GSCajasAperturadas.xaml.cs">
@@ -188,6 +189,9 @@
     </Compile>
     <Compile Include="Reportes\GSCxCPendientesEntreFechas.xaml.cs">
       <DependentUpon>GSCxCPendientesEntreFechas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCxCPorCliente.xaml.cs">
+      <DependentUpon>GSCxCPorCliente.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSNotaDeEntregaEntreFechasPorClienteView.xaml.cs">
       <DependentUpon>GSNotaDeEntregaEntreFechasPorClienteView.xaml</DependentUpon>
@@ -316,6 +320,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Reportes\GSCxCPendientesEntreFechas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCxCPorCliente.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

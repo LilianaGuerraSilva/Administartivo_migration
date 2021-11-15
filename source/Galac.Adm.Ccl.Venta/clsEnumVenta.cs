@@ -74,9 +74,9 @@ namespace Galac.Adm.Ccl.Venta {
     public enum eTipoDeFormaDeCobro {
         [LibEnumDescription("Efectivo")]
         Efectivo = 0,
-        [LibEnumDescription("Tarjeta Debito")]
+        [LibEnumDescription("Tarjeta Débito")]
         TarjetaDebito,
-        [LibEnumDescription("Tarjeta Credito")]
+        [LibEnumDescription("Tarjeta Crédito")]
         TarjetaCredito,
         [LibEnumDescription("Cheque")]
         Cheque,
@@ -90,11 +90,11 @@ namespace Galac.Adm.Ccl.Venta {
         Factura = 0, 
         [LibEnumDescription("Cheque Devuelto")]
         ChequeDevuelto, 
-        [LibEnumDescription("Nota De Credito")]
+        [LibEnumDescription("Nota de Crédito")]
         NotaDeCredito, 
-        [LibEnumDescription("Nota De Debito")]
+        [LibEnumDescription("Nota De Débito")]
         NotaDeDebito, 
-        [LibEnumDescription("Nota Entrega")]
+        [LibEnumDescription("Nota de Entrega")]
         NotaEntrega, 
         [LibEnumDescription("Giro")]
         Giro, 
@@ -154,17 +154,23 @@ namespace Galac.Adm.Ccl.Venta {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusCXC {
-        [LibEnumDescription("POR CANCELAR")]
+        [LibEnumDescription("Por Cancelar", Index = 0)]
+        [LibEnumDescription("P/C", Index = 1)]
         PORCANCELAR = 0,
-        [LibEnumDescription("CANCELADO")]
+        [LibEnumDescription("Cancelado", Index = 0)]
+        [LibEnumDescription("CAN", Index = 1)]
         CANCELADO,
-        [LibEnumDescription("CHEQUE DEVUELTO")]
+        [LibEnumDescription("Cheque Devuelto", Index = 0)]
+        [LibEnumDescription("C/D", Index = 1)]
         CHEQUEDEVUELTO,
-        [LibEnumDescription("ABONADO")]
+        [LibEnumDescription("Abonado", Index = 0)]
+        [LibEnumDescription("ABO", Index = 1)]
         ABONADO,
-        [LibEnumDescription("ANULADO")]
+        [LibEnumDescription("Anulado", Index = 0)]
+        [LibEnumDescription("ANU", Index = 1)]
         ANULADO,
-        [LibEnumDescription("REFINANCIADO")]
+        [LibEnumDescription("Refinanciado", Index = 0)]
+        [LibEnumDescription("REF", Index = 1)]
         REFINANCIADO
     }
 
@@ -177,7 +183,7 @@ namespace Galac.Adm.Ccl.Venta {
         Master,
         [LibEnumDescription("American")]
         American,
-        [LibEnumDescription("Debito")]
+        [LibEnumDescription("Débito")]
         Debito
     }
 
@@ -220,7 +226,7 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Cheque",Index = 0)]
         [LibEnumDescription("00003",Index = 1)]
         Cheque,
-        [LibEnumDescription("Deposito",Index = 0)]
+        [LibEnumDescription("Depósito",Index = 0)]
         [LibEnumDescription("00004",Index = 1)]
         Deposito,
         [LibEnumDescription("Anticipo",Index = 0)]
@@ -256,6 +262,12 @@ namespace Galac.Adm.Ccl.Venta {
         NoAplica_EsInformativo
     }
 
-
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eClientesOrdenadosPor {
+        [LibEnumDescription("Por Código")]
+        PorCodigo = 0, 
+        [LibEnumDescription("Por Nombre")]
+        PorNombre
+	}
 
 } //End of namespace namespace Galac.Saw.Ccl.Venta

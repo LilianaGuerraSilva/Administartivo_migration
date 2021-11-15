@@ -11,18 +11,25 @@ using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Uil.Venta.ViewModel;
 using LibGalac.Aos.UI.Mvvm.Validation;
+using System.ComponentModel.DataAnnotations;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.Venta.Reportes {
 
 	public class clsCxCPendientesEntreFechasViewModel : LibInputRptViewModelBase<CxC> {
+		#region Constantes
+		public const string FechaDesdePropertyName = "FechaDesde";
+		public const string FechaHastaPropertyName = "FechaHasta";
+		public const string MostrarContactoPropertyName = "MostrarContacto";
+		#endregion //Constantes
+
 		#region Variables
-		DateTime _FechaDesde;
-		DateTime _FechaHasta;
-		bool _UsaContacto;
+		private DateTime _FechaDesde;
+		private DateTime _FechaHasta;
+		private bool _MostrarContacto;
 		#endregion //Variables
 
 		#region Propiedades
-
 		public override string DisplayName {
 			get { return "CxC Pendientes entre Fechas"; }
 		}
@@ -41,7 +48,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			set {
 				if (_FechaDesde != value) {
 					_FechaDesde = value;
-					RaisePropertyChanged("FechaDesde");
+					RaisePropertyChanged(FechaDesdePropertyName);
 				}
 			}
 		}
@@ -54,19 +61,19 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			set {
 				if (_FechaHasta != value) {
 					_FechaHasta = value;
-					RaisePropertyChanged("FechaHasta");
+					RaisePropertyChanged(FechaHastaPropertyName);
 				}
 			}
 		}
 
-		public bool UsaContacto {
+		public bool MostrarContacto {
 			get {
-				return _UsaContacto;
+				return _MostrarContacto;
 			}
 			set {
-				if (_UsaContacto != value) {
-					_UsaContacto = value;
-					RaisePropertyChanged("UsaContacto");
+				if (_MostrarContacto != value) {
+					_MostrarContacto = value;
+					RaisePropertyChanged(MostrarContactoPropertyName);
 				}
 			}
 
@@ -74,21 +81,40 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		#endregion //Propiedades
 
 		#region Constructores
-
 		public clsCxCPendientesEntreFechasViewModel() {
-			#region Codigo Ejemplo
 			FechaDesde = LibDate.Today();
 			FechaHasta = LibDate.Today();
-			UsaContacto = false;
-			#endregion //Codigo Ejemplo
+			MostrarContacto = false;
 		}
 		#endregion //Constructores
-		#region Metodos Generados
 
+		#region Metodos Generados
 		protected override ILibBusinessSearch GetBusinessComponent() {
 			return new clsCXCNav();
 		}
 		#endregion //Metodos Generados
+
+		#region Código Programador
+		private ValidationResult FechaDesdeValidating() {
+			ValidationResult vResult = ValidationResult.Success;
+			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDesde, false, eAccionSR.InformesPantalla)) {
+				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha Desde"));
+			} else if (LibDate.F1IsGreaterThanF2(FechaDesde, FechaHasta)) {
+				vResult = new ValidationResult("La fecha desde no puede ser mayor a la fecha hasta");
+			}
+			return vResult;
+		}
+
+		private ValidationResult FechaHastaValidating() {
+			ValidationResult vResult = ValidationResult.Success;
+			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaHasta, false, eAccionSR.InformesPantalla)) {
+				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha Desde"));
+			} else if (LibDate.F1IsLessThanF2(FechaHasta, FechaDesde)) {
+				vResult = new ValidationResult("La fecha hasta no puede ser menor a la fecha desde");
+			}
+			return vResult;
+		}
+		#endregion //Código Programador
 
 	} //End of class clsCxCPendientesEntreFechasViewModel
 

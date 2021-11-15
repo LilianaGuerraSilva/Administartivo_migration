@@ -921,7 +921,6 @@ End Function
 '********************************************************************
 ' mas nuevo aun q el resto
 
-'ByVal mInformeSeleccionado As Integer,
 Public Function fSQLDelReporteCxCEntreFechas(ByVal mUsarCambioOriginal As Boolean, ByVal insCamposDefFactura As Object, _
                ByVal mMonedaDeLosReportes As String, ByVal mConsecutivoCompania As String, _
                ByVal mCamposDefinibles As Object, ByVal gProyParametrosCompania As Object, ByVal mStatus As String, _
@@ -961,7 +960,7 @@ Public Function fSQLDelReporteCxCEntreFechas(ByVal mUsarCambioOriginal As Boolea
          sqlMonedaGrupo = gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyNombreMoneda)
          sqlMonto = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, sqlMonto, " CxC.Fecha")
       End If
-   'If mInformeSeleccionado = 4 Then
+
       sqlCamposDefFactura = insCamposDefFactura.fSqlSubConsultSelectCamposDefinibles(" CxC.Numero", _
                      gListLibrary.fAmpersand & gListLibrary.fSeparadorDeColumnasParaSQLSearch(Chr(13)) & gListLibrary.fAmpersand, _
                      True, gProyParametrosCompania.fSelectedIndexCampoDefFromComboBox(mCamposDefinibles))
@@ -986,10 +985,7 @@ Public Function fSQLDelReporteCxCEntreFechas(ByVal mUsarCambioOriginal As Boolea
                statusCxC = gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_REFINANCIADO)
          Case Else: statusCxC = ""
       End Select
-   'Else
-   '   sqlCamposDefFactura = "''"
-   '   statusCxC = ""
-   'End If
+      
    SQL = "SELECT "
    If AgruparTipo = "SectorDeNegocio" Then
       SQL = SQL & " Cliente.SectorDeNegocio, "
@@ -1039,15 +1035,11 @@ Public Function fSQLDelReporteCxCEntreFechas(ByVal mUsarCambioOriginal As Boolea
                " = " & mConsecutivoCompania
    SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween(" CxC.Fecha", _
                         mDtpFechaInicial, mDtpFechaFinal)
-   'If mInformeSeleccionado = 4 Then
+                        
       If statusCxC <> "" Then
          SQL = SQL & " AND  CxC.Status = " & statusCxC
       End If
-   'Else 'If mInformeSeleccionado = OPT_CXC_PENDIENTES_ENTRE_FECHAS Then
-   '   SQL = SQL & " AND CxC.Status" & _
-   '                    " IN (" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & _
-   '                    ", " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ")"
-   'End If
+
    SQL = SQL & " ORDER BY "
    If AgruparTipo = "SectorDeNegocio" Then
       SQL = SQL & " Cliente.SectorDeNegocio, "
@@ -2100,101 +2092,3 @@ h_ERROR: fSQLSearchCxCPendientes = ""
          "fSQLSearchCxCPendientes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConstruirSQLDelReporteCxCPorCliente(ByVal valZonaCobranza As String, ByVal valAnalisisDeVencimientoPor As String, ByVal valMonedaDeLosReportes As String, ByVal valConsecutivoCompania As Long, ByVal valHoyNombreMoneda As String, ByRef gUltimaTasaDeCambio As Object, ByVal valUsarContacto As Boolean, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valcodigoCliente As String) As String
-   Dim vSQL As String
-   Dim vSQLMonto As String
-   Dim vMontoExento As String
-   Dim vMontoGravado As String
-   Dim vMontoIva As String
-   Dim vMontoAbonado As String
-   Dim gEnumProyecto As clsEnumAdministrativo
-   On Error GoTo h_ERROR
-   Set gEnumProyecto = New clsEnumAdministrativo
-   Set gEnumReport = New clsEnumReport
-   vSQL = "SELECT "
-   
-   vSQL = vSQL & gUtilSQL.getIIF("cxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR), gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumStatusDocumentoToSiglas(enum_StatusDocumento.eSD_PORCANCELAR)), _
-   gUtilSQL.getIIF("cxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO), gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumStatusDocumentoToSiglas(enum_StatusDocumento.eSD_ABONADO)), _
-   gUtilSQL.getIIF("cxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ANULADO), gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumStatusDocumentoToSiglas(enum_StatusDocumento.eSD_ANULADO)), _
-   gUtilSQL.getIIF("cxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CANCELADO), gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumStatusDocumentoToSiglas(enum_StatusDocumento.eSD_CANCELADO)), gUtilSQL.fSimpleSqlValue(""), False), False), False), False)
-   vSQL = vSQL & " AS  Estatus, "
-   
-   If (valUsarContacto) Then
-      vSQL = vSQL & " Cliente.Contacto, "
-   End If
-   
-   vSQL = vSQL & "CxC.Numero, "
-   vSQL = vSQL & "CxC.Descripcion, "
-   vSQL = vSQL & "(SELECT " & "Moneda.simbolo" & _
-               " FROM " & "Moneda WHERE " & "CxC.Moneda" & _
-               " = " & "Moneda.Nombre) AS SimboloDeLaMoneda, "
-   vSQL = vSQL & "CxC.FechaVencimiento, "
-   vSQL = vSQL & "CxC.CodigoCliente, "
-      
-   If valMonedaDeLosReportes = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, valHoyNombreMoneda) Then
-      vMontoExento = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("CxC." & _
-               "CambioABolivares", "CxC." & _
-               "Moneda", "CxC.MontoExento", False, "")
-      vMontoGravado = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("CxC." & _
-                     "CambioABolivares", "CxC." & _
-                     "Moneda", "CxC.MontoGravado", False, "")
-      vMontoIva = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("CxC." & _
-                     "CambioABolivares", "CxC." & _
-                     "Moneda", "CxC.MontoIVA", False, "")
-      vMontoAbonado = gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("CxC." & _
-                     "CambioABolivares", "CxC." & _
-                     "Moneda", "CxC.MontoAbonado", False, "")
-      vSQLMonto = "((" & vMontoExento & _
-               " + " & vMontoGravado & _
-               " + " & vMontoIva & _
-               ") - " & vMontoAbonado & ")"
-   Else
-      vSQLMonto = "((" & "CxC.MontoExento" & _
-               " + " & "CxC.MontoGravado" & _
-               " + " & "CxC.MontoIVA" & _
-               ") - " & "CxC.MontoAbonado)"
-   End If
-   
-   vSQLMonto = gUtilSQL.getIIF("cxC.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ANULADO), "0", vSQLMonto, False)
-   
-   vSQL = vSQL & "(" & vSQLMonto & ") AS Monto, "
-   
-   vSQL = vSQL & "cliente.Nombre AS NombreCliente, "
-   vSQL = vSQL & "cliente.Telefono, "
-   vSQL = vSQL & "cliente.Direccion, "
-   vSQL = vSQL & "cliente.ZonaDeCobranza AS ZonaCobranza, "
-   vSQL = vSQL & "CxC.Moneda"
-   vSQL = vSQL & ", CxC.NumeroComprobanteFiscal AS NumFiscal"
-   vSQL = vSQL & " FROM cliente INNER JOIN " & "CxC ON ("
-   vSQL = vSQL & "cliente.Codigo" & _
-               " = CxC.CodigoCliente) AND ("
-   vSQL = vSQL & "cliente.ConsecutivoCompania" & _
-               " = " & "CxC.ConsecutivoCompania)"
-   vSQL = vSQL & " WHERE CxC.ConsecutivoCompania" & _
-               " = " & valConsecutivoCompania
-   vSQL = vSQL & " AND CxC.Status IN (" & _
-               gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_PORCANCELAR) & "," & _
-               gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CANCELADO) & "," & _
-               gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ANULADO) & "," & _
-               gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & ")"
-   If valZonaCobranza <> "TODAS" Then
-      vSQL = vSQL & " AND cliente.ZonaDeCobranza = " & gUtilSQL.fSimpleSqlValue(valZonaCobranza)
-   End If
-   vSQL = vSQL & " AND " & gUtilSQL.DfSQLDateValueBetween("CxC.Fecha", valFechaInicial, valFechaFinal)
-   If valcodigoCliente <> "" And valcodigoCliente <> "*" Then
-     vSQL = vSQL & " AND Cliente.Codigo = " & gUtilSQL.fSimpleSqlValue(valcodigoCliente)
-   End If
-   vSQL = vSQL & " ORDER BY "
-   vSQL = vSQL & "CxC.Moneda, "
-   vSQL = vSQL & "cliente.ZonaDeCobranza, "
-   If valAnalisisDeVencimientoPor = gEnumReport.enumReporteOrdenadoPorToString(enum_ReporteOrdenadoPor.eRO_Codigo) Then
-      vSQL = vSQL & "CxC.CodigoCliente, "
-   Else
-      vSQL = vSQL & "cliente.Nombre, "
-   End If
-   vSQL = vSQL & "CxC.FechaVencimiento"
-   fConstruirSQLDelReporteCxCPorCliente = vSQL
-h_EXIT: On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteCxCPorCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function

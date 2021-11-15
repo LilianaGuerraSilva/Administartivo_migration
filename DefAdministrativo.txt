@@ -4195,3 +4195,39 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	FechaHasta	: date;			//o,"Fecha Hasta"
 	Contacto	: boolean;		//"Contacto"
 }
+
+
+{@R CxC}CxCPorCliente = Reporte			//Multiarchivo=Compania,"CxC por Cliente",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+	LblCambioMoneda		: Str500;
+	SeccionGHMoneda		: Section;
+	MonedaPorGrupo		: Str80		//"Moneda"
+	Totales			: Str80;	//"Totales"
+	{EndSeccion}
+	SeccionGHZonaCobranza	: Section;	
+	Zona			: Str100;	//o,Search,=ZonaCobranza.Nombre,"Zona"
+	{EndSeccion}
+	SeccionGHCodigoCliente	: Section;
+	CodigoCliente		: Str10;	//"Código Cliente"
+	NombreCliente		: Str160;	//"Nombre Cliente"
+	Telefono		: Str40;	//"Teléfono"
+	Direccion		: Str255;	//"Dirección"
+	Contacto		: Str35;	//"Contacto"
+	{EndSeccion}
+	NumeroDocumento		: Str20;	//"N° Documento"
+	Status			: Str3		//"Status"
+	NumeroFiscal		: Str12;	//"N° Fiscal"
+	FechaVencimiento	: date;		//"Vencimiento"
+	Descripcion		: Str7000;	//"Descripción"
+	TotalLinea		: decimal;	//"Total"
+}
+
+{@F}frmCxCPorClienteXXX = Record				//"CxC por Cliente",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+	CantidadAImprimir	: unCantidadAImprimir		//"Cantidad a imprimir"
+	NombreCliente		: Str160;			//Search,=Cliente.Nombre,"Nombre Cliente"
+	ZonaCobranza		: Str100;			//o,Search,=ZonaCobranza.Nombre,"Zona de Cobranza"
+	FechaDesde		: date;				//"Fecha Desde"
+	FechaHasta		: date;				//"Fecha Hasta"
+	MostrarContacto		: boolean			//"Mostrar Contacto"
+	MonedaDelInforme	: unMonedaDelInforme;		//"Moneda del informe"
+	ClientesOrdenadosPor	: unClientesOrdenadosPor;	//"Clientes ordenados por"
+}

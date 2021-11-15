@@ -54,8 +54,8 @@ namespace Galac.Adm.Ccl.Venta {
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
-        #region Propiedades
 
+        #region Propiedades
         public int ConsecutivoCompania {
             get { return _ConsecutivoCompania; }
             set { _ConsecutivoCompania = value; }
@@ -201,7 +201,6 @@ namespace Galac.Adm.Ccl.Venta {
             set { _SeRetuvoIva = LibConvert.SNToBool(value); }
         }
 
-
         public string NumeroDocumentoOrigen {
             get { return _NumeroDocumentoOrigen; }
             set { _NumeroDocumentoOrigen = LibString.Mid(value, 0, 20); }
@@ -215,7 +214,6 @@ namespace Galac.Adm.Ccl.Venta {
         public string NoAplicaParaLibroDeVentas {
             set { _NoAplicaParaLibroDeVentas = LibConvert.SNToBool(value); }
         }
-
 
         public string CodigoLote {
             get { return _CodigoLote; }
@@ -235,7 +233,6 @@ namespace Galac.Adm.Ccl.Venta {
         public string AplicaDetraccion {
             set { _AplicaDetraccion = LibConvert.SNToBool(value); }
         }
-
 
         public string NumeroDetraccion {
             get { return _NumeroDetraccion; }
@@ -307,11 +304,12 @@ namespace Galac.Adm.Ccl.Venta {
             set { _datos = value; }
         }
         #endregion //Propiedades
+
         #region Constructores
 
         #endregion //Constructores
-        #region Metodos Generados
 
+        #region Metodos Generados
         public object TextDateLastModifiedForInput() {
             return "";
         }

@@ -379,19 +379,6 @@ Begin VB.Form frmInformesDeCXC
       Begin VB.OptionButton optInformeDeCxC 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
-         Caption         =   "CxC por Cliente.............................."
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   14
-         Left            =   120
-         TabIndex        =   94
-         Top             =   1790
-         Width           =   2775
-      End
-      Begin VB.OptionButton optInformeDeCxC 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
          Caption         =   "Facturas sin CxC ..........................."
          CausesValidation=   0   'False
          ForeColor       =   &H00A84439&
@@ -412,7 +399,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   11
          Left            =   120
          TabIndex        =   5
-         Top             =   2792
+         Top             =   2673
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -425,7 +412,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   10
          Left            =   120
          TabIndex        =   8
-         Top             =   3734
+         Top             =   3660
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -438,7 +425,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   9
          Left            =   120
          TabIndex        =   11
-         Top             =   5050
+         Top             =   5036
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -451,7 +438,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   0
          Left            =   120
          TabIndex        =   4
-         Top             =   2478
+         Top             =   2344
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -464,7 +451,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   1
          Left            =   120
          TabIndex        =   0
-         Top             =   534
+         Top             =   639
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -477,7 +464,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   2
          Left            =   120
          TabIndex        =   6
-         Top             =   3106
+         Top             =   3002
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -490,7 +477,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   3
          Left            =   120
          TabIndex        =   7
-         Top             =   3420
+         Top             =   3331
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -503,7 +490,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   4
          Left            =   120
          TabIndex        =   1
-         Top             =   848
+         Top             =   968
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -516,7 +503,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   5
          Left            =   120
          TabIndex        =   9
-         Top             =   4422
+         Top             =   4378
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -530,7 +517,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   6
          Left            =   120
          TabIndex        =   10
-         Top             =   4736
+         Top             =   4707
          Visible         =   0   'False
          Width           =   2775
       End
@@ -544,7 +531,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   8
          Left            =   120
          TabIndex        =   2
-         Top             =   1162
+         Top             =   1297
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -557,7 +544,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   13
          Left            =   120
          TabIndex        =   3
-         Top             =   1476
+         Top             =   1626
          Width           =   2775
       End
       Begin VB.Label lblINformesEstadisticos 
@@ -576,7 +563,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   255
          Left            =   120
          TabIndex        =   66
-         Top             =   4048
+         Top             =   3989
          Width           =   2775
       End
       Begin VB.Label lblInformesDeCxC 
@@ -595,7 +582,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   255
          Left            =   120
          TabIndex        =   65
-         Top             =   160
+         Top             =   250
          Width           =   2775
       End
       Begin VB.Label lblVarios 
@@ -614,7 +601,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   255
          Left            =   120
          TabIndex        =   64
-         Top             =   2104
+         Top             =   1955
          Width           =   2775
       End
    End
@@ -718,7 +705,7 @@ Begin VB.Form frmInformesDeCXC
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   95289347
+         Format          =   76480515
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -731,7 +718,7 @@ Begin VB.Form frmInformesDeCXC
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   95289347
+         Format          =   76480515
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -1101,10 +1088,6 @@ Private Function OPT_ESTADISTICO_DE_VENDEDORES() As Integer
    OPT_ESTADISTICO_DE_VENDEDORES = 5
 End Function
 
-'Private Function OPT_CXC_PENDIENTES_ENTRE_FECHAS() As Integer
-'   OPT_CXC_PENDIENTES_ENTRE_FECHAS = 7
-'End Function
-
 Private Function OPT_CXC_CON_DESCRIPCION() As Integer
    OPT_CXC_CON_DESCRIPCION = 8
 End Function
@@ -1127,10 +1110,6 @@ End Function
 
 Private Function OPT_CHEQUES_DEVUELTOS() As Integer
    OPT_CHEQUES_DEVUELTOS = 13
-End Function
-
-Private Function OPT_CXC_POR_CLIENTE() As Integer
-   OPT_CXC_POR_CLIENTE = 14
 End Function
 
 Private Function OPT_NOAGRUPAR_INFORME() As Integer
@@ -1441,7 +1420,6 @@ Private Sub optInformeDeCxC_Click(Index As Integer)
    Select Case mInformeSeleccionado
       Case OPT_CXC_POR_VENDEDOR:             sActivarCamposDeCXCPorVendedor
       Case OPT_CXC_ENTRE_FECHAS:             sActivarCamposDeCXCEntreFechas
-      'Case OPT_CXC_PENDIENTES_ENTRE_FECHAS:  sActivarCamposDeCXCPendientesEntreFechas
       Case OPT_CXC_CON_DESCRIPCION:          sActivarCamposDeCxCConDescripcion
       Case OPT_ANALISIS_DE_VENCIMIENTO:      sActivarCamposDeAnalisisDeVencimiento
       Case OPT_ANALISIS_CxC_HISTORICO:       sActivarCamposDeAnalisisCXCHistorico
@@ -1452,7 +1430,6 @@ Private Sub optInformeDeCxC_Click(Index As Integer)
       Case OPT_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS: sActivarCamposDeAnalisisDeVencimientoEntreFechas
       Case OPT_FACTURAS_SIN_CXC: sActivarCamposDeFacturasSinCxC
       Case OPT_CHEQUES_DEVUELTOS: sActivarCamposDeChequesDevueltos
-      Case OPT_CXC_POR_CLIENTE: sActivarCamposDeCxCPorCliente
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1532,7 +1509,6 @@ Private Sub sEjecutaElInformeSeleccionado()
    Select Case mInformeSeleccionado
       Case OPT_CXC_POR_VENDEDOR:                      sEjecutaCXCPorVendedor
       Case OPT_CXC_ENTRE_FECHAS:                      sEjecutaCXCEntreFechas
-      'Case OPT_CXC_PENDIENTES_ENTRE_FECHAS:           sEjecutaCXCPendientesEntreFechas
       Case OPT_ANALISIS_DE_VENCIMIENTO:               sEjecutaAnalisisDeVencimiento
       Case OPT_ANALISIS_CxC_HISTORICO:                sEjecutaAnalisisCxCHistorico
       Case OPT_HISTORICO_DE_CLIENTE:                  sEjecutaHistoricoDeCliente
@@ -1543,7 +1519,6 @@ Private Sub sEjecutaElInformeSeleccionado()
       Case OPT_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS:  sEjecutaAnalisisDeVencimientoEntreFechas
       Case OPT_FACTURAS_SIN_CXC:                      sEjecutaFacturasSinCxC
       Case OPT_CHEQUES_DEVUELTOS:                     sEjecutaInformeDeChequesDevueltos
-      Case OPT_CXC_POR_CLIENTE:                       sEjecutaCxCPorCliente
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1586,14 +1561,6 @@ Private Sub cmbCantidadAImprimir_Click()
          Else
             frameCliente.Visible = True
             ChkCambiandodePagina.Visible = False
-         End If
-       Case OPT_CXC_POR_CLIENTE
-         txtNombreDeCliente.Text = ""
-         txtCodigoDeCliente.Text = ""
-         If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
-            frameCliente.Visible = False
-         Else
-            frameCliente.Visible = True
          End If
    End Select
    sInitDefaultValuesCasoSistemaInternoParaNivelPorUsuario
@@ -1979,14 +1946,11 @@ Private Sub sEjecutaCXCEntreFechas()
    Set reporte = New DDActiveReports2.ActiveReport
    Set insCxcSQL = New clsCxCSQL
    If mTipoAgrupar = "SectorDeNegocio" Then
-      'SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparSectorDeNegocio.Text, gConvert.ConvertByteToBoolean(ChkContacto.Value))
       SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparSectorDeNegocio.Text, gConvert.ConvertByteToBoolean(ChkContacto.Value))
    ElseIf mTipoAgrupar = "ZonaDeCobranza" Then
-      'SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparZona.Text, gConvert.ConvertByteToBoolean(ChkContacto.Value))
       SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparZona.Text, gConvert.ConvertByteToBoolean(ChkContacto.Value))
    Else
-   'SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, "", gConvert.ConvertByteToBoolean(ChkContacto.Value))
-   SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, "", gConvert.ConvertByteToBoolean(ChkContacto.Value))
+      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, "", gConvert.ConvertByteToBoolean(ChkContacto.Value))
    End If
       monedaOriginal = (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
 
@@ -2611,56 +2575,6 @@ Private Sub sOcultarOtrasOpciones()
 h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sActivarCamposDeCxCPorCliente()
-   On Error GoTo h_ERROR
-   lblDatosDelReporte.Caption = "Datos del Informe - CxC por Cliente"
-   frameAnalisisDeVencimientoPor.Visible = True
-   frameZonaCobranza.Visible = True
-   frameMoneda.Visible = True
-   frameContacto.Visible = True
-   frameFechas.Visible = True
-   frameCantidadAImprimir.Visible = True
-   frameCantidadAImprimir.Top = 660
-   cmbCantidadAImprimir_Click
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCxCPorCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaCxCPorCliente()
-   Dim rptMostrarReporte As DDActiveReports2.ActiveReport
-   Dim insConfigurar As clsCxCRpt
-   Dim vSqlDelReporte As String
-   Dim vMostrarMensaje As Boolean
-   Dim insCxcSQL As clsCxCSQL
-   On Error GoTo h_ERROR
-   Set insCxcSQL = New clsCxCSQL
-   If gTexto.DfLen(txtNombreDeCliente.Text) = 0 And CmbCantidadAImprimir.Text = "Uno" Then
-      If gProyParametros.GetUsaCodigoClienteEnPantalla Then
-         sShowMessageForRequiredFields "Codigo del Cliente", txtCodigoDeCliente
-      Else
-         sShowMessageForRequiredFields "Nombre del Cliente", txtNombreDeCliente
-      End If
-   Else
-      vMostrarMensaje = False
-      If cmbMonedaDeLosReportes.ListIndex = eMR_EnBs Then
-         vMostrarMensaje = True
-      End If
-      vSqlDelReporte = insCxcSQL.fConstruirSQLDelReporteCxCPorCliente(CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, gMonedaLocalActual.GetHoyNombreMoneda, gUltimaTasaDeCambio, gConvert.ConvertByteToBoolean(ChkContacto.Value), dtpFechaInicial.Value, dtpFechaFinal.Value, Trim(txtCodigoDeCliente.Text))
-      Set rptMostrarReporte = New DDActiveReports2.ActiveReport
-      Set insConfigurar = New clsCxCRpt
-      If insConfigurar.fConfigurarDatosDelReporteCxCPorCliente(rptMostrarReporte, vSqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, vMostrarMensaje, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
-         gUtilReports.sMostrarOImprimirReporte rptMostrarReporte, 1, mDondeImprimir, "CxC Por Cliente"
-      End If
-   End If
-   Set insCxcSQL = Nothing
-   Set rptMostrarReporte = Nothing
-   Set insConfigurar = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCxCPorCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, _

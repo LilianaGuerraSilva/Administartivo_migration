@@ -422,4 +422,12 @@ namespace Galac.Saw.Lib {
         [LibEnumDescription("Por Cliente")]
         PorCliente
     }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eCantidadAImprimirFemale {
+        [LibEnumDescription("Todas")]
+        Todas = 0,
+        [LibEnumDescription("Una")]
+        Una
+    }
 }

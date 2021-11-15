@@ -31,6 +31,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         //[LibGridColum("Es Supervisor")]
         public bool IsSuperviser { get; set; }
     }
+
     public class FkVendedorViewModel : IFkVendedorViewModel {
         public int ConsecutivoCompania { get; set; }
         [LibGridColum("Código")]
@@ -48,6 +49,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         //[LibGridColum("Telefono")]
         public string Telefono { get; set; }
     }
+
+    public class FkZonaCobranzaViewModel : IFkZonaCobranzaViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Nombre")]
+        public string Nombre { get; set; }
+    }
+
     public class FkClienteViewModel : IFkClienteViewModel {
         public int ConsecutivoCompania { get; set; }
         //[LibGridColum("Código")]
@@ -71,7 +79,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public string Numero { get; set; }
         [LibGridColum("Status")]
         public eStatusCXC Status { get; set; }
-        [LibGridColum("Tipo Cx C")]
+        [LibGridColum("Tipo CxC")]
         public eTipoDeCxC TipoCxC { get; set; }
         [LibGridColum("Código del Cliente")]
         public string CodigoCliente { get; set; }
@@ -193,7 +201,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         [LibGridColum("eTipoDeFormaDePago")]
         public eTipoDeFormaDePago TipoDePago { get; set; }
     }
-
 
     public class FkCobroDeFacturaRapidaViewModel : IFkCobroDeFacturaRapidaViewModel {
         public int ConsecutivoCompania { get; set; }
