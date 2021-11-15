@@ -82,7 +82,7 @@ namespace Galac.Adm.Uil.Venta {
             try {
                 InitializeIfNecessary();
                 if (_VentaInformesMenu != null) {
-                    _VentaInformesMenu.Ejecuta(eAccionSR.InformesPantalla,(int)Saw.Lib.eSystemModules.CxC);
+                    _VentaInformesMenu.Ejecuta(eAccionSR.InformesPantalla,(int)Saw.Lib.eSystemModules.NotaDeEntrega);
                 }
             } catch (System.AccessViolationException) {
                 throw;
