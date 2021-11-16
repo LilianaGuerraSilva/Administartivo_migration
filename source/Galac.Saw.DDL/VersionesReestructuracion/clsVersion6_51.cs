@@ -19,6 +19,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StartConnectionNoTransaction();
             ActualizarNroComprobanteFiscalEnBlanco();
             DesactivarParametroMostrarTotalEnBolivarDigitaloSoberano();
+            ActualizarCambioMonedaCobranza();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -35,6 +36,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             string vSql;
             vSql = "UPDATE Comun.SettValueByCompany SET value = 'N' WHERE NameSettDefinition = 'MostrarMtoTotalBsFEnObservaciones'";
             Execute(vSql, 0);
+        }
+
+        private void ActualizarCambioMonedaCobranza() {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("UPDATE cobranza ");
+            vSql.AppendLine("SET CambioABolivares = 1 ");
+            vSql.AppendLine("WHERE(CodigoMoneda = 'VED' or CodigoMoneda = 'VEB' or CodigoMoneda = 'VES') ");
+            vSql.AppendLine("AND CambioABolivares = 0 ");
+            Execute(vSql.ToString(), 0);
         }
     }
 }

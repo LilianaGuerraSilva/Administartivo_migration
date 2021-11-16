@@ -15,12 +15,10 @@ using System.Windows;
 [assembly: AssemblyCopyright("Gálac Software Copyright © 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 // Si establece ComVisible como false, los tipos de este ensamblado no estarán visibles 
 // para los componentes COM. Si necesita obtener acceso a un tipo de este ensamblado desde 
 // COM, establezca el atributo ComVisible como true en este tipo.
 [assembly: ComVisible(false)]
-
 //Para comenzar a generar aplicaciones que se puedan traducir, establezca 
 //<UICulture>CultureYouAreCodingWith</UICulture> en el archivo .csproj
 //dentro de <PropertyGroup>. Por ejemplo, si utiliza inglés de EE.UU.
@@ -29,8 +27,6 @@ using System.Windows;
 //la siguiente línea para que coincida con el valor UICulture del archivo de proyecto.
 
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
-
-
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //donde se encuentran los diccionarios de recursos específicos del tema
     //(se utiliza si no se encuentra ningún recurso en la página 
@@ -39,8 +35,6 @@ using System.Windows;
     //(se utiliza si no se encuentra ningún recurso en la página, 
     // aplicación o diccionarios de recursos específicos del tema)
 )]
-
-
 // La información de versión de un ensamblado consta de los cuatro valores siguientes:
 //
 //      Versión principal
@@ -51,6 +45,5 @@ using System.Windows;
 // Puede especificar todos los valores o establecer como predeterminados los números de versión de compilación y de revisión 
 // mediante el asterisco ('*'), como se muestra a continuación:
 // [assembly: AssemblyVersion("1.0.*")]
-
-[assembly: AssemblyVersion("2.60.0.0")]
-[assembly: AssemblyFileVersion("2.60.0.0")]
+[assembly: AssemblyVersion("2.60.1.0")]
+[assembly: AssemblyFileVersion("2.60.1.0")]
