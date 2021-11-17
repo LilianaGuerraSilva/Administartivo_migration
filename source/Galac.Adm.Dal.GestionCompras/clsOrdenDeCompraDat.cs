@@ -67,7 +67,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             vResult = vParams.Get();
             return vResult;
         }
-
+        
         private StringBuilder ParametrosClave(OrdenDeCompra valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -546,9 +546,38 @@ namespace Galac.Adm.Dal.GestionCompras {
             return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
         }
         #endregion ////Miembros de ILibDataRpt
+
         #endregion //Metodos Generados
+        protected override bool ExecuteProcessBeforeInsert()
+        {
+            StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
+            LibDataScope insDb = new LibDataScope();
+            CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".OrdenDeCompra", "Consecutivo", vParametro);
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SugerirNumeroDeOrdenDeCompra"))
+            {
+                CurrentRecord.Numero = ProximoNumero();
+            }
+            return base.ExecuteProcessBeforeInsert();
+        }
 
-
+        private string ProximoNumero()
+        {
+            StringBuilder SQL = new StringBuilder();
+            QAdvSql vAdvSql = new QAdvSql("");
+            LibDatabase insDb = new LibDatabase();
+            int vNumero = 0;
+            string vNumeroString = "";
+            string vNuevoNumero = "";
+            SQL.AppendLine(" SELECT ( ISNULL ( MAX( CAST(SUBSTRING(OrdenDeCompra.Numero,4,LEN(OrdenDeCompra.Numero)) AS int) ) , 0 )  +1) AS  Numero FROM Adm.OrdenDeCompra ");
+            SQL.AppendLine(" WHERE ConsecutivoCompania = " + CurrentRecord.ConsecutivoCompania);
+            SQL.AppendLine("AND TipoDeCompra = " + LibConvert.ToInt(CurrentRecord.TipoDeCompraAsDB));
+            SQL.AppendLine("AND ISNUMERIC(SUBSTRING(OrdenDeCompra.Numero,4,LEN(OrdenDeCompra.Numero)))=1");
+            vNumero = LibConvert.ToInt(insDb.ExecuteScalar(SQL.ToString(), -1, false));
+            vNumeroString = LibConvert.IntToStr2(vNumero);
+            vNuevoNumero = "OC-" + LibString.Right("00000000" + vNumeroString, 8);
+            insDb.Dispose();
+            return vNuevoNumero;
+        }
     } //End of class clsOrdenDeCompraDat
 
 } //End of namespace Galac.Adm.Dal.GestionCompras

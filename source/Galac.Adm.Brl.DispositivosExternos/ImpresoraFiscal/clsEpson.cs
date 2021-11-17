@@ -798,16 +798,19 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vResultado = "Efectivo";
                     break;
                 case "00002":
-                    vResultado = "Tarjeta";
-                    break;
-                case "00003":
                     vResultado = "Cheque";
                     break;
+                case "00003":
+                    vResultado = "Tarjeta";
+                    break;                
                 case "00004":
                     vResultado = "Depósito";
                     break;
                 case "00005":
                     vResultado = "Anticipo";
+                    break;
+                case "00006":
+                    vResultado = "Transferencia";
                     break;
                 default:
                     vResultado = "Efectivo";

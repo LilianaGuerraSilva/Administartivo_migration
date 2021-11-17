@@ -69,15 +69,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 ePuerto ePuerto = (ePuerto)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "PuertoMaquinaFiscal"));
                 _CommPort = ePuerto.GetDescription(0);
                 _ModeloFactory = (eImpresoraFiscal)LibConvert.DbValueToEnum(LibImpresoraFiscalUtil.ObtenerValorDesdeXML(valXmlDatosImpresora, "ModeloDeMaquinaFiscal"));
-                _ModelosAntiguos = (_ModeloFactory == eImpresoraFiscal.BIXOLON270 || _ModeloFactory == eImpresoraFiscal.OKIML1120 || _ModeloFactory == eImpresoraFiscal.BIXOLON350 || _ModeloFactory == eImpresoraFiscal.ACLASPP1F3);
+                _ModelosAntiguos = (_ModeloFactory == eImpresoraFiscal.BIXOLON270 || _ModeloFactory == eImpresoraFiscal.OKIML1120 || _ModeloFactory == eImpresoraFiscal.BIXOLON350 || _ModeloFactory == eImpresoraFiscal.ACLASPP1F3 || _ModeloFactory == eImpresoraFiscal.HKA112);
                 _MaxLongitudDeTexto = (_ModelosAntiguos ? 30 : 40);
                 //                
-                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA112);
-                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.HKA112);
+                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+
+                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
                 //                
                 _FormatoFirmwareTipo1 = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125);
                 //
-                _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.HKA112 || _ModeloFactory == eImpresoraFiscal.ACLASPP9);
+                _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
             } catch (GalacException vEx) {
                 throw vEx;
             }
@@ -824,26 +825,36 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private string FormaDeCobro(string valFormaDeCobro) {
-            string vResultado = "";
+            string vResultado = ""; 
             if (_ModelosAntiguos || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125) {
-                if (valFormaDeCobro.Equals("00001")) { // efectivo
-                    vResultado = "01";
-                } else if (valFormaDeCobro.Equals("00003")) { // cheque
-                    vResultado = "05";
-                } else if (valFormaDeCobro.Equals("00002")) { // tarjeta
-                    vResultado = "09";
-                } else {
-                    vResultado = "01";
+                switch (valFormaDeCobro) {
+                    case "00001"://Los textos de descripcion estan en la memoria de la impresora y se llaman a traves de su indice
+                        vResultado = "01"; //Efectivo
+                        break;
+                    case "00002":
+                        vResultado = "05";//Cheque
+                        break;
+                    case "00003":
+                        vResultado = "09";//Tarjeta
+                        break;
+                    default:
+                        vResultado = "01";
+                        break;
                 }
-            } else {//Nuevos Modelos
-                if (valFormaDeCobro.Equals("00001")) { // efectivo
-                    vResultado = "01";
-                } else if (valFormaDeCobro.Equals("00003")) { // cheque
-                    vResultado = "07";
-                } else if (valFormaDeCobro.Equals("00002")) { // tarjeta
-                    vResultado = "13";
-                } else {
-                    vResultado = "01";
+            } else { // Nuevos Modelos
+                switch (valFormaDeCobro) {
+                    case "00001":
+                        vResultado = "01";//Efectivo
+                        break;
+                    case "00002":
+                        vResultado = "07";//Cheque
+                        break;
+                    case "00003":
+                        vResultado = "13";//Tarjeta
+                        break;
+                    default:
+                        vResultado = "01";
+                        break;
                 }
             }
             return vResultado;

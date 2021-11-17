@@ -93,9 +93,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal vDecimalValue = 0;
             string CurrentDecimalSep = LibConvert.CurrentDecimalSeparator();
             valNumero = LibText.Trim(valNumero);
-            valNumero = SetDecimalSeparator(valNumero);
+            valNumero = SetDecimalSeparator(valNumero);            
             if (LibString.Len(WithDecimalSeparator) > 0) {
-                vValorFinal = LibText.Replace(valNumero, CurrentDecimalSep, WithDecimalSeparator);
+                if (valCantidadDecimales == 3) {
+                    vValorFinal = String.Format("{0:0.000}", LibImportData.ToDec(valNumero));
+                } else {
+                    vValorFinal = String.Format("{0:0.00}", LibImportData.ToDec(valNumero));
+                }                
+                vValorFinal = LibText.Replace(vValorFinal, CurrentDecimalSep, WithDecimalSeparator);               
             } else {
                 vDecimalValue = LibMath.RoundToNDecimals(LibImportData.ToDec(valNumero), valCantidadDecimales);
                 vDecimalValue = LibMath.Abs(vDecimalValue);

@@ -726,26 +726,19 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         private string FormaDeCobro(string valFormaDeCobro) {
             string vResultado = "";
-            if( _ModeloBMC == eImpresoraFiscal.DASCOMTALLY1125) {
-                if(valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Efectivo.GetDescription(1))) {
+            switch (valFormaDeCobro) {
+                case "00001"://Los textos de descripcion estan en la memoria de la impresora y se llaman a traves de su indice
+                    vResultado = "01"; //Efectivo
+                    break;
+                case "00002":
+                    vResultado = "05";//Cheque
+                    break;
+                case "00003":
+                    vResultado = "09";//Tarjeta
+                    break;
+                default:
                     vResultado = "01";
-                } else if(valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Cheque.GetDescription(1))) {
-                    vResultado = "05";
-                } else if(valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Tarjeta.GetDescription(1))) {
-                    vResultado = "09";
-                } else {
-                    vResultado = "01";
-                }
-            } else {
-                if(valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Efectivo.GetDescription(1))) { //Nuevos Modelos
-                    vResultado = "01";
-                } else if(valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Cheque.GetDescription(1))) {
-                    vResultado = "07";
-                } else if(valFormaDeCobro.Equals(eFormaDeCobroImprFiscal.Tarjeta.GetDescription(1))) {
-                    vResultado = "13";
-                } else {
-                    vResultado = "01";
-                }
+                    break;
             }
             return vResultado;
         }

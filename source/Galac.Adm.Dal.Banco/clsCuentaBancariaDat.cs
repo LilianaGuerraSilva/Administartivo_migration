@@ -237,6 +237,7 @@ namespace Galac.Adm.Dal.Banco {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Cuenta Bancaria.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>.Insert(IList<CuentaBancaria> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";

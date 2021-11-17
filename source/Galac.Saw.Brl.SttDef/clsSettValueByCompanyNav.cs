@@ -379,7 +379,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.UsaCamposExtrasEnRenglonFacturaAsBool = false;
             insEntidad.MaximoDescuentoEnFactura = 100;
             insEntidad.PermitirDobleDescuentoEnFacturaAsBool = false;
-            insEntidad.MostrarMtoTotalBsFEnObservacionesAsBool = true;
+            insEntidad.MostrarMtoTotalBsFEnObservacionesAsBool = false;
             insEntidad.UsaCobroDirectoEnMultimonedaAsBool = false;
             insEntidad.SeMuestraTotalEnDivisasAsBool = false;
             insEntidad.UsaListaDePrecioEnMonedaExtranjeraAsBool = false;

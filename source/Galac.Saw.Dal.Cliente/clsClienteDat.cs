@@ -266,6 +266,7 @@ namespace Galac.Saw.Dal.Cliente {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Cliente.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataComponent<IList<Entity.Cliente>, IList<Entity.Cliente>>.Insert(IList<Entity.Cliente> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
