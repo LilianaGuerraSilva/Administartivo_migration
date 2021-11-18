@@ -42,7 +42,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             Saw.Lib.clsUtilRpt vRpxUtil = new Saw.Lib.clsUtilRpt();
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Rpt.Venta.clsCxCPendientesEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.MostrarContacto) {
+                vResult = new Rpt.Venta.clsCxCPendientesEntreFechas(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.MostrarContacto, valViewModel.MonedaDelInforme, valViewModel.MonedasAgrupadasPor) {
                         Worker = Manager
                     };
             }
@@ -52,7 +52,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private ILibRpt ConfigReportCxCPorCliente(clsCxCPorClienteViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Rpt.Venta.clsCxCPorCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoDelCliente, valViewModel.ZonaCobranza, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.MostrarContacto, valViewModel.MonedaDelInforme, valViewModel.ClientesOrdenadosPor) {
+                vResult = new Rpt.Venta.clsCxCPorCliente(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoDelCliente, valViewModel.ZonaCobranza, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.MostrarContacto, valViewModel.ClientesOrdenadosPor, valViewModel.MonedaDelInforme, valViewModel.MonedasAgrupadasPor) {
                         Worker = Manager
                     };
             }

@@ -40,21 +40,23 @@ namespace Galac.Adm.Rpt.Venta {
 		#region Metodos Generados
 		public string ReportTitle()
 		{
-			return "CxC por Cliente";
+			return "Cuentas por Cobrar Por Cliente";
 		}
 
 		public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters)
 		{
 			Saw.Lib.clsUtilRpt UtiltRpt = new Saw.Lib.clsUtilRpt();
 			bool vMostrarContacto = LibConvert.SNToBool(valParameters["MostrarContacto"]);
-
+			eClientesOrdenadosPor vClientesOrdenadosPor = (eClientesOrdenadosPor)LibConvert.DbValueToEnum(valParameters["ClientesOrdenadosPor"]);
 			Saw.Lib.eMonedaParaImpresion MonedaDelReporte = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedaDelReporte"]);
+			Saw.Lib.eMonedaParaImpresion MonedasAgrupadasPor = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedasAgrupadasPor"]);
+
 			Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Comun.Brl.TablasGen.clsMonedaLocalActual();
 			vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
 			string vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
 			bool vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, MonedaDelReporte.GetDescription());
+			bool vIsGroupedByMonedaLocal = LibString.S1IsInS2(vMonedaLocal, MonedasAgrupadasPor.GetDescription());
 
-			eClientesOrdenadosPor vClientesOrdenadosPor = (eClientesOrdenadosPor)LibConvert.DbValueToEnum(valParameters["ClientesOrdenadosPor"]);
 			if (_UseExternalRpx) {
 				string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
 				if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -75,9 +77,18 @@ namespace Galac.Adm.Rpt.Venta {
 					LibReport.ChangeControlVisibility(this, "lblMensajeDelCambioDeLaMoneda", true, false);
 				}
 
-				LibReport.ConfigFieldStr(this, "txtMonedaPorGrupo", string.Empty, "Moneda");
+				if (vIsGroupedByMonedaLocal) {
+					LibReport.ConfigFieldStr(this, "txtMonedaPorGrupo", vMonedaLocal, string.Empty);
+				}
+				else {
+					LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
+					LibReport.ConfigFieldStr(this, "txtMonedaPorGrupo", string.Empty, "Moneda");
+				}
+
+				LibReport.ConfigGroupHeader(this, "GHZonaCobranza", "ZonaCobranza", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 				LibReport.ConfigFieldStr(this, "txtZona", string.Empty, "ZonaCobranza");
 
+				LibReport.ConfigGroupHeader(this, "GHCodigoCliente", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 				LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "Codigo");
 				LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
 				LibReport.ConfigFieldStr(this, "txtTelefonos", string.Empty, "Telefono");
@@ -115,10 +126,6 @@ namespace Galac.Adm.Rpt.Venta {
 				LibReport.ConfigFieldStr(this, "txtNombreE3", eStatusCXC.CANCELADO.GetDescription(0), string.Empty);
 				LibReport.ConfigFieldStr(this, "txtSiglasE4", eStatusCXC.ANULADO.GetDescription(1), string.Empty);
 				LibReport.ConfigFieldStr(this, "txtNombreE4", eStatusCXC.ANULADO.GetDescription(0), string.Empty);
-
-				LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHZonaCobranza", "ZonaCobranza", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHCodigoCliente", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
 				LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
 				return true;

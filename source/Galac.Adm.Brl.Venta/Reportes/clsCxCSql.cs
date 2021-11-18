@@ -14,11 +14,12 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 		private Saw.Lib.clsLibSaw _LibSaw = new Saw.Lib.clsLibSaw();
 
 		#region Metodos Generados
-		public string SqlCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaReporte) {
+		public string SqlCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaReporte, Saw.Lib.eMonedaParaImpresion valMonedasAgrupadasPor) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			string vMonedaLocal;
 			bool vIsInMonedaLocal;
+			bool vIsGroupedByMonedaLocal;
 			string vSqlCambio;
 
 			Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Comun.Brl.TablasGen.clsMonedaLocalActual();
@@ -26,6 +27,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
 			vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
 			vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, valMonedaReporte.GetDescription());
+			vIsGroupedByMonedaLocal = LibString.S1IsInS2(vMonedaLocal, valMonedasAgrupadasPor.GetDescription());
 
 			if (vIsInMonedaLocal) {
 				vSqlCambio = new Saw.Lib.clsLibSaw().CampoMontoPorTasaDeCambioSql("CxC.CambioAbolivares", "CxC.Moneda", "1", false, "");
@@ -45,14 +47,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("CxC.Fecha,");
 			vSql.AppendLine("CxC.Numero,");
 			vSql.AppendLine("CxC.Moneda,");
-			vSql.AppendLine("CxC.CambioABolivares,");
 			vSql.AppendLine(SqlCampoStatusStrCxCPendientesEntreFechas());
 
 			string vSqlCampoCxCMontoOriginal = vSqlUtil.IIF("CxC.Status = " + vSqlUtil.EnumToSqlValue((int) eStatusCXC.ANULADO), "0", "(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIVA) - CxC.MontoAbonado", true);
-			vSql.AppendLine(vSqlCampoCxCMontoOriginal + " AS Monto,");
-			vSql.AppendLine(vSqlCampoCxCMontoOriginal + " * " + vSqlCambio + " AS MontoEnMonedaLocal,");
+			vSql.AppendLine(vSqlCampoCxCMontoOriginal + " * " + vSqlCambio + " AS Monto");
 
-			vSql.AppendLine("CxC.Moneda AS MonedaParaGrupo");
 			if (vUsaModuloContabilidad) {
 				vSql.AppendLine("," + vSqlUtil.IIF("CTE_Comprobante.NumeroComprobante <>" + vSqlUtil.ToSqlValue(""), "CTE_Comprobante.NumeroComprobante", vSqlUtil.ToSqlValue("No Aplica"), true) + "AS NumeroComprobante");
 			}
@@ -72,25 +71,33 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", (int) eStatusCXC.ABONADO, "OR", "=") + Environment.NewLine;
 
 			vSQLWhere = vSQLWhere + "AND (" + vSqlCampoCxCStatusParaWhere + ")" + Environment.NewLine;
-			vSQLWhere = vSQLWhere + "ORDER BY CxC.Status, MonedaParaGrupo, CxC.Fecha, CxC.Numero";
+
+			string vSqlMonedasAgrupadasPor = "";
+			if (!vIsGroupedByMonedaLocal) {
+				vSqlMonedasAgrupadasPor = " Moneda,";
+			}
+
+			vSQLWhere = vSQLWhere + "ORDER BY CxC.Status," + vSqlMonedasAgrupadasPor + " CxC.Fecha, CxC.Numero";
 			vSQLWhere = vSqlUtil.WhereSql(vSQLWhere);
 
 			vSql.AppendLine(vSQLWhere);
 			return vSql.ToString();
 		}
 
-		public string SqlCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, eClientesOrdenadosPor valClientesOrdenadosPor) { //falta implementar query
+		public string SqlCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, eClientesOrdenadosPor valClientesOrdenadosPor, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eMonedaParaImpresion valMonedasAgrupadasPor) {
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
 			string vMonedaLocal;
 			bool vIsInMonedaLocal;
 			string vSqlCambio;
+			bool vIsGroupedByMonedaLocal;
 
 			Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Comun.Brl.TablasGen.clsMonedaLocalActual();
 
 			vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
 			vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
 			vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, valMonedaDelReporte.GetDescription());
+			vIsGroupedByMonedaLocal = LibString.S1IsInS2(vMonedaLocal, valMonedasAgrupadasPor.GetDescription());
 
 			if (vIsInMonedaLocal) {
 				vSqlCambio = new Saw.Lib.clsLibSaw().CampoMontoPorTasaDeCambioSql("CxC.CambioAbolivares", "CxC.Moneda", "1", false, "");
@@ -105,7 +112,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("Cliente.Contacto,");
 			vSql.AppendLine("CxC.Numero,");
 			vSql.AppendLine("CxC.Descripcion,");
-			vSql.AppendLine("Moneda.simbolo AS SimboloDeLaMoneda,");
 			vSql.AppendLine("CxC.FechaVencimiento,");
 			vSql.AppendLine("Cliente.Codigo,");
 
@@ -129,7 +135,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			string vSqlCampoCxCStatusParaWhere = "";
 			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.PORCANCELAR, "", "=") + Environment.NewLine;
 			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.CANCELADO, "OR", "=") + Environment.NewLine;
-			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.ABONADO, "", "=") + Environment.NewLine;
+			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.ABONADO, "OR", "=") + Environment.NewLine;
 			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.ANULADO, "OR", "=") + Environment.NewLine;
 
 			vSQLWhere = vSQLWhere + "AND (" + vSqlCampoCxCStatusParaWhere + ")" + Environment.NewLine;
@@ -142,6 +148,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 				vSQLWhere = vSqlUtil.SqlValueWithAnd(vSQLWhere, "Cliente.ZonaDeCobranza", valZonaCobranza) + Environment.NewLine;
 			}
 
+			string vSqlMonedasAgrupadasPor = "";
+			if (!vIsGroupedByMonedaLocal) {
+				vSqlMonedasAgrupadasPor = " CxC.Moneda,";
+			}
+
 			string vSqlClientesOrdenadosPor = "";
 			if (valClientesOrdenadosPor == eClientesOrdenadosPor.PorCodigo) {
 				vSqlClientesOrdenadosPor = "Cliente.Codigo";
@@ -150,7 +161,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 				vSqlClientesOrdenadosPor = "Cliente.Nombre";
 			}
 
-			vSQLWhere = vSQLWhere + "ORDER BY CxC.Moneda, Cliente.ZonaDeCobranza, " + vSqlClientesOrdenadosPor + ", CxC.FechaVencimiento";
+			vSQLWhere = vSQLWhere + "ORDER BY" + vSqlMonedasAgrupadasPor + " Cliente.ZonaDeCobranza, " + vSqlClientesOrdenadosPor + ", CxC.FechaVencimiento";
 			vSQLWhere = vSqlUtil.WhereSql(vSQLWhere);
 
 			vSql.AppendLine(vSQLWhere);

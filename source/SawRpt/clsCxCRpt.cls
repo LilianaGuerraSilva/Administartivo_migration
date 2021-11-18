@@ -119,7 +119,6 @@ Private Function fNombreDelReporteDeCxC(ByVal valReporte As eCxCRpt) As String
       Case eCxCRpt_CUENTAS_X_COBRAR_ENTRE_FECHAS_POR_ZONA_DE_COBRANZA_MONEDA_ORIGINAL: fNombreDelReporteDeCxC = "Cuentas por Cobrar entre Fechas - Zona de Cobranza - Moneda Original"
       Case eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS_POR_ZONA_DE_COBRANZA: fNombreDelReporteDeCxC = "Análisis de Vencimiento de CxC entre Fechas Por Zona de Cobranza"
       Case eCxCRpt_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS_POR_VENDEDOR_POR_ZONA_DE_COBRANZA: fNombreDelReporteDeCxC = "Análisis de Vencimiento de CxC entre Fechas - por Vendedor Por Zona de Cobranza"
-      Case eCxCRpt_CUENTAS_X_COBRAR_POR_CLIENTE: fNombreDelReporteDeCxC = "Cuentas por Cobrar por Cliente"
       Case Else: fNombreDelReporteDeCxC = ""
    End Select
 End Function

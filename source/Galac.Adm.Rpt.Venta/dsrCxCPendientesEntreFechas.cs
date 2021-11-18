@@ -35,7 +35,7 @@ namespace Galac.Adm.Rpt.Venta {
 
         #region Metodos Generados
         public string ReportTitle() {
-            return "CxC Pendientes entre Fechas";
+            return "Cuentas por Cobrar Pendientes entre Fechas";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
@@ -43,6 +43,14 @@ namespace Galac.Adm.Rpt.Venta {
             bool vUsaContabilidad = LibConvert.SNToBool(valParameters["UsaContabilidad"]);
             bool vMostrarContacto = LibConvert.SNToBool(valParameters["MostrarContacto"]);
             Saw.Lib.eMonedaParaImpresion MonedaDelReporte = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedaDelReporte"]);
+            Saw.Lib.eMonedaParaImpresion MonedasAgrupadasPor = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedasAgrupadasPor"]);
+
+            Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Comun.Brl.TablasGen.clsMonedaLocalActual();
+            vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
+            string vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
+            bool vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, MonedaDelReporte.GetDescription());
+            bool vIsGroupedByMonedaLocal = LibString.S1IsInS2(vMonedaLocal, MonedasAgrupadasPor.GetDescription());
+
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -56,14 +64,29 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "txtNumeroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, LibGraphPrnSettings.PrintEmitDate);
 
+                if (vIsInMonedaLocal) {
+                    LibReport.ConfigLabel(this, "lblMensajeDelCambioDeLaMoneda", "Nota: Los Montos en Monedas extranjeras son cálculadas a Bolívares tomando en cuenta la última tasa de cambio");
+                }
+                else {
+                    LibReport.ChangeControlVisibility(this, "lblMensajeDelCambioDeLaMoneda", true, false);
+                }
+
+                LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
                 LibReport.ConfigFieldStr(this, "txtStatus", string.Empty, "StatusStr");
-                LibReport.ConfigFieldStr(this, "txtMonedaDelGrupo", string.Empty, "MonedaParaGrupo");
+
+                if (vIsGroupedByMonedaLocal) {
+                    LibReport.ConfigFieldStr(this, "txtMonedaPorGrupo", vMonedaLocal, string.Empty);
+                }
+                else {
+                    LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                    LibReport.ConfigFieldStr(this, "txtMonedaPorGrupo", string.Empty, "Moneda");
+                }
 
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
 				LibReport.ConfigFieldStr(this, "txtNumeroDocumento", string.Empty, "Numero");
 				LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "Codigo");
 				LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "Nombre");
-				LibReport.ConfigFieldDec(this, "txtMontoOriginal", string.Empty, "Monto");
+				LibReport.ConfigFieldDec(this, "txtMonto", string.Empty, "Monto");
 
                 if (vUsaContabilidad) {
                     LibReport.ConfigFieldStr(this, "txtNComprobante", string.Empty, "NumeroComprobante");
@@ -81,10 +104,7 @@ namespace Galac.Adm.Rpt.Venta {
                     LibReport.ChangeControlVisibility(this, "lblContacto", true, false);
                 }
 
-                LibReport.ConfigSummaryField(this, "txtTotalMontoOriginal", "Monto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.All, SummaryType.SubTotal);
-
-                LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHMoneda", "MonedaParaGrupo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigSummaryField(this, "txtTotalMonto", "Monto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.All, SummaryType.SubTotal);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
                 return true;

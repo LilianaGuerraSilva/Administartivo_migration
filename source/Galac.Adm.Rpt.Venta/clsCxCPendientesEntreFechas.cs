@@ -20,14 +20,17 @@ namespace Galac.Adm.Rpt.Venta {
         private DateTime FechaHasta { get; set; }
         private bool MostrarContacto { get; set; }
         private Saw.Lib.eMonedaParaImpresion MonedaDelReporte { get; set; }
+        private Saw.Lib.eMonedaParaImpresion MonedasAgrupadasPor { get; set; }
         #endregion //Propiedades
 
         #region Constructores
-        public clsCxCPendientesEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, bool valMostrarContacto)
+        public clsCxCPendientesEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, bool valMostrarContacto, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eMonedaParaImpresion valMonedasAgrupadasPor)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = valFechaDesde;
             FechaHasta = valFechaHasta;
             MostrarContacto = valMostrarContacto;
+            MonedaDelReporte = valMonedaDelReporte;
+            MonedasAgrupadasPor = valMonedasAgrupadasPor;
         }
         #endregion //Constructores
 
@@ -47,7 +50,8 @@ namespace Galac.Adm.Rpt.Venta {
             vParams.Add("UsaContabilidad", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaModuloDeContabiliad"));
             vParams.Add("FechaInicialYFinal", string.Format("del {0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
             vParams.Add("MostrarContacto", LibConvert.BoolToSN(MostrarContacto));
-            vParams.Add("MonedaDelReporte", LibConvert.EnumToDbValue((int) MonedaDelReporte));
+            vParams.Add("MonedaDelReporte", LibConvert.EnumToDbValue(( int ) MonedaDelReporte));
+            vParams.Add("MonedasAgrupadasPor", LibConvert.EnumToDbValue(( int ) MonedasAgrupadasPor));
             return vParams;
         }
 
@@ -57,7 +61,7 @@ namespace Galac.Adm.Rpt.Venta {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             ICxCInformes vRpt = new Brl.Venta.Reportes.clsCxCRpt();
-            Data = vRpt.BuildCxCPendientesEntreFechas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, MonedaDelReporte);
+            Data = vRpt.BuildCxCPendientesEntreFechas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, MonedaDelReporte, MonedasAgrupadasPor);
         }
 
         public override void SendReportToDevice() {

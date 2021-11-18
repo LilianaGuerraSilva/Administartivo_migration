@@ -6,14 +6,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    Width="353.333"
-    d:DesignHeight="272.667"
+    Width="360"
+    Height="310"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -31,12 +32,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
             Name="lblCantidadAImprimir"
             Grid.Row="0"
             Grid.Column="0"
+            Width="145"
             Content="Cantidad a imprimir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
@@ -53,6 +56,7 @@
             Name="lblNombreDelCliente"
             Grid.Row="1"
             Grid.Column="0"
+            Width="145"
             Content="Nombre del Cliente"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
@@ -72,6 +76,7 @@
             Name="lblZonasAImprimir"
             Grid.Row="2"
             Grid.Column="0"
+            Width="145"
             Content="Zonas a imprimir"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
@@ -88,6 +93,7 @@
             Name="lblZonaCobranza"
             Grid.Row="3"
             Grid.Column="0"
+            Width="145"
             Content="Zona de Cobranza"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
@@ -107,6 +113,7 @@
             Name="lblFechaDesde"
             Grid.Row="4"
             Grid.Column="0"
+            Width="145"
             Content="Fecha Desde"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
@@ -121,6 +128,7 @@
             Name="lblFechaHasta"
             Grid.Row="5"
             Grid.Column="0"
+            Width="145"
             Content="Fecha Hasta"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
@@ -135,6 +143,7 @@
             Name="lblMostrarContacto"
             Grid.Row="6"
             Grid.Column="0"
+            Width="145"
             Content="Mostrar Contacto"
             Style="{StaticResource LabelPrompt}" />
         <CheckBox
@@ -146,30 +155,15 @@
             IsEnabled="{Binding Path=IsEnabled}"
             Style="{StaticResource CheckBoxStyle}" />
         <Label
-            Name="lblMonedaDelInforme"
-            Grid.Row="7"
-            Grid.Column="0"
-            Content="Moneda del informe"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf
-            Name="cmbMonedaDelInforme"
-            Grid.Row="7"
-            Grid.Column="1"
-            Width="200"
-            IsEnabled="{Binding Path=IsEnabled}"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ListarMoneda}"
-            SelectedItem="{Binding Path=MonedaDelInforme, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
-        <Label
             Name="lblClientesOrdenadosPor"
-            Grid.Row="8"
+            Grid.Row="7"
             Grid.Column="0"
+            Width="145"
             Content="Clientes ordenados por"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbClientesOrdenadosPor"
-            Grid.Row="8"
+            Grid.Row="7"
             Grid.Column="1"
             Width="200"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -177,5 +171,40 @@
             ItemsSource="{Binding Path=ArrayClientesOrdenadosPor}"
             SelectedItem="{Binding Path=ClientesOrdenadosPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblMonedaDelInforme"
+            Grid.Row="8"
+            Grid.Column="0"
+            Width="145"
+            Content="Moneda del informe"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbMonedaDelInforme"
+            Grid.Row="8"
+            Grid.Column="1"
+            Width="200"
+            IsEnabled="{Binding Path=IsEnabled}"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ListaMonedaDelInforme}"
+            SelectedItem="{Binding Path=MonedaDelInforme, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}" />
+        <Label
+            Name="lblMonedasAgrupadasPor"
+            Grid.Row="9"
+            Grid.Column="0"
+            Width="145"
+            Content="Monedas agrupadas por"
+            Style="{StaticResource LabelPrompt}"
+            Visibility="{Binding Path=IsVisibleMonedasAgrupadasPor, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <nsWpfControls:GSComboBoxWpf
+            Name="cmbMonedasAgrupadasPor"
+            Grid.Row="9"
+            Grid.Column="1"
+            Width="200"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Path=ListaMonedasAgrupadasPor}"
+            SelectedItem="{Binding Path=MonedasAgrupadasPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource ComboBoxStyle}"
+            Visibility="{Binding Path=IsVisibleMonedasAgrupadasPor, Converter={StaticResource booleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>

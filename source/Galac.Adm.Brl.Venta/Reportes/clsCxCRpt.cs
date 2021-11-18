@@ -37,19 +37,19 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable ICxCInformes.BuildCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte) {
+        System.Data.DataTable ICxCInformes.BuildCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eMonedaParaImpresion valMonedasAgrupadasPor) {
             string vSql;
             clsCxCSql insCxCSql = new clsCxCSql();
             ILibDataRpt insCxCPendientesEntreFechas = new Dal.Venta.clsCXCDat();
-            vSql = insCxCSql.SqlCxCPendientesEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valMonedaDelReporte);
+            vSql = insCxCSql.SqlCxCPendientesEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valMonedaDelReporte, valMonedasAgrupadasPor);
             return insCxCPendientesEntreFechas.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable ICxCInformes.BuildCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, eClientesOrdenadosPor valClientesOrdenadosPor) {
+        System.Data.DataTable ICxCInformes.BuildCxCPorCliente(int valConsecutivoCompania, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, eClientesOrdenadosPor valClientesOrdenadosPor, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eMonedaParaImpresion valMonedasAgrupadasPor) {
             string vSql;
             clsCxCSql insCxCSql = new clsCxCSql();
             ILibDataRpt insCxCPorCliente = new Dal.Venta.clsCXCDat();
-            vSql = insCxCSql.SqlCxCPorCliente(valConsecutivoCompania, valCodigoDelCliente, valZonaCobranza, valFechaDesde, valFechaHasta, valMonedaDelReporte, valClientesOrdenadosPor);
+            vSql = insCxCSql.SqlCxCPorCliente(valConsecutivoCompania, valCodigoDelCliente, valZonaCobranza, valFechaDesde, valFechaHasta, valClientesOrdenadosPor, valMonedaDelReporte, valMonedasAgrupadasPor);
             return insCxCPorCliente.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
