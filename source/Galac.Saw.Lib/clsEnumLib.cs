@@ -45,9 +45,9 @@ namespace Galac.Saw.Lib {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eCantidadAImprimir {
-        [LibEnumDescription("Todos")]
+        [LibEnumDescription("Todos(as)")]
         Todos = 0,
-        [LibEnumDescription("Uno")]
+        [LibEnumDescription("Uno(a)")]
         Uno
     }
 
@@ -421,13 +421,5 @@ namespace Galac.Saw.Lib {
         PorUsuario = 0,
         [LibEnumDescription("Por Cliente")]
         PorCliente
-    }
-
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eCantidadAImprimirFemale {
-        [LibEnumDescription("Todas")]
-        Todas = 0,
-        [LibEnumDescription("Una")]
-        Una
     }
 }

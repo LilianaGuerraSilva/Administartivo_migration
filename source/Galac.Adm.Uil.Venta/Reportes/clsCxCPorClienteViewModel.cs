@@ -39,7 +39,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		private Saw.Lib.eCantidadAImprimir _CantidadAImprimirAsEnum;
 		private string _NombreDelCliente;
 		private string _CodigoDelCliente;
-		private Saw.Lib.eCantidadAImprimirFemale _ZonasAImprimirAsEnum;
+		private Saw.Lib.eCantidadAImprimir _ZonasAImprimirAsEnum;
 		private string _ZonaCobranza;
 		private DateTime _FechaDesde;
 		private DateTime _FechaHasta;
@@ -122,7 +122,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimirFemale ZonasAImprimir {
+		public Saw.Lib.eCantidadAImprimir ZonasAImprimir {
 			get {
 				return _ZonasAImprimirAsEnum;
 			}
@@ -272,9 +272,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eCantidadAImprimirFemale[] ArrayZonasAImprimir {
+		public Saw.Lib.eCantidadAImprimir[] ArrayZonasAImprimir {
 			get {
-				return LibEnumHelper<Saw.Lib.eCantidadAImprimirFemale>.GetValuesInArray();
+				return LibEnumHelper<Saw.Lib.eCantidadAImprimir>.GetValuesInArray();
 			}
 		}
 
@@ -313,7 +313,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		public clsCxCPorClienteViewModel() {
 			CantidadAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
 			NombreDelCliente = string.Empty;
-			ZonasAImprimir = Saw.Lib.eCantidadAImprimirFemale.Todas;
+			ZonasAImprimir = Saw.Lib.eCantidadAImprimir.Todos;
 			ZonaCobranza = string.Empty;
 			FechaDesde = LibDate.Today();
 			FechaHasta = LibDate.Today();
@@ -404,7 +404,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
 		private ValidationResult ZonaCobranzaValidating() {
 			ValidationResult vResult = ValidationResult.Success;
-			if (LibString.IsNullOrEmpty(ZonaCobranza) && ZonasAImprimir == Saw.Lib.eCantidadAImprimirFemale.Una) {
+			if (LibString.IsNullOrEmpty(ZonaCobranza) && ZonasAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
 				vResult = new ValidationResult("La zona de cobranza no puede estar en blanco");
 			}
 			return vResult;
@@ -416,7 +416,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 
 		public bool IsEnabledZonaCobranza
 		{
-			get { return ZonasAImprimir == Saw.Lib.eCantidadAImprimirFemale.Una; }
+			get { return ZonasAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }
 		}
 
 		public bool IsVisibleMonedasAgrupadasPor
