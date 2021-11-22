@@ -80,4 +80,10 @@
     <DataTemplate DataType="{x:Type nsReportesView:clsNotaDeEntregaEntreFechasPorClienteViewModel}">
         <nsReportesView:GSNotaDeEntregaEntreFechasPorClienteView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCxCPendientesEntreFechasViewModel}">
+        <nsReportesView:GSCxCPendientesEntreFechas />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCxCPorClienteViewModel}">
+        <nsReportesView:GSCxCPorCliente />
+    </DataTemplate>
 </ResourceDictionary>
