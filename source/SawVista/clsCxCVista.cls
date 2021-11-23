@@ -608,28 +608,26 @@ Public Function fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas() As String
    Dim vSQL As String
    On Error GoTo h_ERROR
     vSQL = " SELECT  dbo.factura.ConsecutivoCompania,"
-    vSQL = vSQL & " MIN(dbo.factura.NumeroComprobanteFiscal) AS PrimerNumeroComprobante,"
-    vSQL = vSQL & " MAX(dbo.factura.NumeroComprobanteFiscal) AS UltimoNumeroComprobante,"
-    vSQL = vSQL & " MIN(dbo.factura.Numero) AS PrimerNumeroFactura,"
-    vSQL = vSQL & " MAX(dbo.factura.Numero) AS UltimoNumeroFactura,"
-   
-    vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '0' THEN ( (renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) - ((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) * (factura.PorcentajeDescuento/ 100) ) ) * Cantidad ELSE 0 END)) AS Montoexento,"
-    vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '1' THEN ( (renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) - ((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) * (factura.PorcentajeDescuento/ 100) ) ) * Cantidad ELSE 0 END)) AS MontogravableAlicuotaGeneral,"
-    vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '2' THEN ( (renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) - ((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) * (factura.PorcentajeDescuento/ 100) ) ) * Cantidad ELSE 0 END)) AS MontogravableAlicuota2,"
-    vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '3' THEN ( (renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) - ((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) * (factura.PorcentajeDescuento/ 100) ) ) * Cantidad ELSE 0 END)) AS MontogravableAlicuota3,"
-    vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '1' THEN ( ((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) - (((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100)))* (factura.PorcentajeDescuento/ 100) )) ) * ((renglonfactura.PorcentajeBaseImponible / 100) * (renglonfactura.PorcentajeAlicuota / 100))) * Cantidad ELSE 0 END)) AS MontoIvaAlicuotaGeneral,"
-    vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '2' THEN ( ((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) - (((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100)))* (factura.PorcentajeDescuento/ 100) )) ) * ((renglonfactura.PorcentajeBaseImponible / 100) * (renglonfactura.PorcentajeAlicuota / 100))) * Cantidad ELSE 0 END)) AS MontoIvaAlicuota2,"
-    vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '3' THEN ( ((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100))) - (((renglonfactura.PrecioSinIva - (renglonfactura.PrecioSinIva * (renglonfactura.PorcentajeDescuento/ 100)))* (factura.PorcentajeDescuento/ 100) )) ) * ((renglonfactura.PorcentajeBaseImponible / 100) * (renglonfactura.PorcentajeAlicuota / 100))) * Cantidad ELSE 0 END)) AS MontoIvaAlicuota3,"
-
-    vSQL = vSQL & " dbo.factura.SerialMaquinaFiscal, dbo.factura.Fecha, (CASE factura.TipoDeVenta WHEN '3' THEN '0' ELSE (CASE factura.TipoDeVenta WHEN '0' THEN '4' ELSE factura.TipoDeVenta END) END) AS TipoDeVenta, "
-    vSQL = vSQL & " max(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.NumeroComprobanteRetIva ELSE '0'END) AS NumeroComprobanteRetIva,"
-    vSQL = vSQL & " max(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.MontoIvaRetenido ELSE '0' END) AS MontoIvaRetenido,"
-    vSQL = vSQL & " min(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.FechaComprobanteRetIva ELSE '' END) as FechaComprobanteRetIva,"
+    vSQL = vSQL & " dbo.factura.NumeroComprobanteFiscal AS PrimerNumeroComprobante,"
+    vSQL = vSQL & " dbo.factura.NumeroComprobanteFiscal AS UltimoNumeroComprobante,"
+    vSQL = vSQL & " dbo.factura.Numero AS PrimerNumeroFactura,"
+    vSQL = vSQL & " dbo.factura.Numero AS UltimoNumeroFactura,"
+    
+    vSQL = vSQL & "factura.TotalMontoExento   AS Montoexento,"
+    vSQL = vSQL & "factura.MontoGravableAlicuota1 AS MontogravableAlicuotaGeneral,"
+    vSQL = vSQL & "factura.MontoGravableAlicuota2 AS MontogravableAlicuota2,"
+    vSQL = vSQL & "factura.MontoGravableAlicuota3 AS MontogravableAlicuota3,"
+    vSQL = vSQL & "factura.MontoIVAAlicuota1 AS MontoIvaAlicuotaGeneral,"
+    vSQL = vSQL & "factura.MontoIVAAlicuota2 AS MontoIvaAlicuota2,"
+    vSQL = vSQL & "factura.MontoIVAAlicuota3 AS MontoIvaAlicuota3,"
+    
+    vSQL = vSQL & " dbo.factura.SerialMaquinaFiscal, dbo.factura.Fecha,"
+    vSQL = vSQL & " (CASE factura.TipoDeVenta WHEN '3' THEN '0' WHEN '0' THEN '4' ELSE factura.TipoDeVenta END) AS TipoDeVenta, "
+    vSQL = vSQL & " (CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.NumeroComprobanteRetIva ELSE '0'END) AS NumeroComprobanteRetIva,"
+    vSQL = vSQL & " (CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.MontoIvaRetenido ELSE '0' END) AS MontoIvaRetenido,"
+    vSQL = vSQL & " (CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.FechaComprobanteRetIva ELSE '' END) as FechaComprobanteRetIva,"
     vSQL = vSQL & " dbo.factura.TipoDeDocumento"
-    vSQL = vSQL & " FROM dbo.renglonFactura INNER JOIN"
-    vSQL = vSQL & " dbo.factura ON dbo.factura.ConsecutivoCompania = dbo.renglonFactura.ConsecutivoCompania AND"
-    vSQL = vSQL & " dbo.factura.Numero = dbo.renglonFactura.NumeroFactura AND"
-    vSQL = vSQL & " dbo.factura.TipoDeDocumento = dbo.renglonFactura.TipoDeDocumento"
+    vSQL = vSQL & " FROM Factura "
     vSQL = vSQL & " LEFT JOIN IVG_RetencionesVentas ON"
     vSQL = vSQL & " IVG_RetencionesVentas.NumeroDocumentoOrigen = factura.Numero"
     vSQL = vSQL & " AND IVG_RetencionesVentas.CodigoCliente = factura.CodigoCliente"
@@ -638,9 +636,6 @@ Public Function fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas() As String
     vSQL = vSQL & " AND IVG_RetencionesVentas.ConsecutivoCompania  = factura.ConsecutivoCompania"
     vSQL = vSQL & " Where (dbo.factura.StatusFactura = 0)"
     vSQL = vSQL & " AND(dbo.factura.TipoDeDocumento = '5' OR dbo.factura.TipoDeDocumento = '7')"
-    vSQL = vSQL & " GROUP BY dbo.factura.ConsecutivoCompania, dbo.factura.SerialMaquinaFiscal, dbo.factura.Fecha,"
-    vSQL = vSQL & " dbo.factura.NumeroParaResumen , dbo.factura.TipoDeVenta, dbo.factura.TipoDeDocumento"
-    vSQL = vSQL & " Having (Sum(dbo.renglonFactura.PrecioSinIVA) > 0)"
     fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
@@ -776,11 +771,7 @@ End Function
 
 Public Function fSQLRoundForLibrosSaw(ByVal valValueExpression As String, ByVal valDecimals As Integer) As String
    Dim vSQL As String
-   Dim vSqlPow As String
-   Dim vPow As Currency
    On Error GoTo h_ERROR
-   vPow = 0.1 / gUtilMathOperations.fPotenciaDeBaseX(10, valDecimals)
-   vSqlPow = gUtilSQL.fNumToStrSQL(vPow)
    vSQL = "ROUND ((" & valValueExpression & "), " & valDecimals & ") "
    fSQLRoundForLibrosSaw = vSQL
 h_EXIT: On Error GoTo 0
