@@ -23,11 +23,11 @@ namespace Galac.Adm.Rpt.Venta {
         private bool MostrarContacto { get; set; }
         private eClientesOrdenadosPor ClientesOrdenadosPor { get; set; }
         private Saw.Lib.eMonedaParaImpresion MonedaDelReporte { get; set; }
-        private Saw.Lib.eMonedaParaImpresion MonedasAgrupadasPor { get; set; }
+        private Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio { get; set; }
         #endregion //Propiedades
 
         #region Constructores
-        public clsCxCPorCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, bool valMostrarContacto, eClientesOrdenadosPor valClientesOrdenadosPor, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eMonedaParaImpresion valMonedasAgrupadasPor)
+        public clsCxCPorCliente(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string valCodigoDelCliente, string valZonaCobranza, DateTime valFechaDesde, DateTime valFechaHasta, bool valMostrarContacto, eClientesOrdenadosPor valClientesOrdenadosPor, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             CodigoDelCliente = valCodigoDelCliente;
             ZonaCobranza = valZonaCobranza;
@@ -36,7 +36,7 @@ namespace Galac.Adm.Rpt.Venta {
             MostrarContacto = valMostrarContacto;
             ClientesOrdenadosPor = valClientesOrdenadosPor;
             MonedaDelReporte = valMonedaDelReporte;
-            MonedasAgrupadasPor = valMonedasAgrupadasPor;
+            TipoTasaDeCambio = valTipoTasaDeCambio;
         }
         #endregion //Constructores
 
@@ -57,7 +57,7 @@ namespace Galac.Adm.Rpt.Venta {
             vParams.Add("MostrarContacto", LibConvert.BoolToSN(MostrarContacto));
             vParams.Add("ClientesOrdenadosPor", LibConvert.EnumToDbValue((int) ClientesOrdenadosPor));
             vParams.Add("MonedaDelReporte", LibConvert.EnumToDbValue(( int ) MonedaDelReporte));
-            vParams.Add("MonedasAgrupadasPor", LibConvert.EnumToDbValue(( int ) MonedasAgrupadasPor));
+            vParams.Add("TipoTasaDeCambio", LibConvert.EnumToDbValue(( int ) TipoTasaDeCambio));
             return vParams;
         }
 
@@ -67,7 +67,7 @@ namespace Galac.Adm.Rpt.Venta {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             ICxCInformes vRpt = new Brl.Venta.Reportes.clsCxCRpt();
-            Data = vRpt.BuildCxCPorCliente(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), CodigoDelCliente, ZonaCobranza, FechaDesde, FechaHasta, ClientesOrdenadosPor, MonedaDelReporte, MonedasAgrupadasPor);
+            Data = vRpt.BuildCxCPorCliente(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), CodigoDelCliente, ZonaCobranza, FechaDesde, FechaHasta, ClientesOrdenadosPor, MonedaDelReporte, TipoTasaDeCambio);
         }
 
         public override void SendReportToDevice() {
