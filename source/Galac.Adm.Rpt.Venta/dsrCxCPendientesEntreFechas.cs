@@ -43,13 +43,13 @@ namespace Galac.Adm.Rpt.Venta {
             bool vUsaContabilidad = LibConvert.SNToBool(valParameters["UsaContabilidad"]);
             bool vMostrarContacto = LibConvert.SNToBool(valParameters["MostrarContacto"]);
             Saw.Lib.eMonedaParaImpresion MonedaDelReporte = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedaDelReporte"]);
-            Saw.Lib.eMonedaParaImpresion MonedasAgrupadasPor = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedasAgrupadasPor"]);
+            Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio = (Saw.Lib.eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(valParameters["TipoTasaDeCambio"]);
 
             Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Comun.Brl.TablasGen.clsMonedaLocalActual();
             vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             string vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
             bool vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, MonedaDelReporte.GetDescription());
-            bool vIsGroupedByMonedaLocal = LibString.S1IsInS2(vMonedaLocal, MonedasAgrupadasPor.GetDescription());
+            bool vIsInTasaDelDia = TipoTasaDeCambio == Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
 
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
@@ -65,7 +65,12 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigHeader(this, "txtCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "txtNumeroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, LibGraphPrnSettings.PrintEmitDate);
 
                 if (vIsInMonedaLocal) {
-                    LibReport.ConfigLabel(this, "lblMensajeDelCambioDeLaMoneda", "Nota: Los Montos en Monedas extranjeras son cálculadas a Bolívares tomando en cuenta la última tasa de cambio");
+                    if (vIsInTasaDelDia) {
+                        LibReport.ConfigLabel(this, "lblMensajeDelCambioDeLaMoneda", "Nota: Los montos en monedas extranjeras son calculados a " + vMonedaLocal + " tomando en cuenta la última tasa de cambio.");
+                    }
+                    else {
+                        LibReport.ConfigLabel(this, "lblMensajeDelCambioDeLaMoneda", "Nota: Los montos en monedas extranjeras son calculados a " + vMonedaLocal + " tomando en cuenta la tasa de cambio original.");
+                    }
                 }
                 else {
                     LibReport.ChangeControlVisibility(this, "lblMensajeDelCambioDeLaMoneda", true, false);
@@ -74,7 +79,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
                 LibReport.ConfigFieldStr(this, "txtStatus", string.Empty, "StatusStr");
 
-                if (vIsGroupedByMonedaLocal) {
+                if (vIsInMonedaLocal) {
                     LibReport.ConfigFieldStr(this, "txtMonedaPorGrupo", vMonedaLocal, string.Empty);
                 }
                 else {

@@ -23,8 +23,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		public const string FechaHastaPropertyName = "FechaHasta";
 		public const string MostrarContactoPropertyName = "MostrarContacto";
 		public const string MonedaDelInformePropertyName = "MonedaDelInforme";
-		public const string MonedasAgrupadasPorPropertyName = "MonedasAgrupadasPor";
-		public const string IsVisibleMonedasAgrupadasPorPropertyName = "IsVisibleMonedasAgrupadasPor";
+		public const string TipoTasaDeCambioPropertyName = "TipoTasaDeCambio";
+		public const string IsVisibleTipoTasaDeCambioPropertyName = "IsVisibleTipoTasaDeCambio";
 		#endregion //Constantes
 
 		#region Variables
@@ -32,10 +32,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		private DateTime _FechaHasta;
 		private bool _MostrarContacto;
 		private Saw.Lib.eMonedaParaImpresion _MonedaDelInformeAsEnum;
-		private Saw.Lib.eMonedaParaImpresion _MonedasAgrupadasPorAsEnum;
+		private Saw.Lib.eTasaDeCambioParaImpresion _TipoTasaDeCambioAsEnum;
 
 		private ObservableCollection<Saw.Lib.eMonedaParaImpresion> _ListaMonedaDelInforme = new ObservableCollection<Saw.Lib.eMonedaParaImpresion>();
-		private ObservableCollection<Saw.Lib.eMonedaParaImpresion> _ListaMonedasAgrupadasPor = new ObservableCollection<Saw.Lib.eMonedaParaImpresion>();
 		#endregion //Variables
 
 		#region Propiedades
@@ -98,25 +97,33 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			{
 				if (_MonedaDelInformeAsEnum != value) {
 					_MonedaDelInformeAsEnum = value;
-					MonedasAgrupadasPor = Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal;
+					TipoTasaDeCambio = Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
 					RaisePropertyChanged(MonedaDelInformePropertyName);
-					RaisePropertyChanged(IsVisibleMonedasAgrupadasPorPropertyName);
+					RaisePropertyChanged(IsVisibleTipoTasaDeCambioPropertyName);
 				}
 			}
 		}
 
-		public Saw.Lib.eMonedaParaImpresion MonedasAgrupadasPor
+		public Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio
 		{
 			get
 			{
-				return _MonedasAgrupadasPorAsEnum;
+				return _TipoTasaDeCambioAsEnum;
 			}
 			set
 			{
-				if (_MonedasAgrupadasPorAsEnum != value) {
-					_MonedasAgrupadasPorAsEnum = value;
-					RaisePropertyChanged(MonedasAgrupadasPorPropertyName);
+				if (_TipoTasaDeCambioAsEnum != value) {
+					_TipoTasaDeCambioAsEnum = value;
+					RaisePropertyChanged(TipoTasaDeCambioPropertyName);
 				}
+			}
+		}
+
+		public Saw.Lib.eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio
+		{
+			get
+			{
+				return LibEnumHelper<Saw.Lib.eTasaDeCambioParaImpresion>.GetValuesInArray();
 			}
 		}
 
@@ -131,18 +138,6 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 				_ListaMonedaDelInforme = value;
 			}
 		}
-
-		public ObservableCollection<Saw.Lib.eMonedaParaImpresion> ListaMonedasAgrupadasPor
-		{
-			get
-			{
-				return _ListaMonedasAgrupadasPor;
-			}
-			set
-			{
-				_ListaMonedasAgrupadasPor = value;
-			}
-		}
 		#endregion //Propiedades
 
 		#region Constructores
@@ -151,7 +146,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			FechaHasta = LibDate.Today();
 			MostrarContacto = false;
 			MonedaDelInforme = Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal;
-			MonedasAgrupadasPor = Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal;
+			TipoTasaDeCambio = Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
 			LlenarEnumerativosMonedas();
 		}
 		#endregion //Constructores
@@ -183,7 +178,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			return vResult;
 		}
 
-		public bool IsVisibleMonedasAgrupadasPor
+		public bool IsVisibleTipoTasaDeCambio
 		{
 			get { return MonedaDelInforme != Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal; }
 		}
@@ -191,17 +186,13 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		private void LlenarEnumerativosMonedas()
 		{
 			ListaMonedaDelInforme.Clear();
-			ListaMonedasAgrupadasPor.Clear();
 			if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
 				ListaMonedaDelInforme.Add(Saw.Lib.eMonedaParaImpresion.EnBolivares);
-				ListaMonedasAgrupadasPor.Add(Saw.Lib.eMonedaParaImpresion.EnBolivares);
 			}
 			else if (LibDefGen.ProgramInfo.IsCountryPeru()) {
 				ListaMonedaDelInforme.Add(Saw.Lib.eMonedaParaImpresion.EnSoles);
-				ListaMonedasAgrupadasPor.Add(Saw.Lib.eMonedaParaImpresion.EnSoles);
 			}
 			ListaMonedaDelInforme.Add(Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal);
-			ListaMonedasAgrupadasPor.Add(Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal);
 		}
 		#endregion //Código Programador
 
