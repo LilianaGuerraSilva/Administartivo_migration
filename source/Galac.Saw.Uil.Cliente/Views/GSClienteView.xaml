@@ -92,7 +92,7 @@
         <nsWpfControls:GSTextBoxWpf Grid.Row="13" Grid.Column="1" Name="txtRazonInactividad" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="35" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Text="{Binding Path=RazonInactividad, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
         <Label Grid.Row="14" Grid.Column="0" Name="lblEmail" Content="Email" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="14" Grid.Column="1" Name="txtEmail" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="40" Width="120" IsEnabled="{Binding Path=IsEnabled}"
+        <nsWpfControls:GSTextBoxWpf Grid.Row="14" Grid.Column="1" Name="txtEmail" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="120" IsEnabled="{Binding Path=IsEnabled}"
                                     Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
         <Label Grid.Row="0" Grid.Column="2" Name="lblActivarAvisoAlEscoger" Content="Activar Aviso Al Escoger" Style="{StaticResource LabelPrompt}" />
         <CheckBox Grid.Row="0" Grid.Column="3" Name="chkActivarAvisoAlEscoger" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=ActivarAvisoAlEscoger}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>

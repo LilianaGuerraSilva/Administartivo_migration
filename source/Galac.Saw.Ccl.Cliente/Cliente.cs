@@ -149,7 +149,7 @@ namespace Galac.Saw.Ccl.Cliente {
 
         public string Email {
             get { return _Email; }
-            set { _Email = LibString.Mid(value, 0, 40); }
+            set { _Email = LibString.Mid(value, 0, 100); }
         }
 
         public bool ActivarAvisoAlEscogerAsBool {

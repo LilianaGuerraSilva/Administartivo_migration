@@ -267,6 +267,10 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
    Dim ExisteArticuloEnArchivo As Boolean
    Dim TipoPersona As String
    Dim i As Integer
+   Dim vEmail As String
+   Dim vArrayEmail As Variant
+   Dim j As Integer
+   Dim vItem As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -372,16 +376,23 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
    LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getTelefonos), " ")
    LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getFax), " ")
    If gTexto.DfLen(insProveedor.getEmail) > 0 Then
-      If Not gTexto.fDireccionDeMailEsValida(insProveedor.getEmail, False) And valVerificarSiEstaRepetido Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & " ::. ERROR La Dirección de Correo Electrónico (" & insProveedor.getEmail & ")  del Proveedor  ==>" & insProveedor.getCodigoProveedor & "-" & insProveedor.getNombreProveedor & "<==  no es válida, por lo tanto este campo del registro se importará en >> Blanco << .:: "
-      ElseIf Not gTexto.fDireccionDeMailEsValida(insProveedor.getEmail, False) Then
-         insProveedor.SetEmail ""
-      Else
-         LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getFax), " ")
-      End If
+      vEmail = insProveedor.getEmail
+      vArrayEmail = gTexto.fConvertCadenaEnArray(vEmail, ";")
+      For j = LBound(vArrayEmail) To UBound(vArrayEmail)
+         vItem = vArrayEmail(j)
+         If Not gTexto.fDireccionDeMailEsValida(vItem, False) And valVerificarSiEstaRepetido Then
+            ErrorAlTraducirLaLinea = True
+            LineaDeErrores = LineaDeErrores & " ::. ERROR La Dirección de Correo Electrónico (" & insProveedor.getEmail & ")  del Proveedor  ==>" & insProveedor.getCodigoProveedor & "-" & insProveedor.getNombreProveedor & "<==  no es válida, por lo tanto este campo del registro se importará en >> Blanco << .:: "
+            Exit For
+         ElseIf Not gTexto.fDireccionDeMailEsValida(vItem, False) Then
+            insProveedor.SetEmail ""
+         Else
+            LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getEmail), " ")
+            Exit For
+         End If
+      Next
    Else
-      LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getFax), " ")
+      LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getEmail), " ")
    End If
    If gTexto.DfLen(insProveedor.GetTipoDeProveedorDeLibrosFiscalesStr) > 0 And valVerificarSiEstaRepetido Then
       Select Case gEnumProyecto.strTipoDeProveedorDeLibrosFiscalesToNum(insProveedor.GetTipoDeProveedorDeLibrosFiscalesStr)
@@ -4736,7 +4747,7 @@ Private Function fInsertarProveedor() As Boolean
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Telefonos", 40, insProveedor.getTelefonos)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Direccion", 255, insProveedor.getDireccion)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Fax", 25, insProveedor.getFax)
-   vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Email", 40, insProveedor.getEmail)
+   vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Email", 100, insProveedor.getEmail)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@TipodeProveedor", 20, insProveedor.getTipodeProveedor)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDeProveedorDeLibrosFiscales", 1, gConvert.enumerativoAChar(gEnumProyecto.strTipoDeProveedorDeLibrosFiscalesToNum(insProveedor.GetTipoDeProveedorDeLibrosFiscalesStr, False)))
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeRetencionIVA", insProveedor.getPorcentajeRetencionIVA)

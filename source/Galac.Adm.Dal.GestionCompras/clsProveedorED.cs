@@ -55,7 +55,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("Telefonos" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_ProTe DEFAULT (''), ");
             SQL.AppendLine("Direccion" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_ProDi DEFAULT (''), ");
             SQL.AppendLine("Fax" + InsSql.VarCharTypeForDb(25) + " CONSTRAINT d_ProFa DEFAULT (''), ");
-            SQL.AppendLine("Email" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_ProEm DEFAULT (''), ");
+            SQL.AppendLine("Email" + InsSql.VarCharTypeForDb(100) + " CONSTRAINT d_ProEm DEFAULT (''), ");
             SQL.AppendLine("TipodeProveedor" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_ProTiPr DEFAULT (''), ");
             SQL.AppendLine("TipoDeProveedorDeLibrosFiscales" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_ProTiDePrDeLiFi DEFAULT ('0'), ");
             SQL.AppendLine("PorcentajeRetencionIVA" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_ProPoReIV DEFAULT (0), ");
@@ -139,7 +139,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@Telefonos" + InsSql.VarCharTypeForDb(40) + " = '',");
             SQL.AppendLine("@Direccion" + InsSql.VarCharTypeForDb(255) + " = '',");
             SQL.AppendLine("@Fax" + InsSql.VarCharTypeForDb(25) + " = '',");
-            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + " = '',");
+            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(100) + " = '',");
             SQL.AppendLine("@TipodeProveedor" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@TipoDeProveedorDeLibrosFiscales" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@PorcentajeRetencionIVA" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
@@ -269,7 +269,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@Telefonos" + InsSql.VarCharTypeForDb(40) + ",");
             SQL.AppendLine("@Direccion" + InsSql.VarCharTypeForDb(255) + ",");
             SQL.AppendLine("@Fax" + InsSql.VarCharTypeForDb(25) + ",");
-            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + ",");
+            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(100) + ",");
             SQL.AppendLine("@TipodeProveedor" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@TipoDeProveedorDeLibrosFiscales" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@PorcentajeRetencionIVA" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -862,7 +862,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@Telefonos" + InsSql.VarCharTypeForDb(40) + ",");
             SQL.AppendLine("@Direccion" + InsSql.VarCharTypeForDb(255) + ",");
             SQL.AppendLine("@Fax" + InsSql.VarCharTypeForDb(25) + ",");
-            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + ",");
+            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(100) + ",");
             SQL.AppendLine("@TipodeProveedor" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@TipoDeProveedorDeLibrosFiscales" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@PorcentajeRetencionIVA" + InsSql.DecimalTypeForDb(25, 4) + ",");

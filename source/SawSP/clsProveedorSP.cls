@@ -93,7 +93,7 @@ Private Function fSpParametersINS() As String
    vResult = vResult & "         @Telefonos " & gUtilSQL.getVarCharTypeForDB(40) & " = ''," & vbCrLf
    vResult = vResult & "         @Direccion " & gUtilSQL.getVarCharTypeForDB(255) & " = ''," & vbCrLf
    vResult = vResult & "         @Fax " & gUtilSQL.getVarCharTypeForDB(25) & " = ''," & vbCrLf
-   vResult = vResult & "         @Email " & gUtilSQL.getVarCharTypeForDB(40) & " = ''," & vbCrLf
+   vResult = vResult & "         @Email " & gUtilSQL.getVarCharTypeForDB(100) & " = ''," & vbCrLf
    vResult = vResult & "         @TipodeProveedor " & gUtilSQL.getVarCharTypeForDB(20) & "," & vbCrLf
    vResult = vResult & "         @TipoDeProveedorDeLibrosFiscales char(1) = '0'," & vbCrLf
    vResult = vResult & "         @PorcentajeRetencionIVA money = 0," & vbCrLf
@@ -227,7 +227,7 @@ Private Function fSpParametersUPD() As String
    vResult = vResult & "      @Telefonos " & gUtilSQL.getVarCharTypeForDB(40) & " = NULL," & vbCrLf
    vResult = vResult & "      @Direccion " & gUtilSQL.getVarCharTypeForDB(255) & " = NULL," & vbCrLf
    vResult = vResult & "      @Fax " & gUtilSQL.getVarCharTypeForDB(25) & " = NULL," & vbCrLf
-   vResult = vResult & "      @Email " & gUtilSQL.getVarCharTypeForDB(40) & " = NULL," & vbCrLf
+   vResult = vResult & "      @Email " & gUtilSQL.getVarCharTypeForDB(100) & " = NULL," & vbCrLf
    vResult = vResult & "      @TipodeProveedor " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
    vResult = vResult & "      @TipoDeProveedorDeLibrosFiscales char(1) = NULL," & vbCrLf
    vResult = vResult & "      @PorcentajeRetencionIVA money = NULL," & vbCrLf
@@ -263,7 +263,7 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "   DECLARE @Ori_Telefonos " & gUtilSQL.getVarCharTypeForDB(40) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_Direccion " & gUtilSQL.getVarCharTypeForDB(255) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_Fax " & gUtilSQL.getVarCharTypeForDB(25) & "" & vbCrLf
-   vResult = vResult & "   DECLARE @Ori_Email " & gUtilSQL.getVarCharTypeForDB(40) & "" & vbCrLf
+   vResult = vResult & "   DECLARE @Ori_Email " & gUtilSQL.getVarCharTypeForDB(100) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_TipodeProveedor " & gUtilSQL.getVarCharTypeForDB(20) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_TipoDeProveedorDeLibrosFiscales char(1)" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_PorcentajeRetencionIVA money" & vbCrLf
@@ -289,7 +289,7 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "   DECLARE @Up_Telefonos " & gUtilSQL.getVarCharTypeForDB(40) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Up_Direccion " & gUtilSQL.getVarCharTypeForDB(255) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Up_Fax " & gUtilSQL.getVarCharTypeForDB(25) & "" & vbCrLf
-   vResult = vResult & "   DECLARE @Up_Email " & gUtilSQL.getVarCharTypeForDB(40) & "" & vbCrLf
+   vResult = vResult & "   DECLARE @Up_Email " & gUtilSQL.getVarCharTypeForDB(100) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Up_TipodeProveedor " & gUtilSQL.getVarCharTypeForDB(20) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Up_TipoDeProveedorDeLibrosFiscales char(1)" & vbCrLf
    vResult = vResult & "   DECLARE @Up_PorcentajeRetencionIVA money" & vbCrLf
