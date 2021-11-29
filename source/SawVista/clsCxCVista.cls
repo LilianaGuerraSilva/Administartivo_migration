@@ -1198,17 +1198,3 @@ h_EXIT:     On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlConvierteMontoFacturaBase", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
-Private Function fSqlCastDecimalRenglonFactura(ByVal valCampoRenglonFactura As String) As String
-   Dim vSQL As String
-   On Error GoTo h_ERROR
-   vSQL = ""
-   vSQL = gUtilSQL.DfCDecSQL(valCampoRenglonFactura, 18, 3)
-   fSqlCastDecimalRenglonFactura = vSQL
-   Set gEnumProyecto = Nothing
-h_EXIT:     On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSqlCastDecimalRenglonFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
