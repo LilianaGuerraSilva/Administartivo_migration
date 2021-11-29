@@ -115,9 +115,8 @@ Public Function fSqlViewVentasFactura() As String
       vSQL = vSQL & " factura.Numero AS Numero,"
       vSQL = vSQL & "(SELECT CodTipoDocumentoSawIva FROM IGV_EnumTipoDocumentoIvaFactura WHERE DbValue = factura.TipoDeDocumento COLLATE Modern_Spanish_CS_AS) AS TipoDeDocumento, "
       vSQL = vSQL & "(SELECT codTipoDeVentaIVA FROM IGV_EnumTipoDeVentaIva WHERE DbValue = factura.TipoDeVenta COLLATE Modern_Spanish_CS_AS ) AS TipoDeVenta , "
-            
       vSQL = vSQL & " (CASE WHEN Factura.EsDiferida = 'S' THEN '1' ELSE '0' END) AS StatusVenta,"
-      vSQL = vSQL & " ( CASE  WHEN IGV_RetencionDocumentoCobrado.SeRetuvoIva = 'N' THEN '0' ELSE '1' END ) AS StatusRetencion, "
+      vSQL = vSQL & " (CASE WHEN IGV_RetencionDocumentoCobrado.SeRetuvoIva = 'N' THEN '0' ELSE '1' END) AS StatusRetencion, "
       vSQL = vSQL & fSqlConvierteMonto("IGV_RetencionDocumentoCobrado.MontoIvaRetenido", "Year(IGV_RetencionDocumentoCobrado.FechaComprobanteRetIva)", " Factura.Fecha") & " as MontoIvaRetenido, "
       vSQL = vSQL & " factura.TipoDeTransaccion AS TipoDeTransaccion,"
       vSQL = vSQL & " factura.Fecha AS Fecha,"
@@ -125,7 +124,6 @@ Public Function fSqlViewVentasFactura() As String
       vSQL = vSQL & " (CASE WHEN Factura.EsOriginalmenteDiferida = 'S' THEN YEAR(Factura.FechaAplicacionRetIVA) ELSE YEAR(Factura.Fecha) END) AS anoDeAplicacion,"
       vSQL = vSQL & " (CASE WHEN Factura.EsOriginalmenteDiferida = 'S' THEN DAY(Factura.FechaAplicacionRetIVA) ELSE DAY(Factura.Fecha) END) AS DiaDeAplicacion,"
       vSQL = vSQL & " (CASE WHEN Factura.EsOriginalmenteDiferida = 'S' THEN Factura.FechaAplicacionRetIVA ELSE Factura.Fecha END) AS FechaAplicacion,"
-      
       vSQL = vSQL & " factura.CodigoCliente AS CodigoCliente,"
       vSQL = vSQL & " Factura.NumeroHasta AS NumeroHasta,"
       vSQL = vSQL & " '' AS PorcentajePasajeAereo,"
@@ -138,23 +136,23 @@ Public Function fSqlViewVentasFactura() As String
       vSQL = vSQL & " IGV_RetencionDocumentoCobrado.NumeroComprobanteRetIva AS ConsecutivoComprobanteRetencion,"
       vSQL = vSQL & " IGV_RetencionDocumentoCobrado.FechaAplicacionRetIVA AS FechaAplicacionRetencion,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-              fSQLRoundForLibrosSaw("Factura.TotalMontoExento - (Factura.TotalMontoExento  * (Factura.PorcentajeDescuento/100))", 2), True) & "  * factura.CambioABolivares as  Montoexento,"
+              fSQLRoundForLibrosSaw("Factura.TotalMontoExento * factura.CambioABolivares", 2), True) & " as Montoexento,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA) & _
              " OR (Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
              " AND (Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & " OR Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 - (Factura.MontogravableAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares as  MontogravableAlicuotaGeneral,"
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 * Factura.CambioABolivares", 2), True) & " as  MontogravableAlicuotaGeneral,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota2 - (Factura.MontogravableAlicuota2 * (Factura.PorcentajeDescuento/100))", 2), True) & " * factura.CambioABolivares as  MontoGravableAlicuota2,"
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota2 * factura.CambioABolivares", 2), True) & " as  MontoGravableAlicuota2,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota3 - (Factura.MontogravableAlicuota3 * (Factura.PorcentajeDescuento/100))", 2), True) & "  * factura.CambioABolivares as  MontoGravableAlicuota3,"
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota3 * factura.CambioABolivares", 2), True) & " as  MontoGravableAlicuota3,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA) & _
              " OR (Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
              " AND (Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & " OR Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 - (Factura.MontoIvaAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares  as  MontoIVAAlicuotaGeneral,"
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 * Factura.CambioABolivares", 2), True) & " as MontoIVAAlicuotaGeneral,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota2 - (Factura.MontoIvaAlicuota2 * (Factura.PorcentajeDescuento/100))", 2), True) & " * factura.CambioABolivares as  MontoIVAAlicuota2,"
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota2 * factura.CambioABolivares", 2), True) & " as MontoIVAAlicuota2,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota3 - (Factura.MontoIvaAlicuota3 * (Factura.PorcentajeDescuento/100))", 2), True) & " * factura.CambioABolivares as  MontoIVAAlicuota3,"
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota3 * factura.CambioABolivares", 2), True) & " as  MontoIVAAlicuota3,"
       vSQL = vSQL & " factura.NombreOperador AS NombreOperador,"
       vSQL = vSQL & " factura.FechaUltimaModificacion AS FechaUltimaModificacion,"
       vSQL = vSQL & " factura.PorcentajeAlicuota1 AS PorcentajeIvaAlicuotaGeneral,"
@@ -168,22 +166,22 @@ Public Function fSqlViewVentasFactura() As String
       vSQL = vSQL & " ," & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & _
             " AND Factura.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 - (Factura.MontogravableAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoGravableAlicuotaEspecial1,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & _
              " AND Factura.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 - (Factura.MontogravableAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoGravableAlicuotaEspecial2,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & _
              " AND Factura.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 - (Factura.MontoIvaAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial1,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & _
              " AND Factura.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 - (Factura.MontoIvaAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2"
 
 vSQL = vSQL & vbCrLf & " FROM            factura LEFT JOIN" & vbCrLf
@@ -292,23 +290,23 @@ Public Function fSqlViewVentasResumen() As String
     vSQL = vSQL & " IGV_BaseimponibleAlicuotasVentasResumenDeVentas.NumeroComprobanteRetIva AS ConsecutivoComprobanteRetencion,"
     vSQL = vSQL & " IGV_BaseimponibleAlicuotasVentasResumenDeVentas.FechaComprobanteRetIva AS FechaAplicacionRetencion,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-           "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.Montoexento", True) & "  * factura.CambioABolivares as  Montoexento,"
+           "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.Montoexento * factura.CambioABolivares", True) & " as Montoexento,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA) & _
              " OR (Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
              " AND (Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & " OR Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", 0, _
-             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral - (IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares as  MontogravableAlicuotaGeneral,"
+             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral * Factura.CambioABolivares", 2), True) & " as MontogravableAlicuotaGeneral,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-          "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuota2", True) & " * factura.CambioABolivares as  MontoGravableAlicuota2,"
+          "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuota2 * factura.CambioABolivares", True) & " as MontoGravableAlicuota2,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-          "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuota3", True) & "  * factura.CambioABolivares as  MontoGravableAlicuota3,"
+          "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuota3 * factura.CambioABolivares", True) & " as MontoGravableAlicuota3,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA) & _
              " OR (Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
              " AND (Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & " OR Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", 0, _
-             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral - (IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares  as  MontoIVAAlicuotaGeneral,"
+             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral * Factura.CambioABolivares", 2), True) & " as  MontoIVAAlicuotaGeneral,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-          "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuota2", True) & " * factura.CambioABolivares as  MontoIVAAlicuota2,"
+          "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuota2 * factura.CambioABolivares", True) & " as MontoIVAAlicuota2,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-          "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuota3", True) & " * factura.CambioABolivares as  MontoIVAAlicuota3,"
+          "IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuota3 * factura.CambioABolivares", True) & " as MontoIVAAlicuota3,"
     vSQL = vSQL & " factura.NombreOperador AS NombreOperador, factura.FechaUltimaModificacion AS FechaUltimaModificacion,"
     vSQL = vSQL & " factura.PorcentajeAlicuota1 AS PorcentajeIvaAlicuotaGeneral,"
     vSQL = vSQL & " factura.PorcentajeAlicuota2 AS PorcentajeIvaAlicuota2,"
@@ -321,22 +319,22 @@ Public Function fSqlViewVentasResumen() As String
     vSQL = vSQL & " ," & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & _
             " AND Factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral - (IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoGravableAlicuotaEspecial1,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & _
              " AND Factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral - (IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontogravableAlicuotaGeneral * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoGravableAlicuotaEspecial2,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & _
              " AND Factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral - (IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial1,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & _
              " AND Factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral - (IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2"
     vSQL = vSQL & vbCrLf & " FROM factura"
     vSQL = vSQL & vbCrLf & " INNER JOIN IGV_BaseimponibleAlicuotasVentasResumenDeVentas ON"
@@ -538,32 +536,6 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "fSqlConvierteMontoCXC", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-
-Public Function GetViewNameBaseimponibleAlicuotasVentas() As String
-   GetViewNameBaseimponibleAlicuotasVentas = "IGV_BaseimponibleAlicuotasVentas"
-End Function
-Public Function fSqlViewBaseimponibleAlicuotasVentas() As String
-   Dim vSQL As String
-   On Error GoTo h_ERROR
-      vSQL = " SELECT numerofactura, ConsecutivoCompania, TipoDedocumento, "
-      vSQL = vSQL & " SUM((CASE WHEN renglonfactura.AlicuotaIVA <> '0' THEN ((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (renglonfactura.PorcentajeBaseImponible/100)) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (PorcentajeDescuento/100) * (1- (renglonfactura.PorcentajeBaseImponible/100)) ))   * Cantidad /10000 " & _
-         "ELSE ( ((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (PorcentajeDescuento/100) ))   * Cantidad  )/10000 END)) AS Montoexento,"
-      vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '1' THEN ((((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (renglonfactura.PorcentajeBaseImponible/100)) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) *  (PorcentajeDescuento/100) * (renglonfactura.PorcentajeBaseImponible/100) )  ) * Cantidad)/10000 ELSE 0  END )) AS MontogravableAlicuotaGeneral,"
-      vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '2' THEN ((((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (renglonfactura.PorcentajeBaseImponible/100)) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) *  (PorcentajeDescuento/100) * (renglonfactura.PorcentajeBaseImponible/100) )  ) * Cantidad)/10000 ELSE 0  END )) AS MontogravableAlicuota2,"
-      vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '3' THEN ((((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (renglonfactura.PorcentajeBaseImponible/100)) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) *  (PorcentajeDescuento/100) * (renglonfactura.PorcentajeBaseImponible/100) )  ) * Cantidad)/10000 ELSE 0  END )) AS MontogravableAlicuota3,"
-      vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '1' THEN (((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (PorcentajeDescuento/100)))* ((renglonfactura.PorcentajeBaseImponible /100) * (renglonfactura.PorcentajeAlicuota/100))) * Cantidad/10000  ELSE 0  END )) AS MontoIvaAlicuotaGeneral,"
-      vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '2' THEN (((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (PorcentajeDescuento/100))) * ((renglonfactura.PorcentajeBaseImponible /100) * (renglonfactura.PorcentajeAlicuota/100))) * Cantidad/10000  ELSE 0  END )) AS MontoIvaAlicuota2,"
-      vSQL = vSQL & " SUM((CASE renglonfactura.AlicuotaIVA WHEN '3' THEN (((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) -((" & fSqlCastDecimalRenglonFactura("renglonfactura.PrecioSinIva") & " *10000) * (PorcentajeDescuento/100))) * ((renglonfactura.PorcentajeBaseImponible /100) * (renglonfactura.PorcentajeAlicuota/100))) * Cantidad/10000  ELSE 0  END )) AS MontoIvaAlicuota3"
-      vSQL = vSQL & " From renglonfactura"
-      vSQL = vSQL & " GROUP BY Numerofactura, ConsecutivoCompania, TipoDedocumento"
-      vSQL = vSQL & " Having Sum(PrecioSinIva) > 0"
-      fSqlViewBaseimponibleAlicuotasVentas = vSQL
-
-h_EXIT:     On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSqlViewBaseimponibleAlicuotasVentas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
 Public Function GetViewNameRetencionesEnVentas() As String
    GetViewNameRetencionesEnVentas = "IVG_RetencionesVentas"
 End Function
@@ -833,29 +805,29 @@ Public Function fSqlViewVentasFacturaAgrupado() As String
       vSQL = vSQL & " IGV_RetencionDocumentoCobrado.NumeroComprobanteRetIva AS ConsecutivoComprobanteRetencion,"
       vSQL = vSQL & " IGV_RetencionDocumentoCobrado.FechaAplicacionRetIVA AS FechaAplicacionRetencion,"
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-              fSQLRoundForLibrosSaw("IGV_FacturaBase.TotalMontoExento - (IGV_FacturaBase.TotalMontoExento * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & "  * IGV_FacturaBase.CambioABolivares as  Montoexento,"
+              fSQLRoundForLibrosSaw("IGV_FacturaBase.TotalMontoExento * IGV_FacturaBase.CambioABolivares", 2), True) & " as Montoexento,"
       
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA) & _
              " OR (IGV_FacturaBase.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
              " AND (Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & " OR Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 - (IGV_FacturaBase.MontogravableAlicuota1 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & " * IGV_FacturaBase.CambioABolivares as  MontogravableAlicuotaGeneral,"
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 * IGV_FacturaBase.CambioABolivares", 2), True) & " as MontogravableAlicuotaGeneral,"
              
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota2 - (IGV_FacturaBase.MontogravableAlicuota2 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & " * IGV_FacturaBase.CambioABolivares as  MontoGravableAlicuota2,"
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota2 * IGV_FacturaBase.CambioABolivares", 2), True) & " as MontoGravableAlicuota2,"
       
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota3 - (IGV_FacturaBase.MontogravableAlicuota3 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & "  * IGV_FacturaBase.CambioABolivares as  MontoGravableAlicuota3,"
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota3 * IGV_FacturaBase.CambioABolivares", 2), True) & " as MontoGravableAlicuota3,"
       
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA) & _
              " OR (IGV_FacturaBase.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
              " AND (Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & " OR Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontoIvaAlicuota1 - (IGV_FacturaBase.MontoIvaAlicuota1 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & "  * IGV_FacturaBase.CambioABolivares  as  MontoIVAAlicuotaGeneral,"
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontoIvaAlicuota1 * IGV_FacturaBase.CambioABolivares", 2), True) & " as  MontoIVAAlicuotaGeneral,"
       
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontoIvaAlicuota2 - (IGV_FacturaBase.MontoIvaAlicuota2 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & " * IGV_FacturaBase.CambioABolivares as  MontoIVAAlicuota2,"
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontoIvaAlicuota2 * IGV_FacturaBase.CambioABolivares", 2), True) & " as  MontoIVAAlicuota2,"
       
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontoIvaAlicuota3 - (IGV_FacturaBase.MontoIvaAlicuota3 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & " * IGV_FacturaBase.CambioABolivares as  MontoIVAAlicuota3,"
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontoIvaAlicuota3 * IGV_FacturaBase.CambioABolivares", 2), True) & " as  MontoIVAAlicuota3,"
       
       vSQL = vSQL & " IGV_FacturaBase.NombreOperador AS NombreOperador,"
       vSQL = vSQL & " IGV_FacturaBase.FechaUltimaModificacion AS FechaUltimaModificacion,"
@@ -870,22 +842,22 @@ Public Function fSqlViewVentasFacturaAgrupado() As String
       vSQL = vSQL & " ," & gUtilSQL.getIIF("IGV_FacturaBase.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & _
             " AND IGV_FacturaBase.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 - (IGV_FacturaBase.MontogravableAlicuota1 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & " * IGV_FacturaBase.CambioABolivares", _
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 * IGV_FacturaBase.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoGravableAlicuotaEspecial1,"
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & _
              " AND IGV_FacturaBase.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 - (IGV_FacturaBase.MontogravableAlicuota1 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & " * IGV_FacturaBase.CambioABolivares", _
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 * IGV_FacturaBase.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoGravableAlicuotaEspecial2,"
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & _
              " AND IGV_FacturaBase.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 - (IGV_FacturaBase.MontogravableAlicuota1 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & "  * IGV_FacturaBase.CambioABolivares", _
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 * IGV_FacturaBase.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial1,"
       vSQL = vSQL & gUtilSQL.getIIF("IGV_FacturaBase.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & _
              " AND IGV_FacturaBase.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 - (IGV_FacturaBase.MontogravableAlicuota1 * (IGV_FacturaBase.PorcentajeDescuento/100))", 2), True) & "  * IGV_FacturaBase.CambioABolivares", _
+             fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 * IGV_FacturaBase.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2"
       vSQL = vSQL & " FROM            IGV_FacturaBase LEFT JOIN" & vbCrLf
       vSQL = vSQL & "                         IGV_RetencionDocumentoCobrado ON IGV_FacturaBase.ConsecutivoCompania = IGV_RetencionDocumentoCobrado.ConsecutivoCompania AND" & vbCrLf
@@ -1081,23 +1053,23 @@ Public Function fSqlViewVentasFacturaDetallado() As String
       vSQL = vSQL & " IGV_RetencionDocumentoCobrado.NumeroComprobanteRetIva AS ConsecutivoComprobanteRetencion,"
       vSQL = vSQL & " IGV_RetencionDocumentoCobrado.FechaAplicacionRetIVA AS FechaAplicacionRetencion,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-              fSQLRoundForLibrosSaw("Factura.TotalMontoExento - (Factura.TotalMontoExento * (Factura.PorcentajeDescuento/100))", 2), True) & "  * factura.CambioABolivares as  Montoexento,"
+              fSQLRoundForLibrosSaw("Factura.TotalMontoExento * factura.CambioABolivares", 2), True) & " as Montoexento,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA) & _
              " OR (Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
              " AND (Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & " OR Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", 0, _
-              fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 - (Factura.MontogravableAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares as  MontogravableAlicuotaGeneral,"
+              fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 * Factura.CambioABolivares", 2), True) & " as MontogravableAlicuotaGeneral,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota2 - (Factura.MontogravableAlicuota2 * (Factura.PorcentajeDescuento/100))", 2), True) & " * factura.CambioABolivares as  MontoGravableAlicuota2,"
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota2 * factura.CambioABolivares", 2), True) & " as MontoGravableAlicuota2,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota3 - (Factura.MontogravableAlicuota3 * (Factura.PorcentajeDescuento/100))", 2), True) & "  * factura.CambioABolivares as  MontoGravableAlicuota3,"
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota3 * factura.CambioABolivares", 2), True) & " as MontoGravableAlicuota3,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA) & _
              " OR (Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
              " AND (Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & " OR Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 - (Factura.MontoIvaAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares  as  MontoIVAAlicuotaGeneral,"
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 * Factura.CambioABolivares", 2), True) & " as MontoIVAAlicuotaGeneral,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota2 - (Factura.MontoIvaAlicuota2 * (Factura.PorcentajeDescuento/100))", 2), True) & " * factura.CambioABolivares as  MontoIVAAlicuota2,"
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota2 * factura.CambioABolivares", 2), True) & " as MontoIVAAlicuota2,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota3 - (Factura.MontoIvaAlicuota3 * (Factura.PorcentajeDescuento/100))", 2), True) & " * factura.CambioABolivares as  MontoIVAAlicuota3,"
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota3 * factura.CambioABolivares", 2), True) & " as MontoIVAAlicuota3,"
       vSQL = vSQL & " factura.NombreOperador AS NombreOperador,"
       vSQL = vSQL & " factura.FechaUltimaModificacion AS FechaUltimaModificacion,"
       vSQL = vSQL & " factura.PorcentajeAlicuota1 AS PorcentajeIvaAlicuotaGeneral,"
@@ -1112,22 +1084,22 @@ Public Function fSqlViewVentasFacturaDetallado() As String
       vSQL = vSQL & " ," & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & _
             " AND Factura.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 - (Factura.MontogravableAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoGravableAlicuotaEspecial1,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & _
              " AND Factura.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 -(Factura.MontogravableAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & " * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("Factura.MontogravableAlicuota1 * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoGravableAlicuotaEspecial2,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Reducida) & _
              " AND Factura.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 - (Factura.MontoIvaAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial1,"
       vSQL = vSQL & gUtilSQL.getIIF("Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & " AND Comun.AlicuotaImpuestoEspecial.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & _
              " AND Factura.StatusFactura <> " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), _
              gUtilSQL.getIIF("Factura.StatusFactura = " & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA), 0, _
-             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 - (Factura.MontoIvaAlicuota1 * (Factura.PorcentajeDescuento/100))", 2), True) & "  * Factura.CambioABolivares", _
+             fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 * Factura.CambioABolivares", 2), True), _
              gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2"
       vSQL = vSQL & " FROM factura LEFT JOIN"
       vSQL = vSQL & " Cxc ON CxC.ConsecutivoCompania = factura.ConsecutivoCompania AND "
