@@ -37,7 +37,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("ZonaDeCobranza" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_CliZoDeCo DEFAULT (''), ");
             SQL.AppendLine("CodigoVendedor" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CliCoVe DEFAULT (''), ");
             SQL.AppendLine("RazonInactividad" + InsSql.VarCharTypeForDb(35) + " CONSTRAINT d_CliRaIn DEFAULT (''), ");
-            SQL.AppendLine("Email" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_CliEm DEFAULT (''), ");
+            SQL.AppendLine("Email" + InsSql.VarCharTypeForDb(100) + " CONSTRAINT d_CliEm DEFAULT (''), ");
             SQL.AppendLine("ActivarAvisoAlEscoger" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCliActivarAvi NOT NULL, ");
             SQL.AppendLine("TextoDelAviso" + InsSql.VarCharTypeForDb(150) + " CONSTRAINT d_CliTeDeAv DEFAULT (''), ");
             SQL.AppendLine("CuentaContableCxC" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_CliCuCoCxC DEFAULT (''), ");
@@ -143,7 +143,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("@ZonaDeCobranza" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@RazonInactividad" + InsSql.VarCharTypeForDb(35) + " = '',");
-            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + " = '',");
+            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(100) + " = '',");
             SQL.AppendLine("@ActivarAvisoAlEscoger" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@TextoDelAviso" + InsSql.VarCharTypeForDb(150) + " = '',");
             SQL.AppendLine("@CuentaContableCxC" + InsSql.VarCharTypeForDb(30) + ",");
@@ -284,7 +284,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("@ZonaDeCobranza" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@RazonInactividad" + InsSql.VarCharTypeForDb(35) + ",");
-            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + ",");
+            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(100) + ",");
             SQL.AppendLine("@ActivarAvisoAlEscoger" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@TextoDelAviso" + InsSql.VarCharTypeForDb(150) + ",");
             SQL.AppendLine("@CuentaContableCxC" + InsSql.VarCharTypeForDb(30) + ",");
