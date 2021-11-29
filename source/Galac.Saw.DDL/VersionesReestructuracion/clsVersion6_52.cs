@@ -24,8 +24,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 
         private void ExecuteAlterColumnEmail(){
-            string vSQL = "ALTER TABLE " + LibDbo.ToFullDboName("Adm.Proveedor") + " ALTER COLUMN Email VARCHAR(100) NULL";
-            Execute(vSQL, 0);
+            ModifyLengthOfColumnString("Adm.Proveedor","Email",100,"");
         }
     }
 }
