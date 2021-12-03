@@ -86,4 +86,7 @@
     <DataTemplate DataType="{x:Type nsReportesView:clsCxCPorClienteViewModel}">
         <nsReportesView:GSCxCPorCliente />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsFacturacionPorArticuloViewModel}">
+        <nsReportesView:GSFacturacionPorArticulo />
+    </DataTemplate>
 </ResourceDictionary>

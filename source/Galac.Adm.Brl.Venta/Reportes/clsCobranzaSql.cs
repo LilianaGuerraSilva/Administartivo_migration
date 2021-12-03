@@ -79,7 +79,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
                 vSqlMonedaDeCobro = "Cobranza.moneda";
             }
 
-            vSql.AppendLine(" SET DATEFORMAT dmy ");
             if(vUsaModuloContabilidad) {
                 vSql.AppendLine(CteComprobantesSql(valConsecutivoCompania,valFechaDesde,valFechaHasta));
             }
