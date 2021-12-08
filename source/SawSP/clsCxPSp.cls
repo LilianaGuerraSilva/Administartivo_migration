@@ -136,7 +136,7 @@ Private Function fSpParametersINS() As String
    vResult = vResult & "      @NumeroExpedienteDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
    vResult = vResult & "      @TipoDeTransaccion char(1) = '0'," & vbCrLf
    vResult = vResult & "      @NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & " = ''," & vbCrLf
-   vResult = vResult & "      @NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & " = ''," & vbCrLf
+   vResult = vResult & "      @NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
    vResult = vResult & "      @SeHizoLaRetencionIVA char(1) = 'N'," & vbCrLf
    vResult = vResult & "      @NumeroComprobanteRetencion " & gUtilSQL.getVarCharTypeForDB(8) & " = ''," & vbCrLf
    vResult = vResult & "      @FechaAplicacionRetIVA " & gUtilSQL.getDateTypeForDB() & " = ''," & vbCrLf
@@ -417,7 +417,7 @@ Private Function fSpParametersUPD() As String
    vResult = vResult & "         @NumeroExpedienteDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
    vResult = vResult & "         @TipoDeTransaccion char(1) = NULL," & vbCrLf
    vResult = vResult & "         @NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & " = NULL," & vbCrLf
-   vResult = vResult & "         @NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & " = NULL," & vbCrLf
+   vResult = vResult & "         @NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = NULL," & vbCrLf
    vResult = vResult & "         @SeHizoLaRetencionIVA char(1) = NULL," & vbCrLf
    vResult = vResult & "         @NumeroComprobanteRetencion " & gUtilSQL.getVarCharTypeForDB(8) & " = NULL," & vbCrLf
    vResult = vResult & "         @FechaAplicacionRetIVA " & gUtilSQL.getDateTypeForDB() & " = NULL," & vbCrLf
@@ -501,7 +501,7 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "   DECLARE @Ori_NumeroExpedienteDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_TipoDeTransaccion char(1)" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & "" & vbCrLf
-   vResult = vResult & "   DECLARE @Ori_NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & "" & vbCrLf
+   vResult = vResult & "   DECLARE @Ori_NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_SeHizoLaRetencionIVA char(1)" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_NumeroComprobanteRetencion " & gUtilSQL.getVarCharTypeForDB(8) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Ori_FechaAplicacionRetIVA " & gUtilSQL.getDateTypeForDB() & "" & vbCrLf
@@ -569,7 +569,7 @@ Private Function fStatementsSpUPD() As String
    vResult = vResult & "   DECLARE @Up_NumeroExpedienteDeImportacion " & gUtilSQL.getVarCharTypeForDB(20) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Up_TipoDeTransaccion char(1)" & vbCrLf
    vResult = vResult & "   DECLARE @Up_NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & "" & vbCrLf
-   vResult = vResult & "   DECLARE @Up_NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & "" & vbCrLf
+   vResult = vResult & "   DECLARE @Up_NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Up_SeHizoLaRetencionIVA char(1)" & vbCrLf
    vResult = vResult & "   DECLARE @Up_NumeroComprobanteRetencion " & gUtilSQL.getVarCharTypeForDB(8) & "" & vbCrLf
    vResult = vResult & "   DECLARE @Up_FechaAplicacionRetIVA " & gUtilSQL.getDateTypeForDB() & "" & vbCrLf
@@ -1193,7 +1193,7 @@ Private Function fSpParametersS10Insert() As String
    vResult = vResult & "         @P_TotalOtrosImpuestos money = 0," & vbCrLf
    vResult = vResult & "         @P_Observaciones " & gUtilSQL.getVarCharTypeForDB(255) & " = ''," & vbCrLf
    vResult = vResult & "         @P_NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & " = ''," & vbCrLf
-   vResult = vResult & "         @P_NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & " = ''," & vbCrLf
+   vResult = vResult & "         @P_NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
    vResult = vResult & "         @P_AplicaParaLibrodeCompras  char(1)  = 'S'," & vbCrLf
    vResult = vResult & "         @P_AplicaDetraccion  char(1)  = 'N'," & vbCrLf
    vResult = vResult & "         @P_MesAplicacion  " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
@@ -1453,7 +1453,7 @@ Private Function fSpParametersS10Update() As String
    vResult = vResult & "         @P_MontoIVAAlicuotaGeneral " & gUtilSQL.getNumericTypeForDB(12, 2) & " = null," & vbCrLf
    vResult = vResult & "         @P_MontoIVAAlicuota2 " & gUtilSQL.getNumericTypeForDB(12, 2) & " = null," & vbCrLf
    vResult = vResult & "         @P_MontoIVAAlicuota3 " & gUtilSQL.getNumericTypeForDB(12, 2) & " = null, " & vbCrLf
-   vResult = vResult & "         @P_NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & " = null," & vbCrLf
+   vResult = vResult & "         @P_NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = null," & vbCrLf
    vResult = vResult & "         @P_MesAplicacion  " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
    vResult = vResult & "         @P_AnoAplicacion " & gUtilSQL.getNumericTypeForDB(9, 0) & " = 0," & vbCrLf
    vResult = vResult & "         @P_AplicaDetraccion " & gUtilSQL.getCharTypeForDB(1) & " = null," & vbCrLf
@@ -2258,7 +2258,7 @@ Private Function fSpParametersS10RendicionInsert() As String
    vResult = vResult & "         @P_TotalOtrosImpuestos money = 0," & vbCrLf
    vResult = vResult & "         @P_Observaciones " & gUtilSQL.getVarCharTypeForDB(255) & " = ''," & vbCrLf
    vResult = vResult & "         @P_NumeroDeFacturaAfectada " & gUtilSQL.getVarCharTypeForDB(11) & " = ''," & vbCrLf
-   vResult = vResult & "         @P_NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & " = ''," & vbCrLf
+   vResult = vResult & "         @P_NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & " = ''," & vbCrLf
    vResult = vResult & "         @ConsecutivoCxP " & gUtilSQL.getNumericTypeForDB(9, 0) & " OUTPUT" & vbCrLf
    fSpParametersS10RendicionInsert = vResult
 h_EXIT:  On Error GoTo 0

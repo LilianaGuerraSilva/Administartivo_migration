@@ -75,7 +75,7 @@ namespace Galac.Adm.Dal.CajaChica {
             vParams.AddInString("NumeroExpedienteDeImportacion",valRecord.NumeroExpedienteDeImportacion,20);
             vParams.AddInEnum("TipoDeTransaccion",valRecord.TipoDeTransaccionAsDB);
             vParams.AddInString("NumeroDeFacturaAfectada",valRecord.NumeroDeFacturaAfectada,11);
-            vParams.AddInString("NumeroControl",valRecord.NumeroControl,11);
+            vParams.AddInString("NumeroControl",valRecord.NumeroControl,20);
             vParams.AddInBoolean("SeHizoLaRetencionIVA",valRecord.SeHizoLaRetencionIVAAsBool);
             vParams.AddInString("NumeroComprobanteRetencion",valRecord.NumeroComprobanteRetencion,8);
             vParams.AddInDateTime("FechaAplicacionRetIVA",valRecord.FechaAplicacionRetIVA);

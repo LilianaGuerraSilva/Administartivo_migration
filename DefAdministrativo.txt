@@ -4,7 +4,7 @@ PatronPresentacion=MVVM
 
 $GENERATE$
 //#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
-#INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
+//#INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
 #INCLUDE=ExternalSttdef,"D:\Git\Administrativo\DefParametrosAdministrativos.txt"
 //#INCLUDE=ExternarWincont,"C:\cvs\documentos\vba\Def\DefContabilidad-V1.txt"
 
@@ -1509,7 +1509,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey=ConsecutivoCompania,CodigoProveedor
 }
 
-{@M}CxP = Record //Female,Multiarchivo=Compania
+{@M}CxP = Record //Female,Multiarchivo=Compania, Generate
     ConsecutivoCompania           : Longint; //HIDE
     Numero                        : str11; //o,g,search,"Número"
     TipoDeCxP                     : unTipoDeCxC;//search
@@ -1543,7 +1543,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     NumeroExpedienteDeImportacion : Str20;
     TipoDeTransaccion             : unTipoDeTransaccionDeLibrosFiscales;
     NumeroDeFacturaAfectada       : Str11;
-    NumeroControl                 : Str11;
+    NumeroControl                 : Str20;
     SeHizoLaRetencionIVA          : Boolean;
     NumeroComprobanteRetencion    : Str8;
     FechaAplicacionRetIVA         : Date;
@@ -2773,7 +2773,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey=ConsecutivoOI
 }
 
-{@M}Rendicion = Record //Multiarchivo=Compania,Componente=CajaChica,Esquema=Adm,interop,"Reposición de Caja Chica", GenerateRptConfigurar, GenerateFrmInforme
+{@M}Rendicion = Record //Multiarchivo=Compania,Componente=CajaChica,Esquema=Adm,interop,"Reposición de Caja Chica", GenerateRptConfigurar, GenerateFrmInforme, Generate
     ConsecutivoCompania	         : LongInt;//HIDE,o
     Consecutivo                  : LongInt;//HIDE,o,a,Consecutive,"Consecutivo"
     Numero                       : Str15;//u,o,"Número",noeditable
@@ -2813,7 +2813,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey = ConsecutivoCompania,Consecutivo
 }
 
-{@D Rendicion} DetalleDeRendicion  = Record //Multiarchivo=Compania,Componente=CajaChica,Esquema=Adm
+{@D Rendicion} DetalleDeRendicion  = Record //Multiarchivo=Compania,Componente=CajaChica,Esquema=Adm, Generate
     ConsecutivoCompania	         : LongInt;//o,HIDE
     ConsecutivoRendicion         : LongInt;//o,HIDE
     ConsecutivoRenglon           : LongInt;//o,HIDE
