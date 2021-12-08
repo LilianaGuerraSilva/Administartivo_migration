@@ -3890,31 +3890,29 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
    @UniqueKey = ConsecutivoCompania,Descripcion
 }
 
-{@R Compra}DiarioCompra = Reporte//Multiarchivo=Compania,"",Componente=GestionDeComprar,Esquema=Adm
+{@R Compra}DiarioCompra = Reporte//Multiarchivo=Compania,"",Componente=GestionDeComprar,Esquema=Adm, GENERATE
 
-        Numero   : Str30;//"Compra"
-        StatusCompra   : Str40;//"Status"
+    Numero   : Str30;//"Compra"
+    StatusCompra   : Str40;//"Status"
 	Fecha         : Date;//"Fecha"
-
-        CodigoProveedor   : Str30;//"Cod. Proveedor"
-        Nombre   : Str40;//"Nombre"
+    CodigoProveedor   : Str30;//"Cod. Proveedor"
+    Nombre   : Str40;//"Nombre"
 	Direccion         : Str40;//"Direccion"
 	Rif         : Str40;//"R.I.F"
 	Nit         : Str40;//"NIT"
 	Telefonos         : Str40;//"Telefonos"
-
-     CodigoArticulo      : Str15;//"Codigo"
-     Descripcion      : Str15;//"Descripcion"
-     Cantidad         : Double;//"Cantidad"
-     Unidad       : Str15;//"Unidad"
-     Precio         : Double;//"Precio"
-     SubTotal         : Double;//"SubTotal"
-     OtrosGastos         : Double;//"Otros Gastos"
-     Total         : Double;//"Total"
+    CodigoArticulo      : Str15;//"Codigo"
+    Descripcion      : Str15;//"Descripcion"
+    Cantidad         : Double;//"Cantidad"
+    Unidad       : Str15;//"Unidad"
+    Precio         : Double;//"Precio"
+    SubTotal         : Double;//"SubTotal"
+    OtrosGastos         : Double;//"Otros Gastos"
+    Total         : Double;//"Total"
 	Envia      : Str15;//"Envia"
 
 }
-{@M}Compra=  record //Multiarchivo=Compania "Compra", Componente=GestionCompras, Esquema=Adm
+{@M}Compra=  record //Multiarchivo=Compania "Compra", Componente=GestionCompras, Esquema=Adm, GENERATE
    ConsecutivoCompania		: Longint; //HIDE
    Consecutivo    		: Longint; //Hide,o,suggestConsecutive
    Serie              		: str20; //u, g,o,search 
