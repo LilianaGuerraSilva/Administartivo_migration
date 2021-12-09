@@ -130,10 +130,10 @@
         <GroupBox
             Grid.Row="6"
             Grid.ColumnSpan="2"
-            Margin="3"
-            Width="200"
+            Margin="6,3,0,3"
+            Width="284"
             Header="Modelo de informe"
-            Style="{StaticResource GroupBoxStyle}">
+            Style="{StaticResource GroupBoxStyle}" HorizontalAlignment="Left">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
