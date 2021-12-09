@@ -64,7 +64,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "ConsecutivoCompania " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "Consecutiv NOT NULL, "
    SQL = SQL & "ConsecutivoCxP " & gUtilSQL.getNumericTypeForDB(8, 0) & " CONSTRAINT nn" & GetTableName() & "Consecutiv NOT NULL, "
    SQL = SQL & "NumeroPago " & gUtilSQL.getVarCharTypeForDB(25) & " CONSTRAINT nn" & GetTableName() & "NumeroPago NOT NULL, "
-   SQL = SQL & "NumeroControl " & gUtilSQL.getVarCharTypeForDB(11) & ", "
+   SQL = SQL & "NumeroControl " & gUtilSQL.getVarCharTypeForDB(20) & ", "
    SQL = SQL & "MontoRestanteAlDiaDelPago " & gUtilSQL.getNumericTypeForDB(12, 2) & ", "
    SQL = SQL & "MontoAbonado " & gUtilSQL.getNumericTypeForDB(12, 2) & ", "
    SQL = SQL & "CodigoRetencion " & gUtilSQL.getVarCharTypeForDB(6) & " CONSTRAINT nn" & GetTableName() & "CodigoRete NOT NULL, "

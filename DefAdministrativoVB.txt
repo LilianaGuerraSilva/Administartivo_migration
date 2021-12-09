@@ -2091,7 +2091,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,CodigoProveedor
 }
 
-{@M}CxP = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar
+{@M}CxP = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,Generate
     ConsecutivoCompania           : Longint; //HIDE
     Numero                        : str25; //o,g,search,"Número", u
     TipoDeCxP                     : unTipoDeCxC;//search,u
@@ -2125,7 +2125,7 @@ MenuDeInformes : boolean;
     NumeroExpedienteDeImportacion : Str20;
     TipoDeTransaccion             : unTipoDeTransaccionDeLibrosFiscales;
     NumeroDeFacturaAfectada       : Str11;
-    NumeroControl                 : Str11;
+    NumeroControl                 : Str20;
     SeHizoLaRetencionIVA          : Boolean;
     NumeroComprobanteRetencion    : Str8;
     FechaAplicacionRetIVA         : Date;

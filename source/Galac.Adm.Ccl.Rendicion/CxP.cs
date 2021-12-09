@@ -346,7 +346,7 @@ namespace Galac.Adm.Ccl.CajaChica {
 
         public string NumeroControl {
             get { return _NumeroControl; }
-            set { _NumeroControl = LibString.Mid(value, 0, 11); }
+            set { _NumeroControl = LibString.Mid(value, 0, 20); }
         }
 
         public bool SeHizoLaRetencionIVAAsBool {

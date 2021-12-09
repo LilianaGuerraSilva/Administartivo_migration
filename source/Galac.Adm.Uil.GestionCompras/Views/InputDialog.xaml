@@ -33,7 +33,7 @@
         
 
         <Label Name="lblQuestion" Grid.Column="1">Question:</Label>
-        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtAnswer" nsWpf:LibFocusManager.IsFocused="True"  Style="{StaticResource TextBoxInputStyle}" InputDataType="String"  InvalidCharacters= "'/|!°#$%)\(=?¡¿}{_:,;'*+'¨~^`&amp;&#32;&quot;&lt;&gt;"  MaxLength="11"  MinWidth="250" />        
+        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="1" Name="txtAnswer" nsWpf:LibFocusManager.IsFocused="True"  Style="{StaticResource TextBoxInputStyle}" InputDataType="String"  InvalidCharacters= "'/|!°#$%)\(=?¡¿}{_:,;'*+'¨~^`&amp;&#32;&quot;&lt;&gt;"  MaxLength="20"  MinWidth="250" />        
         <Button  Name="btnSearch" Grid.Column="2" Grid.Row="1" Click="btnSearch_Click" >...</Button>
 
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
