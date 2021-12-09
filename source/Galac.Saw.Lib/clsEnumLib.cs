@@ -45,9 +45,9 @@ namespace Galac.Saw.Lib {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eCantidadAImprimir {
-        [LibEnumDescription("Todos")]
+        [LibEnumDescription("Todos(as)")]
         Todos = 0,
-        [LibEnumDescription("Uno")]
+        [LibEnumDescription("Uno(a)")]
         Uno
     }
 

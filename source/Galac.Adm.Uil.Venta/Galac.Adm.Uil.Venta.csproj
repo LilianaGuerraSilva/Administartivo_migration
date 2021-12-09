@@ -155,6 +155,11 @@
     <Compile Include="Reportes\clsCuadreCajaPorTipoCobroViewModel.cs" />
     <Compile Include="Reportes\clsCuadreCajaPorTipoCobroYUsuarioViewModel.cs" />
     <Compile Include="Reportes\clsCuadreCajaPorUsuarioViewModel.cs" />
+    <Compile Include="Reportes\clsCxCInformesViewModel.cs" />
+    <Compile Include="Reportes\clsCxCPendientesEntreFechasViewModel.cs" />
+    <Compile Include="Reportes\clsCxCPorClienteViewModel.cs" />
+    <Compile Include="Reportes\clsFacturacionPorArticuloViewModel.cs" />
+    <Compile Include="Reportes\clsFacturaInformesViewModel.cs" />
     <Compile Include="Reportes\clsNotaDeEntregaEntreFechasPorClienteViewModel.cs" />
     <Compile Include="Reportes\clsNotaDeEntregaInformesViewModel.cs" />
     <Compile Include="Reportes\GSCajasAperturadas.xaml.cs">
@@ -183,6 +188,15 @@
     </Compile>
     <Compile Include="Reportes\GSCuadreCajaPorUsuario.xaml.cs">
       <DependentUpon>GSCuadreCajaPorUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCxCPendientesEntreFechas.xaml.cs">
+      <DependentUpon>GSCxCPendientesEntreFechas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSCxCPorCliente.xaml.cs">
+      <DependentUpon>GSCxCPorCliente.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSFacturacionPorArticulo.xaml.cs">
+      <DependentUpon>GSFacturacionPorArticulo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSNotaDeEntregaEntreFechasPorClienteView.xaml.cs">
       <DependentUpon>GSNotaDeEntregaEntreFechasPorClienteView.xaml</DependentUpon>
@@ -310,11 +324,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Reportes\GSCxCPendientesEntreFechas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSCxCPorCliente.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSFacturacionPorArticulo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Reportes\GSNotaDeEntregaEntreFechasPorClienteView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\rsdGroupBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

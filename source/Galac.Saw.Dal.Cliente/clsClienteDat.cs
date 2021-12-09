@@ -55,7 +55,7 @@ namespace Galac.Saw.Dal.Cliente {
             vParams.AddInString("ZonaDeCobranza", valRecord.ZonaDeCobranza, 20);
             vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
             vParams.AddInString("RazonInactividad", valRecord.RazonInactividad, 35);
-            vParams.AddInString("Email", valRecord.Email, 40);
+            vParams.AddInString("Email", valRecord.Email, 100);
             vParams.AddInBoolean("ActivarAvisoAlEscoger", valRecord.ActivarAvisoAlEscogerAsBool);
             vParams.AddInString("TextoDelAviso", valRecord.TextoDelAviso, 150);
             vParams.AddInString("CuentaContableCxC", valRecord.CuentaContableCxC, 30);

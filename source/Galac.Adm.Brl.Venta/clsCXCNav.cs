@@ -9,9 +9,11 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base.Dal;
+using System.Xml;
 
 namespace Galac.Adm.Brl.Venta {
-    public class clsCXCNav : ICXCPdn {
+    public class clsCXCNav : LibBaseNav<IList<CxC>, IList<CxC>>, ICXCPdn {
+
         bool ICXCPdn.Insert(int valConsecutivoCompnaia, XElement valData) {
             clsCXCDat insCxCDat = new clsCXCDat();
             bool vResult = LibBusiness.ExecuteUpdateOrDelete(insCxCDat.CXCSqlInsertar(), insCxCDat.CXCParametrosInsertar(valConsecutivoCompnaia, valData), "", 0) >= 0;
@@ -19,18 +21,55 @@ namespace Galac.Adm.Brl.Venta {
         }
 
         bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, System.Xml.XmlDocument valXmlRow) {
-            throw new NotImplementedException();
+            bool vResult = false;
+            //ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Venta.clsCxCDat();
+            switch (valCallingModule) {
+                default:
+                    vResult = true;
+                    break;
+            }
+            return vResult;
         }
 
         bool ILibPdn.GetDataForList(string valCallingModule, ref System.Xml.XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
-            throw new NotImplementedException();
+            ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Venta.clsCXCDat();
+            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_CxCSCH", valXmlParamsExpression);
         }
 
         XElement ILibPdn.GetFk(string valCallingModule, StringBuilder valParameters) {
-            throw new NotImplementedException();
+            ILibDataMasterComponentWithSearch<IList<CxC>, IList<CxC>> instanciaDal = new clsCXCDat();
+            return instanciaDal.QueryInfo(eProcessMessageType.SpName, "Dbo.Gp_CobranzaGetFk", valParameters);
         }
 
-        void ICXCPdn.CambiarStatusDeCxcACancelada(int valConsecutivoCompania, string valNumeroDeFactura, int valTipoDeDocumento, decimal valMontoAbonado) {
+        protected override bool RetrieveListInfo(string valModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
+            bool vResult = false;
+            ILibPdn vPdnModule;
+            switch (valModule) {
+                case "CXC":
+                    vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Cliente":
+                    vPdnModule = new Galac.Saw.Brl.Cliente.clsClienteNav();
+                    vResult = vPdnModule.GetDataForList("CXC", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Vendedor":
+                    vPdnModule = new Galac.Saw.Brl.Vendedor.clsVendedorNav();
+                    vResult = vPdnModule.GetDataForList("CXC", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Moneda":
+                    vPdnModule = new Galac.Comun.Brl.TablasGen.clsMonedaNav();
+                    vResult = vPdnModule.GetDataForList("CXC", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Zona Cobranza":
+                    vPdnModule = new Galac.Saw.Brl.Tablas.clsZonaCobranzaNav();
+                    vResult = vPdnModule.GetDataForList("CXC", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                default: throw new NotImplementedException();
+            }
+            return vResult;
+        }
+       
+	    void ICXCPdn.CambiarStatusDeCxcACancelada(int valConsecutivoCompania, string valNumeroDeFactura, int valTipoDeDocumento, decimal valMontoAbonado) {
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
