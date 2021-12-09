@@ -294,7 +294,7 @@ Public Function fSqlViewVentasResumen() As String
     vSQL = vSQL & " IGV_BaseimponibleAlicuotasVentasResumenDeVentas.NumeroComprobanteRetIva AS ConsecutivoComprobanteRetencion,"
     vSQL = vSQL & " IGV_BaseimponibleAlicuotasVentasResumenDeVentas.FechaComprobanteRetIva AS FechaAplicacionRetencion,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
-           fSQLRoundForLibrosSaw("factura.TotalFactura * factura.CambioABolivares", 2), True) & " as TotalFactura,"
+           fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.TotalFactura * factura.CambioABolivares", 2), True) & " as TotalFactura,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
            fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.Montoexento * factura.CambioABolivares", 2), True) & " as Montoexento,"
     vSQL = vSQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA) & _
@@ -591,24 +591,24 @@ Public Function fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas() As String
    Dim vSQL As String
    On Error GoTo h_ERROR
     vSQL = " SELECT  dbo.factura.ConsecutivoCompania,"
-    vSQL = vSQL & " dbo.factura.NumeroComprobanteFiscal AS PrimerNumeroComprobante,"
-    vSQL = vSQL & " dbo.factura.NumeroComprobanteFiscal AS UltimoNumeroComprobante,"
-    vSQL = vSQL & " dbo.factura.Numero AS PrimerNumeroFactura,"
-    vSQL = vSQL & " dbo.factura.Numero AS UltimoNumeroFactura,"
-    
-    vSQL = vSQL & "factura.TotalMontoExento   AS Montoexento,"
-    vSQL = vSQL & "factura.MontoGravableAlicuota1 AS MontogravableAlicuotaGeneral,"
-    vSQL = vSQL & "factura.MontoGravableAlicuota2 AS MontogravableAlicuota2,"
-    vSQL = vSQL & "factura.MontoGravableAlicuota3 AS MontogravableAlicuota3,"
-    vSQL = vSQL & "factura.MontoIVAAlicuota1 AS MontoIvaAlicuotaGeneral,"
-    vSQL = vSQL & "factura.MontoIVAAlicuota2 AS MontoIvaAlicuota2,"
-    vSQL = vSQL & "factura.MontoIVAAlicuota3 AS MontoIvaAlicuota3,"
+    vSQL = vSQL & " MIN(factura.NumeroComprobanteFiscal) AS PrimerNumeroComprobante,"
+    vSQL = vSQL & " MAX(factura.NumeroComprobanteFiscal) AS UltimoNumeroComprobante,"
+    vSQL = vSQL & " MIN(factura.Numero) AS PrimerNumeroFactura,"
+    vSQL = vSQL & " MAX(factura.Numero) AS UltimoNumeroFactura,"
+    vSQL = vSQL & " SUM(factura.TotalFactura)AS TotalFactura,"
+    vSQL = vSQL & " SUM(factura.TotalMontoExento) AS Montoexento,"
+    vSQL = vSQL & " SUM(factura.MontoGravableAlicuota1) AS MontogravableAlicuotaGeneral,"
+    vSQL = vSQL & " SUM(factura.MontoGravableAlicuota2) AS MontogravableAlicuota2,"
+    vSQL = vSQL & " SUM(factura.MontoGravableAlicuota3) AS MontogravableAlicuota3,"
+    vSQL = vSQL & " SUM(factura.MontoIVAAlicuota1) AS MontoIvaAlicuotaGeneral,"
+    vSQL = vSQL & " SUM(factura.MontoIVAAlicuota2) AS MontoIvaAlicuota2,"
+    vSQL = vSQL & " SUM(factura.MontoIVAAlicuota3) AS MontoIvaAlicuota3,"
     
     vSQL = vSQL & " dbo.factura.SerialMaquinaFiscal, dbo.factura.Fecha,"
     vSQL = vSQL & " (CASE factura.TipoDeVenta WHEN '3' THEN '0' WHEN '0' THEN '4' ELSE factura.TipoDeVenta END) AS TipoDeVenta, "
-    vSQL = vSQL & " (CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.NumeroComprobanteRetIva ELSE '0'END) AS NumeroComprobanteRetIva,"
-    vSQL = vSQL & " (CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.MontoIvaRetenido ELSE '0' END) AS MontoIvaRetenido,"
-    vSQL = vSQL & " (CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.FechaComprobanteRetIva ELSE '' END) as FechaComprobanteRetIva,"
+    vSQL = vSQL & " MAX(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.NumeroComprobanteRetIva ELSE '0'END) AS NumeroComprobanteRetIva,"
+    vSQL = vSQL & " MAX(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.MontoIvaRetenido ELSE '0' END) AS MontoIvaRetenido,"
+    vSQL = vSQL & " MAX(CASE WHEN Factura.TipoDeVenta = '3' OR Factura.TipoDeVenta = '0' THEN IVG_RetencionesVentas.FechaComprobanteRetIva ELSE '' END) as FechaComprobanteRetIva,"
     vSQL = vSQL & " dbo.factura.TipoDeDocumento"
     vSQL = vSQL & " FROM Factura "
     vSQL = vSQL & " LEFT JOIN IVG_RetencionesVentas ON"
@@ -619,6 +619,8 @@ Public Function fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas() As String
     vSQL = vSQL & " AND IVG_RetencionesVentas.ConsecutivoCompania  = factura.ConsecutivoCompania"
     vSQL = vSQL & " Where (dbo.factura.StatusFactura = 0)"
     vSQL = vSQL & " AND(dbo.factura.TipoDeDocumento = '5' OR dbo.factura.TipoDeDocumento = '7')"
+    vSQL = vSQL & " GROUP BY dbo.factura.ConsecutivoCompania, dbo.factura.SerialMaquinaFiscal, dbo.factura.Fecha,"
+    vSQL = vSQL & " dbo.factura.NumeroParaResumen , dbo.factura.TipoDeVenta, dbo.factura.TipoDeDocumento"
     fSqlViewBaseimponibleAlicuotasVentasResumenDeVentas = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
