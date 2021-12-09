@@ -6,25 +6,27 @@ using System.ComponentModel;
 using DataDynamics.ActiveReports;
 using DataDynamics.ActiveReports.Document;
 using System.Data;
-using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
-namespace Galac.Adm.Rpt.Venta {
+using LibGalac.Aos.ARRpt;
+
+namespace Galac.Adm.Rpt.Venta
+{
     /// <summary>
-    /// Summary description for dsrCxCPendientesEntreFechas.
+    /// Summary description for dsrFacturacionPorArticuloResumido.
     /// </summary>
-    public partial class dsrCxCPendientesEntreFechas : ActiveReport {
+    public partial class dsrFacturacionPorArticuloResumido : ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
         #endregion //Variables
 
         #region Constructores
-        public dsrCxCPendientesEntreFechas()
+        public dsrFacturacionPorArticuloResumido()
             : this(false, string.Empty) {
         }
 
-        public dsrCxCPendientesEntreFechas(bool initUseExternalRpx, string initRpxFileName) {
+        public dsrFacturacionPorArticuloResumido(bool initUseExternalRpx, string initRpxFileName) {
             InitializeComponent();
             _UseExternalRpx = initUseExternalRpx;
             if (_UseExternalRpx) {
@@ -35,15 +37,14 @@ namespace Galac.Adm.Rpt.Venta {
 
         #region Metodos Generados
         public string ReportTitle() {
-            return "Cuentas por Cobrar Pendientes entre Fechas";
+            return "Facturación por Artículo - Resumido";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
-            Saw.Lib.clsUtilRpt UtiltRpt = new Saw.Lib.clsUtilRpt();;
-            bool vUsaContabilidad = LibConvert.SNToBool(valParameters["UsaContabilidad"]);
-            bool vMostrarContacto = LibConvert.SNToBool(valParameters["MostrarContacto"]);
             Saw.Lib.eMonedaParaImpresion MonedaDelReporte = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedaDelReporte"]);
             Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio = (Saw.Lib.eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(valParameters["TipoTasaDeCambio"]);
+            bool UsaPrecioSinIva = LibConvert.SNToBool(valParameters["UsaPrecioSinIva"]);
+            int vCantDecimales = LibConvert.ToInt(valParameters["CantidadDeDecimalesInt"]);
 
             Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Comun.Brl.TablasGen.clsMonedaLocalActual();
             vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
@@ -62,49 +63,29 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigLabel(this, "lblTituloDelReporte", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaInicialYFinal", valParameters["FechaInicialYFinal"]);
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
-                LibReport.ConfigHeader(this, "txtCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "txtNumeroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, LibGraphPrnSettings.PrintEmitDate);
+                LibReport.ConfigHeader(this, "txtCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "txtNumeroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
-                if (vIsInMonedaLocal) {
-                    if (vIsInTasaDelDia) {
-                        LibReport.ConfigLabel(this, "lblMensajeDelCambioDeLaMoneda", "Nota: Los montos en monedas extranjeras son calculados a " + vMonedaLocal + " tomando en cuenta la última tasa de cambio.");
-                    }
-                    else {
-                        LibReport.ConfigLabel(this, "lblMensajeDelCambioDeLaMoneda", "Nota: Los montos en monedas extranjeras son calculados a " + vMonedaLocal + " tomando en cuenta la tasa de cambio original.");
-                    }
-                }
-                else {
-                    LibReport.ChangeControlVisibility(this, "lblMensajeDelCambioDeLaMoneda", true, false);
-                }
+                LibReport.ConfigGroupHeader(this, "GHArticulo", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
+                LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
+                LibReport.ConfigFieldStr(this, "txtDescripcion", string.Empty, "Descripcion");
+                LibReport.ConfigFieldStr(this, "txtUnidadDeVenta", string.Empty, "UnidadDeVenta");
 
-                LibReport.ConfigGroupHeader(this, "GHStatus", "StatusStr", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
-                LibReport.ConfigFieldStr(this, "txtStatus", string.Empty, "StatusStr");
-
-                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                LibReport.ConfigFieldStr(this, "txtMonedaPorGrupo", string.Empty, "Moneda");
+                LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
+                LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
 
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort);
-				LibReport.ConfigFieldStr(this, "txtNumeroDocumento", string.Empty, "Numero");
-				LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "Codigo");
-				LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "Nombre");
-				LibReport.ConfigFieldDec(this, "txtMonto", string.Empty, "Monto");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidad", string.Empty, "Cantidad", vCantDecimales);
+                LibReport.ConfigFieldDec(this, "txtMonto", string.Empty, "Monto");
 
-                if (vUsaContabilidad) {
-                    LibReport.ConfigFieldStr(this, "txtNComprobante", string.Empty, "NumeroComprobante");
-                }
-                else {
-                    LibReport.ChangeControlVisibility(this, "txtNComprobante", true, false);
-                    LibReport.ChangeControlVisibility(this, "lbNComprobante", true, false);
-                }
-                
-                if (vMostrarContacto) {
-                    LibReport.ConfigFieldStr(this, "txtContacto", string.Empty, "Contacto");
-                }
-                else {
-                    LibReport.ChangeControlVisibility(this, "txtContacto", true, false);
-                    LibReport.ChangeControlVisibility(this, "lblContacto", true, false);
-                }
-
+                LibReport.ConfigSummaryField(this, "txtTotalCantidad", "Cantidad", SummaryFunc.Sum, "GHMoneda", SummaryRunning.All, SummaryType.SubTotal, "n" + vCantDecimales, "");
                 LibReport.ConfigSummaryField(this, "txtTotalMonto", "Monto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.All, SummaryType.SubTotal);
+
+                string valStrLblNota = "Nota:\tLos precios presentados " + (UsaPrecioSinIva? "no " : "") + "incluyen el IVA.";
+                if (vIsInMonedaLocal) {
+                    valStrLblNota += "\n\tLos montos en monedas extranjeras son calculados a " + vMonedaLocal;
+                    valStrLblNota += " tomando en cuenta la " + ( vIsInTasaDelDia ? "última tasa de cambio." : "tasa de cambio original." );
+                }
+                LibReport.ConfigLabel(this, "LblNota", valStrLblNota);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, PageOrientation.Portrait);
                 return true;
@@ -113,6 +94,7 @@ namespace Galac.Adm.Rpt.Venta {
         }
         #endregion //Metodos Generados
 
-    } //End of class dsrCxCPendientesEntreFechas
+    } //End of class dsrFacturacionPorArticulo
 
 } //End of namespace Galac.Adm.Rpt.Venta
+

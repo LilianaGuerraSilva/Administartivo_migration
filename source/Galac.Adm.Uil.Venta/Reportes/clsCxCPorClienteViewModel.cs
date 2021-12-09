@@ -91,14 +91,11 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 		}
 
 		[LibCustomValidation("NombreDelClienteValidating")]
-		public string NombreDelCliente
-		{
-			get
-			{
+		public string NombreDelCliente {
+			get {
 				return _NombreDelCliente;
 			}
-			set
-			{
+			set {
 				if (_NombreDelCliente != value) {
 					_NombreDelCliente = value;
 					RaisePropertyChanged(NombreDelClientePropertyName);
@@ -106,14 +103,11 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public string CodigoDelCliente
-		{
-			get
-			{
+		public string CodigoDelCliente {
+			get {
 				return _CodigoDelCliente;
 			}
-			set
-			{
+			set {
 				if (_CodigoDelCliente != value) {
 					_CodigoDelCliente = value;
 					RaisePropertyChanged(CodigoDelClientePropertyName);
@@ -198,14 +192,11 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eMonedaParaImpresion MonedaDelInforme
-		{
-			get
-			{
+		public Saw.Lib.eMonedaParaImpresion MonedaDelInforme {
+			get {
 				return _MonedaDelInformeAsEnum;
 			}
-			set
-			{
+			set {
 				if (_MonedaDelInformeAsEnum != value) {
 					_MonedaDelInformeAsEnum = value;
 					TipoTasaDeCambio = Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
@@ -215,14 +206,12 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio
-		{
+		public Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio {
 			get
 			{
 				return _TipoTasaDeCambioAsEnum;
 			}
-			set
-			{
+			set {
 				if (_TipoTasaDeCambioAsEnum != value) {
 					_TipoTasaDeCambioAsEnum = value;
 					RaisePropertyChanged(TipoTasaDeCambioPropertyName);
@@ -283,22 +272,17 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			}
 		}
 
-		public Saw.Lib.eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio
-		{
-			get
-			{
+		public Saw.Lib.eTasaDeCambioParaImpresion[] ArrayTiposTasaDeCambio {
+			get {
 				return LibEnumHelper<Saw.Lib.eTasaDeCambioParaImpresion>.GetValuesInArray();
 			}
 		}
 
-		public ObservableCollection<Saw.Lib.eMonedaParaImpresion> ListaMonedaDelInforme
-		{
-			get
-			{
+		public ObservableCollection<Saw.Lib.eMonedaParaImpresion> ListaMonedaDelInforme {
+			get {
 				return _ListaMonedaDelInforme;
 			}
-			set
-			{
+			set {
 				_ListaMonedaDelInforme = value;
 			}
 		}
@@ -409,18 +393,15 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			get { return CantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }
 		}
 
-		public bool IsEnabledZonaCobranza
-		{
+		public bool IsEnabledZonaCobranza {
 			get { return ZonasAImprimir == Saw.Lib.eCantidadAImprimir.Uno; }
 		}
 
-		public bool IsVisibleTipoTasaDeCambio
-		{
+		public bool IsVisibleTipoTasaDeCambio {
 			get { return MonedaDelInforme != Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal; }
 		}
 
-		private void LlenarEnumerativosMonedas()
-		{
+		private void LlenarEnumerativosMonedas() {
 			ListaMonedaDelInforme.Clear();
 			if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
 				ListaMonedaDelInforme.Add(Saw.Lib.eMonedaParaImpresion.EnBolivares);

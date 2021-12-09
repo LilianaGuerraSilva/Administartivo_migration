@@ -37,9 +37,7 @@ namespace Galac.Adm.Dal.Venta {
         #endregion //Constructores
 	
         #region Metodos Generados
-		
         public string CXCSqlInsertar() {
-
             StringBuilder vSql = new StringBuilder();
 
             vSql.AppendLine(" INSERT INTO cxc");
@@ -232,6 +230,7 @@ namespace Galac.Adm.Dal.Venta {
             vResult = vParams.Get();
             return vResult;
         }
+
         #region Miembros de ILibDataMasterComponent<IList<CxC>, IList<CxC>>
         LibResponse ILibDataMasterComponent<IList<CxC>, IList<CxC>>.CanBeChoosen(IList<CxC> refRecord, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
@@ -438,6 +437,7 @@ namespace Galac.Adm.Dal.Venta {
             vResult = vResult && SetPkInDetailOtrosImpuestosCxCAndUpdateDb(valRecord);
             return vResult;
         }
+
         #region Validaciones
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
@@ -680,6 +680,7 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
         #endregion //Validaciones
+
         #region Miembros de ILibDataFKSearch
         bool ILibDataFKSearch.ConnectFk(ref XmlDocument refResulset, eProcessMessageType valType, string valProcessMessage, StringBuilder valXmlParamsExpression) {
             bool vResult = false;
@@ -692,8 +693,6 @@ namespace Galac.Adm.Dal.Venta {
         }
         #endregion //Miembros de ILibDataFKSearch
 
-
-
         #region Miembros de ILibDataRpt
         System.Data.DataTable ILibDataRpt.GetDt(string valSqlStringCommand, int valCmdTimeout) {
             return new LibDataReport().GetDataTableForReport(valSqlStringCommand, valCmdTimeout);
@@ -703,6 +702,8 @@ namespace Galac.Adm.Dal.Venta {
             return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
         }
         #endregion //Miembros de ILibDataRpt
+
         #endregion //Metodos Generados
+
     }
 }

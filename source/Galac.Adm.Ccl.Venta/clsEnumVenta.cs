@@ -14,25 +14,7 @@ namespace Galac.Adm.Ccl.Venta {
         Borrador
     }
 
-    //[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    //public enum eTipoDocumentoFactura {
-    //    [LibEnumDescription("Factura")]
-    //    Factura = 0,
-    //    [LibEnumDescription("Nota De Crédito")]
-    //    NotaDeCredito,
-    //    [LibEnumDescription("Nota De Débito")]
-    //    NotaDeDebito,
-    //    [LibEnumDescription("Resumen Diario De Ventas")]
-    //    ResumenDiarioDeVentas,
-    //    [LibEnumDescription("No Asignado")]
-    //    NoAsignado,
-    //    [LibEnumDescription("Comprobante Fiscal")]
-    //    ComprobanteFiscal,
-    //    [LibEnumDescription("Boleta")]
-    //    Boleta
-    //}
-
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormadePago {
         [LibEnumDescription("Contado")]
         Contado = 0,

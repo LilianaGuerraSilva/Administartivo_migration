@@ -32,8 +32,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			if (vIsInMonedaLocal) {
 				if (vIsInTasaDelDia) {
 					vSqlCambio = new Saw.Lib.clsLibSaw().CampoMontoPorTasaDeCambioSql("CxC.CambioAbolivares", "CxC.Moneda", "1", false, "");
-				}
-				else {
+				} else {
 					vSqlCambio = vSqlUtil.IIF("CxC.CambioABolivares IS NULL OR CxC.CambioABolivares = 0", "1", "CxC.CambioABolivares", true);
 				}
 			} else {
@@ -42,7 +41,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 
 			bool vUsaModuloContabilidad = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaModuloDeContabiliad"));
 
-			vSql.AppendLine("SET DATEFORMAT dmy");
 			if (vUsaModuloContabilidad) {
 				vSql.AppendLine(CteComprobantesSql(valConsecutivoCompania, valFechaDesde, valFechaHasta));
 			}
@@ -51,7 +49,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("Cliente.Contacto,");
 			vSql.AppendLine("CxC.Fecha,");
 			vSql.AppendLine("CxC.Numero,");
-			vSql.AppendLine("CxC.Moneda,");
+			vSql.AppendLine((vIsInMonedaLocal ? vSqlUtil.ToSqlValue(vMonedaLocal) : "CxC.Moneda" ) + " AS Moneda,");
 			vSql.AppendLine(SqlCampoStatusStrCxCPendientesEntreFechas());
 
 			string vSqlCampoCxCMontoOriginal = vSqlUtil.IIF("CxC.Status = " + vSqlUtil.EnumToSqlValue((int) eStatusCXC.ANULADO), "0", "(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIVA) - CxC.MontoAbonado", true);
@@ -60,6 +58,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			if (vUsaModuloContabilidad) {
 				vSql.AppendLine("," + vSqlUtil.IIF("CTE_Comprobante.NumeroComprobante <>" + vSqlUtil.ToSqlValue(""), "CTE_Comprobante.NumeroComprobante", vSqlUtil.ToSqlValue("No Aplica"), true) + "AS NumeroComprobante");
 			}
+
 			vSql.AppendLine("FROM");
 			vSql.AppendLine("Cliente");
 			vSql.AppendLine("INNER JOIN CxC ON (Cliente.Codigo = CxC.CodigoCliente AND Cliente.ConsecutivoCompania = CxC.ConsecutivoCompania)");
@@ -68,21 +67,16 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 				vSql.Append(SqlUsaContabilidad());
 			}
 
-			vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "Cliente.ConsecutivoCompania", valConsecutivoCompania) + Environment.NewLine;
-			vSQLWhere = vSqlUtil.SqlDateValueBetween(vSQLWhere, "CxC.Fecha", valFechaDesde, valFechaHasta) + Environment.NewLine;
+			vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "Cliente.ConsecutivoCompania", valConsecutivoCompania);
+			vSQLWhere = vSqlUtil.SqlDateValueBetween(vSQLWhere, "CxC.Fecha", valFechaDesde, valFechaHasta);
 
 			string vSqlCampoCxCStatusParaWhere = "";
-			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", (int) eStatusCXC.PORCANCELAR, "", "=") + Environment.NewLine;
-			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", (int) eStatusCXC.ABONADO, "OR", "=") + Environment.NewLine;
+			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", (int) eStatusCXC.PORCANCELAR, "", "=");
+			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", (int) eStatusCXC.ABONADO, "OR", "=");
 
-			vSQLWhere = vSQLWhere + "AND (" + vSqlCampoCxCStatusParaWhere + ")" + Environment.NewLine;
+			vSQLWhere = vSQLWhere + "AND (" + vSqlCampoCxCStatusParaWhere + ")";
 
-			string vSqlAgruparMontosPorMoneda = "";
-			if (!vIsInMonedaLocal) {
-				vSqlAgruparMontosPorMoneda = " CxC.Moneda,";
-			}
-
-			vSQLWhere = vSQLWhere + "ORDER BY CxC.Status," + vSqlAgruparMontosPorMoneda + " CxC.Fecha, CxC.Numero";
+			vSQLWhere = vSQLWhere + "ORDER BY CxC.Status, Moneda, CxC.Fecha, CxC.Numero";
 			vSQLWhere = vSqlUtil.WhereSql(vSQLWhere);
 
 			vSql.AppendLine(vSQLWhere);
@@ -107,8 +101,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			if (vIsInMonedaLocal) {
 				if (vIsInTasaDelDia) {
 					vSqlCambio = new Saw.Lib.clsLibSaw().CampoMontoPorTasaDeCambioSql("CxC.CambioAbolivares", "CxC.Moneda", "1", false, "");
-				}
-				else {
+				} else {
 					vSqlCambio = vSqlUtil.IIF("CxC.CambioABolivares IS NULL OR CxC.CambioABolivares = 0", "1", "CxC.CambioABolivares", true);
 				}
 			}
@@ -116,7 +109,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 				vSqlCambio = "1";
 			}
 
-			vSql.AppendLine("SET DATEFORMAT dmy");
 			vSql.AppendLine("SELECT");
 			vSql.AppendLine(SqlCampoEstatusCxCPorCliente());
 			vSql.AppendLine("Cliente.Contacto,");
@@ -132,35 +124,30 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			vSql.AppendLine("Cliente.Telefono,");
 			vSql.AppendLine("Cliente.Direccion,");
 			vSql.AppendLine("Cliente.ZonaDeCobranza AS ZonaCobranza,");
-			vSql.AppendLine("CxC.Moneda,");
+			vSql.AppendLine((vIsInMonedaLocal ? vSqlUtil.ToSqlValue(vMonedaLocal) : "CxC.Moneda") + " AS Moneda,");
 			vSql.AppendLine("CxC.NumeroComprobanteFiscal AS NumFiscal");
 			vSql.AppendLine("FROM");
 			vSql.AppendLine("Cliente");
 			vSql.AppendLine("INNER JOIN CxC ON (Cliente.Codigo = CxC.CodigoCliente AND Cliente.ConsecutivoCompania = CxC.ConsecutivoCompania)");
 			vSql.AppendLine("RIGHT JOIN Moneda ON CxC.CodigoMoneda = Moneda.Codigo");
 
-			vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "Cliente.ConsecutivoCompania", valConsecutivoCompania) + Environment.NewLine;
-			vSQLWhere = vSqlUtil.SqlDateValueBetween(vSQLWhere, "CxC.Fecha", valFechaDesde, valFechaHasta) + Environment.NewLine;
+			vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "Cliente.ConsecutivoCompania", valConsecutivoCompania);
+			vSQLWhere = vSqlUtil.SqlDateValueBetween(vSQLWhere, "CxC.Fecha", valFechaDesde, valFechaHasta);
 
 			string vSqlCampoCxCStatusParaWhere = "";
-			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.PORCANCELAR, "", "=") + Environment.NewLine;
-			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.CANCELADO, "OR", "=") + Environment.NewLine;
-			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.ABONADO, "OR", "=") + Environment.NewLine;
-			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.ANULADO, "OR", "=") + Environment.NewLine;
+			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.PORCANCELAR, "", "=");
+			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.CANCELADO, "OR", "=");
+			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.ABONADO, "OR", "=");
+			vSqlCampoCxCStatusParaWhere = vSqlUtil.SqlEnumValueWithOperators(vSqlCampoCxCStatusParaWhere, "CxC.Status", ( int ) eStatusCXC.ANULADO, "OR", "=");
 
-			vSQLWhere = vSQLWhere + "AND (" + vSqlCampoCxCStatusParaWhere + ")" + Environment.NewLine;
+			vSQLWhere = vSQLWhere + "AND (" + vSqlCampoCxCStatusParaWhere + ")";
 
 			if (!LibString.IsNullOrEmpty(valCodigoDelCliente)) {
-				vSQLWhere = vSqlUtil.SqlValueWithAnd(vSQLWhere, "Cliente.Codigo", valCodigoDelCliente) + Environment.NewLine;
+				vSQLWhere = vSqlUtil.SqlValueWithAnd(vSQLWhere, "Cliente.Codigo", valCodigoDelCliente);
 			}
 
 			if (!LibString.IsNullOrEmpty(valZonaCobranza)) {
-				vSQLWhere = vSqlUtil.SqlValueWithAnd(vSQLWhere, "Cliente.ZonaDeCobranza", valZonaCobranza) + Environment.NewLine;
-			}
-
-			string vSqlAgruparMontosPorMoneda = "";
-			if (!vIsInMonedaLocal) {
-				vSqlAgruparMontosPorMoneda = " CxC.Moneda,";
+				vSQLWhere = vSqlUtil.SqlValueWithAnd(vSQLWhere, "Cliente.ZonaDeCobranza", valZonaCobranza);
 			}
 
 			string vSqlClientesOrdenadosPor = "";
@@ -171,7 +158,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 				vSqlClientesOrdenadosPor = "Cliente.Nombre";
 			}
 
-			vSQLWhere = vSQLWhere + "ORDER BY" + vSqlAgruparMontosPorMoneda + " Cliente.ZonaDeCobranza, " + vSqlClientesOrdenadosPor + ", CxC.FechaVencimiento";
+			vSQLWhere = vSQLWhere + "ORDER BY Moneda, Cliente.ZonaDeCobranza, " + vSqlClientesOrdenadosPor + ", CxC.FechaVencimiento";
 			vSQLWhere = vSqlUtil.WhereSql(vSQLWhere);
 
 			vSql.AppendLine(vSQLWhere);
@@ -181,8 +168,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 		#endregion //Metodos Generados
 
 		#region Código Programador
-		private string SqlCampoStatusStrCxCPendientesEntreFechas()
-		{
+		private string SqlCampoStatusStrCxCPendientesEntreFechas() {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("(CASE");
 			vSql.AppendLine("WHEN CxC.Status = " + vSqlUtil.EnumToSqlValue(( int ) eStatusCXC.PORCANCELAR) + " THEN " + vSqlUtil.ToSqlValue(eStatusCXC.PORCANCELAR.GetDescription(0)));
@@ -191,8 +177,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 			return vSql.ToString();
 		}
 
-		private string SqlCampoEstatusCxCPorCliente()
-		{
+		private string SqlCampoEstatusCxCPorCliente() {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("(CASE");
 			vSql.AppendLine("WHEN CxC.Status = " + vSqlUtil.EnumToSqlValue(( int ) eStatusCXC.PORCANCELAR) + " THEN " + vSqlUtil.ToSqlValue(eStatusCXC.PORCANCELAR.GetDescription(1)));

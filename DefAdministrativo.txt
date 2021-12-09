@@ -388,7 +388,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
    }
 
 
-{@M}CxC = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta,Generate
+{@M}CxC = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta
     ConsecutivoCompania	      : Longint; //HIDE
     Numero	              : Str20;   //u,o,g,"Número",SEARCH
     Status                    : unStatusDocumento;//g,"Status",SEARCH
@@ -948,7 +948,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
 	@PrimaryKey= ConsecutivoCompania, ConsecutivoMaquinaFiscal
    }
 
-{@M}Factura = record //Multiarchivo=Compania
+{@M}Factura = record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta,Generate
     ConsecutivoCompania: Longint; //HIDE
     Numero        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha            : unFecha;//O,G,"Fecha",search
@@ -4196,8 +4196,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Contacto	: boolean;		//"Contacto"
 }
 
-
-{@R CxC}CxCPorCliente = Reporte			//Multiarchivo=Compania,"CxC por Cliente",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@R CxC}CxCPorCliente = Reporte			//Multiarchivo=Compania,"CxC por Cliente",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo
 	LblCambioMoneda		: Str500;
 	SeccionGHMoneda		: Section;
 	MonedaPorGrupo		: Str80		//"Moneda"
@@ -4221,7 +4220,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	TotalLinea		: decimal;	//"Total"
 }
 
-{@F}frmCxCPorClienteXXX = Record				//"CxC por Cliente",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@F}frmCxCPorCliente = Record					//"CxC por Cliente",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo
 	CantidadAImprimir	: unCantidadAImprimir		//"Cantidad a imprimir"
 	NombreCliente		: Str160;			//Search,=Cliente.Nombre,"Nombre Cliente"
 	ZonaCobranza		: Str100;			//o,Search,=ZonaCobranza.Nombre,"Zona de Cobranza"
@@ -4230,4 +4229,35 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	MostrarContacto		: boolean			//"Mostrar Contacto"
 	MonedaDelInforme	: unMonedaDelInforme;		//"Moneda del informe"
 	ClientesOrdenadosPor	: unClientesOrdenadosPor;	//"Clientes ordenados por"
+}
+
+{@R Factura}FacturacionPorArticulo = Reporte	//Multiarchivo=Compania,"Facturación por Artículo",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+	Articulo		: Section;	//"Artículo"
+	CodigoDeArticulo	: Str30;	//"Código de Artículo"
+	Descripcion		: Str7000;	//"Descripción"
+	UnidadDeVenta		: Str20;	//"Unidad de Venta"
+	{EndSeccion}
+	Moneda		: Section;	//"Moneda"
+	Moneda			: Str80;	//"Moneda"
+	{EndSeccion}
+	Fecha			: date;		//"Fecha"
+	NombreCliente		: Str160;	//"Nombre Cliente"
+	Numerofactura		: Str13;	//"Número de Factura"
+	Cantidad		: decimal;	//"Cantidad"
+	PrecioUnitario		: decimal;	//"Precio Unitario"
+	Monto			: decimal;	//"Monto"
+	TotalCantidad		: decimal;	//"Total Cantidad"
+	TotalMonto		: decimal;	//"Total Monto"
+	LblNota			: Str1000;
+}
+
+{@F}frmFacturacionPorArticulo = Record			//"Facturación por Artículo",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+	FechaDesde		: date;			//"Fecha desde"
+	FechaHasta		: date;			//"Fecha hasta"	
+	CantidadAImprimir	: unCantidadAImprimir	//"Cantidad a imprimir"
+	CodigoDeArticulo	: Str30;		//Search,=ArticuloInventario.Codigo,"Código de Artículo"
+	MonedaDelInforme	: unMonedaDelInforme;	//"Moneda del informe"
+	TasaDeCambio		: unTasaDeCambio;	//"TasaDeCambio"
+	InformeDetallado	: boolean;		//"Detallado"
+	InformeResumido		: boolean;		//"Resumido"
 }

@@ -60,6 +60,7 @@
     <Compile Include="CobroDeFacturaRapidaDepositoTransf.cs" />
     <Compile Include="CobroDeFacturaRapidaDepositoTransfDetalle.cs" />
     <Compile Include="CxC.cs" />
+    <Compile Include="Factura.cs" />
     <Compile Include="IActualizarArticuloInventarioPdn.cs" />
     <Compile Include="ICajaAperturaPdn.cs" />
     <Compile Include="ICajaInformes.cs" />
@@ -67,9 +68,12 @@
     <Compile Include="ICobranzaPdn.cs" />
     <Compile Include="ICxCInformes.cs" />
     <Compile Include="ICXCPdn.cs" />
+    <Compile Include="IFacturaInformes.cs" />
+    <Compile Include="IFacturaPdn.cs" />
     <Compile Include="IFkCajaAperturaViewModel.cs" />
     <Compile Include="IFkCajaViewModel.cs" />
     <Compile Include="IFkCxCViewModel.cs" />
+    <Compile Include="IFkFacturaViewModel.cs" />
     <Compile Include="IMovimientoBancarioPuntoDeVentaPdn.cs" />
     <Compile Include="INotaDeEntregaInformes.cs" />
     <Compile Include="INotaDeEntregaPdn.cs" />

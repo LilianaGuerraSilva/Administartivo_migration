@@ -79,8 +79,7 @@ namespace Galac.Adm.Rpt.Venta {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
                 }
                 WorkerReportProgress(100, "Finalizando...");
-            }
-            else {
+            } else {
                 throw new GalacException("No se encontró información para imprimir", eExceptionManagementType.Alert);
             }
         }
