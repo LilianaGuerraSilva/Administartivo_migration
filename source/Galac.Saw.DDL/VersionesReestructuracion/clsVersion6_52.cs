@@ -18,18 +18,24 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
-            ExecuteAlterColumnEmail();
+            ExecuteAlterColumnEmail();            
             ExecuteAlterColumnNumeroControl();
+			EliminarVistaBaseimponibleAlicuotasVentas();
             DisposeConnectionNoTransaction();
             return true;
-        }
+        }       
 
-        private void ExecuteAlterColumnEmail(){
-            ModifyLengthOfColumnString("Adm.Proveedor","Email",100,"");
+        private void ExecuteAlterColumnEmail() {
+            ModifyLengthOfColumnString("Adm.Proveedor", "Email", 100, "");
         }
-        private void ExecuteAlterColumnNumeroControl()
-        {
+		
+        private void ExecuteAlterColumnNumeroControl() {
             ModifyLengthOfColumnString("dbo.OPFalsoRetencion", "NumeroControl", 20, "");
         }
+		
+		 private void EliminarVistaBaseimponibleAlicuotasVentas() {            
+            new LibViews().Drop("dbo.IGV_BaseimponibleAlicuotasVentas");
+        }
+		
     }
 }
