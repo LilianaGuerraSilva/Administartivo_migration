@@ -9,6 +9,7 @@ using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Catching;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Adm.Rpt.Venta {
 
@@ -70,7 +71,7 @@ namespace Galac.Adm.Rpt.Venta {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
 
-            if (Data.Rows.Count == 0) {
+            if (!LibDataTable.DataTableHasRows(Data)) {
                 throw new GalacException("No se encontró información para imprimir", eExceptionManagementType.Alert);
 			}
 

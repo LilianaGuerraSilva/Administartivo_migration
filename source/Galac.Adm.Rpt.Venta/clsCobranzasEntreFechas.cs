@@ -9,6 +9,7 @@ using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Catching;
+using LibGalac.Aos.Dal;
 
 namespace Galac.Adm.Rpt.Venta {
 
@@ -89,7 +90,7 @@ namespace Galac.Adm.Rpt.Venta {
             WorkerReportProgress(90,"Configurando Informe...");
             Dictionary<string,string> vParams = GetConfigReportParameters();
             dsrCobranzasEntreFechas vRpt = new dsrCobranzasEntreFechas(true,RpxName);
-            if(Data.Rows.Count >= 1) {
+            if(LibDataTable.DataTableHasRows(Data)) {
                 if(vRpt.ConfigReport(Data,vParams)) {
                     LibReport.SendReportToDevice(vRpt,1,PrintingDevice,clsCobranzasEntreFechas.ReportName,true,ExportFileFormat,"",false);
                 }
