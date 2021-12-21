@@ -8,42 +8,38 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.Venta;
-using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Rpt.Venta {
 
-    public class clsFacturacionPorArticulo: LibRptBaseMfc {
+    public class clsResumenDiarioDeVentasEntreFechas: LibRptBaseMfc {
         #region Propiedades
         protected DataTable Data { get; set; }
         public string RpxName { get; set; }
         private DateTime FechaDesde { get; set; }
         private DateTime FechaHasta { get; set; }
-        private string CodigoDelArticulo { get; set; }
-        private Saw.Lib.eMonedaParaImpresion MonedaDelReporte { get; set; }
-        private Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio { get; set; }
-        private bool IsInformeDetallado { get; set; }
+        private bool AgruparPorMaquinaFiscal { get; set; }
+        private string ConsecutivoMaquinaFiscal { get; set; }
         #endregion //Propiedades
 
         #region Constructores
-        public clsFacturacionPorArticulo(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoDelArticulo, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio, bool valIsInformeDetallado)
+        public clsResumenDiarioDeVentasEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, bool valAgruparPorMaquinaFiscal, string valConsecutivoMaquinaFiscal)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = valFechaDesde;
             FechaHasta = valFechaHasta;
-            CodigoDelArticulo = valCodigoDelArticulo;
-            MonedaDelReporte = valMonedaDelReporte;
-            TipoTasaDeCambio = valTipoTasaDeCambio;
-            IsInformeDetallado = valIsInformeDetallado;
+            AgruparPorMaquinaFiscal = valAgruparPorMaquinaFiscal;
+            ConsecutivoMaquinaFiscal = valConsecutivoMaquinaFiscal;
         }
         #endregion //Constructores
 
         #region Metodos Generados
         public static string ReportName {
-            get { return "Facturación por Artículo"; }
+            get { return new dsrResumenDiarioDeVentasEntreFechas().ReportTitle(); }
         }
 
         public override Dictionary<string, string> GetConfigReportParameters() {
-            string vTitulo = clsFacturacionPorArticulo.ReportName + (IsInformeDetallado? " - Detallado" : " - Resumido");
+            string vTitulo = ReportName;
             if (UseExternalRpx) {
                 vTitulo += " - desde RPX externo.";
             }
@@ -51,10 +47,7 @@ namespace Galac.Adm.Rpt.Venta {
             vParams.Add("NombreCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre") + " - " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRif"));
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("FechaInicialYFinal", string.Format("del {0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-            vParams.Add("MonedaDelReporte", LibConvert.EnumToDbValue(( int ) MonedaDelReporte));
-            vParams.Add("TipoTasaDeCambio", LibConvert.EnumToDbValue(( int ) TipoTasaDeCambio));
-            vParams.Add("UsaPrecioSinIva", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaPrecioSinIva"));
-            vParams.Add("CantidadDeDecimalesInt", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CantidadDeDecimalesInt"));
+            vParams.Add("AgruparPorMaquinaFiscal", LibConvert.BoolToSN(AgruparPorMaquinaFiscal));
             return vParams;
         }
 
@@ -63,8 +56,8 @@ namespace Galac.Adm.Rpt.Venta {
                 return;
             }
             WorkerReportProgress(30, "Obteniendo datos...");
-            IFacturaInformes vRpt = new Brl.Venta.Reportes.clsFacturaRpt();
-            Data = vRpt.BuildFacturacionPorArticulo(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, CodigoDelArticulo, MonedaDelReporte, TipoTasaDeCambio, IsInformeDetallado);
+            IResumenDiarioDeVentasInformes vRpt = new Brl.Venta.Reportes.clsResumenDiarioDeVentasRpt();
+            Data = vRpt.BuildResumenDiarioDeVentasEntreFechas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, AgruparPorMaquinaFiscal, ConsecutivoMaquinaFiscal);
         }
 
         public override void SendReportToDevice() {
@@ -73,24 +66,25 @@ namespace Galac.Adm.Rpt.Venta {
 
             if (!LibDataTable.DataTableHasRows(Data)) {
                 throw new GalacException("No se encontró información para imprimir", eExceptionManagementType.Alert);
-			}
+            }
 
-            if (IsInformeDetallado) {
-                dsrFacturacionPorArticuloDetallado vRpt = new dsrFacturacionPorArticuloDetallado();
+            if (AgruparPorMaquinaFiscal) {
+                dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal vRpt = new dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal();
                 if (vRpt.ConfigReport(Data, vParams)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
                 }
             } else {
-                dsrFacturacionPorArticuloResumido vRpt = new dsrFacturacionPorArticuloResumido();
+                dsrResumenDiarioDeVentasEntreFechas vRpt = new dsrResumenDiarioDeVentasEntreFechas();
                 if (vRpt.ConfigReport(Data, vParams)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
                 }
             }
+            
             WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
 
-    } //End of class clsFacturacionPorArticulo
+    } //End of class clsResumenDiarioDeVentasEntreFechas
 
 } //End of namespace Galac.Adm.Rpt.Venta
 

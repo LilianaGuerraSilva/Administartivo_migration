@@ -10,7 +10,6 @@ using LibGalac.Aos.DefGen;
 namespace Galac.Adm.Brl.Venta.Reportes {
     public class clsFacturaSql {
         private QAdvSql vSqlUtil = new QAdvSql("");
-        private Saw.Lib.clsLibSaw _LibSaw = new Saw.Lib.clsLibSaw();
 
         #region Metodos Generados
         public string SqlFacturacionPorArticulo(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoDelArticulo, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio, bool valIsInformeDetallado) {

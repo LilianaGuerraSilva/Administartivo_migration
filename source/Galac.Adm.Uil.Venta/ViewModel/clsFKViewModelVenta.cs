@@ -303,4 +303,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
        public string NombreDelUsuario { get; set; }
        public string NombreCaja {get; set;  }
    }
+   
+    public class FkMaquinaFiscalViewModel : IFkMaquinaFiscalViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Consecutivo Máquina Fiscal", DbMemberPath = "Saw.MaquinaFiscal.ConsecutivoMaquinaFiscal", Width = 9)]
+        public string ConsecutivoMaquinaFiscal { get; set; }
+        [LibGridColum("Descripción")]
+        public string Descripcion { get; set; }
+        [LibGridColum("Nro.Registro")]
+        public string NumeroRegistro { get; set; }
+        [LibGridColum("Status")]
+        public eStatusMaquinaFiscal Status { get; set; }
+    }
 }

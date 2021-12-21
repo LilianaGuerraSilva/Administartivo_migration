@@ -8,7 +8,7 @@ using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
 
-    public class clsFacturaRpt: ILibReportInfo, IFacturaInformes {
+    public class clsResumenDiarioDeVentasRpt: ILibReportInfo, IResumenDiarioDeVentasInformes {
         #region Variables
         private Dictionary<string, Dictionary<string, string>> _PropertiesForReportList;
         #endregion //Variables
@@ -20,7 +20,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
         #endregion //Propiedades
 
         #region Constructores
-        public clsFacturaRpt() {
+        public clsResumenDiarioDeVentasRpt() {
             _PropertiesForReportList = new Dictionary<string, Dictionary<string, string>>();
             _PropertiesForReportList.Add("Factura", FacturaInfo());
         }
@@ -34,12 +34,12 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vResult;
         }
 
-        System.Data.DataTable IFacturaInformes.BuildFacturacionPorArticulo(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoDelArticulo, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio, bool valIsInformeDetallado) {
-            string vSql;
-            clsFacturaSql insFacturaSql = new clsFacturaSql();
-            ILibDataRpt insFacturacionPorArticulo = new Dal.Venta.clsFacturaDat();
-            vSql = insFacturaSql.SqlFacturacionPorArticulo(valConsecutivoCompania, valFechaDesde, valFechaHasta, valCodigoDelArticulo, valMonedaDelReporte, valTipoTasaDeCambio, valIsInformeDetallado);
-            return insFacturacionPorArticulo.GetDt(vSql, 0);
+        System.Data.DataTable IResumenDiarioDeVentasInformes.BuildResumenDiarioDeVentasEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, bool valAgruparPorMaquinaFiscal, string valConsecutivoMaquinaFiscal) {
+            string vSql = "";
+            clsResumenDiarioDeVentasSql insResumenDiarioDeVentasSql = new clsResumenDiarioDeVentasSql();
+            ILibDataRpt insResumenDiarioDeVentasEntreFechas = new Dal.Venta.clsFacturaDat();
+            vSql = insResumenDiarioDeVentasSql.SqlResumenDiarioDeVentasEntreFechas(valConsecutivoCompania, valFechaDesde, valFechaHasta, valAgruparPorMaquinaFiscal, valConsecutivoMaquinaFiscal);
+            return insResumenDiarioDeVentasEntreFechas.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados
 

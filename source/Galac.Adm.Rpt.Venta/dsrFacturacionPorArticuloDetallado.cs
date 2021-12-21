@@ -36,7 +36,6 @@ namespace Galac.Adm.Rpt.Venta
         #endregion //Constructores
 
         #region Metodos Generados
-
         public string ReportTitle() {
             return "Facturación por Artículo - Detallado";
         }

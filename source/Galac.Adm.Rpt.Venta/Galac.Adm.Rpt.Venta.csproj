@@ -97,6 +97,7 @@
     <Compile Include="clsCxCPorCliente.cs" />
     <Compile Include="clsFacturacionPorArticulo.cs" />
     <Compile Include="clsNotaDeEntregaEntreFechasPorCliente.cs" />
+    <Compile Include="clsResumenDiarioDeVentasEntreFechas.cs" />
     <Compile Include="dsrCobranzasEntreFechas.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -193,7 +194,19 @@
     <Compile Include="dsrNotaDeEntregaEntreFechasPorCliente.Designer.cs">
       <DependentUpon>dsrNotaDeEntregaEntreFechasPorCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="dsrResumenDiarioDeVentasEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrResumenDiarioDeVentasEntreFechas.Designer.cs">
+      <DependentUpon>dsrResumenDiarioDeVentasEntreFechas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.Designer.cs">
+      <DependentUpon>dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="dsrCajasAperturadas.resx">
@@ -244,7 +257,13 @@
     <EmbeddedResource Include="dsrNotaDeEntregaEntreFechasPorCliente.resx">
       <DependentUpon>dsrNotaDeEntregaEntreFechasPorCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="dsrResumenDiarioDeVentasEntreFechas.resx">
+      <DependentUpon>dsrResumenDiarioDeVentasEntreFechas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.resx">
+      <DependentUpon>dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">

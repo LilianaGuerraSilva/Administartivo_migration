@@ -68,6 +68,7 @@
     <Compile Include="ICobranzaPdn.cs" />
     <Compile Include="ICxCInformes.cs" />
     <Compile Include="ICXCPdn.cs" />
+    <Compile Include="IResumenDiarioDeVentasInformes.cs" />
     <Compile Include="IFacturaInformes.cs" />
     <Compile Include="IFacturaPdn.cs" />
     <Compile Include="IFkCajaAperturaViewModel.cs" />

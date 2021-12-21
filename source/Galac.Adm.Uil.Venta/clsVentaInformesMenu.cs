@@ -29,6 +29,9 @@ namespace Galac.Adm.Uil.Venta {
                 case eSystemModules.Factura:
                     _LibReportsViewModel = new clsFacturaInformesViewModel();
                 break;
+                case eSystemModules.ResumenDiarioVentas:
+                    _LibReportsViewModel = new clsResumenDiarioDeVentasViewModel();
+                    break;
             }
             if(LibMessages.ReportsView.ShowReportsView(_LibReportsViewModel,true)) {
             }
