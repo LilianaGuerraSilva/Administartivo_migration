@@ -217,7 +217,7 @@ Private Function fNombreFileDeImpresionDelReporteDeFactura(ByVal valReporte As I
       Case CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_CONTACTO_X_CLIENTE: nombreFileXML = "rpxFacturacionEntreFechasContactoXCliente"
       Case CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL_X_CLIENTE: nombreFileXML = "rpxFacturacionEntreFechasMontoOriginalXCliente"
       Case CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN: nombreFileXML = "rpxFacturacionPorArticuloYPorAlmacen"
-      Case CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO: nombreFileXML = "rpxFacturacionPorArticuloYPorAlmacenResumido" 
+      Case CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO: nombreFileXML = "rpxFacturacionPorArticuloYPorAlmacenResumido"
       Case Else: nombreFileXML = ""
    End Select
    If nombreFileXML <> "" Then
@@ -533,8 +533,8 @@ Public Function fConfigurarDatosDelReporteFacturacionPorArticuloYPorAlmacen(ByRe
         nombreDelFileXML = fNombreFileDeImpresionDelReporteDeFactura(CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN)
         NombreDelReporte = "Salida de Invetario Por Almacen y Por Articulo - Detallado"
    Else
-    	nombreDelFileXML = fNombreFileDeImpresionDelReporteDeFactura(CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO)
-    	NombreDelReporte = "Salida de Invetario Por Almacen y Por Articulo - Resumido"
+        nombreDelFileXML = fNombreFileDeImpresionDelReporteDeFactura(CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO)
+        NombreDelReporte = "Salida de Invetario Por Almacen y Por Articulo - Resumido"
    End If
 
    If gUtilReports.fLoadLayout(refRpt, nombreDelFileXML) Then
@@ -1020,62 +1020,6 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConfigurarDatosDelReporteNotasDeCreditoEntreFechasPorVendedor = False
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteNotasDeCreditoEntreFechasPorVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Public Function fConfigurarDatosDelReporteDeResumenDiario(ByRef refRpt As DDActiveReports2.ActiveReport, _
-                  ByVal valSqlDelReporte As String, ByVal valfechaInicio As Date, ByVal valFechaFinal As Date, _
-                  ByVal NombreCompaniaParaInformes As String, ByVal gGlobalization As Object, _
-                  ByVal usarFiltroMaquina As Boolean) As Boolean
-   Dim nombreDelFileXML As String
-   Dim tituloDelReporte As String
-   Dim exito As Boolean
-   On Error GoTo h_ERROR
-   exito = False
-   If usarFiltroMaquina Then
-      nombreDelFileXML = fNombreFileDeImpresionDelReporteDeResumenDiario(CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS_POR_MAQUINA_FISCAL)
-      tituloDelReporte = fNombreDelReporteDeResumenDiario(CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS_POR_MAQUINA_FISCAL)
-   Else
-      nombreDelFileXML = fNombreFileDeImpresionDelReporteDeResumenDiario(CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS)
-      tituloDelReporte = fNombreDelReporteDeResumenDiario(CM_RPT_RESUMEN_DIARIO_ENTRE_FECHAS)
-   End If
-   If gUtilReports.fLoadLayout(refRpt, nombreDelFileXML) Then
-      If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSqlDelReporte, , 180) Then
-            gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape, tituloDelReporte
-            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", NombreCompaniaParaInformes
-            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblTituloDelReporte", tituloDelReporte
-            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "del " & gConvert.dateToString(valfechaInicio) & " al " & gConvert.dateToString(valFechaFinal)
-            gUtilReports.sDefaultConfigurationForLabels refRpt, "lblMontoIva", "Monto " & gGlobalization.fPromptIVA
-            gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
-            gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", _
-            "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "Moneda"
-            gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "Fecha", eFT_DATE
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNumeroDesde", "", "NumeroDesde"
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNumeroHasta", "", "NumeroHasta"
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescMaquinaFiscal", "", "Descripcion"
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtConsecutivo", "", "CodigoMaquinaRegistradora"
-            gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoMaquinaFiscal", "", "CodigoMaquinaRegistradora"
-            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtBaseImponible", "", "TotalBaseImponible"
-            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoIVA", "", "TotalIVA"
-            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotal", "", "TotalFactura"
-           'nelson
-            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtMontoExento", "", "TotalMontoExento"
-           'nelson
-            Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
-            exito = True
-            gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHMoneda", "Moneda", ddGrpAll, ddRepeatAll, True, ddNPBeforeAfter ' ddNPAfter
-            If usarFiltroMaquina Then
-               gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHMaquinaFiscal", "CodigoMaquinaRegistradora", ddGrpAll, ddRepeatAll, True, ddNPNone
-               gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalMaquina", "TotalFactura", eSF_SUM, "GHMaquinaFiscal", eSR_GROUP, eST_SUB_TOTAL
-               gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoMaquinaFiscal", "", "NumeroRegistro"
-            End If
-            gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotales", "TotalFactura", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
-      End If
-   End If
-   fConfigurarDatosDelReporteDeResumenDiario = exito
-h_EXIT:   On Error GoTo 0
-   Exit Function
-h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteFacturasOBorradoresEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteFacturaEntreFechasConCostosSegunLeyPorArticulo(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valfechaInicio As Date, ByVal valFechaFinal As Date, ByVal valNombreCompaniaParaInformes As String, ByVal valMaxGanancia As Currency) As Boolean
