@@ -41,6 +41,14 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql = insFacturaSql.SqlFacturacionPorArticulo(valConsecutivoCompania, valFechaDesde, valFechaHasta, valCodigoDelArticulo, valMonedaDelReporte, valTipoTasaDeCambio, valIsInformeDetallado);
             return insFacturacionPorArticulo.GetDt(vSql, 0);
         }
+
+        System.Data.DataTable IFacturaInformes.BuildFacturacionPorUsuario(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valNombreOperador, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio, bool valIsInformeDetallado) {
+            string vSql;
+            clsFacturaSql insFacturaSql = new clsFacturaSql();
+            ILibDataRpt insFacturacionPorUsuario = new Dal.Venta.clsFacturaDat();
+            vSql = insFacturaSql.SqlFacturacionPorUsuario(valConsecutivoCompania, valFechaDesde, valFechaHasta, valNombreOperador, valMonedaDelReporte, valTipoTasaDeCambio, valIsInformeDetallado);
+            return insFacturacionPorUsuario.GetDt(vSql, 0);
+        }
         #endregion //Metodos Generados
 
     } //End of class clsFacturaRpt

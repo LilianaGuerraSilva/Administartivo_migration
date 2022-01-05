@@ -79,6 +79,10 @@ namespace Galac.Adm.Brl.Venta {
                     vPdnModule = new Galac.Comun.Brl.TablasGen.clsBancoNav();
                     vResult = vPdnModule.GetDataForList("Factura", ref refXmlDocument, valXmlParamsExpression);
                     break;
+                case "Usuario":
+                    vPdnModule = new LibGalac.Aos.Brl.Usal.LibGUserNav();
+                    vResult = vPdnModule.GetDataForList("Factura", ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 default: throw new NotImplementedException();
             }
             return vResult;

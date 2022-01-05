@@ -1575,61 +1575,6 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "fSQLDelReporteEstadisticoDeVentas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLDelReporteFacturacionPorUsuario(ByVal usarCambioOriginal As Boolean, ByVal valConsecutivoCompania As String, _
-                                       ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
-                                              ByVal valUsuario As String, ByVal valMoneda As Boolean, _
-                                                ByVal valUsaModuloContabilidad As Boolean, ByVal valMostrarDetalle As Boolean, _
-                                                    ByVal valCantidadAImprimir As Boolean, ByVal gMonedaLocalActual As Object, _
-                                                       ByVal gUltimaTasaDeCambio As Object) As String
-   Dim SQL As String
-   On Error GoTo h_ERROR
-   
-   SQL = "SELECT factura.NombreOperador, "
-   SQL = SQL & "factura.Fecha, "
-   SQL = SQL & "factura.Numero, "
-   SQL = SQL & "factura.TipoDeDocumento, "
-   SQL = SQL & "factura.PorcentajeDescuento AS PorcDesctoFact, "
-   SQL = SQL & "cliente.Nombre, "
-   SQL = SQL & "factura.TipoDeDocumento +  CHAR(9)  + factura.Numero AS CampoDeGrupo, "
-   SQL = SQL & "factura.Moneda, "
-   SQL = SQL & "factura.CambioABolivares, "
-   If valMoneda Then
-      SQL = SQL & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.TotalBaseImponible + Factura.TotalMontoExento", "Factura.Fecha"), usarCambioOriginal, "TotalFactura")
-   Else
-      SQL = SQL & " factura.TotalFactura "
-   End If
-   If valUsaModuloContabilidad Then
-      SQL = SQL & "," & gUtilSQL.getIIF(fSQGenerarCuentaContable(valConsecutivoCompania, valFechaInicial, valFechaFinal) & " <> " & gUtilSQL.fSimpleSqlValue(""), fSQGenerarCuentaContable(valConsecutivoCompania, valFechaInicial, valFechaFinal), gUtilSQL.fSimpleSqlValue("No Aplica"), True) & " AS NumeroComprobante "
-   End If
-   If valMostrarDetalle Then
-      SQL = SQL & " , renglonFactura.Articulo, renglonFactura.Descripcion, renglonFactura.PorcentajeDescuento AS PorcDectoRenglon, renglonFactura.Cantidad,"
-      If valMoneda Then
-         SQL = SQL & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "RenglonFactura.PrecioSinIVA", "factura.Fecha"), usarCambioOriginal, "PrecioSinIVA") & ", "
-         SQL = SQL & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "RenglonFactura.PrecioConIva", "factura.Fecha"), usarCambioOriginal, "PrecioConIva") & ", "
-         SQL = SQL & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("factura.CambioABolivares", "factura.Moneda", gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "RenglonFactura.TotalRenglon", "factura.Fecha"), usarCambioOriginal, "TotalRenglon")
-      Else
-         SQL = SQL & " renglonFactura.PrecioConIVA , renglonFactura.PrecioSinIVA, renglonFactura.TotalRenglon"
-      End If
-      SQL = SQL & " FROM (cliente INNER JOIN factura ON (cliente.Codigo = factura.CodigoCliente) AND (cliente.ConsecutivoCompania = factura.ConsecutivoCompania)) INNER JOIN renglonFactura ON (factura.Numero = renglonFactura.NumeroFactura) AND (factura.TipoDeDocumento = renglonFactura.TipoDeDocumento) AND (factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania)"
-   Else
-      SQL = SQL & " FROM cliente INNER JOIN factura ON (cliente.Codigo = factura.CodigoCliente) AND (cliente.ConsecutivoCompania = factura.ConsecutivoCompania)"
-   End If
-   SQL = SQL & " WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("factura.Fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
-   SQL = SQL & " AND factura.TipoDeDocumento <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
-   SQL = SQL & " AND factura.ConsecutivoCompania = " & valConsecutivoCompania
-   If valCantidadAImprimir Then
-      SQL = SQL & "  AND factura.NombreOperador = " & valUsuario
-   End If
-   SQL = SQL & " ORDER BY factura.NombreOperador, factura.Moneda, factura.Fecha, factura.TipoDeDocumento +  CHAR(9)  + factura.Numero, factura.TipoDeDocumento, factura.Numero"
-h_EXIT: On Error GoTo 0
-   fSQLDelReporteFacturacionPorUsuario = SQL
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-       "fSQLDelReporteFacturacionPorUsuario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
 Public Function fSQLComparativoPorAnoPorMeses(ByVal valAnoInicial As Integer, ByVal valAnoFinal As Integer, _
                                        ByVal gMonedaLocalActual As Object, ByVal valMontoSinIva As String, _
                                            ByVal valMontoConIva As String, ByVal valFechaDocumentoOrigen As String, _

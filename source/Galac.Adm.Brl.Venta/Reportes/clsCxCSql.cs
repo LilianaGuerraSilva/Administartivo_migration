@@ -38,7 +38,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 				vSqlCambio = "1";
 			}
 
-			bool vUsaModuloContabilidad = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaModuloDeContabiliad"));
+			bool vUsaModuloContabilidad = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaModuloDeContabilidad"));
 
 			if (vUsaModuloContabilidad) {
 				vSql.AppendLine(CteComprobantesSql(valConsecutivoCompania, valFechaDesde, valFechaHasta));

@@ -145,6 +145,7 @@
     <Compile Include="clsCajaMenu.cs" />
     <Compile Include="clsClienteInsercionRapidaMenu.cs" />
     <Compile Include="clsCobroRapidoMultimonedaMenu.cs" />
+    <Compile Include="Reportes\clsFacturacionPorUsuarioViewModel.cs" />
     <Compile Include="clsFacturaRapidaMenu.cs" />
     <Compile Include="clsVentaInformesMenu.cs" />
     <Compile Include="LibSaw.cs" />
@@ -199,6 +200,9 @@
     </Compile>
     <Compile Include="Reportes\GSFacturacionPorArticulo.xaml.cs">
       <DependentUpon>GSFacturacionPorArticulo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSFacturacionPorUsuario.xaml.cs">
+      <DependentUpon>GSFacturacionPorUsuario.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSNotaDeEntregaEntreFechasPorClienteView.xaml.cs">
       <DependentUpon>GSNotaDeEntregaEntreFechasPorClienteView.xaml</DependentUpon>
@@ -338,6 +342,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Reportes\GSFacturacionPorArticulo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSFacturacionPorUsuario.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
