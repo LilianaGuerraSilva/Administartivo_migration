@@ -939,8 +939,81 @@ End Function
 Public Function fSqlViewVentasFacturaDetallado() As String
    Dim vSQL As String
    On Error GoTo h_ERROR
+   vSQL = fSqlVentasDetalladoSeccionUnion(False)
+   vSQL = vSQL & " UNION "
+   vSQL = vSQL & fSqlVentasDetalladoSeccionUnion(True)
+   fSqlViewVentasFacturaDetallado = vSQL
+   Debug.Print vSQL
+h_EXIT:     On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewVentasFacturaDetallado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Public Function fSqlViewFacturaBase() As String
+   Dim vSQL As String
+   Dim vCase1 As String
+   Dim vCase2 As String
+   Dim vCase3 As String
+   On Error GoTo h_ERROR
+   vCase1 = gUtilSQL.getIIF("factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue("2"), gUtilSQL.fSimpleSqlValue("4"), gUtilSQL.fSimpleSqlValue(" "), True)
+   vCase2 = gUtilSQL.getIIF("factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue("1"), gUtilSQL.fSimpleSqlValue("3"), vCase1, True)
+   vCase3 = gUtilSQL.getIIF("factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue("0"), gUtilSQL.fSimpleSqlValue("0"), vCase2, True)
+   vSQL = vSQL & "SELECT factura.ConsecutivoCompania AS ConsecutivoCompania,  factura.Numero AS Numero," & vbCrLf
+   vSQL = vSQL & vCase3 & " AS TipoDeDocumento, factura.TipoDeVenta AS TipoDeVenta, factura.TipoDeDocumento AS TipoDeDocumentoFactura," & vbCrLf
+   vSQL = vSQL & "factura.Fecha, factura.CodigoMoneda AS CodigoMoneda, factura.CambioABolivares AS CambioABolivares," & vbCrLf
+   vSQL = vSQL & "factura.TipoDeTransaccion AS TipoDeTransaccion, factura.CodigoCliente AS CodigoCliente, factura.NumeroHasta AS NumeroHasta," & vbCrLf
+   vSQL = vSQL & "factura.NumeroDesde AS NumeroDesde, factura.SeRetuvoIVA AS SeRetuvoIVA, factura.MontoIvaRetenido, factura.FechaComprobanteRetIVA," & vbCrLf
+   vSQL = vSQL & "factura.NumeroComprobanteRetIVA, factura.FechaAplicacionRetIVA,factura.TotalFactura, factura.TotalMontoExento, factura.MontoGravableAlicuota1," & vbCrLf
+   vSQL = vSQL & "factura.MontoGravableAlicuota2, factura.MontoGravableAlicuota3, factura.MontoIVAAlicuota1, factura.MontoIVAAlicuota2," & vbCrLf
+   vSQL = vSQL & "factura.MontoIVAAlicuota3, factura.SerialMaquinaFiscal," & vbCrLf
+   vSQL = vSQL & "factura.NumeroControlHasta AS NumeroControlHasta, factura.CodigoMaquinaRegistradora AS CodigoMaquinaRegistradora, factura.NumeroResumenDiario AS NumeroResumenDiario," & vbCrLf
+   vSQL = vSQL & "factura.NumeroPlanillaExportacion AS NumeroPlanillaExportacion, factura.NumeroFacturaAfectada AS NumeroFacturaAfectada," & vbCrLf
+   vSQL = vSQL & "factura.NumeroControl AS NumeroControl, factura.StatusFactura AS StatusFactura, factura.PorcentajeDescuento," & vbCrLf
+   vSQL = vSQL & "factura.NombreOperador AS NombreOperador, factura.FechaUltimaModificacion AS FechaUltimaModificacion," & vbCrLf
+   vSQL = vSQL & "factura.PorcentajeAlicuota1 AS PorcentajeAlicuota1, factura.PorcentajeAlicuota2 AS PorcentajeAlicuota2," & vbCrLf
+   vSQL = vSQL & "factura.PorcentajeAlicuota3 AS PorcentajeAlicuota3, " & vbCrLf
+   vSQL = vSQL & gUtilSQL.getIIF("Factura.Talonario = " & gUtilSQL.fSimpleSqlValue("0"), gUtilSQL.fSimpleSqlValue("1"), gUtilSQL.fSimpleSqlValue("2")) & " AS Talonario," & vbCrLf
+   vSQL = vSQL & gUtilSQL.fSimpleSqlValue("N") & " AS EsCuentaDeTercero, " & gUtilSQL.fSimpleSqlValue("N") & " AS MontosConvertido, " & vbCrLf
+   vSQL = vSQL & gUtilSQL.fSimpleSqlValue("0") & " AS MontoIvaPercibido, " & vbCrLf
+   vSQL = vSQL & "factura.EsDiferida, factura.EsOriginalmenteDiferida, factura.AplicaDecretoIvaEspecial" & vbCrLf
+   vSQL = vSQL & " FROM factura" & vbCrLf
+   fSqlViewFacturaBase = vSQL
+h_EXIT:     On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewFacturaBase", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Public Function GetViewNameFacturaBase() As String
+   GetViewNameFacturaBase = "IGV_FacturaBase"
+End Function
+
+Private Function fSqlConvierteMontoFacturaBase(ByVal valValor As String, ByVal valAnoAplicacion As String, ByVal valFecha As String) As String
+   Dim vSQL As String
+   On Error GoTo h_ERROR
+   vSQL = ""
+   ' los datos referentes a las fechas y el codigo de la moneda deben hacerse con la clases moneda local
+   ' de forma tal que si llegase a ocurir otro proceso de reconversion el proceso continue funcionando
+   ' de forma correcta
+   vSQL = vSQL & gUtilSQL.getIIF("((" & valFecha & " <= '31/12/2007' AND " & valAnoAplicacion & " >= '2008'))", _
+                           "(" & gUtilSQL.getIIF(" IGV_FacturaBase.CodigoMoneda = 'VEB' ", valValor & " * 0.001 ", valValor & " * IGV_FacturaBase.CambioABolivares * 0.001 ", False) & ")", _
+                           "(" & gUtilSQL.getIIF("ABS(" & valValor & ") >= IGV_FacturaBase.MontoIvaRetenido ", valValor, valValor & " * IGV_FacturaBase.CambioABolivares ", False) & ")")
+                           'valValor & " * IGV_FacturaBase.CambioABolivares")
+   fSqlConvierteMontoFacturaBase = vSQL
+   Set gEnumProyecto = Nothing
+h_EXIT:     On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlConvierteMontoFacturaBase", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fSqlVentasDetalladoSeccionUnion(ByVal valEsTipoResumenDiario As Boolean) As String
+   Dim vSQL As String
+   On Error GoTo h_ERROR
    vSQL = " SELECT factura.ConsecutivoCompania AS ConsecutivoCompania, "
-   vSQL = vSQL & " (CASE WHEN Factura.TipoDeDocumento ='5' or Factura.TipoDeDocumento ='7' THEN factura.NumeroComprobanteFiscal ELSE factura.Numero END )  AS Numero ,"
+   If valEsTipoResumenDiario Then
+      vSQL = vSQL & " Factura.NumeroDesde  AS Numero ,"
+   Else
+      vSQL = vSQL & " (CASE WHEN Factura.TipoDeDocumento ='5' or Factura.TipoDeDocumento ='7' THEN factura.NumeroComprobanteFiscal ELSE factura.Numero END )  AS Numero ,"
+   End If
    vSQL = vSQL & "(SELECT codTipoDeVentaIVA FROM IGV_EnumTipoDeVentaIva WHERE DbValue = factura.TipoDeVenta COLLATE Modern_Spanish_CS_AS ) AS TipoDeVenta , "
    vSQL = vSQL & "(SELECT CodTipoDocumentoSawIva FROM IGV_EnumTipoDocumentoIvaFactura WHERE DbValue = factura.TipoDeDocumento COLLATE Modern_Spanish_CS_AS) AS TipoDeDocumento, "
    vSQL = vSQL & " (CASE WHEN Factura.EsDiferida = 'S' THEN '1' ELSE '0' END) AS StatusVenta,"
@@ -1058,66 +1131,15 @@ Public Function fSqlViewVentasFacturaDetallado() As String
    vSQL = vSQL & " GROUP BY DocumentoCobrado.ConsecutivoCompania, Cxc.NumeroDocumentoOrigen) AS CobranzaFactura" & vbCrLf
    vSQL = vSQL & " ON Factura.Numero = CobranzaFactura.NumeroFacturaOrigen" & vbCrLf
    vSQL = vSQL & " AND Factura.ConsecutivoCompania = CobranzaFactura.ConsecutivoCompania" & vbCrLf
-   vSQL = vSQL & " WHERE (Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
-   vSQL = vSQL & " OR Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA) & ")"
-   fSqlViewVentasFacturaDetallado = vSQL
+   If valEsTipoResumenDiario Then
+      vSQL = vSQL & " WHERE (Factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+      vSQL = vSQL & " AND Factura.RealizoCierreZ = " & gUtilSQL.fBooleanToSqlValue(False) & ")"
+   Else
+      vSQL = vSQL & " WHERE (Factura.StatusFactura = '" & gConvert.enumerativoAChar(enum_StatusFactura.eSF_EMITIDA) & "'"
+      vSQL = vSQL & " OR Factura.StatusFactura = '" & gConvert.enumerativoAChar(enum_StatusFactura.eSF_ANULADA) & "')"
+   End If
 h_EXIT:     On Error GoTo 0
+   fSqlVentasDetalladoSeccionUnion = vSQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewVentasFacturaDetallado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Public Function fSqlViewFacturaBase() As String
-   Dim vSQL As String
-   Dim vCase1 As String
-   Dim vCase2 As String
-   Dim vCase3 As String
-   On Error GoTo h_ERROR
-   vCase1 = gUtilSQL.getIIF("factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue("2"), gUtilSQL.fSimpleSqlValue("4"), gUtilSQL.fSimpleSqlValue(" "), True)
-   vCase2 = gUtilSQL.getIIF("factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue("1"), gUtilSQL.fSimpleSqlValue("3"), vCase1, True)
-   vCase3 = gUtilSQL.getIIF("factura.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue("0"), gUtilSQL.fSimpleSqlValue("0"), vCase2, True)
-   vSQL = vSQL & "SELECT factura.ConsecutivoCompania AS ConsecutivoCompania,  factura.Numero AS Numero," & vbCrLf
-   vSQL = vSQL & vCase3 & " AS TipoDeDocumento, factura.TipoDeVenta AS TipoDeVenta, factura.TipoDeDocumento AS TipoDeDocumentoFactura," & vbCrLf
-   vSQL = vSQL & "factura.Fecha, factura.CodigoMoneda AS CodigoMoneda, factura.CambioABolivares AS CambioABolivares," & vbCrLf
-   vSQL = vSQL & "factura.TipoDeTransaccion AS TipoDeTransaccion, factura.CodigoCliente AS CodigoCliente, factura.NumeroHasta AS NumeroHasta," & vbCrLf
-   vSQL = vSQL & "factura.NumeroDesde AS NumeroDesde, factura.SeRetuvoIVA AS SeRetuvoIVA, factura.MontoIvaRetenido, factura.FechaComprobanteRetIVA," & vbCrLf
-   vSQL = vSQL & "factura.NumeroComprobanteRetIVA, factura.FechaAplicacionRetIVA,factura.TotalFactura, factura.TotalMontoExento, factura.MontoGravableAlicuota1," & vbCrLf
-   vSQL = vSQL & "factura.MontoGravableAlicuota2, factura.MontoGravableAlicuota3, factura.MontoIVAAlicuota1, factura.MontoIVAAlicuota2," & vbCrLf
-   vSQL = vSQL & "factura.MontoIVAAlicuota3, factura.SerialMaquinaFiscal," & vbCrLf
-   vSQL = vSQL & "factura.NumeroControlHasta AS NumeroControlHasta, factura.CodigoMaquinaRegistradora AS CodigoMaquinaRegistradora, factura.NumeroResumenDiario AS NumeroResumenDiario," & vbCrLf
-   vSQL = vSQL & "factura.NumeroPlanillaExportacion AS NumeroPlanillaExportacion, factura.NumeroFacturaAfectada AS NumeroFacturaAfectada," & vbCrLf
-   vSQL = vSQL & "factura.NumeroControl AS NumeroControl, factura.StatusFactura AS StatusFactura, factura.PorcentajeDescuento," & vbCrLf
-   vSQL = vSQL & "factura.NombreOperador AS NombreOperador, factura.FechaUltimaModificacion AS FechaUltimaModificacion," & vbCrLf
-   vSQL = vSQL & "factura.PorcentajeAlicuota1 AS PorcentajeAlicuota1, factura.PorcentajeAlicuota2 AS PorcentajeAlicuota2," & vbCrLf
-   vSQL = vSQL & "factura.PorcentajeAlicuota3 AS PorcentajeAlicuota3, " & vbCrLf
-   vSQL = vSQL & gUtilSQL.getIIF("Factura.Talonario = " & gUtilSQL.fSimpleSqlValue("0"), gUtilSQL.fSimpleSqlValue("1"), gUtilSQL.fSimpleSqlValue("2")) & " AS Talonario," & vbCrLf
-   vSQL = vSQL & gUtilSQL.fSimpleSqlValue("N") & " AS EsCuentaDeTercero, " & gUtilSQL.fSimpleSqlValue("N") & " AS MontosConvertido, " & vbCrLf
-   vSQL = vSQL & gUtilSQL.fSimpleSqlValue("0") & " AS MontoIvaPercibido, " & vbCrLf
-   vSQL = vSQL & "factura.EsDiferida, factura.EsOriginalmenteDiferida, factura.AplicaDecretoIvaEspecial" & vbCrLf
-   vSQL = vSQL & " FROM factura" & vbCrLf
-   fSqlViewFacturaBase = vSQL
-h_EXIT:     On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewFacturaBase", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Public Function GetViewNameFacturaBase() As String
-   GetViewNameFacturaBase = "IGV_FacturaBase"
-End Function
-
-Private Function fSqlConvierteMontoFacturaBase(ByVal valValor As String, ByVal valAnoAplicacion As String, ByVal valFecha As String) As String
-   Dim vSQL As String
-   On Error GoTo h_ERROR
-   vSQL = ""
-   ' los datos referentes a las fechas y el codigo de la moneda deben hacerse con la clases moneda local
-   ' de forma tal que si llegase a ocurir otro proceso de reconversion el proceso continue funcionando
-   ' de forma correcta
-   vSQL = vSQL & gUtilSQL.getIIF("((" & valFecha & " <= '31/12/2007' AND " & valAnoAplicacion & " >= '2008'))", _
-                           "(" & gUtilSQL.getIIF(" IGV_FacturaBase.CodigoMoneda = 'VEB' ", valValor & " * 0.001 ", valValor & " * IGV_FacturaBase.CambioABolivares * 0.001 ", False) & ")", _
-                           "(" & gUtilSQL.getIIF("ABS(" & valValor & ") >= IGV_FacturaBase.MontoIvaRetenido ", valValor, valValor & " * IGV_FacturaBase.CambioABolivares ", False) & ")")
-                           'valValor & " * IGV_FacturaBase.CambioABolivares")
-   fSqlConvierteMontoFacturaBase = vSQL
-   Set gEnumProyecto = Nothing
-h_EXIT:     On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlConvierteMontoFacturaBase", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlVentasDetalladoSeccionUnion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
