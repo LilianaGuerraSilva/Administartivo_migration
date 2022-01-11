@@ -89,4 +89,10 @@
     <DataTemplate DataType="{x:Type nsReportesView:clsFacturacionPorArticuloViewModel}">
         <nsReportesView:GSFacturacionPorArticulo />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsResumenDiarioDeVentasEntreFechasViewModel}">
+        <nsReportesView:GSResumenDiarioDeVentasEntreFechas />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsFacturacionPorUsuarioViewModel}">
+        <nsReportesView:GSFacturacionPorUsuario />
+    </DataTemplate>
 </ResourceDictionary>

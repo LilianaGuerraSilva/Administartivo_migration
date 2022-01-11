@@ -1,5 +1,5 @@
-﻿<UserControl
-    x:Class="Galac.Adm.Uil.Venta.Reportes.GSFacturacionPorArticulo"
+<UserControl
+    x:Class="Galac.Adm.Uil.Venta.Reportes.GSFacturacionPorUsuario"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -76,24 +76,24 @@
             SelectedItem="{Binding Path=CantidadAImprimir, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
         <Label
-            Name="lblCodigoDelArticulo"
+            Name="lblNombreOperador"
             Grid.Row="3"
             Grid.Column="0"
-            Content="Código del Artículo"
+            Content="Nombre del Operador"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
-            Name="txtCodigoDelArticulo"
+            Name="txtNombreOperador"
             Grid.Row="3"
             Grid.Column="1"
             Width="160"
             Height="23"
             Margin="3"
             HorizontalAlignment="Left"
-            ConnectionValue="{Binding Path=CodigoDelArticulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            DisplayMemberPath="CodigoDelArticulo"
-            IsEnabled="{Binding Path=IsEnabledCodigoDelArticulo}"
-            Model="{Binding Path=ConexionCodigoDelArticulo, Mode=TwoWay}"
-            SearchCommand="{Binding Path=ChooseCodigoDelArticuloCommand}" />
+            ConnectionValue="{Binding Path=NombreOperador, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            DisplayMemberPath="NombreOperador"
+            IsEnabled="{Binding Path=IsEnabledNombreOperador}"
+            Model="{Binding Path=ConexionNombreOperador, Mode=TwoWay}"
+            SearchCommand="{Binding Path=ChooseNombreOperadorCommand}" />
         <Label
             Name="lblMonedaDelInforme"
             Grid.Row="4"

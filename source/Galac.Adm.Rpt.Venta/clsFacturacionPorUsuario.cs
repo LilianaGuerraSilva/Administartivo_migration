@@ -13,24 +13,25 @@ using LibGalac.Aos.Dal;
 
 namespace Galac.Adm.Rpt.Venta {
 
-    public class clsFacturacionPorArticulo: LibRptBaseMfc {
+    public class clsFacturacionPorUsuario : LibRptBaseMfc {
         #region Propiedades
         protected DataTable Data { get; set; }
         public string RpxName { get; set; }
         private DateTime FechaDesde { get; set; }
         private DateTime FechaHasta { get; set; }
-        private string CodigoDelArticulo { get; set; }
+        private string NombreOperador { get; set; }
         private Saw.Lib.eMonedaParaImpresion MonedaDelReporte { get; set; }
         private Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio { get; set; }
         private bool IsInformeDetallado { get; set; }
         #endregion //Propiedades
 
         #region Constructores
-        public clsFacturacionPorArticulo(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoDelArticulo, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio, bool valIsInformeDetallado)
-            : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
+        public clsFacturacionPorUsuario(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, string valNombreOperador, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio, bool valIsInformeDetallado)
+            : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc)
+        {
             FechaDesde = valFechaDesde;
             FechaHasta = valFechaHasta;
-            CodigoDelArticulo = valCodigoDelArticulo;
+            NombreOperador = valNombreOperador;
             MonedaDelReporte = valMonedaDelReporte;
             TipoTasaDeCambio = valTipoTasaDeCambio;
             IsInformeDetallado = valIsInformeDetallado;
@@ -38,12 +39,14 @@ namespace Galac.Adm.Rpt.Venta {
         #endregion //Constructores
 
         #region Metodos Generados
-        public static string ReportName {
-            get { return "Facturación por Artículo"; }
+        public static string ReportName
+        {
+            get { return "Facturación por Usuario"; }
         }
 
-        public override Dictionary<string, string> GetConfigReportParameters() {
-            string vTitulo = clsFacturacionPorArticulo.ReportName + (IsInformeDetallado? " - Detallado" : " - Resumido");
+        public override Dictionary<string, string> GetConfigReportParameters()
+        {
+            string vTitulo = ReportName + (IsInformeDetallado? " - Detallado" : " - Resumido");
             if (UseExternalRpx) {
                 vTitulo += " - desde RPX externo.";
             }
@@ -53,35 +56,38 @@ namespace Galac.Adm.Rpt.Venta {
             vParams.Add("FechaInicialYFinal", string.Format("del {0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
             vParams.Add("MonedaDelReporte", LibConvert.EnumToDbValue(( int ) MonedaDelReporte));
             vParams.Add("TipoTasaDeCambio", LibConvert.EnumToDbValue(( int ) TipoTasaDeCambio));
+            vParams.Add("UsaContabilidad", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaModuloDeContabilidad"));
             vParams.Add("UsaPrecioSinIva", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaPrecioSinIva"));
             vParams.Add("CantidadDeDecimalesInt", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CantidadDeDecimalesInt"));
             return vParams;
         }
 
-        public override void RunReport() {
+        public override void RunReport()
+        {
             if (WorkerCancellPending()) {
                 return;
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             IFacturaInformes vRpt = new Brl.Venta.Reportes.clsFacturaRpt();
-            Data = vRpt.BuildFacturacionPorArticulo(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, CodigoDelArticulo, MonedaDelReporte, TipoTasaDeCambio, IsInformeDetallado);
+            Data = vRpt.BuildFacturacionPorUsuario(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, NombreOperador, MonedaDelReporte, TipoTasaDeCambio, IsInformeDetallado);
         }
 
-        public override void SendReportToDevice() {
+        public override void SendReportToDevice()
+        {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
 
             if (!LibDataTable.DataTableHasRows(Data)) {
                 throw new GalacException("No se encontró información para imprimir", eExceptionManagementType.Alert);
-			}
+            }
 
             if (IsInformeDetallado) {
-                dsrFacturacionPorArticuloDetallado vRpt = new dsrFacturacionPorArticuloDetallado();
+                dsrFacturacionPorUsuarioDetallado vRpt = new dsrFacturacionPorUsuarioDetallado();
                 if (vRpt.ConfigReport(Data, vParams)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
                 }
             } else {
-                dsrFacturacionPorArticuloResumido vRpt = new dsrFacturacionPorArticuloResumido();
+                dsrFacturacionPorUsuarioResumido vRpt = new dsrFacturacionPorUsuarioResumido();
                 if (vRpt.ConfigReport(Data, vParams)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
                 }
@@ -93,4 +99,3 @@ namespace Galac.Adm.Rpt.Venta {
     } //End of class clsFacturacionPorArticulo
 
 } //End of namespace Galac.Adm.Rpt.Venta
-

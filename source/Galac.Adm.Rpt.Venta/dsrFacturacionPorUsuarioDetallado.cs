@@ -10,23 +10,24 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
 using LibGalac.Aos.ARRpt;
 
-namespace Galac.Adm.Rpt.Venta
-{
+namespace Galac.Adm.Rpt.Venta {
     /// <summary>
     /// Summary description for dsrFacturacionPorArticuloDetallado.
     /// </summary>
-    public partial class dsrFacturacionPorArticuloDetallado : DataDynamics.ActiveReports.ActiveReport {
+    public partial class dsrFacturacionPorUsuarioDetallado : ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        private decimal totalPorMoneda = 0;
+        private int countCantidadDeFacturasPorUsuario = 0;
         #endregion //Variables
 
         #region Constructores
-        public dsrFacturacionPorArticuloDetallado()
+        public dsrFacturacionPorUsuarioDetallado()
             : this(false, string.Empty) {
         }
 
-        public dsrFacturacionPorArticuloDetallado(bool initUseExternalRpx, string initRpxFileName) {
+        public dsrFacturacionPorUsuarioDetallado(bool initUseExternalRpx, string initRpxFileName) {
             InitializeComponent();
             _UseExternalRpx = initUseExternalRpx;
             if (_UseExternalRpx) {
@@ -36,13 +37,15 @@ namespace Galac.Adm.Rpt.Venta
         #endregion //Constructores
 
         #region Metodos Generados
+
         public string ReportTitle() {
-            return "Facturación por Artículo - Detallado";
+            return "Facturación por Usuario - Detallado";
         }
 
-        public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+		public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
             Saw.Lib.eMonedaParaImpresion MonedaDelReporte = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedaDelReporte"]);
             Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio = (Saw.Lib.eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(valParameters["TipoTasaDeCambio"]);
+            bool UsaContabilidad = LibConvert.SNToBool(valParameters["UsaContabilidad"]);
             bool UsaPrecioSinIva = LibConvert.SNToBool(valParameters["UsaPrecioSinIva"]);
             int vCantDecimales = LibConvert.ToInt(valParameters["CantidadDeDecimalesInt"]);
 
@@ -65,29 +68,41 @@ namespace Galac.Adm.Rpt.Venta
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "txtNumeroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
 
-                LibReport.ConfigGroupHeader(this, "GHArticulo", "Codigo", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
-                LibReport.ConfigFieldStr(this, "txtCodigo", string.Empty, "Codigo");
-                LibReport.ConfigFieldStr(this, "txtDescripcion", string.Empty, "Descripcion");
-                LibReport.ConfigFieldStr(this, "txtUnidadDeVenta", string.Empty, "UnidadDeVenta");
+                LibReport.ConfigGroupHeader(this, "GHUsuario", "NombreOperador", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
+                LibReport.ConfigFieldStr(this, "txtUsuario", string.Empty, "NombreOperador");
 
                 LibReport.ConfigGroupHeader(this, "GHMoneda", "Moneda", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                 LibReport.ConfigFieldStr(this, "txtMoneda", string.Empty, "Moneda");
 
+                LibReport.ConfigGroupHeader(this, "GHFactura", "Numero", GroupKeepTogether.FirstDetail, RepeatStyle.OnPageIncludeNoDetail, true, NewPage.None);
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort);
-                LibReport.ConfigFieldStr(this, "txtCodigoCliente", string.Empty, "CodigoCliente");
-                LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "Nombre");
                 LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidad", string.Empty, "Cantidad", vCantDecimales);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtPrecioUnitario", string.Empty, "PrecioUnitario", vCantDecimales);
-				LibReport.ConfigFieldDec(this, "txtMonto", string.Empty, "Monto");
+                LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCambio", string.Empty, "Cambio", 4);
+                LibReport.ConfigFieldDec(this, "txtPorcentajeDescuentoFactura", string.Empty, "PorcentajeDescuentoFactura");
+                LibReport.ConfigFieldDec(this, "txtTotalFactura", string.Empty, "TotalFactura");
+                
+                if (UsaContabilidad) {
+                    LibReport.ConfigFieldStr(this, "txtNumeroComprobante", string.Empty, "NumeroComprobante");
+                } else {
+                    LibReport.ChangeControlVisibility(this, "lblNumeroComprobante", true, false);
+                    LibReport.ChangeControlVisibility(this, "txtNumeroComprobante", true, false);
+                }
 
-                LibReport.ConfigSummaryField(this, "txtTotalCantidad", "Cantidad", SummaryFunc.Sum, "GHMoneda", SummaryRunning.All, SummaryType.SubTotal, "n" + vCantDecimales, "");
-                LibReport.ConfigSummaryField(this, "txtTotalMonto", "Monto", SummaryFunc.Sum, "GHMoneda", SummaryRunning.All, SummaryType.SubTotal);
+                LibReport.ConfigFieldStr(this, "txtCodigoArticulo", string.Empty, "Articulo");
+                LibReport.ConfigFieldStr(this, "txtDescripcion", string.Empty, "Descripcion");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCantidad", string.Empty, "Cantidad", vCantDecimales);
+                LibReport.ConfigFieldDec(this, "txtPorcentajeDescuentoRenglon", string.Empty, "PorcentajeDescuentoRenglon");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtPrecio", string.Empty, "Precio", vCantDecimales);
+                LibReport.ConfigFieldDec(this, "txtTotalRenglon", string.Empty, "TotalRenglon");
 
                 string valStrLblNota = "Nota:\tLos precios presentados " + (UsaPrecioSinIva ? "no " : "") + "incluyen el IVA.";
                 if (vIsInMonedaLocal) {
                     valStrLblNota += "\n\tLos montos en monedas extranjeras son calculados a " + vMonedaLocal;
-                    valStrLblNota += " tomando en cuenta la " + (vIsInTasaDelDia ? "última tasa de cambio." : "tasa de cambio original.");
+                    valStrLblNota += " tomando en cuenta la " + ( vIsInTasaDelDia ? "última tasa de cambio." : "tasa de cambio original." );
+                } else {
+                    LibReport.ConfigLabel(this, "lblCambio", string.Empty);
+                    LibReport.ChangeControlVisibility(this, "txtCambio", true, false);
                 }
                 LibReport.ConfigLabel(this, "LblNota", valStrLblNota);
 
@@ -96,9 +111,30 @@ namespace Galac.Adm.Rpt.Venta
             }
             return false;
         }
-        #endregion //Metodos Generados
 
-    } //End of class dsrFacturacionPorArticulo
+        private void GHUsuario_Format(object sender, EventArgs e) {
+            countCantidadDeFacturasPorUsuario = 0;
+        }
+
+        private void GHMoneda_Format(object sender, EventArgs e) {
+            totalPorMoneda = 0;
+        }
+
+        private void GHFactura_AfterPrint(object sender, EventArgs e) {
+            totalPorMoneda += ( Decimal.TryParse(txtTotalFactura.Text, out Decimal resultado) ? resultado : 0 );
+            countCantidadDeFacturasPorUsuario++;
+        }
+
+        private void GFMoneda_Format(object sender, EventArgs e) {
+            txtTotalMoneda.Text = LibConvert.ToStr(totalPorMoneda);
+        }
+
+        private void GFUsuario_Format(object sender, EventArgs e) {
+            txtCantidadDeFacturasPorUsuario.Text = countCantidadDeFacturasPorUsuario.ToString();
+        }
+		#endregion //Metodos Generados
+
+	} //End of class dsrFacturacionPorUsuario
 
 } //End of namespace Galac.Adm.Rpt.Venta
 

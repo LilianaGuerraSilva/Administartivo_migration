@@ -4,7 +4,7 @@ PatronPresentacion=MVVM
 
 $GENERATE$
 //#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
-//#INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
+#INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
 #INCLUDE=ExternalSttdef,"D:\Git\Administrativo\DefParametrosAdministrativos.txt"
 //#INCLUDE=ExternarWincont,"C:\cvs\documentos\vba\Def\DefContabilidad-V1.txt"
 
@@ -4229,13 +4229,13 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	ClientesOrdenadosPor	: unClientesOrdenadosPor;	//"Clientes ordenados por"
 }
 
-{@R Factura}FacturacionPorArticulo = Reporte	//Multiarchivo=Compania,"Facturación por Artículo",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@R Factura}FacturacionPorArticulo = Reporte	//Multiarchivo=Compania,"Facturación por Artículo",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo
 	Articulo		: Section;	//"Artículo"
 	CodigoDeArticulo	: Str30;	//"Código de Artículo"
 	Descripcion		: Str7000;	//"Descripción"
 	UnidadDeVenta		: Str20;	//"Unidad de Venta"
 	{EndSeccion}
-	Moneda		: Section;	//"Moneda"
+	Moneda			: Section;	//"Moneda"
 	Moneda			: Str80;	//"Moneda"
 	{EndSeccion}
 	Fecha			: date;		//"Fecha"
@@ -4249,13 +4249,85 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	LblNota			: Str1000;
 }
 
-{@F}frmFacturacionPorArticulo = Record			//"Facturación por Artículo",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@F}frmFacturacionPorArticulo = Record			//"Facturación por Artículo",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo
 	FechaDesde		: date;			//"Fecha desde"
 	FechaHasta		: date;			//"Fecha hasta"	
 	CantidadAImprimir	: unCantidadAImprimir	//"Cantidad a imprimir"
 	CodigoDeArticulo	: Str30;		//Search,=ArticuloInventario.Codigo,"Código de Artículo"
 	MonedaDelInforme	: unMonedaDelInforme;	//"Moneda del informe"
-	TasaDeCambio		: unTasaDeCambio;	//"TasaDeCambio"
+	TasaDeCambio		: unTasaDeCambio;	//"Tasa de Cambio"
+	InformeDetallado	: boolean;		//"Detallado"
+	InformeResumido		: boolean;		//"Resumido"
+}
+
+{@R Factura}ResumenDiarioDeVentasEntreFechas= Reporte	//Multiarchivo=Compania,"Resumen Diario de Ventas entre Fechas",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo
+	MaquinaFiscal		: Section;		//"Máquina Fiscal"
+	Descripcion		: Str35;		//"Descripción Máquina Fiscal"
+	Consecutivo		: Str9;			//"Consecutivo Máquina Fiscal"
+	NumeroRegistro		: Str			//"Número Registro Máquina Fiscal"
+	{EndSeccion}
+	Moneda			: Section;		//"Moneda"
+	Moneda			: Str80;		//"Moneda"
+	{EndSeccion}
+	Fecha			: date;			//"Fecha"
+	NumeroDesde		: Str20			//"Número Desde"
+	NumeroHasta		: Str20			//"Número Hasta"
+	BaseImponible		: decimal		//"Base Imponible"
+	MontoExento		: decimal		//"Monto Exento"
+	MontoIva		: decimal		//"Monto Iva"
+	Total			: decimal		//"Total"
+	TotalBaseImponible	: decimal		//"Total Base Imponible"
+	TotalMontoExento	: decimal		//"Total MontoExento"
+	TotalMontoIva		: decimal		//"Total Monto Iva"
+	Totales			: decimal		//"Totales"
+}
+
+{@F}frmResumenDiarioDeVentasEntreFechas = Record		//"Resumen Diario de Ventas entre Fechas",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo
+	FechaDesde			: date;			//"Fecha desde"
+	FechaHasta			: date;			//"Fecha hasta"
+	AgruparPorMaquinaFiscal		: boolean;		//"Agrupar por Máquina Fiscal"
+	CantidadAImprimir		: unCantidadAImprimir	//"Cantidad a imprimir"
+	ConsecutivoMaquinaFiscal	: Str9;			//Search,=MaquinaFiscal.ConsecutivoMaquinaFiscal,"Consecutivo Máquina Fiscal"
+}
+
+{@R Factura}FacturacionPorUsuario = Reporte		//Multiarchivo=Compania,"Facturación por Usuario",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+	NotaDeMoneda			: Section;	//"Nota de Moneda"
+	MensajeDelCambioDeLaMoneda	: Label;	//"Mensaje del cambio de la Moneda"
+	{EndSeccion}
+	Usuario				: Section;	//"Usuario"
+	Usuario				: Str10;	//"Nombre Operador"
+	{EndSeccion}
+	Moneda				: Section;	//"Moneda"
+	Moneda				: Str80;	//"Moneda del grupo"
+	{EndSeccion}
+	Titulos				: Section;	//"Títulos del reporte"
+	{EndSeccion}
+	Factura				: Section;	//"Factura"
+	Fecha				: date;		//"Fecha"	
+	Numero				: Str11;	//"Número de Factura"
+	NombreCliente			: Str160;	//"Nombre de Cliente"
+	CambioABolivares		: decimal;	//"Cambio a Bolívares"
+	PorcentajeDeDescuentoFactura	: decimal;	//"Porcentaje de descuento Factura"
+	TotalFactura			: decimal;	//"Total Factura"
+	NumeroComprobante		: Str8;		//"Número de Comprobante"
+	{EndSeccion}
+	CodigoArticulo			: Str30;	//"Código de Artículo"
+	Descripcion			: Str7000;	//"Descripción de Artículo"
+	Cantidad			: decimal;	//"Cantidad de Artículo"
+	Precio				: decimal;	//"Precio de Artículo"
+	PorcentajeDeDescuentoRenglon	: decimal;	//"Porcentaje de descuento Renglón"
+	TotalRenglon			: decimal;	//"Total Renglón"
+	TotalMoneda			: decimal;	//"Total Moneda"
+	TotalUsuario			: decimal;	//"Total Usuario"
+}
+
+{@F}frmFacturacionPorUsuario = Record			//"Facturación por Usuario",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+	FechaDesde		: date;			//"Fecha desde"
+	FechaHasta		: date;			//"Fecha hasta"	
+	CantidadAImprimir	: unCantidadAImprimir	//"Cantidad a imprimir"
+	NombreOperador		: Str30;		//Search,=GUser.NombreDelUsuario,"Nombre del Operador"
+	MonedaDelInforme	: unMonedaDelInforme;	//"Moneda del informe"
+	TasaDeCambio		: unTasaDeCambio;	//"Tasa de Cambio"
 	InformeDetallado	: boolean;		//"Detallado"
 	InformeResumido		: boolean;		//"Resumido"
 }

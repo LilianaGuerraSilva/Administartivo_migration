@@ -8,36 +8,34 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.Venta;
-using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Rpt.Venta {
 
-    public class clsCxCPendientesEntreFechas: LibRptBaseMfc {
+    public class clsResumenDiarioDeVentasEntreFechas: LibRptBaseMfc {
         #region Propiedades
         protected DataTable Data { get; set; }
         public string RpxName { get; set; }
         private DateTime FechaDesde { get; set; }
         private DateTime FechaHasta { get; set; }
-        private bool MostrarContacto { get; set; }
-        private Saw.Lib.eMonedaParaImpresion MonedaDelReporte { get; set; }
-        private Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio { get; set; }
+        private bool AgruparPorMaquinaFiscal { get; set; }
+        private string ConsecutivoMaquinaFiscal { get; set; }
         #endregion //Propiedades
 
         #region Constructores
-        public clsCxCPendientesEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, bool valMostrarContacto, Saw.Lib.eMonedaParaImpresion valMonedaDelReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio)
+        public clsResumenDiarioDeVentasEntreFechas(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime valFechaDesde, DateTime valFechaHasta, bool valAgruparPorMaquinaFiscal, string valConsecutivoMaquinaFiscal)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = valFechaDesde;
             FechaHasta = valFechaHasta;
-            MostrarContacto = valMostrarContacto;
-            MonedaDelReporte = valMonedaDelReporte;
-            TipoTasaDeCambio = valTipoTasaDeCambio;
+            AgruparPorMaquinaFiscal = valAgruparPorMaquinaFiscal;
+            ConsecutivoMaquinaFiscal = valConsecutivoMaquinaFiscal;
         }
         #endregion //Constructores
 
         #region Metodos Generados
         public static string ReportName {
-            get { return new dsrCxCPendientesEntreFechas().ReportTitle(); }
+            get { return new dsrResumenDiarioDeVentasEntreFechas().ReportTitle(); }
         }
 
         public override Dictionary<string, string> GetConfigReportParameters() {
@@ -48,11 +46,8 @@ namespace Galac.Adm.Rpt.Venta {
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre") + " - " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRif"));
             vParams.Add("TituloInforme", vTitulo);
-            vParams.Add("UsaContabilidad", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaModuloDeContabilidad"));
             vParams.Add("FechaInicialYFinal", string.Format("del {0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-            vParams.Add("MostrarContacto", LibConvert.BoolToSN(MostrarContacto));
-            vParams.Add("MonedaDelReporte", LibConvert.EnumToDbValue(( int ) MonedaDelReporte));
-            vParams.Add("TipoTasaDeCambio", LibConvert.EnumToDbValue(( int ) TipoTasaDeCambio));
+            vParams.Add("AgruparPorMaquinaFiscal", LibConvert.BoolToSN(AgruparPorMaquinaFiscal));
             return vParams;
         }
 
@@ -61,26 +56,35 @@ namespace Galac.Adm.Rpt.Venta {
                 return;
             }
             WorkerReportProgress(30, "Obteniendo datos...");
-            ICxCInformes vRpt = new Brl.Venta.Reportes.clsCxCRpt();
-            Data = vRpt.BuildCxCPendientesEntreFechas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, MonedaDelReporte, TipoTasaDeCambio);
+            IResumenDiarioDeVentasInformes vRpt = new Brl.Venta.Reportes.clsResumenDiarioDeVentasRpt();
+            Data = vRpt.BuildResumenDiarioDeVentasEntreFechas(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), FechaDesde, FechaHasta, AgruparPorMaquinaFiscal, ConsecutivoMaquinaFiscal);
         }
 
         public override void SendReportToDevice() {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
-            dsrCxCPendientesEntreFechas vRpt = new dsrCxCPendientesEntreFechas();
-            if (LibDataTable.DataTableHasRows(Data)) {
+
+            if (!LibDataTable.DataTableHasRows(Data)) {
+                throw new GalacException("No se encontró información para imprimir", eExceptionManagementType.Alert);
+            }
+
+            if (AgruparPorMaquinaFiscal) {
+                dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal vRpt = new dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal();
                 if (vRpt.ConfigReport(Data, vParams)) {
                     LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
                 }
-                WorkerReportProgress(100, "Finalizando...");
             } else {
-                throw new GalacException("No se encontró información para imprimir", eExceptionManagementType.Alert);
+                dsrResumenDiarioDeVentasEntreFechas vRpt = new dsrResumenDiarioDeVentasEntreFechas();
+                if (vRpt.ConfigReport(Data, vParams)) {
+                    LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, ReportName, true, ExportFileFormat, "", false);
+                }
             }
+            
+            WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
 
-    } //End of class clsCxCPendientesEntreFechas
+    } //End of class clsResumenDiarioDeVentasEntreFechas
 
 } //End of namespace Galac.Adm.Rpt.Venta
 

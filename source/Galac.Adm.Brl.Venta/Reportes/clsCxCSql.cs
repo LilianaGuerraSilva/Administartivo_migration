@@ -11,7 +11,6 @@ using LibGalac.Aos.DefGen;
 namespace Galac.Adm.Brl.Venta.Reportes {
 	public class clsCxCSql {
 		private QAdvSql vSqlUtil = new QAdvSql("");
-		private Saw.Lib.clsLibSaw _LibSaw = new Saw.Lib.clsLibSaw();
 
 		#region Metodos Generados
 		public string SqlCxCPendientesEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eMonedaParaImpresion valMonedaReporte, Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio) {
@@ -39,7 +38,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 				vSqlCambio = "1";
 			}
 
-			bool vUsaModuloContabilidad = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaModuloDeContabiliad"));
+			bool vUsaModuloContabilidad = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaModuloDeContabilidad"));
 
 			if (vUsaModuloContabilidad) {
 				vSql.AppendLine(CteComprobantesSql(valConsecutivoCompania, valFechaDesde, valFechaHasta));
