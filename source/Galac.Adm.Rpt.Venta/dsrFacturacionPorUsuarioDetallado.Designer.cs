@@ -802,10 +802,6 @@ namespace Galac.Adm.Rpt.Venta {
 		private DataDynamics.ActiveReports.Label lblTotalFactura;
 		private DataDynamics.ActiveReports.Label lblPorcentajeDescuentoFactura;
 		private DataDynamics.ActiveReports.TextBox txtCantidadDeFacturasPorUsuario;
-		private DataDynamics.ActiveReports.Label lblCantidadDeFactPorUsuario;
-
-		private decimal totalPorMoneda = 0;
-
-		private int countCantidadDeFacturasPorUsuario = 0;
+		private DataDynamics.ActiveReports.Label lblCantidadDeFactPorUsuario;		
 	}
 }

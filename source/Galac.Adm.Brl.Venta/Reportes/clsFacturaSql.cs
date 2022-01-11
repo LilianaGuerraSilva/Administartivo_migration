@@ -22,7 +22,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             bool vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, valMonedaDelReporte.GetDescription());
             bool vIsInTasaDelDia = valTipoTasaDeCambio == Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
 
-            string vSqlCambio = GetVSqlCambio(vIsInMonedaLocal, vIsInTasaDelDia);
+            string vSqlCambio = SqlCambioParaReportesDeFactura(vIsInMonedaLocal, vIsInTasaDelDia);
 
             bool vUsaPrecioSinIva = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaPrecioSinIva"));
 
@@ -122,7 +122,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             bool vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal, valMonedaDelReporte.GetDescription());
             bool vIsInTasaDelDia = valTipoTasaDeCambio == Saw.Lib.eTasaDeCambioParaImpresion.DelDia;
 
-            string vSqlCambio = GetVSqlCambio(vIsInMonedaLocal, vIsInTasaDelDia);
+            string vSqlCambio = SqlCambioParaReportesDeFactura(vIsInMonedaLocal, vIsInTasaDelDia);
 
             bool vUsaModuloContabilidad = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaModuloDeContabilidad"));
             bool vUsaPrecioSinIva = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaPrecioSinIva"));
@@ -135,6 +135,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("Factura.Fecha,");
             vSql.AppendLine("Factura.Numero,");
             vSql.AppendLine("Factura.PorcentajeDescuento AS PorcentajeDescuentoFactura,");
+            vSql.AppendLine("Factura.TipoDeDocumento,");
             vSql.AppendLine("Cliente.Nombre,");
             vSql.AppendLine(( vIsInMonedaLocal ? vSqlUtil.ToSqlValue(vMonedaLocal) : "Factura.Moneda" ) + " AS Moneda,");
             vSql.AppendLine(vSqlCambio + " As Cambio,");
@@ -184,7 +185,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
         #endregion //Metodos Generados
 
         #region Código Programador
-        private string GetVSqlCambio(bool valIsInMonedaLocal, bool valIsInTasaDelDia) {
+        private string SqlCambioParaReportesDeFactura(bool valIsInMonedaLocal, bool valIsInTasaDelDia) {
             string vSqlCambio;
             if (valIsInMonedaLocal) {
                 if (valIsInTasaDelDia) {

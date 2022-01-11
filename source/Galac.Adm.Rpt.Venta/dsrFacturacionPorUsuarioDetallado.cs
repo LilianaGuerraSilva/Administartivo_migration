@@ -18,6 +18,8 @@ namespace Galac.Adm.Rpt.Venta {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        private decimal totalPorMoneda = 0;
+        private int countCantidadDeFacturasPorUsuario = 0;
         #endregion //Variables
 
         #region Constructores
