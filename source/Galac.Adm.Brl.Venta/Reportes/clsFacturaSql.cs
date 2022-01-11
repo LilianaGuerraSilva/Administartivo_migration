@@ -208,13 +208,13 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("ArticuloInventario.Codigo,");
             vSql.AppendLine("ArticuloInventario.Descripcion,");
             vSql.AppendLine("ArticuloInventario.UnidadDeVenta,");
-            vSql.AppendLine(vSqlUtil.IIF("ExistenciaPorGrupo.Serial IS NULL", vSqlUtil.ToSqlValue(0.ToString()), "ExistenciaPorGrupo.Serial", true) + " AS Serial,");
-            vSql.AppendLine(vSqlUtil.IIF("ExistenciaPorGrupo.Rollo IS NULL", vSqlUtil.ToSqlValue(0.ToString()), "ExistenciaPorGrupo.Rollo", true) + " AS Rollo");
+            vSql.AppendLine(vSqlUtil.IIF("ExistenciaPorGrupo.Serial IS NULL", vSqlUtil.ToSqlValue("0"), "ExistenciaPorGrupo.Serial", true) + " AS Serial,");
+            vSql.AppendLine(vSqlUtil.IIF("ExistenciaPorGrupo.Rollo IS NULL", vSqlUtil.ToSqlValue("0"), "ExistenciaPorGrupo.Rollo", true) + " AS Rollo");
 
             vSql.AppendLine("FROM ArticuloInventario");
             vSql.AppendLine("LEFT OUTER JOIN ExistenciaPorGrupo");
             vSql.AppendLine("ON ArticuloInventario.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania");
-            vSql.AppendLine("AND ArticuloInventario.CodigoGrupo = " + vSqlUtil.IIF("ExistenciaPorGrupo.CodigoGrupo = " + vSqlUtil.ToSqlValue(0.ToString()), vSqlUtil.ToSqlValue(""), "ExistenciaPorGrupo.CodigoGrupo", true));
+            vSql.AppendLine("AND ArticuloInventario.CodigoGrupo = " + vSqlUtil.IIF("ExistenciaPorGrupo.CodigoGrupo = " + vSqlUtil.ToSqlValue("0"), vSqlUtil.ToSqlValue(""), "ExistenciaPorGrupo.CodigoGrupo", true));
             vSql.AppendLine("AND ArticuloInventario.Codigo = ExistenciaPorGrupo.CodigoArticulo)");
 
             return vSql.ToString();
