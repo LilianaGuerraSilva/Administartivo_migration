@@ -76,7 +76,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort);
                 LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
-                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCambio", string.Empty, "Cambio", 4);
                 LibReport.ConfigFieldDec(this, "txtPorcentajeDescuentoFactura", string.Empty, "PorcentajeDescuentoFactura");
                 LibReport.ConfigFieldDec(this, "txtTotalFactura", string.Empty, "TotalFactura");
                 
@@ -94,15 +94,10 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtPrecio", string.Empty, "Precio", vCantDecimales);
                 LibReport.ConfigFieldDec(this, "txtTotalRenglon", string.Empty, "TotalRenglon");
 
-                LibReport.ConfigSummaryField(this, "txtTotalMoneda", "TotalRenglon", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalUsuario", "TotalRenglon", SummaryFunc.Sum, "GHUsuario", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtCantidadDeFacturasPorUsuario", "Numero", SummaryFunc.Count, "GHUsuario", SummaryRunning.Group, SummaryType.SubTotal);
-
                 string valStrLblNota = "Nota:\tLos precios presentados " + (UsaPrecioSinIva ? "no " : "") + "incluyen el IVA.";
                 if (vIsInMonedaLocal) {
                     valStrLblNota += "\n\tLos montos en monedas extranjeras son calculados a " + vMonedaLocal;
                     valStrLblNota += " tomando en cuenta la " + ( vIsInTasaDelDia ? "última tasa de cambio." : "tasa de cambio original." );
-                    LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFMoneda", false, 0f);
                 } else {
                     LibReport.ConfigLabel(this, "lblCambio", string.Empty);
                     LibReport.ChangeControlVisibility(this, "txtCambio", true, false);
@@ -114,9 +109,30 @@ namespace Galac.Adm.Rpt.Venta {
             }
             return false;
         }
-        #endregion //Metodos Generados
 
-    } //End of class dsrFacturacionPorUsuario
+        private void GHUsuario_Format(object sender, EventArgs e) {
+            countCantidadDeFacturasPorUsuario = 0;
+        }
+
+        private void GHMoneda_Format(object sender, EventArgs e) {
+            totalPorMoneda = 0;
+        }
+
+        private void GHFactura_AfterPrint(object sender, EventArgs e) {
+            totalPorMoneda += ( Decimal.TryParse(txtTotalFactura.Text, out Decimal resultado) ? resultado : 0 );
+            countCantidadDeFacturasPorUsuario++;
+        }
+
+        private void GFMoneda_Format(object sender, EventArgs e) {
+            txtTotalMoneda.Text = LibConvert.ToStr(totalPorMoneda);
+        }
+
+        private void GFUsuario_Format(object sender, EventArgs e) {
+            txtCantidadDeFacturasPorUsuario.Text = countCantidadDeFacturasPorUsuario.ToString();
+        }
+		#endregion //Metodos Generados
+
+	} //End of class dsrFacturacionPorUsuario
 
 } //End of namespace Galac.Adm.Rpt.Venta
 

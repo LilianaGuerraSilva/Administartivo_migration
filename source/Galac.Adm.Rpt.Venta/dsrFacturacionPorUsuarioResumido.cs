@@ -44,7 +44,6 @@ namespace Galac.Adm.Rpt.Venta {
             Saw.Lib.eMonedaParaImpresion MonedaDelReporte = (Saw.Lib.eMonedaParaImpresion)LibConvert.DbValueToEnum(valParameters["MonedaDelReporte"]);
             Saw.Lib.eTasaDeCambioParaImpresion TipoTasaDeCambio = (Saw.Lib.eTasaDeCambioParaImpresion)LibConvert.DbValueToEnum(valParameters["TipoTasaDeCambio"]);
             bool UsaContabilidad = LibConvert.SNToBool(valParameters["UsaContabilidad"]);
-            bool UsaPrecioSinIva = LibConvert.SNToBool(valParameters["UsaPrecioSinIva"]);
 
             Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Comun.Brl.TablasGen.clsMonedaLocalActual();
             vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
@@ -74,7 +73,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", LibGalac.Aos.Base.Report.eDateOutputFormat.DateShort);
                 LibReport.ConfigFieldStr(this, "txtNumero", string.Empty, "Numero");
                 LibReport.ConfigFieldStr(this, "txtNombre", string.Empty, "Nombre");
-                LibReport.ConfigFieldDec(this, "txtCambio", string.Empty, "Cambio");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtCambio", string.Empty, "Cambio", 4);
                 LibReport.ConfigFieldDec(this, "txtPorcentajeDescuentoFactura", string.Empty, "PorcentajeDescuentoFactura");
                 LibReport.ConfigFieldDec(this, "txtTotalFactura", string.Empty, "TotalFactura");
 
@@ -87,14 +86,12 @@ namespace Galac.Adm.Rpt.Venta {
                 }
 
                 LibReport.ConfigSummaryField(this, "txtTotalMoneda", "TotalFactura", SummaryFunc.Sum, "GHMoneda", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtTotalUsuario", "TotalFactura", SummaryFunc.Sum, "GHUsuario", SummaryRunning.Group, SummaryType.SubTotal);
-                LibReport.ConfigSummaryField(this, "txtCantidadDeFacturasPorUsuario", "Numero", SummaryFunc.Count, "GHUsuario", SummaryRunning.Group, SummaryType.SubTotal);
+                LibReport.ConfigSummaryField(this, "txtCantidadDeFacturasPorUsuario", "Numero", SummaryFunc.Count, "GHUsuario", SummaryRunning.Group, SummaryType.SubTotal, "n0", "");
 
-                string valStrLblNota = "Nota:\tLos precios presentados " + (UsaPrecioSinIva ? "no " : "") + "incluyen el IVA.";
+                string valStrLblNota = "";
                 if (vIsInMonedaLocal) {
-                    valStrLblNota += "\n\tLos montos en monedas extranjeras son calculados a " + vMonedaLocal;
+                    valStrLblNota += "Nota:\tLos montos en monedas extranjeras son calculados a " + vMonedaLocal;
                     valStrLblNota += " tomando en cuenta la " + ( vIsInTasaDelDia ? "última tasa de cambio." : "tasa de cambio original." );
-                    LibReport.ChangeSectionPropertiesVisibleAndHeight(this, "GFMoneda", false, 0f);
                 }
                 else {
                     LibReport.ConfigLabel(this, "lblCambio", string.Empty);

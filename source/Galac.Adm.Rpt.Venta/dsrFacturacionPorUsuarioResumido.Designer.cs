@@ -45,14 +45,7 @@ namespace Galac.Adm.Rpt.Venta
 			this.lblUsuario = new DataDynamics.ActiveReports.Label();
 			this.txtUsuario = new DataDynamics.ActiveReports.TextBox();
 			this.GFUsuario = new DataDynamics.ActiveReports.GroupFooter();
-			this.txtCantidadDeFacturasPorUsuario = new DataDynamics.ActiveReports.TextBox();
-			this.lblCantidadDeFactPorUsuario = new DataDynamics.ActiveReports.Label();
-			this.lblTotalUsuario = new DataDynamics.ActiveReports.Label();
-			this.txtTotalUsuario = new DataDynamics.ActiveReports.TextBox();
 			this.GHMoneda = new DataDynamics.ActiveReports.GroupHeader();
-			this.GFMoneda = new DataDynamics.ActiveReports.GroupFooter();
-			this.lblTotalMoneda = new DataDynamics.ActiveReports.Label();
-			this.txtTotalMoneda = new DataDynamics.ActiveReports.TextBox();
 			this.lblMoneda = new DataDynamics.ActiveReports.Label();
 			this.txtMoneda = new DataDynamics.ActiveReports.TextBox();
 			this.lblNombre = new DataDynamics.ActiveReports.Label();
@@ -62,6 +55,11 @@ namespace Galac.Adm.Rpt.Venta
 			this.lblFecha = new DataDynamics.ActiveReports.Label();
 			this.lblTotalFactura = new DataDynamics.ActiveReports.Label();
 			this.lblPorcentajeDescuentoFactura = new DataDynamics.ActiveReports.Label();
+			this.GFMoneda = new DataDynamics.ActiveReports.GroupFooter();
+			this.txtTotalMoneda = new DataDynamics.ActiveReports.TextBox();
+			this.lblTotalMoneda = new DataDynamics.ActiveReports.Label();
+			this.lblCantidadDeFactPorUsuario = new DataDynamics.ActiveReports.Label();
+			this.txtCantidadDeFacturasPorUsuario = new DataDynamics.ActiveReports.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.txtFecha)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtNumero)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtNombre)).BeginInit();
@@ -77,12 +75,6 @@ namespace Galac.Adm.Rpt.Venta
 			((System.ComponentModel.ISupportInitialize)(this.lblNota)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblUsuario)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtUsuario)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.txtCantidadDeFacturasPorUsuario)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.lblCantidadDeFactPorUsuario)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.lblTotalUsuario)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.txtTotalUsuario)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.lblTotalMoneda)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.txtTotalMoneda)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtMoneda)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblNombre)).BeginInit();
@@ -92,6 +84,10 @@ namespace Galac.Adm.Rpt.Venta
 			((System.ComponentModel.ISupportInitialize)(this.lblFecha)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblTotalFactura)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblPorcentajeDescuentoFactura)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.txtTotalMoneda)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.lblTotalMoneda)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.lblCantidadDeFactPorUsuario)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.txtCantidadDeFacturasPorUsuario)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
 			// 
 			// Detail
@@ -253,12 +249,12 @@ namespace Galac.Adm.Rpt.Venta
 			// 
 			this.PageFooter.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
             this.lblNota});
-			this.PageFooter.Height = 0.313F;
+			this.PageFooter.Height = 0.188F;
 			this.PageFooter.Name = "PageFooter";
 			// 
 			// lblNota
 			// 
-			this.lblNota.Height = 0.313F;
+			this.lblNota.Height = 0.188F;
 			this.lblNota.HyperLink = null;
 			this.lblNota.Left = 0F;
 			this.lblNota.Name = "lblNota";
@@ -301,66 +297,12 @@ namespace Galac.Adm.Rpt.Venta
 			// GFUsuario
 			// 
 			this.GFUsuario.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtCantidadDeFacturasPorUsuario,
             this.lblCantidadDeFactPorUsuario,
-            this.lblTotalUsuario,
-            this.txtTotalUsuario});
+            this.txtCantidadDeFacturasPorUsuario});
 			this.GFUsuario.Height = 0.25F;
 			this.GFUsuario.KeepTogether = true;
 			this.GFUsuario.Name = "GFUsuario";
 			this.GFUsuario.NewPage = DataDynamics.ActiveReports.NewPage.After;
-			// 
-			// txtCantidadDeFacturasPorUsuario
-			// 
-			this.txtCantidadDeFacturasPorUsuario.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.txtCantidadDeFacturasPorUsuario.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-			this.txtCantidadDeFacturasPorUsuario.Height = 0.188F;
-			this.txtCantidadDeFacturasPorUsuario.Left = 1.437F;
-			this.txtCantidadDeFacturasPorUsuario.Name = "txtCantidadDeFacturasPorUsuario";
-			this.txtCantidadDeFacturasPorUsuario.Style = "font-size: 8pt; text-align: right";
-			this.txtCantidadDeFacturasPorUsuario.SummaryGroup = "GHUsuario";
-			this.txtCantidadDeFacturasPorUsuario.SummaryRunning = DataDynamics.ActiveReports.SummaryRunning.Group;
-			this.txtCantidadDeFacturasPorUsuario.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
-			this.txtCantidadDeFacturasPorUsuario.Text = "txtCantidadDeFacturasPorUsuario";
-			this.txtCantidadDeFacturasPorUsuario.Top = 0F;
-			this.txtCantidadDeFacturasPorUsuario.Width = 0.75F;
-			// 
-			// lblCantidadDeFactPorUsuario
-			// 
-			this.lblCantidadDeFactPorUsuario.Height = 0.188F;
-			this.lblCantidadDeFactPorUsuario.HyperLink = null;
-			this.lblCantidadDeFactPorUsuario.Left = 0F;
-			this.lblCantidadDeFactPorUsuario.Name = "lblCantidadDeFactPorUsuario";
-			this.lblCantidadDeFactPorUsuario.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: top";
-			this.lblCantidadDeFactPorUsuario.Text = "Facturas por Usuario";
-			this.lblCantidadDeFactPorUsuario.Top = 0F;
-			this.lblCantidadDeFactPorUsuario.Width = 1.437F;
-			// 
-			// lblTotalUsuario
-			// 
-			this.lblTotalUsuario.Height = 0.188F;
-			this.lblTotalUsuario.HyperLink = null;
-			this.lblTotalUsuario.Left = 2.187F;
-			this.lblTotalUsuario.Name = "lblTotalUsuario";
-			this.lblTotalUsuario.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom";
-			this.lblTotalUsuario.Text = "Total por Usuario";
-			this.lblTotalUsuario.Top = 0F;
-			this.lblTotalUsuario.Width = 3.48F;
-			// 
-			// txtTotalUsuario
-			// 
-			this.txtTotalUsuario.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.txtTotalUsuario.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-			this.txtTotalUsuario.Height = 0.188F;
-			this.txtTotalUsuario.Left = 5.667F;
-			this.txtTotalUsuario.Name = "txtTotalUsuario";
-			this.txtTotalUsuario.Style = "font-size: 8pt; text-align: right";
-			this.txtTotalUsuario.SummaryGroup = "GHUsuario";
-			this.txtTotalUsuario.SummaryRunning = DataDynamics.ActiveReports.SummaryRunning.Group;
-			this.txtTotalUsuario.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
-			this.txtTotalUsuario.Text = "txtTotalUsuario";
-			this.txtTotalUsuario.Top = 0F;
-			this.txtTotalUsuario.Width = 1F;
 			// 
 			// GHMoneda
 			// 
@@ -378,40 +320,6 @@ namespace Galac.Adm.Rpt.Venta
 			this.GHMoneda.KeepTogether = true;
 			this.GHMoneda.Name = "GHMoneda";
 			this.GHMoneda.RepeatStyle = DataDynamics.ActiveReports.RepeatStyle.OnPage;
-			// 
-			// GFMoneda
-			// 
-			this.GFMoneda.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.lblTotalMoneda,
-            this.txtTotalMoneda});
-			this.GFMoneda.Height = 0.25F;
-			this.GFMoneda.Name = "GFMoneda";
-			// 
-			// lblTotalMoneda
-			// 
-			this.lblTotalMoneda.Height = 0.188F;
-			this.lblTotalMoneda.HyperLink = null;
-			this.lblTotalMoneda.Left = 0F;
-			this.lblTotalMoneda.Name = "lblTotalMoneda";
-			this.lblTotalMoneda.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom";
-			this.lblTotalMoneda.Text = "Total por Moneda";
-			this.lblTotalMoneda.Top = 0F;
-			this.lblTotalMoneda.Width = 5.667F;
-			// 
-			// txtTotalMoneda
-			// 
-			this.txtTotalMoneda.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-			this.txtTotalMoneda.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-			this.txtTotalMoneda.Height = 0.188F;
-			this.txtTotalMoneda.Left = 5.667F;
-			this.txtTotalMoneda.Name = "txtTotalMoneda";
-			this.txtTotalMoneda.Style = "font-size: 8pt; text-align: right";
-			this.txtTotalMoneda.SummaryGroup = "GHMoneda";
-			this.txtTotalMoneda.SummaryRunning = DataDynamics.ActiveReports.SummaryRunning.Group;
-			this.txtTotalMoneda.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
-			this.txtTotalMoneda.Text = "txtTotalMoneda";
-			this.txtTotalMoneda.Top = 0F;
-			this.txtTotalMoneda.Width = 1F;
 			// 
 			// lblMoneda
 			// 
@@ -525,6 +433,66 @@ namespace Galac.Adm.Rpt.Venta
 			this.lblPorcentajeDescuentoFactura.Top = 0.188F;
 			this.lblPorcentajeDescuentoFactura.Width = 0.438F;
 			// 
+			// GFMoneda
+			// 
+			this.GFMoneda.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
+            this.txtTotalMoneda,
+            this.lblTotalMoneda});
+			this.GFMoneda.Height = 0.25F;
+			this.GFMoneda.Name = "GFMoneda";
+			// 
+			// txtTotalMoneda
+			// 
+			this.txtTotalMoneda.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.txtTotalMoneda.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+			this.txtTotalMoneda.Height = 0.188F;
+			this.txtTotalMoneda.Left = 2.5F;
+			this.txtTotalMoneda.Name = "txtTotalMoneda";
+			this.txtTotalMoneda.Style = "font-size: 8pt; text-align: right";
+			this.txtTotalMoneda.SummaryGroup = "GHMoneda";
+			this.txtTotalMoneda.SummaryRunning = DataDynamics.ActiveReports.SummaryRunning.Group;
+			this.txtTotalMoneda.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
+			this.txtTotalMoneda.Text = "txtTotalMoneda";
+			this.txtTotalMoneda.Top = 0F;
+			this.txtTotalMoneda.Width = 1.25F;
+			// 
+			// lblTotalMoneda
+			// 
+			this.lblTotalMoneda.Height = 0.188F;
+			this.lblTotalMoneda.HyperLink = null;
+			this.lblTotalMoneda.Left = 0F;
+			this.lblTotalMoneda.Name = "lblTotalMoneda";
+			this.lblTotalMoneda.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: bottom";
+			this.lblTotalMoneda.Text = "Total Facturas por Ususario / Moneda";
+			this.lblTotalMoneda.Top = 0F;
+			this.lblTotalMoneda.Width = 2.5F;
+			// 
+			// lblCantidadDeFactPorUsuario
+			// 
+			this.lblCantidadDeFactPorUsuario.Height = 0.188F;
+			this.lblCantidadDeFactPorUsuario.HyperLink = null;
+			this.lblCantidadDeFactPorUsuario.Left = 0F;
+			this.lblCantidadDeFactPorUsuario.Name = "lblCantidadDeFactPorUsuario";
+			this.lblCantidadDeFactPorUsuario.Style = "font-size: 8pt; font-weight: bold; text-align: right; vertical-align: top";
+			this.lblCantidadDeFactPorUsuario.Text = "Cantidad Facturas por Usuario";
+			this.lblCantidadDeFactPorUsuario.Top = 0F;
+			this.lblCantidadDeFactPorUsuario.Width = 2.5F;
+			// 
+			// txtCantidadDeFacturasPorUsuario
+			// 
+			this.txtCantidadDeFacturasPorUsuario.Border.TopColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+			this.txtCantidadDeFacturasPorUsuario.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
+			this.txtCantidadDeFacturasPorUsuario.Height = 0.188F;
+			this.txtCantidadDeFacturasPorUsuario.Left = 2.5F;
+			this.txtCantidadDeFacturasPorUsuario.Name = "txtCantidadDeFacturasPorUsuario";
+			this.txtCantidadDeFacturasPorUsuario.Style = "font-size: 8pt; text-align: right";
+			this.txtCantidadDeFacturasPorUsuario.SummaryGroup = "GHUsuario";
+			this.txtCantidadDeFacturasPorUsuario.SummaryRunning = DataDynamics.ActiveReports.SummaryRunning.Group;
+			this.txtCantidadDeFacturasPorUsuario.SummaryType = DataDynamics.ActiveReports.SummaryType.SubTotal;
+			this.txtCantidadDeFacturasPorUsuario.Text = "txtCantidadDeFacturasPorUsuario";
+			this.txtCantidadDeFacturasPorUsuario.Top = 0F;
+			this.txtCantidadDeFacturasPorUsuario.Width = 1.25F;
+			// 
 			// dsrFacturacionPorUsuarioResumido
 			// 
 			this.MasterReport = false;
@@ -561,12 +529,6 @@ namespace Galac.Adm.Rpt.Venta
 			((System.ComponentModel.ISupportInitialize)(this.lblNota)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblUsuario)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtUsuario)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.txtCantidadDeFacturasPorUsuario)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.lblCantidadDeFactPorUsuario)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.lblTotalUsuario)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.txtTotalUsuario)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.lblTotalMoneda)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.txtTotalMoneda)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblMoneda)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.txtMoneda)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblNombre)).EndInit();
@@ -576,6 +538,10 @@ namespace Galac.Adm.Rpt.Venta
 			((System.ComponentModel.ISupportInitialize)(this.lblFecha)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblTotalFactura)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.lblPorcentajeDescuentoFactura)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.txtTotalMoneda)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.lblTotalMoneda)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.lblCantidadDeFactPorUsuario)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.txtCantidadDeFacturasPorUsuario)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -591,8 +557,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.PageFooter PageFooter;
         private DataDynamics.ActiveReports.GroupHeader GHUsuario;
         private DataDynamics.ActiveReports.GroupFooter GFUsuario;
-        private DataDynamics.ActiveReports.TextBox txtCantidadDeFacturasPorUsuario;
-        private DataDynamics.ActiveReports.Label lblCantidadDeFactPorUsuario;
         private DataDynamics.ActiveReports.GroupHeader GHMoneda;
         private DataDynamics.ActiveReports.GroupFooter GFMoneda;
 		private DataDynamics.ActiveReports.Label lblNota;
@@ -605,10 +569,6 @@ namespace Galac.Adm.Rpt.Venta
 		private DataDynamics.ActiveReports.TextBox txtCambio;
 		private DataDynamics.ActiveReports.TextBox txtTotalFactura;
 		private DataDynamics.ActiveReports.TextBox txtNumeroComprobante;
-		private DataDynamics.ActiveReports.Label lblTotalMoneda;
-		private DataDynamics.ActiveReports.TextBox txtTotalMoneda;
-		private DataDynamics.ActiveReports.Label lblTotalUsuario;
-		private DataDynamics.ActiveReports.TextBox txtTotalUsuario;
 		private DataDynamics.ActiveReports.Label lblMoneda;
 		private DataDynamics.ActiveReports.TextBox txtMoneda;
 		private DataDynamics.ActiveReports.Label lblNombre;
@@ -618,5 +578,9 @@ namespace Galac.Adm.Rpt.Venta
 		private DataDynamics.ActiveReports.Label lblFecha;
 		private DataDynamics.ActiveReports.Label lblTotalFactura;
 		private DataDynamics.ActiveReports.Label lblPorcentajeDescuentoFactura;
+		private DataDynamics.ActiveReports.TextBox txtTotalMoneda;
+		private DataDynamics.ActiveReports.Label lblTotalMoneda;
+		private DataDynamics.ActiveReports.Label lblCantidadDeFactPorUsuario;
+		private DataDynamics.ActiveReports.TextBox txtCantidadDeFacturasPorUsuario;
 	}
 }
