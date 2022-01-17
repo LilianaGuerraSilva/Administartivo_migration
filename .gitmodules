@@ -66,3 +66,7 @@
 	path = bin/binEsqNiif
 	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
 	branch = release/SawV21.1.0.0
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
+	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
+	branch = release/V21.1.0.0
