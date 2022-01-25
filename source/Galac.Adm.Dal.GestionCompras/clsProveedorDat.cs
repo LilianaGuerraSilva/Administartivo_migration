@@ -49,7 +49,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             vParams.AddInString("Telefonos", valRecord.Telefonos, 40);
             vParams.AddInString("Direccion", valRecord.Direccion, 255);
             vParams.AddInString("Fax", valRecord.Fax, 25);
-            vParams.AddInString("Email", valRecord.Email, 40);
+            vParams.AddInString("Email", valRecord.Email, 100);
             vParams.AddInString("TipodeProveedor", valRecord.TipodeProveedor, 20);
             vParams.AddInEnum("TipoDeProveedorDeLibrosFiscales", valRecord.TipoDeProveedorDeLibrosFiscalesAsDB);
             vParams.AddInDecimal("PorcentajeRetencionIVA", valRecord.PorcentajeRetencionIVA, 2);

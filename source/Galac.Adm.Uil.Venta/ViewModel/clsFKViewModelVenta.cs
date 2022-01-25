@@ -31,6 +31,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         //[LibGridColum("Es Supervisor")]
         public bool IsSuperviser { get; set; }
     }
+
     public class FkVendedorViewModel : IFkVendedorViewModel {
         public int ConsecutivoCompania { get; set; }
         [LibGridColum("Código")]
@@ -48,6 +49,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         //[LibGridColum("Telefono")]
         public string Telefono { get; set; }
     }
+
+    public class FkZonaCobranzaViewModel : IFkZonaCobranzaViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Nombre")]
+        public string Nombre { get; set; }
+    }
+
     public class FkClienteViewModel : IFkClienteViewModel {
         public int ConsecutivoCompania { get; set; }
         //[LibGridColum("Código")]
@@ -64,6 +72,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public DateTime ClienteDesdeFecha { get; set; }
         public string TipoDeContribuyente { get; set; }
     }
+	
     public class FkArticuloInventarioViewModel : IFkArticuloInventarioViewModel {
         public int ConsecutivoCompania { get; set; }
         [LibGridColum("Código", DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo", Width = 150)]
@@ -172,7 +181,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         [LibGridColum("eTipoDeFormaDePago")]
         public eTipoDeFormaDePago TipoDePago { get; set; }
     }
-
 
     public class FkCobroDeFacturaRapidaViewModel : IFkCobroDeFacturaRapidaViewModel {
         public int ConsecutivoCompania { get; set; }
@@ -295,4 +303,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
        public string NombreDelUsuario { get; set; }
        public string NombreCaja {get; set;  }
    }
+   
+    public class FkMaquinaFiscalViewModel : IFkMaquinaFiscalViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Consecutivo Máquina Fiscal", DbMemberPath = "ConsecutivoMaquinaFiscal", Width = 9)]
+        public string ConsecutivoMaquinaFiscal { get; set; }
+        [LibGridColum("Descripción")]
+        public string Descripcion { get; set; }
+        [LibGridColum("Nro.Registro")]
+        public string NumeroRegistro { get; set; }
+        [LibGridColum("Status")]
+        public eStatusMaquinaFiscal Status { get; set; }
+    }
 }

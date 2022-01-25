@@ -134,7 +134,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
 
         public string Email {
             get { return _Email; }
-            set { _Email = LibString.Mid(value, 0, 40); }
+            set { _Email = LibString.Mid(value, 0, 100); }
         }
 
         public string TipodeProveedor {

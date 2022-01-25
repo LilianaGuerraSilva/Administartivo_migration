@@ -103,7 +103,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    sql = sql & "Telefonos " & gUtilSQL.getVarCharTypeForDB(40) & ", "
    sql = sql & "Direccion " & gUtilSQL.getVarCharTypeForDB(255) & ", "
    sql = sql & "Fax " & gUtilSQL.getVarCharTypeForDB(25) & ", "
-   sql = sql & "Email " & gUtilSQL.getVarCharTypeForDB(40) & ", "
+   sql = sql & "Email " & gUtilSQL.getVarCharTypeForDB(100) & ", "
    sql = sql & "TipodeProveedor " & gUtilSQL.getVarCharTypeForDB(20) & ", "
    sql = sql & "TipoDeProveedorDeLibrosFiscales " & gUtilSQL.getCharTypeForDB(1) & ", "
    sql = sql & "PorcentajeRetencionIva " & gUtilSQL.getNumericTypeForDB(12, 2) & ", "

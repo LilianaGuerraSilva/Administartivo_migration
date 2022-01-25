@@ -1253,7 +1253,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 }
                 if(vContinue) {
                     vTextIN = inputDialog.Answer;
-                    vTextIN = LibText.Left(vTextIN, 11);
+                    vTextIN = LibText.Left(vTextIN, 20);
                 } else {
                     throw new GalacException("Debe asignar el Número de Control, para poder Continuar.", eExceptionManagementType.Alert);
                 }
@@ -1297,7 +1297,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     if(vContinue) {
                         ICompraPdn vPdn = new clsCompraNav();
                         vTextIN = inputDialog.Answer;
-                        vTextIN = LibString.Left(vTextIN, 11);
+                        vTextIN = LibString.Left(vTextIN, 20);
                         vPdn.GenerarCxP(Model, vTextIN, Action, _NumeroDeCompraOriginal, _CodigoProveedorOriginal);
                     } else {
                         throw new GalacException("Debe asignar el Número de Control, para poder Continuar.", eExceptionManagementType.Alert);

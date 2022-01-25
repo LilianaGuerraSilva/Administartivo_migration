@@ -57,7 +57,7 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("NumeroExpedienteDeImportacion" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_CxPNuExDeIm DEFAULT (''), ");
             SQL.AppendLine("TipoDeTransaccion" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_CxPTiDeTr DEFAULT ('0'), ");
             SQL.AppendLine("NumeroDeFacturaAfectada" + InsSql.VarCharTypeForDb(11) + " CONSTRAINT d_CxPNuDeFaAf DEFAULT (''), ");
-            SQL.AppendLine("NumeroControl" + InsSql.VarCharTypeForDb(11) + " CONSTRAINT d_CxPNuCo DEFAULT (''), ");
+            SQL.AppendLine("NumeroControl" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_CxPNuCo DEFAULT (''), ");
             SQL.AppendLine("SeHizoLaRetencionIVA" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCxPSeHizoLaRe NOT NULL, ");
             SQL.AppendLine("NumeroComprobanteRetencion" + InsSql.VarCharTypeForDb(8) + " CONSTRAINT d_CxPNuCoRe DEFAULT (''), ");
             SQL.AppendLine("FechaAplicacionRetIVA" + InsSql.DateTypeForDb() + " CONSTRAINT d_CxPFeApReIV DEFAULT (''), ");
@@ -211,7 +211,7 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("@NumeroExpedienteDeImportacion" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@TipoDeTransaccion" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@NumeroDeFacturaAfectada" + InsSql.VarCharTypeForDb(11) + " = '',");
-            SQL.AppendLine("@NumeroControl" + InsSql.VarCharTypeForDb(11) + " = '',");
+            SQL.AppendLine("@NumeroControl" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@SeHizoLaRetencionIVA" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@NumeroComprobanteRetencion" + InsSql.VarCharTypeForDb(8) + " = '',");
             SQL.AppendLine("@FechaAplicacionRetIVA" + InsSql.DateTypeForDb() + " = '01/01/1900',");
@@ -479,7 +479,7 @@ namespace Galac.Adm.Dal.CajaChica {
             SQL.AppendLine("@NumeroExpedienteDeImportacion" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@TipoDeTransaccion" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@NumeroDeFacturaAfectada" + InsSql.VarCharTypeForDb(11) + ",");
-            SQL.AppendLine("@NumeroControl" + InsSql.VarCharTypeForDb(11) + ",");
+            SQL.AppendLine("@NumeroControl" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@SeHizoLaRetencionIVA" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@NumeroComprobanteRetencion" + InsSql.VarCharTypeForDb(8) + ",");
             SQL.AppendLine("@FechaAplicacionRetIVA" + InsSql.DateTypeForDb() + ",");

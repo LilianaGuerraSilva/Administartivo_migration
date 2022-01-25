@@ -108,6 +108,7 @@
     <Compile Include="clsCobroDeFacturaRapidaTarjetaDetalleNav.cs" />
     <Compile Include="clsCobroDeFacturaRapidaTarjetaNav.cs" />
     <Compile Include="clsCXCNav.cs" />
+    <Compile Include="clsFacturaNav.cs" />
     <Compile Include="clsFacturaRapidaDetalleNav.cs" />
     <Compile Include="clsFacturaRapidaNav.cs" />
     <Compile Include="clsMovimientoBancarioPuntoDeVentaNav.cs" />
@@ -117,6 +118,12 @@
     <Compile Include="Reportes\clsCajaSql.cs" />
     <Compile Include="Reportes\clsCobranzaRpt.cs" />
     <Compile Include="Reportes\clsCobranzaSql.cs" />
+    <Compile Include="Reportes\clsCxCRpt.cs" />
+    <Compile Include="Reportes\clsCxCSql.cs" />
+    <Compile Include="Reportes\clsResumenDiarioDeVentasRpt.cs" />
+    <Compile Include="Reportes\clsFacturaRpt.cs" />
+    <Compile Include="Reportes\clsResumenDiarioDeVentasSql.cs" />
+    <Compile Include="Reportes\clsFacturaSql.cs" />
     <Compile Include="Reportes\clsNotaDeEntregaRpt.cs" />
     <Compile Include="Reportes\clsNotaDeEntregaSql.cs" />
   </ItemGroup>

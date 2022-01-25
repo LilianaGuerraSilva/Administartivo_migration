@@ -93,7 +93,12 @@
     <Compile Include="clsCuadreCajaPorUsuario.cs" />
     <Compile Include="clsCuadreCajaPorUsuarioResumido.cs" />
     <Compile Include="clsComisionDeVendedoresPorCobranzaMonto.cs" />
+    <Compile Include="clsCxCPendientesEntreFechas.cs" />
+    <Compile Include="clsCxCPorCliente.cs" />
+    <Compile Include="clsFacturacionPorArticulo.cs" />
+    <Compile Include="clsFacturacionPorUsuario.cs" />
     <Compile Include="clsNotaDeEntregaEntreFechasPorCliente.cs" />
+    <Compile Include="clsResumenDiarioDeVentasEntreFechas.cs" />
     <Compile Include="dsrCobranzasEntreFechas.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -160,13 +165,61 @@
     <Compile Include="dsrComisionDeVendedoresPorCobranzaMonto.Designer.cs">
       <DependentUpon>dsrComisionDeVendedoresPorCobranzaMonto.cs</DependentUpon>
     </Compile>
+    <Compile Include="dsrCxCPendientesEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCxCPendientesEntreFechas.Designer.cs">
+      <DependentUpon>dsrCxCPendientesEntreFechas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrCxCPorCliente.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCxCPorCliente.Designer.cs">
+      <DependentUpon>dsrCxCPorCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrFacturacionPorArticuloDetallado.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrFacturacionPorArticuloDetallado.Designer.cs">
+      <DependentUpon>dsrFacturacionPorArticuloDetallado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrFacturacionPorArticuloResumido.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrFacturacionPorArticuloResumido.Designer.cs">
+      <DependentUpon>dsrFacturacionPorArticuloResumido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrFacturacionPorUsuarioDetallado.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrFacturacionPorUsuarioDetallado.Designer.cs">
+      <DependentUpon>dsrFacturacionPorUsuarioDetallado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrFacturacionPorUsuarioResumido.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrFacturacionPorUsuarioResumido.Designer.cs">
+      <DependentUpon>dsrFacturacionPorUsuarioResumido.cs</DependentUpon>
+    </Compile>
     <Compile Include="dsrNotaDeEntregaEntreFechasPorCliente.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="dsrNotaDeEntregaEntreFechasPorCliente.Designer.cs">
       <DependentUpon>dsrNotaDeEntregaEntreFechasPorCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="dsrResumenDiarioDeVentasEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrResumenDiarioDeVentasEntreFechas.Designer.cs">
+      <DependentUpon>dsrResumenDiarioDeVentasEntreFechas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.Designer.cs">
+      <DependentUpon>dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="dsrCajasAperturadas.resx">
@@ -202,10 +255,34 @@
     <EmbeddedResource Include="dsrComisionDeVendedoresPorCobranzaMonto.resx">
       <DependentUpon>dsrComisionDeVendedoresPorCobranzaMonto.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="dsrCxCPendientesEntreFechas.resx">
+      <DependentUpon>dsrCxCPendientesEntreFechas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrCxCPorCliente.resx">
+      <DependentUpon>dsrCxCPorCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrFacturacionPorArticuloDetallado.resx">
+      <DependentUpon>dsrFacturacionPorArticuloDetallado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrFacturacionPorArticuloResumido.resx">
+      <DependentUpon>dsrFacturacionPorArticuloResumido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrFacturacionPorUsuarioDetallado.resx">
+      <DependentUpon>dsrFacturacionPorUsuarioDetallado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrFacturacionPorUsuarioResumido.resx">
+      <DependentUpon>dsrFacturacionPorUsuarioResumido.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="dsrNotaDeEntregaEntreFechasPorCliente.resx">
       <DependentUpon>dsrNotaDeEntregaEntreFechasPorCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="dsrResumenDiarioDeVentasEntreFechas.resx">
+      <DependentUpon>dsrResumenDiarioDeVentasEntreFechas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.resx">
+      <DependentUpon>dsrResumenDiarioDeVentasEntreFechasPorMaquinaFiscal.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">

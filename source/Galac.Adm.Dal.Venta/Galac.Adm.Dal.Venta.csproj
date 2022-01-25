@@ -77,6 +77,7 @@
     <Compile Include="clsCobroDeFacturaRapidaTarjetaDetalleED.cs" />
     <Compile Include="clsCobroDeFacturaRapidaTarjetaED.cs" />
     <Compile Include="clsCXCDat.cs" />
+    <Compile Include="clsFacturaDat.cs" />
     <Compile Include="clsFacturaRapidaDat.cs" />
     <Compile Include="clsFacturaRapidaDetalleDat.cs" />
     <Compile Include="clsFacturaRapidaDetalleED.cs" />

@@ -21,8 +21,17 @@ namespace Galac.Adm.Uil.Venta {
                     _LibReportsViewModel = new clsCajaInformesViewModel();
                 break;
                 case eSystemModules.NotaDeEntrega:
-                    _LibReportsViewModel = new clsNotaDeEntregaInformesViewModel();
+                	_LibReportsViewModel = new clsNotaDeEntregaInformesViewModel();
                 break;
+                case eSystemModules.CxC:
+                    _LibReportsViewModel = new clsCxCInformesViewModel();
+                break;
+                case eSystemModules.Factura:
+                    _LibReportsViewModel = new clsFacturaInformesViewModel();
+                break;
+                case eSystemModules.ResumenDiarioVentas:
+                    _LibReportsViewModel = new clsResumenDiarioDeVentasViewModel();
+                    break;
             }
             if(LibMessages.ReportsView.ShowReportsView(_LibReportsViewModel,true)) {
             }

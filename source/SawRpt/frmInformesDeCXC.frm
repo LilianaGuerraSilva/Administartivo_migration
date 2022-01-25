@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmInformesDeCXC 
    BackColor       =   &H00F3F3F3&
    Caption         =   "Informes de Cuentas por Cobrar"
@@ -16,7 +16,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Frame1"
       Height          =   600
       Left            =   3360
-      TabIndex        =   90
+      TabIndex        =   89
       Top             =   4320
       Visible         =   0   'False
       Width           =   8000
@@ -24,7 +24,7 @@ Begin VB.Form frmInformesDeCXC
          Enabled         =   0   'False
          Height          =   315
          Left            =   2520
-         TabIndex        =   93
+         TabIndex        =   92
          Top             =   240
          Width           =   1935
       End
@@ -32,7 +32,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Check1"
          Height          =   255
          Left            =   2160
-         TabIndex        =   91
+         TabIndex        =   90
          Top             =   240
          Width           =   255
       End
@@ -41,7 +41,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Zona de Cobranza"
          Height          =   255
          Left            =   2520
-         TabIndex        =   94
+         TabIndex        =   93
          Top             =   0
          Width           =   1935
       End
@@ -51,7 +51,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   255
          Left            =   0
-         TabIndex        =   92
+         TabIndex        =   91
          Top             =   240
          Width           =   2055
       End
@@ -62,14 +62,14 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Frame1"
       Height          =   375
       Left            =   3360
-      TabIndex        =   87
+      TabIndex        =   86
       Top             =   3720
       Width           =   1995
       Begin VB.CheckBox ChkContacto 
          Caption         =   "Check1"
          Height          =   255
          Left            =   1440
-         TabIndex        =   88
+         TabIndex        =   87
          Top             =   120
          Width           =   255
       End
@@ -79,7 +79,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   255
          Left            =   0
-         TabIndex        =   89
+         TabIndex        =   88
          Top             =   120
          Width           =   1335
       End
@@ -89,7 +89,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "Agrupado por"
       Height          =   1455
       Left            =   3240
-      TabIndex        =   77
+      TabIndex        =   76
       Top             =   960
       Width           =   5900
       Begin VB.Frame frameOptTipoAgrupar 
@@ -97,7 +97,7 @@ Begin VB.Form frmInformesDeCXC
          BorderStyle     =   0  'None
          Height          =   1100
          Left            =   1680
-         TabIndex        =   84
+         TabIndex        =   83
          Top             =   240
          Width           =   1700
          Begin VB.OptionButton optTipoAgrupar 
@@ -106,7 +106,7 @@ Begin VB.Form frmInformesDeCXC
             Height          =   255
             Index           =   0
             Left            =   0
-            TabIndex        =   86
+            TabIndex        =   85
             Top             =   240
             Width           =   1815
          End
@@ -116,7 +116,7 @@ Begin VB.Form frmInformesDeCXC
             Height          =   255
             Index           =   1
             Left            =   0
-            TabIndex        =   85
+            TabIndex        =   84
             Top             =   480
             Width           =   1815
          End
@@ -124,7 +124,7 @@ Begin VB.Form frmInformesDeCXC
       Begin VB.ComboBox cmbAgruparZona 
          Height          =   315
          Left            =   3600
-         TabIndex        =   83
+         TabIndex        =   82
          Top             =   600
          Visible         =   0   'False
          Width           =   1935
@@ -132,7 +132,7 @@ Begin VB.Form frmInformesDeCXC
       Begin VB.ComboBox cmbAgruparSectorDeNegocio 
          Height          =   315
          Left            =   3600
-         TabIndex        =   81
+         TabIndex        =   80
          Top             =   600
          Width           =   1935
       End
@@ -142,7 +142,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   255
          Index           =   1
          Left            =   240
-         TabIndex        =   79
+         TabIndex        =   78
          Top             =   840
          Width           =   1300
       End
@@ -152,7 +152,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   240
-         TabIndex        =   78
+         TabIndex        =   77
          Top             =   360
          Width           =   1200
       End
@@ -161,7 +161,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Zona de Cobranza"
          Height          =   255
          Left            =   3600
-         TabIndex        =   82
+         TabIndex        =   81
          Top             =   360
          Visible         =   0   'False
          Width           =   1935
@@ -171,7 +171,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "Agrupar por..."
          Height          =   255
          Left            =   3600
-         TabIndex        =   80
+         TabIndex        =   79
          Top             =   360
          Width           =   1935
       End
@@ -189,7 +189,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   6120
-      TabIndex        =   76
+      TabIndex        =   75
       Top             =   3840
       Width           =   1935
    End
@@ -199,13 +199,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   4200
-      TabIndex        =   74
+      TabIndex        =   73
       Top             =   1920
       Width           =   6075
       Begin VB.ComboBox cmbTipodocumento 
          Height          =   315
          Left            =   1560
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   0
          Width           =   2055
       End
@@ -217,7 +217,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   60
-         TabIndex        =   75
+         TabIndex        =   74
          Top             =   60
          Width           =   1410
       End
@@ -229,7 +229,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3240
-      TabIndex        =   21
+      TabIndex        =   20
       Top             =   1560
       Width           =   2775
    End
@@ -240,7 +240,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3360
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   720
       Visible         =   0   'False
       Width           =   2415
@@ -252,7 +252,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   34
+      TabIndex        =   33
       Top             =   3960
       Width           =   2115
    End
@@ -263,7 +263,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   33
+      TabIndex        =   32
       Top             =   3720
       Width           =   2115
    End
@@ -273,13 +273,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   5400
-      TabIndex        =   72
+      TabIndex        =   71
       Top             =   3120
       Width           =   3435
       Begin VB.ComboBox cmbOrdenadoPor 
          Height          =   315
          Left            =   1560
-         TabIndex        =   30
+         TabIndex        =   29
          Top             =   0
          Width           =   1575
       End
@@ -291,7 +291,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   60
-         TabIndex        =   73
+         TabIndex        =   72
          Top             =   60
          Width           =   990
       End
@@ -303,7 +303,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   6000
-      TabIndex        =   35
+      TabIndex        =   34
       Top             =   3525
       Width           =   1935
    End
@@ -314,13 +314,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   43
+      TabIndex        =   42
       Top             =   660
       Width           =   4395
       Begin VB.ComboBox CmbCantidadAImprimir 
          Height          =   315
          Left            =   1455
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   0
          Width           =   975
       End
@@ -332,7 +332,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   50
+         TabIndex        =   49
          Top             =   60
          Width           =   1335
       End
@@ -344,14 +344,14 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   57
+      TabIndex        =   56
       Top             =   660
       Width           =   4395
       Begin VB.ComboBox cmbStatus 
          Height          =   315
          HelpContextID   =   1
          Left            =   2295
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   0
          Width           =   1815
       End
@@ -363,7 +363,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   58
+         TabIndex        =   57
          Top             =   60
          Width           =   2175
       End
@@ -373,22 +373,9 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H80000010&
       Height          =   5775
       Left            =   120
-      TabIndex        =   64
+      TabIndex        =   63
       Top             =   0
       Width           =   3075
-      Begin VB.OptionButton optInformeDeCxC 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "CxC por Cliente.............................."
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   14
-         Left            =   120
-         TabIndex        =   95
-         Top             =   2040
-         Width           =   2775
-      End
       Begin VB.OptionButton optInformeDeCxC 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
@@ -398,7 +385,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   12
          Left            =   120
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   5370
          Width           =   2775
       End
@@ -411,8 +398,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   11
          Left            =   120
-         TabIndex        =   6
-         Top             =   2895
+         TabIndex        =   5
+         Top             =   2673
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -424,8 +411,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   10
          Left            =   120
-         TabIndex        =   9
-         Top             =   3840
+         TabIndex        =   8
+         Top             =   3660
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -437,21 +424,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   9
          Left            =   120
-         TabIndex        =   12
-         Top             =   5055
-         Width           =   2775
-      End
-      Begin VB.OptionButton optInformeDeCxC 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "CxC Pendientes entre Fechas  ....."
-         CausesValidation=   0   'False
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   7
-         Left            =   120
-         TabIndex        =   2
-         Top             =   1130
+         TabIndex        =   11
+         Top             =   5036
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -463,8 +437,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   120
-         TabIndex        =   5
-         Top             =   2580
+         TabIndex        =   4
+         Top             =   2344
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -477,7 +451,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   1
          Left            =   120
          TabIndex        =   0
-         Top             =   500
+         Top             =   639
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -489,8 +463,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   2
          Left            =   120
-         TabIndex        =   7
-         Top             =   3210
+         TabIndex        =   6
+         Top             =   3002
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -502,8 +476,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   3
          Left            =   120
-         TabIndex        =   8
-         Top             =   3525
+         TabIndex        =   7
+         Top             =   3331
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -516,7 +490,7 @@ Begin VB.Form frmInformesDeCXC
          Index           =   4
          Left            =   120
          TabIndex        =   1
-         Top             =   815
+         Top             =   968
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -528,8 +502,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   5
          Left            =   120
-         TabIndex        =   10
-         Top             =   4440
+         TabIndex        =   9
+         Top             =   4378
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -542,8 +516,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   6
          Left            =   120
-         TabIndex        =   11
-         Top             =   4740
+         TabIndex        =   10
+         Top             =   4707
          Visible         =   0   'False
          Width           =   2775
       End
@@ -556,8 +530,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   8
          Left            =   120
-         TabIndex        =   3
-         Top             =   1445
+         TabIndex        =   2
+         Top             =   1297
          Width           =   2775
       End
       Begin VB.OptionButton optInformeDeCxC 
@@ -569,8 +543,8 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   13
          Left            =   120
-         TabIndex        =   4
-         Top             =   1760
+         TabIndex        =   3
+         Top             =   1626
          Width           =   2775
       End
       Begin VB.Label lblINformesEstadisticos 
@@ -588,8 +562,8 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   67
-         Top             =   4095
+         TabIndex        =   66
+         Top             =   3989
          Width           =   2775
       End
       Begin VB.Label lblInformesDeCxC 
@@ -607,8 +581,8 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   66
-         Top             =   160
+         TabIndex        =   65
+         Top             =   250
          Width           =   2775
       End
       Begin VB.Label lblVarios 
@@ -626,8 +600,8 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00FFFFFF&
          Height          =   255
          Left            =   120
-         TabIndex        =   65
-         Top             =   2265
+         TabIndex        =   64
+         Top             =   1955
          Width           =   2775
       End
    End
@@ -638,13 +612,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   7200
-      TabIndex        =   48
+      TabIndex        =   47
       Top             =   2460
       Width           =   3615
       Begin VB.ComboBox cmbMonedaDeLosReportes 
          Height          =   315
          Left            =   1665
-         TabIndex        =   29
+         TabIndex        =   28
          Text            =   "En Moneda Original"
          Top             =   0
          Width           =   1935
@@ -657,7 +631,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   49
+         TabIndex        =   48
          Top             =   60
          Width           =   1545
       End
@@ -668,13 +642,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   675
       Left            =   4335
-      TabIndex        =   45
+      TabIndex        =   44
       Top             =   5700
       Width           =   4935
       Begin VB.TextBox txtNombreArchivo 
          Height          =   285
          Left            =   1275
-         TabIndex        =   38
+         TabIndex        =   37
          Top             =   285
          Width           =   3495
       End
@@ -682,7 +656,7 @@ Begin VB.Form frmInformesDeCXC
          Caption         =   "&Exportar"
          Height          =   375
          Left            =   120
-         TabIndex        =   42
+         TabIndex        =   41
          Top             =   240
          Width           =   1035
       End
@@ -691,7 +665,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "&Impresora"
       Height          =   375
       Left            =   120
-      TabIndex        =   39
+      TabIndex        =   38
       Top             =   5940
       Width           =   1215
    End
@@ -699,7 +673,7 @@ Begin VB.Form frmInformesDeCXC
       Caption         =   "&Pantalla"
       Height          =   375
       Left            =   1560
-      TabIndex        =   40
+      TabIndex        =   39
       Top             =   5940
       Width           =   1215
    End
@@ -708,7 +682,7 @@ Begin VB.Form frmInformesDeCXC
       CausesValidation=   0   'False
       Height          =   375
       Left            =   3000
-      TabIndex        =   41
+      TabIndex        =   40
       Top             =   5940
       Width           =   1215
    End
@@ -718,33 +692,33 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   1035
       Left            =   3300
-      TabIndex        =   44
+      TabIndex        =   43
       Top             =   2430
       Width           =   2055
       Begin MSComCtl2.DTPicker dtpFechaFinal 
          Height          =   315
          Left            =   720
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   615
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   111476739
+         Format          =   76480515
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
          Height          =   315
          Left            =   720
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   240
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   111476739
+         Format          =   76480515
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -755,7 +729,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   47
+         TabIndex        =   46
          Top             =   675
          Width           =   330
       End
@@ -767,7 +741,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   46
+         TabIndex        =   45
          Top             =   300
          Width           =   405
       End
@@ -779,7 +753,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   31
+      TabIndex        =   30
       Top             =   3525
       Width           =   1575
    End
@@ -789,13 +763,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   615
       Left            =   3300
-      TabIndex        =   55
+      TabIndex        =   54
       Top             =   1740
       Width           =   6675
       Begin VB.ComboBox CmbZonaCobranza 
          Height          =   315
          Left            =   675
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   240
          Width           =   2295
       End
@@ -807,7 +781,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   56
+         TabIndex        =   55
          Top             =   300
          Width           =   375
       End
@@ -819,7 +793,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   3300
-      TabIndex        =   32
+      TabIndex        =   31
       Top             =   3525
       Width           =   2115
    End
@@ -830,13 +804,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   62
+      TabIndex        =   61
       Top             =   4980
       Width           =   6855
       Begin VB.ComboBox cmbCamposDefinibles 
          Height          =   315
          Left            =   2940
-         TabIndex        =   37
+         TabIndex        =   36
          Text            =   "Ninguno"
          Top             =   0
          Width           =   2055
@@ -849,7 +823,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   0
-         TabIndex        =   63
+         TabIndex        =   62
          Top             =   60
          Width           =   2820
       End
@@ -860,20 +834,20 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   555
       Left            =   3300
-      TabIndex        =   53
+      TabIndex        =   52
       Top             =   1035
       Width           =   6135
       Begin VB.TextBox txtNombreVendedor 
          Height          =   285
          Left            =   1890
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   195
          Width           =   4155
       End
       Begin VB.TextBox txtCodigoVendedor 
          Height          =   285
          Left            =   735
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   195
          Width           =   1095
       End
@@ -885,7 +859,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   54
+         TabIndex        =   53
          Top             =   240
          Width           =   555
       End
@@ -896,20 +870,20 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   555
       Left            =   3300
-      TabIndex        =   51
+      TabIndex        =   50
       Top             =   1035
       Width           =   6135
       Begin VB.TextBox txtCodigoDeCliente 
          Height          =   285
          Left            =   735
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   195
          Width           =   1095
       End
       Begin VB.TextBox txtNombreDeCliente 
          Height          =   285
          Left            =   1890
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   195
          Width           =   4215
       End
@@ -921,7 +895,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   52
+         TabIndex        =   51
          Top             =   240
          Width           =   555
       End
@@ -933,13 +907,13 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   315
       Left            =   3300
-      TabIndex        =   59
+      TabIndex        =   58
       Top             =   4980
       Width           =   6315
       Begin VB.ComboBox cmbAnalisisDeVencimientoPor 
          Height          =   315
          Left            =   2565
-         TabIndex        =   36
+         TabIndex        =   35
          Top             =   0
          Width           =   1815
       End
@@ -952,7 +926,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   1
          Left            =   5100
-         TabIndex        =   71
+         TabIndex        =   70
          Top             =   60
          Width           =   690
       End
@@ -965,7 +939,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   0
-         TabIndex        =   60
+         TabIndex        =   59
          Top             =   60
          Width           =   2445
       End
@@ -976,7 +950,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   5460
-      TabIndex        =   68
+      TabIndex        =   67
       Top             =   2430
       Width           =   1635
       Begin VB.OptionButton optTasaDeCambio 
@@ -987,7 +961,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   1
          Left            =   180
-         TabIndex        =   69
+         TabIndex        =   68
          Top             =   615
          Width           =   1275
       End
@@ -999,7 +973,7 @@ Begin VB.Form frmInformesDeCXC
          Height          =   195
          Index           =   0
          Left            =   180
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   300
          Width           =   1275
       End
@@ -1010,7 +984,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H00808080&
       Height          =   915
       Left            =   5460
-      TabIndex        =   70
+      TabIndex        =   69
       Top             =   2430
       Width           =   1635
       Begin VB.OptionButton optDetallado 
@@ -1020,7 +994,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   300
          Width           =   1275
       End
@@ -1031,7 +1005,7 @@ Begin VB.Form frmInformesDeCXC
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   615
          Width           =   1275
       End
@@ -1053,7 +1027,7 @@ Begin VB.Form frmInformesDeCXC
       ForeColor       =   &H000040C0&
       Height          =   300
       Left            =   3360
-      TabIndex        =   61
+      TabIndex        =   60
       Top             =   180
       Width           =   2385
    End
@@ -1114,10 +1088,6 @@ Private Function OPT_ESTADISTICO_DE_VENDEDORES() As Integer
    OPT_ESTADISTICO_DE_VENDEDORES = 5
 End Function
 
-Private Function OPT_CXC_PENDIENTES_ENTRE_FECHAS() As Integer
-   OPT_CXC_PENDIENTES_ENTRE_FECHAS = 7
-End Function
-
 Private Function OPT_CXC_CON_DESCRIPCION() As Integer
    OPT_CXC_CON_DESCRIPCION = 8
 End Function
@@ -1140,10 +1110,6 @@ End Function
 
 Private Function OPT_CHEQUES_DEVUELTOS() As Integer
    OPT_CHEQUES_DEVUELTOS = 13
-End Function
-
-Private Function OPT_CXC_POR_CLIENTE() As Integer
-   OPT_CXC_POR_CLIENTE = 14
 End Function
 
 Private Function OPT_NOAGRUPAR_INFORME() As Integer
@@ -1301,7 +1267,7 @@ Private Sub Form_Unload(Cancel As Integer)
    Set insVendedor = Nothing
    Set insCliente = Nothing
    Set gFechasDeLosInformes = New clsFechasDeLosInformesNav
-   gFechasDeLosInformes.sGrabasLasFechasDeInformes dtpFechaInicial.value, dtpFechaFinal.value, gProyUsuarioActual.GetNombreDelUsuario
+   gFechasDeLosInformes.sGrabasLasFechasDeInformes dtpFechaInicial.Value, dtpFechaFinal.Value, gProyUsuarioActual.GetNombreDelUsuario
    Set gFechasDeLosInformes = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1454,7 +1420,6 @@ Private Sub optInformeDeCxC_Click(Index As Integer)
    Select Case mInformeSeleccionado
       Case OPT_CXC_POR_VENDEDOR:             sActivarCamposDeCXCPorVendedor
       Case OPT_CXC_ENTRE_FECHAS:             sActivarCamposDeCXCEntreFechas
-      Case OPT_CXC_PENDIENTES_ENTRE_FECHAS:  sActivarCamposDeCXCPendientesEntreFechas
       Case OPT_CXC_CON_DESCRIPCION:          sActivarCamposDeCxCConDescripcion
       Case OPT_ANALISIS_DE_VENCIMIENTO:      sActivarCamposDeAnalisisDeVencimiento
       Case OPT_ANALISIS_CxC_HISTORICO:       sActivarCamposDeAnalisisCXCHistorico
@@ -1465,7 +1430,6 @@ Private Sub optInformeDeCxC_Click(Index As Integer)
       Case OPT_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS: sActivarCamposDeAnalisisDeVencimientoEntreFechas
       Case OPT_FACTURAS_SIN_CXC: sActivarCamposDeFacturasSinCxC
       Case OPT_CHEQUES_DEVUELTOS: sActivarCamposDeChequesDevueltos
-      Case OPT_CXC_POR_CLIENTE: sActivarCamposDeCxCPorCliente
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1545,7 +1509,6 @@ Private Sub sEjecutaElInformeSeleccionado()
    Select Case mInformeSeleccionado
       Case OPT_CXC_POR_VENDEDOR:                      sEjecutaCXCPorVendedor
       Case OPT_CXC_ENTRE_FECHAS:                      sEjecutaCXCEntreFechas
-      Case OPT_CXC_PENDIENTES_ENTRE_FECHAS:           sEjecutaCXCPendientesEntreFechas
       Case OPT_ANALISIS_DE_VENCIMIENTO:               sEjecutaAnalisisDeVencimiento
       Case OPT_ANALISIS_CxC_HISTORICO:                sEjecutaAnalisisCxCHistorico
       Case OPT_HISTORICO_DE_CLIENTE:                  sEjecutaHistoricoDeCliente
@@ -1556,7 +1519,6 @@ Private Sub sEjecutaElInformeSeleccionado()
       Case OPT_ANALISIS_DE_VENCIMIENTO_ENTRE_FECHAS:  sEjecutaAnalisisDeVencimientoEntreFechas
       Case OPT_FACTURAS_SIN_CXC:                      sEjecutaFacturasSinCxC
       Case OPT_CHEQUES_DEVUELTOS:                     sEjecutaInformeDeChequesDevueltos
-      Case OPT_CXC_POR_CLIENTE:                       sEjecutaCxCPorCliente
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1599,14 +1561,6 @@ Private Sub cmbCantidadAImprimir_Click()
          Else
             frameCliente.Visible = True
             ChkCambiandodePagina.Visible = False
-         End If
-       Case OPT_CXC_POR_CLIENTE
-         txtNombreDeCliente.Text = ""
-         txtCodigoDeCliente.Text = ""
-         If CmbCantidadAImprimir.Text = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
-            frameCliente.Visible = False
-         Else
-            frameCliente.Visible = True
          End If
    End Select
    sInitDefaultValuesCasoSistemaInternoParaNivelPorUsuario
@@ -1719,7 +1673,7 @@ Private Sub sInitDefaultValues()
    Set mRecordsetZona = New ADODB.Recordset
    '***** pasar a sub
    CmbZonaCobranza.Clear
-   gDbUtil.OpenRecordset mRecordsetZona, fSQLDeZonasDeCobranza
+   gDbUtil.openRecordSet mRecordsetZona, fSQLDeZonasDeCobranza
    CmbZonaCobranza.AddItem "TODAS"
    If mRecordsetZona.RecordCount > 0 Then
       gDbUtil.sFillComboBoxWithRecordSet CmbZonaCobranza, mRecordsetZona, "Nombre"
@@ -1728,8 +1682,8 @@ Private Sub sInitDefaultValues()
    gDbUtil.sCloseIfOpened mRecordsetZona
    Set mRecordsetZona = Nothing
    '*****
-   optResumido.value = True
-   optDetallado.value = False
+   optResumido.Value = True
+   optDetallado.Value = False
    gEnumProyecto.FillComboBoxWithStatusDocumento cmbStatus, Buscar
    cmbStatus.Text = gEnumProyecto.enumStatusDocumentoToString(eSD_PORCANCELAR)
    cmbStatus.ListIndex = 0
@@ -1741,7 +1695,7 @@ Private Sub sInitDefaultValues()
    sFillComboBoxSectorDeNegocio
    sFillComboBoxZonaDeCobranza
    mTipoAgrupar = "NO AGRUPAR"
-   optTasaDeCambio(0).value = True
+   optTasaDeCambio(0).Value = True
    gAPI.ssSetFocus optInformeDeCxC(OPT_CXC_POR_VENDEDOR)
    gAPI.ssSetFocus OptAgruparInforme(OPT_NOAGRUPAR_INFORME)
    
@@ -1814,19 +1768,19 @@ Private Sub sEjecutaAnalisisDeVencimiento()
    End If
    Set insConfigurar = New clsCxCRpt
    Set reporte = New DDActiveReports2.ActiveReport
-   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteAnalisisDeVencimiento(txtCodigoVendedor.Text, CmbCantidadAImprimir.Text, CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, gProyParametros.GetNombreMonedaLocal, InsAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual)
-   detallado = optDetallado.value
+   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteAnalisisDeVencimiento(txtCodigoVendedor.Text, CmbCantidadAImprimir.Text, CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, gProyParametros.GetNombreMonedaLocal, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual)
+   detallado = optDetallado.Value
    Titulo = "Análisis de Vencimiento de Cuentas por Cobrar - "
    If detallado Then
       Titulo = Titulo & "Detallado"
    Else
       Titulo = Titulo & "Resumido"
    End If
-   tasaOrig = optTasaDeCambio(0).value
+   tasaOrig = optTasaDeCambio(0).Value
    TituloFecha = "Del " & gConvert.dateToString(dtpFechaInicial) & " al " & gConvert.dateToString(dtpFechaFinal)
    monedaOrig = Not (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
-   If InsAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(reporte, SqlDelReporte, detallado, TituloFecha, InsAdmPropAnalisisVenc.GetPrimerVencimiento, InsAdmPropAnalisisVenc.GetSegundoVencimiento, InsAdmPropAnalisisVenc.GetTercerVencimiento, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOrig, False, txtCodigoVendedor.Text, txtNombreVendedor.Text) Then
+   If insAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
+      If insConfigurar.fConfiguraLasSeccionesDelReporteDeAnalisisDeVencimiento(reporte, SqlDelReporte, detallado, TituloFecha, insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOrig, False, txtCodigoVendedor.Text, txtNombreVendedor.Text) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, Titulo
       End If
    End If
@@ -1848,7 +1802,7 @@ Private Sub sActivarCamposDeCXCPorVendedor()
    frameMoneda.Visible = True
    frameTasaDeCambio.Visible = True
    chkMontoTotalYRestanteConIva.Visible = True
-   chkMontoTotalYRestanteConIva.value = vbChecked
+   chkMontoTotalYRestanteConIva.Value = vbChecked
    chkTotalizaPorCliente.Visible = True
    chkMostrarFechaUltimoPago.Visible = True
    frameFechas.Visible = True
@@ -1878,16 +1832,16 @@ Private Sub sEjecutaCXCPorVendedor()
    Else
       Set reporte = New DDActiveReports2.ActiveReport
       Set insConfigurar = New clsCxCRpt
-      montosConIva = (chkMontoTotalYRestanteConIva.value = vbChecked)
-      SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteDeCXCPorVendedor(gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, chkMontoTotalYRestanteConIva.value, optTasaDeCambio(0).value, CmbCantidadAImprimir.Text, txtCodigoVendedor.Text, dtpFechaInicial.value, dtpFechaFinal.value, gUltimaTasaDeCambio, gMonedaLocalActual, (chkMostrarFechaUltimoPago.value = vbChecked), gConvert.ConvertByteToBoolean(ChkContacto.value))
-      If optTasaDeCambio(0).value Then
+      montosConIva = (chkMontoTotalYRestanteConIva.Value = vbChecked)
+      SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteDeCXCPorVendedor(gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, chkMontoTotalYRestanteConIva.Value, optTasaDeCambio(0).Value, CmbCantidadAImprimir.Text, txtCodigoVendedor.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gUltimaTasaDeCambio, gMonedaLocalActual, (chkMostrarFechaUltimoPago.Value = vbChecked), gConvert.ConvertByteToBoolean(ChkContacto.Value))
+      If optTasaDeCambio(0).Value Then
          MensajesDeMonedaParaInformes = gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal)
-      ElseIf optTasaDeCambio(1).value Then
+      ElseIf optTasaDeCambio(1).Value Then
          MensajesDeMonedaParaInformes = gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioDelDia)
       End If
       monedaOrig = Not (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
-      totalizaPorCliente = (chkTotalizaPorCliente.value = vbChecked)
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCxVendedor(reporte, SqlDelReporte, montosConIva, totalizaPorCliente, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), MensajesDeMonedaParaInformes, monedaOrig, gGlobalization, dtpFechaInicial.value, dtpFechaFinal.value, (chkMostrarFechaUltimoPago.value = vbChecked), gConvert.ConvertByteToBoolean(ChkContacto.value)) Then
+      totalizaPorCliente = (chkTotalizaPorCliente.Value = vbChecked)
+      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCxVendedor(reporte, SqlDelReporte, montosConIva, totalizaPorCliente, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), MensajesDeMonedaParaInformes, monedaOrig, gGlobalization, dtpFechaInicial.Value, dtpFechaFinal.Value, (chkMostrarFechaUltimoPago.Value = vbChecked), gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "CxC por Vendedor", vbModeless
       End If
       Set insConfigurar = Nothing
@@ -1937,8 +1891,8 @@ Private Sub sEjecutaAnalisisCxCHistorico()
    Dim usarCambio As Boolean
    Dim insCxcSQL As clsCxCSQL
    On Error GoTo h_ERROR
-   If dtpFechaFinal.value < dtpFechaInicial.value Then
-      dtpFechaFinal.value = dtpFechaInicial.value
+   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
+      dtpFechaFinal.Value = dtpFechaInicial.Value
    End If
    If LenB(txtCodigoDeCliente.Text) = 0 Then
       sShowMessageForRequiredFields "Nombre del Cliente", txtNombreDeCliente
@@ -1947,8 +1901,8 @@ Private Sub sEjecutaAnalisisCxCHistorico()
       Set reporte = New DDActiveReports2.ActiveReport
       Set insCxcSQL = New clsCxCSQL
       usarCambio = (gAPI.SelectedElementInComboBoxToString(cmbMonedaDeLosReportes) = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
-      SqlDelReporte = insCxcSQL.fSQLAnalisisCXCHistorico(Trim(txtCodigoDeCliente.Text), dtpFechaInicial.value, dtpFechaFinal.value, usarCambio, gProyCompaniaActual.GetConsecutivoCompania, gMonedaLocalActual, gUltimaTasaDeCambio)
-      If insConfigurar.fConfigurarDatosDelReporteAnalisisDeCxCHistorico(reporte, SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), usarCambio, gGlobalization) Then
+      SqlDelReporte = insCxcSQL.fSQLAnalisisCXCHistorico(Trim(txtCodigoDeCliente.Text), dtpFechaInicial.Value, dtpFechaFinal.Value, usarCambio, gProyCompaniaActual.GetConsecutivoCompania, gMonedaLocalActual, gUltimaTasaDeCambio)
+      If insConfigurar.fConfigurarDatosDelReporteAnalisisDeCxCHistorico(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), usarCambio, gGlobalization) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Análisis de Cuentas por Cobrar Histórico."
       End If
       Set insConfigurar = Nothing
@@ -1985,31 +1939,31 @@ Private Sub sEjecutaCXCEntreFechas()
    Dim monedaOriginal As Boolean
    Dim insCxcSQL As clsCxCSQL
    On Error GoTo h_ERROR
-   If dtpFechaFinal.value < dtpFechaInicial.value Then
-      dtpFechaFinal.value = dtpFechaInicial.value
+   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
+      dtpFechaFinal.Value = dtpFechaInicial.Value
    End If
    Set insConfigurar = New clsCxCRpt
    Set reporte = New DDActiveReports2.ActiveReport
    Set insCxcSQL = New clsCxCSQL
    If mTipoAgrupar = "SectorDeNegocio" Then
-      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.value, dtpFechaFinal.value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparSectorDeNegocio.Text, gConvert.ConvertByteToBoolean(ChkContacto.value))
+      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparSectorDeNegocio.Text, gConvert.ConvertByteToBoolean(ChkContacto.Value))
    ElseIf mTipoAgrupar = "ZonaDeCobranza" Then
-      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.value, dtpFechaFinal.value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparZona.Text, gConvert.ConvertByteToBoolean(ChkContacto.value))
+      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, cmbAgruparZona.Text, gConvert.ConvertByteToBoolean(ChkContacto.Value))
    Else
-   SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.value, dtpFechaFinal.value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, "", gConvert.ConvertByteToBoolean(ChkContacto.value))
+      SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, mTipoAgrupar, "", gConvert.ConvertByteToBoolean(ChkContacto.Value))
    End If
       monedaOriginal = (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
 
    If mTipoAgrupar = "SectorDeNegocio" Then
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechasPorSectorDeNegocio(reporte, SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.value)) Then
+      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechasPorSectorDeNegocio(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobras entre Fechas"
       End If
    ElseIf mTipoAgrupar = "ZonaDeCobranza" Then
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechasPorZonaDeCobranza(reporte, SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.value)) Then
+      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechasPorZonaDeCobranza(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobras entre Fechas"
       End If
    Else
-      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechas(reporte, SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.value)) Then
+      If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCEntreFechas(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
         gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobras entre Fechas"
       End If
    End If
@@ -2045,8 +1999,8 @@ Private Sub sEjecutaHistoricoDeCliente()
    Dim insCxC As clsCxCSQL
    On Error GoTo h_ERROR
    OrdenaXCodigo = False
-   If dtpFechaFinal.value < dtpFechaInicial.value Then
-      dtpFechaFinal.value = dtpFechaInicial.value
+   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
+      dtpFechaFinal.Value = dtpFechaInicial.Value
    End If
    If gAPI.SelectedElementInComboBoxToString(CmbCantidadAImprimir) = gEnumReport.enumCantidadAImprimirToString(eCI_uno) And LenB(txtNombreDeCliente.Text) = 0 Then
       sShowMessageForRequiredFields "Nombre del Cliente", txtNombreDeCliente
@@ -2062,8 +2016,8 @@ Private Sub sEjecutaHistoricoDeCliente()
       If cmbOrdenadoPor.ListIndex <> enum_ReporteOrdenadoPor.eRO_Codigo Then
          OrdenaXCodigo = True
       End If
-      SqlDelReporte = insCxC.fSQLHistoricoDeCliente(dtpFechaInicial.value, dtpFechaFinal.value, codigoCliente, usarCambioBs, OrdenaXCodigo, gProyParametrosCompania.GetConsecutivoCompania, vUsarCambioOriginal, gMonedaLocalActual, gUltimaTasaDeCambio)
-      If insConfigurar.fConfigurarDatosDelReporteHistoricoDeCliente(reporte, SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioDelDia), usarCambioBs, ChkCambiandodePagina) Then
+      SqlDelReporte = insCxC.fSQLHistoricoDeCliente(dtpFechaInicial.Value, dtpFechaFinal.Value, codigoCliente, usarCambioBs, OrdenaXCodigo, gProyParametrosCompania.GetConsecutivoCompania, vUsarCambioOriginal, gMonedaLocalActual, gUltimaTasaDeCambio)
+      If insConfigurar.fConfigurarDatosDelReporteHistoricoDeCliente(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioDelDia), usarCambioBs, ChkCambiandodePagina) Then
          gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Histórico de Cliente"
       End If
       Set reporte = Nothing
@@ -2098,7 +2052,7 @@ Private Sub sOcultaTodosLosCampos()
    chkTotalizarPorMes.Visible = False
    chkAgruparPorVendedor.Visible = False
    chkIncluirFacturasHistoricas.Visible = False
-   ChkAgruparPorTipo.value = False
+   ChkAgruparPorTipo.Value = False
    ChkAgruparPorTipo.Visible = False
    frameTipoDocumento.Visible = False
    frameFechas.Top = 2430
@@ -2121,12 +2075,12 @@ Private Sub sEjecutaEstadisticoDeVendedores()
    On Error GoTo h_ERROR
    Set InsCxCDsr = New clsCxCDsr
    Set insCxcSQL = New clsCxCSQL
-   If dtpFechaFinal.value < dtpFechaInicial.value Then
-      dtpFechaFinal.value = dtpFechaInicial.value
+   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
+      dtpFechaFinal.Value = dtpFechaInicial.Value
    End If
-   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteDeEstadisticoDeVendedor(gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, dtpFechaInicial.value, dtpFechaFinal.value, gUltimaTasaDeCambio, gMonedaLocalActual)
+   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteDeEstadisticoDeVendedor(gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gUltimaTasaDeCambio, gMonedaLocalActual)
    If SqlDelReporte <> "" Then
-      Set reporte = InsCxCDsr.fConfigurarDsrEstadisticoDeVendedores(SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetNombreCompaniaParaInformes(False))
+      Set reporte = InsCxCDsr.fConfigurarDsrEstadisticoDeVendedores(SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetNombreCompaniaParaInformes(False))
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Estadístico de Vendedores"
    End If
    Set reporte = Nothing
@@ -2146,8 +2100,8 @@ Private Sub cmdExportar_Click()
    Set insCxcSQL = New clsCxCSQL
    If mInformeSeleccionado = 5 Then
       Set InsCxCDsr = New clsCxCDsr
-      SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteDeEstadisticoDeVendedor(gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, dtpFechaInicial.value, dtpFechaFinal.value, gUltimaTasaDeCambio, gMonedaLocalActual)
-      Set ExportarReporteEstDeVen = InsCxCDsr.fConfigurarDsrEstadisticoDeVendedores(SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetNombreCompaniaParaInformes(False))
+      SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteDeEstadisticoDeVendedor(gProyCompaniaActual.GetConsecutivoCompania, cmbMonedaDeLosReportes.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gUltimaTasaDeCambio, gMonedaLocalActual)
+      Set ExportarReporteEstDeVen = InsCxCDsr.fConfigurarDsrEstadisticoDeVendedores(SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetNombreCompaniaParaInformes(False))
       ExportarReporteEstDeVen.Run
       If Not ExportarReporteEstDeVen Is Nothing Then
          xls.FileName = txtNombreArchivo ' "C:\EstadisticoDeVendedores.xls"
@@ -2171,39 +2125,39 @@ h_EXIT: On Error GoTo 0
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdExportar_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Sub sEjecutaCXCPendientesEntreFechas()
-   Dim SqlDelReporte As String
-   Dim insConfigurar As clsCxCRpt
-   Dim reporte As DDActiveReports2.ActiveReport
-   Dim monedaOriginal As Boolean
-   Dim insCxcSQL As clsCxCSQL
-   On Error GoTo h_ERROR
-   If dtpFechaFinal.value < dtpFechaInicial.value Then
-      dtpFechaFinal.value = dtpFechaInicial.value
-   End If
-   Set insConfigurar = New clsCxCRpt
-   Set reporte = New DDActiveReports2.ActiveReport
-   Set insCxcSQL = New clsCxCSQL
-   SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechasODelReporteCxCPendientesEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.value, dtpFechaFinal.value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, "", "", gConvert.ConvertByteToBoolean(ChkContacto.value))
-       monedaOriginal = (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
-   If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas(reporte, SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.value)) Then
-      gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobrar Pendientes entre Fechas"
-   End If
-   Set insCxcSQL = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCXCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
+'Private Sub sEjecutaCXCPendientesEntreFechas()
+'   Dim SqlDelReporte As String
+'   Dim insConfigurar As clsCxCRpt
+'   Dim reporte As DDActiveReports2.ActiveReport
+'   Dim monedaOriginal As Boolean
+'   Dim insCxcSQL As clsCxCSQL
+'   On Error GoTo h_ERROR
+'   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
+'      dtpFechaFinal.Value = dtpFechaInicial.Value
+'   End If
+'   Set insConfigurar = New clsCxCRpt
+'   Set reporte = New DDActiveReports2.ActiveReport
+'   Set insCxcSQL = New clsCxCSQL
+'   SqlDelReporte = insCxcSQL.fSQLDelReporteCxCEntreFechas(mUsarCambioOriginal, insCamposDefFactura, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, mInformeSeleccionado, cmbCamposDefinibles, gProyParametrosCompania, cmbStatus.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetUsaModuloDeContabilidad, gUltimaTasaDeCambio, gMonedaLocalActual, gListLibrary, "", "", gConvert.ConvertByteToBoolean(ChkContacto.Value))
+'       monedaOriginal = (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnMonedaOriginal, gProyParametros.GetNombreMonedaLocal))
+'   If insConfigurar.fConfiguraLasSeccionesDelReporteDeCxCPendientesEntreFechas(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, monedaOriginal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gProyParametrosCompania.GetUsaCamposDefiniblesFactura, gProyCompaniaActual.GetUsaModuloDeContabilidad, gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
+'      gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cuentas por Cobrar Pendientes entre Fechas"
+'   End If
+'   Set insCxcSQL = Nothing
+'h_EXIT: On Error GoTo 0
+'   Exit Sub
+'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCXCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+'End Sub
 
-Private Sub sActivarCamposDeCXCPendientesEntreFechas()
-   On Error GoTo h_ERROR
-   lblDatosDelReporte.Caption = "Datos del Informe - CXC Pendientes entre Fechas"
-   frameFechas.Visible = True
-   frameContacto.Visible = True
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
+'Private Sub sActivarCamposDeCXCPendientesEntreFechas()
+'   On Error GoTo h_ERROR
+'   lblDatosDelReporte.Caption = "Datos del Informe - CXC Pendientes entre Fechas"
+'   frameFechas.Visible = True
+'   frameContacto.Visible = True
+'h_EXIT: On Error GoTo 0
+'   Exit Sub
+'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCXCPendientesEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+'End Sub
 
 Private Sub sActivarCamposDeCxCConDescripcion()
    On Error GoTo h_ERROR
@@ -2231,10 +2185,10 @@ Private Sub sEjecutaCxCconDescripcion()
       If cmbMonedaDeLosReportes.ListIndex = eMR_EnBs Then
          valMostrarMensaje = True
       End If
-   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteCxCconDescripcion(CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, gMonedaLocalActual.GetHoyNombreMoneda, gUltimaTasaDeCambio, gConvert.ConvertByteToBoolean(ChkContacto.value))
+   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteCxCconDescripcion(CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, gMonedaLocalActual.GetHoyNombreMoneda, gUltimaTasaDeCambio, gConvert.ConvertByteToBoolean(ChkContacto.Value))
       Set rptMostrarReporte = New DDActiveReports2.ActiveReport
       Set insConfigurar = New clsCxCRpt
-      If insConfigurar.fConfigurarDatosDelReporteCxCConDescripcion(rptMostrarReporte, SqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, valMostrarMensaje, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gConvert.ConvertByteToBoolean(ChkContacto.value)) Then
+      If insConfigurar.fConfigurarDatosDelReporteCxCConDescripcion(rptMostrarReporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, valMostrarMensaje, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gConvert.ConvertByteToBoolean(ChkContacto.Value)) Then
          gUtilReports.sMostrarOImprimirReporte rptMostrarReporte, 1, mDondeImprimir, "CxC Con Descripción"
    End If
    Set insCxcSQL = Nothing
@@ -2293,9 +2247,9 @@ Private Sub sEjecutaAnalisisDeVencimientoAUnaFecha()
    Dim AgruparTodos As Boolean
    On Error GoTo h_ERROR
    Set reporte = New DDActiveReports2.ActiveReport
-   detallado = optDetallado.value
+   detallado = optDetallado.Value
    Titulo = "Análisis de Vencimiento a una Fecha - "
-   Agrupar = (ChkAgruparPorTipo.value = vbChecked)
+   Agrupar = (ChkAgruparPorTipo.Value = vbChecked)
    AgruparTodos = True
    If Agrupar Then
       If (cmbTipodocumento.Text = "Todos(as)") Then
@@ -2305,12 +2259,12 @@ Private Sub sEjecutaAnalisisDeVencimientoAUnaFecha()
       End If
    End If
    If detallado Then
-      Titulo = Titulo & "Detallado (" & gUtilReports.fDateFormatConGuiones(dtpFechaFinal.value) & ")"
+      Titulo = Titulo & "Detallado (" & gUtilReports.fDateFormatConGuiones(dtpFechaFinal.Value) & ")"
    Else
-      Titulo = Titulo & "Resumido (" & gUtilReports.fDateFormatConGuiones(dtpFechaFinal.value) & ")"
+      Titulo = Titulo & "Resumido (" & gUtilReports.fDateFormatConGuiones(dtpFechaFinal.Value) & ")"
    End If
    ordenadoPorNombre = (cmbAnalisisDeVencimientoPor.Text = gEnumReport.enumReporteOrdenadoPorToString(enum_ReporteOrdenadoPor.eRO_Nombre))
-   If insConfigurar.fConfiguraAnalisisDeCxCAUnaFecha(reporte, dtpFechaFinal.value, detallado, True, True, ordenadoPorNombre, Agrupar, AgruparTodos, TipoDeDocumento) Then
+   If insConfigurar.fConfiguraAnalisisDeCxCAUnaFecha(reporte, dtpFechaFinal.Value, detallado, True, True, ordenadoPorNombre, Agrupar, AgruparTodos, TipoDeDocumento) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, Titulo
    End If
    Set reporte = Nothing
@@ -2324,9 +2278,9 @@ Private Sub sActivarCamposDeAnalisisDeVencimientoEntreFechas()
    lblDatosDelReporte.Caption = "Datos del Informe - Análisis de Vencimiento entre Fechas"
    frameFechas.Visible = True
    chkTotalizarPorMes.Visible = True
-   chkTotalizarPorMes.value = vbChecked
+   chkTotalizarPorMes.Value = vbChecked
    chkAgruparPorVendedor.Visible = True
-   chkAgruparPorVendedor.value = vbChecked
+   chkAgruparPorVendedor.Value = vbChecked
    frameAnalisisDeVencimientoPor.Visible = True
    frameMoneda.Visible = True
    frameFiltroZona.Visible = True
@@ -2346,17 +2300,17 @@ Private Sub sEjecutaAnalisisDeVencimientoEntreFechas()
    Dim insCxcSQL As clsCxCSQL
    On Error GoTo h_ERROR
    Set insCxcSQL = New clsCxCSQL
-   If dtpFechaFinal.value < dtpFechaInicial.value Then
-      dtpFechaFinal.value = dtpFechaInicial.value
+   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
+      dtpFechaFinal.Value = dtpFechaInicial.Value
    End If
    Set insConfigurar = New clsCxCRpt
    Set reporte = New DDActiveReports2.ActiveReport
-   SqlDelReporte = insCxcSQL.fSQLDelReporteAnalisisDeVencimientoEntreFechas(chkAgruparPorVendedor.value, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, dtpFechaInicial.value, dtpFechaFinal.value, gProyParametros.GetNombreMonedaLocal, gProyCompaniaActual.GetConsecutivoCompania, InsAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, gConvert.ConvertByteToBoolean(chkFiltroZona.value), cmbFiltroZona.Text)
+   SqlDelReporte = insCxcSQL.fSQLDelReporteAnalisisDeVencimientoEntreFechas(chkAgruparPorVendedor.Value, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyParametros.GetNombreMonedaLocal, gProyCompaniaActual.GetConsecutivoCompania, insAdmPropAnalisisVenc, gUltimaTasaDeCambio, gMonedaLocalActual, gConvert.ConvertByteToBoolean(chkFiltroZona.Value), cmbFiltroZona.Text)
    monedaOriginal = Not (cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal))
-   totalizarPorMes = (chkTotalizarPorMes.value = vbChecked)
-   agruparPorVendedor = (chkAgruparPorVendedor.value = vbChecked)
-   If InsAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
-      If insConfigurar.fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(reporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, totalizarPorMes, agruparPorVendedor, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), InsAdmPropAnalisisVenc.GetPrimerVencimiento, InsAdmPropAnalisisVenc.GetSegundoVencimiento, InsAdmPropAnalisisVenc.GetTercerVencimiento, MensajesDeMonedaParaInformes = gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOriginal, gConvert.ConvertByteToBoolean(chkFiltroZona.value)) Then
+   totalizarPorMes = (chkTotalizarPorMes.Value = vbChecked)
+   agruparPorVendedor = (chkAgruparPorVendedor.Value = vbChecked)
+   If insAdmPropAnalisisVenc.fBuscaValoresDeLasPropAnalisisVencActual Then
+      If insConfigurar.fConfigurarDatosDelReporteAnalisisDeVencimientoEntreFechas(reporte, SqlDelReporte, dtpFechaInicial, dtpFechaFinal, totalizarPorMes, agruparPorVendedor, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), insAdmPropAnalisisVenc.GetPrimerVencimiento, insAdmPropAnalisisVenc.GetSegundoVencimiento, insAdmPropAnalisisVenc.GetTercerVencimiento, MensajesDeMonedaParaInformes = gEnumReport.getMensajesDeMonedaParaInformes(eMM_CambioOriginal), monedaOriginal, gConvert.ConvertByteToBoolean(chkFiltroZona.Value)) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Análisis de Vencimiento entre Fechas"
       End If
    End If
@@ -2384,7 +2338,7 @@ Private Sub sEjecutaFacturasSinCxC()
    Set insConfigurar = New clsCxCRpt
    Set insCxcSQL = New clsCxCSQL
    Set reporte = New DDActiveReports2.ActiveReport
-   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteFacturasSinCxC(gProyCompaniaActual.GetConsecutivoCompania, chkIncluirFacturasHistoricas.value)
+   SqlDelReporte = insCxcSQL.fConstruirSQLDelReporteFacturasSinCxC(gProyCompaniaActual.GetConsecutivoCompania, chkIncluirFacturasHistoricas.Value)
    If insConfigurar.fConfigurarDatosDelReporteFacturasSinCxC(reporte, SqlDelReporte, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gGlobalization) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Análisis de Vencimiento entre Fechas"
    End If
@@ -2422,7 +2376,7 @@ Private Sub sEjecutaInformeDeChequesDevueltos()
    Set insConfigurar = New clsCxCRpt
    Set insCxcSQL = New clsCxCSQL
    Set reporte = New DDActiveReports2.ActiveReport
-   If optTasaDeCambio(0).value Then
+   If optTasaDeCambio(0).Value Then
       valCambio = eMM_CambioOriginal
       usarCambioOriginal = True
    Else
@@ -2434,8 +2388,8 @@ Private Sub sEjecutaInformeDeChequesDevueltos()
    Else
       ReporteEnMonedaLocal = False
    End If
-   SqlDelReporte = insCxcSQL.fSQLChequesDevueltos(ReporteEnMonedaLocal, usarCambioOriginal, gMonedaLocalActual, gUltimaTasaDeCambio, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.value, dtpFechaFinal.value, txtCodigoVendedor.Text, cmbStatus.Text)
-   If insConfigurar.fConfigurarDatosDelReporteChequesDevueltos(reporte, SqlDelReporte, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), ReporteEnMonedaLocal, gEnumReport.getMensajesDeMonedaParaInformes(valCambio), dtpFechaInicial.value, dtpFechaFinal.value) Then
+   SqlDelReporte = insCxcSQL.fSQLChequesDevueltos(ReporteEnMonedaLocal, usarCambioOriginal, gMonedaLocalActual, gUltimaTasaDeCambio, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, txtCodigoVendedor.Text, cmbStatus.Text)
+   If insConfigurar.fConfigurarDatosDelReporteChequesDevueltos(reporte, SqlDelReporte, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), ReporteEnMonedaLocal, gEnumReport.getMensajesDeMonedaParaInformes(valCambio), dtpFechaInicial.Value, dtpFechaFinal.Value) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Cheques Devueltos entre Fechas"
    End If
    
@@ -2557,7 +2511,7 @@ Private Sub sFillComboBoxSectorDeNegocio()
      Set insClienteSQL = New clsClienteSQL
      SQLSectorDeNegocio = insClienteSQL.fSQLSectorDeNegocio(gProyParametrosCompania.GetConsecutivoCompania)
      Set insClienteSQL = Nothing
-     gDbUtil.OpenRecordset rsSectorDeNegocio, SQLSectorDeNegocio
+     gDbUtil.openRecordSet rsSectorDeNegocio, SQLSectorDeNegocio
      cmbAgruparSectorDeNegocio.AddItem "TODOS"
      If rsSectorDeNegocio.RecordCount > 0 Then
        gDbUtil.sFillComboBoxWithRecordSet cmbAgruparSectorDeNegocio, rsSectorDeNegocio, "Descripcion"
@@ -2575,7 +2529,7 @@ Private Sub sFillComboBoxZonaDeCobranza()
    On Error GoTo h_ERROR
      Set mRecordsetZona = New ADODB.Recordset
      cmbAgruparZona.Clear
-     gDbUtil.OpenRecordset mRecordsetZona, fSQLDeZonasDeCobranza
+     gDbUtil.openRecordSet mRecordsetZona, fSQLDeZonasDeCobranza
      cmbAgruparZona.AddItem "TODAS"
      If mRecordsetZona.RecordCount > 0 Then
         gDbUtil.sFillComboBoxWithRecordSet cmbAgruparZona, mRecordsetZona, "Nombre"
@@ -2585,7 +2539,7 @@ Private Sub sFillComboBoxZonaDeCobranza()
      cmbAgruparZona.Text = "TODAS"
      Set mRecordsetZona = New ADODB.Recordset
      cmbFiltroZona.Clear
-     gDbUtil.OpenRecordset mRecordsetZona, fSQLDeZonasDeCobranza
+     gDbUtil.openRecordSet mRecordsetZona, fSQLDeZonasDeCobranza
      cmbFiltroZona.AddItem "TODAS"
      If mRecordsetZona.RecordCount > 0 Then
        gDbUtil.sFillComboBoxWithRecordSet cmbFiltroZona, mRecordsetZona, "Nombre"
@@ -2600,8 +2554,8 @@ End Sub
 
 Private Sub sInitCXCEntreFechas()
 On Error GoTo h_ERROR
-  OptAgruparInforme.Item(0).value = True
-  optTipoAgrupar.Item(0).value = True
+  OptAgruparInforme.Item(0).Value = True
+  optTipoAgrupar.Item(0).Value = True
   cmbAgruparSectorDeNegocio.Enabled = False
   cmbAgruparSectorDeNegocio.Text = "TODOS"
   cmbAgruparZona.Text = "TODAS"
@@ -2621,56 +2575,6 @@ Private Sub sOcultarOtrasOpciones()
 h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAsignaCodigoVendedorFromConexionUsuario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sActivarCamposDeCxCPorCliente()
-   On Error GoTo h_ERROR
-   lblDatosDelReporte.Caption = "Datos del Informe - CxC por Cliente"
-   frameAnalisisDeVencimientoPor.Visible = True
-   frameZonaCobranza.Visible = True
-   frameMoneda.Visible = True
-   frameContacto.Visible = True
-   frameFechas.Visible = True
-   frameCantidadAImprimir.Visible = True
-   frameCantidadAImprimir.Top = 660
-   cmbCantidadAImprimir_Click
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActivarCamposDeCxCPorCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sEjecutaCxCPorCliente()
-   Dim rptMostrarReporte As DDActiveReports2.ActiveReport
-   Dim insConfigurar As clsCxCRpt
-   Dim vSqlDelReporte As String
-   Dim vMostrarMensaje As Boolean
-   Dim insCxcSQL As clsCxCSQL
-   On Error GoTo h_ERROR
-   Set insCxcSQL = New clsCxCSQL
-   If gTexto.DfLen(txtNombreDeCliente.Text) = 0 And CmbCantidadAImprimir.Text = "Uno" Then
-      If gProyParametros.GetUsaCodigoClienteEnPantalla Then
-         sShowMessageForRequiredFields "Codigo del Cliente", txtCodigoDeCliente
-      Else
-         sShowMessageForRequiredFields "Nombre del Cliente", txtNombreDeCliente
-      End If
-   Else
-      vMostrarMensaje = False
-      If cmbMonedaDeLosReportes.ListIndex = eMR_EnBs Then
-         vMostrarMensaje = True
-      End If
-      vSqlDelReporte = insCxcSQL.fConstruirSQLDelReporteCxCPorCliente(CmbZonaCobranza.Text, cmbAnalisisDeVencimientoPor.Text, cmbMonedaDeLosReportes.Text, gProyCompaniaActual.GetConsecutivoCompania, gMonedaLocalActual.GetHoyNombreMoneda, gUltimaTasaDeCambio, gConvert.ConvertByteToBoolean(ChkContacto.value), dtpFechaInicial.value, dtpFechaFinal.value, Trim(txtCodigoDeCliente.Text))
-      Set rptMostrarReporte = New DDActiveReports2.ActiveReport
-      Set insConfigurar = New clsCxCRpt
-      If insConfigurar.fConfigurarDatosDelReporteCxCPorCliente(rptMostrarReporte, vSqlDelReporte, dtpFechaInicial.value, dtpFechaFinal.value, vMostrarMensaje, gProyCompaniaActual.GetNombreCompaniaParaInformes(False), gConvert.ConvertByteToBoolean(ChkContacto.value)) Then
-         gUtilReports.sMostrarOImprimirReporte rptMostrarReporte, 1, mDondeImprimir, "CxC Por Cliente"
-      End If
-   End If
-   Set insCxcSQL = Nothing
-   Set rptMostrarReporte = Nothing
-   Set insConfigurar = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaCxCPorCliente", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, _
