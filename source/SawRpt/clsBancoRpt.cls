@@ -21,7 +21,6 @@ Private Enum eBancoRpt
    eBcoRpt_TRANSACCIONES_POR_CUENTA_BANCARIA
    eBcoRpt_TRANSACCIONES_POR_CONCEPTO
    eBcoRpt_TRANSACCIONES_POR_DIA
-   eBcoRpt_LISTADO_DE_CONCEPTOS
    eBcoRpt_TRANSACCIONES_POR_BENEFICIARIO
    eBcoRpt_TRANSACCIONES_AGRUPADAS_POR_BENEFICIARIO
    eBcoRpt_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS
@@ -40,7 +39,6 @@ Private Function fNombreReporteParaMensajes(ByVal valIndexDelReporte As eBancoRp
       Case eBcoRpt_TRANSACCIONES_POR_CUENTA_BANCARIA: varNombreReporte = "Transacciones por Cuenta Bancaria"
       Case eBcoRpt_TRANSACCIONES_POR_CONCEPTO: varNombreReporte = "Transacciones por Concepto"
       Case eBcoRpt_TRANSACCIONES_POR_DIA: varNombreReporte = "Transacciones por Día"
-      Case eBcoRpt_LISTADO_DE_CONCEPTOS: varNombreReporte = "Listado de Conceptos Bancarios"
       Case eBcoRpt_TRANSACCIONES_POR_BENEFICIARIO: varNombreReporte = "Transacciones por Beneficiario"
       Case eBcoRpt_TRANSACCIONES_AGRUPADAS_POR_BENEFICIARIO: varNombreReporte = "Transacciones Agrupadas Por Beneficiario"
       Case eBcoRpt_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS: varNombreReporte = "Declaración del Impuesto a las Transacciones Financieras"
@@ -62,7 +60,6 @@ Private Function fNombreFileDeImpresionDelReporte(ByVal valIndexDelReporte As eB
       Case eBcoRpt_TRANSACCIONES_POR_CUENTA_BANCARIA: varNombreFileXML = "rpxTransaccionesPorCuentaBancaria"
       Case eBcoRpt_TRANSACCIONES_POR_CONCEPTO: varNombreFileXML = "rpxTransaccionesPorConcepto"
       Case eBcoRpt_TRANSACCIONES_POR_DIA: varNombreFileXML = "rpxTransaccionesPorDia"
-      Case eBcoRpt_LISTADO_DE_CONCEPTOS: varNombreFileXML = "rpxListadoDeConceptosBancarios"
       Case eBcoRpt_TRANSACCIONES_POR_BENEFICIARIO: varNombreFileXML = "rpxTransaccionesPorBeneficiario"
       Case eBcoRpt_TRANSACCIONES_AGRUPADAS_POR_BENEFICIARIO: varNombreFileXML = "rpxTransaccionesAgrupadasPorBeneficiario"
       Case eBcoRpt_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS: varNombreFileXML = "rpxDeclaracionImpuestoTransaccionesFinancieras"
@@ -222,37 +219,6 @@ h_EXIT: On Error GoTo 0
    fConfiguraDatosDelReporteDeTransaccionesPorDia = exito
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraDatosDelReporteDeTransaccionesPorDia", "Reporte", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Public Function fConfigurarListadoDeConceptosBancarios(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSQL As String, ByVal valNombreCompaniaParaInformes As String) As Boolean
-   Dim varContinuar As Boolean
-   Dim varFileName As String
-   Dim gEnumProyecto As clsEnumAdministrativo
-   On Error GoTo h_ERROR
-   varContinuar = False
-   fConfigurarListadoDeConceptosBancarios = False
-   varFileName = fNombreFileDeImpresionDelReporte(eBcoRpt_LISTADO_DE_CONCEPTOS)
-   If gUtilReports.fLoadLayout(refRpt, varFileName) Then
-      If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "DcOrigenData", valSQL) Then
-         varContinuar = True
-      End If
-   End If
-   If varContinuar Then
-      Set gEnumProyecto = New clsEnumAdministrativo
-      gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
-      gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
-      gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtConceptoDescripcion", "", "DescripcionDeConcepto"
-      gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigo", "", "CodigoConcepto"
-      gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipo", "", "TipoDeConcepto"
-      gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-      refRpt.AddNamedItem "gEnumProyecto", gEnumProyecto
-      gUtilMargins.sAsignarMargenesGenerales refRpt
-      Set gEnumProyecto = Nothing
-   End If
-h_EXIT: On Error GoTo 0
-   fConfigurarListadoDeConceptosBancarios = varContinuar
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarListadoDeConceptosBancarios", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfiguraDatosDelReporteDeTransaccionesPorBeneficiario(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valAgruparPorBeneficiario As Boolean, ByVal valNombreCompaniaParaInformes As String) As Boolean

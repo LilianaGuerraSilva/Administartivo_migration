@@ -378,18 +378,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLFlujoDeCajaHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Public Function fSQLListadoDeConceptos() As String
-   Dim SQL As String
-   On Error GoTo h_ERROR
-   SQL = "SELECT ConceptoBancario.Codigo as CodigoConcepto, ConceptoBancario.Tipo as TipoDeConcepto, ConceptoBancario.Descripcion as DescripcionDeConcepto "
-   SQL = SQL & " FROM ConceptoBancario "
-   SQL = SQL & " ORDER BY Tipo, Codigo "
-   fSQLListadoDeConceptos = SQL
-h_EXIT: On Error GoTo 0
-   Exit Function
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLListadoDeConceptos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
+
 Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal CodigoCuenta As String, ByVal ConsecutivoCompania As String, ByVal ImprimirSoloCuentasActivas As Boolean, _
                                     ByVal valCantidadAImprimir As Boolean) As String
    Dim SQL As String
