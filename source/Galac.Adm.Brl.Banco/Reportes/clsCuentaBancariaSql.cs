@@ -24,7 +24,7 @@ namespace Galac.Adm.Brl.Banco.Reportes {
             vSql.AppendLine("CuentaBancaria.NombreCuenta,");
             vSql.AppendLine(SqlSaldoInicial(valConsecutivoCompania, valFechaDesde) + " AS SaldoInicial,");
             vSql.AppendLine(SqlIngresoOEgreso(valConsecutivoCompania, valFechaDesde, valFechaHasta, eIngresoEgreso.Ingreso) + " AS Ingresos,");
-            vSql.AppendLine(SqlIngresoOEgreso(valConsecutivoCompania, valFechaDesde, valFechaHasta, eIngresoEgreso.Ingreso) + " AS Egresos");
+            vSql.AppendLine(SqlIngresoOEgreso(valConsecutivoCompania, valFechaDesde, valFechaHasta, eIngresoEgreso.Egreso) + " AS Egresos");
             vSql.AppendLine("FROM");
             vSql.AppendLine("CuentaBancaria");
             vSql.AppendLine("LEFT JOIN MovimientoBancario ON CuentaBancaria.Codigo = MovimientoBancario.CodigoCtaBancaria");
@@ -58,13 +58,13 @@ namespace Galac.Adm.Brl.Banco.Reportes {
             string vSQLWhere = "";
 
             vSql.AppendLine("(SELECT");
-            vSql.AppendLine("SUM("+ vSqlUtil.IIF("MovimientoBancario.TipoConcepto = " + vSqlUtil.EnumToSqlValue(( int ) eIngresoEgreso.Ingreso), "MovimientoBancario.Monto", "0", false) +")");
-            vSql.AppendLine("-SUM("+ vSqlUtil.IIF("MovimientoBancario.TipoConcepto = " + vSqlUtil.EnumToSqlValue(( int ) eIngresoEgreso.Egreso), "MovimientoBancario.Monto", "0", false) + ")");
+            vSql.AppendLine("ISNULL(SUM("+ vSqlUtil.IIF("MovimientoBancario.TipoConcepto = " + vSqlUtil.EnumToSqlValue(( int ) eIngresoEgreso.Ingreso), "MovimientoBancario.Monto", "0", false) +"),0)");
+            vSql.AppendLine("-ISNULL(SUM(" + vSqlUtil.IIF("MovimientoBancario.TipoConcepto = " + vSqlUtil.EnumToSqlValue(( int ) eIngresoEgreso.Egreso), "MovimientoBancario.Monto", "0", false) + "),0)");
             vSql.AppendLine("FROM MovimientoBancario");
 
             vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "MovimientoBancario.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "MovimientoBancario.Fecha", valFechaDesde, vSqlUtil.CurrentDateFormat, "AND", "<");
-            vSQLWhere = vSqlUtil.SqlValueWithAnd(vSQLWhere, "MovimientoBancario.CodigoCtaBancaria", "CuentaBancaria.Codigo");
+            vSQLWhere = vSqlUtil.SqlExpressionValueWithAnd(vSQLWhere, "MovimientoBancario.CodigoCtaBancaria", "CuentaBancaria.Codigo");
 
             vSQLWhere = vSqlUtil.WhereSql(vSQLWhere);
             vSql.AppendLine(vSQLWhere + ")");
@@ -77,12 +77,12 @@ namespace Galac.Adm.Brl.Banco.Reportes {
             string vSQLWhere = "";
 
             vSql.AppendLine("(SELECT");
-            vSql.AppendLine("SUM(" + vSqlUtil.IIF("MovimientoBancario.TipoConcepto = " + vSqlUtil.EnumToSqlValue(( int ) valIngresoEgreso), "MovimientoBancario.Monto", "0", false) + ")");
+            vSql.AppendLine("ISNULL(SUM(" + vSqlUtil.IIF("MovimientoBancario.TipoConcepto = " + vSqlUtil.EnumToSqlValue(( int ) valIngresoEgreso), "MovimientoBancario.Monto", "0", false) + "),0)");
             vSql.AppendLine("FROM MovimientoBancario");
 
             vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "MovimientoBancario.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = vSqlUtil.SqlDateValueBetween(vSQLWhere, "MovimientoBancario.Fecha", valFechaDesde, valFechaHasta);
-            vSQLWhere = vSqlUtil.SqlValueWithAnd(vSQLWhere, "MovimientoBancario.CodigoCtaBancaria", "CuentaBancaria.Codigo");
+            vSQLWhere = vSqlUtil.SqlExpressionValueWithAnd(vSQLWhere, "MovimientoBancario.CodigoCtaBancaria", "CuentaBancaria.Codigo");
 
             vSQLWhere = vSqlUtil.WhereSql(vSQLWhere);
             vSql.AppendLine(vSQLWhere + ")");

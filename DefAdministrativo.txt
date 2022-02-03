@@ -1717,7 +1717,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey=Consecutivo
 }
 
-{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
+{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
     ConsecutivoCompania	: Longint; //HIDE
     Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g

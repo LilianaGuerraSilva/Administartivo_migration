@@ -19,10 +19,8 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.Banco.ViewModel {
-
     public class CuentaBancariaMngViewModel : LibMngViewModelMfc<CuentaBancariaViewModel, CuentaBancaria> {
         #region Propiedades
-
         public override string ModuleName {
             get { return "Cuenta Bancaria"; }
         }
@@ -34,21 +32,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
         #endregion //Propiedades
 		
         #region Constructores
-
         public CuentaBancariaMngViewModel()
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, Codigo";
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            OrderByDirection = "DESC";
-            AppMemoryInfo = LibGlobalValues.Instance.GetAppMemInfo();
-        */
-        #endregion //Codigo Ejemplo
         }
         #endregion //Constructores
-        #region Metodos Generados
 
+        #region Metodos Generados
         protected override CuentaBancariaViewModel CreateNewElement(CuentaBancaria valModel, eAccionSR valAction) {
             var vNewModel = valModel;
             if (vNewModel == null) {
@@ -88,6 +79,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		   }
         }
         #endregion //Metodos Generados
+
         protected override void ExecuteCommandsRaiseCanExecuteChanged() {
            base.ExecuteCommandsRaiseCanExecuteChanged();
            RecalcularSaldoCommand.RaiseCanExecuteChanged();
@@ -118,10 +110,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
             return vResult;
         }
 
-
-
-
-
         public RelayCommand RecalcularSaldoCommand {
            get;
            private set;
@@ -131,24 +119,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Recalcular");
         }
 
-        private void ExecuteInformesCommand() {
-            try {
-                if (LibMessages.ReportsView.ShowReportsView(new clsCuentaBancariaInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
-                    DialogResult = true;
-                }
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
-            }
-        }
         private bool CanExecuteInformesCommand() {
             return LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Informes");
         }
-		
+
         private void ExecuteRecalcularSaldoCommand() {
            try {
-              Galac.Adm.Ccl.Banco.ICuentaBancariaPdn insCtaBanNav = new Galac.Adm.Brl.Banco.clsCuentaBancariaNav();
+              ICuentaBancariaPdn insCtaBanNav = new clsCuentaBancariaNav();
               bool vResult = false;
               if (insCtaBanNav.ExistenMovimientosCuentaBancaria(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))) {
                  CuentaBancariaViewModel vViewModel = CreateNewElementForRecalcular(CurrentItem.GetModel(), eAccionSR.Recalcular);
@@ -162,11 +139,23 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
                  LibMessages.MessageBox.Information(this, "No existen registros para Recalcular.", "Recalcular Saldos de las Cuentas Bancarias");
               }
 
-           } catch (System.AccessViolationException) {
+           } catch (AccessViolationException) {
               throw;
-           } catch (System.Exception vEx) {
-              LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+           } catch (Exception vEx) {
+              LibMessages.RaiseError.ShowError(vEx);
            }
+        }
+
+        private void ExecuteInformesCommand() {
+            try {
+                if (LibMessages.ReportsView.ShowReportsView(new Reportes.clsCuentaBancariaInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
+                    DialogResult = true;
+                }
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
+            }
         }
 
         CuentaBancariaViewModel CreateNewElementForRecalcular(CuentaBancaria valModel, eAccionSR valAction) {

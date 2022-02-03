@@ -17,8 +17,7 @@ Private Const CM_FILE_NAME As String = "clsBancoRpt"
 Private Const CM_MESSAGE_NAME As String = "Configurar Reporte Banco"
 
 Private Enum eBancoRpt
-   eBcoRpt_SALDOS_BANCARIOS = 0
-   eBcoRpt_TRANSACCIONES_POR_CUENTA_BANCARIA
+   eBcoRpt_TRANSACCIONES_POR_CUENTA_BANCARIA = 0
    eBcoRpt_TRANSACCIONES_POR_CONCEPTO
    eBcoRpt_TRANSACCIONES_POR_DIA
    eBcoRpt_TRANSACCIONES_POR_BENEFICIARIO
@@ -35,7 +34,6 @@ Private Function fNombreReporteParaMensajes(ByVal valIndexDelReporte As eBancoRp
    Dim varNombreReporte As String
    On Error GoTo h_ERROR
    Select Case valIndexDelReporte
-      Case eBcoRpt_SALDOS_BANCARIOS: varNombreReporte = "Saldos Bancarios"
       Case eBcoRpt_TRANSACCIONES_POR_CUENTA_BANCARIA: varNombreReporte = "Transacciones por Cuenta Bancaria"
       Case eBcoRpt_TRANSACCIONES_POR_CONCEPTO: varNombreReporte = "Transacciones por Concepto"
       Case eBcoRpt_TRANSACCIONES_POR_DIA: varNombreReporte = "Transacciones por Día"
@@ -56,7 +54,6 @@ Private Function fNombreFileDeImpresionDelReporte(ByVal valIndexDelReporte As eB
    Dim varNombreFileXML As String
    On Error GoTo h_ERROR
    Select Case valIndexDelReporte
-      Case eBcoRpt_SALDOS_BANCARIOS: varNombreFileXML = "rpxSaldosBancarios"
       Case eBcoRpt_TRANSACCIONES_POR_CUENTA_BANCARIA: varNombreFileXML = "rpxTransaccionesPorCuentaBancaria"
       Case eBcoRpt_TRANSACCIONES_POR_CONCEPTO: varNombreFileXML = "rpxTransaccionesPorConcepto"
       Case eBcoRpt_TRANSACCIONES_POR_DIA: varNombreFileXML = "rpxTransaccionesPorDia"
@@ -75,37 +72,6 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fNombreFileDeImpresionDelReporte", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Public Function fConfiguraDatosDelReporteDeSaldosBancarios(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreCompaniaParaInformes As String) As Boolean
-   Dim nombreDelFile As String
-   Dim exito As Boolean
-   On Error GoTo h_ERROR
-   exito = False
-   nombreDelFile = fNombreFileDeImpresionDelReporte(eBcoRpt_SALDOS_BANCARIOS)
-   If gUtilReports.fLoadLayout(refRpt, nombreDelFile) Then
-      If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSqlDelReporte) Then
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
-         gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "Del " & gConvert.dateToString(valFechaInicial) & " al " & gConvert.dateToString(valFechaFinal)
-         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigo", "", "Codigo"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombreCuenta", "", "NombreCuenta"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNumeroCuenta", "", "NumeroCuenta"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombreDeLaMoneda", "", "NombreDeLaMoneda"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoInicial", "", "SaldoInicial"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtIngresos", "", "Ingresos"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtEgresos", "", "Egresos"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtSaldoFinal", ""
-         gUtilMargins.sAsignarMargenesGenerales refRpt
-         Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
-         exito = True
-      End If
-   End If
-h_EXIT: On Error GoTo 0
-   fConfiguraDatosDelReporteDeSaldosBancarios = exito
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraDatosDelReporteDeSaldosBancarios", "Reporte", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfiguraDatosDelReporteDeTransaccionesPorCuentaBancaria(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreCompaniaParaInformes As String, ByRef gGlobalization As Object) As Boolean

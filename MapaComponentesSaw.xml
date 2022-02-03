@@ -13,10 +13,10 @@
     <SawImportExport>2201</SawImportExport>
     <SawMaquinaFiscal>2201</SawMaquinaFiscal>
     <SawNav>2201</SawNav>
-    <SawRpt>2201</SawRpt>
+    <SawRpt>ND</SawRpt>
     <SawSP>2201</SawSP>
     <SawTbls>2201</SawTbls>
-    <SawVista>2201</SawVista>    
+    <SawVista>ND</SawVista>    
     <ContabRpt>2109</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0003</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -189,10 +189,11 @@
     <Galac.Saw.Dal.Vendedor>2.60.0.0</Galac.Saw.Dal.Vendedor>
     <Galac.Saw.Brl.Vendedor>2.60.0.0</Galac.Saw.Brl.Vendedor>
 
-    <Galac.Adm.Ccl.Banco>2.60.1.0</Galac.Adm.Ccl.Banco>
-    <Galac.Adm.Dal.Banco>2.60.1.0</Galac.Adm.Dal.Banco>
-    <Galac.Adm.Brl.Banco>2.60.1.0</Galac.Adm.Brl.Banco>
-    <Galac.Adm.Uil.Banco>2.60.1.0</Galac.Adm.Uil.Banco>
+    <Galac.Adm.Ccl.Banco>2.60.1.*</Galac.Adm.Ccl.Banco>
+    <Galac.Adm.Dal.Banco>2.60.1.*</Galac.Adm.Dal.Banco>
+    <Galac.Adm.Brl.Banco>2.60.1.*</Galac.Adm.Brl.Banco>
+    <Galac.Adm.Rpt.Banco>2.60.1.*</Galac.Adm.Uil.Banco>
+    <Galac.Adm.Uil.Banco>2.60.1.*</Galac.Adm.Uil.Banco>
     <Galac.Adm.Uil.Banco.resources>2.60.1.0</Galac.Adm.Uil.Banco.resources>
 
     <Galac.Adm.Ccl.CajaChica>2.60.1.0</Galac.Adm.Ccl.CajaChica>
