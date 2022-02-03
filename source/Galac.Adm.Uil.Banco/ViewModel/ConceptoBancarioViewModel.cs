@@ -57,7 +57,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Descripción es requerido.")]
-        [LibGridColum("Descripción", Width = 300, WidthForPrinting = 75)]
+        [LibGridColum("Descripción", Width = 300, WidthForPrinting = 50)]
         public string  Descripcion {
             get {
                 return Model.Descripcion;

@@ -24,7 +24,6 @@ namespace Galac.Adm.Ccl.Banco {
           string NombrePlantillaCheque { get; set; }
         #endregion //Propiedades
 
-
     } //End of class IFkCuentaBancariaViewModel
 
 } //End of namespace Galac.Adm.Ccl.Banco

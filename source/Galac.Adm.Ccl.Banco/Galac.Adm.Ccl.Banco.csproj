@@ -40,6 +40,7 @@
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +53,7 @@
     <Compile Include="CuentaBancaria.cs" />
     <Compile Include="IBeneficiarioPdn.cs" />
     <Compile Include="IConceptoBancarioPdn.cs" />
+    <Compile Include="ICuentaBancariaInformes.cs" />
     <Compile Include="ICuentaBancariaPdn.cs" />
     <Compile Include="IFkBeneficiarioViewModel.cs" />
     <Compile Include="IFkConceptoBancarioViewModel.cs" />

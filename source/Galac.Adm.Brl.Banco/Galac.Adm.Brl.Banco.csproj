@@ -82,6 +82,7 @@
     <Compile Include="Reportes\clsBeneficiarioRpt.cs" />
     <Compile Include="Reportes\clsConceptoBancarioRpt.cs" />
     <Compile Include="Reportes\clsCuentaBancariaRpt.cs" />
+    <Compile Include="Reportes\clsCuentaBancariaSql.cs" />
     <Compile Include="Reportes\clsSolicitudesDePagoRpt.cs" />
   </ItemGroup>
   <ItemGroup>

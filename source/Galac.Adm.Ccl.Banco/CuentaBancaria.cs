@@ -35,8 +35,8 @@ namespace Galac.Adm.Ccl.Banco {
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
-        #region Propiedades
 
+        #region Propiedades
         public int ConsecutivoCompania {
             get { return _ConsecutivoCompania; }
             set { _ConsecutivoCompania = value; }
@@ -130,7 +130,6 @@ namespace Galac.Adm.Ccl.Banco {
             set { _ManejaCreditoBancario = LibConvert.SNToBool(value); }
         }
 
-
         public decimal SaldoDisponible {
             get { return _SaldoDisponible; }
             set { _SaldoDisponible = value; }
@@ -165,10 +164,12 @@ namespace Galac.Adm.Ccl.Banco {
             get { return _FechaUltimaModificacion; }
             set { _FechaUltimaModificacion = LibConvert.DateToDbValue(value); }
         }
+
         public bool EsCajaChicaAsBool {
             get { return _EsCajaChica; }
             set { _EsCajaChica = value; }
         }
+
         public string EsCajaChica {
             set { _EsCajaChica = LibConvert.SNToBool(value); }
         }
@@ -183,14 +184,14 @@ namespace Galac.Adm.Ccl.Banco {
             set { _datos = value; }
         }
         #endregion //Propiedades
-        #region Constructores
 
+        #region Constructores
         public CuentaBancaria() {
             Clear();
         }
         #endregion //Constructores
-        #region Metodos Generados
 
+        #region Metodos Generados
         public object TextDateLastModifiedForInput() {
             return string.Empty;
         }
@@ -267,7 +268,6 @@ namespace Galac.Adm.Ccl.Banco {
                "\nEs Caja Chica  = " + _EsCajaChica;
         }
         #endregion //Metodos Generados
-
 
     } //End of class CuentaBancaria
 

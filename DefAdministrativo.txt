@@ -948,7 +948,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
 	@PrimaryKey= ConsecutivoCompania, ConsecutivoMaquinaFiscal
    }
 
-{@M}Factura = record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta,Generate
+{@M}Factura = record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta
     ConsecutivoCompania: Longint; //HIDE
     Numero        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha            : unFecha;//O,G,"Fecha",search
@@ -1717,7 +1717,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey=Consecutivo
 }
 
-{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop
+{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
     ConsecutivoCompania	: Longint; //HIDE
     Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g
@@ -4290,7 +4290,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	ConsecutivoMaquinaFiscal	: Str9;			//Search,=MaquinaFiscal.ConsecutivoMaquinaFiscal,"Consecutivo Máquina Fiscal"
 }
 
-{@R Factura}FacturacionPorUsuario = Reporte		//Multiarchivo=Compania,"Facturación por Usuario",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@R Factura}FacturacionPorUsuario = Reporte		//Multiarchivo=Compania,"Facturación por Usuario",Componente=Venta,Esquema=Adm,EsquemaBD=Dbo
 	NotaDeMoneda			: Section;	//"Nota de Moneda"
 	MensajeDelCambioDeLaMoneda	: Label;	//"Mensaje del cambio de la Moneda"
 	{EndSeccion}
@@ -4321,7 +4321,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	TotalUsuario			: decimal;	//"Total Usuario"
 }
 
-{@F}frmFacturacionPorUsuario = Record			//"Facturación por Usuario",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@F}frmFacturacionPorUsuario = Record			//"Facturación por Usuario",Multiarchivo=Compania,Componente=Venta,Esquema=Adm,EsquemaBD=Dbo
 	FechaDesde		: date;			//"Fecha desde"
 	FechaHasta		: date;			//"Fecha hasta"	
 	CantidadAImprimir	: unCantidadAImprimir	//"Cantidad a imprimir"
@@ -4330,4 +4330,23 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	TasaDeCambio		: unTasaDeCambio;	//"Tasa de Cambio"
 	InformeDetallado	: boolean;		//"Detallado"
 	InformeResumido		: boolean;		//"Resumido"
+}
+
+{@R CuentaBancaria}SaldosBancarios = Reporte	//Multiarchivo=Compania,"Saldos Bancarios",Componente=Banco,Esquema=Adm,EsquemaBD=Dbo,Generate
+	Moneda			: Section;	//"Moneda"
+	NombreDeLaMoneda	: Str80;	//"Moneda del grupo"
+	{EndSeccion}
+	Codigo			: Str5		//"Codigo Cuenta Bancaria"
+	NombreCuenta		: Str40;	//"Nombre Cuenta Bancaria"
+	NumeroCuenta		: Str30;	//"Número Cuenta Bancaria"
+	SaldoInicial		: decimal;	//"SaldoInicial"
+	Ingresos		: decimal;	//"Ingresos"
+	Egresos			: decimal;	//"Egresos"
+	SaldoFinal		: decimal;	//"SaldoFinal"
+}
+
+{@F}frmSaldosBancarios  = Record		//"Saldos Bancarios",Multiarchivo=Compania,Componente=Banco,Esquema=Adm,EsquemaBD=Dbo,Generate
+	FechaDesde		: date;		//"Fecha desde"
+	FechaHasta		: date;		//"Fecha hasta"	
+	SoloCuentasActivas	: boolean;	//"Solo cuentas activas"
 }
