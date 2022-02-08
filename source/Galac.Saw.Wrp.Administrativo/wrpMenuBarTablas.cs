@@ -36,7 +36,7 @@ namespace Galac.Saw.Wrp.MenuBar {
             try {
                 LibGlobalValues.Instance.LoadCompleteAppMemInfo(vfwCurrentParameters);
                 LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Compania", "ConsecutivoCompania");
-                LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(true);
+                LibMefBootstrapperForInterop vBootstrapper = new LibMefBootstrapperForInterop(false);
                 LibInteropParameters vParams = new LibInteropParameters();
                 if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
                     vParams.AdmittedComponents = ComponentsNavigationTab();
