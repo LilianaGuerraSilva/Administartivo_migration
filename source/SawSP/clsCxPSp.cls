@@ -2754,6 +2754,7 @@ Private Function fSpParametersInsertarPagodesdeCxP() As String
    vResult = vResult & "   @TotalRetenidoIva decimal(25,5), "
    vResult = vResult & "   @EsPagoHistorico char(1), "
    vResult = vResult & "   @PagadoAnticipo decimal(25,5), "
+   vResult = vResult & "   @TotalAnticiposSinUsar decimal(25,5), "
    vResult = vResult & "   @Beneficiario varchar(60), "
    vResult = vResult & "   @CodigoMoneda varchar(4), "
    vResult = vResult & "   @NombreOperador varchar(10), "
@@ -2806,6 +2807,7 @@ Private Function fStatementsSpInsertarPagodesdeCxP() As String
    vSql = vSql & "         , TotalRetenidoIva" & vbCrLf
    vSql = vSql & "         , EsPagoHistorico" & vbCrLf
    vSql = vSql & "         , PagadoAnticipo" & vbCrLf
+   vSql = vSql & "         , TotalAnticiposSinUsar" & vbCrLf
    vSql = vSql & "         , Beneficiario" & vbCrLf
    vSql = vSql & "         , CodigoMoneda" & vbCrLf
    vSql = vSql & "         , Origen" & vbCrLf
@@ -2835,6 +2837,7 @@ Private Function fStatementsSpInsertarPagodesdeCxP() As String
    vSql = vSql & "         @TotalRetenidoIva," & vbCrLf
    vSql = vSql & "         @EsPagoHistorico," & vbCrLf
    vSql = vSql & "         @PagadoAnticipo," & vbCrLf
+   vSql = vSql & "         @TotalAnticiposSinUsar," & vbCrLf
    vSql = vSql & "         @Beneficiario," & vbCrLf
    vSql = vSql & "         @CodigoMoneda," & vbCrLf
    vSql = vSql & "         @Origen," & vbCrLf
@@ -2844,7 +2847,7 @@ Private Function fStatementsSpInsertarPagodesdeCxP() As String
    vSql = vSql & "         @FechaUltimaModificacion)" & vbCrLf
    vSql = vSql & " " & vbCrLf
    vSql = vSql & " SET @MontoAbonado = ((@TotalRetenido + @TotalRetenidoIva + @TotalRetenidoImpuestoMunicipal + @TotalOtros) )" & vbCrLf
-   vSql = vSql & " SET @MontoTotalMonedaLocal = (@TotalCxP * @CambioaBolivares)" & vbCrLf
+   vSql = vSql & " SET @MontoTotalMonedaLocal = ROUND(@TotalCxP * @CambioaBolivares, 2)" & vbCrLf
    vSql = vSql & " EXEC Gp_CxPInsertarDocumentoPagado  @ConsecutivoCompania," & vbCrLf
    vSql = vSql & "                        @NumeroComprobante," & vbCrLf
    vSql = vSql & "                        @ConsecutivoCxP," & vbCrLf
