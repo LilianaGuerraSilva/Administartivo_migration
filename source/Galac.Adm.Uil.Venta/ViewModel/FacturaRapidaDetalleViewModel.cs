@@ -139,7 +139,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         [LibRequired(ErrorMessage = "El campo Cantidad es requerido.")]
         //[LibCustomValidation("CantidadValidating")]
-        [LibGridColum("Cantidad", eGridColumType.Numeric, Width = 80, ConditionalPropertyDecimalDigits = "CantidadDeDecimales", MaxLength = 7, ColumnOrder = 2)]
+        [LibGridColum("Cantidad", eGridColumType.Numeric, Width = 80, ConditionalPropertyDecimalDigits = "CantidadDeDecimalesCantidad", MaxLength = 7, ColumnOrder = 2)]
         public decimal Cantidad {
             get {
                 return Model.Cantidad;
@@ -159,6 +159,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "CantidadDeDecimales");
             }
         }
+
+        public int CantidadDeDecimalesCantidad {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("FacturaRapida", "CantidadDeDecimalesCantidad");
+            }
+        }
+
         //[LibCustomValidation("PrecioSinIvaValidating")]
         [LibGridColum("Precio", eGridColumType.Numeric, Width = 150, ConditionalPropertyDecimalDigits = "CantidadDeDecimales", MaxLength = 10, ColumnOrder = 3)]
         public decimal PrecioSinIVA {

@@ -2702,6 +2702,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         } else {
                             vPrecioSinIva = ConexionArticulo.PrecioSinIVA;
                         }
+                        vPrecioSinIva = LibMath.RoundToNDecimals(vPrecioSinIva, _CantidadDeDecimales);
+                        vPrecioConIva = LibMath.RoundToNDecimals(vPrecioConIva, _CantidadDeDecimales);
                         DetailFacturaRapidaDetalle.InsertRow(Articulo, Descripcion, Cantidad, ConexionArticulo.PrecioSinIVA, ConexionArticulo.PrecioConIVA, (eTipoDeAlicuota)ConexionArticulo.AlicuotaIVA, LibConvert.ToDec(ConexionArticulo.PorcentajeBaseImponible), ConexionArticulo.TipoDeArticulo, ConexionArticulo.TipoArticuloInv);
                     }
                 } else {
