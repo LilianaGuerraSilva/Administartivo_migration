@@ -44,8 +44,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 
         private FkCajaViewModel _ConexionNombreCaja = null;
-        private FkGUserViewModel _ConexionNombreDelUsuario = null;
-        bool _UsaMaquinaFiscal;
+        private FkGUserViewModel _ConexionNombreDelUsuario = null;       
         ICajaAperturaPdn insCajaApertura;
         bool _CajaCerrada = false;
         bool _UsuarioNoAsignado = false;
@@ -555,11 +554,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteCerrarCajaCommand() {
             bool vSePuede = false;
+            bool vUsaMaquinaFiscal;
             try {
                 vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
-                if(vSePuede) {
+                vUsaMaquinaFiscal = ConexionNombreCaja.UsaMaquinaFiscal;
+                if (vSePuede) {
                     if(insCajaApertura.CerrarCaja(Model)) {
-                        if(_UsaMaquinaFiscal) {
+                        if(vUsaMaquinaFiscal) {
                             ImprimirCierreX();
                         }
                         LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
@@ -690,8 +691,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja", LibSearchCriteria.CreateCriteria("NombreCaja", NombreCaja));
-            _UsaMaquinaFiscal = ConexionNombreCaja.UsaMaquinaFiscal;
+            ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja", LibSearchCriteria.CreateCriteria("NombreCaja", NombreCaja));           
             ConexionNombreDelUsuario = FirstConnectionRecordOrDefault<FkGUserViewModel>("Usuario", LibSearchCriteria.CreateCriteria("UserName", NombreDelUsuario));
         }
 
