@@ -66,3 +66,7 @@
 	path = bin/binAdministrativoVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativovb.git
 	branch = release/V2202
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
+	branch = release/SawV21.2.0.0
