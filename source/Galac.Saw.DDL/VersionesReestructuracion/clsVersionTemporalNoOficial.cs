@@ -13,9 +13,22 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();            
-            DisposeConnectionNoTransaction();            
+            CrearNuevosCamposImpTransacBancarias();
+            DisposeConnectionNoTransaction();
             return true;
-        }      
+        }
+
+        private void CrearNuevosCamposImpTransacBancarias(){
+            if (AddColumnDecimal("Adm.ImpTransacBancarias", "AlicuotaC1Al4", 25, 4, "", 0)){
+                AddDefaultConstraint("Adm.ImpTransacBancarias", "d_ImpBanAlC14", "0", "AlicuotaC1Al4");
+            }
+            if (AddColumnDecimal("Adm.ImpTransacBancarias", "AlicuotaC5", 25, 4, "", 0)){
+                AddDefaultConstraint("Adm.ImpTransacBancarias", "d_ImpBanAlC5", "0", "AlicuotaC5");
+            }
+            if (AddColumnDecimal("Adm.ImpTransacBancarias", "AlicuotaC6", 25, 4, "", 0)){
+                AddDefaultConstraint("Adm.ImpTransacBancarias", "d_ImpBanAlC6", "0", "AlicuotaC6");
+            }
+        }
     }
 }
 

@@ -124,7 +124,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             if(valAction == eAccionSR.Instalar) {
                 vResult = LibImportExport.InstallData(vFileName,ModuleName,new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv));
             } else {
-                vResult = LibImportExport.ReInstallData(vFileName,ModuleName,new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv), !valVieneDeReestructurar, valVieneDeReestructurar);
+                vResult = LibImportExport.ReInstallData(vFileName,ModuleName, new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv), !valVieneDeReestructurar, valVieneDeReestructurar);
             }
             return vResult;
         }
