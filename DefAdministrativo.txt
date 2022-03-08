@@ -1509,7 +1509,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey=ConsecutivoCompania,CodigoProveedor
 }
 
-{@M}CxP = Record //Female,Multiarchivo=Compania, Generate
+{@M}CxP = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania           : Longint; //HIDE
     Numero                        : str11; //o,g,search,"Número"
     TipoDeCxP                     : unTipoDeCxC;//search
@@ -1717,7 +1717,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey=Consecutivo
 }
 
-{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
+{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme
     ConsecutivoCompania	: Longint; //HIDE
     Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g
@@ -2381,11 +2381,15 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey=ConsecutivoCompania,Numero,Fecha
 }
 
-{@S}ImpTransacBancarias = record //"Impuesto a las Transacciones Bancarias"
-     FechaDeInicioDeVigencia: date; //g,o,u,SEARCH
-     AlicuotaAlDebito   : Double; //g,"Alícuota al Débito"
-     AlicuotaAlCredito  : Double; //g,"Alícuota al Crédito"
-     @PrimaryKey=FechaDeInicioDeVigencia
+{@S}ImpTransacBancarias = record //"Impuesto a las Transacciones Bancarias", IMPEXP,GENERATE
+    FechaDeInicioDeVigencia: date; //g,o,SEARCH,"Fecha de inicio de vigencia"
+	AlicuotaAlDebito : Double; //"Alícuota al Débito",HIDE
+	AlicuotaAlCredito : Double; //"Alícuota al Crédito",HIDE
+	AlicuotaC1Al4 : decimal;//g,"Contribuyentes 1, 2, 3, 4"
+	AlicuotaC5 : decimal;//g,"Contribuyentes 5"
+	AlicuotaC6 : decimal;//g,"Contribuyentes 6"
+	campoFalso : Str5;// "Campo Falso No Pasar"
+    @PrimaryKey=FechaDeInicioDeVigencia
 }
 
 
@@ -2773,7 +2777,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey=ConsecutivoOI
 }
 
-{@M}Rendicion = Record //Multiarchivo=Compania,Componente=CajaChica,Esquema=Adm,interop,"Reposición de Caja Chica", GenerateRptConfigurar, GenerateFrmInforme, Generate
+{@M}Rendicion = Record //Multiarchivo=Compania,Componente=CajaChica,Esquema=Adm,interop,"Reposición de Caja Chica", GenerateRptConfigurar, GenerateFrmInforme
     ConsecutivoCompania	         : LongInt;//HIDE,o
     Consecutivo                  : LongInt;//HIDE,o,a,Consecutive,"Consecutivo"
     Numero                       : Str15;//u,o,"Número",noeditable
@@ -2813,7 +2817,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
     @PrimaryKey = ConsecutivoCompania,Consecutivo
 }
 
-{@D Rendicion} DetalleDeRendicion  = Record //Multiarchivo=Compania,Componente=CajaChica,Esquema=Adm, Generate
+{@D Rendicion} DetalleDeRendicion  = Record //Multiarchivo=Compania,Componente=CajaChica,Esquema=Adm
     ConsecutivoCompania	         : LongInt;//o,HIDE
     ConsecutivoRendicion         : LongInt;//o,HIDE
     ConsecutivoRenglon           : LongInt;//o,HIDE
@@ -3890,7 +3894,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
    @UniqueKey = ConsecutivoCompania,Descripcion
 }
 
-{@R Compra}DiarioCompra = Reporte//Multiarchivo=Compania,"",Componente=GestionDeComprar,Esquema=Adm, GENERATE
+{@R Compra}DiarioCompra = Reporte//Multiarchivo=Compania,"",Componente=GestionDeComprar,Esquema=Adm
 
     Numero   : Str30;//"Compra"
     StatusCompra   : Str40;//"Status"
@@ -3912,7 +3916,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
 	Envia      : Str15;//"Envia"
 
 }
-{@M}Compra=  record //Multiarchivo=Compania "Compra", Componente=GestionCompras, Esquema=Adm, GENERATE
+{@M}Compra=  record //Multiarchivo=Compania "Compra", Componente=GestionCompras, Esquema=Adm
    ConsecutivoCompania		: Longint; //HIDE
    Consecutivo    		: Longint; //Hide,o,suggestConsecutive
    Serie              		: str20; //u, g,o,search 
@@ -4332,7 +4336,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	InformeResumido		: boolean;		//"Resumido"
 }
 
-{@R CuentaBancaria}SaldosBancarios = Reporte	//Multiarchivo=Compania,"Saldos Bancarios",Componente=Banco,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@R CuentaBancaria}SaldosBancarios = Reporte	//Multiarchivo=Compania,"Saldos Bancarios",Componente=Banco,Esquema=Adm,EsquemaBD=Dbo
 	Moneda			: Section;	//"Moneda"
 	NombreDeLaMoneda	: Str80;	//"Moneda del grupo"
 	{EndSeccion}
@@ -4345,7 +4349,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	SaldoFinal		: decimal;	//"SaldoFinal"
 }
 
-{@F}frmSaldosBancarios  = Record		//"Saldos Bancarios",Multiarchivo=Compania,Componente=Banco,Esquema=Adm,EsquemaBD=Dbo,Generate
+{@F}frmSaldosBancarios  = Record		//"Saldos Bancarios",Multiarchivo=Compania,Componente=Banco,Esquema=Adm,EsquemaBD=Dbo
 	FechaDesde		: date;		//"Fecha desde"
 	FechaHasta		: date;		//"Fecha hasta"	
 	SoloCuentasActivas	: boolean;	//"Solo cuentas activas"
