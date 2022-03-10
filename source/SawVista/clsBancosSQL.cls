@@ -336,7 +336,7 @@ Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFecha
    Set insViews = New clsBancoVista
    ComparativoFecha = gUtilSQL.fSQLValueBetween("FECHA", valFechaInicial, valFechaFinal)
    SQL = ""
-   SQL = "SELECT " & gUtilSQL.fSimpleSqlValue("Efectivo") & " as Concepto, "
+   SQL = "SELECT CodigoConcepto + ' - ' + Descripcion as Concepto, fecha, CodigoMoneda, "
    If valRedondeaMontoDebitoBancario Then
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", " Round(Monto * CambioAbolivares, 2)", "0") & ") as MontoEfectivo, "
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("generadoPor = '4'", " Round(Monto * CambioAbolivares, 2)", "0") & ") as MontoITF, "
@@ -356,7 +356,8 @@ Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFecha
       SQL = SQL & " AND Status" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
-   SQL = SQL & " GROUP BY NombreCuenta"
+   SQL = SQL & " GROUP BY NombreCuenta, fecha, CodigoConcepto + ' - ' + Descripcion, CodigoMoneda"
+   SQL = SQL & " ORDER BY NombreCuenta, fecha, CodigoConcepto + ' - ' + Descripcion, CodigoMoneda"
    fSQLDeclaracionITF = SQL
    Set insViews = Nothing
 h_EXIT: On Error GoTo 0
