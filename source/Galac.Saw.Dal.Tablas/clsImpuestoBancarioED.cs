@@ -49,8 +49,6 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("AlicuotaC6" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_ImpBanAlC6 DEFAULT (0), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_ImpTransacBancarias PRIMARY KEY CLUSTERED");
-            SQL.AppendLine("(FechaDeInicioDeVigencia ASC),");
-            SQL.AppendLine("CONSTRAINT u_ImpTransacBancariasFechaDeInicioDeVigencia UNIQUE ");
             SQL.AppendLine("(FechaDeInicioDeVigencia ASC)");
             SQL.AppendLine(")");
             return SQL.ToString();

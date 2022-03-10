@@ -44,7 +44,7 @@
             Grid.Row="2"
             Grid.Column="0"
             Margin="2"
-            Header="Alicuotas"
+            Header="Alícuotas"
             Grid.ColumnSpan="2"
             Style="{StaticResource GroupBoxStyle}"
             HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
