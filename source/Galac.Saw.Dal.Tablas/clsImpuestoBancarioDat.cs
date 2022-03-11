@@ -43,6 +43,9 @@ namespace Galac.Saw.Dal.Tablas {
             vParams.AddInDateTime("FechaDeInicioDeVigencia", valRecord.FechaDeInicioDeVigencia);
             vParams.AddInDecimal("AlicuotaAlDebito", valRecord.AlicuotaAlDebito, 2);
             vParams.AddInDecimal("AlicuotaAlCredito", valRecord.AlicuotaAlCredito, 2);
+            vParams.AddInDecimal("AlicuotaC1Al4", valRecord.AlicuotaC1Al4, 2);
+            vParams.AddInDecimal("AlicuotaC5", valRecord.AlicuotaC5, 2);
+            vParams.AddInDecimal("AlicuotaC6", valRecord.AlicuotaC6, 2);
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
@@ -295,6 +298,15 @@ namespace Galac.Saw.Dal.Tablas {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaAlCredito"), null))) {
                     vRecord.AlicuotaAlCredito = LibConvert.ToDec(vItem.Element("AlicuotaAlCredito"));
+                }
+				if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaC1Al4"), null))) {
+                    vRecord.AlicuotaC1Al4 = LibConvert.ToDec(vItem.Element("AlicuotaC1Al4"));
+                }
+				if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaC5"), null))) {
+                    vRecord.AlicuotaC5 = LibConvert.ToDec(vItem.Element("AlicuotaC5"));
+                }
+				if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaC6"), null))) {
+                    vRecord.AlicuotaC6 = LibConvert.ToDec(vItem.Element("AlicuotaC6"));
                 }
                 vResult.Add(vRecord);
             }

@@ -481,6 +481,7 @@ Private mInformeSeleccionado As Integer
 Private insConceptoBancario As Object
 Private insCnxAos As Object
 Private gProyCompaniaActual As Object
+Private gProyParametrosCompania As Object
 Private insCuenta As Object
 Private gMonedaLocalActual As Object
 
@@ -1220,7 +1221,7 @@ Private Sub sEjecutaElReporteDeclaracionITF()
    Set reporte = New DDActiveReports2.ActiveReport
    Set insConfigurar = New clsBancoRpt
 '   SqlDelReporte = fSQLDeclaracionITF(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text)
-   SqlDelReporte = insBancosSQL.fSQLDeclaracionITF(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text, gProyParametrosCompania.GetConsecutivoCompania, gAPI.fGetCheckBoxValue(chkImprimirSoloCuentasActivas), CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno))
+   SqlDelReporte = insBancosSQL.fSQLDeclaracionITF(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text, gProyParametrosCompania.GetConsecutivoCompania, gAPI.fGetCheckBoxValue(chkImprimirSoloCuentasActivas), CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno), gProyParametrosCompania.GetRedondeaMontoDebitoBancario)
 
    If insConfigurar.fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancieras(reporte, SqlDelReporte, FechaInicial, FechaFinal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False, False)) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Declaración del Impuesto a las Transacciones Financieras"
@@ -1351,6 +1352,7 @@ On Error GoTo h_ERROR
    Set insCuenta = valInsCuenta
    Set gMonedaLocalActual = valGMonedaLocalActual
    Set insConceptoBancario = valInsConceptoBancario
+   Set gProyParametrosCompania = valProyParametrosCompania
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLoadObjectValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)

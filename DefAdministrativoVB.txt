@@ -2,7 +2,6 @@ LENGUAJE=VB
 Proyecto=SAW
  
 
-#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
 #INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
 
 $GENERATE$
@@ -561,7 +560,7 @@ OpcionesRendiciones			: Str20;//Hide
    @PrimaryKey=NombreDelUsuario
 }
 
-{@S}UsuarioActual = Record //"UsuarioActual",Male,
+{@S}UsuarioActual = Record //"UsuarioActual",Male
    NombreDelUsuario: Str10; //g,o,u,SEARCH
    Status: boolean; //g
    NombreUltimaCompaniaUsada: str50; //HIDE
@@ -1607,7 +1606,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,NumeroFactura,TipoDeDocumento,ConsecutivoRenglon
 }
 
-{@D Factura}RenglonCobroDeFactura = record //Multiarchivo=Compania, GENERATE
+{@D Factura}RenglonCobroDeFactura = record //Multiarchivo=Compania 
     ConsecutivoCompania		: Longint; //HIDE
     NumeroFactura			: str11;//HIDE,o
     TipoDeDocumento		: unTipoDocumentoFactura;//HIDE,o
@@ -1691,7 +1690,7 @@ MenuDeInformes : boolean;
 // fin ***************  En C#, y pegado al módulo de clasificar clientes
 
 
-{@S}Autorizacion = record //Multiarchivo=Compania,
+{@S}Autorizacion = record //Multiarchivo=Compania
      ConsecutivoCompania	: Longint; //HIDE
      NoAutorizacion: Longint; //HIDE,o,u,suggestconsecutive,g
      CodigoCliente		: Str10;//o,g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
@@ -2091,7 +2090,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,CodigoProveedor
 }
 
-{@M}CxP = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,Generate
+{@M}CxP = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar
     ConsecutivoCompania           : Longint; //HIDE
     Numero                        : str25; //o,g,search,"Número", u
     TipoDeCxP                     : unTipoDeCxC;//search,u
@@ -2321,36 +2320,34 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,ConsecutivoMovimiento
 }
 
-
-{@S}MovimientoBancario = Record //Multiarchivo=Compania
-    ConsecutivoCompania		: Longint;//HIDE
-    ConsecutivoMovimiento	: LongInt;//Search,"Nº Movimiento",g,Consecutive,o,a
-    CodigoCtaBancaria		: Str5;//Search,=CuentaBancaria.Codigo,"Cuenta Bancaria",g,o
-    NombreCtaBancaria		: Str40;//Logical,=cuentabancaria.nombrecuenta
-    CodigoConcepto		: Str8;//=ConceptoBancario.Codigo,"Código Concepto",Search,g,o
-    DescripcionConcepto		: Str30;//Logical,=ConceptoBancario.descripcion
-    Fecha				: Date;//g,Search,o
-    TipoConcepto			: unIngresoEgreso;//"Tipo Concepto",Search,g,a,=conceptobancario.tipo
-    Monto				: Double;//g
-    NumeroDocumento		: Str15;//"Nº Documento",Search
-    Descripcion			: Str255;
-    GeneraImpuestoBancario	: Boolean;//"Generar Impuesto Bancario",ci"insCuentabancaria.getManejaDebitoBancario()" or CI"insCuentabancaria.getManejaCreditoBancario()"
-    NroMovimientoRelacionado	: Str15;//a
-    GeneradoPor			: unGeneradoPor;//a,"Generado Por"
-    Moneda				: Str10; //Logical,=CuentaBancaria.NombreDeLaMoneda,"Moneda",a
-    CambioABolivares		: Double;
-    ImprimirCheque		: Boolean;
-    Beneficiario			: Str60;//logical
-    NumeroDeCheque		: Str8;//logical
-    ConciliadoSN			: Boolean;
-    NroConciliacion		: Str9;
-    GenerarAsientoDeRetiroEnCuenta	: Boolean;
-    NombreOperador			: Str10;//a
-    FechaUltimaModificacion		: date;//a
-    @PrimaryKey=ConsecutivoCompania,CodigoCtaBancaria,CodigoConcepto,Fecha,ConsecutivoMovimiento
+{@S}MovimientoBancario = Record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Componente=Banco, Generate
+	ConsecutivoCompania : Longint;//HIDE
+	ConsecutivoMovimiento : LongInt;//Search,"Nº Movimiento",g,Consecutive,o,a
+	CodigoCtaBancaria : Str5;//Search,=CuentaBancaria.Codigo,"Cuenta Bancaria",g,o
+	NombreCtaBancaria : Str40;//Logical,=cuentabancaria.nombrecuenta
+	CodigoConcepto : Str8;//=ConceptoBancario.Codigo,"Código Concepto",Search,g,o
+	DescripcionConcepto : Str30;//Logical,=ConceptoBancario.descripcion
+	Fecha : Date;//g,Search,o
+	TipoConcepto : unIngresoEgreso;//"Tipo Concepto",Search,g,a,=conceptobancario.tipo
+	Monto : Double;//g
+	NumeroDocumento : Str15;//"Nº Documento",Search
+	Descripcion : Str255;
+	GeneraImpuestoBancario : Boolean;//"Generar Impuesto Bancario",ci"insCuentabancaria.getManejaDebitoBancario()" or CI"insCuentabancaria.getManejaCreditoBancario()"
+	AlicuotaImpBancario : decimal;//"Alícuota",ci"insCuentabancaria.getManejaDebitoBancario()" or CI"insCuentabancaria.getManejaCreditoBancario()"	
+	NroMovimientoRelacionado : Str15;//a
+	GeneradoPor : unGeneradoPor;//a,"Generado Por"
+	Moneda : Str10; //Logical,=CuentaBancaria.NombreDeLaMoneda,"Moneda",a
+	CambioABolivares : Double;
+	ImprimirCheque : Boolean;
+	Beneficiario : Str60;//logical
+	NumeroDeCheque : Str8;//logical
+	ConciliadoSN : Boolean;
+	NroConciliacion : Str9;
+	GenerarAsientoDeRetiroEnCuenta : Boolean;
+	NombreOperador : Str10;//a
+	FechaUltimaModificacion : date;//a
+	@PrimaryKey=ConsecutivoCompania,CodigoCtaBancaria,CodigoConcepto,Fecha,ConsecutivoMovimiento
 }
-
-
 
 {@S}Contrato = Record; //Multiarchivo=Compania, GenerateRptConfigurar
    ConsecutivoCompania: Longint; //HIDE
@@ -2592,7 +2589,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,NumeroSecuencialCompra, ConsecutivoRenglon
 }
 
-{@S}RevisionDeData = record //Multiarchivo=Compania,
+{@S}RevisionDeData = record //Multiarchivo=Compania
    ConsecutivoCompania : Longint; //HIDE
    NumeroDeOrden       : longint; //o,g,a,suggestConsecutive, u
    Recibido El Día     : unFecha; //g,search
@@ -2830,7 +2827,7 @@ MenuDeInformes : boolean;
 }
 
 
-{@S}ReglasDeContabilizacion = Record //Female,Multiarchivo=Compania,Generate
+{@S}ReglasDeContabilizacion = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania : LongInt;//o,v
     Numero              : Str11;//u,o,g,sugestconsecutive,"Número",HIDE
     EditarComprobanteAfterInsert       : Boolean; 
@@ -3017,7 +3014,7 @@ MenuDeInformes : boolean;
 //}
 //TipoConcepto   	   : unIngresoEgreso;//"Tipo",g,a,=Conceptobancario.tipo
 
-{@S}GestionDeCobranza = Record //Male,Multiarchivo=Compania,"Gestión de Cobranza",
+{@S}GestionDeCobranza = Record //Male,Multiarchivo=Compania,"Gestión de Cobranza"
       ConsecutivoCompania    : LongInt; //o,HIDE
       CodigoCliente	     : Str10;//search,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
       NumeroDeLaGestion      : Str10;//search,u,o,g,sugestconsecutive,"Número"
@@ -3039,7 +3036,7 @@ MenuDeInformes : boolean;
       @PrimaryKey=ConsecutivoCompania,NumeroDeLaGestion      
    }
 
-{@S}ComprobanteRetencionIVA = Record //Female,Multiarchivo=Compania,
+{@S}ComprobanteRetencionIVA = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania  : LongInt;//o,Hide
     Numero               : Str8;//u,o,g,sugestconsecutive,"Número",HIDE
     Fecha                : date;//u,g
@@ -3057,7 +3054,7 @@ MenuDeInformes : boolean;
 
 
 
-//{@S}DebitoBancario=  record //"Débito Bancario",
+//{@S}DebitoBancario=  record //"Débito Bancario"
 //     FechaDeInicioDeVigencia: date; //g,o,u,SEARCH
 //     AlicuotaGeneral   : Double; //g,SEARCH
 //     @PrimaryKey=FechaDeInicioDeVigencia
@@ -3198,7 +3195,7 @@ MenuDeInformes : boolean;
 	@PrimaryKey = Codigo
 }
 
-{@S}Caja = Record //Multiarchivo=Compania,Female,
+{@S}Caja = Record //Multiarchivo=Compania,Female
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	ConsecutivoCaja		: LongInt;//u,o,a,sugestconsecutive
 	NombreCaja			: Str60;//o
@@ -3219,7 +3216,7 @@ MenuDeInformes : boolean;
  }
 //Efrain
 
-{@S}CajaApertura = Record //Multiarchivo=Compania,Female,
+{@S}CajaApertura = Record //Multiarchivo=Compania,Female
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	ConsecutivoACC		: LongInt;//u,o,a,sugestconsecutive
 	ConsecutivoCaja         : Long;//Hide,=Caja.ConsecutivoCaja
@@ -3574,7 +3571,7 @@ MenuDeInformes : boolean;
 }  
 
 
-{@R Factura}FacturaEntreFechasPorCamposDefinibles  = Reporte //Multiarchivo=ConsecutivoCompania, "Factura Entre Fechas por Campos Definibles"
+{@R Factura}FacturaEntreFechasPorCamposDefinibles  = Reporte //Multiarchivo=Compania, "Factura Entre Fechas por Campos Definibles"
 
         SecMoneda: Section
 		Moneda : Str80;//"Moneda"
@@ -3627,7 +3624,7 @@ MenuDeInformes : boolean;
 }
 
 
-{@R ControlDespacho}ImpresionComprobanteDeDespacho  = Reporte //Multiarchivo=ConsecutivoCompania, "Comprobante de despacho"
+{@R ControlDespacho}ImpresionComprobanteDeDespacho  = Reporte //Multiarchivo=Compania, "Comprobante de despacho"
 	SecDespacho: Section       
 		Numero          : str30; // o,a,g,"Número", u
 	{EndSeccion}
@@ -3649,7 +3646,7 @@ MenuDeInformes : boolean;
 
 }  
 
-//{@R ControlDespacho}ImpresionComprobanteDeDespacho  = Reporte //Multiarchivo=ConsecutivoCompania, "Listado de Despachos"
+//{@R ControlDespacho}ImpresionComprobanteDeDespacho  = Reporte //Multiarchivo=Compania, "Listado de Despachos"
 //	SecDespacho: Section       
 //		Numero          : str30; // o,a,g,"Número", u
 //	{EndSeccion}

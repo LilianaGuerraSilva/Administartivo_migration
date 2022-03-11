@@ -53,7 +53,10 @@ namespace Galac.Saw.Brl.Tablas {
                   select new XElement("GpResult",
                     new XElement("FechaDeInicioDeVigencia", items[0]),
                     new XElement("AlicuotaAlDebito", items[1]),
-                    new XElement("AlicuotaAlCredito", items[2])));
+                    new XElement("AlicuotaAlCredito", items[2]),
+                    new XElement("AlicuotaC1Al4", items[3]),
+                    new XElement("AlicuotaC5", items[4]),
+                    new XElement("AlicuotaC6", items[5])));
             return xmlTree.CreateReader();
         }
 
@@ -80,7 +83,10 @@ namespace Galac.Saw.Brl.Tablas {
                         new XElement("GpResult",
                         new XElement("FechaDeInicioDeVigencia", vParser.GetString(0, "FechaDeInicioDeVigencia", "")),
                         new XElement("AlicuotaAlDebito", vParser.GetString(0, "AlicuotaAlDebito", "")),
-                        new XElement("AlicuotaAlCredito", vParser.GetString(0, "AlicuotaAlCredito", ""))));
+                        new XElement("AlicuotaAlCredito", vParser.GetString(0, "AlicuotaAlCredito", "")),
+                        new XElement("AlicuotaC1Al4", vParser.GetString(0, "AlicuotaC1Al4", "")),
+                        new XElement("AlicuotaC5", vParser.GetString(0, "AlicuotaC5", "")),
+                        new XElement("AlicuotaC6", vParser.GetString(0, "AlicuotaC6", ""))));
                 return vXElement;
             } catch (XmlException vEx) {
                 throw new GalacException("Error distribuyendo la línea del archivo." , eExceptionManagementType.Uncontrolled, vEx);
