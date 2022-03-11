@@ -245,13 +245,17 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GroupHeader1", "NombreCuenta", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCuentaBancaria", "", "NombreCuenta"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtConceptos", "", "Concepto"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCantOperaciones", "", "DocumentosEfectivo"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "CodigoMoneda"
+         ''gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtConceptos", "", "Concepto"
+         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "Fecha", eFT_DATE
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtITF", "", "MontoITF"
+         gUtilReports.sDefaultConfigurationForIntegerFields refRpt, "txtCantOperaciones", "", "DocumentosEfectivo"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtBaseImponible", "", "MontoEfectivo"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalITF", "", "MontoITF"
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalCantOperaciones", "DocumentosEfectivo", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL, "#"
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalBaseImponible", "MontoEfectivo", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalImpuesto", "MontoITF", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
-         gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape
+         gUtilMargins.sAsignarMargenesGenerales refRpt
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          exito = True
       End If

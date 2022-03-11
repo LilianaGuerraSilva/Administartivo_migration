@@ -327,7 +327,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLFlujoDeCajaHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal CodigoCuenta As String, ByVal ConsecutivoCompania As String, ByVal ImprimirSoloCuentasActivas As Boolean, _
+Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCodigoCuenta As String, ByVal valConsecutivoCompania As String, ByVal valImprimirSoloCuentasActivas As Boolean, _
                                     ByVal valCantidadAImprimir As Boolean, ByVal valRedondeaMontoDebitoBancario As Boolean) As String
    Dim SQL As String
    Dim ComparativoFecha As String
@@ -335,28 +335,26 @@ Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFecha
    On Error GoTo h_ERROR
    Set insViews = New clsBancoVista
    ComparativoFecha = gUtilSQL.fSQLValueBetween("FECHA", valFechaInicial, valFechaFinal)
-   SQL = ""
-   SQL = "SELECT " & gUtilSQL.fSimpleSqlValue("Efectivo") & " as Concepto, "
+   SQL = "SELECT fecha, CodigoMoneda, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", " Round(Monto * CambioAbolivares, 2)", "0") & ") as MontoEfectivo, "
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("generadoPor = '4'", " Round(Monto * CambioAbolivares, 2)", "0") & ") as MontoITF, "
+      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") as MontoEfectivo, "
+      SQL = SQL & "SUM(" & gUtilSQL.getIIF("generadoPor = '4'", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") as MontoITF, "
    Else
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", " Round(Monto * CambioAbolivares, 2,1)", "0") & ") as MontoEfectivo, "
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("generadoPor = '4'", " Round(Monto * CambioAbolivares, 2,1)", "0") & ") as MontoITF, "
+      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", gUtilSQL.fSQLTruncaA2Decimales(" Monto * CambioAbolivares "), "0") & ") as MontoEfectivo, "
+      SQL = SQL & "SUM(" & gUtilSQL.getIIF("generadoPor = '4'", gUtilSQL.fSQLTruncaA2Decimales(" Monto * CambioAbolivares "), "0") & ") as MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") as DocumentosEfectivo, "
-   SQL = SQL & "NombreCuenta "
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") as DocumentosEfectivo, NombreCuenta "
    SQL = SQL & "FROM " & insViews.GetViewNameUnionMovBCtaB
-   SQL = SQL & " WHERE " & insViews.GetViewNameUnionMovBCtaB & ".ConsecutivoCompania" & _
-                     " = " & ConsecutivoCompania & " AND " & ComparativoFecha & " and monto > 0 "
+   SQL = SQL & " WHERE " & insViews.GetViewNameUnionMovBCtaB & ".ConsecutivoCompania" & " = " & valConsecutivoCompania & " AND " & ComparativoFecha & " and monto > 0 "
    If valCantidadAImprimir Then
-      SQL = SQL & "AND CodigoCtaBancaria = " & gUtilSQL.fSimpleSqlValue(CodigoCuenta)
+      SQL = SQL & "AND CodigoCtaBancaria = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
-      If ImprimirSoloCuentasActivas Then
-      SQL = SQL & " AND Status" & _
-                  " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      If valImprimirSoloCuentasActivas Then
+      SQL = SQL & " AND Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
-   SQL = SQL & " GROUP BY NombreCuenta"
+   SQL = SQL & " GROUP BY NombreCuenta, fecha, CodigoMoneda"
+   SQL = SQL & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") > 0 "
+   SQL = SQL & " ORDER BY NombreCuenta, fecha, CodigoMoneda"
    fSQLDeclaracionITF = SQL
    Set insViews = Nothing
 h_EXIT: On Error GoTo 0

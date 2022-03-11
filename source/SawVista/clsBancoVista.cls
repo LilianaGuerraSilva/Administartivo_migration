@@ -44,7 +44,7 @@ Public Function fSqlViewUnionMovBCtaB() As String
    vSQL = vSQL & "cuentaBancaria.CodigoMoneda "
    vSQL = vSQL & "FROM MovimientoBancario "
    vSQL = vSQL & "INNER JOIN cuentabancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo"
+   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
    fSqlViewUnionMovBCtaB = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
