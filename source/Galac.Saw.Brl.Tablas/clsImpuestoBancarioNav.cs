@@ -40,7 +40,7 @@ namespace Galac.Saw.Brl.Tablas {
             return vResult;
         }
 
-        public string BuscaAlicutoaImpTranscBancarias(DateTime valFecha,bool valAlicDebito) {
+        public string BuscaAlicuotaImpTranscBancarias(DateTime valFecha,bool valAlicDebito) {
             string vResult = "";            
             LibGpParams vParams = new LibGpParams();
             StringBuilder SQL = new StringBuilder();
@@ -63,6 +63,38 @@ namespace Galac.Saw.Brl.Tablas {
             } catch(Exception) {
                 throw;
             }          
+        }
+
+        public string BuscaAlicuotasReformaIGTFGO6687(DateTime valFechaDeInicioDeVigencia) {
+            string vResult = "";
+            LibGpParams vParams = new LibGpParams();
+            StringBuilder vSql = new StringBuilder();
+            vParams.AddInDateTime("FechaDeInicioDeVigencia", valFechaDeInicioDeVigencia);
+            try {
+                vSql.AppendLine("SELECT AlicuotaC1Al4 ");
+                vSql.AppendLine("FROM Adm.ImpTransacBancarias");
+                vSql.AppendLine("WHERE AlicuotaC1Al4 > 0");
+                vSql.AppendLine("AND FechaDeInicioDeVigencia = (SELECT MAX(FechaDeInicioDeVigencia) FROM Adm.ImpTransacBancarias WHERE FechaDeInicioDeVigencia <= @FechaDeInicioDeVigencia)");
+                vSql.AppendLine("UNION");
+                vSql.AppendLine("SELECT AlicuotaC5 ");
+                vSql.AppendLine("FROM Adm.ImpTransacBancarias");
+                vSql.AppendLine("WHERE AlicuotaC5 > 0");
+                vSql.AppendLine("AND FechaDeInicioDeVigencia = (SELECT MAX(FechaDeInicioDeVigencia) FROM Adm.ImpTransacBancarias WHERE FechaDeInicioDeVigencia <= @FechaDeInicioDeVigencia)");
+                vSql.AppendLine("UNION");
+                vSql.AppendLine("SELECT AlicuotaC6 ");
+                vSql.AppendLine("FROM Adm.ImpTransacBancarias");
+                vSql.AppendLine("WHERE AlicuotaC6 > 0");
+                vSql.AppendLine("AND FechaDeInicioDeVigencia = (SELECT MAX(FechaDeInicioDeVigencia) FROM Adm.ImpTransacBancarias WHERE FechaDeInicioDeVigencia <= @FechaDeInicioDeVigencia)");
+                XElement vReq = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", -1);
+                if (vReq != null && vReq.HasElements) {
+                    List<string> vListAlicuotas = vReq.Descendants("GpResult")
+                                    .Select(x => x.Value).ToList();
+                    vResult = LibArray.ToList(vListAlicuotas.ToArray(), ";", false);
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
         }
 
         bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
@@ -95,12 +127,18 @@ namespace Galac.Saw.Brl.Tablas {
             string vFechaInicioVigencia = LibXml.GetPropertyString(valRecord,"FechaDeInicioDeVigencia");
             string AlicuotaAlDebito = LibXml.GetPropertyString(valRecord,"AlicuotaAlDebito");
             string AlicuotaAlCredito = LibXml.GetPropertyString(valRecord,"AlicuotaAlCredito");
+			string AlicuotaC1Al4 = LibXml.GetPropertyString(valRecord,"AlicuotaC1Al4");
+			string AlicuotaC5 = LibXml.GetPropertyString(valRecord,"AlicuotaC5");
+			string AlicuotaC6 = LibXml.GetPropertyString(valRecord,"AlicuotaC6");
 
             decimal vDecValue = 0;
             DateTime vDateTimeValue=LibDate.EmptyDate();           
             vResult = DateTime.TryParse(vFechaInicioVigencia,out vDateTimeValue);
             vResult &= decimal.TryParse(AlicuotaAlDebito,out vDecValue);
             vResult &= decimal.TryParse(AlicuotaAlCredito,out vDecValue);
+			vResult &= decimal.TryParse(AlicuotaC1Al4,out vDecValue);
+			vResult &= decimal.TryParse(AlicuotaC5,out vDecValue);
+			vResult &= decimal.TryParse(AlicuotaC6,out vDecValue);
             return vResult;
         }
 
@@ -115,6 +153,9 @@ namespace Galac.Saw.Brl.Tablas {
             vCurrentRecord.FechaDeInicioDeVigencia = LibDate.Today();
             vCurrentRecord.AlicuotaAlDebito = 0;
             vCurrentRecord.AlicuotaAlCredito = 0;
+            vCurrentRecord.AlicuotaC1Al4 = 0;
+            vCurrentRecord.AlicuotaC5 = 0;
+            vCurrentRecord.AlicuotaC6 = 0;
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
@@ -134,6 +175,15 @@ namespace Galac.Saw.Brl.Tablas {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaAlCredito"), null))) {
                     vRecord.AlicuotaAlCredito = LibConvert.ToDec(vItem.Element("AlicuotaAlCredito"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaC1Al4"), null))) {
+                    vRecord.AlicuotaC1Al4 = LibConvert.ToDec(vItem.Element("AlicuotaC1Al4"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaC5"), null))) {
+                    vRecord.AlicuotaC5 = LibConvert.ToDec(vItem.Element("AlicuotaC5"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaC6"), null))) {
+                    vRecord.AlicuotaC6 = LibConvert.ToDec(vItem.Element("AlicuotaC6"));
                 }
                 vResult.Add(vRecord);
             }

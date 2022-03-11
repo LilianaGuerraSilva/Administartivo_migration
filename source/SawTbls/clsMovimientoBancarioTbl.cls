@@ -91,6 +91,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "NumeroDocumento" & gUtilSQL.getVarCharTypeForDB(25) & ", "
    SQL = SQL & "Descripcion " & gUtilSQL.getVarCharTypeForLargeTextForDB() & ", "
    SQL = SQL & "GeneraImpuestoBancario" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "GeneraImpu NOT NULL, "
+   SQL = SQL & "AlicuotaImpBancario " & gUtilSQL.getNumericTypeForDB(12, 2) & ", "
    SQL = SQL & "NroMovimientoRelacionado " & gUtilSQL.getVarCharTypeForDB(15) & ", "
    SQL = SQL & "GeneradoPor " & gUtilSQL.getCharTypeForDB(1) & ", "
    SQL = SQL & "CambioAbolivares " & gUtilSQL.getNumericTypeForDB(12, 2) & ", "

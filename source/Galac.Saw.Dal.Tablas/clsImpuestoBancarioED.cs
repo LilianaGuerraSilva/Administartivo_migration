@@ -44,6 +44,9 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("FechaDeInicioDeVigencia" + InsSql.DateTypeForDb() + " CONSTRAINT FechaDeIni NOT NULL, ");
             SQL.AppendLine("AlicuotaAlDebito" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_ImpBanAlAlDe DEFAULT (0), ");
             SQL.AppendLine("AlicuotaAlCredito" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_ImpBanAlAlCr DEFAULT (0), ");
+            SQL.AppendLine("AlicuotaC1Al4" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_ImpBanAlC14 DEFAULT (0), ");
+            SQL.AppendLine("AlicuotaC5" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_ImpBanAlC5 DEFAULT (0), ");
+            SQL.AppendLine("AlicuotaC6" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_ImpBanAlC6 DEFAULT (0), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_ImpTransacBancarias PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(FechaDeInicioDeVigencia ASC),");
@@ -55,7 +58,8 @@ namespace Galac.Saw.Dal.Tablas {
 
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT FechaDeInicioDeVigencia, AlicuotaAlDebito, AlicuotaAlCredito");
+            SQL.AppendLine("SELECT FechaDeInicioDeVigencia, AlicuotaAlDebito, AlicuotaAlCredito, AlicuotaC1Al4");
+            SQL.AppendLine(", AlicuotaC5, AlicuotaC6");
             SQL.AppendLine(", ImpTransacBancarias.fldTimeStamp, CAST(ImpTransacBancarias.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".ImpTransacBancarias");
             return SQL.ToString();
@@ -66,7 +70,10 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + ",");
             SQL.AppendLine("@FechaDeInicioDeVigencia" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@AlicuotaAlDebito" + InsSql.DecimalTypeForDb(25,4) + " = 0,");
-            SQL.AppendLine("@AlicuotaAlCredito" + InsSql.DecimalTypeForDb(25,4) + " = 0");
+            SQL.AppendLine("@AlicuotaAlCredito" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@AlicuotaC1Al4" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@AlicuotaC5" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@AlicuotaC6" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
             return SQL.ToString();
         }
 
@@ -80,11 +87,17 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("            INSERT INTO " + DbSchema + ".ImpTransacBancarias(");
             SQL.AppendLine("            FechaDeInicioDeVigencia,");
             SQL.AppendLine("            AlicuotaAlDebito,");
-            SQL.AppendLine("            AlicuotaAlCredito)");
+            SQL.AppendLine("            AlicuotaAlCredito,");
+            SQL.AppendLine("            AlicuotaC1Al4,");
+            SQL.AppendLine("            AlicuotaC5,");
+            SQL.AppendLine("            AlicuotaC6)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @FechaDeInicioDeVigencia,");
             SQL.AppendLine("            @AlicuotaAlDebito,");
-            SQL.AppendLine("            @AlicuotaAlCredito)");
+            SQL.AppendLine("            @AlicuotaAlCredito,");
+            SQL.AppendLine("            @AlicuotaC1Al4,");
+            SQL.AppendLine("            @AlicuotaC5,");
+            SQL.AppendLine("            @AlicuotaC6)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
             SQL.AppendLine("        RETURN @ReturnValue ");
@@ -98,6 +111,9 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("@FechaDeInicioDeVigencia" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@AlicuotaAlDebito" + InsSql.DecimalTypeForDb(25,4) + ",");
             SQL.AppendLine("@AlicuotaAlCredito" + InsSql.DecimalTypeForDb(25,4) + ",");
+            SQL.AppendLine("@AlicuotaC1Al4" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@AlicuotaC5" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@AlicuotaC6" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -124,7 +140,10 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".ImpTransacBancarias");
             SQL.AppendLine("            SET AlicuotaAlDebito = @AlicuotaAlDebito,");
-            SQL.AppendLine("               AlicuotaAlCredito = @AlicuotaAlCredito");
+            SQL.AppendLine("               AlicuotaAlCredito = @AlicuotaAlCredito,");
+            SQL.AppendLine("               AlicuotaC1Al4 = @AlicuotaC1Al4,");
+            SQL.AppendLine("               AlicuotaC5 = @AlicuotaC5,");
+            SQL.AppendLine("               AlicuotaC6 = @AlicuotaC6");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND FechaDeInicioDeVigencia = @FechaDeInicioDeVigencia");
             SQL.AppendLine("         SET @ReturnValue = @@ROWCOUNT");
@@ -228,6 +247,9 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("         FechaDeInicioDeVigencia,");
             SQL.AppendLine("         AlicuotaAlDebito,");
             SQL.AppendLine("         AlicuotaAlCredito,");
+            SQL.AppendLine("         AlicuotaC1Al4,");
+            SQL.AppendLine("         AlicuotaC5,");
+            SQL.AppendLine("         AlicuotaC6,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".ImpTransacBancarias");
@@ -262,6 +284,9 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      AlicuotaAlDebito,");
             SQL.AppendLine("      AlicuotaAlCredito,");
+			SQL.AppendLine("      AlicuotaC1Al4,");
+            SQL.AppendLine("      AlicuotaC5,");
+            SQL.AppendLine("      AlicuotaC6,");
             SQL.AppendLine("      FechaDeInicioDeVigencia");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_ImpTransacBancarias_B1");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
@@ -305,7 +330,11 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + ",");
             SQL.AppendLine("@FechaDeInicioDeVigencia" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@AlicuotaAlDebito" + InsSql.DecimalTypeForDb(25,4) + ",");
-            SQL.AppendLine("@AlicuotaAlCredito" + InsSql.DecimalTypeForDb(25,4));
+            SQL.AppendLine("@AlicuotaAlCredito" + InsSql.DecimalTypeForDb(25,4) + ",");
+			SQL.AppendLine("@AlicuotaC1Al4" + InsSql.DecimalTypeForDb(25,4) + ",");
+			SQL.AppendLine("@AlicuotaC5" + InsSql.DecimalTypeForDb(25,4) + ",");
+			SQL.AppendLine("@AlicuotaC6" + InsSql.DecimalTypeForDb(25,4));
+			
             return SQL.ToString();
         }
 
@@ -315,17 +344,26 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("	BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".ImpTransacBancarias");
             SQL.AppendLine("            SET AlicuotaAlDebito = @AlicuotaAlDebito,");
-            SQL.AppendLine("               AlicuotaAlCredito = @AlicuotaAlCredito");
+            SQL.AppendLine("               AlicuotaAlCredito = @AlicuotaAlCredito,");
+			SQL.AppendLine("               AlicuotaC1Al4 = @AlicuotaC1Al4,");
+			SQL.AppendLine("               AlicuotaC5 = @AlicuotaC5,");
+			SQL.AppendLine("               AlicuotaC6 = @AlicuotaC6");
             SQL.AppendLine("               WHERE FechaDeInicioDeVigencia = @FechaDeInicioDeVigencia");
             SQL.AppendLine("	IF @@ROWCOUNT = 0");
             SQL.AppendLine("        INSERT INTO " + DbSchema + ".ImpTransacBancarias(");
             SQL.AppendLine("            FechaDeInicioDeVigencia,");
             SQL.AppendLine("            AlicuotaAlDebito,");
-            SQL.AppendLine("            AlicuotaAlCredito)");
+			SQL.AppendLine("            AlicuotaAlCredito,");
+			SQL.AppendLine("            AlicuotaC1Al4,");
+			SQL.AppendLine("            AlicuotaC5,");
+            SQL.AppendLine("            AlicuotaC6)");
             SQL.AppendLine("        VALUES(");
             SQL.AppendLine("            @FechaDeInicioDeVigencia,");
             SQL.AppendLine("            @AlicuotaAlDebito,");
-            SQL.AppendLine("            @AlicuotaAlCredito)");
+			SQL.AppendLine("            @AlicuotaAlCredito,");
+			SQL.AppendLine("            @AlicuotaC1Al4,");
+			SQL.AppendLine("            @AlicuotaC5,");
+            SQL.AppendLine("            @AlicuotaC6)");
             SQL.AppendLine(" 	IF @@ERROR = 0");
             SQL.AppendLine(" 		COMMIT TRAN");
             SQL.AppendLine(" 	ELSE");
