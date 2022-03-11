@@ -10,62 +10,6 @@ Begin VB.Form frmInformesDeBancos
    LinkTopic       =   "Form1"
    ScaleHeight     =   4830
    ScaleWidth      =   10080
-   Begin VB.Frame framePeriodo 
-      BackColor       =   &H00F3F3F3&
-      Caption         =   "Periodo a Declarar"
-      ForeColor       =   &H80000010&
-      Height          =   675
-      Left            =   3360
-      TabIndex        =   36
-      Top             =   1200
-      Width           =   6015
-      Begin VB.TextBox txtAno 
-         Height          =   285
-         Left            =   5220
-         MaxLength       =   4
-         TabIndex        =   13
-         Top             =   240
-         Width           =   735
-      End
-      Begin VB.TextBox txtMes 
-         Height          =   285
-         Left            =   4620
-         MaxLength       =   2
-         TabIndex        =   12
-         Top             =   240
-         Width           =   495
-      End
-      Begin VB.ComboBox cmbQuincenaAGenerar 
-         Height          =   315
-         Left            =   1620
-         TabIndex        =   11
-         Top             =   240
-         Width           =   1635
-      End
-      Begin VB.Label lblMesAno 
-         AutoSize        =   -1  'True
-         BackColor       =   &H00F3F3F3&
-         BackStyle       =   0  'Transparent
-         Caption         =   "Mes/Año "
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Left            =   3840
-         TabIndex        =   38
-         Top             =   300
-         Width           =   705
-      End
-      Begin VB.Label lblQuincenaAGenerar 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "Quincena a Generar"
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Left            =   120
-         TabIndex        =   37
-         Top             =   300
-         Width           =   1440
-      End
-   End
    Begin VB.CheckBox chkAgruparPorBeneficiario 
       Alignment       =   1  'Right Justify
       BackColor       =   &H00F3F3F3&
@@ -473,9 +417,6 @@ Private Const CM_OPT_FLUJO_DE_CAJA_HISTORICO As Integer = 4
 Private Const CM_OPT_TRANSACCIONES_POR_BENEFICIARIO As Integer = 6
 Private Const CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS As Integer = 7
 Private Const CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO As Integer = 8
-Private Const CM_QDI_PrimeraQuincena As Integer = 0
-Private Const CM_QDI_SegundaQuincena As Integer = 1
-Private Const CM_QDI_TodoElMes As Integer = 2
 Private mDondeImprimir As enum_DondeImprimir
 Private mInformeSeleccionado As Integer
 Private insConceptoBancario As Object
@@ -665,7 +606,6 @@ Public Sub sInitLookAndFeel()
    gEnumReport.FillComboBoxWithReporteDetalladoResumido cmbSeleccion
    cmbSeleccion.Text = gEnumReport.enum_ReporteDetalladoResumidoToString(eRP_DETALLADO)
    cmbSeleccion.ListIndex = 1
-   FillComboBoxWithQuincenaMes (False)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -695,82 +635,7 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Unload", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-Private Sub txtAno_GotFocus()
-   On Error GoTo h_ERROR
-   gAPI.SelectAllText txtAno
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_GotFocus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Sub txtAno_KeyDown(KeyCode As Integer, Shift As Integer)
-  On Error GoTo h_ERROR
-  sCheckForSpecialKeys KeyCode, Shift
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Sub txtAno_KeyPress(KeyAscii As Integer)
-   On Error GoTo h_ERROR
-   If gAPI.EsUnCaracterAsciiValidoParaCampoTipoIntegerSoloPositivo(KeyAscii) Then
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_KeyPress", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Sub txtAno_Validate(Cancel As Boolean)
-   On Error GoTo h_ERROR
-   If Not txtAno.Visible Then
-      GoTo h_EXIT
-   End If
-   If LenB(txtAno.Text) = 0 Then
-      sShowMessageForRequiredFields "Año", txtAno
-      Cancel = True
-   ElseIf gTexto.DfLen(txtAno.Text) < 4 Then
-      gMessage.Advertencia "Debe introducir un 'Año' de cuatro dígitos'"
-      Cancel = True
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Sub txtMes_KeyPress(KeyAscii As Integer)
-   On Error GoTo h_ERROR
-   If gAPI.EsUnCaracterAsciiValidoParaCampoTipoIntegerSoloPositivo(KeyAscii) Then
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_KeyPress", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Sub txtMes_GotFocus()
-   On Error GoTo h_ERROR
-   gAPI.SelectAllText txtMes
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_GotFocus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Sub txtMes_KeyDown(KeyCode As Integer, Shift As Integer)
-   On Error GoTo h_ERROR
-   sCheckForSpecialKeys KeyCode, Shift
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Sub txtMes_Validate(Cancel As Boolean)
-   On Error GoTo h_ERROR
-   If Not txtMes.Visible Then
-      GoTo h_EXIT
-   End If
-   If LenB(txtMes.Text) = 0 Then
-      sShowMessageForRequiredFields "Mes", txtMes
-      Cancel = True
-   ElseIf gConvert.ConvierteAInteger(txtMes.Text) < 1 Or gConvert.ConvierteAInteger(txtMes.Text) > 12 Then
-      gMessage.Advertencia "Debe introducir un numero de 'Mes' válido"
-      Cancel = True
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
+
 Private Sub txtNumeroDeCuenta_GotFocus()
    On Error GoTo h_ERROR
    gAPI.SelectAllText txtNumeroDeCuenta
@@ -1151,7 +1016,6 @@ Private Sub sOcultaCampos()
    frameConcepto.Top = 1275
    frameSeleccion.Visible = False
    chkAgruparPorBeneficiario.Visible = False
-   framePeriodo.Visible = False
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultaCampos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1175,13 +1039,13 @@ End Function
 Private Sub sImprimirDeclaracionITF()
    On Error GoTo h_ERROR
    lblDatosDelReporte.Caption = "Datos del Informe - Declaración a las Transacciones Financieras"
-   framePeriodo.Visible = True
    frameCuentaBancariaYConcepto.Visible = True
    frameCuentaBancariaYConcepto.Caption = "Cuenta Bancaria"
    frameCuentaBancaria.Top = 270
    frameCuentaBancaria.Visible = True
    frameConcepto.Top = 1275
    frameConcepto.Visible = False
+   frameFechas.Visible = True
    If CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
 '      frameCuentaBancaria.Visible = True
       sOcultarOMostrarDatosCuentaBancaria True
@@ -1202,27 +1066,11 @@ Private Sub sEjecutaElReporteDeclaracionITF()
    Dim insBancosSQL As clsBancosSQL
    On Error GoTo h_ERROR
    Set insBancosSQL = New clsBancosSQL
-
-   If txtMes.Text = "" Then
-      sShowMessageForRequiredFields "Mes", txtMes
-      GoTo h_EXIT
-   End If
-   If txtAno.Text = "" Then
-      sShowMessageForRequiredFields "Año", txtAno
-      GoTo h_EXIT
-   End If
-   FechaInicial = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(txtMes.Text, txtAno.Text, True)
-   FechaFinal = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(txtMes.Text, txtAno.Text, False)
-   If gAPI.SelectedElementInComboBoxToString(cmbQuincenaAGenerar) = CM_QuincenaMes(CM_QDI_PrimeraQuincena) Then
-      FechaFinal = gUtilDate.fColocaDiaEnFecha(15, FechaFinal)
-   ElseIf gAPI.SelectedElementInComboBoxToString(cmbQuincenaAGenerar) = CM_QuincenaMes(CM_QDI_SegundaQuincena) Then
-      FechaInicial = gUtilDate.fColocaDiaEnFecha(16, FechaInicial)
-   End If
+   FechaInicial = dtpFechaInicial.Value
+   FechaFinal = dtpFechaFinal.Value
    Set reporte = New DDActiveReports2.ActiveReport
    Set insConfigurar = New clsBancoRpt
-'   SqlDelReporte = fSQLDeclaracionITF(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text)
    SqlDelReporte = insBancosSQL.fSQLDeclaracionITF(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text, gProyParametrosCompania.GetConsecutivoCompania, gAPI.fGetCheckBoxValue(chkImprimirSoloCuentasActivas), CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno), gProyParametrosCompania.GetRedondeaMontoDebitoBancario)
-
    If insConfigurar.fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancieras(reporte, SqlDelReporte, FechaInicial, FechaFinal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False, False)) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Declaración del Impuesto a las Transacciones Financieras"
    End If
@@ -1231,36 +1079,6 @@ h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteDeclaracionITF", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-Private Sub FillComboBoxWithQuincenaMes(ByVal valIncluirTodoElMes As Boolean)
-   Dim nCount As Integer
-   On Error GoTo h_ERROR
-   cmbQuincenaAGenerar.Clear
-   nCount = 0
-   cmbQuincenaAGenerar.Text = CM_QuincenaMes(CM_QDI_PrimeraQuincena)
-   cmbQuincenaAGenerar.List(nCount) = CM_QuincenaMes(CM_QDI_PrimeraQuincena)
-   nCount = nCount + 1
-   cmbQuincenaAGenerar.List(nCount) = CM_QuincenaMes(CM_QDI_SegundaQuincena)
-   If valIncluirTodoElMes Then
-      nCount = nCount + 1
-      cmbQuincenaAGenerar.List(nCount) = CM_QuincenaMes(CM_QDI_TodoElMes)
-   End If
-   cmbQuincenaAGenerar.Width = gAPI.sugestedWidthForComboBox(cmbQuincenaAGenerar)
-   cmbQuincenaAGenerar.ListIndex = 0
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "FillComboBoxWithQuincenaDeclaracionInformativa", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Function CM_QuincenaMes(ByVal valQuincenaADeclarar As Integer) As String
-   On Error GoTo h_ERROR
-   Select Case valQuincenaADeclarar
-      Case CM_QDI_PrimeraQuincena: CM_QuincenaMes = "Primera Quincena"
-      Case CM_QDI_SegundaQuincena: CM_QuincenaMes = "Segunda Quincena"
-      Case CM_QDI_TodoElMes: CM_QuincenaMes = "Todo el Mes"
-   End Select
-h_EXIT: On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "enumQuincenaDeclaracionInformativaToString", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
 
 Private Sub sImprimirTransaccionesXCuentaYConcepto()
    On Error GoTo h_ERROR
@@ -1345,7 +1163,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteTransaccionesXConceptoXCuentaBancaria", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, ByVal valConexionAOS As Object, ByVal valInsCuenta As Object, ByVal valGMonedaLocalActual As Object, ByVal valInsConceptoBancario As Object)
+Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, ByVal valConexionAOS As Object, ByVal valInsCuenta As Object, ByVal valGMonedaLocalActual As Object, ByVal valInsConceptoBancario As Object, ByVal valProyParametrosCompania As Object)
 On Error GoTo h_ERROR
    Set gProyCompaniaActual = valCompaniaActual
    Set insCnxAos = valConexionAOS
