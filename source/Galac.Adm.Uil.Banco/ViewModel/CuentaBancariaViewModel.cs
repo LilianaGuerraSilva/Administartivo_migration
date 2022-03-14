@@ -41,6 +41,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private const string GeneraMovBancarioPorIGTFPropertyName = "GeneraMovBancarioPorIGTF";
 		private const string NombreOperadorPropertyName = "NombreOperador";
 		private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
+		private const string IsEnabledGeneraMovBancarioPorIGTFPropertyName = "IsEnabledGeneraMovBancarioPorIGTF";
 		#endregion
 
 		#region Variables
@@ -285,6 +286,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.CodigoMoneda = value;
 					IsDirty = true;
 					RaisePropertyChanged(CodigoMonedaPropertyName);
+					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
 		}
@@ -521,6 +523,12 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
+		public bool IsVisibleITFDebitoBancario {
+			get {
+				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
+			}
+		}
+
 		public bool IsVisibleITFCreditoBancario {
 			get {
 				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaCreditoBancario") && !EsEcuador();
@@ -533,11 +541,15 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		public bool NotIsInMonedaLocal {
+		public bool IsEnabledGeneraMovBancarioPorIGTF {
 			get {
 				Saw.Lib.clsNoComunSaw vMonedaLocal = new Saw.Lib.clsNoComunSaw();
 				vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-				return !vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda);
+				if (vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda)) {
+					GeneraMovBancarioPorIGTF = true;
+					return false;
+				}
+				return true;
 			}
 		}
 		#endregion //Propiedades

@@ -13927,6 +13927,7 @@ Public Function enumTipoAlicPorContIGTFToString(TipoAlicPorContIGTF As enum_Tipo
       Case eTAPCIGTF_Cont6: enumTipoAlicPorContIGTFToString = "Contribuyente 6"
       Case Else
          enumTipoAlicPorContIGTFToString = enumTipoAlicPorContIGTFToString(0)
+   End Select
 End Function
 
 Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, Optional ByVal showMessage As Boolean = True) As Integer
