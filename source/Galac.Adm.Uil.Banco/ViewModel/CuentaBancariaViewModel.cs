@@ -523,13 +523,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		public bool IsVisibleITFDebitoBancario {
+		public bool IsEnabledITFDebitoBancario {
 			get {
 				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
 			}
 		}
 
-		public bool IsVisibleITFCreditoBancario {
+		public bool IsEnabledITFCreditoBancario {
 			get {
 				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaCreditoBancario") && !EsEcuador();
 			}
