@@ -54,7 +54,9 @@ namespace Galac.Adm.Dal.Banco {
 			vParams.AddInString("CuentaContable", valRecord.CuentaContable, 30);
 			vParams.AddInString("CodigoMoneda", valRecord.CodigoMoneda, 4);
 			vParams.AddInBoolean("EsCajaChica", valRecord.EsCajaChicaAsBool);
-			vParams.AddInString("NombreOperador", ( ( CustomIdentity ) Thread.CurrentPrincipal.Identity ).Login, 10);
+			vParams.AddInEnum("TipoDeAlicuotaPorContribuyente", valRecord.TipoDeAlicuotaPorContribuyenteAsDB);
+			vParams.AddInBoolean("GeneraMovBancarioPorIGTF", valRecord.GeneraMovBancarioPorIGTFAsBool);
+			vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
 			vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
 			if (valAction == eAccionSR.Modificar) {
 				vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
@@ -74,7 +76,7 @@ namespace Galac.Adm.Dal.Banco {
 			vParams.AddInInteger("mAction", valmAction);
 			vParams.AddInDecimal("MontoOriginal", LibConvert.ToDec(valMontoOriginal, 2), 2);
 			vParams.AddInBoolean("SeModificoTipoConcepto", valSeModificoTipoConcepto);
-			vParams.AddInString("NombreOperador", ( ( CustomIdentity ) Thread.CurrentPrincipal.Identity ).Login, 10);
+			vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
 			vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
 			vResult = vParams.Get();
 			return vResult;
@@ -184,7 +186,7 @@ namespace Galac.Adm.Dal.Banco {
 			StringBuilder sql = new StringBuilder("SELECT " + vDbSchema + ".SettValueByCompany.Value AS Valor, " + vDbSchema + ".SettValueByCompany.NameSettDefinition FROM " + vDbSchema + ".SettDefinition INNER JOIN " + vDbSchema + ".SettValueByCompany ON " + vDbSchema + ".SettDefinition.Name = " + vDbSchema + ".SettValueByCompany.NameSettDefinition WHERE (" + vDbSchema + ".SettDefinition.Name = '" + ValParametro + "') AND (" + vDbSchema + ".SettValueByCompany.ConsecutivoCompania = " + valConsecutivoCompania + ")", 300);
 			XElement Auxiliar = instanciaDal.QueryInfo(eProcessMessageType.Query, null, sql);
 			Object vValor = LibXml.GetPropertyString(Auxiliar, "Valor");
-			return ( T ) vValor;
+			return (T) vValor;
 		}
 
 		[PrincipalPermission(SecurityAction.Demand, Role = "Cuenta Bancaria.Eliminar")]
@@ -265,7 +267,7 @@ namespace Galac.Adm.Dal.Banco {
 		[PrincipalPermission(SecurityAction.Demand, Role = "Cuenta Bancaria.Modificar")]
 		LibResponse ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>.Update(IList<CuentaBancaria> refRecord) {
 			LibResponse vResult = new LibResponse();
-			string vErrMsg ="";
+			string vErrMsg = "";
 			CurrentRecord = refRecord[0];
 			if (ExecuteProcessBeforeUpdate()) {
 				if (Validate(eAccionSR.Modificar, out vErrMsg)) {
@@ -313,7 +315,7 @@ namespace Galac.Adm.Dal.Banco {
 
 		private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, string valCodigo) {
 			bool vResult = true;
-			if (( valAction == eAccionSR.Consultar ) || ( valAction == eAccionSR.Eliminar )) {
+			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
 				return true;
 			}
 			if (valConsecutivoCompania <= 0) {
@@ -325,7 +327,7 @@ namespace Galac.Adm.Dal.Banco {
 
 		private bool IsValidCodigo(eAccionSR valAction, int valConsecutivoCompania, string valCodigo) {
 			bool vResult = true;
-			if (( valAction == eAccionSR.Consultar ) || ( valAction == eAccionSR.Eliminar )) {
+			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
 				return true;
 			}
 			valCodigo = LibString.Trim(valCodigo);
@@ -343,7 +345,7 @@ namespace Galac.Adm.Dal.Banco {
 
 		private bool IsValidNumeroCuenta(eAccionSR valAction, string valNumeroCuenta) {
 			bool vResult = true;
-			if (( valAction == eAccionSR.Consultar ) || ( valAction == eAccionSR.Eliminar )) {
+			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
 				return true;
 			}
 			valNumeroCuenta = LibString.Trim(valNumeroCuenta);
@@ -356,7 +358,7 @@ namespace Galac.Adm.Dal.Banco {
 
 		private bool IsValidNombreCuenta(eAccionSR valAction, string valNombreCuenta) {
 			bool vResult = true;
-			if (( valAction == eAccionSR.Consultar ) || ( valAction == eAccionSR.Eliminar )) {
+			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
 				return true;
 			}
 			valNombreCuenta = LibString.Trim(valNombreCuenta);
@@ -369,7 +371,7 @@ namespace Galac.Adm.Dal.Banco {
 
 		private bool IsValidCodigoBanco(eAccionSR valAction, int valCodigoBanco) {
 			bool vResult = true;
-			if (( valAction == eAccionSR.Consultar ) || ( valAction == eAccionSR.Eliminar )) {
+			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
 				return true;
 			}
 			if (valCodigoBanco < 0) {
@@ -381,7 +383,7 @@ namespace Galac.Adm.Dal.Banco {
 
 		private bool IsValidNombreDeLaMoneda(eAccionSR valAction, string valNombreDeLaMoneda) {
 			bool vResult = true;
-			if (( valAction == eAccionSR.Consultar ) || ( valAction == eAccionSR.Eliminar )) {
+			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
 				return true;
 			}
 			valNombreDeLaMoneda = LibString.Trim(valNombreDeLaMoneda);
@@ -443,7 +445,7 @@ namespace Galac.Adm.Dal.Banco {
 			StringBuilder vSql = new StringBuilder();
 
 			string vWhere = insQAdvSql.SqlIntValueWithAnd("", "dbo.MovimientoBancario.ConsecutivoCompania", valConsecutivoCompania);
-			vWhere = insQAdvSql.SqlEnumValueWithAnd(vWhere, "dbo.MovimientoBancario.GeneradoPor", ( int ) Galac.Adm.Ccl.Banco.eGeneradoPor.ReposicionDeCajaChica);
+			vWhere = insQAdvSql.SqlEnumValueWithAnd(vWhere, "dbo.MovimientoBancario.GeneradoPor", (int) Galac.Adm.Ccl.Banco.eGeneradoPor.ReposicionDeCajaChica);
 			vWhere = insQAdvSql.SqlValueWithAnd(vWhere, "CodigoCtaBancaria", valCodigoCuentaBancaria);
 			vWhere = insQAdvSql.WhereSql(vWhere);
 			vSql.AppendLine("SELECT ");
@@ -453,7 +455,7 @@ namespace Galac.Adm.Dal.Banco {
 			vSql.AppendLine("	Adm.Rendicion ON  Adm.Rendicion.ConsecutivoCompania = dbo.MovimientoBancario.ConsecutivoCompania ");
 			vSql.AppendLine("	AND   Adm.Rendicion.CodigoCtaBancariaCajaChica  = dbo.MovimientoBancario.CodigoCtaBancaria  ");
 			vSql.AppendLine(vWhere);
-			vResultset = ( ( ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>> ) this ).QueryInfo(eProcessMessageType.Query, "", vSql);
+			vResultset = ((ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>) this).QueryInfo(eProcessMessageType.Query, "", vSql);
 			return vResultset;
 		}
 
@@ -470,7 +472,7 @@ namespace Galac.Adm.Dal.Banco {
 			vSql.AppendLine("    EsCajaChica ");
 			vSql.AppendLine("FROM Saw.CuentaBancaria ");
 			vSql.AppendLine(vWhere);
-			vResultset = ( ( ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>> ) this ).QueryInfo(eProcessMessageType.Query, "", vSql);
+			vResultset = ((ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>) this).QueryInfo(eProcessMessageType.Query, "", vSql);
 			return vResultset;
 		}
 
@@ -486,7 +488,7 @@ namespace Galac.Adm.Dal.Banco {
 			vSql.AppendLine("    CodigoCtaBancaria ");
 			vSql.AppendLine("FROM dbo.MovimientoBancario ");
 			vSql.AppendLine(vWhere);
-			vResultset = ( ( ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>> ) this ).QueryInfo(eProcessMessageType.Query, "", vSql);
+			vResultset = ((ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>) this).QueryInfo(eProcessMessageType.Query, "", vSql);
 			return vResultset;
 		}
 		#endregion
@@ -500,7 +502,9 @@ namespace Galac.Adm.Dal.Banco {
 			return new LibDataReport().GetDataTableForReport(valSpName, valXmlParamsExpression, valCmdTimeout);
 		}
 		#endregion ////Miembros de ILibDataRpt
+
 		#endregion //Metodos Generados
+
 	} //End of class clsCuentaBancariaDat
 
 } //End of namespace Galac.Adm.Dal.Banco
