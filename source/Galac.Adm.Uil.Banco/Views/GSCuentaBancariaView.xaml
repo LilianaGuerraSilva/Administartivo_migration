@@ -208,32 +208,47 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Label
-					Name="lblManejaCreditoBancario"
-					Grid.Row="0"
-					Grid.Column="0"
-					Content="Crédito Bancario"
-					Style="{StaticResource LabelPrompt}"
-					Visibility="{Binding Path=IsVisibleITFCreditoBancario, Converter={StaticResource boolToVisibilityConverter}}" />
-				<CheckBox
-					Name="chkManejaCreditoBancario"
-					Grid.Row="0"
-					Grid.Column="1"
-					IsChecked="{Binding Path=ManejaCreditoBancario}"
-					IsEnabled="{Binding Path=IsEnabled}"
-					Style="{StaticResource CheckBoxStyle}"
-					Visibility="{Binding Path=IsVisibleITFCreditoBancario, Converter={StaticResource boolToVisibilityConverter}}" />
-				<!--<Label Grid.Row="0" Grid.Column="2" Name="lblManejaDebitoBancario" Content="Debito bancario" Style="{StaticResource LabelPrompt}" Content="{Binding Path=TituloDebito}"  />-->
-				<CheckBox
-					Name="chkManejaDebitoBancario"
-					Grid.Row="0"
-					Grid.Column="3"
-					HorizontalAlignment="Left"
-					Content="{Binding Path=TituloDebito}"
-					IsChecked="{Binding Path=ManejaDebitoBancario}"
-					IsEnabled="{Binding Path=IsEnabled}"
-					Style="{StaticResource CheckBoxStyle}"
-					Visibility="{Binding Path=IsVisibleITF, Converter={StaticResource boolToVisibilityConverter}}" />
+				<Grid Grid.Row="0" Grid.ColumnSpan="3">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<Label
+						Name="lblManejaCreditoBancario"
+						Grid.Row="0"
+						Grid.Column="0"
+						Margin="3,0"
+						Content="Crédito Bancario"
+						Style="{StaticResource LabelPrompt}"
+						Visibility="{Binding Path=IsVisibleITFCreditoBancario, Converter={StaticResource boolToVisibilityConverter}}" />
+					<CheckBox
+						Name="chkManejaCreditoBancario"
+						Grid.Row="0"
+						Grid.Column="1"
+						Margin="10,3"
+						IsChecked="{Binding Path=ManejaCreditoBancario}"
+						IsEnabled="{Binding Path=IsEnabled}"
+						Style="{StaticResource CheckBoxStyle}"
+						Visibility="{Binding Path=IsVisibleITFCreditoBancario, Converter={StaticResource boolToVisibilityConverter}}" />
+					<!--<Label Grid.Row="0" Grid.Column="2" Name="lblManejaDebitoBancario" Content="Debito bancario" Style="{StaticResource LabelPrompt}" Content="{Binding Path=TituloDebito}"  />-->
+					<CheckBox
+						Name="chkManejaDebitoBancario"
+						Grid.Row="0"
+						Grid.Column="2"
+						Margin="10,3"
+						HorizontalAlignment="Left"
+						Content="{Binding Path=TituloDebito}"
+						IsChecked="{Binding Path=ManejaDebitoBancario}"
+						IsEnabled="{Binding Path=IsEnabled}"
+						Style="{StaticResource CheckBoxStyle}"
+						Visibility="{Binding Path=IsVisibleITF, Converter={StaticResource boolToVisibilityConverter}}" />
+				</Grid>
+
 				<Label
 					Name="lblTipoDeAlicuotaPorContribuyente"
 					Grid.Row="1"
@@ -244,8 +259,7 @@
 					Name="cmbTipoDeAlicuotaPorContribuyente"
 					Grid.Row="1"
 					Grid.Column="1"
-					Grid.ColumnSpan="2"
-					Width="200"
+					Width="194"
 					IsEnabled="{Binding Path=IsEnabled}"
 					IsSynchronizedWithCurrentItem="True"
 					ItemsSource="{Binding Path=ArrayTipoAlicPorContIGTF}"
@@ -256,17 +270,16 @@
 					Grid.Row="2"
 					Grid.Column="0"
 					Content="Genera movimiento bancario de egreso por IGTF"
-					Style="{StaticResource LabelPrompt}"
-					Visibility="{Binding Path=NotIsInMonedaLocal, Converter={StaticResource boolToVisibilityConverter}}" />
+					Style="{StaticResource LabelPrompt}" />
 				<CheckBox
 					Name="chkGeneraMovBancarioPorIGTF"
 					Grid.Row="2"
 					Grid.Column="1"
+					Margin="3,8,0,8"
 					HorizontalAlignment="Left"
 					IsChecked="{Binding Path=GeneraMovBancarioPorIGTF}"
 					IsEnabled="{Binding Path=IsEnabled}"
-					Style="{StaticResource CheckBoxStyle}"
-					Visibility="{Binding Path=NotIsInMonedaLocal, Converter={StaticResource boolToVisibilityConverter}}" />
+					Style="{StaticResource CheckBoxStyle}" />
 			</Grid>
 		</GroupBox>
 
