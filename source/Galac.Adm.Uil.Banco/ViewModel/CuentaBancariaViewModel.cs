@@ -535,7 +535,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool NotIsInMonedaLocal {
 			get {
-				Saw.Lib.clsNoComunSaw vMonedaLocal = null;
+				Saw.Lib.clsNoComunSaw vMonedaLocal = new Saw.Lib.clsNoComunSaw();
 				vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
 				return !vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda);
 			}
