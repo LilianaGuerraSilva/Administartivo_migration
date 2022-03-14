@@ -36,7 +36,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup>    
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
@@ -114,6 +114,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Reportes\clsCuentaBancariaInformesViewModel.cs" />
+    <Compile Include="Reportes\clsSaldosBancariosViewModel.cs" />
+    <Compile Include="Reportes\GSSaldosBancarios.xaml.cs">
+      <DependentUpon>GSSaldosBancarios.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UIMefBancoBeneficiario.cs" />
     <Compile Include="UIMefBancoConceptoBancario.cs" />
     <Compile Include="UIMefBancoCuentaBancaria.cs" />
@@ -135,6 +140,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Reportes\GSSaldosBancarios.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -163,6 +172,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+  <ProjectReference Include="..\Galac.Adm.Rpt.Banco\Galac.Adm.Rpt.Banco.csproj">
+      <Project>{57a8fb4e-47a1-4a4f-aeb5-7a1f55d69812}</Project>
+      <Name>Galac.Adm.Rpt.Banco</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Banco\Galac.Adm.Brl.Banco.csproj">
       <Project>{a7b9fb1e-47a1-4a4f-aeb5-7aef55d39b11}</Project>
       <Name>Galac.Adm.Brl.Banco</Name>

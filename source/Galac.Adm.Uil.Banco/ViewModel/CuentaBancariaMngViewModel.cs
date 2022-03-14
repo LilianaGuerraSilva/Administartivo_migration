@@ -19,36 +19,27 @@ using LibGalac.Aos.Uil;
 using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.Banco.ViewModel {
-
     public class CuentaBancariaMngViewModel : LibMngViewModelMfc<CuentaBancariaViewModel, CuentaBancaria> {
         #region Propiedades
-
         public override string ModuleName {
             get { return "Cuenta Bancaria"; }
         }
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-
-        public LibXmlMemInfo AppMemoryInfo { get; set; }
-        */
-        #endregion //Codigo Ejemplo
+        
+        public RelayCommand InformesCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
+		
         #region Constructores
-
         public CuentaBancariaMngViewModel()
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, Codigo";
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            OrderByDirection = "DESC";
-            AppMemoryInfo = LibGlobalValues.Instance.GetAppMemInfo();
-        */
-        #endregion //Codigo Ejemplo
         }
         #endregion //Constructores
-        #region Metodos Generados
 
+        #region Metodos Generados
         protected override CuentaBancariaViewModel CreateNewElement(CuentaBancaria valModel, eAccionSR valAction) {
             var vNewModel = valModel;
             if (vNewModel == null) {
@@ -76,16 +67,19 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
         protected override void InitializeCommands() {
            base.InitializeCommands();
            RecalcularSaldoCommand = new RelayCommand(ExecuteRecalcularSaldoCommand, CanExecuteRecalcularSaldoCommand);
-        }
+           InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
+		}
 
         protected override void InitializeRibbon() {
            base.InitializeRibbon();
 
            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
               RibbonData.TabDataCollection[0].AddTabGroupData(CreateRecalcularSaldoRibbonGroup());
-           }
+              RibbonData.TabDataCollection[0].AddTabGroupData(CreateInformesRibbonGroup());
+		   }
         }
         #endregion //Metodos Generados
+
         protected override void ExecuteCommandsRaiseCanExecuteChanged() {
            base.ExecuteCommandsRaiseCanExecuteChanged();
            RecalcularSaldoCommand.RaiseCanExecuteChanged();
@@ -104,6 +98,18 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
            return vResult;
         }
 
+        private LibRibbonGroupData CreateInformesRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Informes",
+                Command = InformesCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
+                ToolTipDescription = "Informes",
+                ToolTipTitle = "Informes"
+            });
+            return vResult;
+        }
+
         public RelayCommand RecalcularSaldoCommand {
            get;
            private set;
@@ -113,9 +119,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
            return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Recalcular");
         }
 
+        private bool CanExecuteInformesCommand() {
+            return LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Informes");
+        }
+
         private void ExecuteRecalcularSaldoCommand() {
            try {
-              Galac.Adm.Ccl.Banco.ICuentaBancariaPdn insCtaBanNav = new Galac.Adm.Brl.Banco.clsCuentaBancariaNav();
+              ICuentaBancariaPdn insCtaBanNav = new clsCuentaBancariaNav();
               bool vResult = false;
               if (insCtaBanNav.ExistenMovimientosCuentaBancaria(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))) {
                  CuentaBancariaViewModel vViewModel = CreateNewElementForRecalcular(CurrentItem.GetModel(), eAccionSR.Recalcular);
@@ -129,11 +139,23 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
                  LibMessages.MessageBox.Information(this, "No existen registros para Recalcular.", "Recalcular Saldos de las Cuentas Bancarias");
               }
 
-           } catch (System.AccessViolationException) {
+           } catch (AccessViolationException) {
               throw;
-           } catch (System.Exception vEx) {
-              LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+           } catch (Exception vEx) {
+              LibMessages.RaiseError.ShowError(vEx);
            }
+        }
+
+        private void ExecuteInformesCommand() {
+            try {
+                if (LibMessages.ReportsView.ShowReportsView(new Reportes.clsCuentaBancariaInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
+                    DialogResult = true;
+                }
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
+            }
         }
 
         CuentaBancariaViewModel CreateNewElementForRecalcular(CuentaBancaria valModel, eAccionSR valAction) {

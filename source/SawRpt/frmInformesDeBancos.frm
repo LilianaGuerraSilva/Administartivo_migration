@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmInformesDeBancos 
    BackColor       =   &H00F3F3F3&
    Caption         =   "Informes de Bancos"
@@ -16,14 +16,14 @@ Begin VB.Form frmInformesDeBancos
       ForeColor       =   &H80000010&
       Height          =   675
       Left            =   3360
-      TabIndex        =   38
+      TabIndex        =   36
       Top             =   1200
       Width           =   6015
       Begin VB.TextBox txtAno 
          Height          =   285
          Left            =   5220
          MaxLength       =   4
-         TabIndex        =   15
+         TabIndex        =   13
          Top             =   240
          Width           =   735
       End
@@ -31,14 +31,14 @@ Begin VB.Form frmInformesDeBancos
          Height          =   285
          Left            =   4620
          MaxLength       =   2
-         TabIndex        =   14
+         TabIndex        =   12
          Top             =   240
          Width           =   495
       End
       Begin VB.ComboBox cmbQuincenaAGenerar 
          Height          =   315
          Left            =   1620
-         TabIndex        =   13
+         TabIndex        =   11
          Top             =   240
          Width           =   1635
       End
@@ -50,7 +50,7 @@ Begin VB.Form frmInformesDeBancos
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   3840
-         TabIndex        =   40
+         TabIndex        =   38
          Top             =   300
          Width           =   705
       End
@@ -61,7 +61,7 @@ Begin VB.Form frmInformesDeBancos
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   120
-         TabIndex        =   39
+         TabIndex        =   37
          Top             =   300
          Width           =   1440
       End
@@ -73,7 +73,7 @@ Begin VB.Form frmInformesDeBancos
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   7080
-      TabIndex        =   12
+      TabIndex        =   10
       Top             =   1200
       Visible         =   0   'False
       Width           =   2295
@@ -84,33 +84,33 @@ Begin VB.Form frmInformesDeBancos
       ForeColor       =   &H00808080&
       Height          =   1095
       Left            =   3360
-      TabIndex        =   29
+      TabIndex        =   27
       Top             =   720
       Width           =   2115
       Begin MSComCtl2.DTPicker dtpFechaFinal 
          Height          =   285
          Left            =   720
-         TabIndex        =   10
+         TabIndex        =   8
          Top             =   645
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   503
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   17235971
+         Format          =   92995587
          CurrentDate     =   37187
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
          Height          =   285
          Left            =   705
-         TabIndex        =   9
+         TabIndex        =   7
          Top             =   240
          Width           =   1275
          _ExtentX        =   2249
          _ExtentY        =   503
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   17235971
+         Format          =   92995587
          CurrentDate     =   37187
       End
       Begin VB.Label lblFechaInicial 
@@ -121,7 +121,7 @@ Begin VB.Form frmInformesDeBancos
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   31
+         TabIndex        =   29
          Top             =   300
          Width           =   405
       End
@@ -133,7 +133,7 @@ Begin VB.Form frmInformesDeBancos
          ForeColor       =   &H00A84439&
          Height          =   195
          Left            =   180
-         TabIndex        =   30
+         TabIndex        =   28
          Top             =   690
          Width           =   330
       End
@@ -144,7 +144,7 @@ Begin VB.Form frmInformesDeBancos
       ForeColor       =   &H00808080&
       Height          =   2295
       Left            =   3360
-      TabIndex        =   28
+      TabIndex        =   26
       Top             =   1920
       Width           =   6015
       Begin VB.Frame frameConcepto 
@@ -153,14 +153,14 @@ Begin VB.Form frmInformesDeBancos
          ForeColor       =   &H00808080&
          Height          =   975
          Left            =   120
-         TabIndex        =   32
+         TabIndex        =   30
          Top             =   1275
          Width           =   5775
          Begin VB.ComboBox CmbCantidadAImprimir 
             Height          =   315
             Index           =   1
             Left            =   3000
-            TabIndex        =   20
+            TabIndex        =   18
             Top             =   0
             Width           =   1575
          End
@@ -168,14 +168,14 @@ Begin VB.Form frmInformesDeBancos
             Height          =   285
             Left            =   1440
             Locked          =   -1  'True
-            TabIndex        =   22
+            TabIndex        =   20
             Top             =   600
             Width           =   4200
          End
          Begin VB.TextBox txtConcepto 
             Height          =   285
             Left            =   0
-            TabIndex        =   21
+            TabIndex        =   19
             Top             =   600
             Width           =   1335
          End
@@ -188,7 +188,7 @@ Begin VB.Form frmInformesDeBancos
             Height          =   195
             Index           =   1
             Left            =   0
-            TabIndex        =   43
+            TabIndex        =   41
             Top             =   120
             Width           =   2955
          End
@@ -200,7 +200,7 @@ Begin VB.Form frmInformesDeBancos
             ForeColor       =   &H00A84439&
             Height          =   195
             Left            =   1440
-            TabIndex        =   41
+            TabIndex        =   39
             Top             =   360
             Width           =   840
          End
@@ -212,7 +212,7 @@ Begin VB.Form frmInformesDeBancos
             ForeColor       =   &H00A84439&
             Height          =   195
             Left            =   0
-            TabIndex        =   33
+            TabIndex        =   31
             Top             =   360
             Width           =   495
          End
@@ -223,21 +223,21 @@ Begin VB.Form frmInformesDeBancos
          ForeColor       =   &H00808080&
          Height          =   900
          Left            =   120
-         TabIndex        =   34
+         TabIndex        =   32
          Top             =   240
          Width           =   5775
          Begin VB.ComboBox CmbCantidadAImprimir 
             Height          =   315
             Index           =   0
             Left            =   3000
-            TabIndex        =   17
+            TabIndex        =   15
             Top             =   0
             Width           =   1575
          End
          Begin VB.TextBox txtNumeroDeCuenta 
             Height          =   285
             Left            =   0
-            TabIndex        =   18
+            TabIndex        =   16
             Top             =   600
             Width           =   1335
          End
@@ -250,7 +250,7 @@ Begin VB.Form frmInformesDeBancos
             Height          =   195
             Index           =   0
             Left            =   0
-            TabIndex        =   42
+            TabIndex        =   40
             Top             =   90
             Width           =   2940
          End
@@ -262,7 +262,7 @@ Begin VB.Form frmInformesDeBancos
             ForeColor       =   &H00A84439&
             Height          =   195
             Left            =   1440
-            TabIndex        =   36
+            TabIndex        =   34
             Top             =   360
             Width           =   555
          End
@@ -272,7 +272,7 @@ Begin VB.Form frmInformesDeBancos
             Caption         =   "lblNombreCtaBancaria"
             Height          =   285
             Left            =   1440
-            TabIndex        =   19
+            TabIndex        =   17
             Top             =   600
             Width           =   4215
          End
@@ -284,7 +284,7 @@ Begin VB.Form frmInformesDeBancos
             ForeColor       =   &H00A84439&
             Height          =   195
             Left            =   0
-            TabIndex        =   35
+            TabIndex        =   33
             Top             =   360
             Width           =   495
          End
@@ -297,7 +297,7 @@ Begin VB.Form frmInformesDeBancos
       ForeColor       =   &H00A84439&
       Height          =   195
       Left            =   7440
-      TabIndex        =   11
+      TabIndex        =   9
       Top             =   840
       Width           =   1935
    End
@@ -305,7 +305,7 @@ Begin VB.Form frmInformesDeBancos
       Caption         =   "&Impresora"
       Height          =   375
       Left            =   120
-      TabIndex        =   23
+      TabIndex        =   21
       Top             =   4320
       Width           =   1335
    End
@@ -313,7 +313,7 @@ Begin VB.Form frmInformesDeBancos
       Caption         =   "&Pantalla"
       Height          =   375
       Left            =   1755
-      TabIndex        =   24
+      TabIndex        =   22
       Top             =   4320
       Width           =   1335
    End
@@ -323,7 +323,7 @@ Begin VB.Form frmInformesDeBancos
       CausesValidation=   0   'False
       Height          =   375
       Left            =   3390
-      TabIndex        =   25
+      TabIndex        =   23
       Top             =   4320
       Width           =   1335
    End
@@ -332,7 +332,7 @@ Begin VB.Form frmInformesDeBancos
       ForeColor       =   &H80000010&
       Height          =   3975
       Left            =   120
-      TabIndex        =   26
+      TabIndex        =   24
       Top             =   240
       Width           =   3015
       Begin VB.OptionButton optInformeDeBanco 
@@ -343,8 +343,8 @@ Begin VB.Form frmInformesDeBancos
          Height          =   195
          Index           =   8
          Left            =   120
-         TabIndex        =   3
-         Top             =   1320
+         TabIndex        =   2
+         Top             =   1280
          Width           =   2715
       End
       Begin VB.OptionButton optInformeDeBanco 
@@ -355,8 +355,8 @@ Begin VB.Form frmInformesDeBancos
          Height          =   195
          Index           =   6
          Left            =   120
-         TabIndex        =   7
-         Top             =   2760
+         TabIndex        =   5
+         Top             =   2660
          Width           =   2715
       End
       Begin VB.OptionButton optInformeDeBanco 
@@ -367,20 +367,8 @@ Begin VB.Form frmInformesDeBancos
          Height          =   435
          Index           =   7
          Left            =   120
-         TabIndex        =   8
+         TabIndex        =   6
          Top             =   3120
-         Width           =   2715
-      End
-      Begin VB.OptionButton optInformeDeBanco 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "&Saldos Bancarios........................"
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   0
-         Left            =   120
-         TabIndex        =   0
-         Top             =   240
          Width           =   2715
       End
       Begin VB.OptionButton optInformeDeBanco 
@@ -391,8 +379,8 @@ Begin VB.Form frmInformesDeBancos
          Height          =   195
          Index           =   1
          Left            =   120
-         TabIndex        =   1
-         Top             =   600
+         TabIndex        =   0
+         Top             =   360
          Width           =   2715
       End
       Begin VB.OptionButton optInformeDeBanco 
@@ -403,8 +391,8 @@ Begin VB.Form frmInformesDeBancos
          Height          =   195
          Index           =   2
          Left            =   120
-         TabIndex        =   2
-         Top             =   960
+         TabIndex        =   1
+         Top             =   820
          Width           =   2715
       End
       Begin VB.OptionButton optInformeDeBanco 
@@ -415,8 +403,8 @@ Begin VB.Form frmInformesDeBancos
          Height          =   195
          Index           =   3
          Left            =   120
-         TabIndex        =   4
-         Top             =   1680
+         TabIndex        =   3
+         Top             =   1740
          Width           =   2715
       End
       Begin VB.OptionButton optInformeDeBanco 
@@ -427,20 +415,8 @@ Begin VB.Form frmInformesDeBancos
          Height          =   195
          Index           =   4
          Left            =   120
-         TabIndex        =   5
-         Top             =   2040
-         Width           =   2715
-      End
-      Begin VB.OptionButton optInformeDeBanco 
-         Alignment       =   1  'Right Justify
-         BackColor       =   &H00F3F3F3&
-         Caption         =   "&Listado de Concepto..................."
-         ForeColor       =   &H00A84439&
-         Height          =   195
-         Index           =   5
-         Left            =   120
-         TabIndex        =   6
-         Top             =   2400
+         TabIndex        =   4
+         Top             =   2200
          Width           =   2715
       End
    End
@@ -450,13 +426,13 @@ Begin VB.Form frmInformesDeBancos
       ForeColor       =   &H00808080&
       Height          =   855
       Left            =   3360
-      TabIndex        =   37
+      TabIndex        =   35
       Top             =   2160
       Width           =   1695
       Begin VB.ComboBox cmbSeleccion 
          Height          =   315
          Left            =   120
-         TabIndex        =   16
+         TabIndex        =   14
          Top             =   360
          Width           =   1815
       End
@@ -476,7 +452,7 @@ Begin VB.Form frmInformesDeBancos
       ForeColor       =   &H000040C0&
       Height          =   780
       Left            =   3300
-      TabIndex        =   27
+      TabIndex        =   25
       Top             =   60
       Width           =   6465
    End
@@ -490,12 +466,10 @@ Option Explicit
 Private Const CM_FILE_NAME As String = "frmInformesDeBancos"
 Private Const CM_MESSAGE_NAME As String = "Informes De Bancos"
 Private gFechasDeLosInformes As clsFechasDeLosInformesNav
-Private Const CM_OPT_SALDOS_BANCARIOS As Integer = 0
 Private Const CM_OPT_TRANSACCIONES_POR_CUENTA As Integer = 1
 Private Const CM_OPT_TRANSACCIONES_POR_CONCEPTO As Integer = 2
 Private Const CM_OPT_TRANSACCIONES_POR_DIA As Integer = 3
 Private Const CM_OPT_FLUJO_DE_CAJA_HISTORICO As Integer = 4
-Private Const CM_OPT_LISTADO_DE_CONCEPTO As Integer = 5
 Private Const CM_OPT_TRANSACCIONES_POR_BENEFICIARIO As Integer = 6
 Private Const CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS As Integer = 7
 Private Const CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO As Integer = 8
@@ -555,12 +529,10 @@ Private Sub optInformeDeBanco_Click(Index As Integer)
    mInformeSeleccionado = Index
    sOcultaCampos
    Select Case mInformeSeleccionado
-      Case CM_OPT_SALDOS_BANCARIOS: sImprimirSaldosBancarios
       Case CM_OPT_TRANSACCIONES_POR_CUENTA: sImprimirTransaccionesXCuenta
       Case CM_OPT_TRANSACCIONES_POR_CONCEPTO: sImprimirTransaccionesXConcepto
       Case CM_OPT_TRANSACCIONES_POR_DIA: sImprimirTransaccionesXDia
       Case CM_OPT_FLUJO_DE_CAJA_HISTORICO: sImprimirFlujoDeCajaHistorico
-      Case CM_OPT_LISTADO_DE_CONCEPTO: sImprimirListadoDeConcepto
       Case CM_OPT_TRANSACCIONES_POR_BENEFICIARIO: sImprimirTransaccionesXBeneficiario
       Case CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS: sImprimirDeclaracionITF
       Case CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO: sImprimirTransaccionesXCuentaYConcepto
@@ -927,12 +899,10 @@ End Sub
 Private Sub sEjecutaElReporteApropiado()
    On Error GoTo h_ERROR
    Select Case mInformeSeleccionado
-      Case CM_OPT_SALDOS_BANCARIOS: sEjecutaElReporteSaldosBancarios
       Case CM_OPT_TRANSACCIONES_POR_CUENTA: sEjecutaElReporteTransaccionesXCtaBancaria
       Case CM_OPT_TRANSACCIONES_POR_CONCEPTO: sEjecutaElReporteTransaccionesXConcepto
       Case CM_OPT_TRANSACCIONES_POR_DIA: sEjecutaElReporteTransaccionesXDia
       Case CM_OPT_FLUJO_DE_CAJA_HISTORICO: sEjecutaElReporteFlujoDeCajaHistorico
-      Case CM_OPT_LISTADO_DE_CONCEPTO: sEjecutaElReporteListadoDeConcepto
       Case CM_OPT_TRANSACCIONES_POR_BENEFICIARIO: sEjecutaElReporteTransaccionesXBeneficirio
       Case CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS: sEjecutaElReporteDeclaracionITF
       Case CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO: sEjecutaElReporteTransaccionesXConceptoXCuentaBancaria
@@ -941,15 +911,7 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteApropiado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-Private Sub sImprimirSaldosBancarios()
-   On Error GoTo h_ERROR
-   lblDatosDelReporte.Caption = "Datos del Informe - Saldos Bancarios"
-   frameFechas.Visible = True
-   chkImprimirSoloCuentasActivas.Visible = True
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimirSaldosBancarios", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
+
 Private Sub sImprimirTransaccionesXCuenta()
    On Error GoTo h_ERROR
    lblDatosDelReporte.Caption = "Datos del Reporte - Transacciones por Cuenta"
@@ -1035,36 +997,7 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimirFlujoDeCajaHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-Private Sub sImprimirListadoDeConcepto()
-   On Error GoTo h_ERROR
-   lblDatosDelReporte.Caption = "Datos del Reporte - Listado De Concepto"
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimirListadoDeConcepto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Sub sEjecutaElReporteSaldosBancarios()
-   Dim SqlDelReporte As String
-   Dim reporte As DDActiveReports2.ActiveReport
-   Dim insConfigurar As clsBancoRpt
-   Dim insBancosSQL As clsBancosSQL
-   On Error GoTo h_ERROR
-   If dtpFechaFinal.Value < dtpFechaInicial.Value Then
-       dtpFechaInicial.Value = dtpFechaFinal.Value
-   End If
-   Set reporte = New DDActiveReports2.ActiveReport
-   Set insConfigurar = New clsBancoRpt
-   Set insBancosSQL = New clsBancosSQL
-   SqlDelReporte = insBancosSQL.fSQLSaldosBancarios(gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, gConvert.ConvertByteToBoolean(chkImprimirSoloCuentasActivas.Value))
-   If insConfigurar.fConfiguraDatosDelReporteDeSaldosBancarios(reporte, SqlDelReporte, dtpFechaInicial.Value, dtpFechaFinal.Value, gProyCompaniaActual.GetNombreCompaniaParaInformes(False, False)) Then
-      gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Saldos Bancarios"
-   End If
-   Set insConfigurar = Nothing
-   Set reporte = Nothing
-   Set insBancosSQL = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteSaldosBancarios", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
+
 Private Sub sEjecutaElReporteTransaccionesXCtaBancaria()
    Dim SqlDelReporte As String
    Dim insConfigurar As clsBancoRpt
@@ -1165,26 +1098,7 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteFlujoDeCajaHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-Private Sub sEjecutaElReporteListadoDeConcepto()
-   Dim SqlDelReporte As String
-   Dim varReporte As DDActiveReports2.ActiveReport
-   Dim insConfigurar As clsBancoRpt
-   Dim insClsBancosSQL As clsBancosSQL
-   On Error GoTo h_ERROR
-   Set varReporte = New ActiveReport
-   Set insConfigurar = New clsBancoRpt
-   Set insClsBancosSQL = New clsBancosSQL
-   SqlDelReporte = insClsBancosSQL.fSQLListadoDeConceptos
-   If insConfigurar.fConfigurarListadoDeConceptosBancarios(varReporte, SqlDelReporte, gProyCompaniaActual.GetNombreCompaniaParaInformes(False, False)) Then
-      gUtilReports.sMostrarOImprimirReporte varReporte, 1, mDondeImprimir, "Listado de Conceptos"
-   End If
-   Set varReporte = Nothing
-   Set insConfigurar = Nothing
-   Set insClsBancosSQL = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteListadoDeConcepto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
+
 Private Sub sEjecutaElReporteTransaccionesXBeneficirio()
    Dim SqlDelReporte As String
    Dim insConfigurar As clsBancoRpt

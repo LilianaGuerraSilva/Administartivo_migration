@@ -45,58 +45,6 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
          "fSubQuerySaldoInicial", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLSaldosBancarios(ByVal valConsecutivoCompania As Long, _
-                        ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
-                        valImprimirSoloCuentasActivas As Boolean) As String
-   Dim SQL As String
-   On Error GoTo h_ERROR
-   SQL = "SELECT "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, cuentaBancaria.Codigo, "
-   SQL = SQL & "cuentaBancaria.NumeroCuenta, cuentaBancaria.NombreCuenta, "
-   SQL = SQL & "(" & fSubQuerySaldoInicial(valConsecutivoCompania, valFechaInicial) & ") AS SaldoInicial, "
-   SQL = SQL & "(SELECT SUM(" & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
-                     " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
-                     "movimientoBancario.Monto", "0", True)
-   SQL = SQL & ") FROM movimientoBancario WHERE "
-   SQL = SQL & "movimientoBancario.ConsecutivoCompania" & _
-               " = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", _
-               valFechaInicial, valFechaFinal)
-   SQL = SQL & " AND movimientoBancario.CodigoCtaBancaria" & _
-               " = cuentaBancaria.Codigo)AS Ingresos, "
-   SQL = SQL & "(SELECT SUM(" & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
-                     " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_EGRESO), _
-                     "movimientoBancario.Monto", "0", True)
-   SQL = SQL & ") FROM movimientoBancario WHERE "
-   SQL = SQL & "movimientoBancario.ConsecutivoCompania" & _
-               " = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", _
-               valFechaInicial, valFechaFinal)
-   SQL = SQL & " AND movimientoBancario.CodigoCtaBancaria" & _
-               " = cuentaBancaria.Codigo)AS Egresos "
-   SQL = SQL & " FROM cuentaBancaria LEFT JOIN movimientoBancario ON "
-   SQL = SQL & "cuentaBancaria.Codigo" & _
-               " = movimientoBancario.CodigoCtaBancaria AND "
-   SQL = SQL & "cuentaBancaria.ConsecutivoCompania = movimientoBancario.ConsecutivoCompania"
-   SQL = SQL & " WHERE cuentaBancaria.ConsecutivoCompania" & _
-               " = " & valConsecutivoCompania
-   If valImprimirSoloCuentasActivas Then
-      SQL = SQL & " AND cuentaBancaria.Status" & _
-               " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
-   End If
-   SQL = SQL & " GROUP BY "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, cuentaBancaria.Codigo, "
-   SQL = SQL & "cuentaBancaria.NumeroCuenta, cuentaBancaria.NombreCuenta"
-   SQL = SQL & " ORDER BY "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "cuentaBancaria.Codigo"
-   fSQLSaldosBancarios = SQL
-h_EXIT: On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLSaldosBancarios", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
 Public Function fSQLTransaccionesPorCuenta(ByVal valConsecutivoCompania As Long, _
                         ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
                         ByVal valEsElInformeDeTrasaccionesPorBeneficiario As Boolean, _
@@ -378,18 +326,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
       "fSQLFlujoDeCajaHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Public Function fSQLListadoDeConceptos() As String
-   Dim SQL As String
-   On Error GoTo h_ERROR
-   SQL = "SELECT ConceptoBancario.Codigo as CodigoConcepto, ConceptoBancario.Tipo as TipoDeConcepto, ConceptoBancario.Descripcion as DescripcionDeConcepto "
-   SQL = SQL & " FROM ConceptoBancario "
-   SQL = SQL & " ORDER BY Tipo, Codigo "
-   fSQLListadoDeConceptos = SQL
-h_EXIT: On Error GoTo 0
-   Exit Function
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLListadoDeConceptos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
+
 Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal CodigoCuenta As String, ByVal ConsecutivoCompania As String, ByVal ImprimirSoloCuentasActivas As Boolean, _
                                     ByVal valCantidadAImprimir As Boolean) As String
    Dim SQL As String

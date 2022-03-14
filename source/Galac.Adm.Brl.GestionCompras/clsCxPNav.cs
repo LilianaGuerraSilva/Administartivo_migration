@@ -734,6 +734,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             vSQL.AppendLine(" AND EsCxpHistorica <> 'S'");
             switch (vFormaDeReiniciar) {
                 case 3:
+                    break;
                 case 2:
                     vSQL.AppendLine(" AND YEAR(FechaAplicacionRetIva)  = @AnoDeRetencion");
                     break;

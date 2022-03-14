@@ -15,20 +15,21 @@ namespace Galac.Adm.Brl.Banco {
     public partial class clsCuentaBancariaNav: LibBaseNav<IList<CuentaBancaria>, IList<CuentaBancaria>>, ICuentaBancariaPdn {
         #region Variables
         #endregion //Variables
+
         #region Propiedades
         #endregion //Propiedades
-        #region Constructores
 
+        #region Constructores
         public clsCuentaBancariaNav() {
         }
         #endregion //Constructores
-        #region Metodos Generados
 
+        #region Metodos Generados
         protected override ILibDataComponentWithSearch<IList<CuentaBancaria>, IList<CuentaBancaria>> GetDataInstance() {
             return new Galac.Adm.Dal.Banco.clsCuentaBancariaDat();
         }
-        #region Miembros de ILibPdn
 
+        #region Miembros de ILibPdn
         bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             bool vResult = false;
             ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Banco.clsCuentaBancariaDat();
@@ -76,10 +77,10 @@ namespace Galac.Adm.Brl.Banco {
         }
         #endregion //Metodos Generados
 
-
         private bool ExisteTablaSettValueByCompany() {
             return new Galac.Adm.Dal.Banco.clsBeneficiarioDat().ExisteTablaSettValueByCompany();
         }
+
         System.Xml.Linq.XElement GetPametrosCompaniaParaInsertarCuentaBancariaGenericaSiCiaNoGeneraMovimientosBancarios(int valConsecutivoCompania, ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>> instanciaDal) {
             StringBuilder sql;
             string vDbSchema = "";
@@ -233,6 +234,7 @@ namespace Galac.Adm.Brl.Banco {
            vResult = CuentaBancariaGenericaPorDefecto();
             return vResult;
         }
+
         string CuentaBancariaGenericaPorDefecto() {
             return "00000";
         }
@@ -265,7 +267,6 @@ namespace Galac.Adm.Brl.Banco {
 
         }
 
-
         bool ICuentaBancariaPdn.ExistenMovimientosCuentaBancaria(int valConsecutivoCompania) {
            int vResult;
            XElement vResultset;
@@ -277,11 +278,7 @@ namespace Galac.Adm.Brl.Banco {
               vResult = 0;
            }
            return vResult > 0;
-
         }
-
-
-
 
     } //End of class clsCuentaBancariaNav
 

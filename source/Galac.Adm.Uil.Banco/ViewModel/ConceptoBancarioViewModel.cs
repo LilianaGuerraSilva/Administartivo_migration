@@ -42,7 +42,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Código es requerido.")]
-        [LibGridColum("Código")]
+        [LibGridColum("Código", WidthForPrinting = 10)]
         public string  Codigo {
             get {
                 return Model.Codigo;
@@ -57,7 +57,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Descripción es requerido.")]
-        [LibGridColum("Descripción", Width = 300)]
+        [LibGridColum("Descripción", Width = 300, WidthForPrinting = 50)]
         public string  Descripcion {
             get {
                 return Model.Descripcion;
@@ -71,7 +71,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
             }
         }
 
-        [LibGridColum("Tipo", eGridColumType.Enum, PrintingMemberPath = "TipoStr")]
+        [LibGridColum("Tipo", eGridColumType.Enum, PrintingMemberPath = "TipoStr", WidthForPrinting = 10)]
         public eIngresoEgreso  Tipo {
             get {
                 return Model.TipoAsEnum;
