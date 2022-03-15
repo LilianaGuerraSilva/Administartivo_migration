@@ -425,7 +425,9 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("      " + DbSchema + ".Gv_CuentaBancaria_B1.CuentaContable,");
 			SQL.AppendLine("      " + DbSchema + ".Gv_CuentaBancaria_B1.ManejaDebitoBancario,");
 			SQL.AppendLine("      " + DbSchema + ".Gv_CuentaBancaria_B1.ManejaCreditoBancario,");
-			SQL.AppendLine("      " + DbSchema + ".Gv_CuentaBancaria_B1.NombrePlantillaCheque");
+			SQL.AppendLine("      " + DbSchema + ".Gv_CuentaBancaria_B1.NombrePlantillaCheque,");
+			SQL.AppendLine("      " + DbSchema + ".Gv_CuentaBancaria_B1.TipoDeAlicuotaPorContribuyente,");
+			SQL.AppendLine("      " + DbSchema + ".Gv_CuentaBancaria_B1.GeneraMovBancarioPorIGTF");
 			SQL.AppendLine("      FROM " + DbSchema + ".Gv_CuentaBancaria_B1");
 			SQL.AppendLine("      INNER JOIN Comun.Gv_Banco_B1 ON  " + DbSchema + ".Gv_CuentaBancaria_B1.CodigoBanco = Comun.Gv_Banco_B1.Consecutivo");
 			SQL.AppendLine("      INNER JOIN dbo.Gv_Moneda_B1 ON  " + DbSchema + ".Gv_CuentaBancaria_B1.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo");

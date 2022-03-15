@@ -42,6 +42,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private const string NombreOperadorPropertyName = "NombreOperador";
 		private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 		private const string IsEnabledGeneraMovBancarioPorIGTFPropertyName = "IsEnabledGeneraMovBancarioPorIGTF";
+		private const string IsEnabledTipoDeAlicuotaPorContribuyentePropertyName = "IsEnabledTipoDeAlicuotaPorContribuyente";
 		#endregion
 
 		#region Variables
@@ -286,6 +287,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.CodigoMoneda = value;
 					IsDirty = true;
 					RaisePropertyChanged(CodigoMonedaPropertyName);
+					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
 					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
@@ -523,13 +525,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		public bool IsVisibleITFDebitoBancario {
+		public bool IsEnabledITFDebitoBancario {
 			get {
 				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
 			}
 		}
 
-		public bool IsVisibleITFCreditoBancario {
+		public bool IsEnabledITFCreditoBancario {
 			get {
 				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaCreditoBancario") && !EsEcuador();
 			}
@@ -541,6 +543,17 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
+		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
+			get {
+				if (Action == eAccionSR.Insertar) {
+					return true;
+				} else {
+					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
+					return IsEnabled && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado);
+				}
+			}
+		}
+
 		public bool IsEnabledGeneraMovBancarioPorIGTF {
 			get {
 				Saw.Lib.clsNoComunSaw vMonedaLocal = new Saw.Lib.clsNoComunSaw();
@@ -548,8 +561,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda)) {
 					GeneraMovBancarioPorIGTF = true;
 					return false;
+				} else if (Action == eAccionSR.Insertar) {
+					return true;
+				} else {
+					return IsEnabledTipoDeAlicuotaPorContribuyente;
 				}
-				return true;
 			}
 		}
 		#endregion //Propiedades
@@ -733,7 +749,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				LibFileDialogMessage vMessage = new LibFileDialogMessage("Escoger Plantilla", BuscarPlantilla);
 				vMessage.Filter = "rpx de Cheque (*.rpx*)|*Cheque*.rpx";
 				vMessage.InitialDirectory = LibWorkPaths.OriginalReportDir;
-				// aquí podrias cambiar los valores de vMessage
 				LibMessages.OpenFile.Send(vMessage);
 			} catch (AccessViolationException) {
 				throw;

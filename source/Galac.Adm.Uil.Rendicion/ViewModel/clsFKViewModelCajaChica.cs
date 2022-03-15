@@ -57,6 +57,8 @@ namespace Galac.Adm.Uil.CajaChica.ViewModel {
         public string NombreDeLaMoneda { get; set; }
         public string NombrePlantillaCheque { get; set; }
         public decimal SaldoDisponible { get; set; }
+        public eTipoAlicPorContIGTF TipoDeAlicuotaPorContribuyente { get; set; }
+        public bool GeneraMovBancarioPorIGTF { get; set; }
     }
 
     public class FkRendicionViewModel : IFkRendicionViewModel {

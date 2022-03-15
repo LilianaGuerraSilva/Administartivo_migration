@@ -265,6 +265,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal SaldoDisponible { get; set; }
         public string CuentaContable { get; set; }
         public string NombrePlantillaCheque { get; set; }
+        public eTipoAlicPorContIGTF TipoDeAlicuotaPorContribuyente { get; set; }
+        public bool GeneraMovBancarioPorIGTF { get; set; }
     }
 	
    public class FkCajaViewModel :IFkCajaViewModel {       

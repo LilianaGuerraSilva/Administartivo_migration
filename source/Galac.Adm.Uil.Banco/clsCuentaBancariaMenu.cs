@@ -35,7 +35,6 @@ namespace Galac.Adm.Uil.Banco {
 					insFrmSearch.ShowDialog();
 				}
 			} catch (Exception) {
-				LibFile.WriteLineInFile(@"C:\Users\Samuel.Pineda\Desktop\modificados", "WW");
 				throw;
 			}
 		}
