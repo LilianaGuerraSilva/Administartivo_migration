@@ -13930,6 +13930,25 @@ Public Function enumTipoAlicPorContIGTFToString(TipoAlicPorContIGTF As enum_Tipo
    End Select
 End Function
 
+Public Function strTipoAlicPorContIGTFToNum(ByVal TipoAlicPorContIGTF As String, Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_TipoAlicPorContIGTF
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eTAPCIGTF_NoAsignado To eTAPCIGTF_Cont6
+      If UCase(TipoAlicPorContIGTF) = UCase(enumTipoAlicPorContIGTFToString(mEnum)) Then
+         strTipoAlicPorContIGTFToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strTipoAlicPorContIGTFToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & TipoAlicPorContIGTF & " no existe en tipo enumerado TipoAlicPorContIGTF"
+   End If
+h_EXIT:
+   Exit Function
+End Function
+
 Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_FacturaGeneradaPor
    Dim nCount As Integer

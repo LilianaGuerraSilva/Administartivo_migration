@@ -220,16 +220,14 @@
 						Grid.Column="0"
 						Margin="3,0"
 						Content="Maneja Débito Bancario"
-						Style="{StaticResource LabelPrompt}"
-						Visibility="{Binding Path=IsVisibleITFDebitoBancario, Converter={StaticResource boolToVisibilityConverter}}" />
+						Style="{StaticResource LabelPrompt}" />
 					<CheckBox
 						Name="chkManejaDebitoBancario"
 						Grid.Row="0"
 						Grid.Column="1"
 						IsChecked="{Binding Path=ManejaDebitoBancario}"
-						IsEnabled="{Binding Path=IsEnabled}"
-						Style="{StaticResource CheckBoxStyle}"
-						Visibility="{Binding Path=IsVisibleITFDebitoBancario, Converter={StaticResource boolToVisibilityConverter}}" />
+						IsEnabled="{Binding Path=IsEnabledITFDebitoBancario}"
+						Style="{StaticResource CheckBoxStyle}" />
 					<Label
 						Name="lblManejaCreditoBancario"
 						Grid.Row="1"
@@ -237,15 +235,15 @@
 						Margin="3,0"
 						Content="Maneja Crédito Bancario"
 						Style="{StaticResource LabelPrompt}"
-						Visibility="{Binding Path=IsVisibleITFCreditoBancario, Converter={StaticResource boolToVisibilityConverter}}" />
+						Visibility="Collapsed" />
 					<CheckBox
 						Name="chkManejaCreditoBancario"
 						Grid.Row="1"
 						Grid.Column="1"
 						IsChecked="{Binding Path=ManejaCreditoBancario}"
-						IsEnabled="{Binding Path=IsEnabled}"
+						IsEnabled="{Binding Path=IsEnabledITFCreditoBancario}"
 						Style="{StaticResource CheckBoxStyle}"
-						Visibility="{Binding Path=IsVisibleITFCreditoBancario, Converter={StaticResource boolToVisibilityConverter}}" />
+						Visibility="Collapsed" />
 					<Label
 						Name="lblTipoDeAlicuotaPorContribuyente"
 						Grid.Row="2"
@@ -257,7 +255,7 @@
 						Grid.Row="2"
 						Grid.Column="1"
 						Width="124"
-						IsEnabled="{Binding Path=IsEnabled}"
+						IsEnabled="{Binding Path=IsEnabledTipoDeAlicuotaPorContribuyente}"
 						IsSynchronizedWithCurrentItem="True"
 						ItemsSource="{Binding Path=ArrayTipoAlicPorContIGTF}"
 						SelectedItem="{Binding Path=TipoDeAlicuotaPorContribuyente, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

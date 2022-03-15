@@ -505,6 +505,27 @@ namespace Galac.Adm.Dal.Banco {
 
 		#endregion //Metodos Generados
 
+		#region Código Programador
+		public XElement MovimientosBancariosPorCuentaBancariaPosterioresAUnaFecha(int valConsecutivoCompania, string valCodigoCuentaBancaria, DateTime valFecha) {
+			XElement vResultset;
+			QAdvSql insQAdvSql = new QAdvSql("");
+			StringBuilder vSql = new StringBuilder();
+
+			string vWhere = insQAdvSql.SqlIntValueWithAnd("", "ConsecutivoCompania", valConsecutivoCompania);
+			vWhere = insQAdvSql.SqlValueWithAnd(vWhere, "CodigoCtaBancaria", valCodigoCuentaBancaria);
+			vWhere = insQAdvSql.SqlDateValueWithOperators(vWhere, "Fecha", valFecha, insQAdvSql.CurrentDateFormat, "AND", ">");
+			vWhere = insQAdvSql.WhereSql(vWhere);
+
+			vSql.AppendLine("SELECT");
+			vSql.AppendLine("CodigoCtaBancaria");
+			vSql.AppendLine("FROM dbo.MovimientoBancario");
+			vSql.AppendLine(vWhere);
+			
+			vResultset = ((ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>) this).QueryInfo(eProcessMessageType.Query, "", vSql);
+			return vResultset;
+		}
+		#endregion //Código Programador
+
 	} //End of class clsCuentaBancariaDat
 
 } //End of namespace Galac.Adm.Dal.Banco
