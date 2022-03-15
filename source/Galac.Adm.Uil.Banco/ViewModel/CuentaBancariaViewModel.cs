@@ -554,21 +554,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		/*public bool IsEnabledGeneraMovBancarioPorIGTF {
+		public bool IsEnabledGeneraMovBancarioPorIGTF {
 			get {
 				Saw.Lib.clsNoComunSaw vMonedaLocal = new Saw.Lib.clsNoComunSaw();
 				vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
 				if (vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda)) {
 					GeneraMovBancarioPorIGTF = true;
 					return false;
-				}
-				return true;
-			}
-		}*/
-
-		public bool IsEnabledGeneraMovBancarioPorIGTF {
-			get {
-				if (Action == eAccionSR.Insertar) {
+				} else if (Action == eAccionSR.Insertar) {
 					return true;
 				} else {
 					return IsEnabledTipoDeAlicuotaPorContribuyente;

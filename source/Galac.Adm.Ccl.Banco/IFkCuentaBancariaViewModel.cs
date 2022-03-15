@@ -22,6 +22,8 @@ namespace Galac.Adm.Ccl.Banco {
 		decimal SaldoDisponible { get; set; }
 		string CuentaContable { get; set; }
 		string NombrePlantillaCheque { get; set; }
+		eTipoAlicPorContIGTF TipoDeAlicuotaPorContribuyente { get; set; }
+		bool GeneraMovBancarioPorIGTF { get; set; }
 		#endregion //Propiedades
 
 	} //End of class IFkCuentaBancariaViewModel
