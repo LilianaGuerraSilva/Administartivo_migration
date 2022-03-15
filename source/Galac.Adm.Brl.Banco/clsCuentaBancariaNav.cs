@@ -296,6 +296,18 @@ namespace Galac.Adm.Brl.Banco {
 			}
 			return vResult > 0;
 		}
+
+		bool ICuentaBancariaPdn.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(int valConsecutivoCompania, string valCodigoCuentaBancaria) {
+			int vResult;
+			XElement vResultset;
+			vResultset = new Dal.Banco.clsCuentaBancariaDat().MovimientosBancariosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(valConsecutivoCompania, valCodigoCuentaBancaria);
+			if (vResultset == null) {
+				vResult = 0;
+			} else {
+				vResult = (from vRecord in vResultset.Descendants("GpResult") select vRecord).Count();
+			}
+			return vResult > 0;
+		}
 		#endregion //Código Programador
 
 	} //End of class clsCuentaBancariaNav

@@ -549,7 +549,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					return true;
 				} else {
 					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
-					return IsEnabled && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAUnaFecha(ConsecutivoCompania, Codigo, LibBanco.FechaReformaIGTFGO6687) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado);
+					return IsEnabled && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado);
 				}
 			}
 		}

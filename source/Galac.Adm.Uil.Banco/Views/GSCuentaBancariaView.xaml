@@ -212,6 +212,7 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
 					<Label
@@ -274,6 +275,15 @@
 						IsChecked="{Binding Path=GeneraMovBancarioPorIGTF}"
 						IsEnabled="{Binding Path=IsEnabledGeneraMovBancarioPorIGTF}"
 						Style="{StaticResource CheckBoxStyle}" />
+					<Label
+						Name="lblNotaTipoContribuyente"
+						Grid.Row="4"
+						Grid.Column="0"
+						Grid.ColumnSpan="2"
+						Content="Tipos de Contribuyentes según Art. 4 de la Ley de I.G.T.F."
+						FontSize="9"
+						Foreground="Red"
+						Style="{StaticResource LabelPrompt}" />
 				</Grid>
 			</GroupBox>
 		</Grid>

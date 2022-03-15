@@ -513,14 +513,35 @@ namespace Galac.Adm.Dal.Banco {
 
 			string vWhere = insQAdvSql.SqlIntValueWithAnd("", "ConsecutivoCompania", valConsecutivoCompania);
 			vWhere = insQAdvSql.SqlValueWithAnd(vWhere, "CodigoCtaBancaria", valCodigoCuentaBancaria);
-			vWhere = insQAdvSql.SqlDateValueWithOperators(vWhere, "Fecha", valFecha, insQAdvSql.CurrentDateFormat, "AND", ">");
+			vWhere = insQAdvSql.SqlDateValueWithOperators(vWhere, "Fecha", valFecha, insQAdvSql.CurrentDateFormat, "AND", ">=");
 			vWhere = insQAdvSql.WhereSql(vWhere);
 
 			vSql.AppendLine("SELECT");
 			vSql.AppendLine("CodigoCtaBancaria");
 			vSql.AppendLine("FROM dbo.MovimientoBancario");
 			vSql.AppendLine(vWhere);
-			
+
+			vResultset = ((ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>) this).QueryInfo(eProcessMessageType.Query, "", vSql);
+			return vResultset;
+		}
+
+		public XElement MovimientosBancariosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(int valConsecutivoCompania, string valCodigoCuentaBancaria) {
+			XElement vResultset;
+			QAdvSql insQAdvSql = new QAdvSql("");
+			StringBuilder vSql = new StringBuilder();
+
+			string vWhere = insQAdvSql.SqlIntValueWithAnd("", "ConsecutivoCompania", valConsecutivoCompania);
+			vWhere = insQAdvSql.SqlValueWithAnd(vWhere, "CodigoCtaBancaria", valCodigoCuentaBancaria);
+			vWhere = insQAdvSql.SqlDateValueWithOperators(vWhere, "Fecha", LibBanco.FechaReformaIGTFGO6687, insQAdvSql.CurrentDateFormat, "AND", ">=");
+			vWhere = insQAdvSql.SqlBoolValueWithAnd(vWhere, "GeneraImpuestoBancario", false);
+			vWhere = insQAdvSql.SqlIntValueWithOperators(vWhere, "Monto", 0, "AND", "<>");
+			vWhere = insQAdvSql.WhereSql(vWhere);
+
+			vSql.AppendLine("SELECT");
+			vSql.AppendLine("CodigoCtaBancaria");
+			vSql.AppendLine("FROM dbo.MovimientoBancario");
+			vSql.AppendLine(vWhere);
+
 			vResultset = ((ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>) this).QueryInfo(eProcessMessageType.Query, "", vSql);
 			return vResultset;
 		}

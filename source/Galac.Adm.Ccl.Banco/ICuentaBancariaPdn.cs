@@ -15,5 +15,6 @@ namespace Galac.Adm.Ccl.Banco {
 		bool EsValidaCuentaBancariaCajaChica(int valConsecutivoCompania, string valCodigoCuentaBancaria);
 		bool ExistenMovimientosCuentaBancaria(int valConsecutivoCompania);
 		bool ExistenMovimientosPorCuentaBancariaPosterioresAUnaFecha(int valConsecutivoCompania, string valCodigoCuentaBancaria, DateTime valFecha);
+		bool ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(int valConsecutivoCompania, string valCodigoCuentaBancaria);
 	}
 }
