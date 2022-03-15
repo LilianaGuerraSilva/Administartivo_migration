@@ -42,6 +42,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private const string NombreOperadorPropertyName = "NombreOperador";
 		private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 		private const string IsEnabledGeneraMovBancarioPorIGTFPropertyName = "IsEnabledGeneraMovBancarioPorIGTF";
+		private const string IsEnabledTipoDeAlicuotaPorContribuyentePropertyName = "IsEnabledTipoDeAlicuotaPorContribuyente";
 		#endregion
 
 		#region Variables
@@ -286,6 +287,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.CodigoMoneda = value;
 					IsDirty = true;
 					RaisePropertyChanged(CodigoMonedaPropertyName);
+					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
 					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
@@ -541,7 +543,18 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		public bool IsEnabledGeneraMovBancarioPorIGTF {
+		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
+			get {
+				if (Action == eAccionSR.Insertar) {
+					return true;
+				} else {
+					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
+					return IsEnabled && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAUnaFecha(ConsecutivoCompania, Codigo, LibBanco.FechaReformaIGTFGO6687) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado);
+				}
+			}
+		}
+
+		/*public bool IsEnabledGeneraMovBancarioPorIGTF {
 			get {
 				Saw.Lib.clsNoComunSaw vMonedaLocal = new Saw.Lib.clsNoComunSaw();
 				vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
@@ -550,6 +563,16 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					return false;
 				}
 				return true;
+			}
+		}*/
+
+		public bool IsEnabledGeneraMovBancarioPorIGTF {
+			get {
+				if (Action == eAccionSR.Insertar) {
+					return true;
+				} else {
+					return IsEnabledTipoDeAlicuotaPorContribuyente;
+				}
 			}
 		}
 		#endregion //Propiedades
@@ -733,7 +756,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				LibFileDialogMessage vMessage = new LibFileDialogMessage("Escoger Plantilla", BuscarPlantilla);
 				vMessage.Filter = "rpx de Cheque (*.rpx*)|*Cheque*.rpx";
 				vMessage.InitialDirectory = LibWorkPaths.OriginalReportDir;
-				// aquí podrias cambiar los valores de vMessage
 				LibMessages.OpenFile.Send(vMessage);
 			} catch (AccessViolationException) {
 				throw;

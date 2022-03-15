@@ -61,6 +61,7 @@
     <Compile Include="IFkSolicitudesDePagoViewModel.cs" />
     <Compile Include="IMovimientoBancarioPdn.cs" />
     <Compile Include="ISolicitudesDePagoPdn.cs" />
+    <Compile Include="LibBanco.cs" />
     <Compile Include="LibCkn.cs" />
     <Compile Include="MovimientoBancario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -284,6 +284,18 @@ namespace Galac.Adm.Brl.Banco {
 			}
 			return vResult > 0;
 		}
+
+		bool ICuentaBancariaPdn.ExistenMovimientosPorCuentaBancariaPosterioresAUnaFecha(int valConsecutivoCompania, string valCodigoCuentaBancaria, DateTime valFecha) {
+			int vResult;
+			XElement vResultset;
+			vResultset = new Dal.Banco.clsCuentaBancariaDat().MovimientosBancariosPorCuentaBancariaPosterioresAUnaFecha(valConsecutivoCompania, valCodigoCuentaBancaria, valFecha);
+			if (vResultset == null) {
+				vResult = 0;
+			} else {
+				vResult = (from vRecord in vResultset.Descendants("GpResult") select vRecord).Count();
+			}
+			return vResult > 0;
+		}
 		#endregion //Código Programador
 
 	} //End of class clsCuentaBancariaNav

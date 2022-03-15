@@ -255,7 +255,7 @@
 						Grid.Row="2"
 						Grid.Column="1"
 						Width="124"
-						IsEnabled="{Binding Path=IsEnabled}"
+						IsEnabled="{Binding Path=IsEnabledTipoDeAlicuotaPorContribuyente}"
 						IsSynchronizedWithCurrentItem="True"
 						ItemsSource="{Binding Path=ArrayTipoAlicPorContIGTF}"
 						SelectedItem="{Binding Path=TipoDeAlicuotaPorContribuyente, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
