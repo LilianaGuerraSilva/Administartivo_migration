@@ -795,6 +795,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             vParams.AddInString("SimboloMoneda",valSimboloMoneda, 4);
             vParams.AddInString("EsPagoHistorico","N",1);
             vParams.AddInDecimal("PagadoAnticipo",0,2);
+            vParams.AddInDecimal("TotalAnticiposSinUsar", 0, 2);            
             vParams.AddInString("CodigoMoneda",valCodigoMoneda,4);
             vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
             vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
