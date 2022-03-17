@@ -711,7 +711,7 @@ Private Function fHasCuentaBancariaWithCuentaContable(ByVal valCodigo As String)
    Dim insCuentaBancaria As clsCuentaBancariaNavigator
    On Error GoTo h_ERROR
    Set insCnxAos = New clsConexionesSawAOS
-   If insCnxAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, valCodigo, "CuentaContable") Then
+   If insCnxAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, valCodigo, "CuentaContable", "", "", "", False, False, False, False) Then
       fHasCuentaBancariaWithCuentaContable = True
    End If
    Set insCnxAos = Nothing
@@ -841,7 +841,7 @@ Public Sub sActivaModuloDeAuxiliaresCopiandoCatalogo()
 End Sub
 
 Public Sub sActualizacionDeNoDocumentoOrigenDeFacturaYCxC(ByVal valUsaConsecutivoPeriodo As Boolean, Optional ByVal valConsecutivoPeriodoNew As Long = -1)
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlSetClause As String
    Dim sqlFromClause As String
    Dim sqlWhereClause As String
@@ -874,8 +874,8 @@ Public Sub sActualizacionDeNoDocumentoOrigenDeFacturaYCxC(ByVal valUsaConsecutiv
       sqlWhereClause = sqlWhereClause & " AND " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
                      " = " & valConsecutivoPeriodoNew
    End If
-   SQL = gUtilSQL.fSQLUpdateWithNJoin(insComprobante.GetTableName, sqlSetClause, sqlFromClause, sqlWhereClause)
-   gDbUtil.Execute gDefDatabase.Conexion, SQL
+   Sql = gUtilSQL.fSQLUpdateWithNJoin(insComprobante.GetTableName, sqlSetClause, sqlFromClause, sqlWhereClause)
+   gDbUtil.Execute gDefDatabase.Conexion, Sql
    sqlSetClause = " SET " & insComprobante.GetTableName & "." & "NoDocumentoOrigen" & " = " & _
                   insCxC.GetTableName & ".TipoCxC" & sqlComun
    sqlFromClause = insCxC.GetTableName & " INNER JOIN (" & _
@@ -892,8 +892,8 @@ Public Sub sActualizacionDeNoDocumentoOrigenDeFacturaYCxC(ByVal valUsaConsecutiv
       sqlWhereClause = sqlWhereClause & " AND " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
                      " = " & valConsecutivoPeriodoNew
    End If
-   SQL = gUtilSQL.fSQLUpdateWithNJoin(insComprobante.GetTableName, sqlSetClause, sqlFromClause, sqlWhereClause)
-   gDbUtil.Execute gDefDatabase.Conexion, SQL
+   Sql = gUtilSQL.fSQLUpdateWithNJoin(insComprobante.GetTableName, sqlSetClause, sqlFromClause, sqlWhereClause)
+   gDbUtil.Execute gDefDatabase.Conexion, Sql
    Set insFactura = Nothing
    Set insCxC = Nothing
    Set insComprobante = Nothing
@@ -905,7 +905,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Sub
 
 Public Function fConstruirSQLDelInformesDeDocumentosSinComprobante(ByVal valTipoDeDocumento As enum_ComprobanteGeneradoPor, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim insCxC As clsCxCNavigator
    Dim insCxP As clsCxPNavigator
    Dim insCobranza As clsCobranzaNavigator
@@ -927,107 +927,107 @@ Public Function fConstruirSQLDelInformesDeDocumentosSinComprobante(ByVal valTipo
    Select Case valTipoDeDocumento
       Case enum_ComprobanteGeneradoPor.eCG_CXC
          Set insCxC = New clsCxCNavigator
-         SQL = insComprobanteNav.fConstruirSQLParaReportes(eCG_CXC, True)
-         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(SQL)
-         SQL = insCxC.fConstruirSQLDeCxCEntreFechas(valFechaInicial, valFechaFinal)
+         Sql = insComprobanteNav.fConstruirSQLParaReportes(eCG_CXC, True)
+         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql)
+         Sql = insCxC.fConstruirSQLDeCxCEntreFechas(valFechaInicial, valFechaFinal)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-            SQL = SQL & " AND " & insCxC.GetTableName & ".Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_MANUAL)
-            SQL = SQL & " AND " & insCxC.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
-            SQL = SQL & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
+            Sql = Sql & " AND " & insCxC.GetTableName & ".Origen = " & gUtilSQL.fSQLSimpleValueForEnum(enum_OrigenFacturacionOManual.eOF_MANUAL)
+            Sql = Sql & " AND " & insCxC.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
+            Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
          End If
-         SQL = SQL & " ORDER BY " & insCxC.GetTableName & ".Fecha"
+         Sql = Sql & " ORDER BY " & insCxC.GetTableName & ".Fecha"
          Set insCxC = Nothing
       Case enum_ComprobanteGeneradoPor.eCG_CXP
          Set insCxP = New clsCxPNavigator
-         SQL = insComprobanteNav.fConstruirSQLParaReportes(eCG_CXP, False)
-         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(SQL)
-         SQL = insCxP.fConstruirSQLDeCxPEntreFechas(valFechaInicial, valFechaFinal)
+         Sql = insComprobanteNav.fConstruirSQLParaReportes(eCG_CXP, False)
+         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql)
+         Sql = insCxP.fConstruirSQLDeCxPEntreFechas(valFechaInicial, valFechaFinal)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-           SQL = SQL & " AND " & insCxP.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
-           SQL = SQL & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
+           Sql = Sql & " AND " & insCxP.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
+           Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
          End If
-         SQL = SQL & " ORDER BY " & insCxP.GetTableName & ".Fecha"
+         Sql = Sql & " ORDER BY " & insCxP.GetTableName & ".Fecha"
          Set insCxP = Nothing
       Case enum_ComprobanteGeneradoPor.eCG_COBRANZA
          Set insCobranza = New clsCobranzaNavigator
-         SQL = insComprobanteNav.fConstruirSQLParaReportes(eCG_COBRANZA, True)
-         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(SQL)
-         SQL = insCobranza.fConstruirSQLDeCobranzaEntreFechas(valFechaInicial, valFechaFinal)
+         Sql = insComprobanteNav.fConstruirSQLParaReportes(eCG_COBRANZA, True)
+         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql)
+         Sql = insCobranza.fConstruirSQLDeCobranzaEntreFechas(valFechaInicial, valFechaFinal)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-            SQL = SQL & " AND " & insCobranza.GetTableName & ".Numero"
-            SQL = SQL & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
+            Sql = Sql & " AND " & insCobranza.GetTableName & ".Numero"
+            Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
          End If
-         SQL = SQL & " ORDER BY " & insCobranza.GetTableName & ".Fecha"
+         Sql = Sql & " ORDER BY " & insCobranza.GetTableName & ".Fecha"
          Set insCobranza = Nothing
       Case enum_ComprobanteGeneradoPor.eCG_FACTURA
          Set insFactura = New clsFacturaNavigator
          insFactura.setClaseDeTrabajo eCTFC_Factura
-         SQL = insComprobanteNav.fConstruirSQLParaReportes(eCG_FACTURA, True)
-         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(SQL)
-         SQL = insFactura.fConstruirSQLDeFacturaEntreFechas(valFechaInicial, valFechaFinal, False)
+         Sql = insComprobanteNav.fConstruirSQLParaReportes(eCG_FACTURA, True)
+         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql)
+         Sql = insFactura.fConstruirSQLDeFacturaEntreFechas(valFechaInicial, valFechaFinal, False)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-            SQL = SQL & " AND " & insFactura.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
-            SQL = SQL & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
-            SQL = SQL & " AND (" & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
-            SQL = SQL & " OR " & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & ")"
-            SQL = SQL & " AND " & insFactura.getFN_TIPO_DE_DOCUMENTO & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+            Sql = Sql & " AND " & insFactura.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
+            Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
+            Sql = Sql & " AND (" & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA)
+            Sql = Sql & " OR " & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & ")"
+            Sql = Sql & " AND " & insFactura.getFN_TIPO_DE_DOCUMENTO & " <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
          End If
-         SQL = SQL & " ORDER BY " & insFactura.GetTableName & "." & insFactura.getFN_FECHA
+         Sql = Sql & " ORDER BY " & insFactura.GetTableName & "." & insFactura.getFN_FECHA
          Set insFactura = Nothing
       Case enum_ComprobanteGeneradoPor.eCG_MOVIMIENTO_BANCARIO
          Set insMovimientoBancario = New clsMovimientoBancarioNavigator
-         SQL = insComprobanteNav.fConstruirSQLParaReportes(eCG_MOVIMIENTO_BANCARIO, True)
-         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(SQL, False)
-         SQL = insMovimientoBancario.fConstruirSQLDeMovimientoBancarioEntreFechas(valFechaInicial, valFechaFinal)
-         SQL = SQL & " AND " & insMovimientoBancario.GetTableName & ".GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_USUARIO)
+         Sql = insComprobanteNav.fConstruirSQLParaReportes(eCG_MOVIMIENTO_BANCARIO, True)
+         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql, False)
+         Sql = insMovimientoBancario.fConstruirSQLDeMovimientoBancarioEntreFechas(valFechaInicial, valFechaFinal)
+         Sql = Sql & " AND " & insMovimientoBancario.GetTableName & ".GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_USUARIO)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-            SQL = SQL & " AND " & insMovimientoBancario.GetTableName & ".ConsecutivoMovimiento"
-            SQL = SQL & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
+            Sql = Sql & " AND " & insMovimientoBancario.GetTableName & ".ConsecutivoMovimiento"
+            Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
          End If
-         SQL = SQL & " ORDER BY " & insMovimientoBancario.GetTableName & ".Fecha"
+         Sql = Sql & " ORDER BY " & insMovimientoBancario.GetTableName & ".Fecha"
          Set insMovimientoBancario = Nothing
       Case enum_ComprobanteGeneradoPor.eCG_PAGOS
          Set insPago = New clsPagoNavigator
-         SQL = insComprobanteNav.fConstruirSQLParaReportes(eCG_PAGOS, True)
-         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(SQL, False)
-         SQL = insPagoSQL.fConstruirSQLDePagoEntreFechas(valFechaInicial, valFechaFinal, insPago.GetTableName, insProveedor.GetTableName, gProyCompaniaActual.GetConsecutivoCompania)
+         Sql = insComprobanteNav.fConstruirSQLParaReportes(eCG_PAGOS, True)
+         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql, False)
+         Sql = insPagoSQL.fConstruirSQLDePagoEntreFechas(valFechaInicial, valFechaFinal, insPago.GetTableName, insProveedor.GetTableName, gProyCompaniaActual.GetConsecutivoCompania)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-            SQL = SQL & " AND " & insPago.GetTableName & ".NumeroComprobante"
-            SQL = SQL & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
+            Sql = Sql & " AND " & insPago.GetTableName & ".NumeroComprobante"
+            Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
          End If
-         SQL = SQL & " ORDER BY " & insPago.GetTableName & ".Fecha"
+         Sql = Sql & " ORDER BY " & insPago.GetTableName & ".Fecha"
          Set insPago = Nothing
       Case enum_ComprobanteGeneradoPor.eCG_RESUMEN_DIARIO_VENTAS
          Set insFactura = New clsFacturaNavigator
          insFactura.setClaseDeTrabajo eCTFC_Factura
-         SQL = insComprobanteNav.fConstruirSQLParaReportes(eCG_RESUMEN_DIARIO_VENTAS, True)
-         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(SQL)
-         SQL = insFactura.fConstruirSQLDeFacturaEntreFechas(valFechaInicial, valFechaFinal, True)
+         Sql = insComprobanteNav.fConstruirSQLParaReportes(eCG_RESUMEN_DIARIO_VENTAS, True)
+         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql)
+         Sql = insFactura.fConstruirSQLDeFacturaEntreFechas(valFechaInicial, valFechaFinal, True)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-            SQL = SQL & " AND " & insFactura.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
-            SQL = SQL & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
-            SQL = SQL & " AND " & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR)
-            SQL = SQL & " AND " & insFactura.getFN_TIPO_DE_DOCUMENTO & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+            Sql = Sql & " AND " & insFactura.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
+            Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
+            Sql = Sql & " AND " & insFactura.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR)
+            Sql = Sql & " AND " & insFactura.getFN_TIPO_DE_DOCUMENTO & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
          End If
-         SQL = SQL & " ORDER BY " & insFactura.GetTableName & "." & insFactura.getFN_FECHA
+         Sql = Sql & " ORDER BY " & insFactura.GetTableName & "." & insFactura.getFN_FECHA
          Set insFactura = Nothing
       Case enum_ComprobanteGeneradoPor.eCG_ANTICIPO
          Set insAnticipoSQL = New clsAnticipoSQL
          Set insAnticipoNav = New clsAnticipoNavigator
-         SQL = insComprobanteNav.fConstruirSQLParaReportes(eCG_ANTICIPO, True)
-         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(SQL, False)
-         SQL = insAnticipoSQL.fConstruirSQLDeAnticiposEntreFechas(valFechaInicial, valFechaFinal, gProyCompaniaActual)
+         Sql = insComprobanteNav.fConstruirSQLParaReportes(eCG_ANTICIPO, True)
+         ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql, False)
+         Sql = insAnticipoSQL.fConstruirSQLDeAnticiposEntreFechas(valFechaInicial, valFechaFinal, gProyCompaniaActual)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-            SQL = SQL & " AND " & insAnticipoNav.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
-            SQL = SQL & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ")"
+            Sql = Sql & " AND " & insAnticipoNav.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
+            Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ")"
          End If
-         SQL = SQL & " ORDER BY " & insAnticipoNav.GetTableName & ".Fecha "
+         Sql = Sql & " ORDER BY " & insAnticipoNav.GetTableName & ".Fecha "
          Set insAnticipoSQL = Nothing
          Set insAnticipoNav = Nothing
    End Select
    Set insPagoSQL = Nothing
    Set insComprobanteNav = Nothing
-   fConstruirSQLDelInformesDeDocumentosSinComprobante = SQL
+   fConstruirSQLDelInformesDeDocumentosSinComprobante = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConstruirSQLDelInformesDeDocumentosSinComprobante = ""
@@ -1040,7 +1040,7 @@ Public Sub sInsertarLosRecordsDeTipoDeComprobante(ByVal valTableName As String, 
    Dim txtTipodeComprobante As String
    Dim CodigoTipoDeComprobante As String
    Dim pos As Integer
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo 0
    For varEnum = eTDC_CHEQUES To eTDC_ANTICIPO
       txtTipodeComprobante = gEnumProyectoWincont.enumTipoDeComprobanteToString(varEnum)
@@ -1049,9 +1049,9 @@ Public Sub sInsertarLosRecordsDeTipoDeComprobante(ByVal valTableName As String, 
       txtTipodeComprobante = gTexto.DfMid(txtTipodeComprobante, pos + 3)
       txtTipodeComprobante = gUtilSQL.fSimpleSqlValue(txtTipodeComprobante)
       CodigoTipoDeComprobante = gUtilSQL.fSimpleSqlValue(CodigoTipoDeComprobante)
-      SQL = "INSERT INTO " & valTableName & "(" & valFN_NombreDelTipo & ", " & valFN_CodigoDelTipo
-      SQL = SQL & " ) VALUES " & "(" & txtTipodeComprobante & ", " & CodigoTipoDeComprobante & ")"
-      gDbUtil.Execute gDefDatabase.Conexion, SQL
+      Sql = "INSERT INTO " & valTableName & "(" & valFN_NombreDelTipo & ", " & valFN_CodigoDelTipo
+      Sql = Sql & " ) VALUES " & "(" & txtTipodeComprobante & ", " & CodigoTipoDeComprobante & ")"
+      gDbUtil.Execute gDefDatabase.Conexion, Sql
    Next
 End Sub
 
@@ -1094,21 +1094,21 @@ Private Function fEjecutaProcesoPostEliminacionCxP(ByVal valNumeroDocOrigen As S
    Dim insCxP As clsCxPNavigator
    Dim vCodigoProveedor As String
    Dim vNumeroCxP As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
    vResultado = False
    If gProyCompaniaActual.fPuedoUsarOpcionesDeContribuyenteEspecial Then
       Set insCxP = New clsCxPNavigator
       vCodigoProveedor = gTexto.DfMid(valNumeroDocOrigen, 1, gTexto.DfInStr(valNumeroDocOrigen, gTexto.fSeparadorStandardDeElementosString) - 1)
       vNumeroCxP = gTexto.DfMid(valNumeroDocOrigen, gTexto.DfInStr(valNumeroDocOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
-      SQL = "UPDATE " & insCxP.GetTableName
-      SQL = SQL & " SET SeContabilRetIva = " & gUtilSQL.fBooleanToSqlValue(False)
-      SQL = SQL & " WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-      SQL = SQL & " AND CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(vCodigoProveedor)
-      SQL = SQL & " AND Numero = " & gUtilSQL.fSimpleSqlValue(vNumeroCxP)
-      SQL = SQL & " AND DondeContabilRetIVA = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeEfectuoContabilizacionRetIVA.eDC_CxP)
-      SQL = SQL & " AND MontoRetenido <> 0"
-      gMessage.ProgrammerMessage (gDbUtil.fExecuteAndReturnTotalOfRecordsAffected(gDefDatabase.Conexion, SQL))
+      Sql = "UPDATE " & insCxP.GetTableName
+      Sql = Sql & " SET SeContabilRetIva = " & gUtilSQL.fBooleanToSqlValue(False)
+      Sql = Sql & " WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+      Sql = Sql & " AND CodigoProveedor = " & gUtilSQL.fSimpleSqlValue(vCodigoProveedor)
+      Sql = Sql & " AND Numero = " & gUtilSQL.fSimpleSqlValue(vNumeroCxP)
+      Sql = Sql & " AND DondeContabilRetIVA = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeEfectuoContabilizacionRetIVA.eDC_CxP)
+      Sql = Sql & " AND MontoRetenido <> 0"
+      gMessage.ProgrammerMessage (gDbUtil.fExecuteAndReturnTotalOfRecordsAffected(gDefDatabase.Conexion, Sql))
       Set insCxP = Nothing
       vResultado = True
    Else
@@ -1123,7 +1123,7 @@ End Function
 
 Private Function fEjecutaProcesoPostEliminacionPago(ByVal valNumeroDocOrigen As String) As Boolean
    Dim vResultado As Boolean
-   Dim SQL As String
+   Dim Sql As String
    Dim sqlTableToUpdate As String
    Dim sqlSetClause As String
    Dim sqlFROM As String
@@ -1153,8 +1153,8 @@ Private Function fEjecutaProcesoPostEliminacionPago(ByVal valNumeroDocOrigen As 
       Set insCxP = Nothing
       Set insPago = Nothing
       Set insDocPagado = Nothing
-      SQL = gUtilSQL.fSQLUpdateWithNJoin(sqlTableToUpdate, sqlSetClause, sqlFROM, sqlWhere)
-      gDbUtil.Execute gDefDatabase.Conexion, SQL
+      Sql = gUtilSQL.fSQLUpdateWithNJoin(sqlTableToUpdate, sqlSetClause, sqlFROM, sqlWhere)
+      gDbUtil.Execute gDefDatabase.Conexion, Sql
       vResultado = True
    Else
       vResultado = True
@@ -1495,12 +1495,12 @@ End Function
 
 Public Function fExisteLaTasaDelDia(ByVal valFechaDeVigencia As Date, ByVal valCodigoMoneda As String, ByRef refCambioAbolivares As String) As Boolean
    Dim wrpCambio As Object
-   Dim mcambio As Currency
+   Dim mCambio As Currency
    Dim vResult As Boolean
    On Error GoTo h_ERROR
    Set wrpCambio = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("TablasGen", "wrpCambio"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
    vResult = wrpCambio.ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, refCambioAbolivares)
-   mcambio = gConvert.fConvertStringToCurrency(refCambioAbolivares)
+   mCambio = gConvert.fConvertStringToCurrency(refCambioAbolivares)
    If vResult And mCambio = 0 Then
       vResult = False
    End If

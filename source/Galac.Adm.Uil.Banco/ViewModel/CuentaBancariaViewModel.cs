@@ -43,12 +43,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 		private const string IsEnabledGeneraMovBancarioPorIGTFPropertyName = "IsEnabledGeneraMovBancarioPorIGTF";
 		private const string IsEnabledTipoDeAlicuotaPorContribuyentePropertyName = "IsEnabledTipoDeAlicuotaPorContribuyente";
+		private const string IsVisibleGeneraMovBancarioPorIGTFPropertyName = "IsVisibleGeneraMovBancarioPorIGTF";
 		#endregion
 
 		#region Variables
 		private FkBancoViewModel _ConexionBanco = null;
 		private FkCuentaViewModel _ConexionCuentaContable = null;
 		private FkMonedaViewModel _ConexionMoneda = null;
+		private Saw.Lib.clsNoComunSaw _MonedaLocal;
 		#endregion //Variables
 
 		#region Propiedades
@@ -203,7 +205,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Model.ManejaDebitoBancarioAsBool != value) {
 					Model.ManejaDebitoBancarioAsBool = value;
 					IsDirty = true;
+					if (!Model.ManejaDebitoBancarioAsBool) {
+						TipoDeAlicuotaPorContribuyente = eTipoAlicPorContIGTF.NoAsignado;
+						GeneraMovBancarioPorIGTF = false;
+					}
 					RaisePropertyChanged(ManejaDebitoBancarioPropertyName);
+					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
+					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
 		}
@@ -289,6 +297,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					RaisePropertyChanged(CodigoMonedaPropertyName);
 					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
 					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
+					RaisePropertyChanged(IsVisibleGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
 		}
@@ -322,6 +331,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.TipoDeAlicuotaPorContribuyenteAsEnum = value;
 					IsDirty = true;
 					RaisePropertyChanged(TipoDeAlicuotaPorContribuyentePropertyName);
+					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
 		}
@@ -527,13 +537,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsEnabledITFDebitoBancario {
 			get {
-				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
+				return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
 			}
 		}
 
 		public bool IsEnabledITFCreditoBancario {
 			get {
-				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaCreditoBancario") && !EsEcuador();
+				return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaCreditoBancario") && !EsEcuador();
 			}
 		}
 
@@ -546,30 +556,35 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
 			get {
 				if (Action == eAccionSR.Insertar) {
-					return true;
+					return IsEnabled && ManejaDebitoBancario;
 				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
-					return IsEnabled && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado);
+					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav(); 
+					return IsEnabled && ManejaDebitoBancario && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado || TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.Cont14);
 				}
 			}
 		}
 
 		public bool IsEnabledGeneraMovBancarioPorIGTF {
 			get {
-				Saw.Lib.clsNoComunSaw vMonedaLocal = new Saw.Lib.clsNoComunSaw();
-				vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-				if (vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda)) {
+				if (_MonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda) && TipoDeAlicuotaPorContribuyente != eTipoAlicPorContIGTF.Cont14) {
 					GeneraMovBancarioPorIGTF = true;
 					return false;
 				} else if (Action == eAccionSR.Insertar) {
-					return true;
+					return IsEnabled && ManejaDebitoBancario;
 				} else {
-					return IsEnabledTipoDeAlicuotaPorContribuyente;
+					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
+					return IsEnabled && ManejaDebitoBancario && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado || TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.Cont14);
 				}
 			}
 		}
-		#endregion //Propiedades
 
+		public bool IsVisibleGeneraMovBancarioPorIGTF {
+			get {
+				return !_MonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda);
+			}
+		}
+
+		#endregion //Propiedades
 		#region Constructores
 		public CuentaBancariaViewModel()
 			: this(new CuentaBancaria(), eAccionSR.Insertar) {
@@ -584,13 +599,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		#region Metodos Generados
 		protected override void InitializeLookAndFeel(CuentaBancaria valModel) {
 			base.InitializeLookAndFeel(valModel);
-			IMonedaLocalActual vMonedaLocalActual = new clsMonedaLocalActual();
-			vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
+			_MonedaLocal = new Saw.Lib.clsNoComunSaw();
+			_MonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());			
 			if (Action == eAccionSR.Insertar) {
 				if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
 					SetMonedaDefault(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "CodigoMonedaExtranjera"));
 				} else {
-					SetMonedaDefault(vMonedaLocalActual.GetHoyCodigoMoneda());
+					SetMonedaDefault(_MonedaLocal.InstanceMonedaLocalActual.GetHoyCodigoMoneda());
 				}
 			}
 		}
@@ -729,15 +744,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		private void AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref LibSearchCriteria vFixedCriteria) {
-			IMonedaLocalActual vMonedaLocalActual = new clsMonedaLocalActual();
-			vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
+		private void AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref LibSearchCriteria vFixedCriteria) {			
 			XElement vXmlMonedaLocales = ((IMonedaLocalPdn) new clsMonedaLocalProcesos()).BusquedaTodasLasMonedasLocales(LibDefGen.ProgramInfo.Country);
 			IList<MonedaLocalActual> vListaDeMonedaLocales = new List<MonedaLocalActual>();
 			vListaDeMonedaLocales = vXmlMonedaLocales != null ? LibParserHelper.ParseToList<MonedaLocalActual>(new XDocument(vXmlMonedaLocales)) : null;
 			if (vListaDeMonedaLocales != null) {
 				foreach (MonedaLocalActual vMoneda in vListaDeMonedaLocales) {
-					if (vMoneda.CodigoMoneda != vMonedaLocalActual.GetHoyCodigoMoneda()) {
+					if (vMoneda.CodigoMoneda != _MonedaLocal.InstanceMonedaLocalActual.GetHoyCodigoMoneda()) {
 						vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityInequality, vMoneda.CodigoMoneda);
 					}
 				}
