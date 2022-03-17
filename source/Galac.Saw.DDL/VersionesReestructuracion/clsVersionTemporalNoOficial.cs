@@ -36,12 +36,21 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		private void AgregaCamposCuentaBancaria() {
-			if (AddColumnEnumerative("Saw.CuentaBancaria", "TipoDeAlicuotaPorContribuyente","",0)) {
+			StringBuilder vSql = new StringBuilder();
+			if (AddColumnEnumerative("Saw.CuentaBancaria", "TipoDeAlicuotaPorContribuyente", "", 0)) {
 				AddDefaultConstraint("Saw.CuentaBancaria", "d_CueBanTiDeAlPoCo", "'0'", "TipoDeAlicuotaPorContribuyente");
 			}
 			if (AddColumnBoolean("Saw.CuentaBancaria", "GeneraMovBancarioPorIGTF", "", false)) {
 				AddNotNullConstraint("Saw.CuentaBancaria", "GeneraMovBancarioPorIGTF", InsSql.CharTypeForDb(1));
 			}
+			vSql.AppendLine("UPDATE Saw.CuentaBancaria ");
+			vSql.AppendLine("SET GeneraMovBancarioPorIGTF = 'S' ");
+			vSql.AppendLine("WHERE CodigoMoneda = 'VED' AND ConsecutivoCompania IN ");
+			vSql.AppendLine("(SELECT ConsecutivoCompania ");
+			vSql.AppendLine("FROM Comun.SettValueByCompany ");
+			vSql.AppendLine("WHERE NameSettDefinition = 'ManejaDebitoBancario' ");
+			vSql.AppendLine("AND VALUE = 'S')");
+			Execute(vSql.ToString(), 0);
 		}
 	}
 }
