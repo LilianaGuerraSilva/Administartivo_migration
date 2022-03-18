@@ -19,37 +19,37 @@ Private Function GetGender() As Enum_Gender
    GetGender = eg_Female
 End Function
 
-Public Function GetViewNameUnionMovBCtaB() As String
-   GetViewNameUnionMovBCtaB = "IGV_UnionMovBCtaB"
-End Function
+'Public Function GetViewNameUnionMovBCtaB() As String
+'   GetViewNameUnionMovBCtaB = "IGV_UnionMovBCtaB"
+'End Function
 
-Public Function fSqlViewUnionMovBCtaB() As String
-   Dim vSQL As String
-   On Error GoTo h_ERROR
+'Public Function fSqlViewUnionMovBCtaB() As String
+'   Dim vSQL As String
+'   On Error GoTo h_ERROR
 
-   vSQL = "SELECT "
-   vSQL = vSQL & "MovimientoBancario.ConsecutivoCompania, "
-   vSQL = vSQL & "MovimientoBancario.Fecha, "
-   vSQL = vSQL & "MovimientoBancario.TipoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.GeneraImpuestoBancario, "
-   vSQL = vSQL & "MovimientoBancario.Monto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoCtaBancaria, "
-   vSQL = vSQL & "movimientoBancario.GeneradoPor, "
-   vSQL = vSQL & "movimientoBancario.CambioAbolivares, "
-   vSQL = vSQL & "cuentaBancaria.Codigo, "
-   vSQL = vSQL & "cuentaBancaria.ConsecutivoCompania as Consecutivo, "
-   vSQL = vSQL & "cuentaBancaria.NombreCuenta, "
-   vSQL = vSQL & "cuentaBancaria.status, "
-   vSQL = vSQL & "cuentaBancaria.CodigoMoneda "
-   vSQL = vSQL & "FROM MovimientoBancario "
-   vSQL = vSQL & "INNER JOIN cuentabancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
-   fSqlViewUnionMovBCtaB = vSQL
-h_EXIT:     On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewMovBDatosPrincipales", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
+'   vSQL = "SELECT "
+'   vSQL = vSQL & "MovimientoBancario.ConsecutivoCompania, "
+'   vSQL = vSQL & "MovimientoBancario.Fecha, "
+'   vSQL = vSQL & "MovimientoBancario.TipoConcepto, "
+'   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, "
+'   vSQL = vSQL & "MovimientoBancario.GeneraImpuestoBancario, "
+'   vSQL = vSQL & "MovimientoBancario.Monto, "
+'   vSQL = vSQL & "MovimientoBancario.CodigoCtaBancaria, "
+'   vSQL = vSQL & "movimientoBancario.GeneradoPor, "
+'   vSQL = vSQL & "movimientoBancario.CambioAbolivares, "
+'   vSQL = vSQL & "cuentaBancaria.Codigo, "
+'   vSQL = vSQL & "cuentaBancaria.ConsecutivoCompania as Consecutivo, "
+'   vSQL = vSQL & "cuentaBancaria.NombreCuenta, "
+'   vSQL = vSQL & "cuentaBancaria.status, "
+'   vSQL = vSQL & "cuentaBancaria.CodigoMoneda, "
+'   vSQL = vSQL & "FROM MovimientoBancario "
+'   vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+'   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+'   fSqlViewUnionMovBCtaB = vSQL
+'h_EXIT:     On Error GoTo 0
+'   Exit Function
+'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewMovBDatosPrincipales", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+'End Function
 
 Public Function GetViewNameMovBCtaBGeneradaXCobranza() As String
    GetViewNameMovBCtaBGeneradaXCobranza = "IGV_MovBCtaBGeneradaXCobranza"

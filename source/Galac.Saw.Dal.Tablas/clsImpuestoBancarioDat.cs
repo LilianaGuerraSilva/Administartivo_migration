@@ -124,6 +124,7 @@ namespace Galac.Saw.Dal.Tablas {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Reinstalar")]
         LibResponse ILibDataComponent<IList<ImpuestoBancario>, IList<ImpuestoBancario>>.Insert(IList<ImpuestoBancario> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -235,6 +236,7 @@ namespace Galac.Saw.Dal.Tablas {
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Insertar")]
         [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Importar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Reinstalar")]
         LibXmlResult ILibDataImport.Import(XmlReader refRecord, LibProgressManager valManager, bool valShowMessage) {
             //throw new ProgrammerMissingCodeException("PROGRAMADOR: El codigo generado bajo el atributo IMPEXP del record, es solo referencial. DEBE AJUSTARLO ya que el Narrador actualmente desconoce la estructura de su archivo de importacion!!!!");
             try {

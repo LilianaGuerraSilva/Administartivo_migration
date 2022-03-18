@@ -13948,6 +13948,31 @@ Public Function strTipoAlicPorContIGTFToNum(ByVal TipoAlicPorContIGTF As String,
 h_EXIT:
    Exit Function
 End Function
+Public Function fEnumTipoAlicPorContIGTFToStringInArray(Optional ByVal valPrepararParaSql As Boolean = False, Optional ByVal valConSiglas As Boolean = False) As Variant
+   Dim varEnum As enum_TipoAlicPorContIGTF
+   Dim varArray() As String
+   Dim varLimiteSuperior As Integer
+   Dim nCount As Integer
+   Dim varCaracterDelimitador As String
+   On Error Resume Next
+   varCaracterDelimitador = ""
+   If valPrepararParaSql Then
+      varCaracterDelimitador = "'"
+   End If
+   varLimiteSuperior = enum_TipoAlicPorContIGTF.eTAPCIGTF_Cont6 - enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado
+   nCount = 0
+   ReDim varArray(0 To varLimiteSuperior)
+   For varEnum = enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado To enum_TipoAlicPorContIGTF.eTAPCIGTF_Cont6
+      If valConSiglas = False Then
+         varArray(nCount) = varCaracterDelimitador & enumTipoAlicPorContIGTFToString(varEnum) & varCaracterDelimitador
+      Else
+         varArray(nCount) = varCaracterDelimitador & enumTipoAlicPorContIGTFToString(varEnum) & varCaracterDelimitador
+      End If
+      nCount = nCount + 1
+   Next
+   fEnumTipoAlicPorContIGTFToStringInArray = varArray
+   On Error GoTo 0
+End Function
 
 Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_FacturaGeneradaPor
