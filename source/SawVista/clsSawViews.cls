@@ -66,7 +66,7 @@ Public Function fCreateProjectViews(ByVal valShowMessage As Boolean, ByVal valWi
 'que se usen que si es o no la más nueva
    vResult = vResult And insSawEnum.fCreateProjectEnumViews(False, valWithEncryption)
    vResult = vResult And insWcoViews.fCreateProjectViews(False, valWithEncryption)
-   vResult = vResult And insLibViews.fCreateView(insBancoVista.GetViewNameUnionMovBCtaB(), insBancoVista.fSqlViewUnionMovBCtaB(), valShowMessage, valWithEncryption)
+   'vResult = vResult And insLibViews.fCreateView(insBancoVista.GetViewNameUnionMovBCtaB(), insBancoVista.fSqlViewUnionMovBCtaB(), valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(insClienteVista.GetViewNameFichaCliente(), insClienteVista.fSqlViewFichaCliente(), valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(insClienteVista.GetViewNameClientexFactura(), insClienteVista.fSqlViewClientexFactura(), valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(insCobranzaVista.GetViewNameMontoNoComisibleFactura(), insCobranzaVista.fSqlViewMontoNoComisibleFactura, valShowMessage, valWithEncryption)
@@ -366,7 +366,7 @@ Public Function fDropProjectViews(ByVal valShowMessage As Boolean) As Boolean
    vResult = vResult And insLibViews.fDropView(insCobranzaVista.GetViewNameMontoNoComisibleFactura(), valShowMessage)
    vResult = vResult And insLibViews.fDropView(insClienteVista.GetViewNameFichaCliente(), valShowMessage)
    vResult = vResult And insLibViews.fDropView(insClienteVista.GetViewNameClientexFactura(), valShowMessage)
-   vResult = vResult And insLibViews.fDropView(insBancoVista.GetViewNameUnionMovBCtaB(), valShowMessage)
+   'vResult = vResult And insLibViews.fDropView(insBancoVista.GetViewNameUnionMovBCtaB(), valShowMessage)
    vResult = vResult And insLibViews.fDropView(insAnticipoVista.GetViewNameAnticiposCobradosAUnaFecha, valShowMessage)
    vResult = vResult And insLibViews.fDropView(insAnticipoVista.GetViewNameAnticiposPagadosAUnaFecha, valShowMessage)
    vResult = vResult And insLibViews.fDropView(insCobranzaVista.GetViewNameCobranzaPorZona, valShowMessage)

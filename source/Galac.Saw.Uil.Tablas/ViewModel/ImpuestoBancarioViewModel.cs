@@ -31,7 +31,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
 
         [LibRequired(ErrorMessage = "El campo Fecha de inicio de vigencia es requerido.")]
         [LibCustomValidation("FechaDeInicioDeVigenciaValidating")]
-        [LibGridColum("Fecha de inicio de vigencia", eGridColumType.DatePicker)]
+        [LibGridColum("Fecha de inicio de vigencia", eGridColumType.DatePicker,Width =180)]
         public DateTime  FechaDeInicioDeVigencia {
             get {
                 return Model.FechaDeInicioDeVigencia;
@@ -66,7 +66,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
                 }
             }
         }
-        [LibGridColum("Contribuyentes 1, 2, 3, 4", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("Contribuyentes 1, 2, 3, 4", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150)]
         public decimal  AlicuotaC1Al4 {
             get {
                 return Model.AlicuotaC1Al4;

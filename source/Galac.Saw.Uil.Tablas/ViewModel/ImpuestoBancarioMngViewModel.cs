@@ -134,7 +134,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         }
 
         private bool CanExecuteReinstallCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("Tablas","Insertar");
+            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Reinstalar");
         }
 
 

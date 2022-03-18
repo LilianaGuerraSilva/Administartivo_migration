@@ -33,6 +33,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			if (AddColumnDecimal("Adm.ImpTransacBancarias", "AlicuotaC6", 25, 4, "", 0)) {
 				AddDefaultConstraint("Adm.ImpTransacBancarias", "d_ImpBanAlC6", "0", "AlicuotaC6");
 			}
+			ExecuteDropConstraint("Adm.ImpTransacBancarias", "u_ImpTransacBancariasFechaDeInicioDeVigencia", true);
 		}
 
 		private void AgregaCamposCuentaBancaria() {

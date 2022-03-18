@@ -245,13 +245,15 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GroupHeader1", "NombreCuenta", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCuentaBancaria", "", "NombreCuenta"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoAliContribuyente", "", "TipoDeAlicuotaPorContribuyente"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "CodigoMoneda"
-         ''gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtConceptos", "", "Concepto"
          gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "Fecha", eFT_DATE
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtAlicuota", "", "AlicuotaImpBancario"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtITF", "", "MontoITF"
-         gUtilReports.sDefaultConfigurationForIntegerFields refRpt, "txtCantOperaciones", "", "DocumentosEfectivo"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtBaseImponible", "", "MontoEfectivo"
+         gUtilReports.sDefaultConfigurationForIntegerFields refRpt, "txtCantOperaciones", "", "ParaContar"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtBaseImponible", "", "BaseImponible"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalITF", "", "MontoITF"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtGeneraMovBancarioPorIGTF", "", "GeneraMovBancarioPorIGTFStr"
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalCantOperaciones", "DocumentosEfectivo", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL, "#"
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalBaseImponible", "MontoEfectivo", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalImpuesto", "MontoITF", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
