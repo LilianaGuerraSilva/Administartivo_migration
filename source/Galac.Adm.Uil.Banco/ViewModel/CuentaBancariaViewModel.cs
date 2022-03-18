@@ -40,8 +40,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private const string TipoDeAlicuotaPorContribuyentePropertyName = "TipoDeAlicuotaPorContribuyente";
 		private const string GeneraMovBancarioPorIGTFPropertyName = "GeneraMovBancarioPorIGTF";
 		private const string NombreOperadorPropertyName = "NombreOperador";
-		private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
-		private const string IsEnabledGeneraMovBancarioPorIGTFPropertyName = "IsEnabledGeneraMovBancarioPorIGTF";
+		private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";		
 		private const string IsEnabledTipoDeAlicuotaPorContribuyentePropertyName = "IsEnabledTipoDeAlicuotaPorContribuyente";
 		private const string IsVisibleGeneraMovBancarioPorIGTFPropertyName = "IsVisibleGeneraMovBancarioPorIGTF";
 		#endregion
@@ -210,8 +209,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 						GeneraMovBancarioPorIGTF = false;
 					}
 					RaisePropertyChanged(ManejaDebitoBancarioPropertyName);
-					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
-					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
+					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);					
 				}
 			}
 		}
@@ -254,6 +252,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.NombreDeLaMoneda = value;
 					IsDirty = true;
 					RaisePropertyChanged(NombreDeLaMonedaPropertyName);
+					RaisePropertyChanged(IsVisibleGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
 		}
@@ -294,9 +293,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Model.CodigoMoneda != value) {
 					Model.CodigoMoneda = value;
 					IsDirty = true;
-					RaisePropertyChanged(CodigoMonedaPropertyName);
-					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
-					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
+					if (LibString.S1IsEqualToS2(CodigoMoneda, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "CodigoMonedaLocal"))) {
+						GeneraMovBancarioPorIGTF = true;
+						RaisePropertyChanged(GeneraMovBancarioPorIGTFPropertyName);
+					}
+					RaisePropertyChanged(CodigoMonedaPropertyName);										
 					RaisePropertyChanged(IsVisibleGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
@@ -330,8 +331,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Model.TipoDeAlicuotaPorContribuyenteAsEnum != value) {
 					Model.TipoDeAlicuotaPorContribuyenteAsEnum = value;
 					IsDirty = true;
-					RaisePropertyChanged(TipoDeAlicuotaPorContribuyentePropertyName);
-					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
+					RaisePropertyChanged(TipoDeAlicuotaPorContribuyentePropertyName);					
 				}
 			}
 		}
@@ -545,13 +545,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			get {
 				return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaCreditoBancario") && !EsEcuador();
 			}
-		}
-
-		public string TituloDebito {
-			get {
-				return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "TituloDebito");
-			}
-		}
+		}	
 
 		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
 			get {
@@ -562,21 +556,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					return IsEnabled && ManejaDebitoBancario && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado || TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.Cont14);
 				}
 			}
-		}
-
-		public bool IsEnabledGeneraMovBancarioPorIGTF {
-			get {
-				if (_MonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda) && TipoDeAlicuotaPorContribuyente != eTipoAlicPorContIGTF.Cont14) {
-					GeneraMovBancarioPorIGTF = true;
-					return false;
-				} else if (Action == eAccionSR.Insertar) {
-					return IsEnabled && ManejaDebitoBancario;
-				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
-					return IsEnabled && ManejaDebitoBancario && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado || TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.Cont14);
-				}
-			}
-		}
+		}		
 
 		public bool IsVisibleGeneraMovBancarioPorIGTF {
 			get {
