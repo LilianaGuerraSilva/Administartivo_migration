@@ -65,8 +65,8 @@ namespace Galac.Saw.Brl.Tablas {
             }
         }
 
-        public string BuscaAlicuotasReformaIGTFGO6687(DateTime valFechaDeInicioDeVigencia) {
-            string vResult = "";
+        public string BuscaAlicuotasReformaIGTFGO6687(DateTime valFechaDeInicioDeVigencia, int valTipoDeAlicuotaPorContribuyenteIGTF) {
+            string vResult = "0";
             LibGpParams vParams = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
             vParams.AddInDateTime("FechaDeInicioDeVigencia", valFechaDeInicioDeVigencia);
@@ -77,13 +77,16 @@ namespace Galac.Saw.Brl.Tablas {
                 vSql.AppendLine("FROM Adm.ImpTransacBancarias WHERE FechaDeInicioDeVigencia <= @FechaDeInicioDeVigencia)");
                 XElement vReq = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", -1);
                 if (vReq != null && vReq.HasElements) {
-                    var xList = vReq.Descendants("GpResult").First();
-                    string[] vListAlicuota = new string[] { LibString.IsNullOrEmpty(xList.Element("AlicuotaC1Al4").Value)?"0":xList.Element("AlicuotaC1Al4").Value,
-                                                            LibString.IsNullOrEmpty(xList.Element("AlicuotaC5").Value)?"0":xList.Element("AlicuotaC5").Value,
-                                                            LibString.IsNullOrEmpty(xList.Element("AlicuotaC6").Value)?"0":xList.Element("AlicuotaC6").Value, };
-                    vResult = LibArray.ToList(vListAlicuota, ";", false);
-                } else {
-                    vResult = "0;0;0";
+                    if (valTipoDeAlicuotaPorContribuyenteIGTF == 1) {
+                        vResult = LibConvert.NumToString(LibConvert.ToDec(vReq.Element("GpResult").Element("AlicuotaC1Al4")), 2);
+                    } else if (valTipoDeAlicuotaPorContribuyenteIGTF == 2) {
+                        vResult = LibConvert.NumToString(LibConvert.ToDec(vReq.Element("GpResult").Element("AlicuotaC5")), 2);
+                    } else if (valTipoDeAlicuotaPorContribuyenteIGTF == 3) {
+                        vResult = LibConvert.NumToString(LibConvert.ToDec(vReq.Element("GpResult").Element("AlicuotaC6")), 2);
+
+                    } else {
+                        vResult = "0";
+                    }
                 }
                 return vResult;
             } catch (Exception) {
