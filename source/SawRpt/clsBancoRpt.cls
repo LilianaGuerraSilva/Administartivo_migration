@@ -245,7 +245,7 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GroupHeader1", "NombreCuenta", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCuentaBancaria", "", "NombreCuenta"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoAliContribuyente", "", "TipoDeAlicuotaPorContribuyente"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoAliContribuyente", "", "TipoDeAlicuotaPorContribuyenteStr"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "CodigoMoneda"
          gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "Fecha", eFT_DATE
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtAlicuota", "", "AlicuotaImpBancario"

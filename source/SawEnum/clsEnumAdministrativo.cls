@@ -13959,7 +13959,7 @@ Public Function fEnumTipoAlicPorContIGTFToStringInArray(Optional ByVal valPrepar
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado - enum_TipoAlicPorContIGTF.eTAPCIGTF_Cont6
+   varLimiteSuperior = enum_TipoAlicPorContIGTF.eTAPCIGTF_Cont6 - enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
    For varEnum = enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado To enum_TipoAlicPorContIGTF.eTAPCIGTF_Cont6
@@ -13970,7 +13970,7 @@ Public Function fEnumTipoAlicPorContIGTFToStringInArray(Optional ByVal valPrepar
       End If
       nCount = nCount + 1
    Next
-   fEnumTipoDeTransaccioToStringInArray = varArray
+   fEnumTipoAlicPorContIGTFToStringInArray = varArray
    On Error GoTo 0
 End Function
 

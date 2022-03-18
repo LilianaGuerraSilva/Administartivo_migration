@@ -337,7 +337,7 @@ Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFecha
    SQL = SQL & fSqlDeclaracionIGTFGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
    SQL = SQL & " UNION "
    SQL = SQL & fSqlDeclaracionIGTFNoGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
-   SQL = SQL & " ORDER BY NombreCuenta, fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
+   SQL = SQL & " ORDER BY NombreCuenta, fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
    fSQLDeclaracionITF = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -350,8 +350,9 @@ Public Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania 
    Set gEnumProyecto = New clsEnumAdministrativo
    vSQL = ";WITH CTE_DeclaracionIGTFGeneraMovBan AS (SELECT MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
    vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
-   vSQL = vSQL & "movimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, cuentaBancaria.TipoDeAlicuotaPorContribuyente, "
+   vSQL = vSQL & "movimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
    vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSQL = vSQL & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
    vSQL = vSQL & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = 'S'", "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
    vSQL = vSQL & "FROM MovimientoBancario "
    vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
@@ -382,10 +383,10 @@ Public Function fSqlDeclaracionIGTFGeneraMovBan_SQL(ByVal valRedondeaMontoDebito
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = '4'", gUtilSQL.fSQLTruncaA2Decimales("Monto * CambioAbolivares"), "0") & ") AS MontoITF, "
    End If
    SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") AS ParaContar, NombreCuenta, "
-   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyente"
+   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
    SQL = SQL & " FROM CTE_DeclaracionIGTFGeneraMovBan "
    SQL = SQL & "WHERE GeneraMovBancarioPorIGTFStr = 'Genera IGTF'"
-   SQL = SQL & " GROUP BY NombreCuenta, Fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyente"
+   SQL = SQL & " GROUP BY NombreCuenta, Fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
    SQL = SQL & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") > 0 "
   
    fSqlDeclaracionIGTFGeneraMovBan_SQL = SQL
@@ -406,10 +407,10 @@ Public Function fSqlDeclaracionIGTFNoGeneraMovBan_SQL(ByVal valRedondeaMontoDebi
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = '4'", "0", gUtilSQL.fSQLTruncaA2Decimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ")) & ") AS MontoITF, "
    End If
    SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") AS ParaContar, NombreCuenta, "
-   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyente "
+   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr "
    SQL = SQL & " FROM CTE_DeclaracionIGTFGeneraMovBan "
    SQL = SQL & "WHERE GeneraMovBancarioPorIGTFStr = 'No Genera IGTF'"
-   SQL = SQL & " GROUP BY NombreCuenta, fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyente"
+   SQL = SQL & " GROUP BY NombreCuenta, fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
    SQL = SQL & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") > 0 "
    
    fSqlDeclaracionIGTFNoGeneraMovBan_SQL = SQL
