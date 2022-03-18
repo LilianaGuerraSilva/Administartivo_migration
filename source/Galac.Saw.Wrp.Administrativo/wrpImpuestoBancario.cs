@@ -136,10 +136,10 @@ namespace Galac.Saw.Wrp.Tablas {
             return vResult;
         }
 
-        string IWrpImpuestoBancarioVb.BuscaAlicuotasReformaIGTFGO6687(string valFecha) {
+        string IWrpImpuestoBancarioVb.BuscaAlicuotasReformaIGTFGO6687(string valFecha, int valTipoDeAlicuotaPorContribuyenteIGTF) {
             string vResult = "";
             try {
-                vResult = new Galac.Saw.Brl.Tablas.clsImpuestoBancarioNav().BuscaAlicuotasReformaIGTFGO6687(LibConvert.ToDate(valFecha));
+                vResult = new Galac.Saw.Brl.Tablas.clsImpuestoBancarioNav().BuscaAlicuotasReformaIGTFGO6687(LibConvert.ToDate(valFecha), valTipoDeAlicuotaPorContribuyenteIGTF);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + "ImpuestoBancario");
             } catch (Exception vEx) {

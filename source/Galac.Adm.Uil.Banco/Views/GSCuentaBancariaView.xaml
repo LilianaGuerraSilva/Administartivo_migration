@@ -273,6 +273,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding Path=GeneraMovBancarioPorIGTF}"
+                        IsEnabled="{Binding Path=IsEnabled}"
                         Style="{StaticResource CheckBoxStyle}"
                         Visibility="{Binding Path=IsVisibleGeneraMovBancarioPorIGTF, Converter={StaticResource boolToVisibilityConverter}}" />
                     <Label
