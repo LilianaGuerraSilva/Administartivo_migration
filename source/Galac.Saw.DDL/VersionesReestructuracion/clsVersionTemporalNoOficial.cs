@@ -44,7 +44,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				AddNotNullConstraint("Saw.CuentaBancaria", "GeneraMovBancarioPorIGTF", InsSql.CharTypeForDb(1));
 			}
 			vSql.AppendLine("UPDATE Saw.CuentaBancaria ");
-			vSql.AppendLine("SET GeneraMovBancarioPorIGTF = 'S' ");
+			vSql.AppendLine("SET GeneraMovBancarioPorIGTF = 'S', ");
+			vSql.AppendLine("    TipoDeAlicuotaPorContribuyente = '1' ");
 			vSql.AppendLine("WHERE CodigoMoneda = 'VED' AND ConsecutivoCompania IN ");
 			vSql.AppendLine("(SELECT ConsecutivoCompania ");
 			vSql.AppendLine("FROM Comun.SettValueByCompany ");
