@@ -24,6 +24,7 @@ Private Enum eBancoRpt
    eBcoRpt_TRANSACCIONES_AGRUPADAS_POR_BENEFICIARIO
    eBcoRpt_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS
    ebcoRpt_LIBRO_BANCOS_DETALLE_MOVIMIENTOS_CUENTA_BANCARIA
+   eBcoRpt_DECLARACION_IGTF_GO6687
 End Enum
 
 Private Function GetGender() As Enum_Gender
@@ -41,6 +42,7 @@ Private Function fNombreReporteParaMensajes(ByVal valIndexDelReporte As eBancoRp
       Case eBcoRpt_TRANSACCIONES_AGRUPADAS_POR_BENEFICIARIO: varNombreReporte = "Transacciones Agrupadas Por Beneficiario"
       Case eBcoRpt_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS: varNombreReporte = "Declaración del Impuesto a las Transacciones Financieras"
       Case ebcoRpt_LIBRO_BANCOS_DETALLE_MOVIMIENTOS_CUENTA_BANCARIA: varNombreReporte = "Formato 1.1 Libro Caja y Bancos - Detalle de los Movimientos de la Cuenta Corriente"
+      Case eBcoRpt_DECLARACION_IGTF_GO6687: varNombreReporte = "Declaración del Impuesto a las Grandes Transacciones Financieras"
       Case Else: varNombreReporte = ""
    End Select
 h_EXIT: On Error GoTo 0
@@ -61,6 +63,7 @@ Private Function fNombreFileDeImpresionDelReporte(ByVal valIndexDelReporte As eB
       Case eBcoRpt_TRANSACCIONES_AGRUPADAS_POR_BENEFICIARIO: varNombreFileXML = "rpxTransaccionesAgrupadasPorBeneficiario"
       Case eBcoRpt_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS: varNombreFileXML = "rpxDeclaracionImpuestoTransaccionesFinancieras"
       Case ebcoRpt_LIBRO_BANCOS_DETALLE_MOVIMIENTOS_CUENTA_BANCARIA: varNombreFileXML = "rpxLibroDeBancosDetalleDeLosMovimientosDeLaCuentaCorriente"
+      Case eBcoRpt_DECLARACION_IGTF_GO6687: varNombreFileXML = "rpxDeclaracionImpuestoTransaccionesFinancierasGO6687"
       Case Else: varNombreFileXML = ""
    End Select
    If varNombreFileXML <> "" Then
@@ -245,6 +248,39 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GroupHeader1", "NombreCuenta", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCuentaBancaria", "", "NombreCuenta"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtConceptos", "", "Concepto"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCantOperaciones", "", "DocumentosEfectivo"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtBaseImponible", "", "MontoEfectivo"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalITF", "", "MontoITF"
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalBaseImponible", "MontoEfectivo", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalImpuesto", "MontoITF", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
+         gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape
+         Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
+         exito = True
+      End If
+   End If
+h_EXIT: On Error GoTo 0
+   fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancieras = exito
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancieras", "Reporte", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancierasGO6687(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valNombreCompaniaParaInformes As String) As Boolean
+   Dim nombreDelFile As String
+   Dim valTituloReporte As String
+   Dim exito As Boolean
+   On Error GoTo h_ERROR
+   exito = False
+   nombreDelFile = fNombreFileDeImpresionDelReporte(eBcoRpt_DECLARACION_IGTF_GO6687)
+   valTituloReporte = fNombreReporteParaMensajes(eBcoRpt_DECLARACION_IGTF_GO6687)
+   If gUtilReports.fLoadLayout(refRpt, nombreDelFile) Then
+      If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSqlDelReporte) Then
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblTituloDelReporte", valTituloReporte
+         gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "Del " & gConvert.dateToString(valFechaInicial) & " al " & gConvert.dateToString(valFechaFinal)
+         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GroupHeader1", "NombreCuenta", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCuentaBancaria", "", "NombreCuenta"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoAliContribuyente", "", "TipoDeAlicuotaPorContribuyenteStr"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "CodigoMoneda"
          gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFecha", "", "Fecha", eFT_DATE
@@ -263,8 +299,8 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
       End If
    End If
 h_EXIT: On Error GoTo 0
-   fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancieras = exito
+   fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancierasGO6687 = exito
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancieras", "Reporte", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancierasGO6687", "Reporte", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 

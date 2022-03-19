@@ -1929,7 +1929,7 @@ Private Function fSQLMovimientoBancariosEntreFechas(ByVal valFechaDesde As Date,
       GoTo h_EXIT
    End If
    codigoDelAuxiliar = ""  'No tiene auxiliares
-   vMontoAsiento = "SUM(movimientoBancario.Monto * " & SqlTasaDeCambio & ")"
+   vMontoAsiento = "SUM( " & gUtilSQL.fRoundNDecimales("movimientoBancario.Monto * " & SqlTasaDeCambio) & ")"
 '  EL MOVIMIENTO BANCARIO ES UN INGRESO
    vCuentaContableDebe = gUtilSQL.getIIF("cuenta.Codigo IS NULL ", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaMovBancarioBancosDebe), "cuenta.Codigo")
    vCuentaContableHaber = gProyReglasDeContabilizacion.GetCuentaMovBancarioIngresos
