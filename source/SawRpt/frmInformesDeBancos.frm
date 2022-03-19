@@ -1,15 +1,71 @@
 VERSION 5.00
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
 Begin VB.Form frmInformesDeBancos 
    BackColor       =   &H00F3F3F3&
    Caption         =   "Informes de Bancos"
-   ClientHeight    =   4830
+   ClientHeight    =   5535
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   10080
    LinkTopic       =   "Form1"
-   ScaleHeight     =   4830
+   ScaleHeight     =   5535
    ScaleWidth      =   10080
+   Begin VB.Frame framePeriodo 
+      BackColor       =   &H00F3F3F3&
+      Caption         =   "Periodo a Declarar"
+      ForeColor       =   &H80000010&
+      Height          =   675
+      Left            =   3360
+      TabIndex        =   36
+      Top             =   1200
+      Width           =   6015
+      Begin VB.TextBox txtAno 
+         Height          =   285
+         Left            =   5220
+         MaxLength       =   4
+         TabIndex        =   13
+         Top             =   240
+         Width           =   735
+      End
+      Begin VB.TextBox txtMes 
+         Height          =   285
+         Left            =   4620
+         MaxLength       =   2
+         TabIndex        =   12
+         Top             =   240
+         Width           =   495
+      End
+      Begin VB.ComboBox cmbQuincenaAGenerar 
+         Height          =   315
+         Left            =   1620
+         TabIndex        =   11
+         Top             =   240
+         Width           =   1635
+      End
+      Begin VB.Label lblMesAno 
+         AutoSize        =   -1  'True
+         BackColor       =   &H00F3F3F3&
+         BackStyle       =   0  'Transparent
+         Caption         =   "Mes/Año "
+         ForeColor       =   &H00A84439&
+         Height          =   195
+         Left            =   3840
+         TabIndex        =   38
+         Top             =   300
+         Width           =   705
+      End
+      Begin VB.Label lblQuincenaAGenerar 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Quincena a Generar"
+         ForeColor       =   &H00A84439&
+         Height          =   195
+         Left            =   120
+         TabIndex        =   37
+         Top             =   300
+         Width           =   1440
+      End
+   End
    Begin VB.CheckBox chkAgruparPorBeneficiario 
       Alignment       =   1  'Right Justify
       BackColor       =   &H00F3F3F3&
@@ -41,7 +97,7 @@ Begin VB.Form frmInformesDeBancos
          _ExtentY        =   503
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   92995587
+         Format          =   78708739
          CurrentDate     =   37187
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -54,7 +110,7 @@ Begin VB.Form frmInformesDeBancos
          _ExtentY        =   503
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   92995587
+         Format          =   78708739
          CurrentDate     =   37187
       End
       Begin VB.Label lblFechaInicial 
@@ -89,7 +145,7 @@ Begin VB.Form frmInformesDeBancos
       Height          =   2295
       Left            =   3360
       TabIndex        =   26
-      Top             =   1920
+      Top             =   2160
       Width           =   6015
       Begin VB.Frame frameConcepto 
          BackColor       =   &H00F3F3F3&
@@ -250,7 +306,7 @@ Begin VB.Form frmInformesDeBancos
       Height          =   375
       Left            =   120
       TabIndex        =   21
-      Top             =   4320
+      Top             =   4560
       Width           =   1335
    End
    Begin VB.CommandButton cmdPantalla 
@@ -258,7 +314,7 @@ Begin VB.Form frmInformesDeBancos
       Height          =   375
       Left            =   1755
       TabIndex        =   22
-      Top             =   4320
+      Top             =   4560
       Width           =   1335
    End
    Begin VB.CommandButton CmdSalir 
@@ -268,17 +324,29 @@ Begin VB.Form frmInformesDeBancos
       Height          =   375
       Left            =   3390
       TabIndex        =   23
-      Top             =   4320
+      Top             =   4560
       Width           =   1335
    End
    Begin VB.Frame frameInformes 
       BackColor       =   &H00F3F3F3&
       ForeColor       =   &H80000010&
-      Height          =   3975
+      Height          =   4215
       Left            =   120
       TabIndex        =   24
       Top             =   240
       Width           =   3015
+      Begin VB.OptionButton optInformeDeBanco 
+         Alignment       =   1  'Right Justify
+         BackColor       =   &H00F3F3F3&
+         Caption         =   "Declaración del  IGTF GO6687...."
+         ForeColor       =   &H00A84439&
+         Height          =   315
+         Index           =   0
+         Left            =   120
+         TabIndex        =   42
+         Top             =   3720
+         Width           =   2715
+      End
       Begin VB.OptionButton optInformeDeBanco 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
@@ -417,12 +485,15 @@ Private Const CM_OPT_FLUJO_DE_CAJA_HISTORICO As Integer = 4
 Private Const CM_OPT_TRANSACCIONES_POR_BENEFICIARIO As Integer = 6
 Private Const CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS As Integer = 7
 Private Const CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO As Integer = 8
+Private Const CM_OPT_DECLARACION_DEL_IGTF_GO6687 As Integer = 0
+Private Const CM_QDI_PrimeraQuincena As Integer = 0
+Private Const CM_QDI_SegundaQuincena As Integer = 1
+Private Const CM_QDI_TodoElMes As Integer = 2
 Private mDondeImprimir As enum_DondeImprimir
 Private mInformeSeleccionado As Integer
 Private insConceptoBancario As Object
 Private insCnxAos As Object
 Private gProyCompaniaActual As Object
-Private gProyParametrosCompania As Object
 Private insCuenta As Object
 Private gMonedaLocalActual As Object
 
@@ -478,6 +549,7 @@ Private Sub optInformeDeBanco_Click(Index As Integer)
       Case CM_OPT_TRANSACCIONES_POR_BENEFICIARIO: sImprimirTransaccionesXBeneficiario
       Case CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS: sImprimirDeclaracionITF
       Case CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO: sImprimirTransaccionesXCuentaYConcepto
+      Case CM_OPT_DECLARACION_DEL_IGTF_GO6687: sImprimirDeclaracionIGTFGO6687
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -502,13 +574,13 @@ Private Sub cmbCantidadAImprimir_Click(Index As Integer)
    Select Case Index
       Case 0 'CuentaBancaria
          If CmbCantidadAImprimir(Index).Text = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS) Then
-            If mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_CUENTA Or mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_BENEFICIARIO Or mInformeSeleccionado = CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS Or mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO Then
+            If mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_CUENTA Or mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_BENEFICIARIO Or mInformeSeleccionado = CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS Or mInformeSeleccionado = CM_OPT_DECLARACION_DEL_IGTF_GO6687 Or mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO Then
 '               frameCuentaBancaria.Visible = False
                sOcultarOMostrarDatosCuentaBancaria False
                chkImprimirSoloCuentasActivas.Visible = True
             End If
          Else
-            If mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_CUENTA Or mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_BENEFICIARIO Or mInformeSeleccionado = CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS Or mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO Then
+            If mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_CUENTA Or mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_BENEFICIARIO Or mInformeSeleccionado = CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS Or mInformeSeleccionado = CM_OPT_DECLARACION_DEL_IGTF_GO6687 Or mInformeSeleccionado = CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO Then
 '               frameCuentaBancaria.Visible = True
                sOcultarOMostrarDatosCuentaBancaria True
                chkImprimirSoloCuentasActivas.Visible = False
@@ -606,6 +678,7 @@ Public Sub sInitLookAndFeel()
    gEnumReport.FillComboBoxWithReporteDetalladoResumido cmbSeleccion
    cmbSeleccion.Text = gEnumReport.enum_ReporteDetalladoResumidoToString(eRP_DETALLADO)
    cmbSeleccion.ListIndex = 1
+   FillComboBoxWithQuincenaMes (False)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -635,7 +708,82 @@ h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Unload", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
+Private Sub txtAno_GotFocus()
+   On Error GoTo h_ERROR
+   gAPI.SelectAllText txtAno
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_GotFocus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub txtAno_KeyDown(KeyCode As Integer, Shift As Integer)
+  On Error GoTo h_ERROR
+  sCheckForSpecialKeys KeyCode, Shift
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub txtAno_KeyPress(KeyAscii As Integer)
+   On Error GoTo h_ERROR
+   If gAPI.EsUnCaracterAsciiValidoParaCampoTipoIntegerSoloPositivo(KeyAscii) Then
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_KeyPress", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub txtAno_Validate(Cancel As Boolean)
+   On Error GoTo h_ERROR
+   If Not txtAno.Visible Then
+      GoTo h_EXIT
+   End If
+   If LenB(txtAno.Text) = 0 Then
+      sShowMessageForRequiredFields "Año", txtAno
+      Cancel = True
+   ElseIf gTexto.DfLen(txtAno.Text) < 4 Then
+      gMessage.Advertencia "Debe introducir un 'Año' de cuatro dígitos'"
+      Cancel = True
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtAno_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub txtMes_KeyPress(KeyAscii As Integer)
+   On Error GoTo h_ERROR
+   If gAPI.EsUnCaracterAsciiValidoParaCampoTipoIntegerSoloPositivo(KeyAscii) Then
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_KeyPress", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub txtMes_GotFocus()
+   On Error GoTo h_ERROR
+   gAPI.SelectAllText txtMes
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_GotFocus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub txtMes_KeyDown(KeyCode As Integer, Shift As Integer)
+   On Error GoTo h_ERROR
+   sCheckForSpecialKeys KeyCode, Shift
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub txtMes_Validate(Cancel As Boolean)
+   On Error GoTo h_ERROR
+   If Not txtMes.Visible Then
+      GoTo h_EXIT
+   End If
+   If LenB(txtMes.Text) = 0 Then
+      sShowMessageForRequiredFields "Mes", txtMes
+      Cancel = True
+   ElseIf gConvert.ConvierteAInteger(txtMes.Text) < 1 Or gConvert.ConvierteAInteger(txtMes.Text) > 12 Then
+      gMessage.Advertencia "Debe introducir un numero de 'Mes' válido"
+      Cancel = True
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtMes_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
 Private Sub txtNumeroDeCuenta_GotFocus()
    On Error GoTo h_ERROR
    gAPI.SelectAllText txtNumeroDeCuenta
@@ -772,6 +920,7 @@ Private Sub sEjecutaElReporteApropiado()
       Case CM_OPT_TRANSACCIONES_POR_BENEFICIARIO: sEjecutaElReporteTransaccionesXBeneficirio
       Case CM_OPT_DECLARACION_IMPUESTO_TRANSACCIONES_FINANCIERAS: sEjecutaElReporteDeclaracionITF
       Case CM_OPT_TRANSACCIONES_POR_CUENTA_Y_CONCEPTO: sEjecutaElReporteTransaccionesXConceptoXCuentaBancaria
+      Case CM_OPT_DECLARACION_DEL_IGTF_GO6687: sEjecutaElReporteDeclaracionITFGO6687
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1016,6 +1165,7 @@ Private Sub sOcultaCampos()
    frameConcepto.Top = 1275
    frameSeleccion.Visible = False
    chkAgruparPorBeneficiario.Visible = False
+   framePeriodo.Visible = False
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sOcultaCampos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1039,13 +1189,13 @@ End Function
 Private Sub sImprimirDeclaracionITF()
    On Error GoTo h_ERROR
    lblDatosDelReporte.Caption = "Datos del Informe - Declaración a las Transacciones Financieras"
+   framePeriodo.Visible = True
    frameCuentaBancariaYConcepto.Visible = True
    frameCuentaBancariaYConcepto.Caption = "Cuenta Bancaria"
    frameCuentaBancaria.Top = 270
    frameCuentaBancaria.Visible = True
    frameConcepto.Top = 1275
    frameConcepto.Visible = False
-   frameFechas.Visible = True
    If CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
 '      frameCuentaBancaria.Visible = True
       sOcultarOMostrarDatosCuentaBancaria True
@@ -1066,11 +1216,27 @@ Private Sub sEjecutaElReporteDeclaracionITF()
    Dim insBancosSQL As clsBancosSQL
    On Error GoTo h_ERROR
    Set insBancosSQL = New clsBancosSQL
-   FechaInicial = dtpFechaInicial.Value
-   FechaFinal = dtpFechaFinal.Value
+
+   If txtMes.Text = "" Then
+      sShowMessageForRequiredFields "Mes", txtMes
+      GoTo h_EXIT
+   End If
+   If txtAno.Text = "" Then
+      sShowMessageForRequiredFields "Año", txtAno
+      GoTo h_EXIT
+   End If
+   FechaInicial = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(txtMes.Text, txtAno.Text, True)
+   FechaFinal = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(txtMes.Text, txtAno.Text, False)
+   If gAPI.SelectedElementInComboBoxToString(cmbQuincenaAGenerar) = CM_QuincenaMes(CM_QDI_PrimeraQuincena) Then
+      FechaFinal = gUtilDate.fColocaDiaEnFecha(15, FechaFinal)
+   ElseIf gAPI.SelectedElementInComboBoxToString(cmbQuincenaAGenerar) = CM_QuincenaMes(CM_QDI_SegundaQuincena) Then
+      FechaInicial = gUtilDate.fColocaDiaEnFecha(16, FechaInicial)
+   End If
    Set reporte = New DDActiveReports2.ActiveReport
    Set insConfigurar = New clsBancoRpt
-   SqlDelReporte = insBancosSQL.fSQLDeclaracionITF(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text, gProyParametrosCompania.GetConsecutivoCompania, gAPI.fGetCheckBoxValue(chkImprimirSoloCuentasActivas), CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno), gProyParametrosCompania.GetRedondeaMontoDebitoBancario)
+'   SqlDelReporte = fSQLDeclaracionITF(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text)
+   SqlDelReporte = insBancosSQL.fSQLDeclaracionITF(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text, gProyParametrosCompania.GetConsecutivoCompania, gAPI.fGetCheckBoxValue(chkImprimirSoloCuentasActivas), CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno))
+
    If insConfigurar.fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancieras(reporte, SqlDelReporte, FechaInicial, FechaFinal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False, False)) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Declaración del Impuesto a las Transacciones Financieras"
    End If
@@ -1079,6 +1245,36 @@ h_EXIT:    On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteDeclaracionITF", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
+Private Sub FillComboBoxWithQuincenaMes(ByVal valIncluirTodoElMes As Boolean)
+   Dim nCount As Integer
+   On Error GoTo h_ERROR
+   cmbQuincenaAGenerar.Clear
+   nCount = 0
+   cmbQuincenaAGenerar.Text = CM_QuincenaMes(CM_QDI_PrimeraQuincena)
+   cmbQuincenaAGenerar.List(nCount) = CM_QuincenaMes(CM_QDI_PrimeraQuincena)
+   nCount = nCount + 1
+   cmbQuincenaAGenerar.List(nCount) = CM_QuincenaMes(CM_QDI_SegundaQuincena)
+   If valIncluirTodoElMes Then
+      nCount = nCount + 1
+      cmbQuincenaAGenerar.List(nCount) = CM_QuincenaMes(CM_QDI_TodoElMes)
+   End If
+   cmbQuincenaAGenerar.Width = gAPI.sugestedWidthForComboBox(cmbQuincenaAGenerar)
+   cmbQuincenaAGenerar.ListIndex = 0
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "FillComboBoxWithQuincenaDeclaracionInformativa", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Function CM_QuincenaMes(ByVal valQuincenaADeclarar As Integer) As String
+   On Error GoTo h_ERROR
+   Select Case valQuincenaADeclarar
+      Case CM_QDI_PrimeraQuincena: CM_QuincenaMes = "Primera Quincena"
+      Case CM_QDI_SegundaQuincena: CM_QuincenaMes = "Segunda Quincena"
+      Case CM_QDI_TodoElMes: CM_QuincenaMes = "Todo el Mes"
+   End Select
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "enumQuincenaDeclaracionInformativaToString", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
 
 Private Sub sImprimirTransaccionesXCuentaYConcepto()
    On Error GoTo h_ERROR
@@ -1174,4 +1370,45 @@ On Error GoTo h_ERROR
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLoadObjectValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub sEjecutaElReporteDeclaracionITFGO6687()
+   Dim FechaInicial As Date
+   Dim FechaFinal As Date
+   Dim SqlDelReporte As String
+   Dim insConfigurar As clsBancoRpt
+   Dim reporte As DDActiveReports2.ActiveReport
+   Dim insBancosSQL As clsBancosSQL
+   On Error GoTo h_ERROR
+   Set insBancosSQL = New clsBancosSQL
+   FechaInicial = dtpFechaInicial.Value
+   FechaFinal = dtpFechaFinal.Value
+   Set reporte = New DDActiveReports2.ActiveReport
+   Set insConfigurar = New clsBancoRpt
+   SqlDelReporte = insBancosSQL.fSQLDeclaracionITFGO6687(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text, gProyParametrosCompania.GetConsecutivoCompania, gAPI.fGetCheckBoxValue(chkImprimirSoloCuentasActivas), CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno), gProyParametrosCompania.GetRedondeaMontoDebitoBancario)
+   If insConfigurar.fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancierasGO6687(reporte, SqlDelReporte, FechaInicial, FechaFinal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False, False)) Then
+      gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Declaración del Impuesto a las Transacciones Financieras"
+   End If
+   Set insBancosSQL = Nothing
+h_EXIT:    On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteDeclaracionITFGO6687", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+Private Sub sImprimirDeclaracionIGTFGO6687()
+   On Error GoTo h_ERROR
+   lblDatosDelReporte.Caption = "Datos del Informe - Declaración a las Grandes Transacciones Financieras"
+   frameCuentaBancariaYConcepto.Visible = True
+   frameCuentaBancariaYConcepto.Caption = "Cuenta Bancaria"
+   frameCuentaBancaria.Top = 270
+   frameCuentaBancaria.Visible = True
+   frameConcepto.Top = 1275
+   frameConcepto.Visible = False
+   frameFechas.Visible = True
+   If CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
+      sOcultarOMostrarDatosCuentaBancaria True
+   Else
+      sOcultarOMostrarDatosCuentaBancaria False
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimirDeclaracionITF", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub

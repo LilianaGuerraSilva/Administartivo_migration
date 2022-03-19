@@ -327,7 +327,91 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLFlujoDeCajaHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCodigoCuenta As String, ByVal valConsecutivoCompania As String, ByVal valImprimirSoloCuentasActivas As Boolean, _
+Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal CodigoCuenta As String, ByVal ConsecutivoCompania As String, ByVal ImprimirSoloCuentasActivas As Boolean, _
+                                    ByVal valCantidadAImprimir As Boolean) As String
+   Dim SQL As String
+   Dim ComparativoFecha As String
+   Dim insViews As clsBancoVista
+   On Error GoTo h_ERROR
+   Set insViews = New clsBancoVista
+   ComparativoFecha = gUtilSQL.fSQLValueBetween("FECHA", valFechaInicial, valFechaFinal)
+   SQL = ""
+   SQL = "SELECT " & gUtilSQL.fSimpleSqlValue("Efectivo") & " as Concepto, "
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "Monto", "0") & ") as MontoEfectivo, "
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("generadoPor = '4'", "Monto", "0") & ") as MontoITF, "
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") as DocumentosEfectivo, "
+   SQL = SQL & "NombreCuenta "
+   SQL = SQL & "FROM " & insViews.GetViewNameUnionMovBCtaB
+   SQL = SQL & " WHERE " & insViews.GetViewNameUnionMovBCtaB & ".ConsecutivoCompania" & _
+                     " = " & ConsecutivoCompania & " AND " & ComparativoFecha & " and monto > 0 "
+   If valCantidadAImprimir Then
+      SQL = SQL & "AND CodigoCtaBancaria = " & gUtilSQL.fSimpleSqlValue(CodigoCuenta)
+   End If
+      If ImprimirSoloCuentasActivas Then
+      SQL = SQL & " AND Status" & _
+                  " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+   End If
+   SQL = SQL & " GROUP BY NombreCuenta"
+   fSQLDeclaracionITF = SQL
+   Set insViews = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
+      "fSQLDeclaracionITF", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+Public Function fSQLTransaccionesPorConceptoYCuentaBancaria(ByVal valConsecutivoCompania As Long, _
+                        ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
+                        ByVal valCantidadAImprimirConcepto As String, ByVal valConcepto As String, _
+                        ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimirCuenta As String, _
+                        ByVal valNumeroDeCuenta As String) As String
+   Dim SQL As String
+   Dim insgEnumProyecto As clsEnumAdministrativo
+   Dim insgEnumReport As clsEnumReport
+   On Error GoTo h_ERROR
+   Set insgEnumProyecto = New clsEnumAdministrativo
+   Set insgEnumReport = New clsEnumReport
+   SQL = "SELECT "
+   SQL = SQL & "conceptoBancario.Codigo AS CodigoConcepto, "
+   SQL = SQL & "conceptoBancario.Descripcion AS DescripcionConcepto,"
+   SQL = SQL & gUtilSQL.getIIF("conceptoBancario.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
+                  gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_INGRESO)), _
+                  gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_EGRESO)), True) & " AS TipoConcepto, "
+   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, "
+   SQL = SQL & "cuentaBancaria.Codigo AS CodigoCuenta, "
+   SQL = SQL & "cuentaBancaria.NombreCuenta, "
+   SQL = SQL & "cuentaBancaria.NumeroCuenta, "
+   SQL = SQL & "movimientoBancario.Fecha, "
+   SQL = SQL & "movimientoBancario.ConsecutivoMovimiento, "
+   SQL = SQL & "movimientoBancario.NumeroDocumento, "
+   SQL = SQL & "movimientoBancario.Descripcion AS DescripcionMovimiento, "
+   SQL = SQL & "movimientoBancario.Monto"
+   SQL = SQL & " FROM conceptoBancario INNER JOIN "
+   SQL = SQL & "(cuentaBancaria INNER JOIN movimientoBancario "
+   SQL = SQL & " ON (cuentaBancaria.Codigo = movimientoBancario.CodigoCtaBancaria)"
+   SQL = SQL & " AND (cuentaBancaria.ConsecutivoCompania = movimientoBancario.ConsecutivoCompania))"
+   SQL = SQL & " ON conceptoBancario.Codigo = movimientoBancario.CodigoConcepto"
+   SQL = SQL & " WHERE movimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", valFechaInicial, valFechaFinal)
+   If valCantidadAImprimirConcepto = insgEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
+      SQL = SQL & " AND conceptoBancario.Codigo = " & gUtilSQL.fSimpleSqlValue(valConcepto)
+   End If
+   If valCantidadAImprimirCuenta = insgEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
+      SQL = SQL & " AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(Trim(valNumeroDeCuenta))
+   End If
+   If valImprimirSoloCuentasActivas Then
+      SQL = SQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+   End If
+   SQL = SQL & " ORDER BY "
+   SQL = SQL & "conceptoBancario.Codigo, cuentaBancaria.Codigo, cuentaBancaria.NombreDeLaMoneda, "
+   SQL = SQL & "movimientoBancario.Fecha, movimientoBancario.NumeroDocumento"
+   fSQLTransaccionesPorConceptoYCuentaBancaria = SQL
+   Set insgEnumProyecto = Nothing
+   Set insgEnumReport = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLTransaccionesPorConceptoYCuentaBancaria", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+Public Function fSQLDeclaracionITFGO6687(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCodigoCuenta As String, ByVal valConsecutivoCompania As String, ByVal valImprimirSoloCuentasActivas As Boolean, _
                                     ByVal valCantidadAImprimir As Boolean, ByVal valRedondeaMontoDebitoBancario As Boolean) As String
    Dim SQL As String
    Dim gEnumProyecto As clsEnumAdministrativo
@@ -338,10 +422,10 @@ Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFecha
    SQL = SQL & " UNION "
    SQL = SQL & fSqlDeclaracionIGTFNoGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
    SQL = SQL & " ORDER BY NombreCuenta, fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
-   fSQLDeclaracionITF = SQL
+   fSQLDeclaracionITFGO6687 = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeclaracionITF", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeclaracionITFGO6687", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
    Dim vSQL As String
@@ -418,58 +502,3 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFNoGeneraMovBan_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
-Public Function fSQLTransaccionesPorConceptoYCuentaBancaria(ByVal valConsecutivoCompania As Long, _
-                        ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
-                        ByVal valCantidadAImprimirConcepto As String, ByVal valConcepto As String, _
-                        ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimirCuenta As String, _
-                        ByVal valNumeroDeCuenta As String) As String
-   Dim SQL As String
-   Dim insgEnumProyecto As clsEnumAdministrativo
-   Dim insgEnumReport As clsEnumReport
-   On Error GoTo h_ERROR
-   Set insgEnumProyecto = New clsEnumAdministrativo
-   Set insgEnumReport = New clsEnumReport
-   SQL = "SELECT "
-   SQL = SQL & "conceptoBancario.Codigo AS CodigoConcepto, "
-   SQL = SQL & "conceptoBancario.Descripcion AS DescripcionConcepto,"
-   SQL = SQL & gUtilSQL.getIIF("conceptoBancario.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
-                  gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_INGRESO)), _
-                  gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_EGRESO)), True) & " AS TipoConcepto, "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "cuentaBancaria.Codigo AS CodigoCuenta, "
-   SQL = SQL & "cuentaBancaria.NombreCuenta, "
-   SQL = SQL & "cuentaBancaria.NumeroCuenta, "
-   SQL = SQL & "movimientoBancario.Fecha, "
-   SQL = SQL & "movimientoBancario.ConsecutivoMovimiento, "
-   SQL = SQL & "movimientoBancario.NumeroDocumento, "
-   SQL = SQL & "movimientoBancario.Descripcion AS DescripcionMovimiento, "
-   SQL = SQL & "movimientoBancario.Monto"
-   SQL = SQL & " FROM conceptoBancario INNER JOIN "
-   SQL = SQL & "(cuentaBancaria INNER JOIN movimientoBancario "
-   SQL = SQL & " ON (cuentaBancaria.Codigo = movimientoBancario.CodigoCtaBancaria)"
-   SQL = SQL & " AND (cuentaBancaria.ConsecutivoCompania = movimientoBancario.ConsecutivoCompania))"
-   SQL = SQL & " ON conceptoBancario.Codigo = movimientoBancario.CodigoConcepto"
-   SQL = SQL & " WHERE movimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", valFechaInicial, valFechaFinal)
-   If valCantidadAImprimirConcepto = insgEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      SQL = SQL & " AND conceptoBancario.Codigo = " & gUtilSQL.fSimpleSqlValue(valConcepto)
-   End If
-   If valCantidadAImprimirCuenta = insgEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      SQL = SQL & " AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(Trim(valNumeroDeCuenta))
-   End If
-   If valImprimirSoloCuentasActivas Then
-      SQL = SQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
-   End If
-   SQL = SQL & " ORDER BY "
-   SQL = SQL & "conceptoBancario.Codigo, cuentaBancaria.Codigo, cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "movimientoBancario.Fecha, movimientoBancario.NumeroDocumento"
-   fSQLTransaccionesPorConceptoYCuentaBancaria = SQL
-   Set insgEnumProyecto = Nothing
-   Set insgEnumReport = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLTransaccionesPorConceptoYCuentaBancaria", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-
