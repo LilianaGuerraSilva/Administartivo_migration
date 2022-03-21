@@ -1641,7 +1641,7 @@ Private Sub txtFiltro_Validate(Cancel As Boolean)
             GoTo h_EXIT
          End If
       Case eOC_Banco
-         If insCnxAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, txtFiltro.Text, "NombreCuenta", enum_StatusCtaBancaria.eSC_ACTIVA, "Gv_CuentaBancaria_B1.Status") Then
+         If insCnxAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, txtFiltro.Text, "NombreCuenta", enum_StatusCtaBancaria.eSC_ACTIVA, "Gv_CuentaBancaria_B1.Status", "", False, False, False, True) Then
             sSelectAndSetValuesOfFiltro
             txtFiltro.Text = insCuentaBancaria.GetNombreCuenta
             Cancel = False
