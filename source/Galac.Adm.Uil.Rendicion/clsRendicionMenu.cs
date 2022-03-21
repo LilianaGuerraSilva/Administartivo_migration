@@ -67,7 +67,7 @@ namespace Galac.Adm.Uil.CajaChica {
                         , new XElement("Numero", vViewModel.Numero)
                         , new XElement("Consecutivo", vViewModel.Consecutivo)
                         , new XElement("CodigoCuentaCajaChica", vViewModel.CodigoCtaBancariaCajaChica)
-                        , new XElement("CodigoCuentaBancariaDeReposicion", vViewModel.NombreCuentaBancaria)
+                        , new XElement("CodigoCuentaBancariaDeReposicion", vViewModel.CodigoCuentaBancaria)
                         , new XElement("FechaAnulacion", LibConvert.ToStr(vViewModel.FechaAnulacion, "dd/MM/yyyy"))
                         , new XElement("FechaCierre", LibConvert.ToStr(vViewModel.FechaCierre, "dd/MM/yyyy"))
                         , new XElement("MontoCheque", LibConvert.NumToString(vViewModel.TotalGastos,2) )

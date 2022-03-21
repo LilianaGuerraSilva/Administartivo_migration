@@ -293,6 +293,9 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalCantOperaciones", "DocumentosEfectivo", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL, "#"
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalBaseImponible", "MontoEfectivo", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalImpuesto", "MontoITF", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalCantOperaciones", "ParaContar", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL, "#"
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalBaseImponible", "BaseImponible", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalImpuesto", "MontoITF", eSF_SUM, "GroupHeader1", eSR_GROUP, eST_SUB_TOTAL
          gUtilMargins.sAsignarMargenesGenerales refRpt
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          exito = True

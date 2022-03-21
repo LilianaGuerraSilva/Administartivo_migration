@@ -31,6 +31,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("NumeroDocumento" + InsSql.VarCharTypeForDb(15) + " CONSTRAINT d_MovBanNuDo DEFAULT (''), ");
             SQL.AppendLine("Descripcion" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_MovBanDe DEFAULT (''), ");
             SQL.AppendLine("GeneraImpuestoBancario" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnMovBanGeneraImpu NOT NULL, ");
+            SQL.AppendLine("AlicuotaImpBancario" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_MovBanAlImBa DEFAULT (0), ");
             SQL.AppendLine("NroMovimientoRelacionado" + InsSql.VarCharTypeForDb(15) + " CONSTRAINT d_MovBanNrMoRe DEFAULT (''), ");
             SQL.AppendLine("GeneradoPor" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_MovBanGePo DEFAULT ('0'), ");
             SQL.AppendLine("CambioABolivares" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_MovBanCaAB DEFAULT (0), ");
@@ -57,7 +58,7 @@ namespace Galac.Adm.Dal.Banco {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT MovimientoBancario.ConsecutivoCompania, MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.CodigoCtaBancaria, MovimientoBancario.CodigoConcepto");
             SQL.AppendLine(", MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, " + DbSchema + ".Gv_EnumIngresoEgreso.StrValue AS TipoConceptoStr, MovimientoBancario.Monto, MovimientoBancario.NumeroDocumento");
-            SQL.AppendLine(", MovimientoBancario.Descripcion, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.NroMovimientoRelacionado, MovimientoBancario.GeneradoPor, " + DbSchema + ".Gv_EnumGeneradoPor.StrValue AS GeneradoPorStr");
+            SQL.AppendLine(", MovimientoBancario.Descripcion, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.AlicuotaImpBancario, MovimientoBancario.NroMovimientoRelacionado, MovimientoBancario.GeneradoPor, " + DbSchema + ".Gv_EnumGeneradoPor.StrValue AS GeneradoPorStr");
             SQL.AppendLine(", MovimientoBancario.CambioABolivares, MovimientoBancario.ImprimirCheque, MovimientoBancario.ConciliadoSN, MovimientoBancario.NroConciliacion");
             SQL.AppendLine(", MovimientoBancario.GenerarAsientoDeRetiroEnCuenta, MovimientoBancario.NombreOperador, MovimientoBancario.FechaUltimaModificacion");
             SQL.AppendLine(", MovimientoBancario.fldTimeStamp, CAST(MovimientoBancario.fldTimeStamp AS bigint) AS fldTimeStampBigint");
@@ -87,6 +88,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("@NumeroDocumento" + InsSql.VarCharTypeForDb(15) + " = '',");
             SQL.AppendLine("@Descripcion" + InsSql.VarCharTypeForDb(255) + " = '',");
             SQL.AppendLine("@GeneraImpuestoBancario" + InsSql.CharTypeForDb(1) + " = 'N',");
+            SQL.AppendLine("@AlicuotaImpBancario" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@NroMovimientoRelacionado" + InsSql.VarCharTypeForDb(15) + " = '',");
             SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@CambioABolivares" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
@@ -119,6 +121,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("            NumeroDocumento,");
             SQL.AppendLine("            Descripcion,");
             SQL.AppendLine("            GeneraImpuestoBancario,");
+            SQL.AppendLine("            AlicuotaImpBancario,");
             SQL.AppendLine("            NroMovimientoRelacionado,");
             SQL.AppendLine("            GeneradoPor,");
             SQL.AppendLine("            CambioABolivares,");
@@ -139,6 +142,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("            @NumeroDocumento,");
             SQL.AppendLine("            @Descripcion,");
             SQL.AppendLine("            @GeneraImpuestoBancario,");
+            SQL.AppendLine("            @AlicuotaImpBancario,");
             SQL.AppendLine("            @NroMovimientoRelacionado,");
             SQL.AppendLine("            @GeneradoPor,");
             SQL.AppendLine("            @CambioABolivares,");
@@ -171,6 +175,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("@NumeroDocumento" + InsSql.VarCharTypeForDb(15) + ",");
             SQL.AppendLine("@Descripcion" + InsSql.VarCharTypeForDb(255) + ",");
             SQL.AppendLine("@GeneraImpuestoBancario" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@AlicuotaImpBancario" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@NroMovimientoRelacionado" + InsSql.VarCharTypeForDb(15) + ",");
             SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CambioABolivares" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -210,6 +215,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("               NumeroDocumento = @NumeroDocumento,");
             SQL.AppendLine("               Descripcion = @Descripcion,");
             SQL.AppendLine("               GeneraImpuestoBancario = @GeneraImpuestoBancario,");
+            SQL.AppendLine("               AlicuotaImpBancario = @AlicuotaImpBancario,");
             SQL.AppendLine("               NroMovimientoRelacionado = @NroMovimientoRelacionado,");
             SQL.AppendLine("               GeneradoPor = @GeneradoPor,");
             SQL.AppendLine("               CambioABolivares = @CambioABolivares,");
@@ -347,6 +353,7 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("         MovimientoBancario.NumeroDocumento,");
             SQL.AppendLine("         MovimientoBancario.Descripcion,");
             SQL.AppendLine("         MovimientoBancario.GeneraImpuestoBancario,");
+            SQL.AppendLine("         MovimientoBancario.AlicuotaImpBancario,");
             SQL.AppendLine("         MovimientoBancario.NroMovimientoRelacionado,");
             SQL.AppendLine("         MovimientoBancario.GeneradoPor,");
             SQL.AppendLine("         Gv_CuentaBancaria_B1.NombreDeLaMoneda AS Moneda,");
@@ -399,11 +406,12 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.CodigoConcepto,");
             SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.Fecha,");
             SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.TipoConceptoStr,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.Monto,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.Monto,");            
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.TipoConcepto,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.NumeroDocumento");
+            SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.NumeroDocumento,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_MovimientoBancario_B1.AlicuotaImpBancario");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_MovimientoBancario_B1");
             SQL.AppendLine("      INNER JOIN dbo.Gv_CuentaBancaria_B1 ON  " + DbSchema + ".Gv_MovimientoBancario_B1.CodigoCtaBancaria = dbo.Gv_CuentaBancaria_B1.Codigo");
             SQL.AppendLine("      AND " + DbSchema + ".Gv_MovimientoBancario_B1.ConsecutivoCompania = dbo.Gv_CuentaBancaria_B1.ConsecutivoCompania");
@@ -434,7 +442,8 @@ namespace Galac.Adm.Dal.Banco {
             SQL.AppendLine("      " + "dbo" + ".MovimientoBancario.CodigoConcepto,");
             SQL.AppendLine("      " + "dbo" + ".MovimientoBancario.Fecha,");
             SQL.AppendLine("      " + "dbo" + ".MovimientoBancario.TipoConcepto,");
-            SQL.AppendLine("      " + "dbo" + ".MovimientoBancario.NumeroDocumento");
+            SQL.AppendLine("      " + "dbo" + ".MovimientoBancario.NumeroDocumento,");
+			SQL.AppendLine("      " + "dbo" + ".MovimientoBancario.AlicuotaImpBancario");
             SQL.AppendLine("      FROM " + "dbo" + ".MovimientoBancario");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
