@@ -56,6 +56,7 @@ namespace Galac.Adm.Dal.Banco {
             vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 15);
             vParams.AddInString("Descripcion", valRecord.Descripcion, 255);
             vParams.AddInBoolean("GeneraImpuestoBancario", valRecord.GeneraImpuestoBancarioAsBool);
+            vParams.AddInDecimal("AlicuotaImpBancario", valRecord.AlicuotaImpBancario, 2);
             vParams.AddInString("NroMovimientoRelacionado", valRecord.NroMovimientoRelacionado, 15);
             vParams.AddInEnum("GeneradoPor", valRecord.GeneradoPorAsDB);
             vParams.AddInDecimal("CambioABolivares", valRecord.CambioABolivares, 2);

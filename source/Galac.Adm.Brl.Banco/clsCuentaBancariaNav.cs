@@ -57,7 +57,7 @@ namespace Galac.Adm.Brl.Banco {
 			ILibPdn vPdnModule;
 			switch (valModule) {
 				case "Cuenta Bancaria":
-					vResult = ((ILibPdn) this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
+					vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
 					break;
 				case "Banco":
 					vPdnModule = new Comun.Brl.TablasGen.clsBancoNav();
@@ -308,9 +308,63 @@ namespace Galac.Adm.Brl.Banco {
 			}
 			return vResult > 0;
 		}
+
+		decimal ICuentaBancariaPdn.ObtieneAlicuotaIGTF(int valConsecutivoCompania, string valCodigoCuentaBancaria, DateTime valFechaMovimiento) {
+			decimal vResult = 0;
+			if (LibDate.F1IsGreaterOrEqualThanF2(valFechaMovimiento, Ccl.Banco.LibBanco.FechaReformaIGTFGO6687)) {
+				vResult = GetAlicuotaImpuestoTransaccionesGO6687(valConsecutivoCompania, valCodigoCuentaBancaria, valFechaMovimiento);
+			} else {
+				vResult = GetAlicuotaImpuestoTransacciones(valFechaMovimiento);
+			}
+			return vResult;
+		}
+
+		private decimal GetAlicuotaImpuestoTransacciones(DateTime valFecha) {
+			decimal vResult = 0;
+			LibGpParams vParams = new LibGpParams();
+			vParams.AddInDateTime("FechaDeInicioDeVigencia", valFecha);
+			RegisterClient();
+			string vSql = "SELECT TOP(1) AlicuotaAlDebito FROM dbo.imptransacBancarias WHERE FechaDeInicioDeVigencia <= @FechaDeInicioDeVigencia Order by FechaDeInicioDeVigencia Desc";			
+			XElement vResultset = LibBusiness.ExecuteSelect(vSql, vParams.Get(), "", 0);
+			if (vResultset != null) {
+				var vEntity = from vRecord in vResultset.Descendants("GpResult")
+							  select vRecord;
+				foreach (XElement vItem in vEntity) {
+					if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("AlicuotaAlDebito"), null))) {
+						vResult = LibConvert.ToDec(vItem.Element("AlicuotaAlDebito"));
+						break;
+					}
+				}
+			}
+			return vResult;
+		}
+
+		private decimal GetAlicuotaImpuestoTransaccionesGO6687(int valConsecutivoCompania, string valCodigoCuentaBancaria, DateTime valFechaMovimiento) {
+			decimal vResult = 0;
+			StringBuilder vSql = new StringBuilder();
+			LibGpParams vParam = new LibGpParams();
+			eTipoAlicPorContIGTF vTipoAlicuota;
+			vParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+			vParam.AddInString("CodigoCuenta", valCodigoCuentaBancaria, 5);
+			vSql.AppendLine("SELECT TipoDeAlicuotaPorContribuyente ");
+			vSql.AppendLine("FROM Saw.CuentaBancaria ");
+			vSql.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania");
+			vSql.AppendLine("AND Codigo= @CodigoCuenta");
+			XElement vReq = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0);
+			if (vReq != null && vReq.HasElements) {
+				vTipoAlicuota = (eTipoAlicPorContIGTF)LibConvert.DbValueToEnum(vReq.Element("GpResult").Element("TipoDeAlicuotaPorContribuyente"));
+			} else {
+				vTipoAlicuota = eTipoAlicPorContIGTF.NoAsignado;
+			}
+			if (vTipoAlicuota == eTipoAlicPorContIGTF.NoAsignado) {
+				return 0;
+			}
+			Saw.Brl.Tablas.clsImpuestoBancarioNav insImpBancario = new Saw.Brl.Tablas.clsImpuestoBancarioNav();
+			string vAlicuota = insImpBancario.BuscaAlicuotasReformaIGTFGO6687(valFechaMovimiento, (int)vTipoAlicuota);
+			vResult = LibConvert.ToDec(vAlicuota, 2);
+			return vResult;
+		}
 		#endregion //Código Programador
-
 	} //End of class clsCuentaBancariaNav
-
 } //End of namespace Galac.Adm.Brl.Banco
 

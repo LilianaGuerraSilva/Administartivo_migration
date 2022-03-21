@@ -5,7 +5,7 @@ PatronPresentacion=MVVM
 $GENERATE$
 //#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
 #INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
-#INCLUDE=ExternalSttdef,"D:\Git\Administrativo\DefParametrosAdministrativos.txt"
+#INCLUDE=ExternalSttdef,"C:\Git\Administrativo\DefParametrosAdministrativos.txt"
 //#INCLUDE=ExternarWincont,"C:\cvs\documentos\vba\Def\DefContabilidad-V1.txt"
 
 //Tipos Enumerativos
@@ -1141,6 +1141,24 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
 
 @PrimaryKey=ConsecutivoCompania,Consecutivo
 //@UniqueKey=ConsecutivoCompania,NumeroFacturaGalacAlMayorista,NumeroFactura
+}
+
+{@S}Cuenta = Record //Multiarchivo=Periodo,Female
+   ConsecutivoPeriodo  : LongInt;//o,v
+   Codigo                            : Str30;//o,g,"Código",search
+   Descripcion                       : Str40;//o,g,"Descripción",search
+   SaldoInicial                      : double; //v,a
+   NombreOperador                    : Str10; //a
+   FechaUltimaModificacion           : date;//a
+   @PrimaryKey=ConsecutivoPeriodo,Codigo
+}
+
+{@S}Periodo = Record //CONTROLADORMULTIARCHIVO=ConsecutivoPeriodo,Male,Multiarchivo=Compania
+   ConsecutivoCompania: LongInt; //o,v
+   ConsecutivoPeriodo: LongInt; //o,v, sugestConsecutive, u
+   NombreOperador                    : Str10; //a
+   FechaUltimaModificacion           : date;//a
+   @PrimaryKey=ConsecutivoPeriodo
 }
 
 {@D FacturaMayorista}FacturaMayoristaDetalle = record //Multiarchivo=Compania
@@ -2887,7 +2905,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
 }
 
 
-{@S}MovimientoBancario = Record //Multiarchivo=Compania,Componente=Banco,Esquema=Saw,interop
+{@S}MovimientoBancario = Record //Multiarchivo=Compania,Componente=Banco,Esquema=Saw,interop,Generate
     ConsecutivoCompania			: Longint;//HIDE
     ConsecutivoMovimiento		: LongInt;//Search,"Nº Movimiento",g,Consecutive,o,a
     CodigoCtaBancaria			: Str5;//Search,=CuentaBancaria.Codigo,"Cuenta Bancaria",g,o
@@ -2900,6 +2918,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
     NumeroDocumento			: Str15;//"Nº Documento",Search
     Descripcion				: Str255;
     GeneraImpuestoBancario		: Boolean;//"Generar Impuesto Bancario",ci"insCuentabancaria.getManejaDebitoBancario()" or CI"insCuentabancaria.getManejaCreditoBancario()"
+    AlicuotaImpBancario                 : Decimal;//HIDE
     NroMovimientoRelacionado		: Str15;//a
     GeneradoPor				: unGeneradoPor;//a,"Generado Por"
     Moneda				: Str10; //Logical,=CuentaBancaria.NombreDeLaMoneda,"Moneda",a

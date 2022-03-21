@@ -533,7 +533,7 @@ namespace Galac.Adm.Dal.Banco {
 			string vWhere = insQAdvSql.SqlIntValueWithAnd("", "ConsecutivoCompania", valConsecutivoCompania);
 			vWhere = insQAdvSql.SqlValueWithAnd(vWhere, "CodigoCtaBancaria", valCodigoCuentaBancaria);
 			vWhere = insQAdvSql.SqlDateValueWithOperators(vWhere, "Fecha", LibBanco.FechaReformaIGTFGO6687, insQAdvSql.CurrentDateFormat, "AND", ">=");
-			vWhere = insQAdvSql.SqlBoolValueWithAnd(vWhere, "GeneraImpuestoBancario", false);
+			vWhere = insQAdvSql.SqlBoolValueWithAnd(vWhere, "GeneraImpuestoBancario", true);
 			vWhere = insQAdvSql.SqlIntValueWithOperators(vWhere, "Monto", 0, "AND", "<>");
 			vWhere = insQAdvSql.WhereSql(vWhere);
 
