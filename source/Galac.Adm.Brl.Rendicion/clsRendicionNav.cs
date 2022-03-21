@@ -936,8 +936,12 @@ namespace Galac.Adm.Brl.CajaChica {
         }
 
         public decimal CalcularITF(decimal valMontoTotal, decimal valAlicuota) {
-            decimal vMontoITF = 0;
-            vMontoITF = LibMath.RoundToNDecimals(valMontoTotal * valAlicuota / 100, 2);
+            decimal vMontoITF = 0;            
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("DatosRentencion", "RedondeaMontoDebitoBancario")) {
+                vMontoITF = LibMath.RoundToNDecimals(valMontoTotal * valAlicuota / 100, 2);
+            } else {
+                vMontoITF = LibMath.TruncToNDecimals(valMontoTotal * valAlicuota / 100, 2);
+            }
             return vMontoITF;
         }
 
