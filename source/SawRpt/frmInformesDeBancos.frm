@@ -811,7 +811,7 @@ Private Sub txtNumeroDeCuenta_Validate(Cancel As Boolean)
    If gTexto.DfLen(txtNumeroDeCuenta.Text) = 0 Then
       txtNumeroDeCuenta.Text = "*"
    End If
-   If insCnxAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuenta, txtNumeroDeCuenta.Text, "", enum_StatusCtaBancaria.eSC_ACTIVA, "Gv_CuentaBancaria_B1.Status", "", True) Then
+   If insCnxAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuenta, txtNumeroDeCuenta.Text, "", enum_StatusCtaBancaria.eSC_ACTIVA, "Gv_CuentaBancaria_B1.Status", "", False, False, False, True) Then
       txtNumeroDeCuenta.Text = insCuenta.GetCodigo
       lblNombreCtaBancaria.Caption = insCuenta.GetNombreCuenta
    Else
