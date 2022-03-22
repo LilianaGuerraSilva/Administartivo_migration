@@ -446,7 +446,7 @@ Public Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania 
       vSQL = vSQL & " AND cuentaBancaria.Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
-      vSQL = vSQL & "AND cuentaBancaria.CodigoCtaBancaria = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+      vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
    vSQL = vSQL & " ) "
