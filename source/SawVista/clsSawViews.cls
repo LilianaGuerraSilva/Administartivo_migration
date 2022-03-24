@@ -107,7 +107,7 @@ Public Function fCreateProjectViews(ByVal valShowMessage As Boolean, ByVal valWi
    vResult = vResult And insLibViews.fCreateView(insCxPVista.GetViewNameDocPagadosPorMoneda(), insCxPVista.fSqlViewDocumentoPagado, valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(insCxPVista.GetViewNameCompras(), insCxPVista.fSqlViewCompras, valShowMessage, valWithEncryption)
    vResult = vResult And insLibViews.fCreateView(insProveedor.GetViewNameProveedor(), insProveedor.fSqlViewProveedor, valShowMessage, valWithEncryption)
-   vResult = vResult And insLibViews.fCreateView(insCxCVista.GetViewNameRetencionDocumentoCobrado(), insCxCVista.fSqlViewRetencionDocumentoCobrado, valShowMessage, valWithEncryption)   
+   vResult = vResult And insLibViews.fCreateView(insCxCVista.GetViewNameRetencionDocumentoCobrado(), insCxCVista.fSqlViewRetencionDocumentoCobrado, valShowMessage, valWithEncryption)
    
    vResult = vResult And insLibViews.fCreateView(insCxCVista.GetViewNameRetencionesEnVentas(), insCxCVista.fSqlViewRetencionesEnVentas, valShowMessage, valWithEncryption)
    

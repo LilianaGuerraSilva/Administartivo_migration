@@ -573,7 +573,7 @@ Private Sub txtCodigoCuentaBancaria_Validate(Cancel As Boolean)
       txtCodigoCuentaBancaria.Text = "*"
    End If
    If UCase(txtCodigoCuentaBancaria.Text) <> mCodigoCuentaBancariaOriginal Then
-     If insConexionAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, txtCodigoCuentaBancaria.Text, "", "", "", mWhere) Then
+     If insConexionAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, txtCodigoCuentaBancaria.Text, "", "", "", mWhere, False, False, False, True) Then
          sAssignFieldsFromConnectionCuentaBancaria
          mCodigoCuentaBancariaOriginal = UCase(txtCodigoCuentaBancaria.Text)
       Else
@@ -600,7 +600,7 @@ Private Sub txtNombreCuentaBancaria_Validate(Cancel As Boolean)
       txtNombreCuentaBancaria.Text = "*"
    End If
    If UCase(txtNombreCuentaBancaria.Text) <> mNombreCuentaBancariaOriginal Then
-      If insConexionAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, txtNombreCuentaBancaria.Text, "", "", "", mWhere) Then
+      If insConexionAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, txtNombreCuentaBancaria.Text, "", "", "", mWhere, False, False, False, True) Then
          sAssignFieldsFromConnectionCuentaBancaria
          mNombreCuentaBancariaOriginal = UCase(txtNombreCuentaBancaria.Text)
       Else

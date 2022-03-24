@@ -1678,6 +1678,13 @@ Public Enum enum_FacturaGeneradaPor
    eFGP_Galac360
 End Enum
 
+Public Enum enum_TipoAlicPorContIGTF
+   eTAPCIGTF_NoAsignado = 0
+   eTAPCIGTF_Cont14
+   eTAPCIGTF_Cont5
+   eTAPCIGTF_Cont6
+End Enum
+
 Public Function me_saw() As Long
    me_saw = 1
 End Function
@@ -2548,8 +2555,8 @@ Public Sub FillComboBoxWithStatusCobranza(ByRef varComboBox As Object, Optional 
    End If
 End Sub
 
-Public Function enumTipoDeAlicuotaToString(ByVal TipoDeAlicuota As enum_TipoDeAlicuota) As String
-   Select Case TipoDeAlicuota
+Public Function enumTipoDeAlicuotaToString(ByVal tipoDeAlicuota As enum_TipoDeAlicuota) As String
+   Select Case tipoDeAlicuota
       Case eTD_EXENTO: enumTipoDeAlicuotaToString = "Exento"
       Case eTD_ALICUOTAGENERAL: enumTipoDeAlicuotaToString = "Alícuota General"
       Case eTD_ALICUOTA2: enumTipoDeAlicuotaToString = "Alícuota Reducida"
@@ -2562,12 +2569,12 @@ Public Function enumTipoDeAlicuotaToString(ByVal TipoDeAlicuota As enum_TipoDeAl
    End Select
 End Function
 
-Public Function strTipoDeAlicuotaToNum(ByVal TipoDeAlicuota As String, Optional ByVal showMessage As Boolean = True) As Integer
+Public Function strTipoDeAlicuotaToNum(ByVal tipoDeAlicuota As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_TipoDeAlicuota
    Dim nCount As Integer
    nCount = 0
    For mEnum = eTD_EXENTO To eTD_ALICUOTA3NC
-   If UCase(TipoDeAlicuota) = UCase(enumTipoDeAlicuotaToString(mEnum)) Then
+   If UCase(tipoDeAlicuota) = UCase(enumTipoDeAlicuotaToString(mEnum)) Then
       strTipoDeAlicuotaToNum = nCount
       GoTo h_EXIT
    End If
@@ -2575,7 +2582,7 @@ Public Function strTipoDeAlicuotaToNum(ByVal TipoDeAlicuota As String, Optional 
    Next
    strTipoDeAlicuotaToNum = 0
    If showMessage Then
-      gMessage.ProgrammerMessage "Valor " & TipoDeAlicuota & " no existe en tipo enumerativo tipoDeAlicuota"
+      gMessage.ProgrammerMessage "Valor " & tipoDeAlicuota & " no existe en tipo enumerativo tipoDeAlicuota"
    End If
 h_EXIT:
    Exit Function
@@ -9960,8 +9967,8 @@ Public Function fEnumFormaDePagoToStringInArray(Optional ByVal valPrepararParaSq
    On Error GoTo 0
 End Function
 
-Public Function enumTipoDeAlicuotaToStringSiglas(ByVal TipoDeAlicuota As enum_TipoDeAlicuota) As String
-   Select Case TipoDeAlicuota
+Public Function enumTipoDeAlicuotaToStringSiglas(ByVal tipoDeAlicuota As enum_TipoDeAlicuota) As String
+   Select Case tipoDeAlicuota
       Case eTD_EXENTO: enumTipoDeAlicuotaToStringSiglas = "ETO"
       Case eTD_ALICUOTAGENERAL: enumTipoDeAlicuotaToStringSiglas = "ALG"
       Case eTD_ALICUOTA2: enumTipoDeAlicuotaToStringSiglas = "ALR"
@@ -9970,12 +9977,12 @@ Public Function enumTipoDeAlicuotaToStringSiglas(ByVal TipoDeAlicuota As enum_Ti
    End Select
 End Function
 
-Public Function fSiglasTipoDeAlicuotaToEnum(ByVal TipoDeAlicuota As String, Optional ByVal showMessage As Boolean = True) As Integer
+Public Function fSiglasTipoDeAlicuotaToEnum(ByVal tipoDeAlicuota As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_TipoDeAlicuota
    Dim nCount As Integer
    nCount = 0
    For mEnum = eTD_EXENTO To eTD_ALICUOTA3
-   If UCase(TipoDeAlicuota) = UCase(enumTipoDeAlicuotaToStringSiglas(mEnum)) Then
+   If UCase(tipoDeAlicuota) = UCase(enumTipoDeAlicuotaToStringSiglas(mEnum)) Then
       fSiglasTipoDeAlicuotaToEnum = nCount
       GoTo h_EXIT
    End If
@@ -9983,7 +9990,7 @@ Public Function fSiglasTipoDeAlicuotaToEnum(ByVal TipoDeAlicuota As String, Opti
    Next
    fSiglasTipoDeAlicuotaToEnum = 0
    If showMessage Then
-      gMessage.ProgrammerMessage "Valor " & TipoDeAlicuota & " no existe en tipo enumerativo tipoDeAlicuota"
+      gMessage.ProgrammerMessage "Valor " & tipoDeAlicuota & " no existe en tipo enumerativo tipoDeAlicuota"
    End If
 h_EXIT:
    Exit Function
@@ -13515,7 +13522,7 @@ Public Function enumBaseCalculoParaAlicuotaEspecialToString(BaseCalculoParaAlicu
    End Select
 End Function
 
-Public Function strBaseCalculoParaAlicuotaEspecialToNum(ByVal BaseCalculoParaAlicuotaEspecial As String, Optional ByVal ShowMessage As Boolean = True) As Integer
+Public Function strBaseCalculoParaAlicuotaEspecialToNum(ByVal BaseCalculoParaAlicuotaEspecial As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_BaseCalculoParaAlicuotaEspecial
    Dim nCount As Integer
    nCount = 0
@@ -13527,7 +13534,7 @@ Public Function strBaseCalculoParaAlicuotaEspecialToNum(ByVal BaseCalculoParaAli
       nCount = nCount + 1
    Next
    strBaseCalculoParaAlicuotaEspecialToNum = 0
-   If ShowMessage Then
+   If showMessage Then
       gMessage.ProgrammerMessage "Valor " & BaseCalculoParaAlicuotaEspecial & " no existe en tipo enumerado BaseCalculoParaAlicuotaEspecial"
    End If
 h_EXIT:
@@ -13574,7 +13581,7 @@ Public Function enumStatusCompaniaToString(StatusCompania As enum_StatusCompania
    End Select
 End Function
 
-Public Function strStatusCompaniaToNum(ByVal StatusCompania As String, Optional ByVal ShowMessage As Boolean = True) As Integer
+Public Function strStatusCompaniaToNum(ByVal StatusCompania As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_StatusCompania
    Dim nCount As Integer
    nCount = 0
@@ -13586,7 +13593,7 @@ Public Function strStatusCompaniaToNum(ByVal StatusCompania As String, Optional 
       nCount = nCount + 1
    Next
    strStatusCompaniaToNum = 0
-   If ShowMessage Then
+   If showMessage Then
       gMessage.ProgrammerMessage "Valor " & StatusCompania & " no existe en tipo enumerado StatusCompania"
    End If
 h_EXIT:
@@ -13621,7 +13628,7 @@ Public Function enumTipoDeMercanciaToString(TipoDeMercancia As enum_TipoDeMercan
    End Select
 End Function
 
-Public Function strTipoDeMercanciaToNum(ByVal TipoDeMercancia As String, Optional ByVal ShowMessage As Boolean = True) As Integer
+Public Function strTipoDeMercanciaToNum(ByVal TipoDeMercancia As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_TipoDeMercancia
    Dim nCount As Integer
    nCount = 0
@@ -13633,7 +13640,7 @@ Public Function strTipoDeMercanciaToNum(ByVal TipoDeMercancia As String, Optiona
       nCount = nCount + 1
    Next
    strTipoDeMercanciaToNum = 0
-   If ShowMessage Then
+   If showMessage Then
       gMessage.ProgrammerMessage "Valor " & TipoDeMercancia & " no existe en tipo enumerado TipoDeMercancia"
    End If
 h_EXIT:
@@ -13671,7 +13678,7 @@ Public Function enumTipoDePersonaLibrosElectronicosToString(TipoDePersonaLibrosE
    End Select
 End Function
 
-Public Function strTipoDePersonaLibrosElectronicosToNum(ByVal TipoDePersonaLibrosElectronicos As String, Optional ByVal ShowMessage As Boolean = True) As Integer
+Public Function strTipoDePersonaLibrosElectronicosToNum(ByVal TipoDePersonaLibrosElectronicos As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_TipoDePersonaLibrosElectronicos
    Dim nCount As Integer
    nCount = 0
@@ -13683,7 +13690,7 @@ Public Function strTipoDePersonaLibrosElectronicosToNum(ByVal TipoDePersonaLibro
       nCount = nCount + 1
    Next
    strTipoDePersonaLibrosElectronicosToNum = 0
-   If ShowMessage Then
+   If showMessage Then
       gMessage.ProgrammerMessage "Valor " & TipoDePersonaLibrosElectronicos & " no existe en tipo enumerado TipoDePersonaLibrosElectronicos"
    End If
 h_EXIT:
@@ -13721,7 +13728,7 @@ Public Function enumTipoDeCambioSunatToString(TipoDeCambioSunat As enum_TipoDeCa
    End Select
 End Function
 
-Public Function strTipoDeCambioSunatToNum(ByVal TipoDeCambioSunat As String, Optional ByVal ShowMessage As Boolean = True) As Integer
+Public Function strTipoDeCambioSunatToNum(ByVal TipoDeCambioSunat As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_TipoDeCambioSunat
    Dim nCount As Integer
    nCount = 0
@@ -13733,7 +13740,7 @@ Public Function strTipoDeCambioSunatToNum(ByVal TipoDeCambioSunat As String, Opt
       nCount = nCount + 1
    Next
    strTipoDeCambioSunatToNum = 0
-   If ShowMessage Then
+   If showMessage Then
       gMessage.ProgrammerMessage "Valor " & TipoDeCambioSunat & " no existe en tipo enumerado TipoDeCambioSunat"
    End If
 h_EXIT:
@@ -13901,6 +13908,7 @@ Public Sub FillComboBoxWithFormaDeCalculoDePrecioRenglonFactura(ByRef varComboBo
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
+
 Public Function enumFacturaGeneradaPorToString(FacturaGeneradaPor As enum_FacturaGeneradaPor) As String
    Select Case FacturaGeneradaPor
       Case eFGP_Usuario: enumFacturaGeneradaPorToString = "Usuario"
@@ -13911,7 +13919,62 @@ Public Function enumFacturaGeneradaPorToString(FacturaGeneradaPor As enum_Factur
    End Select
 End Function
 
-Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, Optional ByVal ShowMessage As Boolean = True) As Integer
+Public Function enumTipoAlicPorContIGTFToString(TipoAlicPorContIGTF As enum_TipoAlicPorContIGTF) As String
+   Select Case TipoAlicPorContIGTF
+      Case eTAPCIGTF_NoAsignado: enumTipoAlicPorContIGTFToString = "No asignado"
+      Case eTAPCIGTF_Cont14: enumTipoAlicPorContIGTFToString = "Contribuyente 1-4"
+      Case eTAPCIGTF_Cont5: enumTipoAlicPorContIGTFToString = "Contribuyente 5"
+      Case eTAPCIGTF_Cont6: enumTipoAlicPorContIGTFToString = "Contribuyente 6"
+      Case Else
+         enumTipoAlicPorContIGTFToString = enumTipoAlicPorContIGTFToString(0)
+   End Select
+End Function
+
+Public Function strTipoAlicPorContIGTFToNum(ByVal TipoAlicPorContIGTF As String, Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_TipoAlicPorContIGTF
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eTAPCIGTF_NoAsignado To eTAPCIGTF_Cont6
+      If UCase(TipoAlicPorContIGTF) = UCase(enumTipoAlicPorContIGTFToString(mEnum)) Then
+         strTipoAlicPorContIGTFToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strTipoAlicPorContIGTFToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & TipoAlicPorContIGTF & " no existe en tipo enumerado TipoAlicPorContIGTF"
+   End If
+h_EXIT:
+   Exit Function
+End Function
+Public Function fEnumTipoAlicPorContIGTFToStringInArray(Optional ByVal valPrepararParaSql As Boolean = False, Optional ByVal valConSiglas As Boolean = False) As Variant
+   Dim varEnum As enum_TipoAlicPorContIGTF
+   Dim varArray() As String
+   Dim varLimiteSuperior As Integer
+   Dim nCount As Integer
+   Dim varCaracterDelimitador As String
+   On Error Resume Next
+   varCaracterDelimitador = ""
+   If valPrepararParaSql Then
+      varCaracterDelimitador = "'"
+   End If
+   varLimiteSuperior = enum_TipoAlicPorContIGTF.eTAPCIGTF_Cont6 - enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado
+   nCount = 0
+   ReDim varArray(0 To varLimiteSuperior)
+   For varEnum = enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado To enum_TipoAlicPorContIGTF.eTAPCIGTF_Cont6
+      If valConSiglas = False Then
+         varArray(nCount) = varCaracterDelimitador & enumTipoAlicPorContIGTFToString(varEnum) & varCaracterDelimitador
+      Else
+         varArray(nCount) = varCaracterDelimitador & enumTipoAlicPorContIGTFToString(varEnum) & varCaracterDelimitador
+      End If
+      nCount = nCount + 1
+   Next
+   fEnumTipoAlicPorContIGTFToStringInArray = varArray
+   On Error GoTo 0
+End Function
+
+Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, Optional ByVal showMessage As Boolean = True) As Integer
    Dim mEnum As enum_FacturaGeneradaPor
    Dim nCount As Integer
    nCount = 0
@@ -13923,7 +13986,7 @@ Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, O
       nCount = nCount + 1
    Next
    strFacturaGeneradaPorToNum = 0
-   If ShowMessage Then
+   If showMessage Then
       gMessage.ProgrammerMessage "Valor " & FacturaGeneradaPor & " no existe en tipo enumerado FacturaGeneradaPor"
    End If
 h_EXIT:

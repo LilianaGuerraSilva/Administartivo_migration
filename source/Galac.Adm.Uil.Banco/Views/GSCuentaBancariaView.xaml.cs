@@ -13,19 +13,17 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Galac.Adm.Uil.Banco.Views {
-    /// <summary>
-    /// Interaction logic for GSCuentaBancariaView.xaml
-    /// </summary>
-    public partial class GSCuentaBancariaView: UserControl {
-        #region Constructores
+	/// <summary>
+	/// Interaction logic for GSCuentaBancariaView.xaml
+	/// </summary>
+	public partial class GSCuentaBancariaView : UserControl {
+		#region Constructores
+		public GSCuentaBancariaView() {
+			InitializeComponent();
+		}
+		#endregion //Constructores
 
-        public GSCuentaBancariaView() {
-            InitializeComponent();
-        }
-        #endregion //Constructores
-
-
-    } //End of class GSCuentaBancariaView.xaml
+	} //End of class GSCuentaBancariaView.xaml
 
 } //End of namespace Galac.Adm.Uil.Banco
 

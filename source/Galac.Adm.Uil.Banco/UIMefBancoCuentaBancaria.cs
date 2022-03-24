@@ -11,81 +11,75 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using Galac.Adm.Uil.Banco.ViewModel;
 
 namespace Galac.Adm.Uil.Banco {
-    [LibMefUilComponentMetadata(typeof(UIMefBancoCuentaBancaria), "Bancos")]
-    public class UIMefBancoCuentaBancaria : ILibMefUilComponent {
-        #region Variables
-        private CuentaBancariaMngViewModel _ViewModel;
-        private ContentControl _View;
-        #endregion //Variables
-        #region Propiedades
+	[LibMefUilComponentMetadata(typeof(UIMefBancoCuentaBancaria), "Bancos")]
+	public class UIMefBancoCuentaBancaria : ILibMefUilComponent {
+		#region Variables
+		private CuentaBancariaMngViewModel _ViewModel;
+		private ContentControl _View;
+		#endregion //Variables
 
-        public string Name {
-            get { return "Cuenta Bancaria"; }
-        }
+		#region Propiedades
+		public string Name {
+			get { return "Cuenta Bancaria"; }
+		}
 
-        public Uri Image {
-            get { return null; }
-        }
+		public Uri Image {
+			get { return null; }
+		}
 
-        public ObservableCollection<LibRibbonTabData> RibbonTabData {
-            get {
-                if (_ViewModel != null) {
-                    return _ViewModel.RibbonData.TabDataCollection;
-                } else {
-                    return null;
-                }
-            }
-        }
+		public ObservableCollection<LibRibbonTabData> RibbonTabData {
+			get {
+				if (_ViewModel != null) {
+					return _ViewModel.RibbonData.TabDataCollection;
+				} else {
+					return null;
+				}
+			}
+		}
 
-        public ContentControl View {
-            get {
-                if (_View == null) {
-                    _View = new GSSearchView() {
-                        DataContext = _ViewModel
-                    };
-                }
-                return _View;
-            }
-        }
+		public ContentControl View {
+			get {
+				if (_View == null) {
+					_View = new GSSearchView() {
+						DataContext = _ViewModel
+					};
+				}
+				return _View;
+			}
+		}
 
-        public bool IsInitialized {
-            get;
-            private set;
-        }
+		public bool IsInitialized {
+			get;
+			private set;
+		}
 
-        public LibXmlMemInfo AppMemoryInfo { get; set; }
+		public LibXmlMemInfo AppMemoryInfo { get; set; }
 
-        public LibXmlMFC Mfc { get; set; }
-        #endregion //Propiedades
-        #region Constructores
+		public LibXmlMFC Mfc { get; set; }
+		#endregion //Propiedades
 
-        public UIMefBancoCuentaBancaria() {
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            AppMemoryInfo = LibGlobalValues.Instance.GetAppMemInfo();
-        */
-        #endregion //Codigo Ejemplo
-        }
-        #endregion //Constructores
-        #region Metodos Generados
+		#region Constructores
+		public UIMefBancoCuentaBancaria() {
+		}
+		#endregion //Constructores
 
-        public void InitializeIfNecessary() {
-            if(!IsInitialized) {
-                IsInitialized = true;
-                _ViewModel = new CuentaBancariaMngViewModel();
-            }
-        }
+		#region Metodos Generados
+		public void InitializeIfNecessary() {
+			if (!IsInitialized) {
+				IsInitialized = true;
+				_ViewModel = new CuentaBancariaMngViewModel();
+			}
+		}
 
-        public void Reload() {
-            InitializeIfNecessary();
-            if (_ViewModel != null) {
-                _ViewModel.ExecuteSearchAndInitLookAndFeel();
-            }
-        }
-        #endregion //Metodos Generados
+		public void Reload() {
+			InitializeIfNecessary();
+			if (_ViewModel != null) {
+				_ViewModel.ExecuteSearchAndInitLookAndFeel();
+			}
+		}
+		#endregion //Metodos Generados
 
-
-    } //End of class UIMefBancoCuentaBancaria
+	} //End of class UIMefBancoCuentaBancaria
 
 } //End of namespace Galac.Adm.Uil.Banco
 

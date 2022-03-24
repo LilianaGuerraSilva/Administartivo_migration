@@ -473,8 +473,12 @@ Private Sub sEjecutaProcesoDeContabilizacionDeReposicion()
       Dim generarComprobanteNavigator As clsGenerarComprobanteNavigator
       Dim fechaAnulacion As Date
       Dim Continuar As Boolean
+      Dim vCodigoCuentaBancaria As String
+      Dim insMovimientoBancario As clsMovimientoBancarioNavigator
+      Dim insCtaBancaria As clsCuentaBancariaNavigator
       On Error GoTo h_ERROR
       Continuar = True
+      Set insMovimientoBancario = New clsMovimientoBancarioNavigator
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("CajaChica", "WrpReposicion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
       parametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
       datos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), parametros)
@@ -488,7 +492,10 @@ Private Sub sEjecutaProcesoDeContabilizacionDeReposicion()
             Consecutivo = gConvert.fConvertStringToLong(gLibGalacDataParse.GetString(0, "Consecutivo", ""))
             Set generarComprobanteNavigator = New clsGenerarComprobanteNavigator
             If (generarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_REPOSICION, fecha, Numero, False, False, eTDDR_Reposicion, Consecutivo)) Then
-               generarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_REPOSICION, fecha, Numero, False, False, eTDDR_Reposicion, Consecutivo
+               vCodigoCuentaBancaria = gLibGalacDataParse.GetString(0, "CodigoCuentaCajaChica")
+               Set insCtaBancaria = New clsCuentaBancariaNavigator
+               insMovimientoBancario.sCargarValoresDeLaCuentaBancaria insCtaBancaria, vCodigoCuentaBancaria
+               generarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_REPOSICION, fecha, Numero, False, False, eTDDR_Reposicion, Consecutivo, insCtaBancaria.GetTipoDeAlicuotaPorContribuyenteAsEnum
             End If
             Set generarComprobanteNavigator = Nothing
          End If
@@ -496,6 +503,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeReposicion()
          Continuar = False
       End If
       parametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
+      Set insMovimientoBancario = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaProcesoDeContabilizacionDeReposicion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)

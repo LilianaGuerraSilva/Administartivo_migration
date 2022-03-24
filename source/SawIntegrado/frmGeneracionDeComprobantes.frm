@@ -611,8 +611,7 @@ Private Sub sEjecutaProcesosDeContabilizacion()
    Else
       tipoDocumento = -1
    End If
-   If insGenerarComprobanteNavigator.fGeneraElComprobanteParaUnoOVariosDocumentos(mFechaDesde, mFechaHasta, _
-         mTipoDeContabilizacion, False, "", False, False, False, tipoDocumento, 0) Then
+   If insGenerarComprobanteNavigator.fGeneraElComprobanteParaUnoOVariosDocumentos(mFechaDesde, mFechaHasta, mTipoDeContabilizacion, False, "", False, False, False, tipoDocumento, 0, eTAPCIGTF_NoAsignado) Then
    End If
    Set insGenerarComprobanteNavigator = Nothing
 h_EXIT: On Error GoTo 0

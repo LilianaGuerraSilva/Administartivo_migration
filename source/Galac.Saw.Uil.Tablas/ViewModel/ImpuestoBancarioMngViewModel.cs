@@ -124,7 +124,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             if(valAction == eAccionSR.Instalar) {
                 vResult = LibImportExport.InstallData(vFileName,ModuleName,new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv));
             } else {
-                vResult = LibImportExport.ReInstallData(vFileName,ModuleName,new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv), !valVieneDeReestructurar, valVieneDeReestructurar);
+                vResult = LibImportExport.ReInstallData(vFileName,ModuleName, new clsImpuestoBancarioImpExp(),LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv), !valVieneDeReestructurar, valVieneDeReestructurar);
             }
             return vResult;
         }
@@ -134,7 +134,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         }
 
         private bool CanExecuteReinstallCommand() {
-            return LibSecurityManager.CurrentUserHasAccessTo("Tablas","Insertar");
+            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Reinstalar");
         }
 
 
@@ -154,7 +154,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
 
         private void ExecuteGetAlicuotaITFCommand() {
             string vResult="";            
-            vResult = new Galac.Saw.Brl.Tablas.clsImpuestoBancarioNav().BuscaAlicutoaImpTranscBancarias(LibDate.Today(),true);
+            vResult = new Galac.Saw.Brl.Tablas.clsImpuestoBancarioNav().BuscaAlicuotaImpTranscBancarias(LibDate.Today(),true);
         }
 
         #endregion //Metodos Generados

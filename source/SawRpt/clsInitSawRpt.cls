@@ -80,11 +80,11 @@ Public Sub sLlamarInformesMovimientoBancario(ByVal valCompaniaActual As Object, 
    insFrmInformesDeMovimientoBancario.Show
 End Sub
 
-Public Sub sLlamarInformesDeBanco(ByVal valCompaniaActual As Object, ByVal valConexionAOS As Object, ByVal valInsCuentaBancaria As Object, ByVal valGMonedaLocalActual As Object, ByVal valInsConceptoBancario As Object)
+Public Sub sLlamarInformesDeBanco(ByVal valCompaniaActual As Object, ByVal valConexionAOS As Object, ByVal valInsCuentaBancaria As Object, ByVal valGMonedaLocalActual As Object, ByVal valInsConceptoBancario As Object, ByVal valProyParametrosCompania As Object)
    Dim insFrmInformesDeBanco As frmInformesDeBancos
    Set insFrmInformesDeBanco = New frmInformesDeBancos
    insFrmInformesDeBanco.sInitLookAndFeel
-   insFrmInformesDeBanco.sLoadObjectValues valCompaniaActual, valConexionAOS, valInsCuentaBancaria, valGMonedaLocalActual, valInsConceptoBancario
+   insFrmInformesDeBanco.sLoadObjectValues valCompaniaActual, valConexionAOS, valInsCuentaBancaria, valGMonedaLocalActual, valInsConceptoBancario, valProyParametrosCompania
    insFrmInformesDeBanco.Show
 End Sub
    

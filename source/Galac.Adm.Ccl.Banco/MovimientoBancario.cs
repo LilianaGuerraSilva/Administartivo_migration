@@ -24,6 +24,7 @@ namespace Galac.Adm.Ccl.Banco {
         private string _NumeroDocumento;
         private string _Descripcion;
         private bool _GeneraImpuestoBancario;
+        private decimal _AlicuotaImpBancario;
         private string _NroMovimientoRelacionado;
         private eGeneradoPor _GeneradoPor;
         private string _Moneda;
@@ -118,6 +119,11 @@ namespace Galac.Adm.Ccl.Banco {
         }
 
 
+        public decimal AlicuotaImpBancario {
+            get { return _AlicuotaImpBancario; }
+            set { _AlicuotaImpBancario = value; }
+        }
+		
         public string NroMovimientoRelacionado {
             get { return _NroMovimientoRelacionado; }
             set { _NroMovimientoRelacionado = LibString.Mid(value, 0, 15); }
@@ -239,6 +245,7 @@ namespace Galac.Adm.Ccl.Banco {
             NumeroDocumento = "";
             Descripcion = "";
             GeneraImpuestoBancarioAsBool = false;
+            AlicuotaImpBancario = 0;
             NroMovimientoRelacionado = "";
             GeneradoPorAsEnum = eGeneradoPor.Usuario;
             Moneda = "";
@@ -268,6 +275,7 @@ namespace Galac.Adm.Ccl.Banco {
             vResult.NumeroDocumento = _NumeroDocumento;
             vResult.Descripcion = _Descripcion;
             vResult.GeneraImpuestoBancarioAsBool = _GeneraImpuestoBancario;
+            vResult.AlicuotaImpBancario = _AlicuotaImpBancario;
             vResult.NroMovimientoRelacionado = _NroMovimientoRelacionado;
             vResult.GeneradoPorAsEnum = _GeneradoPor;
             vResult.Moneda = _Moneda;
@@ -295,6 +303,7 @@ namespace Galac.Adm.Ccl.Banco {
                "\nNº Documento = " + _NumeroDocumento +
                "\nDescripcion = " + _Descripcion +
                "\nGenerar Impuesto Bancario = " + _GeneraImpuestoBancario +
+               "\nAlicuota Imp Bancario = " + _AlicuotaImpBancario.ToString() +
                "\nNro Movimiento Relacionado = " + _NroMovimientoRelacionado +
                "\nGenerado Por = " + _GeneradoPor.ToString() +
                "\nCambio ABolivares = " + _CambioABolivares.ToString() +

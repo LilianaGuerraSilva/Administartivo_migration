@@ -49,7 +49,6 @@ namespace Galac.Adm.Uil.CajaChica.ViewModel {
         public eTipoDeCtaBancaria TipoCtaBancaria { get; set; }
          [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusStr", DbMemberPath = "Saw.Gv_CuentaBancaria_B1.Status", Width = 50)]
         public eStatusCtaBancaria Status { get; set; }
-
         public string CodigoMoneda { get; set; }
         public string CuentaContable { get; set; }
         public bool ManejaCreditoBancario { get; set; }
@@ -57,6 +56,8 @@ namespace Galac.Adm.Uil.CajaChica.ViewModel {
         public string NombreDeLaMoneda { get; set; }
         public string NombrePlantillaCheque { get; set; }
         public decimal SaldoDisponible { get; set; }
+        public eTipoAlicPorContIGTF TipoDeAlicuotaPorContribuyente { get; set; }
+        public bool GeneraMovBancarioPorIGTF { get; set; }
     }
 
     public class FkRendicionViewModel : IFkRendicionViewModel {

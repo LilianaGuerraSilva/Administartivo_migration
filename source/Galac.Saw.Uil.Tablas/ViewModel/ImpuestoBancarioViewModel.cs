@@ -19,8 +19,9 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
     public class ImpuestoBancarioViewModel : LibInputViewModel<ImpuestoBancario> {
         #region Constantes
         public const string FechaDeInicioDeVigenciaPropertyName = "FechaDeInicioDeVigencia";
-        public const string AlicuotaAlDebitoPropertyName = "AlicuotaAlDebito";
-        public const string AlicuotaAlCreditoPropertyName = "AlicuotaAlCredito";
+		public const string AlicuotaC1Al4PropertyName = "AlicuotaC1Al4";
+        public const string AlicuotaC5PropertyName = "AlicuotaC5";
+        public const string AlicuotaC6PropertyName = "AlicuotaC6";
         #endregion
         #region Propiedades
 
@@ -28,8 +29,9 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             get { return "Alícuota ITF"; }
         }
 
-        [LibGridColum("Fecha De Inicio De Vigencia",eGridColumType.DatePicker,Width =200)]
+        [LibRequired(ErrorMessage = "El campo Fecha de inicio de vigencia es requerido.")]
         [LibCustomValidation("FechaDeInicioDeVigenciaValidating")]
+        [LibGridColum("Fecha de inicio de vigencia", eGridColumType.DatePicker,Width =180)]
         public DateTime  FechaDeInicioDeVigencia {
             get {
                 return Model.FechaDeInicioDeVigencia;
@@ -43,7 +45,6 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             }
         }
 
-        [LibGridColum("Alícuota al Débito",eGridColumType.Numeric)] 
         public decimal  AlicuotaAlDebito {
             get {
                 return Model.AlicuotaAlDebito;
@@ -51,13 +52,10 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             set {
                 if (Model.AlicuotaAlDebito != value) {
                     Model.AlicuotaAlDebito = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(AlicuotaAlDebitoPropertyName);
                 }
             }
         }
 
-        [LibGridColum("Alícuota al Crédito",eGridColumType.Numeric)]
         public decimal  AlicuotaAlCredito {
             get {
                 return Model.AlicuotaAlCredito;
@@ -65,8 +63,47 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             set {
                 if (Model.AlicuotaAlCredito != value) {
                     Model.AlicuotaAlCredito = value;
+                }
+            }
+        }
+        [LibGridColum("Contribuyentes 1, 2, 3, 4", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 150)]
+        public decimal  AlicuotaC1Al4 {
+            get {
+                return Model.AlicuotaC1Al4;
+            }
+            set {
+                if (Model.AlicuotaC1Al4 != value) {
+                    Model.AlicuotaC1Al4 = value;
                     IsDirty = true;
-                    RaisePropertyChanged(AlicuotaAlCreditoPropertyName);
+                    RaisePropertyChanged(AlicuotaC1Al4PropertyName);
+                }
+            }
+        }
+
+        [LibGridColum("Contribuyentes 5", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        public decimal  AlicuotaC5 {
+            get {
+                return Model.AlicuotaC5;
+            }
+            set {
+                if (Model.AlicuotaC5 != value) {
+                    Model.AlicuotaC5 = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(AlicuotaC5PropertyName);
+                }
+            }
+        }
+
+        [LibGridColum("Contribuyentes 6", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        public decimal  AlicuotaC6 {
+            get {
+                return Model.AlicuotaC6;
+            }
+            set {
+                if (Model.AlicuotaC6 != value) {
+                    Model.AlicuotaC6 = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(AlicuotaC6PropertyName);
                 }
             }
         }
@@ -105,7 +142,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
                 return ValidationResult.Success;
             } else {
                 if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeInicioDeVigencia, false, Action)) {
-                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Inicio De Vigencia"));
+                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de inicio de vigencia"));
                 }
             }
             return vResult;

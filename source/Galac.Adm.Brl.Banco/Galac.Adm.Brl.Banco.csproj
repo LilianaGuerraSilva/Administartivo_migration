@@ -48,7 +48,7 @@
     <Reference Include="Galac.Contab.Ccl.WinCont">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binContabilidadAos\Galac.Contab.Ccl.WinCont.dll</HintPath>
-    </Reference>
+    </Reference>    
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
@@ -93,6 +93,10 @@
     <ProjectReference Include="..\Galac.Adm.Dal.Banco\Galac.Adm.Dal.Banco.csproj">
       <Project>{d0277dda-3eab-41b6-b6c0-a23c6bfb4306}</Project>
       <Name>Galac.Adm.Dal.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{ef2a7dd5-3fab-4ab4-2fc1-a4353b8b030a}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

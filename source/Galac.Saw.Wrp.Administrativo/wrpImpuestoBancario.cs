@@ -23,7 +23,7 @@ namespace Galac.Saw.Wrp.Tablas {
 #endif
     [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpImpuestoBancario:System.EnterpriseServices.ServicedComponent, IWrpImpuestoBancarioVb {
+    public class wrpImpuestoBancario : System.EnterpriseServices.ServicedComponent, IWrpImpuestoBancarioVb {
         #region Variables
         string _Title = "Impuesto Bancario";
         #endregion //Variables
@@ -51,17 +51,17 @@ namespace Galac.Saw.Wrp.Tablas {
                 } else {
                     insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
                 }
-            } catch(GalacException gEx) {
-                LibExceptionDisplay.Show(gEx,null,Title + " - " + vfwAction);
-            } catch(Exception vEx) {
-                if(vEx is AccessViolationException) {
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
                 LibExceptionDisplay.Show(vEx);
             }
         }
 
-        string IWrpImpuestoBancarioVb.Choose(string vfwParamInitializationList,string vfwParamFixedList) {
+        string IWrpImpuestoBancarioVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
             LibSearch insLibSearch = new LibSearch();
             List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
@@ -70,14 +70,14 @@ namespace Galac.Saw.Wrp.Tablas {
                 vSearchValues = insLibSearch.CreateListOfParameter(vfwParamInitializationList);
                 vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);
                 System.Xml.XmlDocument vXmlDocument = null;
-                if(Galac.Saw.Uil.Tablas.clsImpuestoBancarioMenu.ChooseFromInterop(ref vXmlDocument,vSearchValues,vFixedValues)) {
+                if (Galac.Saw.Uil.Tablas.clsImpuestoBancarioMenu.ChooseFromInterop(ref vXmlDocument, vSearchValues, vFixedValues)) {
                     vResult = vXmlDocument.InnerXml;
                 }
                 return vResult;
-            } catch(GalacException gEx) {
-                LibExceptionDisplay.Show(gEx,null,Title + " - Escoger");
-            } catch(Exception vEx) {
-                if(vEx is AccessViolationException) {
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - Escoger");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
                 LibExceptionDisplay.Show(vEx);
@@ -85,50 +85,65 @@ namespace Galac.Saw.Wrp.Tablas {
             return "";
         }
 
-        void IWrpImpuestoBancarioVb.InitializeComponent(string vfwLogin,string vfwPassword,string vfwPath) {
+        void IWrpImpuestoBancarioVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
-                LibGalac.Aos.Vbwa.LibWrpHelper.ConfigureRuntimeContext(vfwLogin,vfwPassword);
-            } catch(Exception vEx) {
-                if(vEx is AccessViolationException) {
+                LibGalac.Aos.Vbwa.LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
-                throw new GalacWrapperException(Title + " - Inicializar",vEx);
+                throw new GalacWrapperException(Title + " - Inicializar", vEx);
             }
         }
 
-        void IWrpImpuestoBancarioVb.InitializeDefProg(string vfwProgramInitials,string vfwProgramVersion,string vfwDbVersion,string vfwStrDateOfVersion,string vfwStrHourOfVersion,string vfwValueSpecialCharacteristic,string vfwCountry,string vfwCMTO,bool vfwUsePASOnLine) {
+        void IWrpImpuestoBancarioVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
-                LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials,vfwProgramVersion,vfwDbVersion,LibConvert.ToDate(vfwStrDateOfVersion),vfwStrHourOfVersion,"",vfwCountry,LibConvert.ToInt(vfwCMTO));
-                LibGalac.Aos.DefGen.LibDefGen.InitializeWorkPaths("",vLogicUnitDir,LibApp.AppPath(),LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials);
-            } catch(Exception vEx) {
-                if(vEx is AccessViolationException) {
+                LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
+                LibGalac.Aos.DefGen.LibDefGen.InitializeWorkPaths("", vLogicUnitDir, LibApp.AppPath(), LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.ProgramInitials);
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
-                throw new GalacWrapperException(Title + " - Inicializar",vEx);
+                throw new GalacWrapperException(Title + " - Inicializar", vEx);
             }
         }
 
         void IWrpImpuestoBancarioVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
-            } catch(Exception vEx) {
-                if(vEx is System.AccessViolationException) {
+            } catch (Exception vEx) {
+                if (vEx is System.AccessViolationException) {
                     throw;
                 }
-                throw new GalacWrapperException(Title + " - Inicialización",vEx);
+                throw new GalacWrapperException(Title + " - Inicialización", vEx);
             }
         }
 
-        string IWrpImpuestoBancarioVb.BuscaAlicutoaImpTranscBancarias(string valFecha,string valAlicDebito) {
-            string vResult = "";            
-            try {                
-                vResult = new Galac.Saw.Brl.Tablas.clsImpuestoBancarioNav().BuscaAlicutoaImpTranscBancarias(LibConvert.ToDate(valFecha),LibConvert.SNToBool(valAlicDebito));
-            } catch(GalacException gEx) {
-                LibExceptionDisplay.Show(gEx,null,Title + " - " + "ImpuestoBancario");
-            } catch(Exception vEx) {
-                if(vEx is AccessViolationException) {
+        string IWrpImpuestoBancarioVb.BuscaAlicuotaImpTranscBancarias(string valFecha, string valAlicDebito) {
+            string vResult = "";
+            try {
+                vResult = new Galac.Saw.Brl.Tablas.clsImpuestoBancarioNav().BuscaAlicuotaImpTranscBancarias(LibConvert.ToDate(valFecha), LibConvert.SNToBool(valAlicDebito));
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + "ImpuestoBancario");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+            return vResult;
+        }
+
+        string IWrpImpuestoBancarioVb.BuscaAlicuotasReformaIGTFGO6687(string valFecha, int valTipoDeAlicuotaPorContribuyenteIGTF) {
+            string vResult = "";
+            try {
+                vResult = new Galac.Saw.Brl.Tablas.clsImpuestoBancarioNav().BuscaAlicuotasReformaIGTFGO6687(LibConvert.ToDate(valFecha), valTipoDeAlicuotaPorContribuyenteIGTF);
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + "ImpuestoBancario");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
                     throw;
                 }
                 LibExceptionDisplay.Show(vEx);

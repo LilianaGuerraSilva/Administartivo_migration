@@ -10,41 +10,40 @@ using Galac.Adm.Uil.Banco.ViewModel;
 using Galac.Adm.Brl.Banco;
 
 namespace Galac.Adm.Uil.Banco {
-    public class clsCuentaBancariaMenu: ILibMenuMultiFile {
-        #region Variables
-        #endregion //Variables
-        #region Propiedades
-        #endregion //Propiedades
-        #region Constructores
+	public class clsCuentaBancariaMenu : ILibMenuMultiFile {
+		#region Variables
+		#endregion //Variables
 
-        public clsCuentaBancariaMenu() {
-        }
-        #endregion //Constructores
-        #region Metodos Generados
+		#region Propiedades
+		#endregion //Propiedades
 
-        void ILibMenuMultiFile.Ejecuta(eAccionSR valAction, int valUseInterop, IDictionary<string, XmlDocument> refGlobalValues) {
-            try {            
-            CuentaBancariaMngViewModel vViewModel = new CuentaBancariaMngViewModel();
-            vViewModel.ExecuteSearchAndInitLookAndFeel();
-            LibSearchView insFrmSearch = new LibSearchView(vViewModel);
-            if (valUseInterop == 0) {
-                insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
-                insFrmSearch.Show();
-            } else {
-                insFrmSearch.ShowDialog();
-            }
-            } catch (Exception) {
-                LibFile.WriteLineInFile(@"C:\Users\Samuel.Pineda\Desktop\modificados", "WW");
-                throw;
-            }
-        }
+		#region Constructores
+		public clsCuentaBancariaMenu() {
+		}
+		#endregion //Constructores
 
-        public static bool ChooseCuentaBancariaFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
-            return LibFKRetrievalHelper.ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsCuentaBancariaNav());
-        }
+		#region Metodos Generados
+		void ILibMenuMultiFile.Ejecuta(eAccionSR valAction, int valUseInterop, IDictionary<string, XmlDocument> refGlobalValues) {
+			try {
+				CuentaBancariaMngViewModel vViewModel = new CuentaBancariaMngViewModel();
+				vViewModel.ExecuteSearchAndInitLookAndFeel();
+				LibSearchView insFrmSearch = new LibSearchView(vViewModel);
+				if (valUseInterop == 0) {
+					insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
+					insFrmSearch.Show();
+				} else {
+					insFrmSearch.ShowDialog();
+				}
+			} catch (Exception) {
+				throw;
+			}
+		}
 
-        #endregion //Metodos Generados
+		public static bool ChooseCuentaBancariaFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
+			return LibFKRetrievalHelper.ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsCuentaBancariaNav());
+		}
+		#endregion //Metodos Generados
 
-    } //End of class clsCuentaBancariaMenu
+	} //End of class clsCuentaBancariaMenu
 
 } //End of namespace Galac.Adm.Uil.Banco
