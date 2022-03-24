@@ -625,7 +625,7 @@ Private Sub txtNumeroDeCuenta_Validate(Cancel As Boolean)
       txtNumeroDeCuenta.Text = "*"
    End If
 
-   If mConexion.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuenta, txtNumeroDeCuenta.Text, "NumeroCuenta", enum_StatusCtaBancaria.eSC_ACTIVA, "Gv_CuentaBancaria_B1.Status", "", True) Then
+   If mConexion.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuenta, txtNumeroDeCuenta.Text, "NumeroCuenta", enum_StatusCtaBancaria.eSC_ACTIVA, "Gv_CuentaBancaria_B1.Status", "", False, False, False, True) Then
       sAssignFieldsFromConnectionCuenta insCuenta
    Else
       Cancel = True

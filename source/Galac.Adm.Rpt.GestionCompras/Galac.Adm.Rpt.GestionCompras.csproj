@@ -82,39 +82,57 @@
     <Compile Include="clsImprimirHistoricoDeCompras.cs" />
     <Compile Include="clsImprimirMargenSobreCostoPromedioDeCompra.cs" />
     <Compile Include="clsImprimirOrdenesDeCompras.cs" />
-    <Compile Include="dsrImpresionDeEtiquetasPorCompras.cs" />
+    <Compile Include="dsrImpresionDeEtiquetasPorCompras.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrImpresionDeEtiquetasPorCompras.Designer.cs">
       <DependentUpon>dsrImpresionDeEtiquetasPorCompras.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrImprimirComprasEntreFechas.cs" />
+    <Compile Include="dsrImprimirComprasEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrImprimirComprasEntreFechas.Designer.cs">
       <DependentUpon>dsrImprimirComprasEntreFechas.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrImprimirOrdenesDeCompras.cs" />
+    <Compile Include="dsrImprimirOrdenesDeCompras.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrImprimirOrdenesDeCompras.designer.cs">
       <DependentUpon>dsrImprimirOrdenesDeCompras.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrOrdenDeCompra.cs" />
+    <Compile Include="dsrOrdenDeCompra.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrOrdenDeCompra.Designer.cs">
       <DependentUpon>dsrOrdenDeCompra.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrCompra.cs" />
+    <Compile Include="dsrCompra.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrCompra.Designer.cs">
       <DependentUpon>dsrCompra.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrImprimirCostoDeCompraEntreFechas.cs" />
+    <Compile Include="dsrImprimirCostoDeCompraEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrImprimirCostoDeCompraEntreFechas.Designer.cs">
       <DependentUpon>dsrImprimirCostoDeCompraEntreFechas.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrImprimirHistoricoDeCompras.cs" />
+    <Compile Include="dsrImprimirHistoricoDeCompras.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrImprimirHistoricoDeCompras.Designer.cs">
       <DependentUpon>dsrImprimirHistoricoDeCompras.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrImprimirMargenSobreCostoPromedioDeCompra.cs" />
+    <Compile Include="dsrImprimirMargenSobreCostoPromedioDeCompra.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrImprimirMargenSobreCostoPromedioDeCompra.Designer.cs">
       <DependentUpon>dsrImprimirMargenSobreCostoPromedioDeCompra.cs</DependentUpon>
     </Compile>
-    <Compile Include="dsrImprimirCotizacionOrdenDeCompra.cs" />
+    <Compile Include="dsrImprimirCotizacionOrdenDeCompra.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrImprimirCotizacionOrdenDeCompra.Designer.cs">
       <DependentUpon>dsrImprimirCotizacionOrdenDeCompra.cs</DependentUpon>
     </Compile>

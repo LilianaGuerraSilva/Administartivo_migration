@@ -78,7 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsReposicionesEntreFechas.cs" />
-    <Compile Include="dsrReposicionesEntreFechas.cs" />
+    <Compile Include="dsrReposicionesEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dsrReposicionesEntreFechas.Designer.cs">
       <DependentUpon>dsrReposicionesEntreFechas.cs</DependentUpon>
     </Compile>

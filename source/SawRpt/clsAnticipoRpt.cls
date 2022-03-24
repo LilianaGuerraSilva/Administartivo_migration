@@ -476,7 +476,7 @@ Private Function fNombrePlantillaCheque(ByVal valCodigoCuentaBancaria As String,
    On Error GoTo h_ERROR
    nombrePlantilla = "rpxChequeGenerico"
    If valCodigoCuentaBancaria <> "" Then
-      If insCnxSawAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, valCodigoCuentaBancaria, valCampoParaBusquedaCtaBancaria) Then
+      If insCnxSawAos.fSelectAndSetValuesOfCuentaBancariaFromAOS(insCuentaBancaria, valCodigoCuentaBancaria, valCampoParaBusquedaCtaBancaria, "", "", "", False, False, False, True) Then
          nombrePlantilla = valPlantillaCheque
       End If
    End If
