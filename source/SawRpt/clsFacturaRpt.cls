@@ -270,7 +270,7 @@ Private Function fNombreDelReporteDeFactura(ByVal valReporte As Integer) As Stri
       Case CM_RPT_FACTURAS_ENTRE_FECHAS_X_CONDICION_PAGO: fNombreDelReporteDeFactura = "Listado de Facturación por Condición de Pago"
       Case CM_RPT_DIRECCIONES_DE_DESPACHO_X_FACTURA: fNombreDelReporteDeFactura = "Direcciones de Despacho por Factura"
       Case CM_RPT_NOTAS_DE_CREDITO_ENTRE_FECHAS_POR_VENDEDOR: fNombreDelReporteDeFactura = "Notas de Crédito entre Fechas Por Vendedor"
-      Case CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_POR_ARTICULO: fNombreDelReporteDeFactura = "Factura Entre Fechas Con Costos por Artículo"
+      Case CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_POR_ARTICULO: fNombreDelReporteDeFactura = "Factura entre Fechas con Costos por Artículo"
       Case CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_SEGUN_LEY_POR_ARTICULO: fNombreDelReporteDeFactura = "Factura Entre Fechas Con Costos Según Ley por Artículo"
       Case CM_RPT_SERVICIOS_POR_VEHICULO: fNombreDelReporteDeFactura = "Servicios por Vehículo"
       Case CM_RPT_SERVICIOS_DE_VEHICULOS_POR_CATEGORIA: fNombreDelReporteDeFactura = "Servicios a Vehículos Por Categoría"
