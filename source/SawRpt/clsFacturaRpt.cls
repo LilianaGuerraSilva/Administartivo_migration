@@ -392,7 +392,8 @@ Public Function fConfigurarDatosDelReporteFacturacionConOtrosCargosYDescuentos(B
                                                                  ByVal valFechaFinal As Date, _
                                                                   ByVal valUsaCambio As Boolean, _
                                                                    ByVal valCompaniaParaInforme As String, _
-                                                                    ByVal valNombreMonedaLocal As String) As Boolean
+                                                                    ByVal valNombreMonedaLocal As String, _
+                                                                     ByVal valCantidadAImprimir As enum_CantidadAImprimir) As Boolean
    Dim nombreDelFileXML As String
    Dim NombreDelReporte As String
    Dim exito As Boolean
@@ -418,11 +419,19 @@ Public Function fConfigurarDatosDelReporteFacturacionConOtrosCargosYDescuentos(B
             gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "Moneda"
          End If
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtFactura", "", "NumeroFactura"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtFechaFactura", "", "Fecha"
+         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFechaFactura", "", "Fecha", eFT_DATE
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalFactura", "", "TotalFactura"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalRenglonOtrosCargos", "", "TotalRenglonOtrosCargos"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtDescripcionOtrosCargos", "", "DescripcionOtrosCargos"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoOtrosCargos", "", "CodigoOtrosCargos"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcionOtrosCargos", "", "DescripcionOtrosCargos"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCliente", "", "Nombre"
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalesRenglonOtrosCargos", "TotalRenglonOtrosCargos", eSF_SUM, "GHFactura", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalPorMoneda", "TotalRenglonOtrosCargos", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtCantidadDeOperaciones", "CodigoOtrosCargos", eSF_COUNT, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL, "#"
+         If (valCantidadAImprimir = eCI_TODOS) Then
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblCantidadDeOperaciones", False
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCantidadDeOperaciones", False
+         End If
          gUtilMargins.sAsignarMargenesGenerales refRpt
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          exito = True
