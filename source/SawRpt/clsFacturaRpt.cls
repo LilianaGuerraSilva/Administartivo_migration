@@ -393,7 +393,7 @@ Public Function fConfigurarDatosDelReporteFacturacionConOtrosCargosYDescuentos(B
                                                                   ByVal valUsaCambio As Boolean, _
                                                                    ByVal valCompaniaParaInforme As String, _
                                                                     ByVal valNombreMonedaLocal As String, _
-                                                                     ByVal valCantidadAImprimir As enum_CantidadAImprimir) As Boolean
+                                                                     ByVal valCantidadAImprimir As String) As Boolean
    Dim nombreDelFileXML As String
    Dim NombreDelReporte As String
    Dim exito As Boolean
@@ -428,7 +428,7 @@ Public Function fConfigurarDatosDelReporteFacturacionConOtrosCargosYDescuentos(B
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalesRenglonOtrosCargos", "TotalRenglonOtrosCargos", eSF_SUM, "GHFactura", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalPorMoneda", "TotalRenglonOtrosCargos", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtCantidadDeOperaciones", "CodigoOtrosCargos", eSF_COUNT, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL, "#"
-         If (valCantidadAImprimir = eCI_TODOS) Then
+         If (valCantidadAImprimir = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS)) Then
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblCantidadDeOperaciones", False
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCantidadDeOperaciones", False
          End If
