@@ -189,31 +189,38 @@ Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaC
    Dim sqlTotalFactura As String
    Dim SQLTotalRenglonOtrosCargos As String
    On Error GoTo h_ERROR
-   SQL = "SELECT Factura.Numero AS NumeroFactura, Factura.Fecha, Cliente.Nombre, Factura.Moneda, "
+   SQL = "SELECT Factura.Numero AS NumeroFactura"
+   SQL = SQL & ", Factura.TipoDeDocumento"
+   SQL = SQL & ", Factura.Fecha"
+   SQL = SQL & ", Factura.Moneda"
+   SQL = SQL & ", Cliente.Nombre"
    If valUsaCambio Then
-      sqlTotalFactura = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.TotalFactura", "Factura.Fecha")
-      SQLTotalRenglonOtrosCargos = gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "RenglonDetalleDeOtrosCargosFactura.TotalRenglon", "Factura.Fecha")
-      SQL = SQL & "ROUND(" & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", sqlTotalFactura, True, "") & ", 2) AS TotalFactura, "
-      SQL = SQL & "ROUND(" & gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", SQLTotalRenglonOtrosCargos, True, "") & ", 2) AS TotalRenglonOtrosCargos, "
+      SQL = SQL & ", ROUND(Factura.TotalFactura * Factura.CambioABolivares, 2) AS TotalFactura"
+      SQL = SQL & ", ROUND(Factura.CambioABolivares * RenglonDetalleDeOtrosCargosFactura.TotalRenglon, 2) AS TotalRenglonOtrosCargos"
    Else
-      SQL = SQL & "ROUND(Factura.TotalFactura, 2) AS TotalFactura, ROUND(RenglonDetalleDeOtrosCargosFactura.TotalRenglon, 2) AS TotalRenglonOtrosCargos, "
+      SQL = SQL & ", ROUND(Factura.TotalFactura, 2) AS TotalFactura"
+      SQL = SQL & ", ROUND(RenglonDetalleDeOtrosCargosFactura.TotalRenglon, 2) AS TotalRenglonOtrosCargos"
    End If
-   SQL = SQL & " RenglonDetalleDeOtrosCargosFactura.CodigoDeCargo AS CodigoOtrosCargos,"
-   SQL = SQL & " RenglonDetalleDeOtrosCargosFactura.Descripcion AS DescripcionOtrosCargos"
-   SQL = SQL & " FROM Cliente INNER JOIN ((Factura INNER JOIN RenglonDetalleDeOtrosCargosFactura ON (Factura.TipoDeDocumento = RenglonDetalleDeOtrosCargosFactura.TipoDeDocumento)"
-   SQL = SQL & " AND (Factura.Numero = RenglonDetalleDeOtrosCargosFactura.NumeroFactura)"
-   SQL = SQL & " AND (Factura.ConsecutivoCompania = RenglonDetalleDeOtrosCargosFactura.ConsecutivoCompania)) INNER JOIN RenglonFactura ON (Factura.TipoDeDocumento = RenglonFactura.TipoDeDocumento)"
-   SQL = SQL & " AND (Factura.Numero = RenglonFactura.NumeroFactura)"
-   SQL = SQL & " AND (Factura.ConsecutivoCompania = RenglonFactura.ConsecutivoCompania)) ON (Cliente.Codigo = Factura.CodigoCliente)"
-   SQL = SQL & " AND (Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania)"
+   SQL = SQL & ", RenglonDetalleDeOtrosCargosFactura.CodigoDeCargo AS CodigoOtrosCargos"
+   SQL = SQL & ", RenglonDetalleDeOtrosCargosFactura.Descripcion AS DescripcionOtrosCargos"
+   SQL = SQL & " FROM Cliente"
+   SQL = SQL & " INNER JOIN Factura"
+   SQL = SQL & " INNER JOIN RenglonDetalleDeOtrosCargosFactura"
+   SQL = SQL & " ON Factura.TipoDeDocumento = RenglonDetalleDeOtrosCargosFactura.TipoDeDocumento"
+   SQL = SQL & " AND Factura.Numero = RenglonDetalleDeOtrosCargosFactura.NumeroFactura"
+   SQL = SQL & " AND Factura.ConsecutivoCompania = RenglonDetalleDeOtrosCargosFactura.ConsecutivoCompania"
+   SQL = SQL & " INNER JOIN RenglonFactura ON Factura.TipoDeDocumento = RenglonFactura.TipoDeDocumento"
+   SQL = SQL & " AND Factura.Numero = RenglonFactura.NumeroFactura"
+   SQL = SQL & " AND Factura.ConsecutivoCompania = RenglonFactura.ConsecutivoCompania"
+   SQL = SQL & " ON Cliente.Codigo = Factura.CodigoCliente"
+   SQL = SQL & " AND Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania"
    SQL = SQL & " WHERE factura.ConsecutivoCompania = " & valConsecutivoCompania
    SQL = SQL & " AND " & gUtilSQL.fSQLValueDatesBetween("", "Factura.Fecha", valFechaInicial, valFechaFinal)
    If (valCodigoCargo <> "") Then
-      SQL = SQL & " AND (RenglonDetalleDeOtrosCargosFactura.CodigoDeCargo = " & gUtilSQL.fSimpleSqlValue(valCodigoCargo) & ")"
+      SQL = SQL & " AND RenglonDetalleDeOtrosCargosFactura.CodigoDeCargo = " & gUtilSQL.fSimpleSqlValue(valCodigoCargo)
    End If
    SQL = SQL & " AND Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
-   SQL = SQL & " AND (Factura.TipoDeDocumento <> " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTAENTREGA) & ")"
-   SQL = SQL & " GROUP BY Factura.Numero, Factura.Fecha, RenglonDetalleDeOtrosCargosFactura.TotalRenglon, RenglonDetalleDeOtrosCargosFactura.CodigoDeCargo, RenglonDetalleDeOtrosCargosFactura.Descripcion, Factura.Moneda, Cliente.Nombre, Factura.CambioABolivares"
+   SQL = SQL & " AND Factura.TipoDeDocumento <> " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
    fSqlDelReporteFacturacionConOtrosCargosYDescuentos = SQL
 h_EXIT:
    On Error GoTo 0
