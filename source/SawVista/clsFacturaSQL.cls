@@ -189,10 +189,11 @@ Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaC
    Dim sqlTotalFactura As String
    Dim SQLTotalRenglonOtrosCargos As String
    On Error GoTo h_ERROR
-   SQL = "SELECT Factura.Numero AS NumeroFactura"
-   SQL = SQL & ", Factura.TipoDeDocumento"
+   SQL = "SELECT"
+   SQL = SQL & " Factura.Moneda"
    SQL = SQL & ", Factura.Fecha"
-   SQL = SQL & ", Factura.Moneda"
+   SQL = SQL & ", Factura.Numero AS NumeroFactura"
+   SQL = SQL & ", Factura.TipoDeDocumento"
    SQL = SQL & ", Cliente.Nombre"
    If valUsaCambio Then
       SQL = SQL & ", ROUND(Factura.TotalFactura * Factura.CambioABolivares, 2) AS TotalFactura"
@@ -209,9 +210,6 @@ Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaC
    SQL = SQL & " ON Factura.TipoDeDocumento = RenglonDetalleDeOtrosCargosFactura.TipoDeDocumento"
    SQL = SQL & " AND Factura.Numero = RenglonDetalleDeOtrosCargosFactura.NumeroFactura"
    SQL = SQL & " AND Factura.ConsecutivoCompania = RenglonDetalleDeOtrosCargosFactura.ConsecutivoCompania"
-   SQL = SQL & " INNER JOIN RenglonFactura ON Factura.TipoDeDocumento = RenglonFactura.TipoDeDocumento"
-   SQL = SQL & " AND Factura.Numero = RenglonFactura.NumeroFactura"
-   SQL = SQL & " AND Factura.ConsecutivoCompania = RenglonFactura.ConsecutivoCompania"
    SQL = SQL & " ON Cliente.Codigo = Factura.CodigoCliente"
    SQL = SQL & " AND Cliente.ConsecutivoCompania = Factura.ConsecutivoCompania"
    SQL = SQL & " WHERE factura.ConsecutivoCompania = " & valConsecutivoCompania
@@ -221,6 +219,7 @@ Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaC
    End If
    SQL = SQL & " AND Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
    SQL = SQL & " AND Factura.TipoDeDocumento <> " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
+   SQL = SQL & " ORDER BY Factura.Moneda, Factura.Fecha, Factura.Numero, factura.TipoDeDocumento"
    fSqlDelReporteFacturacionConOtrosCargosYDescuentos = SQL
 h_EXIT:
    On Error GoTo 0
