@@ -811,8 +811,7 @@ Public Function fSQLGenerarOtrosCargosyDescuentos(ByVal valUsaModuloDeContabilid
    If valInformeEsDeBorradores Then
       SQL = SQL & " AND Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR)
    Else
-      SQL = SQL & " AND (Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA) & _
-                  " OR Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & ")"
+      SQL = SQL & " AND (Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & ")"
    End If
    If valFiltroInforme <> "" Then
       SQL = SQL & " AND " & valFiltroInforme
