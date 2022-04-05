@@ -186,11 +186,15 @@ Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaC
                                                                       ByVal gUltimaTasaDeCambio As Object, ByVal valConsecutivoCompania As String, _
                                                                         ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCodigoCargo As String)
    Dim SQL As String
-   Dim sqlTotalFactura As String
-   Dim SQLTotalRenglonOtrosCargos As String
+   Dim sqlMoneda As String
    On Error GoTo h_ERROR
-   SQL = "SELECT"
-   SQL = SQL & " Factura.Moneda"
+   If valUsaCambio Then
+      sqlMoneda = gUtilSQL.fSimpleSqlValue(gMonedaLocalActual.GetHoyNombremoneda)
+   Else
+      sqlMoneda = "Factura.Moneda"
+   End If
+   SQL = "SELECT "
+   SQL = SQL & sqlMoneda & " AS Moneda"
    SQL = SQL & ", Factura.Fecha"
    SQL = SQL & ", Factura.Numero AS NumeroFactura"
    SQL = SQL & ", Factura.TipoDeDocumento"
@@ -219,7 +223,7 @@ Public Function fSqlDelReporteFacturacionConOtrosCargosYDescuentos(ByVal valUsaC
    End If
    SQL = SQL & " AND Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
    SQL = SQL & " AND Factura.TipoDeDocumento <> " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
-   SQL = SQL & " ORDER BY Factura.Moneda, Factura.Fecha, Factura.Numero, factura.TipoDeDocumento"
+   SQL = SQL & " ORDER BY Moneda, Factura.Fecha, Factura.Numero, factura.TipoDeDocumento"
    fSqlDelReporteFacturacionConOtrosCargosYDescuentos = SQL
 h_EXIT:
    On Error GoTo 0
