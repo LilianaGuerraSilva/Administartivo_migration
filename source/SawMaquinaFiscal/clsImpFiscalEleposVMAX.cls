@@ -227,6 +227,9 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
       Dim vCount As Integer
       Dim vTotales As String
       Dim vTotalPagoME As Currency
+      Dim vCantidadCaracteres As Integer
+      Dim vCaracteresEspacio As String
+      Dim vMontoMEStr As String
       On Error GoTo h_Error
       Set rsDatosArticulo = insDatosImprFiscal.GetItems
       If (sAbreCF(insDatosImprFiscal.GetPuertoImpresoraFiscal)) Then
@@ -274,10 +277,14 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
             'Aqui se Aplica el IGTF
             vTotalPagoME = insDatosImprFiscal.GetBaseImponibleIGTF
             If vTotalPagoME > 0 Then
-               Dim vComandoIGTF As String
-               vComandoIGTF = fDarFormatoNumericoParaImpresion(vTotalPagoME, mEnterosParaIGTF, mDecimalesParaMonto)
-               vResult = mVmax.SubTotal_ConRetornoT(vComandoIGTF)
-               vResult = mVmax.TextoDNF(vComandoIGTF)
+               Dim vBaseIGTF As String
+               vBaseIGTF = fDarFormatoNumericoParaImpresion(vTotalPagoME, mEnterosParaIGTF, mDecimalesParaMonto)
+               vResult = mVmax.SubTotal_ConRetornoT(vBaseIGTF)
+               vMontoMEStr = gConvert.FormatoNumerico(vTotalPagoME, False)
+               vCantidadCaracteres = 33 - gTexto.DfLen(vMontoMEStr) - 2
+               vCaracteresEspacio = gTexto.fNBlancos(vCantidadCaracteres)
+               vMontoMEStr = "Divisas" & vCaracteresEspacio & vMontoMEStr
+               vResult = mVmax.TextoDNF(vMontoMEStr)
             Else
                vResult = mVmax.SubTotal()
             End If
