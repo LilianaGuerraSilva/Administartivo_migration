@@ -12,7 +12,6 @@ using Galac.Adm.Ccl.DispositivosExternos;
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
     public static class LibImpresoraFiscalUtil {
-
         public static string CadenaCaracteresValidos(string valInputString) {
             System.Text.RegularExpressions.Regex replace_a_Accents = new System.Text.RegularExpressions.Regex("[á|à|ä|â]", System.Text.RegularExpressions.RegexOptions.Compiled);
             System.Text.RegularExpressions.Regex replace_e_Accents = new System.Text.RegularExpressions.Regex("[é|è|ë|ê]", System.Text.RegularExpressions.RegexOptions.Compiled);
@@ -93,14 +92,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal vDecimalValue = 0;
             string CurrentDecimalSep = LibConvert.CurrentDecimalSeparator();
             valNumero = LibText.Trim(valNumero);
-            valNumero = SetDecimalSeparator(valNumero);            
+            valNumero = SetDecimalSeparator(valNumero);
             if (LibString.Len(WithDecimalSeparator) > 0) {
                 if (valCantidadDecimales == 3) {
                     vValorFinal = String.Format("{0:0.000}", LibImportData.ToDec(valNumero));
                 } else {
                     vValorFinal = String.Format("{0:0.00}", LibImportData.ToDec(valNumero));
-                }                
-                vValorFinal = LibText.Replace(vValorFinal, CurrentDecimalSep, WithDecimalSeparator);               
+                }
+                vValorFinal = LibText.Replace(vValorFinal, CurrentDecimalSep, WithDecimalSeparator);
             } else {
                 vDecimalValue = LibMath.RoundToNDecimals(LibImportData.ToDec(valNumero), valCantidadDecimales);
                 vDecimalValue = LibMath.Abs(vDecimalValue);
@@ -268,5 +267,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
+        public static decimal TotalPagosEnMonedaLocal(IEnumerable<XElement> valRenglonMediosDePagos, string valCodigoMoneda) {
+            decimal vResult = 0;
+            try {
+                vResult = valRenglonMediosDePagos.Where(p => p.Element("CodigoMoneda").Value == valCodigoMoneda).Sum(q => LibImportData.ToDec(q.Element("Monto").Value, 4));
+                vResult = LibMath.RoundToNDecimals(vResult, 2);
+            } catch (Exception) {
+                throw;
+            }
+            return vResult;
+        }
     }
 }

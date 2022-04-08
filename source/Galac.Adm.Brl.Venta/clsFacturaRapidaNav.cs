@@ -275,6 +275,10 @@ namespace Galac.Adm.Brl.Venta {
             eTipoDeVenta vTipoDeVenta = (eTipoDeVenta)LibConvert.DbValueToEnum(LibXml.GetPropertyString(xElementFacturaRapida, "TipoDeVenta"));
             string vSerialMaquinaFiscal = LibXml.GetPropertyString(xElementFacturaRapida, "SerialMaquinaFiscal");
             string vNumeroComprobanteFiscal = LibXml.GetPropertyString(xElementFacturaRapida, "NumeroComprobanteFiscal");
+            decimal vBaseImpoinibleIGTF = LibConvert.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "BaseImponibleIGTF"));
+            decimal vIGTFML = LibConvert.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "IGTFML"));
+            decimal vIGTFME = LibConvert.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "IGTFME"));
+            decimal vAlicuotaIGTF = LibConvert.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "AlicuotaIGTF"));
             LibGpParams vParams = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
             QAdvSql insQAdvSql = new QAdvSql("");
@@ -289,7 +293,10 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInInteger("ConsecutivoCaja", vConsecutivoCaja);
             vParams.AddInBoolean("ImprimeFiscal", vUsaMaquinafiscal);
             vParams.AddInInteger("NumeroParaResumen", valNumeroParaResumen);
-
+            vParams.AddInDecimal("BaseImponibleIGTF", vBaseImpoinibleIGTF, 2);
+            vParams.AddInDecimal("IGTFML", vIGTFML, 2);
+            vParams.AddInDecimal("IGTFME", vIGTFME, 2);
+            vParams.AddInDecimal("AlicuotaIGTF", vAlicuotaIGTF, 2);
             vSql.AppendLine("UPDATE dbo.Factura");
             vSql.AppendLine(" SET Numero = @Numero ");
             vSql.AppendLine(" ,StatusFactura = @StatusFactura ");
@@ -298,7 +305,11 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine(" ,NumeroComprobanteFiscal = @NumeroComprobanteFiscal ");
             vSql.AppendLine(" ,ImprimeFiscal = @ImprimeFiscal ");
             vSql.AppendLine(" ,NumeroParaResumen = @NumeroParaResumen ");
-            vSql.AppendLine(" ,ConsecutivoCaja = ConsecutivoCaja ");
+            vSql.AppendLine(" ,ConsecutivoCaja = @ConsecutivoCaja ");
+            vSql.AppendLine(" ,BaseImponibleIGTF = @BaseImponibleIGTF ");
+            vSql.AppendLine(" ,IGTFML = @IGTFML ");
+            vSql.AppendLine(" ,IGTFME = @IGTFME ");
+            vSql.AppendLine(" ,AlicuotaIGTF = @AlicuotaIGTF ");
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND Numero = " + insQAdvSql.ToSqlValue(valNumeroBorrador));
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");

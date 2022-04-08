@@ -504,13 +504,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public RelayCommand<string> ChooseCuentaBancariaCobroMultimonedaCommand {
             get;
             private set;
-        }
-
-        public bool IsVisibleUsarOtrosCargoDeFactura {
-            get {
-                return !AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsSistemaParaIG");
-            }
-        }
+        }        
 
         public bool IsEnabledMesFacturacionEnCurso {
             get {

@@ -75,12 +75,11 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("Numero", valNumeroDeFactura, 20);
             vParams.AddInEnum("TipoCxc", valTipoDeDocumento);
-            vParams.AddInDateTime("FechaCancelacion", LibDate.Today());
-            vParams.AddInDecimal("MontoAbonado", valMontoAbonado, 2);
+            vParams.AddInDateTime("FechaCancelacion", LibDate.Today());            
             vSql.AppendLine(" UPDATE dbo.CxC");
             vSql.AppendLine(" SET Status = '1'");
             vSql.AppendLine(", FechaCancelacion = @FechaCancelacion");
-            vSql.AppendLine(", MontoAbonado = @MontoAbonado");
+            vSql.AppendLine(", MontoAbonado = (MontoExento + MontoGravado + MontoIVA)");
             vSql.AppendLine(" WHERE Numero = @Numero");
             vSql.AppendLine(" AND TipoCxc = @TipoCxc");
             vSql.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania");

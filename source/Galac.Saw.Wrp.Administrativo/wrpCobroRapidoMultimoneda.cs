@@ -12,6 +12,7 @@ using Galac.Adm.Brl.Venta;
 using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
 using Galac.Saw.Wrp.Venta;
+using Galac.Adm.Ccl.CajaChica;
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Venta {
 #elif IsExeBsS​
@@ -104,12 +105,12 @@ namespace Galac.Saw.Wrp.Venta {
             }
         }
 
-        string IWrpCobroRapidoMultimoneda.CobrarFacturaEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, string valFecha, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDelDocumento, string valCodigoMonedaDeCobro, string vfwCurrentParameters) {
+        string IWrpCobroRapidoMultimoneda.CobrarFacturaEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, string valFecha, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDelDocumento, string valCodigoMonedaDeCobro, string valTipoDeContribuyenteDelIva, string vfwCurrentParameters, ref string refIGTFParameters) {
             try {
                 var insMenu = new Galac.Adm.Uil.Venta.clsCobroRapidoMultimonedaMenu();
                 CreateGlobalValues(vfwCurrentParameters);
                 DateTime vFechaDelDocumento = LibConvert.ToDate(valFecha);
-                return insMenu.MostrarPantallaDeCobroRapidoEnMultimoneda(valConsecutivoCompania, valNumeroFactura, vFechaDelDocumento, valTotalFactura, valTipoDeDocumento, valCodigoMonedaDelDocumento, valCodigoMonedaDeCobro);
+                return insMenu.MostrarPantallaDeCobroRapidoEnMultimoneda(valConsecutivoCompania, valNumeroFactura, vFechaDelDocumento, valTotalFactura, valTipoDeDocumento, valCodigoMonedaDelDocumento, valCodigoMonedaDeCobro, valCodigoMonedaDeCobro, valTipoDeContribuyenteDelIva, ref refIGTFParameters);
             } catch (Exception vEx) {
                 if (vEx is AccessViolationException) {
                     throw;

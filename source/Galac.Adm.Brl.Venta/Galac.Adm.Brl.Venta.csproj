@@ -152,6 +152,10 @@
       <Project>{eea8e05e-9a11-4d51-aa9c-aacd7245952f}</Project>
       <Name>Galac.Adm.Ccl.DispositivosExternos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
+      <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>
+      <Name>Galac.Adm.Ccl.CajaChica</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
       <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
       <Name>Galac.Adm.Ccl.Venta</Name>

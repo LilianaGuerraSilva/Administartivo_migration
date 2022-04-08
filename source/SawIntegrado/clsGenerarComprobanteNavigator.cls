@@ -2025,7 +2025,7 @@ Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valF
    Dim vNumeroFactura As String
    Dim vAplicaDiferimiento As Boolean
    Dim vUsaContabilizacionMensualPorLote As Boolean
-   
+   Dim vCodigoCuentaIGTF As String
    On Error GoTo h_ERROR
    Set insCliente = New clsClienteNavigator
    Set insFactura = New clsFacturaNavigator
@@ -2062,16 +2062,16 @@ Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valF
       CodigoCuentaIVA = fEscogeCuentaDeIVASiEsDebitoOcredito(fCambiaDebeHaberSiEsUnReverso("HABER", valEsUnReverso), _
                                  eTD_ALICUOTAGENERAL, eCG_FACTURA, CodigoCuentaIVAUsaAuxiliar, vAplicaDiferimiento)
    End If
+   vCodigoCuentaIGTF = gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto
    Sql = "SELECT " & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE & ", "
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, _
-                  "SUM(" & gUtilSQL.fRoundNDecimales(insFactura.GetTableName & "." & insFactura.getFN_TOTAL_FACTURA & " * " & SqlTasaDeCambio, 2) & ")", _
+                  "SUM(" & gUtilSQL.fRoundNDecimales(insFactura.GetTableName & "." & insFactura.getFN_TOTAL_FACTURA & " * " & SqlTasaDeCambio, 2) & " + factura.IGTFML)", _
                   varSQLCuentaContableCliente, varAuxiliarCxC, codigoDelAuxiliar, _
                   numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
    Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, _
                   "SUM(" & gUtilSQL.fRoundNDecimales(insFactura.GetTableName & "." & insFactura.getFN_TOTAL_IVA & " * " & SqlTasaDeCambio, 2) & ")", _
                   CodigoCuentaIVA, CodigoCuentaIVAUsaAuxiliar, codigoDelAuxiliar, _
                   numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
-                
     Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, _
                   "SUM(" & gUtilSQL.fRoundNDecimales("((" & insFactura.GetTableName & "." & insFactura.getFN_TOTAL_FACTURA & " - " & _
                         insFactura.GetTableName & "." & insFactura.getFN_TOTAL_IVA & ") * " & SqlTasaDeCambio & ")", 2) & ")", _
@@ -2082,7 +2082,10 @@ Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valF
                   codigoDelAuxiliar, numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto)
                   
    Sql = Sql & " ," & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto)
-   
+   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, _
+         "SUM(Factura.IGTFML)", _
+         vCodigoCuentaIGTF, "", "", _
+         numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN " & insCliente.GetTableName & " ON "
    Sql = Sql & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA & " = "
    Sql = Sql & insCliente.GetTableName & ".ConsecutivoCompania AND "
@@ -2583,6 +2586,7 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
    Dim sqlMtoRenglonConDcto As String
    Dim sqlMtoRenglonConCase As String
    Dim numeroFactura As String
+   Dim vCodigoCuentaIGTF As String
    On Error GoTo h_ERROR
    Set insCliente = New clsClienteNavigator
    Set insFactura = New clsFacturaNavigator
@@ -2608,12 +2612,11 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
    codigoDelAuxiliar = insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE
    varCodigoCentroDeCosto = "Almacen.CodigoCc"
    varCuentaContaDescFac = gProyReglasDeContabilizacion.GetCuentaFacturacionDescuentos
-   
-   
+   vCodigoCuentaIGTF = gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto
    Sql = "SELECT "
    Sql = Sql & insFactura.GetTableName & "." & insFactura.getFN_CODIGO_CLIENTE & ", "
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, _
-               "SUM(" & gUtilSQL.fRoundNDecimales(insFactura.GetTableName & "." & insFactura.getFN_TOTAL_FACTURA & " * " & SqlTasaDeCambio, 2) & ")", _
+               "SUM(" & gUtilSQL.fRoundNDecimales(insFactura.GetTableName & "." & insFactura.getFN_TOTAL_FACTURA & " * " & SqlTasaDeCambio, 2) & " + factura.IGTFML )", _
                varSQLCuentaContableCliente, varAuxiliarCxC, codigoDelAuxiliar, _
                numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
                
@@ -2626,11 +2629,14 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
       CodigoCuentaIVA = fEscogeCuentaDeIVASiEsDebitoOcredito(fCambiaDebeHaberSiEsUnReverso("HABER", valEsUnReverso), _
                                  eTD_ALICUOTAGENERAL, eCG_FACTURA, CodigoCuentaIVAUsaAuxiliar, insFactura.GetEsOriginalmenteDiferida)
    End If
-   
    Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, _
                "SUM(" & gUtilSQL.fRoundNDecimales(insFactura.GetTableName & "." & insFactura.getFN_TOTAL_IVA & " * " & SqlTasaDeCambio, 2) & ")", _
                CodigoCuentaIVA, CodigoCuentaIVAUsaAuxiliar, codigoDelAuxiliar, _
                numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto)
+   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, _
+         "SUM(Factura.IGTFML)", _
+         vCodigoCuentaIGTF, "", "", _
+         numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN " & insCliente.GetTableName
    Sql = Sql & " ON " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA & " = "
    Sql = Sql & insCliente.GetTableName & ".ConsecutivoCompania AND "

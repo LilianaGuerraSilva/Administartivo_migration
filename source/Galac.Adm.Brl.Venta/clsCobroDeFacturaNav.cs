@@ -131,7 +131,7 @@ namespace Galac.Adm.Brl.Venta {
         private XElement BuscarDatosDeCXC(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDeDocumento) {
             StringBuilder vSQL = new StringBuilder();
             eTipoDeTransaccion vTipoCxc = TipoDocumentoFacturaToTipoCxCConverter(valTipoDeDocumento);
-            vSQL.AppendLine("SELECT TipoCxc, MontoGravado, MontoIva, CodigoMoneda, CambioABolivares FROM dbo.CxC WHERE Numero = @Numero AND TipoCxc = @TipoCxc AND ConsecutivoCompania = @ConsecutivoCompania");
+            vSQL.AppendLine("SELECT TipoCxc, MontoGravado, MontoIva,(MontoExento + MontoGravado + MontoIva) AS TotalCXC, CodigoMoneda , CambioABolivares FROM dbo.CxC WHERE Numero = @Numero AND TipoCxc = @TipoCxc AND ConsecutivoCompania = @ConsecutivoCompania");
             LibGpParams vParams = new LibGpParams();
             vParams.AddInString("Numero", valNumeroFactura, 11);
             vParams.AddInEnum("TipoCxc", (int)vTipoCxc);

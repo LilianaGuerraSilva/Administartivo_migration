@@ -143,7 +143,11 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("AplicaDecretoIvaEspecial" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapAplicaDecr NOT NULL, ");
             SQL.AppendLine("EsGeneradaPorPuntoDeVenta" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapEsGenerada NOT NULL, ");
             SQL.AppendLine("GeneradoPor" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnFacRapGeneradoPo NOT NULL, ");
-            SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
+            SQL.AppendLine("BaseImponibleIGTF" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_FacBaImIG DEFAULT (0), ");
+            SQL.AppendLine("IGTFML" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_FacIGT DEFAULT (0), ");
+            SQL.AppendLine("IGTFME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_FacIGTME DEFAULT (0), ");
+            SQL.AppendLine("AlicuotaIGTF" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_FacAlIG DEFAULT (0), ");
+			SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_FacturaRapida PRIMARY KEY CLUSTERED");
@@ -189,7 +193,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(", Factura.CodigoAlmacen, Factura.ImprimeFiscal, Factura.NumeroControl, Factura.CodigoMoneda ");
             SQL.AppendLine(", Factura.SerialMaquinaFiscal, Factura.AplicaDecretoIvaEspecial ");
             SQL.AppendLine(", Factura.EsGeneradaPorPuntoDeVenta, Factura.CambioMostrarTotalEnDivisas, Factura.CodigoMonedaDeCobro, MonedaDeCobro.Nombre AS NombreMonedaDeCobro, Factura.NombreOperador");
-            SQL.AppendLine(", Factura.NroDiasMantenerCambioAMonedaLocal, Factura.FechaLimiteCambioAMonedaLocal, Factura.GeneradoPor, Factura.FechaUltimaModificacion");
+            SQL.AppendLine(", Factura.NroDiasMantenerCambioAMonedaLocal, Factura.FechaLimiteCambioAMonedaLocal, Factura.BaseImponibleIGTF, Factura.IGTFML, Factura.IGTFME, Factura.AlicuotaIGTF, Factura.GeneradoPor, Factura.FechaUltimaModificacion");
             SQL.AppendLine(", Factura.fldTimeStamp, CAST(Factura.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".Factura");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumStatusFactura");
@@ -313,6 +317,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@EsGeneradaPorPuntoDeVenta" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@CambioMostrarTotalEnDivisas" + InsSql.DecimalTypeForDb(25,4) + " = 1,");
             SQL.AppendLine("@CodigoMonedaDeCobro" + InsSql.VarCharTypeForDb(4) + ",");
+			SQL.AppendLine("@BaseImponibleIGTF" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@IGTFML" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@IGTFME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@AlicuotaIGTF" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@NroDiasMantenerCambioAMonedaLocal" + InsSql.NumericTypeForDb(10,0) + " = 0,");
             SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + " = '0',");
@@ -432,6 +440,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            EsGeneradaPorPuntoDeVenta,");
             SQL.AppendLine("            CambioMostrarTotalEnDivisas,");
             SQL.AppendLine("            CodigoMonedaDeCobro,");
+			SQL.AppendLine("            BaseImponibleIGTF,");
+            SQL.AppendLine("            IGTFML,");
+            SQL.AppendLine("            IGTFME,");
+            SQL.AppendLine("            AlicuotaIGTF,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            NroDiasMantenerCambioAMonedaLocal,");
             SQL.AppendLine("            GeneradoPor,");
@@ -539,6 +551,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @EsGeneradaPorPuntoDeVenta,");
             SQL.AppendLine("            @CambioMostrarTotalEnDivisas,");
             SQL.AppendLine("            @CodigoMonedaDeCobro,");
+			SQL.AppendLine("            @BaseImponibleIGTF,");
+            SQL.AppendLine("            @IGTFML,");
+            SQL.AppendLine("            @IGTFME,");
+            SQL.AppendLine("            @AlicuotaIGTF,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @NroDiasMantenerCambioAMonedaLocal,");
             SQL.AppendLine("            @GeneradoPor,");
@@ -658,6 +674,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@EsGeneradaPorPuntoDeVenta" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CambioMostrarTotalEnDivisas" + InsSql.DecimalTypeForDb(25,4) + ",");
             SQL.AppendLine("@CodigoMonedaDeCobro" + InsSql.VarCharTypeForDb(4) + ",");
+			SQL.AppendLine("@BaseImponibleIGTF" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@IGTFML" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@IGTFME" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@AlicuotaIGTF" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@NroDiasMantenerCambioAMonedaLocal" + InsSql.NumericTypeForDb(10,0) + ",");
             SQL.AppendLine("@GeneradoPor" + InsSql.CharTypeForDb(1) + ",");
@@ -786,6 +806,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               EsGeneradaPorPuntoDeVenta = @EsGeneradaPorPuntoDeVenta,");
             SQL.AppendLine("               CambioMostrarTotalEnDivisas = @CambioMostrarTotalEnDivisas,");
             SQL.AppendLine("               CodigoMonedaDeCobro = @CodigoMonedaDeCobro,");
+			SQL.AppendLine("               BaseImponibleIGTF = @BaseImponibleIGTF,");
+            SQL.AppendLine("               IGTFML = @IGTFML,");
+            SQL.AppendLine("               IGTFME = @IGTFME,");
+            SQL.AppendLine("               AlicuotaIGTF = @AlicuotaIGTF,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               NroDiasMantenerCambioAMonedaLocal = @NroDiasMantenerCambioAMonedaLocal,");
             SQL.AppendLine("               GeneradoPor = @GeneradoPor,");
@@ -943,6 +967,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.NombreOperador,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.NroDiasMantenerCambioAMonedaLocal,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.FechaLimiteCambioAMonedaLocal,");
+			SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.BaseImponibleIGTF,");
+            SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.IGTFML,");
+            SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.IGTFME,");
+            SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.AlicuotaIGTF,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(" + DbSchema + ".Gv_FacturaRapida_B1.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.fldTimeStamp");
@@ -1165,8 +1193,7 @@ namespace Galac.Adm.Dal.Venta {
             bool vResult = false;
             LibStoredProc insSps = new LibStoredProc();
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_FacturaRapidaINS", SqlSpInsParameters(), SqlSpIns(), true);
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_FacturaRapidaUPD", SqlSpUpdParameters(), SqlSpUpd(), true);
-            //LibFile.WriteLineInFile(@"C:\prueba.txt", "Gp_FacturaRapidaINS : " + vResult);
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_FacturaRapidaUPD", SqlSpUpdParameters(), SqlSpUpd(), true);            
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_FacturaRapidaGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_FacturaRapidaSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_FacturaRapidaGetFk", SqlSpGetFKParameters(), SqlSpGetFK(), true) && vResult;

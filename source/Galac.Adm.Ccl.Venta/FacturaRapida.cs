@@ -112,6 +112,10 @@ namespace Galac.Adm.Ccl.Venta {
         private bool _SeContabilizoIvaDiferido;
         private bool _AplicaDecretoIvaEspecial;
         private bool _EsGeneradaPorPuntoDeVenta;
+        private decimal _BaseImponibleIGTF;
+        private decimal _IGTFML;
+        private decimal _IGTFME;
+        private decimal _AlicuotaIGTF;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private decimal _CambioMostrarTotalEnDivisas;
@@ -857,6 +861,22 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
 
+        public decimal BaseImponibleIGTF {
+            get { return _BaseImponibleIGTF; }
+            set { _BaseImponibleIGTF = value; }
+        }
+        public decimal IGTFML {
+            get { return _IGTFML; }
+            set { _IGTFML = value; }
+        }
+        public decimal IGTFME {
+            get { return _IGTFME; }
+            set { _IGTFME = value; }
+        }
+        public decimal AlicuotaIGTF {
+            get { return _AlicuotaIGTF; }
+            set { _AlicuotaIGTF = value; }
+        }
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -1031,6 +1051,10 @@ namespace Galac.Adm.Ccl.Venta {
             SeContabilizoIvaDiferidoAsBool = false;
             AplicaDecretoIvaEspecialAsBool = false;
             EsGeneradaPorPuntoDeVentaAsBool = true;
+			BaseImponibleIGTF = 0;
+            IGTFML = 0;
+            IGTFME = 0;
+            AlicuotaIGTF = 0;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             CambioMostrarTotalEnDivisas = 1;
@@ -1152,6 +1176,10 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.CambioMostrarTotalEnDivisas = _CambioMostrarTotalEnDivisas;
             vResult.CodigoMonedaDeCobro = _CodigoMonedaDeCobro;
             vResult.NombreMonedaDeCobro = _NombreMonedaDeCobro;
+			vResult.BaseImponibleIGTF = _BaseImponibleIGTF;
+            vResult.IGTFML = _IGTFML;
+            vResult.IGTFME = _IGTFME;
+            vResult.AlicuotaIGTF = _AlicuotaIGTF;
             vResult.NombreOperador = _NombreOperador;
             vResult.NumeroDiasMantenerCambioAMonedaLocal = _NumeroDiasMantenerCambioAMonedaLocal;
             vResult.FechaLimiteCambioAMonedaLocal = _FechaLimiteCambioAMonedaLocal;
@@ -1269,6 +1297,10 @@ namespace Galac.Adm.Ccl.Venta {
                 "\nEs Generada Por Punto De Venta = " + _EsGeneradaPorPuntoDeVenta +
                 "\nCambio Mostrar Total en Divisas = " + _CambioMostrarTotalEnDivisas +
                 "\nCodigo Moneda de Cobro = " + _CodigoMonedaDeCobro +
+				"\nBase Imponible IGTF = " + _BaseImponibleIGTF.ToString() +
+               "\nI GTFML = " + _IGTFML.ToString() +
+               "\nI GTFME = " + _IGTFME.ToString() +
+               "\nAlicuota IGTF = " + _AlicuotaIGTF.ToString() +
                 "\nNombre Operador = " + _NombreOperador +
                 "\nNúmero días a mantener cambio a moneda local = " + _NumeroDiasMantenerCambioAMonedaLocal +
                 "\nFecha límite cambio a moneda local = " + _FechaLimiteCambioAMonedaLocal.ToShortDateString() +

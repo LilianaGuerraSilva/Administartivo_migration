@@ -10,9 +10,10 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.Venta;
+using Galac.Adm.Ccl.CajaChica;
 
 namespace Galac.Adm.Brl.Venta {
-    public partial class clsFacturaNav: LibBaseNavMaster<IList<Factura>, IList<Factura>>, ILibPdn {
+    public partial class clsFacturaNav : LibBaseNavMaster<IList<Factura>, IList<Factura>>, ILibPdn {
         #region Variables
         #endregion //Variables
 
@@ -348,7 +349,7 @@ namespace Galac.Adm.Brl.Venta {
 
         private XElement FindInfoFormaDelCobro(IList<Factura> valData) {
             XElement vXElement = new XElement("GpData");
-            foreach(Factura vItem in valData) {
+            foreach (Factura vItem in valData) {
                 vXElement.Add(FilterRenglonCobroDeFacturaByDistinctFormaDelCobro(vItem).Descendants("GpResult"));
             }
             ILibPdn insFormaDelCobro = new Galac.Saw.Brl.Tablas.clsFormaDelCobroNav();
@@ -375,7 +376,7 @@ namespace Galac.Adm.Brl.Venta {
 
         private XElement FindInfoBanco(IList<Factura> valData) {
             XElement vXElement = new XElement("GpData");
-            foreach(Factura vItem in valData) {
+            foreach (Factura vItem in valData) {
                 vXElement.Add(FilterRenglonCobroDeFacturaByDistinctBanco(vItem).Descendants("GpResult"));
             }
             ILibPdn insBanco = new Galac.Comun.Brl.TablasGen.clsBancoNav();
@@ -397,6 +398,21 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddReturn();
             vParams.AddInXml("XmlData", valXElement);
             vResult = vParams.Get();
+            return vResult;
+        }
+
+        public decimal BuscaAlicuotaImpTranscBancarias(DateTime valFechaVigencia, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva) {
+            decimal vResult = 0;
+            DateTime vFechaVigenciaIGTF = new DateTime(2022, 03, 28);
+            const int vSujetoIGTF_0_4 = 0;
+            const int vSujetoIGTF_0_6 = 3;
+            Saw.Brl.Tablas.clsImpuestoBancarioNav insTablas = new Saw.Brl.Tablas.clsImpuestoBancarioNav();
+            if (LibDate.F1IsGreaterOrEqualThanF2(valFechaVigencia, vFechaVigenciaIGTF)) {
+                int vSujetoIGTF = valTipoDeContribuyenteDelIva == eTipoDeContribuyenteDelIva.ContribuyenteEspecial ? vSujetoIGTF_0_6 : vSujetoIGTF_0_4;
+                vResult = LibConvert.ToDec(insTablas.BuscaAlicuotasReformaIGTFGO6687(valFechaVigencia, vSujetoIGTF), 2);
+            } else {
+                vResult = LibConvert.ToDec(insTablas.BuscaAlicuotaImpTranscBancarias(valFechaVigencia, true), 2);
+            }
             return vResult;
         }
         #endregion //RenglonCobroDeFactura

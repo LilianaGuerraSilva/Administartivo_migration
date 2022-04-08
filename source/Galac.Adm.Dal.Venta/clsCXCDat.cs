@@ -80,15 +80,15 @@ namespace Galac.Adm.Dal.Venta {
             vSql.AppendLine(" , " + "@FechaLimiteCambioAMonedaLocal)");
             return vSql.ToString();
         }
-        
+
         public StringBuilder CXCParametrosInsertar(int valConsecutivoCompania, XElement valData) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-
+            decimal vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valData, "IGTFML"), 2);
             decimal vTotalBaseImponible = LibImportData.ToDec(LibXml.GetPropertyString(valData, "TotalBaseImponible"), 2);
             decimal vTotalMontoIva = LibImportData.ToDec(LibXml.GetPropertyString(valData, "TotalIVA"), 2);
             decimal vMontoAbonado = LibImportData.ToDec(LibXml.GetPropertyString(valData, "TotalFactura"), 2);
-            decimal vTotalMontoExento = LibImportData.ToDec(LibXml.GetPropertyString(valData, "TotalMontoExento"), 2);           
+            decimal vTotalMontoExento = LibImportData.ToDec(LibXml.GetPropertyString(valData, "TotalMontoExento"), 2);
             eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valData, "TipoDeDocumento"));
             eTipoDeTransaccion vTipoCxC = eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA;
             string vCodigoCliente = LibXml.GetPropertyString(valData, "CodigoCliente");
@@ -111,8 +111,7 @@ namespace Galac.Adm.Dal.Venta {
             string vNumeroControl = "0";
             string vCodigoLote = "0";
             string vCentroDeCostos = "";
-            DateTime vFechaLimiteCambioAMonedaLocal = LibConvert.ToDate(LibXml.GetPropertyString(valData,"Fecha"));
-
+            DateTime vFechaLimiteCambioAMonedaLocal = LibConvert.ToDate(LibXml.GetPropertyString(valData, "Fecha"));
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroCXC", vNumeroCXC, 20);
@@ -123,14 +122,14 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInEnum("OrigenDocumento", (int)vOrigenDocumento);
             vParams.AddInDateTime("Fecha", vFechaFactura);
             vParams.AddInDateTime("FechaCancelacion", vFechaFactura);
-            vParams.AddInDateTime("FechaVencimiento", vFechaFactura);            
-            vParams.AddInDecimal("MontoExento", vTotalMontoExento, 3);
-            vParams.AddInDecimal("BaseImponible", vTotalBaseImponible, 3);
-            vParams.AddInDecimal("MontoIva", vTotalMontoIva, 3);
-            vParams.AddInDecimal("MontoAbonado", vMontoAbonado, 3);
+            vParams.AddInDateTime("FechaVencimiento", vFechaFactura);
+            vParams.AddInDecimal("MontoExento", vTotalMontoExento + vIGTF, 2);
+            vParams.AddInDecimal("BaseImponible", vTotalBaseImponible, 2);
+            vParams.AddInDecimal("MontoIva", vTotalMontoIva, 2);
+            vParams.AddInDecimal("MontoAbonado", vMontoAbonado + vIGTF, 2);
             vParams.AddInString("Descripcion", vDescripcion, 150);
             vParams.AddInString("Moneda", vMoneda, 80);
-            vParams.AddInDecimal("CambioABolivar", vCambioABolivar, 3);
+            vParams.AddInDecimal("CambioABolivar", vCambioABolivar, 4);
             vParams.AddInString("CodigoCC", vCodigoCC, 5);
             vParams.AddInString("CentroDeCostos", vCentroDeCostos, 40);
             vParams.AddInBoolean("SeRetuvoIva", vSeRetuvoIva);
@@ -138,7 +137,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInBoolean("Refinanciado", vRefinanciado);
             vParams.AddInBoolean("AplicaParalibroDeVentas", vAplicaParalibroDeVentas);
             vParams.AddInString("CodigoLote", vCodigoLote, 10);
-            vParams.AddInString("CodigoMoneda", vCodigoMoneda, 4);            
+            vParams.AddInString("CodigoMoneda", vCodigoMoneda, 4);
             vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", vFechaFactura);
             vParams.AddInString("NumeroControl", vNumeroControl, 11);
