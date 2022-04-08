@@ -34,6 +34,7 @@ using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Saw.Lib.Uil;
 using Galac.Saw.Reconv;
+using Galac.Adm.Ccl.CajaChica;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class FacturaRapidaViewModel : LibInputMasterViewModelMfc<FacturaRapida> {
@@ -110,6 +111,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string CuadroDeBusquedaDeClientesViewModelPropertyName = "CuadroDeBusquedaDeClientesViewModel";
         private const string TotalDescuentoPropertyName = "TotalDescuento";
         private const string SimboloMonedaDeFacturaPropertyName = "SimboloMonedaDeFactura";
+		private const string BaseImponibleIGTFPropertyName = "BaseImponibleIGTF";
+        private const string IGTFMLPropertyName = "IGTFML";
+        private const string IGTFMEPropertyName = "IGTFME";
+        private const string AlicuotaIGTFPropertyName = "AlicuotaIGTF";
         #endregion
 
         #region Variables
@@ -155,8 +160,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private decimal totalDescuento;
         private string _SimboloMonedaDeFactura;
         private DateTime _FechaOriginalDeFacturaEnEspera;
-        public decimal _CambioOriginalDeFacturaEnEspera;
-
+        public decimal _CambioOriginalDeFacturaEnEspera;        
 
         #endregion //Variables
 
@@ -983,6 +987,58 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     if (LibString.IsNullOrEmpty(NombreMonedaDeCobro, true)) {
                         ConexionNombreMonedaDeCobro = null;
                     }
+                }
+            }
+        }
+		
+		public decimal  BaseImponibleIGTF {
+            get {
+                return Model.BaseImponibleIGTF;
+            }
+            set {
+                if (Model.BaseImponibleIGTF != value) {
+                    Model.BaseImponibleIGTF = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(BaseImponibleIGTFPropertyName);
+                }
+            }
+        }
+
+        public decimal  IGTFML {
+            get {
+                return Model.IGTFML;
+            }
+            set {
+                if (Model.IGTFML != value) {
+                    Model.IGTFML = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(IGTFMLPropertyName);
+                }
+            }
+        }
+
+        public decimal  IGTFME {
+            get {
+                return Model.IGTFME;
+            }
+            set {
+                if (Model.IGTFME != value) {
+                    Model.IGTFME = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(IGTFMEPropertyName);
+                }
+            }
+        }
+
+        public decimal  AlicuotaIGTF {
+            get {
+                return Model.AlicuotaIGTF;
+            }
+            set {
+                if (Model.AlicuotaIGTF != value) {
+                    Model.AlicuotaIGTF = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(AlicuotaIGTFPropertyName);
                 }
             }
         }
@@ -2144,7 +2200,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteCobrarCommand() {
-            try {
+            try {                                
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("FacturaRapida", "PermitirSobregiro") != (int)ePermitirSobregiro.NoChequearExistencia) {
                     if (!HayExistenciaParaFacturar()) {
                         return;
@@ -2168,12 +2224,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ExecuteAction();
                     if (DialogResult) {
                         bool vUsaCobroDirectoMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
+                        eTipoDeContribuyenteDelIva vTipoDeContribuyenteDelIva = (eTipoDeContribuyenteDelIva)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "TipoContribuyenteIVA");
+                        decimal vAlicuotaIGTF = new Brl.Venta.clsFacturaNav().BuscaAlicuotaImpTranscBancarias(Fecha, vTipoDeContribuyenteDelIva);
                         if (vUsaCobroDirectoMultimoneda || EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
-                            CobroRapidoMultimonedaViewModel vViewModelCobroMultimoneda = new CobroRapidoMultimonedaViewModel(Action, FacturaRapidaACobrar, ListDeCobroMaster, _AlicuotaIvaASustituir, false);
+                            CobroRapidoMultimonedaViewModel vViewModelCobroMultimoneda = new CobroRapidoMultimonedaViewModel(Action, FacturaRapidaACobrar, ListDeCobroMaster, _AlicuotaIvaASustituir, false, vAlicuotaIGTF, vTipoDeContribuyenteDelIva);
                             vViewModelCobroMultimoneda.XmlDatosImprFiscal = _XmlDatosImprFiscal;
                             vViewModelCobroMultimoneda.SeCobro += (arg) => vResultCobro = arg;
                             LibMessages.EditViewModel.ShowEditor(vViewModelCobroMultimoneda, true);
-                            if (vResultCobro) {
+                            if (vResultCobro) {                                
                                 SiguienteFactura();
                                 ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeArticulosViewModel, string.Empty);
                                 ActualizarValoresCuadrosDeBusqueda(CuadroDeBusquedaDeClientesViewModel, string.Empty);
@@ -2921,7 +2979,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 MoveFocusIfNecessary();
                 ExecuteProcessBeforeAction();
-
                 if (!IsValid) {
                     if ((Action != eAccionSR.Consultar) && (Action != eAccionSR.Eliminar)) {
                         LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(new GalacValidationException(Error), ModuleName, ModuleName);
@@ -2946,7 +3003,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         ExecuteSpecialAction(Action);
                         break;
                 }
-
                 ExecuteProcessAfterAction();
                 IsDirty = false;
                 if (!IsClosing && CloseOnActionComplete) {

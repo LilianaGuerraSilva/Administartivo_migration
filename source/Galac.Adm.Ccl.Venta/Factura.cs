@@ -119,6 +119,10 @@ namespace Galac.Adm.Ccl.Venta {
         private int _NroDiasMantenerCambioAMonedaLocal;
         private DateTime _FechaLimiteCambioAMonedaLocal;
         private bool _GeneradoPor;
+		private decimal _BaseImponibleIGTF;
+        private decimal _IGTFML;
+        private decimal _IGTFME;
+        private decimal _AlicuotaIGTF;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -778,7 +782,27 @@ namespace Galac.Adm.Ccl.Venta {
         public string GeneradoPor {
             set { _GeneradoPor = LibConvert.SNToBool(value); }
         }
+		
+		public decimal BaseImponibleIGTF {
+            get { return _BaseImponibleIGTF; }
+            set { _BaseImponibleIGTF = value; }
+        }
 
+        public decimal IGTFML {
+            get { return _IGTFML; }
+            set { _IGTFML = value; }
+        }
+
+        public decimal IGTFME {
+            get { return _IGTFME; }
+            set { _IGTFME = value; }
+        }
+
+        public decimal AlicuotaIGTF {
+            get { return _AlicuotaIGTF; }
+            set { _AlicuotaIGTF = value; }
+        }
+		
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -929,6 +953,10 @@ namespace Galac.Adm.Ccl.Venta {
             NroDiasMantenerCambioAMonedaLocal = 0;
             FechaLimiteCambioAMonedaLocal = LibDate.Today();
             GeneradoPorAsBool = false;
+			BaseImponibleIGTF = 0;
+            IGTFML = 0;
+            IGTFME = 0;
+            AlicuotaIGTF = 0;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -1042,7 +1070,10 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.NumeroParaResumen = _NumeroParaResumen;
             vResult.NroDiasMantenerCambioAMonedaLocal = _NroDiasMantenerCambioAMonedaLocal;
             vResult.FechaLimiteCambioAMonedaLocal = _FechaLimiteCambioAMonedaLocal;
-            vResult.GeneradoPorAsBool = _GeneradoPor;
+            vResult.BaseImponibleIGTF = _BaseImponibleIGTF;
+            vResult.IGTFML = _IGTFML;
+            vResult.IGTFME = _IGTFME;
+            vResult.AlicuotaIGTF = _AlicuotaIGTF;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -1155,6 +1186,10 @@ namespace Galac.Adm.Ccl.Venta {
                "\nNro Dias Mantener Cambio AMoneda Local = " + _NroDiasMantenerCambioAMonedaLocal.ToString() +
                "\nFecha Limite Cambio AMoneda Local = " + _FechaLimiteCambioAMonedaLocal.ToShortDateString() +
                "\n¿ENUMERATIVO O BOOLEAN? = " + _GeneradoPor +
+			   "\nBase Imponible IGTF = " + _BaseImponibleIGTF.ToString() +
+               "\nI GTFML = " + _IGTFML.ToString() +
+               "\nI GTFME = " + _IGTFME.ToString() +
+               "\nAlicuota IGTF = " + _AlicuotaIGTF.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }

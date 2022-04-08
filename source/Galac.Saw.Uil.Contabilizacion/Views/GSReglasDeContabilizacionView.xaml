@@ -1745,6 +1745,8 @@
                             <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="22" />
@@ -1900,16 +1902,36 @@
                             Content="{Binding Path=CuentaFacturacionIvaDiferidoDescripcion}"
                             Foreground="Black"
                             Visibility="{Binding Path=VentasDiferidasVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
-
+                        <Label
+                            Name="lblCuentaCreditoBancarioGasto"
+                            Grid.Row="11"
+                            Grid.Column="0"
+                            Content="IGTF por Enterar"
+                            Style="{StaticResource LabelReglas}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaCreditoBancarioGasto"
+                            Grid.Row="11"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            ConnectionValue="{Binding Path=CuentaCreditoBancarioGasto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaCreditoBancarioGasto, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ChooseCuentaCreditoBancarioGastoCommand}" />
+                        <Label
+                            Name="lblCuentaCreditoBancarioGastoDescripcion"
+                            Grid.Row="12"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaCreditoBancarioGastoDescripcion}" />
                         <Label
                             Name="lblCuentaFacturacionMontoTotalFactura"
-                            Grid.Row="11"
+                            Grid.Row="13"
                             Grid.Column="0"
                             Content="Total Factura"
                             Style="{StaticResource LabelReglas}" />
                         <nsWpfControls:GSSeekConnection
                             Name="txtCuentaFacturacionMontoTotalFactura"
-                            Grid.Row="11"
+                            Grid.Row="13"
                             Grid.Column="2"
                             HorizontalAlignment="Left"
                             ConnectionValue="{Binding Path=CuentaFacturacionMontoTotalFactura, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
@@ -2807,7 +2829,8 @@
                     Margin="3"
                     Header="Cuentas del Comprobante Contable del Impuesto Bancario por Ingresos"
                     HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
-                    Style="{StaticResource GroupBoxStyle}">
+                    Style="{StaticResource GroupBoxStyle}"
+                    Visibility="Collapsed">
                     <Grid Name="gtImpuestosALasTransaccionesFinancieras2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -2855,29 +2878,6 @@
                             HorizontalContentAlignment="Center"
                             Content="HABER"
                             FontSize="12" />
-
-                        <Label
-                            Name="lblCuentaCreditoBancarioGasto"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Content="Gastos"
-                            Style="{StaticResource LabelReglas}" />
-                        <nsWpfControls:GSSeekConnection
-                            Name="txtCuentaCreditoBancarioGasto"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            HorizontalAlignment="Left"
-                            ConnectionValue="{Binding Path=CuentaCreditoBancarioGasto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                            DisplayMemberPath="Codigo"
-                            IsEnabled="{Binding Path=IsEnabled}"
-                            Model="{Binding Path=ConexionCuentaCreditoBancarioGasto, Mode=TwoWay}"
-                            SearchCommand="{Binding Path=ChooseCuentaCreditoBancarioGastoCommand}" />
-                        <Label
-                            Name="lblCuentaCreditoBancarioGastoDescripcion"
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Content="{Binding Path=CuentaCreditoBancarioGastoDescripcion}" />
-
                         <Label
                             Name="lblCuentaCreditoBancarioBancos"
                             Grid.Row="3"

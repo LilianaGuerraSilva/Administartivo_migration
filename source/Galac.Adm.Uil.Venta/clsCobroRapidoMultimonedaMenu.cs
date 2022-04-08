@@ -1,4 +1,5 @@
 ﻿using Galac.Adm.Brl.Venta;
+using Galac.Adm.Ccl.CajaChica;
 using Galac.Adm.Uil.Venta.ViewModel;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Base;
@@ -15,13 +16,16 @@ namespace Galac.Adm.Uil.Venta
     public class clsCobroRapidoMultimonedaMenu : ILibMenu {
 
         private bool cobro = false;
-
-        public string MostrarPantallaDeCobroRapidoEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, DateTime valFecha, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDelDocumento, string valCodigoMonedaDeCobro) {
+        public string MostrarPantallaDeCobroRapidoEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, DateTime valFecha, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDelDocumento, string valCodigoMonedaDeCobro, string valFechaDocumento, string valTipoDeContribuyenteDelIva, ref string refIGTFParameters) {
             eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(valTipoDeDocumento);
-            CobroRapidoMultimonedaViewModel vViewModel = new CobroRapidoMultimonedaViewModel(valConsecutivoCompania, valNumeroFactura, valFecha, valTotalFactura, vTipoDeDocumento, valCodigoMonedaDelDocumento, valCodigoMonedaDeCobro, true);
+            eTipoDeContribuyenteDelIva vTipoDeContribuyenteDelIva = (eTipoDeContribuyenteDelIva)LibConvert.DbValueToEnum(valTipoDeContribuyenteDelIva);
+            decimal vAlicuotaIGTF = new Brl.Venta.clsFacturaNav().BuscaAlicuotaImpTranscBancarias(valFecha, vTipoDeContribuyenteDelIva);
+            CobroRapidoMultimonedaViewModel vViewModel = new CobroRapidoMultimonedaViewModel(valConsecutivoCompania, valNumeroFactura, valFecha, valTotalFactura, vTipoDeDocumento, valCodigoMonedaDelDocumento, valCodigoMonedaDeCobro, true, vAlicuotaIGTF, vTipoDeContribuyenteDelIva);
             vViewModel.SeCobro += (arg) => cobro = arg;
             LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             string vResult = vViewModel.XmlDatosDelCobro != null ? vViewModel.XmlDatosDelCobro.ToString() : string.Empty;
+            string vCobroIGTF= vViewModel.XmlDatosIGTF != null ? vViewModel.XmlDatosIGTF.ToString() : string.Empty;
+            refIGTFParameters = vCobroIGTF;
             return vResult;
         }
 

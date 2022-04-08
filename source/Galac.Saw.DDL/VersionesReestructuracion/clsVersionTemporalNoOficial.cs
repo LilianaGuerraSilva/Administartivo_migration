@@ -11,10 +11,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 	class clsVersionTemporalNoOficial : clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();
-			
+			StartConnectionNoTransaction();			
 			DisposeConnectionNoTransaction();
 			return true;
-		}
+		}		
 	}
 }
