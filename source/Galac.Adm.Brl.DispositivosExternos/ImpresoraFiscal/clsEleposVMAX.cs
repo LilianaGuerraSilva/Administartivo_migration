@@ -492,18 +492,23 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private bool EnviarPagos(XElement valMedioDePago) {
-            string vMedioDePago = "";
-            string vMonto = "";
+            string vMedioDePago = "";            
             short vTipoPago = 1;
             decimal vBaseImponibleIGTF = 0;            
             string vMontoME = "";
             string vCodigoMoneda = LibXml.GetPropertyString(valMedioDePago, "CodigoMoneda");
+            int vCantidadCaracteres;
+            string vCaracteresEspacio;
             try {
                 vBaseImponibleIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "BaseImponibleIGTF"));
                 if (vBaseImponibleIGTF > 0) { // Aqui se envia el IGTF
                     vMedioDePago = "Divisas";
                     vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vBaseImponibleIGTF), _EnterosParaMonto, _DecimalParaMonto);
                     mVMax.SubTotalT(ref vMontoME);
+                    vMontoME = LibConvert.NumToString(vBaseImponibleIGTF, 2);
+                    vCantidadCaracteres = 33 - LibString.Len(vMontoME) - 2;
+                    vCaracteresEspacio = LibString.Space((byte)vCantidadCaracteres);
+                    vMontoME = vMedioDePago + vCaracteresEspacio + vMontoME;
                     mVMax.TextoDNF(ref vMontoME);
                 } else {
                     mVMax.SubTotal();
@@ -513,9 +518,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     foreach (XElement vXElement in vNodos) {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                         vMedioDePago = FormaDeCobro(vMedioDePago);
-                        vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                        vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaMonto, _DecimalParaMonto);                        
-                        mVMax.PagoCF(ref vMedioDePago, ref vMonto, ref vTipoPago);
+                        vMontoME = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
+                        vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoME, _EnterosParaMonto, _DecimalParaMonto);                        
+                        mVMax.PagoCF(ref vMedioDePago, ref vMontoME, ref vTipoPago);
                     }
                 }
                 return true;
