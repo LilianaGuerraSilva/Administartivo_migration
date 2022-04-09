@@ -124,6 +124,7 @@ namespace Galac.Adm.Ccl.Venta {
         private DateTime _FechaLimiteCambioAMonedaLocal;
         private int _NumeroDiasMantenerCambioAMonedaLocal;
         private long _fldTimeStamp;
+        private decimal _TotalAPagar;
 		private ObservableCollection<FacturaRapidaDetalle> _DetailFacturaRapidaDetalle;
         private ObservableCollection<RenglonCobroDeFactura> _DetailRenglonCobroDeFactura;
         XmlDocument _datos;
@@ -946,6 +947,15 @@ namespace Galac.Adm.Ccl.Venta {
             return "";
         }
 
+        public decimal TotalAPagar {
+            get {
+                return _TotalAPagar;
+            }
+            set {
+                _TotalAPagar = value;
+            }
+        }
+
         public void Clear() {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             Numero = string.Empty;
@@ -1062,6 +1072,7 @@ namespace Galac.Adm.Ccl.Venta {
             NombreMonedaDeCobro = string.Empty;
             FechaLimiteCambioAMonedaLocal = LibDate.Today();
             NumeroDiasMantenerCambioAMonedaLocal = 0;
+            TotalAPagar = 0;
             fldTimeStamp = 0;
             DetailFacturaRapidaDetalle = new ObservableCollection<FacturaRapidaDetalle>();
             DetailRenglonCobroDeFactura = new ObservableCollection<RenglonCobroDeFactura>();
@@ -1183,6 +1194,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.NombreOperador = _NombreOperador;
             vResult.NumeroDiasMantenerCambioAMonedaLocal = _NumeroDiasMantenerCambioAMonedaLocal;
             vResult.FechaLimiteCambioAMonedaLocal = _FechaLimiteCambioAMonedaLocal;
+            vResult.TotalAPagar = _TotalAPagar;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
             if (DetailFacturaRapidaDetalle != null) {
@@ -1301,6 +1313,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nI GTFML = " + _IGTFML.ToString() +
                "\nI GTFME = " + _IGTFME.ToString() +
                "\nAlicuota IGTF = " + _AlicuotaIGTF.ToString() +
+               "\nTotal A Pagar = " + _TotalAPagar.ToString() +               
                 "\nNombre Operador = " + _NombreOperador +
                 "\nNúmero días a mantener cambio a moneda local = " + _NumeroDiasMantenerCambioAMonedaLocal +
                 "\nFecha límite cambio a moneda local = " + _FechaLimiteCambioAMonedaLocal.ToShortDateString() +

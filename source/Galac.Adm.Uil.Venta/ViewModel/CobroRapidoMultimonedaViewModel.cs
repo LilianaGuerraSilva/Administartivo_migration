@@ -542,6 +542,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         insFactura.IGTFML = IGTFML;
                         insFactura.IGTFME = IGTFME;
                         insFactura.AlicuotaIGTF = AlicuotaIGTF;
+                        insFactura.TotalAPagar = TotalAPagarML;
                         clsRenglonCobroDeFacturaNav vRenglonCobro = new clsRenglonCobroDeFacturaNav();
                         IRenglonCobroDeFacturaPdn vRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
                         DialogResult = vRenglonCobro.InsertChildRenglonCobroDeFactura(ConsecutivoCompania, NumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, vListaDecobro).Success;
@@ -852,8 +853,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                   new XElement("BaseImponibleIGTF", BaseImponibleIGTF),
                   new XElement("IGTFML", IGTFML),
                   new XElement("IGTFME", IGTFME),
-                  new XElement("AlicuotaIGTF", AlicuotaIGTF)
-                  ));
+                  new XElement("AlicuotaIGTF", AlicuotaIGTF),
+                  new XElement("TotalAPagar", TotalAPagarML)
+                  ));            
             return vXElementIGTF;
         }
 

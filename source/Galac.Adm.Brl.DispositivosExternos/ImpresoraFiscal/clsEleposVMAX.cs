@@ -499,8 +499,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vCodigoMoneda = LibXml.GetPropertyString(valMedioDePago, "CodigoMoneda");
             int vCantidadCaracteres;
             string vCaracteresEspacio;
+            decimal vTotalAPagar = 0;
+            decimal vTotalAPagadoML = 0;
             try {
+                vTotalAPagadoML = LibImpresoraFiscalUtil.TotalPagosEnMonedaLocal(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMoneda);
                 vBaseImponibleIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "BaseImponibleIGTF"));
+                vTotalAPagar = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalAPagar"));
                 if (vBaseImponibleIGTF > 0) { // Aqui se envia el IGTF
                     vMedioDePago = "Divisas";
                     vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vBaseImponibleIGTF), _EnterosParaMonto, _DecimalParaMonto);
@@ -510,6 +514,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vCaracteresEspacio = LibString.Space((byte)vCantidadCaracteres);
                     vMontoME = vMedioDePago + vCaracteresEspacio + vMontoME;
                     mVMax.TextoDNF(ref vMontoME);
+                    if (vTotalAPagadoML == 0) {
+                        vMedioDePago = "Otros";
+                        decimal vOtrosMontos = LibMath.Abs(vTotalAPagar - vBaseImponibleIGTF);
+                        vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vOtrosMontos), _EnterosParaMonto, _DecimalParaMonto);
+                        mVMax.PagoCF(ref vMedioDePago, ref vMontoME, ref vTipoPago);
+                    }
                 } else {
                     mVMax.SubTotal();
                 }
@@ -756,5 +766,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
     }
 }
+
 
 

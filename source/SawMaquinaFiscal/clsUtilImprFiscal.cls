@@ -390,7 +390,7 @@ Public Function fGenerarXmlConDatosDeLaVenta(ByVal valDatosImprFiscal As clsDato
       vTipoDocumento = enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL
    End If
    vXmlDatosDeLaVenta = "<GpData>" & vSiguienteLinea & "<GpResult>"
-   vDatosDelDocumento = fGenerarDatosDelDocumentoParaXml(vTipoDocumento, valDatosImprFiscal.GetNumeroTicket, valDatosImprFiscal.GetSerialImpresoraFiscal, valDatosImprFiscal.GetFechaFacturaAfectada, valDatosImprFiscal.GetHoraModificacion, vTotalFactura, valDatosImprFiscal.GetTotalesMonedaExtranjera, valDatosImprFiscal.GetBaseImponibleIGTF)
+   vDatosDelDocumento = fGenerarDatosDelDocumentoParaXml(vTipoDocumento, valDatosImprFiscal.GetNumeroTicket, valDatosImprFiscal.GetSerialImpresoraFiscal, valDatosImprFiscal.GetFechaFacturaAfectada, valDatosImprFiscal.GetHoraModificacion, vTotalFactura, valDatosImprFiscal.GetTotalesMonedaExtranjera, valDatosImprFiscal.GetBaseImponibleIGTF, valDatosImprFiscal.GetTotalAPagar)
    vDatosDelCliente = fGenerarDatosDelClienteParaXml(valDatosImprFiscal.GetNumeroRIFCliente, valDatosImprFiscal.GetNombreCliente, valDatosImprFiscal.GetDireccion, valDatosImprFiscal.GetTelefono, valDatosImprFiscal.GetObservaciones)
    vDatosDeLosProductos = fGenerarDatosDeLosProductosParaXml(valDatosImprFiscal.GetItems)
    vDatosDeLosPagos = fGenerarDatosDeLosPagosParaXml(valDatosImprFiscal)
@@ -456,7 +456,7 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fGenerarXmlConDatosDeLaMaquinaFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fGenerarDatosDelDocumentoParaXml(ByVal valTipoDocumento As enum_TipoDocumentoFactura, ByVal valNumeroComprobanteFiscal As String, ByVal valSerialMaquina As String, ByVal valFechaDocumento As String, ByVal valHoraDocumento As String, ByVal valTotalFactura As String, ByVal valTotalMonedaExtranjera As String, ByVal valBaseImponibleIGTF As Currency) As String
+Private Function fGenerarDatosDelDocumentoParaXml(ByVal valTipoDocumento As enum_TipoDocumentoFactura, ByVal valNumeroComprobanteFiscal As String, ByVal valSerialMaquina As String, ByVal valFechaDocumento As String, ByVal valHoraDocumento As String, ByVal valTotalFactura As String, ByVal valTotalMonedaExtranjera As String, ByVal valBaseImponibleIGTF As Currency, ByVal valTotalAPagar As Currency) As String
    Dim vDatosDelDocumento As String
    Dim vSiguienteLinea As String
          
@@ -469,7 +469,8 @@ Private Function fGenerarDatosDelDocumentoParaXml(ByVal valTipoDocumento As enum
                         "<HoraModificacion>" & valHoraDocumento & "</HoraModificacion>" & vSiguienteLinea & _
                         "<TotalFactura>" & valTotalFactura & "</TotalFactura>" & vSiguienteLinea & _
                         "<TotalMonedaExtranjera>" & fCaracteresXMLValidosEnDatosImprFiscal(valTotalMonedaExtranjera) & "</TotalMonedaExtranjera>" & vSiguienteLinea & _
-                        "<BaseImponibleIGTF>" & fCaracteresXMLValidosEnDatosImprFiscal(gConvert.fConvierteAString(valBaseImponibleIGTF)) & "</BaseImponibleIGTF>" & vSiguienteLinea
+                        "<BaseImponibleIGTF>" & fCaracteresXMLValidosEnDatosImprFiscal(gConvert.fConvierteAString(valBaseImponibleIGTF)) & "</BaseImponibleIGTF>" & vSiguienteLinea & _
+                        "<TotalAPagar>" & fCaracteresXMLValidosEnDatosImprFiscal(gConvert.fConvierteAString(valTotalAPagar)) & "</TotalAPagar>" & vSiguienteLinea
 h_EXIT: On Error GoTo 0
    fGenerarDatosDelDocumentoParaXml = vDatosDelDocumento
 Exit Function
