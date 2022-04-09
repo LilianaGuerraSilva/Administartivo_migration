@@ -1,4 +1,4 @@
-modVarGlobalesSawVista = -68, 32, 908, 298, 
+modVarGlobalesSawVista = -68, 32, 908, 298, C
 clsClienteVista = 13, 91, 857, 506, C
 clsInitSawVista = 191, 42, 1035, 457, C
 clsClienteSQL = 233, 82, 1206, 704, C
