@@ -1752,9 +1752,8 @@
                             <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
                         </Grid.RowDefinitions>
-
                         <Border
-                            Grid.RowSpan="13"
+                            Grid.RowSpan="15"
                             Grid.Column="2"
                             Background="{x:Null}"
                             BorderBrush="{StaticResource NormalBorderBrush}"
@@ -1941,14 +1940,11 @@
                             SearchCommand="{Binding Path=ChooseCuentaFacturacionMontoTotalFacturaCommand}" />
                         <Label
                             Name="lblCuentaFacturacionMontoTotalFacturaDescripcion"
-                            Grid.Row="12"
+                            Grid.Row="14"
                             Grid.Column="2"
                             Content="{Binding Path=CuentaFacturacionMontoTotalFacturaDescripcion}"
                             Foreground="Black" />
-
                     </Grid>
-
-
                 </GroupBox>
 
                 <Label
