@@ -1,91 +1,16 @@
 VERSION 5.00
 Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Object = "{18B1931C-D536-4582-BC33-49A47A9683D0}#4.0#0"; "VMAX.ocx"
 Begin VB.Form frmImpresorasFiscales 
    BackColor       =   &H00FFFFFF&
-   BorderStyle     =   3  'Fixed Dialog
-   ClientHeight    =   1710
-   ClientLeft      =   45
-   ClientTop       =   45
-   ClientWidth     =   6495
-   ControlBox      =   0   'False
-   LinkTopic       =   "Form1"
-   MaxButton       =   0   'False
-   MinButton       =   0   'False
-   ScaleHeight     =   1710
-   ScaleWidth      =   6495
-   ShowInTaskbar   =   0   'False
-   StartUpPosition =   2  'CenterScreen
-   Begin VMAXOCX.VMAX obVMAX 
-      Left            =   5640
-      Top             =   1440
-      _ExtentX        =   1402
-      _ExtentY        =   1349
-   End
-   Begin VB.CommandButton cmdSalir 
-      Caption         =   "&Aceptar"
-      Height          =   375
-      Left            =   2280
-      TabIndex        =   2
-      Top             =   1320
-      Visible         =   0   'False
-      Width           =   1695
-   End
-   Begin MSComctlLib.ProgressBar pgrImprimir 
-      Height          =   255
-      Left            =   240
-      TabIndex        =   1
-      Top             =   960
-      Width           =   6015
-      _ExtentX        =   10610
-      _ExtentY        =   450
-      _Version        =   393216
-      Appearance      =   1
-      Max             =   10
-      Scrolling       =   1
-   End
-   Begin MSCommLib.MSComm cmmPuerto 
-      Left            =   4920
-      Top             =   1320
-      _ExtentX        =   1005
-      _ExtentY        =   1005
-      _Version        =   393216
-      DTREnable       =   -1  'True
-   End
-   Begin VB.Label lblPrueba 
-      Height          =   255
-      Left            =   360
-      TabIndex        =   3
-      Top             =   1440
-      Width           =   1575
-   End
-   Begin VB.Image Image1 
-      Height          =   795
-      Left            =   120
-      Picture         =   "frmImpresorasFiscales.frx":0000
-      Stretch         =   -1  'True
-      Top             =   0
-      Width           =   735
-   End
-   Begin VB.Label lblImpresion 
-      BackColor       =   &H00FFFFFF&
-      Caption         =   "Verificando Conexión con la Impresora"
-      BeginProperty Font 
-         Name            =   "Tahoma"
-         Size            =   12
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   615
-      Left            =   960
-      TabIndex        =   0
-      Top             =   120
-      Width           =   5175
-   End
+   ClientHeight    =   0
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   1560
+   Icon            =   "frmImpresorasFiscales.frx":0000
+   ScaleHeight     =   0
+   ScaleWidth      =   1560
 End
 Attribute VB_Name = "frmImpresorasFiscales"
 Attribute VB_GlobalNameSpace = False
