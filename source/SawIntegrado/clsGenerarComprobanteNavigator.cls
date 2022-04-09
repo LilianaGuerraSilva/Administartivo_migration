@@ -2084,7 +2084,7 @@ Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valF
    Sql = Sql & " ," & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto)
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, _
          "SUM(Factura.IGTFML)", _
-         vCodigoCuentaIGTF, "", "", _
+         vCodigoCuentaIGTF, False, "", _
          numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN " & insCliente.GetTableName & " ON "
    Sql = Sql & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA & " = "
@@ -2635,7 +2635,7 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
                numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto)
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, _
          "SUM(Factura.IGTFML)", _
-         vCodigoCuentaIGTF, "", "", _
+         vCodigoCuentaIGTF, False, "", _
          numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN " & insCliente.GetTableName
    Sql = Sql & " ON " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA & " = "
@@ -2689,6 +2689,7 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
                insArticulo.GetTableName & ".CuentaContableIngreso", True), False, "", _
                numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
                
+   Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto) & ", "
    Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto) & ", "
    Sql = Sql & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", varCodigoCentroDeCosto)
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN ("
@@ -2801,6 +2802,7 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
       Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    End If
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN ("
    Sql = Sql & insOtrosCargosDeFactura.GetTableName & " INNER JOIN "
    Sql = Sql & insRenglonOtrosCargosFactura.GetTableName
@@ -2842,6 +2844,7 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
       Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    End If
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
+   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    Sql = Sql & " FROM " & insFactura.GetTableName & " INNER JOIN ("
    Sql = Sql & insOtrosCargosDeFactura.GetTableName & " INNER JOIN "
    Sql = Sql & insRenglonOtrosCargosFactura.GetTableName
@@ -2878,6 +2881,7 @@ Private Function fSQLOtrosCargosYDescuentosDeFacturaEntreFechas(ByVal valFechaDe
    If Not valContabilizacionPorArticulo Then
       Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    End If
+   Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    Sql = Sql & ", " & fAgregaUnaCuentaAlSQL("", False, "0", "", False, "", "", "", "", "")
    Sql = Sql & " FROM " & insCliente.GetTableName & " INNER JOIN ("
    Sql = Sql & insFactura.GetTableName & " INNER JOIN "
