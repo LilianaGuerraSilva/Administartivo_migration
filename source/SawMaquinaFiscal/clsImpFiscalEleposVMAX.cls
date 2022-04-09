@@ -276,6 +276,8 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
             End If
             'Aqui se Aplica el IGTF
             vTotalPagoME = insDatosImprFiscal.GetBaseImponibleIGTF
+            Dim vTotalPagadoML As Currency
+            vTotalPagadoML = fBuscarYSumarPagosML(insDatosImprFiscal)
             If vTotalPagoME > 0 Then
                Dim vBaseIGTF As String
                vBaseIGTF = fDarFormatoNumericoParaImpresion(vTotalPagoME, mEnterosParaIGTF, mDecimalesParaMonto)
@@ -285,6 +287,14 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                vCaracteresEspacio = gTexto.fNBlancos(vCantidadCaracteres)
                vMontoMEStr = "Divisas" & vCaracteresEspacio & vMontoMEStr
                vResult = mVmax.TextoDNF(vMontoMEStr)
+               If vTotalPagadoML = 0 Then
+                  Dim vMedioPago As String
+                  Dim vOtrosPagos As Currency
+                  vMedioPago = "Otros"
+                  vOtrosPagos = Abs(insDatosImprFiscal.GetTotalAPagar - insDatosImprFiscal.GetBaseImponibleIGTF)
+                  vMontoMEStr = fDarFormatoNumericoParaImpresion(vOtrosPagos, mEnterosParaIGTF, mDecimalesParaMonto)
+                  mVmax.PagoCF vMedioPago, vMontoMEStr, 1
+               End If
             Else
                vResult = mVmax.SubTotal()
             End If
@@ -624,7 +634,7 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fDarFormatoNmericoParaImpresion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fBuscarYSumarPagosME(ByVal valDatosImprFiscal As clsDatosImprFiscal) As Currency
+Private Function fBuscarYSumarPagosML(ByVal valDatosImprFiscal As clsDatosImprFiscal) As Currency
    Dim vResult As Currency
    Dim vCodigoMoneda As String
    Dim vPagosRS As ADODB.Recordset
@@ -642,10 +652,10 @@ Private Function fBuscarYSumarPagosME(ByVal valDatosImprFiscal As clsDatosImprFi
       Loop
    End If
    Set vPagosRS = Null
-   fBuscarYSumarPagosME = vResult
+   fBuscarYSumarPagosML = vResult
 h_EXIT: On Error GoTo 0
    Exit Function
 h_Error:
-   fBuscarYSumarPagosME = 0
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fBuscarYSumarPagosME", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   fBuscarYSumarPagosML = 0
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fBuscarYSumarPagosML", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
