@@ -408,6 +408,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal BaseImponibleIGTF {
             get {
                 decimal vTotalPagosME = LibMath.RoundToNDecimals((EfectivoEnDivisas + TransferenciaEnDivisas) * CambioAMonedaLocal, 2);
+                vTotalPagosME = IsVisibleSeccionIGTF ? 0 : vTotalPagosME;
                 return LibMath.RoundToNDecimals(System.Math.Min(TotalFactura, vTotalPagosME), 2);
             }
         }       
