@@ -238,8 +238,8 @@
     <Microsoft.Practices.EnterpriseLibrary.Common>5.0.414.0</Microsoft.Practices.EnterpriseLibrary.Common>
     <Microsoft.Practices.ServiceLocation>1.0.0.0</Microsoft.Practices.ServiceLocation>
     <Microsoft.Practices.Unity.Interception>2.0.414.0</Microsoft.Practices.Unity.Interception>
-    <AxInterop.VMAXOCX>3.0.0.0</AxInterop.VMAXOCX>
-    <Interop.VMAXOCX>3.0.0.0</Interop.VMAXOCX>
+    <AxInterop.VMAXOCX>4.0.0.0</AxInterop.VMAXOCX>
+    <Interop.VMAXOCX>4.0.0.0</Interop.VMAXOCX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
     <TfhkaNet>1.7.5.1</TfhkaNet>
     <pnpdll>10.2.1.13</pnpdll>
