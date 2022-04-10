@@ -651,7 +651,7 @@ Private Function fBuscarYSumarPagosML(ByVal valDatosImprFiscal As clsDatosImprFi
          vPagosRS.MoveNext
       Loop
    End If
-   Set vPagosRS = Null
+   Set vPagosRS = Nothing
    fBuscarYSumarPagosML = vResult
 h_EXIT: On Error GoTo 0
    Exit Function
