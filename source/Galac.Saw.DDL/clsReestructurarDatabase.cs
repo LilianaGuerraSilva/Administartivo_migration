@@ -659,19 +659,20 @@ namespace Galac.Saw.DDL {
                 if (HasToUpgradeToVersion("6.19")) {
                     vResult = vResult && new clsVersion6_19(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.50")){
+                if (HasToUpgradeToVersion("6.50")) {
                     vResult = vResult && new clsVersion6_50(_CurrentDataBaseName).UpdateToVersion();
                 }
                 if (HasToUpgradeToVersion("6.51")) {
                     vResult = vResult && new clsVersion6_51(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.52"))
-                {
+                if (HasToUpgradeToVersion("6.52")) {
                     vResult = vResult && new clsVersion6_52(_CurrentDataBaseName).UpdateToVersion();
                 }
-                if (HasToUpgradeToVersion("6.54"))
-                {
+                if (HasToUpgradeToVersion("6.54")) {
                     vResult = vResult && new clsVersion6_54(_CurrentDataBaseName).UpdateToVersion();
+                }
+                if (HasToUpgradeToVersion("6.55")) {
+                    vResult = vResult && new clsVersion6_55(_CurrentDataBaseName).UpdateToVersion();
                 }
                 vResult = vResult && new clsVersionTemporalNoOficial(_CurrentDataBaseName).UpdateToVersion();
                 //vResult = vResult && CreateLostFields();

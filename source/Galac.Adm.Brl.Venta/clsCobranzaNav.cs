@@ -394,7 +394,7 @@ namespace Galac.Adm.Brl.Venta {
             string vCodigoCobrador = LibXml.GetPropertyString(valDatosFactura, "CodigoVendedor");
             string vNumeroFactura = LibXml.GetPropertyString(valDatosFactura, "Numero");
             int vTipoDeCXC = LibImportData.ToInt(LibXml.GetPropertyString(valDataCxC, "TipoCxc"));
-            string vCodigoMonedaFactura = LibXml.GetPropertyString(valDatosFactura, "CodigoMoneda");
+            string vCodigoMonedaFactura = LibXml.GetPropertyString(valDataCxC, "CodigoMoneda");
             string vCodigoMonedaLocal = new Saw.Lib.clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
             DateTime vFechaUltimaModificacion = LibDate.Today();
             string refNumeroDeCobranza = "";
@@ -407,11 +407,11 @@ namespace Galac.Adm.Brl.Venta {
             string vCodigoMonedaCobranza = string.Empty;
             decimal vTotalAbonadoMonedaLocal = 0;
             if (vCodigoMonedaFactura == vCodigoMonedaLocal) {
-                vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valDatosFactura, "TotalFactura"), 2);
+                vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valDataCxC, "TotalCXC"), 2);
                 vTotalPorCobrar = vTotalFactura;
             } else {
-                vTotalFacturaEnDivisas = LibImportData.ToDec(LibXml.GetPropertyString(valDatosFactura, "TotalFactura"), 2);
-                vCambioAMonedaLocal = LibImportData.ToDec(LibXml.GetPropertyString(valDatosFactura, "CambioABolivares"), 4);
+                vTotalFacturaEnDivisas = LibImportData.ToDec(LibXml.GetPropertyString(valDataCxC, "TotalCXC"), 2);
+                vCambioAMonedaLocal = LibImportData.ToDec(LibXml.GetPropertyString(valDataCxC, "CambioABolivares"), 4);
                 vTotalFactura = LibMath.RoundToNDecimals((vTotalFacturaEnDivisas * vCambioAMonedaLocal), 2);
                 vTotalPorCobrar = vTotalFacturaEnDivisas;
             }

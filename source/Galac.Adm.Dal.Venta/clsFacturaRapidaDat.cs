@@ -147,6 +147,10 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInBoolean("EsGeneradaPorPuntoDeVenta", valRecord.EsGeneradaPorPuntoDeVentaAsBool);
             vParams.AddInDecimal("CambioMostrarTotalEnDivisas", valRecord.CambioMostrarTotalEnDivisas, 4);
             vParams.AddInString("CodigoMonedaDeCobro", valRecord.CodigoMonedaDeCobro, 4);
+			vParams.AddInDecimal("BaseImponibleIGTF", valRecord.BaseImponibleIGTF, 2);
+            vParams.AddInDecimal("IGTFML", valRecord.IGTFML, 2);
+            vParams.AddInDecimal("IGTFME", valRecord.IGTFME, 2);
+            vParams.AddInDecimal("AlicuotaIGTF", valRecord.AlicuotaIGTF, 2);
             vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInInteger("NroDiasMantenerCambioAMonedaLocal",valRecord.NumeroDiasMantenerCambioAMonedaLocal);
             vParams.AddInEnum("GeneradoPor", 0);

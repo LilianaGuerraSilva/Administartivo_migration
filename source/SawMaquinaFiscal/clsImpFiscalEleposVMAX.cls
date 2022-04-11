@@ -22,6 +22,7 @@ Const mEnterosParaMonto As Byte = 10
 Const mEnterosParaCantidad As Byte = 5
 Const mEnterosParaDescuento As Byte = 10
 Const mEnterosParaPagos As Byte = 10
+Const mEnterosParaIGTF As Byte = 12
 
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsImFiscalEleposVMAX"
@@ -82,10 +83,10 @@ Public Function fSerialMemoriaFiscal(ByRef refReady As Boolean, valPuerto As Str
    On Error GoTo h_Error
    
    If sAbreCF(valPuerto) Then
-      vResultado = mVmax.LeeDatosFiscales
+      vResultado = mVmax.ObtDatosSerializacion
       refReady = vResultado
       If vResultado Then
-         vSerial = mVmax.Serial
+         vSerial = mVmax.s_serial
       Else
          gMessage.Advertencia "Error de comunicación"
       End If
@@ -225,6 +226,10 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
       Dim vList As Variant
       Dim vCount As Integer
       Dim vTotales As String
+      Dim vTotalPagoME As Currency
+      Dim vCantidadCaracteres As Integer
+      Dim vCaracteresEspacio As String
+      Dim vMontoMEStr As String
       On Error GoTo h_Error
       Set rsDatosArticulo = insDatosImprFiscal.GetItems
       If (sAbreCF(insDatosImprFiscal.GetPuertoImpresoraFiscal)) Then
@@ -232,44 +237,67 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
             vResult = True
             vPorcetajeDesTotal = insDatosImprFiscal.GetPorcentajeDeDescuento
             If Not rsDatosArticulo.BOF And Not rsDatosArticulo.EOF Then
-            rsDatosArticulo.MoveFirst
-            Do While Not rsDatosArticulo.EOF
-               vTipoTasa = gConvert.charAEnumerativoInt(rsDatosArticulo.Fields("TipoAlicuota").Value)
-               vAlicuotas = fDarFormatoAlicuotaIva(vTipoTasa)
-               vCantidades = gConvert.fConvierteACurrency(fSetDecimalSeparator(rsDatosArticulo.Fields("Cantidad").Value))
-               vPrecios = gConvert.fConvierteACurrency(fSetDecimalSeparator(rsDatosArticulo.Fields("PrecioSinIVA").Value))
-               vPorcentajeDescRenglon = gConvert.fConvierteACurrency(fSetDecimalSeparator(rsDatosArticulo.Fields("Descuento").Value))
-               vDescripcion = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Descripcion").Value, 100)
-               vCantidades = Abs(vCantidades)
-               vPrecios = Abs(vPrecios)
-               vMontoDescuentoRenglon = fCalcularMontoDescuento(vPrecios, vPorcentajeDescRenglon, vCantidades)
-               vMontoDesctotal = fCalcularMontoDescuentoTotal(vMontoDescuentoRenglon, vCantidades, vPrecios, vPorcetajeDesTotal)
-               vMontoDescuentoRenglon = (vPrecios * vCantidades) - vMontoDescuentoRenglon
-               sTotalizarDescuentoGlobalPorAlicuota vAlicuotas, vMontoDesctotal, vMontoDescuentoAlicuotaG, vMontoDescuentoAlicuotaA, vMontoDescuentoAlicuotaR, vMontoDescuentoAlicuotaE
-               vMontoDescuentoFormateado = fDarFormatoNumericoParaImpresion(vMontoDescuentoRenglon, mEnterosParaMonto, mDecimalesParaMonto)
-               vCantidadFormateada = fDarFormatoNumericoParaImpresion(vCantidades, mEnterosParaCantidad, mDecimalesParaCantidad)
-               vPrecioFormateado = fDarFormatoNumericoParaImpresion(vPrecios, mEnterosParaMonto, mDecimalesParaMonto)
-               vSerial = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Serial"), 100)
-               vRollo = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Rollo"), 100)
-               sAgregaLineaSeparacion
-               If Not fVenta(vDescripcion, vCantidadFormateada, vPrecioFormateado, vAlicuotas, valEsNotaDeCredito, vMontoDescuentoFormateado) Then
-                  fCancelaCuponFiscal False, insDatosImprFiscal.GetPuertoImpresoraFiscal
-                  mVmax.CerrarPuerto
-                  GoTo h_Error
-               End If
-               If vSerial <> "" Then
-                  mVmax.TextoDNF (gTexto.DfMid(vSerial, 1, 38))
-               End If
-               If vRollo <> "" Then
-                  mVmax.TextoDNF (gTexto.DfMid(vRollo, 1, 38))
-               End If
-              rsDatosArticulo.MoveNext
-            Loop
+               rsDatosArticulo.MoveFirst
+               Do While Not rsDatosArticulo.EOF
+                  vTipoTasa = gConvert.charAEnumerativoInt(rsDatosArticulo.Fields("TipoAlicuota").Value)
+                  vAlicuotas = fDarFormatoAlicuotaIva(vTipoTasa)
+                  vCantidades = gConvert.fConvierteACurrency(fSetDecimalSeparator(rsDatosArticulo.Fields("Cantidad").Value))
+                  vPrecios = gConvert.fConvierteACurrency(fSetDecimalSeparator(rsDatosArticulo.Fields("PrecioSinIVA").Value))
+                  vPorcentajeDescRenglon = gConvert.fConvierteACurrency(fSetDecimalSeparator(rsDatosArticulo.Fields("Descuento").Value))
+                  vDescripcion = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Descripcion").Value, 100)
+                  vCantidades = Abs(vCantidades)
+                  vPrecios = Abs(vPrecios)
+                  vMontoDescuentoRenglon = fCalcularMontoDescuento(vPrecios, vPorcentajeDescRenglon, vCantidades)
+                  vMontoDesctotal = fCalcularMontoDescuentoTotal(vMontoDescuentoRenglon, vCantidades, vPrecios, vPorcetajeDesTotal)
+                  vMontoDescuentoRenglon = (vPrecios * vCantidades) - vMontoDescuentoRenglon
+                  sTotalizarDescuentoGlobalPorAlicuota vAlicuotas, vMontoDesctotal, vMontoDescuentoAlicuotaG, vMontoDescuentoAlicuotaA, vMontoDescuentoAlicuotaR, vMontoDescuentoAlicuotaE
+                  vMontoDescuentoFormateado = fDarFormatoNumericoParaImpresion(vMontoDescuentoRenglon, mEnterosParaMonto, mDecimalesParaMonto)
+                  vCantidadFormateada = fDarFormatoNumericoParaImpresion(vCantidades, mEnterosParaCantidad, mDecimalesParaCantidad)
+                  vPrecioFormateado = fDarFormatoNumericoParaImpresion(vPrecios, mEnterosParaMonto, mDecimalesParaMonto)
+                  vSerial = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Serial"), 100)
+                  vRollo = gUtilImprFiscal.fCadenaCaracteresValidos(rsDatosArticulo.Fields("Rollo"), 100)
+                  sAgregaLineaSeparacion
+                  If Not fVenta(vDescripcion, vCantidadFormateada, vPrecioFormateado, vAlicuotas, valEsNotaDeCredito, vMontoDescuentoFormateado) Then
+                     fCancelaCuponFiscal False, insDatosImprFiscal.GetPuertoImpresoraFiscal
+                     mVmax.CerrarPuerto
+                     GoTo h_Error
+                  End If
+                  If vSerial <> "" Then
+                     mVmax.TextoDNF (gTexto.DfMid(vSerial, 1, 38))
+                  End If
+                  If vRollo <> "" Then
+                     mVmax.TextoDNF (gTexto.DfMid(vRollo, 1, 38))
+                  End If
+                 rsDatosArticulo.MoveNext
+               Loop
             End If
             If vPorcetajeDesTotal <> 0 Then
                 sAplicarDescuento vMontoDescuentoAlicuotaA, vMontoDescuentoAlicuotaG, vMontoDescuentoAlicuotaR, vMontoDescuentoAlicuotaE
             End If
-            vResult = mVmax.SubTotal()
+            'Aqui se Aplica el IGTF
+            vTotalPagoME = insDatosImprFiscal.GetBaseImponibleIGTF
+            Dim vTotalPagadoML As Currency
+            vTotalPagadoML = fBuscarYSumarPagosML(insDatosImprFiscal)
+            If vTotalPagoME > 0 Then
+               Dim vBaseIGTF As String
+               vBaseIGTF = fDarFormatoNumericoParaImpresion(vTotalPagoME, mEnterosParaIGTF, mDecimalesParaMonto)
+               vResult = mVmax.SubTotal_ConRetornoT(vBaseIGTF)
+               vMontoMEStr = gConvert.FormatoNumerico(vTotalPagoME, False)
+               vCantidadCaracteres = 33 - gTexto.DfLen(vMontoMEStr) - 2
+               vCaracteresEspacio = gTexto.fNBlancos(vCantidadCaracteres)
+               vMontoMEStr = "Divisas" & vCaracteresEspacio & vMontoMEStr
+               vResult = mVmax.TextoDNF(vMontoMEStr)
+               If vTotalPagadoML = 0 Then
+                  Dim vMedioPago As String
+                  Dim vOtrosPagos As Currency
+                  vMedioPago = "Otros"
+                  vOtrosPagos = Abs(insDatosImprFiscal.GetTotalAPagar - insDatosImprFiscal.GetBaseImponibleIGTF)
+                  vMontoMEStr = fDarFormatoNumericoParaImpresion(vOtrosPagos, mEnterosParaIGTF, mDecimalesParaMonto)
+                  mVmax.PagoCF vMedioPago, vMontoMEStr, 1
+               End If
+            Else
+               vResult = mVmax.SubTotal()
+            End If
             vTotalFactura = mVmax.TotalFactura
             If vResult Then
                If Not insDatosImprFiscal.GetFormaDePago Is Nothing Then
@@ -335,11 +363,13 @@ Private Sub sAplicarDescuento(ByVal valMontoDescuentoAlicuotaA As Currency, ByVa
    Dim vDescuentoAlicuotaG As String
    Dim vDescuentoAlicuotaR As String
    Dim vDescuentoAlicuotaE As String
+   Dim vDescuentoAlicuotaP As String
+   vDescuentoAlicuotaP = "0.00"
    vDescuentoAlicuotaA = fDarFormatoNumericoParaImpresion(gConvert.fConvierteAString(valMontoDescuentoAlicuotaA), mEnterosParaDescuento, mDecimalesParaMonto)
    vDescuentoAlicuotaG = fDarFormatoNumericoParaImpresion(gConvert.fConvierteAString(valMontoDescuentoAlicuotaG), mEnterosParaDescuento, mDecimalesParaMonto)
    vDescuentoAlicuotaR = fDarFormatoNumericoParaImpresion(gConvert.fConvierteAString(valMontoDescuentoAlicuotaR), mEnterosParaDescuento, mDecimalesParaMonto)
    vDescuentoAlicuotaE = fDarFormatoNumericoParaImpresion(gConvert.fConvierteAString(valMontoDescuentoAlicuotaE), mEnterosParaDescuento, mDecimalesParaMonto)
-   mVmax.DescuentoCF "Dcto Global", vDescuentoAlicuotaE, vDescuentoAlicuotaG, vDescuentoAlicuotaR, vDescuentoAlicuotaA
+   mVmax.DescuentoCF "Dcto Global", vDescuentoAlicuotaE, vDescuentoAlicuotaG, vDescuentoAlicuotaR, vDescuentoAlicuotaA, vDescuentoAlicuotaP
 End Sub
 
 Private Function fCalcularMontoDescuentoTotal(ByVal valMontoDescuento As Currency, ByVal valCantidad As Currency, ByVal valMonto As Currency, ByVal valPrcDescuentoTotal As Currency) As Currency
@@ -462,12 +492,11 @@ Private Sub sAgregaLineaSeparacion()
 h_EXIT:    On Error GoTo 0
    Exit Sub
 h_Error:
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fImprimeDatosClientes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAgregaLineaSeparacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fFormaDeCobro(ByVal vFormaDeCobro) As String
    Dim vValorFinal As String
-   
    Select Case vFormaDeCobro
       Case "00001":    vValorFinal = "Efectivo"
       Case "00002":    vValorFinal = "Cheque"
@@ -478,7 +507,7 @@ Private Function fFormaDeCobro(ByVal vFormaDeCobro) As String
    fFormaDeCobro = vValorFinal
 End Function
 
-Private Sub sFormaDePago(insDatosImprFiscal As clsDatosImprFiscal)
+Private Sub sFormaDePago(ByVal insDatosImprFiscal As clsDatosImprFiscal)
    Dim rsFormaDePago As ADODB.Recordset
    Dim formadePago As String
    Dim vMontoCancelado As Currency
@@ -486,7 +515,7 @@ Private Sub sFormaDePago(insDatosImprFiscal As clsDatosImprFiscal)
    Dim vTotalFactura As String
    Dim vResult As Boolean
    Dim FormaDeCobro As String
-   Dim Cmd As String
+   Dim vCodigoMoneda As String
    On Error GoTo h_Error
    Set rsFormaDePago = insDatosImprFiscal.GetFormaDePago
    vTotalFactura = mVmax.TotalFactura
@@ -495,22 +524,23 @@ Private Sub sFormaDePago(insDatosImprFiscal As clsDatosImprFiscal)
       Do While Not rsFormaDePago.EOF
          vMontoCancelado = gConvert.fConvierteAString(rsFormaDePago.Fields("Monto").Value)
          vMontoCancelado = Abs(vMontoCancelado)
+         vCodigoMoneda = rsFormaDePago.Fields("CodigoMoneda").Value
          FormaDeCobro = fFormaDeCobro(rsFormaDePago("CodigoFormaDelCobro").Value)
          If rsFormaDePago.RecordCount < 1 Then
              vResult = mVmax.PagoCF("Efectivo", vTotalFactura, 1)
-         Else
+         ElseIf insDatosImprFiscal.GetCodigoMonedaCompania = vCodigoMoneda Then
             MontoCanceladoFormateado = gConvert.fConvierteAString(vMontoCancelado)
             MontoCanceladoFormateado = fDarFormatoNumericoParaImpresion(MontoCanceladoFormateado, mEnterosParaPagos, mDecimalesParaMonto)
             vResult = mVmax.PagoCF(FormaDeCobro, MontoCanceladoFormateado, 1)
          End If
-            rsFormaDePago.MoveNext
+         rsFormaDePago.MoveNext
       Loop
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_Error:
-mVmax.CerrarPuerto
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sFormaDePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   mVmax.CerrarPuerto
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sFormaDePago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sImprimeCamposDefinibles(insDatosImprFiscal As clsDatosImprFiscal)
@@ -602,4 +632,30 @@ h_EXIT:
 h_Error:
    fDarFormatoNumericoParaImpresion = ""
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fDarFormatoNmericoParaImpresion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fBuscarYSumarPagosML(ByVal valDatosImprFiscal As clsDatosImprFiscal) As Currency
+   Dim vResult As Currency
+   Dim vCodigoMoneda As String
+   Dim vPagosRS As ADODB.Recordset
+   On Error GoTo h_Error
+   vResult = 0
+   Set vPagosRS = valDatosImprFiscal.GetFormaDePago
+   If gDbUtil.fRecordCount(vPagosRS) > 0 Then
+      vPagosRS.MoveFirst
+      Do While Not vPagosRS.EOF
+         vCodigoMoneda = vPagosRS("CodigoMoneda").Value
+         If vCodigoMoneda = valDatosImprFiscal.GetCodigoMonedaCompania Then
+            vResult = vResult + gConvert.fConvierteACurrency(vPagosRS("CodigoMoneda").Value)
+         End If
+         vPagosRS.MoveNext
+      Loop
+   End If
+   Set vPagosRS = Nothing
+   fBuscarYSumarPagosML = vResult
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_Error:
+   fBuscarYSumarPagosML = 0
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fBuscarYSumarPagosML", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function

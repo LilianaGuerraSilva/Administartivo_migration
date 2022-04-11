@@ -3186,14 +3186,14 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 Private Function fGenerateNextNumero(ByVal valFillWithCeros As Boolean) As String
    Dim rsMaximo As ADODB.Recordset
-   Dim SQL As String
+   Dim Sql As String
    Dim ultimoNumero As String
    On Error GoTo h_ERROR
    Set rsMaximo = New ADODB.Recordset
    fGenerateNextNumero = ""
    ultimoNumero = "0"
-   SQL = "SELECT MAX(Numero) AS maximo FROM " & GetTableName & " WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   If gDbUtil.fOpenRecordSetAllParameters(rsMaximo, SQL, gDefDatabase.Conexion, adLockReadOnly, adUseClient, adOpenStatic) Then
+   Sql = "SELECT MAX(Numero) AS maximo FROM " & GetTableName & " WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   If gDbUtil.fOpenRecordSetAllParameters(rsMaximo, Sql, gDefDatabase.Conexion, adLockReadOnly, adUseClient, adOpenStatic) Then
       If (rsMaximo.RecordCount > 0) And (Not IsNull(rsMaximo("maximo").value)) Then
          ultimoNumero = rsMaximo("maximo").value
       End If
@@ -3393,6 +3393,9 @@ Private Function fLasCuentasDeCxPEstanCompletas() As Boolean
             EstanCompletas = EstanCompletas And GetCuentaRetencionIVA <> ""
          End If
       End If
+      If gProyParametrosCompania.GetRetieneImpuestoMunicipal() Then
+         EstanCompletas = EstanCompletas And GetCuentaRetencionImpuestoMunicipal <> ""
+   End If
    End If
 h_EXIT:
    fLasCuentasDeCxPEstanCompletas = EstanCompletas
@@ -3484,6 +3487,9 @@ Private Function fLasCuentasDeFacturacionEstanCompletas() As Boolean
    If gProyParametrosCompania.GetUsarVentasConIvaDiferido Then
       EstanCompletas = EstanCompletas And GetCuentaFacturacionIvaDiferido <> ""
    End If
+   If gProyCompaniaActual.GetTipoDeContribuyenteIVAStr = gEnumProyecto.enumTipoDeContribuyenteIvaToString(enum_TipoDeContribuyenteIVA.eTD_ESPECIAL) Then
+      EstanCompletas = EstanCompletas And GetCuentaCreditoBancarioGasto <> ""
+   End If
 h_EXIT:
    fLasCuentasDeFacturacionEstanCompletas = EstanCompletas
    On Error GoTo 0
@@ -3541,7 +3547,7 @@ End Function
 
 Public Function fLasCuentasDeReglasDeContabilizacionEstanCompletas(ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valConMensaje As Boolean, ByVal valTipoDocumento As Integer) As Boolean
    Dim EstanCompletas As Boolean
-   Dim Mensaje As String
+   Dim mensaje As String
    On Error GoTo h_ERROR
 
    EstanCompletas = fLasCuentasDeIvaEstanCompletas And fLosTiposDeComprobantesEstanCompletos
@@ -3561,10 +3567,10 @@ Public Function fLasCuentasDeReglasDeContabilizacionEstanCompletas(ByVal valModu
       End Select
    End If
    If Not EstanCompletas And valConMensaje Then
-      Mensaje = "Faltan definir Cuentas Contables en las Reglas de Contabilización para "
-      Mensaje = Mensaje & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & "." & vbCr & vbCr
-      Mensaje = Mensaje & "Vaya al módulo de Reglas de Contabilización y complételas, por favor."
-      gMessage.Advertencia Mensaje
+      mensaje = "Faltan definir Cuentas Contables en las Reglas de Contabilización para "
+      mensaje = mensaje & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & "." & vbCr & vbCr
+      mensaje = mensaje & "Vaya al módulo de Reglas de Contabilización y complételas, por favor."
+      gMessage.Advertencia mensaje
    End If
 h_EXIT:
    fLasCuentasDeReglasDeContabilizacionEstanCompletas = EstanCompletas
@@ -4225,7 +4231,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
    Dim vCmd As ADODB.Command
    On Error GoTo h_ERROR
    Set insUtAdoCmd = New clsUtilAdoCmd
-   valRecordSet.Filter = "ConsecutivoCompania = " & valConsecutivoCompaniaOld
+   valRecordSet.filter = "ConsecutivoCompania = " & valConsecutivoCompaniaOld
    While Not valRecordSet.EOF
       Set vCmd = insUtAdoCmd.fCreateCmd("Saw.Gp_ReglasDeContabilizacionINS", gDefDatabase.Conexion)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", valConsecutivoCompaniaNew)
@@ -4359,7 +4365,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       gUtilRespaldo.sAddProgress
       valRecordSet.MoveNext
    Wend
-   valRecordSet.Filter = adFilterNone
+   valRecordSet.filter = adFilterNone
    Set insUtAdoCmd = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -4381,10 +4387,10 @@ End Sub
 
 Private Function SQLSearchByFieldNumericAndConsecutivo(ByVal valTableName As String, ByVal valConsecutivoCompania As Long) As String
    On Error GoTo h_ERROR
-   Dim SQL As String
-   SQL = ""
-   SQL = gUtilSQL.fSQLNumberValueWithAnd(SQL, "ConsecutivoCompania", valConsecutivoCompania)
-  SQLSearchByFieldNumericAndConsecutivo = "SELECT * FROM " & valTableName & " " & gUtilSQL.getWhereSQL(SQL)
+   Dim Sql As String
+   Sql = ""
+   Sql = gUtilSQL.fSQLNumberValueWithAnd(Sql, "ConsecutivoCompania", valConsecutivoCompania)
+  SQLSearchByFieldNumericAndConsecutivo = "SELECT * FROM " & valTableName & " " & gUtilSQL.getWhereSQL(Sql)
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: SQLSearchByFieldNumericAndConsecutivo = ""

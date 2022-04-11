@@ -15,12 +15,13 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Windows.Media;
+using Galac.Saw.Ccl.Cliente;
+using Galac.Adm.Ccl.CajaChica;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CobroRapidoMultimonedaViewModel : CobroRapidoVzlaViewModelBase {
 
         #region Variables y Constantes
-
         private const string NombreDeMonedaLocalPropertyName = "NombreDeMonedaLocal";
         private const string NombreDeMonedaDivisaPropertyName = "NombreMonedaDivisa";
         private const string TotalFacturaEnDivisasPropertyName = "TotalFacturaEnDivisas";
@@ -35,7 +36,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string MontoRestantePorPagarEnMonedaLocalParaMostrarPropertyName = "MontoRestantePorPagarEnMonedaLocalParaMostrar";
         private const string MontoRestantePorPagarEnDivisasParaMostrarPropertyName = "MontoRestantePorPagarEnDivisasParaMostrar";
         private const string lblPorPagarYVueltoPropertyName = "lblPorPagarYVuelto";
-        private const string ConexionCodigoMonedaPropertyName = "ConexionCodigoMoneda";        
+        private const string ConexionCodigoMonedaPropertyName = "ConexionCodigoMoneda"; 
+        private const string IsVisibleSeccionIGTFPropertyName = "IsVisibleSeccionIGTF";        
         private string _NombreDeMonedaLocal;
         private string _NombreDeMonedaDivisa;
         private string _SimboloMonedaLocal;
@@ -58,9 +60,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private string _IsVisibleSeccionTransferencia;
         private bool _IsEnabledEfectivoDivisa;
         private XElement _XmlDatosDelCobro;
+        private XElement _XmlDatosIGTF;
         private readonly bool _EsFacturaTradicional;
         public Action<bool> SeCobro;
+        private decimal _AlicuotaIGTF;
+        private eTipoDeContribuyenteDelIva _TipoDeContribuyenteIVA;
         private eBorderBackMontoXPagarColor _MontoXPagarColor = eBorderBackMontoXPagarColor.Falta;
+        private const string BaseImponibleIGTFPropertyName = "BaseImponibleIGTF";
+        private const string IGTFMLPropertyName = "IGTFML";
+        private const string IGTFMEPropertyName = "IGTFME";
+        private const string AlicuotaIGTFPropertyName = "AlicuotaIGTF";
+        private const string TotalAPagarMLPropertyName = "TotalAPagarML";
+        private const string TotalAPagarMEPropertyName = "TotalAPagarME";
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -279,7 +290,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             set {
                 if (_MontoRestantePorPagarEnMonedaLocalParaMostrar != value) {
                     _MontoRestantePorPagarEnMonedaLocalParaMostrar = value;
-                    RaisePropertyChanged(MontoRestantePorPagarEnMonedaLocalParaMostrarPropertyName);
+                    RaisePropertyChanged(MontoRestantePorPagarEnMonedaLocalParaMostrarPropertyName);                    
                 }
             }
         }
@@ -379,10 +390,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public XElement XmlDatosDelCobro {
             get {
                 return _XmlDatosDelCobro;
-            }
-            set {
-                _XmlDatosDelCobro = value;
-            }
+            }            
         }
 
         public SolidColorBrush BGColor {
@@ -395,18 +403,76 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     return new SolidColorBrush(Colors.Red);
                 }
             }
-        }     
+        }       
+
+        public decimal BaseImponibleIGTF {
+            get {
+                decimal vTotalPagosME = LibMath.RoundToNDecimals((EfectivoEnDivisas + TransferenciaEnDivisas) * CambioAMonedaLocal, 2);
+                vTotalPagosME = IsVisibleSeccionIGTF ? vTotalPagosME : 0;
+                return LibMath.RoundToNDecimals(System.Math.Min(TotalFactura, vTotalPagosME), 2);
+            }
+        }       
+
+        public decimal  IGTFML {
+            get {
+                return LibMath.RoundToNDecimals(BaseImponibleIGTF * (AlicuotaIGTF / 100), 2);
+            }            
+        }
+
+        public decimal IGTFME {
+            get {
+                return LibMath.RoundToNDecimals(IGTFML / CambioAMonedaLocal, 2);
+            }
+        }
+
+        public decimal TotalAPagarML {
+            get {
+                return LibMath.RoundToNDecimals(TotalFactura + IGTFML, 2);
+            }
+        }
+
+        public decimal TotalAPagarME {
+            get {
+                return TotalFacturaEnDivisas + IGTFME;
+            }
+        } 
+        
+        private bool IsVisibleSeccionIGTF {
+            get {
+                return _TipoDeContribuyenteIVA == eTipoDeContribuyenteDelIva.ContribuyenteEspecial;
+            }
+        }
+
+        public string IsVisibleSeccionIGTFPrompt {
+            get {                
+                return IsVisibleSeccionIGTF ? "Visible" : "Collapsed";
+            }
+        }
+
+        public decimal AlicuotaIGTF {
+            get {
+                return IsVisibleSeccionIGTF ? _AlicuotaIGTF : 0;
+            }
+        }
+
+        public XElement XmlDatosIGTF {
+            get {
+                return _XmlDatosIGTF;
+            }
+        }
 
         #endregion
 
         #region Constructores e Inicializaciores
 
-        public CobroRapidoMultimonedaViewModel(int valConsecutivoCompania, string valNumeroDeDocumento, DateTime valFechaDeDocumento, decimal valTotalFactura, eTipoDocumentoFactura valTipoDeDocumento, string valCodigoMonedaDeLaFactura, string valCodigoMonedaDeCobro, bool valEsFacturaTradicional) {
+        public CobroRapidoMultimonedaViewModel(int valConsecutivoCompania, string valNumeroDeDocumento, DateTime valFechaDeDocumento, decimal valTotalFactura, eTipoDocumentoFactura valTipoDeDocumento, string valCodigoMonedaDeLaFactura, string valCodigoMonedaDeCobro, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw(); // Se Llama  desde VB6            
             ConsecutivoCompania = valConsecutivoCompania;            
             TipoDeDocumento = valTipoDeDocumento;
             NumeroFactura = valNumeroDeDocumento;
             FechaDeFactura = valFechaDeDocumento;
+            _TipoDeContribuyenteIVA = valTipoDeContribuyenteDelIva;
+            _AlicuotaIGTF = valAlicuotaIGTF;
             AsignarValoresDeMonedas(valCodigoMonedaDeLaFactura, valCodigoMonedaDeCobro);
             AsignarValoresInicialesDeTotales(valCodigoMonedaDeLaFactura, valTotalFactura);
             DeshabilitarControlesSegunTipoDeDocumento(TipoDeDocumento);
@@ -414,13 +480,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             _EsFacturaTradicional = valEsFacturaTradicional;
         }
 
-        public CobroRapidoMultimonedaViewModel(eAccionSR valAction, FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobroMaster, int valAlicuotaIvaASustituir, bool valEsFacturaTradicional) {
+        public CobroRapidoMultimonedaViewModel(eAccionSR valAction, FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobroMaster, int valAlicuotaIvaASustituir, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva) {
             _MonedaLocalNav = new clsNoComunSaw(); // Se Llama desde POS
             insFactura = valFactura;
             ConsecutivoCompania = insFactura.ConsecutivoCompania;
             TipoDeDocumento = insFactura.TipoDeDocumentoAsEnum;
             NumeroFactura = insFactura.Numero;
             FechaDeFactura = insFactura.Fecha;
+            _TipoDeContribuyenteIVA = valTipoDeContribuyenteDelIva;
+            _AlicuotaIGTF = valAlicuotaIGTF;
             AsignarValoresDeMonedas(insFactura.CodigoMoneda, insFactura.CodigoMonedaDeCobro);
             AsignarValoresInicialesDeTotales(insFactura.CodigoMoneda, insFactura.TotalFactura);
             DeshabilitarControlesSegunTipoDeDocumento(TipoDeDocumento);
@@ -465,11 +533,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 int vCodigoBancoParaDivisa = insCobroNav.ObtenerCodigoBancoAsociadoACuentaBancaria(ConsecutivoCompania, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CuentaBancariaCobroMultimoneda"));
                 vListaDecobro = CrearListaDeCobro(TipoDeDocumento, vCodigoBancoParaMonedaLocal, vCodigoBancoParaDivisa);
                 if (_EsFacturaTradicional) {
-                    XmlDatosDelCobro = CrearXmlDatosDelCobro(vListaDecobro);
+                    _XmlDatosDelCobro = CrearXmlDatosDelCobro(vListaDecobro);
+                    _XmlDatosIGTF = CrearXmlDatosIGTF();
                     if (SeCobro != null)
                         SeCobro.Invoke(true);
                 } else {
                     try {
+                        insFactura.BaseImponibleIGTF = BaseImponibleIGTF;
+                        insFactura.IGTFML = IGTFML;
+                        insFactura.IGTFME = IGTFME;
+                        insFactura.AlicuotaIGTF = AlicuotaIGTF;
+                        insFactura.TotalAPagar = TotalAPagarML;
                         clsRenglonCobroDeFacturaNav vRenglonCobro = new clsRenglonCobroDeFacturaNav();
                         IRenglonCobroDeFacturaPdn vRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
                         DialogResult = vRenglonCobro.InsertChildRenglonCobroDeFactura(ConsecutivoCompania, NumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, vListaDecobro).Success;
@@ -492,13 +566,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ExecuteLimpiarCommand() {
             EfectivoEnMonedaLocal = 0;
             EfectivoEnDivisas = 0;
-
             TarjetaUno = 0;
             TarjetaDos = 0;
-
             TransferenciaEnMonedaLocal = 0;
             TransferenciaEnDivisas = 0;
-
             MontoRestantePorPagar = TotalFactura;
             MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
@@ -506,7 +577,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void ExecuteCancel() {
             if (LibMessages.MessageBox.YesNo(this, "Esta seguro que desea salir?", "Cobro Rápido en Multimoneda")) {
-                XmlDatosDelCobro = null;
+                _XmlDatosDelCobro = null;
+                _XmlDatosIGTF = null;
                 if (SeCobro != null)
                     SeCobro.Invoke(false);
                 base.ExecuteCancel();
@@ -571,11 +643,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public override void CalcularTotales() {            
             decimal TotalPagosMe = EfectivoEnDivisas + TransferenciaEnDivisas;
             decimal TotalPagoML = EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal;           
-            MontoRestantePorPagar = LibMath.RoundToNDecimals(TotalFactura - (TotalPagoML +  LibMath.RoundToNDecimals(TotalPagosMe * CambioAMonedaLocal,2)),2);
+            MontoRestantePorPagar = LibMath.RoundToNDecimals(TotalAPagarML - (TotalPagoML +  LibMath.RoundToNDecimals(TotalPagosMe * CambioAMonedaLocal,2)),2);
             MontoRestantePorPagarEnDivisas = LibMath.RoundToNDecimals(MontoRestantePorPagar / CambioAMonedaLocal, 2);
             MontoRestantePorPagarEnMonedaLocalParaMostrar = SimboloMonedaLocal + ". " + LibConvert.ToStr(LibMath.Abs(MontoRestantePorPagar));
             MontoRestantePorPagarEnDivisasParaMostrar = SimboloDivisa + LibConvert.ToStr(LibMath.Abs(MontoRestantePorPagarEnDivisas));
             RaisePropertyChanged(lblPorPagarYVueltoPropertyName);
+            RaisePropertyChanged(BaseImponibleIGTFPropertyName);
+            RaisePropertyChanged(IGTFMLPropertyName);
+            RaisePropertyChanged(IGTFMEPropertyName);
+            RaisePropertyChanged(AlicuotaIGTFPropertyName);
+            RaisePropertyChanged(TotalAPagarMLPropertyName);
+            RaisePropertyChanged(TotalAPagarMEPropertyName);
         }
 
         private void AsignarTasaDeCambioDelDia(string valCodigoMoneda, DateTime valFechaDeVigencia) {
@@ -652,7 +730,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     });
                     vCobradoEnDivisasConvertido += LibMath.RoundToNDecimals(TransferenciaEnDivisas * CambioAMonedaLocal, 2);
                 }
-                decimal vDiferencia = TotalFactura - vCobradoEnDivisasConvertido;
+                decimal vDiferencia = TotalAPagarML - vCobradoEnDivisasConvertido;
                 if (vCobradoEnDivisasConvertido != 0 && vDiferencia > 0) {
                     vConsecutivoRenglon += 1;
                     vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
@@ -764,11 +842,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     new XElement("ConsecutivoRenglon", Cobro.ConsecutivoRenglon),
                     new XElement("CodigoFormaDelCobro", Cobro.CodigoFormaDelCobro),
                     new XElement("CodigoBanco", Cobro.CodigoBanco),
-                    new XElement("Monto", Cobro.Monto),
+                    new XElement("Monto", LibConvert.NumToString(Cobro.Monto, 2)),
                     new XElement("CodigoMoneda", Cobro.CodigoMoneda),
-                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal)));
+                    new XElement("CambioAMonedaLocal", LibConvert.NumToString(Cobro.CambioAMonedaLocal, 2))));
             }
             return vXmlDatosDelCobro;
+        }
+
+        private XElement CrearXmlDatosIGTF() {
+            XElement vXElementIGTF = new XElement("GpData", new XElement("GpResult",
+                  new XElement("BaseImponibleIGTF", LibConvert.NumToString(BaseImponibleIGTF, 2)),
+                  new XElement("IGTFML", LibConvert.NumToString(IGTFML, 2)),
+                  new XElement("IGTFME", LibConvert.NumToString(IGTFME, 2)),
+                  new XElement("AlicuotaIGTF", LibConvert.NumToString(AlicuotaIGTF, 2)),
+                  new XElement("TotalAPagar", LibConvert.NumToString(TotalAPagarML, 2))));
+            return vXElementIGTF;
         }
 
         private void DeshabilitarControlesSegunTipoDeDocumento(eTipoDocumentoFactura valTipoDeDocumento) {
@@ -822,7 +910,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 default:
                     break;
             }
-        }
+        }     
         #endregion
     }
 }

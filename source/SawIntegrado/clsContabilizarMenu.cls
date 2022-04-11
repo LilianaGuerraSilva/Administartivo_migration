@@ -490,11 +490,11 @@ Private Sub sEjecutaProcesoDeContabilizacionDeReposicion()
             fecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaCierre", ""))
             Numero = gLibGalacDataParse.GetString(0, "Numero", "")
             Consecutivo = gConvert.fConvertStringToLong(gLibGalacDataParse.GetString(0, "Consecutivo", ""))
+            vCodigoCuentaBancaria = gLibGalacDataParse.GetString(0, "CodigoCuentaCajaChica")
             Set generarComprobanteNavigator = New clsGenerarComprobanteNavigator
             If (generarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_REPOSICION, fecha, Numero, False, False, eTDDR_Reposicion, Consecutivo)) Then
-               vCodigoCuentaBancaria = gLibGalacDataParse.GetString(0, "CodigoCuentaCajaChica")
                Set insCtaBancaria = New clsCuentaBancariaNavigator
-               insMovimientoBancario.sCargarValoresDeLaCuentaBancaria insCtaBancaria, vCodigoCuentaBancaria
+               insMovimientoBancario.sCargarValoresDeLaCuentaBancaria insCtaBancaria, vCodigoCuentaBancaria, True
                generarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_REPOSICION, fecha, Numero, False, False, eTDDR_Reposicion, Consecutivo, insCtaBancaria.GetTipoDeAlicuotaPorContribuyenteAsEnum
             End If
             Set generarComprobanteNavigator = Nothing

@@ -270,7 +270,7 @@ Private Function fNombreDelReporteDeFactura(ByVal valReporte As Integer) As Stri
       Case CM_RPT_FACTURAS_ENTRE_FECHAS_X_CONDICION_PAGO: fNombreDelReporteDeFactura = "Listado de Facturación por Condición de Pago"
       Case CM_RPT_DIRECCIONES_DE_DESPACHO_X_FACTURA: fNombreDelReporteDeFactura = "Direcciones de Despacho por Factura"
       Case CM_RPT_NOTAS_DE_CREDITO_ENTRE_FECHAS_POR_VENDEDOR: fNombreDelReporteDeFactura = "Notas de Crédito entre Fechas Por Vendedor"
-      Case CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_POR_ARTICULO: fNombreDelReporteDeFactura = "Factura Entre Fechas Con Costos por Artículo"
+      Case CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_POR_ARTICULO: fNombreDelReporteDeFactura = "Factura entre Fechas con Costos por Artículo"
       Case CM_RPT_FACTURA_ENTRE_FECHAS_CON_COSTOS_SEGUN_LEY_POR_ARTICULO: fNombreDelReporteDeFactura = "Factura Entre Fechas Con Costos Según Ley por Artículo"
       Case CM_RPT_SERVICIOS_POR_VEHICULO: fNombreDelReporteDeFactura = "Servicios por Vehículo"
       Case CM_RPT_SERVICIOS_DE_VEHICULOS_POR_CATEGORIA: fNombreDelReporteDeFactura = "Servicios a Vehículos Por Categoría"
@@ -392,7 +392,8 @@ Public Function fConfigurarDatosDelReporteFacturacionConOtrosCargosYDescuentos(B
                                                                  ByVal valFechaFinal As Date, _
                                                                   ByVal valUsaCambio As Boolean, _
                                                                    ByVal valCompaniaParaInforme As String, _
-                                                                    ByVal valNombreMonedaLocal As String) As Boolean
+                                                                    ByVal valNombreMonedaLocal As String, _
+                                                                     ByVal valCantidadAImprimir As String) As Boolean
    Dim nombreDelFileXML As String
    Dim NombreDelReporte As String
    Dim exito As Boolean
@@ -418,11 +419,19 @@ Public Function fConfigurarDatosDelReporteFacturacionConOtrosCargosYDescuentos(B
             gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtMoneda", "", "Moneda"
          End If
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtFactura", "", "NumeroFactura"
-         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtFechaFactura", "", "Fecha"
+         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFechaFactura", "", "Fecha", eFT_DATE
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalFactura", "", "TotalFactura"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalRenglonOtrosCargos", "", "TotalRenglonOtrosCargos"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtDescripcionOtrosCargos", "", "DescripcionOtrosCargos"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoOtrosCargos", "", "CodigoOtrosCargos"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcionOtrosCargos", "", "DescripcionOtrosCargos"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCliente", "", "Nombre"
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalesRenglonOtrosCargos", "TotalRenglonOtrosCargos", eSF_SUM, "GHFactura", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalPorMoneda", "TotalRenglonOtrosCargos", eSF_SUM, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtCantidadDeOperaciones", "CodigoOtrosCargos", eSF_COUNT, "GHMoneda", eSR_GROUP, eST_SUB_TOTAL, "#"
+         If (valCantidadAImprimir = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS)) Then
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblCantidadDeOperaciones", False
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCantidadDeOperaciones", False
+         End If
          gUtilMargins.sAsignarMargenesGenerales refRpt
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          exito = True

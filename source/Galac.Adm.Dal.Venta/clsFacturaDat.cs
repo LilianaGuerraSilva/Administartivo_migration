@@ -146,7 +146,11 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInInteger("NroDiasMantenerCambioAMonedaLocal", valRecord.NroDiasMantenerCambioAMonedaLocal);
             vParams.AddInDateTime("FechaLimiteCambioAMonedaLocal", valRecord.FechaLimiteCambioAMonedaLocal);
             vParams.AddInBoolean("GeneradoPor", valRecord.GeneradoPorAsBool);
-            vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInDecimal("BaseImponibleIGTF", valRecord.BaseImponibleIGTF, 2);
+            vParams.AddInDecimal("IGTFML", valRecord.IGTFML, 2);
+            vParams.AddInDecimal("IGTFME", valRecord.IGTFME, 2);
+            vParams.AddInDecimal("AlicuotaIGTF", valRecord.AlicuotaIGTF, 2);
+			vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);

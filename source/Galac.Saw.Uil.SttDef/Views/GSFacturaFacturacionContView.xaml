@@ -231,8 +231,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="Usar Otros Cargo de Factura.................."
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleUsarOtrosCargoDeFactura, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkUsarOtrosCargoDeFactura"
                     Grid.Row="0"
@@ -240,8 +239,7 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsarOtrosCargoDeFactura}"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}"
-                    Visibility="{Binding Path=IsVisibleUsarOtrosCargoDeFactura, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Style="{StaticResource CheckBoxStyle}"/>
                 <Label
                     Name="lblUsaCamposExtrasEnRenglonFactura"
                     Grid.Row="1"
@@ -318,12 +316,12 @@
                     Name="chkUsaCobroDirectoMultimoneda"
                     Grid.Row="2"
                     Grid.Column="1"
+                    Margin="3,8,0,0"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
                     IsChecked="{Binding Path=UsaCobroDirectoEnMultimoneda}"
                     IsEnabled="{Binding Path=IsEnabledUsaCobroDirectoEnMultimoneda}"
-                    Style="{StaticResource CheckBoxStyle}"
-                    Margin="3,8,0,0"
-                    VerticalAlignment="Top" />
+                    Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblCuentaBancariaCobroDirecto"
                     Grid.Row="3"
@@ -537,26 +535,51 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Name="lblUsaListaDePrecioEnMonedaExtranjera"  Content="Usar Lista de Precios en Moneda Extranjera..................." Style="{StaticResource LabelPrompt}" />
-                <CheckBox Grid.Row="0" Grid.Column="1" Name="chkUsaListaDePrecioEnMonedaExtranjera" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjera}" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEnabled}"/>
-                <Label Grid.Row="1" Name="lblUsarListaDePreciosEnMonedaExtranjeraCXC" Content="Generar CxC en Moneda Extranjera.................................." Style="{StaticResource LabelPrompt}"/>
+                <Label
+                    Name="lblUsaListaDePrecioEnMonedaExtranjera"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Usar Lista de Precios en Moneda Extranjera..................."
+                    Style="{StaticResource LabelPrompt}" />
                 <CheckBox 
-                    Grid.Row="1" 
-                    Grid.Column="1" Name="chkUsarListaDePreciosEnMonedaExtranjeraCXC" 
-                    Style="{StaticResource CheckBoxStyle}" 
-                    IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjeraCXC}" 
-                    HorizontalAlignment="Left" 
-                    IsEnabled="{Binding Path=IsEnabled}"/>
-                <Label Content="Mostrar Total en Divisas ......................................................." Style="{StaticResource LabelPrompt}" Grid.Column="0" Grid.Row="2" />
-                <CheckBox
+                    Name="chkUsaListaDePrecioEnMonedaExtranjera"
+                    Grid.Row="0"
                     Grid.Column="1"
+                    HorizontalAlignment="Left" 
+                    IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjera}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+                <Label
+                    Name="lblUsarListaDePreciosEnMonedaExtranjeraCXC"
+                    Grid.Row="1"
+                    Content="Generar CxC en Moneda Extranjera.................................."
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkUsarListaDePreciosEnMonedaExtranjeraCXC"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjeraCXC}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+                <Label
                     Grid.Row="2"
+                    Grid.Column="0"
+                    Content="Mostrar Total en Divisas ......................................................."
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
                     Name="chkMostrarTotalEnDivisas"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
                     IsChecked="{Binding SeMuestraTotalEnDivisas}" 
-                    Style="{StaticResource CheckBoxStyle}" 
                     IsEnabled="{Binding Path= IsEnabled}" 
-                    HorizontalAlignment="Left"/>
-                    <Label Content="Número Días A Mantener Tasa De Cambio ........................" Style="{StaticResource LabelPrompt}" Grid.Column="0" Grid.Row="3" />
+                    Style="{StaticResource CheckBoxStyle}" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Content="Número Días A Mantener Tasa De Cambio ........................"
+                    Style="{StaticResource LabelPrompt}" />
                      <nsWpfControls:GSNumericBoxWpf
                         Name="txtNroDiasMantenerTasaCambio"
                         Grid.Row="3"

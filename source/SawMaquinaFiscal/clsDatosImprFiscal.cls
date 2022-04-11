@@ -53,6 +53,9 @@ Private mPermitirNombreDelClienteExtendido As Boolean
 Private mUsarModoDotNet As Boolean
 Private mTotalFactura As Currency
 Private mTotalesMonedaExtranjera As String
+Private mCodigoMonedaCompania As String
+Private mBaseImponibleIGTF As Currency
+Private mTotalAPagar As Currency
 
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsDatosImprFiscal"
@@ -66,19 +69,19 @@ Private Function GetGender() As Enum_Gender
 End Function
 
 Private Sub Class_Initialize()
-   On Error GoTo h_ERROR
+   On Error GoTo h_Error
    sClrRecord
 h_EXIT:    On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Initialize", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Initialize", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Class_Terminate()
-   On Error GoTo h_ERROR
+   On Error GoTo h_Error
    sClrRecord
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Initialize", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_Error: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Initialize", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sClrRecord()
@@ -116,6 +119,7 @@ Private Sub sClrRecord()
     mUsarModoDotNet = True
     mTotalFactura = 0
     mTotalesMonedaExtranjera = ""
+    mCodigoMonedaCompania = ""
 End Sub
 
 Public Sub SetNombreCliente(ByVal newNombreCliente As String)
@@ -425,4 +429,28 @@ End Sub
 
 Public Function GetTotalesMonedaExtranjera() As String
    GetTotalesMonedaExtranjera = mTotalesMonedaExtranjera
+End Function
+
+Public Sub SetCodigoMonedaCompania(ByVal newCodigoMonedaCompania As String)
+   mCodigoMonedaCompania = newCodigoMonedaCompania
+End Sub
+
+Public Function GetCodigoMonedaCompania() As String
+   GetCodigoMonedaCompania = mCodigoMonedaCompania
+End Function
+
+Public Sub SetBaseImponibleIGTF(ByVal newBaseImponibleIGTF As Currency)
+   mBaseImponibleIGTF = newBaseImponibleIGTF
+End Sub
+
+Public Function GetBaseImponibleIGTF() As Currency
+   GetBaseImponibleIGTF = mBaseImponibleIGTF
+End Function
+
+Public Sub SetTotalAPagar(ByVal newTotalAPagar As Currency)
+   mTotalAPagar = newTotalAPagar
+End Sub
+
+Public Function GetTotalAPagar() As Currency
+   GetTotalAPagar = mTotalAPagar
 End Function
