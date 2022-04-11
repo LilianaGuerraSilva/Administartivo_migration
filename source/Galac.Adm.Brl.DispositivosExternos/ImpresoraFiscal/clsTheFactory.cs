@@ -709,13 +709,18 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         }
                     }
                     if (vTotalPagoME > 0) {
-                        if (vTotalPagadoML == 0) {
-                            vCmd = "120"; // Pago Total ME
-                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
-                        } else {         // Pago parcial ME                                              
-                            vTotalPagoME = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, true);
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vTotalPagoME), _EnterosParaPagos, _DecimalesParaPagos);
+                        List<XElement> xMediosDePago = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value != vCodigoMonedaBase).ToList();
+                        if (xMediosDePago.Count() > 1) { // Pago Parcial
+                            vMonto = xMediosDePago[0].Element("Monto").Value;
+                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
                             vCmd = "220" + vMonto;
+                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                            vMonto = xMediosDePago[1].Element("Monto").Value;
+                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
+                            vCmd = "221" + vMonto;
+                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                        } else {
+                            vCmd = "120"; // Pago Total ME
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
                     }
