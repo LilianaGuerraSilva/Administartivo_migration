@@ -683,8 +683,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vCodigoMonedaBase = "";
             decimal vTotalPagadoML = 0;
             bool vResult = true;
+            decimal vTotalPagoME;
             try {
-                decimal vTotalPagoME = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "BaseImponibleIGTF"));
+                vTotalPagoME = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "BaseImponibleIGTF"));
                 vCodigoMonedaBase = LibXml.GetPropertyString(valMedioDePago, "CodigoMoneda");
                 vTotalPagadoML = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, false);
                 vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalFactura"));
