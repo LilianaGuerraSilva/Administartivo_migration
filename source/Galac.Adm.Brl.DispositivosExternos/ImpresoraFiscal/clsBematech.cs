@@ -686,7 +686,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalMonedaExtranjera = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
                 vCodigoMoneda = LibXml.GetPropertyString(valDocumentoFiscal, "CodigoMoneda");
                 vTotalPagosME = LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "BaseImponibleIGTF"));
-                vTotalPagosML = LibImpresoraFiscalUtil.TotalPagosEnMonedaLocal(valDocumentoFiscal.Descendants("GpResultDetailRenglonCobro"), vCodigoMoneda);
+                vTotalPagosML = LibImpresoraFiscalUtil.TotalMediosDePago(valDocumentoFiscal.Descendants("GpResultDetailRenglonCobro"), vCodigoMoneda,false);
                 if (vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI && vVersionFirmware == FirmWareVerBM4000IGTF) {
                     if (vTotalPagosME > 0) {
                         vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vTotalPagosME), _EnterosMontosLargos, _Decimales2Digitos, ",");

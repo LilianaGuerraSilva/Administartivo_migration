@@ -492,9 +492,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private bool EnviarPagos(XElement valMedioDePago) {
-            string vMedioDePago = "";            
+            string vMedioDePago = "";
             short vTipoPago = 1;
-            decimal vBaseImponibleIGTF = 0;            
+            decimal vBaseImponibleIGTF = 0;
             string vMontoME = "";
             string vCodigoMoneda = LibXml.GetPropertyString(valMedioDePago, "CodigoMoneda");
             int vCantidadCaracteres;
@@ -502,7 +502,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal vTotalAPagar = 0;
             decimal vTotalAPagadoML = 0;
             try {
-                vTotalAPagadoML = LibImpresoraFiscalUtil.TotalPagosEnMonedaLocal(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMoneda);
+                vTotalAPagadoML = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMoneda, false);
                 vBaseImponibleIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "BaseImponibleIGTF"));
                 vTotalAPagar = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalAPagar"));
                 if (vBaseImponibleIGTF > 0) { // Aqui se envia el IGTF
@@ -529,7 +529,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                         vMedioDePago = FormaDeCobro(vMedioDePago);
                         vMontoME = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                        vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoME, _EnterosParaMonto, _DecimalParaMonto);                        
+                        vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoME, _EnterosParaMonto, _DecimalParaMonto);
                         mVMax.PagoCF(ref vMedioDePago, ref vMontoME, ref vTipoPago);
                     }
                 }
