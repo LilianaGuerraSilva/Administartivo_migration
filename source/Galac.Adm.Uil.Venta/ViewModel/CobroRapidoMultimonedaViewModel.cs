@@ -408,6 +408,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal BaseImponibleIGTF {
             get {
                 decimal vTotalPagosME = LibMath.RoundToNDecimals((EfectivoEnDivisas + TransferenciaEnDivisas) * CambioAMonedaLocal, 2);
+                vTotalPagosME = IsVisibleSeccionIGTF ? vTotalPagosME : 0;
                 return LibMath.RoundToNDecimals(System.Math.Min(TotalFactura, vTotalPagosME), 2);
             }
         }       
@@ -841,21 +842,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     new XElement("ConsecutivoRenglon", Cobro.ConsecutivoRenglon),
                     new XElement("CodigoFormaDelCobro", Cobro.CodigoFormaDelCobro),
                     new XElement("CodigoBanco", Cobro.CodigoBanco),
-                    new XElement("Monto", Cobro.Monto),
+                    new XElement("Monto", LibConvert.NumToString(Cobro.Monto, 2)),
                     new XElement("CodigoMoneda", Cobro.CodigoMoneda),
-                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal)));
-            }                      
+                    new XElement("CambioAMonedaLocal", LibConvert.NumToString(Cobro.CambioAMonedaLocal, 2))));
+            }
             return vXmlDatosDelCobro;
         }
 
         private XElement CrearXmlDatosIGTF() {
             XElement vXElementIGTF = new XElement("GpData", new XElement("GpResult",
-                  new XElement("BaseImponibleIGTF", BaseImponibleIGTF),
-                  new XElement("IGTFML", IGTFML),
-                  new XElement("IGTFME", IGTFME),
-                  new XElement("AlicuotaIGTF", AlicuotaIGTF),
-                  new XElement("TotalAPagar", TotalAPagarML)
-                  ));            
+                  new XElement("BaseImponibleIGTF", LibConvert.NumToString(BaseImponibleIGTF, 2)),
+                  new XElement("IGTFML", LibConvert.NumToString(IGTFML, 2)),
+                  new XElement("IGTFME", LibConvert.NumToString(IGTFME, 2)),
+                  new XElement("AlicuotaIGTF", LibConvert.NumToString(AlicuotaIGTF, 2)),
+                  new XElement("TotalAPagar", LibConvert.NumToString(TotalAPagarML, 2))));
             return vXElementIGTF;
         }
 

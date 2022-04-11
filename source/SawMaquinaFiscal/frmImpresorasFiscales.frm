@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{648A5603-2C6E-101B-82B6-000000000014}#1.1#0"; "MSCOMM32.OCX"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Object = "{18B1931C-D536-4582-BC33-49A47A9683D0}#4.0#0"; "VMAX.ocx"
 Begin VB.Form frmImpresorasFiscales 
    BackColor       =   &H00FFFFFF&
@@ -22,6 +22,8 @@ Begin VB.Form frmImpresorasFiscales
       Top             =   1440
       _ExtentX        =   1402
       _ExtentY        =   1349
+      NAutoGaveta     =   "0"
+      NPuertoVisor    =   "0"
    End
    Begin VB.CommandButton cmdSalir 
       Caption         =   "&Aceptar"
@@ -63,7 +65,6 @@ Begin VB.Form frmImpresorasFiscales
    Begin VB.Image Image1 
       Height          =   795
       Left            =   120
-      Picture         =   "frmImpresorasFiscales.frx":0000
       Stretch         =   -1  'True
       Top             =   0
       Width           =   735

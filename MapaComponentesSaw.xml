@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="21.6" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="21.7" Siglas="Saw">
   <Proteccion>1802</Proteccion>
   <Libreria>
     <LibGalacCI>2104</LibGalacCI>
@@ -11,14 +11,14 @@
   <ComponentesCOM>
     <SawEnum>2203</SawEnum>
     <SawImportExport>2203</SawImportExport>
-    <SawMaquinaFiscal>2203</SawMaquinaFiscal>
+    <SawMaquinaFiscal>2204</SawMaquinaFiscal>
     <SawNav>2201</SawNav>
-    <SawRpt>ND</SawRpt>
+    <SawRpt>2204</SawRpt>
     <SawSP>2202</SawSP>
     <SawTbls>2203</SawTbls>
-    <SawVista>ND</SawVista>    
+    <SawVista>2204</SawVista>    
     <ContabRpt>2109</ContabRpt>
-    <VMAX type="ocx" LiteralName="VMAX">4.00.0003</VMAX>
+    <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
   </ComponentesCOM>
   <ComponentesNET>
@@ -118,7 +118,7 @@
     <Galac.Saw.Brl.SttDef>2.60.3.0</Galac.Saw.Brl.SttDef>
     <Galac.Saw.Ccl.SttDef>2.60.3.0</Galac.Saw.Ccl.SttDef>
     <Galac.Saw.Dal.SttDef>2.60.3.0</Galac.Saw.Dal.SttDef>
-    <Galac.Saw.Uil.SttDef>2.60.3.0</Galac.Saw.Uil.SttDef>
+    <Galac.Saw.Uil.SttDef>2.60.4.0</Galac.Saw.Uil.SttDef>
 
     <Galac.Comun.Brl.LeyCosto>2.60.0.0</Galac.Comun.Brl.LeyCosto>
     <Galac.Comun.Ccl.LeyCosto>2.60.0.0</Galac.Comun.Ccl.LeyCosto>
@@ -143,7 +143,7 @@
     <Galac.Saw.Ccl.Contabilizacion>2.60.0.0</Galac.Saw.Ccl.Contabilizacion>
     <Galac.Saw.Dal.Contabilizacion>2.60.0.0</Galac.Saw.Dal.Contabilizacion>
     <Galac.Saw.Brl.Contabilizacion>2.60.0.0</Galac.Saw.Brl.Contabilizacion>
-    <Galac.Saw.Uil.Contabilizacion>2.60.0.0</Galac.Saw.Uil.Contabilizacion>
+    <Galac.Saw.Uil.Contabilizacion>2.60.1.0</Galac.Saw.Uil.Contabilizacion>
 
     <Galac.Adm.Ccl.GestionCompras>2.60.4.0</Galac.Adm.Ccl.GestionCompras>
     <Galac.Adm.Brl.GestionCompras>2.60.4.0</Galac.Adm.Brl.GestionCompras>
@@ -204,7 +204,7 @@
 
     <Galac.Adm.Ccl.DispositivosExternos>2.60.3.0</Galac.Adm.Ccl.DispositivosExternos>
     <Galac.Adm.Dal.DispositivosExternos>2.60.3.0</Galac.Adm.Dal.DispositivosExternos>
-    <Galac.Adm.Brl.DispositivosExternos>2.60.3.0</Galac.Adm.Brl.DispositivosExternos>
+    <Galac.Adm.Brl.DispositivosExternos>2.60.4.0</Galac.Adm.Brl.DispositivosExternos>
     <Galac.Adm.Uil.DispositivosExternos>2.60.3.0</Galac.Adm.Uil.DispositivosExternos>    
 
     <Galac.Adm.Ccl.GestionProduccion>2.60.0.0</Galac.Adm.Ccl.GestionProduccion>
@@ -213,11 +213,11 @@
     <Galac.Adm.Rpt.GestionProduccion>2.60.0.0</Galac.Adm.Rpt.GestionProduccion>		
     <Galac.Adm.Uil.GestionProduccion>2.60.0.0</Galac.Adm.Uil.GestionProduccion>	
     
-    <Galac.Adm.Ccl.Venta>2.60.4.0</Galac.Adm.Ccl.Venta>
-    <Galac.Adm.Dal.Venta>2.60.4.0</Galac.Adm.Dal.Venta>
-    <Galac.Adm.Brl.Venta>2.60.4.0</Galac.Adm.Brl.Venta> 
-    <Galac.Adm.Rpt.Venta>2.60.4.0</Galac.Adm.Rpt.Venta>		
-    <Galac.Adm.Uil.Venta>2.60.4.0</Galac.Adm.Uil.Venta>	
+    <Galac.Adm.Ccl.Venta>2.60.5.0</Galac.Adm.Ccl.Venta>
+    <Galac.Adm.Dal.Venta>2.60.5.0</Galac.Adm.Dal.Venta>
+    <Galac.Adm.Brl.Venta>2.60.5.0</Galac.Adm.Brl.Venta> 
+    <Galac.Adm.Rpt.Venta>2.60.5.0</Galac.Adm.Rpt.Venta>		
+    <Galac.Adm.Uil.Venta>2.60.5.0</Galac.Adm.Uil.Venta>	
     	
     <Galac.Adm.Ccl.CAnticipo>2.60.0.0</Galac.Adm.Ccl.CAnticipo>
     <Galac.Adm.Dal.CAnticipo>2.60.0.0</Galac.Adm.Dal.CAnticipo>
@@ -227,19 +227,20 @@
     <Galac.Saw.Lib>2.60.1.0</Galac.Saw.Lib>
     <Galac.Saw.Lib.Uil>2.60.0.0</Galac.Saw.Lib.Uil>
 
-    <Galac.Saw.Wrp.Administrativo>2.60.2.0</Galac.Saw.Wrp.Administrativo>
+    <Galac.Saw.Wrp.Administrativo>2.60.3.0</Galac.Saw.Wrp.Administrativo>
     <Galac.Saw.Wrp.Comun>2.60.0.0</Galac.Saw.Wrp.Comun>                      
     <Galac.Saw.Wrp.Crm>2.60.0.0</Galac.Saw.Wrp.Crm>
     <Galac.Saw.Wrp.WinCont>2.60.0.0</Galac.Saw.Wrp.WinCont>
-    <Galac.Saw.DDL>2.60.3.0</Galac.Saw.DDL>
+    <Galac.Saw.DDL>2.60.4.0</Galac.Saw.DDL>
 
     <Microsoft.Practices.Unity>2.0.414.0</Microsoft.Practices.Unity>
     <Microsoft.Practices.EnterpriseLibrary.Data>5.0.414.0</Microsoft.Practices.EnterpriseLibrary.Data>
     <Microsoft.Practices.EnterpriseLibrary.Common>5.0.414.0</Microsoft.Practices.EnterpriseLibrary.Common>
     <Microsoft.Practices.ServiceLocation>1.0.0.0</Microsoft.Practices.ServiceLocation>
     <Microsoft.Practices.Unity.Interception>2.0.414.0</Microsoft.Practices.Unity.Interception>
-    <AxInterop.VMAXOCX>3.0.0.0</AxInterop.VMAXOCX>
-    <Interop.VMAXOCX>3.0.0.0</Interop.VMAXOCX>
+    <AxInterop.VMAXOCX>4.0.0.0</AxInterop.VMAXOCX>
+    <Interop.VMAXOCX>4.0.0.0</Interop.VMAXOCX>
+    <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
     <TfhkaNet>1.7.5.1</TfhkaNet>
     <pnpdll>10.2.1.13</pnpdll>
     <FpCtrl>2.3.1.5</FpCtrl>	
