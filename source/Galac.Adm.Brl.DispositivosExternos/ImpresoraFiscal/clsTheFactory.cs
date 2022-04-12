@@ -684,7 +684,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal vTotalPagadoML = 0;
             bool vResult = true;
             decimal vTotalPagoME;
+            decimal vTotalAPagar;
             try {
+                vTotalAPagar = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalAPagar"));
                 vTotalPagoME = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "BaseImponibleIGTF"));
                 vCodigoMonedaBase = LibXml.GetPropertyString(valMedioDePago, "CodigoMoneda");
                 vTotalPagadoML = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, false);
@@ -713,8 +715,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vCmd = "220" + vMonto;
                         vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         if (vTotalPagadoML == 0) {
-                            decimal vDiferencia = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, true);
-                            vDiferencia = LibMath.Abs(vDiferencia - vTotalPagoME);
+                            decimal vDiferencia = LibMath.Abs(vTotalAPagar - vTotalPagoME);                            
                             if (vDiferencia > 0) {
                                 vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vTotalPagoME), _EnterosParaPagos, _DecimalesParaPagos);
                                 vCmd = "120" + vMonto;
