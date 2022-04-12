@@ -709,19 +709,17 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         }
                     }
                     if (vTotalPagoME > 0) {
-                        List<XElement> xMediosDePago = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value != vCodigoMonedaBase).ToList();
-                        if (xMediosDePago.Count() > 1) { // Pago Parcial
-                            vMonto = xMediosDePago[0].Element("Monto").Value;
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
-                            vCmd = "220" + vMonto;
-                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
-                            vMonto = xMediosDePago[1].Element("Monto").Value;
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
-                            vCmd = "221" + vMonto;
-                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
-                        } else {
-                            vCmd = "120"; // Pago Total ME
-                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                        vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vTotalPagoME), _EnterosParaPagos, _DecimalesParaPagos);
+                        vCmd = "220" + vMonto;
+                        vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                        if (vTotalPagadoML == 0) {
+                            decimal vDiferencia = LibImpresoraFiscalUtil.TotalMediosDePago(valMedioDePago.Descendants("GpResultDetailRenglonCobro"), vCodigoMonedaBase, true);
+                            vDiferencia = LibMath.Abs(vDiferencia - vTotalPagoME);
+                            if (vDiferencia > 0) {
+                                vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vTotalPagoME), _EnterosParaPagos, _DecimalesParaPagos);
+                                vCmd = "120" + vMonto;
+                                vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                            }
                         }
                     }
                     vResult = vResult && _TfhkPrinter.SendCmd(_CierreFacturaIGTF);
