@@ -291,7 +291,7 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                   Dim vMedioPago As String
                   Dim vOtrosPagos As Currency
                   vMedioPago = "Otros"
-                  vOtrosPagos = Abs(insDatosImprFiscal.GetTotalAPagar - insDatosImprFiscal.GetBaseImponibleIGTF)
+                  vOtrosPagos = Abs(insDatosImprFiscal.GetTotalAPagar) - Abs(insDatosImprFiscal.GetBaseImponibleIGTF)
                   vMontoMEStr = fDarFormatoNumericoParaImpresion(vOtrosPagos, mEnterosParaIGTF, mDecimalesParaMonto)
                   mVmax.PagoCF vMedioPago, vMontoMEStr, 1
                End If
@@ -299,16 +299,12 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                vResult = mVmax.SubTotal()
             End If
             vTotalFactura = mVmax.TotalFactura
-            If vResult Then
+            If vTotalPagadoML > 0 Then
                If Not insDatosImprFiscal.GetFormaDePago Is Nothing Then
                   sFormaDePago insDatosImprFiscal
                Else
                   vResult = mVmax.PagoCF("Debito", vTotalFactura, 1)
                End If
-            Else
-               fCancelaCuponFiscal False, insDatosImprFiscal.GetPuertoImpresoraFiscal
-               mVmax.CerrarPuerto
-               GoTo h_Error
             End If
          End If
          vTotales = insDatosImprFiscal.GetTotalesMonedaExtranjera
@@ -322,7 +318,7 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
                Next
             End If
         Else
-         sImprimeCamposDefinibles insDatosImprFiscal
+            sImprimeCamposDefinibles insDatosImprFiscal
         End If
         vResult = mVmax.CerrarCF
         Set rsDatosArticulo = Nothing

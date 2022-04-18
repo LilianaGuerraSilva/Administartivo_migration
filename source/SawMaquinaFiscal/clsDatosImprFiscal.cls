@@ -56,6 +56,7 @@ Private mTotalesMonedaExtranjera As String
 Private mCodigoMonedaCompania As String
 Private mBaseImponibleIGTF As Currency
 Private mTotalAPagar As Currency
+Private mIGTFML As Currency
 
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsDatosImprFiscal"
@@ -453,4 +454,12 @@ End Sub
 
 Public Function GetTotalAPagar() As Currency
    GetTotalAPagar = mTotalAPagar
+End Function
+
+Public Sub SetIGTFML(ByVal newIGTFML As Currency)
+   mIGTFML = newIGTFML
+End Sub
+
+Public Function GetIGTFML() As Currency
+   GetIGTFML = mIGTFML
 End Function
