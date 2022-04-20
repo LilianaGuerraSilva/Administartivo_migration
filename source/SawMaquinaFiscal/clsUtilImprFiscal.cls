@@ -390,7 +390,7 @@ Public Function fGenerarXmlConDatosDeLaVenta(ByVal valDatosImprFiscal As clsDato
       vTipoDocumento = enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL
    End If
    vXmlDatosDeLaVenta = "<GpData>" & vSiguienteLinea & "<GpResult>"
-   vDatosDelDocumento = fGenerarDatosDelDocumentoParaXml(vTipoDocumento, valDatosImprFiscal.GetNumeroTicket, valDatosImprFiscal.GetSerialImpresoraFiscal, valDatosImprFiscal.GetFechaFacturaAfectada, valDatosImprFiscal.GetHoraModificacion, vTotalFactura, valDatosImprFiscal.GetTotalesMonedaExtranjera, valDatosImprFiscal.GetBaseImponibleIGTF, valDatosImprFiscal.GetTotalAPagar, valDatosImprFiscal.GetIGTFML)
+   vDatosDelDocumento = fGenerarDatosDelDocumentoParaXml(vTipoDocumento, valDatosImprFiscal.GetNumeroTicket, valDatosImprFiscal.GetSerialImpresoraFiscal, valDatosImprFiscal.GetFechaFacturaAfectada, valDatosImprFiscal.GetHoraModificacion, vTotalFactura, valDatosImprFiscal.GetTotalesMonedaExtranjera, valDatosImprFiscal.GetBaseImponibleIGTF, valDatosImprFiscal.GetTotalAPagar, valDatosImprFiscal.GetIGTFML, valDatosImprFiscal.GetCodigoMonedaCompania)
    vDatosDelCliente = fGenerarDatosDelClienteParaXml(valDatosImprFiscal.GetNumeroRIFCliente, valDatosImprFiscal.GetNombreCliente, valDatosImprFiscal.GetDireccion, valDatosImprFiscal.GetTelefono, valDatosImprFiscal.GetObservaciones)
    vDatosDeLosProductos = fGenerarDatosDeLosProductosParaXml(valDatosImprFiscal.GetItems)
    vDatosDeLosPagos = fGenerarDatosDeLosPagosParaXml(valDatosImprFiscal)
@@ -456,7 +456,7 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fGenerarXmlConDatosDeLaMaquinaFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fGenerarDatosDelDocumentoParaXml(ByVal valTipoDocumento As enum_TipoDocumentoFactura, ByVal valNumeroComprobanteFiscal As String, ByVal valSerialMaquina As String, ByVal valFechaDocumento As String, ByVal valHoraDocumento As String, ByVal valTotalFactura As String, ByVal valTotalMonedaExtranjera As String, ByVal valBaseImponibleIGTF As Currency, ByVal valTotalAPagar As Currency, ByVal valIGTML As Currency) As String
+Private Function fGenerarDatosDelDocumentoParaXml(ByVal valTipoDocumento As enum_TipoDocumentoFactura, ByVal valNumeroComprobanteFiscal As String, ByVal valSerialMaquina As String, ByVal valFechaDocumento As String, ByVal valHoraDocumento As String, ByVal valTotalFactura As String, ByVal valTotalMonedaExtranjera As String, ByVal valBaseImponibleIGTF As Currency, ByVal valTotalAPagar As Currency, ByVal valIGTML As Currency, ByVal valCodigoMoneda As String) As String
    Dim vDatosDelDocumento As String
    Dim vSiguienteLinea As String
    On Error GoTo h_Error
@@ -470,7 +470,8 @@ Private Function fGenerarDatosDelDocumentoParaXml(ByVal valTipoDocumento As enum
                         "<TotalMonedaExtranjera>" & fCaracteresXMLValidosEnDatosImprFiscal(valTotalMonedaExtranjera) & "</TotalMonedaExtranjera>" & vSiguienteLinea & _
                         "<BaseImponibleIGTF>" & fCaracteresXMLValidosEnDatosImprFiscal(gConvert.fConvierteAString(valBaseImponibleIGTF)) & "</BaseImponibleIGTF>" & vSiguienteLinea & _
                         "<IGTFML>" & fCaracteresXMLValidosEnDatosImprFiscal(gConvert.fConvierteAString(valIGTML)) & "</IGTFML>" & vSiguienteLinea & _
-                        "<TotalAPagar>" & fCaracteresXMLValidosEnDatosImprFiscal(gConvert.fConvierteAString(valTotalAPagar)) & "</TotalAPagar>" & vSiguienteLinea
+                        "<TotalAPagar>" & fCaracteresXMLValidosEnDatosImprFiscal(gConvert.fConvierteAString(valTotalAPagar)) & "</TotalAPagar>" & vSiguienteLinea & _
+                        "<CodigoMoneda>" & fCaracteresXMLValidosEnDatosImprFiscal(valCodigoMoneda) & "</CodigoMoneda>" & vSiguienteLinea
 h_EXIT: On Error GoTo 0
    fGenerarDatosDelDocumentoParaXml = vDatosDelDocumento
 Exit Function
@@ -563,7 +564,6 @@ Private Function fGenerarDatosDeLosPagosParaXml(ByVal valDatosVentImpFiscal As c
    Dim vRenglonItems As String
    Dim vMontoCancelado As String
    Dim rsFormaDePago As ADODB.Recordset
-   Dim rsFormaDeCobro As ADODB.Recordset
    Dim vFormadePago As String
    Dim vSiguienteLinea As String
    Dim vCodigoMoneda As String
