@@ -71,28 +71,39 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 ePuerto ePuerto = (ePuerto)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "PuertoMaquinaFiscal"));
                 _CommPort = ePuerto.GetDescription(0);
                 _ModeloFactory = (eImpresoraFiscal)LibConvert.DbValueToEnum(LibImpresoraFiscalUtil.ObtenerValorDesdeXML(valXmlDatosImpresora, "ModeloDeMaquinaFiscal"));
-                _ModelosAntiguos = (_ModeloFactory == eImpresoraFiscal.BIXOLON270 || _ModeloFactory == eImpresoraFiscal.OKIML1120 || _ModeloFactory == eImpresoraFiscal.BIXOLON350 || _ModeloFactory == eImpresoraFiscal.ACLASPP1F3 || _ModeloFactory == eImpresoraFiscal.HKA112);
-                _MaxLongitudDeTexto = (_ModelosAntiguos ? 30 : 40);
+                _ModelosAntiguos = ( _ModeloFactory == eImpresoraFiscal.BIXOLON270 || _ModeloFactory == eImpresoraFiscal.OKIML1120 || _ModeloFactory == eImpresoraFiscal.BIXOLON350 || _ModeloFactory == eImpresoraFiscal.ACLASPP1F3 || _ModeloFactory == eImpresoraFiscal.HKA112 );
+                _MaxLongitudDeTexto = ( _ModelosAntiguos ? 30 : 40 );
                 //                
-                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+                _ModeloSoportaComandosGenerales = ( _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140 );
                 // Pendiente por Agregar PANTUM PDL3100
-                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+                _ModeloUsaFlags = ( _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140 );
                 //                
-                _FormatoFirmwareTipo1 = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125);
+                _FormatoFirmwareTipo1 = ( _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 );
                 //
-                _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+                _FormatoFirmwareTipo2 = ( _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140 );
             } catch (GalacException vEx) {
                 throw vEx;
             }
         }
 
-        private bool FlagEstaActivo(int valItemflag, int valValFlag) {
+        private bool ActivarFlag(int valItemflag, int valValueFlag) {
+            bool vResult = false;
+            string vCmd = "PJ" + string.Format("{0:D2}", valItemflag) + string.Format("{0:D2}", valValueFlag);
+            try {
+                vResult = _TfhkPrinter.SendCmd(vCmd);
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private bool FlagEstaActivo(int valItemflag, int valValueFlag) {
             bool vResult = false;
             int vFlagValue = 0;
             S3PrinterData Report3 = _TfhkPrinter.GetS3PrinterData();
             int[] ListFlag = Report3.AllSystemFlags;
             vFlagValue = ListFlag[valItemflag];
-            vResult = (vFlagValue == valValFlag);
+            vResult = ( vFlagValue == valValueFlag );
             return vResult;
         }
 
@@ -102,6 +113,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _ModeloSoportaComandosGenerales &= !_EstaActivoFlag21;
                 if (_FormatoFirmwareTipo2) {
                     _EstaActivoFlag50 = FlagEstaActivo(50, 1); //Flag50=1-> firmware actualizado soporta montos altos / Maneja IGTF
+                }
+                if (_EstaActivoFlag50) {
+                    if (!FlagEstaActivo(36, 2)) {
+                        ActivarFlag(36, 2);
+                    }
                 }
             }
             _EnterosParaDescuento = 2;
@@ -715,16 +731,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                             vFormatoDeCobro = FormaDeCobro(vMedioDePago);
+                            decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             if (vTotalPagoME > 0 && vTotalPagadoML > 0 && vNodoAct == 1 && vIGTFML > 0) {
-                                decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                                vMontoDec = vMontoDec - vIGTFML;
+                                vMontoDec = LibMath.Abs(vMontoDec - vIGTFML);
                                 vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.NumToString(vMontoDec, 2), _EnterosParaPagos, _DecimalesParaPagos);
                             } else {
                                 vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
                             }
-                            if ((vNodosCount == 1) && (LibImportData.ToDec(vMonto) == vTotalFactura) && (vTotalPagoME == 0)) {
+                            if (( vNodosCount == 1 ) && ( vMontoDec == vTotalFactura ) && ( vTotalPagoME == 0 )) {
                                 vCmd = "1" + vFormatoDeCobro; //Un solo pago ML
-                            } else if ((vNodosCount == 1) && (vTotalPagoME > 0)) {
+                            } else if (( vNodosCount == 1 ) && ( vTotalPagoME > 0 )) {
                                 vCmd = "2" + vFormatoDeCobro + vMonto;
                             } else {
                                 vCmd = "2" + vFormatoDeCobro + vMonto;
@@ -748,7 +764,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                             vFormatoDeCobro = FormaDeCobro(vMedioDePago);
-                            if ((vNodosCount == 1) && (LibImportData.ToDec(vMonto) == vTotalFactura)) {
+                            if (( vNodosCount == 1 ) && ( LibImportData.ToDec(vMonto) == vTotalFactura )) {
                                 vCmd = "1" + vFormatoDeCobro;
                             } else {
                                 vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
@@ -1034,7 +1050,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vDir = "";
             vDir = System.IO.Path.Combine(LibApp.AppPath() + "CDP", DllApiName);
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir, ref vVersion);
-            vIsSameVersion = (vVersion == VersionApi);
+            vIsSameVersion = ( vVersion == VersionApi );
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult, vIsSameVersion, vDir, vVersion, VersionApi);
             vResult = vIsSameVersion;
             return vResult;
