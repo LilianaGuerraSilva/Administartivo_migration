@@ -719,7 +719,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         if (vTotalPagadoML == 0 && vTotalAPagar == vTotalPagoME) {
                             vCmd = "120";
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
-                        } else if (vTotalPagadoML < 0.05m) {
+                        } else if (vTotalPagadoML < 0.05m && vTotalPagadoML > 0) {
                             vCmd = "120";
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                             vNodosCount = 0;
