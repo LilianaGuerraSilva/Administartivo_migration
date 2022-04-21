@@ -714,27 +714,31 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (_EstaActivoFlag50) {
                     List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == vCodigoMonedaBase).ToList();
                     int vNodosCount = vNodos.Count;
-                    int vNodoAct = 0;
+                    bool vNoEsUnicaMoneda = true;
                     if (vTotalPagoME > 0) {
                         if (vTotalPagadoML == 0 && vTotalAPagar == vTotalPagoME) {
                             vCmd = "120";
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                        } else if (vTotalPagadoML < 0.05m) {
+                            vCmd = "120";
+                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                            vNodosCount = 0;
                         } else {
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vTotalPagoME), _EnterosParaPagos, _DecimalesParaPagos);
+                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vTotalPagoME.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
                             vCmd = "220" + vMonto;
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
                     }
                     if (vNodosCount > 0) {
                         foreach (XElement vXElement in vNodos) {
-                            vNodoAct++;
                             vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                             vFormatoDeCobro = FormaDeCobro(vMedioDePago);
                             decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                            if (vTotalPagoME > 0 && vTotalPagadoML > 0 && vNodoAct == 1 && vIGTFML > 0) {
+                            if (vTotalPagoME > 0 && vTotalPagadoML > 0 && vIGTFML > 0 && vMontoDec > vIGTFML && vNoEsUnicaMoneda) {
+                                vNoEsUnicaMoneda = false;
                                 vMontoDec = LibMath.Abs(vMontoDec - vIGTFML);
-                                vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.NumToString(vMontoDec, 2), _EnterosParaPagos, _DecimalesParaPagos);
+                                vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoDec.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
                             } else {
                                 vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
                             }
@@ -747,14 +751,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             }
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
-                    }
-                    if (vTotalPagoME > 0 && vTotalPagadoML > 0) {
+                    }                    
+                    if (vTotalPagoME > 0 && vTotalPagadoML > 0 && !vNoEsUnicaMoneda) {
                         if (vIGTFML > 0) {
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.NumToString(vIGTFML, 2), _EnterosParaPagos, _DecimalesParaPagos);
+                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vIGTFML.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
                             vCmd = "202" + vMonto;
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
-                    }
+                    }                    
                     vResult = vResult && _TfhkPrinter.SendCmd(_CierreFacturaIGTF);
                 } else {
                     List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").ToList();
