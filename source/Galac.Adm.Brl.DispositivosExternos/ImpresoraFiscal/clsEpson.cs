@@ -791,7 +791,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vTotalMontosPagados = vTotalPagosME + vTotalPagosML;
                     vDiferencia = vTotalAPagar>0? vTotalAPagar - vTotalMontosPagados:0;
                     if (vBaseImponibleIGTF > 0) {
-                        vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.NumToString(vBaseImponibleIGTF, 2), _EnterosParaMonto, _DecimalesParaMonto, "");
+                        vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vBaseImponibleIGTF, 2), _EnterosParaMonto, _DecimalesParaMonto, "");
                         vMonto = LibString.CleanFromCharsToLeft(vMonto, "0");
                     } else {
                         vMonto = "0";
