@@ -275,10 +275,10 @@ namespace Galac.Adm.Brl.Venta {
             eTipoDeVenta vTipoDeVenta = (eTipoDeVenta)LibConvert.DbValueToEnum(LibXml.GetPropertyString(xElementFacturaRapida, "TipoDeVenta"));
             string vSerialMaquinaFiscal = LibXml.GetPropertyString(xElementFacturaRapida, "SerialMaquinaFiscal");
             string vNumeroComprobanteFiscal = LibXml.GetPropertyString(xElementFacturaRapida, "NumeroComprobanteFiscal");
-            decimal vBaseImpoinibleIGTF = LibConvert.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "BaseImponibleIGTF"));
-            decimal vIGTFML = LibConvert.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "IGTFML"));
-            decimal vIGTFME = LibConvert.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "IGTFME"));
-            decimal vAlicuotaIGTF = LibConvert.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "AlicuotaIGTF"));
+            decimal vBaseImpoinibleIGTF = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "BaseImponibleIGTF"),2);
+            decimal vIGTFML = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "IGTFML"),2);
+            decimal vIGTFME = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "IGTFME"),2);
+            decimal vAlicuotaIGTF = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "AlicuotaIGTF"),2);
             LibGpParams vParams = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
             QAdvSql insQAdvSql = new QAdvSql("");

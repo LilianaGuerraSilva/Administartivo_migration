@@ -842,20 +842,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     new XElement("ConsecutivoRenglon", Cobro.ConsecutivoRenglon),
                     new XElement("CodigoFormaDelCobro", Cobro.CodigoFormaDelCobro),
                     new XElement("CodigoBanco", Cobro.CodigoBanco),
-                    new XElement("Monto", LibConvert.NumToString(Cobro.Monto, 2)),
+                    new XElement("Monto", Cobro.Monto.ToString("#.##")),
                     new XElement("CodigoMoneda", Cobro.CodigoMoneda),
-                    new XElement("CambioAMonedaLocal", LibConvert.NumToString(Cobro.CambioAMonedaLocal, 2))));
+                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal.ToString("#.##"))));
             }
             return vXmlDatosDelCobro;
         }
 
         private XElement CrearXmlDatosIGTF() {
             XElement vXElementIGTF = new XElement("GpData", new XElement("GpResult",
-                  new XElement("BaseImponibleIGTF", LibConvert.NumToString(BaseImponibleIGTF, 2)),
-                  new XElement("IGTFML", LibConvert.NumToString(IGTFML, 2)),
-                  new XElement("IGTFME", LibConvert.NumToString(IGTFME, 2)),
-                  new XElement("AlicuotaIGTF", LibConvert.NumToString(AlicuotaIGTF, 2)),
-                  new XElement("TotalAPagar", LibConvert.NumToString(TotalAPagarML, 2))));
+                  new XElement("BaseImponibleIGTF", BaseImponibleIGTF.ToString("#.##")),
+                  new XElement("IGTFML", IGTFML.ToString("#.##")),
+                  new XElement("IGTFME", IGTFME.ToString("#.##")),
+                  new XElement("AlicuotaIGTF", AlicuotaIGTF.ToString("#.###")),
+                  new XElement("TotalAPagar", TotalAPagarML.ToString("#.##"))));
             return vXElementIGTF;
         }
 

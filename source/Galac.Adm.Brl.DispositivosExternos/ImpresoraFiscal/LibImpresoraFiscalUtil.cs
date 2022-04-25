@@ -267,10 +267,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        public static decimal TotalPagosEnMonedaLocal(IEnumerable<XElement> valRenglonMediosDePagos, string valCodigoMoneda) {
+        public static decimal TotalMediosDePago(IEnumerable<XElement> valRenglonMediosDePagos, string valCodigoMoneda, bool valEsMonedaExtranejra) {
             decimal vResult = 0;
             try {
-                vResult = valRenglonMediosDePagos.Where(p => p.Element("CodigoMoneda").Value == valCodigoMoneda).Sum(q => LibImportData.ToDec(q.Element("Monto").Value, 4));
+                if (valEsMonedaExtranejra) {
+                    vResult = valRenglonMediosDePagos.Where(p => p.Element("CodigoMoneda").Value != valCodigoMoneda).Sum(q => LibImportData.ToDec(q.Element("Monto").Value, 4));
+                } else {
+                    vResult = valRenglonMediosDePagos.Where(p => p.Element("CodigoMoneda").Value == valCodigoMoneda).Sum(q => LibImportData.ToDec(q.Element("Monto").Value, 4));
+                }
                 vResult = LibMath.RoundToNDecimals(vResult, 2);
             } catch (Exception) {
                 throw;
