@@ -737,10 +737,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vTexto = (LibString.IsNullOrEmpty(vTexto) ? "" : vTexto + "\r\n");
                         vTexto += LibText.Left(vObservIGTF + "Obs.:" + vObservaciones, Math.Abs(320 - vCaracteresRestantes));
                         vCaracteresRestantes = LibString.Len(vTexto) - vCaracteresRestantes;
+                    } else if (LibText.Len(vObservIGTF) > 0) {
+                        vTexto += LibText.Left(vObservIGTF, Math.Abs(320 - vCaracteresRestantes));
+                        vCaracteresRestantes = LibString.Len(vTexto) - vCaracteresRestantes;
                     } else {
                         vCaracteresRestantes = 1;
                     }
-                    vSinDreccionSinObservaciones = (LibString.Len(vDireccionFiscal) == 0 && LibString.Len(vObservaciones) == 0);
+                    vSinDreccionSinObservaciones = (LibString.Len(vDireccionFiscal) == 0 && LibString.Len(vObservaciones) == 0 && LibString.IsNullOrEmpty(vObservIGTF));
                     if (LibString.Len(vTotalMonedaExtranjera) == 0 && vCaracteresRestantes > 0) {
                         vCamposDef = ImprimeCamposDefinibles(valDocumentoFiscal, vSinDreccionSinObservaciones);
                         vCamposDef = (LibString.IsNullOrEmpty(vCamposDef) ? "" : "\r\n" + vCamposDef);
