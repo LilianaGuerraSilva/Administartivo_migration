@@ -281,5 +281,24 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
             return vResult;
         }
+
+        public static string ObservacionesIGTF(XElement valDocumentoFiscal) {
+            string vResult = "";
+            string vBIGTF = "BI IGTF:Bs. " + LibConvert.NumToString(LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "BaseImponibleIGTF")), 2) + "\r\n";
+            string vIGTFML = "IGTF 3%: Bs. " + LibConvert.NumToString(LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "IGTFML")), 2) + "\r\n";
+            string vTotalAPagar = "T. a pagar: Bs. " + LibConvert.NumToString(LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "TotalAPagar")), 2);
+            vResult = vBIGTF + vIGTFML + vTotalAPagar;
+            return vResult;
+        }
+
+        public static bool DesactivarIGTFEnObservacionesIF() {
+            try {
+                string vPersonalizar = LibGalac.Aos.Cnf.LibAppSettings.ReadAppSettingsKey("DesactivarIGTFEnObservacionesIF");
+                bool vResult = LibString.IsNullOrEmpty(vPersonalizar) ? false : LibConvert.SNToBool(vPersonalizar);
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
     }
 }
