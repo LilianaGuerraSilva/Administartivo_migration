@@ -431,9 +431,12 @@ Public Function fConfigurarDatosDelReporteFacturacionConOtrosCargosYDescuentos(B
          If (valCantidadAImprimir = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS)) Then
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblCantidadDeOperaciones", False
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCantidadDeOperaciones", False
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblTotalBIIGTF", False
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtTotalBIIGTF", False
          End If
          gUtilMargins.sAsignarMargenesGenerales refRpt
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
+         Call refRpt.AddNamedItem("gUtilMathOperations", gUtilMathOperations)
          exito = True
       End If
    End If

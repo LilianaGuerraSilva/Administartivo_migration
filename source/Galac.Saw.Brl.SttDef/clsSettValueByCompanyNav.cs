@@ -518,6 +518,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.TipoDePrefijo2AsEnum = eTipoDePrefijo.SinPrefijo;
             insEntidad.ModeloFacturaModoTexto2 = "Factura_PosEpsonTMU220FormatoLibre";
             insEntidad.UsarDosTalonariosAsBool = false;
+            insEntidad.NombrePlantillaSubFacturaConOtrosCargos = "rpxSubFacturaConOtrosCargos";
             return insEntidad;
         }
         private void LlenaListado(ModeloDeFacturaStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -537,6 +538,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(valRecord.ModeloDeFactura2AsDB, "ModeloDeFactura2", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombrePlantillaFactura2, "NombrePlantillaFactura2", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsarDosTalonariosAsBool), "UsarDosTalonarios", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.NombrePlantillaSubFacturaConOtrosCargos, "NombrePlantillaSubFacturaConOtrosCargos", valConsecutivoCompania));
         }
 
         ModeloDeFacturaStt GetModeloDeFacturaStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -558,6 +560,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Prefijo2 = ValorSegunColumna(valListGetSettValueByCompany, "Prefijo2");
             vResult.ModeloFacturaModoTexto2 = ValorSegunColumna(valListGetSettValueByCompany, "ModeloFacturaModoTexto2");
             vResult.UsarDosTalonariosAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsarDosTalonarios"));
+            vResult.NombrePlantillaSubFacturaConOtrosCargos = ValorSegunColumna(valListGetSettValueByCompany, "NombrePlantillaSubFacturaConOtrosCargos");
             return vResult;
         }
         #endregion // ModeloDeFacturaStt
