@@ -597,7 +597,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "IGTFML"));
             vDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vDescuentoTotal, _EnterosParaDescuento, _DecimalesParaDescuento);
             vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
-            if ((_ModelosAntiguos || _FormatoFirmwareTipo1) && vIGTF > 0 && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
+            if ((_ModelosAntiguos || _FormatoFirmwareTipo1) && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
                 string vObservacionesIGTF = LibImpresoraFiscalUtil.ObservacionesIGTF(valDocumentoFiscal);
                 ImprimirObservacionesIGTF(vObservacionesIGTF);
             } else {
