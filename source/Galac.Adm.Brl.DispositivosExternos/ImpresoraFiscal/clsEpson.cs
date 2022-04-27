@@ -12,7 +12,7 @@ using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
-    public class clsEpson : IImpresoraFiscalPdn {
+    public class clsEpson :IImpresoraFiscalPdn {
         #region comandos PNP      
         [DllImport("PNPDLL.dll")]
         public static extern string PFAbreNF();
@@ -527,25 +527,43 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vDireccionFiscal = "";
             string vTotalMonedaExtranjera = "";
             bool vObsrvacionesCortas = false;
+            decimal vIGTF = 0;
+            string vVersionFirmware = "";
+            string vObservIGTF = "";
             try {
                 vEstado &= CheckRequest(vResult, ref vMensaje);
                 if (!vEstado) {
                     throw new Exception("Error en totales");
                 }
+                vVersionFirmware = ObtenerVersionDelFirmware();
                 vDireccionFiscal = LibXml.GetPropertyString(vDocumentoFiscal, "DireccionCliente");
                 vObservaciones = LibXml.GetPropertyString(vDocumentoFiscal, "Observaciones");
                 vTotalMonedaExtranjera = LibXml.GetPropertyString(vDocumentoFiscal, "TotalMonedaExtranjera");
+                vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(vDocumentoFiscal, "IGTFML"));
                 vEstado = EnviarPagos(vDocumentoFiscal);
                 vEstado &= CheckRequest(vResult, ref vMensaje);
-                if (!vTotalMonedaExtranjera.Equals("") && !EsNotaDeCredito) {
-                    string[] vTotal = LibString.Split(vTotalMonedaExtranjera, "\n");
-                    vObsrvacionesCortas = true;
-                    PFTfiscal(LineaSeparador());
-                    foreach (string vLinea in vTotal) {
-                        PFTfiscal(vLinea);
-                        vEstado &= CheckRequest(vResult, ref vMensaje);
+                if (vVersionFirmware != _VersionFirmware && vIGTF > 0 && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
+                    vObservIGTF = LibImpresoraFiscalUtil.ObservacionesIGTF(vDocumentoFiscal);
+                    if (!LibString.IsNullOrEmpty(vObservIGTF)) {
+                        string[] vLineaObservIGTF = LibString.Split(vObservIGTF, "\n");
+                        PFTfiscal(LineaSeparador());
+                        foreach (string vLinea in vLineaObservIGTF) {
+                            PFTfiscal(vLinea);
+                            vEstado &= CheckRequest(vResult, ref vMensaje);
+                        }
+                    }
+                } else {
+                    if (!vTotalMonedaExtranjera.Equals("") && !EsNotaDeCredito) {
+                        string[] vTotal = LibString.Split(vTotalMonedaExtranjera, "\n");
+                        vObsrvacionesCortas = true;
+                        PFTfiscal(LineaSeparador());
+                        foreach (string vLinea in vTotal) {
+                            PFTfiscal(vLinea);
+                            vEstado &= CheckRequest(vResult, ref vMensaje);
+                        }
                     }
                 }
+
                 if (!vDireccionFiscal.Equals(string.Empty)) {
                     PFTfiscal(LineaSeparador());
                     vTexto = "Direccion: " + LibText.Trim(LibText.SubString(vDireccionFiscal, 0, 29));
@@ -717,7 +735,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         private decimal CalcularDescuentoGlobal(decimal valPrcDescuento, decimal valMonto, decimal valCantidad) {
             decimal vDescuentoGlobal = 0;
-            vDescuentoGlobal = LibMath.RoundToNDecimals(( valCantidad * valMonto ) * valPrcDescuento / 100m, 3);
+            vDescuentoGlobal = LibMath.RoundToNDecimals((valCantidad * valMonto) * valPrcDescuento / 100m, 3);
             return vDescuentoGlobal;
         }
 
@@ -776,7 +794,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal vIGTML;
             string vVersionFirmware;
             decimal vDiferencia;
-            try {                
+            try {
                 vVersionFirmware = ObtenerVersionDelFirmware();
                 vTotalAPagar = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalAPagar"));
                 vIGTML = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "IGTFML"));
@@ -789,7 +807,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalFacturaDec = LibMath.Abs(LibImportData.ToDec(vTotalFacturaStr, 2));
                 if (vVersionFirmware == _VersionFirmware) {
                     vTotalMontosPagados = vTotalPagosME + vTotalPagosML;
-                    vDiferencia = vTotalAPagar>0? vTotalAPagar - vTotalMontosPagados:0;
+                    vDiferencia = vTotalAPagar > 0 ? vTotalAPagar - vTotalMontosPagados : 0;
                     if (vBaseImponibleIGTF > 0) {
                         vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vBaseImponibleIGTF, 2), _EnterosParaMonto, _DecimalesParaMonto, "");
                         vMonto = LibString.CleanFromCharsToLeft(vMonto, "0");
@@ -1115,7 +1133,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vDir = "";
             vDir = System.IO.Path.Combine(LibApp.AppPath() + "CDP", _DllApiName);
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir, ref vVersion);
-            vIsSameVersion = ( vVersion == _VersionApi );
+            vIsSameVersion = (vVersion == _VersionApi);
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult, vIsSameVersion, vDir, vVersion, _VersionApi);
             vResult = vIsSameVersion;
             return vResult;
@@ -1176,7 +1194,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vResult = CheckRequest(vRetorno, ref vMensaje);
             vRetorno = LeerRepuestaImpFiscal(EstatusFiscal);
             vResult = EvaluarEstadoImpresora(vRetorno, ref vMensaje);
-            vDiagnostico.ColaDeImpresioDescription = ( LibString.IsNullOrEmpty(vMensaje) ? "Listo En Espera" : vMensaje );
+            vDiagnostico.ColaDeImpresioDescription = (LibString.IsNullOrEmpty(vMensaje) ? "Listo En Espera" : vMensaje);
             return vResult;
         }
 
