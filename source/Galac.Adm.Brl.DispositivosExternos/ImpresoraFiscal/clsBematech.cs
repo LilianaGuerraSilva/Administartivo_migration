@@ -719,8 +719,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     Seguir = RetornoStatus(vResult, out vMensaje);
                     return Seguir;
                 } else {
-                    if (vIGTF > 0 && ((vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI && LibConvert.ToLong(vVersionFirmware) < LibConvert.ToLong(_FirmWareVerBM4000IGTF)) || vModelo == eImpresoraFiscal.BEMATECH_MP_2100_FI) && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
-                        vObservIGTF = LibImpresoraFiscalUtil.ObservacionesIGTF(valDocumentoFiscal) + "\r\n";
+                    if (((vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI && LibConvert.ToLong(vVersionFirmware) < LibConvert.ToLong(_FirmWareVerBM4000IGTF)) || vModelo == eImpresoraFiscal.BEMATECH_MP_2100_FI) && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
+                        vObservIGTF = LibImpresoraFiscalUtil.ObservacionesIGTF(valDocumentoFiscal);
                         vCaracteresRestantes = LibString.Len(vObservIGTF);
                     } else {
                         if (LibText.Len(vTotalMonedaExtranjera) > 0 && !valEsNotaDeCredito) {
@@ -735,7 +735,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vObservaciones = LibText.Replace(vObservaciones, "Total", "Tot..");
                         }
                         vTexto = (LibString.IsNullOrEmpty(vTexto) ? "" : vTexto + "\r\n");
-                        vTexto += LibText.Left(vObservIGTF + "Obs.:" + vObservaciones, Math.Abs(320 - vCaracteresRestantes));
+                        vTexto += LibText.Left(vObservIGTF + "\r\n" + "Obs.:" + vObservaciones, Math.Abs(320 - vCaracteresRestantes));
                         vCaracteresRestantes = LibString.Len(vTexto) - vCaracteresRestantes;
                     } else if (LibText.Len(vObservIGTF) > 0) {
                         vTexto += LibText.Left(vObservIGTF, Math.Abs(320 - vCaracteresRestantes));
