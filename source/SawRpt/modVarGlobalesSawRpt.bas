@@ -32,6 +32,7 @@ Public gWorkPaths As clsUtilWorkPaths
 Public gDefDatabaseConexion As ADODB.Connection
 Public gEnumTablaRetencion As clsEnumTablaRetencion
 Public gAdmAlicuotaIvaActual As Object
+Public gUtilMathOperations As clsUtilMathOperations
 
 Public Sub SetProyParametros(ByRef refProyParametros As Object)
     Set gProyParametros = refProyParametros

@@ -23,7 +23,7 @@ Public Sub sInitializeInternalGlobalClasses(ByRef refInsError As clsError, ByRef
                                              ByVal valMonedaLocalActual As Object, ByVal valUltimaTasaDeCambio As Object, _
                                              ByVal valUtilWorkPaths As clsUtilWorkPaths, ByVal valListLibrary As Object, _
                                              ByVal valDefDatabaseConexion As ADODB.Connection, ByVal valEnumTablaRetencion As clsEnumTablaRetencion, _
-                                             ByVal valAdmAlicuotaIvaActual As Object)
+                                             ByVal valAdmAlicuotaIvaActual As Object, ByRef refInsUtilMathOperations As clsUtilMathOperations)
       Set gError = refInsError
       Set gUtilReports = refInsUtilReports
       Set gUtilMargins = refInsUtilMargins
@@ -51,6 +51,7 @@ Public Sub sInitializeInternalGlobalClasses(ByRef refInsError As clsError, ByRef
       Set gDefDatabaseConexion = valDefDatabaseConexion
       Set gEnumTablaRetencion = valEnumTablaRetencion
       Set gAdmAlicuotaIvaActual = valAdmAlicuotaIvaActual
+      Set gUtilMathOperations = refInsUtilMathOperations
 End Sub
 
 Private Sub sInstances()

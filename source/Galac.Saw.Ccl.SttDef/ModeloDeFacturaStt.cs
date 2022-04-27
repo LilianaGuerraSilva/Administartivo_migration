@@ -39,6 +39,7 @@ namespace Galac.Saw.Ccl.SttDef {
         private string _Prefijo2;
         private string _ModeloFacturaModoTexto2;
         private bool _UsarDosTalonarios;
+        private string _NombrePlantillaSubFacturaConOtrosCargos;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -97,9 +98,6 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return _ModeloFacturaModoTexto; }
             set { _ModeloFacturaModoTexto = LibString.Mid(value, 0, 50); }
         }
-
-        
-
 
         public bool FacturaPreNumeradaAsBool {
             get { return _FacturaPreNumerada; }
@@ -192,6 +190,10 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return _datos; }
             set { _datos = value; }
         }
+        public string NombrePlantillaSubFacturaConOtrosCargos{
+            get { return _NombrePlantillaSubFacturaConOtrosCargos; }
+            set { _NombrePlantillaSubFacturaConOtrosCargos = LibString.Mid(value, 0, 50); }
+        }
         #endregion //Propiedades
         #region Constructores
 
@@ -222,6 +224,7 @@ namespace Galac.Saw.Ccl.SttDef {
             ModeloFacturaModoTexto2 = "";
             UsarDosTalonariosAsBool = false;
             fldTimeStamp = 0;
+            NombrePlantillaSubFacturaConOtrosCargos = "";
         }
 
         public ModeloDeFacturaStt Clone() {
@@ -242,25 +245,27 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.Prefijo2 = _Prefijo2;
             vResult.ModeloFacturaModoTexto2 = _ModeloFacturaModoTexto2;
             vResult.UsarDosTalonariosAsBool = _UsarDosTalonarios;
+            vResult.NombrePlantillaSubFacturaConOtrosCargos = _NombrePlantillaSubFacturaConOtrosCargos;
             return vResult;
         }
 
         public override string ToString() {
             return "Modelo De Factura = " + _ModeloDeFactura.ToString() +
-                "\nNombre Plantilla Factura = " + _NombrePlantillaFactura +
-                "\nPrimera Factura = " + _PrimeraFactura +
-                "\nTipo De Prefijo = " + _TipoDePrefijo.ToString() +
-                "\nPrefijo = " + _Prefijo +
-                "\nModelo Factura Modo Texto = " + _ModeloFacturaModoTexto +
-                "\nFactura Pre Numerada = " + _FacturaPreNumerada +
-                "\nModelo De Factura 2 = " + _ModeloDeFactura2.ToString() +
+               "\nNombre Plantilla Factura = " + _NombrePlantillaFactura +
+               "\nPrimera Factura = " + _PrimeraFactura +
+               "\nTipo De Prefijo = " + _TipoDePrefijo.ToString() +
+               "\nPrefijo = " + _Prefijo +
+               "\nModelo Factura Modo Texto = " + _ModeloFacturaModoTexto +
+               "\nFactura Pre Numerada = " + _FacturaPreNumerada +
+               "\nModelo De Factura 2 = " + _ModeloDeFactura2.ToString() +
                "\nNombre Plantilla Factura 2 = " + _NombrePlantillaFactura2 +
                "\nFactura Pre Numerada 2 = " + _FacturaPreNumerada2 +
                "\nPrimera Factura 2 = " + _PrimeraFactura2 +
                "\nTipo De Prefijo 2 = " + _TipoDePrefijo2.ToString() +
                "\nPrefijo 2 = " + _Prefijo2 +
                "\nModelo Factura Modo Texto 2 = " + _ModeloFacturaModoTexto2 +
-                "\nUsar Dos Talonarios = " + _UsarDosTalonarios;
+               "\nUsar Dos Talonarios = " + _UsarDosTalonarios +
+               "\nNombre Plantilla Sub Factura Con Otros Cargos = " + _NombrePlantillaSubFacturaConOtrosCargos;
 
  
         }
