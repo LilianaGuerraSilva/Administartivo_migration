@@ -3297,4 +3297,33 @@ h_EXIT:  On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
          "fSqlCteFacturaMonedaLocalCampoPrecioCosto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+Public Function fSqlDelReporteIGTFdesdeOtrosCargosYDescuentosFactura(ByVal valConsecutivoCompania As Integer, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCodigoCargo As String)
+   Dim SQL As String
+   On Error GoTo h_ERROR
+   SQL = "SELECT "
+   SQL = SQL & "Factura.Fecha, "
+   SQL = SQL & "Factura.Numero AS NumeroFactura, "
+   SQL = SQL & "Factura.TipoDeDocumento, "
+   SQL = SQL & "RenglonDetalleDeOtrosCargosFactura.CodigoDeCargo AS CodigoOtrosCargos, "
+   SQL = SQL & "RenglonDetalleDeOtrosCargosFactura.Descripcion AS DescripcionOtrosCargos, "
+   SQL = SQL & "ROUND(Factura.CambioABolivares, 4) AS Cambio, "
+   SQL = SQL & "ROUND((ROUND(Factura.CambioABolivares * RenglonDetalleDeOtrosCargosFactura.TotalRenglon, 2) * 100 / 3), 2) AS BIIGTF, "
+   SQL = SQL & "ROUND(Factura.CambioABolivares * RenglonDetalleDeOtrosCargosFactura.TotalRenglon, 2) AS IGTF "
+   SQL = SQL & " FROM Factura"
+   SQL = SQL & " INNER JOIN RenglonDetalleDeOtrosCargosFactura"
+   SQL = SQL & " ON Factura.TipoDeDocumento = RenglonDetalleDeOtrosCargosFactura.TipoDeDocumento"
+   SQL = SQL & " AND Factura.Numero = RenglonDetalleDeOtrosCargosFactura.NumeroFactura"
+   SQL = SQL & " AND Factura.ConsecutivoCompania = RenglonDetalleDeOtrosCargosFactura.ConsecutivoCompania"
+   SQL = SQL & " WHERE factura.ConsecutivoCompania = " & gConvert.fConvierteAString(valConsecutivoCompania)
+   SQL = SQL & " AND " & gUtilSQL.fSQLValueDatesBetween("", "Factura.Fecha", valFechaInicial, valFechaFinal)
+   SQL = SQL & " AND RenglonDetalleDeOtrosCargosFactura.CodigoDeCargo = " & gUtilSQL.fSimpleSqlValue(valCodigoCargo)
+   SQL = SQL & " AND Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
+   SQL = SQL & " AND Factura.TipoDeDocumento <> " & gUtilSQL.fSimpleSqlValue(enum_TipoDocumentoFactura.eTF_NOTAENTREGA)
+   SQL = SQL & " ORDER BY Factura.Fecha, Factura.Numero, factura.TipoDeDocumento"
+   fSqlDelReporteIGTFdesdeOtrosCargosYDescuentosFactura = SQL
+h_EXIT:
+   On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDelReporteIGTFdesdeOtrosCargosYDescuentosFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
 
