@@ -335,7 +335,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public bool IsEnabledPlantillaFacturaOyD{
             get{
-                return IsEnabled;
+                return (Action == eAccionSR.Consultar ? false: true);
             }
         }
         public bool IsEnabledTipoPrefijo {
