@@ -235,7 +235,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Command="{Binding Path=ChooseTemplateCommandOyD}"
-                    IsEnabled="{Binding Path=IsEnabledPlantillaFactura}">
+                    IsEnabled="{Binding Path=IsEnabledPlantillaFacturaOyD}">
                     ...
                 </Button>
             </Grid>
