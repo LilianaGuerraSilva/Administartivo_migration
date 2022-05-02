@@ -150,6 +150,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         [LibRequired(ErrorMessage = "El campo Fecha es requerido.")]
         [LibCustomValidation("FechaValidating")]
+        [LibGridColum("Fecha", eGridColumType.DatePicker, Width = 100, ColumnOrder = 2)]
         public DateTime Fecha {
             get {
                 return Model.Fecha;

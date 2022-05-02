@@ -22,9 +22,13 @@ namespace Galac.Saw.Uil.SttDef.Views {
         public GSFacturaModeloFacturaView() {
             InitializeComponent();
         }
+
         #endregion //Constructores
 
+        private void GroupBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
 
+        }
     } //End of class GSFacturaModeloFacturaView.xaml
 
 } //End of namespace Galac.Saw.Uil.SttDef

@@ -175,8 +175,11 @@ Private Function CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO() As Int
    CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO = 72
 End Function
 
-Private Function fNombreFileDeImpresionDelReporteDeFactura(ByVal valReporte As Integer, _
-               Optional ByVal valTalonario As enum_Talonario = enum_Talonario.eTa_TALONARIO1) As String
+Private Function CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA() As Integer
+   CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA = 73
+End Function
+
+Private Function fNombreFileDeImpresionDelReporteDeFactura(ByVal valReporte As Integer, Optional ByVal valTalonario As enum_Talonario = enum_Talonario.eTa_TALONARIO1) As String
    Dim nombreFileXML As String
    On Error GoTo h_ERROR
    Select Case valReporte
@@ -218,6 +221,7 @@ Private Function fNombreFileDeImpresionDelReporteDeFactura(ByVal valReporte As I
       Case CM_RPT_FACTURAS_O_BORRADORES_ENTRE_FECHAS_MONTO_ORIGINAL_X_CLIENTE: nombreFileXML = "rpxFacturacionEntreFechasMontoOriginalXCliente"
       Case CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN: nombreFileXML = "rpxFacturacionPorArticuloYPorAlmacen"
       Case CM_RPT_FACTURACION_POR_ARTICULO_Y_POR_ALMACEN_RESUMIDO: nombreFileXML = "rpxFacturacionPorArticuloYPorAlmacenResumido"
+      Case CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA: nombreFileXML = "rpxIGTFconOtrosCargosEnFactura"
       Case Else: nombreFileXML = ""
    End Select
    If nombreFileXML <> "" Then
@@ -283,6 +287,7 @@ Private Function fNombreDelReporteDeFactura(ByVal valReporte As Integer) As Stri
       Case CM_RPT_FACTURA_ENTRE_FECHAS_POR_CATEGORIA_MONTO_IVA: fNombreDelReporteDeFactura = "Facturación entre Fechas por Categoría"
       Case CM_RPT_FACTURAS_ENTRE_FECHAS_CON_SERIAL: fNombreDelReporteDeFactura = "Articulos Facturados con Serial"
       Case CM_RPT_FACTURAS_POR_TALONARIO: fNombreDelReporteDeFactura = "Facturas Por Talonario"
+      Case CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA: fNombreDelReporteDeFactura = "Informe de IGTF a partir de Otros Cargos en Factura"
       Case Else: fNombreDelReporteDeFactura = ""
    End Select
 h_EXIT:   On Error GoTo 0
@@ -431,9 +436,12 @@ Public Function fConfigurarDatosDelReporteFacturacionConOtrosCargosYDescuentos(B
          If (valCantidadAImprimir = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS)) Then
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblCantidadDeOperaciones", False
             gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtCantidadDeOperaciones", False
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "lblTotalBIIGTF", False
+            gUtilReports.sConfigurationForNotvisibleOrVisible refRpt, "txtTotalBIIGTF", False
          End If
          gUtilMargins.sAsignarMargenesGenerales refRpt
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
+         Call refRpt.AddNamedItem("gUtilMathOperations", gUtilMathOperations)
          exito = True
       End If
    End If
@@ -1802,4 +1810,37 @@ h_EXIT:   On Error GoTo 0
 h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteFacturasEntreFechasPorCamposDefinibles", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-
+Public Function fConfigurarDatosDelReporteIGTFdesdeOtrosCargosYDescuentosFactura(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valfechaInicio As Date, ByVal valFechaFinal As Date, ByVal valCompaniaParaInforme As String) As Boolean
+   Dim nombreDelFileXML As String
+   Dim NombreDelReporte As String
+   Dim exito As Boolean
+   On Error GoTo h_ERROR
+   exito = False
+   nombreDelFileXML = fNombreFileDeImpresionDelReporteDeFactura(CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA)
+   NombreDelReporte = fNombreDelReporteDeFactura(CM_RPT_INFORME_IGTF_CON_OTROS_CARGOS_FACTURA)
+   If gUtilReports.fLoadLayout(refRpt, nombreDelFileXML) Then
+      If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSqlDelReporte) Then
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valCompaniaParaInforme
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblTituloDelReporte", NombreDelReporte
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "del " & gConvert.dateToString(valfechaInicio) & " al " & gConvert.dateToString(valFechaFinal)
+         gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
+         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtFactura", "", "NumeroFactura"
+         gUtilReports.sDefaultConfigurationForDateFields refRpt, "txtFechaFactura", "", "Fecha", eFT_DATE
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoOtrosCargos", "", "CodigoOtrosCargos"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcionOtrosCargos", "", "DescripcionOtrosCargos"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtCambio", "", "Cambio", , ddTXRight, "#,##0.##00"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtBIIGTF", "", "BIIGTF"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalRenglonOtrosCargos", "", "IGTF"
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalBIIGTF", "BIIGTF", eSF_SUM, "GHFactura", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalTotalRenglonOtrosCargos", "IGTF", eSF_SUM, "GHFactura", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtCantidadDeOperaciones", "CodigoOtrosCargos", eSF_COUNT, "GHFactura", eSR_GROUP, eST_SUB_TOTAL, "#"
+         gUtilMargins.sAsignarMargenesGenerales refRpt
+         exito = True
+      End If
+   End If
+   fConfigurarDatosDelReporteIGTFdesdeOtrosCargosYDescuentosFactura = exito
+h_EXIT:  On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteIGTFdesdeOtrosCargosYDescuentosFactura", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function

@@ -542,7 +542,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(vDocumentoFiscal, "IGTFML"));
                 vEstado = EnviarPagos(vDocumentoFiscal);
                 vEstado &= CheckRequest(vResult, ref vMensaje);
-                if (vVersionFirmware != _VersionFirmware && vIGTF > 0 && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
+                if (LibImportData.ToDec(vVersionFirmware) < LibImportData.ToDec(_VersionFirmware) && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
                     vObservIGTF = LibImpresoraFiscalUtil.ObservacionesIGTF(vDocumentoFiscal);
                     if (!LibString.IsNullOrEmpty(vObservIGTF)) {
                         string[] vLineaObservIGTF = LibString.Split(vObservIGTF, "\n");
@@ -805,7 +805,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalFacturaStr = LibXml.GetPropertyString(valMedioDePago, "TotalFactura");
                 vTotalFacturaStr = LibImpresoraFiscalUtil.SetDecimalSeparator(vTotalFacturaStr);
                 vTotalFacturaDec = LibMath.Abs(LibImportData.ToDec(vTotalFacturaStr, 2));
-                if (vVersionFirmware == _VersionFirmware) {
+                if (LibImportData.ToDec(vVersionFirmware) >= LibImportData.ToDec(_VersionFirmware)) {
                     vTotalMontosPagados = vTotalPagosME + vTotalPagosML;
                     vDiferencia = vTotalAPagar > 0 ? vTotalAPagar - vTotalMontosPagados : 0;
                     if (vBaseImponibleIGTF > 0) {

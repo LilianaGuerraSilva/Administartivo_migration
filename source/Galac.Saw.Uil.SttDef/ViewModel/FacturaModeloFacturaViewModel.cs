@@ -43,6 +43,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledTipoPrefijo2PropertyName = "IsEnabledTipoPrefijo2";
         public const string IsEnabledPrefijoPropertyName = "IsEnabledPrefijo";
         public const string IsEnabledPrefijo2PropertyName = "IsEnabledPrefijo2";
+        public const string IsVisibleModeloOtorsCargosyDescuentosPropertyName = "IsVisibleUsarOtrosCargoDeFactura";
+        public const string NombrePlantillaSubFacturaConOtrosCargosPropertyName = "NombrePlantillaSubFacturaConOtrosCargos";
+        public const string IsEnabledPlantillaFacturaOyDPropertyName = "IsEnabledPlantillaFacturaOyD";
 
 
         #endregion
@@ -132,6 +135,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.NombrePlantillaFactura2 = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombrePlantillaFactura2PropertyName);
+                }
+            }
+        }
+        [LibCustomValidation("NombrePlantillaFacturaOyDValidating")]
+        public string NombrePlantillaSubFacturaConOtrosCargos{
+            get{
+                return Model.NombrePlantillaSubFacturaConOtrosCargos;
+            }
+            set{
+                if (Model.NombrePlantillaSubFacturaConOtrosCargos != value){
+                    Model.NombrePlantillaSubFacturaConOtrosCargos = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(NombrePlantillaSubFacturaConOtrosCargosPropertyName);
+
                 }
             }
         }
@@ -293,6 +310,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             private set;
         }
 
+        public RelayCommand ChooseTemplateCommandOyD{
+            get;
+            private set;
+        }
+
         public bool IsEnabledTalonario2 {
             get {
                 return (IsEnabled && UsarDosTalonarios?true:false);
@@ -311,6 +333,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnabledPlantillaFacturaOyD{
+            get{
+                return (Action == eAccionSR.Consultar ? false: true);
+            }
+        }
         public bool IsEnabledTipoPrefijo {
             get {
                 return IsEnabled && !FacturaPreNumerada;
@@ -364,6 +391,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return IsEnabled && TipoDePrefijo2 == eTipoDePrefijo.Indicar && !FacturaPreNumerada2;
             }
         }
+        public bool IsVisibleUsarOtrosCargoDeFactura{
+            get{
+                return UsaOtrosCyD;
+            }
+        }
+        public bool UsaOtrosCyD{
+            get{
+                return true;
+            }
+        }
 
         #endregion //Propiedades
         #region Constructores
@@ -381,6 +418,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         protected override void InitializeCommands() {
             ChooseTemplateCommandTalonario1 = new RelayCommand(ExecuteBuscarPlantillaCommandTalonario1);
             ChooseTemplateCommandTalonario2 = new RelayCommand(ExecuteBuscarPlantillaCommandTalonario2);
+            ChooseTemplateCommandOyD = new RelayCommand(ExecuteBuscarPlantillaCommandOyD);
         }
 
         protected override void InitializeLookAndFeel(ModeloDeFacturaStt valModel) {
@@ -421,7 +459,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-        
+        private void ExecuteBuscarPlantillaCommandOyD(){
+            try{
+                NombrePlantillaSubFacturaConOtrosCargos = new clsUtilParameters().BuscarNombrePlantilla("rpx de Plantilla Factura (*.rpx)|*SubFactura*.rpx");
+            }catch (System.AccessViolationException){
+                throw;
+            }catch (System.Exception vEx){
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
         public List<string> GetModelosPlanillasList() {
             List<string> vResult = new List<string>();
             List<string> vListModelosPlantillas = new List<string>();
@@ -463,6 +510,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                      vResult = new ValidationResult(this.ModuleName + "-> Nombre Plantilla Factura2 es requerido.");
                   }
                }
+            }
+            return vResult;
+        }
+        private ValidationResult NombrePlantillaFacturaOyDValidating(){
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)){
+                return ValidationResult.Success;
+            } else{
+                 if (!LibString.IsNullOrEmpty(NombrePlantillaSubFacturaConOtrosCargos) && !clsUtilParameters.EsValidoNombrePlantilla(NombrePlantillaSubFacturaConOtrosCargos)){
+                        vResult = new ValidationResult("El RPX " + NombrePlantillaSubFacturaConOtrosCargos + ", en " + this.ModuleName + ", no EXISTE.");
+                 } else if (LibString.IsNullOrEmpty(NombrePlantillaSubFacturaConOtrosCargos)){
+                        NombrePlantillaSubFacturaConOtrosCargos = "rpxSubFacturaConOtrosCargos";
+                        vResult = ValidationResult.Success;
+                 }
             }
             return vResult;
         }

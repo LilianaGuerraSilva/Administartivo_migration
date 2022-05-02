@@ -11,9 +11,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 	class clsVersionTemporalNoOficial : clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();			
+			StartConnectionNoTransaction();
+			AgregarParametroNombrePlantillaSubFacturaConOtrosCargos();
 			DisposeConnectionNoTransaction();
 			return true;
-		}		
+		}
+
+		private void AgregarParametroNombrePlantillaSubFacturaConOtrosCargos(){
+			AgregarNuevoParametro("NombrePlantillaSubFacturaConOtrosCargos", "Factura", 2, " 2.4.- Modelo de Factura ", 4 , "",'2', "", 'N', "rpxSubFacturaConOtrosCargos");
+		}
 	}
 }
