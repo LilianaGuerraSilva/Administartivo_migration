@@ -18,7 +18,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		private void AgregarParametroNombrePlantillaSubFacturaConOtrosCargos(){
-			AgregarNuevoParametro("NombrePlantillaSubFacturaConOtrosCargos", "Factura", 2, "2.4.- Modelo de Factura", 4 , "",'2', "", 'N', "rpxSubFacturaConOtrosCargos");
+			AgregarNuevoParametro("NombrePlantillaSubFacturaConOtrosCargos", "Factura", 2, " 2.4.- Modelo de Factura ", 4 , "",'2', "", 'N', "rpxSubFacturaConOtrosCargos");
 		}
 	}
 }
