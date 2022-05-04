@@ -17,7 +17,7 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Dal.GestionCompras {
-    public class clsOrdenDeCompraDetalleArticuloInventarioDat: LibData, ILibDataDetailComponent<IList<OrdenDeCompraDetalleArticuloInventario>, IList<OrdenDeCompraDetalleArticuloInventario>>, ILibDataImport, IOrdenDeCompraDatDetallePdn, ILibDataImportBulkInsert {
+    public class clsOrdenDeCompraDetalleArticuloInventarioDat : LibData, ILibDataDetailComponent<IList<OrdenDeCompraDetalleArticuloInventario>, IList<OrdenDeCompraDetalleArticuloInventario>>, ILibDataImport, IOrdenDeCompraDatDetallePdn, ILibDataImportBulkInsert {
         #region Variables
         LibTrn insTrn;
         OrdenDeCompraDetalleArticuloInventario _CurrentRecord;
@@ -158,7 +158,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             return vResult;
         }
         #endregion //ILibDataDetailComponent<IList<OrdenDeCompraDetalleArticuloInventario>, IList<OrdenDeCompraDetalleArticuloInventario>>
-
         public bool InsertChild(OrdenDeCompra valRecord, LibTrn insTrn) {
             bool vResult = false;
             vResult = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeCompraDetalleArticuloInventarioInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
@@ -175,8 +174,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             outErrorMessage = Information.ToString();
             return vResult;
         }
-
-        private bool IsValidCodigoArticulo(eAccionSR valAction, string valCodigoArticulo){
+        private bool IsValidCodigoArticulo(eAccionSR valAction, string valCodigoArticulo) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -188,8 +186,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             }
             return vResult;
         }
-
-        private bool IsValidDescripcionArticulo(eAccionSR valAction, string valDescripcionArticulo){
+        private bool IsValidDescripcionArticulo(eAccionSR valAction, string valDescripcionArticulo) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -201,23 +198,28 @@ namespace Galac.Adm.Dal.GestionCompras {
             }
             return vResult;
         }
-
-        private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad){
+        private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
+            if (valCantidad == 0) {
+                BuildValidationInfo(MsgRequiredField("Cantidad"));
+                vResult = false;
+            }
             return vResult;
         }
-
-        private bool IsValidCostoUnitario(eAccionSR valAction, decimal valCostoUnitario){
+        private bool IsValidCostoUnitario(eAccionSR valAction, decimal valCostoUnitario) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
+            if (valCostoUnitario == 0) {
+                BuildValidationInfo(MsgRequiredField("Costo Unitario"));
+                vResult = false;
+            }
             return vResult;
         }
-
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoOrdenDeCompra, int valConsecutivo) {
             bool vResult = false;
             OrdenDeCompraDetalleArticuloInventario vRecordBusqueda = new OrdenDeCompraDetalleArticuloInventario();
@@ -230,8 +232,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             return vResult;
         }
         #endregion //Validaciones
-
-        public bool GetDetailAndAppendToMaster(ref List<OrdenDeCompra>  refMaster) {
+        public bool GetDetailAndAppendToMaster(ref List<OrdenDeCompra> refMaster) {
             bool vResult = false;
             IList<OrdenDeCompraDetalleArticuloInventario> vDetail = null;
             foreach (OrdenDeCompra vItemMaster in refMaster) {
@@ -245,10 +246,10 @@ namespace Galac.Adm.Dal.GestionCompras {
             return vResult;
         }
 
-        LibResponse IOrdenDeCompraDatDetallePdn.InsertarListaDeOrdenDeCompraDetail(IList<OrdenDeCompraDetalleArticuloInventario> valListOfRecords){
+        LibResponse IOrdenDeCompraDatDetallePdn.InsertarListaDeOrdenDeCompraDetail(IList<OrdenDeCompraDetalleArticuloInventario> valListOfRecords) {
             return InsertDetaill(valListOfRecords);
         }
-        private LibResponse InsertDetaill(IList<OrdenDeCompraDetalleArticuloInventario> refRecord){
+        private LibResponse InsertDetaill(IList<OrdenDeCompraDetalleArticuloInventario> refRecord) {
             LibResponse vResult = new LibResponse();
             insTrn.StartTransaction();
             string vErrMsg = "";
@@ -257,9 +258,9 @@ namespace Galac.Adm.Dal.GestionCompras {
                     CurrentRecord = item;
                     if (ExecuteProcessBeforeInsert()) {
                         if (Validate(eAccionSR.Insertar, out vErrMsg)) {
-                            if (insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeCompraDetalleArticuloInventarioINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))){
+                            if (insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeCompraDetalleArticuloInventarioINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
                                 vResult.Success = true;
-                                if (vResult.Success){
+                                if (vResult.Success) {
                                     ExecuteProcessAfterInsert();
                                 }
                             }
@@ -268,9 +269,8 @@ namespace Galac.Adm.Dal.GestionCompras {
                 }
                 insTrn.CommitTransaction();
                 return vResult;
-            }
-            finally{
-                if (!vResult.Success){
+            } finally {
+                if (!vResult.Success) {
                     insTrn.RollBackTransaction();
                 }
             }
@@ -360,9 +360,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             return vResult;
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsOrdenDeCompraDetalleArticuloInventarioDat
 
 } //End of namespace Galac.Adm.Dal.GestionCompras
-

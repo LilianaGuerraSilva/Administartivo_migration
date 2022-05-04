@@ -195,7 +195,16 @@ namespace Galac.Adm.Brl.GestionCompras {
         }
         public XElement ImportFile(string valPathFile, string valSeparator) {
             StreamReader vStreamReader = new StreamReader(valPathFile, System.Text.Encoding.UTF8);
-            vNumero = vFecha = vCodigoProveedor = vCodigoMoneda = vCambioABolivares = vComentarios = vCondicionesDeEntrega = vCondicionesDePago = vCondicionesDeImportacion = vTipoDeCompra = string.Empty;
+            vNumero = string.Empty;
+            vFecha = string.Empty;
+            vCodigoProveedor = string.Empty;
+            vCodigoMoneda = string.Empty;
+            vCambioABolivares = string.Empty;
+            vComentarios = string.Empty;
+            vCondicionesDeEntrega = string.Empty;
+            vCondicionesDePago = string.Empty;
+            vCondicionesDeImportacion = string.Empty;
+            vTipoDeCompra = string.Empty;
             int j = 0;
             XElement xmlTree = new XElement("GpData");
             List<string> vLista = vStreamReader.Lines().ToList();

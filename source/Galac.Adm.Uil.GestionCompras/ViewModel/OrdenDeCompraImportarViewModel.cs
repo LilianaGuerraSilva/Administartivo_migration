@@ -25,8 +25,7 @@ using System.Xml.Linq;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
-    public class OrdenDeCompraImportarViewModel : LibImportViewModel
-    {
+    public class OrdenDeCompraImportarViewModel : LibImportViewModel {
 
         #region Variables y Constantes
 
@@ -59,131 +58,104 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         #endregion //Constantes
 
         #region Propiedades
-        public override string ModuleName{
+        public override string ModuleName {
             get { return "Importar Orden de Compra"; }
         }
-        public eExportDelimiterType TipoDeSeparacion
-        {
-            get
-            {
+        public eExportDelimiterType TipoDeSeparacion {
+            get {
                 return _TipoDeSeparacionAsEnum;
             }
-            set
-            {
-                if (_TipoDeSeparacionAsEnum != value)
-                {
+            set {
+                if (_TipoDeSeparacionAsEnum != value) {
                     _TipoDeSeparacionAsEnum = value;
                     RaisePropertyChanged(TipoDeSeparacionPropertyName);
                 }
             }
         }
 
-        public string NombreDelArchivo
-        {
-            get
-            {
+        public string NombreDelArchivo {
+            get {
                 return _NombreDelArchivo;
             }
-            set
-            {
-                if (_NombreDelArchivo != value)
-                {
+            set {
+                if (_NombreDelArchivo != value) {
                     _NombreDelArchivo = value;
                     RaisePropertyChanged(NombreDelArchivoPropertyName);
                 }
             }
         }
 
-        public eExportDelimiterType[] ArrayExportDelimiterType
-        {
-            get
-            {
+        public eExportDelimiterType[] ArrayExportDelimiterType {
+            get {
                 return LibEnumHelper<eExportDelimiterType>.GetValuesInArray();
             }
         }
 
-        public RelayCommand ImportarCommand{
+        public RelayCommand ImportarCommand {
             get;
             private set;
         }
 
-        public RelayCommand BuscarDirectorioArchivoCommand
-        {
+        public RelayCommand BuscarDirectorioArchivoCommand {
             get;
             private set;
 
         }
 
-        public decimal ProgressPercent
-        {
-            get
-            {
+        public decimal ProgressPercent {
+            get {
                 return _ProgressPercent;
             }
-            set
-            {
-                if (_ProgressPercent != value)
-                {
+            set {
+                if (_ProgressPercent != value) {
                     _ProgressPercent = value;
                     RaisePropertyChanged(ProgressPercentPropertyName);
                 }
             }
         }
 
-        public bool IsVisibleProgressPanel
-        {
-            get
-            {
+        public bool IsVisibleProgressPanel {
+            get {
                 return _IsVisibleProgressPanel;
             }
-            set
-            {
-                if (_IsVisibleProgressPanel != value)
-                {
+            set {
+                if (_IsVisibleProgressPanel != value) {
                     _IsVisibleProgressPanel = value;
                     RaisePropertyChanged(IsVisibleProgressPanelPropertyName);
                 }
             }
         }
 
-        public string ProgressPrimaryMessage
-        {
-            get
-            {
+        public string ProgressPrimaryMessage {
+            get {
                 return _ProgressMessage;
             }
-            set
-            {
-                if (_ProgressMessage != value)
-                {
+            set {
+                if (_ProgressMessage != value) {
                     _ProgressMessage = value;
                     RaisePropertyChanged(ProgressPrimaryMessagePropertyName);
                 }
             }
         }
 
-        public string ProgressSecondaryMessage
-        {
-            get
-            {
+        public string ProgressSecondaryMessage {
+            get {
                 return _ProgressMessage;
             }
-            set
-            {
-                if (_ProgressMessage != value)
-                {
+            set {
+                if (_ProgressMessage != value) {
                     _ProgressMessage = value;
                     RaisePropertyChanged(ProgressSecondaryMessagePropertyName);
                 }
             }
         }
 
-        public decimal ProgressValue{
-            get{
+        public decimal ProgressValue {
+            get {
                 return _ProgressValue;
             }
-            set{
-                if (_ProgressValue != value){
+            set {
+                if (_ProgressValue != value) {
                     _ProgressValue = value;
                     RaisePropertyChanged(ProgressValuePropertyName);
                 }
@@ -198,26 +170,25 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         #region Constructores e Inicializadores
 
-        public OrdenDeCompraImportarViewModel(string initModuleName, ILibImpExp initImportExport) : base(initModuleName, initImportExport)
-        {
+        public OrdenDeCompraImportarViewModel(string initModuleName, ILibImpExp initImportExport) : base(initModuleName, initImportExport) {
         }
 
-        internal void InitializeViewModel(eAccionSR eAccionSR){
+        internal void InitializeViewModel(eAccionSR eAccionSR) {
             base.InitializeLookAndFeel();
         }
 
-        protected override void InitializeRibbon(){
+        protected override void InitializeRibbon() {
             base.InitializeRibbon();
             RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection.Insert(0, CreateAdicionalRibbonGroup());
         }
 
-        protected override void InitializeCommands(){
+        protected override void InitializeCommands() {
             base.InitializeCommands();
             ImportarCommand = new RelayCommand(ExecuteAction, CanExecuteImportarCommand);
             BuscarDirectorioArchivoCommand = new RelayCommand(BuscarDirectorioArchivo, CanExecutBuscarDirectorioArchivo);
         }
 
-        private void InitializeBackgroundWorker(){
+        private void InitializeBackgroundWorker() {
             _BWorker = new BackgroundWorker();
             _BWorker.WorkerReportsProgress = true;
             _BWorker.WorkerSupportsCancellation = false;
@@ -229,8 +200,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         #endregion //Constructores
 
         #region Comandos
-        private LibRibbonButtonData CreateAdicionalRibbonGroup(){
-            LibRibbonButtonData vResult = new LibRibbonButtonData(){
+        private LibRibbonButtonData CreateAdicionalRibbonGroup() {
+            LibRibbonButtonData vResult = new LibRibbonButtonData() {
                 Label = "Importar",
                 Command = ImportarCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
@@ -239,44 +210,39 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             };
             return vResult;
         }
-        protected void ExecuteAction(){
-            LibResponse vExisteDirectorio =  ExisteDirectorio(NombreDelArchivo);
-            try{
-                if (vExisteDirectorio.Success){
-                   InitializeBackgroundWorker();
+        protected void ExecuteAction() {
+            LibResponse vExisteDirectorio = ExisteDirectorio(NombreDelArchivo);
+            try {
+                if (vExisteDirectorio.Success) {
+                    InitializeBackgroundWorker();
                     ImportarCommand.RaiseCanExecuteChanged();
                     CancelCommand.RaiseCanExecuteChanged();
                     BuscarDirectorioArchivoCommand.RaiseCanExecuteChanged();
                     ProcesoDeValidacion = true;
                     _BWorker.RunWorkerAsync();
-                } else{
+                } else {
                     LibMessages.MessageBox.Alert(this, vExisteDirectorio.GetInformation(), "Alerta");
                 }
-            }
-            catch (System.AccessViolationException){
+            } catch (System.AccessViolationException) {
                 throw;
-            }
-            catch (System.Exception vEx)
-            {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-        LibResponse ExisteDirectorio(string valPath){
+        LibResponse ExisteDirectorio(string valPath) {
             LibResponse vResult = new LibResponse();
             bool vExisteArchivo = LibDirectory.FileExists(valPath);
-            if (!vExisteArchivo){
+            if (!vExisteArchivo) {
                 vResult.Success = false;
                 vResult.AddError("No se encontró la ruta indicada o el archivo de datos. Revise sus datos y coloque la información nuevamente.");
-            }
-            else
-            {
+            } else {
                 vResult.Success = true;
             }
             return vResult;
         }
-        protected void BuscarDirectorioArchivo(){
+        protected void BuscarDirectorioArchivo() {
             OpenFileDialog vSFD = new OpenFileDialog();
-            if (TipoDeSeparacion == eExportDelimiterType.Csv){
+            if (TipoDeSeparacion == eExportDelimiterType.Csv) {
                 vSFD.Filter = "Text Files (.csv)|*.csv|All Files (*.*)|*.*";
             } else {
                 vSFD.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
@@ -284,34 +250,34 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             vSFD.FilterIndex = 1;
             vSFD.Multiselect = false;
             bool? vResult = vSFD.ShowDialog();
-            if (vResult == true){
+            if (vResult == true) {
                 NombreDelArchivo = vSFD.FileName;
             }
         }
-        LibResponse ElArchivoEsValido(string valPath, eExportDelimiterType valSeparador, System.ComponentModel.BackgroundWorker valBWorker, ref int vCantidadRegistrosValidos){
+        LibResponse ElArchivoEsValido(string valPath, eExportDelimiterType valSeparador, System.ComponentModel.BackgroundWorker valBWorker, ref int vCantidadRegistrosValidos) {
             LibResponse vResult = new LibResponse();
             StringBuilder vErrorMessage = new StringBuilder();
             XElement vXElement = vOrdenCompraImpor.ImportFile(valPath, LibEExportDelimiterType.ToDelimiter(valSeparador));
             vResult.Success = vOrdenCompraImpor.VerifyIntegrityOfRecord(vXElement, vErrorMessage, valBWorker, ref vCantidadRegistrosValidos);
-            if (!LibString.IsNullOrEmpty(vErrorMessage.ToString())){
+            if (!LibString.IsNullOrEmpty(vErrorMessage.ToString())) {
                 vResult.AddError("" + vErrorMessage);
             }
             return vResult;
         }
-        private void BWorker_DoWork(object sender, DoWorkEventArgs e){
+        private void BWorker_DoWork(object sender, DoWorkEventArgs e) {
             int vCantidadRegistrosValidosValidas = 0;
-            if (ProcesoDeValidacion){
+            if (ProcesoDeValidacion) {
                 ArchivoValido = ElArchivoEsValido(NombreDelArchivo, TipoDeSeparacion, _BWorker, ref vCantidadRegistrosValidosValidas);
             } else {
                 vOrdenCompraImpor.Importar(NombreDelArchivo, TipoDeSeparacion, _BWorker);
             }
         }
 
-        private void BWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e){
-            if (e.Cancelled){
+        private void BWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+            if (e.Cancelled) {
                 LibMessages.MessageBox.Alert(this, "La acción ha sido cancelada por el usuario.", "Importar");
-            } else if (e.Error != null){
-                if (e.Error is System.AccessViolationException){
+            } else if (e.Error != null) {
+                if (e.Error is System.AccessViolationException) {
                     throw e.Error;
                 } else {
                     LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(e.Error, ModuleName);
@@ -322,7 +288,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 ProgressValue = 0;
                 ProgressPrimaryMessage = "";
                 _BWorker = null;
-                if (ProcesoDeValidacion){
+                if (ProcesoDeValidacion) {
                     Importar();
                 } else {
                     LibMessages.MessageBox.Information(this, "El proceso termino satisfactoriamente", "");
@@ -332,11 +298,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        private void BWorker_ProgressChanged(object sender, ProgressChangedEventArgs e){
+        private void BWorker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
             string vMensaje = e.UserState as string;
             ProgressPrimaryMessage = vMensaje;
-            if (ProgressValue <= 100){
-                if (e.ProgressPercentage == 1){
+            if (ProgressValue <= 100) {
+                if (e.ProgressPercentage == 1) {
                     ProgressValue++;
                 } else {
                     ProgressValue = e.ProgressPercentage;
@@ -346,33 +312,33 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        public override bool OnClosing(){
-            if (_BWorker != null && _BWorker.IsBusy){
+        public override bool OnClosing() {
+            if (_BWorker != null && _BWorker.IsBusy) {
                 LibMessages.MessageBox.Alert(this, "El proceso no puede ser cancelado", "Alerta!");
                 return true;
             }
             return base.OnClosing();
         }
 
-        private void Importar(){
+        private void Importar() {
             string vOption = "";
-            if (ArchivoValido.Success){
-                if (!LibText.IsNullOrEmpty(ArchivoValido.GetInformation())){
+            if (ArchivoValido.Success) {
+                if (!LibText.IsNullOrEmpty(ArchivoValido.GetInformation())) {
                     LibMessages.MessageBox.Information(this, ArchivoValido.GetInformation(), "Información");
                     string vMessage = string.Format("Si usted desea continuar con el proceso, pulse la opción de importar (Importar).");
                     bool vCanceled = false;
                     vOption = LibMessages.MessageBox.RequestOption(this, vMessage, Title, new string[] { "Importar", "Cancelar" }, out vCanceled);
-                }else{
+                } else {
                     vOption = "Importar";
                 }
-                if (LibString.S1IsEqualToS2(vOption, "Importar")){
+                if (LibString.S1IsEqualToS2(vOption, "Importar")) {
                     ProcesoDeValidacion = false;
                     InitializeBackgroundWorker();
                     _BWorker.RunWorkerAsync();
-                }else{
+                } else {
                     RaiseRequestCloseEvent();
                 }
-            }else{
+            } else {
                 string vMessageNotSuccessful = "No Existe información válida en el archivo."
                     + Environment.NewLine
                     + Environment.NewLine
@@ -382,15 +348,15 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        private bool CanExecuteImportarCommand(){
+        private bool CanExecuteImportarCommand() {
             return _BWorker == null;
         }
 
-        protected override bool CanExecuteCancel(){
+        protected override bool CanExecuteCancel() {
             return _BWorker == null;
         }
 
-        bool CanExecutBuscarDirectorioArchivo(){
+        bool CanExecutBuscarDirectorioArchivo() {
             return _BWorker == null;
         }
 

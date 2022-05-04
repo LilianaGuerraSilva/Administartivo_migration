@@ -7,13 +7,13 @@ using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Dal.GestionCompras {
     [LibMefDalComponentMetadata(typeof(clsOrdenDeCompraDetalleArticuloInventarioED))]
-    public class clsOrdenDeCompraDetalleArticuloInventarioED: LibED, ILibMefDalComponent {
+    public class clsOrdenDeCompraDetalleArticuloInventarioED : LibED, ILibMefDalComponent {
         #region Variables
         #endregion //Variables
         #region Propiedades
         #endregion //Propiedades
         #region Constructores
-        public clsOrdenDeCompraDetalleArticuloInventarioED(): base(){
+        public clsOrdenDeCompraDetalleArticuloInventarioED() : base() {
             DbSchema = "Adm";
         }
         #endregion //Constructores
@@ -37,7 +37,6 @@ namespace Galac.Adm.Dal.GestionCompras {
         }
         #endregion
         #region Queries
-
         private string SqlCreateTable() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine(InsSql.CreateTable("OrdenDeCompraDetalleArticuloInventario", DbSchema) + " ( ");
@@ -62,7 +61,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine(")");
             return SQL.ToString();
         }
-
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT OrdenDeCompraDetalleArticuloInventario.ConsecutivoCompania, OrdenDeCompraDetalleArticuloInventario.ConsecutivoOrdenDeCompra, OrdenDeCompraDetalleArticuloInventario.Consecutivo, OrdenDeCompraDetalleArticuloInventario.CodigoArticulo");
@@ -73,7 +71,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("      AND " + DbSchema + ".OrdenDeCompraDetalleArticuloInventario.ConsecutivoCompania = dbo.Gv_ArticuloInventario_B2.ConsecutivoCompania");
             return SQL.ToString();
         }
-
         private string SqlSpInsParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -86,7 +83,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@CantidadRecibida" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
             return SQL.ToString();
         }
-
         private string SqlSpIns() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
@@ -122,7 +118,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
-
         private string SqlSpUpdParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -136,7 +131,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
-
         private string SqlSpUpd() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
@@ -193,7 +187,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
-
         private string SqlSpDelParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -202,7 +195,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
-
         private string SqlSpDel() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
@@ -254,7 +246,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
-
         private string SqlSpGetParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -262,7 +253,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
-
         private string SqlSpGet() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
@@ -286,14 +276,12 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
-
         private string SqlSpSelDetailParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoOrdenDeCompra" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
-
         private string SqlSpSelDetail() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
@@ -314,14 +302,12 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
-
         private string SqlSpDelDetailParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoOrdenDeCompra" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
-
         private string SqlSpDelDetail() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
@@ -332,7 +318,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
-
         private string SqlSpInsDetailParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -340,36 +325,35 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@XmlDataDetail" + InsSql.XmlTypeForDb());
             return SQL.ToString();
         }
-
         private string SqlSpInsDetail() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("	SET NOCOUNT ON;");
             SQL.AppendLine("	DECLARE @ReturnValue  " + InsSql.NumericTypeForDb(10, 0));
-	        SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
-	        SQL.AppendLine("	    BEGIN");
+            SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
+            SQL.AppendLine("	    BEGIN");
             SQL.AppendLine("	    EXEC Adm.Gp_OrdenDeCompraDetalleArticuloInventarioDelDet @ConsecutivoCompania = @ConsecutivoCompania, @ConsecutivoOrdenDeCompra = @ConsecutivoOrdenDeCompra");
-		    SQL.AppendLine("	    DECLARE @hdoc " + InsSql.NumericTypeForDb(10, 0));
+            SQL.AppendLine("	    DECLARE @hdoc " + InsSql.NumericTypeForDb(10, 0));
             SQL.AppendLine("	    EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlDataDetail");
-		    SQL.AppendLine("	    INSERT INTO Adm.OrdenDeCompraDetalleArticuloInventario(");
-			SQL.AppendLine("	        ConsecutivoCompania,");
-			SQL.AppendLine("	        ConsecutivoOrdenDeCompra,");
-			SQL.AppendLine("	        Consecutivo,");
-			SQL.AppendLine("	        CodigoArticulo,");
-			SQL.AppendLine("	        DescripcionArticulo,");
-			SQL.AppendLine("	        Cantidad,");
-			SQL.AppendLine("	        CostoUnitario,");
-			SQL.AppendLine("	        CantidadRecibida)");
-		    SQL.AppendLine("	    SELECT ");
-			SQL.AppendLine("	        @ConsecutivoCompania,");
-			SQL.AppendLine("	        @ConsecutivoOrdenDeCompra,");
-			SQL.AppendLine("	        Consecutivo,");
-			SQL.AppendLine("	        CodigoArticulo,");
-			SQL.AppendLine("	        DescripcionArticulo,");
-			SQL.AppendLine("	        Cantidad,");
-			SQL.AppendLine("	        CostoUnitario,");
-			SQL.AppendLine("	        CantidadRecibida");
-		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataOrdenDeCompraDetalleArticuloInventario/GpDetailOrdenDeCompraDetalleArticuloInventario',2) ");
+            SQL.AppendLine("	    INSERT INTO Adm.OrdenDeCompraDetalleArticuloInventario(");
+            SQL.AppendLine("	        ConsecutivoCompania,");
+            SQL.AppendLine("	        ConsecutivoOrdenDeCompra,");
+            SQL.AppendLine("	        Consecutivo,");
+            SQL.AppendLine("	        CodigoArticulo,");
+            SQL.AppendLine("	        DescripcionArticulo,");
+            SQL.AppendLine("	        Cantidad,");
+            SQL.AppendLine("	        CostoUnitario,");
+            SQL.AppendLine("	        CantidadRecibida)");
+            SQL.AppendLine("	    SELECT ");
+            SQL.AppendLine("	        @ConsecutivoCompania,");
+            SQL.AppendLine("	        @ConsecutivoOrdenDeCompra,");
+            SQL.AppendLine("	        Consecutivo,");
+            SQL.AppendLine("	        CodigoArticulo,");
+            SQL.AppendLine("	        DescripcionArticulo,");
+            SQL.AppendLine("	        Cantidad,");
+            SQL.AppendLine("	        CostoUnitario,");
+            SQL.AppendLine("	        CantidadRecibida");
+            SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataOrdenDeCompraDetalleArticuloInventario/GpDetailOrdenDeCompraDetalleArticuloInventario',2) ");
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        Consecutivo " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        CodigoArticulo " + InsSql.VarCharTypeForDb(30) + ",");
@@ -380,8 +364,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("	    RETURN @ReturnValue");
-	        SQL.AppendLine("	END");
-	        SQL.AppendLine("	ELSE");
+            SQL.AppendLine("	END");
+            SQL.AppendLine("	ELSE");
             SQL.AppendLine("	    RETURN -1");
             SQL.AppendLine("END");
             return SQL.ToString();
@@ -398,7 +382,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@CantidadRecibida" + InsSql.DecimalTypeForDb(25, 4));
             return SQL.ToString();
         }
-       private string SqlSpInst() {
+        private string SqlSpInst() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("	BEGIN TRAN");
@@ -443,15 +427,13 @@ namespace Galac.Adm.Dal.GestionCompras {
             bool vResult = insDbo.Create(DbSchema + ".OrdenDeCompraDetalleArticuloInventario", SqlCreateTable(), false, eDboType.Tabla);
             return vResult;
         }
-
-        bool CrearVistas(){
+        bool CrearVistas() {
             bool vResult = false;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_OrdenDeCompraDetalleArticuloInventario_B1", SqlViewB1(), true);
             insVistas.Dispose();
             return vResult;
         }
-
         bool CrearProcedimientos() {
             bool vResult = false;
             LibStoredProc insSps = new LibStoredProc();
@@ -462,11 +444,10 @@ namespace Galac.Adm.Dal.GestionCompras {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraDetalleArticuloInventarioSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraDetalleArticuloInventarioDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraDetalleArticuloInventarioInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraDetalleArticuloInventarioINST", SqlSpInstParameters(),SqlSpInst(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraDetalleArticuloInventarioINST", SqlSpInstParameters(), SqlSpInst(), true) && vResult;
             insSps.Dispose();
             return vResult;
         }
-
         public bool InstalarTabla() {
             bool vResult = false;
             if (CrearTabla()) {
@@ -476,7 +457,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             }
             return vResult;
         }
-
         public bool InstalarVistasYSps() {
             bool vResult = false;
             if (insDbo.Exists(DbSchema + ".OrdenDeCompraDetalleArticuloInventario", eDboType.Tabla)) {
@@ -486,7 +466,6 @@ namespace Galac.Adm.Dal.GestionCompras {
             }
             return vResult;
         }
-
         public bool BorrarVistasYSps() {
             bool vResult = false;
             LibStoredProc insSp = new LibStoredProc();
@@ -505,9 +484,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             return vResult;
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsOrdenDeCompraDetalleArticuloInventarioED
 
-} //End of namespace Galac.Adm.Dal.GestionCompras
+}//End of namespace Galac.Adm.Dal.GestionCompras
 

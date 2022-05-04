@@ -29,10 +29,9 @@ namespace Galac.Adm.Brl.GestionCompras {
             get { return _ConsecutivoCompania; }
             set { _ConsecutivoCompania = value; }
         }
-        public string NumeroOC
-        {
+        public string NumeroOC {
             get { return _NumeroOC; }
-            set{
+            set {
                 _NumeroOC = LibString.Mid(value, 0, 20);
                 OnPropertyChanged("NumeroOC");
             }
@@ -83,7 +82,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             get { return _CantidadRecibida; }
             set { _CantidadRecibida = value; }
         }
-		
+
         public eTipoArticuloInv TipoArticuloInv {
             get { return _TipoArticuloInv; }
             set { _TipoArticuloInv = value; }

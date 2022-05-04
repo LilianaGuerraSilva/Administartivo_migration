@@ -450,7 +450,8 @@ namespace Galac.Adm.Brl.GestionCompras {
             var vListArticulo = (from vRecord in valData.Descendants("GpResult")
                                  select new {
                                      CodigoArticulo = vRecord.Element("CodigoArticulo").Value,
-                                     Cantidad = LibConvert.ToDec(vRecord.Element("Cantidad")) });
+                                     Cantidad = LibConvert.ToDec(vRecord.Element("Cantidad"))
+                                 });
             clsOrdenDeCompraDetalleArticuloInventarioNav vOrdenDeCompraDetalleArticuloInventarioNav = new clsOrdenDeCompraDetalleArticuloInventarioNav();
             foreach (var item in vListArticulo) {
                 vOrdenDeCompraDetalleArticuloInventarioNav.ActualizarCantidadRecibida(valConsecutivoCompania, valConsecutivoOrdenDeCompra, item.CodigoArticulo, item.Cantidad);
@@ -501,13 +502,13 @@ namespace Galac.Adm.Brl.GestionCompras {
                         vResult = false;
                     }
                     string vStringCambioABolivares = LibText.EraseInvalidCharsFromText(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), new char[] { ',', '.' });
-                    if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"))){
+                    if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares Vacio" + System.Environment.NewLine);
                         vResult = false;
-                    } else if ((LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && !LibText.HasOnlyNumbers(vStringCambioABolivares) || (LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) != 1){
-                            BuildValidationInfo(LibText.Bullet() + LibImportData.ToDec(LibString.Replace(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), ",", ".")) + " - Monto Inválido" + System.Environment.NewLine);
-                            vResult = false;
-                    } else if (!LibText.HasOnlyNumbers(vStringCambioABolivares) || LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) == 0){
+                    } else if ((LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && !LibText.HasOnlyNumbers(vStringCambioABolivares) || (LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) != 1) {
+                        BuildValidationInfo(LibText.Bullet() + LibImportData.ToDec(LibString.Replace(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), ",", ".")) + " - Monto Inválido" + System.Environment.NewLine);
+                        vResult = false;
+                    } else if (!LibText.HasOnlyNumbers(vStringCambioABolivares) || LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) == 0) {
                         BuildValidationInfo(LibText.Bullet() + LibImportData.ToDec(LibString.Replace(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), ",", ".")) + " - Monto Inválido" + System.Environment.NewLine);
                         vResult = false;
                     } else {
@@ -530,8 +531,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo"))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo") + " - Codigo Articulo Vacio" + System.Environment.NewLine);
                         vResult = false;
-                    }
-                    else if (!insOrdenCompra.ValidaCodigoArticulo(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibConvert.ToStr(LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo")))) {
+                    } else if (!insOrdenCompra.ValidaCodigoArticulo(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibConvert.ToStr(LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo")))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo") + " - Codigo de Articulo Inválido o No Existe" + System.Environment.NewLine);
                         vResult = false;
                     }
@@ -544,8 +544,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                         vResult = false;
                     }
                 }
-                if (Information.Length > 0)
-                {
+                if (Information.Length > 0) {
                     vErrMsg.AppendLine(Information.ToString());
                 }
             }
@@ -597,7 +596,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             }
             return vResult;
         }
-        bool IOrdenDeCompraPdn.ValidaCodigoArticulo(int valConsecutivoCompania, string valCodigoArticulo){
+        bool IOrdenDeCompraPdn.ValidaCodigoArticulo(int valConsecutivoCompania, string valCodigoArticulo) {
             LibGpParams vParams = new LibGpParams();
             bool vResult = false;
             vParams.AddInString("Codigo", valCodigoArticulo, 30);
@@ -613,7 +612,7 @@ namespace Galac.Adm.Brl.GestionCompras {
             }
             return vResult;
         }
-        bool IOrdenDeCompraPdn.ValidaCondicionesdeImportacion(string valCondicionesImportacion){
+        bool IOrdenDeCompraPdn.ValidaCondicionesdeImportacion(string valCondicionesImportacion) {
             LibGpParams vParams = new LibGpParams();
             OrdenDeCompra vOrdenCompra = new OrdenDeCompra();
             int vCantidadCondicionesImportacion = 12;
@@ -625,16 +624,16 @@ namespace Galac.Adm.Brl.GestionCompras {
             }
             return vResult;
         }
-        int IOrdenDeCompraPdn.ValidaTipoDeCompra(string valTipoDeCompra){
+        int IOrdenDeCompraPdn.ValidaTipoDeCompra(string valTipoDeCompra) {
             int vResult = 0;
-            if (LibString.S1IsEqualToS2(LibConvert.ToStr(valTipoDeCompra), "Imp")){
+            if (LibString.S1IsEqualToS2(LibConvert.ToStr(valTipoDeCompra), "Imp")) {
                 vResult = 1;
             } else {
                 vResult = 0;
             }
             return vResult;
         }
-        int IOrdenDeCompraPdn.InfoProveedor(int valConsecutivoCompania, string valCodigoProveedor){
+        int IOrdenDeCompraPdn.InfoProveedor(int valConsecutivoCompania, string valCodigoProveedor) {
             LibGpParams vParams = new LibGpParams();
             int vConsecutivo = 0;
             vParams.AddInString("CodigoProveedor", valCodigoProveedor, 10);
@@ -644,27 +643,27 @@ namespace Galac.Adm.Brl.GestionCompras {
             SQL.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             SQL.AppendLine("AND CodigoProveedor = @CodigoProveedor ");
             XElement vResulset = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), string.Empty, -1);
-            if (vResulset != null){
+            if (vResulset != null) {
                 vConsecutivo = (from vRecord in vResulset.Descendants("GpResult")
-                                select new
-                                {
+                                select new {
                                     Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo"))
                                 }).FirstOrDefault().Consecutivo;
             }
             return vConsecutivo;
         }
-        decimal IOrdenDeCompraPdn.CalculaTotalRenglon (string ValCodigoMoneda, decimal valCambioABolivares, decimal valCantidad, decimal valCosto){
+        decimal IOrdenDeCompraPdn.CalculaTotalRenglon(string ValCodigoMoneda, decimal valCambioABolivares, decimal valCantidad, decimal valCosto) {
             IMonedaPdn insMoneda = new clsMonedaNav();
             string vMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaLocal");
             decimal vTotalRenglon = 0;
-            if (vMonedaLocal == ValCodigoMoneda){;
+            if (vMonedaLocal == ValCodigoMoneda) {
+                ;
                 vTotalRenglon = LibMath.RoundToNDecimals(valCantidad * valCosto, 2);
             } else {
                 vTotalRenglon = LibMath.RoundToNDecimals((valCantidad * valCosto) * valCambioABolivares, 2);
             }
             return vTotalRenglon;
         }
-        decimal IOrdenDeCompraPdn.CalculaTotalRenglonOC(XElement valRecord, string valNumero, string valMoneda, decimal valCambio){
+        decimal IOrdenDeCompraPdn.CalculaTotalRenglonOC(XElement valRecord, string valNumero, string valMoneda, decimal valCambio) {
             OrdenDeCompra vOrdenCompra = new OrdenDeCompra();
             IOrdenDeCompraPdn OrdenDeCompraPdn = new clsOrdenDeCompraNav();
             decimal vResult = 0;
@@ -675,31 +674,31 @@ namespace Galac.Adm.Brl.GestionCompras {
             StringBuilder vErrMssg = new StringBuilder();
             string vNumeroAnterior = valNumero;
             string vNumeroActual = valNumero;
-            foreach (XElement vItem in valRecord.Nodes()){
+            foreach (XElement vItem in valRecord.Nodes()) {
                 string vNumeroNuevo = LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "Numero"));
-                if (vNumeroActual == vNumeroNuevo){
-                    vCantidadRegistros ++;
+                if (vNumeroActual == vNumeroNuevo) {
+                    vCantidadRegistros++;
                     vNumeroAnterior = vNumeroNuevo;
                 }
-                while (Regis < vCantidadRegistros){
+                while (Regis < vCantidadRegistros) {
                     vTotalRenglonesTemp = 0;
                     vTotalRenglonesTemp = OrdenDeCompraPdn.CalculaTotalRenglon(valMoneda, valCambio, LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "Cantidad")), LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CostoUnitario")));
                     Regis++;
                 }
-                if (Regis == vCantidadRegistros && vNumeroAnterior == vNumeroNuevo && vNumeroActual == vNumeroNuevo){
+                if (Regis == vCantidadRegistros && vNumeroAnterior == vNumeroNuevo && vNumeroActual == vNumeroNuevo) {
                     vTotalRenglones += vTotalRenglonesTemp;
                     Regis = 0;
                     vCantidadRegistros = 0;
-                } else if (vNumeroActual == vNumeroAnterior){
+                } else if (vNumeroActual == vNumeroAnterior) {
                     vNumeroAnterior = vNumeroNuevo;
-                } else{
+                } else {
                     vNumeroAnterior = vNumeroNuevo;
                 }
             }
             vResult = vTotalRenglones;
             return vResult;
         }
-        string IOrdenDeCompraPdn.InfoArticulo(int valConsecutivoCompania, string valCodigoArticulo){
+        string IOrdenDeCompraPdn.InfoArticulo(int valConsecutivoCompania, string valCodigoArticulo) {
             LibGpParams vParams = new LibGpParams();
             string vDescripcion = "";
             vParams.AddInString("Codigo", valCodigoArticulo, 30);
@@ -710,15 +709,15 @@ namespace Galac.Adm.Brl.GestionCompras {
             SQL.AppendLine("AND Codigo = @Codigo ");
             SQL.AppendLine("AND TipoDeArticulo <> 2 ");
             XElement vResulset = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), string.Empty, -1);
-            if (vResulset != null){
+            if (vResulset != null) {
                 vDescripcion = (from vRecord in vResulset.Descendants("GpResult")
-                                select new{
+                                select new {
                                     Descripcion = LibText.UCase(LibXml.GetElementValueOrEmpty(vRecord, "Descripcion"))
                                 }).FirstOrDefault().Descripcion;
             }
             return vDescripcion;
         }
-        int IOrdenDeCompraPdn.InfoNumeroOC(int valConsecutivoCompania, string valNumero){
+        int IOrdenDeCompraPdn.InfoNumeroOC(int valConsecutivoCompania, string valNumero) {
             LibGpParams vParams = new LibGpParams();
             int vResult = 0;
             vParams.AddInString("Numero", valNumero, 20);
@@ -727,17 +726,16 @@ namespace Galac.Adm.Brl.GestionCompras {
             SQL.AppendLine(" SELECT Consecutivo FROM Adm.OrdenDeCompra ");
             SQL.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             SQL.AppendLine("AND Numero = @Numero ");
-            
+
             XElement vResulset = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), string.Empty, -1);
-            if (vResulset != null){
+            if (vResulset != null) {
                 vResult = (from vRecord in vResulset.Descendants("GpResult")
-                                select new{
-                                    Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo"))
-                                }).FirstOrDefault().Consecutivo;
+                           select new {
+                               Consecutivo = LibConvert.ToInt(vRecord.Element("Consecutivo"))
+                           }).FirstOrDefault().Consecutivo;
             }
             return vResult;
         }
     } //End of class clsOrdenDeCompraNav
 
 } //End of namespace Galac.Adm.Brl.GestionCompras
-
