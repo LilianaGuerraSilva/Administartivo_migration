@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading;
 using System.Security;
@@ -15,7 +16,7 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.GestionCompras;
 
 namespace Galac.Adm.Dal.GestionCompras {
-    public class clsOrdenDeCompraDat: LibData, ILibDataMasterComponentWithSearch<IList<OrdenDeCompra>, IList<OrdenDeCompra>>, LibGalac.Aos.Base.ILibDataRpt {
+    public class clsOrdenDeCompraDat: LibData, ILibDataMasterComponentWithSearch<IList<OrdenDeCompra>, IList<OrdenDeCompra>>, LibGalac.Aos.Base.ILibDataRpt, ILibDataImport, IOrdenDeCompraDatPdn, ILibDataImportBulkInsert {
         #region Variables
         LibTrn insTrn;
         OrdenDeCompra _CurrentRecord;
@@ -25,6 +26,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             get { return _CurrentRecord; }
             set { _CurrentRecord = value; }
         }
+        eActionImpExp ILibDataImportBulkInsert.Action { get; set; }
         #endregion //Propiedades
         #region Constructores
 
@@ -186,7 +188,36 @@ namespace Galac.Adm.Dal.GestionCompras {
                 }
             }
         }
-
+        LibResponse IOrdenDeCompraDatPdn.InsertarListaDeOrdenDeCompraMaster(IList<OrdenDeCompra> valListOfRecords){
+            return InsertRecord(valListOfRecords);
+        }
+        private LibResponse InsertRecord(IList<OrdenDeCompra> refRecord){
+            LibResponse vResult = new LibResponse();
+            insTrn.StartTransaction();
+            string vErrMsg;
+            try {
+                foreach (var item in refRecord){
+                    CurrentRecord = item;
+                    if (ExecuteProcessBeforeInsert()){
+                        if (Validate(eAccionSR.Insertar, out vErrMsg)){
+                            if (insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeCompraINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))){
+                                vResult.Success = true;
+                                if (vResult.Success){
+                                    ExecuteProcessAfterInsert();
+                                }
+                            }
+                        }
+                    }
+                }
+                insTrn.CommitTransaction();
+                return vResult;
+            }
+            finally {
+                if (!vResult.Success) {
+                    insTrn.RollBackTransaction();
+                }
+            }
+        }
         XElement ILibDataMasterComponent<IList<OrdenDeCompra>, IList<OrdenDeCompra>>.QueryInfo(eProcessMessageType valType, string valProcessMessage, StringBuilder valParameters) {
             XElement vResult = null;
             LibDatabase insDb = new LibDatabase();
@@ -547,14 +578,122 @@ namespace Galac.Adm.Dal.GestionCompras {
         }
         #endregion ////Miembros de ILibDataRpt
 
+		[PrincipalPermission(SecurityAction.Demand, Role = "Orden De Compra.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Orden De Compra.Importar")]
+        LibXmlResult ILibDataImport.Import(XmlReader refRecord, LibProgressManager valManager, bool valShowMessage) {
+            try {
+                string vMessage = "";
+                int vIndex = 0;
+                LibXmlResult vResult = new LibXmlResult();
+                vResult.AddTitle("Importación Orden De Compra");
+                List<OrdenDeCompra> vList = ParseToListEntity(refRecord);
+                if (vList.Count > 0) {
+                    LibDatabase insDb = new LibDatabase();
+                    if (((ILibDataImportBulkInsert)this).Action == eActionImpExp.eAIE_Instalar) {
+                        try {
+                            string vTablename = DbSchema + ".OrdenDeCompra";
+                            DataTable vDataTable = insDb.ParseListToDt<OrdenDeCompra>(vList, vTablename, valManager);
+                            valManager.ReportProgress(vList.Count, "Realizando inserción en lote, por favor espere...", string.Empty, false);
+                            insDb.BulkInsert(vDataTable, vTablename);
+                        } catch (System.Data.SqlClient.SqlException vEx) {
+                            throw new GalacException("Error procesando los datos, debe verificar los datos a importar.", eExceptionManagementType.Controlled, vEx);
+                        }
+                    } else {
+                        int vTotal = vList.Count;
+                        foreach (OrdenDeCompra item in vList) {
+                            try {
+                                vMessage = string.Format("Insertando {0:n0} de {1:n0}", vIndex, vTotal);
+                                insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "OrdenDeCompraINST"), ParametrosActualizacion(item, eAccionSR.ReInstalar));
+                            } catch (System.Data.SqlClient.SqlException vEx) {
+                                if (LibExceptionMng.IsPrimaryKeyViolation(vEx)) {
+                                    vResult.AddDetailWithAttribute(item.Serie, "Ya existe", eXmlResultType.Error);
+                                } else {
+                                    throw;
+                                }
+                            }
+                            if (valManager.CancellationPending) {
+                                break;
+                            }
+                            vIndex++;
+                            valManager.ReportProgress(vIndex, "Ejecutando por favor espere...", vMessage, (vIndex >= vTotal) && (valShowMessage));
+                        }
+                    }
+                    insDb.Dispose();
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private List<OrdenDeCompra> ParseToListEntity(XmlReader valXmlEntity) {
+            List<OrdenDeCompra> vResult = new List<OrdenDeCompra>();
+            XDocument xDoc = XDocument.Load(valXmlEntity);
+            var vEntity = from vRecord in xDoc.Descendants("GpResult")
+                          select vRecord;
+            foreach (XElement vItem in vEntity) {
+                OrdenDeCompra vRecord = new OrdenDeCompra();
+                vRecord.Clear();
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoCompania"), null))) {
+                    vRecord.ConsecutivoCompania = LibConvert.ToInt(vItem.Element("ConsecutivoCompania"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Consecutivo"), null))) {
+                    vRecord.Consecutivo = LibConvert.ToInt(vItem.Element("Consecutivo"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Serie"), null))) {
+                    vRecord.Serie = vItem.Element("Serie").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Numero"), null))) {
+                    vRecord.Numero = vItem.Element("Numero").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Fecha"), null))) {
+                    vRecord.Fecha = LibConvert.ToDate(vItem.Element("Fecha"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoProveedor"), null))) {
+                    vRecord.ConsecutivoProveedor = LibConvert.ToInt(vItem.Element("ConsecutivoProveedor"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Moneda"), null))) {
+                    vRecord.Moneda = vItem.Element("Moneda").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CodigoMoneda"), null))) {
+                    vRecord.CodigoMoneda = vItem.Element("CodigoMoneda").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CambioABolivares"), null))) {
+                    vRecord.CambioABolivares = LibConvert.ToDec(vItem.Element("CambioABolivares"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TotalRenglones"), null))) {
+                    vRecord.TotalRenglones = LibConvert.ToDec(vItem.Element("TotalRenglones"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TotalCompra"), null))) {
+                    vRecord.TotalCompra = LibConvert.ToDec(vItem.Element("TotalCompra"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Comentarios"), null))) {
+                    vRecord.Comentarios = vItem.Element("Comentarios").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("StatusOrdenDeCompra"), null))) {
+                    vRecord.StatusOrdenDeCompra = vItem.Element("StatusOrdenDeCompra").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("FechaDeAnulacion"), null))) {
+                    vRecord.FechaDeAnulacion = LibConvert.ToDate(vItem.Element("FechaDeAnulacion"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CondicionesDeEntrega"), null))) {
+                    vRecord.CondicionesDeEntrega = vItem.Element("CondicionesDeEntrega").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CondicionesDePago"), null))) {
+                    vRecord.CondicionesDePago = LibConvert.ToInt(vItem.Element("CondicionesDePago"));
+                }
+                vResult.Add(vRecord);
+            }
+            return vResult;
+        }
+
         #endregion //Metodos Generados
         protected override bool ExecuteProcessBeforeInsert()
         {
             StringBuilder vParametro = ParametrosProximoConsecutivo(CurrentRecord);
             LibDataScope insDb = new LibDataScope();
             CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".OrdenDeCompra", "Consecutivo", vParametro);
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SugerirNumeroDeOrdenDeCompra"))
-            {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "SugerirNumeroDeOrdenDeCompra") && (LibConvert.ToStr(eAccionSR.Importar) != "Importar")){
                 CurrentRecord.Numero = ProximoNumero();
             }
             return base.ExecuteProcessBeforeInsert();

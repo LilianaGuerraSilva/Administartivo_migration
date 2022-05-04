@@ -590,6 +590,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Orden de Compra", "Modificar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Orden de Compra", "Eliminar", "Inventario", 4));
             vPermisos.Add(new CustomRole("Orden de Compra", "Anular", "Inventario", 4));
+            vPermisos.Add(new CustomRole("Orden de Compra", "Importar", "Inventario", 4));
 
             #endregion
 

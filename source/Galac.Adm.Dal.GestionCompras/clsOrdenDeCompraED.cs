@@ -487,6 +487,98 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
+        private string SqlSpInstParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@Serie" + InsSql.VarCharTypeForDb(20) + ",");
+            SQL.AppendLine("@Numero" + InsSql.VarCharTypeForDb(20) + ",");
+            SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + ",");
+            SQL.AppendLine("@ConsecutivoProveedor" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@Moneda" + InsSql.VarCharTypeForDb(10) + ",");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
+            SQL.AppendLine("@CambioABolivares" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@TotalRenglones" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@TotalCompra" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@Comentarios" + InsSql.VarCharTypeForDb(255) + ",");
+            SQL.AppendLine("@StatusOrdenDeCompra" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@FechaDeAnulacion" + InsSql.DateTypeForDb() + ",");
+            SQL.AppendLine("@CondicionesDeEntrega" + InsSql.VarCharTypeForDb(500) + ",");
+            SQL.AppendLine("@CondicionesDePago" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
+            SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb());
+            return SQL.ToString();
+        }
+       private string SqlSpInst() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("	BEGIN TRAN");
+            SQL.AppendLine("         UPDATE " + DbSchema + ".OrdenDeCompra");
+            SQL.AppendLine("            SET Serie = @Serie,");
+            SQL.AppendLine("               Numero = @Numero,");
+            SQL.AppendLine("               Fecha = @Fecha,");
+            SQL.AppendLine("               ConsecutivoProveedor = @ConsecutivoProveedor,");
+            SQL.AppendLine("               Moneda = @Moneda,");
+            SQL.AppendLine("               CodigoMoneda = @CodigoMoneda,");
+            SQL.AppendLine("               CambioABolivares = @CambioABolivares,");
+            SQL.AppendLine("               TotalRenglones = @TotalRenglones,");
+            SQL.AppendLine("               TotalCompra = @TotalCompra,");
+            SQL.AppendLine("               Comentarios = @Comentarios,");
+            SQL.AppendLine("               StatusOrdenDeCompra = @StatusOrdenDeCompra,");
+            SQL.AppendLine("               FechaDeAnulacion = @FechaDeAnulacion,");
+            SQL.AppendLine("               CondicionesDeEntrega = @CondicionesDeEntrega,");
+            SQL.AppendLine("               CondicionesDePago = @CondicionesDePago,");
+            SQL.AppendLine("               NombreOperador = @NombreOperador,");
+            SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
+            SQL.AppendLine("               WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("               AND Consecutivo = @Consecutivo");
+            SQL.AppendLine("	IF @@ROWCOUNT = 0");
+            SQL.AppendLine("        INSERT INTO " + DbSchema + ".OrdenDeCompra(");
+            SQL.AppendLine("            ConsecutivoCompania,");
+            SQL.AppendLine("            Consecutivo,");
+            SQL.AppendLine("            Serie,");
+            SQL.AppendLine("            Numero,");
+            SQL.AppendLine("            Fecha,");
+            SQL.AppendLine("            ConsecutivoProveedor,");
+            SQL.AppendLine("            Moneda,");
+            SQL.AppendLine("            CodigoMoneda,");
+            SQL.AppendLine("            CambioABolivares,");
+            SQL.AppendLine("            TotalRenglones,");
+            SQL.AppendLine("            TotalCompra,");
+            SQL.AppendLine("            Comentarios,");
+            SQL.AppendLine("            StatusOrdenDeCompra,");
+            SQL.AppendLine("            FechaDeAnulacion,");
+            SQL.AppendLine("            CondicionesDeEntrega,");
+            SQL.AppendLine("            CondicionesDePago,");
+            SQL.AppendLine("            NombreOperador,");
+            SQL.AppendLine("            FechaUltimaModificacion)");
+            SQL.AppendLine("        VALUES(");
+            SQL.AppendLine("            @ConsecutivoCompania,");
+            SQL.AppendLine("            @Consecutivo,");
+            SQL.AppendLine("            @Serie,");
+            SQL.AppendLine("            @Numero,");
+            SQL.AppendLine("            @Fecha,");
+            SQL.AppendLine("            @ConsecutivoProveedor,");
+            SQL.AppendLine("            @Moneda,");
+            SQL.AppendLine("            @CodigoMoneda,");
+            SQL.AppendLine("            @CambioABolivares,");
+            SQL.AppendLine("            @TotalRenglones,");
+            SQL.AppendLine("            @TotalCompra,");
+            SQL.AppendLine("            @Comentarios,");
+            SQL.AppendLine("            @StatusOrdenDeCompra,");
+            SQL.AppendLine("            @FechaDeAnulacion,");
+            SQL.AppendLine("            @CondicionesDeEntrega,");
+            SQL.AppendLine("            @CondicionesDePago,");
+            SQL.AppendLine("            @NombreOperador,");
+            SQL.AppendLine("            @FechaUltimaModificacion)");
+            SQL.AppendLine(" 	IF @@ERROR = 0");
+            SQL.AppendLine(" 		COMMIT TRAN");
+            SQL.AppendLine(" 	ELSE");
+            SQL.AppendLine(" 		ROLLBACK");
+            SQL.AppendLine("END ");
+            return SQL.ToString();
+        }
         #endregion //Queries
 
         bool CrearTabla() {
@@ -514,6 +606,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraGetFk", SqlSpGetFKParameters(), SqlSpGetFK(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeCompraINST", SqlSpInstParameters(),SqlSpInst(), true) && vResult;
             insSps.Dispose();
             return vResult;
         }
@@ -550,6 +643,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeCompraGET") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeCompraGetFk") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeCompraSCH") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeCompraINST") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_OrdenDeCompra_B1") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumCondicionDeImportacion") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumStatusCompra") && vResult;
