@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Data;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
@@ -18,7 +18,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		private void AgregarParametroNombrePlantillaSubFacturaConOtrosCargos(){
-			AgregarNuevoParametro("NombrePlantillaSubFacturaConOtrosCargos", "Factura", 2, "2.4.- Modelo de Factura", 4 , "",'3', "", 'N', "rpxSubFacturaConOtrosCargos");
+			AgregarNuevoParametro("NombrePlantillaSubFacturaConOtrosCargos", "Factura", 2, "2.4.- Modelo de Factura", 4 , "",'2', "", 'N', "rpxSubFacturaConOtrosCargos");
 		}
 	}
 }
