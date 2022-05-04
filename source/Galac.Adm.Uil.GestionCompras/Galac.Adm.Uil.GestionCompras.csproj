@@ -206,6 +206,7 @@
     <Compile Include="ViewModel\LibroDeComprasViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeCompraDetalleArticuloInventarioMngViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeCompraDetalleArticuloInventarioViewModel.cs" />
+    <Compile Include="ViewModel\OrdenDeCompraImportarViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeCompraMngViewModel.cs" />
     <Compile Include="ViewModel\OrdenDeCompraViewModel.cs" />
     <Compile Include="ViewModel\ProveedorMngViewModel.cs" />
@@ -214,6 +215,9 @@
     <Compile Include="ViewModel\TasaDelDiaViewModel.cs" />
     <Compile Include="Views\GSCargaInicialView.xaml.cs">
       <DependentUpon>GSCargaInicialView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSOrdenDeCompraImportarView.xaml.cs">
+      <DependentUpon>GSOrdenDeCompraImportarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSLibroDeComprasView.xaml.cs">
       <DependentUpon>GSLibroDeComprasView.xaml</DependentUpon>
@@ -299,6 +303,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSCargaInicialView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSOrdenDeCompraImportarView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Data;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
