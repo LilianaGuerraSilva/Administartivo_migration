@@ -495,7 +495,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                         vResult = false;
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra") + " - Código de Moneda vITacío");
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra") + " - Código de Moneda vacío");
                         vResult = false;
                     } else if (LibString.IsNullOrEmpty(insMoneda.GetNombreMoneda(LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda")))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") + " - Código de Moneda inválido");
@@ -522,7 +522,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                         vResult = false;
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion") + " - Las Condiciones de Importación vacia");
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion") + " - Las Condiciones de Importación vacía");
                         vResult = false;
                     } else if (!insOrdenCompra.ValidaCondicionesdeImportacion(LibConvert.ToStr(LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion")))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion") + " - Las Condiciones de Importación son inválidas o no existen");
