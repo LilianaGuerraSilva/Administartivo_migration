@@ -75,8 +75,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-
                 <Label
                     Name="lblSerieNumero"
                     Grid.Row="0"
@@ -290,11 +290,10 @@
                 <nsWpfControls:GSSeekConnection
                     Name="txtMoneda"
                     Grid.Row="3"
-                    Grid.RowSpan="2"
                     Grid.Column="1"
                     Width="180"
                     Height="23"
-                    Margin="3,12,0,25"
+                    Margin="3,4,0,4"
                     HorizontalAlignment="Left"
                     ConnectionValue="{Binding Path=Moneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Nombre"
@@ -422,7 +421,7 @@
 
                 <Label
                     Name="lblFechaDeAnulacion"
-                    Grid.Row="6"
+                    Grid.Row="7"
                     Grid.Column="0"
                     Width="118"
                     Height="24"
@@ -432,7 +431,7 @@
                     Visibility="{Binding Path=IsVisibleFechaAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSDatePickerWpf
                     Name="dtpFechaDeAnulacion"
-                    Grid.Row="6"
+                    Grid.Row="7"
                     Grid.Column="1"
                     Width="120"
                     Margin="3,3,0,0"
@@ -446,6 +445,65 @@
         </GroupBox>
         <GroupBox
             Grid.Row="1"
+            Grid.Column="0"
+            Margin="3"
+            Header="Moneda Extranjera para el Costo"
+            HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
+            IsEnabled="{Binding Path=IsEnabledCambioCostoUltimaCompra}"
+            Style="{StaticResource GroupBoxStyle}"
+            Visibility="{Binding Path=IsVisibleMonedaParaCostos, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Grid x:Name="gdDatosDelCosto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label
+                    Name="lblNombreMonedaCostoUltimaCompra"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Content="Moneda"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtMonedaCostoUltimaCompra"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Width="180"
+                    Height="23"
+                    Margin="3,0,25,0"
+                    HorizontalAlignment="Left"
+                    ConnectionValue="{Binding Path=MonedaCostoUltimaCompra, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="Nombre"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Model="{Binding Path=ConexionMonedaCostoUltimaCompra, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseMonedaCostoUltimaCompraCommand}" />
+                <Label
+                    Name="lblCambioCostoUltimaCompra"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Content="Cambio a Moneda Local"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtCambioCostoUltimaCompra"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Width="180"
+                    Margin="3,4,0,4"
+                    BorderThickness="1"
+                    DecimalDigits="4"
+                    InputDataType="UDecimal"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    MaxLength="28"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Value="{Binding Path=CambioCostoUltimaCompra, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox
+            Grid.Row="2"
             Grid.ColumnSpan="5"
             Margin="3"
             Header="Datos de la Orden de Compra"
@@ -466,7 +524,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-
                 <Label
                     Name="lblTipoDeCompra"
                     Grid.Row="0"
@@ -522,7 +579,7 @@
 
             </Grid>
         </GroupBox>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -795,48 +852,8 @@
                         Style="{StaticResource TextBoxInputStyle}"
                         Text="{Binding Path=Comentarios, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         VerticalScrollBarVisibility="Auto" />
-
                 </Grid>
             </GroupBox>
         </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!--
-
-
-        <Label Grid.Row="6" Grid.Column="2" Name="lblDistribuirGastos" Content="Distribuir Gastos" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="6" Grid.Column="3" Style="{StaticResource ComboBoxStyle}" Name="cmbDistribuirGastos" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayMontoPorcentaje}"
-                SelectedItem="{Binding Path=DistribuirGastos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=IsEnabled}" />
-
-
-
-
-        <Label Grid.Row="4" Grid.Column="4" Name="lblTipoDeCompraParaCxP" Content="Tipo De Compra Para Cx P" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf Grid.Row="4" Grid.Column="5" Style="{StaticResource ComboBoxStyle}" Name="cmbTipoDeCompraParaCxP" Width="120"
-                IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayTipoDeCompra}"
-                SelectedItem="{Binding Path=TipoDeCompraParaCxP, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=IsEnabled}" />-->
-
-
     </Grid>
 </UserControl>

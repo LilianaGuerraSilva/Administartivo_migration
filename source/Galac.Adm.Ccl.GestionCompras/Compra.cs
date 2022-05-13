@@ -46,8 +46,12 @@ namespace Galac.Adm.Ccl.GestionCompras {
         private eTipoOrdenDeCompra _TipoDeCompraParaCxP;
         private string _NombreOperador;
         private string _SimboloMoneda;
-        private DateTime _FechaUltimaModificacion;
+        private string _CodigoMonedaCostoUltimaCompra;		
+        private string _MonedaCostoUltimaCompra;
+		private decimal _CambioCostoUltimaCompra;
+		private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
+		
         private ObservableCollection<CompraDetalleArticuloInventario> _DetailCompraDetalleArticuloInventario;
         private ObservableCollection<CompraDetalleGasto> _DetailCompraDetalleGasto;
         private ObservableCollection<CompraDetalleSerialRollo> _DetailCompraDetalleSerialRollo;
@@ -277,6 +281,21 @@ namespace Galac.Adm.Ccl.GestionCompras {
             get { return _SimboloMoneda; }
             set { _SimboloMoneda = value; }
         }
+        
+        public string CodigoMonedaCostoUltimaCompra {
+            get { return _CodigoMonedaCostoUltimaCompra; }
+            set { _CodigoMonedaCostoUltimaCompra = LibString.Mid(value, 0, 4); }
+        }
+		
+        public string MonedaCostoUltimaCompra {
+            get { return _MonedaCostoUltimaCompra; }
+            set { _MonedaCostoUltimaCompra = LibString.Mid(value, 0, 10); }
+        }
+		
+		public decimal CambioCostoUltimaCompra {
+            get { return _CambioCostoUltimaCompra; }
+            set { _CambioCostoUltimaCompra = value; }
+        }
 
         public string NombreOperador {
             get { return _NombreOperador; }
@@ -342,7 +361,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
             NombreAlmacen = string.Empty;
             Moneda = string.Empty;
             CodigoMoneda = string.Empty;
-            CambioABolivares = 0;
+            CambioABolivares = 1;
             GenerarCXPAsBool = false;
             UsaSeguroAsBool = false;
             TipoDeDistribucionAsEnum = eTipoDeDistribucion.ManualPorMonto;
@@ -360,6 +379,9 @@ namespace Galac.Adm.Ccl.GestionCompras {
             NumeroDeOrdenDeCompra = string.Empty;
             NoFacturaNotaEntrega = string.Empty;
             TipoDeCompraParaCxPAsEnum = eTipoOrdenDeCompra.NotadeEntrega;
+			CodigoMonedaCostoUltimaCompra = string.Empty;
+            MonedaCostoUltimaCompra = string.Empty;
+            CambioCostoUltimaCompra = 1;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -400,6 +422,9 @@ namespace Galac.Adm.Ccl.GestionCompras {
             vResult.ConsecutivoOrdenDeCompra = _ConsecutivoOrdenDeCompra;
             vResult.NumeroDeOrdenDeCompra = _NumeroDeOrdenDeCompra;
             vResult.NoFacturaNotaEntrega = _NoFacturaNotaEntrega;
+			vResult.CodigoMonedaCostoUltimaCompra = _CodigoMonedaCostoUltimaCompra;
+            vResult.MonedaCostoUltimaCompra = _MonedaCostoUltimaCompra;
+			vResult.CambioCostoUltimaCompra = _CambioCostoUltimaCompra;
             vResult.TipoDeCompraParaCxPAsEnum = _TipoDeCompraParaCxP;
             vResult.NombreOperador = _NombreOperador;
             vResult.SimboloMoneda = _SimboloMoneda;
@@ -437,8 +462,10 @@ namespace Galac.Adm.Ccl.GestionCompras {
                 "\nNo Factura Nota Entrega = " + _NoFacturaNotaEntrega +
                 "\nTipo De Compra Para CxP = " + _TipoDeCompraParaCxP.ToString() +
                 "\nSímbolo de la Moneda = " + _SimboloMoneda +
-                "\nNombre Operador = " + _NombreOperador +
-                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
+                "\nCódigo Moneda = " + _CodigoMonedaCostoUltimaCompra +				
+				"\nCambio Costo Última Compra = " + _CambioCostoUltimaCompra.ToString() +
+                "\nNombre Operador = " + _NombreOperador +                
+				"\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
         #endregion //Metodos Generados
 

@@ -66,6 +66,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             vParams.AddInInteger("ConsecutivoOrdenDeCompra", valRecord.ConsecutivoOrdenDeCompra);
             vParams.AddInString("NoFacturaNotaEntrega", valRecord.NoFacturaNotaEntrega, 20);
             vParams.AddInEnum("TipoDeCompraParaCxP", valRecord.TipoDeCompraParaCxPAsDB);
+            vParams.AddInString("CodigoMonedaCostoUltimaCompra", valRecord.CodigoMonedaCostoUltimaCompra, 4);
+            vParams.AddInDecimal("CambioCostoUltimaCompra", valRecord.CambioCostoUltimaCompra, 4);
             vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {

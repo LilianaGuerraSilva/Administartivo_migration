@@ -73,7 +73,9 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("ConsecutivoOrdenDeCompra" + InsSql.NumericTypeForDb(20,0) + " CONSTRAINT d_ComCoOrDeCo DEFAULT (0), ");
             SQL.AppendLine("NumeroDeOrdenDeCompra" + InsSql.VarCharTypeForDb(10) + " CONSTRAINT d_ComNuDeOrDeCo DEFAULT (''), ");
             SQL.AppendLine("NoFacturaNotaEntrega" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_ComNoFaNoEn DEFAULT (''), ");
-            SQL.AppendLine("TipoDeCompraParaCxP" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_ComTiDeCoPaCxP DEFAULT ('0'), ");
+            SQL.AppendLine("TipoDeCompraParaCxP" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_ComTiDeCoPaCxP DEFAULT ('0'), ");            
+            SQL.AppendLine("CodigoMonedaCostoUltimaCompra" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_ComCoMoCoUlCo DEFAULT (''), ");
+            SQL.AppendLine("CambioCostoUltimaCompra" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnComCaCoUlCo NOT NULL, ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -87,9 +89,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_CompraMoneda FOREIGN KEY (CodigoMoneda)");
             SQL.AppendLine("REFERENCES dbo.Moneda(Codigo)");
-            SQL.AppendLine("ON UPDATE CASCADE");            
-            SQL.AppendLine(",CONSTRAINT u_Comniarieerodorpodecom UNIQUE NONCLUSTERED (ConsecutivoCompania,Serie,Numero,ConsecutivoProveedor,TipoDeCompra)");
-            SQL.AppendLine(")");
+            SQL.AppendLine("ON UPDATE CASCADE");                        
+            SQL.AppendLine(",CONSTRAINT u_Comniarieerodorpodecom UNIQUE NONCLUSTERED (ConsecutivoCompania,Serie,Numero,ConsecutivoProveedor,TipoDeCompra))");            
             return SQL.ToString();
         }
 
@@ -101,7 +102,7 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine(", Compra.TipoDeDistribucion, " + DbSchema + ".Gv_EnumTipoDeDistribucion.StrValue AS TipoDeDistribucionStr, Compra.TasaAduanera, Compra.TasaDolar, Compra.ValorUT, Compra.TotalRenglones, Compra.TotalOtrosGastos, Compra.TotalCompra");
             SQL.AppendLine(", Compra.Comentarios, Compra.StatusCompra, " + DbSchema + ".Gv_EnumStatusCompra.StrValue AS StatusCompraStr, Compra.TipoDeCompra, " + DbSchema + ".Gv_EnumTipoCompra.StrValue AS TipoDeCompraStr, Compra.FechaDeAnulacion");
             SQL.AppendLine(", OrdenDeCompra.Consecutivo AS ConsecutivoOrdenDeCompra, ISNULL(OrdenDeCompra.Numero,'') AS NumeroDeOrdenDeCompra, Compra.NoFacturaNotaEntrega, Compra.TipoDeCompraParaCxP, " + DbSchema + ".Gv_EnumTipoOrdenDeCompra.StrValue AS TipoDeCompraParaCxPStr");
-            SQL.AppendLine(", Compra.NombreOperador, Compra.FechaUltimaModificacion");
+            SQL.AppendLine(", Compra.CambioCostoUltimaCompra, Compra.CodigoMonedaCostoUltimaCompra, Compra.NombreOperador, Compra.FechaUltimaModificacion");
             SQL.AppendLine(", Adm.Proveedor.codigoProveedor AS CodigoProveedor");
             SQL.AppendLine(", Adm.Proveedor.nombreProveedor AS NombreProveedor");
             SQL.AppendLine(", Saw.Almacen.Codigo AS CodigoAlmacen");
@@ -125,8 +126,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("      AND " + DbSchema + ".Compra.ConsecutivoCompania = Saw.Almacen.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN dbo.Moneda ON  " + DbSchema + ".Compra.CodigoMoneda = dbo.Moneda.Codigo");
             SQL.AppendLine("LEFT OUTER JOIN " + DbSchema + ".OrdenDeCompra ON  " + DbSchema + ".Compra.ConsecutivoOrdenDeCompra = " + DbSchema + ".OrdenDeCompra.consecutivo");
-            SQL.AppendLine("      AND " + DbSchema + ".Compra.ConsecutivoCompania = " + DbSchema + ".OrdenDeCompra.ConsecutivoCompania");
-            return SQL.ToString();
+            SQL.AppendLine("      AND " + DbSchema + ".Compra.ConsecutivoCompania = " + DbSchema + ".OrdenDeCompra.ConsecutivoCompania");           
+			return SQL.ToString();
         }
 
         private string SqlSpInsParameters() {
@@ -158,6 +159,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@ConsecutivoOrdenDeCompra" + InsSql.NumericTypeForDb(10,0) + " = 0,");
             SQL.AppendLine("@NoFacturaNotaEntrega" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@TipoDeCompraParaCxP" + InsSql.CharTypeForDb(1) + " = '0',");
+            SQL.AppendLine("@CodigoMonedaCostoUltimaCompra" + InsSql.VarCharTypeForDb(4) + ",");
+			SQL.AppendLine("@CambioCostoUltimaCompra" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");            
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -199,7 +202,9 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("            ConsecutivoOrdenDeCompra,");
             SQL.AppendLine("            NoFacturaNotaEntrega,");
             SQL.AppendLine("            TipoDeCompraParaCxP,");
-            SQL.AppendLine("            NombreOperador,");
+            SQL.AppendLine("            CodigoMonedaCostoUltimaCompra,");
+            SQL.AppendLine("            CambioCostoUltimaCompra,");
+			SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @ConsecutivoCompania,");
@@ -228,6 +233,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("            @ConsecutivoOrdenDeCompra,");
             SQL.AppendLine("            @NoFacturaNotaEntrega,");
             SQL.AppendLine("            @TipoDeCompraParaCxP,");
+            SQL.AppendLine("            @CodigoMonedaCostoUltimaCompra,");
+            SQL.AppendLine("            @CambioCostoUltimaCompra,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -269,7 +276,9 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("@ConsecutivoOrdenDeCompra" + InsSql.NumericTypeForDb(10,0) + ",");
             SQL.AppendLine("@NoFacturaNotaEntrega" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@TipoDeCompraParaCxP" + InsSql.CharTypeForDb(1) + ",");
-            SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
+            SQL.AppendLine("@CodigoMonedaCostoUltimaCompra" + InsSql.VarCharTypeForDb(4) + ",");
+            SQL.AppendLine("@CambioCostoUltimaCompra" + InsSql.DecimalTypeForDb(25, 4) + ",");
+			SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
@@ -319,6 +328,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("               ConsecutivoOrdenDeCompra = @ConsecutivoOrdenDeCompra,");
             SQL.AppendLine("               NoFacturaNotaEntrega = @NoFacturaNotaEntrega,");
             SQL.AppendLine("               TipoDeCompraParaCxP = @TipoDeCompraParaCxP,");
+            SQL.AppendLine("               CodigoMonedaCostoUltimaCompra = @CodigoMonedaCostoUltimaCompra,");
+            SQL.AppendLine("               CambioCostoUltimaCompra = @CambioCostoUltimaCompra,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -453,6 +464,8 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("         Compra.ConsecutivoOrdenDeCompra,");
             SQL.AppendLine("         Compra.NoFacturaNotaEntrega,");
             SQL.AppendLine("         Compra.TipoDeCompraParaCxP,");
+            SQL.AppendLine("         Compra.CodigoMonedaCostoUltimaCompra,");
+            SQL.AppendLine("         Compra.CambioCostoUltimaCompra,");
             SQL.AppendLine("         Compra.NombreOperador,");
             SQL.AppendLine("         Compra.FechaUltimaModificacion,");
             SQL.AppendLine("         ISNULL(OrdenDeCompra.Numero,'') AS NumeroDeOrdenDeCompra,");
@@ -505,8 +518,10 @@ namespace Galac.Adm.Dal.GestionCompras {
             SQL.AppendLine("      " + DbSchema + ".Gv_Compra_B1.Fecha,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Compra_B1.TipoDeDistribucion,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Compra_B1.StatusCompra,"); 
-            SQL.AppendLine("      " + DbSchema + ".Gv_Compra_B1.NumeroDeOrdenDeCompra ");
-            SQL.AppendLine("      FROM " + DbSchema + ".Gv_Compra_B1");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Compra_B1.NumeroDeOrdenDeCompra, ");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Compra_B1.CodigoMonedaCostoUltimaCompra,");
+  		    SQL.AppendLine("      " + DbSchema + ".Gv_Compra_B1.CambioCostoUltimaCompra");
+		    SQL.AppendLine("      FROM " + DbSchema + ".Gv_Compra_B1");
             SQL.AppendLine("      INNER JOIN Adm.Gv_Proveedor_B1 ON  " + DbSchema + ".Gv_Compra_B1.ConsecutivoProveedor = Adm.Gv_Proveedor_B1.consecutivo");
             SQL.AppendLine("      AND " + DbSchema + ".Gv_Compra_B1.ConsecutivoCompania = Adm.Gv_Proveedor_B1.ConsecutivoCompania");
             SQL.AppendLine("      INNER JOIN Saw.Gv_Almacen_B1 ON  " + DbSchema + ".Gv_Compra_B1.ConsecutivoAlmacen = Saw.Gv_Almacen_B1.Consecutivo");

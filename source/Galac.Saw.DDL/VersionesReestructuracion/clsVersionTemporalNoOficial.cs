@@ -12,11 +12,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-			AgregarParametroNombrePlantillaSubFacturaConOtrosCargos();
-			DisposeConnectionNoTransaction();
-			return true;
-		}
+            AgregarColumnasATablaCompras();
+            AgregarParametroNombrePlantillaSubFacturaConOtrosCargos();
+            DisposeConnectionNoTransaction();
+            return true;
+        }
 
+        private void AgregarColumnasATablaCompras() {
+            AddColumnDecimal("Adm.Compra", "CambioCostoUltimaCompra", 25, 4, "CONSTRAINT nnComCaCoUlCo NOT NULL", 1);
+            if (AddColumnString("Adm.Compra", "CodigoMonedaCostoUltimaCompra", 4, "", "VED")) {
+                AddForeignKey("dbo.Moneda", "Adm.Compra", new string[] { "Codigo" }, new string[] { "CodigoMonedaCostoUltimaCompra" }, false, false);
+            }
+        }
+		
 		private void AgregarParametroNombrePlantillaSubFacturaConOtrosCargos(){
 			AgregarNuevoParametro("NombrePlantillaSubFacturaConOtrosCargos", "Factura", 2, " 2.4.- Modelo de Factura ", 4 , "",'2', "", 'N', "rpxSubFacturaConOtrosCargos");
 		}
