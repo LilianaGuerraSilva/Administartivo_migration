@@ -466,11 +466,11 @@ namespace Galac.Adm.Brl.GestionCompras {
             string vMensaje = string.Empty;
             if (valValores != null && valValores.HasElements && !valValores.IsEmpty) {
                 if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "Numero"))) {
-                    BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Numero") + " - Numero Orden de Compra vacía");
+                    BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Numero") + " - Número Orden de Compra vacía");
                     vResult = false;
                 } else {
                     if (insOrdenCompra.ValidaNumeroOC(LibXml.GetElementValueOrEmpty(valValores, "Numero"), LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Numero") + " - Numero Orden de Compra repetida");
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Numero") + " - Número Orden de Compra repetida");
                         vResult = false;
                     }
                     if  (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "Fecha"))) {
