@@ -505,10 +505,10 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares vacío");
                         vResult = false;
-                    } else if ((LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && !LibText.HasOnlyNumbers(vStringCambioABolivares) || (LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) != 1) {
+                    } else if ((LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && !LibConvert.IsNumeric(vStringCambioABolivares) || (LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) != 1) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares inválido");
                         vResult = false;
-                    } else if (!LibText.HasOnlyNumbers(vStringCambioABolivares) || LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) == 0) {
+                    } else if (!!LibConvert.IsNumeric(vStringCambioABolivares) || LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) == 0) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares inválido");
                         vResult = false;
                     } else {
@@ -538,9 +538,15 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "Cantidad"))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Cantidad") + " - Cantidad vacío");
                         vResult = false;
+                    } else if (!LibConvert.IsNumeric(LibXml.GetElementValueOrEmpty(valValores, "Cantidad"))) {
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Cantidad") + " - Cantidad inválida ");
+                        vResult = false;
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario"))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario") + " - Costo Unitario vacío");
+                        vResult = false;
+                    } else if (!LibConvert.IsNumeric(LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario"))) {
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario") + " - Costo Unitario inválido ");
                         vResult = false;
                     }
                 }
