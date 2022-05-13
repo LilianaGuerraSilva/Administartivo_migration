@@ -157,7 +157,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 OrdenDeCompraImportarViewModel vViewModel = new OrdenDeCompraImportarViewModel(ModuleNameOriginal, vinstancia);
                 vViewModel.InitializeViewModel(eAccionSR.Importar);
                 bool result = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                base.ExecuteSearchCommand();
+                
             }
             catch (System.AccessViolationException){
                 throw;

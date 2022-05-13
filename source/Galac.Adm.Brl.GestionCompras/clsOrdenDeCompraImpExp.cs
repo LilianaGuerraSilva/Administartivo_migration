@@ -157,7 +157,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                             vOrdenCompraDetalleImport.DescripcionArticulo = OrdenDeCompraPdn.InfoArticulo(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "CodigoArticulo")));
                             vOrdenCompraDetalleImport.Cantidad = LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "Cantidad"));
                             vOrdenCompraDetalleImport.CostoUnitario = LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CostoUnitario"));
-                            vRegistroValidoImport = true;
+                            vRegistroValidoImport = false;
                         }
                     }
                 } else {
