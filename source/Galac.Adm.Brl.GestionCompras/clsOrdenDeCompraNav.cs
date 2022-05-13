@@ -466,81 +466,81 @@ namespace Galac.Adm.Brl.GestionCompras {
             string vMensaje = string.Empty;
             if (valValores != null && valValores.HasElements && !valValores.IsEmpty) {
                 if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "Numero"))) {
-                    BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Numero") + " - Numero Orden de Compra Vacia" + System.Environment.NewLine);
+                    BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Numero") + " - Numero Orden de Compra vacía");
                     vResult = false;
                 } else {
                     if (insOrdenCompra.ValidaNumeroOC(LibXml.GetElementValueOrEmpty(valValores, "Numero"), LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Numero") + " - Numero Orden de Compra Repetida" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Numero") + " - Numero Orden de Compra repetida");
                         vResult = false;
                     }
-                    if (!LibDate.IsDate(LibXml.GetElementValueOrEmpty(valValores, "Fecha")) || LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "Fecha"))) {
+                    if  (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "Fecha"))) {
                         vResult = false;
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Fecha") + " - Fecha Vacía " + System.Environment.NewLine);
-                    } else if (!LibDate.IsValidForDB(LibConvert.ToDate(LibXml.GetElementValueOrEmpty(valValores, "Fecha")))) {
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Fecha") + " - Fecha vacía ");
+                    } else if (!LibDate.IsDate(LibXml.GetElementValueOrEmpty(valValores, "Fecha")) || (!LibDate.IsValidForDB(LibConvert.ToDate(LibXml.GetElementValueOrEmpty(valValores, "Fecha"))))) {
                         vResult = false;
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Fecha") + " - Fecha No Válida o Vacia" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Fecha") + " - Fecha no válida");
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor"))) {
                         vResult = false;
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor") + " - Proveedor Vacio " + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor") + " - El Código del proveedor vacio ");
                     } else if (!insOrdenCompra.ValidaProveedor(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibText.UCase(LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor")))) {
                         vResult = false;
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor") + " - Proveedor No Válida o No Existe" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor") + " - El Código del proveedor no es válido o no existe");
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra") + " - Tipo de Orden de Compra Vacia" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra") + " - Tipo de Orden de Compra vacía");
                         vResult = false;
                     } else if (!LibString.S1IsEqualToS2(LibConvert.ToStr(LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra")), "Nac") && !LibString.S1IsEqualToS2(LibConvert.ToStr(LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra")), "Imp")) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra") + " - Tipo de Orden de Compra No Valida" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra") + " - Tipo de Orden de Compra no valida");
                         vResult = false;
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra") + " - Código de Moneda Vacio" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "TipoDeCompra") + " - Código de Moneda vITacío");
                         vResult = false;
                     } else if (LibString.IsNullOrEmpty(insMoneda.GetNombreMoneda(LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda")))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") + " - Código de Moneda Inválido" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") + " - Código de Moneda inválido");
                         vResult = false;
                     }
                     string vStringCambioABolivares = LibText.EraseInvalidCharsFromText(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), new char[] { ',', '.' });
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares Vacio" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares vacío");
                         vResult = false;
                     } else if ((LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && !LibText.HasOnlyNumbers(vStringCambioABolivares) || (LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) != 1) {
-                        BuildValidationInfo(LibText.Bullet() + LibImportData.ToDec(LibString.Replace(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), ",", ".")) + " - Monto Inválido" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares inválido");
                         vResult = false;
                     } else if (!LibText.HasOnlyNumbers(vStringCambioABolivares) || LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) == 0) {
-                        BuildValidationInfo(LibText.Bullet() + LibImportData.ToDec(LibString.Replace(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), ",", ".")) + " - Monto Inválido" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares inválido");
                         vResult = false;
                     } else {
                         vCambioABolivares = LibImportData.ToDec(LibString.Replace(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), ",", "."));
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CondicionesDePago"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDePago") + " - Condiciones de Pago Vacia" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDePago") + " - Condiciones de Pago Vacía");
                         vResult = false;
                     } else if (!insOrdenCompra.ValidaCondicionesPago(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibConvert.ToInt(LibXml.GetElementValueOrEmpty(valValores, "CondicionesDePago")))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDePago") + " - Condiciones de Pago Inválido o No Existe" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDePago") + " - Las Condiciones de Pago inválidas o no existen");
                         vResult = false;
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion") + " - Condiciones de Importacion Vacia" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion") + " - Las Condiciones de Importación vacia");
                         vResult = false;
                     } else if (!insOrdenCompra.ValidaCondicionesdeImportacion(LibConvert.ToStr(LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion")))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion") + " - Condiciones de Importacion Inválido o No Existe" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CondicionesDeImportacion") + " - Las Condiciones de Importación son inválidas o no existen");
                         vResult = false;
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo") + " - Codigo Articulo Vacio" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo") + " - El Código Artículo vacío");
                         vResult = false;
                     } else if (!insOrdenCompra.ValidaCodigoArticulo(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibConvert.ToStr(LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo")))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo") + " - Codigo de Articulo Inválido o No Existe" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoArticulo") + " - El Código de Artículo inválido o no existe");
                         vResult = false;
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "Cantidad"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Cantidad") + " - Cantidad Vacio" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Cantidad") + " - Cantidad vacío");
                         vResult = false;
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario") + " - Costo Unitario Vacio" + System.Environment.NewLine);
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario") + " - Costo Unitario vacío");
                         vResult = false;
                     }
                 }

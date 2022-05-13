@@ -339,8 +339,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     RaiseRequestCloseEvent();
                 }
             } else {
-                string vMessageNotSuccessful = "No Existe información válida en el archivo."
-                    + Environment.NewLine
+                string vMessageNotSuccessful = "No Existe información válida en el archivo. \n"
                     + Environment.NewLine
                     + ArchivoValido.GetInformation();
                 LibMessages.MessageBox.Information(this, vMessageNotSuccessful, "Información");
