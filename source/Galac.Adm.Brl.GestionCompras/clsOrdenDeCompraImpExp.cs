@@ -124,7 +124,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                 OrdenDeCompraRechazadas vOrdenCompraRechazadas = new OrdenDeCompraRechazadas();
                 vRegistrosValidas = new clsOrdenDeCompraNav().ValidarDatosParaImportarOrdenCompra(eAccionSR.Importar, vItem, out vErrMssg);
                 if (!vErrMssg.ToString().Equals("")){
-                    refErrorMessage.AppendLine("Linea " + i + ", Orden de Compra N°: " + LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "Numero"))  + "\n" + vErrMssg.ToString());
+                    refErrorMessage.AppendLine("Línea " + i + ", Orden de Compra N°: " + LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "Numero"))  + "\n" + vErrMssg.ToString());
                 }
                 if (!vRegistrosValidas){
                     vOrdenCompraRechazadas.NumeroOC = LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "Numero"));
