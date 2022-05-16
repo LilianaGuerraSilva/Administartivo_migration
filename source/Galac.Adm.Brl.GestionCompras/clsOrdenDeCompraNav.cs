@@ -482,7 +482,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                     }
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor"))) {
                         vResult = false;
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor") + " - El Código del proveedor vacio ");
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor") + " - El Código del proveedor vacío ");
                     } else if (!insOrdenCompra.ValidaProveedor(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibText.UCase(LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor")))) {
                         vResult = false;
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CodigoProveedor") + " - El Código del proveedor no es válido o no existe");
@@ -505,11 +505,11 @@ namespace Galac.Adm.Brl.GestionCompras {
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares vacío");
                         vResult = false;
-                    } else if ((LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && !LibConvert.IsNumeric(vStringCambioABolivares) || (LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) != 1) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares inválido");
+                    } else if ((LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && !LibConvert.IsNumeric(vStringCambioABolivares)) {
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares inválido, el valor no es numérico");
                         vResult = false;
-                    } else if (!!LibConvert.IsNumeric(vStringCambioABolivares) || LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) == 0) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares inválido");
+                    }else if ((LibXml.GetElementValueOrEmpty(valValores, "CodigoMoneda") == "VED") && LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) < 0 && LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), 0, 4), ",", ".")) != 1) {
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares") + " - Cambio a Bolívares inválido menor a 0");
                         vResult = false;
                     } else {
                         vCambioABolivares = LibImportData.ToDec(LibString.Replace(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), ",", "."));
@@ -539,14 +539,21 @@ namespace Galac.Adm.Brl.GestionCompras {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Cantidad") + " - Cantidad vacío");
                         vResult = false;
                     } else if (!LibConvert.IsNumeric(LibXml.GetElementValueOrEmpty(valValores, "Cantidad"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Cantidad") + " - Cantidad inválida ");
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Cantidad") + " - Cantidad inválida, el valor no es numérico ");
+                        vResult = false;
+                    } else if (LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "Cantidad"), 0, 4), ",", ".")) < 0) {
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "Cantidad") + " - Cantidad inválida menor a 0");
                         vResult = false;
                     }
+                    string vStringCostoUnitario = LibText.EraseInvalidCharsFromText(LibXml.GetElementValueOrEmpty(valValores, "CambioABolivares"), new char[] { ',', '.' });
                     if (LibString.IsNullOrEmpty(LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario"))) {
                         BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario") + " - Costo Unitario vacío");
                         vResult = false;
                     } else if (!LibConvert.IsNumeric(LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario"))) {
-                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario") + " - Costo Unitario inválido ");
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario") + " - Costo Unitario inválido, el valor no es numérico ");
+                        vResult = false;
+                    } else if (LibImportData.ToDec(LibString.Replace(LibText.SubString(LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario"), 0, 4), ",", ".")) < 0) {
+                        BuildValidationInfo(LibText.Bullet() + LibXml.GetElementValueOrEmpty(valValores, "CostoUnitario") + " - Costo Unitario inválida menor a 0");
                         vResult = false;
                     }
                 }
