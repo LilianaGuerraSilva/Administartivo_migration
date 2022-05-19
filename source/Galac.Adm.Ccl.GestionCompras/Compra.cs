@@ -289,7 +289,7 @@ namespace Galac.Adm.Ccl.GestionCompras {
 		
         public string MonedaCostoUltimaCompra {
             get { return _MonedaCostoUltimaCompra; }
-            set { _MonedaCostoUltimaCompra = LibString.Mid(value, 0, 10); }
+            set { _MonedaCostoUltimaCompra = LibString.Mid(value, 0, 80); }
         }
 		
 		public decimal CambioCostoUltimaCompra {
