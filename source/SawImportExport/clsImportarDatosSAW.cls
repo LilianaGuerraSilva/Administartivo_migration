@@ -206,6 +206,10 @@ Private valDescripcionExtra As String
 Private valExistenciaAlmacenExtra As Currency
 Private valCodigoArticulo As String
 Private valConsecutivoAlmacen As Long
+Private mBaseImponibleIGTF As Currency
+Private mIGTFML As Currency
+Private mIGTFME As Currency
+Private mAlicuotaIGTF As Currency
 
 Const REGISTRO_LINEA_PRODUCTO = 0
 Const CONSECUTIVO_COMPANIA = 1
@@ -1399,6 +1403,14 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
     .SetFechaDeFacturaAfectada vFechaDeFacturaAfectada
     mAplicaDecretoIvaEspecial = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
     .SetAplicaDecretoIvaEspecial gConvert.ConvertStringToBoolean(mAplicaDecretoIvaEspecial)
+    mBaseImponibleIGTF = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   .SetBaseImponibleIGTF mBaseImponibleIGTF
+    mIGTFML = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   .SetIGTFML mIGTFML
+    mIGTFME = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   .SetIGTFME mIGTFME
+    mAlicuotaIGTF = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   .SetAlicuotaIGTF mAlicuotaIGTF
     vEsGeneradaPorPuntoDeVenta = False
     .SetEsGeneradaPorPuntoDeVenta vEsGeneradaPorPuntoDeVenta
    End With

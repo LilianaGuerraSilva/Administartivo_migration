@@ -51,7 +51,6 @@ namespace Galac.Adm.Ccl.GestionCompras {
 		private decimal _CambioCostoUltimaCompra;
 		private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
-		
         private ObservableCollection<CompraDetalleArticuloInventario> _DetailCompraDetalleArticuloInventario;
         private ObservableCollection<CompraDetalleGasto> _DetailCompraDetalleGasto;
         private ObservableCollection<CompraDetalleSerialRollo> _DetailCompraDetalleSerialRollo;

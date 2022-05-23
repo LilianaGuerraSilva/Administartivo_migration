@@ -228,6 +228,10 @@ Private Function fSQLExportarFacturas(ByVal valExportarBorradores As Boolean) As
    SQL = SQL & "factura.MontoGravableAlicuota3, "
    SQL = SQL & "factura.FechaDeFacturaAfectada, "
    SQL = SQL & "factura.AplicaDecretoIvaEspecial, "
+   SQL = SQL & "factura.BaseImponibleIGTF, "
+   SQL = SQL & "factura.IGTFML, "
+   SQL = SQL & "factura.IGTFME, "
+   SQL = SQL & "factura.AlicuotaIGTF, "
 '   Sql = Sql & "factura.ConsecutivoTalonario, "
    'CAMPOS DEL RENGLON DE LA FACTURA
    SQL = SQL & "renglonFactura.Descripcion, "

@@ -6,6 +6,7 @@ using Galac.Saw.Ccl.SttDef;
 using System.Threading;
 using LibGalac.Aos.Dal;
 using System;
+using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersionTemporalNoOficial :clsVersionARestructurar {
@@ -13,7 +14,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             AgregarColumnasATablaCompras();
-            AgregarParametroNombrePlantillaSubFacturaConOtrosCargos();
+            ActualizarAlicuotaenFactura();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -23,8 +24,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AddColumnString("Adm.Compra", "CodigoMonedaCostoUltimaCompra", 4, "", "VED");
         }
 
-        private void AgregarParametroNombrePlantillaSubFacturaConOtrosCargos() {
-            AgregarNuevoParametro("NombrePlantillaSubFacturaConOtrosCargos", "Factura", 2, " 2.4.- Modelo de Factura ", 4, "", '2', "", 'N', "rpxSubFacturaConOtrosCargos");
+        private void ActualizarAlicuotaenFactura(){
+			QAdvSql insSql = new QAdvSql("");
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("UPDATE factura ");
+			vSql.AppendLine("SET AlicuotaIGTF = 3 ");
+			vSql.AppendLine("WHERE (BaseImponibleIGTF > 0 OR IGTFML > 0 OR IGTFME > 0) AND AlicuotaIGTF = 0 AND Fecha >= " + insSql.ToSqlValue(LibConvert.ToDate("27/03/2022")));
+			Execute(vSql.ToString(), 0);
         }
     }
 }
