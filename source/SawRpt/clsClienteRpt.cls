@@ -16,21 +16,6 @@ Option Explicit
 Private Const CM_FILE_NAME = "clsClienteRpt"
 Private Const CM_MESSAGE_NAME As String = "Configurar Reporte Cliente"
 
-Private Enum eClienteRpt
-   eCliRpt_CLIENTES_POR_ZONA = 0
-   eCliRpt_CLIENTES_POR_CIUDAD
-   eCliRpt_LISTADO_DE_CLIENTES
-   eCliRpt_FICHA_DE_CLIENTE
-   eCliRpt_LISTADO_DE_CLIENTE_SIN_MOV
-   eCliRpt_LISTADO_DE_PROVEEDOR_SIN_MOV
-   eCliRpt_ESTADO_DE_CUENTA_CLIENTE
-   eCliRpt_LISTADO_CUMPLEANOS_CLIENTE
-   eCliRpt_LISTADO_CLIENTE_POR_ENVIAR_CORRESPONDENCIA
-   eCliRpt_CLIENTE_XSECTOR_DE_NEGOCIO
-   eCliRpt_ESTADO_DE_CUENTA_CLIENTE_CON_NRO_COMPROBANTE_FISCAL
-   eCliRpt_ESTADO_DE_CUENTA_CLIENTE_CON_CAMPOS_DEF
-End Enum
-
 Private Function GetGender() As Enum_Gender
    GetGender = eg_Male
 End Function
@@ -39,18 +24,18 @@ Private Function fNombreFileDeImpresionDelReporte(ByVal valReporte As Integer) A
    Dim nombreFileXML As String
    On Error GoTo h_ERROR
    Select Case valReporte
-      Case eCliRpt_CLIENTES_POR_ZONA: nombreFileXML = "rpxClienteXZona"
-      Case eCliRpt_CLIENTES_POR_CIUDAD: nombreFileXML = "rpxClienteXCiudad"
-      Case eCliRpt_LISTADO_DE_CLIENTES: nombreFileXML = "rpxListadoDeClientes"
-      Case eCliRpt_FICHA_DE_CLIENTE: nombreFileXML = "rpxFichaDelCliente"
-      Case eCliRpt_LISTADO_DE_CLIENTE_SIN_MOV: nombreFileXML = "rpxListadoDeClientesProvSinMov"
-      Case eCliRpt_LISTADO_DE_PROVEEDOR_SIN_MOV: nombreFileXML = "rpxListadoDeProveedoresSinMov"
-      Case eCliRpt_ESTADO_DE_CUENTA_CLIENTE: nombreFileXML = "rpxEstadoDeCuentaCliente"
-      Case eCliRpt_LISTADO_CUMPLEANOS_CLIENTE: nombreFileXML = "rpxListadoDeCumpleanosClientes"
-      Case eCliRpt_LISTADO_CLIENTE_POR_ENVIAR_CORRESPONDENCIA: nombreFileXML = "rpxListadoDeClientesConCorrespondenciaXEnviar"
-      Case eCliRpt_CLIENTE_XSECTOR_DE_NEGOCIO: nombreFileXML = "rpxClienteXSectorDeNegocio"
-      Case eCliRpt_ESTADO_DE_CUENTA_CLIENTE_CON_NRO_COMPROBANTE_FISCAL: nombreFileXML = "rpxEstadoDeCuentaClienteConNroComprobanteFiscal"
-      Case eCliRpt_ESTADO_DE_CUENTA_CLIENTE_CON_CAMPOS_DEF: nombreFileXML = "rpxEstadoDeCuentaClienteConCamposDef"
+      Case 0: nombreFileXML = "rpxFichaDelCliente"
+      Case 1: nombreFileXML = "rpxEstadoDeCuentaCliente"
+      Case 3: nombreFileXML = "rpxClienteXZona"
+      Case 4: nombreFileXML = "rpxClienteXCiudad"
+      Case 6: nombreFileXML = "rpxListadoDeClientes"
+      Case 9: nombreFileXML = "rpxListadoDeProveedoresSinMov"
+      Case 10: nombreFileXML = "rpxListadoDeClientesProvSinMov"
+      Case 11: nombreFileXML = "rpxListadoDeCumpleanosClientes"
+      Case 12: nombreFileXML = "rpxListadoDeClientesConCorrespondenciaXEnviar"
+      Case 13: nombreFileXML = "rpxClienteXSectorDeNegocio"
+      Case 14: nombreFileXML = "rpxEstadoDeCuentaClienteConNroComprobanteFiscal"
+      Case 15: nombreFileXML = "rpxEstadoDeCuentaClienteConCamposDef"
       Case Else: nombreFileXML = ""
    End Select
    If nombreFileXML <> "" Then
@@ -67,17 +52,18 @@ End Function
 Private Function fNombreDelReporte(ByVal valReporte As Integer) As String
    On Error GoTo h_ERROR
    Select Case valReporte
-      Case eCliRpt_CLIENTES_POR_ZONA: fNombreDelReporte = "Reporte Cliente por Zona"
-      Case eCliRpt_CLIENTES_POR_CIUDAD: fNombreDelReporte = "Reporte Cliente por Zona"
-      Case eCliRpt_LISTADO_DE_CLIENTES: fNombreDelReporte = "Listado De Clientes"
-      Case eCliRpt_FICHA_DE_CLIENTE: fNombreDelReporte = "Ficha Del Cliente"
-      Case eCliRpt_LISTADO_DE_CLIENTE_SIN_MOV: fNombreDelReporte = "Listado De Clientes Sin Movimientos"
-      Case eCliRpt_LISTADO_DE_PROVEEDOR_SIN_MOV: fNombreDelReporte = "Listado De Proveedores Sin Movimientos"
-      Case eCliRpt_ESTADO_DE_CUENTA_CLIENTE: fNombreDelReporte = "Estado de Cuente de Cliente"
-      Case eCliRpt_LISTADO_CUMPLEANOS_CLIENTE: fNombreDelReporte = "Listado de Cumpleaños de Clientes"
-      Case eCliRpt_LISTADO_CLIENTE_POR_ENVIAR_CORRESPONDENCIA: fNombreDelReporte = "Listado de Clientes por Enviar Correspondencia"
-      Case eCliRpt_CLIENTE_XSECTOR_DE_NEGOCIO: fNombreDelReporte = "Clientes por sector de Negocio"
-      Case eCliRpt_ESTADO_DE_CUENTA_CLIENTE: fNombreDelReporte = "Estado de Cuente de Cliente con Numero Comprobante Fiscal"
+      Case 0: fNombreDelReporte = "Ficha Del Cliente"
+      Case 1: fNombreDelReporte = "Estado de Cuente de Cliente"
+      Case 3: fNombreDelReporte = "Reporte Cliente por Zona"
+      Case 4: fNombreDelReporte = "Reporte Cliente por Ciudad"
+      Case 6: fNombreDelReporte = "Listado De Clientes"
+      Case 9: fNombreDelReporte = "Listado De Proveedores Sin Movimientos"
+      Case 10: fNombreDelReporte = "Listado De Clientes Sin Movimientos"
+      Case 11: fNombreDelReporte = "Listado de Cumpleaños de Clientes"
+      Case 12: fNombreDelReporte = "Listado de Clientes por Enviar Correspondencia"
+      Case 13: fNombreDelReporte = "Clientes por sector de Negocio"
+      Case 14: fNombreDelReporte = "Estado de Cuente de Cliente con Numero Comprobante Fiscal"
+      Case 15: fNombreDelReporte = "Estado de Cuente de Cliente"
       Case Else: fNombreDelReporte = ""
    End Select
 h_EXIT: On Error GoTo 0
@@ -103,7 +89,7 @@ Public Function fConfigurarDatosDelReporte(ByVal valSqlDelReporte As String, ByR
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtFax", "", "Fax"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtContacto", "", "Contacto"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtTelefono", "", "Telefono"
-            If valReporte = eCliRpt_CLIENTES_POR_ZONA Then
+            If valReporte = 3 Then 'clientes x zona
                gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtCiudad", "", "Direccion"
             Else
                gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtCiudad", "", "Ciudades"
@@ -124,15 +110,13 @@ Public Function fConfigurarDatosDelReporteListadoClientes(ByVal valSqlDelReporte
    Dim varNombreDelFile As String
    On Error GoTo h_ERROR
    fConfigurarDatosDelReporteListadoClientes = False
-   varNombreDelFile = fNombreFileDeImpresionDelReporte(eCliRpt_LISTADO_DE_CLIENTES)
+   varNombreDelFile = fNombreFileDeImpresionDelReporte(6)
    If varNombreDelFile <> "" Then
       If gUtilReports.fLoadLayout(refReporteActual, varNombreDelFile) Then
-         If gUtilReports.fDefaultConfigurationForDataControl(refReporteActual, _
-                  "dcOrigenData", valSqlDelReporte) Then
+         If gUtilReports.fDefaultConfigurationForDataControl(refReporteActual, "dcOrigenData", valSqlDelReporte) Then
             gUtilReports.sDefaultConfigurationForLabels refReporteActual, "lblNombreDeLaCompania", valNombreCompaniaParaInformes
             gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refReporteActual, "lblFechaYHoraDeEmision"
-            gUtilReports.sConfiguraEncabezado refReporteActual, "lblNombreDeLaCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", _
-               "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+            gUtilReports.sConfiguraEncabezado refReporteActual, "lblNombreDeLaCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtZonaCobranza", "", "ZonasCobranzas"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtFax", "", "Fax"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtContacto", "", "Contacto"
@@ -140,41 +124,38 @@ Public Function fConfigurarDatosDelReporteListadoClientes(ByVal valSqlDelReporte
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtNombreCliente", "", "NombreCliente"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtRif", "", "NumeroRif"
             If valIncluirEmail Then
-                 gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtEmail", "", "Email"
+               gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtEmail", "", "Email"
             Else
-                    gUtilReports.sConfigurationForNotvisibleOrVisible refReporteActual, "txtEmail", False
-                    gUtilReports.sConfigurationForNotvisibleOrVisible refReporteActual, "lblEmail", False
-                    gUtilReports.sChangePositionAndSize refReporteActual, "lblZonaCobranza", 1495, 540, 8820, 225
-                    gUtilReports.sChangePositionAndSize refReporteActual, "txtZonaCobranza", 7495, 0, 8820, 225
+               gUtilReports.sConfigurationForNotvisibleOrVisible refReporteActual, "txtEmail", False
+               gUtilReports.sConfigurationForNotvisibleOrVisible refReporteActual, "lblEmail", False
+               gUtilReports.sChangePositionAndSize refReporteActual, "lblZonaCobranza", 1495, 540, 8820, 225
+               gUtilReports.sChangePositionAndSize refReporteActual, "txtZonaCobranza", 7495, 0, 8820, 225
             End If
-            
             If valIncluirEmail Then
-               gUtilMargins.sAsignarMargenesGenerales refReporteActual, ddOLandscape, fNombreDelReporte(eCliRpt_LISTADO_DE_CLIENTES)
+               gUtilMargins.sAsignarMargenesGenerales refReporteActual, ddOLandscape, fNombreDelReporte(6)
             Else
                gUtilMargins.sAsignarMargenesGenerales refReporteActual
             End If
-           
          End If
       End If
    End If
    fConfigurarDatosDelReporteListadoClientes = True
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
- "fConfigurarDatosDelReporteListadoClientes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteListadoClientes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteFichaClientes(ByVal valSqlDelReporte As String, ByRef refReporte As DDActiveReports2.ActiveReport, ByVal valNombreCompaniaParaInformes As String, ByRef gGlobalization As Object) As Boolean
    Dim varNombreDelFile As String
    On Error GoTo h_ERROR
    fConfigurarDatosDelReporteFichaClientes = False
-   varNombreDelFile = fNombreFileDeImpresionDelReporte(eCliRpt_FICHA_DE_CLIENTE)
+   varNombreDelFile = fNombreFileDeImpresionDelReporte(0)
    If LenB(varNombreDelFile) > 0 Then
       If gUtilReports.fLoadLayout(refReporte, varNombreDelFile) Then
          If gUtilReports.fDefaultConfigurationForDataControl(refReporte, "dcOrigenData", valSqlDelReporte) Then
             gUtilReports.sConfiguraEncabezado refReporte, "lblNombreDeLaCompania", "", "lblNombreDelReporte", "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, False
             gUtilReports.sDefaultConfigurationForLabels refReporte, "lblNombreDeLaCompania", valNombreCompaniaParaInformes
-            gUtilReports.sDefaultConfigurationForLabels refReporte, "lblNumeroDERIF", "Número de " & gGlobalization.fPromptRIF & "   :"
+            gUtilReports.sDefaultConfigurationForLabels refReporte, "lblNumeroDERIF", "Número de " & gGlobalization.fPromptRIF & " :"
             gUtilReports.sDefaultConfigurationForStrFields refReporte, "txtNombre", "", "NombreCliente"
             gUtilReports.sDefaultConfigurationForStrFields refReporte, "txtCodigo", "", "Codigo"
             gUtilReports.sDefaultConfigurationForStrFields refReporte, "txtStatus", "", "Status"
@@ -215,9 +196,9 @@ Public Function fConfigurarDatosDelReporteListadoDeClientesProvSinMov(ByVal valS
    Set gEnumProyecto = New clsEnumAdministrativo
    Set gTexto = New clsTexto
    If valModulo = eSM_Cliente Then
-      varNombreDelFile = fNombreFileDeImpresionDelReporte(eCliRpt_LISTADO_DE_CLIENTE_SIN_MOV)
+      varNombreDelFile = fNombreFileDeImpresionDelReporte(10)
    Else
-      varNombreDelFile = fNombreFileDeImpresionDelReporte(eCliRpt_LISTADO_DE_PROVEEDOR_SIN_MOV)
+      varNombreDelFile = fNombreFileDeImpresionDelReporte(9)
    End If
    If gDbUtil.fOpenRecordSetAllParameters(varResult, valSQL, valConexion, adLockReadOnly, adUseClient, adOpenForwardOnly) Then
    End If
@@ -286,19 +267,17 @@ Public Function fConfigurarReporteEstadoDeCuenta(ByRef refRpt As DDActiveReports
    On Error GoTo h_ERROR
    exito = False
    If valImprimeNroComprobanteFiscal And Not valImprimeCamposDef Then
-      nombreDelFileXML = fNombreFileDeImpresionDelReporte(eCliRpt_ESTADO_DE_CUENTA_CLIENTE_CON_NRO_COMPROBANTE_FISCAL)
+      nombreDelFileXML = fNombreFileDeImpresionDelReporte(14)
    ElseIf valImprimeCamposDef Then
-      nombreDelFileXML = fNombreFileDeImpresionDelReporte(eCliRpt_ESTADO_DE_CUENTA_CLIENTE_CON_CAMPOS_DEF)
+      nombreDelFileXML = fNombreFileDeImpresionDelReporte(15)
    Else
-      nombreDelFileXML = fNombreFileDeImpresionDelReporte(eCliRpt_ESTADO_DE_CUENTA_CLIENTE)
+      nombreDelFileXML = fNombreFileDeImpresionDelReporte(1)
    End If
-   'formatoNDecimales = gUtilReports.getDefaultNumericFormatWithNDecimalPlaces(gConvert.ConvierteAInteger(gProyParametrosCompania.GetCantidadDeDecimalesStr))
    If gUtilReports.fLoadLayout(refRpt, nombreDelFileXML) Then
       If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSQL) Then
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
          gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
-         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "", _
-                                    gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigo", "", "Codigo"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombre", "", "Nombre"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDireccion", "", "Direccion"
@@ -368,9 +347,9 @@ Public Function fConfigurarReporteEstadoDeCuenta(ByRef refRpt As DDActiveReports
             gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GFCliente", "", ddGrpAll, ddRepeatOnPage, True, ddNPAfter
          End If
          If valImprimeNroComprobanteFiscal Then
-            gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape, fNombreDelReporte(eCliRpt_ESTADO_DE_CUENTA_CLIENTE_CON_NRO_COMPROBANTE_FISCAL)
+            gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape, fNombreDelReporte(14)
          Else
-            gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape, fNombreDelReporte(eCliRpt_ESTADO_DE_CUENTA_CLIENTE)
+            gUtilMargins.sAsignarMargenesGenerales refRpt, ddOLandscape, fNombreDelReporte(1)
          End If
          
          If Not (ValMontoOriginal) Then
@@ -391,24 +370,21 @@ Public Function fConfigurarReporteEstadoDeCuenta(ByRef refRpt As DDActiveReports
    fConfigurarReporteEstadoDeCuenta = exito
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConfigurarReporteEstadoDeCuenta", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarReporteEstadoDeCuenta", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteCumpleanosClientes(ByVal valSqlDelReporte As String, ByRef refReporteActual As DDActiveReports2.ActiveReport, ByVal valMes As String, ByVal valNombreCompaniaParaInformes As String) As Boolean
    Dim varNombreDelFile As String
    On Error GoTo h_ERROR
    fConfigurarDatosDelReporteCumpleanosClientes = False
-   varNombreDelFile = fNombreFileDeImpresionDelReporte(eCliRpt_LISTADO_CUMPLEANOS_CLIENTE)
+   varNombreDelFile = fNombreFileDeImpresionDelReporte(11)
    If varNombreDelFile <> "" Then
       If gUtilReports.fLoadLayout(refReporteActual, varNombreDelFile) Then
-         If gUtilReports.fDefaultConfigurationForDataControl(refReporteActual, _
-                  "dcOrigenData", valSqlDelReporte) Then
+         If gUtilReports.fDefaultConfigurationForDataControl(refReporteActual, "dcOrigenData", valSqlDelReporte) Then
             gUtilReports.sDefaultConfigurationForLabels refReporteActual, "lblNombreDeLaCompania", valNombreCompaniaParaInformes
             gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refReporteActual, "lblFechaYHoraDeEmision"
-            gUtilReports.sConfiguraEncabezado refReporteActual, "lblNombreDeLaCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", _
-               "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-            gUtilReports.sDefaultConfigurationForLabels refReporteActual, "lblTituloDelReporte", fNombreDelReporte(eCliRpt_LISTADO_CUMPLEANOS_CLIENTE) & " - " & valMes
+            gUtilReports.sConfiguraEncabezado refReporteActual, "lblNombreDeLaCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+            gUtilReports.sDefaultConfigurationForLabels refReporteActual, "lblTituloDelReporte", fNombreDelReporte(11) & " - " & valMes
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtNombreCliente", "", "NombreCliente"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtTelefono", "", "Telefono"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtDiaCumpleano", "", "DiaCumpleano"
@@ -420,24 +396,21 @@ Public Function fConfigurarDatosDelReporteCumpleanosClientes(ByVal valSqlDelRepo
 h_EXIT: On Error GoTo 0
    fConfigurarDatosDelReporteCumpleanosClientes = True
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
- "fConfigurarDatosDelReporteCumpleanosClientes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteCumpleanosClientes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteClientesPorEnviarCorrespondencia(ByVal valSqlDelReporte As String, ByRef refReporteActual As DDActiveReports2.ActiveReport, ByVal valMes As String, ByVal valNombreCompaniaParaInformes As String) As Boolean
    Dim varNombreDelFile As String
    On Error GoTo h_ERROR
    fConfigurarDatosDelReporteClientesPorEnviarCorrespondencia = False
-   varNombreDelFile = fNombreFileDeImpresionDelReporte(eCliRpt_LISTADO_CLIENTE_POR_ENVIAR_CORRESPONDENCIA)
+   varNombreDelFile = fNombreFileDeImpresionDelReporte(12)
    If varNombreDelFile <> "" Then
       If gUtilReports.fLoadLayout(refReporteActual, varNombreDelFile) Then
-         If gUtilReports.fDefaultConfigurationForDataControl(refReporteActual, _
-                  "dcOrigenData", valSqlDelReporte) Then
+         If gUtilReports.fDefaultConfigurationForDataControl(refReporteActual, "dcOrigenData", valSqlDelReporte) Then
             gUtilReports.sDefaultConfigurationForLabels refReporteActual, "lblNombreDeLaCompania", valNombreCompaniaParaInformes
             gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refReporteActual, "lblFechaYHoraDeEmision"
-            gUtilReports.sConfiguraEncabezado refReporteActual, "lblNombreDeLaCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", _
-               "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-            gUtilReports.sDefaultConfigurationForLabels refReporteActual, "lblTituloDelReporte", fNombreDelReporte(eCliRpt_LISTADO_CLIENTE_POR_ENVIAR_CORRESPONDENCIA)
+            gUtilReports.sConfiguraEncabezado refReporteActual, "lblNombreDeLaCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
+            gUtilReports.sDefaultConfigurationForLabels refReporteActual, "lblTituloDelReporte", fNombreDelReporte(12)
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtNombreCliente", "", "NombreCliente"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtTelefono", "", "Telefono"
             gUtilReports.sDefaultConfigurationForStrFields refReporteActual, "txtDireccion", "", "Direccion"
@@ -449,8 +422,7 @@ Public Function fConfigurarDatosDelReporteClientesPorEnviarCorrespondencia(ByVal
 h_EXIT: On Error GoTo 0
    fConfigurarDatosDelReporteClientesPorEnviarCorrespondencia = True
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
- "fConfigurarDatosDelReporteClientesPorEnviarCorrespondencia", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteClientesPorEnviarCorrespondencia", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConfigurarDatosDelReporteClienteXSectorDeNegocio(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String) As Boolean
@@ -458,18 +430,14 @@ Public Function fConfigurarDatosDelReporteClienteXSectorDeNegocio(ByRef refRpt A
    Dim exito As Boolean
    On Error GoTo h_ERROR
    exito = False
-   nombreDelFileXML = fNombreFileDeImpresionDelReporte(eCliRpt_CLIENTE_XSECTOR_DE_NEGOCIO)
+   nombreDelFileXML = fNombreFileDeImpresionDelReporte(13)
    If nombreDelFileXML <> "" Then
       If gUtilReports.fLoadLayout(refRpt, nombreDelFileXML) Then
-            If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSqlDelReporte) Then
-             gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
+         If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigenData", valSqlDelReporte) Then
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", ""
          gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
-       
-               
-         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", _
-                  "LblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-   
+         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "LblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNombre", "", "Nombre"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtNumeroRif", "", "NumeroRif"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtContacto", "", "Contacto"
@@ -477,9 +445,8 @@ Public Function fConfigurarDatosDelReporteClienteXSectorDeNegocio(ByRef refRpt A
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtFAX", "", "FAX"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDireccion", "", "Direccion"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtSectorDeNegocio", "", "SectorDeNegocio"
-       
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHSecSectorDeNegocio", "SectorDeNegocio", ddGrpFirstDetail, ddRepeatOnPage, True, ddNPNone
-         gUtilMargins.sAsignarMargenesGenerales refRpt, ddOPortrait, fNombreDelReporte(eCliRpt_CLIENTE_XSECTOR_DE_NEGOCIO)
+         gUtilMargins.sAsignarMargenesGenerales refRpt, ddOPortrait, fNombreDelReporte(13)
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          exito = True
          End If
@@ -491,6 +458,3 @@ h_EXIT: On Error GoTo 0
 h_ERROR: fConfigurarDatosDelReporteClienteXSectorDeNegocio = False
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConfigurarDatosDelReporteClienteXSectorDeNegocio", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
-
-

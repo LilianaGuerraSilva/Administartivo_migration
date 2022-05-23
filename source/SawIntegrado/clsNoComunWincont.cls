@@ -460,11 +460,14 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Sub
 
 Public Sub sEjecutaInformesDeContabilizacionAutomatica()
-   Dim insNoComunSawAdmInterno As clsNoComunSAWAdmInterno
+   Dim insFrmInformesDeComprobantes As frmRepCompDeContabilizacionAutomac
    On Error GoTo h_ERROR
-   Set insNoComunSawAdmInterno = New clsNoComunSAWAdmInterno
-   insNoComunSawAdmInterno.sEjecutaInformesDeContabilizacionAutomatica
-   Set insNoComunSawAdmInterno = Nothing
+   If gProyCompaniaActual.fLaCompaniaYElPeriodoFueronEscogidos Then
+      Set insFrmInformesDeComprobantes = New frmRepCompDeContabilizacionAutomac
+      insFrmInformesDeComprobantes.sInitLookAndFeel
+      insFrmInformesDeComprobantes.Show
+      Set insFrmInformesDeComprobantes = Nothing
+   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -500,7 +503,7 @@ Public Function fUnificarAuxiliarDeClienteOProveedor(ByVal valCodigoASustituir A
                & " AND " & varAsientoNavigator.GetTableName & ".Auxiliar = '" & valCodigoASustituir & "'" _
                & " AND " & varAsientoNavigator.GetTableName & ".EsAsientoDeActivoFijo = 'N'" _
                & " AND " & varAsientoNavigator.GetTableName & ".ConsecutivoPeriodo" _
-               & " IN ( SELECT " & "ConsecutivoPeriodo" _
+               & " IN ( SELECT ConsecutivoPeriodo" _
                & " FROM " & gContPeriodoActual.GetTableName _
                & " WHERE ConsecutivoCompania" _
                & " = " & gProyCompaniaActual.GetConsecutivoCompania & " ) "
@@ -509,26 +512,26 @@ Public Function fUnificarAuxiliarDeClienteOProveedor(ByVal valCodigoASustituir A
       TrabajandoConSaldoInicialContabilidad = (i = 1)
    Next
    varSQL = "UPDATE " & varComprobanteNavigator.GetTableName _
-         & " SET " & "NoDocumentoOrigen" _
+         & " SET NoDocumentoOrigen" _
          & " = '" & valCodigoNuevo & "'" _
          & gUtilSQL.CharConcat _
          & gUtilSQL.fMidFromChar("NoDocumentoOrigen", Trim(gUtilSQL.DfChar(9)), 1) _
-         & " WHERE " & "GeneradoPor" _
+         & " WHERE GeneradoPor" _
          & " = '" & gConvert.enumerativoAChar(enum_ComprobanteGeneradoPor.eCG_CXP) & "' " _
          & " AND " & gUtilSQL.DfLeftSQL("NoDocumentoOrigen", 10) & " = '" & valCodigoASustituir & "' " _
-         & " AND " & varComprobanteNavigator.GetTableName & "." & "ConsecutivoPeriodo" _
-         & " IN ( SELECT " & "ConsecutivoPeriodo" _
+         & " AND " & varComprobanteNavigator.GetTableName & ".ConsecutivoPeriodo" _
+         & " IN ( SELECT ConsecutivoPeriodo" _
          & " FROM " & gContPeriodoActual.GetTableName _
-         & " WHERE " & "ConsecutivoCompania" _
+         & " WHERE ConsecutivoCompania" _
          & " = " & gProyCompaniaActual.GetConsecutivoCompania & " ) "
    gDbUtil.Execute gDefDatabase.Conexion, varSQL
    varSQL = "DELETE FROM " & varAuxiliarNavigator.GetTableName _
          & " WHERE " & varAuxiliarNavigator.GetTableName & ".Codigo = '" & valCodigoASustituir & "'" _
          & " AND " & varAuxiliarNavigator.GetTableName & ".TipoDeAuxiliar = '" & valTipoDeAuxiliarChar & "'" _
          & " AND " & varAuxiliarNavigator.GetTableName & ".ConsecutivoPeriodo" _
-         & " IN ( SELECT " & "ConsecutivoPeriodo" _
+         & " IN ( SELECT ConsecutivoPeriodo" _
          & " FROM " & gContPeriodoActual.GetTableName _
-         & " WHERE " & "ConsecutivoCompania" _
+         & " WHERE ConsecutivoCompania" _
          & " = " & gProyCompaniaActual.GetConsecutivoCompania & " ) "
    gDbUtil.Execute gDefDatabase.Conexion, varSQL
    fUnificarAuxiliarDeClienteOProveedor = True
@@ -857,18 +860,18 @@ Public Sub sActualizacionDeNoDocumentoOrigenDeFacturaYCxC(ByVal valUsaConsecutiv
    Set insComprobante = New clsComprobanteNavigator
    Set insperiodo = New clsPeriodoNavigator
    sqlComun = gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.fSeparadorStandardDeElementosString) & _
-              gUtilSQL.CharConcat & insComprobante.GetTableName & "." & "NoDocumentoOrigen"
-   sqlSetClause = " SET " & insComprobante.GetTableName & "." & "NoDocumentoOrigen" & " = " & _
+              gUtilSQL.CharConcat & insComprobante.GetTableName & ".NoDocumentoOrigen"
+   sqlSetClause = " SET " & insComprobante.GetTableName & ".NoDocumentoOrigen = " & _
                   insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & sqlComun
    sqlFromClause = insFactura.GetTableName & " INNER JOIN  (" & _
                      insComprobante.GetTableName & " INNER JOIN " & insperiodo.GetTableName & _
-                     " ON " & insComprobante.GetTableName & "." & "ConsecutivoPeriodo" & _
+                     " ON " & insComprobante.GetTableName & ".ConsecutivoPeriodo" & _
                      " = " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
                      ") ON " & insperiodo.GetTableName & ".ConsecutivoCompania" & _
                      " = " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA
-   sqlWhereClause = " WHERE " & insComprobante.GetTableName & "." & "GeneradoPor" & _
+   sqlWhereClause = " WHERE " & insComprobante.GetTableName & ".GeneradoPor" & _
                      " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComprobanteGeneradoPor.eCG_FACTURA) & _
-                     " AND " & insComprobante.GetTableName & "." & "NoDocumentoOrigen" & _
+                     " AND " & insComprobante.GetTableName & ".NoDocumentoOrigen" & _
                      " = " & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
    If valUsaConsecutivoPeriodo Then
       sqlWhereClause = sqlWhereClause & " AND " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
@@ -876,17 +879,17 @@ Public Sub sActualizacionDeNoDocumentoOrigenDeFacturaYCxC(ByVal valUsaConsecutiv
    End If
    Sql = gUtilSQL.fSQLUpdateWithNJoin(insComprobante.GetTableName, sqlSetClause, sqlFromClause, sqlWhereClause)
    gDbUtil.Execute gDefDatabase.Conexion, Sql
-   sqlSetClause = " SET " & insComprobante.GetTableName & "." & "NoDocumentoOrigen" & " = " & _
+   sqlSetClause = " SET " & insComprobante.GetTableName & ".NoDocumentoOrigen = " & _
                   insCxC.GetTableName & ".TipoCxC" & sqlComun
    sqlFromClause = insCxC.GetTableName & " INNER JOIN (" & _
                      insComprobante.GetTableName & " INNER JOIN " & insperiodo.GetTableName & _
-                     " ON " & insComprobante.GetTableName & "." & "ConsecutivoPeriodo" & _
+                     " ON " & insComprobante.GetTableName & ".ConsecutivoPeriodo" & _
                      " = " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
                      ") ON " & insperiodo.GetTableName & ".ConsecutivoCompania" & _
                      " = " & insCxC.GetTableName & ".ConsecutivoCompania"
-   sqlWhereClause = " WHERE " & insComprobante.GetTableName & "." & "GeneradoPor" & _
+   sqlWhereClause = " WHERE " & insComprobante.GetTableName & ".GeneradoPor" & _
                      " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComprobanteGeneradoPor.eCG_CXC) & _
-                     " AND " & insComprobante.GetTableName & "." & "NoDocumentoOrigen" & _
+                     " AND " & insComprobante.GetTableName & ".NoDocumentoOrigen" & _
                      " = " & insCxC.GetTableName & ".Numero"
    If valUsaConsecutivoPeriodo Then
       sqlWhereClause = sqlWhereClause & " AND " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
@@ -1050,7 +1053,7 @@ Public Sub sInsertarLosRecordsDeTipoDeComprobante(ByVal valTableName As String, 
       txtTipodeComprobante = gUtilSQL.fSimpleSqlValue(txtTipodeComprobante)
       CodigoTipoDeComprobante = gUtilSQL.fSimpleSqlValue(CodigoTipoDeComprobante)
       Sql = "INSERT INTO " & valTableName & "(" & valFN_NombreDelTipo & ", " & valFN_CodigoDelTipo
-      Sql = Sql & " ) VALUES " & "(" & txtTipodeComprobante & ", " & CodigoTipoDeComprobante & ")"
+      Sql = Sql & " ) VALUES (" & txtTipodeComprobante & ", " & CodigoTipoDeComprobante & ")"
       gDbUtil.Execute gDefDatabase.Conexion, Sql
    Next
 End Sub
@@ -1202,7 +1205,7 @@ Public Function fSePuedeCrearUKEnComprobante() As Boolean
    Set insComprobante = New clsComprobanteNavigator
    fSePuedeCrearUKEnComprobante = True
    If insComprobante.fExistenComprobanteConNumerDocOrigenRepetido(True) Then
-         gMessage.Advertencia "Existen comprobantes con Número de documento Origen repetido, lo cual indica inconsistencia en su data, " & "Comuníquese con el personal de Soporte de " & gDefgen.fNombreInformaticaGalac
+         gMessage.Advertencia "Existen comprobantes con Número de documento Origen repetido, lo cual indica inconsistencia en su data, Comuníquese con el personal de Soporte de " & gDefgen.fNombreInformaticaGalac
       fSePuedeCrearUKEnComprobante = False
    End If
    Set insComprobante = Nothing
@@ -1387,9 +1390,9 @@ Public Sub sEliminaDatosEsquemasAsociadosAPeriodo(ByVal valConsecutivoPeriodo As
    On Error GoTo h_ERROR
    Set insEsquemaBalanceMov = New clsEsquemaDeBalanceMovNavigator
    Set insEsquemaBalance = New clsEsquemaDeBalanceNavigator
-   varSQL = "DELETE  FROM " & insEsquemaBalanceMov.GetTableName & " WHERE " & "ConsecutivoMultiArchivo = " & valConsecutivoPeriodo
+   varSQL = "DELETE FROM " & insEsquemaBalanceMov.GetTableName & " WHERE ConsecutivoMultiArchivo = " & valConsecutivoPeriodo
    gDbUtil.Execute Conexion, varSQL
-   varSQL = "DELETE  FROM " & insEsquemaBalance.GetTableName & " WHERE " & "ConsecutivoMultiArchivo = " & valConsecutivoPeriodo
+   varSQL = "DELETE FROM " & insEsquemaBalance.GetTableName & " WHERE ConsecutivoMultiArchivo = " & valConsecutivoPeriodo
    gDbUtil.Execute Conexion, varSQL
    Set insEsquemaBalanceMov = Nothing
    Set insEsquemaBalance = Nothing

@@ -84,9 +84,9 @@ Public Function fActualizaLosTotalesDelComprobante(ByVal valTotalDebe As Currenc
    On Error GoTo h_ERROR
    ConExito = False
    Set comprobanteNavigator = New clsComprobanteNavigator
-   Sql = "UPDATE " & comprobanteNavigator.GetTableName & " SET " & "TotalDebe" & " = " & gUtilSQL.fNumToStrSQL(valTotalDebe) & ", " _
-      & "TotalHaber" & " = " & gUtilSQL.fNumToStrSQL(valTotalHaber) & ", " & "FueModificado" & " = " & gUtilSQL.fBooleanToStrSQL(valElComprobanteFueModificadoPorElUsuario) _
-      & " WHERE " & "NUMERO" & " = '" & valNumeroDeComprobante & "' AND " & "ConsecutivoPeriodo" & " = " & gContPeriodoActual.GetConsecutivoPeriodo
+   Sql = "UPDATE " & comprobanteNavigator.GetTableName & " SET TotalDebe = " & gUtilSQL.fNumToStrSQL(valTotalDebe) & ", " _
+      & "TotalHaber = " & gUtilSQL.fNumToStrSQL(valTotalHaber) & ", FueModificado = " & gUtilSQL.fBooleanToStrSQL(valElComprobanteFueModificadoPorElUsuario) _
+      & " WHERE NUMERO = '" & valNumeroDeComprobante & "' AND ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo
    gDbUtil.Execute gDefDatabase.Conexion, Sql
    ConExito = True
    Set comprobanteNavigator = Nothing
@@ -345,7 +345,7 @@ Public Function fSQLConjuntoDeRecordsDeContabilizacion(ByVal valNombreTablaOrige
                   & " = " & gProyCompaniaActual.GetConsecutivoCompania
 'MOISES
    If valNombreTablaOrigen = "cxP" Then
-      valorDelSql = valorDelSql & " AND " & valNombreTablaOrigen & "." & "EstaAsociadoARendicion = " _
+      valorDelSql = valorDelSql & " AND " & valNombreTablaOrigen & ".EstaAsociadoARendicion = " _
                     & gUtilSQL.fBooleanToSqlValue(False) & " AND ("
    Else
       valorDelSql = valorDelSql & " AND ("
@@ -800,8 +800,8 @@ Public Sub sContabilizaDocumento(ByVal valConMensaje As Boolean, ByVal valAction
             If insComprobanteContable.GetFueModificado And gProyUsuarioActual.GetUsaContabilidad Then
                gMessage.Advertencia "El Comprobante que corresponde al " & _
                   "documento número " & valNumero & " del módulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
-                  " ha sido modificado usando el Módulo de " & "Comprobantes Contables. " & vbCr & vbCr & "Los asientos del documento de  " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
-                  " modificado serán generados de " & "nuevo por lo que los cambios realizados al comprobante se " & "perderán y, si lo desea, los debe volver a realizar."
+                  " ha sido modificado usando el Módulo de Comprobantes Contables. " & vbCr & vbCr & "Los asientos del documento de  " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
+                  " modificado serán generados de nuevo por lo que los cambios realizados al comprobante se perderán y, si lo desea, los debe volver a realizar."
             End If
          End If
       ElseIf (valAction = Modificar) And (TipoContabilizacionIndividual = eCI_POSPUESTA) Then
@@ -886,8 +886,8 @@ Public Function fValidaDocumento(ByVal valConMensaje As Boolean, ByVal valAction
             If insComprobanteContable.GetFueModificado And gProyUsuarioActual.GetUsaContabilidad Then
                gMessage.Advertencia "El Comprobante que corresponde al " & _
                   "documento número " & valNumero & " del módulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
-                  " ha sido modificado usando el Módulo de " & "Comprobantes Contables. " & vbCr & vbCr & "Los asientos del documento de  " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
-                  " modificado serán generados de " & "nuevo por lo que los cambios realizados al comprobante se " & "perderán y, si lo desea, los debe volver a realizar."
+                  " ha sido modificado usando el Módulo de Comprobantes Contables. " & vbCr & vbCr & "Los asientos del documento de  " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
+                  " modificado serán generados de nuevo por lo que los cambios realizados al comprobante se perderán y, si lo desea, los debe volver a realizar."
             End If
          End If
       ElseIf (valAction = Modificar) And (TipoContabilizacionIndividual = eCI_POSPUESTA) Then
@@ -1514,14 +1514,14 @@ Private Function fSQLCxPEntreFechas(ByVal valFechaDesde As Date, valFechaHasta A
       sqlSumMtoRetIva = "SUM(" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCxP.GetTableName & ".MontoRetenido )", varSQlFecha) & ")"
    End If
    If (gProyParametrosCompania.GetMetodoDeCosteoAsEnum = eTDMDC_CostoPromedio) And vEsDeCompra Then
-      sqlSumSubTotal = "SUM (" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCompraVista.GetViewNameComprasConCuentasArticulos & ".TotalRenglon " & " ) ", varSQlFecha) & " * " & SqlTasaDeCambio & " )"
+      sqlSumSubTotal = "SUM (" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCompraVista.GetViewNameComprasConCuentasArticulos & ".TotalRenglon  ) ", varSQlFecha) & " * " & SqlTasaDeCambio & " )"
   Else
    sqlSumSubTotal = "SUM (" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCxP.GetTableName() & ".MontoExento + " & insCxP.GetTableName() & ".MontoGravado ) ", varSQlFecha) & " * " & SqlTasaDeCambio & " )"
    End If
    sqlSumMtoRetISLR = "SUM(" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCxP.GetTableName & ".MontoRetenidoISLR )", varSQlFecha) & ")"
    sqlSumDebeIva = "SUM (" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCxP.GetTableName() & ".MontoIva ) ", varSQlFecha) & " * " & SqlTasaDeCambio & " )"
    sqlSumTotalCxP = "SUM (" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCxP.fSQLMontoTotalCxP & " ) ", varSQlFecha) & " * " & SqlTasaDeCambio & " )"
-   sqlSumMontoRetenidoImpuestoMunicipal = "SUM (" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCxP.GetTableName & ".MontoRetenidoImpuestoMunicipal " & " ) ", varSQlFecha) & ")"
+   sqlSumMontoRetenidoImpuestoMunicipal = "SUM (" & gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "( " & insCxP.GetTableName & ".MontoRetenidoImpuestoMunicipal  ) ", varSQlFecha) & ")"
   If ((gProyParametrosCompania.GetEnDondeRetenerISLRAsEnum = eDS_CXP) And (gProyParametrosCompania.GetUsaRetencion)) Then
        If (sqlSumMtoRetIva = "") Then
        sqlSumTotalCxP = "(" & sqlSumTotalCxP & " - " & sqlSumMtoRetISLR & " - " & sqlSumMontoRetenidoImpuestoMunicipal & ")"
@@ -1567,7 +1567,7 @@ Private Function fSQLCxPEntreFechas(ByVal valFechaDesde As Date, valFechaHasta A
    Sql = Sql & insCxP.GetTableName & ".ConsecutivoCompania = " & insProveedor.GetTableName & ".ConsecutivoCompania"
    Sql = Sql & " AND " & insCxP.GetTableName & ".CodigoProveedor = " & insProveedor.GetTableName & ".CodigoProveedor"
    Sql = Sql & " WHERE " & insCxP.GetTableName & ".ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND " & insCxP.GetTableName & ".ConsecutivoCxp" & " IN (" & ConjuntoDeCxPSinContabilizar & ")"
+   Sql = Sql & " AND " & insCxP.GetTableName & ".ConsecutivoCxp IN (" & ConjuntoDeCxPSinContabilizar & ")"
    Sql = Sql & " GROUP BY " & insCxP.GetTableName() & ".CodigoProveedor "
    
     If (gProyParametrosCompania.GetMetodoDeCosteoAsEnum = eTDMDC_CostoPromedio) And (vEsDeCompra) Then
@@ -1588,7 +1588,7 @@ Private Function fSQLCxPEntreFechas(ByVal valFechaDesde As Date, valFechaHasta A
        Sql = Sql & " dbo.CXP.Numero = " & insCompraVista.GetViewNameComprasConCuentasArticulos & ".Numero "
        Sql = Sql & " AND " & insCxP.GetTableName & ".CodigoProveedor = " & insProveedor.GetTableName & ".CodigoProveedor"
        Sql = Sql & " WHERE " & insCxP.GetTableName & ".ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-       Sql = Sql & " AND " & insCxP.GetTableName & ".ConsecutivoCxp" & " IN (" & ConjuntoDeCxPSinContabilizar & ")"
+       Sql = Sql & " AND " & insCxP.GetTableName & ".ConsecutivoCxp IN (" & ConjuntoDeCxPSinContabilizar & ")"
        Sql = Sql & " GROUP BY " & insCxP.GetTableName() & ".CodigoProveedor, CuentaInventario "
    
    End If
@@ -1629,7 +1629,7 @@ Private Function fConjuntoDeImpTranBancariaAsociadosAPagos(ByVal valConjuntoDePa
    Dim Sql As String
    Dim ConjuntoDeRecords As String
    On Error GoTo h_ERROR
-   Sql = "SELECT movimientoBancario.ConsecutivoMovimiento FROM movimientoBancario " & " WHERE movimientoBancario.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   Sql = "SELECT movimientoBancario.ConsecutivoMovimiento FROM movimientoBancario  WHERE movimientoBancario.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND movimientoBancario.NroMovimientoRelacionado IN (" & valConjuntoDePagosSinContabilizar & ")"
    Sql = Sql & " AND movimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ORDEN_DE_PAGO)
    ConjuntoDeRecords = gDbUtil.fBuildResultSetAsString(Sql)
@@ -2197,9 +2197,6 @@ Private Function fFieldNameNumeroWithTableName(ByVal valNombreTablaOrigen As Str
    Else
       varFieldNumero = valNombreTablaOrigen & "." & valNombreCampoNumero
    End If
-   If gGlobalization.fEsCodigoPeru Then
-      varFieldNumero = gUtilSQL.fCast(varFieldNumero, eTDSS_VARCHAR, "")
-   End If
    fFieldNameNumeroWithTableName = varFieldNumero
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -2621,7 +2618,7 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
                numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
                
     Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, _
-               "SUM(" & gUtilSQL.fRoundNDecimales(insFactura.GetTableName & "." & "MontoDescuento1" & " * " & SqlTasaDeCambio, 2) & ")", _
+               "SUM(" & gUtilSQL.fRoundNDecimales(insFactura.GetTableName & ".MontoDescuento1 * " & SqlTasaDeCambio, 2) & ")", _
                varCuentaContaDescFac, varAuxiliarCxC, codigoDelAuxiliar, _
                numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, varCodigoCentroDeCosto) & ", "
    numeroFactura = gTexto.DfMid(valNoDocumentoOrigen, gTexto.DfInStr(valNoDocumentoOrigen, gTexto.fSeparadorStandardDeElementosString) + 1)
@@ -3391,8 +3388,8 @@ Private Function fConjuntoDeImpTranBancariaAsociadosAAnticipos(ByVal valConjunto
    Dim ConjuntoDeRecords As String
    On Error GoTo h_ERROR
    Sql = "SELECT movimientoBancario.ConsecutivoMovimiento"
-   Sql = Sql & " FROM movimientoBancario" & " WHERE movimientoBancario.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND movimientoBancario.NroMovimientoRelacionado IN (" & valConjuntoDeAnticiposSinContabilizar & ")" & " AND movimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ANTICIPO)
+   Sql = Sql & " FROM movimientoBancario WHERE movimientoBancario.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   Sql = Sql & " AND movimientoBancario.NroMovimientoRelacionado IN (" & valConjuntoDeAnticiposSinContabilizar & ") AND movimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ANTICIPO)
    ConjuntoDeRecords = gDbUtil.fBuildResultSetAsString(Sql)
 h_EXIT:
    fConjuntoDeImpTranBancariaAsociadosAAnticipos = ConjuntoDeRecords
@@ -3616,7 +3613,7 @@ Private Function fEjecutaProcesoPostContabilizacionDeCxP(ByVal valConjuntoDeDocu
    On Error GoTo h_ERROR
    If gProyCompaniaActual.fPuedoUsarOpcionesDeContribuyenteEspecial Then
       Set insCxP = New clsCxPNavigator
-      Sql = " UPDATE " & insCxP.GetTableName & " SET SeContabilRetIva = " & gUtilSQL.fBooleanToSqlValue(True) & " WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania & " AND " & insCxP.GetTableName & ".CodigoProveedor" & gUtilSQL.CharConcat & "'" & gTexto.fSeparadorStandardDeElementosString & "'" & gUtilSQL.CharConcat & insCxP.GetTableName & ".Numero" & " IN (" & valConjuntoDeDocumentosContabilizados & ")" & " AND " & insCxP.GetTableName & ".DondeContabilRetIVA = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeEfectuoContabilizacionRetIVA.eDC_CxP) & " AND " & insCxP.GetTableName & ".SeContabilRetIva = " & gUtilSQL.fBooleanToSqlValue(False)
+      Sql = " UPDATE " & insCxP.GetTableName & " SET SeContabilRetIva = " & gUtilSQL.fBooleanToSqlValue(True) & " WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania & " AND " & insCxP.GetTableName & ".CodigoProveedor" & gUtilSQL.CharConcat & "'" & gTexto.fSeparadorStandardDeElementosString & "'" & gUtilSQL.CharConcat & insCxP.GetTableName & ".Numero IN (" & valConjuntoDeDocumentosContabilizados & ") AND " & insCxP.GetTableName & ".DondeContabilRetIVA = " & gUtilSQL.fSQLSimpleValueForEnum(enum_DondeEfectuoContabilizacionRetIVA.eDC_CxP) & " AND " & insCxP.GetTableName & ".SeContabilRetIva = " & gUtilSQL.fBooleanToSqlValue(False)
       Set insCxP = Nothing
       vResultado = True
    Else
@@ -4230,7 +4227,7 @@ Private Function fSQLCajaChicaEntreFechasSinDesglozar(ByVal valFechaDesde As Dat
    Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "((Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableReposicion, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
    
    If varGeneraITF Then
-      descripcionMovBancario = insLibSaW.fTituloITFEnCtaBancaria & " / " & "Reposición " & numeroReferencia
+      descripcionMovBancario = insLibSaW.fTituloITFEnCtaBancaria & " / Reposición " & numeroReferencia
       If insMovimiento.fAplicaReformaIGTFGO6687(valFechaDesde) Then
          porcentajeITF = insMovimiento.fBuscaAlicuotaImpTranscBancariasReformaIGTFGO6687(valTipoAlicPorContIGTF, valFechaDesde)
       Else
@@ -4370,7 +4367,7 @@ Private Function fSQLCajaChicaEntreFechasDesglozado(ByVal valFechaDesde As Date,
                         "'" & gProyReglasDeContabilizacion.GetCuentaCajaChicaBanco & "'")
    Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "(Sum(Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableReposicion, False, "", numeroReferencia, "Reposición " & numeroReferencia, CondicionDeStatusAnulado, "")
    If varGeneraITF Then
-      descripcionMovBancario = insLibSaW.fTituloITFEnCtaBancaria & " / " & "Reposición " & numeroReferencia
+      descripcionMovBancario = insLibSaW.fTituloITFEnCtaBancaria & " / Reposición " & numeroReferencia
       If insMovimiento.fAplicaReformaIGTFGO6687(valFechaDesde) Then
          porcentajeITF = insMovimiento.fBuscaAlicuotaImpTranscBancariasReformaIGTFGO6687(valTipoAlicPorContIGTF, valFechaDesde)
       Else
@@ -4474,7 +4471,7 @@ Public Function fCuentasContablesDeCuentaBancariaSonValidas(ByVal valCuentaConta
       If fCuentaContableExisteParaElPeriodo(valCuentaContableAsignadaEnCuenta, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnCtaBancaria = True
       Else
-         vSufijo = "el módulo de Cuenta Bancaria no existe para el periodo según la fecha del movimiento."
+         vSufijo = "el módulo de Cuenta Bancaria no existe para el período según la fecha del movimiento."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       sBuscaCuentaContableDeCtaBancatriaAsignadasEnReglas vCuentaMovBancarioBancosHaber, vCuentaMovBancarioBancosDebe, vCuentaMovBancarioBancosIngresos, vCuentaMovBancarioBancosGasto, vCuentaDebitoBancarioGasto, vCuentaDebitoBancarioBancos, vCuentaCreditoBancarioGasto, vCuentaCreditoBancarioBancos
@@ -4482,28 +4479,28 @@ Public Function fCuentasContablesDeCuentaBancariaSonValidas(ByVal valCuentaConta
       If fCuentaContableExisteParaElPeriodo(vCuentaMovBancarioBancosHaber, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnHaber = True
       Else
-         vSufijo = "Reglas Contables para el HABER no existe para el periodo según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
+         vSufijo = "Reglas Contables para el HABER no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       ' Valida Cuenta Contable Asignada por el Debe
       If fCuentaContableExisteParaElPeriodo(vCuentaMovBancarioBancosDebe, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnDebe = True
       Else
-         vSufijo = "Reglas Contables para el DEBE no existe para el periodo según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
+         vSufijo = "Reglas Contables para el DEBE no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       ' Valida Cuenta Contable Asignada por el Ingresos
       If fCuentaContableExisteParaElPeriodo(vCuentaMovBancarioBancosIngresos, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnIngresos = True
       Else
-         vSufijo = "Reglas Contables para INGRESOS no existe para el periodo según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
+         vSufijo = "Reglas Contables para INGRESOS no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       ' Valida Cuenta Contable Asignada por el Gasto
       If fCuentaContableExisteParaElPeriodo(vCuentaMovBancarioBancosGasto, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnGasto = True
       Else
-         vSufijo = "Reglas Contables para GASTOS no existe para el periodo según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
+         vSufijo = "Reglas Contables para GASTOS no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       ' Valida Cuenta Contable Asignada por el Débito Bancario
@@ -4511,27 +4508,27 @@ Public Function fCuentasContablesDeCuentaBancariaSonValidas(ByVal valCuentaConta
          If fCuentaContableExisteParaElPeriodo(vCuentaDebitoBancarioGasto, vConsecutivoPeriodo) Then
             vEsValidaCtaContableAsignadaEnDebitoFiscalGasto = True
          Else
-           vSufijo = "Reglas Contables para ITF en la Cuenta de Debito para GASTOS no existe para el periodo según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
+           vSufijo = "Reglas Contables para ITF en la Cuenta de Débito para GASTOS no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
             gMessage.Advertencia (vPrefijo & vSufijo)
          End If
          If fCuentaContableExisteParaElPeriodo(vCuentaDebitoBancarioBancos, vConsecutivoPeriodo) Then
             vEsValidaCtaContableAsignadaEnDebitoFiscalBanco = True
          Else
-           vSufijo = "Reglas Contables para ITF en la Cuenta de Debito para BANCO no existe para el periodo según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
+           vSufijo = "Reglas Contables para ITF en la Cuenta de Débito para BANCO no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
             gMessage.Advertencia (vPrefijo & vSufijo)
          End If
-         If fCuentaContableExisteParaElPeriodo(vCuentaCreditoBancarioGasto, vConsecutivoPeriodo) Then
-            vEsValidaCtaContableAsignadaEnCreditoFiscalGasto = True
-         Else
-           vSufijo = "Reglas Contables para ITF en la Cuenta de Credito para GASTOS no existe para el periodo según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
-            gMessage.Advertencia (vPrefijo & vSufijo)
-         End If
-         If fCuentaContableExisteParaElPeriodo(vCuentaCreditoBancarioBancos, vConsecutivoPeriodo) Then
-            vEsValidaCtaContableAsignadaEnCreditoFiscalBanco = True
-         Else
-           vSufijo = "Reglas Contables para ITF en la Cuenta de Credito para BANCO no existe para el periodo según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
-            gMessage.Advertencia (vPrefijo & vSufijo)
-         End If
+'         If fCuentaContableExisteParaElPeriodo(vCuentaCreditoBancarioGasto, vConsecutivoPeriodo) Then
+'            vEsValidaCtaContableAsignadaEnCreditoFiscalGasto = True
+'         Else
+'           vSufijo = "Reglas Contables para ITF en la Cuenta de Crédito para GASTOS no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
+'            gMessage.Advertencia (vPrefijo & vSufijo)
+'         End If
+'         If fCuentaContableExisteParaElPeriodo(vCuentaCreditoBancarioBancos, vConsecutivoPeriodo) Then
+'            vEsValidaCtaContableAsignadaEnCreditoFiscalBanco = True
+'         Else
+'           vSufijo = "Reglas Contables para ITF en la Cuenta de Crédito para BANCO no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
+'            gMessage.Advertencia (vPrefijo & vSufijo)
+'         End If
          vResult = vEsValidaCtaContableAsignadaEnDebe And vEsValidaCtaContableAsignadaEnGasto And vEsValidaCtaContableAsignadaEnHaber And vEsValidaCtaContableAsignadaEnIngresos And vEsValidaCtaContableAsignadaEnDebitoFiscalGasto And vEsValidaCtaContableAsignadaEnDebitoFiscalBanco And vEsValidaCtaContableAsignadaEnCreditoFiscalGasto And vEsValidaCtaContableAsignadaEnCreditoFiscalBanco
       Else
          vResult = vEsValidaCtaContableAsignadaEnDebe And vEsValidaCtaContableAsignadaEnGasto And vEsValidaCtaContableAsignadaEnHaber And vEsValidaCtaContableAsignadaEnIngresos

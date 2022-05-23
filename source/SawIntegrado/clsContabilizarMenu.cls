@@ -266,7 +266,7 @@ Private Sub sEjecutaContabilizarMovimientoBancarioDiaria()
          End If
          Set insMovBancario = New clsMovimientoBancarioNavigator
          Set insFrmContabilizar = New frmListContabilizacion
-         fixedAdditionalWhereClauses = insMovBancario.GetTableName & ".GeneradoPor" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_USUARIO)
+         fixedAdditionalWhereClauses = insMovBancario.GetTableName & ".GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_USUARIO)
          insFrmContabilizar.sInitLookAndFeel Contabilizar, gEnumProyecto.enum_SystemModulesToStr(eSM_MovimientoBancario), insMovBancario.GetTableName, insMovBancario, "ConsecutivoMovimiento", fixedAdditionalWhereClauses
       End If
    End If
@@ -312,7 +312,7 @@ Private Sub sEjecutaContabilizarResumenVentasDiaria()
          insResumenVts.setClaseDeTrabajo eCTFC_Factura
          insResumenVts.SetTipoDeDocumentoStr gEnumProyecto.enumTipodocumentoFacturaToString(eTF_RESUMENDIARIODEVENTAS)
          fixedAdditionalWhereClauses = insResumenVts.GetTableName & "." & insResumenVts.getFN_STATUS_FACTURA & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & " AND " & insResumenVts.GetTableName & "." & insResumenVts.getFN_TIPO_DE_DOCUMENTO & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS) & _
-         " AND " & insResumenVts.GetTableName & "." & "RealizoCierreZ" & " = '" & gConvert.ConvertBooleanToString(False) & "'"
+         " AND " & insResumenVts.GetTableName & ".RealizoCierreZ = '" & gConvert.ConvertBooleanToString(False) & "'"
          insFrmContabilizar.sInitLookAndFeel Contabilizar, gEnumProyecto.enum_SystemModulesToStr(eSM_Factura), insResumenVts.GetTableName, insResumenVts, insResumenVts.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_INPUT(False), fixedAdditionalWhereClauses
       End If
    End If
