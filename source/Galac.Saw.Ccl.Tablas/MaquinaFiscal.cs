@@ -103,7 +103,7 @@ namespace Galac.Saw.Ccl.Tablas {
             Descripcion = string.Empty;
             NumeroRegistro = string.Empty;
             StatusAsEnum = eStatusMaquinaFiscal.Activa;
-            LongitudNumeroFiscal = 0;
+            LongitudNumeroFiscal = 8;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
