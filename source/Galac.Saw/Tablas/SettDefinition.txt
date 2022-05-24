@@ -103,6 +103,7 @@ TipoDePrefijo2;Factura;2; 2.4.- Modelo de Factura ;4;;Enumerativo;;N
 Prefijo2;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
 ModeloFacturaModoTexto2;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
 UsarDosTalonarios;Factura;2; 2.4.- Modelo de Factura;4 ;;Bool;;N
+NombrePlantillaSubFacturaConOtrosCargos;Factura;2; 2.4.- Modelo de Factura ;4;;String;;N
 UsaCamposDefinibles;Factura;2;2.5.- Campos Definibles;5;;Bool;;N
 NombreCampoDefinible1;Factura;2;2.5.- Campos Definibles;5;;String;;N
 NombreCampoDefinible2;Factura;2;2.5.- Campos Definibles;5;;String;;N
