@@ -145,7 +145,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                             vOrdenCompra.TipoDeCompraAsEnum = (eTipoCompra)(OrdenDeCompraPdn.ValidaTipoDeCompra(LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "TipoDeCompra"))));
                             vOrdenCompra.Moneda = ((IMonedaPdn)new clsMonedaNav()).GetNombreMoneda(LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "CodigoMoneda")));
                             vOrdenCompra.CodigoMoneda = LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "CodigoMoneda"));
-                            vOrdenCompra.CambioABolivares = LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CambioABolivares"));
+                            vOrdenCompra.CambioABolivares = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CambioABolivares"));
                             vOrdenCompra.TotalRenglones = OrdenDeCompraPdn.CalculaTotalRenglonOC(valRecord, LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "Numero")), vOrdenCompra.CodigoMoneda, vOrdenCompra.CambioABolivares);
                             vOrdenCompra.TotalCompra = vOrdenCompra.TotalRenglones;
                             vOrdenCompra.Comentarios = LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "Comentarios"));
@@ -155,8 +155,8 @@ namespace Galac.Adm.Brl.GestionCompras {
                             vOrdenCompraDetalleImport.NumeroOC = LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "Numero"));
                             vOrdenCompraDetalleImport.CodigoArticulo = LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "CodigoArticulo"));
                             vOrdenCompraDetalleImport.DescripcionArticulo = OrdenDeCompraPdn.InfoArticulo(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "CodigoArticulo")));
-                            vOrdenCompraDetalleImport.Cantidad = LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "Cantidad"));
-                            vOrdenCompraDetalleImport.CostoUnitario = LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CostoUnitario"));
+                            vOrdenCompraDetalleImport.Cantidad = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vItem, "Cantidad"));
+                            vOrdenCompraDetalleImport.CostoUnitario = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CostoUnitario"));
                             vRegistroValidoImport = false;
                         }
                     }
@@ -168,7 +168,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                     vOrdenCompra.TipoDeCompraAsEnum = (eTipoCompra)(OrdenDeCompraPdn.ValidaTipoDeCompra(LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "TipoDeCompra"))));
                     vOrdenCompra.Moneda = ((IMonedaPdn)new clsMonedaNav()).GetNombreMoneda(LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "CodigoMoneda")));
                     vOrdenCompra.CodigoMoneda = LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "CodigoMoneda"));
-                    vOrdenCompra.CambioABolivares = LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CambioABolivares"));
+                    vOrdenCompra.CambioABolivares = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CambioABolivares"));
                     vOrdenCompra.TotalRenglones = OrdenDeCompraPdn.CalculaTotalRenglonOC(valRecord, LibText.UCase(LibXml.GetElementValueOrEmpty(vItem, "Numero")), vOrdenCompra.CodigoMoneda, vOrdenCompra.CambioABolivares);
                     vOrdenCompra.TotalCompra = vOrdenCompra.TotalRenglones;
                     vOrdenCompra.Comentarios = LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "Comentarios"));
@@ -178,8 +178,8 @@ namespace Galac.Adm.Brl.GestionCompras {
                     vOrdenCompraDetalleImport.NumeroOC = LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "Numero"));
                     vOrdenCompraDetalleImport.CodigoArticulo = LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "CodigoArticulo"));
                     vOrdenCompraDetalleImport.DescripcionArticulo = OrdenDeCompraPdn.InfoArticulo(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), LibConvert.ToStr(LibXml.GetElementValueOrEmpty(vItem, "CodigoArticulo")));
-                    vOrdenCompraDetalleImport.Cantidad = LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "Cantidad"));
-                    vOrdenCompraDetalleImport.CostoUnitario = LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CostoUnitario"));
+                    vOrdenCompraDetalleImport.Cantidad = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vItem, "Cantidad"));
+                    vOrdenCompraDetalleImport.CostoUnitario = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CostoUnitario"));
                     vRegistroValidoImport = true;
                 }    
                 if (vRegistroValidoImport) {
