@@ -669,7 +669,6 @@ namespace Galac.Adm.Brl.GestionCompras {
             string vMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaLocal");
             decimal vTotalRenglon = 0;
             if (vMonedaLocal == ValCodigoMoneda) {
-                ;
                 vTotalRenglon = LibMath.RoundToNDecimals(valCantidad * valCosto, 2);
             } else {
                 vTotalRenglon = LibMath.RoundToNDecimals((valCantidad * valCosto) * valCambioABolivares, 2);
@@ -695,7 +694,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                 }
                 while (Regis < vCantidadRegistros) {
                     vTotalRenglonesTemp = 0;
-                    vTotalRenglonesTemp = OrdenDeCompraPdn.CalculaTotalRenglon(valMoneda, valCambio, LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "Cantidad")), LibConvert.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CostoUnitario")));
+                    vTotalRenglonesTemp = OrdenDeCompraPdn.CalculaTotalRenglon(valMoneda, valCambio, LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vItem, "Cantidad")), LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vItem, "CostoUnitario")));
                     Regis++;
                 }
                 if (Regis == vCantidadRegistros && vNumeroAnterior == vNumeroNuevo && vNumeroActual == vNumeroNuevo) {
