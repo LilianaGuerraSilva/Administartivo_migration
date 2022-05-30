@@ -1048,6 +1048,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         protected override void InitializeLookAndFeel(Compra valModel) {
             base.InitializeLookAndFeel(valModel);
             string vCodigoMonedaSegunModulo = string.Empty;
+            bool vIsClosingOriginal = IsClosing;
             if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
                 vCodigoMonedaSegunModulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             } else {
@@ -1060,7 +1061,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (TipoModulo == eTipoCompra.Importacion) {
                     vCodigoMonedaSegunModulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
                 }
-                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaSegunModulo));
+                if (vIsClosingOriginal) {
+                    IsClosing = false;
+                }
+                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaSegunModulo));                
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
                 Moneda = ConexionCodigoMoneda.Nombre;
                 CambioAMonedaLocal = 1;
@@ -1071,6 +1075,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     ConexionCodigoAlmacen = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", vDefaultCriteria);
 
                 }
+                IsClosing = vIsClosingOriginal;
                 GenerarCXP = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "GenerarCxPDesdeCompra");
                 AsignaTasaDelDia(CodigoMoneda);
             }
