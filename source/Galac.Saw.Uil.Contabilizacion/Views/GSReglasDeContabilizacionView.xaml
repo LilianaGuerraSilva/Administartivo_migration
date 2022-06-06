@@ -2148,10 +2148,11 @@
                             <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
                             <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
                         </Grid.RowDefinitions>
-
                         <Border
-                            Grid.RowSpan="7"
+                            Grid.RowSpan="9"
                             Grid.Column="2"
                             Background="{x:Null}"
                             BorderBrush="{StaticResource NormalBorderBrush}"
@@ -2168,7 +2169,6 @@
                             Background="{x:Null}"
                             BorderBrush="{StaticResource SolidBorderBrush}"
                             BorderThickness="0,0,0,1" />
-
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
@@ -2183,8 +2183,6 @@
                             HorizontalContentAlignment="Center"
                             Content="HABER"
                             FontSize="12" />
-
-
                         <Label
                             Name="lblCuentaRDVtasCaja"
                             Grid.Row="1"
@@ -2206,7 +2204,6 @@
                             Grid.Row="2"
                             Grid.Column="1"
                             Content="{Binding Path=CuentaRDVtasCajaDescripcion}" />
-
                         <Label
                             Name="lblCuentaIva1Debito4"
                             Grid.Row="3"
@@ -2222,13 +2219,21 @@
                             Content="{Binding Path=CuentaIva1Credito}"
                             FontSize="11" />
                         <Label
+                            Grid.Row="7"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaCreditoBancarioGasto}"
+                            FontSize="11" />
+                        <Label
                             Name="lblCuentaIva1DebitoDescripcion3"
                             Grid.Row="4"
                             Grid.Column="2"
                             Content="{Binding Path=CuentaIva1CreditoDescripcion}"
                             Foreground="Black" />
-
-
+                        <Label
+                            Grid.Row="8"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaCreditoBancarioGastoDescripcion}"
+                            Foreground="Black" />
                         <Label
                             Name="lblCuentaRDVtasMontoTotal"
                             Grid.Row="5"
@@ -2250,7 +2255,11 @@
                             Grid.Row="6"
                             Grid.Column="2"
                             Content="{Binding Path=CuentaRDVtasMontoTotalDescripcion}" />
-
+                        <Label
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Content="IGTF por Enterar"
+                            Style="{StaticResource LabelReglas}" />
                     </Grid>
                 </GroupBox>
 
