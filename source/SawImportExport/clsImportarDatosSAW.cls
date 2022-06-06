@@ -2778,7 +2778,7 @@ Private Function fVerificaSiNoExisteLaCxPYLoAgrega(ByRef refRegistrosImportados 
    On Error GoTo h_ERROR
    Continuar = False
    If Not insCxP.fSearchByCodigoProveedoryNumeroCxP(insCxP.getCodigoProveedor, insCxP.GetNumero, False) Then
-      insCxP.sInsertNewEmptyMasterDetailOtrosImpuestos False
+      insCxP.sInsertNewEmptyRecord False
       If insCxP.fInsert(insertar, False, True) Then
          Continuar = True
          refRegistrosImportados = refRegistrosImportados + 1
@@ -4650,7 +4650,7 @@ Private Function fValidaLamoneda(Optional ByVal valMoneda As String) As String
    On Error GoTo h_ERROR
    Select Case UCase(valMoneda)
       Case "BOLIVAR", "BOLÍVAR", "BOLIVARES":
-         strValor = "VES"
+         strValor = "VED"
       Case "DOLARES", "DOLAR", "DOLAR EEUU", "DÓLAR", "DÓLARES":
          strValor = "USD"
       Case "EURO", "EUROS":

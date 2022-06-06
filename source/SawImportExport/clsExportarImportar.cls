@@ -253,7 +253,7 @@ Private Function fSQLExportarFacturas(ByVal valExportarBorradores As Boolean) As
       SQL = SQL & "'' AS CampoExtraEnRenglonFactura2, "
    End If
    SQL = SQL & "renglonFactura.Articulo "
-   SQL = SQL & ", CASE WHEN factura.CodigoMonedaDeCobro = 'VES' THEN"
+   SQL = SQL & ", CASE WHEN factura.CodigoMonedaDeCobro = 'VED' THEN"
    SQL = SQL & "      'BOLÍVARES'"
    SQL = SQL & "   WHEN factura.CodigoMonedaDeCobro = 'USD' THEN"
    SQL = SQL & "         'DÓLARES'"
