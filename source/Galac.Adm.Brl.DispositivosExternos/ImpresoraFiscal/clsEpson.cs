@@ -87,7 +87,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("PNPDLL.dll")]
         public static extern string PFultimo();
         [DllImport("PNPDLL.dll")]
-        public static extern string PFTipoImp(string TipoImpresora);        
+        public static extern string PFTipoImp(string TipoImpresora);
         #endregion
 
         #region constantes
@@ -133,10 +133,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string _PorcAlicuotaExcenta = string.Empty;
         private string _PorcAlicuotaGeneral = string.Empty;
         private string _PorcAlicuotaReducida = string.Empty;
-        private string _PorcAlicuotaAdicional = string.Empty;        
+        private string _PorcAlicuotaAdicional = string.Empty;
         #endregion
 
-        public clsEpson(XElement valXmlDatosImpresora) {            
+        public clsEpson(XElement valXmlDatosImpresora) {
             ConfigurarImpresora(valXmlDatosImpresora);
         }
 
@@ -485,16 +485,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         public bool ImprimirFacturaFiscal(XElement vDocumentoFiscal) {
             bool vResult = false;
-            try {                
+            try {
                 AbrirConexion();
                 if (AbrirComprobanteFiscal(vDocumentoFiscal)) {
                     vResult = ImprimirTodosLosArticulos(vDocumentoFiscal);
-                    vResult &= CerrarComprobanteFiscal(vDocumentoFiscal, false);                    
+                    vResult &= CerrarComprobanteFiscal(vDocumentoFiscal, false);
                 }
                 CerrarConexion();
                 return vResult;
             } catch (Exception vEx) {
-                CerrarConexion();                
+                CerrarConexion();
                 throw new Exception("imprimir factura fiscal " + vEx.Message);
             }
         }
@@ -528,19 +528,19 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vTotalMonedaExtranjera = "";
             bool vObsrvacionesCortas = false;
             decimal vIGTF = 0;
-            
+
             try {
                 vEstado &= CheckRequest(vResult, ref vMensaje);
                 if (!vEstado) {
                     throw new Exception("Error en totales");
-                }                
-            
+                }
+
                 vDireccionFiscal = LibXml.GetPropertyString(vDocumentoFiscal, "DireccionCliente");
                 vObservaciones = LibXml.GetPropertyString(vDocumentoFiscal, "Observaciones");
                 vTotalMonedaExtranjera = LibXml.GetPropertyString(vDocumentoFiscal, "TotalMonedaExtranjera");
                 vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(vDocumentoFiscal, "IGTFML"));
                 vEstado = EnviarPagos(vDocumentoFiscal);
-                vEstado &= CheckRequest(vResult, ref vMensaje);            
+                vEstado &= CheckRequest(vResult, ref vMensaje);
 
                 if (!vTotalMonedaExtranjera.Equals("") && !EsNotaDeCredito) {
                     string[] vTotal = LibString.Split(vTotalMonedaExtranjera, "\n");
@@ -551,7 +551,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vEstado &= CheckRequest(vResult, ref vMensaje);
                     }
                 }
-                
+
 
                 if (!vDireccionFiscal.Equals(string.Empty)) {
                     PFTfiscal(LineaSeparador());
@@ -560,7 +560,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vEstado &= CheckRequest(vResult, ref vMensaje);
                     vTexto = LibText.Trim(LibText.SubString(vDireccionFiscal, 29, 40));
                     vResult = PFTfiscal(vTexto);
-                    vEstado &= CheckRequest(vResult, ref vMensaje);                    
+                    vEstado &= CheckRequest(vResult, ref vMensaje);
                 }
                 if (!vObservaciones.Equals(string.Empty)) {
                     PFTfiscal(LineaSeparador());
@@ -574,23 +574,23 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vTexto = LibText.Trim(LibText.SubString(vObservaciones, 65, 40));
                         PFTfiscal(vTexto);
                     }
-                    vEstado &= CheckRequest(vResult, ref vMensaje);                    
+                    vEstado &= CheckRequest(vResult, ref vMensaje);
                 } else {
                     if (!vObsrvacionesCortas) {
                         vTexto = LibText.Trim(LibText.SubString(vDireccionFiscal, 69, 40));
                         vResult = PFTfiscal(vTexto);
-                        vEstado &= CheckRequest(vResult, ref vMensaje);                        
+                        vEstado &= CheckRequest(vResult, ref vMensaje);
                     }
-                }                
-                PFTfiscal(LineaSeparador());                
+                }
+                PFTfiscal(LineaSeparador());
                 ImprmirCamposDefinibles(vDocumentoFiscal);
-                vResult = PFtotal();                
+                vResult = PFtotal();
                 vEstado &= CheckRequest(vResult, ref vMensaje);
-                if (!vEstado) {                    
+                if (!vEstado) {
                     throw new GalacException(vMensaje, eExceptionManagementType.Controlled);
-                }                
+                }
                 return vEstado;
-            } catch (Exception vEx) {                
+            } catch (Exception vEx) {
                 CancelarDocumentoFiscalEnImpresion(false);
                 throw new GalacException("Cerrar Comprobante" + vEx.Message, eExceptionManagementType.Controlled);
             }
@@ -832,6 +832,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                 } else {
                     vResult = PFparcial();
+                    vTotalAPagar = vTotalFacturaDec;
                     vDiferencia = vTotalAPagar - (vTotalPagosML + vTotalPagosME);
                     List<XElement> vNodos = valMedioDePago.Descendants("GpResultDetailRenglonCobro").Where(p => p.Element("CodigoMoneda").Value == vCodigoMoneda).ToList();
                     if (vNodos.Count > 0) {
@@ -980,26 +981,29 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vReq = PFestatus("V");
                 vEstado = CheckRequest(vReq, ref vMensaje);
                 if (vEstado) {
-                    vResult = LeerRepuestaImpFiscal(-1); // -1 es la ultima posición del arreglo de respuesta
+                    vResult = LeerRepuestaImpFiscal(-1); // -1 es la ultima posición del arreglo de respuesta                    
+                }
+                if (!LibString.S1IsEqualToS2(vResult, _VersionFirmware)) {
+                    vResult = "26.3";
                 }
                 return vResult;
             } catch (Exception) {
                 throw;
             }
-        }       
+        }
 
         private string LeerRepuestaImpFiscal(int valIndex) {
             string vResult = "";
             string[] vArray;
             string vTrama;
             try {
-                vTrama = PFultimo();                
+                vTrama = PFultimo();
                 vArray = LibString.Split(vTrama, ',');
                 if (vArray != null && vArray.Length > 0) {
                     if (vArray.Length > valIndex && valIndex >= 0) {
                         vResult = vArray[valIndex];
                     } else if (valIndex == -1) { // -1 Bandera fija para la última posición
-                        vResult = vArray[vArray.Length - 1]; 
+                        vResult = vArray[vArray.Length - 1];
                     }
                 }
                 return vResult;
