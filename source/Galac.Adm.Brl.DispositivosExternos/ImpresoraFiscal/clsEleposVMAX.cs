@@ -507,7 +507,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalAPagar = LibImportData.ToDec(LibXml.GetPropertyString(valMedioDePago, "TotalAPagar"));
                 if (vBaseImponibleIGTF > 0) { // Aqui se envia el IGTF
                     vMedioDePago = "Divisas";
-                    vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vBaseImponibleIGTF), _EnterosParaMonto, _DecimalParaMonto);
+                    vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vBaseImponibleIGTF, 2), _EnterosParaMonto, _DecimalParaMonto);
                     mVMax.SubTotalT(ref vMontoME);
                     vMontoME = LibConvert.NumToString(vBaseImponibleIGTF, 2);
                     vCantidadCaracteres = 33 - LibString.Len(vMontoME) - 2;
@@ -517,7 +517,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     if (vTotalAPagadoML == 0) {
                         vMedioDePago = "Otros";
                         decimal vOtrosMontos = LibMath.Abs(vTotalAPagar - vBaseImponibleIGTF);
-                        vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vOtrosMontos), _EnterosParaMonto, _DecimalParaMonto);
+                        vMontoME = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vOtrosMontos, 2), _EnterosParaMonto, _DecimalParaMonto);
                         mVMax.PagoCF(ref vMedioDePago, ref vMontoME, ref vTipoPago);
                     }
                 } else {
