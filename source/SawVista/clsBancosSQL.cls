@@ -516,7 +516,7 @@ Public Function fSqlDeclaracionIGTFFactura_SQL(ByVal valRedondeaMontoDebitoBanca
       SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, 'COBROS DE FACTURAS EN DIVISAS' AS NombreCuenta, "
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, 'Facturas Cobradas en Divisas' AS NombreCuenta, "
    SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr, 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr "
    SQL = SQL & " FROM factura "
    SQL = SQL & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & "  AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania

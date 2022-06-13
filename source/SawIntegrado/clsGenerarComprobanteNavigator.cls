@@ -4151,7 +4151,7 @@ Public Function fCuentasContablesDeCuentaBancariaSonValidas(ByVal valCuentaConta
            vSufijo = "Reglas Contables para ITF en la Cuenta de Débito para BANCO no existe para el período según la fecha del movimiento. Se cancelará el proceso de generación del Comprobante Contable."
             gMessage.Advertencia (vPrefijo & vSufijo)
          End If
-         vResult = vEsValidaCtaContableAsignadaEnDebe And vEsValidaCtaContableAsignadaEnGasto And vEsValidaCtaContableAsignadaEnHaber And vEsValidaCtaContableAsignadaEnIngresos And vEsValidaCtaContableAsignadaEnDebitoFiscalGasto And vEsValidaCtaContableAsignadaEnDebitoFiscalBanco And vEsValidaCtaContableAsignadaEnCreditoFiscalGasto And vEsValidaCtaContableAsignadaEnCreditoFiscalBanco
+         vResult = vEsValidaCtaContableAsignadaEnDebe And vEsValidaCtaContableAsignadaEnGasto And vEsValidaCtaContableAsignadaEnHaber And vEsValidaCtaContableAsignadaEnIngresos And vEsValidaCtaContableAsignadaEnDebitoFiscalGasto And vEsValidaCtaContableAsignadaEnDebitoFiscalBanco
       Else
          vResult = vEsValidaCtaContableAsignadaEnDebe And vEsValidaCtaContableAsignadaEnGasto And vEsValidaCtaContableAsignadaEnHaber And vEsValidaCtaContableAsignadaEnIngresos
       End If
