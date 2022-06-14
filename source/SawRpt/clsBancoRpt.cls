@@ -280,8 +280,8 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "Del " & gConvert.dateToString(valFechaInicial) & " al " & gConvert.dateToString(valFechaFinal)
          gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          
-         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHTipoContribuyente", "TipoDeAlicuotaPorContribuyenteStr", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
          gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHCuentaBancaria", "NombreCuenta", ddGrpAll, ddRepeatOnPage, True, ddNPNone
+         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHTipoContribuyente", "TipoDeAlicuotaPorContribuyenteStr", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
          
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoAliContribuyente", "", "TipoDeAlicuotaPorContribuyenteStr"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCuentaBancaria", "", "NombreCuenta"
@@ -293,6 +293,7 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sDefaultConfigurationForIntegerFields refRpt, "txtCantOperaciones", "", "ParaContar"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtBaseImponible", "", "BaseImponible"
          gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtITF", "", "MontoITF"
+         
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalCantOperaciones", "ParaContar", eSF_SUM, "GHCuentaBancaria", eSR_GROUP, eST_SUB_TOTAL, "#"
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalBaseImponible", "BaseImponible", eSF_SUM, "GHCuentaBancaria", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtTotalImpuesto", "MontoITF", eSF_SUM, "GHCuentaBancaria", eSR_GROUP, eST_SUB_TOTAL

@@ -423,13 +423,13 @@ Public Function fSQLDeclaracionITFGO6687(ByVal valFechaInicial As Date, ByVal va
    SQL = SQL & fSqlDeclaracionIGTFNoGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
    SQL = SQL & " UNION "
    SQL = SQL & fSqlDeclaracionIGTFFactura_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
-   SQL = SQL & " ORDER BY NombreCuenta, fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
+   SQL = SQL & " ORDER BY TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha "
    fSQLDeclaracionITFGO6687 = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeclaracionITFGO6687", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Public Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
+Private Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
    Dim vSQL As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
@@ -457,10 +457,10 @@ h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBan", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Public Function fSqlDeclaracionIGTFGeneraMovBan_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
+Private Function fSqlDeclaracionIGTFGeneraMovBan_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
    Dim SQL As String
    On Error GoTo h_ERROR
-   SQL = " SELECT Fecha, CodigoMoneda, "
+   SQL = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = '4'", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") AS MontoITF, "
@@ -468,11 +468,11 @@ Public Function fSqlDeclaracionIGTFGeneraMovBan_SQL(ByVal valRedondeaMontoDebito
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", gUtilSQL.fSQLTruncaA2Decimales("Monto * CambioAbolivares"), "0") & ") AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = '4'", gUtilSQL.fSQLTruncaA2Decimales("Monto * CambioAbolivares"), "0") & ") AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") AS ParaContar, NombreCuenta, "
-   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") AS ParaContar, "
+   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr "
    SQL = SQL & " FROM CTE_DeclaracionIGTFGeneraMovBan "
    SQL = SQL & "WHERE GeneraMovBancarioPorIGTFStr = 'Genera IGTF'"
-   SQL = SQL & " GROUP BY NombreCuenta, Fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
+   SQL = SQL & " GROUP BY TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
    SQL = SQL & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") > 0 "
   
    fSqlDeclaracionIGTFGeneraMovBan_SQL = SQL
@@ -481,10 +481,10 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFGeneraMovBan_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSqlDeclaracionIGTFNoGeneraMovBan_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
+Private Function fSqlDeclaracionIGTFNoGeneraMovBan_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
    Dim SQL As String
    On Error GoTo h_ERROR
-   SQL = " SELECT Fecha, CodigoMoneda, "
+   SQL = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = '4'", "0", gUtilSQL.fRoundNDecimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ", 2)) & ") AS MontoITF, "
@@ -492,11 +492,11 @@ Public Function fSqlDeclaracionIGTFNoGeneraMovBan_SQL(ByVal valRedondeaMontoDebi
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", gUtilSQL.fSQLTruncaA2Decimales(" Monto * CambioAbolivares "), "0") & ") AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = '4'", "0", gUtilSQL.fSQLTruncaA2Decimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ")) & ") AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") AS ParaContar, NombreCuenta, "
-   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr "
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") AS ParaContar, "
+   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
    SQL = SQL & " FROM CTE_DeclaracionIGTFGeneraMovBan "
    SQL = SQL & "WHERE GeneraMovBancarioPorIGTFStr = 'No Genera IGTF'"
-   SQL = SQL & " GROUP BY NombreCuenta, fecha, CodigoMoneda, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr, TipoDeAlicuotaPorContribuyenteStr"
+   SQL = SQL & " GROUP BY TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, fecha, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
    SQL = SQL & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", "1", "0") & ") > 0 "
    
    fSqlDeclaracionIGTFNoGeneraMovBan_SQL = SQL
@@ -505,10 +505,10 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFNoGeneraMovBan_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSqlDeclaracionIGTFFactura_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
+Private Function fSqlDeclaracionIGTFFactura_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
    Dim SQL As String
    On Error GoTo h_ERROR
-   SQL = " SELECT Fecha, CodigoMoneda, "
+   SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Facturas Cobradas en Divisas' AS NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
       SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
@@ -516,11 +516,11 @@ Public Function fSqlDeclaracionIGTFFactura_SQL(ByVal valRedondeaMontoDebitoBanca
       SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, 'Facturas Cobradas en Divisas' AS NombreCuenta, "
-   SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr, 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr "
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
+   SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
    SQL = SQL & " FROM factura "
    SQL = SQL & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & "  AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " GROUP BY fecha, CodigoMoneda, factura.AlicuotaIGTF"
+   SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
    fSqlDeclaracionIGTFFactura_SQL = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
