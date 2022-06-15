@@ -23,7 +23,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
         private void AgregarColumnasATablaCompras() {
             AddColumnDecimal("Adm.Compra", "CambioCostoUltimaCompra", 25, 4, "CONSTRAINT nnComCaCoUlCo NOT NULL", 1);
-            AddColumnString("Adm.Compra", "CodigoMonedaCostoUltimaCompra", 4, "", "VED");
+            if (AddColumnString("Adm.Compra", "CodigoMonedaCostoUltimaCompra", 4, "", "VED")) {
+                AddDefaultConstraint("Adm.Compra", "d_ComCoMoCoUlCo", _insSql.ToSqlValue(""), "CodigoMonedaCostoUltimaCompra");
+            }
         }
         private void ActualizarAlicuotaenFactura() {
             QAdvSql insSql = new QAdvSql("");
