@@ -59,6 +59,7 @@
     <Compile Include="CompraDetalleArticuloInventario.cs" />
     <Compile Include="CompraDetalleGasto.cs" />
     <Compile Include="CompraDetalleSerialRollo.cs" />
+    <Compile Include="IOrdenDeCompraDatDetallePdn.cs" />
     <Compile Include="IOrdenDeCompraInformes.cs" />
     <Compile Include="CxP.cs" />
     <Compile Include="ICargaInicialPdn.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="IFkOrdenDeCompraViewModel.cs" />
     <Compile Include="IFkProveedorViewModel.cs" />
     <Compile Include="ILibroDeComprasPdn.cs" />
+    <Compile Include="IOrdenDeCompraDatPdn.cs" />
     <Compile Include="IOrdenDeCompraPdn.cs" />
     <Compile Include="IProveedorPdn.cs" />
     <Compile Include="IServicioDeDatosCargaInicial.cs" />

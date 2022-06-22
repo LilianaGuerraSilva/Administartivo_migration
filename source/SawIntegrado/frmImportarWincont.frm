@@ -332,7 +332,7 @@ Private Sub sFillListWithNombresCompanias()
       lstCompanias.Clear
       varSQL = "SELECT Codigo + ': ' + Nombre, Compania.* " _
             & " FROM Compania " _
-            & " WHERE EsCatalogoGeneral " & " = 'N'" _
+            & " WHERE EsCatalogoGeneral  = 'N'" _
             & " ORDER BY Nombre "
       gDbUtil.sCloseIfOpened mrsCompania
       If gDbUtil.fOpenRecordSetAllParameters(mrsCompania, varSQL, mCnWincont, adLockOptimistic, adUseClient, adOpenForwardOnly) Then
@@ -657,10 +657,10 @@ Private Sub sImportaComprobante(ByVal valConsecutivoPeriodoWincontActual As Long
    Set varRSTemp = New ADODB.Recordset
    gUtilRespaldo.sModificarTextoDelProgreso comprobanteNavigator.GetTableName
    If TrabajandoConSaldoInicialContabilidad Then
-      varSQL = "SELECT * FROM " & comprobanteNavigator.GetTableName & " WHERE " & "ConsecutivoPeriodo" _
-            & " IN (SELECT " & "ConsecutivoPeriodo" & " FROM " & gContPeriodoActual.GetTableName & " WHERE " & "ConsecutivoCompania" & " = " & mConsecutivoCompaniaWincont & ")"
+      varSQL = "SELECT * FROM " & comprobanteNavigator.GetTableName & " WHERE ConsecutivoPeriodo" _
+            & " IN (SELECT ConsecutivoPeriodo FROM " & gContPeriodoActual.GetTableName & " WHERE ConsecutivoCompania = " & mConsecutivoCompaniaWincont & ")"
    Else
-      varSQL = "SELECT * FROM " & comprobanteNavigator.GetTableName & " WHERE " & "ConsecutivoPeriodo" & " = " & valConsecutivoPeriodoWincontActual
+      varSQL = "SELECT * FROM " & comprobanteNavigator.GetTableName & " WHERE ConsecutivoPeriodo = " & valConsecutivoPeriodoWincontActual
    End If
    If gDbUtil.fOpenRecordSetAllParameters(varRSTemp, varSQL, mCnWincont, adLockOptimistic, adUseClient, adOpenForwardOnly) Then
       If varRSTemp.RecordCount > 0 Then
@@ -689,7 +689,7 @@ Private Sub sImportaAsiento(ByVal valConsecutivoPeriodoWincontActual As Long)
    gUtilRespaldo.sModificarTextoDelProgreso asientoNavigator.GetTableName
    If TrabajandoConSaldoInicialContabilidad Then
       varSQL = "SELECT * FROM " & asientoNavigator.GetTableName & " WHERE ConsecutivoPeriodo" _
-            & " IN (SELECT " & "ConsecutivoPeriodo" & " FROM " & gContPeriodoActual.GetTableName & " WHERE " & "ConsecutivoCompania" & " = " & mConsecutivoCompaniaWincont & ")"
+            & " IN (SELECT ConsecutivoPeriodo FROM " & gContPeriodoActual.GetTableName & " WHERE ConsecutivoCompania = " & mConsecutivoCompaniaWincont & ")"
    Else
       varSQL = "SELECT * FROM " & asientoNavigator.GetTableName & " WHERE ConsecutivoPeriodo = " & valConsecutivoPeriodoWincontActual
    End If
@@ -955,11 +955,11 @@ Private Sub sDesbloqueaElWinCont()
    On Error Resume Next
    If txtPath.Text <> "" Then
       If Not gUtilFile.fDeleteLockingFile(txtPath.Text & "\REES_AYR.TXT", mLockingFileReest) Then
-         gMessage.Advertencia "No pudo ser eliminado el archivo: '" & txtPath.Text & "\REES_AYR.TXT" & "'" _
+         gMessage.Advertencia "No pudo ser eliminado el archivo: '" & txtPath.Text & "\REES_AYR.TXT'" _
                & vbCr & "Si tiene problemas para ingresar al Wincont elimínelo manualmente."
       End If
       If Not gUtilFile.fDeleteLockingFile(txtPath.Text & "\SUPERVIS.LDB", mLockingFileSupervisor) Then
-         gMessage.Advertencia "No pudo ser eliminado el archivo: '" & txtPath.Text & "\SUPERVIS.LDB" & "'" _
+         gMessage.Advertencia "No pudo ser eliminado el archivo: '" & txtPath.Text & "\SUPERVIS.LDB'" _
                & vbCr & "Si tiene problemas para ingresar al Wincont elimínelo manualmente."
       End If
    End If
@@ -1085,7 +1085,7 @@ Private Sub sImportaPeriodoRenglon(ByVal valConsecutivoPeriodoWincontActual As L
     Set insPeriodoRenglon = New clsPeriodoRenglonNavigator
     Set varRSTemp = New ADODB.Recordset
     
-    varSQL = "SELECT * FROM " & insPeriodoRenglon.GetTableName & " WHERE " & "ConsecutivoPeriodo" & " = " & valConsecutivoPeriodoWincontActual
+    varSQL = "SELECT * FROM " & insPeriodoRenglon.GetTableName & " WHERE ConsecutivoPeriodo = " & valConsecutivoPeriodoWincontActual
     If gDbUtil.fOpenRecordSetAllParameters(varRSTemp, varSQL, mCnWincont, adLockOptimistic, adUseClient, adOpenForwardOnly) Then
        If varRSTemp.RecordCount > 0 Then
           While Not varRSTemp.EOF

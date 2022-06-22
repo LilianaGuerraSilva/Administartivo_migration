@@ -64,6 +64,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private const string DifereciaDistribucionPropertyName = "DifereciaDistribucion";
         private const string IsVisibleParaDistribucionAutomaticaPropertyName = "IsVisibleParaDistribucionAutomatica";
         private const string GenerarOActualizarCxPPropertyName = "GenerarOActualizarCxP";
+        public const string CodigoMonedaCostoUltimaCompraPropertyName = "CodigoMonedaCostoUltimaCompra";
+        public const string MonedaCostoUltimaCompraPropertyName = "MonedaCostoUltimaCompra";
+        public const string CambioCostoUltimaCompraPropertyName = "CambioCostoUltimaCompra";
+        public const string IsEnabledCambioCostoUltimaCompraPropertyName = "IsEnabledCambioCostoUltimaCompra";
 
         bool _IsEnabledTipoDistribucion;
         private FkProveedorViewModel _ConexionCodigoProveedor = null;
@@ -71,6 +75,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private FkAlmacenViewModel _ConexionCodigoAlmacen = null;
         private FkOrdenDeCompraViewModel _ConexionNumeroDeOrdenDeCompra = null;
         private FkMonedaViewModel _ConexionCodigoMoneda = null;
+        private FkMonedaViewModel _ConexionMonedaCostoUltimaCompra = null;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
         private string _NumeroDeCompraOriginal;
         private string _CodigoProveedorOriginal;
@@ -78,18 +83,19 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public event EventHandler MoveFocusArticuloInventarioEvent;
         public event EventHandler AjustaColumnasSegunTipoEvent;
         bool _ElProgramaEstaEnModoAvanzado = false;
-        bool _UsarLimiteMaximoParaIngresoDeTasaDeCambio = false; 
-        decimal _MaximoLimitePermitidoParaLaTasaDeCambio = 0m;
-
+        bool _UsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
+        int _MaximoLimitePermitidoParaLaTasaDeCambio = 0;
         #endregion //Constantes y Variables
 
         #region Propiedades
 
-        internal eTipoCompra TipoModulo { get; set; }
+        internal eTipoCompra TipoModulo {
+            get; set;
+        }
 
         public override string ModuleName {
             get {
-                if(TipoModulo == eTipoCompra.Importacion) {
+                if (TipoModulo == eTipoCompra.Importacion) {
                     return "Importación";
                 }
                 return "Compra Nacional";
@@ -101,7 +107,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.ConsecutivoCompania;
             }
             set {
-                if(Model.ConsecutivoCompania != value) {
+                if (Model.ConsecutivoCompania != value) {
                     Model.ConsecutivoCompania = value;
                 }
             }
@@ -112,7 +118,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.Consecutivo;
             }
             set {
-                if(Model.Consecutivo != value) {
+                if (Model.Consecutivo != value) {
                     Model.Consecutivo = value;
                 }
             }
@@ -125,7 +131,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.Serie;
             }
             set {
-                if(Model.Serie != value) {
+                if (Model.Serie != value) {
                     Model.Serie = value;
                     IsDirty = true;
                     RaisePropertyChanged(SeriePropertyName);
@@ -140,7 +146,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.Numero;
             }
             set {
-                if(Model.Numero != value) {
+                if (Model.Numero != value) {
                     Model.Numero = value;
                     IsDirty = true;
                     RaisePropertyChanged(NumeroPropertyName);
@@ -156,13 +162,14 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.Fecha;
             }
             set {
-                if(Model.Fecha != value) {
+                if (Model.Fecha != value) {
                     Model.Fecha = value;
                     IsDirty = true;
                     RaisePropertyChanged(FechaPropertyName);
                     RaisePropertyChanged(MonedaActualPropertyName);
                     RaisePropertyChanged("UsaBolivarFuerte");
                     AsignaTasaDelDia(CodigoMoneda);
+                    AsignaTasaCostoUltimaCompraDelDia(CodigoMonedaCostoUltimaCompra);
                 }
             }
         }
@@ -172,11 +179,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.ConsecutivoProveedor;
             }
             set {
-                if(Model.ConsecutivoProveedor != value) {
+                if (Model.ConsecutivoProveedor != value) {
                     Model.ConsecutivoProveedor = value;
                     IsDirty = true;
                     RaisePropertyChanged(ConsecutivoProveedorPropertyName);
-                    if(ConsecutivoProveedor == 0) {
+                    if (ConsecutivoProveedor == 0) {
                         ConexionCodigoProveedor = null;
                     }
                 }
@@ -189,11 +196,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.CodigoProveedor;
             }
             set {
-                if(Model.CodigoProveedor != value) {
+                if (Model.CodigoProveedor != value) {
                     Model.CodigoProveedor = value;
                     IsDirty = true;
                     RaisePropertyChanged(CodigoProveedorPropertyName);
-                    if(LibString.IsNullOrEmpty(CodigoProveedor, true)) {
+                    if (LibString.IsNullOrEmpty(CodigoProveedor, true)) {
                         ConexionCodigoProveedor = null;
                     }
                 }
@@ -207,11 +214,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.NombreProveedor;
             }
             set {
-                if(Model.NombreProveedor != value) {
+                if (Model.NombreProveedor != value) {
                     Model.NombreProveedor = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombreProveedorPropertyName);
-                    if(LibString.IsNullOrEmpty(NombreProveedor, true)) {
+                    if (LibString.IsNullOrEmpty(NombreProveedor, true)) {
                         ConexionNombreProveedor = null;
                     }
                 }
@@ -223,11 +230,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.ConsecutivoAlmacen;
             }
             set {
-                if(Model.ConsecutivoAlmacen != value) {
+                if (Model.ConsecutivoAlmacen != value) {
                     Model.ConsecutivoAlmacen = value;
                     IsDirty = true;
                     RaisePropertyChanged(ConsecutivoAlmacenPropertyName);
-                    if(ConsecutivoAlmacen == 0) {
+                    if (ConsecutivoAlmacen == 0) {
                         ConexionCodigoAlmacen = null;
                     }
                 }
@@ -240,11 +247,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.CodigoAlmacen;
             }
             set {
-                if(Model.CodigoAlmacen != value) {
+                if (Model.CodigoAlmacen != value) {
                     Model.CodigoAlmacen = value;
                     IsDirty = true;
                     RaisePropertyChanged(CodigoAlmacenPropertyName);
-                    if(LibString.IsNullOrEmpty(CodigoAlmacen, true)) {
+                    if (LibString.IsNullOrEmpty(CodigoAlmacen, true)) {
                         ConexionCodigoAlmacen = null;
                     }
                 }
@@ -256,7 +263,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.NombreAlmacen;
             }
             set {
-                if(Model.NombreAlmacen != value) {
+                if (Model.NombreAlmacen != value) {
                     Model.NombreAlmacen = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombreAlmacenPropertyName);
@@ -270,13 +277,28 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.Moneda;
             }
             set {
-                if(Model.Moneda != value) {
+                if (Model.Moneda != value) {
                     Model.Moneda = value;
-                    IsDirty = true;
+                    if (LibString.IsNullOrEmpty(Model.Moneda)) {
+                        Model.Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
+                        CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
+                        AsignarValoresDeCostoMonedaUltimaCompraPorDefecto();
+                    } else {
+                        if (Model.Moneda == vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha)) {
+                            AsignarValoresDeCostoMonedaUltimaCompraPorDefecto();
+                        } else {
+                            CodigoMonedaCostoUltimaCompra = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
+                            MonedaCostoUltimaCompra = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
+                            CambioCostoUltimaCompra = 1;
+                        }
+                    }
+                    RaisePropertyChanged(MonedaCostoUltimaCompraPropertyName);
+                    RaisePropertyChanged(CambioCostoUltimaCompraPropertyName);
                     RaisePropertyChanged(MonedaPropertyName);
                     RaisePropertyChanged(MonedaActualPropertyName);
                     RaisePropertyChanged(IsEnabledCambioPropertyName);
                     RaisePropertyChanged(IsVisibleMonedaActualPropertyName);
+                    RaisePropertyChanged(IsEnabledCambioCostoUltimaCompraPropertyName);
                 }
             }
         }
@@ -286,11 +308,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.CodigoMoneda;
             }
             set {
-                if(Model.CodigoMoneda != value) {
+                if (Model.CodigoMoneda != value) {
                     Model.CodigoMoneda = value;
                     IsDirty = true;
                     RaisePropertyChanged(CodigoMonedaPropertyName);
-
                 }
             }
         }
@@ -301,7 +322,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return LibMath.RoundToNDecimals(Model.CambioABolivares, LibDefGen.ProgramInfo.IsCountryPeru() ? 3 : 4);
             }
             set {
-                if(Model.CambioABolivares != value) {
+                if (Model.CambioABolivares != value) {
                     Model.CambioABolivares = value;
                     IsDirty = true;
                     RaisePropertyChanged(CambioAMonedaLocalPropertyName);
@@ -319,7 +340,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.GenerarCXPAsBool;
             }
             set {
-                if(Model.GenerarCXPAsBool != value) {
+                if (Model.GenerarCXPAsBool != value) {
                     Model.GenerarCXPAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(GenerarCXPPropertyName);
@@ -332,7 +353,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return _GenerarOActualizarCxP;
             }
             set {
-                if(_GenerarOActualizarCxP != value) {
+                if (_GenerarOActualizarCxP != value) {
                     _GenerarOActualizarCxP = value;
                     RaisePropertyChanged(GenerarOActualizarCxPPropertyName);
                 }
@@ -343,7 +364,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.UsaSeguroAsBool;
             }
             set {
-                if(Model.UsaSeguroAsBool != value) {
+                if (Model.UsaSeguroAsBool != value) {
                     Model.UsaSeguroAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaSeguroPropertyName);
@@ -360,14 +381,14 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.TipoDeDistribucionAsEnum;
             }
             set {
-                if(Model.TipoDeDistribucionAsEnum != value) {
+                if (Model.TipoDeDistribucionAsEnum != value) {
                     Model.TipoDeDistribucionAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoDeDistribucionPropertyName);
                     IsEnabledTipoDistribucion = false;
                     RaiseAjustaColumnasSegunTipo();
                     ActualizaVisiblePorTipoDeDistribucion();
-                    if(value == eTipoDeDistribucion.Automatica) {
+                    if (value == eTipoDeDistribucion.Automatica) {
                         BuscaTasaDolar();
                         RaisePropertyChanged(IsVisibleParaDistribucionAutomaticaPropertyName);
                         VerDistribucionCommand.RaiseCanExecuteChanged();
@@ -384,7 +405,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.TasaAduanera;
             }
             set {
-                if(Model.TasaAduanera != value) {
+                if (Model.TasaAduanera != value) {
                     Model.TasaAduanera = value;
                     IsDirty = true;
                     RaisePropertyChanged(TasaAduaneraPropertyName);
@@ -398,7 +419,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return LibMath.RoundToNDecimals(Model.TasaDolar, LibDefGen.ProgramInfo.IsCountryPeru() ? 3 : 4);
             }
             set {
-                if(Model.TasaDolar != value) {
+                if (Model.TasaDolar != value) {
                     Model.TasaDolar = value;
                     IsDirty = true;
                     RaisePropertyChanged(TasaDolarPropertyName);
@@ -411,7 +432,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.TotalRenglones;
             }
             set {
-                if(Model.TotalRenglones != value) {
+                if (Model.TotalRenglones != value) {
                     Model.TotalRenglones = value;
                     IsDirty = true;
                     RaisePropertyChanged(TotalRenglonesPropertyName);
@@ -426,7 +447,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.TotalOtrosGastos;
             }
             set {
-                if(Model.TotalOtrosGastos != value) {
+                if (Model.TotalOtrosGastos != value) {
                     Model.TotalOtrosGastos = value;
                     IsDirty = true;
                     RaisePropertyChanged(TotalOtrosGastosPropertyName);
@@ -440,7 +461,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.TotalCompra;
             }
             set {
-                if(Model.TotalCompra != value) {
+                if (Model.TotalCompra != value) {
                     Model.TotalCompra = value;
                     IsDirty = true;
                     RaisePropertyChanged(TotalCompraPropertyName);
@@ -453,7 +474,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.Comentarios;
             }
             set {
-                if(Model.Comentarios != value) {
+                if (Model.Comentarios != value) {
                     Model.Comentarios = value;
                     IsDirty = true;
                     RaisePropertyChanged(ComentariosPropertyName);
@@ -467,7 +488,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.StatusCompraAsEnum;
             }
             set {
-                if(Model.StatusCompraAsEnum != value) {
+                if (Model.StatusCompraAsEnum != value) {
                     Model.StatusCompraAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(StatusCompraPropertyName);
@@ -480,7 +501,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.TipoDeCompraAsEnum;
             }
             set {
-                if(Model.TipoDeCompraAsEnum != value) {
+                if (Model.TipoDeCompraAsEnum != value) {
                     Model.TipoDeCompraAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoDeCompraPropertyName);
@@ -494,7 +515,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.FechaDeAnulacion;
             }
             set {
-                if(Model.FechaDeAnulacion != value) {
+                if (Model.FechaDeAnulacion != value) {
                     Model.FechaDeAnulacion = value;
                     IsDirty = true;
                     RaisePropertyChanged(FechaDeAnulacionPropertyName);
@@ -507,7 +528,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.ConsecutivoOrdenDeCompra;
             }
             set {
-                if(Model.ConsecutivoOrdenDeCompra != value) {
+                if (Model.ConsecutivoOrdenDeCompra != value) {
                     Model.ConsecutivoOrdenDeCompra = value;
                 }
             }
@@ -518,7 +539,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.NumeroDeOrdenDeCompra;
             }
             set {
-                if(Model.NumeroDeOrdenDeCompra != value) {
+                if (Model.NumeroDeOrdenDeCompra != value) {
                     Model.NumeroDeOrdenDeCompra = value;
                     IsDirty = true;
                     RaisePropertyChanged(NumeroDeOrdenDeCompraPropertyName);
@@ -531,7 +552,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.NoFacturaNotaEntrega;
             }
             set {
-                if(Model.NoFacturaNotaEntrega != value) {
+                if (Model.NoFacturaNotaEntrega != value) {
                     Model.NoFacturaNotaEntrega = value;
                     IsDirty = true;
                     RaisePropertyChanged(NoFacturaNotaEntregaPropertyName);
@@ -539,12 +560,52 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
+        public string CodigoMonedaCostoUltimaCompra {
+            get {
+                return Model.CodigoMonedaCostoUltimaCompra;
+            }
+            set {
+                if (Model.CodigoMonedaCostoUltimaCompra != value) {
+                    Model.CodigoMonedaCostoUltimaCompra = value;
+                    RaisePropertyChanged(CodigoMonedaCostoUltimaCompraPropertyName);
+                }
+            }
+        }
+
+        [LibRequired(ErrorMessage = "El campo Moneda Costo Última Compra es requerido.")]
+        public string MonedaCostoUltimaCompra {
+            get {
+                return LibString.IsNullOrEmpty(Model.MonedaCostoUltimaCompra) ? vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha) : Model.MonedaCostoUltimaCompra;
+            }
+            set {
+                if (Model.MonedaCostoUltimaCompra != value) {
+                    Model.MonedaCostoUltimaCompra = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MonedaCostoUltimaCompraPropertyName);
+                    if (LibString.IsNullOrEmpty(MonedaCostoUltimaCompra, true)) {
+                        ConexionMonedaCostoUltimaCompra = null;
+                    }
+                }
+            }
+        }
+        public decimal CambioCostoUltimaCompra {
+            get {
+                return Model.CambioCostoUltimaCompra;
+            }
+            set {
+                if (Model.CambioCostoUltimaCompra != value) {
+                    Model.CambioCostoUltimaCompra = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CambioCostoUltimaCompraPropertyName);
+                }
+            }
+        }
         public eTipoOrdenDeCompra TipoDeCompraParaCxP {
             get {
                 return Model.TipoDeCompraParaCxPAsEnum;
             }
             set {
-                if(Model.TipoDeCompraParaCxPAsEnum != value) {
+                if (Model.TipoDeCompraParaCxPAsEnum != value) {
                     Model.TipoDeCompraParaCxPAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoDeCompraParaCxPPropertyName);
@@ -557,7 +618,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.NombreOperador;
             }
             set {
-                if(Model.NombreOperador != value) {
+                if (Model.NombreOperador != value) {
                     Model.NombreOperador = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombreOperadorPropertyName);
@@ -570,7 +631,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return Model.FechaUltimaModificacion;
             }
             set {
-                if(Model.FechaUltimaModificacion != value) {
+                if (Model.FechaUltimaModificacion != value) {
                     Model.FechaUltimaModificacion = value;
                     IsDirty = true;
                     RaisePropertyChanged(FechaUltimaModificacionPropertyName);
@@ -580,7 +641,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         public eTipoDeDistribucion[] ArrayTipoDeDistribucion {
             get {
-                if(LibDefGen.ProgramInfo.IsCountryPeru()) {
+                if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                     return LibEnumHelper<eTipoDeDistribucion>.GetValuesInArray();
                 } else {
                     List<eTipoDeDistribucion> vResult = LibEnumHelper<eTipoDeDistribucion>.GetValuesInArray().ToList();
@@ -630,11 +691,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return _ConexionCodigoProveedor;
             }
             set {
-                if(_ConexionCodigoProveedor != value) {
+                if (_ConexionCodigoProveedor != value) {
                     _ConexionCodigoProveedor = value;
                     RaisePropertyChanged(CodigoProveedorPropertyName);
                 }
-                if(_ConexionCodigoProveedor == null) {
+                if (_ConexionCodigoProveedor == null) {
                     ConsecutivoProveedor = 0;
                     CodigoProveedor = string.Empty;
                     NombreProveedor = string.Empty;
@@ -647,11 +708,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return _ConexionNombreProveedor;
             }
             set {
-                if(_ConexionNombreProveedor != value) {
+                if (_ConexionNombreProveedor != value) {
                     _ConexionNombreProveedor = value;
                     RaisePropertyChanged(NombreProveedorPropertyName);
                 }
-                if(_ConexionNombreProveedor == null) {
+                if (_ConexionNombreProveedor == null) {
                     ConsecutivoProveedor = 0;
                     CodigoProveedor = string.Empty;
                     NombreProveedor = string.Empty;
@@ -664,16 +725,16 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return _ConexionCodigoAlmacen;
             }
             set {
-                if(_ConexionCodigoAlmacen != value) {
+                if (_ConexionCodigoAlmacen != value) {
                     _ConexionCodigoAlmacen = value;
                     RaisePropertyChanged(CodigoAlmacenPropertyName);
-                    if(_ConexionCodigoAlmacen != null) {
+                    if (_ConexionCodigoAlmacen != null) {
                         ConsecutivoAlmacen = ConexionCodigoAlmacen.Consecutivo;
                         CodigoAlmacen = ConexionCodigoAlmacen.Codigo;
                         NombreAlmacen = ConexionCodigoAlmacen.NombreAlmacen;
                     }
                 }
-                if(_ConexionCodigoAlmacen == null) {
+                if (_ConexionCodigoAlmacen == null) {
                     ConsecutivoAlmacen = 0;
                     CodigoAlmacen = string.Empty;
                     NombreAlmacen = string.Empty;
@@ -686,13 +747,33 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return _ConexionNumeroDeOrdenDeCompra;
             }
             set {
-                if(_ConexionNumeroDeOrdenDeCompra != value) {
+                if (_ConexionNumeroDeOrdenDeCompra != value) {
                     _ConexionNumeroDeOrdenDeCompra = value;
                     RaisePropertyChanged(NumeroDeOrdenDeCompraPropertyName);
                 }
-                if(_ConexionNumeroDeOrdenDeCompra == null) {
+                if (_ConexionNumeroDeOrdenDeCompra == null) {
                     //  NumeroDeOrdenDeCompra = string.Empty;
                 }
+            }
+        }
+
+        public FkMonedaViewModel ConexionMonedaCostoUltimaCompra {
+            get {
+                return _ConexionMonedaCostoUltimaCompra;
+            }
+            set {
+                if (_ConexionMonedaCostoUltimaCompra != value) {
+                    _ConexionMonedaCostoUltimaCompra = value;
+                    MonedaCostoUltimaCompra = _ConexionMonedaCostoUltimaCompra.Nombre;
+                    CodigoMonedaCostoUltimaCompra = _ConexionMonedaCostoUltimaCompra.Codigo;
+                } else if (_ConexionMonedaCostoUltimaCompra == null) {
+                    MonedaCostoUltimaCompra = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
+                    CodigoMonedaCostoUltimaCompra = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
+                } else {
+                    MonedaCostoUltimaCompra = _ConexionMonedaCostoUltimaCompra.Nombre;
+                    CodigoMonedaCostoUltimaCompra = _ConexionMonedaCostoUltimaCompra.Codigo;
+                }
+                RaisePropertyChanged(MonedaCostoUltimaCompraPropertyName);
             }
         }
 
@@ -701,16 +782,16 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return _ConexionCodigoMoneda;
             }
             set {
-                if(_ConexionCodigoMoneda != value) {
+                if (_ConexionCodigoMoneda != value) {
                     _ConexionCodigoMoneda = value;
                     RaisePropertyChanged(CodigoMonedaPropertyName);
-                    if(_ConexionCodigoMoneda != null) {
+                    if (_ConexionCodigoMoneda != null) {
                         CodigoMoneda = _ConexionCodigoMoneda.Codigo;
                         Moneda = _ConexionCodigoMoneda.Nombre;
                         Model.SimboloMoneda = _ConexionCodigoMoneda.Simbolo;
                     }
                 }
-                if(_ConexionCodigoMoneda == null) {
+                if (_ConexionCodigoMoneda == null) {
                     CodigoMoneda = string.Empty;
                     Moneda = string.Empty;
                     Model.SimboloMoneda = string.Empty;
@@ -743,31 +824,49 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             private set;
         }
 
+        public RelayCommand<string> ChooseMonedaCostoUltimaCompraCommand {
+            get;
+            private set;
+        }
         public RelayCommand<string> CreateCompraDetalleArticuloInventarioCommand {
-            get { return DetailCompraDetalleArticuloInventario.CreateCommand; }
+            get {
+                return DetailCompraDetalleArticuloInventario.CreateCommand;
+            }
         }
 
         public RelayCommand<string> UpdateCompraDetalleArticuloInventarioCommand {
-            get { return DetailCompraDetalleArticuloInventario.UpdateCommand; }
+            get {
+                return DetailCompraDetalleArticuloInventario.UpdateCommand;
+            }
         }
 
         public RelayCommand<string> DeleteCompraDetalleArticuloInventarioCommand {
-            get { return DetailCompraDetalleArticuloInventario.DeleteCommand; }
+            get {
+                return DetailCompraDetalleArticuloInventario.DeleteCommand;
+            }
         }
 
         public RelayCommand<string> CreateCompraDetalleGastoCommand {
-            get { return DetailCompraDetalleGasto.CreateCommand; }
+            get {
+                return DetailCompraDetalleGasto.CreateCommand;
+            }
         }
 
         public RelayCommand<string> UpdateCompraDetalleGastoCommand {
-            get { return DetailCompraDetalleGasto.UpdateCommand; }
+            get {
+                return DetailCompraDetalleGasto.UpdateCommand;
+            }
         }
 
         public RelayCommand<string> DeleteCompraDetalleGastoCommand {
-            get { return DetailCompraDetalleGasto.DeleteCommand; }
+            get {
+                return DetailCompraDetalleGasto.DeleteCommand;
+            }
         }
 
-        public bool VieneDeOrdenDeCompra { get; set; }
+        public bool VieneDeOrdenDeCompra {
+            get; set;
+        }
 
         public bool IsVisibleDatosDeOrdenDeCompra {
             get {
@@ -864,11 +963,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return IsEnabled && _IsEnabledTipoDistribucion;
             }
             set {
-                if(TipoDeDistribucion == eTipoDeDistribucion.Ninguno || !DetailCompraDetalleArticuloInventario.HasItems) {
+                if (TipoDeDistribucion == eTipoDeDistribucion.Ninguno || !DetailCompraDetalleArticuloInventario.HasItems) {
                     _IsEnabledTipoDistribucion = true;
                 } else {
 
-                    if(_IsEnabledTipoDistribucion != value) {
+                    if (_IsEnabledTipoDistribucion != value) {
                         _IsEnabledTipoDistribucion = value;
                         RaisePropertyChanged("IsEnabledTipoDistribucion");
                     }
@@ -915,14 +1014,16 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public int MaxLengthSegunPais {
             get {
                 int vResult = 20;
-                if(LibDefGen.ProgramInfo.IsCountryPeru()) {
+                if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                     vResult = 8;
                 }
                 return vResult;
             }
         }
 
-        public bool IsEnabledOrdenDeCompra { get; set; }
+        public bool IsEnabledOrdenDeCompra {
+            get; set;
+        }
 
         #endregion //Propiedades
 
@@ -935,7 +1036,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public CompraViewModel(Compra initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = SeriePropertyName;
-            if(Action != eAccionSR.Listar) {
+            if (Action != eAccionSR.Listar) {
                 vMonedaLocal = new Saw.Lib.clsNoComunSaw();
             }
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
@@ -946,42 +1047,47 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         protected override void InitializeLookAndFeel(Compra valModel) {
             base.InitializeLookAndFeel(valModel);
-            string vCodigoMonedaSegunModulo = string.Empty;            
-            if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+            string vCodigoMonedaSegunModulo = string.Empty;
+            bool vIsClosingOriginal = IsClosing;
+            if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
                 vCodigoMonedaSegunModulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             } else {
                 vCodigoMonedaSegunModulo = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
             }
-            if(Consecutivo == 0) {
+            if (Consecutivo == 0) {
                 Consecutivo = GenerarProximoConsecutivo();
             }
-            if(Action == eAccionSR.Insertar) {
-                if(TipoModulo == eTipoCompra.Importacion) {
-                    vCodigoMonedaSegunModulo = "USD";
+            if (Action == eAccionSR.Insertar) {
+                if (TipoModulo == eTipoCompra.Importacion) {
+                    vCodigoMonedaSegunModulo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
                 }
-                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaSegunModulo));
+                if (vIsClosingOriginal) {
+                    IsClosing = false;
+                }
+                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaSegunModulo));                
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
                 Moneda = ConexionCodigoMoneda.Nombre;
                 CambioAMonedaLocal = 1;
                 GetModel().ValorUT = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "ValorUT");
-                if(!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaAlmacen")) {
+                if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaAlmacen")) {
                     LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_Almacen_B1.Codigo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAlmacenPorDefecto"));
                     vDefaultCriteria.Add(LibSearchCriteria.CreateCriteria("Saw.Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania")), eLogicOperatorType.And);
                     ConexionCodigoAlmacen = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", vDefaultCriteria);
 
                 }
+                IsClosing = vIsClosingOriginal;
                 GenerarCXP = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "GenerarCxPDesdeCompra");
                 AsignaTasaDelDia(CodigoMoneda);
             }
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             TipoDeCompra = TipoModulo;
-            if(Action == eAccionSR.Insertar) {
+            if (Action == eAccionSR.Insertar) {
 
-                if(TipoDeCompra == eTipoCompra.Nacional) {
+                if (TipoDeCompra == eTipoCompra.Nacional) {
                     TipoDeDistribucion = eTipoDeDistribucion.Ninguno;
                     //Model.TipoDeDistribucionAsEnum = eTipoDeDistribucion.Ninguno;
                 } else {
-                    if(LibDefGen.ProgramInfo.IsCountryPeru()) {
+                    if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                         TipoDeDistribucion = eTipoDeDistribucion.Automatica;
                     } else {
                         TipoDeDistribucion = eTipoDeDistribucion.Ninguno;
@@ -993,13 +1099,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 IsEnabledTipoDistribucion = false;
             }
             RaiseAjustaColumnasSegunTipo();
-            if(Action == eAccionSR.ReImprimir) {
+            if (Action == eAccionSR.ReImprimir) {
 
             }
             LibBusinessProcess.Register(this, "MensajeDeRecalcularSiEsElCaso", EjecutarProcesosMensajeDeRecalcularSiEsElCaso);
             RaiseMoveFocus(DefaultFocusedPropertyName);
             IsEnabledOrdenDeCompra = VieneDeOrdenDeCompra;
-            AsignarMensajeDeGeneracionOActualizacionDeCxP();
+            AsignarMensajeDeGeneracionOActualizacionDeCxP();            
         }
 
         protected override void InitializeCommands() {
@@ -1010,6 +1116,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             ChooseNumeroDeOrdenDeCompraCommand = new RelayCommand<string>(ExecuteChooseNumeroDeOrdenDeCompraCommand);
             ChooseCodigoMonedaCommand = new RelayCommand<string>(ExecuteChooseCodigoMonedaCommand);
             VerDistribucionCommand = new RelayCommand(ExecuteVerDistribucion, CanExecuteVerDistribucion);
+            ChooseMonedaCostoUltimaCompraCommand = new RelayCommand<string>(ExecuteChooseMonedaCostoUltimaCompraCommand);
         }
 
         protected override void InitializeRibbon() {
@@ -1045,9 +1152,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             try {
                 UpdateCompraDetalleArticuloInventarioCommand.RaiseCanExecuteChanged();
                 DeleteCompraDetalleArticuloInventarioCommand.RaiseCanExecuteChanged();
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1061,9 +1168,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 Model.DetailCompraDetalleArticuloInventario.Remove(e.ViewModel.GetModel());
                 e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
                 ActualizaTotales();
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1078,9 +1185,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 IsDirty = e.ViewModel.IsDirty;
                 ActualizarDistribucion();
                 ActualizaTotales();
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1090,23 +1197,23 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 IsEnabledTipoDistribucion = false;
                 Model.DetailCompraDetalleArticuloInventario.Add(e.ViewModel.GetModel());
                 e.ViewModel.PropertyChanged += OnDetailPropertyChanged;
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         internal void RaiseMoveFocusArticuloInventario() {
             var handle = MoveFocusArticuloInventarioEvent;
-            if(handle != null) {
+            if (handle != null) {
                 handle(this, EventArgs.Empty);
             }
         }
 
         private void RaiseAjustaColumnasSegunTipo() {
             var handle = AjustaColumnasSegunTipoEvent;
-            if(handle != null) {
+            if (handle != null) {
                 handle(this, EventArgs.Empty);
             }
         }
@@ -1119,9 +1226,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             try {
                 UpdateCompraDetalleGastoCommand.RaiseCanExecuteChanged();
                 DeleteCompraDetalleGastoCommand.RaiseCanExecuteChanged();
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1133,9 +1240,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 e.ViewModel.PropertyChanged -= OnDetailPropertyChanged;
                 ActualizarDistribucion();
                 ActualizaTotales();
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1145,9 +1252,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 IsDirty = e.ViewModel.IsDirty;
                 ActualizaTotales();
                 ActualizarDistribucion();
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1158,9 +1265,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 //DetailCompraDetalleGasto.SelectedItem = e.ViewModel;
                 //DetailCompraDetalleGasto.SelectedIndex = DetailCompraDetalleGasto.Items.Count - 1;
                 e.ViewModel.PropertyChanged += OnDetailPropertyChanged;
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1177,9 +1284,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             try {
                 IsDirty = true;
                 Model.DetailCompraDetalleSerialRollo.Remove(e.ViewModel.GetModel());
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1187,9 +1294,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private void DetailCompraDetalleSerialRollo_OnUpdated(object sender, SearchCollectionChangedEventArgs<CompraDetalleSerialRolloViewModel> e) {
             try {
                 IsDirty = e.ViewModel.IsDirty;
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1197,9 +1304,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private void DetailCompraDetalleSerialRollo_OnCreated(object sender, SearchCollectionChangedEventArgs<CompraDetalleSerialRolloViewModel> e) {
             try {
                 Model.DetailCompraDetalleSerialRollo.Add(e.ViewModel.GetModel());
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1216,13 +1323,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         protected override void ExecuteProcessAfterAction() {
             base.ExecuteProcessAfterAction();
-            if(Action == eAccionSR.Insertar) {
-                if(TipoDeCompra == eTipoCompra.Nacional) {
+            if (Action == eAccionSR.Insertar) {
+                if (TipoDeCompra == eTipoCompra.Nacional) {
                     TipoDeDistribucion = eTipoDeDistribucion.Ninguno;
                     IsEnabledTipoDistribucion = true;
                 } else {
                     IsEnabledTipoDistribucion = true;
-                    if(LibDefGen.ProgramInfo.IsCountryPeru()) {
+                    if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                         TipoDeDistribucion = eTipoDeDistribucion.Automatica;
                     } else {
                         TipoDeDistribucion = eTipoDeDistribucion.Ninguno;
@@ -1234,7 +1341,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         protected override void ExecuteSpecialAction(eAccionSR valAction) {
-            if(valAction == eAccionSR.ReImprimir) {
+            if (valAction == eAccionSR.ReImprimir) {
                 CloseOnActionComplete = true;
                 DialogResult = true;
                 clsCompraInformesViewModel insViewModel = new clsCompraInformesViewModel();
@@ -1246,13 +1353,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         protected override bool CreateRecord() {
             bool vContinue = true;
             string vTextIN = string.Empty;
-            if(GenerarCXP) {
+            if (GenerarCXP) {
                 Views.InputDialog inputDialog = new Views.InputDialog("Introduzca el Número de Control", "");
                 inputDialog.Title = "Número de Control de la CxP";
-                if(LibDefGen.ProgramInfo.IsCountryVenezuela()) {
+                if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
                     vContinue = inputDialog.ShowDialog() == true;
                 }
-                if(vContinue) {
+                if (vContinue) {
                     vTextIN = inputDialog.Answer;
                     vTextIN = LibText.Left(vTextIN, 20);
                 } else {
@@ -1260,23 +1367,23 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 }
             }
             bool vResut = base.CreateRecord();
-            if(vResut) {
-                if(GenerarCXP && vContinue) {
+            if (vResut) {
+                if (GenerarCXP && vContinue) {
                     ICompraPdn vPdn = new clsCompraNav();
                     vPdn.GenerarCxP(Model, vTextIN, Action);
                 }
-                if(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ImprimirCompraAlInsertar")) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ImprimirCompraAlInsertar")) {
                     string vNumeroOperacion = Numero;
-                    if(LibDefGen.ProgramInfo.IsCountryPeru()) {
+                    if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                         vNumeroOperacion = Serie + "-" + Numero;
                     }
-                    if(LibMessages.MessageBox.YesNo(this, "Se va a imprimir el documento " + vNumeroOperacion + ". ¿Desea continuar con la impresión?", ModuleName)) {
+                    if (LibMessages.MessageBox.YesNo(this, "Se va a imprimir el documento " + vNumeroOperacion + ". ¿Desea continuar con la impresión?", ModuleName)) {
                         clsCompraInformesViewModel insViewModel = new clsCompraInformesViewModel();
                         insViewModel.ConfigReportCompra(Consecutivo, NumeroDeOrdenDeCompra);
                     }
                 }
                 ActualizaElCostoUnitario();
-                if(VieneDeOrdenDeCompra) {
+                if (VieneDeOrdenDeCompra) {
                     CloseOnActionComplete = true;
 
                 }
@@ -1288,14 +1395,14 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             bool vResut = base.UpdateRecord();
             bool vContinue = true;
             string vTextIN = string.Empty;
-            if(vResut) {
-                if(GenerarCXP) {
+            if (vResut) {
+                if (GenerarCXP) {
                     Views.InputDialog inputDialog = new Views.InputDialog("Introduzca el Numero de Control", "");
                     inputDialog.Title = "Número de Control de la CxP";
-                    if(LibDefGen.ProgramInfo.IsCountryVenezuela()) {
+                    if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
                         vContinue = inputDialog.ShowDialog() == true;
                     }
-                    if(vContinue) {
+                    if (vContinue) {
                         ICompraPdn vPdn = new clsCompraNav();
                         vTextIN = inputDialog.Answer;
                         vTextIN = LibString.Left(vTextIN, 20);
@@ -1304,19 +1411,20 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                         throw new GalacException("Debe asignar el Número de Control, para poder Continuar.", eExceptionManagementType.Alert);
                     }
                 }
+                ActualizaElCostoUnitario();
             }
             return vResut;
         }
 
         private void ExecuteChooseNombreProveedorCommand(string valnombreProveedor) {
             try {
-                if(valnombreProveedor == null) {
+                if (valnombreProveedor == null) {
                     valnombreProveedor = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Adm.Gv_Proveedor_B1.NombreProveedor", valnombreProveedor);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_Proveedor_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionNombreProveedor = ChooseRecord<FkProveedorViewModel>("Proveedor", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(ConexionNombreProveedor != null) {
+                if (ConexionNombreProveedor != null) {
                     ConsecutivoProveedor = ConexionNombreProveedor.Consecutivo;
                     CodigoProveedor = ConexionNombreProveedor.CodigoProveedor;
                     NombreProveedor = ConexionNombreProveedor.NombreProveedor;
@@ -1325,22 +1433,22 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     CodigoProveedor = string.Empty;
                     NombreProveedor = string.Empty;
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         private void ExecuteChooseCodigoAlmacenCommand(string valCodigo) {
             try {
-                if(valCodigo == null) {
+                if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_Almacen_B1.Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_Almacen_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionCodigoAlmacen = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(ConexionCodigoAlmacen != null) {
+                if (ConexionCodigoAlmacen != null) {
                     ConsecutivoAlmacen = ConexionCodigoAlmacen.Consecutivo;
                     CodigoAlmacen = ConexionCodigoAlmacen.Codigo;
                     NombreAlmacen = ConexionCodigoAlmacen.NombreAlmacen;
@@ -1349,16 +1457,16 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     CodigoAlmacen = string.Empty;
                     NombreAlmacen = string.Empty;
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         private void ExecuteChooseNumeroDeOrdenDeCompraCommand(string valNumero) {
             try {
-                if(valNumero == null) {
+                if (valNumero == null) {
                     valNumero = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Numero", valNumero);
@@ -1367,20 +1475,20 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdendeCompra_B1.StatusOrdenDeCompra", LibConvert.EnumToDbValue((int)eStatusCompra.Vigente)), eLogicOperatorType.And);
 
                 FkOrdenDeCompraViewModel vConexionNumeroDeOrdenDeCompra = ChooseRecord<FkOrdenDeCompraViewModel>("OrdenDeCompra", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(vConexionNumeroDeOrdenDeCompra != null && !SePuedeUsarOrdenDeCompra(vConexionNumeroDeOrdenDeCompra.ConsecutivoCompania, vConexionNumeroDeOrdenDeCompra.Consecutivo)) {
+                if (vConexionNumeroDeOrdenDeCompra != null && !SePuedeUsarOrdenDeCompra(vConexionNumeroDeOrdenDeCompra.ConsecutivoCompania, vConexionNumeroDeOrdenDeCompra.Consecutivo)) {
                     LibMessages.MessageBox.Alert(this, "Todos los artículos solicitados, a través de esta Orden ya fueron procesados en su totalidad." + Environment.NewLine + "Por favor, ingrese una orden diferente!", ModuleName);
 
                 } else {
                     ConexionNumeroDeOrdenDeCompra = vConexionNumeroDeOrdenDeCompra;
                 }
-                if(ConexionNumeroDeOrdenDeCompra != null) {
+                if (ConexionNumeroDeOrdenDeCompra != null) {
                     NumeroDeOrdenDeCompra = ConexionNumeroDeOrdenDeCompra.Numero;
                     ConsecutivoOrdenDeCompra = ConexionNumeroDeOrdenDeCompra.Consecutivo;
                     ExecuteChooseNombreProveedorCommand(ConexionNumeroDeOrdenDeCompra.NombreProveedor);
                     LibSearchCriteria vDefaultCriteriaMoneda = LibSearchCriteria.CreateCriteriaFromText("Nombre", ConexionNumeroDeOrdenDeCompra.Moneda);
                     LibSearchCriteria vFixedCriteriaMoneda = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
                     ConexionCodigoMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteriaMoneda, vFixedCriteriaMoneda, string.Empty);
-                    if(ConexionCodigoMoneda != null) {
+                    if (ConexionCodigoMoneda != null) {
                         CodigoMoneda = ConexionCodigoMoneda.Codigo;
                         Moneda = ConexionCodigoMoneda.Nombre;
                     }
@@ -1394,9 +1502,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     ConsecutivoOrdenDeCompra = 0;
 
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1405,58 +1513,90 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             string vCodigoMonedaAnterior = CodigoMoneda;
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             try {
-                if(valCodigo == null) {
+                if (valCodigo == null) {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Nombre", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
                 vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
-                if(ConexionNumeroDeOrdenDeCompra != null) {
+                if (ConexionNumeroDeOrdenDeCompra != null) {
                     vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityEquality, vMonedaLocal.InstanceMonedaLocalActual.GetHoyCodigoMoneda());
                     vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityEquality, ConexionNumeroDeOrdenDeCompra.CodigoMoneda, eLogicOperatorType.Or);
                 }
                 FkMonedaViewModel vConexionCodigoMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(vConexionCodigoMoneda != null
+                if (vConexionCodigoMoneda != null
                     && vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(vConexionCodigoMoneda.Codigo)
                     && vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha) != vConexionCodigoMoneda.Codigo) {
                     LibMessages.MessageBox.Information(this, "La Moneda local seleccionada NO es Vigente para la fecha del Documento. Se establecerá " +
                         "la moneda Local Vigente", "Moneda Local");
                     ConexionCodigoMoneda = null;
                     ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha)));
-                    if(ConexionCodigoMoneda != null) {
+                    if (ConexionCodigoMoneda != null) {
                         CodigoMoneda = ConexionCodigoMoneda.Codigo;
                         Moneda = ConexionCodigoMoneda.Nombre;
                         CambioAMonedaLocal = 1;
                     }
-                } else if(vConexionCodigoMoneda != null) {
+                } else if (vConexionCodigoMoneda != null) {
                     ConexionCodigoMoneda = null;
                     ConexionCodigoMoneda = vConexionCodigoMoneda;
                     CodigoMoneda = ConexionCodigoMoneda.Codigo;
                     Moneda = ConexionCodigoMoneda.Nombre;
                     AsignaTasaDelDia(CodigoMoneda);
-                    if(ConexionNumeroDeOrdenDeCompra != null && DetailCompraDetalleArticuloInventario.Items.Count > 0) {
+                    if (ConexionNumeroDeOrdenDeCompra != null && DetailCompraDetalleArticuloInventario.Items.Count > 0) {
                         ActualizarMontosPorCambioDeMoneda(vCodigoMonedaAnterior);
                     }
                 } else {
                     CodigoMoneda = string.Empty;
                     Moneda = string.Empty;
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+        private void ExecuteChooseMonedaCostoUltimaCompraCommand(string valNombre) {
+            try {
+                if (valNombre == null) {
+                    valNombre = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Nombre", valNombre);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
+                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
+                ConexionMonedaCostoUltimaCompra = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionMonedaCostoUltimaCompra != null) {
+                    if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") && LibString.S1IsEqualToS2(CodigoMoneda, ConexionMonedaCostoUltimaCompra.Codigo)) {
+                        LibMessages.MessageBox.Information(this, $"La moneda para el costo ({  ConexionMonedaCostoUltimaCompra.Nombre  }) no debe ser igual a la moneda de la compra ({ Moneda })", "");
+                        CodigoMonedaCostoUltimaCompra = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+                        ConexionMonedaCostoUltimaCompra = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Codigo", CodigoMonedaCostoUltimaCompra));
+                        MonedaCostoUltimaCompra = ConexionMonedaCostoUltimaCompra.Nombre;
+                    } else {
+                        CodigoMonedaCostoUltimaCompra = ConexionMonedaCostoUltimaCompra.Codigo;
+                        MonedaCostoUltimaCompra = ConexionMonedaCostoUltimaCompra.Nombre;
+                    }
+                    AsignaTasaCostoUltimaCompraDelDia(CodigoMonedaCostoUltimaCompra);
+                } else {
+                    MonedaCostoUltimaCompra = string.Empty;
+                    CodigoMonedaCostoUltimaCompra = string.Empty;
+                    CambioCostoUltimaCompra = 1;
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         private void ExecuteChooseCodigoProveedorCommand(string valcodigoProveedor) {
             try {
-                if(valcodigoProveedor == null) {
+                if (valcodigoProveedor == null) {
                     valcodigoProveedor = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Adm.Gv_Proveedor_B1.CodigoProveedor", valcodigoProveedor);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_Proveedor_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionCodigoProveedor = ChooseRecord<FkProveedorViewModel>("Proveedor", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(ConexionCodigoProveedor != null) {
+                if (ConexionCodigoProveedor != null) {
                     ConsecutivoProveedor = ConexionCodigoProveedor.Consecutivo;
                     CodigoProveedor = ConexionCodigoProveedor.CodigoProveedor;
                     NombreProveedor = ConexionCodigoProveedor.NombreProveedor;
@@ -1465,9 +1605,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     CodigoProveedor = string.Empty;
                     NombreProveedor = string.Empty;
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1476,9 +1616,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             try {
                 CompraDetalleDistribucionViewModel vViewModel = new CompraDetalleDistribucionViewModel(this);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -1493,10 +1633,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult FechaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
+                if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
                     vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
                 }
             }
@@ -1505,11 +1645,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult FechaDeAnulacionValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(StatusCompra == eStatusCompra.Anulada) {
-                    if(LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeAnulacion, false, Action)) {
+                if (StatusCompra == eStatusCompra.Anulada) {
+                    if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeAnulacion, false, Action)) {
                         vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha De Anulacion"));
                     }
                 }
@@ -1519,10 +1659,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult SerieValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(!LibDefGen.ProgramInfo.IsCountryVenezuela() && LibString.IsNullOrEmpty(Serie)) {
+                if (!LibDefGen.ProgramInfo.IsCountryVenezuela() && LibString.IsNullOrEmpty(Serie)) {
                     vResult = new ValidationResult("El campo Serie es requerido.");
                 }
 
@@ -1532,11 +1672,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult TotalOtrosGastosvalidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(TipoDeDistribucion == eTipoDeDistribucion.ManualPorMonto) {
-                    if(DetailCompraDetalleArticuloInventario.Items.Sum(p => p.MontoDistribucion) != DetailCompraDetalleGasto.Items.Sum(p => p.Monto)) {
+                if (TipoDeDistribucion == eTipoDeDistribucion.ManualPorMonto) {
+                    if (DetailCompraDetalleArticuloInventario.Items.Sum(p => p.MontoDistribucion) != DetailCompraDetalleGasto.Items.Sum(p => p.Monto)) {
                         vResult = new ValidationResult("El monto Distribuido debe ser igual al Monto Total de los Gastos.");
                     }
                 }
@@ -1547,11 +1687,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult CodigoAlmacenValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(IsVisibleAlmacen) {
-                    if(LibString.IsNullOrEmpty(CodigoAlmacen)) {
+                if (IsVisibleAlmacen) {
+                    if (LibString.IsNullOrEmpty(CodigoAlmacen)) {
                         vResult = new ValidationResult("El campo Codigo Almacen es requerido.");
                     }
                 }
@@ -1562,10 +1702,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult TasaAduaneraValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(TipoDeCompra == eTipoCompra.Importacion && TipoDeDistribucion == eTipoDeDistribucion.Automatica && TasaAduanera == 0) {
+                if (TipoDeCompra == eTipoCompra.Importacion && TipoDeDistribucion == eTipoDeDistribucion.Automatica && TasaAduanera == 0) {
                     vResult = new ValidationResult("El campo Tasa Aduanera es requerido.");
                 }
             }
@@ -1574,10 +1714,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult TasaDolarValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(TipoDeCompra == eTipoCompra.Importacion && TipoDeDistribucion == eTipoDeDistribucion.Automatica && TasaDolar == 0) {
+                if (TipoDeCompra == eTipoCompra.Importacion && TipoDeDistribucion == eTipoDeDistribucion.Automatica && TasaDolar == 0) {
                     vResult = new ValidationResult("El campo Tasa Dolar es requerido.");
                 }
             }
@@ -1586,10 +1726,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private ValidationResult TipoDeDistribucionValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(TipoDeCompra == eTipoCompra.Importacion && TipoDeDistribucion == eTipoDeDistribucion.Ninguno) {
+                if (TipoDeCompra == eTipoCompra.Importacion && TipoDeDistribucion == eTipoDeDistribucion.Ninguno) {
                     vResult = new ValidationResult("El campo Tipo De Distribucion es requerido.");
                 }
             }
@@ -1601,7 +1741,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         #region Metodos Generados
 
         protected override Compra FindCurrentRecord(Compra valModel) {
-            if(valModel == null) {
+            if (valModel == null) {
                 return null;
             }
             LibGpParams vParams = new LibGpParams();
@@ -1626,6 +1766,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             //   ConexionCodigoProveedor = FirstConnectionRecordOrDefault<FkProveedorViewModel>("Proveedor", LibSearchCriteria.CreateCriteria("codigoProveedor", CodigoProveedor));
             //  ConexionCodigoAlmacen = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("Codigo", CodigoAlmacen));
             // ConexionNumeroDeOrdenDeCompra = FirstConnectionRecordOrDefault<FkCompraViewModel>("Compra", LibSearchCriteria.CreateCriteria("Numero", NumeroDeOrdenDeCompra));
+            ConexionMonedaCostoUltimaCompra = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Codigo", CodigoMonedaCostoUltimaCompra));
         }
 
         #endregion //Metodos Generados
@@ -1635,9 +1776,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         bool Continue = true;
 
         private void ActualizarDistribucion() {
-            if(Continue) {
+            if (Continue) {
                 Continue = false;
-                foreach(var item in DetailCompraDetalleArticuloInventario.Items) {
+                foreach (var item in DetailCompraDetalleArticuloInventario.Items) {
                     item.ActualizaCostoUnitario();
                 }
                 Continue = true;
@@ -1653,17 +1794,17 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private void ActualizaElCostoUnitario() {
             bool vEsMonedaLocal = true;
-            string vCodigoMonedaLocal = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
-            if(Moneda != vCodigoMonedaLocal) {
+            string NombreMonedaLocal = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+            if (Moneda != NombreMonedaLocal) {
                 vEsMonedaLocal = false;
             }
             ICompraPdn vPdn = new clsCompraNav();
             string vNumeroOperacion = GetModel().Numero;
-            if(LibDefGen.ProgramInfo.IsCountryPeru()) {
+            if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                 vNumeroOperacion = GetModel().Serie + "-" + GetModel().Numero;
             }
             vPdn.ActualizaElCostoUnitario(Model, vEsMonedaLocal);
-            if(vPdn.SePuedeEjecutarElAjusteDePrecios()) {
+            if (vPdn.SePuedeEjecutarElAjusteDePrecios()) {
                 EjecutarAjustesdePreciosCostosUltimacompraSiEsElcaso();
             }
         }
@@ -1671,11 +1812,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private void EjecutarAjustesdePreciosCostosUltimacompraSiEsElcaso() {
             string vNumeroOperacion = GetModel().Numero;
             bool vEsMonedaLocal = true;
-            if(LibDefGen.ProgramInfo.IsCountryPeru()) {
+            if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                 vNumeroOperacion = GetModel().Serie + "-" + GetModel().Numero;
             }
             string vCodigoMonedaLocal = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
-            if(Moneda != vCodigoMonedaLocal) {
+            if (Moneda != vCodigoMonedaLocal) {
                 vEsMonedaLocal = false;
             }
             AjusteDePrecioPorCostosViewModel vViewModel = new AjusteDePrecioPorCostosViewModel(vNumeroOperacion, GetModel().Fecha, true, vEsMonedaLocal);
@@ -1683,17 +1824,13 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         protected override bool RecordIsReadOnly() {
-            if(Action == eAccionSR.ReImprimir) {
-                return true;
-            } else {
-                return base.RecordIsReadOnly();
-            }
+            return (Action == eAccionSR.ReImprimir) || base.RecordIsReadOnly();
         }
 
         private void BuscaTasaDolar() {
             ICompraPdn vCompraPdn = new clsCompraNav();
-            if(TipoDeDistribucion == eTipoDeDistribucion.Automatica) {
-                TasaDolar = vCompraPdn.TasaDeDolarVigente("USD");
+            if (TipoDeDistribucion == eTipoDeDistribucion.Automatica) {
+                TasaDolar = vCompraPdn.TasaDeDolarVigente(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania"));
             }
         }
 
@@ -1711,9 +1848,9 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         internal bool BuscarCodigoRepetidoEnElGrid(string valCodigo) {
             var vList = DetailCompraDetalleArticuloInventario.Items.Where(p => p.CodigoArticulo == valCodigo || p.CodigoArticuloInv == valCodigo).Select(p => p);
-            if(vList != null && vList.Count() >= 1) {
+            if (vList != null && vList.Count() >= 1) {
                 int vIndex = DetailCompraDetalleArticuloInventario.Items.IndexOf(vList.First());
-                if(vIndex != DetailCompraDetalleArticuloInventario.Items.IndexOf(DetailCompraDetalleArticuloInventario.SelectedItem)) {
+                if (vIndex != DetailCompraDetalleArticuloInventario.Items.IndexOf(DetailCompraDetalleArticuloInventario.SelectedItem)) {
                     LibMessages.MessageBox.Alert(this, "El artículo que está intentando ingresar ya se encuentra en el Grid por favor dirijase a la linea " + (vIndex + 1).ToString() + Environment.NewLine +
                     "sí desea Agregar o Modificar alguna información del Artículo " + valCodigo, "INFORMACIÓN");
 
@@ -1728,7 +1865,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         private void ActualizaVisiblePorTipoDeDistribucion() {
-            if(DetailCompraDetalleArticuloInventario.HasItems) {
+            if (DetailCompraDetalleArticuloInventario.HasItems) {
                 CompraDetalleArticuloInventarioViewModel vDetailViewModel = DetailCompraDetalleArticuloInventario.SelectedItem;
                 vDetailViewModel.RaiseVisiblePorTipoDeDistribucion();
             }
@@ -1736,7 +1873,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private void AsignarLosItemsDeLaOrdenDeCompra() {
             Compra vModel = new Compra();
-            if(Action == eAccionSR.Insertar) {
+            if (Action == eAccionSR.Insertar) {
                 ((ICompraPdn)GetBusinessComponent()).AsignarDetalleArticuloInventarioDesdeOrdenDeCompra(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), vModel, ConsecutivoOrdenDeCompra);
                 DetailCompraDetalleArticuloInventario.ActualizaDetalleDesdeOrdenDeCompra(this, vModel.DetailCompraDetalleArticuloInventario, Action);
             }
@@ -1748,36 +1885,36 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         private void ActualizaVisibleUsaDeSeguro() {
-            if(DetailCompraDetalleArticuloInventario.HasItems) {
+            if (DetailCompraDetalleArticuloInventario.HasItems) {
                 CompraDetalleArticuloInventarioViewModel vDetailViewModel = DetailCompraDetalleArticuloInventario.SelectedItem;
                 vDetailViewModel.RaiseVisibleUsaSeguro();
             }
         }
 
         public bool AsignaTasaDelDia(string valCodigoMoneda) {
-            vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country,LibDate.Today());
-            if(!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
+            vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
+            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
                 decimal vTasa = 1;
-                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda",LibSearchCriteria.CreateCriteriaFromText("Codigo",valCodigoMoneda));
+                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
                 Moneda = ConexionCodigoMoneda.Nombre;
-                if(((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda,Fecha,out vTasa)) {
+                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Fecha, out vTasa)) {
                     CambioAMonedaLocal = vTasa;
                     return true;
                 } else {
-                    _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
-                    _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                    _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda,_UsarLimiteMaximoParaIngresoDeTasaDeCambio,_MaximoLimitePermitidoParaLaTasaDeCambio,_ElProgramaEstaEnModoAvanzado);
+                    _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                    _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                    _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado);
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
                     vViewModel.FechaDeVigencia = Fecha;
                     vViewModel.CodigoMoneda = CodigoMoneda;
                     vViewModel.NombreMoneda = Moneda;
                     vViewModel.IsEnabledFecha = false;
-                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel,true);
-                    if(!vResult) {
-                        if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                    if (!vResult) {
+                        if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
                             return false;
                         }
                         AsignarValoresDeMonedaPorDefecto();
@@ -1796,8 +1933,11 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             CambioAMonedaLocal = valCambio;
         }
 
+        private void CambioUltimaCompraChanged(decimal valCambio) {
+            CambioCostoUltimaCompra = valCambio;
+        }
         private void AsignarValoresDeMonedaPorDefecto() {
-            if(TipoDeCompra == eTipoCompra.Importacion) {
+            if (TipoDeCompra == eTipoCompra.Importacion) {
                 ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", "USD"));
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
                 Moneda = ConexionCodigoMoneda.Nombre;
@@ -1812,19 +1952,19 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         private void ActualizarMontosPorCambioDeMoneda(string valCodigoMonedaAnterior) {
             decimal vCambioParaRecalcular = 1;
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-            if(CodigoMoneda != ConexionNumeroDeOrdenDeCompra.CodigoMoneda
+            if (CodigoMoneda != ConexionNumeroDeOrdenDeCompra.CodigoMoneda
                 && CodigoMoneda != valCodigoMonedaAnterior
                 && LibMessages.MessageBox.YesNo(this, $"¿Desea realizar la conversión de los montos a {ConexionCodigoMoneda.Nombre}?", "Recalcular Montos")) {
                 vCambioParaRecalcular = EscogerTasaDeCambioParaLaConversion();
-                if(vCambioParaRecalcular > 0) {
-                    foreach(var item in DetailCompraDetalleArticuloInventario.Items) {
+                if (vCambioParaRecalcular > 0) {
+                    foreach (var item in DetailCompraDetalleArticuloInventario.Items) {
                         item.PrecioUnitario = item.PrecioUnitario * vCambioParaRecalcular;
                     }
                 } else {
                     DetailCompraDetalleArticuloInventario.Items.Clear();
                     ExecuteChooseNumeroDeOrdenDeCompraCommand(ConexionNumeroDeOrdenDeCompra.Numero);
                 }
-            } else if(CodigoMoneda == ConexionNumeroDeOrdenDeCompra.CodigoMoneda && CodigoMoneda != valCodigoMonedaAnterior) {
+            } else if (CodigoMoneda == ConexionNumeroDeOrdenDeCompra.CodigoMoneda && CodigoMoneda != valCodigoMonedaAnterior) {
                 DetailCompraDetalleArticuloInventario.Items.Clear();
                 ExecuteChooseNumeroDeOrdenDeCompraCommand(ConexionNumeroDeOrdenDeCompra.Numero);
             }
@@ -1832,19 +1972,19 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         private decimal EscogerTasaDeCambioParaLaConversion() {
             decimal vCambioResult = 1;
-            if(Fecha == ConexionNumeroDeOrdenDeCompra.Fecha
+            if (Fecha == ConexionNumeroDeOrdenDeCompra.Fecha
                 && !vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(ConexionNumeroDeOrdenDeCompra.CodigoMoneda)) {
                 vCambioResult = ConexionNumeroDeOrdenDeCompra.CambioABolivares;
-            } else if(Fecha != ConexionNumeroDeOrdenDeCompra.Fecha
+            } else if (Fecha != ConexionNumeroDeOrdenDeCompra.Fecha
                 && !vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(ConexionNumeroDeOrdenDeCompra.CodigoMoneda)) {
                 decimal vCambioDelDía = 1;
-                bool vExisteCambioDelDía = ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(ConexionNumeroDeOrdenDeCompra.CodigoMoneda,Fecha,out vCambioDelDía);
+                bool vExisteCambioDelDía = ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(ConexionNumeroDeOrdenDeCompra.CodigoMoneda, Fecha, out vCambioDelDía);
                 StringBuilder vMessage = new StringBuilder();
                 vMessage.AppendLine($"La Orden de Compra {ConexionNumeroDeOrdenDeCompra.Numero}, realizada con moneda {ConexionNumeroDeOrdenDeCompra.Moneda} el día {ConexionNumeroDeOrdenDeCompra.Fecha.ToShortDateString()}, ");
-                vMessage.Append($"fue registrada con una Tasa de Cambio de {LibConvert.ToStr(ConexionNumeroDeOrdenDeCompra.CambioABolivares,2)}. ");
-                if(vExisteCambioDelDía) {
+                vMessage.Append($"fue registrada con una Tasa de Cambio de {LibConvert.ToStr(ConexionNumeroDeOrdenDeCompra.CambioABolivares, 4)}. ");
+                if (vExisteCambioDelDía) {
                     vMessage.Append($"Para el día de hoy la Tasa de Cambio de la moneda {ConexionNumeroDeOrdenDeCompra.Moneda} " +
-                        $"es de {LibConvert.ToStr(vCambioDelDía,2)}");
+                        $"es de {LibConvert.ToStr(vCambioDelDía, 2)}");
                     vMessage.AppendLine();
                     vMessage.AppendLine();
                     vMessage.AppendLine("¿Desea realizar la conversíón de los montos con la tasa de Cambio del día?");
@@ -1853,22 +1993,22 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     vMessage.AppendLine();
                     vMessage.AppendLine("¿Desea ingresar la Tasa de Cambio del día de hoy para realizar la conversión de los montos con la tasa de día?");
                 }
-                if(LibMessages.MessageBox.YesNo(this,vMessage.ToString(),"")) {
-                    if(vExisteCambioDelDía) {
+                if (LibMessages.MessageBox.YesNo(this, vMessage.ToString(), "")) {
+                    if (vExisteCambioDelDía) {
                         vCambioResult = vCambioDelDía;
                     } else {
-                        _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
-                        _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                        _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
-                        CambioViewModel vViewModel = new CambioViewModel(ConexionNumeroDeOrdenDeCompra.CodigoMoneda,_UsarLimiteMaximoParaIngresoDeTasaDeCambio,_MaximoLimitePermitidoParaLaTasaDeCambio,_ElProgramaEstaEnModoAvanzado);
+                        _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                        _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                        _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                        CambioViewModel vViewModel = new CambioViewModel(ConexionNumeroDeOrdenDeCompra.CodigoMoneda, _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado);
                         vViewModel.InitializeViewModel(eAccionSR.Insertar);
                         vViewModel.FechaDeVigencia = LibDate.Today();
                         vViewModel.IsEnabledFecha = false;
-                        bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel,true);
-                        if(!vResult) {
+                        bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                        if (!vResult) {
                             vCambioResult = 0;
                         } else {
-                            ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(ConexionNumeroDeOrdenDeCompra.CodigoMoneda,Fecha,out vCambioResult);
+                            ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(ConexionNumeroDeOrdenDeCompra.CodigoMoneda, Fecha, out vCambioResult);
                         }
                     }
                 } else {
@@ -1879,21 +2019,81 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         private void ActualizarNumeroYCodigoProveedorOriginal() {
-            if(Action == eAccionSR.Modificar) {
+            if (Action == eAccionSR.Modificar) {
                 _NumeroDeCompraOriginal = Model.Numero;
                 _CodigoProveedorOriginal = Model.CodigoProveedor;
             }
         }
         private void AsignarMensajeDeGeneracionOActualizacionDeCxP() {
             GenerarOActualizarCxP = "Generar CxP";
-            if(Action == eAccionSR.Modificar) {
-                if(Model.GenerarCXPAsBool) {
+            if (Action == eAccionSR.Modificar) {
+                if (Model.GenerarCXPAsBool) {
                     GenerarOActualizarCxP = "Actualizar CxP";
                 }
             }
         }
-        #endregion
 
+        private void AsignarValoresDeCostoMonedaUltimaCompraPorDefecto() {
+            string vCodigoMoneda;
+            bool vUsaMonedaExtranejera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
+            if (vUsaMonedaExtranejera && (LibString.S1IsEqualToS2(vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()), Model.CodigoMoneda) || LibString.S1IsEqualToS2(vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today()), Model.Moneda))) {
+                vCodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+                AsignaTasaCostoUltimaCompraDelDia(vCodigoMoneda);
+                FkMonedaViewModel vConexionMonedaCostoUltimaCompra = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMoneda));
+                CodigoMonedaCostoUltimaCompra = vConexionMonedaCostoUltimaCompra.Codigo;
+                MonedaCostoUltimaCompra = vConexionMonedaCostoUltimaCompra.Nombre;
+            } else {
+                MonedaCostoUltimaCompra = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+                CodigoMonedaCostoUltimaCompra = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+                CambioCostoUltimaCompra = 1;
+            }
+        }
+
+        private bool AsignaTasaCostoUltimaCompraDelDia(string valCodigoMoneda) {
+            bool vUsaMonedaExtranejera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
+            vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
+            if (vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda) || !vUsaMonedaExtranejera) {
+                CambioCostoUltimaCompra = 1;
+                return true;
+            } else {
+                decimal vTasa = 1;
+                FkMonedaViewModel vConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
+                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(vConexionMoneda.Codigo, Fecha, out vTasa)) {
+                    CambioCostoUltimaCompra = vTasa;
+                    return true;
+                } else {
+                    _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                    _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                    _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado);
+                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
+                    vViewModel.OnCambioAMonedaLocalChanged += CambioUltimaCompraChanged;
+                    vViewModel.FechaDeVigencia = Fecha;
+                    vViewModel.CodigoMoneda = vConexionMoneda.Codigo;
+                    vViewModel.NombreMoneda = vConexionMoneda.Nombre;
+                    vViewModel.IsEnabledFecha = false;
+                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                    if (!vResult) {
+                        if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                            return false;
+                        }
+                        CambioCostoUltimaCompra = 1;
+                    }
+                    return true;
+                }
+            }
+        }
+        public bool IsEnabledCambioCostoUltimaCompra {
+            get {
+                return IsEnabled && LibString.S1IsEqualToS2(vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()), CodigoMoneda);
+            }
+        }
+        public bool IsVisibleMonedaParaCostos {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
+            }
+        }
+        #endregion
     } //End of class CompraViewModel
 
 } //End of namespace Galac.Adm.Uil.GestionCompras

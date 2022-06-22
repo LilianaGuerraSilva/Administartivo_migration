@@ -3938,7 +3938,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
 	Envia      : Str15;//"Envia"
 
 }
-{@M}Compra=  record //Multiarchivo=Compania "Compra", Componente=GestionCompras, Esquema=Adm
+{@M}Compra=  record //Multiarchivo=Compania "Compra", Componente=GestionCompras, Esquema=Adm,Generate
    ConsecutivoCompania		: Longint; //HIDE
    Consecutivo    		: Longint; //Hide,o,suggestConsecutive
    Serie              		: str20; //u, g,o,search 
@@ -3950,7 +3950,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
    ConsecutivoAlmacen 	   	: Longint; //o,Consecutive,=Almacen.Consecutivo
    CodigoAlmacen       		: str5; //g,Logical,=Almacen.Codigo,search
    NombreAlmacen       		: Str40;//Logical,a,=Almacen.NombreAlmacen
-   Moneda              		: str10;//,"Nombre de la Moneda"
+   Moneda              		: str80;//,"Nombre de la Moneda"
    CambioABolivares    		: Double; //o,"Cambio a BolÃ­vares"
    GenerarCXP          		: boolean; //"Generar Cuenta por Pagar"
    TotalRenglones      		: Double;//A"ACUM RenglonCompra.Cantida * RenglonCompra.CostoUnitario "
@@ -3966,6 +3966,9 @@ SeccionCompraDetalleArticuloInventario : seccion //"Items", Detail=CompraDetalle
    {EndSeccion} 
 SeccionSerialRollo : seccion //"Items", Detail=CompraDetalleSerialRollo 
    {EndSeccion} 
+   CodigoMonedaCostoUltimaCompra :Str4;//"Código Moneda"
+   MonedaCostoUltimaCompra : Str80;//logical,"Moneda Costo Ultima Compra",=Moneda.Nombre
+   CambioCostoUltimaCompra :Decimal;//"Cambio Costo Última Compra"   
    NombreOperador      : Str10; //a
    FechaUltimaModificacion: date;//a
    @PrimaryKey=ConsecutivoCompania,Consecutivo    

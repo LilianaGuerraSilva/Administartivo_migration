@@ -589,25 +589,20 @@ namespace Galac.Adm.Brl.GestionCompras {
         }
 
         void ICompraPdn.ActualizaElCostoUnitario(Compra valRecord, bool valEsMonedaLocal) {
-          
-         
+
             decimal vCostoUnitarioMasGasto = 0;
             decimal vCostoMonedaExtranjera = 0;
             decimal vCostoMonedaLocal = 0;
             XElement vData = new XElement("GpData");
+            bool vUsaMonedaExtranejera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
             foreach (CompraDetalleArticuloInventario item in valRecord.DetailCompraDetalleArticuloInventario) {
                 vCostoUnitarioMasGasto = item.CostoUnitario;
-                if (valRecord.CodigoMoneda == LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreMonedaLocal")) {
+                if (valRecord.CodigoMoneda == LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania")) {
                     vCostoMonedaLocal = item.CostoUnitario;
+                    vCostoMonedaExtranjera = vUsaMonedaExtranejera ? LibMath.RoundToNDecimals(item.CostoUnitario / valRecord.CambioCostoUltimaCompra, 2) : 0;
                 } else {
                     vCostoMonedaLocal = LibMath.RoundToNDecimals(item.CostoUnitario * valRecord.CambioABolivares, 2);
-                }
-                if (valRecord.CambioABolivares != 0) {
-                    if (valRecord.CodigoMoneda == LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreMonedaLocal")) {
-                        vCostoMonedaExtranjera = LibMath.RoundToNDecimals(item.CostoUnitario / valRecord.CambioABolivares, 2);
-                    } else {
-                        vCostoMonedaExtranjera = item.CostoUnitario;
-                    }
+                    vCostoMonedaExtranjera = item.CostoUnitario;
                 }
                 vData.Add(new XElement("GpResult",
                     new XElement("CodigoArticulo", item.CodigoArticulo),
@@ -615,8 +610,7 @@ namespace Galac.Adm.Brl.GestionCompras {
                     new XElement("CostoMonedaExtranjera", vCostoMonedaExtranjera)));
             }
             Galac.Saw.Ccl.Inventario.IArticuloInventarioPdn vArticuloPdn = new clsArticuloInventarioNav();
-            vArticuloPdn.ActualizarCostoUnitario(valRecord.ConsecutivoCompania, vData, valEsMonedaLocal) ;
-           
+            vArticuloPdn.ActualizarCostoUnitario(valRecord.ConsecutivoCompania, vData, valEsMonedaLocal);
         }
 
         bool ICompraPdn.SePuedeEjecutarElAjusteDePrecios() {

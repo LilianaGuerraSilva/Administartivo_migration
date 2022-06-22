@@ -67,4 +67,7 @@
     <DataTemplate DataType="{x:Type nsReportesView:clsImprimirCotizacionOrdenDeCompraViewModel}">
         <nsReportesView:GSImprimirCotizacionOrdenDeCompra/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:OrdenDeCompraImportarViewModel}">
+        <nsCSV:GSOrdenDeCompraImportarView/>
+    </DataTemplate>
 </ResourceDictionary>

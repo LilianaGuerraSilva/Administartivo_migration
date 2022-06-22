@@ -597,23 +597,23 @@ Private Function fConstruirSQLDelInformesDeComprobantesSinDocumento() As String
    Dim varComprobanteNavigator As clsComprobanteNavigator
    On Error GoTo h_ERROR
    Set varComprobanteNavigator = New clsComprobanteNavigator
-   SQL = "SELECT " & varComprobanteNavigator.GetTableName & "." & "GeneradoPor"
+   SQL = "SELECT " & varComprobanteNavigator.GetTableName & ".GeneradoPor"
    SQL = SQL & " AS TipoDeDocumento, "
-   SQL = SQL & varComprobanteNavigator.GetTableName & "." & "FECHA"
+   SQL = SQL & varComprobanteNavigator.GetTableName & ".FECHA"
    SQL = SQL & " AS FechaCombrobante, "
-   SQL = SQL & varComprobanteNavigator.GetTableName & "." & "NUMERO"
+   SQL = SQL & varComprobanteNavigator.GetTableName & ".NUMERO"
    SQL = SQL & " AS NumeroComprobante, "
-   SQL = SQL & varComprobanteNavigator.GetTableName & "." & "DESCRIPCION"
+   SQL = SQL & varComprobanteNavigator.GetTableName & ".DESCRIPCION"
    SQL = SQL & " AS DescripcionComprobante, "
-   SQL = SQL & varComprobanteNavigator.GetTableName & "." & "TotalHaber"
+   SQL = SQL & varComprobanteNavigator.GetTableName & ".TotalHaber"
    SQL = SQL & " AS TotalHaber, "
-   SQL = SQL & varComprobanteNavigator.GetTableName & "." & "NoDocumentoOrigen"
+   SQL = SQL & varComprobanteNavigator.GetTableName & ".NoDocumentoOrigen"
    SQL = SQL & " AS NumeroDocumentoOrigen "
    SQL = SQL & " FROM " & varComprobanteNavigator.GetTableName
-   SQL = SQL & " WHERE " & "ConsecutivoPeriodo" & " = " & gContPeriodoActual.GetConsecutivoPeriodo
+   SQL = SQL & " WHERE ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo
    SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("FECHA", dtpFechaInicial.value, dtpFechaFinal.value)
-   SQL = SQL & " AND " & "GeneradoPor" & " = '" & gConvert.enumerativoAChar(gEnumProyectoWincont.strComprobanteGeneradoPorToNum(gAPI.SelectedElementInComboBoxToString(CmbOpcionTipoDeDocumentoAImprimir), False)) & "'"
-   SQL = SQL & " AND (" & "NoDocumentoOrigen" & " = '' " _
+   SQL = SQL & " AND GeneradoPor = '" & gConvert.enumerativoAChar(gEnumProyectoWincont.strComprobanteGeneradoPorToNum(gAPI.SelectedElementInComboBoxToString(CmbOpcionTipoDeDocumentoAImprimir), False)) & "'"
+   SQL = SQL & " AND (NoDocumentoOrigen = '' " _
          & " OR " & gUtilSQL.DfSQLIsNull("NoDocumentoOrigen") & ")"
    Set varComprobanteNavigator = Nothing
    fConstruirSQLDelInformesDeComprobantesSinDocumento = SQL
@@ -848,10 +848,10 @@ Private Function fSQLInformeDeComprobantesModificados() As String
    Dim varComprobanteNavigator As clsComprobanteNavigator
    On Error GoTo h_ERROR
    Set varComprobanteNavigator = New clsComprobanteNavigator
-   varSQL = "SELECT " & "NUMERO" & ", " & "GeneradoPor" & ", " & "NoDocumentoOrigen" & ", " & "NombreOperador" & ", " & "FechaUltimaModificacion" _
+   varSQL = "SELECT NUMERO, GeneradoPor, NoDocumentoOrigen, NombreOperador, FechaUltimaModificacion" _
          & " FROM " & varComprobanteNavigator.GetTableName _
-         & " WHERE " & "FueModificado" & " = '" & gConvert.ConvertBooleanToString(True) & "'" _
-         & " AND " & "ConsecutivoPeriodo" & " = " & gContPeriodoActual.GetConsecutivoPeriodo
+         & " WHERE FueModificado = '" & gConvert.ConvertBooleanToString(True) & "'" _
+         & " AND ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo
    fSQLInformeDeComprobantesModificados = varSQL
    Set varComprobanteNavigator = Nothing
 h_EXIT: On Error GoTo 0
@@ -928,26 +928,26 @@ Private Function fSQLInformeDeComprobantesConNroDocOrigenDuplicado() As String
    Dim varConjuntoNrosDocDuplicados As String
    On Error GoTo h_ERROR
    Set varComprobanteNavigator = New clsComprobanteNavigator
-   varSQL = "SELECT " & "NoDocumentoOrigen" _
+   varSQL = "SELECT NoDocumentoOrigen" _
          & " FROM " & varComprobanteNavigator.GetTableName _
-         & " WHERE " & "GeneradoPor" & " = '" & gConvert.enumerativoAChar(gEnumProyectoWincont.strComprobanteGeneradoPorToNum(gAPI.SelectedElementInComboBoxToString(CmbOpcionTipoDeDocumentoAImprimir))) & "'" _
-         & " AND " & "ConsecutivoPeriodo" & " = " & gContPeriodoActual.GetConsecutivoPeriodo _
-         & " GROUP BY " & "NoDocumentoOrigen" _
-         & " HAVING COUNT(" & "NoDocumentoOrigen" & ") > 1 "
+         & " WHERE GeneradoPor = '" & gConvert.enumerativoAChar(gEnumProyectoWincont.strComprobanteGeneradoPorToNum(gAPI.SelectedElementInComboBoxToString(CmbOpcionTipoDeDocumentoAImprimir))) & "'" _
+         & " AND ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo _
+         & " GROUP BY NoDocumentoOrigen" _
+         & " HAVING COUNT(NoDocumentoOrigen) > 1 "
    varConjuntoNrosDocDuplicados = gDbUtil.fBuildResultSetAsString(varSQL)
    If varConjuntoNrosDocDuplicados <> "''" Then
-      varSQL = " SELECT " & "NUMERO" & " AS NroComprobante, " _
-            & "STATUS" & " AS StatusComprobante, " _
-            & "FECHA" & " AS FechaComprobante, " _
-            & "DESCRIPCION" & " AS DescripcionComprobante, " _
-            & "TotalDebe" & " AS TotalMontoDebe, " _
-            & "TotalHaber" & " AS TotalMontoHaber, " _
-            & "NoDocumentoOrigen" & " AS DocumentoOrigen " _
+      varSQL = " SELECT NUMERO AS NroComprobante, " _
+            & "STATUS AS StatusComprobante, " _
+            & "FECHA AS FechaComprobante, " _
+            & "DESCRIPCION AS DescripcionComprobante, " _
+            & "TotalDebe AS TotalMontoDebe, " _
+            & "TotalHaber AS TotalMontoHaber, " _
+            & "NoDocumentoOrigen AS DocumentoOrigen " _
             & " FROM " & varComprobanteNavigator.GetTableName _
-            & " WHERE " & "GeneradoPor" & " = '" & gConvert.enumerativoAChar(gEnumProyectoWincont.strComprobanteGeneradoPorToNum(gAPI.SelectedElementInComboBoxToString(CmbOpcionTipoDeDocumentoAImprimir))) & "'" _
-            & " AND " & "ConsecutivoPeriodo" & " = " & gContPeriodoActual.GetConsecutivoPeriodo _
-            & " AND " & "NoDocumentoOrigen" & " IN (" & varConjuntoNrosDocDuplicados & ")" _
-            & " ORDER BY " & "NoDocumentoOrigen" & ", " & "NUMERO"
+            & " WHERE GeneradoPor = '" & gConvert.enumerativoAChar(gEnumProyectoWincont.strComprobanteGeneradoPorToNum(gAPI.SelectedElementInComboBoxToString(CmbOpcionTipoDeDocumentoAImprimir))) & "'" _
+            & " AND ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo _
+            & " AND NoDocumentoOrigen IN (" & varConjuntoNrosDocDuplicados & ")" _
+            & " ORDER BY NoDocumentoOrigen, NUMERO"
    End If
    fSQLInformeDeComprobantesConNroDocOrigenDuplicado = varSQL
    Set varComprobanteNavigator = Nothing

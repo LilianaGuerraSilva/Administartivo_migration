@@ -8,6 +8,8 @@ using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Helpers;
 using LibGalac.Aos.Brl.Contracts;
+using LibGalac.Aos.UI.Contracts;
+using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.Catching;
@@ -16,14 +18,16 @@ using Galac.Adm.Brl.GestionCompras;
 using Galac.Adm.Brl.GestionCompras.Reportes;
 using Galac.Adm.Ccl.GestionCompras;
 using System.Collections.ObjectModel;
+using System.Windows.Forms;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
+    [LibMefInstallValuesMetadata(typeof(OrdenDeCompraMngViewModel))]
     public class OrdenDeCompraMngViewModel : LibMngMasterViewModelMfc<OrdenDeCompraViewModel, OrdenDeCompra> {
         #region Constantes
-        const string ModuleNameOriginal = "Orden De Compra";
-        const string ModuleNameNacional = "Orden De Compra Nacional";
-        const string ModuleNameImportacion = "Orden De Compra Importación";
+        private const string ModuleNameOriginal = "Orden de Compra";
+        private const string ModuleNameNacional = "Orden de Compra Nacional";
+        private const string ModuleNameImportacion = "Orden de Compra Importación";
         #endregion
         #region Propiedades
         eTipoCompra TipoDeCompra { get; set; }
@@ -45,7 +49,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             get;
             private set;
         }
-
+		public RelayCommand ImportCommand {
+            get;
+            private set;
+        }
         public new ObservableCollection<LibGridColumModel> VisibleColumns {
             get;
             private set;
@@ -79,7 +86,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             if (vNewModel == null) {
                 vNewModel = new OrdenDeCompra();
             }
-           
 			OrdenDeCompraViewModel vViewModel = new OrdenDeCompraViewModel(vNewModel, valAction);
             vViewModel.TipoModulo = TipoDeCompra;
             return vViewModel;
@@ -107,6 +113,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             base.InitializeCommands();
             AnularReAbrirCommand = new RelayCommand<eAccionSR?>(ExecuteAnularReAbrirCommand, CanExecuteAnularReAbrirCommand);
             ReImprimirCommand = new RelayCommand(ExecuteReImprimirCommand, CanExecuteReImprimirCommand);
+            ImportCommand = new RelayCommand(ExecuteImportCommand, CanExecuteImportCommand);
             #region Codigo Ejemplo
             /* Codigo de Ejemplo
                 SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
@@ -118,11 +125,45 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateAnularReAbrirRibbonGroup());
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateImportarRibbonGroup());
                 #region Codigo Ejemplo
                 /* Codigo de Ejemplo
                         RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
                 */
                 #endregion //Codigo Ejemplo
+            }
+        }
+        private LibRibbonGroupData CreateImportarRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Importar");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData(){
+                Label = "Importar Orden de Compra",
+                Command = ImportCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
+                ToolTipDescription = "Importar Orden de Compra",
+                ToolTipTitle = "Importar Orden de Compra"
+            });
+            return vResult;
+        }
+        private bool CanExecuteImportCommand() {
+            bool vResult = false;
+            vResult = (LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Insertar") &&
+                LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Modificar"));
+            return vResult;
+            //return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleNameOriginal, "Importar") && CurrentItem != null;
+        }
+        private void ExecuteImportCommand() {
+            try{
+                clsOrdenDeCompraImpExp vinstancia = new clsOrdenDeCompraImpExp();
+                OrdenDeCompraImportarViewModel vViewModel = new OrdenDeCompraImportarViewModel(ModuleNameOriginal, vinstancia);
+                vViewModel.InitializeViewModel(eAccionSR.Importar);
+                bool result = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                
+            }
+            catch (System.AccessViolationException){
+                throw;
+            }
+            catch (System.Exception vEx){
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
         }
         #endregion //Metodos Generados

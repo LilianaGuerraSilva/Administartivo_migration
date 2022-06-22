@@ -606,16 +606,12 @@ namespace Galac.Saw.Brl.Inventario {
 
         private void ActualizarCostoUnitarioArticuloInventario(int valConsecutivoCompania,string valCodigoArticulo,decimal valCostoUnitario,decimal valMeCostoUnitario,bool valEsMonedaLocal) {
             StringBuilder vSQL = new StringBuilder();
-            vSQL.AppendLine(" UPDATE dbo.ArticuloInventario SET CostoUnitario = @CostoUnitario ");
-            if(!valEsMonedaLocal) {
-                vSQL.AppendLine(" ,MeCostoUnitario = @MeCostoUnitario ");
-            }
+            vSQL.AppendLine(" UPDATE dbo.ArticuloInventario SET CostoUnitario = @CostoUnitario ");            
+            vSQL.AppendLine(" ,MeCostoUnitario = @MeCostoUnitario ");            
             vSQL.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania AND Codigo = @CodigoArticulo");
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInDecimal("CostoUnitario",valCostoUnitario,4);
-            if(!valEsMonedaLocal) {
-                vParams.AddInDecimal("MeCostoUnitario",valMeCostoUnitario,4);
-            }
+            vParams.AddInDecimal("CostoUnitario",valCostoUnitario,4);            
+            vParams.AddInDecimal("MeCostoUnitario",valMeCostoUnitario,4);            
             vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
             vParams.AddInString("CodigoArticulo",valCodigoArticulo,30);
             LibBusiness.ExecuteUpdateOrDelete(vSQL.ToString(),vParams.Get(),"",0);

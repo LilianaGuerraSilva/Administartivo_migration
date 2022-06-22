@@ -206,6 +206,10 @@ Private valDescripcionExtra As String
 Private valExistenciaAlmacenExtra As Currency
 Private valCodigoArticulo As String
 Private valConsecutivoAlmacen As Long
+Private mBaseImponibleIGTF As Currency
+Private mIGTFML As Currency
+Private mIGTFME As Currency
+Private mAlicuotaIGTF As Currency
 
 Const REGISTRO_LINEA_PRODUCTO = 0
 Const CONSECUTIVO_COMPANIA = 1
@@ -1193,261 +1197,257 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
    fDistribuyeLaLineaDeFactura = False
    linea = refLineaActual
    With insFactura
-    vConsecutivoCompania = mConsecutivoCompaniaActual
-    .SetConsecutivoCompania vConsecutivoCompania
-    .SetNumero mValorDelCampoDeId
-    vFecha = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFecha vFecha
-       '============================================
-       'Seteo Temporal para la version para Quintero
-       .SetFechaDeEntrega vFecha
-       '********************************************
-    vCodigoCliente = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCodigoCliente vCodigoCliente
-    Set Rs = New ADODB.Recordset
-    vSql = "SELECT * FROM Cliente WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
-    vSql = vSql & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(vCodigoCliente)
-    If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-       If Rs.RecordCount > 0 Then
-         If gTexto.DfLen(Rs.Fields("TipoDeContribuyente").Value) = 0 Then
-           mTipoDeContribuyenteClienteFactura = "1"
-         Else
-           mTipoDeContribuyenteClienteFactura = Rs.Fields("TipoDeContribuyente").Value
+      vConsecutivoCompania = mConsecutivoCompaniaActual
+      .SetConsecutivoCompania vConsecutivoCompania
+      .SetNumero mValorDelCampoDeId
+      vFecha = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFecha vFecha
+      .SetFechaDeEntrega vFecha
+      vCodigoCliente = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCodigoCliente vCodigoCliente
+      Set Rs = New ADODB.Recordset
+      vSql = "SELECT * FROM Cliente WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
+      vSql = vSql & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(vCodigoCliente)
+      If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
+         If Rs.RecordCount > 0 Then
+           If gTexto.DfLen(Rs.Fields("TipoDeContribuyente").Value) = 0 Then
+             mTipoDeContribuyenteClienteFactura = "1"
+           Else
+             mTipoDeContribuyenteClienteFactura = Rs.Fields("TipoDeContribuyente").Value
+           End If
+            mTipoDePersonaClienteFactura = gTexto.DfMid(Rs.Fields("NumeroRIF").Value, 1, 1)
          End If
-          mTipoDePersonaClienteFactura = gTexto.DfMid(Rs.Fields("NumeroRIF").Value, 1, 1)
-       End If
-    End If
-    Set Rs = Nothing
-    vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCodigoVendedor vCodigoVendedor
-    vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetObservaciones vObservaciones
-    vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoExentoDespuesDeDescuento vMontoExentoDespuesDeDescuento
-    vBaseImponibleDespuesDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetBaseImponibleDespuesDescuento vBaseImponibleDespuesDescuento
-    vTotalRenglones = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetTotalRenglones vTotalRenglones
-    vTotalIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetTotalIVA vTotalIVA
-    vTotalFactura = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetTotalFactura vTotalFactura
-    vPorcentajeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeDescuento vPorcentajeDescuento
-    vCodigoNota1 = ""
-    .SetCodigoNota1 vCodigoNota1
-    vCodigoNota2 = ""
-    .SetCodigoNota2 vCodigoNota2
-    vMoneda = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-'************VALIDA MONEDA**********
-    vMoneda = fValidaLamoneda(vMoneda)
-    .SetCodigoMoneda fValidaLamoneda(vMoneda)
-    vNivelPrecio = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_1) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_2) _
-    Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_3) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_4) Then
-       .SetNivelDePrecioStr gEnumProyecto.enumNivelDePrecioToString(gEnumProyecto.fSiglasNivelDePrecioToEnum(vNivelPrecio, False))
-    End If
-    vCodigoAlmacen = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCodigoAlmacen vCodigoAlmacen
-    Set Rs = New ADODB.Recordset
-    vSql = "SELECT Consecutivo FROM Saw.Almacen WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
-    vSql = vSql & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(vCodigoAlmacen)
-    If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-       If Rs.RecordCount > 0 Then
-          .SetConsecutivoAlmacen Rs.Fields("Consecutivo").Value
-       Else
-          .SetConsecutivoAlmacen 1
-       End If
-    End If
-    Set Rs = Nothing
-    vStatusFactura = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If vStatusFactura = gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_EMITIDA) Or vStatusFactura = gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_ANULADA) _
-    Or vStatusFactura = gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_BORRADOR) Then
-      .SetStatusFacturaStr gEnumProyecto.enumStatusFacturaToString(gEnumProyecto.fSiglasStatusFacturaToEnum(vStatusFactura, False))
-    End If
-    vTipoDeDocumentoStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_FACTURA) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_COMPROBANTEFISCAL) _
-    Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_NOTADECREDITO) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_NOTADEDEBITO) Then
-      .SetTipoDeDocumentoStr gEnumProyecto.enumTipodocumentoFacturaToString(gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False))
-    End If
-    vInsertadaManualmente = False
-    .SetInsertadaManualmente vInsertadaManualmente
-    vCancelada = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetCancelada vCancelada
-    vUsarDireccionFiscal = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetUsarDireccionFiscal vUsarDireccionFiscal
-    vNoDirDespachoAimprimir = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetNoDirDespachoAimprimir vNoDirDespachoAimprimir
-    vCambioABolivares = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetCambioABolivares vCambioABolivares
-    vMontoDelAbono = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoDelAbono vMontoDelAbono
-    vFechaDeVencimiento = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFechaDeVencimiento vFechaDeVencimiento
-    vCondicionesDePago = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCondicionesDePago vCondicionesDePago
-    vNombreOperador = mNombreDelUsuario
-    .SetNombreOperador vNombreOperador
-    vFechaUltimaModificacion = gUtilDate.getFechaDeHoy
-    .SetFechaUltimaModificacion vFechaUltimaModificacion
-     vFacturaHistorica = mSeImportaComoHistorica
-    .SetFacturaHistorica vFacturaHistorica
-     vTalonario = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If gTexto.DfLen(vTalonario) = 0 Then
-      vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO1)
-    End If
-    If vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO1) Or vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO2) Then
-      .SetTalonarioStr gEnumProyecto.enumTalonarioToString(gEnumProyecto.fSiglasTalonarioToEnum(vTalonario))
-    End If
-    vFormaDeLaInicialStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If vFormaDeLaInicialStr = gEnumProyecto.enumFormaDeLaInicialToStringSiglas(eFD_POR_MONTO) Or vFormaDeLaInicialStr = gEnumProyecto.enumFormaDeLaInicialToStringSiglas(eFD_POR_PORCENTAJE) Then
-      .SetFormaDeLaInicialStr gEnumProyecto.enumFormaDeLaInicialToString(gEnumProyecto.fSiglasFormaDeLaInicialToEnum(vFormaDeLaInicialStr))
-    End If
-    vPorcentajeDeLaInicial = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeDeLaInicial vPorcentajeDeLaInicial
-    vNumeroDeCuotas = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetNumeroDeCuotas vNumeroDeCuotas
-    vMontoDeLasCuotas = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoDeLasCuotas vMontoDeLasCuotas
-    vMontoUltimaCuota = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoUltimaCuota vMontoUltimaCuota
-    vFormaDePagoStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If vFormaDePagoStr = gEnumProyecto.enumFormadePagoToStringSiglas(eFP_CONTADO) Or vFormaDePagoStr = gEnumProyecto.enumFormadePagoToStringSiglas(eFP_CREDITO) Then
-      .SetFormaDePagoStr gEnumProyecto.enumFormadePagoToString(gEnumProyecto.fSiglasFormadePagoToEnum(vFormaDePagoStr, False))
-    End If
-    vNumDiasDeVencimiento1aCuota = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetNumDiasDeVencimiento1aCuota vNumDiasDeVencimiento1aCuota
-    vEditarMontoCuota = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetEditarMontoCuota vEditarMontoCuota
-    vNumeroControl = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetNumeroControl vNumeroControl
-    vTipoDeTransaccionStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A01_REGISTRO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A02_COMPLEMENTO) _
-    Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A03_ANULACION) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A04_AJUSTE) Then
-      .SetTipoDeTransaccionStr gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToString(gEnumProyecto.fSiglasTipoDeTransaccionDeLibrosFiscalesToEnum(vTipoDeTransaccionStr, False))
-    End If
-    vNumeroPlanillaExportacion = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetNumeroPlanillaExportacion vNumeroPlanillaExportacion
-    vNumeroFacturaAfectada = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetNumeroFacturaAfectada vNumeroFacturaAfectada
-    vTipoDeVentaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_EXPORTACION) Or vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_A_CONTRIBUYENTE) _
-    Or vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_A_NO_CONTRIBUYENTE) Or vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_INTERNA) _
-    Or vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_SIN_DERECHO_A_CREDITO_FISCAL) Then
-      .SetTipoDeVentaStr gEnumProyecto.enumTipoDeVentaToString(gEnumProyecto.fSiglasTipoDeVentaToEnum(vTipoDeVentaStr, False))
-    End If
-    vUsaMaquinaFiscal = False
-    .SetUsaMaquinaFiscal vUsaMaquinaFiscal
-    vCodigoMaquinaRegistradora = ""
-    .SetCodigoMaquinaRegistradora vCodigoMaquinaRegistradora
-    vNumeroDesde = ""
-    .SetNumeroDesde vNumeroDesde
-    vNumeroHasta = ""
-    .SetNumeroHasta vNumeroHasta
-    vNumeroControlHasta = ""
-    .SetNumeroControlHasta vNumeroControlHasta
-    vMontoIvaRetenido = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoIvaRetenido vMontoIvaRetenido
-    vFechaAplicacionRetIVA = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFechaAplicacionRetIVA vFechaAplicacionRetIVA
-    vNumeroComprobanteRetIVA = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetNumeroComprobanteRetIVA vNumeroComprobanteRetIVA
-    vFechaComprobanteRetIVA = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFechaComprobanteRetIVA vFechaComprobanteRetIVA
-    vSeRetuvoIVA = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetSeRetuvoIVA vSeRetuvoIVA
-    vFacturaConPreciosSinIva = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFacturaConPreciosSinIva vFacturaConPreciosSinIva
-    vConsecutivoCaja = gConvert.enumerativoAChar(insCaja.CM_CONSECUTIVO_INICIAL_DE_CAJA)
-    .SetConsecutivoCaja vConsecutivoCaja
-    vGeneraCobroDirecto = False
-    .SetGeneraCobroDirecto vGeneraCobroDirecto
-    .SetCodigoLote mCodigoLote
-    .SetReservarMercancia gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFechaDeRetiro gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetCodigoAlmacen gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetNoDirDespachoAimprimir gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetVueltoDelCobroDirecto gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeDescuento1 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeDescuento2 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoDescuento1 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoDescuento2 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      End If
+      Set Rs = Nothing
+      vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCodigoVendedor vCodigoVendedor
+      vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetObservaciones vObservaciones
+      vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoExentoDespuesDeDescuento vMontoExentoDespuesDeDescuento
+      vBaseImponibleDespuesDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetBaseImponibleDespuesDescuento vBaseImponibleDespuesDescuento
+      vTotalRenglones = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetTotalRenglones vTotalRenglones
+      vTotalIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetTotalIVA vTotalIVA
+      vTotalFactura = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetTotalFactura vTotalFactura
+      vPorcentajeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeDescuento vPorcentajeDescuento
+      vCodigoNota1 = ""
+      .SetCodigoNota1 vCodigoNota1
+      vCodigoNota2 = ""
+      .SetCodigoNota2 vCodigoNota2
+      vMoneda = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      vMoneda = fValidaLamoneda(vMoneda)
+      .SetCodigoMoneda vMoneda
+      vNivelPrecio = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_1) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_2) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_3) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_4) Then
+         .SetNivelDePrecioStr gEnumProyecto.enumNivelDePrecioToString(gEnumProyecto.fSiglasNivelDePrecioToEnum(vNivelPrecio, False))
+      End If
+      vCodigoAlmacen = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCodigoAlmacen vCodigoAlmacen
+      Set Rs = New ADODB.Recordset
+      vSql = "SELECT Consecutivo FROM Saw.Almacen WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(vCodigoAlmacen)
+      If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
+         If Rs.RecordCount > 0 Then
+            .SetConsecutivoAlmacen Rs.Fields("Consecutivo").Value
+         Else
+            .SetConsecutivoAlmacen 1
+         End If
+      End If
+      Set Rs = Nothing
+      vStatusFactura = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If vStatusFactura = gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_EMITIDA) Or vStatusFactura = gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_ANULADA) Or vStatusFactura = gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_BORRADOR) Then
+         .SetStatusFacturaStr gEnumProyecto.enumStatusFacturaToString(gEnumProyecto.fSiglasStatusFacturaToEnum(vStatusFactura, False))
+      End If
+      vTipoDeDocumentoStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_FACTURA) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_COMPROBANTEFISCAL) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_NOTADECREDITO) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_NOTADEDEBITO) Then
+         .SetTipoDeDocumentoStr gEnumProyecto.enumTipodocumentoFacturaToString(gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False))
+      End If
+      vInsertadaManualmente = False
+      .SetInsertadaManualmente vInsertadaManualmente
+      vCancelada = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetCancelada vCancelada
+      vUsarDireccionFiscal = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetUsarDireccionFiscal vUsarDireccionFiscal
+      vNoDirDespachoAimprimir = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetNoDirDespachoAimprimir vNoDirDespachoAimprimir
+      vCambioABolivares = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetCambioABolivares vCambioABolivares
+      vMontoDelAbono = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoDelAbono vMontoDelAbono
+      vFechaDeVencimiento = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFechaDeVencimiento vFechaDeVencimiento
+      vCondicionesDePago = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCondicionesDePago vCondicionesDePago
+      vNombreOperador = mNombreDelUsuario
+      .SetNombreOperador vNombreOperador
+      vFechaUltimaModificacion = gUtilDate.getFechaDeHoy
+      .SetFechaUltimaModificacion vFechaUltimaModificacion
+      vFacturaHistorica = mSeImportaComoHistorica
+      .SetFacturaHistorica vFacturaHistorica
+      vTalonario = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If gTexto.DfLen(vTalonario) = 0 Then
+         vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO1)
+      End If
+      If vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO1) Or vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO2) Then
+        .SetTalonarioStr gEnumProyecto.enumTalonarioToString(gEnumProyecto.fSiglasTalonarioToEnum(vTalonario))
+      End If
+      vFormaDeLaInicialStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If vFormaDeLaInicialStr = gEnumProyecto.enumFormaDeLaInicialToStringSiglas(eFD_POR_MONTO) Or vFormaDeLaInicialStr = gEnumProyecto.enumFormaDeLaInicialToStringSiglas(eFD_POR_PORCENTAJE) Then
+        .SetFormaDeLaInicialStr gEnumProyecto.enumFormaDeLaInicialToString(gEnumProyecto.fSiglasFormaDeLaInicialToEnum(vFormaDeLaInicialStr))
+      End If
+      vPorcentajeDeLaInicial = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeDeLaInicial vPorcentajeDeLaInicial
+      vNumeroDeCuotas = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetNumeroDeCuotas vNumeroDeCuotas
+      vMontoDeLasCuotas = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoDeLasCuotas vMontoDeLasCuotas
+      vMontoUltimaCuota = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoUltimaCuota vMontoUltimaCuota
+      vFormaDePagoStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If vFormaDePagoStr = gEnumProyecto.enumFormadePagoToStringSiglas(eFP_CONTADO) Or vFormaDePagoStr = gEnumProyecto.enumFormadePagoToStringSiglas(eFP_CREDITO) Then
+        .SetFormaDePagoStr gEnumProyecto.enumFormadePagoToString(gEnumProyecto.fSiglasFormadePagoToEnum(vFormaDePagoStr, False))
+      End If
+      vNumDiasDeVencimiento1aCuota = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetNumDiasDeVencimiento1aCuota vNumDiasDeVencimiento1aCuota
+      vEditarMontoCuota = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetEditarMontoCuota vEditarMontoCuota
+      vNumeroControl = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetNumeroControl vNumeroControl
+      vTipoDeTransaccionStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A01_REGISTRO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A02_COMPLEMENTO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A03_ANULACION) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A04_AJUSTE) Then
+         .SetTipoDeTransaccionStr gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToString(gEnumProyecto.fSiglasTipoDeTransaccionDeLibrosFiscalesToEnum(vTipoDeTransaccionStr, False))
+      End If
+      vNumeroPlanillaExportacion = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetNumeroPlanillaExportacion vNumeroPlanillaExportacion
+      vNumeroFacturaAfectada = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetNumeroFacturaAfectada vNumeroFacturaAfectada
+      vTipoDeVentaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_EXPORTACION) Or vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_A_CONTRIBUYENTE) Or vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_A_NO_CONTRIBUYENTE) Or vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_INTERNA) Or vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_SIN_DERECHO_A_CREDITO_FISCAL) Then
+         .SetTipoDeVentaStr gEnumProyecto.enumTipoDeVentaToString(gEnumProyecto.fSiglasTipoDeVentaToEnum(vTipoDeVentaStr, False))
+      End If
+      vUsaMaquinaFiscal = False
+      .SetUsaMaquinaFiscal vUsaMaquinaFiscal
+      vCodigoMaquinaRegistradora = ""
+      .SetCodigoMaquinaRegistradora vCodigoMaquinaRegistradora
+      vNumeroDesde = ""
+      .SetNumeroDesde vNumeroDesde
+      vNumeroHasta = ""
+      .SetNumeroHasta vNumeroHasta
+      vNumeroControlHasta = ""
+      .SetNumeroControlHasta vNumeroControlHasta
+      vMontoIvaRetenido = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoIvaRetenido vMontoIvaRetenido
+      vFechaAplicacionRetIVA = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFechaAplicacionRetIVA vFechaAplicacionRetIVA
+      vNumeroComprobanteRetIVA = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetNumeroComprobanteRetIVA vNumeroComprobanteRetIVA
+      vFechaComprobanteRetIVA = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFechaComprobanteRetIVA vFechaComprobanteRetIVA
+      vSeRetuvoIVA = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetSeRetuvoIVA vSeRetuvoIVA
+      vFacturaConPreciosSinIva = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFacturaConPreciosSinIva vFacturaConPreciosSinIva
+      vConsecutivoCaja = gConvert.enumerativoAChar(insCaja.CM_CONSECUTIVO_INICIAL_DE_CAJA)
+      .SetConsecutivoCaja vConsecutivoCaja
+      vGeneraCobroDirecto = False
+      .SetGeneraCobroDirecto vGeneraCobroDirecto
+      .SetCodigoLote mCodigoLote
+      .SetReservarMercancia gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFechaDeRetiro gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetCodigoAlmacen gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetNoDirDespachoAimprimir gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetVueltoDelCobroDirecto gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeDescuento1 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeDescuento2 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoDescuento1 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoDescuento2 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
     
-    mPorcentajeAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    mPorcentajeAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    mPorcentajeAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeAlicuota1 mPorcentajeAlicuota1
-    .SetPorcentajeAlicuota2 mPorcentajeAlicuota2
-    .SetPorcentajeAlicuota3 mPorcentajeAlicuota3
-    
-    mMontoIVAAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    mMontoIVAAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    mMontoIVAAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoIvaAlicuota1 mMontoIVAAlicuota1
-    .SetMontoIVAAlicuota2 mMontoIVAAlicuota2
-    .SetMontoIVAAlicuota3 mMontoIVAAlicuota3
-    
-    mMontoGravableAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    mMontoGravableAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    mMontoGravableAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoGravableAlicuota1 mMontoGravableAlicuota1
-    .SetMontoGravableAlicuota2 mMontoGravableAlicuota2
-    .SetMontoGravableAlicuota3 mMontoGravableAlicuota3
-    
-    .SetMoneda fDevuelveElNombreDeLaMonedaIfExist(vMoneda)
-    vFechaDeFacturaAfectada = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFechaDeFacturaAfectada vFechaDeFacturaAfectada
-    mAplicaDecretoIvaEspecial = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetAplicaDecretoIvaEspecial gConvert.ConvertStringToBoolean(mAplicaDecretoIvaEspecial)
-    vEsGeneradaPorPuntoDeVenta = False
-    .SetEsGeneradaPorPuntoDeVenta vEsGeneradaPorPuntoDeVenta
+      mPorcentajeAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      mPorcentajeAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      mPorcentajeAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeAlicuota1 mPorcentajeAlicuota1
+      .SetPorcentajeAlicuota2 mPorcentajeAlicuota2
+      .SetPorcentajeAlicuota3 mPorcentajeAlicuota3
+      
+      mMontoIVAAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      mMontoIVAAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      mMontoIVAAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoIvaAlicuota1 mMontoIVAAlicuota1
+      .SetMontoIVAAlicuota2 mMontoIVAAlicuota2
+      .SetMontoIVAAlicuota3 mMontoIVAAlicuota3
+      
+      mMontoGravableAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      mMontoGravableAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      mMontoGravableAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoGravableAlicuota1 mMontoGravableAlicuota1
+      .SetMontoGravableAlicuota2 mMontoGravableAlicuota2
+      .SetMontoGravableAlicuota3 mMontoGravableAlicuota3
+      
+      .SetMoneda fDevuelveElNombreDeLaMonedaIfExist(vMoneda)
+      vFechaDeFacturaAfectada = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFechaDeFacturaAfectada vFechaDeFacturaAfectada
+      mAplicaDecretoIvaEspecial = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetAplicaDecretoIvaEspecial gConvert.ConvertStringToBoolean(mAplicaDecretoIvaEspecial)
+      mBaseImponibleIGTF = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetBaseImponibleIGTF mBaseImponibleIGTF
+      mIGTFML = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetIGTFML mIGTFML
+      mIGTFME = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetIGTFME mIGTFME
+      mAlicuotaIGTF = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetAlicuotaIGTF mAlicuotaIGTF
+      vEsGeneradaPorPuntoDeVenta = False
+      .SetEsGeneradaPorPuntoDeVenta vEsGeneradaPorPuntoDeVenta
    End With
    With insRenglonFactura
-    .SetConsecutivoCompania vConsecutivoCompania
-    .setNumeroFactura mValorDelCampoDeId
-    If vConsecutivoRenglon = 0 Then
-      vConsecutivoRenglon = vConsecutivoRenglon + 1
-    End If
-    .SetConsecutivoRenglon vConsecutivoRenglon
-    vDescripcion = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetDescripcion vDescripcion
-    var_AlicuotaIvaEnum = gEnumProyecto.fSiglasTipoDeAlicuotaToEnum(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador), False)
-    vAlicuotaIVAStr = (gEnumProyecto.enumTipoDeAlicuotaToString(var_AlicuotaIvaEnum))
-    .SetAlicuotaIVAStr vAlicuotaIVAStr
-    mPorcentajeAlicuotaRenglonFactura = gConvert.fConvierteACurrency(gAdmAlicuotaIvaActual.GetAlicuotaIVA(vFecha, var_AlicuotaIvaEnum))
-    .SetPorcentajeAlicuota mPorcentajeAlicuotaRenglonFactura
-    vCantidad = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetCantidad vCantidad
-    vPrecioSinIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPrecioSinIVA vPrecioSinIVA
-    vPrecioConIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPrecioConIVA vPrecioConIVA
-    vDescuentoRenglon = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeDescuento vDescuentoRenglon
-    vTotalRenglon = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetTotalRenglon vTotalRenglon
-    vPorcentajeBaseImponible = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeBaseImponible vPorcentajeBaseImponible
-    If vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_FACTURA) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_COMPROBANTEFISCAL) _
-    Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_NOTADECREDITO) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_NOTADEDEBITO) Then
-      .SetTipoDeDocumentoStr gEnumProyecto.enumTipodocumentoFacturaToString(gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False))
-    End If
-    vVendedor1Renglon = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCodigoVendedor1 vVendedor1Renglon
-    vVendedor2Renglon = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCodigoVendedor2 vVendedor2Renglon
-    vVendedor3Renglon = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCodigoVendedor3 vVendedor3Renglon
-    vCampoExtraEnRenglonFactura1 = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCampoExtraEnRenglonFactura1 vCampoExtraEnRenglonFactura1
-    vCampoExtraEnRenglonFactura2 = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCampoExtraEnRenglonFactura2 vCampoExtraEnRenglonFactura2
-    vArticulo = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetArticulo vArticulo
+      .SetConsecutivoCompania vConsecutivoCompania
+      .setNumeroFactura mValorDelCampoDeId
+      If vConsecutivoRenglon = 0 Then
+         vConsecutivoRenglon = vConsecutivoRenglon + 1
+      End If
+      .SetConsecutivoRenglon vConsecutivoRenglon
+      vDescripcion = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetDescripcion vDescripcion
+      var_AlicuotaIvaEnum = gEnumProyecto.fSiglasTipoDeAlicuotaToEnum(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador), False)
+      vAlicuotaIVAStr = (gEnumProyecto.enumTipoDeAlicuotaToString(var_AlicuotaIvaEnum))
+      .SetAlicuotaIVAStr vAlicuotaIVAStr
+      mPorcentajeAlicuotaRenglonFactura = gConvert.fConvierteACurrency(gAdmAlicuotaIvaActual.GetAlicuotaIVA(vFecha, var_AlicuotaIvaEnum))
+      .SetPorcentajeAlicuota mPorcentajeAlicuotaRenglonFactura
+      vCantidad = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetCantidad vCantidad
+      vPrecioSinIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPrecioSinIVA vPrecioSinIVA
+      vPrecioConIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPrecioConIVA vPrecioConIVA
+      vDescuentoRenglon = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeDescuento vDescuentoRenglon
+      vTotalRenglon = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetTotalRenglon vTotalRenglon
+      vPorcentajeBaseImponible = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeBaseImponible vPorcentajeBaseImponible
+      If vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_FACTURA) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_COMPROBANTEFISCAL) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_NOTADECREDITO) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_NOTADEDEBITO) Then
+        .SetTipoDeDocumentoStr gEnumProyecto.enumTipodocumentoFacturaToString(gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False))
+      End If
+      vVendedor1Renglon = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCodigoVendedor1 vVendedor1Renglon
+      vVendedor2Renglon = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCodigoVendedor2 vVendedor2Renglon
+      vVendedor3Renglon = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCodigoVendedor3 vVendedor3Renglon
+      vCampoExtraEnRenglonFactura1 = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCampoExtraEnRenglonFactura1 vCampoExtraEnRenglonFactura1
+      vCampoExtraEnRenglonFactura2 = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCampoExtraEnRenglonFactura2 vCampoExtraEnRenglonFactura2
+      vArticulo = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetArticulo vArticulo
    End With
    With insFactura
-       vCodigoMonedaDeCobro = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-       vCodigoMonedaDeCobro = fValidaMonedaDeCobro(vCodigoMonedaDeCobro)
+      vCodigoMonedaDeCobro = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      vCodigoMonedaDeCobro = fValidaMonedaDeCobro(vCodigoMonedaDeCobro)
       .SetCodigoMonedaDeCobro vCodigoMonedaDeCobro
       .SetFechaLimiteCambioAMonedaLocal vFecha
    End With
@@ -2766,7 +2766,7 @@ Private Function fVerificaSiNoExisteLaCxPYLoAgrega(ByRef refRegistrosImportados 
    On Error GoTo h_ERROR
    Continuar = False
    If Not insCxP.fSearchByCodigoProveedoryNumeroCxP(insCxP.getCodigoProveedor, insCxP.GetNumero, False) Then
-      insCxP.sInsertNewEmptyMasterDetailOtrosImpuestos False
+      insCxP.sInsertNewEmptyRecord False
       If insCxP.fInsert(insertar, False, True) Then
          Continuar = True
          refRegistrosImportados = refRegistrosImportados + 1
@@ -4638,7 +4638,7 @@ Private Function fValidaLamoneda(Optional ByVal valMoneda As String) As String
    On Error GoTo h_ERROR
    Select Case UCase(valMoneda)
       Case "BOLIVAR", "BOLÍVAR", "BOLIVARES":
-         strValor = "VES"
+         strValor = "VED"
       Case "DOLARES", "DOLAR", "DOLAR EEUU", "DÓLAR", "DÓLARES":
          strValor = "USD"
       Case "EURO", "EUROS":
@@ -4955,23 +4955,27 @@ End Function
 
 Private Function fValidaMonedaDeCobro(ByVal valMoneda As String) As String
    Dim vCodigoMoneda As String
+   Dim vMoneda As String
    On Error GoTo h_ERROR
-   vCodigoMoneda = "VES"
-   Select Case UCase(gTexto.fLimpiaStringdeBlancosAAmbosLados(valMoneda))
-      Case "BOLIVAR", "BOLÍVAR", "BOLIVARES", "VES", "BS":
-         vCodigoMoneda = "VES"
-      Case "DOLARES", "DOLAR", "DOLAR EEUU", "DÓLAR", "DÓLARES", "USD", "DOLARES AMERICANOS", "DÓLARES AMERICANOS", "DÓLAR AMERICANO":
-         vCodigoMoneda = "USD"
-      Case "EURO", "EUROS", "€", "EUR":
-         vCodigoMoneda = "EUR"
-      Case "PESOS", "PESO COLIMBIANO", "PESO", "PESOS COLIMBIANOS", "PESOS COLIMBIANO", "PESO COLIMBIANOS", "COP"
-         vCodigoMoneda = "COP"
-      Case "SOL", "SOLES", "NUEVOS SOLES", "NUEVO SOL", "NUEVO SOLES", "NUEVO SOLES", "PEN"
-         vCodigoMoneda = "PEN"
+   vMoneda = UCase(gTexto.fLimpiaStringdeBlancosAAmbosLados(valMoneda))
+   vCodigoMoneda = "VED"
+   If gTexto.DfLen(vMoneda) > 0 Then
+      Select Case vMoneda
+         Case "BOLIVAR", "BOLÍVAR", "BOLIVARES", "VED", "BS":
+            vCodigoMoneda = "VED"
+         Case "DOLARES", "DOLAR", "DOLAR EEUU", "DÓLAR", "DÓLARES", "USD", "DOLARES AMERICANOS", "DÓLARES AMERICANOS", "DÓLAR AMERICANO":
+            vCodigoMoneda = "USD"
+         Case "EURO", "EUROS", "€", "EUR":
+            vCodigoMoneda = "EUR"
+         Case "PESOS", "PESO COLIMBIANO", "PESO", "PESOS COLIMBIANOS", "PESOS COLIMBIANO", "PESO COLIMBIANOS", "COP"
+            vCodigoMoneda = "COP"
+         Case "SOL", "SOLES", "NUEVOS SOLES", "NUEVO SOL", "NUEVO SOLES", "NUEVO SOLES", "PEN"
+            vCodigoMoneda = "PEN"
       End Select
+   End If
 h_EXIT:
    On Error GoTo 0
-      fValidaMonedaDeCobro = vCodigoMoneda
+   fValidaMonedaDeCobro = vCodigoMoneda
    Exit Function
 h_ERROR:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
