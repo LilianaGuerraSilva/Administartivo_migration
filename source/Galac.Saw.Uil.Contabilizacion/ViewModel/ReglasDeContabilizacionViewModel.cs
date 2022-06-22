@@ -5420,8 +5420,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             if(TabImpuestosALasTransaccionesFinancierasVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaDebitoBancarioGasto);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaDebitoBancarioBancos);
-                vResult = vResult || LibString.IsNullOrEmpty(CuentaCreditoBancarioGasto);
-                vResult = vResult || LibString.IsNullOrEmpty(CuentaCreditoBancarioBancos);
+                //vResult = vResult || LibString.IsNullOrEmpty(CuentaCreditoBancarioBancos);
             }
             if(TabCajaChicaVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCajaChicaGasto);
@@ -5442,6 +5441,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionCxCClientes);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionDescuentos);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionCargos);
+            vResult = vResult || LibString.IsNullOrEmpty(CuentaCreditoBancarioGasto);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionMontoTotalFactura);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaPagosCxPProveedores);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaPagosBanco);

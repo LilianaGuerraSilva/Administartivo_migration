@@ -586,7 +586,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
             string vVacio = "";
             bool vResult = false;
-            try {
+            try {                
                 AbrirConexion();
                 CancelarDocumentoFiscalEnImpresion(false);
                 if (AbrirComprobanteFiscal(vRazonSocial, vRif, vDireccion)) {
@@ -692,7 +692,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vTotalPagosML = LibImpresoraFiscalUtil.TotalMediosDePago(valDocumentoFiscal.Descendants("GpResultDetailRenglonCobro"), vCodigoMoneda, false);
                 if (vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI && LibConvert.ToLong(vVersionFirmware) >= LibConvert.ToLong(_FirmWareVerBM4000IGTF)) {
                     if (vTotalPagosME > 0) {
-                        vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vTotalPagosME), _EnterosMontosLargos, _Decimales2Digitos, ",");
+                        vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vTotalPagosME, 2), _EnterosMontosLargos, _Decimales2Digitos, ",");
                         vResult = Bematech_FI_IniciaCierreCuponIGTF(vTotalPagosMEConFormato);
                         vResult = Bematech_FI_EfectuaFormaPagoDescripcionForma("Divisas", vTotalPagosMEConFormato, "");
                     } else {
@@ -701,7 +701,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     Seguir = EnviarPagos(valDocumentoFiscal, vCodigoMoneda);
                 } else {
                     vResult = Bematech_FI_IniciaCierreCupon(AplicaDescuento, TipoDescuento, valDescuentoTotal);
-                    vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibConvert.ToStr(vTotalPagosME), _EnterosMontosLargos, _Decimales2Digitos, ",");
+                    vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vTotalPagosME, 2), _EnterosMontosLargos, _Decimales2Digitos, ",");
                     if (vTotalPagosML < vTotalPagosME) {
                         Seguir = EnviarPagos(valDocumentoFiscal, vCodigoMoneda);
                         vResult = Bematech_FI_EfectuaFormaPagoDescripcionForma("Divisas", vTotalPagosMEConFormato, "");

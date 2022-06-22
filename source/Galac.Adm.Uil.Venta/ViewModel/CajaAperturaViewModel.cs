@@ -44,8 +44,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 
         private FkCajaViewModel _ConexionNombreCaja = null;
-        private FkGUserViewModel _ConexionNombreDelUsuario = null;
-        bool _UsaMaquinaFiscal;
+        private FkGUserViewModel _ConexionNombreDelUsuario = null;        
         ICajaAperturaPdn insCajaApertura;
         bool _CajaCerrada = false;
         bool _UsuarioNoAsignado = false;
@@ -557,18 +556,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vSePuede = false;
             try {
                 vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
-                if(vSePuede) {
-                    if(insCajaApertura.CerrarCaja(Model)) {
-                        if(_UsaMaquinaFiscal) {
-                            ImprimirCierreX();
+                if (vSePuede) {
+                    if (insCajaApertura != null && insCajaApertura.CerrarCaja(Model)) {
+                        if (ConexionNombreCaja == null) {
+                            LibMessages.MessageBox.Information(this, "La caja no pudo ser cerrada", "");
+                        } else {
+                            if (ConexionNombreCaja.UsaMaquinaFiscal) {
+                                ImprimirCierreX();
+                            }
+                            LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
+                            RaiseRequestCloseEvent();
                         }
-                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
-                        RaiseRequestCloseEvent();
                     } else {
                         LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " no pudo ser cerrada", "");
                     }
                 }
-            } catch(Exception vEx) {
+            } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -602,8 +605,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ConexionNombreCaja = ChooseRecord<FkCajaViewModel>("Caja", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if(ConexionNombreCaja != null) {
                     ConsecutivoCaja = ConexionNombreCaja.Consecutivo;
-                    NombreCaja = ConexionNombreCaja.NombreCaja;
-                    if(Action == eAccionSR.Modificar || Action == eAccionSR.Insertar) {
+                    NombreCaja = ConexionNombreCaja.NombreCaja;                    
+                    if (Action == eAccionSR.Modificar || Action == eAccionSR.Insertar) {
                         _CajaCerrada = insCajaApertura.GetCajaCerrada(ConsecutivoCompania, ConsecutivoCaja, false);
                         TotalesPorCierreDeCaja();
                     }
@@ -690,8 +693,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja", LibSearchCriteria.CreateCriteria("NombreCaja", NombreCaja));
-            _UsaMaquinaFiscal = ConexionNombreCaja.UsaMaquinaFiscal;
+            ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja", LibSearchCriteria.CreateCriteria("NombreCaja", NombreCaja));            
             ConexionNombreDelUsuario = FirstConnectionRecordOrDefault<FkGUserViewModel>("Usuario", LibSearchCriteria.CreateCriteria("UserName", NombreDelUsuario));
         }
 

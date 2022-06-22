@@ -594,15 +594,16 @@ namespace Galac.Adm.Brl.GestionCompras {
             decimal vCostoMonedaExtranjera = 0;
             decimal vCostoMonedaLocal = 0;
             XElement vData = new XElement("GpData");
+            bool vUsaMonedaExtranejera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
             foreach (CompraDetalleArticuloInventario item in valRecord.DetailCompraDetalleArticuloInventario) {
                 vCostoUnitarioMasGasto = item.CostoUnitario;
                 if (valRecord.CodigoMoneda == LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania")) {
                     vCostoMonedaLocal = item.CostoUnitario;
-                    vCostoMonedaExtranjera = LibMath.RoundToNDecimals(item.CostoUnitario / valRecord.CambioCostoUltimaCompra, 2);
+                    vCostoMonedaExtranjera = vUsaMonedaExtranejera ? LibMath.RoundToNDecimals(item.CostoUnitario / valRecord.CambioCostoUltimaCompra, 2) : 0;
                 } else {
                     vCostoMonedaLocal = LibMath.RoundToNDecimals(item.CostoUnitario * valRecord.CambioABolivares, 2);
                     vCostoMonedaExtranjera = item.CostoUnitario;
-                }                
+                }
                 vData.Add(new XElement("GpResult",
                     new XElement("CodigoArticulo", item.CodigoArticulo),
                     new XElement("CostoMonedaLocal", vCostoMonedaLocal),

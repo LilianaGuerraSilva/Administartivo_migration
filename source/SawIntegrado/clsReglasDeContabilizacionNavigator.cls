@@ -3468,9 +3468,9 @@ Private Function fLasCuentasDeMovBancarioEstanCompletas() As Boolean
    If (gProyParametrosCompania.GetManejaDebitoBancario) Then
       EstanCompletas = EstanCompletas And fLasCuentasDeDebitoBancarioEstanCompletas()
    End If
-   If (gProyParametrosCompania.GetManejaCreditoBancario) Then
-      EstanCompletas = EstanCompletas And fLasCuentasDeCreditoBancarioEstanCompletas()
-   End If
+   'If (gProyParametrosCompania.GetManejaCreditoBancario) Then
+   '   EstanCompletas = EstanCompletas And fLasCuentasDeCreditoBancarioEstanCompletas()
+   'End If
 h_EXIT:
    fLasCuentasDeMovBancarioEstanCompletas = EstanCompletas
    On Error GoTo 0
