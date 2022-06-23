@@ -27,6 +27,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public const string VersionDeControladoresDescriptionPropertyName = "VersionDeControladoresDescription";
         public const string AlicuotasRegistradasPropertyName = "AlicuotasRegistradas";
         public const string AlicoutasRegistradasDescriptionPropertyName = "AlicuotasRegistradasDescription";
+        public const string ConfiguracionImpresoraPropertyName = "ConfiguracionImpresora";
+        public const string ConfiguracionImpresoraDescriptionPropertyName = "ConfiguracionImpresoraDescription";
         public const string FechaYHoraPropertyName = "FechaYHora";
         public const string FechaYHoraDescriptionPropertyName = "FechaYHoraDescription";
         public const string ColaDeImpresionPropertyName = "ColaDeImpresion";
@@ -46,9 +48,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string _EstatusDeComunicacion;
         string _VersionDeControladores;
         string _AlicuotasRegistradas;
+        string _ConfiguracionImpresora;
         string _EstatusDeComunicacionDescription;
         string _VersionDeControladoresDescription;
         string _AlicoutasRegistradasDescription;
+        string _ConfiguracionImpresoraDescription;
         string _FechaYHora;
         string _FechaYHoraDescription;
         string _ColaDeImpresion;
@@ -176,6 +180,31 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string ConfiguracionImpresora {
+            get {
+                return _ConfiguracionImpresora;
+            }
+            set {
+                if(_ConfiguracionImpresora != value) {
+                    _ConfiguracionImpresora = value;
+                    RaisePropertyChanged(ConfiguracionImpresoraPropertyName);
+                    RaisePropertyChanged(ColorStatusAlicuotasRegistradasPropertyName);
+                }
+            }
+        }
+
+        public string ConfiguracionImpresoraDescription {
+            get {
+                return _ConfiguracionImpresoraDescription;
+            }
+            set {
+                if(_ConfiguracionImpresoraDescription != value) {
+                    _ConfiguracionImpresoraDescription = value;
+                    RaisePropertyChanged(ConfiguracionImpresoraDescriptionPropertyName);
+                }
+            }
+        }
+
         public string FechaYHora {
             get {
                 return _FechaYHora;
@@ -295,6 +324,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public bool IsVisibleConfiguracionImpresora {
+            get {
+                return _FamImprFiscal == eFamiliaImpresoraFiscal.THEFACTORY;
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public CajaDiagnosticoViewModel(IImpresoraFiscalPdn valImpresoraFiscal,eFamiliaImpresoraFiscal valFamImprFiscal)
@@ -369,6 +404,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             AlicuotasRegistradas = (_Diagnostico.AlicuotasRegistradas ? statusIsGood : statusIsBad);
             ColorStatusAlicuotasRegistradas = SetStatusColor(_Diagnostico.AlicuotasRegistradas);
             AlicuotasRegistradasDescription = _Diagnostico.AlicoutasRegistradasDescription;
+            ConfiguracionImpresora = _Diagnostico.ConfiguracionImpresora;
+            ConfiguracionImpresoraDescription = _Diagnostico.ConfiguracionImpresoraDescription;
             VersionDeControladores = (_Diagnostico.VersionDeControladores ? statusIsGood : statusIsBad);
             ColorStatusVersionDeControladores = SetStatusColor(_Diagnostico.VersionDeControladores);
             VersionDeControladoresDescription = _Diagnostico.VersionDeControladoresDescription;
@@ -378,12 +415,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return (valStatus ? "Green" : "Red");
         }
 
-
         private void EjecutarDiagnosticoTask() {
             ShowProgress = true;
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             Task IfDiagnosticoTask = Task.Factory.StartNew(() => {
-                _Diagnostico = _ImpresoraFiscal.RealizarDiagnotsico(true);
+                _Diagnostico = _ImpresoraFiscal.RealizarDiagnostico(true);
                 RefreshProperties();
             });
             IfDiagnosticoTask.ContinueWith((t) => {

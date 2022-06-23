@@ -26,6 +26,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -36,6 +37,30 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <GroupBox 
+                Name="gbConfiguracionImpresora"
+                Header="Configuración de la Impresora"
+                Grid.Row="0"
+                Grid.Column="4"
+                Grid.RowSpan="5"
+                Style="{StaticResource GroupBoxStyle}"
+                Visibility="{Binding Path=IsVisibleConfiguracionImpresora, Converter={StaticResource booleanToVisibilityConverter}}">
+                <nsWpfControls:GSTextBoxWpf
+                    Name="txtConfiguracionImpresora"
+                    Width="265"
+                    Height="260"
+                    HorizontalContentAlignment="Stretch"
+                    nsWpf:LibFocusManager.FocusedPropertyName="ConfiguracionImpresora"
+                    nsWpf:LibFocusManager.IsFocused="True"
+                    BorderThickness="1"
+                    InputDataType="Alfanumeric"
+                    IsReadOnly="True"
+                    MaxLength="250"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Text="{Binding Path=ConfiguracionImpresoraDescription, NotifyOnValidationError=True, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto" />
+            </GroupBox>
             <Label
                 Name="lblEstatusDeComunicacion"
                 Grid.Row="0"
@@ -113,7 +138,7 @@
                 Grid.Row="2"
                 Grid.Column="0"
                 VerticalAlignment="Center"
-                Content="Documentos En Cola"
+                Content="Documentos en Cola"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSTextBoxWpf
                 Name="txtEstatusDocPendiente"
@@ -202,7 +227,7 @@
                 Grid.Row="4"
                 Grid.Column="1"
                 Width="220"
-                Height="60"
+                Height="65"
                 HorizontalContentAlignment="Stretch"
                 BorderThickness="1"
                 InputDataType="Alfanumeric"

@@ -25,10 +25,11 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         string ObtenerFechaYHora();
         bool ReimprimirDocumentoNoFiscal(string valDesde,string valHasta);
         bool ReimprimirDocumentoFiscal(string valDesde,string valHasta,string valTipo);
-        IFDiagnostico RealizarDiagnotsico(bool valAbrirPuerto = false);
+        IFDiagnostico RealizarDiagnostico(bool valAbrirPuerto = false);
         bool EstatusDeComunicacion(IFDiagnostico vDiagnostico);
         bool VersionDeControladores(IFDiagnostico vDiagnostico);
         bool AlicuotasRegistradas(IFDiagnostico vDiagnostico);
+        //string ConsultarConfiguracion(IFDiagnostico iFDiagnostico);
         bool FechaYHora(IFDiagnostico vDiagnostico);
         bool ColaDeImpresion(IFDiagnostico vDiagnostico);
     }

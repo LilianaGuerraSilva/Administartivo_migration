@@ -209,7 +209,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         public static string EstatusDeComunicacionDescription(bool valStatus) {
-            return valStatus ? "Correcto, en espera" : "No se pudo establecer comunicación, verifícar puertos y cableados";
+            return valStatus ? "Correcto, en espera" : "No se pudo establecer comunicación, verificar puertos y cableados";
         }
 
         public static string EstatusVersionDeControladorDescription(bool valStatus, bool valControllerIsSame, string valPath, string valOldVersion, string valNewVersion) {
@@ -217,7 +217,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 return valControllerIsSame ? "Controladores Actualizados" : $"Controladores No  Actualizados. Se encontró {valOldVersion}, se esperaba {valNewVersion} \r\nactualice el controlador en la ruta de instalación " + valPath;
 
             } else {
-                return "Controlador no encontrado, actualice el controaldor en la ruta de instalación";
+                return "Controlador no encontrado, actualice el controlador en la ruta de instalación";
             }
 
         }
@@ -229,7 +229,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public static string EstatusColadeImpresionDescription(bool valStatus) {
             return valStatus ? "Listo, En espera" : "Documento en cola\r\noperación fiscal sin completar, debe cancelar el documento fiscal en la opción disponible en el menú";
         }
-
 
         public static bool ValidarAlicuotasRegistradas(decimal valAlicuota1, decimal valAlicuota2, decimal valAlicuota3, ref string refAlicoutasRegistradasDescription) {
             bool vResult = false;
@@ -295,5 +294,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 throw;
             }
         }
+
     }
 }

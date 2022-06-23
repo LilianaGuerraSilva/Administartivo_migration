@@ -17,6 +17,10 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
 
         public string AlicoutasRegistradasDescription { get; set; }
 
+        public string ConfiguracionImpresora { get; set; }
+
+        public string ConfiguracionImpresoraDescription { get; set; }
+
         public bool FechaYHora { get; set; }
 
         public string FechaYHoraDescription { get; set; }
@@ -37,6 +41,8 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
             VersionDeControladoresDescription = string.Empty;
             AlicuotasRegistradas = false;
             AlicoutasRegistradasDescription = string.Empty;
+            ConfiguracionImpresora = string.Empty;
+            ConfiguracionImpresoraDescription = string.Empty;
             FechaYHora = false;
             FechaYHoraDescription = string.Empty;
             ColaDeImpresion = false;
@@ -47,6 +53,8 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
             IFDiagnostico vResult = new IFDiagnostico();
             vResult.AlicoutasRegistradasDescription = AlicoutasRegistradasDescription;
             vResult.AlicuotasRegistradas = AlicuotasRegistradas;
+            vResult.ConfiguracionImpresoraDescription = ConfiguracionImpresoraDescription;
+            vResult.ConfiguracionImpresora = ConfiguracionImpresora;
             vResult.ColaDeImpresioDescription = ColaDeImpresioDescription;
             vResult.ColaDeImpresion = ColaDeImpresion;
             vResult.EstatusDeComunicacion = EstatusDeComunicacion;
@@ -59,11 +67,12 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         }
 
         public override string ToString() {
-            return "AlicuotasRegistradas =" + AlicuotasRegistradas +
-                "\nColaDeImpresión = " + ColaDeImpresion +
-                "\nFechaYHora = " + FechaYHora +
-                "\nEstatusDeComunicación = " + EstatusDeComunicacion +
-                "\nVersionDeControladores = " + VersionDeControladores;
+            return  "AlicuotasRegistradas ="        + AlicuotasRegistradas +
+                    "\nConfiguracionImpresora = "   + ConfiguracionImpresora +
+                    "\nColaDeImpresión = "          + ColaDeImpresion +
+                    "\nFechaYHora = "               + FechaYHora +
+                    "\nEstatusDeComunicación = "    + EstatusDeComunicacion +
+                    "\nVersionDeControladores = "   + VersionDeControladores;
         }
     }
 }
