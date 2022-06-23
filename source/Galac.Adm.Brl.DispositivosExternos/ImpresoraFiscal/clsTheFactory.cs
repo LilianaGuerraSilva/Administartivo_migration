@@ -1102,8 +1102,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             AlicuotaAdicional = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax3), 2);
             vResult = LibImpresoraFiscalUtil.ValidarAlicuotasRegistradas(AlicuotaGeneral, AlicuotaReducida, AlicuotaAdicional, ref vAlicoutasRegistradasDescription);
             vDiagnostico.AlicoutasRegistradasDescription = vAlicoutasRegistradasDescription + ":" + Environment.NewLine;
-            vDiagnostico.AlicoutasRegistradasDescription += "Reducida:   " + LibConvert.NumToString(AlicuotaReducida,       2)  + "%" + Environment.NewLine +
-                                                            "General:    " + LibConvert.NumToString(AlicuotaGeneral, 2)         + "%" + Environment.NewLine +
+            vDiagnostico.AlicoutasRegistradasDescription += "Reducida:   " + LibConvert.NumToString(AlicuotaReducida,        2) + "%" + Environment.NewLine +
+                                                            "General:    " + LibConvert.NumToString(AlicuotaGeneral,         2) + "%" + Environment.NewLine +
                                                             "Adicional: "  + LibConvert.NumToString(AlicuotaAdicional,       2) + "%";
             return vResult;
         }
