@@ -211,24 +211,23 @@ namespace Galac.Adm.Uil.Venta.Views {
         }
 
         void dFacturaRapidaDetalle_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) {
-            if (!LibSecurityManager.CurrentUserHasAccessTo("Punto de Venta", "Modificar Precio del Item")) {
+            if(!LibSecurityManager.CurrentUserHasAccessTo("Punto de Venta", "Modificar Precio del Item")) {
                 int vIndexColumPrecio = 3;
-                if (e.Column.DisplayIndex == vIndexColumPrecio) {
+                if(e.Column.DisplayIndex == vIndexColumPrecio) {
                     LibGalac.Aos.Uil.Usal.GUserLogin vGUserLogin = new LibGalac.Aos.Uil.Usal.GUserLogin();
                     List<CustomRole> vListRoles = new List<CustomRole>();
                     vListRoles.Add(new CustomRole("Punto de Venta", "Modificar Precio del Item"));
-                    if (!vGUserLogin.RequestCredential("Modificar Precio del Item", true, vListRoles) || !LibSecurityManager.CurrentUserIsSuperviser()) {                                            
+                    if(!vGUserLogin.RequestCredential("Modificar Precio del Item", true, vListRoles)) {
                         LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Usuario o Clave no válido.", "Información");
                         e.Cancel = true;
                     }
                 }
             }
-            if (!LibSecurityManager.CurrentUserHasAccessTo("Punto de Venta", "Modificar Descripción del Item")) {
+            if(!LibSecurityManager.CurrentUserHasAccessTo("Punto de Venta", "Modificar Descripción del Item")) {
                 int vIndexColumnDescripcion = 1;
-                if (e.Column.DisplayIndex == vIndexColumnDescripcion) {
+                if(e.Column.DisplayIndex == vIndexColumnDescripcion) {
                     e.Cancel = true;
                 }
-                
             }
         }
 
