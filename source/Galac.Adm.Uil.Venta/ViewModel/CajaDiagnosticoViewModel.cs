@@ -73,7 +73,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get { return "Diagnostico Maquina Fiscal"; }
         }
 
-
         public RelayCommand DiagnosticoCommand {
             get;
             private set;
@@ -461,7 +460,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipTitle = "Iniciar Diagnóstico"
             };
         }
-        #endregion //Metodos Generados
+
         XElement BuildImpresoraFiscalData(eImpresoraFiscal vImpresoraFiscal,ePuerto ePuerto) {
             string vPuerto = SerialPortFormat(ePuerto);
             XElement vResult = new XElement("GpData",new XElement("GpResult",
@@ -474,6 +473,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string SerialPortFormat(ePuerto ePuerto) {
             return Regex.Replace(ePuerto.GetDescription(),"[A-Z-az]","",RegexOptions.Compiled);
         }
+        #endregion //Metodos Generados
 
     } //End of class CajaDiagnosticoViewModel
 
