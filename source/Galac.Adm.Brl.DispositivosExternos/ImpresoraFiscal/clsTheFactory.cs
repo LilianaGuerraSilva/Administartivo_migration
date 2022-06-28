@@ -56,8 +56,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         bool _PortIsOpen;
         int _MaxLongitudDeTexto = 0;
         bool _ObservacionesAlFinalDeLaFactura;
+        string _ConfiguracionDetalleFactura;
         #endregion
 
+        #region Propiedades
         public clsTheFactory(XElement valXmlDatosImpresora) {
             _TfhkPrinter = new Tfhka();
             _LineaTextoAdicional = 0;
@@ -66,6 +68,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     "Z1B"
                 };
             _ObservacionesAlFinalDeLaFactura = LibConvert.SNToBool(LibAppSettings.ReadAppSettingsKey("OBSERVACIONESALFINALDELAFACTURA"));
+            _ConfiguracionDetalleFactura = LibAppSettings.ReadAppSettingsKey("CONFIGURACIONDETALLEFACTURA");
         }
 
         private void ConfigurarImpresora(XElement valXmlDatosImpresora) {
@@ -573,7 +576,18 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vPrcDescuento = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vPrcDescuento, _EnterosParaDescuento, _DecimalesParaDescuento);
                     vSerial = LibXml.GetElementValueOrEmpty(vXElement, "Serial");
                     vRollo = LibXml.GetElementValueOrEmpty(vXElement, "Rollo");
-                    vDescripcion = "|" + vCodigo + "|" + vDescripcion;
+                    switch (_ConfiguracionDetalleFactura) {
+                        case "CODIGO":
+                            vDescripcion = vCodigo;
+                            break;
+                        case "DESCRIPCION":
+                            break;
+                        case "CODIGOYDESCRIPCION":
+                            vDescripcion = "|" + vCodigo + "|" + vDescripcion;
+                            break;
+                        default:
+                            break;
+                    }
                     if (valIsNotaDeCredito) {
                         vTipoTasa = DarFormatoAAlicuotaIvaNC((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
                     } else {
@@ -1151,6 +1165,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             throw new NotImplementedException();
         }
+        #endregion //Propiedades
     }
 }
-
