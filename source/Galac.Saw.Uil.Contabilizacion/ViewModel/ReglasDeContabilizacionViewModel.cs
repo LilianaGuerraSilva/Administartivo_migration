@@ -156,6 +156,14 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string CuentaRendicionesBancoPropertyName = "CuentaRendicionesBanco";
         public const string CuentaRendicionesAnticiposPropertyName = "CuentaRendicionesAnticipos";
         public const string SiglasTipoComprobanteRendicionesPropertyName = "SiglasTipoComprobanteRendiciones";
+        public const string ContabIndividualTransfCtasPropertyName = "ContabIndividualTransfCtas";
+        public const string TipoContabilizacionTransfCtasPropertyName = "TipoContabilizacionTransfCtas";
+        public const string CuentaTransfCtasBancoDestinoPropertyName = "CuentaTransfCtasBancoDestino";
+        public const string CuentaTransfCtasGastoComOrigenPropertyName = "CuentaTransfCtasGastoComOrigen";
+        public const string CuentaTransfCtasGastoComDestinoPropertyName = "CuentaTransfCtasGastoComDestino";
+        public const string CuentaTransfCtasBancoOrigenPropertyName = "CuentaTransfCtasBancoOrigen";
+        public const string TransfCtasSigasTipoComprobantePropertyName = "TransfCtasSigasTipoComprobante";
+        public const string EditarComprobanteAfterInsertTransfCtasPropertyName = "EditarComprobanteAfterInsertTransfCtas";
         public const string NombreOperadorPropertyName = "NombreOperador";
         public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         public const string IsEnabledAgruparPorCuentaDeArticuloPropertyName = "IsEnabledAgruparPorCuentaDeArticulo";
@@ -233,6 +241,11 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         private FkCuentaViewModel _ConexionCuentaRendicionesBanco = null;
         private FkCuentaViewModel _ConexionCuentaRendicionesAnticipos = null;
         private FkTipoDeComprobanteViewModel _ConexionSiglasTipoComprobanteRendiciones = null;
+        private FkCuentaViewModel _ConexionCuentaTransfCtasBancoDestino = null;
+        private FkCuentaViewModel _ConexionCuentaTransfCtasGastoComOrigen = null;
+        private FkCuentaViewModel _ConexionCuentaTransfCtasGastoComDestino = null;
+        private FkCuentaViewModel _ConexionCuentaTransfCtasBancoOrigen = null;
+        private FkTipoDeComprobanteViewModel _ConexionTransfCtasSigasTipoComprobante = null;
         #endregion //Variables
         #region Propiedades
 
@@ -2016,6 +2029,127 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
+        public eContabilizacionIndividual  ContabIndividualTransfCtas {
+            get {
+                return eContabilizacionIndividual.Pospuesta;
+            }
+            set {
+                if (Model.ContabIndividualTransfCtasAsEnum != value) {
+                    Model.ContabIndividualTransfCtasAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ContabIndividualTransfCtasPropertyName);
+                }
+            }
+        }
+        public eTipoDeContabilizacion  TipoContabilizacionTransfCtas {
+            get {
+                return Model.TipoContabilizacionTransfCtasAsEnum;
+            }
+            set {
+                if (Model.TipoContabilizacionTransfCtasAsEnum != value) {
+                    Model.TipoContabilizacionTransfCtasAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(TipoContabilizacionTransfCtasPropertyName);
+                }
+            }
+        }
+        public eContabilizacionPorLote  ContabPorLoteTransfCtas {
+            get {
+                return Model.ContabPorLoteTransfCtasAsEnum;
+            }
+            set {
+                if (Model.ContabPorLoteTransfCtasAsEnum != value) {
+                    Model.ContabPorLoteTransfCtasAsEnum = value;
+                }
+            }
+        }
+        public string  CuentaTransfCtasBancoDestino {
+            get {
+                return Model.CuentaTransfCtasBancoDestino;
+            }
+            set {
+                if (Model.CuentaTransfCtasBancoDestino != value) {
+                    Model.CuentaTransfCtasBancoDestino = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CuentaTransfCtasBancoDestinoPropertyName);
+                    if (LibString.IsNullOrEmpty(CuentaTransfCtasBancoDestino, true)) {
+                        ConexionCuentaTransfCtasBancoDestino = null;
+                    }
+                }
+            }
+        }
+        public string  CuentaTransfCtasGastoComOrigen {
+            get {
+                return Model.CuentaTransfCtasGastoComOrigen;
+            }
+            set {
+                if (Model.CuentaTransfCtasGastoComOrigen != value) {
+                    Model.CuentaTransfCtasGastoComOrigen = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CuentaTransfCtasGastoComOrigenPropertyName);
+                    if (LibString.IsNullOrEmpty(CuentaTransfCtasGastoComOrigen, true)) {
+                        ConexionCuentaTransfCtasGastoComOrigen = null;
+                    }
+                }
+            }
+        }
+        public string  CuentaTransfCtasGastoComDestino {
+            get {
+                return Model.CuentaTransfCtasGastoComDestino;
+            }
+            set {
+                if (Model.CuentaTransfCtasGastoComDestino != value) {
+                    Model.CuentaTransfCtasGastoComDestino = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CuentaTransfCtasGastoComDestinoPropertyName);
+                    if (LibString.IsNullOrEmpty(CuentaTransfCtasGastoComDestino, true)) {
+                        ConexionCuentaTransfCtasGastoComDestino = null;
+                    }
+                }
+            }
+        }
+        public string  CuentaTransfCtasBancoOrigen {
+            get {
+                return Model.CuentaTransfCtasBancoOrigen;
+            }
+            set {
+                if (Model.CuentaTransfCtasBancoOrigen != value) {
+                    Model.CuentaTransfCtasBancoOrigen = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CuentaTransfCtasBancoOrigenPropertyName);
+                    if (LibString.IsNullOrEmpty(CuentaTransfCtasBancoOrigen, true)) {
+                        ConexionCuentaTransfCtasBancoOrigen = null;
+                    }
+                }
+            }
+        }
+        public string  TransfCtasSigasTipoComprobante {
+            get {
+                return Model.TransfCtasSigasTipoComprobante;
+            }
+            set {
+                if (Model.TransfCtasSigasTipoComprobante != value) {
+                    Model.TransfCtasSigasTipoComprobante = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(TransfCtasSigasTipoComprobantePropertyName);
+                    if (LibString.IsNullOrEmpty(TransfCtasSigasTipoComprobante, true)) {
+                        ConexionTransfCtasSigasTipoComprobante = null;
+                    }
+                }
+            }
+        }
+        public bool  EditarComprobanteAfterInsertTransfCtas {
+            get {
+                return Model.EditarComprobanteAfterInsertTransfCtasAsBool;
+            }
+            set {
+                if (Model.EditarComprobanteAfterInsertTransfCtasAsBool != value) {
+                    Model.EditarComprobanteAfterInsertTransfCtasAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(EditarComprobanteAfterInsertTransfCtasPropertyName);
+                }
+            }
+        }
         public string NombreOperador {
             get {
                 return Model.NombreOperador;
@@ -3489,6 +3623,102 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 }
             }
         }
+		public FkCuentaViewModel ConexionCuentaTransfCtasBancoDestino {
+            get {
+                return _ConexionCuentaTransfCtasBancoDestino;
+            }
+            set {
+                if (_ConexionCuentaTransfCtasBancoDestino != value) {
+                    _ConexionCuentaTransfCtasBancoDestino = value;
+                    if (ConexionCuentaTransfCtasBancoDestino != null) {
+                        CuentaTransfCtasBancoDestino = ConexionCuentaTransfCtasBancoDestino.Codigo;
+                        CuentaTransfCtasBancoDestinoDescripcion = ConexionCuentaTransfCtasBancoDestino.Descripcion;
+                    }
+                    RaisePropertyChanged(CuentaTransfCtasBancoDestinoPropertyName);
+                    RaisePropertyChanged(CuentaTransfCtasBancoDestinoDescripcionPropertyName);
+                }
+                if (_ConexionCuentaTransfCtasBancoDestino == null) {
+                    CuentaTransfCtasBancoDestino = string.Empty;
+                    CuentaTransfCtasBancoDestinoDescripcion = string.Empty;
+                    CuentaTransfCtasBancoDestinoDescripcion = ConexionCuentaTransfCtasBancoDestino.Descripcion;
+                }
+            }
+        }
+        public FkCuentaViewModel ConexionCuentaTransfCtasGastoComOrigen {
+            get {
+                return _ConexionCuentaTransfCtasGastoComOrigen;
+            }
+            set {
+                if (_ConexionCuentaTransfCtasGastoComOrigen != value) {
+                    _ConexionCuentaTransfCtasGastoComOrigen = value;
+                    if (ConexionCuentaTransfCtasGastoComOrigen != null) {
+                        CuentaTransfCtasGastoComOrigen = ConexionCuentaTransfCtasGastoComOrigen.Codigo;
+                        CuentaTransfCtasGastoComOrigenDescripcion = ConexionCuentaTransfCtasGastoComOrigen.Descripcion;
+                    }
+                    RaisePropertyChanged(CuentaTransfCtasGastoComOrigenPropertyName);
+                    RaisePropertyChanged(CuentaTransfCtasGastoComOrigenDescripcionPropertyName);
+                }
+                if (_ConexionCuentaTransfCtasGastoComOrigen == null) {
+                    CuentaTransfCtasGastoComOrigen = string.Empty;
+                    CuentaTransfCtasGastoComOrigenDescripcion = string.Empty;
+                    CuentaTransfCtasGastoComOrigenDescripcion = ConexionCuentaTransfCtasGastoComOrigen.Descripcion;
+                }
+            }
+        }
+        public FkCuentaViewModel ConexionCuentaTransfCtasGastoComDestino {
+            get {
+                return _ConexionCuentaTransfCtasGastoComDestino;
+            }
+            set {
+                if (_ConexionCuentaTransfCtasGastoComDestino != value) {
+                    _ConexionCuentaTransfCtasGastoComDestino = value;
+                    if (ConexionCuentaTransfCtasGastoComDestino != null) {
+                        CuentaTransfCtasGastoComDestino = ConexionCuentaTransfCtasGastoComDestino.Codigo;
+                        CuentaTransfCtasGastoComDestinoDescripcion = ConexionCuentaTransfCtasGastoComDestino.Descripcion;
+                    }
+                    RaisePropertyChanged(CuentaTransfCtasGastoComDestinoPropertyName);
+                    RaisePropertyChanged(CuentaTransfCtasGastoComDestinoDescripcionPropertyName);
+                }
+                if (_ConexionCuentaTransfCtasGastoComDestino == null) {
+                    CuentaTransfCtasGastoComDestino = string.Empty;
+                    CuentaTransfCtasGastoComDestinoDescripcion = string.Empty;
+                    CuentaTransfCtasGastoComDestinoDescripcion = ConexionCuentaTransfCtasGastoComDestino.Descripcion;
+                }
+            }
+        }
+        public FkCuentaViewModel ConexionCuentaTransfCtasBancoOrigen {
+            get {
+                return _ConexionCuentaTransfCtasBancoOrigen;
+            }
+            set {
+                if (_ConexionCuentaTransfCtasBancoOrigen != value) {
+                    _ConexionCuentaTransfCtasBancoOrigen = value;
+                    CuentaTransfCtasBancoOrigen = ConexionCuentaTransfCtasBancoOrigen.Codigo;
+                    CuentaTransfCtasBancoOrigenDescripcion = ConexionCuentaTransfCtasBancoOrigen.Descripcion;
+                }
+                RaisePropertyChanged(CuentaTransfCtasBancoOrigenPropertyName);
+                RaisePropertyChanged(CuentaTransfCtasBancoOrigenDescripcionPropertyName);
+                if (_ConexionCuentaTransfCtasBancoOrigen == null) {
+                    CuentaTransfCtasBancoOrigen = string.Empty;
+                    CuentaTransfCtasBancoOrigenDescripcion = string.Empty;
+                    CuentaTransfCtasBancoOrigenDescripcion = ConexionCuentaTransfCtasBancoOrigen.Descripcion;
+                }
+            }
+        }
+        public FkTipoDeComprobanteViewModel ConexionTransfCtasSigasTipoComprobante {
+            get {
+                return _ConexionTransfCtasSigasTipoComprobante;
+            }
+            set {
+                if (_ConexionTransfCtasSigasTipoComprobante != value) {
+                    _ConexionTransfCtasSigasTipoComprobante = value;
+                    RaisePropertyChanged(TransfCtasSigasTipoComprobantePropertyName);
+                }
+                if (_ConexionTransfCtasSigasTipoComprobante == null) {
+                    TransfCtasSigasTipoComprobante = string.Empty;
+                }
+            }
+        }
 
         public RelayCommand<string> ChooseCuentaIva1CreditoCommand {
             get;
@@ -3826,6 +4056,26 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             get;
             private set;
         }
+        public RelayCommand<string> ChooseCuentaTransfCtasBancoDestinoCommand {
+            get;
+            private set;
+        }
+        public RelayCommand<string> ChooseCuentaTransfCtasGastoComOrigenCommand {
+            get;
+            private set;
+        }
+        public RelayCommand<string> ChooseCuentaTransfCtasGastoComDestinoCommand {
+            get;
+            private set;
+        }
+        public RelayCommand<string> ChooseCuentaTransfCtasBancoOrigenCommand {
+            get;
+            private set;
+        }
+        public RelayCommand<string> ChooseTransfCtasSigasTipoComprobanteCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
         public ReglasDeContabilizacionViewModel()
@@ -3935,6 +4185,81 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             ChooseCuentaRendicionesBancoCommand = new RelayCommand<string>(ExecuteChooseCuentaRendicionesBancoCommand);
             ChooseCuentaRendicionesAnticiposCommand = new RelayCommand<string>(ExecuteChooseCuentaRendicionesAnticiposCommand);
             ChooseSiglasTipoComprobanteRendicionesCommand = new RelayCommand<string>(ExecuteChooseSiglasTipoComprobanteRendicionesCommand);
+            ChooseCuentaTransfCtasBancoDestinoCommand = new RelayCommand<string>(ExecuteChooseCuentaTransfCtasBancoDestinoCommand);
+            ChooseCuentaTransfCtasGastoComOrigenCommand = new RelayCommand<string>(ExecuteChooseCuentaTransfCtasGastoComOrigenCommand);
+            ChooseCuentaTransfCtasGastoComDestinoCommand = new RelayCommand<string>(ExecuteChooseCuentaTransfCtasGastoComDestinoCommand);
+            ChooseCuentaTransfCtasBancoOrigenCommand = new RelayCommand<string>(ExecuteChooseCuentaTransfCtasBancoOrigenCommand);
+            ChooseTransfCtasSigasTipoComprobanteCommand = new RelayCommand<string>(ExecuteChooseTransfCtasSigasTipoComprobanteCommand);
+        }
+        private void ExecuteChooseTransfCtasSigasTipoComprobanteCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = null;
+                ConexionTransfCtasSigasTipoComprobante = ChooseRecord<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaTransfCtasBancoOrigenCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaTransfCtasBancoOrigen = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaTransfCtasGastoComDestinoCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaTransfCtasGastoComDestino = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaTransfCtasGastoComOrigenCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaTransfCtasGastoComOrigen = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaTransfCtasBancoDestinoCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaTransfCtasBancoDestino = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
         }
 
         private void ReloadRelatedConnectionsGeneral() {
@@ -4124,6 +4449,18 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             if(!LibString.IsNullOrEmpty(SiglasTipoComprobanteRendiciones))
                 ConexionSiglasTipoComprobanteRendiciones = FirstConnectionRecordOrDefault<FkTipoDeComprobanteViewModel>("Tipo de Comprobante",LibSearchCriteria.CreateCriteria("Codigo",SiglasTipoComprobanteRendiciones));
         }
+		private void ReloadRelatedConnectionsTransfCtas() {
+            if(!LibString.IsNullOrEmpty(CuentaTransfCtasBancoDestino))
+                ConexionCuentaTransfCtasBancoDestino = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", SearchCriteriaConexionCuenta(CuentaTransfCtasBancoDestino));
+            if(!LibString.IsNullOrEmpty(CuentaTransfCtasGastoComOrigen))
+                ConexionCuentaTransfCtasGastoComOrigen = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", SearchCriteriaConexionCuenta(CuentaTransfCtasGastoComOrigen));
+            if(!LibString.IsNullOrEmpty(CuentaTransfCtasGastoComDestino))
+                ConexionCuentaTransfCtasGastoComDestino = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", SearchCriteriaConexionCuenta(CuentaTransfCtasGastoComDestino));
+            if(!LibString.IsNullOrEmpty(CuentaTransfCtasBancoOrigen))
+			    ConexionCuentaTransfCtasBancoOrigen = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", SearchCriteriaConexionCuenta(CuentaTransfCtasBancoOrigen));
+            if(!LibString.IsNullOrEmpty(TransfCtasSigasTipoComprobante))
+			    ConexionTransfCtasSigasTipoComprobante = FirstConnectionRecordOrDefault<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", LibSearchCriteria.CreateCriteria("Codigo", TransfCtasSigasTipoComprobante));
+        }
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
@@ -4141,6 +4478,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             ReloadRelatedConnectionsSolicitudPago();
             ReloadRelatedConnectionsCajaChica();
             ReloadRelatedConnectionsRendiciones();
+			ReloadRelatedConnectionsTransfCtas();
         }
 
         private void ExecuteChooseCuentaIva1CreditoCommand(string valCodigo) {
@@ -5265,6 +5603,10 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public string CuentaCobranzaCxCClientesDescripcion { get; set; }
         public string CuentaCxPProveedoresCajaChicaDescripcion { get; set; }
         public string CuentaDiferenciaCambiariaDescripcion { get; set; }
+        public string CuentaTransfCtasBancoDestinoDescripcion { get; set; }
+        public string CuentaTransfCtasBancoOrigenDescripcion { get; set; }
+        public string CuentaTransfCtasGastoComDestinoDescripcion { get; set; }
+        public string CuentaTransfCtasGastoComOrigenDescripcion { get; set; }
 
         public const string CuentaIva1DebitoDescripcionPropertyName = "CuentaIva1DebitoDescripcion";
         public const string CuentaIva1CreditoDescripcionPropertyName = "CuentaIva1CreditoDescripcion";
@@ -5319,6 +5661,10 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string CuentaCobranzaIvaDiferidoDescripcionPropertyName = "CuentaCobranzaIvaDiferidoDescripcion";
         public const string CuentaCobranzaCxCClientesDescripcionPropertyName = "CuentaCobranzaCxCClientesDescripcion";
         public const string CuentaCxPProveedoresCajaChicaDescripcionPropertyName = "CuentaCxPProveedoresCajaChicaDescripcion";
+        public const string CuentaTransfCtasBancoDestinoDescripcionPropertyName = "CuentaTransfCtasBancoDestinoDescripcion";
+        public const string CuentaTransfCtasBancoOrigenDescripcionPropertyName = "CuentaTransfCtasBancoOrigenDescripcion";
+        public const string CuentaTransfCtasGastoComDestinoDescripcionPropertyName = "CuentaTransfCtasGastoComDestinoDescripcion";
+        public const string CuentaTransfCtasGastoComOrigenDescripcionPropertyName = "CuentaTransfCtasGastoComOrigenDescripcion";
 
         private LibSearchCriteria SearchCriteriaConexionCuenta(string codigo) {
             LibSearchCriteria vSearchcriteria;
@@ -5561,6 +5907,11 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
+        public bool IsEnabledTransfCtasSigasTipoComprobante {
+            get {
+                return IsEnabled && LibString.IsNullOrEmpty(TransfCtasSigasTipoComprobante);
+            }
+        }
         private ValidationResult CuentaDiferenciaCambiariaValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {

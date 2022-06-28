@@ -404,6 +404,37 @@ namespace Galac.Adm.Dal.Banco {
 			insDb.Dispose();
 			return vResult;
 		}
+		public bool ExisteYEsActiva(int valConsecutivoCompania, string valCodigo) {
+			LibDatabase insDB = new LibDatabase();
+			LibGpParams dbParam = new LibGpParams();
+			dbParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+			dbParam.AddInString("Codigo", valCodigo, 5);
+			dbParam.AddInEnum("Status", (int) eStatusCtaBancaria.Activo);
+			bool vResult = insDB.ExistsRecord("Saw.CuentaBancaria", "ConsecutivoCompania", dbParam.Get());
+			insDB.Dispose();
+			return vResult;
+		}
+		public bool NoConfiguradaParaIGTF(int valConsecutivoCompania, string valCodigo, eIngresoEgreso valIngresoEgreso) {
+			LibDatabase insDB = new LibDatabase();
+			LibGpParams dbParam = new LibGpParams();
+			dbParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+			dbParam.AddInString("Codigo", valCodigo, 5);
+			dbParam.AddInBoolean("Maneja" + (valIngresoEgreso == eIngresoEgreso.Egreso ? "Debito" : "Credito") + "Bancario", true);
+			dbParam.AddInEnum("TipoDeAlicuotaPorContribuyente", (int) eTipoAlicPorContIGTF.NoAsignado);
+			bool vResult = insDB.ExistsRecord("Saw.CuentaBancaria", "ConsecutivoCompania", dbParam.Get());
+			insDB.Dispose();
+			return vResult;
+		}
+		public bool GeneraMovimientoDeITF(int valConsecutivoCompania, string valCodigo) {
+			LibDatabase insDB = new LibDatabase();
+			LibGpParams dbParam = new LibGpParams();
+			dbParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+			dbParam.AddInString("Codigo", valCodigo, 5);
+			dbParam.AddInBoolean("GeneraMovBancarioPorIGTF", true);
+			bool vResult = insDB.ExistsRecord("Saw.CuentaBancaria", "ConsecutivoCompania", dbParam.Get());
+			insDB.Dispose();
+			return vResult;
+		}
 		#endregion //Validaciones
 
 		#region Miembros de ILibDataFKSearch

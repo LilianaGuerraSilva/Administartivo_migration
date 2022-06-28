@@ -454,14 +454,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         
         }
 
-        void ChangeStatus()
-        {
-            if (Action == eAccionSR.Abrir )
-            {
+        void ChangeStatus(){
+            if (Action == eAccionSR.Abrir ){
                 Model.StatusCompraAsEnum = eStatusCompra.Vigente;
-            }
-            else
-            {
+            }else{
                 Model.StatusCompraAsEnum = eStatusCompra.Anulada ;
             }
         }
