@@ -85,6 +85,8 @@
     <Compile Include="clsCajasAperturadas.cs" />
     <Compile Include="clsCobranzasEntreFechas.cs" />
     <Compile Include="clsComisionDeVendedoresPorCobranzaMontoResumido.cs" />
+    <Compile Include="clsContratoEntreFechas.cs" />
+    <Compile Include="clsContratoPorNumero.cs" />
     <Compile Include="clsCuadreCajaCobroMultimonedaDetallado.cs" />
     <Compile Include="clsCuadreCajaConDetalleFormaPagoResumido.cs" />
     <Compile Include="clsCuadreCajaConDetalleFormaPago.cs" />
@@ -116,6 +118,18 @@
     </Compile>
     <Compile Include="dsrComisionDeVendedoresPorCobranzaMontoResumido.Designer.cs">
       <DependentUpon>dsrComisionDeVendedoresPorCobranzaMontoResumido.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrContratoEntreFechas.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrContratoEntreFechas.Designer.cs">
+      <DependentUpon>dsrContratoEntreFechas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsrContratoPorNumero.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrContratoPorNumero.Designer.cs">
+      <DependentUpon>dsrContratoPorNumero.cs</DependentUpon>
     </Compile>
     <Compile Include="dsrCuadreCajaCobroMultimonedaDetallado.cs">
       <SubType>Component</SubType>
@@ -230,6 +244,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="dsrComisionDeVendedoresPorCobranzaMontoResumido.resx">
       <DependentUpon>dsrComisionDeVendedoresPorCobranzaMontoResumido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrContratoEntreFechas.resx">
+      <DependentUpon>dsrContratoEntreFechas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dsrContratoPorNumero.resx">
+      <DependentUpon>dsrContratoPorNumero.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="dsrCuadreCajaCobroMultimonedaDetallado.resx">
       <DependentUpon>dsrCuadreCajaCobroMultimonedaDetallado.cs</DependentUpon>
