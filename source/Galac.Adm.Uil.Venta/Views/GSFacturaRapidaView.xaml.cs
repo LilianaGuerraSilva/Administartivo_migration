@@ -217,7 +217,7 @@ namespace Galac.Adm.Uil.Venta.Views {
                     LibGalac.Aos.Uil.Usal.GUserLogin vGUserLogin = new LibGalac.Aos.Uil.Usal.GUserLogin();
                     List<CustomRole> vListRoles = new List<CustomRole>();
                     vListRoles.Add(new CustomRole("Punto de Venta", "Modificar Precio del Item"));
-                    if (!vGUserLogin.RequestCredential("Modificar Precio del Item", true, vListRoles) || !LibSecurityManager.CurrentUserIsSuperviser()) {                                            
+                    if (!vGUserLogin.RequestCredential("Modificar Precio del Item", true, vListRoles)) {
                         LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Usuario o Clave no válido.", "Información");
                         e.Cancel = true;
                     }
@@ -228,7 +228,6 @@ namespace Galac.Adm.Uil.Venta.Views {
                 if (e.Column.DisplayIndex == vIndexColumnDescripcion) {
                     e.Cancel = true;
                 }
-                
             }
         }
 
