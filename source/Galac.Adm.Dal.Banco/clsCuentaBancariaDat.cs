@@ -404,7 +404,8 @@ namespace Galac.Adm.Dal.Banco {
 			insDb.Dispose();
 			return vResult;
 		}
-		public bool ExisteYEsActiva(int valConsecutivoCompania, string valCodigo) {
+
+		public bool ExisteYEstaActiva(int valConsecutivoCompania, string valCodigo) {
 			LibDatabase insDB = new LibDatabase();
 			LibGpParams dbParam = new LibGpParams();
 			dbParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
@@ -414,18 +415,23 @@ namespace Galac.Adm.Dal.Banco {
 			insDB.Dispose();
 			return vResult;
 		}
-		public bool ConfiguradaParaIGTF(int valConsecutivoCompania, string valCodigo, eIngresoEgreso valIngresoEgreso) {
+
+		public bool ConfiguracionParaIGTFIncompleta(int valConsecutivoCompania, string valCodigo, eIngresoEgreso valIngresoEgreso) {
 			LibDatabase insDB = new LibDatabase();
 			LibGpParams dbParam = new LibGpParams();
+			string vParametroImpBancario = "ManejaDebitoBancario";
+			if (valIngresoEgreso == eIngresoEgreso.Ingreso) vParametroImpBancario = "ManejaCreditoBancario";
+
 			dbParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
 			dbParam.AddInString("Codigo", valCodigo, 5);
-			dbParam.AddInBoolean("Maneja" + (valIngresoEgreso == eIngresoEgreso.Egreso ? "Debito" : "Credito") + "Bancario", true);
+			dbParam.AddInBoolean(vParametroImpBancario, true);
 			dbParam.AddInEnum("TipoDeAlicuotaPorContribuyente", (int) eTipoAlicPorContIGTF.NoAsignado);
 			bool vResult = insDB.ExistsRecord("Saw.CuentaBancaria", "ConsecutivoCompania", dbParam.Get());
 			insDB.Dispose();
 			return vResult;
 		}
-		public bool GeneraMovimientoDeITF(int valConsecutivoCompania, string valCodigo) {
+
+		public bool AplicaGenerarMovimientoDeIGTF(int valConsecutivoCompania, string valCodigo) {
 			LibDatabase insDB = new LibDatabase();
 			LibGpParams dbParam = new LibGpParams();
 			dbParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);

@@ -365,7 +365,7 @@ namespace Galac.Adm.Brl.Banco {
 			return vResult;
 		}
 		bool ICuentaBancariaPdn.GeneraMovimientoDeITF(int valConsecutivoCompania, string valCodigoCuentaBancaria) {
-			return new Dal.Banco.clsCuentaBancariaDat().GeneraMovimientoDeITF(valConsecutivoCompania, valCodigoCuentaBancaria);
+			return new Dal.Banco.clsCuentaBancariaDat().AplicaGenerarMovimientoDeIGTF(valConsecutivoCompania, valCodigoCuentaBancaria);
 		}
 		#endregion //Código Programador
 	} //End of class clsCuentaBancariaNav
