@@ -131,7 +131,6 @@
     <Compile Include="UIMefBancoBeneficiario.cs" />
     <Compile Include="UIMefBancoConceptoBancario.cs" />
     <Compile Include="UIMefBancoCuentaBancaria.cs" />
-    <Compile Include="UIMefBancoTransferenciaEntreCuentasBancarias_TEMP.cs" />
     <Compile Include="UIMefBancoTransferenciaEntreCuentasBancarias.cs" />
     <Compile Include="ViewModel\BeneficiarioMngViewModel.cs" />
     <Compile Include="ViewModel\BeneficiarioViewModel.cs" />
@@ -204,17 +203,10 @@
       <Project>{295d5b19-4600-48c4-9da1-879a1875fbb9}</Project>
       <Name>Galac.Adm.Ccl.Banco</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Lib.Uil\Galac.Saw.Lib.Uil.csproj">
-      <Project>{ae2fdf07-4a14-48bd-ba32-d1701f5514d0}</Project>
-      <Name>Galac.Saw.Lib.Uil</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

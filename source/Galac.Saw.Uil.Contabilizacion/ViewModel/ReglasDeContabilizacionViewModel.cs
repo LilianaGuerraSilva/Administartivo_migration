@@ -5702,7 +5702,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
 
         public bool TabCajaChicaVisible {
             get {
-                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion","ServerVersionIs2008OrHigher");
+                return true;
             }
         }
 

@@ -3796,12 +3796,12 @@
                             Name="txtCuentaCajaChicaGasto"
                             Grid.Row="1"
                             Grid.Column="1"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Left"
                             ConnectionValue="{Binding Path=CuentaCajaChicaGasto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                             DisplayMemberPath="Codigo"
                             IsEnabled="{Binding Path=IsEnabled}"
                             Model="{Binding Path=ConexionCuentaCajaChicaGasto, Mode=TwoWay}"
-                            SearchCommand="{Binding Path=ChooseCuentaCajaChicaGastoCommand}" Height="20" Margin="0,1,0,0" VerticalAlignment="Top" />
+                            SearchCommand="{Binding Path=ChooseCuentaCajaChicaGastoCommand}" />
                         <Label
                             Name="lblCuentaCajaChicaGastoDescripcion"
                             Grid.Row="2"

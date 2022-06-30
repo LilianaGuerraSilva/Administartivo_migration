@@ -414,7 +414,7 @@ namespace Galac.Adm.Dal.Banco {
 			insDB.Dispose();
 			return vResult;
 		}
-		public bool NoConfiguradaParaIGTF(int valConsecutivoCompania, string valCodigo, eIngresoEgreso valIngresoEgreso) {
+		public bool ConfiguradaParaIGTF(int valConsecutivoCompania, string valCodigo, eIngresoEgreso valIngresoEgreso) {
 			LibDatabase insDB = new LibDatabase();
 			LibGpParams dbParam = new LibGpParams();
 			dbParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);

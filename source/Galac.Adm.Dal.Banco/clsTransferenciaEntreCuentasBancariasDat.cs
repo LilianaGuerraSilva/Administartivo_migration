@@ -327,7 +327,7 @@ namespace Galac.Adm.Dal.Banco {
 				if (!vClsCuentaBancariaDat.ExisteYEsActiva(valConsecutivoCompania, valCodigoCuentaBancariaOrigen)) {
 					BuildValidationInfo(MsgCuentaBancariaNoExisteOEsInactiva("Cuenta Bancaria Origen"));
 					vResult = false;
-				} else if (vClsCuentaBancariaDat.NoConfiguradaParaIGTF(valConsecutivoCompania, valCodigoCuentaBancariaOrigen, eIngresoEgreso.Egreso)) {
+				} else if (vClsCuentaBancariaDat.ConfiguradaParaIGTF(valConsecutivoCompania, valCodigoCuentaBancariaOrigen, eIngresoEgreso.Egreso)) {
 					BuildValidationInfo(MsgCuentaBancariaNoConfiguradaPraIGTF("Cuenta Bancaria Origen"));
 					vResult = false;
 				}
@@ -416,7 +416,7 @@ namespace Galac.Adm.Dal.Banco {
 				if (!vClsCuentaBancariaDat.ExisteYEsActiva(valConsecutivoCompania, valCodigoCuentaBancariaDestino)) {
 					BuildValidationInfo(MsgCuentaBancariaNoExisteOEsInactiva("Cuenta Bancaria Destino"));
 					vResult = false;
-				} else if (vClsCuentaBancariaDat.NoConfiguradaParaIGTF(valConsecutivoCompania, valCodigoCuentaBancariaDestino, eIngresoEgreso.Ingreso)) {
+				} else if (vClsCuentaBancariaDat.ConfiguradaParaIGTF(valConsecutivoCompania, valCodigoCuentaBancariaDestino, eIngresoEgreso.Ingreso)) {
 					BuildValidationInfo(MsgCuentaBancariaNoConfiguradaPraIGTF("Cuenta Bancaria Destino"));
 					vResult = false;
 				}
