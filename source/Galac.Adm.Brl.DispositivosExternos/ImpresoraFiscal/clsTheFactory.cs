@@ -1044,14 +1044,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vDiagnostico.EstatusDeComunicacion = EstatusDeComunicacion(vDiagnostico);
                 vDiagnostico.VersionDeControladores = VersionDeControladores(vDiagnostico);
                 if (!vDiagnostico.EstatusDeComunicacion) {
-                    vDiagnostico.AlicoutasRegistradasDescription = "No se completo";
+                    vDiagnostico.AlicoutasRegistradasDescription   = "No se completo";
                     vDiagnostico.ConfiguracionImpresoraDescription = "No se completo";
-                    vDiagnostico.FechaYHoraDescription = "No se completo";
-                    vDiagnostico.ColaDeImpresioDescription = "No se completo";
+                    vDiagnostico.FechaYHoraDescription             = "No se completo";
+                    vDiagnostico.ColaDeImpresioDescription         = "No se completo";
                     return vDiagnostico;
                 }
                 vDiagnostico.AlicuotasRegistradas = AlicuotasRegistradas(vDiagnostico);
-                vDiagnostico.ConfiguracionImpresoraDescription = ConsultarConfiguracion(vDiagnostico);
+                vDiagnostico.ConfiguracionImpresora = ConsultarConfiguracion(vDiagnostico);
                 vDiagnostico.FechaYHora = FechaYHora(vDiagnostico);
                 vDiagnostico.ColaDeImpresion = ColaDeImpresion(vDiagnostico);
                 if (valAbrirPuerto) {
@@ -1084,7 +1084,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vIsSameVersion = (vVersion == VersionApi);
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult, vIsSameVersion, vDir, vVersion, VersionApi);
             if(vIsSameVersion) {
-            vDiagnostico.VersionDeControladoresDescription += ":" + Environment.NewLine + "Versión actual: " + vVersion;
+            vDiagnostico.VersionDeControladoresDescription += ":" + LibText.CRLF() + "Versión actual: " + vVersion;
             }
             vResult = vIsSameVersion;
             return vResult;
@@ -1101,25 +1101,29 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             AlicuotaReducida = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax2), 2);
             AlicuotaAdicional = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax3), 2);
             vResult = LibImpresoraFiscalUtil.ValidarAlicuotasRegistradas(AlicuotaGeneral, AlicuotaReducida, AlicuotaAdicional, ref vAlicoutasRegistradasDescription);
-            vDiagnostico.AlicoutasRegistradasDescription = vAlicoutasRegistradasDescription + ":" + Environment.NewLine;
-            vDiagnostico.AlicoutasRegistradasDescription += "Reducida:   " + LibConvert.NumToString(AlicuotaReducida,        2) + "%" + Environment.NewLine +
-                                                            "General:    " + LibConvert.NumToString(AlicuotaGeneral,         2) + "%" + Environment.NewLine +
+            vDiagnostico.AlicoutasRegistradasDescription = vAlicoutasRegistradasDescription + ":" + LibText.CRLF();
+            vDiagnostico.AlicoutasRegistradasDescription += "Reducida:   " + LibConvert.NumToString(AlicuotaReducida,        2) + "%" + LibText.CRLF() +
+                                                            "General:    " + LibConvert.NumToString(AlicuotaGeneral,         2) + "%" + LibText.CRLF() +
                                                             "Adicional: "  + LibConvert.NumToString(AlicuotaAdicional,       2) + "%";
             return vResult;
         }
 
-        public string ConsultarConfiguracion(IFDiagnostico vDiagnostico) {
-            string vRegistro = Environment.NewLine + "Flags de la impresora:".PadLeft(50);
+        public bool ConsultarConfiguracion(IFDiagnostico vDiagnostico) {
+            bool vResult = false;
+            string vRegistro = LibText.CRLF() + "Flags de la impresora:".PadLeft(50);
             S3PrinterData vStatus = _TfhkPrinter.GetS3PrinterData();
             int[] vFlags = vStatus.AllSystemFlags;
-            for(int i = 0; i < vFlags.Count(); i++) {
-                if((i % 10) == 0) {
-                    vRegistro += $"\r\n\r\n   F{i:D2} --> F{(i == 60? 63 : (i + 9)):D2}:";
+            for(int index = 0; index < vFlags.Count(); index++) {
+                if((index % 10) == 0) {
+                    vRegistro += $"\r\n\r\n   F{index:D2} --> F{(index == 60? 63 : (index + 9)):D2}:";
                 }
-                vRegistro += $" {vFlags[i]:D2} ";
+                vRegistro += $" {vFlags[index]:D2} ";
             }
-            vDiagnostico.ConfiguracionImpresoraDescription = vRegistro;
-            return vRegistro;
+            if (!string.IsNullOrEmpty(vRegistro)) {
+                vResult = true;
+                vDiagnostico.ConfiguracionImpresoraDescription = vRegistro;
+            }
+            return vResult;
         }
 
         public bool FechaYHora(IFDiagnostico vDiagnostico) {
@@ -1129,7 +1133,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vFechaYHora = ObtenerFechaYHora();
             dFecha = LibConvert.ToDate(vFechaYHora);
             vResult = !LibDate.F1IsLessThanF2(dFecha, LibDate.Today());
-            vDiagnostico.FechaYHoraDescription = LibImpresoraFiscalUtil.EstatusHorayFechaDescription(vResult) + ":" + Environment.NewLine;
+            vDiagnostico.FechaYHoraDescription = LibImpresoraFiscalUtil.EstatusHorayFechaDescription(vResult) + ":" + LibText.CRLF();
             vDiagnostico.FechaYHoraDescription += vFechaYHora;
             return vResult;
         }

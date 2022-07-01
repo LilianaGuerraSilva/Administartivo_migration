@@ -1,18 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Xml.Linq;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
-using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
-using LibGalac.Aos.UI.Mvvm.Helpers;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
-using LibGalac.Aos.UI.Mvvm.Validation;
-using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.DispositivosExternos;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -48,7 +40,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string _EstatusDeComunicacion;
         string _VersionDeControladores;
         string _AlicuotasRegistradas;
-        string _ConfiguracionImpresora;
         string _EstatusDeComunicacionDescription;
         string _VersionDeControladoresDescription;
         string _AlicoutasRegistradasDescription;
@@ -178,20 +169,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-
-        public string ConfiguracionImpresora {
-            get {
-                return _ConfiguracionImpresora;
-            }
-            set {
-                if(_ConfiguracionImpresora != value) {
-                    _ConfiguracionImpresora = value;
-                    RaisePropertyChanged(ConfiguracionImpresoraPropertyName);
-                    RaisePropertyChanged(ColorStatusAlicuotasRegistradasPropertyName);
-                }
-            }
-        }
-
         public string ConfiguracionImpresoraDescription {
             get {
                 return _ConfiguracionImpresoraDescription;
@@ -403,7 +380,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             AlicuotasRegistradas = (_Diagnostico.AlicuotasRegistradas ? statusIsGood : statusIsBad);
             ColorStatusAlicuotasRegistradas = SetStatusColor(_Diagnostico.AlicuotasRegistradas);
             AlicuotasRegistradasDescription = _Diagnostico.AlicoutasRegistradasDescription;
-            ConfiguracionImpresora = _Diagnostico.ConfiguracionImpresora;
             ConfiguracionImpresoraDescription = _Diagnostico.ConfiguracionImpresoraDescription;
             VersionDeControladores = (_Diagnostico.VersionDeControladores ? statusIsGood : statusIsBad);
             ColorStatusVersionDeControladores = SetStatusColor(_Diagnostico.VersionDeControladores);

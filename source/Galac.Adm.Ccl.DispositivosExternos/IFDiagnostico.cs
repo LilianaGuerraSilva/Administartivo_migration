@@ -17,7 +17,7 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
 
         public string AlicoutasRegistradasDescription { get; set; }
 
-        public string ConfiguracionImpresora { get; set; }
+        public bool ConfiguracionImpresora { get; set; }
 
         public string ConfiguracionImpresoraDescription { get; set; }
 
@@ -41,7 +41,7 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
             VersionDeControladoresDescription = string.Empty;
             AlicuotasRegistradas = false;
             AlicoutasRegistradasDescription = string.Empty;
-            ConfiguracionImpresora = string.Empty;
+            ConfiguracionImpresora = false;
             ConfiguracionImpresoraDescription = string.Empty;
             FechaYHora = false;
             FechaYHoraDescription = string.Empty;
