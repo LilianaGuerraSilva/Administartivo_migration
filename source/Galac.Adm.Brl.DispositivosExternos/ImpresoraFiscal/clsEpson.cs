@@ -1207,6 +1207,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 throw;
             }
         }
+
+        public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
+            throw new NotImplementedException();
+        }
     }
 }
 

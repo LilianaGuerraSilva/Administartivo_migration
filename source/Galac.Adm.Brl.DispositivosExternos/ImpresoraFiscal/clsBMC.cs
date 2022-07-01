@@ -958,6 +958,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         bool ILibPdn.CanBeChoosen(string valCallingModule,eAccionSR valAction,string valExtendedAction,XmlDocument valXmlRow) {
             throw new NotImplementedException();
         }
+
+        public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
+            throw new NotImplementedException();
+        }
     }
 }
 

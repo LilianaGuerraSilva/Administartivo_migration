@@ -1119,7 +1119,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 vRegistro += $" {vFlags[index]:D2} ";
             }
-            if (!string.IsNullOrEmpty(vRegistro)) {
+            if (!LibString.IsNullOrEmpty(vRegistro)) {
                 vResult = true;
                 vDiagnostico.ConfiguracionImpresoraDescription = vRegistro;
             }

@@ -29,7 +29,7 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         bool EstatusDeComunicacion(IFDiagnostico vDiagnostico);
         bool VersionDeControladores(IFDiagnostico vDiagnostico);
         bool AlicuotasRegistradas(IFDiagnostico vDiagnostico);
-        //string ConsultarConfiguracion(IFDiagnostico iFDiagnostico);
+        bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico);
         bool FechaYHora(IFDiagnostico vDiagnostico);
         bool ColaDeImpresion(IFDiagnostico vDiagnostico);
     }
