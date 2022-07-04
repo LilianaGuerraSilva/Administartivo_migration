@@ -42,6 +42,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         #endregion
         #region Longitud de Impresion
         int _LineaTextoAdicional;
+        int _NumeroDeLineasDeTotalesEnDivisas;
         bool _ExtenderLineasAdicionales;
         #endregion  
         private string _CommPort = "";
@@ -55,8 +56,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         string[] _ListPrintersNotSupport;
         bool _PortIsOpen;
         int _MaxLongitudDeTexto = 0;
-        bool _ObservacionesAlFinalDeLaFactura;
-        string _ConfiguracionDetalleFactura;
+        readonly bool _ObservacionesAlFinalDeLaFactura;
+        readonly string _ConfiguracionDetalleFactura;
         #endregion
 
         #region Propiedades
@@ -529,6 +530,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
             string vTelefono = LibXml.GetPropertyString(valDocumentoFiscal, "TelefonoCliente");
             string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
+            string vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
+            _NumeroDeLineasDeTotalesEnDivisas = LibText.Split(vTotalesEnDivisa, '\n').Count();
             bool vResult = false;
             try {
                 List<XElement> vCamposDefinibles = valDocumentoFiscal.Descendants("GpResultDetailCamposDefinibles").ToList();
@@ -611,22 +614,22 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private bool CerrarComprobanteFiscal(XElement valDocumentoFiscal, bool valIsNotaDeCredito) {
             bool vResult = true;
             List<string> vListaCMD = new List<string>();
-            string vTotalesEnDivisa;
             string vDescuentoTotal = LibXml.GetPropertyString(valDocumentoFiscal, "PorcentajeDescuento");
-            decimal vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "IGTFML"));
-            vDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vDescuentoTotal, _EnterosParaDescuento, _DecimalesParaDescuento);
-            vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
             string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
+            string vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
+            vDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vDescuentoTotal, _EnterosParaDescuento, _DecimalesParaDescuento);
+            decimal vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "IGTFML"));
             if(LibText.Len(vTotalesEnDivisa) > 0 && !_ModelosAntiguos) {
                 vResult = ImprimirTotalesEnDivisas(vTotalesEnDivisa);
-            } else if(!valIsNotaDeCredito && LibString.Len(vTotalesEnDivisa) == 0) {
-                vResult = ImprimirCamposDefinibles(valDocumentoFiscal);
             }
             if(!vObservaciones.Equals("") && _ObservacionesAlFinalDeLaFactura && !_ModelosAntiguos) {
                 vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + vObservaciones, 0, 40)));
                 if(LibText.Len(vObservaciones) > 35) {
                     vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(vObservaciones, 35, 40)));
                 }
+            }
+            if(!valIsNotaDeCredito && LibString.Len(vTotalesEnDivisa) == 0) {
+                vResult = ImprimirCamposDefinibles(valDocumentoFiscal);
             }
             if(LibConvert.ToInt(vDescuentoTotal) != 0) {
                 vListaCMD.Add("3"); //SubTotal
@@ -841,11 +844,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private bool EnviarDatosAdicionales(string valDireccion, string valTelefono, string valObservaciones, bool valExtenderLineasAdicionales) {
             bool vResult = true;
             List<string> vListaCMD = new List<string>();
-
             if(valExtenderLineasAdicionales) {
                 vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40)));
-                if(!_ObservacionesAlFinalDeLaFactura) {
+                if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicional) > 8)) {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 30, 40)));
+                }
+                if (!_ObservacionesAlFinalDeLaFactura) {
                     vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40)));
+                    if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicional) > 9)) {
+                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40)));
+                    }
                 }
             } else {
                 if(LibText.Len(valTelefono) > 0) {
