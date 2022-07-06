@@ -1449,22 +1449,36 @@ h_ERROR:
      "fConfigurarDatosDelReporteListadoArticulosPorRetirarEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConfigurarDatosDelReporteRegistroImpresionDeCodDeBarras(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valNombreDelFileXML As String, ByVal valNombreDelReporte As String) As Boolean
+Public Function fConfigurarDatosDelReporteRegistroImpresionDeCodDeBarras(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valNombreDelFileXML As String, ByVal valNombreDelReporte As String, ByVal valFechaHoy As Date, ByVal valPrecioSinIVA As Boolean) As Boolean
    Dim exito As Boolean
    On Error GoTo h_ERROR
    exito = False
    If gUtilReports.fLoadLayout(refRpt, valNombreDelFileXML) Then
       If gUtilReports.fDefaultConfigurationForDataControl(refRpt, "dcOrigendata", valSqlDelReporte) Then
-         gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
-         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblCompania", valNombreCompaniaParaInformes
-         gUtilReports.sDefaultValueForLabelHoraYFechaDeEmision refRpt, "lblFechaYHoraDeEmision"
-         gUtilReports.sDefaultConfigurationForBarcode refRpt, "bcCodigoArticulo", "", "CodArticulo"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecio", "", "Precio"
-         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecioReconvertido", "", "PrecioReconvertido"
+         gUtilReports.sDefaultConfigurationForBarcode refRpt, "bcCodigoArticulo", "", "CodigoArticulo"
+         gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCodigoArticulo", "", "CodigoArticulo"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtDescripcion", "", "Descripcion"
-         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHArticulo", "CodArticulo", ddGrpFirstDetail, ddRepeatOnPage, True, ddNPBefore
-         gUtilMargins.sAsignarMargenesParticularesYLosGrabaSiEsNecesario refRpt, valNombreDelReporte, True, 0.5, True, 0.5, True, 0.5, True, 0.25, True, ddOPortrait, False, True, 5.5, True, 5.5
+         If (valPrecioSinIVA) Then
+            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecio", "", "PrecioSinIvaML" 'se deja para compatibilidad con la versión vieja de la plantilla
+         Else
+            gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecio", "", "PrecioConIvaML" 'se deja para compatibilidad con la versión vieja de la plantilla
+         End If
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecioSinIvaML", "", "PrecioSinIvaML"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecioConIvaML", "", "PrecioConIVAML"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtIvaML", "", "IvaML"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecioSinIvaME", "", "PrecioSinIvaME"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtPrecioConIvaME", "", "PrecioConIvaME"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtIvaME", "", "IvaME"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtAlicuotaIva", "", "AlicuotaIvaValor"
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtUnidadDeVenta", "", "UnidadDeVenta"
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFecha", valFechaHoy
+	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible1", "", "CampoDefinible1"
+	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible2", "", "CampoDefinible2"
+	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible3", "", "CampoDefinible3"
+	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible4", "", "CampoDefinible4"
+	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible5", "", "CampoDefinible5"
          
+         gUtilMargins.sAsignarMargenesParticularesYLosGrabaSiEsNecesario refRpt, valNombreDelReporte, True, 0.5, True, 0.5, True, 0.5, True, 0.25, True, ddOPortrait, False, True, 8.5, True, 11
          exito = True
       End If
    End If
