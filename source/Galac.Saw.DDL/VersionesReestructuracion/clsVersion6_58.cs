@@ -21,11 +21,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             return true;
         }
         private void EliminarTasaDeCambioIgualCero() {
-            QAdvSql insSql = new QAdvSql("");
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("DELETE FROM comun.cambio ");
-            vSql.AppendLine("WHERE CambioAMonedaLocal = 0 ");
-            Execute(vSql.ToString(), 0);
+            Execute("DELETE FROM comun.cambio WHERE CambioAMonedaLocal = 0 ", 0);
         }
     }
 }
