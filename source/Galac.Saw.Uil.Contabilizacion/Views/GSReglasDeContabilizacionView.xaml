@@ -7,6 +7,7 @@
     xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Contabilizacion.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Height="607"
     MinWidth="720"
     MinHeight="530">
     <UserControl.Resources>
@@ -4049,7 +4050,357 @@
                     IsEnabled="{Binding Path=IsEnabledSiglasTipoComprobanteCajaChica}"
                     Model="{Binding Path=ConexionSiglasTipoComprobanteCajaChica, Mode=TwoWay}"
                     SearchCommand="{Binding Path=ChooseSiglasTipoComprobanteCajaChicaCommand}"
-                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" Height="20" Margin="1,2,0,0" VerticalAlignment="Top" />
+            </Grid>
+        </TabItem>
+        <TabItem
+            Name="tbiTransferenciaEntreCuentasBancarias"
+            Header="Transferencia entre Cuentas Bancarias"
+            Visibility="{Binding Path=TabTransferenciaEntreCuentasBancariasVisible, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="310" />
+                    <ColumnDefinition Width="210" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Content="Reglas de Contabilización de Transferencia entre Cuentas Bancarias"
+                    FontSize="13"
+                    Style="{StaticResource LabelTitle}" />
+                <GroupBox
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Margin="3"
+                    Header="Cuentas del Comprobante Contable del Transferencia entre Cuentas Bancarias"
+                    HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
+                    Style="{StaticResource GroupBoxStyle}">
+                    <Grid Name="gtTransferenciaEntreCuentasBancarias">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.RowSpan="23"
+                            Grid.Column="2"
+                            Background="{x:Null}"
+                            BorderBrush="{StaticResource NormalBorderBrush}"
+                            BorderThickness="1,0,0,0" />
+                        <Border
+                            Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            Background="{x:Null}"
+                            BorderBrush="{StaticResource SolidBorderBrush}"
+                            BorderThickness="0,0,0,1" />
+                        <Border
+                            Grid.Row="8"
+                            Grid.ColumnSpan="3"
+                            Background="{x:Null}"
+                            BorderBrush="{StaticResource SolidBorderBrush}"
+                            BorderThickness="0,0,0,1" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Content="DEBE"
+                            FontSize="12" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Content="HABER"
+                            FontSize="12" />
+                        <Label
+                            Name="lblBancoDestino"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Content="Banco Destino"
+                            Style="{StaticResource LabelReglas}" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoDestino"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Content="Banco Destino"
+                            Style="{StaticResource LabelReglas}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaTransfCtasBancoDestino"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            ConnectionValue="{Binding Path=CuentaTransfCtasBancoDestino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaTransfCtasBancoDestino, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ChooseCuentaTransfCtasBancoDestinoCommand}" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoDestinoDescripcion"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Content="{Binding Path=CuentaTransfCtasBancoDestinoDescripcion}" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoOrigen"
+                            Grid.Row="9"
+                            Grid.Column="0"
+                            Content="Banco Origen"
+                            Style="{StaticResource LabelReglas}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaTransfCtasBancoOrigen"
+                            Grid.Row="9"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            ConnectionValue="{Binding Path=CuentaTransfCtasBancoOrigen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaTransfCtasBancoOrigen, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ChooseCuentaTransfCtasBancoOrigenCommand}" />
+                        <Label
+                            Name="lblConexionCuentaTransfCtasBancoOrigen"
+                            Grid.Row="10"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaTransfCtasBancoOrigenDescripcion}" />
+                        <Label
+                            Name="lblCuentaTransfCtasGastoComDestino"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Content="Gastos Comisión Bancaria Destino"
+                            Style="{StaticResource LabelReglas}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaTransfCtasGastoComDestino"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            ConnectionValue="{Binding Path=CuentaTransfCtasGastoComDestino, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaTransfCtasGastoComDestino, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ChooseCuentaTransfCtasGastoComDestinoCommand}" />
+                        <Label
+                            Name="lblConexionCuentaTransfCtasGastoComDestino"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Content="{Binding Path=CuentaTransfCtasGastoComDestinoDescripcion}" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoDes"
+                            Grid.Row="11"
+                            Grid.Column="0"
+                            Content="Comisión Banco Destino"
+                            Style="{StaticResource LabelReglas}" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoDesCuenta"
+                            Grid.Row="11"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaTransfCtasBancoDestino}"
+                            FontSize="11" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoDesCuentaDescripcion"
+                            Grid.Row="12"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaTransfCtasBancoDestinoDescripcion}"
+                            Foreground="Black" />
+                        <Label
+                            Name="lblCuentaTransfCtasGastoComOrigen"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Content="Gastos Comisión Bancaria Origen"
+                            Style="{StaticResource LabelReglas}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaTransfCtasGastoComOrigen"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            ConnectionValue="{Binding Path=CuentaTransfCtasGastoComOrigen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaTransfCtasGastoComOrigen, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ChooseCuentaTransfCtasGastoComOrigenCommand}" />
+                        <Label
+                            Name="lblConexionCuentaTransfCtasGastoComOrigen"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Content="{Binding Path=CuentaTransfCtasGastoComOrigenDescripcion}" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoOrig"
+                            Grid.Row="13"
+                            Grid.Column="0"
+                            Content="Comisión Banco Origen"
+                            Style="{StaticResource LabelReglas}" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoOrigCuenta"
+                            Grid.Row="13"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaTransfCtasBancoOrigen}"
+                            FontSize="11" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoOrigCuentaDescripcion"
+                            Grid.Row="14"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaTransfCtasBancoOrigenDescripcion}"
+                            Foreground="Black" />
+                        <Label
+                            Name="lblCuentaTransfCtasIGTFDebito"
+                            Grid.Row="7"
+                            Grid.Column="0"
+                            Content="Gastos IGTF Débito Origen"
+                            Style="{StaticResource LabelReglas}" />
+                        <Label
+                            Name="lblCuentaTransfCtasIGTFDebitoIGTF"
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            Content="{Binding Path=CuentaDebitoBancarioGasto}"
+                            FontSize="11" />
+                        <Label
+                            Name="lblCuentaTransfCtasIGTFDebitoDescripcionIGTF"
+                            Grid.Row="8"
+                            Grid.Column="1"
+                            Content="{Binding Path=CuentaDebitoBancarioGastoDescripcion}"
+                            Foreground="Black" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoOrigIGTF"
+                            Grid.Row="15"
+                            Grid.Column="0"
+                            Content="IGTF Banco Origen"
+                            Style="{StaticResource LabelReglas}" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoOrigCuentaIGTF"
+                            Grid.Row="15"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaTransfCtasBancoOrigen}"
+                            FontSize="11" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoOrigCuentaDescripcionIGTF"
+                            Grid.Row="16"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaTransfCtasBancoOrigenDescripcion}"
+                            Foreground="Black" />
+                        <Label
+                            Name="lblCuentaTransfCtasGastosCreIGTF"
+                            Grid.Row="17"
+                            Grid.Column="0"
+                            Content="Gastos IGTF Crédito Destino"
+                            Style="{StaticResource LabelReglas}"
+                            Visibility="Collapsed" />
+                        <Label
+                            Name="lblCuentaTransfCtasIGTFCreditoIGTF"
+                            Grid.Row="17"
+                            Grid.Column="1"
+                            FontSize="11"
+                            Visibility="Collapsed" />
+                        <Label
+                            Name="lblCuentaTransfCtasIGTFCreditoDescripcionIGTF"
+                            Grid.Row="18"
+                            Grid.Column="1"
+                            Foreground="Black" 
+                            Visibility="Collapsed" />
+                        <Label
+                            Name="lblCuentaTransfCtasBancoDestIGTF"
+                            Grid.Row="19"
+                            Grid.Column="0"
+                            Content="IGTF Banco Destino"
+                            Style="{StaticResource LabelReglas}"
+                            Visibility="Collapsed" />
+                        <Label
+                            Name="lblCuentaTransfCtasIGTFBancoDestinoIGTF"
+                            Grid.Row="19"
+                            Grid.Column="2"
+                            FontSize="11" 
+                            Visibility="Collapsed" />
+                        <Label
+                            Name="lblCuentaTransfCtasIGTFBancoDestinoDescripcionIGTF"
+                            Grid.Row="20"
+                            Grid.Column="2"
+                            Foreground="Black" 
+                            Visibility="Collapsed" />
+                    </Grid>
+                </GroupBox>
+                <Label
+                    Name="lblEditarComprobanteAfterInsertTransfCtas"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Width="259"
+                    Margin="1,0,0,0"
+                    VerticalAlignment="Center"
+                    Content="Editar Inmediatamente el Comprobante Generado"
+                    Style="{StaticResource LabelReglas}"
+                    Visibility="Visible" />
+                <CheckBox
+                    Name="chkEditarComprobanteAfterInsertTransfCtas"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=EditarComprobanteAfterInsertTransfCtas}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+                <Label
+                    Name="lblCuentaTransfCtasTipoComprobante"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Content="Siglas del Tipo de Comprobante"
+                    Style="{StaticResource LabelReglas}"
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" Margin="1,1,0,1" VerticalAlignment="Stretch" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtTransfCtasSigasTipoComprobante"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Width="120"
+                    HorizontalAlignment="Left"
+                    ConnectionValue="{Binding Path=TransfCtasSigasTipoComprobante, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="Codigo"
+                    IsEnabled="{Binding Path=IsEnabledTransfCtasSigasTipoComprobante}"
+                    Model="{Binding Path=ConexionTransfCtasSigasTipoComprobante, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseTransfCtasSigasTipoComprobanteCommand}"
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" Height="20" Margin="1,2,0,0" VerticalAlignment="Top" />
+                <Label
+                    Name="lblContabIndividualTransCtas"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Content="Cómo Contabilizar"
+                    Style="{StaticResource LabelReglas}" />
+                <nsWpfControls:GSComboBoxWpf
+                    Name="cmbContabIndividualTransfCtas"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Width="120"
+                    IsEnabled= "False"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayContabilizacionIndividual}"
+                    SelectedItem="{Binding Path=ContabIndividualTransfCtas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ComboBoxStyle}" />
             </Grid>
         </TabItem>
         <TabItem

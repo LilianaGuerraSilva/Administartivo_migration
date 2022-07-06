@@ -158,6 +158,15 @@ namespace Galac.Saw.Dal.Contabilizacion {
             vParams.AddInString("CuentaRendicionesBanco",valRecord.CuentaRendicionesBanco,30);
             vParams.AddInString("CuentaRendicionesAnticipos",valRecord.CuentaRendicionesAnticipos,30);
             vParams.AddInBoolean("MostrarDesglosadoRendiciones",valRecord.MostrarDesglosadoRendicionesAsBool);
+            vParams.AddInEnum("TipoContabilizacionTransfCtas", valRecord.TipoContabilizacionTransfCtasAsDB);
+            vParams.AddInEnum("ContabIndividualTransfCtas", valRecord.ContabIndividualTransfCtasAsDB);
+            vParams.AddInEnum("ContabPorLoteTransfCtas", valRecord.ContabPorLoteTransfCtasAsDB);
+            vParams.AddInString("CuentaTransfCtasBancoDestino", valRecord.CuentaTransfCtasBancoDestino, 30);
+            vParams.AddInString("CuentaTransfCtasGastoComOrigen", valRecord.CuentaTransfCtasGastoComOrigen, 30);
+            vParams.AddInString("CuentaTransfCtasGastoComDestino", valRecord.CuentaTransfCtasGastoComDestino, 30);
+            vParams.AddInString("CuentaTransfCtasBancoOrigen", valRecord.CuentaTransfCtasBancoOrigen, 30);
+            vParams.AddInString("TransfCtasSigasTipoComprobante", valRecord.TransfCtasSigasTipoComprobante, 2);
+            vParams.AddInBoolean("EditarComprobanteAfterInsertTransfCtas", valRecord.EditarComprobanteAfterInsertTransfCtasAsBool);
             vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
             vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
             if(valAction == eAccionSR.Modificar) {
@@ -1613,6 +1622,96 @@ namespace Galac.Saw.Dal.Contabilizacion {
             return vResult;
         }
 
+        private bool IsValidCuentaTransfCtasBancoDestino(eAccionSR valAction, string valCuentaTransfCtasBancoDestino){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCuentaTransfCtasBancoDestino = LibString.Trim(valCuentaTransfCtasBancoDestino);
+            if (LibString.IsNullOrEmpty(valCuentaTransfCtasBancoDestino , true)) {
+                BuildValidationInfo(MsgRequiredField("Cuenta de Banco Destino"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaTransfCtasBancoDestino), true)) {
+                    BuildValidationInfo("El valor asignado al campo Cuenta de Banco Destino no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+        private bool IsValidCuentaTransfCtasGastoComOrigen(eAccionSR valAction, string valCuentaTransfCtasGastoComOrigen){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCuentaTransfCtasGastoComOrigen = LibString.Trim(valCuentaTransfCtasGastoComOrigen);
+            if (LibString.IsNullOrEmpty(valCuentaTransfCtasGastoComOrigen , true)) {
+                BuildValidationInfo(MsgRequiredField("Cuenta de Gasto Comision Origen"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaTransfCtasGastoComOrigen), true)) {
+                    BuildValidationInfo("El valor asignado al campo Cuenta de Gasto Comision Origen no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+        private bool IsValidCuentaTransfCtasGastoComDestino(eAccionSR valAction, string valCuentaTransfCtasGastoComDestino){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCuentaTransfCtasGastoComDestino = LibString.Trim(valCuentaTransfCtasGastoComDestino);
+            if (LibString.IsNullOrEmpty(valCuentaTransfCtasGastoComDestino , true)) {
+                BuildValidationInfo(MsgRequiredField("Cuenta de Gasto Comision Destino"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaTransfCtasGastoComDestino), true)) {
+                    BuildValidationInfo("El valor asignado al campo Cuenta de Gasto Comision Destino no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+        private bool IsValidCuentaTransfCtasBancoOrigen(eAccionSR valAction, string valCuentaTransfCtasBancoOrigen){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCuentaTransfCtasBancoOrigen = LibString.Trim(valCuentaTransfCtasBancoOrigen);
+            if (LibString.IsNullOrEmpty(valCuentaTransfCtasBancoOrigen , true)) {
+                BuildValidationInfo(MsgRequiredField("Cuenta de Banco Origen"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaTransfCtasBancoOrigen), true)) {
+                    BuildValidationInfo("El valor asignado al campo Cuenta de Banco Origen no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+        private bool IsValidTransfCtasSigasTipoComprobante(eAccionSR valAction, string valTransfCtasSigasTipoComprobante){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valTransfCtasSigasTipoComprobante = LibString.Trim(valTransfCtasSigasTipoComprobante);
+            if (LibString.IsNullOrEmpty(valTransfCtasSigasTipoComprobante , true)) {
+                BuildValidationInfo(MsgRequiredField("Siglas del Tipo de Comprobante"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("Contab.TipoDeComprobante", "Codigo", insDb.InsSql.ToSqlValue(valTransfCtasSigasTipoComprobante), true)) {
+                    BuildValidationInfo("El valor asignado al campo Siglas del Tipo de Comprobante no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
         private bool KeyExists(int valConsecutivoCompania,string valNumero) {
             bool vResult = false;
             ReglasDeContabilizacion vRecordBusqueda = new ReglasDeContabilizacion();

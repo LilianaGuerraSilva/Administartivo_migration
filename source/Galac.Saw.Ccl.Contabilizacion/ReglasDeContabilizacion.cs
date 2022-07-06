@@ -133,6 +133,15 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         private string _CuentaRendicionesBanco;
         private string _CuentaRendicionesAnticipos;
         private string _SiglasTipoComprobanteRendiciones;
+        private eContabilizacionIndividual _ContabIndividualTransfCtas;
+        private eTipoDeContabilizacion _TipoContabilizacionTransfCtas;
+        private eContabilizacionPorLote _ContabPorLoteTransfCtas;
+        private string _CuentaTransfCtasBancoDestino;
+        private string _CuentaTransfCtasGastoComOrigen;
+        private string _CuentaTransfCtasGastoComDestino;
+        private string _CuentaTransfCtasBancoOrigen;
+        private string _TransfCtasSigasTipoComprobante;
+        private bool _EditarComprobanteAfterInsertTransfCtas;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -1215,6 +1224,72 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             set { _SiglasTipoComprobanteRendiciones = LibString.Mid(value,0,2); }
         }
 
+        public eTipoDeContabilizacion TipoContabilizacionTransfCtasAsEnum {
+            get { return _TipoContabilizacionTransfCtas; }
+            set { _TipoContabilizacionTransfCtas = value; }
+        }
+        public string TipoContabilizacionTransfCtas {
+            set { _TipoContabilizacionTransfCtas = (eTipoDeContabilizacion)LibConvert.DbValueToEnum(value); }
+        }
+        public string TipoContabilizacionTransfCtasAsDB {
+            get { return LibConvert.EnumToDbValue((int) _TipoContabilizacionTransfCtas); }
+        }
+        public string TipoContabilizacionTransfCtasAsString {
+            get { return LibEnumHelper.GetDescription(_TipoContabilizacionTransfCtas); }
+        }
+        public eContabilizacionIndividual ContabIndividualTransfCtasAsEnum {
+            get { return _ContabIndividualTransfCtas; }
+            set { _ContabIndividualTransfCtas = value; }
+        }
+        public string ContabIndividualTransfCtas {
+            set { _ContabIndividualTransfCtas = (eContabilizacionIndividual)LibConvert.DbValueToEnum(value); }
+        }
+        public string ContabIndividualTransfCtasAsDB {
+            get { return LibConvert.EnumToDbValue((int) _ContabIndividualTransfCtas); }
+        }
+        public string ContabIndividualTransfCtasAsString {
+            get { return LibEnumHelper.GetDescription(_ContabIndividualTransfCtas); }
+        }
+        public eContabilizacionPorLote ContabPorLoteTransfCtasAsEnum {
+            get { return _ContabPorLoteTransfCtas; }
+            set { _ContabPorLoteTransfCtas = value; }
+        }
+        public string ContabPorLoteTransfCtas {
+            set { _ContabPorLoteTransfCtas = (eContabilizacionPorLote)LibConvert.DbValueToEnum(value); }
+        }
+        public string ContabPorLoteTransfCtasAsDB {
+            get { return LibConvert.EnumToDbValue((int) _ContabPorLoteTransfCtas); }
+        }
+        public string ContabPorLoteTransfCtasAsString {
+            get { return LibEnumHelper.GetDescription(_ContabPorLoteTransfCtas); }
+        }
+        public string CuentaTransfCtasBancoDestino {
+            get { return _CuentaTransfCtasBancoDestino; }
+            set { _CuentaTransfCtasBancoDestino = LibString.Mid(value, 0, 30); }
+        }
+        public string CuentaTransfCtasGastoComOrigen {
+            get { return _CuentaTransfCtasGastoComOrigen; }
+            set { _CuentaTransfCtasGastoComOrigen = LibString.Mid(value, 0, 30); }
+        }
+        public string CuentaTransfCtasGastoComDestino {
+            get { return _CuentaTransfCtasGastoComDestino; }
+            set { _CuentaTransfCtasGastoComDestino = LibString.Mid(value, 0, 30); }
+        }
+        public string CuentaTransfCtasBancoOrigen {
+            get { return _CuentaTransfCtasBancoOrigen; }
+            set { _CuentaTransfCtasBancoOrigen = LibString.Mid(value, 0, 30); }
+        }
+        public string TransfCtasSigasTipoComprobante {
+            get { return _TransfCtasSigasTipoComprobante; }
+            set { _TransfCtasSigasTipoComprobante = LibString.Mid(value, 0, 2); }
+        }
+        public bool EditarComprobanteAfterInsertTransfCtasAsBool {
+            get { return _EditarComprobanteAfterInsertTransfCtas; }
+            set { _EditarComprobanteAfterInsertTransfCtas = value; }
+        }
+        public string EditarComprobanteAfterInsertTransfCtas {
+            set { _EditarComprobanteAfterInsertTransfCtas = LibConvert.SNToBool(value); }
+        }
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value,0,10); }
@@ -1369,6 +1444,15 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             CuentaRendicionesBanco = string.Empty;
             CuentaRendicionesAnticipos = string.Empty;
             SiglasTipoComprobanteRendiciones = string.Empty;
+            TipoContabilizacionTransfCtasAsEnum = eTipoDeContabilizacion.CadaDocumento;
+            ContabIndividualTransfCtasAsEnum = eContabilizacionIndividual.Inmediata;
+            ContabPorLoteTransfCtasAsEnum = eContabilizacionPorLote.Diaria;
+            CuentaTransfCtasBancoDestino = string.Empty;
+            CuentaTransfCtasGastoComOrigen = string.Empty;
+            CuentaTransfCtasGastoComDestino = string.Empty;
+            CuentaTransfCtasBancoOrigen = string.Empty;
+            TransfCtasSigasTipoComprobante = string.Empty;
+            EditarComprobanteAfterInsertTransfCtasAsBool = false;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -1497,6 +1581,15 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             vResult.CuentaRendicionesBanco = _CuentaRendicionesBanco;
             vResult.CuentaRendicionesAnticipos = _CuentaRendicionesAnticipos;
             vResult.SiglasTipoComprobanteRendiciones = _SiglasTipoComprobanteRendiciones;
+            vResult.TipoContabilizacionTransfCtasAsEnum = _TipoContabilizacionTransfCtas;
+            vResult.ContabIndividualTransfCtasAsEnum = _ContabIndividualTransfCtas;
+            vResult.ContabPorLoteTransfCtasAsEnum = _ContabPorLoteTransfCtas;
+            vResult.CuentaTransfCtasBancoDestino = _CuentaTransfCtasBancoDestino;
+            vResult.CuentaTransfCtasGastoComOrigen = _CuentaTransfCtasGastoComOrigen;
+            vResult.CuentaTransfCtasGastoComDestino = _CuentaTransfCtasGastoComDestino;
+            vResult.CuentaTransfCtasBancoOrigen = _CuentaTransfCtasBancoOrigen;
+            vResult.TransfCtasSigasTipoComprobante = _TransfCtasSigasTipoComprobante;
+            vResult.EditarComprobanteAfterInsertTransfCtasAsBool = _EditarComprobanteAfterInsertTransfCtas;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
