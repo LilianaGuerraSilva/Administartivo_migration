@@ -525,7 +525,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsVisibleCajaChica {
 			get {
-				return !EsEcuador() ? LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ServerVersionIs2008OrHigher") : false;
+				return !EsEcuador();
 			}
 		}
 

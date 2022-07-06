@@ -39,7 +39,11 @@ namespace Galac.Adm.Ccl.Banco {
 		[LibEnumDescription("Solicitud de Pago")]
 		SolicitudDePago,
 		[LibEnumDescription("Reposición De Caja Chica")]
-		ReposicionDeCajaChica
+		ReposicionDeCajaChica,
+		[LibEnumDescription("Retención en Cobranza")]
+		RetencionEnCobranza,
+		[LibEnumDescription("Transferencia Bancaria")]
+		TransferenciaBancaria
 	}
 
 	[TypeConverter(typeof(LibEnumTypeConverter))]
@@ -188,4 +192,18 @@ namespace Galac.Adm.Ccl.Banco {
 		Cont6
 	}
 
+	[TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eStatusConciliacion {
+		[LibEnumDescription("En Proceso")]
+		EnProceso = 0,
+		[LibEnumDescription("Cerrada")]
+		Cerrada
+	}
+	[TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eStatusTransferenciaBancaria {
+		[LibEnumDescription("Vigente")]
+		Vigente = 0,
+		[LibEnumDescription("Anulada")]
+		Anulada
+	}
 } //End of namespace namespace Galac.Adm.Ccl.Banco

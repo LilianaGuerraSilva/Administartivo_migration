@@ -304,9 +304,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
        public int ConsecutivoCaja { get; set; }
        public string NombreDelUsuario { get; set; }
        public string NombreCaja {get; set;  }
-   }
+    }
    
-    public class FkMaquinaFiscalViewModel : IFkMaquinaFiscalViewModel {
+   public class FkMaquinaFiscalViewModel : IFkMaquinaFiscalViewModel {
         public int ConsecutivoCompania { get; set; }
         [LibGridColum("Consecutivo Máquina Fiscal", DbMemberPath = "ConsecutivoMaquinaFiscal", Width = 9)]
         public string ConsecutivoMaquinaFiscal { get; set; }
@@ -316,5 +316,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public string NumeroRegistro { get; set; }
         [LibGridColum("Status")]
         public eStatusMaquinaFiscal Status { get; set; }
+    }
+	
+   public class FkContratoViewModel : IFkContratoViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("N° Contrato", Width = 85, Alignment = eTextAlignment.Center)]
+        public string NumeroContrato { get; set; }
+        [LibGridColum("Status", Width = 70)]
+        public eStatusContrato StatusContrato { get; set; }
+        public string CodigoCliente { get; set; }
+        [LibGridColum("Nombre de Cliente", Width = 200)]
+        public string NombreCliente { get; set; }
+        [LibGridColum("Fecha de Inicio", eGridColumType.DatePicker, Width = 100, BindingStringFormat = "dd/MM/yyyy", Alignment = eTextAlignment.Center)]
+        public DateTime FechaDeInicio { get; set; }
     }
 }

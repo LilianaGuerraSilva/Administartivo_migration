@@ -104,6 +104,7 @@ Enum enum_ComprobanteGeneradoPor
    eCG_RENDICION
    eCG_REPOSICION
    eCG_ANULACION_REPOSICION
+   eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA
    eCG_GANANCIA_PERDIDA_CAMBIARIA = 80
 End Enum
 
@@ -643,6 +644,7 @@ Public Function enumComprobanteGeneradoPorToString(comprobanteGeneradoPor As enu
       Case eCG_RENDICION: enumComprobanteGeneradoPorToString = "Rendición"
       Case eCG_REPOSICION: enumComprobanteGeneradoPorToString = "Reposición de Caja Chica"
       Case eCG_ANULACION_REPOSICION: enumComprobanteGeneradoPorToString = "Anulación de Reposición de Caja Chica"
+      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: enumComprobanteGeneradoPorToString = "Transferencia entre Cuentas Bancarias"
       Case eCG_GANANCIA_PERDIDA_CAMBIARIA: enumComprobanteGeneradoPorToString = "Ganancia/Pérdida Cambiaria"
       Case Else: enumComprobanteGeneradoPorToString = enumComprobanteGeneradoPorToString(0)
    End Select
@@ -748,6 +750,8 @@ A_Partir_De_Aqui:
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_ANULACION_REPOSICION)
    nCount = nCount + 1
+   varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA)
+   nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_GANANCIA_PERDIDA_CAMBIARIA)
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
@@ -824,6 +828,8 @@ Public Sub FillComboBoxWithComprobanteGeneradoPorSinComprobanteDeApertura(ByRef 
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_REPOSICION)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_ANULACION_REPOSICION)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_GANANCIA_PERDIDA_CAMBIARIA)
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)

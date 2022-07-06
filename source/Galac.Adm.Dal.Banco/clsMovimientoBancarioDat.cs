@@ -155,6 +155,7 @@ namespace Galac.Adm.Dal.Banco {
         [PrincipalPermission(SecurityAction.Demand, Role = "Punto de Venta.Insertar")]
         [PrincipalPermission(SecurityAction.Demand, Role = "Factura.Insertar")]
         [PrincipalPermission(SecurityAction.Demand,Role = "Movimiento Bancario.Insertar")]
+		[PrincipalPermission(SecurityAction.Demand, Role = "Transferencia entre Cuentas.Insertar")]
         LibResponse ILibDataComponent<IList<MovimientoBancario>, IList<MovimientoBancario>>.Insert(IList<MovimientoBancario> refRecord) {
             LibResponse vResult = new LibResponse();                        
             string vErrMsg = "";
@@ -165,6 +166,9 @@ namespace Galac.Adm.Dal.Banco {
                 CurrentRecord = mb;
                 if (ExecuteProcessBeforeInsert()) {
                     if (Validate(eAccionSR.Insertar, out vErrMsg)) {
+						if (CurrentRecord.GeneradoPorAsEnum == eGeneradoPor.TransferenciaBancaria) {
+							CurrentRecord.NroMovimientoRelacionado = LibString.S1StartsWithS2(CurrentRecord.Descripcion, "Impuesto") ? LibConvert.ToStr(consecutivo - 1) : CurrentRecord.NumeroDocumento;
+						}
                         CurrentRecord.ConsecutivoMovimiento = consecutivo++;
                         vResult.Success = insDb.ExecSpNonQueryWithScope(insDb.ToSpName(DbSchema, "MovimientoBancarioINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar));
                         insDb.Dispose();
@@ -190,10 +194,12 @@ namespace Galac.Adm.Dal.Banco {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Movimiento Bancario.Modificar")]
+		[PrincipalPermission(SecurityAction.Demand, Role = "Movimiento Bancario.Anular")]
         LibResponse ILibDataComponent<IList<MovimientoBancario>, IList<MovimientoBancario>>.Update(IList<MovimientoBancario> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg ="";
-            CurrentRecord = refRecord[0];
+			foreach (MovimientoBancario mb in refRecord) {
+				CurrentRecord = mb;
             if (ExecuteProcessBeforeUpdate()) {
                 if (Validate(eAccionSR.Modificar, out vErrMsg)) {
                     LibDatabase insDb = new LibDatabase();
@@ -201,6 +207,7 @@ namespace Galac.Adm.Dal.Banco {
                     insDb.Dispose();
                 } else {
                     throw new GalacValidationException(vErrMsg);
+					}
                 }
             }
             return vResult;

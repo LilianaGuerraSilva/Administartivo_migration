@@ -36,7 +36,11 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <ItemGroup>    
+  <ItemGroup>
+    <Reference Include="Galac.Adm.Rpt.Banco">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Galac.Adm.Rpt.Banco.dll</HintPath>
+    </Reference>
     <Reference Include="Galac.Comun.Brl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
@@ -44,6 +48,10 @@
     <Reference Include="Galac.Comun.Ccl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
     <Reference Include="Galac.Contab.Ccl.WinCont">
       <SpecificVersion>False</SpecificVersion>
@@ -100,6 +108,7 @@
     <Compile Include="clsSolicitudesDePagoMenu.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="clsTransferenciaEntreCuentasBancariasMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,6 +131,7 @@
     <Compile Include="UIMefBancoBeneficiario.cs" />
     <Compile Include="UIMefBancoConceptoBancario.cs" />
     <Compile Include="UIMefBancoCuentaBancaria.cs" />
+    <Compile Include="UIMefBancoTransferenciaEntreCuentasBancarias.cs" />
     <Compile Include="ViewModel\BeneficiarioMngViewModel.cs" />
     <Compile Include="ViewModel\BeneficiarioViewModel.cs" />
     <Compile Include="ViewModel\clsFKViewModel.cs" />
@@ -129,6 +139,8 @@
     <Compile Include="ViewModel\ConceptoBancarioViewModel.cs" />
     <Compile Include="ViewModel\CuentaBancariaMngViewModel.cs" />
     <Compile Include="ViewModel\CuentaBancariaViewModel.cs" />
+    <Compile Include="ViewModel\TransferenciaEntreCuentasBancariasMngViewModel.cs" />
+    <Compile Include="ViewModel\TransferenciaEntreCuentasBancariasViewModel.cs" />
     <Compile Include="Views\GSBeneficiarioView.xaml.cs">
       <DependentUpon>GSBeneficiarioView.xaml</DependentUpon>
     </Compile>
@@ -137,6 +149,9 @@
     </Compile>
     <Compile Include="Views\GSCuentaBancariaView.xaml.cs">
       <DependentUpon>GSCuentaBancariaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSTransferenciaEntreCuentasBancariasView.xaml.cs">
+      <DependentUpon>GSTransferenciaEntreCuentasBancariasView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GSTransferenciaEntreCuentasBancariasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -172,7 +191,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-  <ProjectReference Include="..\Galac.Adm.Rpt.Banco\Galac.Adm.Rpt.Banco.csproj">
+    <ProjectReference Include="..\Galac.Adm.Rpt.Banco\Galac.Adm.Rpt.Banco.csproj">
       <Project>{57a8fb4e-47a1-4a4f-aeb5-7a1f55d69812}</Project>
       <Name>Galac.Adm.Rpt.Banco</Name>
     </ProjectReference>
