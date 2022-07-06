@@ -210,6 +210,11 @@ namespace Galac.Saw.Brl.Inventario {
             decimal vPorcentajeAlicuota = 0;
             eTipoDeAlicuota vTipoDeAlicuota = (eTipoDeAlicuota)LibConvert.DbValueToEnum(valTipoDeAlicuota);
             int vCantidadDeDecimalesInt = LibImportData.ToInt(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CantidadDeDecimales"));
+            if (vCantidadDeDecimalesInt > 4) {
+                vCantidadDeDecimalesInt = 4;
+            }else if (vCantidadDeDecimalesInt < 2) {
+                vCantidadDeDecimalesInt = 2;
+            }
             switch(vTipoDeAlicuota) {
                 case eTipoDeAlicuota.Exento:
                     vPorcentajeAlicuota = 0;
