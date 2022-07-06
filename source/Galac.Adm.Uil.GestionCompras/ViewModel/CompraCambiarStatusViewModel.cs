@@ -331,10 +331,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        public bool IsVisibleDiferenciaDistribucion
-        {
-            get
-            {
+        public bool IsVisibleDiferenciaDistribucion {
+            get {
                 return TipoDeDistribucion == eTipoDeDistribucion.ManualPorMonto;
             }
         }
@@ -422,14 +420,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 base.ExecuteSpecialAction(valAction);
             }
         }
-        void ChangeStatus()
-        {
-            if (Action == eAccionSR.Abrir )
-            {
+        void ChangeStatus() {
+            if (Action == eAccionSR.Abrir) {
                 Model.StatusCompraAsEnum = eStatusCompra.Vigente;
-            }
-            else
-            {
+            } else {
                 Model.StatusCompraAsEnum = eStatusCompra.Anulada;
             }
         }
