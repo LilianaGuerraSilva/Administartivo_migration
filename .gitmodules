@@ -66,3 +66,7 @@
 	path = bin/binAdministrativoAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
 	branch = release/V22.3.0.0
+[submodule "source/VbaComun"]
+	path = source/VbaComun
+	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
+	branch = release/SawV22.3.0.0
