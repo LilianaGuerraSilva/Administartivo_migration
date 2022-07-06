@@ -339,6 +339,15 @@ namespace Galac.Adm.Dal.Banco {
             insDb.Dispose();
             return vResult;
         }
+		public bool ExisteYEsEgresoIngreso(string valCodigo, eIngresoEgreso valTipo) {
+			LibDatabase insDB = new LibDatabase();
+			LibGpParams dbParam = new LibGpParams();
+			dbParam.AddInString("Codigo", valCodigo, 8);
+			dbParam.AddInEnum("Tipo", (int) valTipo);
+			bool vResult = insDB.ExistsRecord("Adm.ConceptoBancario", "Consecutivo", dbParam.Get());
+			insDB.Dispose();
+			return vResult;
+		}
         #endregion //Validaciones
         #region Miembros de ILibDataFKSearch
         bool ILibDataFKSearch.ConnectFk(ref XmlDocument refResulset, eProcessMessageType valType, string valProcessMessage, StringBuilder valXmlParamsExpression) {

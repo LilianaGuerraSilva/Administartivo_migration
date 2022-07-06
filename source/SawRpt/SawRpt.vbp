@@ -60,7 +60,6 @@ Class=clsAuditoriaContableRpt; clsAuditoriaContableRpt.cls
 Class=clsSolicitudesDePagoRpt; clsSolicitudesDePagoRpt.cls
 Class=clsInventarioSawAdmeRpt; ..\AdministrativoVb\SAW_ADME\clsInventarioSawAdmeRpt.cls
 Class=clsRendicionRpt; clsRendicionRpt.cls
-Class=clsContratoRpt; clsContratoRpt.cls
 Class=clsControlDespachoRpt; clsControlDespachoRpt.cls
 Form=frmInformesDeSolicitudesDePago.frm
 Form=frmInformesDeMovimientoBancario.frm

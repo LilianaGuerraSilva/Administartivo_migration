@@ -4,7 +4,7 @@ using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.Venta {
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusFactura {
         [LibEnumDescription("Emitida")]
         Emitida = 0,
@@ -14,7 +14,7 @@ namespace Galac.Adm.Ccl.Venta {
         Borrador
     }
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	[TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormadePago {
         [LibEnumDescription("Contado")]
         Contado = 0,
@@ -22,7 +22,7 @@ namespace Galac.Adm.Ccl.Venta {
         Credito
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeLaInicial {
         [LibEnumDescription("Por Monto")]
         PorMonto = 0,
@@ -30,7 +30,7 @@ namespace Galac.Adm.Ccl.Venta {
         PorPorcentaje
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTalonario {
         [LibEnumDescription("Talonario 1")]
         Talonario1 = 0,
@@ -38,11 +38,11 @@ namespace Galac.Adm.Ccl.Venta {
         Talonario2
     }
 	
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeVenta {
         [LibEnumDescription("Interna")]
         Interna = 0,
-        [LibEnumDescription("Exportacion")]
+        [LibEnumDescription("Exportación")]
         Exportacion,
         [LibEnumDescription("Sin  Derecho a  Crédito  Fiscal")]
         SinDerechoaCreditoFiscal,
@@ -52,7 +52,7 @@ namespace Galac.Adm.Ccl.Venta {
         ANoContribuyente
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeFormaDeCobro {
         [LibEnumDescription("Efectivo")]
         Efectivo = 0,
@@ -66,7 +66,7 @@ namespace Galac.Adm.Ccl.Venta {
         Otros
     }
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	[TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eTipoDeCxC {
         [LibEnumDescription("Factura")]
         Factura = 0, 
@@ -84,7 +84,7 @@ namespace Galac.Adm.Ccl.Venta {
         NoAsignado
 	}
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeTransaccionDeLibrosFiscales {
         [LibEnumDescription("Registro")]
         Registro = 0,
@@ -96,7 +96,7 @@ namespace Galac.Adm.Ccl.Venta {
         Ajuste
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeTransaccion {
         [LibEnumDescription("FACTURA")]
         FACTURA = 0,
@@ -126,7 +126,7 @@ namespace Galac.Adm.Ccl.Venta {
         NOTADECREDITOCOMPROBANTEFISCAL
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusCobranza {
         [LibEnumDescription("Vigente")]
         Vigente = 0,
@@ -134,7 +134,7 @@ namespace Galac.Adm.Ccl.Venta {
         Anulada
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusCXC {
         [LibEnumDescription("Por Cancelar", Index = 0)]
         [LibEnumDescription("P/C", Index = 1)]
@@ -156,8 +156,7 @@ namespace Galac.Adm.Ccl.Venta {
         REFINANCIADO
     }
 
-
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeTarjeta {
         [LibEnumDescription("Visa")]
         Visa = 0,
@@ -169,7 +168,7 @@ namespace Galac.Adm.Ccl.Venta {
         Debito
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eOrigenFacturacionOManual {
         [LibEnumDescription("Factura")]
         Factura = 0,
@@ -179,7 +178,7 @@ namespace Galac.Adm.Ccl.Venta {
         Sistema10
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eStatusRetencionIVACobranza {
         [LibEnumDescription("No Aplica")]
         NoAplica = 0,
@@ -189,7 +188,7 @@ namespace Galac.Adm.Ccl.Venta {
         Distribuido
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeDocumentoCobranza {
         [LibEnumDescription("Cobranza De Factura")]
         CobranzaDeFactura = 0,
@@ -197,7 +196,7 @@ namespace Galac.Adm.Ccl.Venta {
         CobranzaPorAplicacionDeRetencion
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobro {
         [LibEnumDescription("Efectivo",Index = 0)]
         [LibEnumDescription("00001",Index = 1)]
@@ -216,7 +215,7 @@ namespace Galac.Adm.Ccl.Venta {
         Anticipo
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFiltrarCobranzasPor {
         [LibEnumDescription("Cobrador")]
         Cobrador = 0,
@@ -226,7 +225,7 @@ namespace Galac.Adm.Ccl.Venta {
         CuentaBancaria,
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeCalculoComision {
         [LibEnumDescription("Por Ventas")]
         PorVentas = 0,
@@ -234,7 +233,7 @@ namespace Galac.Adm.Ccl.Venta {
         PorCobranzas
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eComoAplicaOtrosCargosDeFactura {
         [LibEnumDescription("Suma")]
         Suma = 0,
@@ -244,12 +243,60 @@ namespace Galac.Adm.Ccl.Venta {
         NoAplica_EsInformativo
     }
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eClientesOrdenadosPor {
         [LibEnumDescription("Por Código")]
         PorCodigo = 0, 
         [LibEnumDescription("Por Nombre")]
         PorNombre
+	}
+
+	[TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eStatusContrato {
+        [LibEnumDescription("Vigente")]
+        Vigente = 0, 
+        [LibEnumDescription("Desactivado")]
+        Desactivado
+	}
+	
+	[TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eDuracionDelContrato {
+        [LibEnumDescription("Duración Fija")]
+        DuracionFija = 0, 
+        [LibEnumDescription("Duración Indefinida")]
+        DuracionIndefinida
+	}
+	
+	[TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum ePeriodicidadContratos {
+        [LibEnumDescription("Mensual")]
+        Mensual = 0, 
+        [LibEnumDescription("Bimestral")]
+        Bimestral, 
+        [LibEnumDescription("Trimestral")]
+        Trimestral, 
+        [LibEnumDescription("Semestral")]
+        Semestral, 
+        [LibEnumDescription("Anual")]
+        Anual, 
+        [LibEnumDescription("Cuota Única")]
+        CuotaUnica
+	}
+
+	[TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum ePeriodoDeAplicacion {
+        [LibEnumDescription("El del Contrato")]
+        EldelContrato = 0, 
+        [LibEnumDescription("Especial Indicar")]
+        EspecialIndicar
+	}
+
+	[TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eValorDelRenglon {
+        [LibEnumDescription("Valor en Archivo Artículos")]
+        ValorenArchivoArticulos = 0, 
+        [LibEnumDescription("Indicar El Valor")]
+        IndicarElValor
 	}
 
 } //End of namespace namespace Galac.Saw.Ccl.Venta

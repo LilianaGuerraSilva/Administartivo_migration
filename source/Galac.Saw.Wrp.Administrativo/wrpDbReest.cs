@@ -81,7 +81,6 @@ namespace Galac.Saw.Wrp.DDL {
         }
 
         bool IwrpVbReest.UpdateToVersion(string vfwCurrentVersionInDb, string vfwDestinyVersion) {
-
             try {
                 //return new clsReestructurarDatabase().UpgradeToNewVersion(vfwCurrentVersionInDb, vfwDestinyVersion);
                 return new clsReestructurarDatabase(vfwCurrentVersionInDb, vfwDestinyVersion, ObtenerNombreDeBaseDatos()).UpgradeToNewVersion(vfwCurrentVersionInDb, vfwDestinyVersion);
@@ -91,9 +90,7 @@ namespace Galac.Saw.Wrp.DDL {
                 }
                 throw new GalacWrapperException(Title, vEx);
             }
-
         }
-        
         private string ObtenerNombreDeBaseDatos() {
             string vResult;
             string vCS = new LibGalac.Aos.Cnf.LibAppConfig().ReadCnn("Datos");
@@ -101,7 +98,6 @@ namespace Galac.Saw.Wrp.DDL {
             vResult = new LibGalac.Aos.Cnf.LibAppConfig().ExtractCnnParameterValue("Datos", "Initial Catalog");
             return vResult;
         }
-
 #endregion
     }
 }

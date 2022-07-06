@@ -108,5 +108,24 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		//eSolicitudGeneradaPor GeneradoPor { get; set; }
 	}
 
+	public class FkTransferenciaEntreCuentasBancariasViewModel : IFkTransferenciaEntreCuentasBancariasViewModel {
+		public int ConsecutivoCompania { get; set; }
+		[LibGridColum("Nº Movimiento")]
+		public int Consecutivo { get; set; }
+		[LibGridColum("Status")]
+		public eStatusTransferenciaBancaria Status { get; set; }
+		[LibGridColum("Fecha")]
+		public DateTime Fecha { get; set; }
+		[LibGridColum("Nº Documento")]
+		public string NumeroDocumento { get; set; }
+		[LibGridColum("Cuenta Bancaria Origen")]
+		public string CodigoCuentaBancariaOrigen { get; set; }
+		[LibGridColum("Concepto Bancario de Egreso")]
+		public string CodigoConceptoEgreso { get; set; }
+		[LibGridColum("Cuenta Bancaria Destino")]
+		public string CodigoCuentaBancariaDestino { get; set; }
+		[LibGridColum("Concepto Bancario de Ingreso")]
+		public string CodigoConceptoIngreso { get; set; }
+	}
 }
 
