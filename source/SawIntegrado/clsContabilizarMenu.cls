@@ -57,6 +57,7 @@ Public Sub sCreaElMenuDeContabilizar(ByRef refForma As Form)
       Call gUtilMenus.fAddMenuItem(refForma, CM_ANTICIPO_COBRADO, numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_ANTICIPO) And puedoActivar, False, eSC_NoShortcut, True, 8)
       Call gUtilMenus.fAddMenuItem(refForma, CM_ANTICIPO_PAGADO, numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_ANTICIPO) And puedoActivar, False, eSC_NoShortcut, True, 8)
       Call gUtilMenus.fAddMenuItem(refForma, gProyReglasDeContabilizacion.fTextoMenuDeContabilizar(eCG_REPOSICION), numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_REPOSICION) And puedoActivar, False, eSC_NoShortcut, True, 17)
+      'Call gUtilMenus.fAddMenuItem(refForma, gProyReglasDeContabilizacion.fTextoMenuDeContabilizar(eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA), numSubMenu, gProyReglasDeContabilizacion.fMostrarElMenu(eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA) And puedoActivar, False, eSC_NoShortcut, True, 17)
       Set insLibServerProperty = Nothing
       If gDefgen.GetElProgramaEstaEnModoAvanzado Then
          Call gUtilMenus.fAddSeparador(refForma, numSubMenu)
@@ -93,6 +94,7 @@ Public Sub sEjecutaAccionEscogidaMenuContabilizar(ByVal valCaptionMenuEscogido A
       Case "Borrar comprobante de  Costos Inventario":   sEjecutaBorrarComprobantesDeCostosDeInventario eCG_INVENTARIO, CM_NO_APLICA_TIPO
       Case "Contabiliza Pago de Sueldos": sEjecutaContabilizar eCG_PAGO_SUELDOS, CM_NO_APLICA_TIPO
       Case "Contabilizar Reposición de Caja Chica": sEjecutaProcesoDeContabilizacionDeReposicion
+      Case "Contabilizar Transferencia entre Cuentas Bancarias": sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas
       Case "Reparar Inconsistencias": sEjecutaRepararInconsistenciasAuxiliar
    End Select
 h_EXIT: On Error GoTo 0
@@ -520,4 +522,52 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaRepararInconsistenciasAuxiliar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
+    Dim parametros As String
+    Dim objWrapper As Object
+    Dim vDatos As String
+    Dim vFecha As Date
+    Dim vNumero As String
+    Dim vConsecutivo As String
+    Dim generarComprobanteNavigator As clsGenerarComprobanteNavigator
+    Dim vFechaAnulacion As Date
+    Dim Continuar As Boolean
+    Dim vCodigoCuentaBancaria As String
+    Dim insMovimientoBancario As clsMovimientoBancarioNavigator
+    Dim insCtaBancaria As clsCuentaBancariaNavigator
+    On Error GoTo h_ERROR
+    Continuar = True
+    Set insMovimientoBancario = New clsMovimientoBancarioNavigator
+    Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("TransferenciaEntreCuentasBancarias", "wrpTransferenciaEntreCuentasBancarias"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
+    parametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
+
+    vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), parametros)
+
+    gMessage.Advertencia vDatos
+'   If (vDatos <> "") Then
+'        If (gProyCompaniaActual.GetUsaModuloDeContabilidad()) Then
+'            gLibGalacDataParse.Initialize vDatos
+'            gLibGalacDataParse.SetRootName "Datos"
+'            gLibGalacDataParse.SetResultName "Documento"
+'            vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "Fecha", ""))
+'            vNumero = gLibGalacDataParse.GetString(0, "NumeroDocumento", "")
+'            vConsecutivo = gConvert.fConvertStringToLong(gLibGalacDataParse.GetString(0, "Consecutivo", ""))
+'            vCodigoCuentaBancaria = gLibGalacDataParse.GetString(0, "CodigoCuentaBancariaOrigen")
+'            Set generarComprobanteNavigator = New clsGenerarComprobanteNavigator
+'            If (generarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNumero, False, False, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo)) Then
+'                Set insCtaBancaria = New clsCuentaBancariaNavigator
+'                insMovimientoBancario.sCargarValoresDeLaCuentaBancaria insCtaBancaria, vCodigoCuentaBancaria, True
+'                generarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNumero, False, False, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo, insCtaBancaria.GetTipoDeAlicuotaPorContribuyenteAsEnum
+'            End If
+'            Set generarComprobanteNavigator = Nothing
+'        End If
+'    Else
+'        Continuar = False
+'    End If
+    parametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
+    Set insMovimientoBancario = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
 

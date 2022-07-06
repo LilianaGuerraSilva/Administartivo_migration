@@ -141,6 +141,9 @@
     <Compile Include="clsCajaMenu.cs" />
     <Compile Include="clsClienteInsercionRapidaMenu.cs" />
     <Compile Include="clsCobroRapidoMultimonedaMenu.cs" />
+    <Compile Include="Reportes\clsContratoEntreFechasViewModel.cs" />
+    <Compile Include="Reportes\clsContratoInformesViewModel.cs" />
+    <Compile Include="Reportes\clsContratoPorNumeroViewModel.cs" />
     <Compile Include="Reportes\clsFacturacionPorUsuarioViewModel.cs" />
     <Compile Include="clsFacturaRapidaMenu.cs" />
     <Compile Include="clsVentaInformesMenu.cs" />
@@ -166,6 +169,12 @@
     </Compile>
     <Compile Include="Reportes\GSComisionDeVendedores.xaml.cs">
       <DependentUpon>GSComisionDeVendedores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSContratoEntreFechas.xaml.cs">
+      <DependentUpon>GSContratoEntreFechas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes\GSContratoPorNumero.xaml.cs">
+      <DependentUpon>GSContratoPorNumero.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\GSCuadreCajaConDetalleFormaPago.xaml.cs">
       <DependentUpon>GSCuadreCajaConDetalleFormaPago.xaml</DependentUpon>
@@ -308,6 +317,14 @@
     <Page Include="Reportes\GSComisionDeVendedores.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSContratoEntreFechas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reportes\GSContratoPorNumero.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Reportes\GSCuadreCajaCobroMultimonedaDetalladoView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -7,6 +7,7 @@ using LibGalac.Aos.Brl;
 using Galac.Adm.Ccl.Banco;
 using System.Xml.Linq;
 using System.Linq;
+using System.Threading;
 
 namespace Galac.Adm.Brl.Banco {
     public partial class clsMovimientoBancarioNav : LibBaseNav<IList<MovimientoBancario>, IList<MovimientoBancario>>, IMovimientoBancarioPdn {
@@ -90,6 +91,24 @@ namespace Galac.Adm.Brl.Banco {
             }
             return 1;
         }
+		bool IMovimientoBancarioPdn.AnularMovimientosBancarios(int valConsecutivoCompania, string valNumeroDocumento, eGeneradoPor eGeneradoPor) {
+			LibGpParams vParams = new LibGpParams();
+			StringBuilder vSql = new StringBuilder();
+			vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+			vParams.AddInDecimal("Monto", 0, 2);
+			vParams.AddInString("NumeroDocumento", valNumeroDocumento, 20);
+			vParams.AddInEnum("GeneradoPor", (int) eGeneradoPor);
+			vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
+			vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
+			vSql.AppendLine("UPDATE dbo.MovimientoBancario");
+			vSql.AppendLine("SET Monto = @Monto,");
+			vSql.AppendLine("FechaUltimaModificacion = @FechaUltimaModificacion,");
+			vSql.AppendLine("NombreOperador = @NombreOperador");
+			vSql.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania");
+			vSql.AppendLine("AND NumeroDocumento=@NumeroDocumento");
+			vSql.AppendLine("AND GeneradoPor=@GeneradoPor");
+			return LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), string.Empty, 0) > 0;
+		}
     } //End of class clsMovimientoBancarioNav
 
 } //End of namespace Galac.Adm.Brl.Banco

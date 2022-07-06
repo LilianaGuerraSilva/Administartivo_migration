@@ -234,7 +234,7 @@ Public Enum enum_SystemModules
    eSM_OrdenDeProduccion
    eSM_OrdenDeProduccionDetalleArticulo
    eSM_OrdenDeProduccionDetalleMateriales
-   
+   eSM_TransferenciaEntreCuentasBancarias
 End Enum
 
 Public Enum enum_DiaDeLaSemana
@@ -573,6 +573,7 @@ Public Enum enum_GeneradoPor
    eGP_SOLICITUD_DE_PAGO
    eGP_REPOSICION_DE_CAJACHICA
    eGP_RETENCION_EN_COBRANZA
+   eGP_TRANSFERENCIA_BANCARIA
 End Enum
 
 Public Enum enum_Horario
@@ -1867,6 +1868,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_OrdenDeProduccion: enum_SystemModulesToStr = "Orden de Producción"
       Case eSM_OrdenDeProduccionDetalleArticulo: enum_SystemModulesToStr = "Orden de Producción Detalle Articulo"
       Case eSM_OrdenDeProduccionDetalleMateriales: enum_SystemModulesToStr = "Orden de Producción Detalle Materiales"
+      Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
    End Select
 End Function
 
@@ -4329,6 +4331,7 @@ Public Function enumGeneradoPorToString(ByVal GeneradoPor As enum_GeneradoPor) A
       Case eGP_SOLICITUD_DE_PAGO: enumGeneradoPorToString = "Solicitud de Pago"
       Case eGP_REPOSICION_DE_CAJACHICA: enumGeneradoPorToString = "Caja Chica"
       Case eGP_RETENCION_EN_COBRANZA: enumGeneradoPorToString = "Ret. en Cobranza"
+      Case eGP_TRANSFERENCIA_BANCARIA: enumGeneradoPorToString = "Transferencia Bancaria"
       Case Else: enumGeneradoPorToString = enumGeneradoPorToString(0)
    End Select
 End Function
@@ -4349,6 +4352,7 @@ Public Function enumGeneradoPorToSiglas(ByVal GeneradoPor As enum_GeneradoPor) A
       Case eGP_SOLICITUD_DE_PAGO: enumGeneradoPorToSiglas = "S/P"
       Case eGP_REPOSICION_DE_CAJACHICA: enumGeneradoPorToSiglas = "CCH"
       Case eGP_RETENCION_EN_COBRANZA: enumGeneradoPorToSiglas = "RCB"
+      Case eGP_TRANSFERENCIA_BANCARIA: enumGeneradoPorToSiglas = "TB"
       Case Else: enumGeneradoPorToSiglas = enumGeneradoPorToSiglas(0)
    End Select
 End Function
@@ -4356,7 +4360,7 @@ Public Function strGeneradoPorToNum(ByVal GeneradoPor As String, Optional ByVal 
    Dim mEnum As enum_GeneradoPor
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eGP_USUARIO To eGP_RETENCION_EN_COBRANZA
+   For mEnum = eGP_USUARIO To eGP_TRANSFERENCIA_BANCARIA
       If UCase(GeneradoPor) = UCase(enumGeneradoPorToString(mEnum)) Then
          strGeneradoPorToNum = nCount
          GoTo h_EXIT
@@ -4412,6 +4416,8 @@ Public Sub FillComboBoxWithGeneradoPor(ByRef varComboBox As Object, Optional act
       varComboBox.List(nCount) = enumGeneradoPorToString(enum_GeneradoPor.eGP_SOLICITUD_DE_PAGO)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumGeneradoPorToString(enum_GeneradoPor.eGP_RETENCION_EN_COBRANZA)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumGeneradoPorToString(enum_GeneradoPor.eGP_TRANSFERENCIA_BANCARIA)
       varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
       varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    End If
@@ -6636,7 +6642,7 @@ Public Function fEnumGeneradoPorToStringInArray(Optional ByVal valPrepararParaSq
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_GeneradoPor.eGP_RETENCION_EN_COBRANZA - enum_GeneradoPor.eGP_USUARIO
+   varLimiteSuperior = enum_GeneradoPor.eGP_TRANSFERENCIA_BANCARIA - enum_GeneradoPor.eGP_USUARIO
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
    For varEnum = eGP_USUARIO To eGP_RETENCION_EN_COBRANZA

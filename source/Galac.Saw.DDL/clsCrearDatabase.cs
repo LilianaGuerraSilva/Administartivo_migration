@@ -660,6 +660,10 @@ namespace Galac.Saw.DDL {
             return vResult;
         }
 
+		public bool CrearTransferenciaEntreCuentasBancarias() {
+			bool vResult = new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarTabla();
+			return vResult;
+		}
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Usuario")) {
@@ -916,6 +920,9 @@ namespace Galac.Saw.DDL {
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "NotaDeEntradaSalida")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaED().InstalarVistasYSps();
             }
+			if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TransferenciaEntreCuentasBancarias")) {
+				vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
+			}
             return vResult;
         }
     }
