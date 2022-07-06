@@ -38,121 +38,39 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label
-            Name="lblNumero"
-            Grid.Row="0"
-            Grid.Column="0"
-            Content="Número"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lneNumero"
-            Grid.Row="0"
-            Grid.Column="1"
-            Width="150"
-            HorizontalAlignment="Left"
-            Content="{Binding Path=Numero}"
-            Style="{StaticResource LabelCalculatedField}"
-            Visibility="{Binding Path=IsVisibleEditarNumeroRendicion, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <nsWpfControls:GSSeekConnection
-            Name="txtNumero"
-            Grid.Column="1"
-            Width="150"
-            Height="23"
-            HorizontalAlignment="Left"
-            ConnectionValue="{Binding Path=Numero, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+        <Label Grid.Row="0" Grid.Column="0" Name="lblNumero" Content="Número" Style="{StaticResource LabelPrompt}" />
+        <Label Grid.Row="0" Grid.Column="1" Name="lneNumero" Content="{Binding Path=Numero}" Style="{StaticResource LabelCalculatedField}" HorizontalAlignment="Left" Width="150" Visibility="{Binding Path=IsVisibleEditarNumeroRendicion, Converter={StaticResource booleanToVisibilityConverter}}" />
+
+        <nsWpfControls:GSSeekConnection Grid.Column="1" Name="txtNumero" Height="23"  HorizontalAlignment="Left" Width="150" 
             DisplayMemberPath="Numero"
             Model="{Binding Path=ConexionNumeroRendicion, Mode=TwoWay}"
-            SearchCommand="{Binding Path=ChooseNumeroRendicionCommand}"
-            Visibility="{Binding Path=IsVisibleEscogerNumeroRendicion, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <Label
-            Name="lblFechaApertura"
-            Grid.Row="0"
-            Grid.Column="2"
-            Content="Fecha de Apertura"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSDatePickerWpf
-            Name="dtpFechaApertura"
-            Grid.Row="0"
-            Grid.Column="3"
-            IsEnabled="{Binding Path=IsEnabled}"
-            SelectedDate="{Binding Path=FechaApertura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource DatePickerStyle}" />
-        <Label
-            Name="lblStatusRendicion"
-            Grid.Row="0"
-            Grid.Column="5"
-            Width="Auto"
-            HorizontalAlignment="Right"
-            Content="Estado"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lneStatusRendicion"
-            Grid.Row="0"
-            Grid.Column="6"
-            Width="150"
-            Content="{Binding Path=StatusRendicion}"
-            Style="{StaticResource LabelCalculatedField}" />
-        <Label
-            Name="lblCodigoCtaBancariaCajaChica"
-            Grid.Row="1"
-            Grid.Column="0"
-            Content="Caja Chica"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSSeekConnection
-            Name="txtCodigoCtaBancariaCajaChica"
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="150"
-            Height="23"
-            Margin="3"
-            HorizontalAlignment="Left"
-            ConnectionValue="{Binding Path=CodigoCtaBancariaCajaChica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        ConnectionValue="{Binding Path=Numero, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseNumeroRendicionCommand}" Visibility="{Binding Path=IsVisibleEscogerNumeroRendicion, Converter={StaticResource booleanToVisibilityConverter}}" />
+
+
+        <Label Grid.Row="0" Grid.Column="2" Name="lblFechaApertura" Content="Fecha de Apertura" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSDatePickerWpf Grid.Row="0" Grid.Column="3"  Style="{StaticResource DatePickerStyle}" Name="dtpFechaApertura"
+                                       SelectedDate="{Binding Path=FechaApertura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEnabled}"/>
+
+        <Label Grid.Row="0" Grid.Column="5" Name="lblStatusRendicion" Content="Estado" Style="{StaticResource LabelPrompt}" HorizontalAlignment="Right" Width="Auto" />
+        <Label Grid.Row="0" Grid.Column="6" Name="lneStatusRendicion" Content="{Binding Path=StatusRendicion}" Style="{StaticResource LabelCalculatedField}" Width="150" />
+
+        <Label Grid.Row="1" Grid.Column="0" Name="lblCodigoCtaBancariaCajaChica" Content="Caja Chica" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtCodigoCtaBancariaCajaChica" Height="23" Margin="3" HorizontalAlignment="Left" Width="150" IsEnabled="{Binding Path=IsEnabled}"
             DisplayMemberPath="Codigo"
-            IsEnabled="{Binding Path=IsEnabled}"
             Model="{Binding Path=ConexionCodigoCtaBancariaCajaChica, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=CodigoCtaBancariaCajaChica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             SearchCommand="{Binding Path=ChooseCodigoCtaBancariaCajaChicaCommand}" />
-        <Label
-            Name="lblNombreCuentaBancariaCajaChica"
-            Grid.Row="1"
-            Grid.Column="0"
-            Content="Caja Chica"
-            Style="{StaticResource LabelPrompt}"
-            Visibility="Collapsed" />
-        <Label
-            Name="lneNombreCuentaBancariaCajaChica"
-            Grid.Row="1"
-            Grid.Column="2"
-            Width="150"
-            Content="{Binding Path=NombreCuentaBancariaCajaChica}"
-            Style="{StaticResource LabelCalculatedField}" />
-        <Label
-            Name="lblDescripcion"
-            Grid.Row="1"
-            Grid.Column="3"
-            Content="Descripción"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf
-            Name="txtDescripcion"
-            Grid.Row="1"
-            Grid.Column="4"
-            Grid.ColumnSpan="3"
-            Width="Auto"
-            Height="Auto"
-            HorizontalAlignment="Stretch"
-            BorderThickness="1"
-            InputDataType="Alfanumeric"
-            IsEnabled="{Binding Path=IsEnabled}"
-            MaxLength="50"
-            Style="{StaticResource TextBoxInputStyle}"
-            Text="{Binding Path=Descripcion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-        <TabControl
-            Name="tbcRendicion"
-            Grid.Row="3"
-            Grid.Column="0"
-            Grid.ColumnSpan="8"
-            Margin="3"
-            SelectedIndex="{Binding Path=SelectedTabIndex}">
-            <TabItem Name="tbiSeccionFacturas" Header="Facturas">
+
+        <Label Grid.Row="1" Grid.Column="0" Name="lblNombreCuentaBancariaCajaChica" Content="Caja Chica" Style="{StaticResource LabelPrompt}" Visibility="Collapsed" />
+        <Label Grid.Row="1" Grid.Column="2" Name="lneNombreCuentaBancariaCajaChica" Content="{Binding Path=NombreCuentaBancariaCajaChica}" Style="{StaticResource LabelCalculatedField}" Width="150" />
+
+        <Label Grid.Row="1" Grid.Column="3" Name="lblDescripcion" Content="Descripción" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf Grid.Row="1" Grid.Column="4" Name="txtDescripcion" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="50" Width="Auto" IsEnabled="{Binding Path=IsEnabled}"
+                                    Text="{Binding Path=Descripcion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" Height="Auto" />
+
+        <TabControl Grid.Row="3" Grid.Column ="0" Grid.ColumnSpan="8" Margin="3" Name="tbcRendicion"  SelectedIndex="{Binding Path=SelectedTabIndex}">
+            <TabItem Header="Facturas" Name="tbiSeccionFacturas"  >
                 <Grid Name="gtSeccionFacturas">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -164,54 +82,28 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <ContentControl
-                        x:Name="dDetalleDeRendicion"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Content="{Binding Path=DetailDetalleDeRendicion.SelectedItem}"
-                        Focusable="False"
-                        IsEnabled="{Binding Path=IsEnabled}" />
-                    <Border
-                        Grid.Row="1"
-                        Height="25"
-                        Background="Transparent"
-                        BorderBrush="LightGray"
-                        BorderThickness="0,0,0,1">
+                    <ContentControl x:Name="dDetalleDeRendicion" Grid.Row="0" Grid.Column="0" Content="{Binding Path=DetailDetalleDeRendicion.SelectedItem}" Focusable="False" IsEnabled="{Binding Path=IsEnabled}"/>
+                    <Border Height="25" Grid.Row="1" Background="Transparent" BorderBrush="LightGray" BorderThickness="0,0,0,1">
                         <StackPanel Orientation="Horizontal">
-                            <Button
-                                nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=dDetalleDeRendicion}"
-                                Command="{Binding Path=DetailDetalleDeRendicion.CreateCommand}"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                Style="{StaticResource MenuButtonStyle}"
-                                ToolTip="Nuevo">
-                                <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/add.png" />
+                            <Button nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=dDetalleDeRendicion}" Command="{Binding Path=DetailDetalleDeRendicion.CreateCommand}" ToolTip="Nuevo" Style="{StaticResource MenuButtonStyle}" IsEnabled="{Binding Path=IsEnabled}" >
+                                <Image Source="/LibGalac.Aos.UI.WpfRD;component/Images/add.png" Focusable="False" />
                             </Button>
-                            <Button
-                                Command="{Binding Path=DetailDetalleDeRendicion.DeleteCommand}"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                Style="{StaticResource MenuButtonStyle}"
-                                ToolTip="Eliminar">
-                                <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/delete.png" />
+                            <Button Command="{Binding Path=DetailDetalleDeRendicion.DeleteCommand}" ToolTip="Eliminar" Style="{StaticResource MenuButtonStyle}" IsEnabled="{Binding Path=IsEnabled}" >
+                                <Image Source="/LibGalac.Aos.UI.WpfRD;component/Images/delete.png" Focusable="False" />
                             </Button>
                         </StackPanel>
                     </Border>
-                    <nsWpfControls:GSDataGrid
-                        Grid.Row="2"
-                        Grid.ColumnSpan="3"
-                        MinWidth="250"
-                        MinHeight="150"
-                        MaxHeight="150"
-                        VerticalAlignment="Bottom"
-                        AskBeforeDeleteSelectedItem="True"
-                        ColumnsMap="{Binding Path=DetailDetalleDeRendicion.VisibleColumns}"
+                    <nsWpfControls:GSDataGrid Grid.Row="2" Style="{StaticResource GSDataGridStyle}" MinHeight="150" MinWidth="250"
+                                              KeyboardNavigation.IsTabStop="False"
+                                              IsSynchronizedWithCurrentItem="True"
                         Focusable="False"
                         IsReadOnly="True"
-                        IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding Path=DetailDetalleDeRendicion.Items}"
-                        KeyboardNavigation.IsTabStop="False"
                         SelectedItem="{Binding Path=DetailDetalleDeRendicion.SelectedItem, Mode=OneWayToSource}"
+                                              ColumnsMap="{Binding Path=DetailDetalleDeRendicion.VisibleColumns}" Grid.ColumnSpan="3" MaxHeight="150" VerticalAlignment="Bottom" 
+                                              AskBeforeDeleteSelectedItem="True"
                         ShowRowNumbers="True"
-                        Style="{StaticResource GSDataGridStyle}">
+                                              >
                         <nsWpfControls:GSDataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
                                 <Style.Triggers>
@@ -239,10 +131,7 @@
                     </nsWpfControls:GSDataGrid>
                 </Grid>
             </TabItem>
-            <TabItem
-                Name="tbiSeccionCierre"
-                Header="Cierre"
-                Visibility="{Binding Path=IsVisibleTabCierre, Converter={StaticResource booleanToVisibilityConverter}}">
+            <TabItem Header="Cierre" Name="tbiSeccionCierre" Visibility="{Binding Path=IsVisibleTabCierre, Converter={StaticResource booleanToVisibilityConverter}}">
                 <Grid Name="gtSeccionCierre">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -259,110 +148,30 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label
-                        Name="lblFechaCierre"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Content="Fecha de Cierre"
-                        Style="{StaticResource LabelPrompt}" />
-                    <nsWpfControls:GSDatePickerWpf
-                        Name="dtpFechaCierre"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Width="120"
-                        IsEnabled="{Binding Path=IsReadCerrar}"
-                        SelectedDate="{Binding Path=FechaCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource DatePickerStyle}" />
-                    <Label
-                        Name="lblCodigoCuentaBancaria"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Content="Cuenta Bancaria para Reposición"
-                        Style="{StaticResource LabelPrompt}" />
-                    <nsWpfControls:GSSeekConnection
-                        Name="txtCodigoCuentaBancaria"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Width="120"
-                        Height="23"
-                        Margin="3"
-                        HorizontalAlignment="Left"
-                        ConnectionValue="{Binding Path=CodigoCuentaBancaria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    <Label Grid.Row="0" Grid.Column="0" Name="lblFechaCierre" Content="Fecha de Cierre" Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSDatePickerWpf Grid.Row="0" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaCierre"
+                                       SelectedDate="{Binding Path=FechaCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsReadCerrar}"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Name="lblCodigoCuentaBancaria" Content="Cuenta Bancaria para Reposición" Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSSeekConnection Grid.Row="1" Grid.Column="1" Name="txtCodigoCuentaBancaria" Height="23" Margin="3" HorizontalAlignment="Left" Width="120" IsEnabled="{Binding Path=IsReadCerrar}"
                         DisplayMemberPath="Codigo"
-                        IsEnabled="{Binding Path=IsReadCerrar}"
                         Model="{Binding Path=ConexionCodigoCuentaBancaria, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=CodigoCuentaBancaria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                         SearchCommand="{Binding Path=ChooseCodigoCuentaBancariaCommand}" />
-                    <Label
-                        Name="lblNombreCuentaBancaria"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Content="Nombre Cuenta Bancaria"
-                        Style="{StaticResource LabelPrompt}"
-                        Visibility="Collapsed" />
-                    <Label
-                        Name="lneNombreCuentaBancaria"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Width="300"
-                        Content="{Binding Path=NombreCuentaBancaria}"
-                        Style="{StaticResource LabelCalculatedField}" />
-                    <Label
-                        Name="lblNumeroDocumento"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Content="Número de Cheque"
-                        Style="{StaticResource LabelPrompt}" />
-                    <nsWpfControls:GSTextBoxWpf
-                        Name="txtNumeroDocumento"
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Width="Auto"
-                        HorizontalAlignment="Stretch"
-                        BorderThickness="1"
-                        InputDataType="Alfanumeric"
-                        IsEnabled="{Binding Path=IsReadCerrar}"
-                        MaxLength="15"
-                        Style="{StaticResource TextBoxInputStyle}"
-                        Text="{Binding Path=NumeroDocumento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                    <Label
-                        Name="lblBeneficiarioCheque"
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        Content="Beneficiario"
-                        Style="{StaticResource LabelPrompt}" />
-                    <nsWpfControls:GSTextBoxWpf
-                        Name="txtBeneficiarioCheque"
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
-                        Width="Auto"
-                        HorizontalAlignment="Stretch"
-                        BorderThickness="1"
-                        InputDataType="Alfanumeric"
-                        IsEnabled="{Binding Path=IsReadCerrar}"
-                        MaxLength="60"
-                        Style="{StaticResource TextBoxInputStyle}"
-                        Text="{Binding Path=BeneficiarioCheque, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                    <CheckBox
-                        Name="chkGeneraImpuestoBancario"
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Width="155"
-                        Height="15"
-                        Margin="5,6,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Content="{Binding Path=TituloDebito}"
-                        IsChecked="{Binding Path=GeneraImpuestoBancario}"
-                        IsEnabled="{Binding Path=PuedoGenerarITF}"
-                        Visibility="{Binding Path=IsVisibleITF, Converter={StaticResource booleanToVisibilityConverter}}" />
+
+                    <Label Grid.Row="1" Grid.Column="0" Name="lblNombreCuentaBancaria" Content="Nombre Cuenta Bancaria" Style="{StaticResource LabelPrompt}" Visibility="Collapsed" />
+                    <Label Grid.Row="1" Grid.Column="2" Name="lneNombreCuentaBancaria" Content="{Binding Path=NombreCuentaBancaria}" Style="{StaticResource LabelCalculatedField}" Width="300" />
+
+                    <Label Grid.Row="3" Grid.Column="0" Name="lblNumeroDocumento" Content="Número de Cheque" Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSTextBoxWpf Grid.Row="3" Grid.Column="1" Name="txtNumeroDocumento" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="15" Width="Auto" IsEnabled="{Binding Path=IsReadCerrar}"
+                                    Text="{Binding Path=NumeroDocumento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" />
+                    <Label Grid.Row="4" Grid.Column="0" Name="lblBeneficiarioCheque" Content="Beneficiario" Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSTextBoxWpf Grid.Row="4" Grid.Column="1" Name="txtBeneficiarioCheque" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="60" Width="Auto" IsEnabled="{Binding Path=IsReadCerrar}"
+                                    Text="{Binding Path=BeneficiarioCheque, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" />
+                    <CheckBox  Grid.Column="3" Grid.Row="1" Height="15" HorizontalAlignment="Left" Margin="5,6,0,0" Name="chkGeneraImpuestoBancario" VerticalAlignment="Top" Width="155" IsChecked="{Binding Path=GeneraImpuestoBancario}"   Content="{Binding Path=TituloDebito}" IsEnabled="{Binding Path=PuedoGenerarITF}"   Visibility="{Binding Path=IsVisibleITF, Converter={StaticResource booleanToVisibilityConverter}}" />
                 </Grid>
             </TabItem>
-            <TabItem
-                Name="tbiSeccionAnulacion"
-                Header="Anulación"
-                Visibility="{Binding Path=IsVisibleTabAnulacion, Converter={StaticResource booleanToVisibilityConverter}}">
+            <TabItem Header="Anulación" Name="tbiSeccionAnulacion" Visibility="{Binding Path=IsVisibleTabAnulacion, Converter={StaticResource booleanToVisibilityConverter}}">
                 <Grid Name="gtSeccionAnulacion">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -374,136 +183,29 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label
-                        Name="lblFechaAnulacion"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Content="Fecha de Anulación"
-                        Style="{StaticResource LabelPrompt}" />
-                    <nsWpfControls:GSDatePickerWpf
-                        Name="dtpFechaAnulacion"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Width="120"
-                        IsEnabled="{Binding Path=IsReadAnular}"
-                        SelectedDate="{Binding Path=FechaAnulacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource DatePickerStyle}" />
+                    <Label Grid.Row="0" Grid.Column="0" Name="lblFechaAnulacion" Content="Fecha de Anulación" Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSDatePickerWpf Grid.Row="0" Grid.Column="1" Width="120" Style="{StaticResource DatePickerStyle}" Name="dtpFechaAnulacion"
+                                       SelectedDate="{Binding Path=FechaAnulacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsReadAnular}"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Label
-            Name="lblObservaciones"
-            Grid.Row="4"
-            Grid.Column="0"
-            Content="Observaciones"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextAreaWpf
-            Name="txtObservaciones"
-            Grid.Row="4"
-            Grid.RowSpan="3"
-            Grid.Column="1"
-            Grid.ColumnSpan="4"
-            Width="508"
-            Height="88"
-            Margin="3,0,0,0"
-            VerticalAlignment="Top"
-            VerticalContentAlignment="Top"
-            nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
-            AcceptsReturn="True"
-            BorderThickness="1"
-            IsReadOnly="{Binding Path=IsReadOnly}"
-            Language="es-VE"
-            MaxLength="200"
-            SpellCheck.IsEnabled="True"
-            Style="{StaticResource TextBoxInputStyle}"
-            Text="{Binding Path=Observaciones, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            VerticalScrollBarVisibility="Auto" />
-        <Label
-            Name="lblTotalExento"
-            Grid.Row="4"
-            Grid.Column="5"
-            HorizontalAlignment="Right"
-            Content="Total Exento"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lneTotalExento"
-            Grid.Row="4"
-            Grid.Column="6"
-            Width="150"
-            HorizontalContentAlignment="Right"
-            Content="{Binding Path=TotalExento}"
-            ContentStringFormat="{}{0:0.00}"
-            Style="{StaticResource LabelCalculatedField}" />
-        <Label
-            Name="lblTotalGravable"
-            Grid.Row="5"
-            Grid.Column="5"
-            HorizontalAlignment="Right"
-            Content="Total Gravable"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lneTotalGravable"
-            Grid.Row="5"
-            Grid.Column="6"
-            Width="150"
-            HorizontalContentAlignment="Right"
-            Content="{Binding Path=TotalGravable}"
-            ContentStringFormat="{}{0:0.00}"
-            Style="{StaticResource LabelCalculatedField}" />
-        <Label
-            Name="lblTotalIVA"
-            Grid.Row="6"
-            Grid.Column="5"
-            HorizontalAlignment="Right"
-            Content="Total IVA"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lneTotalIVA"
-            Grid.Row="6"
-            Grid.Column="6"
-            Width="150"
-            HorizontalContentAlignment="Right"
-            Content="{Binding Path=TotalIVA}"
-            ContentStringFormat="{}{0:0.00}"
-            Style="{StaticResource LabelCalculatedField}" />
-        <Label
-            Name="lblTotalRetencion"
-            Grid.Row="7"
-            Grid.Column="5"
-            HorizontalAlignment="Right"
-            Content="Total Retención"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lneTotalRetencion"
-            Grid.Row="7"
-            Grid.Column="6"
-            Width="150"
-            HorizontalContentAlignment="Right"
-            Content="{Binding Path=TotalRetencion}"
-            ContentStringFormat="{}{0:0.00}"
-            Style="{StaticResource LabelCalculatedField}" />
-        <Label
-            Name="lblSaldo"
-            Grid.Row="8"
-            Grid.Column="5"
-            HorizontalAlignment="Right"
-            Content="Saldo"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lneSaldo"
-            Grid.Row="8"
-            Grid.Column="6"
-            Width="150"
-            HorizontalContentAlignment="Right"
-            Content="{Binding Path=Saldo}"
-            ContentStringFormat="{}{0:0.00}"
-            Style="{StaticResource LabelCalculatedField}" />
-        <Border
-            Grid.Row="8"
-            Grid.Column="5"
-            Grid.ColumnSpan="2"
-            Background="{x:Null}"
-            BorderBrush="Black"
-            BorderThickness="0,1,0,0" />
+
+        <Label Grid.Row="4" Grid.Column="0" Name="lblObservaciones" Content="Observaciones" Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextAreaWpf Grid.Row="4" Grid.Column="1" Name="txtObservaciones" Style="{StaticResource TextBoxInputStyle}" MaxLength="200" Width="508" Height="88" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
+                                    Text="{Binding Path=Observaciones, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Grid.ColumnSpan="4" Grid.RowSpan="3" Margin="3,0,0,0" VerticalContentAlignment="Top" nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True" AcceptsReturn="True" SpellCheck.IsEnabled="True" Language="es-VE" VerticalAlignment="Top" />
+
+        <Label Grid.Row="4" Grid.Column="5" Name="lblTotalExento" Content="Total Exento" Style="{StaticResource LabelPrompt}" HorizontalAlignment="Right" />
+        <Label Grid.Row="4" Grid.Column="6" Name="lneTotalExento" Content="{Binding Path=TotalExento}"  ContentStringFormat="{}{0:0.00}" Style="{StaticResource LabelCalculatedField}" Width="150" HorizontalContentAlignment="Right" />
+        <Label Grid.Row="5" Grid.Column="5" Name="lblTotalGravable" Content="Total Gravable" Style="{StaticResource LabelPrompt}" HorizontalAlignment="Right" />
+        <Label Grid.Row="5" Grid.Column="6" Name="lneTotalGravable" Content="{Binding Path=TotalGravable}"  ContentStringFormat="{}{0:0.00}" Style="{StaticResource LabelCalculatedField}" Width="150" HorizontalContentAlignment="Right" />
+        <Label Grid.Row="6" Grid.Column="5" Name="lblTotalIVA" Content="Total IVA" Style="{StaticResource LabelPrompt}" HorizontalAlignment="Right" />
+        <Label Grid.Row="6" Grid.Column="6" Name="lneTotalIVA" Content="{Binding Path=TotalIVA}"  ContentStringFormat="{}{0:0.00}" Style="{StaticResource LabelCalculatedField}" Width="150" HorizontalContentAlignment="Right" />
+        <Label Grid.Row="7" Grid.Column="5" Name="lblTotalRetencion" Content="Total Retención" Style="{StaticResource LabelPrompt}" HorizontalAlignment="Right" />
+        <Label Grid.Row="7" Grid.Column="6" Name="lneTotalRetencion" Content="{Binding Path=TotalRetencion}"  ContentStringFormat="{}{0:0.00}" Style="{StaticResource LabelCalculatedField}" Width="150" HorizontalContentAlignment="Right" />
+        <Label Grid.Row="8" Grid.Column="5" Name="lblSaldo" Content="Saldo" Style="{StaticResource LabelPrompt}" HorizontalAlignment="Right" />
+        <Label Grid.Row="8" Grid.Column="6" Name="lneSaldo" Content="{Binding Path=Saldo}"  ContentStringFormat="{}{0:0.00}" Style="{StaticResource LabelCalculatedField}" Width="150" HorizontalContentAlignment="Right" />
+
+        <Border Grid.Row="8" Grid.Column="5" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0,1,0,0" Background="{x:Null}" />
+
     </Grid>
 </UserControl>
