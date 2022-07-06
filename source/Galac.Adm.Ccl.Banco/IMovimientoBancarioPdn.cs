@@ -5,8 +5,9 @@ using System.Text;
 using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.Banco {
-    public  interface IMovimientoBancarioPdn : ILibPdn {
-        bool Insert(List<MovimientoBancario> list);
-        int BuscarSiguienteConsecutivoMovimientoBancario(int valConsecutivoCompania);
-    }
+	public interface IMovimientoBancarioPdn : ILibPdn {
+		bool Insert(List<MovimientoBancario> list);
+		int BuscarSiguienteConsecutivoMovimientoBancario(int valConsecutivoCompania);
+		bool AnularMovimientosBancarios(int valConsecutivoCompania, string valNumeroDocumento, eGeneradoPor eGeneradoPor);
+	}
 }

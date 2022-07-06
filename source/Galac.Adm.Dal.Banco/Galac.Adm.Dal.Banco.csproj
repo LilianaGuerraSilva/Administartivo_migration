@@ -70,6 +70,8 @@
     <Compile Include="clsRenglonSolicitudesDePagoED.cs" />
     <Compile Include="clsSolicitudesDePagoDat.cs" />
     <Compile Include="clsSolicitudesDePagoED.cs" />
+    <Compile Include="clsTransferenciaEntreCuentasBancariasDat.cs" />
+    <Compile Include="clsTransferenciaEntreCuentasBancariasED.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
