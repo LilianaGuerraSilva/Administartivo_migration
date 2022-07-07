@@ -400,7 +400,6 @@ Public Function fGenerarXmlConDatosDeLaVenta(ByVal valDatosImprFiscal As clsDato
    End If
    vXmlDatosDeLaVenta = vXmlDatosDeLaVenta & vDatosDelDocumento & vDatosDelCliente & vDatosDeLosProductos & vDatosDeLosPagos & vDatosDeDescuentoGeneral & vDatosDeCamposDefinibles
    vXmlDatosDeLaVenta = vXmlDatosDeLaVenta & vSiguienteLinea & "</GpResult>" & vSiguienteLinea & "</GpData>"
-   gUtilFile.fWriteTextInFile "C:\Users\jorge.barillas\factura.xml", vXmlDatosDeLaVenta, True, True
 h_EXIT: On Error GoTo 0
    fGenerarXmlConDatosDeLaVenta = vXmlDatosDeLaVenta
    Exit Function
