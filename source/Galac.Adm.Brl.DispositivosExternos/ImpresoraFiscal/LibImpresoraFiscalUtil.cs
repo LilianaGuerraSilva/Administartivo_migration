@@ -209,25 +209,24 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         public static string EstatusDeComunicacionDescription(bool valStatus) {
-            return valStatus ? "Correcto, en espera" : "No se pudo establecer comunicación, verificar puertos y cableados";
+            return valStatus ? "Correcto, en espera." : "No se pudo establecer comunicación, verificar puertos y cableados.";
         }
 
         public static string EstatusVersionDeControladorDescription(bool valStatus, bool valControllerIsSame, string valPath, string valOldVersion, string valNewVersion) {
             if (valStatus) {
-                return valControllerIsSame ? "Controladores Actualizados" : $"Controladores No  Actualizados. Se encontró {valOldVersion}, se esperaba {valNewVersion} \r\nactualice el controlador en la ruta de instalación " + valPath;
-
+                return valControllerIsSame ? "Controladores actualizados:" + LibText.CRLF() + "Versión actual: " + valOldVersion : $"Controladores no actualizados. Se encontró {valOldVersion}, se esperaba {valNewVersion}\r\nactualice el controlador en la ruta de instalación " + valPath;
             } else {
-                return "Controlador no encontrado, actualice el controlador en la ruta de instalación";
+                return "Controlador no encontrado, actualice el controlador en la ruta de instalación.";
             }
 
         }
 
         public static string EstatusHorayFechaDescription(bool valStatus) {
-            return valStatus ? "La fecha esta actualizada" : "La fecha esta desactualizada o no corresponde con la del computador, consulte con su proveedor";
+            return valStatus ? "La fecha está actualizada" : "La fecha esta desactualizada o no corresponde con la del computador, consulte con su proveedor.";
         }
 
         public static string EstatusColadeImpresionDescription(bool valStatus) {
-            return valStatus ? "Listo, En espera" : "Documento en cola\r\noperación fiscal sin completar, debe cancelar el documento fiscal en la opción disponible en el menú";
+            return valStatus ? "Listo, en espera." : "Documento en cola\r\noperación fiscal sin completar, debe cancelar el documento fiscal en la opción disponible en el menú.";
         }
 
         public static bool ValidarAlicuotasRegistradas(decimal valAlicuota1, decimal valAlicuota2, decimal valAlicuota3, ref string refAlicoutasRegistradasDescription) {
@@ -238,9 +237,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vResult &= (valAlicuota2 == LibImpresoraFiscalUtil.AlicuotaIva.Alicuota2);
             vResult &= (valAlicuota3 == LibImpresoraFiscalUtil.AlicuotaIva.Alicuota3);
             if (vResult) {
-                refAlicoutasRegistradasDescription = "Las Alicuotas estan actualizadas";
+                refAlicoutasRegistradasDescription = "Las alícuotas están actualizadas";
             } else {
-                vMensaje = "Las Alicuotas estan desactualizadas\r\n";
+                vMensaje = "Las alícuotas están desactualizadas\r\n";
                 vMensaje += (valAlicuota1 == LibImpresoraFiscalUtil.AlicuotaIva.Alicuota1) ? "\r\n" : "Se encontró " + LibConvert.ToStr(valAlicuota1) + " Se esperaba " + LibConvert.ToStr(LibImpresoraFiscalUtil.AlicuotaIva.Alicuota1) + "\r\n";
                 vMensaje += (valAlicuota2 == LibImpresoraFiscalUtil.AlicuotaIva.Alicuota2) ? "\r\n" : "Se encontró " + LibConvert.ToStr(valAlicuota2) + " Se esperaba " + LibConvert.ToStr(LibImpresoraFiscalUtil.AlicuotaIva.Alicuota2) + "\r\n";
                 vMensaje += (valAlicuota3 == LibImpresoraFiscalUtil.AlicuotaIva.Alicuota3) ? "\r\n" : "Se encontró " + LibConvert.ToStr(valAlicuota3) + " Se esperaba " + LibConvert.ToStr(LibImpresoraFiscalUtil.AlicuotaIva.Alicuota3) + "\r\n";

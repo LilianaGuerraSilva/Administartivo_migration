@@ -1044,10 +1044,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vDiagnostico.EstatusDeComunicacion = EstatusDeComunicacion(vDiagnostico);
                 vDiagnostico.VersionDeControladores = VersionDeControladores(vDiagnostico);
                 if (!vDiagnostico.EstatusDeComunicacion) {
-                    vDiagnostico.AlicoutasRegistradasDescription   = "No se completo";
-                    vDiagnostico.ConfiguracionImpresoraDescription = "No se completo";
-                    vDiagnostico.FechaYHoraDescription             = "No se completo";
-                    vDiagnostico.ColaDeImpresioDescription         = "No se completo";
+                    vDiagnostico.AlicoutasRegistradasDescription   = "No se completó.";
+                    vDiagnostico.ConfiguracionImpresoraDescription = "No se completó.";
+                    vDiagnostico.FechaYHoraDescription             = "No se completó.";
+                    vDiagnostico.ColaDeImpresioDescription         = "No se completó.";
                     return vDiagnostico;
                 }
                 vDiagnostico.AlicuotasRegistradas = AlicuotasRegistradas(vDiagnostico);
@@ -1083,9 +1083,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir, ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult, vIsSameVersion, vDir, vVersion, VersionApi);
-            if(vIsSameVersion) {
-            vDiagnostico.VersionDeControladoresDescription += ":" + LibText.CRLF() + "Versión actual: " + vVersion;
-            }
             vResult = vIsSameVersion;
             return vResult;
         }

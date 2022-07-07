@@ -37,12 +37,12 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <GroupBox 
+            <GroupBox
                 Name="gbConfiguracionImpresora"
-                Header="Configuración de la Impresora"
                 Grid.Row="0"
-                Grid.Column="4"
                 Grid.RowSpan="5"
+                Grid.Column="4"
+                Header="Configuración de la Impresora"
                 Style="{StaticResource GroupBoxStyle}"
                 Visibility="{Binding Path=IsVisibleConfiguracionImpresora, Converter={StaticResource booleanToVisibilityConverter}}">
                 <nsWpfControls:GSTextBoxWpf

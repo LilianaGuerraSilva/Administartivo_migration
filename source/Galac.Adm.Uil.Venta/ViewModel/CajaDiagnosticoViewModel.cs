@@ -401,9 +401,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ShowProgress = false;
                 _IsRunning = false;
                 if(t.IsCompleted) {
-                    LibMessages.MessageBox.Information(null,"El proceso fue completado con exito","");
+                    LibMessages.MessageBox.Information(null,"El proceso fué completado con éxito.","");
                 } else {
-                    LibMessages.MessageBox.Alert(null,"El proceso fue cancelado","");
+                    LibMessages.MessageBox.Alert(null,"El proceso fué cancelado.","");
 
                 }
             },cancellationTokenSource.Token,TaskContinuationOptions.OnlyOnRanToCompletion,TaskScheduler.FromCurrentSynchronizationContext());
