@@ -410,17 +410,22 @@ End Function
 
 Private Function fCaracteresXMLValidosEnDatosImprFiscal(ByVal valModeloImprFiscal As String)
     On Error GoTo h_Error
+   If gTexto.DfInStr(valModeloImprFiscal, "&") > 0 Then
+      gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, "&", "&amp;"
+   End If
    If gTexto.DfInStr(valModeloImprFiscal, ">") > 0 Then
       gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, ">", "&gt;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, "<") > 0 Then
+   End If
+   If gTexto.DfInStr(valModeloImprFiscal, "<") > 0 Then
       gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, "<", "&lt;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, "&") > 0 Then
-      gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, "&", "&amp;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, Chr(34)) > 0 Then
+   End If
+   If gTexto.DfInStr(valModeloImprFiscal, Chr(34)) > 0 Then
       gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, Chr(34), "&quot;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, Chr(39)) > 0 Then
+   End If
+   If gTexto.DfInStr(valModeloImprFiscal, Chr(39)) > 0 Then
       gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, Chr(39), "&apos;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, vbCrLf) > 0 Then
+   End If
+   If gTexto.DfInStr(valModeloImprFiscal, vbCrLf) > 0 Then
     valModeloImprFiscal = gTexto.DfReplace(valModeloImprFiscal, vbCrLf, "&#10;")
    End If
    valModeloImprFiscal = gTexto.fLimpiaStringdeBlancosAAmbosLados(valModeloImprFiscal)
