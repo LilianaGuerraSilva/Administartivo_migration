@@ -531,7 +531,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vTelefono = LibXml.GetPropertyString(valDocumentoFiscal, "TelefonoCliente");
             string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
             string vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
-            _NumeroDeLineasDeTotalesEnDivisas = LibText.Split(vTotalesEnDivisa, '\n').Count();
+            if (vTotalesEnDivisa != "") {
+                _NumeroDeLineasDeTotalesEnDivisas = LibText.Split(vTotalesEnDivisa, '\n').Count();
+            } else {
+                _NumeroDeLineasDeTotalesEnDivisas = 0;
+            }
             bool vResult = false;
             try {
                 List<XElement> vCamposDefinibles = valDocumentoFiscal.Descendants("GpResultDetailCamposDefinibles").ToList();
