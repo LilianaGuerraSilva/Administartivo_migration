@@ -1075,11 +1075,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vIsSameVersion = false;
             string vVersion = "";
             string vDir = "";
-#if DEBUG
-            vDir = Path.Combine(Environment.CurrentDirectory, DllApiName);
-#else
+//#if DEBUG
+//            vDir = Path.Combine(Environment.CurrentDirectory, DllApiName);
+//#else
             vDir = Path.Combine(LibApp.AppPath() + "CDP", DllApiName);
-#endif
+//#endif
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir, ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult, vIsSameVersion, vDir, vVersion, VersionApi);
@@ -1098,10 +1098,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             AlicuotaReducida = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax2), 2);
             AlicuotaAdicional = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax3), 2);
             vResult = LibImpresoraFiscalUtil.ValidarAlicuotasRegistradas(AlicuotaGeneral, AlicuotaReducida, AlicuotaAdicional, ref vAlicoutasRegistradasDescription);
-            vDiagnostico.AlicoutasRegistradasDescription = vAlicoutasRegistradasDescription + ":" + LibText.CRLF();
-            vDiagnostico.AlicoutasRegistradasDescription += "Reducida:   " + LibConvert.NumToString(AlicuotaReducida,        2) + "%" + LibText.CRLF() +
-                                                            "General:    " + LibConvert.NumToString(AlicuotaGeneral,         2) + "%" + LibText.CRLF() +
-                                                            "Adicional: "  + LibConvert.NumToString(AlicuotaAdicional,       2) + "%";
+            vDiagnostico.AlicoutasRegistradasDescription = vAlicoutasRegistradasDescription;
+            if (vResult) {
+                vDiagnostico.AlicoutasRegistradasDescription += ":" + LibText.CRLF();
+                vDiagnostico.AlicoutasRegistradasDescription += "Reducida:   " + LibConvert.NumToString(AlicuotaReducida,        2) + "%" + LibText.CRLF() +
+                                                                "General:    " + LibConvert.NumToString(AlicuotaGeneral,         2) + "%" + LibText.CRLF() +
+                                                                "Adicional: "  + LibConvert.NumToString(AlicuotaAdicional,       2) + "%";
+            }
             return vResult;
         }
 
