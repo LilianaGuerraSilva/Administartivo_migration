@@ -1168,7 +1168,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vFechaYHora = ObtenerFechaYHora();
             dFecha = LibConvert.ToDate(vFechaYHora);
             vResult = !LibDate.F1IsLessThanF2(dFecha, LibDate.Today());
-            vDiagnostico.FechaYHoraDescription = LibImpresoraFiscalUtil.EstatusHorayFechaDescription(vResult) + ":" + LibText.CRLF();
+            vDiagnostico.FechaYHoraDescription = LibImpresoraFiscalUtil.EstatusHorayFechaDescription(vResult) + LibText.CRLF();
             vDiagnostico.FechaYHoraDescription += vFechaYHora;
             return vResult;
         }
