@@ -56,8 +56,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         string[] _ListPrintersNotSupport;
         bool _PortIsOpen;
         int _MaxLongitudDeTexto = 0;
-        readonly bool _ObservacionesAlFinalDeLaFactura;
-        readonly string _ConfiguracionDetalleFactura;
+        private bool _ObservacionesAlFinalDeLaFactura;
+        private string _ConfiguracionDetalleFactura;
+        bool _EsMatrizDePuntos;
         #endregion
 
         #region Propiedades
@@ -87,6 +88,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _FormatoFirmwareTipo1 = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125);
                 //
                 _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+                //
+                _EsMatrizDePuntos = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
             } catch (GalacException vEx) {
                 throw vEx;
             }
@@ -572,8 +575,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 List<XElement> vRecord = valDocumentoFiscal.Descendants("GpResultDetailRenglonFactura").ToList();
                 foreach (XElement vXElement in vRecord) {
-                    vDescripcion = LibXml.GetElementValueOrEmpty(vXElement, "Descripcion");
-                    vCodigo = LibXml.GetElementValueOrEmpty(vXElement, "Articulo");
+                    vDescripcion = LibText.Trim(LibXml.GetElementValueOrEmpty(vXElement, "Descripcion"));
+                    vCodigo = LibText.Trim(LibXml.GetElementValueOrEmpty(vXElement, "Articulo"));
                     vCantidad = LibXml.GetElementValueOrEmpty(vXElement, "Cantidad");
                     vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad, _EnterosParaCantidad, _DecimalesParaCantidad);
                     vMonto = LibXml.GetElementValueOrEmpty(vXElement, "PrecioSinIVA");
@@ -587,10 +590,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         case "CODIGO":
                             vDescripcion = vCodigo;
                             break;
-                        case "DESCRIPCION":
-                            break;
                         case "CODIGOYDESCRIPCION":
-                            vDescripcion = "|" + LibText.Right(vCodigo, 12) + "|" + vDescripcion;
+                            if ((LibText.Len(vCodigo) > 12) && _EsMatrizDePuntos) {
+                                vDescripcion = "|" + LibText.Left(vCodigo, 12) + "|" + LibText.SubString(vCodigo, 12) + " - " + vDescripcion;
+                                vDescripcion = LibText.SubString(vDescripcion, 0, 108);
+                            } else {
+                                vDescripcion = "|" + vCodigo + "|" + vDescripcion;
+                            }
                             break;
                         default:
                             break;
