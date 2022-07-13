@@ -592,8 +592,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             break;
                         case "CODIGOYDESCRIPCION":
                             if ((LibText.Len(vCodigo) > 12) && _EsMatrizDePuntos) {
-                                vDescripcion = "|" + LibText.Left(vCodigo, 12) + "|" + LibText.SubString(vCodigo, 12) + " - " + vDescripcion;
-                                vDescripcion = LibText.SubString(vDescripcion, 0, 108);
+                                string vCodigoCortado = LibText.Left(vCodigo, 12);
+                                string vCodigoRestante = LibText.SubString(vCodigo, 12);
+                                vDescripcion = "|" + vCodigoCortado + "|" + vCodigoRestante + "-" + vDescripcion;
+                                vDescripcion = LibText.Left(vDescripcion, 108);
                             } else {
                                 vDescripcion = "|" + vCodigo + "|" + vDescripcion;
                             }
