@@ -95,7 +95,12 @@ namespace Galac.Adm.Rpt.GestionCompras{
                 LibReport.ConfigFieldStr(this, "txtUnidad", string.Empty, "UnidadDeVenta");
                 LibReport.ConfigFieldDec(this, "txtPrecio", string.Empty, "CostoUnitario");
                 LibReport.ConfigFieldDec(this, "txtSubTotal", string.Empty, "SubTotal");
-                                
+                LibReport.ConfigFieldStr(this, "txtCampoDefinible1", string.Empty, "CampoDefinible1");
+                LibReport.ConfigFieldStr(this, "txtCampoDefinible2", string.Empty, "CampoDefinible2");
+                LibReport.ConfigFieldStr(this, "txtCampoDefinible3", string.Empty, "CampoDefinible3");
+                LibReport.ConfigFieldStr(this, "txtCampoDefinible4", string.Empty, "CampoDefinible4");
+                LibReport.ConfigFieldStr(this, "txtCampoDefinible5", string.Empty, "CampoDefinible5");
+                LibReport.ConfigFieldDec(this, "txtUnidadDeVentaSecundaria", string.Empty, "UnidadDeVentaSecundaria");
                 LibReport.ConfigFieldDec(this, "txtTotal", string.Empty, "TotalCompra");
                 LibReport.ConfigFieldStr(this, "txtObservaciones", string.Empty, "Comentarios");
                 LibReport.ConfigLabel(this, "lbEnvia", ((CustomIdentity)System.Threading.Thread.CurrentPrincipal.Identity).Login);
