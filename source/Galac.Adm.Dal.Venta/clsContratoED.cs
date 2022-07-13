@@ -402,13 +402,12 @@ namespace Galac.Adm.Dal.Venta {
         }
         #endregion //Queries
 
-        bool CrearTabla() {
-            //bool vResult = insDbo.Create(DbSchema + ".Contrato", SqlCreateTable(), false, eDboType.Tabla);
+        bool CrearTabla() {            
             return true;
         }
 
         bool CrearVistas() {
-            bool vResult = false;
+            bool vResult = true;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_EnumStatusContrato", LibTpvCreator.SqlViewStandardEnum(typeof(eStatusContrato), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_EnumDuracionDelContrato", LibTpvCreator.SqlViewStandardEnum(typeof(eDuracionDelContrato), InsSql), true, true);
@@ -418,12 +417,9 @@ namespace Galac.Adm.Dal.Venta {
         }
 
         bool CrearProcedimientos() {
-            bool vResult = false;
-            LibStoredProc insSps = new LibStoredProc();
-            //vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ContratoINS", SqlSpInsParameters(), SqlSpIns(), true);
-            //vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ContratoUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
-            //vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ContratoDEL", SqlSpDelParameters(), SqlSpDel(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ContratoGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
+            bool vResult = true;
+            LibStoredProc insSps = new LibStoredProc();            
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ContratoGET", SqlSpGetParameters(), SqlSpGet(), true);
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ContratoSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ContratoGetFk", SqlSpGetFKParameters(), SqlSpGetFK(), true) && vResult;
             insSps.Dispose();
@@ -431,37 +427,28 @@ namespace Galac.Adm.Dal.Venta {
         }
 
         public bool InstalarTabla() {
-            bool vResult = false;
+            bool vResult = true;
             if (CrearTabla()) {
-                CrearVistas();
-                CrearProcedimientos();
-                //clsRenglonContratoED insDetailRenCon = new clsRenglonContratoED();
-                //vResult = insDetailRenCon.InstalarTabla();
+                vResult = CrearVistas() && vResult;
+                vResult = CrearProcedimientos() && vResult;
             }
             return vResult;
         }
 
         public bool InstalarVistasYSps() {
-            bool vResult = false;
+            bool vResult = true;
             if (insDbo.Exists(DbSchema + ".Contrato", eDboType.Tabla)) {
-                CrearVistas();
-                CrearProcedimientos();
-                //vResult = new clsRenglonContratoED().InstalarVistasYSps();
+                 vResult = CrearVistas() && vResult;
+                 vResult = CrearProcedimientos() && vResult;                
             }
             return vResult;
         }
 
         public bool BorrarVistasYSps() {
-            bool vResult = false;
+            bool vResult = true;
             LibStoredProc insSp = new LibStoredProc();
-            LibViews insVista = new LibViews();
-            //vResult = new clsRenglonContratoED().BorrarVistasYSps();
-            //vResult = insSp.Drop(DbSchema + ".Gp_ContratoINS") && vResult;
-            //vResult = insSp.Drop(DbSchema + ".Gp_ContratoUPD") && vResult;
-            //vResult = insSp.Drop(DbSchema + ".Gp_ContratoDEL") && vResult;
-            //vResult = insSp.Drop(DbSchema + ".Gp_ContratoGET") && vResult;
-            //vResult = insSp.Drop(DbSchema + ".Gp_ContratoGetFk") && vResult;
-            vResult = insSp.Drop(DbSchema + ".Gp_ContratoSCH") && vResult;
+            LibViews insVista = new LibViews();            
+            vResult = insSp.Drop(DbSchema + ".Gp_ContratoSCH");
             vResult = insVista.Drop(DbSchema + ".Gv_Contrato_B1") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumStatusContrato") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumDuracionDelContrato") && vResult;
@@ -470,8 +457,6 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsContratoED
 
 } //End of namespace Galac.Adm.Dal.Venta
