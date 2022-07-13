@@ -21,7 +21,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void CrearTablaTransferenciaEntreCuentasBancarias() {
 			if (!TableExists("Adm.TransferenciaEntreCuentasBancarias")) {
 				new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarTabla();
-				new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().BorrarVistasYSps();
 			}
 		}
 		private void AgregaColumnasReglasDeContabilizacion() {
