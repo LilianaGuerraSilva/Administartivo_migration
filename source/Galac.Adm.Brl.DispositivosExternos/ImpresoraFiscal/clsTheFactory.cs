@@ -590,7 +590,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         case "DESCRIPCION":
                             break;
                         case "CODIGOYDESCRIPCION":
-                            vDescripcion = "|" + vCodigo + "|" + vDescripcion;
+                            vDescripcion = "|" + LibText.Right(vCodigo, 12) + "|" + vDescripcion;
                             break;
                         default:
                             break;
