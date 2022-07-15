@@ -391,7 +391,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vRepuesta = Bematech_FI_LecturaXSerial();
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
                 if (vResult) {
-                    vSerial = LeerArchivoDeRetorno(eTipoDeLectura.SerialFiscal);
+                    vSerial = LeerArchivoDeRetorno(eTipoDeLectura.SerialFiscal);                    
                 } else {
                     MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
                     throw new GalacException(MensajeStatus, eExceptionManagementType.Controlled);
@@ -568,7 +568,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vFileRetornoPath = PathFile(true);
             switch (valTipoLectura) {
                 case eTipoDeLectura.SerialFiscal:
-                    vTextoBusqueda = "MH  ";
+                    vTextoBusqueda = "BEMATECH";
                     break;
                 case eTipoDeLectura.UltimaFactura:
                     vTextoBusqueda = "Contador de Factura:";
@@ -611,6 +611,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                     vPosicionLinea += 1;
                 }
+                vPosicionLinea = (valTipoLectura == eTipoDeLectura.SerialFiscal) ? vPosicionLinea + 3 : vPosicionLinea; //Para posionarme en la linea del serial
                 vCantidadCaracteres = (valTipoLectura == eTipoDeLectura.SerialFiscal) ? 15 : 7;
                 vTopLinea = (valTipoLectura == eTipoDeLectura.UltimoReporteZ) ? 1 : 0;
                 if ((vPosicionLinea + vTopLinea) >= vArrayTextoRetorno.Length) {
@@ -1270,18 +1271,20 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         public bool AlicuotasRegistradas(IFDiagnostico vDiagnostico) {
             bool vResult = false;
-            decimal AlicuotaGeneral;
-            decimal Alicuota2;
-            decimal Alicuota3;
+            decimal AlicuotaGeneral=0;
+            decimal Alicuota2=0;
+            decimal Alicuota3=0;
             int vReq = 0;
             string RecAlicuotas = "";
             RecAlicuotas = LibText.FillWithCharToRight(RecAlicuotas, " ", 80);
             vReq = Bematech_FI_RetornoAlicuotas(ref RecAlicuotas);
             RecAlicuotas = LibText.CleanSpacesToBothSides(LibText.Replace(RecAlicuotas, "\0", ""));
             string[] ListAlicuotas = LibString.Split(RecAlicuotas, ',');
-            AlicuotaGeneral = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[0], ".", 2), 2);
-            Alicuota2 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[1], ".", 2), 2);
-            Alicuota3 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[2], ".", 2), 2);
+            if (ListAlicuotas != null && ListAlicuotas.Length > 0) {
+                AlicuotaGeneral = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[0], ".", 2), 2);
+                Alicuota2 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[1], ".", 2), 2);
+                Alicuota3 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[2], ".", 2), 2);
+            }
             RecAlicuotas = "";
             vResult = LibImpresoraFiscalUtil.ValidarAlicuotasRegistradas(AlicuotaGeneral, Alicuota2, Alicuota3, ref RecAlicuotas);
             vDiagnostico.AlicoutasRegistradasDescription = RecAlicuotas;

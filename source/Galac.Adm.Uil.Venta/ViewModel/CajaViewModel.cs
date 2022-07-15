@@ -310,12 +310,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         [LibCustomValidation("PuertoDeMaquinaFiscalValidating")]
+        [LibGridColum("PuertoMaquinaFiscal", eGridColumType.Generic, Header = "Puerto Maq. Fiscal", Width = 120, ColumnOrder = 7)]
         public ePuerto PuertoMaquinaFiscal {
             get {
                 return Model.PuertoMaquinaFiscalAsEnum;
             }
             set {
-                if(Model.PuertoMaquinaFiscalAsEnum != value) {
+                if (Model.PuertoMaquinaFiscalAsEnum != value) {
                     Model.PuertoMaquinaFiscalAsEnum = value;
                     RaisePropertyChanged(PuertoMaquinaFiscalPropertyName);
                     RaisePropertyChanged(PuertoPropertyName);
@@ -675,7 +676,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteDiagnosticar() {
             try {
-                XElement ImpresoraXmlFiscalData = BuildImpresoraFiscalData(ModeloDeMaquinaFiscal, PuertoMaquinaFiscal);
+                XElement ImpresoraXmlFiscalData = ConfiguraDatosDeMaquinaFiscalParaConexion();
                 IImpresoraFiscalPdn insIMaquinaFiscal = new clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
                 CajaDiagnosticoViewModel vViewModel = new CajaDiagnosticoViewModel(insIMaquinaFiscal, FamiliaImpresoraFiscal);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
@@ -689,7 +690,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 SerialDeMaquinaFiscal = "";
                 UltimoNumeroCompFiscal = "";
                 UltimoNumeroNCFiscal = "";
-                XElement ImpresoraXmlFiscalData = BuildImpresoraFiscalData(ModeloDeMaquinaFiscal, PuertoMaquinaFiscal);
+                XElement ImpresoraXmlFiscalData = ConfiguraDatosDeMaquinaFiscalParaConexion();
                 insMaquinaFiscal = new Brl.DispositivosExternos.ImpresoraFiscal.clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
                 SerialDeMaquinaFiscal = insMaquinaFiscal.ObtenerSerial(true);
                 UltimoNumeroCompFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroFactura(true), "0", 8);
@@ -701,7 +702,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteCancelarDocumentoCommand() {
             bool vResult = false;
-            XElement ImpresoraXmlFiscalData = BuildImpresoraFiscalData(ModeloDeMaquinaFiscal, PuertoMaquinaFiscal);
+            XElement ImpresoraXmlFiscalData = ConfiguraDatosDeMaquinaFiscalParaConexion();
             IImpresoraFiscalPdn insIMaquinaFiscal = new clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
             vResult = insIMaquinaFiscal.CancelarDocumentoFiscalEnImpresion(true);
             insIMaquinaFiscal = null;
@@ -877,15 +878,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja Registradora", vCajaCriteria);
         }
 
-        XElement BuildImpresoraFiscalData(eImpresoraFiscal vImpresoraFiscal, ePuerto ePuerto) {
-            string vPuerto = SerialPortFormat(ePuerto);
-            XElement vResult = new XElement("GpData", new XElement("GpResult",
-                new XElement("ModeloDeMaquinaFiscal", LibConvert.EnumToDbValue((int)vImpresoraFiscal)),
-                new XElement("PuertoMaquinaFiscal", vPuerto)
-                ));
+        XElement ConfiguraDatosDeMaquinaFiscalParaConexion() {
+            XElement vResult;
+            vResult = new XElement("GpData", new XElement("GpResult",
+            new XElement("ModeloDeMaquinaFiscal", LibConvert.EnumToDbValue((int)ModeloDeMaquinaFiscal)),
+            new XElement("PuertoMaquinaFiscal", LibConvert.EnumToDbValue((int)PuertoMaquinaFiscal)),
+            new XElement("TipoConexion", LibConvert.EnumToDbValue((int)TipoConexion))));
             return vResult;
-        }
-
+        }       
 
         string SerialPortFormat(ePuerto ePuerto) {
             return LibConvert.EnumToDbValue((int)ePuerto);
