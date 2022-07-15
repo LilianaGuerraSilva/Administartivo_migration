@@ -129,8 +129,7 @@ namespace Galac.Adm.Brl.Venta {
             try {
                 vParams.AddInInteger("Consecutivo",valConsecutivo);
                 vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
-                StringBuilder SQL = new StringBuilder();
-                SQL.AppendLine("SET DATEFORMAT DMY ");
+                StringBuilder SQL = new StringBuilder();                
                 SQL.AppendLine("SELECT Consecutivo,NombreCaja,UsaGaveta,Puerto,Comando,PermitirAbrirSinSupervisor,");
                 SQL.AppendLine(" UsaAccesoRapido, UsaMaquinaFiscal, FamiliaImpresoraFiscal, ModeloDeMaquinaFiscal,");
                 SQL.AppendLine(" SerialDeMaquinaFiscal, PuertoMaquinaFiscal, AbrirGavetaDeDinero, UltimoNumeroCompFiscal,");

@@ -49,9 +49,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string PermitirNombreDelClienteExtendidoPropertyName = "PermitirNombreDelClienteExtendido";
         const string UsarModoDotNetPropertyName = "UsarModoDotNet";
         const string NombreOperadorPropertyName = "NombreOperador";
-        const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
-        const string IsEnableModoMejoradoPropertyName = "IsEnableModoMejorado";
+        const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";        
         const string IsEnabledUsaGavetaPropertyName = "IsEnabledUsaGaveta";
+		const string IsEnabledPuertoSerialPropertyName = "IsEnabledPuertoSerial";
 
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
         IImpresoraFiscalPdn insMaquinaFiscal;
@@ -75,6 +75,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public ObservableCollection<ePuerto> ListarPuertosImpFiscal { get; set; }
 
         public ObservableCollection<eImpresoraFiscal> ListarMaquinaFiscal { get; set; }
+		
+        public ObservableCollection<eTipoConexion> ListarTipoConexion { get; set; }
 
         eFamiliaImpresoraFiscal FamiliaImpresoraFiscalSeleccionada { get; set; }
 
@@ -165,8 +167,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     Model.FamiliaImpresoraFiscalAsEnum = value;
                     UsarModoDotNet = FamiliaValidaParaModoMejorado(value);
                     RaisePropertyChanged(FamiliaImpresoraFiscalPropertyName);
-                    RaisePropertyChanged(UsarModoDotNetPropertyName);
-                    RaisePropertyChanged(IsEnableModoMejoradoPropertyName);
+                    RaisePropertyChanged(UsarModoDotNetPropertyName);                    
                 }
             }
         }
@@ -303,6 +304,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     Model.TipoConexionAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoConexionPropertyName);
+                    RaisePropertyChanged(IsEnabledPuertoSerialPropertyName);                    
                 }
             }
         }
@@ -434,14 +436,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.UsarModoDotNetAsBool;
             }
             set {
-                if(Model.UsarModoDotNetAsBool != value) {
+                if (Model.UsarModoDotNetAsBool != value) {
                     Model.UsarModoDotNetAsBool = value;
-                    if(Model.UsarModoDotNetAsBool) {
-                        PermitirDescripcionDelArticuloExtendida = false;
-                        PermitirNombreDelClienteExtendido = false;
-                        RaisePropertyChanged(PermitirNombreDelClienteExtendidoPropertyName);
-                        RaisePropertyChanged(PermitirDescripcionDelArticuloExtendidaPropertyName);
-                    }
                     RaisePropertyChanged(UsarModoDotNetPropertyName);
                 }
             }
@@ -508,14 +504,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get {
                 return UsaMaquinaFiscal;
             }
-        }
-
-        public bool IsEnableModoMejorado {
-            get {
-                return IsEnabled && FamiliaValidaParaModoMejorado(FamiliaImpresoraFiscal) &&
-                     LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Activar Modo Mejorado");
-            }
-        }
+        }        
 
         private bool FamiliaValidaParaModoMejorado(eFamiliaImpresoraFiscal valFamilia) {
             return (valFamilia == eFamiliaImpresoraFiscal.EPSONPNP
@@ -555,6 +544,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return IsEnabled && Model.NombreCaja != "CAJA GENÉRICA";
             }
         }
+		
+		public bool IsEnabledPuertoSerial {
+            get { return IsEnabled && TipoConexion == eTipoConexion.PuertoSerial; }
+        }  
 
         #endregion //Propiedades
 
@@ -571,8 +564,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ListarPuertos = new ObservableCollection<ePuerto>();
             ListarPuertosImpFiscal = new ObservableCollection<ePuerto>();
             ListarMaquinaFiscal = new ObservableCollection<eImpresoraFiscal>();
+            ListarTipoConexion = new ObservableCollection<eTipoConexion>();
             if(initAction == eAccionSR.Insertar) {
                 FamiliaImpresoraFiscal = eFamiliaImpresoraFiscal.THEFACTORY;
+                TipoConexion = eTipoConexion.PuertoSerial;
             }
             PuertoSerial = new Brl.DispositivosExternos.clsConexionPuertoSerial();
         }
@@ -584,6 +579,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             UltimoNumeroCompFiscal = (UltimoNumeroCompFiscal == "") ? LibText.FillWithCharToLeft("", LibConvert.ToStr("0"), 8) : UltimoNumeroCompFiscal;
             UltimoNumeroNCFiscal = (UltimoNumeroNCFiscal == "") ? LibText.FillWithCharToLeft("", LibConvert.ToStr("0"), 8) : UltimoNumeroNCFiscal;
             LlenarEnumerativosPuertos();
+            LlenarEnumerativosTipoDeConexion();
             LlenarEnumerativosPuertosImpFiscal();
             _PuedeAbrirGaveta = UsaGaveta;
         }
@@ -831,16 +827,34 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ListarMaquinaFiscal.Clear();
             FamiliaImpresoraFiscalSeleccionada = Model.FamiliaImpresoraFiscalAsEnum;
             var enumImpreFiscal = (IEnumerable<eImpresoraFiscal>)LibEnumHelper.GetValuesInEnumeration(typeof(eImpresoraFiscal));
-            foreach(var enumerativo in enumImpreFiscal) {
-                if(FamiliaImpresoraFiscalSeleccionada.GetDescription() == (enumerativo).GetDescription(1)) {
-                    AgregarEnumerativoImprFiscal(enumerativo);
+            foreach (var enumerativoImpFiscal in enumImpreFiscal) {
+                if (FamiliaImpresoraFiscalSeleccionada.GetDescription() == (enumerativoImpFiscal).GetDescription(1)) {                    
+                    ListarMaquinaFiscal.Add(enumerativoImpFiscal);
                 }
             }
+        }        
+		
+		 public void LlenarEnumerativosTipoDeConexion() {
+            ListarTipoConexion.Clear();
+            switch (FamiliaImpresoraFiscal) {
+                case eFamiliaImpresoraFiscal.THEFACTORY:
+                case eFamiliaImpresoraFiscal.ELEPOSVMAX:
+                case eFamiliaImpresoraFiscal.EPSONPNP:
+                case eFamiliaImpresoraFiscal.QPRINT:
+                case eFamiliaImpresoraFiscal.BMC:
+                    ListarTipoConexion.Add(eTipoConexion.PuertoSerial);
+                    break;                
+                case eFamiliaImpresoraFiscal.BEMATECH:
+                    ListarTipoConexion.Add(eTipoConexion.PuertoSerial);
+                    ListarTipoConexion.Add(eTipoConexion.USB);
+                    break;
+                default:
+					ListarTipoConexion.Add(eTipoConexion.PuertoSerial);
+                    break;
+            }
+            RaisePropertyChanged(TipoConexionPropertyName);
         }
-
-        public void AgregarEnumerativoImprFiscal(eImpresoraFiscal vImpresoraFiscal) {
-            ListarMaquinaFiscal.Add(vImpresoraFiscal);
-        }
+		
 
         protected override Caja FindCurrentRecord(Caja valModel) {
             if(valModel == null) {
