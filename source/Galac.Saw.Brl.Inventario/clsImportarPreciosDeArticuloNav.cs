@@ -209,6 +209,12 @@ namespace Galac.Saw.Brl.Inventario {
         private void CalcularPrecioConIvaOSinIvaSegunTipoDePreciosEnArchivo(ref PreciosDeArticulo refPrecios, string valTipoDeAlicuota) {
             decimal vPorcentajeAlicuota = 0;
             eTipoDeAlicuota vTipoDeAlicuota = (eTipoDeAlicuota)LibConvert.DbValueToEnum(valTipoDeAlicuota);
+            int vCantidadDeDecimalesInt = LibImportData.ToInt(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CantidadDeDecimales"));
+            if (vCantidadDeDecimalesInt > 4) {
+                vCantidadDeDecimalesInt = 4;
+            }else if (vCantidadDeDecimalesInt < 2) {
+                vCantidadDeDecimalesInt = 2;
+            }
             switch(vTipoDeAlicuota) {
                 case eTipoDeAlicuota.Exento:
                     vPorcentajeAlicuota = 0;
@@ -224,23 +230,23 @@ namespace Galac.Saw.Brl.Inventario {
                     break;
             }
             if(TipoDePrecio == ePrecioAjustar.PrecioSinIVA) {
-                refPrecios.Nivel1ConIva = LibMath.RoundToNDecimals(refPrecios.Nivel1 + (refPrecios.Nivel1 * vPorcentajeAlicuota), 4);
-                refPrecios.Nivel2ConIva = LibMath.RoundToNDecimals(refPrecios.Nivel2 + (refPrecios.Nivel2 * vPorcentajeAlicuota), 4);
-                refPrecios.Nivel3ConIva = LibMath.RoundToNDecimals(refPrecios.Nivel3 + (refPrecios.Nivel3 * vPorcentajeAlicuota), 4);
-                refPrecios.Nivel4ConIva = LibMath.RoundToNDecimals(refPrecios.Nivel4 + (refPrecios.Nivel4 * vPorcentajeAlicuota), 4);
-                refPrecios.Nivel1ExtranjeraConIva = LibMath.RoundToNDecimals(refPrecios.Nivel1Extranjera + (refPrecios.Nivel1Extranjera * vPorcentajeAlicuota), 4);
-                refPrecios.Nivel2ExtranjeraConIva = LibMath.RoundToNDecimals(refPrecios.Nivel2Extranjera + (refPrecios.Nivel2Extranjera * vPorcentajeAlicuota), 4);
-                refPrecios.Nivel3ExtranjeraConIva = LibMath.RoundToNDecimals(refPrecios.Nivel3Extranjera + (refPrecios.Nivel3Extranjera * vPorcentajeAlicuota), 4);
-                refPrecios.Nivel4ExtranjeraConIva = LibMath.RoundToNDecimals(refPrecios.Nivel4Extranjera + (refPrecios.Nivel4Extranjera * vPorcentajeAlicuota), 4);
+                refPrecios.Nivel1ConIva = LibMath.RoundToNDecimals(refPrecios.Nivel1 + (refPrecios.Nivel1 * vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel2ConIva = LibMath.RoundToNDecimals(refPrecios.Nivel2 + (refPrecios.Nivel2 * vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel3ConIva = LibMath.RoundToNDecimals(refPrecios.Nivel3 + (refPrecios.Nivel3 * vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel4ConIva = LibMath.RoundToNDecimals(refPrecios.Nivel4 + (refPrecios.Nivel4 * vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel1ExtranjeraConIva = LibMath.RoundToNDecimals(refPrecios.Nivel1Extranjera + (refPrecios.Nivel1Extranjera * vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel2ExtranjeraConIva = LibMath.RoundToNDecimals(refPrecios.Nivel2Extranjera + (refPrecios.Nivel2Extranjera * vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel3ExtranjeraConIva = LibMath.RoundToNDecimals(refPrecios.Nivel3Extranjera + (refPrecios.Nivel3Extranjera * vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel4ExtranjeraConIva = LibMath.RoundToNDecimals(refPrecios.Nivel4Extranjera + (refPrecios.Nivel4Extranjera * vPorcentajeAlicuota), vCantidadDeDecimalesInt);
             } else if(TipoDePrecio == ePrecioAjustar.PrecioConIVA) {
-                refPrecios.Nivel1 = LibMath.RoundToNDecimals(refPrecios.Nivel1ConIva / (1 + vPorcentajeAlicuota), 4);
-                refPrecios.Nivel2 = LibMath.RoundToNDecimals(refPrecios.Nivel2ConIva / (1 + vPorcentajeAlicuota), 4);
-                refPrecios.Nivel3 = LibMath.RoundToNDecimals(refPrecios.Nivel3ConIva / (1 + vPorcentajeAlicuota), 4);
-                refPrecios.Nivel4 = LibMath.RoundToNDecimals(refPrecios.Nivel4ConIva / (1 + vPorcentajeAlicuota), 4);
-                refPrecios.Nivel1Extranjera = LibMath.RoundToNDecimals(refPrecios.Nivel1ExtranjeraConIva / (1 + vPorcentajeAlicuota), 4);
-                refPrecios.Nivel2Extranjera = LibMath.RoundToNDecimals(refPrecios.Nivel2ExtranjeraConIva / (1 + vPorcentajeAlicuota), 4);
-                refPrecios.Nivel3Extranjera = LibMath.RoundToNDecimals(refPrecios.Nivel3ExtranjeraConIva / (1 + vPorcentajeAlicuota), 4);
-                refPrecios.Nivel4Extranjera = LibMath.RoundToNDecimals(refPrecios.Nivel4ExtranjeraConIva / (1 + vPorcentajeAlicuota), 4);
+                refPrecios.Nivel1 = LibMath.RoundToNDecimals(refPrecios.Nivel1ConIva / (1 + vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel2 = LibMath.RoundToNDecimals(refPrecios.Nivel2ConIva / (1 + vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel3 = LibMath.RoundToNDecimals(refPrecios.Nivel3ConIva / (1 + vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel4 = LibMath.RoundToNDecimals(refPrecios.Nivel4ConIva / (1 + vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel1Extranjera = LibMath.RoundToNDecimals(refPrecios.Nivel1ExtranjeraConIva / (1 + vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel2Extranjera = LibMath.RoundToNDecimals(refPrecios.Nivel2ExtranjeraConIva / (1 + vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel3Extranjera = LibMath.RoundToNDecimals(refPrecios.Nivel3ExtranjeraConIva / (1 + vPorcentajeAlicuota), vCantidadDeDecimalesInt);
+                refPrecios.Nivel4Extranjera = LibMath.RoundToNDecimals(refPrecios.Nivel4ExtranjeraConIva / (1 + vPorcentajeAlicuota), vCantidadDeDecimalesInt);
             }
         }
 
