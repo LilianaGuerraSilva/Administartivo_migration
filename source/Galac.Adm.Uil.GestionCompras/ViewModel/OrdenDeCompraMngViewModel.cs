@@ -123,9 +123,12 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
+            bool vEsSasEmprendedores = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "EsSasEmprendedor"));
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateAnularReAbrirRibbonGroup());
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateImportarRibbonGroup());
+                if (!vEsSasEmprendedores) {
+                    RibbonData.TabDataCollection[0].AddTabGroupData(CreateImportarRibbonGroup());
+                }
                 #region Codigo Ejemplo
                 /* Codigo de Ejemplo
                         RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
