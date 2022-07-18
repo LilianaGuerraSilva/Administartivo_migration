@@ -1118,11 +1118,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vIsSameVersion = false;
             string vVersion = "";
             string vDir = "";
-//#if DEBUG
-//            vDir = Path.Combine(Environment.CurrentDirectory, DllApiName);
-//#else
             vDir = Path.Combine(LibApp.AppPath() + "CDP", DllApiName);
-//#endif
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir, ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult, vIsSameVersion, vDir, vVersion, VersionApi);
