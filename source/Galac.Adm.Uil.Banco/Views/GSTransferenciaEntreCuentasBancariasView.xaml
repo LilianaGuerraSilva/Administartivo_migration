@@ -95,6 +95,7 @@
                     BorderThickness="1"
                     ConnectionValue="{Binding Path=NumeroDocumento, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Numero"
+                    MaxLength="20"
                     Model="{Binding Path=ConexionNumeroTransferencia, Mode=TwoWay}"
                     SearchCommand="{Binding Path=ChooseNumeroTransferenciaCommand}"
                     Visibility="{Binding Path=IsVisibleEscogerNumeroTransferencia, Converter={StaticResource booleanToVisibilityConverter}}" />
