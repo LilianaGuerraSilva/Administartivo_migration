@@ -1058,7 +1058,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
 					vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
 				} else if (LibDate.DateIsGreaterThanToday(Fecha, false, string.Empty)) {
-					vResult = new ValidationResult(LibDate.MsgDateIsGreaterThanToday("Fecha"));
+					vResult = new ValidationResult("La fecha de la transferencia no puede ser mayor a la fecha de hoy.");
 				}
 			}
 			return vResult;
