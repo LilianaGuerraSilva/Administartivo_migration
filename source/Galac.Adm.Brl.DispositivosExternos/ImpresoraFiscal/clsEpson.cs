@@ -1181,7 +1181,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        public IFDiagnostico RealizarDiagnotsico(bool valAbrirPuerto = false) {
+        public IFDiagnostico RealizarDiagnostico(bool valAbrirPuerto = false) {
             IFDiagnostico vDiagnostico = new IFDiagnostico();
             try {
                 if (valAbrirPuerto) {
@@ -1206,6 +1206,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             } catch (Exception) {
                 throw;
             }
+        }
+
+        public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
+            throw new NotImplementedException();
         }
     }
 }

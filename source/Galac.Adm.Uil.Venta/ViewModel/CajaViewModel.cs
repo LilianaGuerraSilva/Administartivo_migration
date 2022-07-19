@@ -627,11 +627,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private LibRibbonButtonData CreateDigantosticarRibbonButtonData() {
             return new LibRibbonButtonData() {
-                Label = "Diagnósticar",
+                Label = "Diagnosticar",
                 Command = DiagnosticarCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/check.png", UriKind.Relative),
                 ToolTipDescription = "Diagnosticar",
-                ToolTipTitle = "Diagnósticar"
+                ToolTipTitle = "Diagnosticar"
             };
         }
 
