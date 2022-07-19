@@ -944,15 +944,16 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", valCodigo);
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
 				vFixedCriteria.Add("Saw.Gv_CuentaBancaria_B1.Status", eStatusCtaBancaria.Activo);
-				ConexionCodigoCuentaBancariaOrigen = null;
 				ConexionCodigoCuentaBancariaOrigen = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
-				if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ManejaDebitoBancario") && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario && ConexionCodigoCuentaBancariaOrigen.TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado) {
-					string vErrorMsg = string.Format("La cuenta bancaria de Origen que ha seleccionado ({0}) genera I.G.T.F., pero no tiene un Tipo de Alícuota por Contribuyente asignado. Debe modificar esta cuenta bancaria antes de continuar.", ConexionCodigoCuentaBancariaOrigen.NombreCuenta);
-					ConexionCodigoCuentaBancariaOrigen = null;
-					throw new GalacAlertException(vErrorMsg);
-				} else if (LibString.S1IsEqualToS2(ConexionCodigoCuentaBancariaOrigen.Codigo, CodigoCuentaBancariaDestino)) {
-					ConexionCodigoCuentaBancariaOrigen = null;
-					throw new GalacAlertException("La cuenta a debitar debe ser diferente a la cuenta a acreditar.");
+				if (ConexionCodigoCuentaBancariaOrigen != null) {
+					if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ManejaDebitoBancario") && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario && ConexionCodigoCuentaBancariaOrigen.TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado) {
+						string vErrorMsg = string.Format("La cuenta bancaria de Origen que ha seleccionado ({0}) genera I.G.T.F., pero no tiene un Tipo de Alícuota por Contribuyente asignado. Debe modificar esta cuenta bancaria antes de continuar.", ConexionCodigoCuentaBancariaOrigen.NombreCuenta);
+						ConexionCodigoCuentaBancariaOrigen = null;
+						throw new GalacAlertException(vErrorMsg);
+					} else if (LibString.S1IsEqualToS2(ConexionCodigoCuentaBancariaOrigen.Codigo, CodigoCuentaBancariaDestino)) {
+						ConexionCodigoCuentaBancariaOrigen = null;
+						throw new GalacAlertException("La cuenta a debitar debe ser diferente a la cuenta a acreditar.");
+					}
 				}
 			} catch (AccessViolationException) {
 				throw;
@@ -1003,13 +1004,15 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				vFixedCriteria.Add("Saw.Gv_CuentaBancaria_B1.Status", eStatusCtaBancaria.Activo);
 				ConexionCodigoCuentaBancariaDestino = null;
 				ConexionCodigoCuentaBancariaDestino = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
-				if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ManejaCreditoBancario") && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario && ConexionCodigoCuentaBancariaDestino.TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado) {
-					string vErrorMsg = string.Format("La cuenta bancaria de Destino que ha seleccionado ({0}) genera I.G.T.F., pero no tiene un Tipo de Alícuota por Contribuyente asignado. Debe modificar esta cuenta bancaria antes de continuar.", 0);
-					ConexionCodigoCuentaBancariaDestino = null;
-					throw new GalacAlertException(vErrorMsg);
-				} else if (LibString.S1IsEqualToS2(ConexionCodigoCuentaBancariaDestino.Codigo, CodigoCuentaBancariaOrigen)) {
-					ConexionCodigoCuentaBancariaDestino = null;
-					throw new GalacAlertException("La cuenta a debitar debe ser diferente a la cuenta a acreditar.");
+				if (ConexionCodigoCuentaBancariaDestino != null) {
+					if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ManejaCreditoBancario") && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario && ConexionCodigoCuentaBancariaDestino.TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado) {
+						string vErrorMsg = string.Format("La cuenta bancaria de Destino que ha seleccionado ({0}) genera I.G.T.F., pero no tiene un Tipo de Alícuota por Contribuyente asignado. Debe modificar esta cuenta bancaria antes de continuar.", 0);
+						ConexionCodigoCuentaBancariaDestino = null;
+						throw new GalacAlertException(vErrorMsg);
+					} else if (LibString.S1IsEqualToS2(ConexionCodigoCuentaBancariaDestino.Codigo, CodigoCuentaBancariaOrigen)) {
+						ConexionCodigoCuentaBancariaDestino = null;
+						throw new GalacAlertException("La cuenta a debitar debe ser diferente a la cuenta a acreditar.");
+					}
 				}
 			} catch (AccessViolationException) {
 				throw;
