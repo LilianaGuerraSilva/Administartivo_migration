@@ -55,8 +55,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
         IImpresoraFiscalPdn insMaquinaFiscal;
-        private bool _PuedeAbrirGaveta = false;
-        private bool _PortIsEnable = false;
+        private bool _PuedeAbrirGaveta = false;        
         FkCajaViewModel _ConexionNombreCaja;
         FkGUserViewModel _ConexionNombreDelOperador;
 
@@ -488,6 +487,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return LibEnumHelper<eFamiliaImpresoraFiscal>.GetValuesInArray();
             }
         }
+        
 
         public bool IsVisibleParaEpson {
             get {
@@ -509,8 +509,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool FamiliaValidaParaModoMejorado(eFamiliaImpresoraFiscal valFamilia) {
             return (valFamilia == eFamiliaImpresoraFiscal.EPSONPNP
-                    || valFamilia == eFamiliaImpresoraFiscal.THEFACTORY
-                    || valFamilia == eFamiliaImpresoraFiscal.BMC
+                    || valFamilia == eFamiliaImpresoraFiscal.THEFACTORY                    
                     || valFamilia == eFamiliaImpresoraFiscal.BEMATECH);
 
         }
@@ -531,14 +530,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get {
                 return IsEnabled || LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Cancelar Documento");
             }
-        }
-
-        public bool PortIsEnable {
-            get {
-                return _PortIsEnable && (NombreCaja != "CAJA GENÉRICA") && IsEnabled;
-            }
-        }
-
+        }        
 
         public bool IsEnabledForCajaGenerica {
             get {
@@ -793,34 +785,25 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public void LlenarEnumerativosPuertos() {
             ListarPuertos.Clear();
             string[] vPuertosDisponibles = PuertoSerial.ListarPuertos();
-            foreach(var itemPuerto in vPuertosDisponibles) {
+            foreach (var itemPuerto in vPuertosDisponibles) {
                 ListarPuertos.Add((ePuerto)Enum.Parse(typeof(ePuerto), itemPuerto));
             }
-            if(ListarPuertos.Count() > 0) {
-                if(!ListarPuertos.Contains(Model.PuertoAsEnum)) {
-                    Model.PuertoAsEnum = ListarPuertos.First();
-                    LibMessages.MessageBox.Information(this, "Se detectó un cambio del puerto de comunicación de este equipo, recuerde guardar la configuracion actual para tomar el cambio", "");
-                }
-                _PortIsEnable = true;
-            } else {
-                _PortIsEnable = false;
+
+            if (!ListarPuertos.Contains(Model.PuertoAsEnum)) {
+                Model.PuertoAsEnum = ListarPuertos.First();
+                LibMessages.MessageBox.Information(this, "Se detectó un cambio del puerto de comunicación de este equipo, recuerde guardar la configuracion actual para tomar el cambio", "");
             }
         }
 
         public void LlenarEnumerativosPuertosImpFiscal() {
             ListarPuertosImpFiscal.Clear();
             string[] vPuertosDisponibles = PuertoSerial.ListarPuertos();
-            foreach(var itemPuerto in vPuertosDisponibles) {
+            foreach (var itemPuerto in vPuertosDisponibles) {
                 ListarPuertosImpFiscal.Add((ePuerto)Enum.Parse(typeof(ePuerto), itemPuerto));
             }
-            if(ListarPuertosImpFiscal.Count() > 0) {
-                if(!ListarPuertosImpFiscal.Contains(Model.PuertoMaquinaFiscalAsEnum)) {
-                    Model.PuertoMaquinaFiscalAsEnum = ListarPuertosImpFiscal.First();
-                    LibMessages.MessageBox.Information(this, "Se detectó un cambio del puerto de comunicación de este equipo, recuerde guardar la configuracion actual para tomar el cambio", "");
-                }
-                _PortIsEnable = true;
-            } else {
-                _PortIsEnable = false;
+            if (!ListarPuertosImpFiscal.Contains(Model.PuertoMaquinaFiscalAsEnum)) {
+                Model.PuertoMaquinaFiscalAsEnum = ListarPuertosImpFiscal.First();
+                LibMessages.MessageBox.Information(this, "Se detectó un cambio del puerto de comunicación de este equipo, recuerde guardar la configuracion actual para tomar el cambio", "");
             }
         }
 

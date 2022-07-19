@@ -207,7 +207,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             ConfigurarArchivosDeRetornoBemaFi32();
         }
 
-        private void ConfigurarImpresora(XElement valXmlDatosImpresora) {
+        private void ConfigurarImpresora(XElement valXmlDatosImpresora) {            
             eTipoConexion vTipoConexion = (eTipoConexion)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "TipoConexion"));
             ePuerto ePuerto = (ePuerto)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "PuertoMaquinaFiscal"));
             string vPuerto = ePuerto.GetDescription(1);
@@ -388,10 +388,18 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (valAbrirConexion) {
                     AbrirConexion();
                 }
-                vRepuesta = Bematech_FI_LecturaXSerial();
-                vResult = RevisarEstadoImpresora(ref MensajeStatus);
+                vRepuesta = Bematech_FI_NumeroSerieMFD(ref vSerial);
+                vResult = vRepuesta.Equals(1);
                 if (vResult) {
-                    vSerial = LeerArchivoDeRetorno(eTipoDeLectura.SerialFiscal);                    
+                    vSerial = LibText.Trim(vSerial);
+                    if (LibString.IsNullOrEmpty(vSerial)) {
+                        vRepuesta = Bematech_FI_LecturaXSerial();
+                        vResult = RevisarEstadoImpresora(ref MensajeStatus);
+                        MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
+                        if (vResult) {
+                            vSerial = LeerArchivoDeRetorno(eTipoDeLectura.SerialFiscal);
+                        }                        
+                    }
                 } else {
                     MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
                     throw new GalacException(MensajeStatus, eExceptionManagementType.Controlled);
@@ -598,8 +606,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private string BuscarValorEnCadena(string valCadena, string valTextoBusqueda, eTipoDeLectura valTipoLectura) {
-            int vPosicionLinea = 0;
-            int vTopLinea;
+            int vPosicionLinea = 0;         
             int vPosicionCorte;
             string vResult = "";
             int vCantidadCaracteres;
@@ -611,13 +618,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                     vPosicionLinea += 1;
                 }
-                vPosicionLinea = (valTipoLectura == eTipoDeLectura.SerialFiscal) ? vPosicionLinea + 3 : vPosicionLinea; //Para posionarme en la linea del serial
-                vCantidadCaracteres = (valTipoLectura == eTipoDeLectura.SerialFiscal) ? 15 : 7;
-                vTopLinea = (valTipoLectura == eTipoDeLectura.UltimoReporteZ) ? 1 : 0;
-                if ((vPosicionLinea + vTopLinea) >= vArrayTextoRetorno.Length) {
+                vPosicionLinea = (valTipoLectura == eTipoDeLectura.UltimoReporteZ) ? vPosicionLinea + 1 : vPosicionLinea; //Para posicionarme en la linea del Último Numero Z
+                vPosicionLinea = (valTipoLectura == eTipoDeLectura.SerialFiscal) ? vPosicionLinea + 3 : vPosicionLinea; //Para posicionarme en la linea del Serial                
+                vCantidadCaracteres = (valTipoLectura == eTipoDeLectura.SerialFiscal) ? 15 : 7;         
+                if ((vPosicionLinea) >= vArrayTextoRetorno.Length) {
                     throw new GalacAlertException($"El item { valTextoBusqueda } no fue encontrado en la colección, Verifique la configuración regional o los permisos administrativos de la aplicación");
                 }
-                vResult = vArrayTextoRetorno[vPosicionLinea + vTopLinea];
+                vResult = vArrayTextoRetorno[vPosicionLinea];
                 if (valTipoLectura == eTipoDeLectura.UltimoReporteZ) {
                     vPosicionCorte = 0;
                 } else {

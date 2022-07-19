@@ -93,14 +93,13 @@
                     <CheckBox
                         Name="chkUsaGaveta"
                         Grid.Row="1"
-                        Grid.Column="1"                        
+                        Grid.Column="1"
                         IsChecked="{Binding Path=UsaGaveta}"
-                        IsEnabled="{Binding Path=PortIsEnable}"
                         Style="{StaticResource CheckBoxStyle}" />
                     <Label
                         Name="lblPuerto"
                         Grid.Row="2"
-                        Grid.Column="0"                        
+                        Grid.Column="0"
                         Content="Puerto ........................................................................"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
@@ -116,7 +115,7 @@
                     <Label
                         Name="lblComando"
                         Grid.Row="3"
-                        Grid.Column="0"                        
+                        Grid.Column="0"
                         Content="Comando .................................................................."
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
@@ -133,7 +132,7 @@
                     <Label
                         Name="lblUsaAccesoRapido"
                         Grid.Row="4"
-                        Grid.Column="0"                        
+                        Grid.Column="0"
                         Content="Usa Tecla de Acceso Rápido para Abrir Gaveta"
                         Style="{StaticResource LabelPrompt}" />
                     <CheckBox
@@ -169,7 +168,7 @@
                         Grid.Row="6"
                         Grid.Column="1"
                         IsChecked="{Binding Path=UsaMaquinaFiscal}"
-                        IsEnabled="{Binding Path=PortIsEnable}"
+                        IsEnabled="{Binding Path=IsEnabled}"
                         Style="{StaticResource CheckBoxStyle}"
                         Visibility="{Binding Path=IsVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}" />
                 </Grid>
@@ -316,7 +315,7 @@
                     <Label
                         Name="lblUltimoNumeroNotaCredito"
                         Grid.Row="7"
-                        Grid.Column="0"                        
+                        Grid.Column="0"
                         Content="Último Núm. Nota de Crédito ."
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf

@@ -24,7 +24,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine($"UPDATE Adm.Caja SET UsarModoDotNet={InsSql.ToSqlValue(true)}");
             vSql.AppendLine("WHERE Consecutivo <> 0 ");
-            vSql.AppendLine($"AND FamiliaImpresoraFiscal IN({InsSql.ToSqlValue("0")},{InsSql.ToSqlValue("2")},{InsSql.ToSqlValue("3")},{InsSql.ToSqlValue("6")}) ");
+            vSql.AppendLine($"AND FamiliaImpresoraFiscal IN({InsSql.ToSqlValue("0")},{InsSql.ToSqlValue("2")},{InsSql.ToSqlValue("3")})");
             vSql.AppendLine($"AND UsaMaquinaFiscal ={InsSql.ToSqlValue(true)}");
             Execute(vSql.ToString(), 0);
         }
