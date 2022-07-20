@@ -19,25 +19,17 @@ Private Function GetGender() As Enum_Gender
    GetGender = eg_Female
 End Function
 
-Private Function fSubQuerySaldoInicial(ByVal valConsecutivoCompania As Long, _
-                                       ByVal valFechaInicial As Date) As String
+Private Function fSubQuerySaldoInicial(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date) As String
    Dim sqlSI As String
    On Error GoTo h_ERROR
    sqlSI = "SELECT SUM("
-   sqlSI = sqlSI & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
-                     " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
-                     "movimientoBancario.Monto", "0", True)
+   sqlSI = sqlSI & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), "movimientoBancario.Monto", "0", True)
    sqlSI = sqlSI & ") - SUM("
-   sqlSI = sqlSI & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
-                     " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_EGRESO), _
-                     "movimientoBancario.Monto", "0", True)
+   sqlSI = sqlSI & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_EGRESO), "movimientoBancario.Monto", "0", True)
    sqlSI = sqlSI & ") FROM movimientoBancario WHERE "
-   sqlSI = sqlSI & "movimientoBancario.ConsecutivoCompania" & _
-                     " = " & valConsecutivoCompania
-   sqlSI = sqlSI & " AND movimientoBancario.Fecha" & _
-                     " < " & gUtilSQL.fDateToSQLValue(valFechaInicial)
-   sqlSI = sqlSI & " AND movimientoBancario.CodigoCtaBancaria" & _
-                     " = cuentaBancaria.Codigo"
+   sqlSI = sqlSI & "movimientoBancario.ConsecutivoCompania" & " = " & valConsecutivoCompania
+   sqlSI = sqlSI & " AND movimientoBancario.Fecha" & " < " & gUtilSQL.fDateToSQLValue(valFechaInicial)
+   sqlSI = sqlSI & " AND movimientoBancario.CodigoCtaBancaria" & " = cuentaBancaria.Codigo"
    fSubQuerySaldoInicial = sqlSI
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -422,9 +414,9 @@ Public Function fSQLDeclaracionITFGO6687(ByVal valFechaInicial As Date, ByVal va
    SQL = SQL & " UNION "
    SQL = SQL & fSqlDeclaracionIGTFNoGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
    SQL = SQL & " UNION "
-   SQL = SQL & fSqlDeclaracionIGTFFactura_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
+   SQL = SQL & fSqlDeclaracionIGTFFactura_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
    SQL = SQL & " UNION "
-   SQL = SQL & fSqlDeclaracionIGTF_RDV_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
+   SQL = SQL & fSqlDeclaracionIGTF_RDV_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
    SQL = SQL & " ORDER BY TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha "
    fSQLDeclaracionITFGO6687 = SQL
 h_EXIT: On Error GoTo 0
@@ -507,7 +499,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFNoGeneraMovBan_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSqlDeclaracionIGTFFactura_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
+Private Function fSqlDeclaracionIGTFFactura_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Facturas Cobradas en Divisas' AS NombreCuenta, CodigoMoneda, Fecha, "
@@ -521,14 +513,16 @@ Private Function fSqlDeclaracionIGTFFactura_SQL(ByVal valRedondeaMontoDebitoBanc
    SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
    SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
    SQL = SQL & " FROM factura "
-   SQL = SQL & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & "  AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   SQL = SQL & " WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA)
+   SQL = SQL & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   SQL = SQL & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
    SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
    fSqlDeclaracionIGTFFactura_SQL = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFFactura_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Private Function fSqlDeclaracionIGTF_RDV_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
+Private Function fSqlDeclaracionIGTF_RDV_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Resumen Diario de Ventas (manual)' AS NombreCuenta, CodigoMoneda, Fecha, "
@@ -542,7 +536,9 @@ Private Function fSqlDeclaracionIGTF_RDV_SQL(ByVal valRedondeaMontoDebitoBancari
    SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
    SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
    SQL = SQL & " FROM factura "
-   SQL = SQL & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & "  AND factura.RealizoCierreZ = " & gUtilSQL.fBooleanToSqlValue(False) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS) & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   SQL = SQL & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & "  AND factura.RealizoCierreZ = " & gUtilSQL.fBooleanToSqlValue(False) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   SQL = SQL & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   SQL = SQL & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
    SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
    fSqlDeclaracionIGTF_RDV_SQL = SQL
 h_EXIT: On Error GoTo 0
