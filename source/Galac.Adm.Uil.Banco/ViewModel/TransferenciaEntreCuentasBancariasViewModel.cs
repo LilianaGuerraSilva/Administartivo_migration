@@ -1063,7 +1063,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				} else if (LibDate.DateIsGreaterThanToday(Fecha, false, string.Empty)) {
 					vResult = new ValidationResult("La fecha de la transferencia no puede ser mayor a la fecha de hoy.");
 				}else if (LibDate.IsDate(Fecha)) {
-					vResult = new ValidationResult("La campo Fecha es requerido.");
+					vResult = new ValidationResult("El campo Fecha es requerido.");
 				}
 			}
 			return vResult;
