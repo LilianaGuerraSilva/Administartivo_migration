@@ -53,7 +53,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private ILibRpt ConfigReportOrdenDeProduccionRpt(clsOrdenDeProduccionRptViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.GestionProduccion.clsOrdenDeProduccionRpt(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor, valViewModel.FechaDesde, valViewModel.FechaHasta) {
+                vResult = new Galac.Adm.Rpt.GestionProduccion.clsOrdenDeProduccionRpt(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.SeleccionarPor) {
                     Worker = Manager
                 };
             }
@@ -103,7 +103,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private ILibRpt ConfigReportDetalleDeCostoDeProduccion(clsDetalleDeCostoDeProduccionViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.GestionProduccion.clsDetalleDeCostoDeProduccion(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.ConsecutivoOrden, valViewModel.CodigoDeOrden, valViewModel.GeneradoPor) {
+                vResult = new Galac.Adm.Rpt.GestionProduccion.clsDetalleDeCostoDeProduccion(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.ConsecutivoOrden, valViewModel.CodigoDeOrden, valViewModel.SeleccionarPor) {
                     Worker = Manager
                 };
             }

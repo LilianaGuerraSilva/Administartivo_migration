@@ -77,12 +77,12 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return insProduccionPorEstatusEntreFecha.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable IOrdenDeProduccionInformes.BuildDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eGeneradoPor valGeneradoPor, int valConsecutivoOrden) {
+        System.Data.DataTable IOrdenDeProduccionInformes.BuildDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarPor valSeleccionarPor, int valConsecutivoOrden) {
             string vSql = "";
             System.Data.DataTable vDt = new System.Data.DataTable();
             clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();
             LibGalac.Aos.Base.ILibDataRpt insProduccionPorEstatusEntreFecha = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
-            vSql = insOrdenDeProduccionSql.SqlDetalleDeCostoDeProduccion(valConsecutivoCompania, valFechaInicial, valFechaFinal, valGeneradoPor, valConsecutivoOrden);
+            vSql = insOrdenDeProduccionSql.SqlDetalleDeCostoDeProduccion(valConsecutivoCompania, valFechaInicial, valFechaFinal, valSeleccionarPor, valConsecutivoOrden);
             return insProduccionPorEstatusEntreFecha.GetDt(vSql, 0);
         }
         

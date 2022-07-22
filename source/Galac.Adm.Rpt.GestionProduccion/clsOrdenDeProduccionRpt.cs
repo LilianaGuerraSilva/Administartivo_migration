@@ -18,6 +18,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         public string CodigoOrden { get; set; }
 
         public eGeneradoPor GeneradoPor { get; set; }
+        public eSeleccionarPor SeleccionarPor { get; set; }
 
         public DateTime FechaDesde { get; set;}
 
@@ -34,11 +35,12 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         #endregion //Codigo Ejemplo
         #endregion //Propiedades
         #region Constructores
-        public clsOrdenDeProduccionRpt(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string iniCodigoOrden, eGeneradoPor iniGeneradoPor, DateTime iniFechaDesde, DateTime iniFechaHasta)
+        public clsOrdenDeProduccionRpt(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, string iniCodigoOrden, eGeneradoPor iniGeneradoPor, DateTime iniFechaDesde, DateTime iniFechaHasta, eSeleccionarPor iniSeleccionarPor)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             CodigoOrden = iniCodigoOrden;
             GeneradoPor = iniGeneradoPor;
+            SeleccionarPor = iniSeleccionarPor;
             FechaDesde = iniFechaDesde;
             FechaHasta = iniFechaHasta;
             #region Codigo Ejemplo

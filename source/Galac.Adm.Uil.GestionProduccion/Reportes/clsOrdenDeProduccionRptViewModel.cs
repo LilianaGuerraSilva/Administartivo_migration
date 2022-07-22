@@ -19,14 +19,16 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
 
         #region Variables y Constantes
 
+        private const string SeleccionarPorPropertyName = "SeleccionarPor";
         private const string GeneradoPorPropertyName = "GeneradoPor";
         private const string CodigoDeOrdenPropertyName = "CodigoDeOrden";
         private const string IsEnabledCodigoDeOrdenPropertyName = "IsEnabledCodigoDeOrden";
         private const string IsEnabledFechaPropertyName = "IsEnabledFecha";
         private const string FechaDesdePropertyName = "FechaDesde";
         private const string FechaHastaPropertyName = "FechaHasta";
-        
-        private Galac.Adm.Ccl.GestionProduccion.eGeneradoPor _GeneradoPor;
+
+        private eGeneradoPor _GeneradoPor;
+        private eSeleccionarPor _SeleccionarPor;
         private string _CodigoDeOrden;
         private DateTime _FechaDesde;
         private DateTime _FechaHasta;
@@ -79,7 +81,27 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                     RaisePropertyChanged(GeneradoPorPropertyName);
                     RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
                     RaisePropertyChanged(IsEnabledFechaPropertyName);
-                    if (eGeneradoPor.Orden.Equals(_GeneradoPor)) {
+                    if (eGeneradoPor.Orden.Equals(_SeleccionarPor)) {
+                        IsEnabledCodigoDeOrden = true;
+                        IsEnabledFecha = false;
+                    } else {
+                        IsEnabledCodigoDeOrden = false;
+                        IsEnabledFecha = true;
+                        CodigoDeOrden = string.Empty;
+                    }
+                }
+            }
+        }        public eSeleccionarPor SeleccionarPor {
+            get {
+                return _SeleccionarPor;
+            }
+            set {
+                if (_SeleccionarPor != value) {
+                    _SeleccionarPor = value;
+                    RaisePropertyChanged(SeleccionarPorPropertyName);
+                    RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
+                    RaisePropertyChanged(IsEnabledFechaPropertyName);
+                    if (eSeleccionarPor.Orden.Equals(_SeleccionarPor)) {
                         IsEnabledCodigoDeOrden = true;
                         IsEnabledFecha = false;
                     } else {
@@ -167,6 +189,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         
         public clsOrdenDeProduccionRptViewModel() {
             _GeneradoPor = eGeneradoPor.Orden;
+            _SeleccionarPor = eSeleccionarPor.Orden;
             _CodigoDeOrden = string.Empty;
             _FechaDesde = DateTime.Today;
             _FechaHasta = DateTime.Today;
@@ -181,6 +204,11 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         public eGeneradoPor[] EGeneradoPor {
             get {
                 return LibEnumHelper<eGeneradoPor>.GetValuesInArray();
+            }
+        }        
+        public eSeleccionarPor[] ESeleccionarPor {
+            get {
+                return LibEnumHelper<eSeleccionarPor>.GetValuesInArray();
             }
         }
 

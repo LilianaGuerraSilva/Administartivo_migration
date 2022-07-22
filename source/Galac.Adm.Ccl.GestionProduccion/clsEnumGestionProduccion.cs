@@ -24,5 +24,13 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         Fecha
     }
 
-
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eSeleccionarPor {
+        [LibEnumDescription("Orden")]
+        Orden = 0,
+        [LibEnumDescription("Fecha de Inicio")]
+        FechaDeInicio,        
+        [LibEnumDescription("Fecha de Finalización")]
+        FechaDeFinalizacion,
+    }
 } //End of namespace namespace Galac.Adm.Ccl.GestionProduccion

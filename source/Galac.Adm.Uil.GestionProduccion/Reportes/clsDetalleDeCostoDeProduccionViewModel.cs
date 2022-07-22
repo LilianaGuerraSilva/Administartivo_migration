@@ -25,7 +25,8 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         public const string FechaFinalPropertyName = "FechaFinal";
         #endregion
         #region Variables
-        private Galac.Adm.Ccl.GestionProduccion.eGeneradoPor _GeneradoPor;
+        private eSeleccionarPor _SeleccionarPor;
+        private eGeneradoPor _GeneradoPor;
         private int _ConsecutivoOrden;
         private string _CodigoDeOrden;
         private DateTime _FechaInicial;
@@ -83,6 +84,27 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             }
         }
 
+        public eSeleccionarPor SeleccionarPor {
+            get {
+                return _SeleccionarPor;
+            }
+            set {
+                if (_SeleccionarPor != value) {
+                    _SeleccionarPor = value;
+                    RaisePropertyChanged(GeneradoPorPropertyName);
+                    RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
+                    RaisePropertyChanged(IsEnabledFechaPropertyName);
+                    if (eSeleccionarPor.Orden.Equals(_SeleccionarPor)) {
+                        IsEnabledCodigoDeOrden = true;
+                        IsEnabledFecha = false;
+                    } else {
+                        IsEnabledCodigoDeOrden = false;
+                        IsEnabledFecha = true;
+                        CodigoDeOrden = string.Empty;
+                    }
+                }
+            }
+        }
         public eGeneradoPor GeneradoPor {
             get {
                 return _GeneradoPor;
@@ -162,7 +184,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         }
 
         public override string DisplayName {
-            get { return "Detalle de Costo de Producción"; }
+            get { return "Detalle de Costo de Producción (Cerrada)"; }
         }
 
         public override bool IsSSRS {
@@ -176,6 +198,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         #endregion
         #region Constructores
         public clsDetalleDeCostoDeProduccionViewModel() {
+            _SeleccionarPor = eSeleccionarPor.Orden;
             _GeneradoPor = eGeneradoPor.Orden;
             _ConsecutivoOrden = 0;
             _CodigoDeOrden = string.Empty;
@@ -189,6 +212,11 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         public eGeneradoPor[] EGeneradoPor {
             get {
                 return LibEnumHelper<eGeneradoPor>.GetValuesInArray();
+            }
+        }
+        public eSeleccionarPor[] ESeleccionarPor {
+            get {
+                return LibEnumHelper<eSeleccionarPor>.GetValuesInArray();
             }
         }
 
