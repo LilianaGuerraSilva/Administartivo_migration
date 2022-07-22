@@ -737,7 +737,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vRepuesta = Bematech_FI_AbreNotaDeCredito(valRazonSocial, valSerialMaquina, valRif, vDia, vMes, vAno, vHora, vMinuto, vSegundo, valNumeroComprobanteFiscal);
                 vResult = RetornoStatus(vRepuesta, out MensajeStatus);
                 if (!vResult) {
-                    throw new GalacException("error al la abrir Nota de Crédito: " + MensajeStatus, eExceptionManagementType.Controlled);
+                    throw new GalacException("error al abrir la Nota de Crédito: " + MensajeStatus, eExceptionManagementType.Controlled);
                 }
                 return vResult;
             } catch (Exception vEx) {
