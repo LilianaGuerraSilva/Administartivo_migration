@@ -350,7 +350,7 @@ Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As
       vSQL = vSQL & "AI.PrecioConIva4 AS PrecioConIVAML, "
       vSQL = vSQL & "(AI.PrecioConIva4 - AI.PrecioSinIva4) AS IvaML, "
       vSQL = vSQL & "ISNULL(ME.MePrecioSinIva4, 0) AS PrecioSinIvaME, "
-      vSQL = vSQL & "ISNULL(ME.MePrecioConIva4, 0) AS PrecioConIvaME "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva4, 0) AS PrecioConIvaME, "
       vSQL = vSQL & "(ISNULL(ME.MePrecioConIva4, 0) - ISNULL(ME.MePrecioSinIva4, 0)) AS IvaME, "
    ElseIf (valNivelDePrecio = eND_PRECIO_3) Then
       vSQL = vSQL & "AI.PrecioSinIva3 AS PrecioSinIvaML, "
@@ -366,22 +366,26 @@ Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As
       vSQL = vSQL & "ISNULL(ME.MePrecioSinIva2, 0) AS PrecioSinIvaME, "
       vSQL = vSQL & "ISNULL(ME.MePrecioConIva2, 0) AS PrecioConIvaME, "
       vSQL = vSQL & "(ISNULL(ME.MePrecioConIva2, 0) - ISNULL(ME.MePrecioSinIva2, 0)) AS IvaME, "
- Else
+   Else
       vSQL = vSQL & "AI.PrecioSinIva AS PrecioSinIvaML, "
       vSQL = vSQL & "AI.PrecioConIva AS PrecioConIVAML, "
       vSQL = vSQL & "(AI.PrecioConIva - AI.PrecioSinIva) AS IvaML, "
       vSQL = vSQL & "ISNULL(ME.MePrecioSinIva, 0) AS PrecioSinIvaME, "
       vSQL = vSQL & "ISNULL(ME.MePrecioConIva, 0) AS PrecioConIvaME, "
       vSQL = vSQL & "(ISNULL(ME.MePrecioConIva, 0) - ISNULL(ME.MePrecioSinIva, 0)) AS IvaME, "
- End If
+   End If
    vSQL = vSQL & "AI.PorcentajeBaseImponible, AI.UnidadDeVenta, AI.CampoDefinible1, AI.CampoDefinible2, AI.CampoDefinible3, AI.CampoDefinible4, AI.CampoDefinible5, AI.UnidadDeVentaSecundaria "
-   vSQL = vSQL & " FROM ArticuloInventario AS AI LEFT JOIN "
-   vSQL = vSQL & " Saw.Color ON AI.ConsecutivoCompania = Saw.Color.ConsecutivoCompania LEFT JOIN "
-   vSQL = vSQL & " Saw.Talla ON AI.ConsecutivoCompania = Saw.Talla.ConsecutivoCompania LEFT JOIN "
-   vSQL = vSQL & " CamposMonedaExtranjera AS ME ON AI.ConsecutivoCompania = ME.ConsecutivoCompania AND AI.Codigo = ME.Codigo "
-   vSQL = vSQL & vSQLWhere
    
- 
+   vSQL = vSQL & "FROM ArticuloInventario AS AI LEFT OUTER JOIN "
+   vSQL = vSQL & "ExistenciaPorGrupo AS EPG INNER JOIN "
+   vSQL = vSQL & "Saw.Talla ON EPG.CodigoTalla = Saw.Talla.CodigoTalla INNER JOIN "
+   vSQL = vSQL & "Saw.Color ON EPG.CodigoColor = Saw.Color.CodigoColor ON AI.ConsecutivoCompania = Saw.Color.ConsecutivoCompania AND "
+   vSQL = vSQL & "AI.ConsecutivoCompania = Saw.Talla.ConsecutivoCompania AND "
+   vSQL = vSQL & "AI.Codigo = EPG.CodigoArticulo AND "
+   vSQL = vSQL & "AI.CodigoGrupo = (CASE WHEN EPG.CodigoGrupo = '0' THEN '' ELSE EPG.CodigoGrupo END) AND AI.ConsecutivoCompania = EPG.ConsecutivoCompania LEFT OUTER JOIN "
+   vSQL = vSQL & "CamposMonedaExtranjera AS ME ON AI.ConsecutivoCompania = ME.ConsecutivoCompania AND AI.Codigo = ME.Codigo "
+   
+   vSQL = vSQL & vSQLWhere
 h_EXIT:   On Error GoTo 0
    fSqlParaLaImpresionDeCodDeBarras = vSQL
    Exit Function

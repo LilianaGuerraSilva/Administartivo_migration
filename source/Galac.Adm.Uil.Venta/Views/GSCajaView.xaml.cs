@@ -32,12 +32,18 @@ namespace Galac.Adm.Uil.Venta.Views {
 
         private void cmbFamiliaDeMaquinaFiscal_SelectionChanged(object sender,SelectionChangedEventArgs e) {
             var vViewModel = ((CajaViewModel)DataContext);            
-            eImpresoraFiscal vMaquinaFiscal = vViewModel.ModeloDeMaquinaFiscal;            
+            eImpresoraFiscal vMaquinaFiscal = vViewModel.ModeloDeMaquinaFiscal; 
+            eTipoConexion vTipoConexion = vViewModel.TipoConexion;
             vViewModel.LlenarEnumerativosImpresoraFiscal();
+            vViewModel.LlenarEnumerativosTipoDeConexion();
             vMaquinaFiscal = vViewModel.ListarMaquinaFiscal.Contains(vMaquinaFiscal) ? vMaquinaFiscal : vViewModel.ListarMaquinaFiscal[0];
+            vTipoConexion = vViewModel.ListarTipoConexion.Contains(vTipoConexion) ? vTipoConexion : vViewModel.ListarTipoConexion[0];
             vViewModel.MoverFocoSiCambiaTab();
             if(LibString.IsNullOrEmpty(cmbModeloDeMaquinaFiscal.Text) && (vViewModel.Action == eAccionSR.Insertar || vViewModel.Action == eAccionSR.Modificar)) {
                 vViewModel.ModeloDeMaquinaFiscal = vMaquinaFiscal;
+            }
+            if (LibString.IsNullOrEmpty(cmbTipoConexion.Text) && (vViewModel.Action == eAccionSR.Insertar || vViewModel.Action == eAccionSR.Modificar)) {
+                vViewModel.TipoConexion = vTipoConexion;
             }
         }
 
