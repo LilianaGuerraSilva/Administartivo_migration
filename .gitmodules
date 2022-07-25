@@ -34,14 +34,6 @@
 	path = bin/binComunAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincomunaos.git
 	branch = release/SawV22.2.0.0
-[submodule "bin/binContabilidadAos"]
-	path = bin/binContabilidadAos
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
-	branch = release/SawV22.2.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
-	branch = release/SawV22.2.0.0
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://gitlab.com/galac-software-enterprise/desa/binesqniif.git
@@ -70,3 +62,11 @@
 	path = source/VbaComun
 	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
 	branch = release/SawV22.2.0.0
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadvb.git
+	branch = release/V2202
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://gitlab.com/galac-software-enterprise/desa/bincontabilidadaos.git
+	branch = release/V2.60.3.0
