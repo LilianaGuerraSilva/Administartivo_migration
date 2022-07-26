@@ -77,7 +77,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return insProduccionPorEstatusEntreFecha.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable IOrdenDeProduccionInformes.BuildDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarPor valSeleccionarPor, int valConsecutivoOrden) {
+        System.Data.DataTable IOrdenDeProduccionInformes.BuildDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarPor, int valConsecutivoOrden) {
             string vSql = "";
             System.Data.DataTable vDt = new System.Data.DataTable();
             clsOrdenDeProduccionSql insOrdenDeProduccionSql = new clsOrdenDeProduccionSql();

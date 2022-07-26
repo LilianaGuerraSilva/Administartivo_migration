@@ -25,9 +25,9 @@ namespace Galac.Adm.Ccl.GestionProduccion {
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eSeleccionarPor {
+    public enum eSeleccionarOrdenPor {
         [LibEnumDescription("Orden")]
-        Orden = 0,
+        NumeroDeOrden = 0,
         [LibEnumDescription("Fecha de Inicio")]
         FechaDeInicio,        
         [LibEnumDescription("Fecha de Finalización")]

@@ -18,7 +18,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         public string CodigoOrden { get; set; }
 
-        public eSeleccionarPor SeleccionarPor { get; set; }
+        public eSeleccionarOrdenPor SeleccionarPor { get; set; }
 
         protected DataTable Data { get; set; }
 
@@ -28,7 +28,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         #endregion //Propiedades
         #region Constructores
-        public clsDetalleDeCostoDeProduccion(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, int iniConsecutivoOrden, string iniCodigoOrden, eSeleccionarPor iniSeleccionarPor)
+        public clsDetalleDeCostoDeProduccion(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, int iniConsecutivoOrden, string iniCodigoOrden, eSeleccionarOrdenPor iniSeleccionarPor)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             FechaInicial = iniFechaInicial;
@@ -50,7 +50,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             if (UseExternalRpx) {
                 vTitulo += " - desde RPX externo.";
             }
-            if (SeleccionarPor == eSeleccionarPor.FechaDeFinalizacion || SeleccionarPor == eSeleccionarPor.FechaDeInicio) {
+            if (SeleccionarPor == eSeleccionarOrdenPor.FechaDeFinalizacion || SeleccionarPor == eSeleccionarOrdenPor.FechaDeInicio) {
                 vMostrarFechaInicioFinal = true;
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();

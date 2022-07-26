@@ -28,7 +28,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         private const string FechaHastaPropertyName = "FechaHasta";
 
         private eGeneradoPor _GeneradoPor;
-        private eSeleccionarPor _SeleccionarPor;
+        private eSeleccionarOrdenPor _SeleccionarPor;
         private string _CodigoDeOrden;
         private DateTime _FechaDesde;
         private DateTime _FechaHasta;
@@ -91,7 +91,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                     }
                 }
             }
-        }        public eSeleccionarPor SeleccionarPor {
+        }        public eSeleccionarOrdenPor SeleccionarPor {
             get {
                 return _SeleccionarPor;
             }
@@ -101,7 +101,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                     RaisePropertyChanged(SeleccionarPorPropertyName);
                     RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
                     RaisePropertyChanged(IsEnabledFechaPropertyName);
-                    if (eSeleccionarPor.Orden.Equals(_SeleccionarPor)) {
+                    if (eSeleccionarOrdenPor.NumeroDeOrden.Equals(_SeleccionarPor)) {
                         IsEnabledCodigoDeOrden = true;
                         IsEnabledFecha = false;
                     } else {
@@ -189,7 +189,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         
         public clsOrdenDeProduccionRptViewModel() {
             _GeneradoPor = eGeneradoPor.Orden;
-            _SeleccionarPor = eSeleccionarPor.Orden;
+            _SeleccionarPor = eSeleccionarOrdenPor.NumeroDeOrden;
             _CodigoDeOrden = string.Empty;
             _FechaDesde = DateTime.Today;
             _FechaHasta = DateTime.Today;
@@ -206,9 +206,9 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
                 return LibEnumHelper<eGeneradoPor>.GetValuesInArray();
             }
         }        
-        public eSeleccionarPor[] ESeleccionarPor {
+        public eSeleccionarOrdenPor[] ESeleccionarPor {
             get {
-                return LibEnumHelper<eSeleccionarPor>.GetValuesInArray();
+                return LibEnumHelper<eSeleccionarOrdenPor>.GetValuesInArray();
             }
         }
 
