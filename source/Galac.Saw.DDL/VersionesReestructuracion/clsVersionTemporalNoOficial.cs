@@ -16,7 +16,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             ActivaModoMejoradoPorDefecto();
 			CrearTablaTransferenciaEntreCuentasBancarias();
 			AgregaColumnasReglasDeContabilizacion();
-            DisposeConnectionNoTransaction();
+			ModificarTablasWincont();
+			DisposeConnectionNoTransaction();
             return true;
         }
 		
@@ -64,6 +65,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 					AddNotNullConstraint("Saw.ReglasDeContabilizacion", "EditarComprobanteAfterInsertTransfCtas", InsSql.CharTypeForDb(1)) ;
 				}
 			}
+		}
+		
+		private void ModificarTablasWincont() {
+			string vSql = string.Empty;
+			if (ColumnExists("Contab.ParametrosConciliacion", "ExpresarBalancesEnDiferentesMonedas")) {
+				vSql = vSql + "UPDATE Contab.ParametrosConciliacion SET ExpresarBalancesEnDiferentesMonedas = (CASE WHEN ExpresarBalancesEnDiferentesMonedas = 'N' THEN '" + (int)Galac.Contab.Ccl.WinCont.eExpresarBalancesEnMonedaExtrangera.NoAplicar + "' WHEN ExpresarBalancesEnDiferentesMonedas = 'S' THEN '" + (int)Galac.Contab.Ccl.WinCont.eExpresarBalancesEnMonedaExtrangera.ConDifCambiria + "' ELSE ExpresarBalancesEnDiferentesMonedas END) ";
+				Execute(vSql, 0);
+			}
+			AlterColumnIfExist("dbo.ASIENTO", "TasaDeCambio", InsSql.DecimalTypeForDb(30, 5), "", "");
 		}
 	}
 }
