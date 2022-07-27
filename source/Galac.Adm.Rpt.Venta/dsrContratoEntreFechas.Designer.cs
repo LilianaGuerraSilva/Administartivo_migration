@@ -46,8 +46,8 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaDeInicio = new DataDynamics.ActiveReports.Label();
             this.lblFechaFinal = new DataDynamics.ActiveReports.Label();
             this.txtStatus = new DataDynamics.ActiveReports.TextBox();
-            this.GFSecContrato = new DataDynamics.ActiveReports.GroupFooter();
             this.lblObservaciones = new DataDynamics.ActiveReports.Label();
+            this.GFSecContrato = new DataDynamics.ActiveReports.GroupFooter();
             this.Line1 = new DataDynamics.ActiveReports.Line();
             ((System.ComponentModel.ISupportInitialize)(this.txtCodigoCliente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCliente)).BeginInit();
@@ -89,14 +89,14 @@ namespace Galac.Adm.Rpt.Venta
             this.txtFechaDeInicio,
             this.txtFechaFinal,
             this.txtNumeroContrato});
-            this.Detail.Height = 0.1664166F;
+            this.Detail.Height = 0.17625F;
             this.Detail.KeepTogether = true;
             this.Detail.Name = "Detail";
             // 
             // txtCodigoCliente
             // 
             this.txtCodigoCliente.Height = 0.15625F;
-            this.txtCodigoCliente.Left = 0.451F;
+            this.txtCodigoCliente.Left = 0.4440005F;
             this.txtCodigoCliente.Name = "txtCodigoCliente";
             this.txtCodigoCliente.Style = "font-size: 8pt";
             this.txtCodigoCliente.Text = "txtCodigoCliente";
@@ -105,28 +105,28 @@ namespace Galac.Adm.Rpt.Venta
             // 
             // txtNombreCliente
             // 
-            this.txtNombreCliente.Height = 0.15625F;
-            this.txtNombreCliente.Left = 1.16975F;
+            this.txtNombreCliente.Height = 0.156F;
+            this.txtNombreCliente.Left = 1.16275F;
             this.txtNombreCliente.Name = "txtNombreCliente";
             this.txtNombreCliente.Style = "font-size: 8pt";
             this.txtNombreCliente.Text = "txtNombreCliente";
             this.txtNombreCliente.Top = 0.02F;
-            this.txtNombreCliente.Width = 1.6875F;
+            this.txtNombreCliente.Width = 1.78025F;
             // 
             // txtObservaciones
             // 
             this.txtObservaciones.Height = 0.156F;
-            this.txtObservaciones.Left = 7.888F;
+            this.txtObservaciones.Left = 8F;
             this.txtObservaciones.Name = "txtObservaciones";
             this.txtObservaciones.Style = "font-size: 8pt";
             this.txtObservaciones.Text = "txtObservaciones";
             this.txtObservaciones.Top = 0.02F;
-            this.txtObservaciones.Width = 2.12F;
+            this.txtObservaciones.Width = 2F;
             // 
             // txtCodigoClienteAFacturar
             // 
             this.txtCodigoClienteAFacturar.Height = 0.15625F;
-            this.txtCodigoClienteAFacturar.Left = 2.85725F;
+            this.txtCodigoClienteAFacturar.Left = 2.95F;
             this.txtCodigoClienteAFacturar.Name = "txtCodigoClienteAFacturar";
             this.txtCodigoClienteAFacturar.Style = "font-size: 8pt";
             this.txtCodigoClienteAFacturar.Text = "txtCodigoClienteAFacturar";
@@ -136,27 +136,27 @@ namespace Galac.Adm.Rpt.Venta
             // txtNombreClienteAFacturar
             // 
             this.txtNombreClienteAFacturar.Height = 0.15625F;
-            this.txtNombreClienteAFacturar.Left = 3.576F;
+            this.txtNombreClienteAFacturar.Left = 3.669F;
             this.txtNombreClienteAFacturar.Name = "txtNombreClienteAFacturar";
             this.txtNombreClienteAFacturar.Style = "font-size: 8pt";
             this.txtNombreClienteAFacturar.Text = "txtNombreClienteAFacturar";
-            this.txtNombreClienteAFacturar.Top = 0.02F;
-            this.txtNombreClienteAFacturar.Width = 2.123F;
+            this.txtNombreClienteAFacturar.Top = 0.01975F;
+            this.txtNombreClienteAFacturar.Width = 2.181F;
             // 
             // txtDuracionDelContrato
             // 
             this.txtDuracionDelContrato.Height = 0.156F;
-            this.txtDuracionDelContrato.Left = 5.699001F;
+            this.txtDuracionDelContrato.Left = 5.85F;
             this.txtDuracionDelContrato.Name = "txtDuracionDelContrato";
             this.txtDuracionDelContrato.Style = "font-size: 8pt; text-align: left";
             this.txtDuracionDelContrato.Text = "txtDuracionDelContrato";
-            this.txtDuracionDelContrato.Top = 0.02F;
-            this.txtDuracionDelContrato.Width = 1.188F;
+            this.txtDuracionDelContrato.Top = 0.01975F;
+            this.txtDuracionDelContrato.Width = 1.15F;
             // 
             // txtFechaDeInicio
             // 
             this.txtFechaDeInicio.Height = 0.156F;
-            this.txtFechaDeInicio.Left = 6.887001F;
+            this.txtFechaDeInicio.Left = 7F;
             this.txtFechaDeInicio.Name = "txtFechaDeInicio";
             this.txtFechaDeInicio.OutputFormat = resources.GetString("txtFechaDeInicio.OutputFormat");
             this.txtFechaDeInicio.Style = "font-size: 8pt; text-align: left";
@@ -167,7 +167,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtFechaFinal
             // 
             this.txtFechaFinal.Height = 0.156F;
-            this.txtFechaFinal.Left = 7.387001F;
+            this.txtFechaFinal.Left = 7.5F;
             this.txtFechaFinal.Name = "txtFechaFinal";
             this.txtFechaFinal.OutputFormat = resources.GetString("txtFechaFinal.OutputFormat");
             this.txtFechaFinal.Style = "font-size: 8pt; text-align: left";
@@ -178,12 +178,12 @@ namespace Galac.Adm.Rpt.Venta
             // txtNumeroContrato
             // 
             this.txtNumeroContrato.Height = 0.156F;
-            this.txtNumeroContrato.Left = 0F;
+            this.txtNumeroContrato.Left = -0.006999522F;
             this.txtNumeroContrato.Name = "txtNumeroContrato";
             this.txtNumeroContrato.Style = "font-size: 8pt";
             this.txtNumeroContrato.Text = "txtNumeroContrato";
             this.txtNumeroContrato.Top = 0.02F;
-            this.txtNumeroContrato.Width = 0.45F;
+            this.txtNumeroContrato.Width = 0.4579991F;
             // 
             // PageHeader
             // 
@@ -225,9 +225,9 @@ namespace Galac.Adm.Rpt.Venta
             this.txtNroDePagina.Height = 0.156F;
             this.txtNroDePagina.Left = 6.656F;
             this.txtNroDePagina.Name = "txtNroDePagina";
-            this.txtNroDePagina.Style = "font-size: 10pt; font-weight: normal; text-align: center; ddo-char-set: 1";
+            this.txtNroDePagina.Style = "font-size: 10pt; font-weight: normal; text-align: left; ddo-char-set: 1";
             this.txtNroDePagina.Text = "txtNroDePagina";
-            this.txtNroDePagina.Top = 0F;
+            this.txtNroDePagina.Top = 0.094F;
             this.txtNroDePagina.Width = 0.844F;
             // 
             // lblTituloInforme
@@ -284,7 +284,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtStatus,
             this.lblObservaciones,
             this.Line1});
-            this.GHSecContrato.Height = 0.375F;
+            this.GHSecContrato.Height = 0.3333333F;
             this.GHSecContrato.Name = "GHSecContrato";
             // 
             // lblNumeroContrato
@@ -293,12 +293,12 @@ namespace Galac.Adm.Rpt.Venta
             this.lblNumeroContrato.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblNumeroContrato.Height = 0.156F;
             this.lblNumeroContrato.HyperLink = null;
-            this.lblNumeroContrato.Left = 0F;
+            this.lblNumeroContrato.Left = -0.006999522F;
             this.lblNumeroContrato.Name = "lblNumeroContrato";
             this.lblNumeroContrato.Style = "font-size: 8pt; font-weight: bold";
             this.lblNumeroContrato.Text = "Número";
             this.lblNumeroContrato.Top = 0.15625F;
-            this.lblNumeroContrato.Width = 0.45F;
+            this.lblNumeroContrato.Width = 0.4579991F;
             // 
             // lblCodigoCliente
             // 
@@ -306,36 +306,36 @@ namespace Galac.Adm.Rpt.Venta
             this.lblCodigoCliente.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblCodigoCliente.Height = 0.15625F;
             this.lblCodigoCliente.HyperLink = null;
-            this.lblCodigoCliente.Left = 0.451F;
+            this.lblCodigoCliente.Left = 0.4440005F;
             this.lblCodigoCliente.Name = "lblCodigoCliente";
             this.lblCodigoCliente.Style = "font-size: 8pt; font-weight: bold";
             this.lblCodigoCliente.Text = "Cliente del Contrato";
             this.lblCodigoCliente.Top = 0.15625F;
-            this.lblCodigoCliente.Width = 2.40625F;
+            this.lblCodigoCliente.Width = 2.499F;
             // 
             // lblStatusContrato
             // 
             this.lblStatusContrato.Height = 0.15625F;
             this.lblStatusContrato.HyperLink = null;
-            this.lblStatusContrato.Left = 0F;
+            this.lblStatusContrato.Left = -0.006999522F;
             this.lblStatusContrato.Name = "lblStatusContrato";
             this.lblStatusContrato.Style = "font-size: 8pt; font-weight: bold";
             this.lblStatusContrato.Text = "Estatus";
             this.lblStatusContrato.Top = 0F;
-            this.lblStatusContrato.Width = 0.451F;
+            this.lblStatusContrato.Width = 0.4579991F;
             // 
             // lblCodigoClienteAFacturar
             // 
             this.lblCodigoClienteAFacturar.Border.BottomColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblCodigoClienteAFacturar.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
-            this.lblCodigoClienteAFacturar.Height = 0.15625F;
+            this.lblCodigoClienteAFacturar.Height = 0.156F;
             this.lblCodigoClienteAFacturar.HyperLink = null;
-            this.lblCodigoClienteAFacturar.Left = 2.85725F;
+            this.lblCodigoClienteAFacturar.Left = 2.95F;
             this.lblCodigoClienteAFacturar.Name = "lblCodigoClienteAFacturar";
             this.lblCodigoClienteAFacturar.Style = "font-size: 8pt; font-weight: bold";
             this.lblCodigoClienteAFacturar.Text = "Cliente a Facturar";
-            this.lblCodigoClienteAFacturar.Top = 0.15625F;
-            this.lblCodigoClienteAFacturar.Width = 2.84175F;
+            this.lblCodigoClienteAFacturar.Top = 0.156F;
+            this.lblCodigoClienteAFacturar.Width = 2.9F;
             // 
             // lblDuracionDelContrato
             // 
@@ -343,12 +343,12 @@ namespace Galac.Adm.Rpt.Venta
             this.lblDuracionDelContrato.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblDuracionDelContrato.Height = 0.156F;
             this.lblDuracionDelContrato.HyperLink = null;
-            this.lblDuracionDelContrato.Left = 5.699001F;
+            this.lblDuracionDelContrato.Left = 5.85F;
             this.lblDuracionDelContrato.Name = "lblDuracionDelContrato";
             this.lblDuracionDelContrato.Style = "font-size: 8pt; font-weight: bold";
             this.lblDuracionDelContrato.Text = "Duración";
-            this.lblDuracionDelContrato.Top = 0.15625F;
-            this.lblDuracionDelContrato.Width = 1.188F;
+            this.lblDuracionDelContrato.Top = 0.156F;
+            this.lblDuracionDelContrato.Width = 1.15F;
             // 
             // lblFechaDeInicio
             // 
@@ -356,7 +356,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaDeInicio.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblFechaDeInicio.Height = 0.156F;
             this.lblFechaDeInicio.HyperLink = null;
-            this.lblFechaDeInicio.Left = 6.887001F;
+            this.lblFechaDeInicio.Left = 7F;
             this.lblFechaDeInicio.Name = "lblFechaDeInicio";
             this.lblFechaDeInicio.Style = "font-size: 8pt; font-weight: bold";
             this.lblFechaDeInicio.Text = "F. Inicio";
@@ -369,7 +369,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblFechaFinal.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblFechaFinal.Height = 0.156F;
             this.lblFechaFinal.HyperLink = null;
-            this.lblFechaFinal.Left = 7.387001F;
+            this.lblFechaFinal.Left = 7.5F;
             this.lblFechaFinal.Name = "lblFechaFinal";
             this.lblFechaFinal.Style = "font-size: 8pt; font-weight: bold";
             this.lblFechaFinal.Text = "F. Final";
@@ -379,18 +379,12 @@ namespace Galac.Adm.Rpt.Venta
             // txtStatus
             // 
             this.txtStatus.Height = 0.15625F;
-            this.txtStatus.Left = 0.453F;
+            this.txtStatus.Left = 0.451F;
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.Style = "font-size: 8pt";
             this.txtStatus.Text = "txtStatusContrato";
             this.txtStatus.Top = 0F;
-            this.txtStatus.Width = 2.404F;
-            // 
-            // GFSecContrato
-            // 
-            this.GFSecContrato.CanShrink = true;
-            this.GFSecContrato.Height = 0F;
-            this.GFSecContrato.Name = "GFSecContrato";
+            this.txtStatus.Width = 2.499F;
             // 
             // lblObservaciones
             // 
@@ -398,12 +392,18 @@ namespace Galac.Adm.Rpt.Venta
             this.lblObservaciones.Border.BottomStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.lblObservaciones.Height = 0.156F;
             this.lblObservaciones.HyperLink = null;
-            this.lblObservaciones.Left = 7.888F;
+            this.lblObservaciones.Left = 8F;
             this.lblObservaciones.Name = "lblObservaciones";
             this.lblObservaciones.Style = "font-size: 8pt; font-weight: bold";
             this.lblObservaciones.Text = "Observaciones";
             this.lblObservaciones.Top = 0.156F;
-            this.lblObservaciones.Width = 2.12F;
+            this.lblObservaciones.Width = 2F;
+            // 
+            // GFSecContrato
+            // 
+            this.GFSecContrato.CanShrink = true;
+            this.GFSecContrato.Height = 0F;
+            this.GFSecContrato.Name = "GFSecContrato";
             // 
             // Line1
             // 
@@ -414,9 +414,9 @@ namespace Galac.Adm.Rpt.Venta
             this.Line1.LineWeight = 1F;
             this.Line1.Name = "Line1";
             this.Line1.Top = 0.312F;
-            this.Line1.Width = 2.595F;
+            this.Line1.Width = 2.586999F;
             this.Line1.X1 = 7.413001F;
-            this.Line1.X2 = 10.008F;
+            this.Line1.X2 = 10F;
             this.Line1.Y1 = 0.312F;
             this.Line1.Y2 = 0.312F;
             // 
