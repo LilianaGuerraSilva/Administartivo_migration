@@ -24,7 +24,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         #endregion
         #region Propiedades
         public override string DisplayName {
-            get { return "Contrato Entre Fechas"; }
+            get { return "Contratos Entre Fechas"; }
         }
         public override bool IsSSRS {
             get { return false; }
