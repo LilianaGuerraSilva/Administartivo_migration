@@ -211,7 +211,7 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             return vSql.ToString();
         }
 
-        public string SqlDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarPor, int valConsecutivoOrden) {
+        public string SqlDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valSeleccionarOrdenPor, int valConsecutivoOrden) {
             StringBuilder vSql = new StringBuilder();
             QAdvSql vUtilSql = new QAdvSql("");
             string vSQLWhere = string.Empty;
@@ -251,11 +251,11 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             vSql.AppendLine("Saw.Almacen AlmacenMateriales ON OrdProd.ConsecutivoCompania = AlmacenMateriales.ConsecutivoCompania AND  OrdProd.ConsecutivoAlmacenMateriales = AlmacenMateriales.Consecutivo"); 
             vSQLWhere = vUtilSql.SqlIntValueWithAnd(string.Empty, "OrdProd.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = vUtilSql.SqlEnumValueWithAnd(vSQLWhere, "OrdProd.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
-            if (valSeleccionarPor == eSeleccionarOrdenPor.NumeroDeOrden) {
+            if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.NumeroDeOrden) {
                 vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "OrdProd.Consecutivo", valConsecutivoOrden);
-            } else if (valSeleccionarPor == eSeleccionarOrdenPor.FechaDeInicio) {
+            } else if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.FechaDeInicio) {
                 vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdProd.FechaInicio", valFechaInicial, valFechaFinal);
-            } else if (valSeleccionarPor == eSeleccionarOrdenPor.FechaDeFinalizacion) {
+            } else if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.FechaDeFinalizacion) {
                 vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "OrdProd.FechaFinalizacion", valFechaInicial, valFechaFinal);
             }
             if (LibString.Len(vSQLWhere) > 0) {

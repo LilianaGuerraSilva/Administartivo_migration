@@ -18,7 +18,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         public string CodigoOrden { get; set; }
 
-        public eSeleccionarOrdenPor SeleccionarPor { get; set; }
+        public eSeleccionarOrdenPor SeleccionarOrdenPor { get; set; }
 
         protected DataTable Data { get; set; }
 
@@ -28,14 +28,14 @@ namespace Galac.Adm.Rpt.GestionProduccion {
 
         #endregion //Propiedades
         #region Constructores
-        public clsDetalleDeCostoDeProduccion(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, int iniConsecutivoOrden, string iniCodigoOrden, eSeleccionarOrdenPor iniSeleccionarPor)
+        public clsDetalleDeCostoDeProduccion(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime iniFechaInicial, DateTime iniFechaFinal, int iniConsecutivoOrden, string iniCodigoOrden, eSeleccionarOrdenPor iniSeleccionarOdenPor)
             : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             ConsecutivoCompania = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania");
             FechaInicial = iniFechaInicial;
             FechaFinal = iniFechaFinal;
             ConsecutivoOrden = iniConsecutivoOrden;
             CodigoOrden = iniCodigoOrden;
-            SeleccionarPor = iniSeleccionarPor;
+            SeleccionarOrdenPor = iniSeleccionarOdenPor;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -50,7 +50,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             if (UseExternalRpx) {
                 vTitulo += " - desde RPX externo.";
             }
-            if (SeleccionarPor == eSeleccionarOrdenPor.FechaDeFinalizacion || SeleccionarPor == eSeleccionarOrdenPor.FechaDeInicio) {
+            if (SeleccionarOrdenPor == eSeleccionarOrdenPor.FechaDeFinalizacion || SeleccionarOrdenPor == eSeleccionarOrdenPor.FechaDeInicio) {
                 vMostrarFechaInicioFinal = true;
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
@@ -67,7 +67,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             IOrdenDeProduccionInformes vRpt = new Galac.Adm.Brl.GestionProduccion.Reportes.clsOrdenDeProduccionRpt() as IOrdenDeProduccionInformes;
-            Data = vRpt.BuildDetalleDeCostoDeProduccion(ConsecutivoCompania, FechaInicial, FechaFinal,SeleccionarPor, ConsecutivoOrden);
+            Data = vRpt.BuildDetalleDeCostoDeProduccion(ConsecutivoCompania, FechaInicial, FechaFinal,SeleccionarOrdenPor, ConsecutivoOrden);
         }
 
         public override void SendReportToDevice() {
