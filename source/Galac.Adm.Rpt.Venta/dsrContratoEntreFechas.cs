@@ -33,7 +33,7 @@ namespace Galac.Adm.Rpt.Venta {
         #region Metodos Generados
 
         public string ReportTitle() {
-            return "Contrato Entre Fechas";
+            return "Contrato entre Fechas";
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {

@@ -61,10 +61,10 @@ namespace Galac.Adm.Rpt.Venta {
 
 				LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
 				LibReport.ConfigFieldStr(this, "txtDescripcion", string.Empty, "Descripcion");
-                LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "Cantidad", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtPrecio", string.Empty, "Imponible", "n" + 2, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtPorcentajeDescuento", string.Empty, "PorcentajeDescuento", "n" + 2, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtTotalDetail", string.Empty, "TotalRenglon", "n" + 2, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "Cantidad", "#,####0.0000", true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtPrecio", string.Empty, "Imponible", "#,##0.00", true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtPorcentajeDescuento", string.Empty, "PorcentajeDescuento", "#,##0.00", true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtTotalDetail", string.Empty, "TotalRenglon", "#,##0.00", true, TextAlignment.Right);
 
                 LibReport.ConfigGroupHeader(this, "GHSecContrato", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 
