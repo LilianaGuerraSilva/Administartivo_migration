@@ -217,12 +217,11 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             string vSQLWhere = string.Empty;
 
             vSql.AppendLine("SELECT");
-            vSql.AppendLine("OrdProd.ConsecutivoCompania,");
             vSql.AppendLine(vUtilSql.IIF("OrdProd.StatusOp = " + vUtilSql.EnumToSqlValue((int)eTipoStatusOrdenProduccion.Cerrada), vUtilSql.ToSqlValue("Cerrada"), vUtilSql.ToSqlValue("Abierta"), false) + " AS Estatus,");
             vSql.AppendLine("OrdProd.Codigo AS CodigoOrden,");
             vSql.AppendLine("OrdProd.Codigo + '-' + OrdProd.Descripcion AS OrdenCodigoDescripcion,");
-            vSql.AppendLine("AlmacenProductoTerminado.NombreAlmacen AS AlmacenProductoTerminado,");
-            vSql.AppendLine("AlmacenMateriales.NombreAlmacen AS AlmacenMateriales,");
+            vSql.AppendLine("AlmacenDeProductoTerminado.NombreAlmacen AS AlmacenProductoTerminado,");
+            vSql.AppendLine("AlmacenDeMateriales.NombreAlmacen AS AlmacenMateriales,");
             vSql.AppendLine("OrdProd.FechaInicio,");
             vSql.AppendLine("OrdProd.FechaFinalizacion,");
             vSql.AppendLine("OrdProd.Observacion AS Observaciones,");
@@ -247,8 +246,8 @@ namespace Galac.Adm.Brl. GestionProduccion.Reportes {
             vSql.AppendLine("OrdProDetalleMateriales.CodigoArticulo = MaterialDeProduccion.Codigo INNER JOIN");
             vSql.AppendLine("dbo.ArticuloInventario ArticuloAProducir ON OrdProdDetalleProducto.ConsecutivoCompania = ArticuloAProducir.ConsecutivoCompania AND");
             vSql.AppendLine("OrdProdDetalleProducto.CodigoArticulo = ArticuloAProducir.Codigo INNER JOIN");
-            vSql.AppendLine("Saw.Almacen AlmacenProductoTerminado ON OrdProd.ConsecutivoCompania = AlmacenProductoTerminado.ConsecutivoCompania AND OrdProd.ConsecutivoAlmacenProductoTerminado = AlmacenProductoTerminado.Consecutivo INNER JOIN");
-            vSql.AppendLine("Saw.Almacen AlmacenMateriales ON OrdProd.ConsecutivoCompania = AlmacenMateriales.ConsecutivoCompania AND  OrdProd.ConsecutivoAlmacenMateriales = AlmacenMateriales.Consecutivo"); 
+            vSql.AppendLine("Saw.Almacen AlmacenDeProductoTerminado ON OrdProd.ConsecutivoCompania = AlmacenDeProductoTerminado.ConsecutivoCompania AND OrdProd.ConsecutivoAlmacenProductoTerminado = AlmacenDeProductoTerminado.Consecutivo INNER JOIN");
+            vSql.AppendLine("Saw.Almacen AlmacenDeMateriales ON OrdProd.ConsecutivoCompania = AlmacenDeMateriales.ConsecutivoCompania AND  OrdProd.ConsecutivoAlmacenMateriales = AlmacenDeMateriales.Consecutivo"); 
             vSQLWhere = vUtilSql.SqlIntValueWithAnd(string.Empty, "OrdProd.ConsecutivoCompania", valConsecutivoCompania);
             vSQLWhere = vUtilSql.SqlEnumValueWithAnd(vSQLWhere, "OrdProd.StatusOp", (int)eTipoStatusOrdenProduccion.Cerrada);
             if (valSeleccionarOrdenPor == eSeleccionarOrdenPor.NumeroDeOrden) {
