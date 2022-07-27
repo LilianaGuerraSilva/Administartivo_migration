@@ -34,6 +34,7 @@ namespace Galac.Adm.Rpt.Venta {
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+            string vNombreCompania = valParameters["NombreCompania"] + " - " + valParameters["RifCompania"];
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -41,7 +42,7 @@ namespace Galac.Adm.Rpt.Venta {
                 }
             }
             if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
+                LibReport.ConfigFieldStr(this, "txtNombreCompania", vNombreCompania, string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGraphPrnSettings.PrintPageNumber, LibGraphPrnSettings.PrintEmitDate);
@@ -60,10 +61,10 @@ namespace Galac.Adm.Rpt.Venta {
 
 				LibReport.ConfigFieldStr(this, "txtArticulo", string.Empty, "Articulo");
 				LibReport.ConfigFieldStr(this, "txtDescripcion", string.Empty, "Descripcion");
-				LibReport.ConfigFieldStr(this, "txtCantidad", string.Empty, "Cantidad");
-				LibReport.ConfigFieldStr(this, "txtPrecio", string.Empty, "Imponible");
-				LibReport.ConfigFieldStr(this, "txtPorcentajeDescuento", string.Empty, "PorcentajeDescuento");
-				LibReport.ConfigFieldStr(this, "txtTotalDetail", string.Empty, "TotalRenglon");
+                LibReport.ConfigFieldDec(this, "txtCantidad", string.Empty, "Cantidad");
+                LibReport.ConfigFieldDec(this, "txtPrecio", string.Empty, "Imponible");
+                LibReport.ConfigFieldDec(this, "txtPorcentajeDescuento", string.Empty, "PorcentajeDescuento");
+                LibReport.ConfigFieldDec(this, "txtTotalDetail", string.Empty, "TotalRenglon");
 
                 LibReport.ConfigGroupHeader(this, "GHSecContrato", "", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
 

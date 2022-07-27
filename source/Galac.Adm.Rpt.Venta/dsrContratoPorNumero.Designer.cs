@@ -564,7 +564,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotal.Height = 0.15625F;
             this.txtTotal.Left = 6.375F;
             this.txtTotal.Name = "txtTotal";
-            this.txtTotal.Style = "font-size: 8pt; text-align: right";
+            this.txtTotal.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.txtTotal.Text = "txtTotal";
             this.txtTotal.Top = 0.03125F;
             this.txtTotal.Width = 1.125F;
