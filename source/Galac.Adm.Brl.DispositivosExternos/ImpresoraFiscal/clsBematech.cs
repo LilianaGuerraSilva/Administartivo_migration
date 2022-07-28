@@ -10,7 +10,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
-using System.IO;
+using System.Globalization;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsBematech : IImpresoraFiscalPdn {
@@ -656,10 +656,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vRazonSocial = LibText.Trim(LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente"));
             string vNumeroComprobanteFiscal = LibString.Trim(LibXml.GetPropertyString(valDocumentoFiscal, "NumeroComprobanteFiscal"));
             string vSerialMaquina = LibString.Trim(LibXml.GetPropertyString(valDocumentoFiscal, "SerialMaquinaFiscal"));
-            string vFecha = LibConvert.ToStr(LibConvert.ToDate(LibXml.GetPropertyString(valDocumentoFiscal, "Fecha")),"dd/MM/yyyy");
-            string vHora = DateTime.Parse(LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion")).ToString("HH:mm");
+            string vFecha = LibXml.GetPropertyString(valDocumentoFiscal, "Fecha");
+            string vHora = LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion");
             bool vResult = false;
-            try {
+            try {                
                 AbrirConexion();
                 CancelarDocumentoFiscalEnImpresion(false);
                 if (AbrirNotaDeCredito(vRazonSocial, vRif, vNumeroComprobanteFiscal, vSerialMaquina, vFecha, vHora)) {
@@ -727,23 +727,27 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 valNumeroComprobanteFiscal = LibText.Right(valNumeroComprobanteFiscal, 6);
                 valSerialMaquina = LibText.SubString(valSerialMaquina, 0, 10);
                 valRazonSocial = LibText.SubString(valRazonSocial, 0, 38);
+                DateTime vFechaDT = DateTime.Parse(valFecha,CultureInfo.InvariantCulture);
+                string vFecha = LibConvert.ToStr(vFechaDT, "dd/MM/yy");
+                string[] vArrayFecha = LibString.Split(vFecha, "/");
+                string[] vArrayHora = LibString.Split(valHora, ":");
                 valRif = LibText.SubString(valRif, 0, 14);
-                vDia = LibString.SubString(valFecha,0, 2);
-                vMes = LibString.SubString(valFecha, 3, 2);
-                vAno = LibString.SubString(valFecha, 8, 2);
-                vHora = LibString.SubString(valHora, 0, 2);
-                vMinuto = LibString.SubString(valHora, 3, 2);
+                vDia = LibText.FillWithCharToLeft(vArrayFecha[0], "0", 2);
+                vMes = LibText.FillWithCharToLeft(vArrayFecha[1], "0", 2);
+                vAno = LibText.FillWithCharToLeft(vArrayFecha[2], "0", 2);
+                vHora = LibText.FillWithCharToLeft(vArrayHora[0], "0", 2);
+                vMinuto = LibText.FillWithCharToLeft(vArrayHora[1], "0", 2);
                 vSegundo = "00";
                 vRepuesta = Bematech_FI_AbreNotaDeCredito(valRazonSocial, valSerialMaquina, valRif, vDia, vMes, vAno, vHora, vMinuto, vSegundo, valNumeroComprobanteFiscal);
                 vResult = RetornoStatus(vRepuesta, out MensajeStatus);
                 if (!vResult) {
                     throw new GalacException("error al abrir la Nota de Crédito: " + MensajeStatus, eExceptionManagementType.Controlled);
-                }
+                }                
                 return vResult;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
-        }        
+        }       
 
         private bool CerrarComprobanteFiscal(XElement valDocumentoFiscal, bool valEsNotaDeCredito = false) {
             int vResult = 0;
@@ -1283,7 +1287,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal Alicuota3=0;
             int vReq = 0;
             string RecAlicuotas = "";
-            RecAlicuotas = LibText.FillWithCharToRight(RecAlicuotas, " ", 80);
+            RecAlicuotas = LibText.FillWithCharToRight(RecAlicuotas, " ", 79);
             vReq = Bematech_FI_RetornoAlicuotas(ref RecAlicuotas);
             RecAlicuotas = LibText.CleanSpacesToBothSides(LibText.Replace(RecAlicuotas, "\0", ""));
             string[] ListAlicuotas = LibString.Split(RecAlicuotas, ',');
