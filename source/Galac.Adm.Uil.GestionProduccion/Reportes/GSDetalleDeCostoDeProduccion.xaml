@@ -38,7 +38,7 @@
             Grid.Row="0"
             Grid.Column="1"
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ESeleccionarOrdenPor}"
+            ItemsSource="{Binding Path=ArraySeleccionarOrdenPor}"
             SelectedItem="{Binding Path=SeleccionarOrdenPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
         <Label

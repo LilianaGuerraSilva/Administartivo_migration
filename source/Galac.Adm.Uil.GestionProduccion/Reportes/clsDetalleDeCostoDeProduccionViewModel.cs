@@ -186,7 +186,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         }
         #endregion //Constructores
         #region Metodos Generados
-        public eSeleccionarOrdenPor[] ESeleccionarOrdenPor {
+        public eSeleccionarOrdenPor[] ArraySeleccionarOrdenPor {
             get {
                 return LibEnumHelper<eSeleccionarOrdenPor>.GetValuesInArray();
             }
