@@ -13,21 +13,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
-            ActivaModoMejoradoPorDefecto();
 			//CrearTablaTransferenciaEntreCuentasBancarias(); Nota: se Oculta temporalmente
 			//AgregaColumnasReglasDeContabilizacion();
             DisposeConnectionNoTransaction();
             return true;
         }
 		
-        private void ActivaModoMejoradoPorDefecto() {
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine($"UPDATE Adm.Caja SET UsarModoDotNet={InsSql.ToSqlValue(true)}");
-            vSql.AppendLine("WHERE Consecutivo <> 0 ");
-            vSql.AppendLine($"AND FamiliaImpresoraFiscal IN({InsSql.ToSqlValue("0")},{InsSql.ToSqlValue("2")},{InsSql.ToSqlValue("3")})");
-            vSql.AppendLine($"AND UsaMaquinaFiscal ={InsSql.ToSqlValue(true)}");
-            Execute(vSql.ToString(), 0);
-        }
+        
 		
 		private void CrearTablaTransferenciaEntreCuentasBancarias() {
 			if (!TableExists("Adm.TransferenciaEntreCuentasBancarias")) {
