@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="Galac.Adm.Uil. GestionProduccion.Reportes.GSDetalleDeCostoDeProduccion"
+    x:Class="Galac.Adm.Uil.GestionProduccion.Reportes.GSDetalleDeCostoDeProduccion"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -34,12 +34,12 @@
             Content="Seleccionar Por"
             Style="{StaticResource LabelPrompt}" />
         <ComboBox
-            x:Name="cmbGenerarPor"
+            x:Name="cmbSeleccionarOrdenPor"
             Grid.Row="0"
             Grid.Column="1"
             IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ESeleccionarPor}"
-            SelectedItem="{Binding Path=SeleccionarPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Path=ESeleccionarOrdenPor}"
+            SelectedItem="{Binding Path=SeleccionarOrdenPor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource ComboBoxStyle}" />
         <Label
             Name="lblOrdenDeProduccion"

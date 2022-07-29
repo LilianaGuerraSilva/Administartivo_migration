@@ -44,6 +44,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+            string vNombreCompania = valParameters["NombreCompania"] + "-" + valParameters["RifCompania"];
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -52,7 +53,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
             SumaTotalConsumo = LibConvert.ToDec(valDataSource.Compute("SUM(MontoTotalConsumo)", ""), 4);
             if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
+                LibReport.ConfigFieldStr(this, "txtNombreCompania", vNombreCompania, string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 if (valParameters["MostrarFechaInicialFinal"] == true.ToString()) {
                     LibReport.ChangeControlVisibility(this, "lblFechaInicialYFinal", true);
