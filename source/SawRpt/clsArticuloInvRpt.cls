@@ -1449,7 +1449,7 @@ h_ERROR:
      "fConfigurarDatosDelReporteListadoArticulosPorRetirarEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fConfigurarDatosDelReporteRegistroImpresionDeCodDeBarras(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valNombreDelFileXML As String, ByVal valNombreDelReporte As String, ByVal valFechaHoy As Date, ByVal valPrecioSinIVA As Boolean) As Boolean
+Public Function fConfigurarDatosDelReporteRegistroImpresionDeCodDeBarras(ByRef refRpt As DDActiveReports2.ActiveReport, ByVal valSqlDelReporte As String, ByVal valNombreCompaniaParaInformes As String, ByVal valNombreDelFileXML As String, ByVal valNombreDelReporte As String, ByVal valFechaHoy As Date, ByVal valPrecioSinIva As Boolean, ByVal valSimboloML As String, ByVal valSimboloME As String) As Boolean
    Dim exito As Boolean
    On Error GoTo h_ERROR
    exito = False
@@ -1477,6 +1477,8 @@ Public Function fConfigurarDatosDelReporteRegistroImpresionDeCodDeBarras(ByRef r
 	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible3", "", "CampoDefinible3"
 	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible4", "", "CampoDefinible4"
 	 gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCampoDefinible5", "", "CampoDefinible5"
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lneSimboloML", valSimboloML
+         gUtilReports.sDefaultConfigurationForLabels refRpt, "lneSimboloME", valSimboloME
          
          gUtilMargins.sAsignarMargenesParticularesYLosGrabaSiEsNecesario refRpt, valNombreDelReporte, True, 0.5, True, 0.5, True, 0.5, True, 0.25, True, ddOPortrait, False, True, 8.5, True, 11
          exito = True
