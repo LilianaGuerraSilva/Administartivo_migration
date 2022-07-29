@@ -684,6 +684,12 @@ namespace Galac.Saw.DDL {
                 if (HasToUpgradeToVersion("6.57")) {
                     vResult = vResult && new clsVersion6_57(_CurrentDataBaseName).UpdateToVersion();
                 }
+                if (HasToUpgradeToVersion("6.58")) {
+                    vResult = vResult && new clsVersion6_58(_CurrentDataBaseName).UpdateToVersion();
+                }
+                if (HasToUpgradeToVersion("6.59")) {
+                    vResult = vResult && new clsVersion6_59(_CurrentDataBaseName).UpdateToVersion();
+                }
                 vResult = vResult && new clsVersionTemporalNoOficial(_CurrentDataBaseName).UpdateToVersion();
                 //vResult = vResult && CreateLostFields();
                 return vResult;
