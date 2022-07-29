@@ -4044,6 +4044,8 @@
                     Grid.Row="6"
                     Grid.Column="1"
                     Width="120"
+                    Height="20"
+                    Margin="1,2,0,0"
                     HorizontalAlignment="Left"
                     ConnectionValue="{Binding Path=SiglasTipoComprobanteCajaChica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Codigo"
@@ -4056,7 +4058,8 @@
         <TabItem
             Name="tbiTransferenciaEntreCuentasBancarias"
             Header="Transferencia entre Cuentas Bancarias"
-            Visibility="{Binding Path=TabTransferenciaEntreCuentasBancariasVisible, Converter={StaticResource booleanToVisibilityConverter}}">
+            Visibility="Collapsed">
+            <!--  comment:  Visibility="{Binding Path=TabTransferenciaEntreCuentasBancariasVisible, Converter={StaticResource booleanToVisibilityConverter}}"  -->
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="310" />
@@ -4378,6 +4381,8 @@
                     Grid.Row="4"
                     Grid.Column="1"
                     Width="120"
+                    Height="20"
+                    Margin="1,2,0,0"
                     HorizontalAlignment="Left"
                     ConnectionValue="{Binding Path=TransfCtasSigasTipoComprobante, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Codigo"

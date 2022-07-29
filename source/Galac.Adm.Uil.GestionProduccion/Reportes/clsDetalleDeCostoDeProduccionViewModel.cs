@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Galac.Adm.Uil.GestionProduccion.Reportes {
     public class clsDetalleDeCostoDeProduccionViewModel : LibInputRptViewModelBase<OrdenDeProduccion> {
         #region Constantes
-        public const string GeneradoPorPropertyName = "GeneradoPor";
+        public const string SeleccionarOrdenPorPropertyName = "SeleccionarOrdenPor";
         public const string CodigoDeOrdenPropertyName = "CodigoDeOrden";
         public const string IsEnabledCodigoDeOrdenPropertyName = "IsEnabledCodigoDeOrden";
         public const string IsEnabledFechaPropertyName = "IsEnabledFecha";
@@ -25,7 +25,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         public const string FechaFinalPropertyName = "FechaFinal";
         #endregion
         #region Variables
-        private eSeleccionarOrdenPor _SeleccionarPor;
+        private eSeleccionarOrdenPor _SeleccionarOrdenPor;
         private int _ConsecutivoOrden;
         private string _CodigoDeOrden;
         private DateTime _FechaInicial;
@@ -83,17 +83,17 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
             }
         }
 
-        public eSeleccionarOrdenPor SeleccionarPor {
+        public eSeleccionarOrdenPor SeleccionarOrdenPor {
             get {
-                return _SeleccionarPor;
+                return _SeleccionarOrdenPor;
             }
             set {
-                if (_SeleccionarPor != value) {
-                    _SeleccionarPor = value;
-                    RaisePropertyChanged(GeneradoPorPropertyName);
+                if (_SeleccionarOrdenPor != value) {
+                    _SeleccionarOrdenPor = value;
+                    RaisePropertyChanged(SeleccionarOrdenPorPropertyName);
                     RaisePropertyChanged(IsEnabledCodigoDeOrdenPropertyName);
                     RaisePropertyChanged(IsEnabledFechaPropertyName);
-                    if (eSeleccionarOrdenPor.NumeroDeOrden.Equals(_SeleccionarPor)) {
+                    if (eSeleccionarOrdenPor.NumeroDeOrden.Equals(_SeleccionarOrdenPor)) {
                         IsEnabledCodigoDeOrden = true;
                         IsEnabledFecha = false;
                     } else {
@@ -176,7 +176,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         #endregion
         #region Constructores
         public clsDetalleDeCostoDeProduccionViewModel() {
-            _SeleccionarPor = eSeleccionarOrdenPor.NumeroDeOrden;
+            _SeleccionarOrdenPor = eSeleccionarOrdenPor.NumeroDeOrden;
             _ConsecutivoOrden = 0;
             _CodigoDeOrden = string.Empty;
             _FechaInicial = DateTime.Today;
@@ -186,7 +186,7 @@ namespace Galac.Adm.Uil.GestionProduccion.Reportes {
         }
         #endregion //Constructores
         #region Metodos Generados
-        public eSeleccionarOrdenPor[] ESeleccionarPor {
+        public eSeleccionarOrdenPor[] ArraySeleccionarOrdenPor {
             get {
                 return LibEnumHelper<eSeleccionarOrdenPor>.GetValuesInArray();
             }

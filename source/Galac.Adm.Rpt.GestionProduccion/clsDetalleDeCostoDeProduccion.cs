@@ -55,6 +55,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
+            vParams.Add("RifCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "NumeroDeRIF"));
             vParams.Add("TituloInforme", vTitulo);
             vParams.Add("MostrarFechaInicialFinal", vMostrarFechaInicioFinal.ToString());
             vParams.Add("FechaInicialYFinal", string.Format("del {0} al {1}", LibConvert.ToStr(FechaInicial, "dd/MM/yyyy"), LibConvert.ToStr(FechaFinal, "dd/MM/yyyy")));

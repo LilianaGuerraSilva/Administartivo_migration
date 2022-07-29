@@ -14,10 +14,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             ActivaModoMejoradoPorDefecto();
-			CrearTablaTransferenciaEntreCuentasBancarias();
-			AgregaColumnasReglasDeContabilizacion();
 			ModificarTablasWincont();
-			DisposeConnectionNoTransaction();
+            DisposeConnectionNoTransaction();
             return true;
         }
 		
