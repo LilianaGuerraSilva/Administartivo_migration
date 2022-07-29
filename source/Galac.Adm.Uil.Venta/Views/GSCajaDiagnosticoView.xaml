@@ -18,7 +18,7 @@
     </UserControl.Resources>
     <GroupBox
         Name="gbDiagnostico"
-        Header="Diagnóstico de Maquina Fiscal"
+        Header="Diagnóstico de Máquina Fiscal"
         Style="{StaticResource GroupBoxStyle}">
         <Grid FocusManager.FocusedElement="{Binding ElementName=txtEstatusDeComunicacion}">
             <Grid.ColumnDefinitions>

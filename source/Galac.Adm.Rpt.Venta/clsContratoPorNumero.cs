@@ -35,6 +35,7 @@ namespace Galac.Adm.Rpt.Venta
             }
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Nombre"));
+            vParams.Add("RifCompania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "NumeroDeRif"));
             vParams.Add("TituloInforme", vTitulo);
             return vParams;
         }

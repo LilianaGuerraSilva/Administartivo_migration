@@ -21,7 +21,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         #endregion //Variables
         #region Propiedades
         public override string DisplayName {
-            get { return "Contrato Por Número"; }
+            get { return "Contrato por Número"; }
         }
 
         public string NumeroContrato {
