@@ -33,7 +33,7 @@
             Name="lblFiltrarPorStatus"
             Grid.Row="0"
             Grid.Column="0"
-            Content="Filtrar Por Status"
+            Content="Filtrar por Estatus"
             Style="{StaticResource LabelPrompt}" />
         <CheckBox
             Name="chkFiltrarPorStatus"
@@ -77,7 +77,7 @@
             Name="lblFiltrarPorFechaFinal"
             Grid.Row="3"
             Grid.Column="0"
-            Content="Filtrar Por Fecha Final"
+            Content="Filtrar por Fecha Final"
             Style="{StaticResource LabelPrompt}" />
         <CheckBox
             Name="chkFiltrarPorFechaFinal"
