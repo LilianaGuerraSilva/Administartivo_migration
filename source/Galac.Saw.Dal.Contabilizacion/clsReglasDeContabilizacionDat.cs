@@ -158,15 +158,15 @@ namespace Galac.Saw.Dal.Contabilizacion {
             vParams.AddInString("CuentaRendicionesBanco",valRecord.CuentaRendicionesBanco,30);
             vParams.AddInString("CuentaRendicionesAnticipos",valRecord.CuentaRendicionesAnticipos,30);
             vParams.AddInBoolean("MostrarDesglosadoRendiciones",valRecord.MostrarDesglosadoRendicionesAsBool);
-            vParams.AddInEnum("TipoContabilizacionTransfCtas", valRecord.TipoContabilizacionTransfCtasAsDB);
-            vParams.AddInEnum("ContabIndividualTransfCtas", valRecord.ContabIndividualTransfCtasAsDB);
-            vParams.AddInEnum("ContabPorLoteTransfCtas", valRecord.ContabPorLoteTransfCtasAsDB);
-            vParams.AddInString("CuentaTransfCtasBancoDestino", valRecord.CuentaTransfCtasBancoDestino, 30);
-            vParams.AddInString("CuentaTransfCtasGastoComOrigen", valRecord.CuentaTransfCtasGastoComOrigen, 30);
-            vParams.AddInString("CuentaTransfCtasGastoComDestino", valRecord.CuentaTransfCtasGastoComDestino, 30);
-            vParams.AddInString("CuentaTransfCtasBancoOrigen", valRecord.CuentaTransfCtasBancoOrigen, 30);
-            vParams.AddInString("TransfCtasSigasTipoComprobante", valRecord.TransfCtasSigasTipoComprobante, 2);
-            vParams.AddInBoolean("EditarComprobanteAfterInsertTransfCtas", valRecord.EditarComprobanteAfterInsertTransfCtasAsBool);
+            //vParams.AddInEnum("TipoContabilizacionTransfCtas", valRecord.TipoContabilizacionTransfCtasAsDB);
+            //vParams.AddInEnum("ContabIndividualTransfCtas", valRecord.ContabIndividualTransfCtasAsDB);
+            //vParams.AddInEnum("ContabPorLoteTransfCtas", valRecord.ContabPorLoteTransfCtasAsDB);
+            //vParams.AddInString("CuentaTransfCtasBancoDestino", valRecord.CuentaTransfCtasBancoDestino, 30);
+            //vParams.AddInString("CuentaTransfCtasGastoComOrigen", valRecord.CuentaTransfCtasGastoComOrigen, 30);
+            //vParams.AddInString("CuentaTransfCtasGastoComDestino", valRecord.CuentaTransfCtasGastoComDestino, 30);
+            //vParams.AddInString("CuentaTransfCtasBancoOrigen", valRecord.CuentaTransfCtasBancoOrigen, 30);
+            //vParams.AddInString("TransfCtasSigasTipoComprobante", valRecord.TransfCtasSigasTipoComprobante, 2);
+            //vParams.AddInBoolean("EditarComprobanteAfterInsertTransfCtas", valRecord.EditarComprobanteAfterInsertTransfCtasAsBool);
             vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
             vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
             if(valAction == eAccionSR.Modificar) {
