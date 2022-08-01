@@ -63,7 +63,7 @@
             Name="lblFechaDeInicio"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Inicial"
+            Content="Fecha Inicial"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaDeInicio"
@@ -91,7 +91,7 @@
             Name="lblFechaFinal"
             Grid.Row="4"
             Grid.Column="0"
-            Content="Final"
+            Content="Fecha Final"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaFinal"

@@ -4052,7 +4052,7 @@
                     IsEnabled="{Binding Path=IsEnabledSiglasTipoComprobanteCajaChica}"
                     Model="{Binding Path=ConexionSiglasTipoComprobanteCajaChica, Mode=TwoWay}"
                     SearchCommand="{Binding Path=ChooseSiglasTipoComprobanteCajaChicaCommand}"
-                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" Height="20" Margin="1,2,0,0" VerticalAlignment="Top" />
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" VerticalAlignment="Top" />
             </Grid>
         </TabItem>
         <TabItem
@@ -4389,7 +4389,7 @@
                     IsEnabled="{Binding Path=IsEnabledTransfCtasSigasTipoComprobante}"
                     Model="{Binding Path=ConexionTransfCtasSigasTipoComprobante, Mode=TwoWay}"
                     SearchCommand="{Binding Path=ChooseTransfCtasSigasTipoComprobanteCommand}"
-                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" Height="20" Margin="1,2,0,0" VerticalAlignment="Top" />
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" VerticalAlignment="Top" />
                 <Label
                     Name="lblContabIndividualTransCtas"
                     Grid.Row="5"
