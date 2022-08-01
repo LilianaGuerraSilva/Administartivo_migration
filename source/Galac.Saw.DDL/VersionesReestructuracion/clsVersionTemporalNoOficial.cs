@@ -15,9 +15,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StartConnectionNoTransaction();
             ActivaModoMejoradoPorDefecto();
 			ModificarTablasWincont();
+			ActualizaNombresInformes();
 			//CrearTablaTransferenciaEntreCuentasBancarias(); Nota: se Oculta temporalmente
 			//AgregaColumnasReglasDeContabilizacion();
-            DisposeConnectionNoTransaction();
+			DisposeConnectionNoTransaction();
             return true;
         }
 		
@@ -29,6 +30,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine($"AND UsaMaquinaFiscal ={InsSql.ToSqlValue(true)}");
             Execute(vSql.ToString(), 0);
         }
+
+		/*
 		
 		private void CrearTablaTransferenciaEntreCuentasBancarias() {
 			if (!TableExists("Adm.TransferenciaEntreCuentasBancarias")) {
@@ -66,7 +69,35 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				}
 			}
 		}
-		
+		*/
+
+		private void ActualizaNombresInformes() {
+			string vSql = string.Empty;
+			vSql = "UPDATE Contab.ParametrosGen SET NombreMayorAnaliticoDetallado = ";
+			vSql = vSql + InsSql.ToSqlValue("Libro Mayor");
+			vSql = vSql + " WHERE NombreMayorAnaliticoDetallado = ";
+			vSql = vSql + InsSql.ToSqlValue("Mayor Analítico");
+			if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
+				Execute(vSql, 0);
+			}
+			vSql = "UPDATE Contab.ParametrosGen SET NombreDiarioDeComprobante = ";
+			vSql = vSql + InsSql.ToSqlValue("Libro Diario");
+			vSql = vSql + " WHERE NombreDiarioDeComprobante = ";
+			vSql = vSql + InsSql.ToSqlValue("Diario De Comprobantes");
+			if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
+				Execute(vSql, 0);
+			}
+
+			vSql = "UPDATE Contab.ParametrosGen SET NombreBalanceGeneral = ";
+			vSql = vSql + InsSql.ToSqlValue("Estado de Situación Financiera");
+			vSql = vSql + " WHERE NombreBalanceGeneral = ";
+			vSql = vSql + InsSql.ToSqlValue("Balance General");
+			if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
+				Execute(vSql, 0);
+			}
+		}
+
+
 		private void ModificarTablasWincont() {
 			string vSql = string.Empty;
 			if (ColumnExists("Contab.ParametrosConciliacion", "ExpresarBalancesEnDiferentesMonedas")) {
