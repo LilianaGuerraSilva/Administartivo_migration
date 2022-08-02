@@ -275,9 +275,9 @@ namespace Galac.Saw.SLev {
             #endregion
 
 			#region Transferencia entre Cuentas Bancarias
-			vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Consultar", "Bancos", 8));
-			vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Insertar", "Bancos", 8));
-			vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Anular", "Bancos", 8));
+			//vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Consultar", "Bancos", 8));
+			//vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Insertar", "Bancos", 8));
+			//vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Anular", "Bancos", 8));
 			#endregion
             #region Concepto Bancarion
             vPermisos.Add(new CustomRole("Concepto Bancario", "Consultar", "Bancos", 8));
