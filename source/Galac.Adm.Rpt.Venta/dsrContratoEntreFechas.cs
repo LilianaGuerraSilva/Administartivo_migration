@@ -37,7 +37,13 @@ namespace Galac.Adm.Rpt.Venta {
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
-            string vNombreCompania = valParameters["NombreCompania"] + " - " + valParameters["RifCompania"];
+            string valNombreDocFiscal = string.Empty;
+            if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
+                valNombreDocFiscal = " RIF ";
+            } else if (LibDefGen.ProgramInfo.IsCountryEcuador() || LibDefGen.ProgramInfo.IsCountryPeru()) {
+                valNombreDocFiscal = " RUC ";
+            }
+            string vNombreCompania = valParameters["NombreCompania"] + " -" + valNombreDocFiscal + valParameters["RifCompania"];
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//ac� se indicar�a si se busca en ULS, por defecto buscar�a en app.path... Tip: Una funci�n con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
