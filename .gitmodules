@@ -22,14 +22,6 @@
 	path = source/Lib/VbaLib
 	url = https://gitlab.com/galac-software-enterprise/desa/vbalib.git
 	branch = release/v2104
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
-	branch = release/V22.5.0.0
-[submodule "bin/binAdministrativoVb"]
-	path = bin/binAdministrativoVb
-	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativovb.git
-	branch = release/2210
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://gitlab.com/galac-software-enterprise/desa/bincomunaos.git
