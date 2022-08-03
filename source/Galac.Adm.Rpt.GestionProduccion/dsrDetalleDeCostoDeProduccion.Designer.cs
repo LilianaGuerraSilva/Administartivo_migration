@@ -601,7 +601,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             this.lblObservaciones,
             this.txtObservaciones,
             this.label1});
-            this.GFSecOrdenDeProduccion.Height = 0.3229167F;
+            this.GFSecOrdenDeProduccion.Height = 0.3125001F;
             this.GFSecOrdenDeProduccion.Name = "GFSecOrdenDeProduccion";
             this.GFSecOrdenDeProduccion.Format += new System.EventHandler(this.PageFooter_Format);
             // 
@@ -609,12 +609,12 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             // 
             this.txt_TCostoTotalConsumido.Border.TopStyle = DataDynamics.ActiveReports.BorderLineStyle.Solid;
             this.txt_TCostoTotalConsumido.Height = 0.15625F;
-            this.txt_TCostoTotalConsumido.Left = 5.51F;
+            this.txt_TCostoTotalConsumido.Left = 6.5F;
             this.txt_TCostoTotalConsumido.Name = "txt_TCostoTotalConsumido";
-            this.txt_TCostoTotalConsumido.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 0";
+            this.txt_TCostoTotalConsumido.Style = "font-size: 8.25pt; font-weight: bold; text-align: right; ddo-char-set: 1";
             this.txt_TCostoTotalConsumido.Text = "txt_TCostoTotalConsumido";
             this.txt_TCostoTotalConsumido.Top = 0F;
-            this.txt_TCostoTotalConsumido.Width = 1.99F;
+            this.txt_TCostoTotalConsumido.Width = 1F;
             // 
             // lblObservaciones
             // 
@@ -648,7 +648,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
     "char-set: 1";
             this.label1.Text = "Total Costo Total Consumido";
             this.label1.Top = 0F;
-            this.label1.Width = 2.01F;
+            this.label1.Width = 3F;
             // 
             // dsrDetalleDeCostoDeProduccion
             // 
