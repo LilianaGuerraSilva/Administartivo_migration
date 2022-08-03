@@ -178,7 +178,8 @@ namespace Galac.Saw.Dal.Contabilizacion {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT ConsecutivoCompania, Numero, DiferenciaEnCambioyCalculo, EditarComprobanteDePagosSueldos, ");
-            SQL.AppendLine("EditarComprobanteAfterInsertCxC,EditarComprobanteAfterInsertCxP,EditarComprobanteAfterInsertCobranza,EditarComprobanteAfterInsertPagos,EditarComprobanteAfterInsertFactura,EditarComprobanteAfterInsertResDia,EditarComprobanteAfterInsertMovBan,EditarComprobanteAfterInsertImpTraBan,EditarComprobanteAfterInsertAnticipo,EditarComprobanteAfterInsertInventario,EditarComprobanteAfterInsertCajaChica,EditarComprobanteAfterInsertTransfCtas");
+            SQL.AppendLine("EditarComprobanteAfterInsertCxC,EditarComprobanteAfterInsertCxP,EditarComprobanteAfterInsertCobranza,EditarComprobanteAfterInsertPagos,EditarComprobanteAfterInsertFactura,EditarComprobanteAfterInsertResDia,EditarComprobanteAfterInsertMovBan,EditarComprobanteAfterInsertImpTraBan,EditarComprobanteAfterInsertAnticipo,EditarComprobanteAfterInsertInventario,EditarComprobanteAfterInsertCajaChica");
+            //,EditarComprobanteAfterInsertTransfCtas");
             SQL.AppendLine(", ReglasDeContabilizacion.FechaUltimaModificacion");
             SQL.AppendLine(", ReglasDeContabilizacion.fldTimeStamp, CAST(ReglasDeContabilizacion.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".ReglasDeContabilizacion");
@@ -1188,11 +1189,11 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaCajaChicaBanco,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaRendicionesGasto,");
             SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaRendicionesBanco,");
-            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaRendicionesAnticipos,");
-			SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasBancoDestino,");
-            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasGastoComOrigen,");
-            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasGastoComDestino,");
-            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasBancoOrigen");
+            SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaRendicionesAnticipos");
+			//SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasBancoDestino,");
+            //SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasGastoComOrigen,");
+            //SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasGastoComDestino,");
+            //SQL.AppendLine("      " + DbSchema + ".ReglasDeContabilizacion.CuentaTransfCtasBancoOrigen");
             SQL.AppendLine("      FROM " + DbSchema + ".ReglasDeContabilizacion");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
