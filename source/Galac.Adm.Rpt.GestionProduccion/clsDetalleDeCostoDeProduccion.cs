@@ -8,6 +8,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.GestionProduccion;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Rpt.GestionProduccion {
     public class clsDetalleDeCostoDeProduccion : LibRptBaseMfc {
