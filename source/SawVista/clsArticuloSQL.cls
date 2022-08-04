@@ -4251,7 +4251,6 @@ Public Function fSQLDelReporteConteoFisico(ByVal valConsecutivoCompania As Long,
    SQL = SQL & " AND (renglonConteoFisico.Rollo = ExistenciaPorGrupo.Rollo) AND (renglonConteoFisico.CodigoArticulo =(ExistenciaPorGrupo.CodigoArticulo+ExistenciaPorGrupo.CodigoColor+ExistenciaPorGrupo.CodigoTalla))"
    SQL = SQL & sqlWhere
    SQL = SQL & " ORDER BY conteoFisico.ConsecutivoConteo, articuloInventario.LineaDeProducto, renglonConteoFisico.CodigoArticulo, RenglonConteoFisico.Serial, RenglonConteoFisico.Rollo"
-gMessage.ProgrammerMessage "paso2"
    fSQLDelReporteConteoFisico = SQL
   Set gEnumProyecto = Nothing
 
