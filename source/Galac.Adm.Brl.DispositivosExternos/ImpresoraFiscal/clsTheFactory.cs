@@ -42,6 +42,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         #endregion
         #region Longitud de Impresion
         int _LineaTextoAdicional;
+        int _NumeroDeLineasDeTotalesEnDivisas;
         bool _ExtenderLineasAdicionales;
         #endregion  
         private string _CommPort = "";
@@ -55,8 +56,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         string[] _ListPrintersNotSupport;
         bool _PortIsOpen;
         int _MaxLongitudDeTexto = 0;
+        private bool _ObservacionesAlFinalDeLaFactura;
+        private string _ConfiguracionDetalleFactura;
+        bool _EsMatrizDePuntos;
         #endregion
 
+        #region Propiedades
         public clsTheFactory(XElement valXmlDatosImpresora) {
             _TfhkPrinter = new Tfhka();
             _LineaTextoAdicional = 0;
@@ -64,6 +69,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             _ListPrintersNotSupport = new string[] {
                     "Z1B"
                 };
+            _ObservacionesAlFinalDeLaFactura = LibConvert.SNToBool(LibAppSettings.ReadAppSettingsKey("OBSERVACIONESALFINALDELAFACTURA"));
+            _ConfiguracionDetalleFactura = LibAppSettings.ReadAppSettingsKey("CONFIGURACIONDETALLEFACTURA");
         }
 
         private void ConfigurarImpresora(XElement valXmlDatosImpresora) {
@@ -81,6 +88,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _FormatoFirmwareTipo1 = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125);
                 //
                 _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+                //
+                _EsMatrizDePuntos = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
             } catch (GalacException vEx) {
                 throw vEx;
             }
@@ -524,6 +533,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
             string vTelefono = LibXml.GetPropertyString(valDocumentoFiscal, "TelefonoCliente");
             string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
+            string vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
+            if (LibString.IsNullOrEmpty(vTotalesEnDivisa)) {
+                _NumeroDeLineasDeTotalesEnDivisas = 0;
+            } else {
+                _NumeroDeLineasDeTotalesEnDivisas = LibText.Split(vTotalesEnDivisa, '\n').Count();
+            }
             bool vResult = false;
             try {
                 List<XElement> vCamposDefinibles = valDocumentoFiscal.Descendants("GpResultDetailCamposDefinibles").ToList();
@@ -550,6 +565,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private bool ImprimirTodosLosArticulos(XElement valDocumentoFiscal, bool valIsNotaDeCredito) {
             bool vEstatus = true;
             string vDescripcion;
+            string vCodigo;
             string vCantidad;
             string vMonto;
             string vTipoTasa;
@@ -559,7 +575,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 List<XElement> vRecord = valDocumentoFiscal.Descendants("GpResultDetailRenglonFactura").ToList();
                 foreach (XElement vXElement in vRecord) {
-                    vDescripcion = LibXml.GetElementValueOrEmpty(vXElement, "Descripcion");
+                    vDescripcion = LibText.Trim(LibXml.GetElementValueOrEmpty(vXElement, "Descripcion"));
+                    vCodigo = LibText.Trim(LibXml.GetElementValueOrEmpty(vXElement, "Articulo"));
                     vCantidad = LibXml.GetElementValueOrEmpty(vXElement, "Cantidad");
                     vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad, _EnterosParaCantidad, _DecimalesParaCantidad);
                     vMonto = LibXml.GetElementValueOrEmpty(vXElement, "PrecioSinIVA");
@@ -569,6 +586,23 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vPrcDescuento = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vPrcDescuento, _EnterosParaDescuento, _DecimalesParaDescuento);
                     vSerial = LibXml.GetElementValueOrEmpty(vXElement, "Serial");
                     vRollo = LibXml.GetElementValueOrEmpty(vXElement, "Rollo");
+                    switch (_ConfiguracionDetalleFactura) {
+                        case "CODIGO":
+                            vDescripcion = vCodigo;
+                            break;
+                        case "CODIGOYDESCRIPCION":
+                            if ((LibText.Len(vCodigo) > 12) && _EsMatrizDePuntos) {
+                                string vCodigoCortado = LibText.Left(vCodigo, 12);
+                                string vCodigoRestante = LibText.SubString(vCodigo, 12);
+                                vDescripcion = "|" + vCodigoCortado + "|" + vCodigoRestante + "-" + vDescripcion;
+                                vDescripcion = LibText.Left(vDescripcion, 108);
+                            } else {
+                                vDescripcion = "|" + vCodigo + "|" + vDescripcion;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                     if (valIsNotaDeCredito) {
                         vTipoTasa = DarFormatoAAlicuotaIvaNC((eTipoDeAlicuota)LibConvert.DbValueToEnum(vTipoTasa));
                     } else {
@@ -590,36 +624,39 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private bool CerrarComprobanteFiscal(XElement valDocumentoFiscal, bool valIsNotaDeCredito) {
-            bool vEstatus = true;
-            string vCmd = "";
-            string vTotalesEnDivisa;
+            bool vResult = true;
+            List<string> vListaCMD = new List<string>();
             string vDescuentoTotal = LibXml.GetPropertyString(valDocumentoFiscal, "PorcentajeDescuento");
-            decimal vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "IGTFML"));
+            string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
+            string vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
             vDescuentoTotal = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vDescuentoTotal, _EnterosParaDescuento, _DecimalesParaDescuento);
-            vTotalesEnDivisa = LibXml.GetPropertyString(valDocumentoFiscal, "TotalMonedaExtranjera");
-            if ((_ModelosAntiguos || _FormatoFirmwareTipo1) && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
-                string vObservacionesIGTF = LibImpresoraFiscalUtil.ObservacionesIGTF(valDocumentoFiscal);
-                ImprimirObservacionesIGTF(vObservacionesIGTF);
-            } else {
-                if (LibText.Len(vTotalesEnDivisa) > 0 && !_ModelosAntiguos) {
-                    vEstatus = ImprimirTotalesEnDivisas(vTotalesEnDivisa);
-                } else if (!valIsNotaDeCredito && LibString.Len(vTotalesEnDivisa) == 0) {
-                    vEstatus = ImprmirCamposDefinibles(valDocumentoFiscal);
+            decimal vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "IGTFML"));
+            if(LibText.Len(vTotalesEnDivisa) > 0 && !_ModelosAntiguos) {
+                vResult = ImprimirTotalesEnDivisas(vTotalesEnDivisa);
+            }
+            if(!vObservaciones.Equals("") && _ObservacionesAlFinalDeLaFactura && !_ModelosAntiguos) {
+                vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + vObservaciones, 0, 40)));
+                if(LibText.Len(vObservaciones) > 35) {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(vObservaciones, 35, 40)));
                 }
             }
-            if (LibConvert.ToInt(vDescuentoTotal) != 0) {
-                vCmd = "3"; //SubTotal
-                vEstatus &= _TfhkPrinter.SendCmd(vCmd);
-                if (_ModeloSoportaComandosGenerales) {
+            if(!valIsNotaDeCredito && LibString.Len(vTotalesEnDivisa) == 0) {
+                vResult = ImprimirCamposDefinibles(valDocumentoFiscal);
+            }
+            if(LibConvert.ToInt(vDescuentoTotal) != 0) {
+                vListaCMD.Add("3"); //SubTotal
+                if(_ModeloSoportaComandosGenerales) {
                     vDescuentoTotal = DarFormatoNumericoParaComandosGenerales(vDescuentoTotal, _EnterosParaDescuento);
-                    vCmd = "GP-*" + vDescuentoTotal;
+                    vListaCMD.Add("GP-*" + vDescuentoTotal);
                 } else {
-                    vCmd = "p-" + vDescuentoTotal;
+                    vListaCMD.Add("p-" + vDescuentoTotal);
                 }
-                vEstatus &= _TfhkPrinter.SendCmd(vCmd);
             }
-            vEstatus &= EnviarPagos(valDocumentoFiscal);
-            return vEstatus;
+            foreach(var vLineaCmd in vListaCMD) {
+                vResult &= _TfhkPrinter.SendCmd(vLineaCmd);
+            }
+            vResult &= EnviarPagos(valDocumentoFiscal);
+            return vResult;
         }
 
         private bool ImprimirTotalesEnDivisas(string vTotales) {
@@ -693,7 +730,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        private bool ImprmirCamposDefinibles(XElement valData) {
+        private bool ImprimirCamposDefinibles(XElement valData) {
             bool vResult = true;
             string vCmd;
             List<XElement> vCamposDefinibles = valData.Descendants("GpResultDetailCamposDefinibles").ToList();
@@ -817,46 +854,52 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private bool EnviarDatosAdicionales(string valDireccion, string valTelefono, string valObservaciones, bool valExtenderLineasAdicionales) {
-            bool vResult = false;
-            string vCMD = "";
-
-            if (!valExtenderLineasAdicionales) {
-                if (LibText.Len(valTelefono) > 0) {
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Telf: " + valTelefono, 0, _MaxLongitudDeTexto));
-                    vResult = _TfhkPrinter.SendCmd(vCMD);
+            bool vResult = true;
+            List<string> vListaCMD = new List<string>();
+            if(valExtenderLineasAdicionales) {
+                vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40)));
+                if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicional) > 8)) {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 30, 40)));
                 }
-                if (!valDireccion.Equals("") && valObservaciones.Equals("") && !_ModelosAntiguos) {
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40));
-                    vResult = _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 30, 40));
-                    vResult &= _TfhkPrinter.SendCmd(vCMD);
-                } else if (!valObservaciones.Equals("") && valDireccion.Equals("") && !_ModelosAntiguos) {
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40));
-                    vResult = _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40));
-                    vResult &= _TfhkPrinter.SendCmd(vCMD);
-                } else {
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40));
-                    vResult = _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40));
-                    vResult &= _TfhkPrinter.SendCmd(vCMD);
-                    vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40));
-                    vResult &= _TfhkPrinter.SendCmd(vCMD);
+                if (!_ObservacionesAlFinalDeLaFactura) {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40)));
+                    if (!((_NumeroDeLineasDeTotalesEnDivisas + _LineaTextoAdicional) > 9)) {
+                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40)));
+                    }
                 }
             } else {
-                vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40));
-                vResult = _TfhkPrinter.SendCmd(vCMD);
-                vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40));
-                vResult &= _TfhkPrinter.SendCmd(vCMD);
-                vCMD = GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40));
-                vResult &= _TfhkPrinter.SendCmd(vCMD);
+                if(LibText.Len(valTelefono) > 0) {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Telf: " + valTelefono, 0, _MaxLongitudDeTexto)));
+                }
+                if(!valDireccion.Equals("") && !_ModelosAntiguos) {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40)));
+                    if(LibText.Len(LibText.Trim(valDireccion)) > 30) {
+                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valDireccion, 30, 40)));
+                    }
+                } else {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Direccion:" + valDireccion, 0, 40)));
+                }
+                if(!valObservaciones.Equals("") && !_ObservacionesAlFinalDeLaFactura && !_ModelosAntiguos) {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40)));
+                    if(LibText.Len(LibText.Trim(valObservaciones)) > 35) {
+                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40)));
+                    }
+                } else if(!_ObservacionesAlFinalDeLaFactura) {
+                    vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString("Obs.:" + valObservaciones, 0, 40)));
+                    if(LibText.Len(LibText.Trim(valObservaciones)) > 35) {
+                        vListaCMD.Add(GetLineaTexto() + LibText.Trim(LibText.SubString(valObservaciones, 35, 40)));
+                    }
+                }
+            }
+            foreach(var vLineaCmd in vListaCMD) {
+                vResult &= _TfhkPrinter.SendCmd(vLineaCmd);
             }
             return vResult;
         }
 
         private bool AbrirComprobanteFiscal(string valRazonSocial, string valRif, string valDireccion, string valTelefono, string valObservaciones) {
             try {
-                bool vResult = false;
+                bool vResult = true;
                 string vCMD = "";
                 if (_ModelosAntiguos) {
                     _LineaTextoAdicional = 0;
@@ -1035,7 +1078,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        public IFDiagnostico RealizarDiagnotsico(bool valAbrirPuerto = false) {
+        public IFDiagnostico RealizarDiagnostico(bool valAbrirPuerto = false) {
             IFDiagnostico vDiagnostico = new IFDiagnostico();
             try {
                 if (valAbrirPuerto) {
@@ -1044,12 +1087,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vDiagnostico.EstatusDeComunicacion = EstatusDeComunicacion(vDiagnostico);
                 vDiagnostico.VersionDeControladores = VersionDeControladores(vDiagnostico);
                 if (!vDiagnostico.EstatusDeComunicacion) {
-                    vDiagnostico.AlicoutasRegistradasDescription = "No se completo";
-                    vDiagnostico.FechaYHoraDescription = "No se completo";
-                    vDiagnostico.ColaDeImpresioDescription = "No se completo";
+                    vDiagnostico.AlicoutasRegistradasDescription   = "No se completó.";
+                    vDiagnostico.ConfiguracionImpresoraDescription = "No se completó.";
+                    vDiagnostico.FechaYHoraDescription             = "No se completó.";
+                    vDiagnostico.ColaDeImpresioDescription         = "No se completó.";
                     return vDiagnostico;
                 }
                 vDiagnostico.AlicuotasRegistradas = AlicuotasRegistradas(vDiagnostico);
+                vDiagnostico.ConfiguracionImpresora = ConsultarConfiguracion(vDiagnostico);
                 vDiagnostico.FechaYHora = FechaYHora(vDiagnostico);
                 vDiagnostico.ColaDeImpresion = ColaDeImpresion(vDiagnostico);
                 if (valAbrirPuerto) {
@@ -1073,7 +1118,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vIsSameVersion = false;
             string vVersion = "";
             string vDir = "";
-            vDir = System.IO.Path.Combine(LibApp.AppPath() + "CDP", DllApiName);
+            vDir = Path.Combine(LibApp.AppPath() + "CDP", DllApiName);
             vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir, ref vVersion);
             vIsSameVersion = (vVersion == VersionApi);
             vDiagnostico.VersionDeControladoresDescription = LibImpresoraFiscalUtil.EstatusVersionDeControladorDescription(vResult, vIsSameVersion, vDir, vVersion, VersionApi);
@@ -1084,26 +1129,51 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public bool AlicuotasRegistradas(IFDiagnostico vDiagnostico) {
             bool vResult = false;
             decimal AlicuotaGeneral;
-            decimal Alicuota2;
-            decimal Alicuota3;
+            decimal AlicuotaReducida;
+            decimal AlicuotaAdicional;
             string vAlicoutasRegistradasDescription = "";
             S3PrinterData vStatus3 = _TfhkPrinter.GetS3PrinterData();
             AlicuotaGeneral = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax1), 2);
-            Alicuota2 = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax2), 2);
-            Alicuota3 = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax3), 2);
-            vResult = LibImpresoraFiscalUtil.ValidarAlicuotasRegistradas(AlicuotaGeneral, Alicuota2, Alicuota3, ref vAlicoutasRegistradasDescription);
+            AlicuotaReducida = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax2), 2);
+            AlicuotaAdicional = LibImportData.ToDec(LibConvert.ToStr(vStatus3.Tax3), 2);
+            vResult = LibImpresoraFiscalUtil.ValidarAlicuotasRegistradas(AlicuotaGeneral, AlicuotaReducida, AlicuotaAdicional, ref vAlicoutasRegistradasDescription);
             vDiagnostico.AlicoutasRegistradasDescription = vAlicoutasRegistradasDescription;
+            if (vResult) {
+                vDiagnostico.AlicoutasRegistradasDescription += ":" + LibText.CRLF();
+                vDiagnostico.AlicoutasRegistradasDescription += "Reducida:   " + LibConvert.NumToString(AlicuotaReducida,        2) + "%" + LibText.CRLF() +
+                                                                "General:    " + LibConvert.NumToString(AlicuotaGeneral,         2) + "%" + LibText.CRLF() +
+                                                                "Adicional: "  + LibConvert.NumToString(AlicuotaAdicional,       2) + "%";
+            }
+            return vResult;
+        }
+
+        public bool ConsultarConfiguracion(IFDiagnostico vDiagnostico) {
+            bool vResult = false;
+            string vRegistro = LibText.CRLF() + "Flags de la impresora:".PadLeft(50);
+            S3PrinterData vStatus = _TfhkPrinter.GetS3PrinterData();
+            int[] vFlags = vStatus.AllSystemFlags;
+            for(int index = 0; index < vFlags.Count(); index++) {
+                if((index % 10) == 0) {
+                    vRegistro += $"\r\n\r\n   F{index:D2} --> F{(index == 60? 63 : (index + 9)):D2}:";
+                }
+                vRegistro += $" {vFlags[index]:D2} ";
+            }
+            if (!LibString.IsNullOrEmpty(vRegistro)) {
+                vResult = true;
+                vDiagnostico.ConfiguracionImpresoraDescription = vRegistro;
+            }
             return vResult;
         }
 
         public bool FechaYHora(IFDiagnostico vDiagnostico) {
             bool vResult = false;
             DateTime dFecha;
-            string vFecha = "";
-            vFecha = ObtenerFechaYHora();
-            dFecha = LibConvert.ToDate(vFecha);
+            string vFechaYHora = "";
+            vFechaYHora = ObtenerFechaYHora();
+            dFecha = LibConvert.ToDate(vFechaYHora);
             vResult = !LibDate.F1IsLessThanF2(dFecha, LibDate.Today());
-            vDiagnostico.FechaYHoraDescription = LibImpresoraFiscalUtil.EstatusHorayFechaDescription(vResult);
+            vDiagnostico.FechaYHoraDescription = LibImpresoraFiscalUtil.EstatusHorayFechaDescription(vResult) + LibText.CRLF();
+            vDiagnostico.FechaYHoraDescription += vFechaYHora;
             return vResult;
         }
 
@@ -1142,6 +1212,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             throw new NotImplementedException();
         }
+        #endregion //Propiedades
     }
 }
-

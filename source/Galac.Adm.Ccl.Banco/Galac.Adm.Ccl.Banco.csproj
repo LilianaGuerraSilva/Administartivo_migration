@@ -59,14 +59,17 @@
     <Compile Include="IFkConceptoBancarioViewModel.cs" />
     <Compile Include="IFkCuentaBancariaViewModel.cs" />
     <Compile Include="IFkSolicitudesDePagoViewModel.cs" />
+    <Compile Include="IFkTransferenciaEntreCuentasBancariasViewModel.cs" />
     <Compile Include="IMovimientoBancarioPdn.cs" />
     <Compile Include="ISolicitudesDePagoPdn.cs" />
+    <Compile Include="ITransferenciaEntreCuentasBancariasPdn.cs" />
     <Compile Include="LibBanco.cs" />
     <Compile Include="LibCkn.cs" />
     <Compile Include="MovimientoBancario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenglonSolicitudesDePago.cs" />
     <Compile Include="SolicitudesDePago.cs" />
+    <Compile Include="TransferenciaEntreCuentasBancarias.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

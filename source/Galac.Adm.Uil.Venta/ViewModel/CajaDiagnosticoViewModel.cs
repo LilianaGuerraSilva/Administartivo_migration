@@ -1,18 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Xml.Linq;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
-using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
-using LibGalac.Aos.UI.Mvvm.Helpers;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
-using LibGalac.Aos.UI.Mvvm.Validation;
-using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.DispositivosExternos;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -27,6 +19,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public const string VersionDeControladoresDescriptionPropertyName = "VersionDeControladoresDescription";
         public const string AlicuotasRegistradasPropertyName = "AlicuotasRegistradas";
         public const string AlicoutasRegistradasDescriptionPropertyName = "AlicuotasRegistradasDescription";
+        public const string ConfiguracionImpresoraPropertyName = "ConfiguracionImpresora";
+        public const string ConfiguracionImpresoraDescriptionPropertyName = "ConfiguracionImpresoraDescription";
         public const string FechaYHoraPropertyName = "FechaYHora";
         public const string FechaYHoraDescriptionPropertyName = "FechaYHoraDescription";
         public const string ColaDeImpresionPropertyName = "ColaDeImpresion";
@@ -49,6 +43,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string _EstatusDeComunicacionDescription;
         string _VersionDeControladoresDescription;
         string _AlicoutasRegistradasDescription;
+        string _ConfiguracionImpresoraDescription;
         string _FechaYHora;
         string _FechaYHoraDescription;
         string _ColaDeImpresion;
@@ -66,9 +61,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         eFamiliaImpresoraFiscal _FamImprFiscal;
 
         public override string ModuleName {
-            get { return "Diagnostico Maquina Fiscal"; }
+            get { return "Diagnóstico Máquina Fiscal"; }
         }
-
 
         public RelayCommand DiagnosticoCommand {
             get;
@@ -172,6 +166,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if(_AlicoutasRegistradasDescription != value) {
                     _AlicoutasRegistradasDescription = value;
                     RaisePropertyChanged(AlicoutasRegistradasDescriptionPropertyName);
+                }
+            }
+        }
+        public string ConfiguracionImpresoraDescription {
+            get {
+                return _ConfiguracionImpresoraDescription;
+            }
+            set {
+                if(_ConfiguracionImpresoraDescription != value) {
+                    _ConfiguracionImpresoraDescription = value;
+                    RaisePropertyChanged(ConfiguracionImpresoraDescriptionPropertyName);
                 }
             }
         }
@@ -295,6 +300,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public bool IsVisibleConfiguracionImpresora {
+            get {
+                return _FamImprFiscal == eFamiliaImpresoraFiscal.THEFACTORY;
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public CajaDiagnosticoViewModel(IImpresoraFiscalPdn valImpresoraFiscal,eFamiliaImpresoraFiscal valFamImprFiscal)
@@ -369,6 +380,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             AlicuotasRegistradas = (_Diagnostico.AlicuotasRegistradas ? statusIsGood : statusIsBad);
             ColorStatusAlicuotasRegistradas = SetStatusColor(_Diagnostico.AlicuotasRegistradas);
             AlicuotasRegistradasDescription = _Diagnostico.AlicoutasRegistradasDescription;
+            ConfiguracionImpresoraDescription = _Diagnostico.ConfiguracionImpresoraDescription;
             VersionDeControladores = (_Diagnostico.VersionDeControladores ? statusIsGood : statusIsBad);
             ColorStatusVersionDeControladores = SetStatusColor(_Diagnostico.VersionDeControladores);
             VersionDeControladoresDescription = _Diagnostico.VersionDeControladoresDescription;
@@ -378,21 +390,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return (valStatus ? "Green" : "Red");
         }
 
-
         private void EjecutarDiagnosticoTask() {
             ShowProgress = true;
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             Task IfDiagnosticoTask = Task.Factory.StartNew(() => {
-                _Diagnostico = _ImpresoraFiscal.RealizarDiagnotsico(true);
+                _Diagnostico = _ImpresoraFiscal.RealizarDiagnostico(true);
                 RefreshProperties();
             });
             IfDiagnosticoTask.ContinueWith((t) => {
                 ShowProgress = false;
                 _IsRunning = false;
                 if(t.IsCompleted) {
-                    LibMessages.MessageBox.Information(null,"El proceso fue completado con exito","");
+                    LibMessages.MessageBox.Information(null,"El proceso fué completado con éxito.","");
                 } else {
-                    LibMessages.MessageBox.Alert(null,"El proceso fue cancelado","");
+                    LibMessages.MessageBox.Alert(null,"El proceso fué cancelado.","");
 
                 }
             },cancellationTokenSource.Token,TaskContinuationOptions.OnlyOnRanToCompletion,TaskScheduler.FromCurrentSynchronizationContext());
@@ -425,7 +436,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipTitle = "Iniciar Diagnóstico"
             };
         }
-        #endregion //Metodos Generados
+
         XElement BuildImpresoraFiscalData(eImpresoraFiscal vImpresoraFiscal,ePuerto ePuerto) {
             string vPuerto = SerialPortFormat(ePuerto);
             XElement vResult = new XElement("GpData",new XElement("GpResult",
@@ -438,6 +449,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string SerialPortFormat(ePuerto ePuerto) {
             return Regex.Replace(ePuerto.GetDescription(),"[A-Z-az]","",RegexOptions.Compiled);
         }
+        #endregion //Metodos Generados
 
     } //End of class CajaDiagnosticoViewModel
 

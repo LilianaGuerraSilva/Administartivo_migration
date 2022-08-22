@@ -54,9 +54,8 @@
             <TabItem Name="tabCajaRegistradora" Header="Caja Registradora">
                 <Grid Name="Caja">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="136*" />
-                        <ColumnDefinition Width="217*" />
-                        <ColumnDefinition Width="126*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -66,22 +65,17 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Label
                         Name="lblNombreCaja"
-                        Grid.Row="0"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="3,3,0,0"
-                        Content="Nombre Caja ..............................................................................."
+                        Content="Nombre Caja ............................................................"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtNombreCaja"
                         Grid.Row="0"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Width="120"
-                        Margin="3,4,0,4"
                         nsWpf:LibFocusManager.FocusedPropertyName="NombreCaja"
                         nsWpf:LibFocusManager.IsFocused="True"
                         BorderThickness="1"
@@ -91,55 +85,44 @@
                         Style="{StaticResource TextBoxInputStyle}"
                         Text="{Binding Path=NombreCaja, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                     <Label
+                        Name="lblUsaGaveta"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Content="Usa Gaveta ..............................................................."
+                        Style="{StaticResource LabelPrompt}" />
+                    <CheckBox
+                        Name="chkUsaGaveta"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        IsChecked="{Binding Path=UsaGaveta}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                    <Label
                         Name="lblPuerto"
                         Grid.Row="2"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="3,3,0,0"
-                        Content="Puerto ........................................................................................."
+                        Content="Puerto ........................................................................"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbPuerto"
                         Grid.Row="2"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Width="120"
-                        Margin="3,4,0,4"
                         IsEnabled="{Binding Path=IsEnabledUsaGaveta}"
                         IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding Path=ListarPuertos}"
                         SelectedItem="{Binding Path=Puerto, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource ComboBoxStyle}" />
                     <Label
-                        Name="lblUsaGaveta"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="3,3,0,0"
-                        Content="Usa Gaveta ................................................................................."
-                        Style="{StaticResource LabelPrompt}" />
-                    <CheckBox
-                        Name="chkUsaGaveta"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Margin="3,8,0,8"
-                        HorizontalAlignment="Left"
-                        IsChecked="{Binding Path=UsaGaveta}"
-                        IsEnabled="{Binding Path=PortIsEnable}"
-                        Style="{StaticResource CheckBoxStyle}" />
-                    <Label
                         Name="lblComando"
                         Grid.Row="3"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="3,3,0,0"
-                        Content="Comando ...................................................................................."
+                        Content="Comando .................................................................."
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtComando"
                         Grid.Row="3"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Width="120"
-                        Margin="3,4,0,4"
                         BorderThickness="1"
                         InputDataType="String"
                         IsEnabled="{Binding Path=IsEnabledUsaGaveta}"
@@ -150,16 +133,12 @@
                         Name="lblUsaAccesoRapido"
                         Grid.Row="4"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="3,3,0,0"
-                        Content="Usa Tecla de Acceso Rápido para Abrir Gaveta .................."
+                        Content="Usa Tecla de Acceso Rápido para Abrir Gaveta"
                         Style="{StaticResource LabelPrompt}" />
                     <CheckBox
                         Name="chkUsaAccesoRapido"
                         Grid.Row="4"
-                        Grid.Column="2"
-                        Margin="3,8,0,8"
-                        HorizontalAlignment="Left"
+                        Grid.Column="1"
                         IsChecked="{Binding Path=UsaAccesoRapido}"
                         IsEnabled="{Binding Path=IsEnabledUsaGaveta}"
                         Style="{StaticResource CheckBoxStyle}" />
@@ -167,17 +146,13 @@
                         Name="lblPermitirAbrirSinSupervisor"
                         Grid.Row="5"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="3,3,0,0"
-                        Content="Permitir Abrir Sin Supervisor ...................................................."
+                        Content="Permitir Abrir Sin Supervisor.................................."
                         Style="{StaticResource LabelPrompt}"
                         Visibility="Visible" />
                     <CheckBox
                         Name="chkPermitirAbrirSinSupervisor"
                         Grid.Row="5"
-                        Grid.Column="2"
-                        Margin="3,8,0,8"
-                        HorizontalAlignment="Left"
+                        Grid.Column="1"
                         IsChecked="{Binding Path=PermitirAbrirSinSupervisor}"
                         IsEnabled="{Binding Path=IsEnabledUsaGaveta}"
                         Style="{StaticResource CheckBoxStyle}" />
@@ -185,19 +160,15 @@
                         Name="lblUsaMaquinaFiscal"
                         Grid.Row="6"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="3,3,0,0"
-                        Content="Usa Máquina Fiscal .................................................................."
+                        Content="Usa Máquina Fiscal ................................................"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <CheckBox
                         Name="chkUsaMaquinaFiscal"
                         Grid.Row="6"
-                        Grid.Column="2"
-                        Margin="3,8,0,8"
-                        HorizontalAlignment="Left"
+                        Grid.Column="1"
                         IsChecked="{Binding Path=UsaMaquinaFiscal}"
-                        IsEnabled="{Binding Path=PortIsEnable}"
+                        IsEnabled="{Binding Path=IsEnabled}"
                         Style="{StaticResource CheckBoxStyle}"
                         Visibility="{Binding Path=IsVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}" />
                 </Grid>
@@ -211,11 +182,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="167" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="0*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -226,26 +194,18 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Label
                         Name="lblFamiliaDeMaquinaFiscal"
                         Grid.Row="0"
                         Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Margin="3,3,0,0"
-                        Content="Fabricante ...................................."
+                        Content="Fabricante ................................."
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbFamiliaDeMaquinaFiscal"
                         Grid.Row="0"
-                        Grid.Column="3"
+                        Grid.Column="1"
                         Width="150"
-                        Margin="3,4,0,0"
                         VerticalAlignment="Top"
                         IsEnabled="{Binding Path=IsEnabled}"
                         IsSynchronizedWithCurrentItem="True"
@@ -256,71 +216,60 @@
                         Name="lblModeloDeMaquinaFiscal"
                         Grid.Row="1"
                         Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Margin="3,3,0,0"
-                        Content="Modelo ........................................."
+                        Content="Modelo ......................................"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbModeloDeMaquinaFiscal"
                         Grid.Row="1"
-                        Grid.Column="3"
+                        Grid.Column="1"
                         Width="150"
-                        Margin="3,4,0,4"
                         IsEnabled="{Binding Path=IsEnabled}"
                         IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding Path=ListarMaquinaFiscal}"
                         SelectedItem="{Binding Path=ModeloDeMaquinaFiscal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource ComboBoxStyle}" />
                     <Label
-                        Name="lblPuertoMaquinaFiscal"
+                        Name="lblTipoConexion"
                         Grid.Row="2"
                         Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Margin="3,3,0,0"
-                        Content="Puerto .........................................."
+                        Content="Tipo de Conexión....................."
+                        Style="{StaticResource LabelPrompt}" />
+                    <nsWpfControls:GSComboBoxWpf
+                        Name="cmbTipoConexion"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Width="150"
+                        IsEnabled="{Binding Path=IsEnabled}"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding Path=ListarTipoConexion}"
+                        SelectedItem="{Binding Path=TipoConexion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <Label
+                        Name="lblPuertoMaquinaFiscal"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Content="Puerto ........................................"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbPuertoMaquinaFiscal"
-                        Grid.Row="2"
-                        Grid.Column="3"
+                        Grid.Row="3"
+                        Grid.Column="1"
                         Width="150"
-                        Margin="3,4,0,4"
-                        IsEnabled="{Binding Path=IsEnabled}"
+                        IsEnabled="{Binding Path=IsEnabledPuertoSerial}"
                         IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding Path=ListarPuertosImpFiscal}"
                         SelectedItem="{Binding Path=PuertoMaquinaFiscal, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource ComboBoxStyle}" />
                     <Label
-                        Name="lblUsarModoDotNet"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Margin="3,3,0,0"
-                        Content="Usar Modo Mejorado ...................."
-                        IsEnabled="{Binding Path=IsEnabled}"
-                        Style="{StaticResource LabelPrompt}" />
-                    <CheckBox
-                        Name="chkUsarModoDotNet"
-                        Grid.Row="3"
-                        Grid.Column="3"
-                        Margin="3,8,0,8"
-                        HorizontalAlignment="Left"
-                        IsChecked="{Binding Path=UsarModoDotNet}"
-                        IsEnabled="{Binding Path=IsEnableModoMejorado}"
-                        Style="{StaticResource CheckBoxStyle}" />
-                    <Label
                         Name="lblAbrirGavetaDeDinero"
                         Grid.Row="4"
                         Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Margin="3,3,0,0"
-                        Content="Abrir Gaveta De Dinero ................"
+                        Content="Abrir Gaveta de Dinero ..........."
                         Style="{StaticResource LabelPrompt}" />
                     <CheckBox
                         Name="chkAbrirGavetaDeDinero"
                         Grid.Row="4"
-                        Grid.Column="3"
-                        Margin="3,8,0,8"
+                        Grid.Column="1"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding Path=AbrirGavetaDeDinero}"
                         IsEnabled="{Binding Path=IsEnabled}"
@@ -329,15 +278,12 @@
                         Name="lblSerialDeMaquinaFiscal"
                         Grid.Row="5"
                         Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Margin="3,3,0,0"
-                        Content="Serial ..........................................."
+                        Content="Serial .........................................."
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtSerialDeMaquinaFiscal"
                         Grid.Row="5"
-                        Grid.Column="3"
-                        Margin="3,4"
+                        Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         BorderThickness="1"
                         InputDataType="String"
@@ -351,15 +297,12 @@
                         Name="lblUltimoCompFiscal"
                         Grid.Row="6"
                         Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Margin="3,3,0,0"
-                        Content="Último Número Comp Fiscal ......."
+                        Content="Último Núm. Comp Fiscal ......"
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txUltimoNumeroCompFiscal"
                         Grid.Row="6"
-                        Grid.Column="3"
-                        Margin="3,4"
+                        Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         BorderThickness="1"
                         InputDataType="Alfanumeric"
@@ -373,15 +316,12 @@
                         Name="lblUltimoNumeroNotaCredito"
                         Grid.Row="7"
                         Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Margin="3,3,0,0"
-                        Content="Último Número Nota de Crédito .."
+                        Content="Último Núm. Nota de Crédito ."
                         Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txUltimoNumeroNCFiscal"
                         Grid.Row="7"
-                        Grid.Column="3"
-                        Margin="3,4"
+                        Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         BorderThickness="1"
                         InputDataType="Alfanumeric"
@@ -394,17 +334,14 @@
                     <Label
                         Name="lblPermitirDescripcionDelArticuloExtendida"
                         Grid.Row="0"
-                        Grid.Column="4"
-                        Margin="3,3,0,0"
-                        Content="Permitir Descripción Del Artículo Extendida .."
+                        Grid.Column="2"
+                        Content="Permitir Descripción Del Artículo Extendida"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaEpson, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <CheckBox
                         Name="chkPermitirDescripcionDelArticuloExtendida"
                         Grid.Row="0"
-                        Grid.Column="5"
-                        Margin="3,8,0,8"
-                        HorizontalAlignment="Left"
+                        Grid.Column="3"
                         IsChecked="{Binding Path=PermitirDescripcionDelArticuloExtendida}"
                         IsEnabled="{Binding Path=IsEnabled}"
                         Style="{StaticResource CheckBoxStyle}"
@@ -412,16 +349,14 @@
                     <Label
                         Name="lblPermitirNombreDelClienteExtendido"
                         Grid.Row="1"
-                        Grid.Column="4"
-                        Margin="3,3,0,0"
-                        Content="Permitir Nombre Del Cliente Extendido ........."
+                        Grid.Column="2"
+                        Content="Permitir Nombre Del Cliente Extendido ......"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaEpson, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <CheckBox
                         Name="chkPermitirNombreDelClienteExtendido"
                         Grid.Row="1"
-                        Grid.Column="5"
-                        Margin="3,8,0,8"
+                        Grid.Column="3"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding Path=PermitirNombreDelClienteExtendido}"
                         IsEnabled="{Binding Path=IsEnabled}"
@@ -430,17 +365,15 @@
                     <Label
                         Name="lblIpParaConexion"
                         Grid.Row="2"
-                        Grid.Column="4"
-                        Margin="3,3,0,0"
-                        Content="Ip para Conexión ..........................................."
+                        Grid.Column="2"
+                        Content="Ip para Conexión ........................................"
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaQPrint, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtIpParaConexion"
                         Grid.Row="2"
-                        Grid.Column="5"
+                        Grid.Column="3"
                         Width="120"
-                        Margin="3,4,0,4"
                         BorderThickness="1"
                         InputDataType="Alfanumeric"
                         IsEnabled="{Binding Path=IsEnabled}"
@@ -451,17 +384,15 @@
                     <Label
                         Name="lblMascaraSubred"
                         Grid.Row="3"
-                        Grid.Column="4"
-                        Margin="3,3,0,0"
-                        Content="Mascara de sub red ......................................"
+                        Grid.Column="2"
+                        Content="Mascara de sub red ...................................."
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaQPrint, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtMascaraSubred"
                         Grid.Row="3"
-                        Grid.Column="5"
+                        Grid.Column="3"
                         Width="120"
-                        Margin="3,4,0,4"
                         BorderThickness="1"
                         InputDataType="Alfanumeric"
                         IsEnabled="{Binding Path=IsEnabled}"
@@ -472,17 +403,15 @@
                     <Label
                         Name="lblGateway"
                         Grid.Row="4"
-                        Grid.Column="4"
-                        Margin="3,3,0,0"
-                        Content="Gateway ......................................................."
+                        Grid.Column="2"
+                        Content="Gateway ....................................................."
                         Style="{StaticResource LabelPrompt}"
                         Visibility="{Binding Path=IsVisibleParaQPrint, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSTextBoxWpf
                         Name="txtGateway"
                         Grid.Row="4"
-                        Grid.Column="5"
+                        Grid.Column="3"
                         Width="120"
-                        Margin="3,4,0,4"
                         BorderThickness="1"
                         InputDataType="Alfanumeric"
                         IsEnabled="{Binding Path=IsEnabled}"

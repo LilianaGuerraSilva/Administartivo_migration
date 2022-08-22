@@ -10,6 +10,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
+using System.Globalization;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsEpson : IImpresoraFiscalPdn {
@@ -898,27 +899,31 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private bool AbrirNC(XElement valDocumentoFiscal) {
-            bool vResult = false;
-            string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal, "DireccionCliente");
-            string vRif = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroRIF");
-            string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
-            string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
-            string vNumFactura = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroComprobanteFiscal");
-            string vSerialMaquina = LibXml.GetPropertyString(valDocumentoFiscal, "SerialMaquinaFiscal");
-            string vFecha = LibXml.GetPropertyString(valDocumentoFiscal, "Fecha");
-            string vHora = LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion");
-            vFecha = LibGalac.Aos.Base.LibString.Replace(vFecha, "-", "/");
-            vFecha = LibConvert.ToStr(LibConvert.ToDate(vFecha), "dd/MM/yy");
-            vRif = LibText.SubString(vRif, 0, 12);
-            string vReq = "";
-            string vMensaje = "";
-            AjustarAnchoDeLineaSegunModelo();
-            vReq = PFDevolucion(vRazonSocial, vRif, vNumFactura, vSerialMaquina, vFecha, vHora);
-            vResult = CheckRequest(vReq, ref vMensaje);
-            if (!vResult) {
-                throw new GalacException("error al abrir la nota de crédito " + vMensaje, eExceptionManagementType.Controlled);
-            }
-            return vResult;
+            try {
+                bool vResult = false;
+                string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal, "DireccionCliente");
+                string vRif = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroRIF");
+                string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
+                string vObservaciones = LibXml.GetPropertyString(valDocumentoFiscal, "Observaciones");
+                string vNumFactura = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroComprobanteFiscal");
+                string vSerialMaquina = LibXml.GetPropertyString(valDocumentoFiscal, "SerialMaquinaFiscal");
+                string vFecha = LibXml.GetPropertyString(valDocumentoFiscal, "Fecha");
+                string vHora = LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion");
+                DateTime vFechaDT = DateTime.Parse(vFecha, CultureInfo.InvariantCulture);
+                vFecha = LibConvert.ToStr(vFechaDT, "dd/MM/yy");
+                vRif = LibText.SubString(vRif, 0, 12);
+                string vReq = "";
+                string vMensaje = "";
+                AjustarAnchoDeLineaSegunModelo();
+                vReq = PFDevolucion(vRazonSocial, vRif, vNumFactura, vSerialMaquina, vFecha, vHora);
+                vResult = CheckRequest(vReq, ref vMensaje);
+                if (!vResult) {
+                    throw new GalacException("error al abrir la nota de crédito " + vMensaje, eExceptionManagementType.Controlled);
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }            
         }
 
         public bool ImprimirNotaCredito(XElement valDocumentoFiscal) {
@@ -1181,7 +1186,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        public IFDiagnostico RealizarDiagnotsico(bool valAbrirPuerto = false) {
+        public IFDiagnostico RealizarDiagnostico(bool valAbrirPuerto = false) {
             IFDiagnostico vDiagnostico = new IFDiagnostico();
             try {
                 if (valAbrirPuerto) {
@@ -1206,6 +1211,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             } catch (Exception) {
                 throw;
             }
+        }
+
+        public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
+            throw new NotImplementedException();
         }
     }
 }

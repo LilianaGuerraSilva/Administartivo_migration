@@ -315,81 +315,81 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fConstruirSQLDelReporteArticulosReservados", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As Long, ByVal valCodigoDesde As String, _
-                                                   ByVal valCodigoHasta As String, ByVal valNivelDePrecio As enum_NivelDePrecio, ByVal valPrecioSinIva As Boolean, ByVal valUsaPrecioME As Boolean, _
-                                                   ByVal valFechaDeHoy As Date, ByVal valFechaReconversion As Date, ByVal valFechaDeDisposicionesTransitorias As Date, ByVal valFactorReconversion As Currency)
+                                                   ByVal valCodigoHasta As String, ByVal valNivelDePrecio As enum_NivelDePrecio, _
+                                                   ByVal valPorcentajeAlicuotaGeneral As Currency, ByVal valPorcentajeAlicuotaReducida As Currency, ByVal valPorcentajeAlicuotaAdicional As Currency)
    Dim insArticuloInvVista As clsArticuloInvVista
-   Dim SQL As String
-   Dim vWhere As String
+   Dim vSQL As String
+   Dim vSQLWhere As String
    Dim vPrecio As String
-   Dim vPrecioME As String
-   Dim vDescripcionTallaColor As String
-   Set insArticuloInvVista = New clsArticuloInvVista
+   Dim vSqlAlicuota As String
+   Dim vSqlColorDescrip As String
+   Dim vSqlTallaDescrip As String
    On Error GoTo h_ERROR
-    vWhere = ""
-    If valUsaPrecioME Then
-      vPrecioME = " CamposMonedaExtranjera." & fSqlNivelDePrecioME(valNivelDePrecio, valPrecioSinIva)
-    Else
-      vPrecio = " ArticuloInventario." & fSqlNivelDePrecio(valNivelDePrecio, valPrecioSinIva)
-    End If
+   Set insArticuloInvVista = New clsArticuloInvVista
+   vSQLWhere = ""
+   
+   vSqlColorDescrip = gUtilSQL.fSimpleSqlValue(" ") & gUtilSQL.CharConcat & "ISNULL(Color.DescripcionColor, " & gUtilSQL.fSimpleSqlValue("") & ")"
+   vSqlTallaDescrip = gUtilSQL.fSimpleSqlValue(" ") & gUtilSQL.CharConcat & "ISNULL(Talla.DescripcionTalla, " & gUtilSQL.fSimpleSqlValue("") & ")"
 
    If gTexto.DfLen(valCodigoDesde) > 0 And gTexto.DfLen(valCodigoHasta) > 0 Then
-    vWhere = gUtilSQL.fSQLStringValueBetween(insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo", valCodigoDesde, valCodigoHasta) & "  AND  "
+      vSQLWhere = gUtilSQL.fSQLStringValueBetween("AI.Codigo", valCodigoDesde, valCodigoHasta) & "  AND  "
    End If
-  vDescripcionTallaColor = ""
-  vDescripcionTallaColor = gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("Color.DescripcionColor"), gUtilSQL.fSimpleSqlValue(""), "Color.DescripcionColor", True)
-  vDescripcionTallaColor = vDescripcionTallaColor & "  +  " & gUtilSQL.fSimpleSqlValue(" ") & "  +  " & gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull("Talla.DescripcionTalla"), gUtilSQL.fSimpleSqlValue(" "), "Talla.DescripcionTalla", True)
-  vWhere = vWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = " & valConsecutivoCompania
-  vWhere = gUtilSQL.getWhereSQL(vWhere)
+   vSQLWhere = vSQLWhere & "AI.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
   
- SQL = " SELECT "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo AS CodArticulo,"
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion " & " + " & vDescripcionTallaColor & " AS Descripcion, "
- If valUsaPrecioME Then
-   SQL = SQL & vPrecioME & " AS Precio, "
- Else
-   SQL = SQL & vPrecio & " AS Precio, "
- End If
- If (valFechaDeHoy >= valFechaReconversion) Then
-   SQL = SQL & vPrecio & " * " & valFactorReconversion & " AS PrecioReconvertido"
- ElseIf (valFechaDeHoy >= valFechaDeDisposicionesTransitorias) Then
-   SQL = SQL & vPrecio & " / " & valFactorReconversion & " AS PrecioReconvertido"
- Else
-   SQL = SQL & " 0  AS PrecioReconvertido"
- End If
- SQL = SQL & " From "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1
- SQL = SQL & "  INNER JOIN  ArticuloInventario ON "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania  AND "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo = ArticuloInventario.Codigo "
- SQL = SQL & "  INNER JOIN  CamposMonedaExtranjera ON "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = CamposMonedaExtranjera.ConsecutivoCompania  AND "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo = CamposMonedaExtranjera.Codigo "
- SQL = SQL & " LEFT  JOIN  Talla ON "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania = Talla.ConsecutivoCompania AND "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoTalla = Talla.CodigoTalla"
- SQL = SQL & " LEFT  JOIN Color ON "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania = Color.ConsecutivoCompania AND "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoColor = Color.CodigoColor"
- SQL = SQL & vWhere
- SQL = SQL & " Group By "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo, "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion, "
- SQL = SQL & " Color.DescripcionColor,"
- SQL = SQL & " Talla.DescripcionTalla, "
- If valUsaPrecioME Then
-   SQL = SQL & vPrecioME
+   vSqlAlicuota = " (CASE AI.AlicuotaIva WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_EXENTO) & " THEN 0 WHEN " _
+   & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTAGENERAL) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaGeneral) _
+   & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTA2) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaReducida) _
+   & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTA3) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaAdicional) & " ELSE 0 END)"
+   vSQL = " SELECT AI.Codigo AS CodigoArticulo, "
+   vSQL = vSQL & "AI.Descripcion " & gUtilSQL.CharConcat & vSqlColorDescrip & gUtilSQL.CharConcat & vSqlTallaDescrip & " AS Descripcion, "
+   vSQL = vSQL & "AI.AlicuotaIva AS AlicuotaIvaChr, "
+   vSQL = vSQL & vSqlAlicuota & " AS AlicuotaIvaValor, "
+   If (valNivelDePrecio = eND_PRECIO_4) Then
+      vSQL = vSQL & "AI.PrecioSinIva4 AS PrecioSinIvaML, "
+      vSQL = vSQL & "AI.PrecioConIva4 AS PrecioConIVAML, "
+      vSQL = vSQL & "(AI.PrecioConIva4 - AI.PrecioSinIva4) AS IvaML, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioSinIva4, 0) AS PrecioSinIvaME, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva4, 0) AS PrecioConIvaME, "
+      vSQL = vSQL & "(ISNULL(ME.MePrecioConIva4, 0) - ISNULL(ME.MePrecioSinIva4, 0)) AS IvaME, "
+   ElseIf (valNivelDePrecio = eND_PRECIO_3) Then
+      vSQL = vSQL & "AI.PrecioSinIva3 AS PrecioSinIvaML, "
+      vSQL = vSQL & "AI.PrecioConIva3 AS PrecioConIVAML, "
+      vSQL = vSQL & "(AI.PrecioConIva3 - AI.PrecioSinIva3) AS IvaML, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioSinIva3, 0) AS PrecioSinIvaME, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva3, 0) AS PrecioConIvaME, "
+      vSQL = vSQL & "(ISNULL(ME.MePrecioConIva3, 0) - ISNULL(ME.MePrecioSinIva3, 0)) AS IvaME, "
+   ElseIf (valNivelDePrecio = eND_PRECIO_2) Then
+      vSQL = vSQL & "AI.PrecioSinIva2 AS PrecioSinIvaML, "
+      vSQL = vSQL & "AI.PrecioConIva2 AS PrecioConIVAML, "
+      vSQL = vSQL & "(AI.PrecioConIva2 - AI.PrecioSinIva2) AS IvaML, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioSinIva2, 0) AS PrecioSinIvaME, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva2, 0) AS PrecioConIvaME, "
+      vSQL = vSQL & "(ISNULL(ME.MePrecioConIva2, 0) - ISNULL(ME.MePrecioSinIva2, 0)) AS IvaME, "
+   Else
+      vSQL = vSQL & "AI.PrecioSinIva AS PrecioSinIvaML, "
+      vSQL = vSQL & "AI.PrecioConIva AS PrecioConIVAML, "
+      vSQL = vSQL & "(AI.PrecioConIva - AI.PrecioSinIva) AS IvaML, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioSinIva, 0) AS PrecioSinIvaME, "
+      vSQL = vSQL & "ISNULL(ME.MePrecioConIva, 0) AS PrecioConIvaME, "
+      vSQL = vSQL & "(ISNULL(ME.MePrecioConIva, 0) - ISNULL(ME.MePrecioSinIva, 0)) AS IvaME, "
+   End If
+   vSQL = vSQL & "AI.PorcentajeBaseImponible, AI.UnidadDeVenta, AI.CampoDefinible1, AI.CampoDefinible2, AI.CampoDefinible3, AI.CampoDefinible4, AI.CampoDefinible5, AI.UnidadDeVentaSecundaria "
    
- Else
-   SQL = SQL & vPrecio
- End If
- SQL = SQL & " ORDER BY  "
- SQL = SQL & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo "
- 
+   vSQL = vSQL & "FROM ArticuloInventario AS AI LEFT OUTER JOIN "
+   vSQL = vSQL & "ExistenciaPorGrupo AS EPG INNER JOIN "
+   vSQL = vSQL & "Saw.Talla ON EPG.CodigoTalla = Saw.Talla.CodigoTalla INNER JOIN "
+   vSQL = vSQL & "Saw.Color ON EPG.CodigoColor = Saw.Color.CodigoColor ON AI.ConsecutivoCompania = Saw.Color.ConsecutivoCompania AND "
+   vSQL = vSQL & "AI.ConsecutivoCompania = Saw.Talla.ConsecutivoCompania AND "
+   vSQL = vSQL & "AI.Codigo = EPG.CodigoArticulo AND "
+   vSQL = vSQL & "AI.CodigoGrupo = (CASE WHEN EPG.CodigoGrupo = '0' THEN '' ELSE EPG.CodigoGrupo END) AND AI.ConsecutivoCompania = EPG.ConsecutivoCompania LEFT OUTER JOIN "
+   vSQL = vSQL & "CamposMonedaExtranjera AS ME ON AI.ConsecutivoCompania = ME.ConsecutivoCompania AND AI.Codigo = ME.Codigo "
+   
+   vSQL = vSQL & vSQLWhere
 h_EXIT:   On Error GoTo 0
-   fSQLParaLaImpresionDeCodDeBarras = SQL
+   fSqlParaLaImpresionDeCodDeBarras = vSQL
    Exit Function
-h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLParaLaImpresionDeCodDeBarras", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlParaLaImpresionDeCodDeBarras", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConstruirSQLDelReporteGananciaXProducto(ByVal valConsecutivoCompania As Long, ByVal valCantidadAImprimirLineaDeProducto As String, _

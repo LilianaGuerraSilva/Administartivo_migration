@@ -44,6 +44,13 @@ namespace Galac.Adm.Rpt.GestionProduccion {
         }
 
         public bool ConfigReport(DataTable valDataSource, Dictionary<string, string> valParameters) {
+            string valNombreDocFiscal = string.Empty;
+            if (LibDefGen.ProgramInfo.IsCountryVenezuela()) {
+                valNombreDocFiscal = " RIF ";
+            } else if (LibDefGen.ProgramInfo.IsCountryEcuador() || LibDefGen.ProgramInfo.IsCountryPeru()) {
+                valNombreDocFiscal = " RUC ";
+            }
+            string vNombreCompania = valParameters["NombreCompania"] + " -" + valNombreDocFiscal + valParameters["RifCompania"];
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);//acá se indicaría si se busca en ULS, por defecto buscaría en app.path... Tip: Una función con otro nombre.
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -52,7 +59,7 @@ namespace Galac.Adm.Rpt.GestionProduccion {
             }
             SumaTotalConsumo = LibConvert.ToDec(valDataSource.Compute("SUM(MontoTotalConsumo)", ""), 4);
             if (LibReport.ConfigDataSource(this, valDataSource)) {
-                LibReport.ConfigFieldStr(this, "txtNombreCompania", valParameters["NombreCompania"], string.Empty);
+                LibReport.ConfigFieldStr(this, "txtNombreCompania", vNombreCompania, string.Empty);
                 LibReport.ConfigLabel(this, "lblTituloInforme", ReportTitle());
                 if (valParameters["MostrarFechaInicialFinal"] == true.ToString()) {
                     LibReport.ChangeControlVisibility(this, "lblFechaInicialYFinal", true);
@@ -63,26 +70,29 @@ namespace Galac.Adm.Rpt.GestionProduccion {
                 LibReport.ConfigLabel(this, "lblFechaYHoraDeEmision", LibReport.PromptEmittedOnDateAtHour);
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 //Cuerpo del Informe
-                LibReport.ConfigFieldStr(this, "txtOrden", string.Empty, "OrdenCodigoDescripcion");
-                LibReport.ConfigFieldStr(this, "txtCodigoOrden", string.Empty, "CodigoOrden");
-                LibReport.ConfigFieldStr(this, "txtOrdenDeAgrupamiento", string.Empty, "OrdenAgrupamiento");
-                LibReport.ConfigFieldDate(this, "txtFechaFinalizacion", string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
-                LibReport.ConfigFieldStr(this, "txtInventarioProducido", string.Empty, "InventarioProducido");
-                LibReport.ConfigFieldDec(this, "txtCantidadAProducir", string.Empty, "CantidadAProducir", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCantidadProducida", string.Empty, "CantidadProducida", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotalDeOrden", string.Empty, "MontoTotalOrden", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitarioInvProducido", string.Empty, "CostoUnitarioProductoTerminado", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldStr(this, "txtArticuloServicio", string.Empty, "ArtServUtilizado");
-                LibReport.ConfigFieldDec(this, "txtCantidadEstimada", string.Empty, "CantidadEstimada", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCantidadConsumida", string.Empty, "CantidadConsumida", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoUnitarioMatServ", string.Empty, "CostoUnitarioMatServ", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txtCostoTotalConsumido", string.Empty, "MontoTotalConsumo", "n" + 4, true, TextAlignment.Right);
-                LibReport.ConfigFieldDec(this, "txt_TCostoTotalConsumido", string.Empty, "MontoTotalConsumo", "n" + 4, true, TextAlignment.Right);
-                
-                LibReport.ConfigGroupHeader(this, "GHSecOrdenAgrupamiento", "OrdenAgrupamiento", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-                LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "CodigoOrden", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-               
+                LibReport.ConfigFieldStr(this, "txtOrden",                      string.Empty, "OrdenCodigoDescripcion");
+                LibReport.ConfigFieldStr(this, "txtEstatus",                    string.Empty, "Estatus");
+                LibReport.ConfigFieldStr(this, "txtCodigoOrden",                string.Empty, "CodigoOrden");
+                LibReport.ConfigFieldStr(this, "txtOrdenDeAgrupamiento",        string.Empty, "OrdenAgrupamiento");
+                LibReport.ConfigFieldDate(this, "txtFechaInicio",               string.Empty, "FechaInicio", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
+                LibReport.ConfigFieldDate(this, "txtFechaFinalizacion",         string.Empty, "FechaFinalizacion", LibGalac.Aos.Base.Report.eDateOutputFormat.DateLong);
+                LibReport.ConfigFieldStr(this, "txtInventarioProducido",        string.Empty, "InventarioProducido");
+                LibReport.ConfigFieldDec(this, "txtCantidadAProducir",          string.Empty, "CantidadAProducir", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCantidadProducida",          string.Empty, "CantidadProducida", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoTotalDeOrden",          string.Empty, "MontoTotalOrden", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldStr(this, "txtAlmacenProductoTerminado",   string.Empty, "AlmacenProductoTerminado");
+                LibReport.ConfigFieldStr(this, "txtAlmacenMateriales",          string.Empty, "AlmacenMateriales");
+                LibReport.ConfigFieldDec(this, "txtCostoUnitarioInvProducido",  string.Empty, "CostoUnitarioProductoTerminado", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldStr(this, "txtArticuloServicio",           string.Empty, "ArtServUtilizado");
+                LibReport.ConfigFieldDec(this, "txtCantidadEstimada",           string.Empty, "CantidadEstimada", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCantidadConsumida",          string.Empty, "CantidadConsumida", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoUnitarioMatServ",       string.Empty, "CostoUnitarioMatServ", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txtCostoTotalConsumido",        string.Empty, "MontoTotalConsumo", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldDec(this, "txt_TCostoTotalConsumido",      string.Empty, "MontoTotalConsumo", "n" + 4, true, TextAlignment.Right);
+                LibReport.ConfigFieldStr(this, "txtObservaciones",              string.Empty, "Observaciones");
 
+                LibReport.ConfigGroupHeader(this, "GHSecOrdenDeProduccion", "CodigoOrden", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
+               
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 LibReport.AddNoDataEvent(this);
                 return true;

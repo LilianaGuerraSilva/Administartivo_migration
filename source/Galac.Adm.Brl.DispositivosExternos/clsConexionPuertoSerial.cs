@@ -9,6 +9,8 @@ using System.IO.Ports;
 using System.IO;
 using System.Runtime.InteropServices;
 using LibGalac.Aos.Catching;
+using System.ComponentModel;
+
 namespace Galac.Adm.Brl.DispositivosExternos {
     public class clsConexionPuertoSerial:clsConexionPeriferico {
         [DllImport("kernel32.dll")]
@@ -167,10 +169,17 @@ namespace Galac.Adm.Brl.DispositivosExternos {
         }
 
         public override string[] ListarPuertos() {
-            string[] vListarPuertos = new string[] { };
+            string[] vListarPuertos;
             try {
                 vListarPuertos = System.IO.Ports.SerialPort.GetPortNames();
-            } catch(Exception) {
+                if (vListarPuertos.Length == 0) { // Si no hay puertos en el pc, se agrega por defecto el primer elemento del enum ePuerto                    
+                    vListarPuertos = new string[] { LibEnumHelper.GetDescription(ePuerto.COM1) };
+                }
+            } catch (IOException) {
+                throw;
+            } catch (Win32Exception) {
+                throw;
+            } catch (Exception) {
                 throw;
             }
             return vListarPuertos;

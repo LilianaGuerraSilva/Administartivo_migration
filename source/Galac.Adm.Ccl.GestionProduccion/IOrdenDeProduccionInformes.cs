@@ -13,7 +13,7 @@ namespace Galac.Adm.Ccl. GestionProduccion {
         System.Data.DataTable BuildCostoProduccionInventarioEntreFechas(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, eCantidadAImprimir valCantidadAImprimir, string valCodigoInventarioAProducir, eGeneradoPor valGeneradoPor, string valCodigoOrden);
         System.Data.DataTable BuildCostoMatServUtilizadosEnProduccionInv(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, string valCodigoOrden, eGeneradoPor valGeneradoPor);
         System.Data.DataTable BuildProduccionPorEstatusEntreFecha(int valConsecutivoCompania, eTipoStatusOrdenProduccion valEstatus, DateTime valFechaInicial, DateTime valFechaFinal, eGeneradoPor valGeneradoPor, string valCodigoOrden);
-        System.Data.DataTable BuildDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eGeneradoPor valGeneradoPor, int valConsecutivoOrden);
+        System.Data.DataTable BuildDetalleDeCostoDeProduccion(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, eSeleccionarOrdenPor valGeneradoPor, int valConsecutivoOrden);
     }
 } //End of namespace Galac.Adm.Ccl. GestionProduccion
 

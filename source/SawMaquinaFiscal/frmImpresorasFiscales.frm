@@ -321,7 +321,8 @@ End Function
 Private Function GetGender() As Enum_Gender
    GetGender = eg_Female
 End Function
-
+' PNP, BEMATECH, THEFACTORY (SAMSUNG) ES CODIGO MUERTO, SE MANTIENE POR REFERENCIA DE COMPATIBILIDAD
+' PNP_220 y PNP_220II LAS UNIFICARON COMO PNP_220A Cuando la gaceta 0141
 Private Function fAbrirComprobanteFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, valPuerto As String, ByVal valTipoConexion As enum_TipoConexion, ByVal valIp As String, ByVal valCajaNumero As String) As Boolean
    Dim insImpFiscalBMC As clsUtilImpFiscalBMC
    Dim insImpFiscalQPrint As clsImpFiscalQPrint
@@ -671,7 +672,7 @@ Public Sub sInitLookAndFeelAndSetValues(ByRef refDatosImprFiscal As clsDatosImpr
       Case Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_VENTA: sEfectuaVenta insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
       Case Enum_EstadoImpresionFiscal.eEIF_IMPRIMIR_NOTA_DE_CREDITO: sEfectuaNotaDeCredito insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
       Case Enum_EstadoImpresionFiscal.eEIF_OBTENER_ULTIMO_NUMERO_FISCAL: sObtenerUltimoNumeroFiscal insDatosImprFiscal.GetImpresoraFiscal, refReady, insDatosImprFiscal.GetPuertoImpresoraFiscal, insDatosImprFiscal.GetTipoConexion, insDatosImprFiscal.GetIp, insDatosImprFiscal.GetCajaNumero
-      Case Enum_EstadoImpresionFiscal.eEIF_CANCELA_CUPON_FISCAL: sCancelaCuponFiscal insDatosImprFiscal.GetImpresoraFiscal, refReady, insDatosImprFiscal.GetPuertoImpresoraFiscal
+      Case Enum_EstadoImpresionFiscal.eEIF_CANCELA_CUPON_FISCAL: sCancelaCuponFiscal insDatosImprFiscal.GetImpresoraFiscal, refReady, insDatosImprFiscal.GetPuertoImpresoraFiscal, refDatosImprFiscal.GetTipoConexion
       Case Enum_EstadoImpresionFiscal.eEIF_VERIFICA_ALICUOTA_VIGENTE: sVerificaVigenciaDeLaAlicuota insDatosImprFiscal.GetImpresoraFiscal, refReady, gAdmAlicuotaIvaActual, insDatosImprFiscal.GetPuertoImpresoraFiscal
       Case Enum_EstadoImpresionFiscal.eEIF_VER_STATUS: sVerStatusImpresoraFiscal insDatosImprFiscal.GetImpresoraFiscal, insDatosImprFiscal.GetPuertoImpresoraFiscal
       Case Enum_EstadoImpresionFiscal.eEIF_ACTIVA_REDONDEO: sActivaRedondeo insDatosImprFiscal.GetImpresoraFiscal, refReady
@@ -695,7 +696,7 @@ Private Function fEjecutaCierreZ(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
    
    If insDatosImprFiscal.GetUsarModoDotNet Then
       Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-          insImpFiscalFromAOS.sCierreZ mReady, valPuerto, valImpresoraFiscal, vLastZ
+          insImpFiscalFromAOS.sCierreZ insDatosImprFiscal, mReady, vLastZ
           insDatosImprFiscal.SetCajaNumero vLastZ
           fEjecutaCierreZ = mReady
       Set insImpFiscalFromAOS = Nothing
@@ -782,7 +783,7 @@ Private Function fEjecutaCierreX(ByVal valImpresoraFiscal As Enum_ImpresorasFisc
    If insDatosImprFiscal.GetUsarModoDotNet Then
    Dim insImpFiscalFromAOS As clsImpFiscalFromAOS
    Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-      insImpFiscalFromAOS.sCierreX valPuerto, valImpresoraFiscal, mReady
+      insImpFiscalFromAOS.sCierreX insDatosImprFiscal, mReady
       fEjecutaCierreX = mReady
    Set insImpFiscalFromAOS = Nothing
    Else
@@ -1444,7 +1445,7 @@ Private Sub sObtenerSerialImpresoraFiscal(ByVal valImpresoraFiscal As Enum_Impre
    On Error GoTo h_Error
    If insDatosImprFiscal.GetUsarModoDotNet Then
       Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-      Serial = insImpFiscalFromAOS.fSerialMemoriaFiscal(mReady, valPuerto, valImpresoraFiscal)
+      Serial = insImpFiscalFromAOS.fSerialMemoriaFiscal(mReady, insDatosImprFiscal)
       Set insImpFiscalFromAOS = Nothing
    Else
        Select Case valImpresoraFiscal
@@ -1673,7 +1674,7 @@ Private Sub sObtenerUltimoNumeroFiscal(ByVal valImpresoraFiscal As Enum_Impresor
    
    If insDatosImprFiscal.GetUsarModoDotNet Then
    Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-        NumeroCupon = insImpFiscalFromAOS.fUltimoNumeroMemoriaFiscal(valPuerto, valImpresoraFiscal, insDatosImprFiscal.GetEsNotaDeCredito, mReady)
+        NumeroCupon = insImpFiscalFromAOS.fUltimoNumeroMemoriaFiscal(insDatosImprFiscal, insDatosImprFiscal.GetEsNotaDeCredito, mReady)
    Set insImpFiscalFromAOS = Nothing
    Else
     Select Case valImpresoraFiscal
@@ -1856,7 +1857,7 @@ Private Sub sEfectuaVenta(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, B
    MaxLenEpson = 16
    If insDatosImprFiscal.GetUsarModoDotNet Then
    Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-      insImpFiscalFromAOS.sImprimeVentaArticulo valImpresoraFiscal, insDatosImprFiscal, mReady
+      insImpFiscalFromAOS.sImprimeVentaArticulo insDatosImprFiscal, mReady
    Set insImpFiscalFromAOS = Nothing
    Else
     Select Case valImpresoraFiscal
@@ -1911,7 +1912,7 @@ Private Sub sEfectuaNotaDeCredito(ByVal valImpresoraFiscal As Enum_ImpresorasFis
    If insDatosImprFiscal.GetUsarModoDotNet Then
       
       Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-         insImpFiscalFromAOS.sImprimeNotaDeCredito valImpresoraFiscal, valPuerto, insDatosImprFiscal, mReady
+         insImpFiscalFromAOS.sImprimeNotaDeCredito insDatosImprFiscal, mReady
       Set insImpFiscalFromAOS = Nothing
    Else
       Select Case valImpresoraFiscal
@@ -2144,7 +2145,7 @@ h_EXIT: On Error GoTo 0
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeDireccionEpson", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Sub sCancelaCuponFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByRef Ready As Boolean, valPuerto As String)
+Private Sub sCancelaCuponFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByRef Ready As Boolean, valPuerto As String, ByVal valTipoConexion As enum_TipoConexion)
    Dim NumeroCupon As String
    Dim insImpFicalBmc As clsUtilImpFiscalBMC
    Dim insImpFiscalFamFactory As clsImpFiscalFamFactory
@@ -2154,7 +2155,7 @@ Private Sub sCancelaCuponFiscal(ByVal valImpresoraFiscal As Enum_ImpresorasFisca
    
    If insDatosImprFiscal.GetUsarModoDotNet Then
    Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-       insImpFiscalFromAOS.fCancelaCuponFiscal valImpresoraFiscal, valPuerto
+       insImpFiscalFromAOS.fCancelaCuponFiscal insDatosImprFiscal
    Set insImpFiscalFromAOS = Nothing
    Else
     Select Case valImpresoraFiscal
@@ -2711,7 +2712,7 @@ Public Sub sObtenerUltimoNumeroDeReporteZ(ByVal valImpresoraFiscal As Enum_Impre
    
    If insDatosImprFiscal.GetUsarModoDotNet Then
    Set insImpFiscalFromAOS = New clsImpFiscalFromAOS
-      vUltimoNumeroDeReporteZ = insImpFiscalFromAOS.fObtenerUltimoNumeroDeReporteZ(valPuerto, valImpresoraFiscal)
+      vUltimoNumeroDeReporteZ = insImpFiscalFromAOS.fObtenerUltimoNumeroDeReporteZ(insDatosImprFiscal)
    Set insImpFiscalFromAOS = Nothing
    Else
     Select Case valImpresoraFiscal

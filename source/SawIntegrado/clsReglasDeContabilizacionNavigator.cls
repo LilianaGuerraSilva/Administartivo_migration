@@ -3642,6 +3642,8 @@ Public Function fTextoMenuDeContabilizar(ByVal valModulo As enum_ComprobanteGene
          fTextoMenuDeContabilizar = fGenericoDeTextoMenuContabilizar(valModulo, GetTipoContabilizacionAnticipoAsEnum, GetContabPorLoteAnticipoAsEnum)
       Case eCG_REPOSICION:
          fTextoMenuDeContabilizar = fGenericoDeTextoMenuContabilizar(valModulo, GetTipoContabilizacionCajaChicaAsEnum, GetContabPorLoteAnticipoAsEnum)
+      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA:
+         fTextoMenuDeContabilizar = fGenericoDeTextoMenuContabilizar(valModulo, GetTipoContabilizacionCajaChicaAsEnum, GetContabPorLoteAnticipoAsEnum)
       Case Else
          gMessage.Advertencia "Falta fTextoMenuDeContabilizar clsReglasDeContabilizacionNavigator - Case Else"
    End Select
