@@ -828,7 +828,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        public IFDiagnostico RealizarDiagnotsico(bool valAbrirPuerto = false) {
+        public IFDiagnostico RealizarDiagnostico(bool valAbrirPuerto = false) {
             IFDiagnostico vDiagnostico = new IFDiagnostico();
             try {
                 if(valAbrirPuerto) {
@@ -956,6 +956,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         bool ILibPdn.CanBeChoosen(string valCallingModule,eAccionSR valAction,string valExtendedAction,XmlDocument valXmlRow) {
+            throw new NotImplementedException();
+        }
+
+        public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
             throw new NotImplementedException();
         }
     }

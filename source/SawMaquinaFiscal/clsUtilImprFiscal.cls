@@ -410,17 +410,22 @@ End Function
 
 Private Function fCaracteresXMLValidosEnDatosImprFiscal(ByVal valModeloImprFiscal As String)
     On Error GoTo h_Error
+   If gTexto.DfInStr(valModeloImprFiscal, "&") > 0 Then
+      gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, "&", "&amp;"
+   End If
    If gTexto.DfInStr(valModeloImprFiscal, ">") > 0 Then
       gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, ">", "&gt;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, "<") > 0 Then
+   End If
+   If gTexto.DfInStr(valModeloImprFiscal, "<") > 0 Then
       gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, "<", "&lt;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, "&") > 0 Then
-      gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, "&", "&amp;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, Chr(34)) > 0 Then
+   End If
+   If gTexto.DfInStr(valModeloImprFiscal, Chr(34)) > 0 Then
       gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, Chr(34), "&quot;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, Chr(39)) > 0 Then
+   End If
+   If gTexto.DfInStr(valModeloImprFiscal, Chr(39)) > 0 Then
       gTexto.ReemplazaCaracteresEnElString valModeloImprFiscal, Chr(39), "&apos;"
-   ElseIf gTexto.DfInStr(valModeloImprFiscal, vbCrLf) > 0 Then
+   End If
+   If gTexto.DfInStr(valModeloImprFiscal, vbCrLf) > 0 Then
     valModeloImprFiscal = gTexto.DfReplace(valModeloImprFiscal, vbCrLf, "&#10;")
    End If
    valModeloImprFiscal = gTexto.fLimpiaStringdeBlancosAAmbosLados(valModeloImprFiscal)
@@ -432,22 +437,28 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCaracteresXMLValidosEnDatosImprFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fGenerarXmlConDatosDeLaMaquinaFiscal(ByVal valPuertoComunicacion As String, ByVal valModeloImpresora As Enum_ImpresorasFiscales) As String
+Public Function fGenerarXmlConDatosDeLaMaquinaFiscal(ByVal valDatosImpFiscal As clsDatosImprFiscal) As String
    Dim vXmlMaquinaFiscal As String
-   Dim vSiguienteLinea As String
+   Dim vSaltoLinea As String
    Dim insEnumProyecto As clsEnumAdministrativo
    Dim NumberModeloImpresora As Integer
    Dim ModeloImprFiscal As String
-   vSiguienteLinea = vbCrLf
-   ModeloImprFiscal = gConvert.enumerativoAChar(valModeloImpresora)
+   Dim vTipoConexion As String
+   Dim vPuertoImpFiscal As String
+   
+   vSaltoLinea = vbCrLf
+   ModeloImprFiscal = gConvert.enumerativoAChar(valDatosImpFiscal.GetImpresoraFiscal)
    ModeloImprFiscal = fCaracteresXMLValidosEnDatosImprFiscal(ModeloImprFiscal)
+   vTipoConexion = fCaracteresXMLValidosEnDatosImprFiscal(gConvert.enumerativoAChar(valDatosImpFiscal.GetTipoConexion))
+   vPuertoImpFiscal = fCaracteresXMLValidosEnDatosImprFiscal(gConvert.enumerativoAChar(valDatosImpFiscal.GetPuertoImpresoraFiscal))
    On Error GoTo h_Error
    Set insEnumProyecto = New clsEnumAdministrativo
-   vXmlMaquinaFiscal = "<GpData>" & vSiguienteLinea & "<GpResult>" & vSiguienteLinea
-   vXmlMaquinaFiscal = vXmlMaquinaFiscal + "<ModeloDeMaquinaFiscal>" & ModeloImprFiscal & "</ModeloDeMaquinaFiscal>" & vSiguienteLinea
-   vXmlMaquinaFiscal = vXmlMaquinaFiscal + "<PuertoMaquinaFiscal>" & gTexto.fLimpiaStringdeBlancosAAmbosLados(valPuertoComunicacion) & "</PuertoMaquinaFiscal>" & vSiguienteLinea
-   vXmlMaquinaFiscal = vXmlMaquinaFiscal + "<PuertoCom>1</PuertoCom>" & vSiguienteLinea
-   vXmlMaquinaFiscal = vXmlMaquinaFiscal + "</GpResult>" & vSiguienteLinea & "</GpData>"
+   vXmlMaquinaFiscal = "<GpData>" & vSaltoLinea & "<GpResult>" & vSaltoLinea
+   vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<ModeloDeMaquinaFiscal>" & ModeloImprFiscal & "</ModeloDeMaquinaFiscal>" & vSaltoLinea
+   vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<PuertoMaquinaFiscal>" & vPuertoImpFiscal & "</PuertoMaquinaFiscal>" & vSaltoLinea
+   vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<TipoConexion>" & vTipoConexion & "</TipoConexion>" & vSaltoLinea
+   vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<PuertoCom>1</PuertoCom>" & vSaltoLinea
+   vXmlMaquinaFiscal = vXmlMaquinaFiscal & "</GpResult>" & vSaltoLinea & "</GpData>"
 h_EXIT: On Error GoTo 0
    fGenerarXmlConDatosDeLaMaquinaFiscal = vXmlMaquinaFiscal
    Exit Function

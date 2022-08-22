@@ -10,11 +10,11 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
-using System.IO;
+using System.Globalization;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
-    public class clsBematech :IImpresoraFiscalPdn {
-        #region comandos
+    public class clsBematech : IImpresoraFiscalPdn {
+        #region comandos Bema
         #region Funciones de Inicialización
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_ProgramaAlicuota(string Alicuota, int ICMS_ISS);
@@ -22,6 +22,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public static extern int Bematech_FI_ProgramaRedondeo();
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_ProgramaTruncamiento();
+        [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_ActivaDesactivaVentaUnaLineaMFD(int iTipoLinea);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_ActivaDesactivaReporteZAutomatico(int flag);
         [DllImport("BemaFi32.dll")]
@@ -47,6 +49,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public static extern int Bematech_FI_ExtenderDescripcionArticulo(string DescripcionExt);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_AnulaArticuloAnterior();
+        [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_AbreCuponMFD(string cRIF, string cNombre, string cDireccion);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_AnulaCupon();
         [DllImport("BemaFi32.dll")]
@@ -77,7 +81,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_LecturaXSerial();
         [DllImport("BemaFi32.dll")]
-        public static extern int Bematech_FI_ReduccionZ(string FechaINI, string FechaFIN);
+        public static extern int Bematech_FI_ReduccionZ(string Fecha, string Hora);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_InformeGerencial(string Texto);
         [DllImport("BemaFi32.dll")]
@@ -120,11 +124,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_DatosUltimaReduccion([MarshalAs(UnmanagedType.VBByRefStr)] ref string DatosReduccion);
         [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_DatosUltimaReduccionMFD([MarshalAs(UnmanagedType.VBByRefStr)] ref string DatosReduccion);
+        [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_Descuentos([MarshalAs(UnmanagedType.VBByRefStr)] ref string ValorDescuentos);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_NumeroCuponesAnulados([MarshalAs(UnmanagedType.VBByRefStr)] ref string NumeroCancelamientos);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_RetornoAlicuotas([MarshalAs(UnmanagedType.VBByRefStr)] ref string Alicuotas);
+        [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_SubTotal([MarshalAs(UnmanagedType.VBByRefStr)] ref string Subtotal);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_ClavePublica(string Clave);
         [DllImport("BemaFi32.dll")]
@@ -162,6 +170,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_RetornoImpresora(ref int ACK, ref int ST1, ref int ST2);
         [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_ImpresionCintaDetalle(string cTipoImpresion, string cParametroInicial, string cParametroFinal, string cUsuarioImpresora);
+        [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_VerificaImpresoraPrendida();
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_VerificaEstadoImpresora(ref int ACK, ref int ST1, ref int ST2);
@@ -182,57 +192,102 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         const byte _Decimales2Digitos = 2;
         #endregion Constantes
 
-        private string CommPort = "";
+        private enum eTipoDeLectura {
+            SerialFiscal = 0,
+            UltimaFactura,
+            UltimaNotaDeCredito,
+            UltimoReporteZ
+        }
+
         private eImpresoraFiscal vModelo;
         private bool _PortIsOpen = false;
 
         public clsBematech(XElement valXmlDatosImpresora) {
-            ConfigurarPuerto(valXmlDatosImpresora);
+            ConfigurarImpresora(valXmlDatosImpresora);
+            ConfigurarArchivosDeRetornoBemaFi32();
         }
 
-        private void ConfigurarPuerto(XElement valXmlDatosImpresora) {
-            bool vResult = false;
-            bool EsLogFile = false;
+        private void ConfigurarImpresora(XElement valXmlDatosImpresora) {            
+            eTipoConexion vTipoConexion = (eTipoConexion)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "TipoConexion"));
             ePuerto ePuerto = (ePuerto)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "PuertoMaquinaFiscal"));
-            string valPuerto = ePuerto.GetDescription(1);
+            string vPuerto = ePuerto.GetDescription(1);
             vModelo = (eImpresoraFiscal)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "ModeloDeMaquinaFiscal"));
-            string vBemaIniPath = PathFile(EsLogFile);
+            string vBemaFi32Path = PathFile();
+            string vLeerFile;
+            string[] vContenidoFile;
+            int vIndex = 0;
             if (vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI) {
                 _EnterosMontosLargos = 13;
             } else {
                 _EnterosMontosLargos = 10;
             }
             try {
-                if (!LibConvert.IsNumeric(valPuerto)) {
-                    CommPort = "USB";
+                if (vTipoConexion == eTipoConexion.USB) {
+                    vPuerto = "USB";
                 } else {
-                    CommPort = "COM" + valPuerto;
+                    vPuerto = "COM" + vPuerto;
+
                 }
-                if (LibFile.FileExists(vBemaIniPath)) {
-                    vResult = EditFileBemaINI(vBemaIniPath, "Puerta", CommPort);
+                vLeerFile = LibFile.ReadFile(vBemaFi32Path);
+                vContenidoFile = LibText.Split(vLeerFile, "\r\n", true);
+                if (vContenidoFile != null && vContenidoFile.Length > 0) {
+                    foreach (string vLineaTexto in vContenidoFile) { // Buscar La linea donde se configura el puerto
+                        if (LibString.S1IsInS2("Puerta", vLineaTexto)) {
+                            vLeerFile = vContenidoFile[vIndex];
+                            break;
+                        }
+                        vIndex += 1;
+                    }
+                    if (vIndex < vContenidoFile.Length && !LibString.S1IsInS2(vPuerto, vLeerFile)) {
+                        EditarFileBemaFi32INI(vBemaFi32Path, "Puerta", vPuerto);
+                    }
                 }
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
-        private bool EditFileBemaINI(string valBemaPath, string valParameter, string valComPort) {
+        private void ConfigurarArchivosDeRetornoBemaFi32() {
+            string vBemaFi32Path = PathFile();
+            string vText = LibFile.ReadFile(vBemaFi32Path);
+            string[] vContenidoFile = LibText.Split(vText, "\r\n", true);
+            int vContarLineas = 0;
             try {
-                string vText = LibFile.ReadFile(valBemaPath);
-                string[] vLines = LibText.Split(vText, "\r\n", true);
-                var replaced = vLines.Select(x => {
+                foreach (string vLineas in vContenidoFile) {
+                    if (LibString.S1IsInS2("Status=0", vLineas)) {
+                        EditarFileBemaFi32INI(vBemaFi32Path, "Status", "1");
+                    } else if (LibString.S1IsInS2(vLineas, "Retorno=0")) {
+                        EditarFileBemaFi32INI(vBemaFi32Path, "Retorno", "1");
+                    } else if (LibString.S1IsInS2(vLineas, "Log=0")) {
+                        EditarFileBemaFi32INI(vBemaFi32Path, "Log", "1");
+                    } else if (LibString.S1IsEqualToS2(vLineas, @"Path=C:\")) {
+                        EditarFileBemaFi32INI(vBemaFi32Path, "Path", @"C:\Bema");
+                    } else if (vContarLineas >= 25) {
+                        break;
+                    }
+                    Thread.Sleep(100);
+                    vContarLineas += 1;
+                }
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private bool EditarFileBemaFi32INI(string valBemaFi32Path, string valParameter, string valValueReplaced) {
+            try {
+                string vText = LibFile.ReadFile(valBemaFi32Path);
+                string[] vContenidoFile = LibText.Split(vText, "\r\n", true);
+                var replaced = vContenidoFile.Select(x => {
                     if (x.StartsWith(valParameter)) {
-                        return valParameter + "=" + valComPort;
-                    } else if (x.StartsWith("Path=")) {
-                        return @"Path=C:\Bema\";
+                        return valParameter + "=" + valValueReplaced;
                     }
                     return x;
                 });
-                vText = string.Join(LibText.CRLF(), replaced);
-                LibIO.WriteLineInFile(valBemaPath, vText, false);
+                vText = string.Join(LibText.CRLF(), replaced); // Inverso del split
+                LibIO.WriteLineInFile(valBemaFi32Path, vText, false);
                 return true;
             } catch (Exception vEx) {
-                throw new GalacException("BemaFi32.INI" + vEx.Message, eExceptionManagementType.Controlled);
+                throw new GalacException("Edit BemaFi32.INI" + vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
@@ -267,14 +322,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         vresult = Environment.GetFolderPath(Environment.SpecialFolder.System) + @"\BemaFi32.ini";
                     }
                     if (!LibFile.FileExists(vresult)) {
-                        throw new GalacException("el archivo de configuración BemaFi32.ini no existe o no fue suministrado ", eExceptionManagementType.Controlled);
+                        throw new GalacException($"Él archivo de configuración \"{vresult}\" no existe o no fue suministrado ", eExceptionManagementType.Controlled);
                     }
                 }
                 return vresult;
             } catch (System.DllNotFoundException vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } catch (Exception vEx) {
-                throw new GalacException("BemaFI32.INI " + vEx.Message, eExceptionManagementType.Controlled);
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
@@ -315,11 +370,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public bool ComprobarEstado() {
             bool vResult = false;
             int valStatus = 0;
-            string MensajeStatus = "";
+            string MensajeStatus = "";            
             valStatus = Bematech_FI_VerificaImpresoraPrendida();
             if (RetornoStatus(valStatus, out MensajeStatus)) {
                 vResult = true;
-            }
+            }            
             return vResult;
         }
 
@@ -337,14 +392,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vResult = vRepuesta.Equals(1);
                 if (vResult) {
                     vSerial = LibText.Trim(vSerial);
-                    if (vSerial == string.Empty) {
+                    if (LibString.IsNullOrEmpty(vSerial)) {
                         vRepuesta = Bematech_FI_LecturaXSerial();
                         vResult = RevisarEstadoImpresora(ref MensajeStatus);
                         MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
                         if (vResult) {
-                            vSerial = LeeDeArchivoDeRetorno(false, true);
-                        }
-                        vSerial = LibText.Trim(vSerial);
+                            vSerial = LeerArchivoDeRetorno(eTipoDeLectura.SerialFiscal);
+                        }                        
                     }
                 } else {
                     MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
@@ -442,7 +496,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
                 MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
                 if (vResult) {
-                    vUltimaFactura = LeeDeArchivoDeRetorno(false, false);
+                    vUltimaFactura = LeerArchivoDeRetorno(eTipoDeLectura.UltimaFactura);
                     MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
                 } else {
                     MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
@@ -472,7 +526,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
                 MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
                 if (vResult) {
-                    vUltimaNotaCredito = LeeDeArchivoDeRetorno(true, false);
+                    vUltimaNotaCredito = LeerArchivoDeRetorno(eTipoDeLectura.UltimaNotaDeCredito);
                 } else {
                     MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
                     throw new GalacException(MensajeStatus, eExceptionManagementType.Controlled);
@@ -487,40 +541,20 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             }
         }
 
-        private string LeeDeArchivoDeRetorno(bool esNotaDeCredito, bool esSerial) {
-            string vResult = "";
-            string vPath = "";
-            string vTextoBusqueda = "";
-            int vPosicion = 0;
-            vPath = PathFile(true);
-            vTextoBusqueda = (esNotaDeCredito) ? "Contador de Nota de Crédito:" : (esSerial) ? "MH " : "Contador de Factura:";
-            if (LibFile.FileExists(vPath)) {
-                vResult = LibFile.ReadFile(vPath);
-                vPosicion = LibString.InStr(vResult, vTextoBusqueda) + LibString.Len(vTextoBusqueda);
-                vResult = LibString.SubString(vResult, vPosicion, 45);
-                vPosicion = LibString.InStr(vResult, "\n");
-                vResult = LibString.SubString(vResult, 0, vPosicion);
-                vResult = LibString.Trim(vResult);
-                LibFile.DeleteFile(vPath);
-            } else {
-                vResult = "00000001";
-            }
-            return vResult;
-        }
-
         public string ObtenerUltimoNumeroReporteZ(bool valAbrirConexion) {
-            string vUltimoNumeroDeReporteZ = new string('\u0020', 4);
+            string vUltimoZ = LibText.Space(8);
             int vRetorno = 0;
             bool vResult = false;
             string MensajeStatus = "";
+
             try {
                 if (valAbrirConexion) {
                     AbrirConexion();
                 }
-                vRetorno = Bematech_FI_NumeroReducciones(ref vUltimoNumeroDeReporteZ);
-                vResult = RevisarEstadoImpresora(ref MensajeStatus);
+                vRetorno = Bematech_FI_LecturaXSerial();
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
                 if (vResult) {
+                    vUltimoZ = LeerArchivoDeRetorno(eTipoDeLectura.UltimoReporteZ);
                     MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
                 } else {
                     MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
@@ -529,11 +563,76 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (valAbrirConexion) {
                     CerrarConexion();
                 }
-                return vUltimoNumeroDeReporteZ;
+                return vUltimoZ;
             } catch (Exception vEx) {
                 CerrarConexion();
-                throw new GalacException("Obtener último reporte Z: " + vEx.Message, eExceptionManagementType.Controlled);
+                throw new GalacException("Obtener último número de reporte Z: " + vEx.Message, eExceptionManagementType.Controlled);
             }
+        }
+
+        private string LeerArchivoDeRetorno(eTipoDeLectura valTipoLectura) {
+            string vResultFile = "";
+            string vTextoBusqueda = "";
+            string vFileRetornoPath = PathFile(true);
+            switch (valTipoLectura) {
+                case eTipoDeLectura.SerialFiscal:
+                    vTextoBusqueda = "BEMATECH";
+                    break;
+                case eTipoDeLectura.UltimaFactura:
+                    vTextoBusqueda = "Contador de Factura:";
+                    break;
+                case eTipoDeLectura.UltimaNotaDeCredito:
+                    vTextoBusqueda = "Contador de Nota de Crédito";
+                    break;
+                case eTipoDeLectura.UltimoReporteZ:
+                    vTextoBusqueda = "Último Reporte Z";
+                    break;
+                default:
+                    vTextoBusqueda = "Contador de Factura";
+                    break;
+            }
+            if (LibFile.FileExists(vFileRetornoPath)) {
+                vResultFile = LibFile.ReadFile(vFileRetornoPath);
+                if (!LibString.IsNullOrEmpty(vResultFile)) {
+                    vResultFile = BuscarValorEnCadena(vResultFile, vTextoBusqueda, valTipoLectura);
+                } else {
+                    throw new GalacAlertException($"No hay acceso al archivo de estatus \"{vFileRetornoPath}\", Verifique los permisos administrativos de la aplicación");
+                }
+            } else {
+                string vBemaFi32Path = PathFile();
+                throw new GalacAlertException($"No fué encontrado o no hay acceso al archivo de estatus \"{vFileRetornoPath}\", Verifique el archivo de configuración \"{vBemaFi32Path}\" o los permisos administrativos de la aplicación");
+            }
+            return vResultFile;
+        }
+
+        private string BuscarValorEnCadena(string valCadena, string valTextoBusqueda, eTipoDeLectura valTipoLectura) {
+            int vPosicionLinea = 0;         
+            int vPosicionCorte;
+            string vResult = "";
+            int vCantidadCaracteres;
+            string[] vArrayTextoRetorno = LibString.Split(valCadena, '\n');
+            if (vArrayTextoRetorno != null && vArrayTextoRetorno.Length > 0) {
+                foreach (string vTexto in vArrayTextoRetorno) {
+                    if (LibString.S1IsInS2(valTextoBusqueda, vTexto)) {
+                        break;
+                    }
+                    vPosicionLinea += 1;
+                }
+                vPosicionLinea = (valTipoLectura == eTipoDeLectura.UltimoReporteZ) ? vPosicionLinea + 1 : vPosicionLinea; //Para posicionarme en la linea del Último Numero Z
+                vPosicionLinea = (valTipoLectura == eTipoDeLectura.SerialFiscal) ? vPosicionLinea + 3 : vPosicionLinea; //Para posicionarme en la linea del Serial                
+                vCantidadCaracteres = (valTipoLectura == eTipoDeLectura.SerialFiscal) ? 15 : 7;         
+                if ((vPosicionLinea) >= vArrayTextoRetorno.Length) {
+                    throw new GalacAlertException($"El item { valTextoBusqueda } no fue encontrado en la colección, Verifique la configuración regional o los permisos administrativos de la aplicación");
+                }
+                vResult = vArrayTextoRetorno[vPosicionLinea];
+                if (valTipoLectura == eTipoDeLectura.UltimoReporteZ) {
+                    vPosicionCorte = 0;
+                } else {
+                    vPosicionCorte = LibString.Len(vResult) - vCantidadCaracteres;
+                }
+                vResult = LibString.Trim(LibString.SubString(vResult, vPosicionCorte, vCantidadCaracteres));
+            }
+            return vResult;
         }
 
         public bool CancelarDocumentoFiscalEnImpresion(bool valAbrirConexion) {
@@ -557,14 +656,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vRazonSocial = LibText.Trim(LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente"));
             string vNumeroComprobanteFiscal = LibString.Trim(LibXml.GetPropertyString(valDocumentoFiscal, "NumeroComprobanteFiscal"));
             string vSerialMaquina = LibString.Trim(LibXml.GetPropertyString(valDocumentoFiscal, "SerialMaquinaFiscal"));
-            string vFecha = LibString.Trim(LibXml.GetPropertyString(valDocumentoFiscal, "Fecha"));
-            string vHora = LibString.Trim(LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion"));
-            if (LibText.IndexOf(vFecha, "-") > 0) {
-                vFecha = LibString.Replace(vFecha, "/", "/");
-            }
-
+            string vFecha = LibXml.GetPropertyString(valDocumentoFiscal, "Fecha");
+            string vHora = LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion");
             bool vResult = false;
-            try {
+            try {                
                 AbrirConexion();
                 CancelarDocumentoFiscalEnImpresion(false);
                 if (AbrirNotaDeCredito(vRazonSocial, vRif, vNumeroComprobanteFiscal, vSerialMaquina, vFecha, vHora)) {
@@ -577,16 +672,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 throw new GalacException("imprimir factura fiscal: " + vEx.Message, eExceptionManagementType.Controlled);
             }
             return vResult;
-        }
-
+        }      
 
         public bool ImprimirFacturaFiscal(XElement valDocumentoFiscal) {
             string vDireccion = LibXml.GetPropertyString(valDocumentoFiscal, "DireccionCliente");
             string vRif = LibXml.GetPropertyString(valDocumentoFiscal, "NumeroRIF");
-            string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");
-            string vVacio = "";
+            string vRazonSocial = LibXml.GetPropertyString(valDocumentoFiscal, "NombreCliente");            
             bool vResult = false;
-            try {                
+            try {
                 AbrirConexion();
                 CancelarDocumentoFiscalEnImpresion(false);
                 if (AbrirComprobanteFiscal(vRazonSocial, vRif, vDireccion)) {
@@ -612,7 +705,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vRepuesta = Bematech_FI_AbreComprobanteDeVentaEx(valRif, valRazonSocial, valDireccion);
                 vResult = RetornoStatus(vRepuesta, out MensajeStatus);
                 if (!vResult) {
-                    throw new GalacException("error al abrir comprobante fiscal: " + MensajeStatus, eExceptionManagementType.Controlled);
+                    throw new GalacException("error al abrir el Comprobante Fiscal: " + MensajeStatus, eExceptionManagementType.Controlled);
                 }
                 return vResult;
             } catch (Exception vEx) {
@@ -630,31 +723,31 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 string vAno;
                 string vHora;
                 string vMinuto;
-                string vSegundo;
-
+                string vSegundo;                
                 valNumeroComprobanteFiscal = LibText.Right(valNumeroComprobanteFiscal, 6);
                 valSerialMaquina = LibText.SubString(valSerialMaquina, 0, 10);
                 valRazonSocial = LibText.SubString(valRazonSocial, 0, 38);
+                DateTime vFechaDT = DateTime.Parse(valFecha,CultureInfo.InvariantCulture);
+                string vFecha = LibConvert.ToStr(vFechaDT, "dd/MM/yy");
+                string[] vArrayFecha = LibString.Split(vFecha, "/");
+                string[] vArrayHora = LibString.Split(valHora, ":");
                 valRif = LibText.SubString(valRif, 0, 14);
-                vDia = LibText.SubString(valFecha, 0, 2);
-                vMes = LibText.SubString(valFecha, 3, 2);
-                vAno = LibText.SubString(valFecha, 8, 2);
-                vHora = LibText.SubString(valHora, 0, 2);
-                vMinuto = LibText.SubString(valHora, 3, 2);
-                vSegundo = LibText.SubString(valHora, 6, 2);
-                if (LibString.Len(vSegundo) <= 1) {
-                    vSegundo = LibText.FillWithCharToRight(vSegundo, "0", 2);
-                }
+                vDia = LibText.FillWithCharToLeft(vArrayFecha[0], "0", 2);
+                vMes = LibText.FillWithCharToLeft(vArrayFecha[1], "0", 2);
+                vAno = LibText.FillWithCharToLeft(vArrayFecha[2], "0", 2);
+                vHora = LibText.FillWithCharToLeft(vArrayHora[0], "0", 2);
+                vMinuto = LibText.FillWithCharToLeft(vArrayHora[1], "0", 2);
+                vSegundo = "00";
                 vRepuesta = Bematech_FI_AbreNotaDeCredito(valRazonSocial, valSerialMaquina, valRif, vDia, vMes, vAno, vHora, vMinuto, vSegundo, valNumeroComprobanteFiscal);
                 vResult = RetornoStatus(vRepuesta, out MensajeStatus);
                 if (!vResult) {
-                    throw new GalacException("error al abrir Nota de Credito: " + MensajeStatus, eExceptionManagementType.Controlled);
-                }
+                    throw new GalacException("error al abrir la Nota de Crédito: " + MensajeStatus, eExceptionManagementType.Controlled);
+                }                
                 return vResult;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
-        }
+        }       
 
         private bool CerrarComprobanteFiscal(XElement valDocumentoFiscal, bool valEsNotaDeCredito = false) {
             int vResult = 0;
@@ -712,23 +805,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         Seguir = EnviarPagos(valDocumentoFiscal, vCodigoMoneda);
                     }
                 }
-
-
                 if (vModelo == eImpresoraFiscal.BEMATECH_MP_20_FI_II && valEsNotaDeCredito) {
                     vResult = Bematech_FI_FinalizarCierreCupon(vTexto);
                     Seguir = RetornoStatus(vResult, out vMensaje);
                     return Seguir;
                 } else {
-                    if (((vModelo == eImpresoraFiscal.BEMATECH_MP_4000_FI && LibConvert.ToLong(vVersionFirmware) < LibConvert.ToLong(_FirmWareVerBM4000IGTF)) || vModelo == eImpresoraFiscal.BEMATECH_MP_2100_FI) && !LibImpresoraFiscalUtil.DesactivarIGTFEnObservacionesIF()) {
-                        vObservIGTF = LibImpresoraFiscalUtil.ObservacionesIGTF(valDocumentoFiscal);
-                        vCaracteresRestantes = LibString.Len(vObservIGTF);
-                    } else {
-                        if (LibText.Len(vTotalMonedaExtranjera) > 0 && !valEsNotaDeCredito) {
-                            vCaracteresRestantes = LibString.Len(vTotalMonedaExtranjera);
-                            vTexto += vTotalMonedaExtranjera;
-                        } else if (valEsNotaDeCredito) {
-                            vTotalMonedaExtranjera = "";
-                        }
+                    if (LibText.Len(vTotalMonedaExtranjera) > 0 && !valEsNotaDeCredito) {
+                        vCaracteresRestantes = LibString.Len(vTotalMonedaExtranjera);
+                        vTexto += vTotalMonedaExtranjera;
+                    } else if (valEsNotaDeCredito) {
+                        vTotalMonedaExtranjera = "";
                     }
                     if (LibText.Len(vObservaciones) > 0) {
                         if (LibText.S1IsInS2("Total", vObservaciones)) {
@@ -1196,18 +1282,20 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         public bool AlicuotasRegistradas(IFDiagnostico vDiagnostico) {
             bool vResult = false;
-            decimal AlicuotaGeneral;
-            decimal Alicuota2;
-            decimal Alicuota3;
+            decimal AlicuotaGeneral=0;
+            decimal Alicuota2=0;
+            decimal Alicuota3=0;
             int vReq = 0;
             string RecAlicuotas = "";
-            RecAlicuotas = LibText.FillWithCharToRight(RecAlicuotas, " ", 80);
+            RecAlicuotas = LibText.FillWithCharToRight(RecAlicuotas, " ", 79);
             vReq = Bematech_FI_RetornoAlicuotas(ref RecAlicuotas);
             RecAlicuotas = LibText.CleanSpacesToBothSides(LibText.Replace(RecAlicuotas, "\0", ""));
             string[] ListAlicuotas = LibString.Split(RecAlicuotas, ',');
-            AlicuotaGeneral = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[0], ".", 2), 2);
-            Alicuota2 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[1], ".", 2), 2);
-            Alicuota3 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[2], ".", 2), 2);
+            if (ListAlicuotas != null && ListAlicuotas.Length > 0) {
+                AlicuotaGeneral = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[0], ".", 2), 2);
+                Alicuota2 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[1], ".", 2), 2);
+                Alicuota3 = LibImportData.ToDec(LibString.InsertAt(ListAlicuotas[2], ".", 2), 2);
+            }
             RecAlicuotas = "";
             vResult = LibImpresoraFiscalUtil.ValidarAlicuotasRegistradas(AlicuotaGeneral, Alicuota2, Alicuota3, ref RecAlicuotas);
             vDiagnostico.AlicoutasRegistradasDescription = RecAlicuotas;
@@ -1238,7 +1326,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return vResult;
         }
 
-        public IFDiagnostico RealizarDiagnotsico(bool valAbrirPuerto = false) {
+        public IFDiagnostico RealizarDiagnostico(bool valAbrirPuerto = false) {
             IFDiagnostico vDiagnostico = new IFDiagnostico();
             try {
                 if (valAbrirPuerto) {
@@ -1262,6 +1350,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             } catch (Exception) {
                 throw;
             }
+        }
+
+        public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
+            throw new NotImplementedException();
         }
     }
 }

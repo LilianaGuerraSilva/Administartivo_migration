@@ -274,11 +274,47 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Movimiento Bancario", "Reimprimir Cheque", "Bancos", 8));
             #endregion
 
-            #region Concepto Bancarion
+			#region Transferencia entre Cuentas Bancarias
+			//vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Consultar", "Bancos", 8));
+			//vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Insertar", "Bancos", 8));
+			//vPermisos.Add(new CustomRole("Transferencia entre Cuentas", "Anular", "Bancos", 8));
+			#endregion
+            #region Concepto Bancario
             vPermisos.Add(new CustomRole("Concepto Bancario", "Consultar", "Bancos", 8));
             vPermisos.Add(new CustomRole("Concepto Bancario", "Insertar", "Bancos", 8));
             vPermisos.Add(new CustomRole("Concepto Bancario", "Modificar", "Bancos", 8));
             vPermisos.Add(new CustomRole("Concepto Bancario", "Eliminar", "Bancos", 8));
+			#endregion
+			#region Conciliacion
+			vPermisos.Add(new CustomRole("Conciliación", "Consultar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Conciliación", "Insertar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Conciliación", "Modificar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Conciliación", "Eliminar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Conciliación", "Informes", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Conciliación", "Cerrar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Conciliación", "Abrir", "Bancos", 8));
+			#endregion
+			#region Solicitudes de pago
+			vPermisos.Add(new CustomRole("Solicitudes de Pago", "Consultar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Solicitudes de Pago", "Insertar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Solicitudes de Pago", "Modificar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Solicitudes de Pago", "Eliminar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Solicitudes de Pago", "Informes", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Solicitudes de Pago", "Procesar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Solicitudes de Pago", "Anular", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Solicitudes de Pago", "Reimprimir Cheque", "Bancos", 8));
+			#endregion
+			#region  Beneficiario
+			vPermisos.Add(new CustomRole("Beneficiario", "Consultar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Beneficiario", "Insertar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Beneficiario", "Modificar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Beneficiario", "Eliminar", "Bancos", 8));
+			#endregion
+			#region  Integracion
+			vPermisos.Add(new CustomRole("Integracion", "Consultar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Integracion", "Insertar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Integracion", "Modificar", "Bancos", 8));
+			vPermisos.Add(new CustomRole("Integracion", "Eliminar", "Bancos", 8));
             #endregion
 
             #region Compra
@@ -314,16 +350,7 @@ namespace Galac.Saw.SLev {
             #endregion
 
             #region Activo Fijo
-            #endregion
 
-            #region Conciliacion
-            vPermisos.Add(new CustomRole("Conciliación", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Eliminar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Informes", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Cerrar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Conciliación", "Abrir", "Bancos", 8));
             #endregion
 
             #region Plantilla Ret
@@ -504,31 +531,9 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Marca", "Eliminar", "Vehículos", 11));
             #endregion
 
-            #region Solicitudes de pago
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Eliminar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Informes", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Procesar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Anular", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Solicitudes de Pago", "Reimprimir Cheque", "Bancos", 8));
 
-            #endregion
 
-            #region  Beneficiario
-            vPermisos.Add(new CustomRole("Beneficiario", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Beneficiario", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Beneficiario", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Beneficiario", "Eliminar", "Bancos", 8));
-            #endregion
 
-            #region  Integracion
-            vPermisos.Add(new CustomRole("Integracion", "Consultar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Integracion", "Insertar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Integracion", "Modificar", "Bancos", 8));
-            vPermisos.Add(new CustomRole("Integracion", "Eliminar", "Bancos", 8));
-            #endregion
 
             #region  Adelantos
             //vPermisos.Add(new CustomRole("Adelantos", "Consultar", "Caja chica / Rendiciones", 12));

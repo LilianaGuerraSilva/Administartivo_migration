@@ -32,7 +32,7 @@ Private Function fWrpImpresoraFiscalName() As String
    fWrpImpresoraFiscalName = "Galac.Saw.Wrp.DispositivosExternos.wrpImpresoraFiscal"
 End Function
 
-Public Function fSerialMemoriaFiscal(ByRef refReady As Boolean, valPuerto As String, ByVal valImpresora As Enum_ImpresorasFiscales) As String
+Public Function fSerialMemoriaFiscal(ByRef refReady As Boolean, ByVal valDatosInsImprFiscal As clsDatosImprFiscal) As String
    Dim vSerial As String
    Dim vResultado As Boolean
    Dim objWrapper  As Object
@@ -41,7 +41,7 @@ Public Function fSerialMemoriaFiscal(ByRef refReady As Boolean, valPuerto As Str
    Set objWrapper = CreateObject(fWrpImpresoraFiscalName)
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
-   vSerial = objWrapper.ObtenerSerialMaquinaFiscal(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valPuerto, valImpresora))
+   vSerial = objWrapper.ObtenerSerialMaquinaFiscal(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
    If gTexto.DfLen(vSerial) < 1 Then
       refReady = False
       gMessage.Advertencia "Lo sentimos ha ocurrido un error al obtener el serial de la impresora"
@@ -50,7 +50,7 @@ Public Function fSerialMemoriaFiscal(ByRef refReady As Boolean, valPuerto As Str
    End If
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
-h_EXIT: On Error GoTo 0   
+h_EXIT: On Error GoTo 0
    fSerialMemoriaFiscal = vSerial
    Exit Function
 h_Error:
@@ -58,7 +58,7 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSerialMemoriaFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fUltimoNumeroMemoriaFiscal(ByVal valPuerto As String, ByVal valImpresora As Enum_ImpresorasFiscales, ByVal valEsNotaDeCredito As Boolean, ByRef refComandoEjecutado) As String
+Public Function fUltimoNumeroMemoriaFiscal(ByVal valDatosInsImprFiscal As clsDatosImprFiscal, ByVal valEsNotaDeCredito As Boolean, ByRef refComandoEjecutado) As String
    Dim vNumeroDocumento As String
    Dim vResultado As Boolean
    Dim objWrapper  As Object
@@ -68,9 +68,9 @@ Public Function fUltimoNumeroMemoriaFiscal(ByVal valPuerto As String, ByVal valI
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
    If valEsNotaDeCredito Then
-      vNumeroDocumento = objWrapper.ObtenerUltimoNumeroNotaDeCreditoImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valPuerto, valImpresora))
+      vNumeroDocumento = objWrapper.ObtenerUltimoNumeroNotaDeCreditoImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
    Else
-      vNumeroDocumento = objWrapper.ObtenerUltimoNumeroFacturaImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valPuerto, valImpresora))
+      vNumeroDocumento = objWrapper.ObtenerUltimoNumeroFacturaImpresa(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosInsImprFiscal))
    End If
    If gTexto.DfLen(vNumeroDocumento) < 1 Then
       refComandoEjecutado = False
@@ -81,7 +81,7 @@ Public Function fUltimoNumeroMemoriaFiscal(ByVal valPuerto As String, ByVal valI
    End If
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
-h_EXIT: On Error GoTo 0   
+h_EXIT: On Error GoTo 0
    fUltimoNumeroMemoriaFiscal = vNumeroDocumento
    Exit Function
 h_Error:
@@ -89,7 +89,7 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fUltimoNumeroMemoriaFiscal", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fObtenerUltimoNumeroDeReporteZ(ByVal valPuerto As String, ByVal valImpresora As Enum_ImpresorasFiscales) As String
+Public Function fObtenerUltimoNumeroDeReporteZ(ByVal valInsDatosImprFiscal As clsDatosImprFiscal) As String
    Dim vUltimoNumeroDeReporteZ As String
    Dim vResultado As Boolean
    Dim objWrapper  As Object
@@ -98,7 +98,7 @@ Public Function fObtenerUltimoNumeroDeReporteZ(ByVal valPuerto As String, ByVal 
    Set objWrapper = CreateObject(fWrpImpresoraFiscalName)
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
-   vUltimoNumeroDeReporteZ = objWrapper.ObtenerUltimoNumeroReporteZ(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valPuerto, valImpresora))
+   vUltimoNumeroDeReporteZ = objWrapper.ObtenerUltimoNumeroReporteZ(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valInsDatosImprFiscal))
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
 h_EXIT:    On Error GoTo 0
@@ -109,14 +109,14 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fObtenerUltimoNumeroDeReporteZ", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Sub sCierreX(ByVal valPuerto As String, ByVal valImpresoraFiscal As Enum_ImpresorasFiscales, ByRef refComandoProcesado As Boolean)
+Public Sub sCierreX(ByVal valInsDatosImprFiscal As clsDatosImprFiscal, ByRef refComandoProcesado As Boolean)
    Dim objWrapper  As Object
    On Error GoTo h_Error
    Set objWrapper = CreateObject(fWrpImpresoraFiscalName)
    Set insclsUtilImprFiscal = New clsUtilImprFiscal
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
-   refComandoProcesado = objWrapper.RealizarCierreX(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valPuerto, valImpresoraFiscal))
+   refComandoProcesado = objWrapper.RealizarCierreX(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valInsDatosImprFiscal))
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
 h_EXIT: On Error GoTo 0
@@ -126,14 +126,14 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCierreX", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sCierreZ(ByRef refReady As Boolean, valPuerto As String, ByVal valImpresora As Enum_ImpresorasFiscales, ByRef refLasNumZ As String)
+Public Sub sCierreZ(ByVal valDatosImpFiscal As clsDatosImprFiscal, ByRef refReady As Boolean, ByRef refLasNumZ As String)
    Dim objWrapper  As Object
    On Error GoTo h_Error
    Set insclsUtilImprFiscal = New clsUtilImprFiscal
    Set objWrapper = CreateObject(fWrpImpresoraFiscalName)
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
-   refReady = objWrapper.RealizarCierreZ(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valPuerto, valImpresora), refLasNumZ)
+   refReady = objWrapper.RealizarCierreZ(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosImpFiscal), refLasNumZ)
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
 h_EXIT: On Error GoTo 0
@@ -143,7 +143,7 @@ h_Error:
 Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCierreZ", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales, ByVal valDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
+Public Sub sImprimeVentaArticulo(ByVal valDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
    Dim objWrapper  As Object
    Dim vNumDocumento As String
    On Error GoTo h_Error
@@ -151,7 +151,7 @@ Public Sub sImprimeVentaArticulo(ByVal valEnumPrinter As Enum_ImpresorasFiscales
    Set insclsUtilImprFiscal = New clsUtilImprFiscal
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
-   refReady = objWrapper.ImprimirVenta(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosImprFiscal.GetPuertoImpresoraFiscal, valEnumPrinter), insclsUtilImprFiscal.fGenerarXmlConDatosDeLaVenta(valDatosImprFiscal), vNumDocumento)
+   refReady = objWrapper.ImprimirVenta(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosImprFiscal), insclsUtilImprFiscal.fGenerarXmlConDatosDeLaVenta(valDatosImprFiscal), vNumDocumento)
    valDatosImprFiscal.SetUltimoNumeroFiscal vNumDocumento
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
@@ -162,7 +162,7 @@ h_Error:
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeVentaArticulo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sImprimeNotaDeCredito(ByVal valEnumPrinter As Enum_ImpresorasFiscales, ByVal valPuerto As String, insDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
+Public Sub sImprimeNotaDeCredito(ByVal valDatosImprFiscal As clsDatosImprFiscal, ByRef refReady As Boolean)
    Dim objWrapper  As Object
    Dim vNumDocumento As String
    On Error GoTo h_Error
@@ -170,8 +170,8 @@ Public Sub sImprimeNotaDeCredito(ByVal valEnumPrinter As Enum_ImpresorasFiscales
    Set insclsUtilImprFiscal = New clsUtilImprFiscal
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
-   refReady = objWrapper.ImprimirNotaDeCredito(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valPuerto, valEnumPrinter), insclsUtilImprFiscal.fGenerarXmlConDatosDeLaVenta(insDatosImprFiscal), vNumDocumento)
-   insDatosImprFiscal.SetUltimoNumeroFiscal vNumDocumento
+   refReady = objWrapper.ImprimirNotaDeCredito(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valDatosImprFiscal), insclsUtilImprFiscal.fGenerarXmlConDatosDeLaVenta(valDatosImprFiscal), vNumDocumento)
+   valDatosImprFiscal.SetUltimoNumeroFiscal vNumDocumento
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
 h_EXIT: On Error GoTo 0
@@ -179,7 +179,7 @@ h_EXIT: On Error GoTo 0
 h_Error: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImprimeNotaDeCredito", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Function fCancelaCuponFiscal(ByVal valEnumPrinter As Enum_ImpresorasFiscales, ByVal valPuerto As String) As Boolean
+Public Function fCancelaCuponFiscal(ByVal insDatosImprFiscal As clsDatosImprFiscal) As Boolean
    Dim vResultado As Boolean
    Dim objWrapper  As Object
    On Error GoTo h_Error
@@ -187,7 +187,7 @@ Public Function fCancelaCuponFiscal(ByVal valEnumPrinter As Enum_ImpresorasFisca
    Set insclsUtilImprFiscal = New clsUtilImprFiscal
    objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
    objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), "", "", gConvert.fConvierteAString(1), False
-   vResultado = objWrapper.AnularDocumentoFiscal(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(valPuerto, valEnumPrinter), True)
+   vResultado = objWrapper.AnularDocumentoFiscal(insclsUtilImprFiscal.fGenerarXmlConDatosDeLaMaquinaFiscal(insDatosImprFiscal), True)
    Set objWrapper = Nothing
    Set insclsUtilImprFiscal = Nothing
 h_EXIT: On Error GoTo 0

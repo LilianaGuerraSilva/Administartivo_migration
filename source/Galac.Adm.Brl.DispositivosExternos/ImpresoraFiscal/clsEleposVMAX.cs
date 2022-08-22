@@ -741,7 +741,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return null;
         }
 
-        public IFDiagnostico RealizarDiagnotsico(bool valAbrirPuerto = false) {
+        public IFDiagnostico RealizarDiagnostico(bool valAbrirPuerto = false) {
             throw new NotImplementedException();
         }
 
@@ -762,6 +762,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         public bool ColaDeImpresion(IFDiagnostico vDiagnostico) {
+            throw new NotImplementedException();
+        }
+
+        public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
             throw new NotImplementedException();
         }
     }
