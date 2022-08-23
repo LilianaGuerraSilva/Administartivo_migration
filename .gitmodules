@@ -62,3 +62,11 @@
 	path = source/VbaComun
 	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
 	branch = release/IVA-30.6
+[submodule "source/Contabilidadvb"]
+	path = source/Contabilidadvb
+	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
+	branch = release/IVA-31.1
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
+	branch = release/IVA-31.1
