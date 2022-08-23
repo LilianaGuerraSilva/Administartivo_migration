@@ -1027,7 +1027,7 @@ Public Function fSQLDetalleDelInventarioPermanenteEnUnidadesFisicas(ByVal valCod
    
    SQL = "SELECT "
    SQL = SQL & " MovimientoDeInventario.Fecha, "
-   SQL = SQL & gUtilSQL.getIIF(" dbo.NotaDeEntradaSalida.GeneradoPor = 1 ", " MovimientoDeInventario.TipoDeOperacion + ' Nro ' + ISNULL(Adm.OrdenDeProduccion.Codigo, '') ", " MovimientoDeInventario.TipoDeOperacion ") + " AS TipoDeOperacion, "
+   SQL = SQL & gUtilSQL.getIIF(" dbo.NotaDeEntradaSalida.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoGeneradoPorNotaDeEntradaSalida.eTGPNDES_OrdenDeProduccion), " MovimientoDeInventario.TipoDeOperacion + ' Nro ' + ISNULL(Adm.OrdenDeProduccion.Codigo, '') ", " MovimientoDeInventario.TipoDeOperacion ") + " AS TipoDeOperacion, "
    SQL = SQL & " MovimientoDeInventario.NumeroDeDocumento, "
    SQL = SQL & " MovimientoDeInventario.CodigoArticulo, "
    SQL = SQL & " MovimientoDeInventario.Descripcion, "
