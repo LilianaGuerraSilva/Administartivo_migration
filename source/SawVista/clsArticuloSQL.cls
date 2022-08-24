@@ -387,7 +387,7 @@ Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As
    
    vSQL = vSQL & vSQLWhere
 h_EXIT:   On Error GoTo 0
-   fSqlParaLaImpresionDeCodDeBarras = vSQL
+   fSQLParaLaImpresionDeCodDeBarras = vSQL
    Exit Function
 h_ERROR:   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlParaLaImpresionDeCodDeBarras", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -1020,25 +1020,29 @@ Public Function fSQLDetalleDelInventarioPermanenteEnUnidadesFisicas(ByVal valCod
    SQL = "(SELECT "
    SQL = SQL & gUtilSQL.fIfResultIsNullReplace("SUM(" & gUtilSQL.fIfResultIsNullReplace("Entradas", "0") & " - " & gUtilSQL.fIfResultIsNullReplace("Salidas", "0") & ")", "0")
    SQL = SQL & " FROM  " & insInvPermanenteVista.GetViewNameRegistroInventarioPermanente & " AS InventarioInicial"
-   SQL = SQL & " WHERE (InventarioInicial.ConsecutivoCompania = " & insInvPermanenteVista.GetViewNameRegistroInventarioPermanente & ".ConsecutivoCompania) "
-   SQL = SQL & " AND (InventarioInicial.CodigoArticulo = " & insInvPermanenteVista.GetViewNameRegistroInventarioPermanente & ".CodigoArticulo) "
+   SQL = SQL & " WHERE (InventarioInicial.ConsecutivoCompania = MovimientoDeInventario.ConsecutivoCompania) "
+   SQL = SQL & " AND (InventarioInicial.CodigoArticulo = MovimientoDeInventario.CodigoArticulo) "
    SQL = SQL & " AND (InventarioInicial.Fecha < " & gUtilSQL.fSimpleSqlValue(valFechaInicial) & "))"
    ExistenciaInicial = SQL
    
    SQL = "SELECT "
-   SQL = SQL & " Fecha, "
-   SQL = SQL & " TipoDeOperacion, "
-   SQL = SQL & " NumeroDeDocumento, "
-   SQL = SQL & " CodigoArticulo, "
-   SQL = SQL & " Descripcion, "
-   SQL = SQL & " UnidadDeVenta, "
+   SQL = SQL & " MovimientoDeInventario.Fecha, "
+   SQL = SQL & gUtilSQL.getIIF(" dbo.NotaDeEntradaSalida.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoGeneradoPorNotaDeEntradaSalida.eTGPNDES_OrdenDeProduccion), " MovimientoDeInventario.TipoDeOperacion + ' Nro ' + ISNULL(Adm.OrdenDeProduccion.Codigo, '') ", " MovimientoDeInventario.TipoDeOperacion ") + " AS TipoDeOperacion, "
+   SQL = SQL & " MovimientoDeInventario.NumeroDeDocumento, "
+   SQL = SQL & " MovimientoDeInventario.CodigoArticulo, "
+   SQL = SQL & " MovimientoDeInventario.Descripcion, "
+   SQL = SQL & " MovimientoDeInventario.UnidadDeVenta, "
    SQL = SQL & ExistenciaInicial & " AS ExistenciaInicial, "
-   SQL = SQL & " Entradas, "
-   SQL = SQL & " Salidas "
-   SQL = SQL & " FROM  " & insInvPermanenteVista.GetViewNameRegistroInventarioPermanente
-   SQL = SQL & " WHERE ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valCodigoCompaniaActual)
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("Fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " ORDER BY CodigoArticulo, Fecha"
+   SQL = SQL & " MovimientoDeInventario.Entradas, "
+   SQL = SQL & " MovimientoDeInventario.Salidas "
+   SQL = SQL & " FROM  " & insInvPermanenteVista.GetViewNameRegistroInventarioPermanente & " MovimientoDeInventario "
+   SQL = SQL & " LEFT JOIN dbo.NotaDeEntradaSalida ON MovimientoDeInventario.ConsecutivoCompania = dbo.NotaDeEntradaSalida.ConsecutivoCompania "
+   SQL = SQL & " AND MovimientoDeInventario.NumeroDeDocumento = dbo.NotaDeEntradaSalida.NumeroDocumento "
+   SQL = SQL & " LEFT JOIN adm.OrdenDeProduccion ON MovimientoDeInventario.ConsecutivoCompania = adm.OrdenDeProduccion.ConsecutivoCompania "
+   SQL = SQL & " AND dbo.NotaDeEntradaSalida.ConsecutivoDocumentoOrigen = adm.OrdenDeProduccion.Consecutivo "
+   SQL = SQL & " WHERE MovimientoDeInventario.ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valCodigoCompaniaActual)
+   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("MovimientoDeInventario.Fecha", valFechaInicial, valFechaFinal)
+   SQL = SQL & " ORDER BY MovimientoDeInventario.CodigoArticulo, MovimientoDeInventario.Fecha"
 
    Set insInvPermanenteVista = Nothing
 h_EXIT: On Error GoTo 0
@@ -4247,7 +4251,6 @@ Public Function fSQLDelReporteConteoFisico(ByVal valConsecutivoCompania As Long,
    SQL = SQL & " AND (renglonConteoFisico.Rollo = ExistenciaPorGrupo.Rollo) AND (renglonConteoFisico.CodigoArticulo =(ExistenciaPorGrupo.CodigoArticulo+ExistenciaPorGrupo.CodigoColor+ExistenciaPorGrupo.CodigoTalla))"
    SQL = SQL & sqlWhere
    SQL = SQL & " ORDER BY conteoFisico.ConsecutivoConteo, articuloInventario.LineaDeProducto, renglonConteoFisico.CodigoArticulo, RenglonConteoFisico.Serial, RenglonConteoFisico.Rollo"
-gMessage.ProgrammerMessage "paso2"
    fSQLDelReporteConteoFisico = SQL
   Set gEnumProyecto = Nothing
 
