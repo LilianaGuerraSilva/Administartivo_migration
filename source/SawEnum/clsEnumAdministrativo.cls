@@ -234,7 +234,7 @@ Public Enum enum_SystemModules
    eSM_OrdenDeProduccion
    eSM_OrdenDeProduccionDetalleArticulo
    eSM_OrdenDeProduccionDetalleMateriales
-   eSM_TransferenciaEntreCuentasBancarias
+'   eSM_TransferenciaEntreCuentasBancarias
 End Enum
 
 Public Enum enum_DiaDeLaSemana
@@ -1868,7 +1868,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_OrdenDeProduccion: enum_SystemModulesToStr = "Orden de Producción"
       Case eSM_OrdenDeProduccionDetalleArticulo: enum_SystemModulesToStr = "Orden de Producción Detalle Articulo"
       Case eSM_OrdenDeProduccionDetalleMateriales: enum_SystemModulesToStr = "Orden de Producción Detalle Materiales"
-      Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
+      ''Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
    End Select
 End Function
 
