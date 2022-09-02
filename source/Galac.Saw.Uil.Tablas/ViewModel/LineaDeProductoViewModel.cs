@@ -225,7 +225,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-                LibSearchCriteria vFixedCriteria = null;
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoPeriodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Periodo", "ConsecutivoPeriodo"));
                 if (valCodigo != CentroDeCosto) {
                     ConexionCentroDeCosto = ChooseRecord<FkCentrodeCostosViewModel>("Centro de Costos", vDefaultCriteria, vFixedCriteria, string.Empty);
                 }
@@ -234,10 +234,10 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
                 } else {
                     CentroDeCosto = string.Empty;
                 }
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 

@@ -22,29 +22,27 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSqlUtil = new QAdvSql("");
             _LibSaw = new Saw.Lib.clsLibSaw();
         }
-
+        #region Cobranzas Entre Fechas
         public string SqlCobranzasEntreFechas(int valConsecutivoCompania,Saw.Lib.eMonedaParaImpresion valMonedaReporte,Saw.Lib.eTasaDeCambioParaImpresion valTipoTasaDeCambio,decimal valTasaDeCambio,DateTime valFechaDesde,DateTime valFechaHasta,string valNombreCobrador,string valNombreCliente,string valNombreCuentaBancaria,eFiltrarCobranzasPor valFiltrarCobranzasPor,bool valAgrupado,bool valUsaVentasConIvaDiferidos) {
             string vSQLWhere = "";
-            string vSqlTotalCobrado = "";
-            string vSqlCambio = "";
-            string vSqlMonedaDeCobro = "";
-            string vCodigoMoneda = "";
-            string vSqlFechaDeLaCobranza = "";
-            string vSqlCobranzaCodigoMoneda = "";
-            string vMonedaLocal = "";
-            string vFiltroAgrupar = "";
+            string vSqlTotalCobrado;
+            string vSqlCambio;
+            string vSqlMonedaDeCobro;
+            string vCodigoMoneda;
+            string vSqlFechaDeLaCobranza;
+            string vSqlCobranzaCodigoMoneda;
+            string vMonedaLocal;
+            string vFiltroAgrupar;
             StringBuilder vSql = new StringBuilder();
             bool vIsInMonedaLocal;
             bool vCambioOriginal = (valTipoTasaDeCambio == Saw.Lib.eTasaDeCambioParaImpresion.Original);
             bool vUsaModuloContabilidad = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros","UsaModuloDeContabiliad"));
-            string vSqlGroupBy = "";
+            string vSqlGroupBy;
             Galac.Comun.Ccl.TablasGen.IMonedaLocalActual vMonedaLocalActual = new Galac.Comun.Brl.TablasGen.clsMonedaLocalActual();
-
             vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country,LibDate.Today());
             vCodigoMoneda = vSqlUtil.ToSqlValue(vMonedaLocalActual.CodigoMoneda(LibDate.Today()));
             vMonedaLocal = vMonedaLocalActual.NombreMoneda(LibDate.Today());
             vIsInMonedaLocal = LibString.S1IsInS2(vMonedaLocal,valMonedaReporte.GetDescription());
-
             if(valUsaVentasConIvaDiferidos) {
                 if(valFiltrarCobranzasPor == eFiltrarCobranzasPor.CuentaBancaria) {
                     vSqlTotalCobrado = " SUM(DocumentoCobrado.MontoAbonado - DocumentoCobrado.MontoIvaRetenido) / (cobranza.TotalCobrado - cobranza.RetencionIva) ";
@@ -78,7 +76,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             } else {
                 vSqlMonedaDeCobro = "Cobranza.moneda";
             }
-
             if(vUsaModuloContabilidad) {
                 vSql.AppendLine(CteComprobantesSql(valConsecutivoCompania,valFechaDesde,valFechaHasta));
             }
@@ -143,7 +140,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             }
             return vSql.ToString();
         }
-
         private string NombreCampoFiltroInformeCobranzasEntreFecha(eFiltrarCobranzasPor vFieldFiltro) {
             string vResult = "";
             switch(vFieldFiltro) {
@@ -159,7 +155,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             }
             return vResult;
         }
-
         private string SqlUsaContabilidad() {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine(" LEFT JOIN CTE_Comprobante ON");
@@ -168,7 +163,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine(" Cobranza.Fecha = CTE_Comprobante.FechaComprobante ");
             return vSql.ToString();
         }
-
         private string SqlUsaVentaIvaDiferido() {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine(" INNER JOIN DocumentoCobrado ON ");
@@ -180,7 +174,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine(" AND DocumentoCobrado.ConsecutivoCompania = factura.ConsecutivoCompania ");
             return vSql.ToString();
         }
-
         private string SqlGroupBy() {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("GROUP BY ");
@@ -205,7 +198,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine(" , CTE_Comprobante.NumeroComprobante ");
             return vSql.ToString();
         }
-
         private string CteComprobantesSql(int valConsecutivoCompania,DateTime valFechaDesde,DateTime valFechaHasta) {
             string vSqlWhere = "";
             StringBuilder vSql = new StringBuilder();
@@ -228,317 +220,44 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.Append(vSqlWhere + ")");
             return vSql.ToString();
         }
-		
-		public string SqlComisionDeVendedoresPorCobranzaMonto(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme,Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valCodigoMonedaLocal) {
-            StringBuilder vSql = new StringBuilder();
-            QAdvSql vUtilSql = new QAdvSql("");
-            bool vParametroUsaOtrosCargosDeFactura = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaOtrosCargosDeFactura"));
+        #endregion //Cobranzas Entre Fechas
+
+        #region Comisiones por Vendedor
+        public string SqlComisionesPorCobranza(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, Saw.Lib.eTipoDeInforme valTipoDeInforme,
+                                        Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir,
+                                        string valCodigoVendedor, string valCodigoMonedaLocal) {
             bool vParametroAsignarComisionEnCobranza = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "AsignarComisionDeVendedorEnCobranza"));
-            string vCxCManual = SqlComisionDeVendedoresDetalladoOrigenCxCManual(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTipoDeInforme,valMonedaDeReporte, valTasaDeCambioImpresion, valCantidadAImprimir, valCodigoVendedor, valCodigoMonedaLocal, vParametroAsignarComisionEnCobranza);
-            string vCxCDesdeFactura = SqlComisionDeVendedoresDetalladoOrigenFactura(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTipoDeInforme,valMonedaDeReporte, valTasaDeCambioImpresion, valCantidadAImprimir, valCodigoVendedor, valCodigoMonedaLocal, vParametroUsaOtrosCargosDeFactura, vParametroAsignarComisionEnCobranza);
-            vSql.AppendLine(vUtilSql.SetDateFormat());
-            if (vParametroUsaOtrosCargosDeFactura) {
-                string vSqlCTETotalRenglonFactura = SqlCTECalcularTotalRenglonFactura(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTasaDeCambioImpresion);
-                string vSqlCTETotalRenglonOtrosCargosDeFactura = SqlCTECalcularTotalRenglonOtrosCargosYDescuentos(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTasaDeCambioImpresion);
-                vSql.AppendLine($" ;WITH {vSqlCTETotalRenglonFactura}");
-                vSql.AppendLine($" , {vSqlCTETotalRenglonOtrosCargosDeFactura}");
-            }
-            vSql.AppendLine(vCxCManual);
-            vSql.AppendLine("   UNION");
-            vSql.AppendLine(vCxCDesdeFactura);
-            #region Orden de presentacion de para el informe
-            vSql.AppendLine("   ORDER BY");
-            if (valTipoDeInforme == Saw.Lib.eTipoDeInforme.Detallado) {
-                vSql.AppendLine("       Vendedor.Nombre");
-                vSql.AppendLine("	    , Cobranza.Moneda");
-            } else {
-                if(valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares) {
-                    vSql.AppendLine("   Vendedor.Nombre");
-                } else {
-                    vSql.AppendLine("	    Cobranza.Moneda");
-                    vSql.AppendLine("       , Vendedor.Nombre");
-                }
-            }
-            vSql.AppendLine("       , Cobranza.Fecha");
-            vSql.AppendLine("       , NumeroDelDocumento");
-            #endregion
-            return vSql.ToString();
-		}
-
-        private string SqlComisionDeVendedoresDetalladoOrigenCxCManual(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valCodigoMonedaLocal, bool valUsaAsignacionDeComisionEnCobranza) {
-            QAdvSql vUtilSql = new QAdvSql("");
+            QAdvSql insSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
-            #region Filtrado
-            string vSQLWhereCxCManual = string.Empty;
-            string vCxCValida = "cxC.MontoAbonado + cxC.MontoIVA + cxC.MontoExento";
-            vSQLWhereCxCManual = vUtilSql.SqlExpressionValueWithAnd(vSQLWhereCxCManual, "CxC.Origen", vUtilSql.EnumToSqlValue((int)eOrigenFacturacionOManual.Manual));
-            vSQLWhereCxCManual = vUtilSql.SqlDateValueBetween(vSQLWhereCxCManual, "Cobranza.Fecha", valFechaInicial, valFechaFinal);
-            vSQLWhereCxCManual = vUtilSql.SqlExpressionValueWithAnd(vSQLWhereCxCManual, "Cobranza.StatusCobranza", vUtilSql.EnumToSqlValue((int)eStatusCobranza.Vigente));
-            if (valCantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
-                vSQLWhereCxCManual = vUtilSql.SqlValueWithAnd(vSQLWhereCxCManual, "Vendedor.Codigo", valCodigoVendedor);
+            if (valCantidadAImprimir == Saw.Lib.eCantidadAImprimir.Todos) {
+                valCodigoVendedor = String.Empty;
             }
-            vSQLWhereCxCManual = vUtilSql.SqlIntValueWithOperators(vSQLWhereCxCManual, vCxCValida, 0, true, "AND", "<>");
-            vSQLWhereCxCManual = vUtilSql.SqlIntValueWithAnd(vSQLWhereCxCManual, "Cobranza.ConsecutivoCompania", valConsecutivoCompania);
-            #endregion
-            #region Calculo del monto comisionable
-            string vCodMonedaLocal = string.Empty;
-            string vMontoAbonadoEnDocumentoCob = "documentoCobrado.MontoAbonado";
-            string vMontoTotalDoc = "(cxC.MontoExento + cxC.MontoGravado)";
-            string vMontoIVA = "cxC.MontoIva";
-            string vProrrateoDelIVA = vMontoAbonadoEnDocumentoCob + "/ (1 + " + vMontoTotalDoc + "/" + vMontoIVA + ")";
-            string vEsPosibleProrrateoIVA = vUtilSql.IIF(vMontoIVA + vUtilSql.ComparisonOp("<>") + vUtilSql.ToInt("0"), vProrrateoDelIVA, vUtilSql.ToInt("0"), true);
-            string vMontoComisionable = vUtilSql.RoundToNDecimals(vMontoAbonadoEnDocumentoCob + " - " + vEsPosibleProrrateoIVA, 3);
-            string vMontoComisionableConvertido = vMontoComisionable + "* Cobranza.CambioABolivares";
-            string vMontoComisionableEnMonedaLocal = vUtilSql.IIF("Cobranza.CodigoMoneda =" + vUtilSql.ToSqlValue(valCodigoMonedaLocal), vMontoComisionable, vMontoComisionableConvertido, true);
-            #region En moneda local - Tasa del dia
-            string vMontoAbonadoEnMonedaLocalTasaDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", vMontoAbonadoEnDocumentoCob, false, string.Empty);
-            string vMontoComisionableEnMonedaLocalTasaDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", vMontoComisionable, false, string.Empty);
-            string vMontoTasaDeCambioDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", "1", false, string.Empty);
-            #endregion
-            #endregion
-            vSql.AppendLine("SELECT");
-            vSql.AppendLine("   Vendedor.Codigo AS CodigoDelVendedor");
-            vSql.AppendLine("   , Vendedor.Nombre AS NombreDelVendedor");
-            if(valTipoDeInforme == Saw.Lib.eTipoDeInforme.Resumido && valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares) {
-                vSql.AppendLine("   , 'Bolivar' AS MonedaCobranza");
-            } else {
-                vSql.AppendLine("   , cobranza.Moneda AS MonedaCobranza");
-            }
-            vSql.AppendLine("   , Cobranza.Fecha AS FechaDoc");
-            vSql.AppendLine("   , cxC.Numero AS NumeroDoc");
-            vSql.AppendLine("   , ('Cob. ' + Cobranza.Numero + '/ Doc. ' + CxC.NumeroDocumentoOrigen) AS NumeroDelDocumento");
-            vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
-            vSql.AppendLine("   , MonedaCobranza.Simbolo AS SimboloMonedaDoc");
-            if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares && valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
-                vSql.AppendLine($"  , {vMontoTasaDeCambioDelDia} AS CambioABolivaresDoc");
-            } else {
-                vSql.AppendLine("   , documentoCobrado.CambioAMonedaLocal AS CambioABolivaresDoc");
-            }
-            vSql.AppendLine($"   , {SqlPorcentajeDeComision(valUsaAsignacionDeComisionEnCobranza)} AS PorcentajeDeComision");
-            //Prorrateo del IVA
-            if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
-                vSql.AppendLine("   , documentoCobrado.MontoAbonado AS MontoAbonado");
-                vSql.AppendLine("   ," + vMontoComisionable + " AS MontoComisionable");
-                vSql.AppendLine("   ," + vMontoComisionableEnMonedaLocal + " AS MontoComisionableEnMonedaLocal");
-                if(valUsaAsignacionDeComisionEnCobranza) {
-                    vSql.AppendLine($"  , {SqlCalculoDeComisionEnCobranza(vMontoComisionable)} AS MontoComision");
-                }
-            } else {
-                vSql.AppendLine("   , documentoCobrado.MontoAbonado AS MontoAbonadoOriginal");
-                if (valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.Original) {
-                    vSql.AppendLine("   , documentoCobrado.MontoAbonado * DocumentoCobrado.CambioAMonedaDeCobranza AS MontoAbonado");
-                    vSql.AppendLine("   ," + vMontoComisionable + " AS MontoComisionable");
-                    vSql.AppendLine("   ," + vMontoComisionableEnMonedaLocal + " AS MontoComisionableEnMonedaLocal");
-                    if(valUsaAsignacionDeComisionEnCobranza) {
-                        vSql.AppendLine($"  , {SqlCalculoDeComisionEnCobranza(vMontoComisionableEnMonedaLocal)} AS MontoComision");
-                    }
-                } else {
-                    vSql.AppendLine("   , " + vMontoAbonadoEnMonedaLocalTasaDelDia + " AS MontoAbonado");
-                    vSql.AppendLine("   , " + vMontoComisionable + " AS MontoComisionable"); //Obligatorio por el UNION
-                    vSql.AppendLine("   , " + vMontoComisionableEnMonedaLocalTasaDelDia + " AS MontoComisionableEnMonedaLocal");
-                    if(valUsaAsignacionDeComisionEnCobranza) {
-                        vSql.AppendLine($"  , {SqlCalculoDeComisionEnCobranza(vMontoComisionableEnMonedaLocalTasaDelDia)} AS MontoComision");
-                    }
-                }
-            }
-            vSql.AppendLine("	FROM Vendedor");
-            vSql.AppendLine("	INNER JOIN Cobranza");
-            vSql.AppendLine("   ON cobranza.CodigoCobrador = Vendedor.Codigo");
-            vSql.AppendLine("       AND cobranza.ConsecutivoCompania = Vendedor.ConsecutivoCompania");
-            vSql.AppendLine("   INNER JOIN DocumentoCobrado");
-            vSql.AppendLine("   ON DocumentoCobrado.NumeroCobranza = Cobranza.Numero");
-            vSql.AppendLine("       AND DocumentoCobrado.ConsecutivoCompania = Cobranza.ConsecutivoCompania");
-            vSql.AppendLine("   INNER JOIN CxC");
-            vSql.AppendLine("   ON cxC.ConsecutivoCompania = DocumentoCobrado.ConsecutivoCompania");
-            vSql.AppendLine("       AND cxC.TipoCxC = DocumentoCobrado.TipoDeDocumentoCobrado");
-            vSql.AppendLine("       AND cxC.Numero = DocumentoCobrado.NumeroDelDocumentoCobrado");
-            vSql.AppendLine("   INNER JOIN Cliente");
-            vSql.AppendLine("   ON Cliente.Codigo = CxC.CodigoCliente");
-            vSql.AppendLine("       AND Cliente.ConsecutivoCompania = CxC.ConsecutivoCompania");
-            vSql.AppendLine("   INNER JOIN Moneda AS MonedaCobranza");
-            vSql.AppendLine("   ON MonedaCobranza.Codigo = Cobranza.CodigoMoneda");
-            if (LibString.Len(vSQLWhereCxCManual) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhereCxCManual));
-            }
+            vSql.AppendLine(";WITH");
+            vSql.AppendLine(SqlCTECxC(valConsecutivoCompania));
+            vSql.AppendLine(",");
+            vSql.AppendLine(SqlCTEFactRenglonFactVsArtInv(valConsecutivoCompania));
+            vSql.AppendLine(",");
+            vSql.AppendLine(SqlCTEFactRenglonOtrosCargosVsOtrosCargos(valConsecutivoCompania));
+            vSql.AppendLine(",");
+            vSql.AppendLine(SqlCTEFact(valConsecutivoCompania, valCodigoMonedaLocal));
+            vSql.AppendLine(",");
+            vSql.AppendLine(SqlCTECxCVsFactVsCliente(valConsecutivoCompania, valCodigoMonedaLocal));
+            vSql.AppendLine(",");
+            vSql.AppendLine(SqlCTECxCVsFactVsClienteCalculado());
+            vSql.AppendLine(",");
+            vSql.AppendLine(SqlCTEDocCobradoCxCVsFactVsCliente(valConsecutivoCompania));
+            vSql.AppendLine(",");
+            vSql.AppendLine(SqlCTECobranzaVsVendedorVsMoneda(valConsecutivoCompania, valFechaDesde, valFechaHasta, vParametroAsignarComisionEnCobranza, valTipoDeInforme, valMonedaDeReporte));
+            vSql.AppendLine(",");
+            vSql.AppendLine(SqlCTECobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente(valMonedaDeReporte, valTasaDeCambioImpresion));
+            vSql.AppendLine();
+            vSql.AppendLine(SqlComisionesPorCobranzaSegunOrigen(valCodigoVendedor, eOrigenFacturacionOManual.Manual));
+            vSql.AppendLine("UNION");
+            vSql.AppendLine(SqlComisionesPorCobranzaSegunOrigen(valCodigoVendedor, eOrigenFacturacionOManual.Factura));
+            vSql.AppendLine(" ORDER BY MonedaCobranza, NombreDelVendedor, FechaDoc, NumeroDelDocumento");
+            //LibFile.WriteLineInFile(@"C:\Users\erikson.didik\Desktop\prueba.txt", vSql.ToString());
             return vSql.ToString();
         }
-
-        private string SqlComisionDeVendedoresDetalladoOrigenFactura(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion, Saw.Lib.eCantidadAImprimir valCantidadAImprimir, string valCodigoVendedor, string valCodigoMonedaLocal, bool valUsaOtrosCargosDeFactura, bool valUsaAsignacionDeComisionEnCobranza) {
-            QAdvSql vUtilSql = new QAdvSql("");
-            StringBuilder vSql = new StringBuilder();
-            #region Filtrado
-            string vSQLWhereCxCDesdeFactura = string.Empty;
-            string vCxCValida = "cxC.MontoAbonado + cxC.MontoIVA + cxC.MontoExento";
-            vSQLWhereCxCDesdeFactura = vUtilSql.SqlExpressionValueWithAnd(vSQLWhereCxCDesdeFactura, "CxC.Origen", vUtilSql.EnumToSqlValue((int)eOrigenFacturacionOManual.Factura));
-            vSQLWhereCxCDesdeFactura = vUtilSql.SqlDateValueBetween(vSQLWhereCxCDesdeFactura, "Cobranza.Fecha", valFechaInicial, valFechaFinal);
-            vSQLWhereCxCDesdeFactura = vUtilSql.SqlExpressionValueWithAnd(vSQLWhereCxCDesdeFactura, "Cobranza.StatusCobranza", vUtilSql.EnumToSqlValue((int)eStatusCobranza.Vigente));
-            if (valCantidadAImprimir == Saw.Lib.eCantidadAImprimir.Uno) {
-                vSQLWhereCxCDesdeFactura = vUtilSql.SqlValueWithAnd(vSQLWhereCxCDesdeFactura, "Vendedor.Codigo", valCodigoVendedor);
-            }
-            vSQLWhereCxCDesdeFactura = vUtilSql.SqlIntValueWithOperators(vSQLWhereCxCDesdeFactura, vCxCValida, 0, true, "AND", "<>");
-            vSQLWhereCxCDesdeFactura = vUtilSql.SqlIntValueWithAnd(vSQLWhereCxCDesdeFactura, "Cobranza.ConsecutivoCompania", valConsecutivoCompania);
-            #endregion
-            #region Calculo del monto comisionable
-            string vCodMonedaLocal = string.Empty;
-            string vMontoAbonadoEnDocumentoCob = "documentoCobrado.MontoAbonado";
-            string vMontoTotalDoc = "(CxC.MontoExento + CxC.MontoGravado)";
-            string vMontoTotalDocConIva = "(CxC.MontoExento + CxC.MontoGravado + CxC.MontoIVA)";
-            string vMontoIVA = "cxC.MontoIva";
-            string vTotalRenglonFacturaEnMonedaOriginal = "CTE_TotalRenglonFactura.TotalRenglonEnMonedaOriginal";
-            string vTotalRenglonFacturaEnMonedaLocal = "CTE_TotalRenglonFactura.TotalRenglonEnMonedaLocal";
-            string vTotalRenglonOtrosCargosDeFacturaEnMonedaOriginal = "CTE_TotalRenglonOtrosCargosFactura.MontoTotalRenglonEnMonedaOriginal";
-            string vTotalRenglonOtrosCargosDeFacturaEnMonedaLocal = "CTE_TotalRenglonOtrosCargosFactura.MontoTotalRenglonEnMonedaLocal";
-            string vProrrateoDelIVA = vMontoAbonadoEnDocumentoCob + "/ (1 + " + vMontoTotalDoc + "/" + vMontoIVA + ")";
-            string vEsPosibleProrrateoIVA = vUtilSql.IIF(vMontoIVA + vUtilSql.ComparisonOp("<>") + vUtilSql.ToInt("0"), vProrrateoDelIVA, vUtilSql.ToInt("0"), true);
-            string vMontoComisionable = vUtilSql.RoundToNDecimals(vMontoAbonadoEnDocumentoCob + " - " + vEsPosibleProrrateoIVA, 3);
-            string vMontoComisionableConvertido = vMontoComisionable + "* Cobranza.CambioABolivares";
-            string vMontoComisionableEnMonedaLocal = vUtilSql.IIF("Cobranza.CodigoMoneda =" + vUtilSql.ToSqlValue(valCodigoMonedaLocal), vMontoComisionable, vMontoComisionableConvertido, true);
-            #region En Moneda Local - Tasa del Dia
-            string vMontoAbonadoEnMonedaLocalTasaDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", vMontoAbonadoEnDocumentoCob, false, string.Empty);
-            string vMontoComisionableEnMonedaLocalTasaDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", vMontoComisionable, false, string.Empty);
-            string vMontoTasaDeCambioDelDia = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "Cobranza.CodigoMoneda", "1", false, string.Empty);
-            #endregion
-
-            string esMontoValidoConRenglonFactura = string.Empty;
-            string esMontoValidoConOtrosCargosFactura = string.Empty;
-            #endregion
-            if (valUsaOtrosCargosDeFactura) {
-                if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
-                    esMontoValidoConRenglonFactura = vUtilSql.IsNull($"(({vMontoAbonadoEnDocumentoCob} * {vTotalRenglonFacturaEnMonedaOriginal})/{vMontoTotalDocConIva})", "0");
-                    esMontoValidoConOtrosCargosFactura = vUtilSql.IsNull($"(({vMontoAbonadoEnDocumentoCob} * {vTotalRenglonOtrosCargosDeFacturaEnMonedaOriginal})/{vMontoTotalDocConIva})", "0");
-                    vMontoComisionable = $"(({vMontoComisionable}) - ({esMontoValidoConRenglonFactura}) - ({esMontoValidoConOtrosCargosFactura}))";
-                    vMontoComisionableConvertido = $"{vMontoComisionable} * Cobranza.CambioABolivares";
-                    vMontoComisionableEnMonedaLocal = vUtilSql.IIF("Cobranza.CodigoMoneda =" + vUtilSql.ToSqlValue(valCodigoMonedaLocal), vMontoComisionable, vMontoComisionableConvertido, true);
-                } else {
-                    esMontoValidoConRenglonFactura= vUtilSql.IsNull($"(({vMontoAbonadoEnDocumentoCob} * {vTotalRenglonFacturaEnMonedaLocal})/{vMontoTotalDocConIva})", "0");
-                    esMontoValidoConOtrosCargosFactura= vUtilSql.IsNull($"(({vMontoAbonadoEnDocumentoCob} * {vTotalRenglonOtrosCargosDeFacturaEnMonedaLocal})/ {vMontoTotalDocConIva})", "0");
-                    vMontoComisionable = $"(({vMontoComisionable}) - ({esMontoValidoConRenglonFactura}) - ({esMontoValidoConOtrosCargosFactura}))";
-                    vMontoComisionableEnMonedaLocal = vUtilSql.RoundToNDecimals(_LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql("Cobranza.CambioAbolivares", "Cobranza.CodigoMoneda", vMontoComisionable, true, string.Empty),4);
-                    if (valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
-                        vMontoComisionableEnMonedaLocalTasaDelDia = vUtilSql.RoundToNDecimals(_LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql("Cobranza.CambioAbolivares", "Cobranza.CodigoMoneda", vMontoComisionable, false, string.Empty), 4);
-                    }
-                }
-            }
-            vSql.AppendLine(" SELECT");
-            vSql.AppendLine("   Vendedor.Codigo AS CodigoDelVendedor");
-            vSql.AppendLine("   , Vendedor.Nombre AS NombreDelVendedor");
-            if (valTipoDeInforme == Saw.Lib.eTipoDeInforme.Resumido && valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares) {
-                vSql.AppendLine("   , 'Bolivar' AS MonedaCobranza");
-            } else {
-                vSql.AppendLine("   , cobranza.Moneda AS MonedaCobranza");
-            }
-            vSql.AppendLine("   , Cobranza.Fecha AS FechaDoc");
-            vSql.AppendLine("   , cxC.Numero AS NumeroDoc");
-            vSql.AppendLine("   , ('Cob. ' + Cobranza.Numero + '/ Fact. ' + CxC.NumeroDocumentoOrigen) AS NumeroDelDocumento");
-            vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
-            vSql.AppendLine("   , MonedaCobranza.Simbolo AS SimboloMonedaDoc");
-            if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares && valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
-                vSql.AppendLine($"  , {vMontoTasaDeCambioDelDia} AS CambioABolivaresDoc");
-            } else {
-                vSql.AppendLine("   , documentoCobrado.CambioAMonedaLocal AS CambioABolivaresDoc");
-            }
-            vSql.AppendLine($"   , {SqlPorcentajeDeComision(valUsaAsignacionDeComisionEnCobranza)} AS PorcentajeDeComision");
-            //Prorrateo del IVA
-            if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
-                vSql.AppendLine("   , documentoCobrado.MontoAbonado AS MontoAbonado");
-                vSql.AppendLine("   ," + vMontoComisionable + " AS MontoComisionable");
-                vSql.AppendLine("   ," + vMontoComisionableEnMonedaLocal + " AS MontoComisionableEnMonedaLocal");
-                if(valUsaAsignacionDeComisionEnCobranza) {
-                    vSql.AppendLine($"  , {SqlCalculoDeComisionEnCobranza(vMontoComisionable)} AS MontoComision");
-                }
-            } else {
-                vSql.AppendLine("   , documentoCobrado.MontoAbonado AS MontoAbonadoOriginal");
-                if (valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.Original) {
-                    vSql.AppendLine("   , documentoCobrado.MontoAbonado * DocumentoCobrado.CambioAMonedaDeCobranza AS MontoAbonado");
-                    vSql.AppendLine("   ," + vMontoComisionable + " AS MontoComisionable");
-                    vSql.AppendLine("   ," + vMontoComisionableEnMonedaLocal + " AS MontoComisionableEnMonedaLocal");
-                    if(valUsaAsignacionDeComisionEnCobranza) {
-                        vSql.AppendLine($"  , {SqlCalculoDeComisionEnCobranza(vMontoComisionableEnMonedaLocal)} AS MontoComision");
-                    }
-                } else {
-                    vSql.AppendLine("   , " + vMontoAbonadoEnMonedaLocalTasaDelDia + " AS MontoAbonado");
-                    vSql.AppendLine("   , " + vMontoComisionable + " AS MontoComisionable"); //Obligatorio por el UNION
-                    vSql.AppendLine("   , " + vMontoComisionableEnMonedaLocalTasaDelDia + " AS MontoComisionableEnMonedaLocal");
-                    if(valUsaAsignacionDeComisionEnCobranza){
-                        vSql.AppendLine($"  , {SqlCalculoDeComisionEnCobranza(vMontoComisionableEnMonedaLocalTasaDelDia)} AS MontoComision");
-                    }
-                }
-            }
-            vSql.AppendLine("	FROM Vendedor");
-            vSql.AppendLine("	INNER JOIN Cobranza");
-            vSql.AppendLine("   ON cobranza.CodigoCobrador = Vendedor.Codigo");
-            vSql.AppendLine("       AND cobranza.ConsecutivoCompania = Vendedor.ConsecutivoCompania");
-            vSql.AppendLine("   INNER JOIN DocumentoCobrado");
-            vSql.AppendLine("   ON DocumentoCobrado.NumeroCobranza = Cobranza.Numero");
-            vSql.AppendLine("       AND DocumentoCobrado.ConsecutivoCompania = Cobranza.ConsecutivoCompania");
-            vSql.AppendLine("   INNER JOIN CxC");
-            vSql.AppendLine("   ON cxC.ConsecutivoCompania = DocumentoCobrado.ConsecutivoCompania");
-            vSql.AppendLine("       AND CxC.TipoCxC = DocumentoCobrado.TipoDeDocumentoCobrado");
-            vSql.AppendLine("       AND CxC.Numero = DocumentoCobrado.NumeroDelDocumentoCobrado");
-            if (valUsaOtrosCargosDeFactura) {
-                vSql.AppendLine(SqlJoinConCTECalcularTotalRenglonFactura());
-                vSql.AppendLine(SqlJoinConCTECalcularTotalRenglonOtrosCargosYDescuentos());
-            }
-            vSql.AppendLine("   INNER JOIN Cliente");
-            vSql.AppendLine("   ON Cliente.Codigo = CxC.CodigoCliente");
-            vSql.AppendLine("       AND Cliente.ConsecutivoCompania = CxC.ConsecutivoCompania");
-            vSql.AppendLine("   INNER JOIN Moneda AS MonedaCobranza");
-            vSql.AppendLine("   ON MonedaCobranza.Codigo = Cobranza.CodigoMoneda");
-            if (LibString.Len(vSQLWhereCxCDesdeFactura) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhereCxCDesdeFactura));
-            }
-
-            return vSql.ToString();
-        }
-
-        private string SqlCTECalcularTotalRenglonFactura(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion) {
-            StringBuilder vTotalRenglon = new StringBuilder();
-            Dictionary<string, string> vSqlTotalDelRenglonFactura = SqlMontoTotalDelRenglonSinIvaConElDescuentoDeFactura(valTasaDeCambioImpresion);
-            QAdvSql vUtilSql = new QAdvSql("");
-            string vSQLWhere = string.Empty;
-            #region Calculos del renglon
-            string vConversionTipoDocumentoCxCAFactura = SqlConvertirElTipoDeDocumentoCxCATipodeDocumentoFactura();
-            string vTotalRenglonFacturaEnMonedaOriginal = $"SUM({vSqlTotalDelRenglonFactura["MontoEnMonedaOriginal"]})";
-            string vTotalRenglonFacturaEnMonedaLocal = $"SUM({vSqlTotalDelRenglonFactura["MontoEnMonedaLocal"]})";
-            string vSumaTotalRenglonFacturaEnMonedaOriginal = $"{vUtilSql.IsNull(vTotalRenglonFacturaEnMonedaOriginal, vUtilSql.ToInt("0"))}";
-            string vSumaTotalRenglonFacturaEnMonedaLocal = $"{vUtilSql.IsNull(vTotalRenglonFacturaEnMonedaLocal, vUtilSql.ToInt("0"))}";
-            #endregion
-            #region Filtrado
-            vSQLWhere = vUtilSql.SqlBoolValueWithOperators(vSQLWhere, "ArticuloInventario.ExcluirDeComision", true, "=", string.Empty);
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.TipoDeDocumento", vConversionTipoDocumentoCxCAFactura);
-            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.Fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
-            #endregion
-            #region Consulta
-            vTotalRenglon.AppendLine(" CTE_TotalRenglonFactura");
-            vTotalRenglon.AppendLine(" (ConsecutivoCompania, NumeroFactura, TotalRenglonEnMonedaOriginal, TotalRenglonEnMonedaLocal)");
-            vTotalRenglon.AppendLine(" AS (SELECT");
-            vTotalRenglon.AppendLine("  factura.ConsecutivoCompania AS ConsecutivoCompania");
-            vTotalRenglon.AppendLine(" , factura.Numero AS NumeroFactura");
-            vTotalRenglon.AppendLine(" , (" + vSumaTotalRenglonFacturaEnMonedaOriginal + ") AS TotalRenglonEnMonedaOriginal");
-            vTotalRenglon.AppendLine(" , (" + vSumaTotalRenglonFacturaEnMonedaLocal + ") AS TotalRenglonEnMonedaLocal");
-            vTotalRenglon.AppendLine("	FROM factura");
-            vTotalRenglon.AppendLine("	INNER JOIN ArticuloInventario");
-            vTotalRenglon.AppendLine("		ON ArticuloInventario.ConsecutivoCompania = factura.ConsecutivoCompania");
-            vTotalRenglon.AppendLine("	INNER JOIN renglonFactura");
-            vTotalRenglon.AppendLine("		ON renglonFactura.Articulo = ArticuloInventario.Codigo");
-            vTotalRenglon.AppendLine("		AND renglonFactura.TipoDeDocumento = factura.TipoDeDocumento");
-            vTotalRenglon.AppendLine("		AND renglonFactura.NumeroFactura = factura.Numero");
-            vTotalRenglon.AppendLine("		AND renglonFactura.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania");
-            vTotalRenglon.AppendLine("		AND renglonFactura.ConsecutivoCompania = factura.ConsecutivoCompania");
-            vTotalRenglon.AppendLine("	INNER JOIN CxC");
-            vTotalRenglon.AppendLine("		ON CxC.CodigoVendedor = factura.CodigoVendedor");
-            vTotalRenglon.AppendLine("		AND CxC.NumeroDocumentoOrigen = factura.Numero");
-            vTotalRenglon.AppendLine("		AND CxC.ConsecutivoCompania = factura.ConsecutivoCompania");
-            vTotalRenglon.AppendLine(vUtilSql.WhereSql(vSQLWhere));
-            vTotalRenglon.AppendLine("  GROUP BY");
-            vTotalRenglon.AppendLine("  factura.ConsecutivoCompania");
-            vTotalRenglon.AppendLine("  , factura.Numero");
-            vTotalRenglon.AppendLine(" )");
-            #endregion
-            return vTotalRenglon.ToString();
-        }
-
         private string SqlConvertirElTipoDeDocumentoCxCATipodeDocumentoFactura() {
             QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
@@ -549,130 +268,317 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vListComparative.Add(eTipoDeTransaccion.NOTADEDEBITO);
             vSql.AppendLine(" (CASE ");
             foreach (eTipoDeTransaccion tipoEnCxC in vListComparative) {
-                vSql.Append($" WHEN {valCampoTipoCxC} = '{vUtilSql.ToSqlValue((int)tipoEnCxC)}'");
+                vSql.Append($" WHEN {valCampoTipoCxC} = {vUtilSql.EnumToSqlValue((int)tipoEnCxC)}");
                 vSql.AppendLine(" THEN");
                 switch (tipoEnCxC) {
                     case eTipoDeTransaccion.FACTURA:
-                        vSql.Append($" '{vUtilSql.ToSqlValue((int)eTipoDocumentoFactura.Factura)}'");
+                        vSql.Append($" {vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura)}");
                         break;
                     case eTipoDeTransaccion.NOTADECREDITO:
-                        vSql.Append($" '{vUtilSql.ToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito)}'");
+                        vSql.Append($" {vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito)}");
                         break;
                     case eTipoDeTransaccion.NOTADEDEBITO:
-                        vSql.Append($" '{vUtilSql.ToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito)}'");
+                        vSql.Append($" {vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito)}");
                         break;
                 }
             }
-            vSql.AppendLine($" ELSE '{vUtilSql.ToSqlValue((int)eTipoDocumentoFactura.Factura)}'");
+            vSql.AppendLine($" ELSE {vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura)}");
             vSql.AppendLine(" END)");
-            return vSql.ToString(); 
+            return vSql.ToString();
         }
-
-        private Dictionary<string, string> SqlMontoTotalDelRenglonSinIvaConElDescuentoDeFactura(Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion) {
-            Dictionary<string, string> vResult = new Dictionary<string, string>();
-            string vTotalRenglonConDescuento = string.Empty;
-            StringBuilder vSql = new StringBuilder();
-            string vTotalRenglon = "(renglonFactura.PrecioSinIVA * renglonFactura.Cantidad)";
-            string vMontoPorcentajeDescRenglon = "(1 - (renglonFactura.PorcentajeDescuento / 100))";
-            string vMontoPorcentajeDescFactura= "(1 - (factura.PorcentajeDescuento / 100))";
-            vTotalRenglonConDescuento = $"(({vTotalRenglon} * {vMontoPorcentajeDescRenglon}) * {vMontoPorcentajeDescFactura})";
-            vResult["MontoEnMonedaOriginal"] = vTotalRenglonConDescuento;
-            if (valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
-                vResult["MontoEnMonedaLocal"] = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql("factura.CambioABolivares", "factura.CodigoMoneda", vTotalRenglonConDescuento, false, string.Empty);
-            } else {
-                vResult["MontoEnMonedaLocal"] = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql("factura.CambioABolivares", "factura.CodigoMoneda", vTotalRenglonConDescuento, true, string.Empty);
-            }
-            return vResult;
-        }
-
-        private string SqlJoinConCTECalcularTotalRenglonFactura() {
-            StringBuilder vResult = new StringBuilder();
-            vResult.AppendLine("    LEFT JOIN CTE_TotalRenglonFactura");
-            vResult.AppendLine("        ON CTE_TotalRenglonFactura.ConsecutivoCompania = CxC.ConsecutivoCompania");
-            vResult.AppendLine("        AND CTE_TotalRenglonFactura.NumeroFactura = CxC.NumeroDocumentoOrigen");
-            return vResult.ToString();
-        }
-
-        private string SqlCTECalcularTotalRenglonOtrosCargosYDescuentos(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion) {
-            StringBuilder vTotalRenglon = new StringBuilder();
-            QAdvSql vUtilSql = new QAdvSql("");
-            Dictionary<string, string> vSqlTotalRenglonOtrosCargos = SqlMontoTotalDelRenglonOtrosCargosDeFactura(valTasaDeCambioImpresion);
-            string vSQLWhere = string.Empty;
-            string vConversionTipoDocumentoCxCAFactura = SqlConvertirElTipoDeDocumentoCxCATipodeDocumentoFactura();
-            string vTotalRenglonOtrosCargosEnMonedaOriginal = $"SUM({vSqlTotalRenglonOtrosCargos["MontoEnMonedaOriginal"]})";
-            string vTotalRenglonOtrosCargosEnMonedaLocal = $"SUM({vSqlTotalRenglonOtrosCargos["MontoEnMonedaLocal"]})";
-            string vSumaTotalOtrosCargosEnMonedaOriginal = $"{vUtilSql.IsNull(vTotalRenglonOtrosCargosEnMonedaOriginal, vUtilSql.ToInt("0"))}";
-            string vSumaTotalOtrosCargosEnMonedaLocal = $"{vUtilSql.IsNull(vTotalRenglonOtrosCargosEnMonedaLocal, vUtilSql.ToInt("0"))}";
-            #region Filtrado
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "otrosCargosDeFactura.ExcluirDeComision", vUtilSql.ToSqlValue(true), string.Empty, "=");
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "otrosCargosDeFactura.ComoAplicaAlTotalFactura", vUtilSql.EnumToSqlValue((int)eComoAplicaOtrosCargosDeFactura.NoAplica_EsInformativo), "AND", "<>");
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.TipoDeDocumento", vConversionTipoDocumentoCxCAFactura);
-            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.Fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
-            #endregion
-            #region Consulta
-            vTotalRenglon.AppendLine("  CTE_TotalRenglonOtrosCargosFactura");
-            vTotalRenglon.AppendLine("  (ConsecutivoCompania, NumeroFactura, MontoTotalRenglonEnMonedaOriginal, MontoTotalRenglonEnMonedaLocal)");
-            vTotalRenglon.AppendLine("  AS (SELECT");
-            vTotalRenglon.AppendLine("		factura.ConsecutivoCompania AS ConsecutivoCompania");
-            vTotalRenglon.AppendLine("		, factura.Numero AS NumeroFactura");
-            vTotalRenglon.AppendLine("		, " + vSumaTotalOtrosCargosEnMonedaOriginal + " AS MontoTotalRenglonEnMonedaOriginal");
-            vTotalRenglon.AppendLine("		, " + vSumaTotalOtrosCargosEnMonedaLocal + " AS MontoTotalRenglonEnMonedaLocal");
-            vTotalRenglon.AppendLine("  FROM otrosCargosDeFactura");
-            vTotalRenglon.AppendLine("  INNER JOIN renglonDetalleDeOtrosCargosFactura");
-            vTotalRenglon.AppendLine("		ON renglonDetalleDeOtrosCargosFactura.CodigoDeCargo = otrosCargosDeFactura.Codigo");
-            vTotalRenglon.AppendLine("		AND renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania = otrosCargosDeFactura.ConsecutivoCompania");
-            vTotalRenglon.AppendLine("  INNER JOIN factura");
-            vTotalRenglon.AppendLine("		ON factura.TipoDeDocumento = renglonDetalleDeOtrosCargosFactura.TipoDeDocumento");
-            vTotalRenglon.AppendLine("		AND factura.Numero = renglonDetalleDeOtrosCargosFactura.NumeroFactura");
-            vTotalRenglon.AppendLine("		AND factura.ConsecutivoCompania = renglonDetalleDeOtrosCargosFactura.ConsecutivoCompania");
-            vTotalRenglon.AppendLine("  INNER JOIN CxC");
-            vTotalRenglon.AppendLine("      ON CxC.NumeroDocumentoOrigen = factura.Numero");
-            vTotalRenglon.AppendLine("		AND CxC.CodigoVendedor = factura.CodigoVendedor");
-            vTotalRenglon.AppendLine("		AND CxC.ConsecutivoCompania = factura.ConsecutivoCompania");
-            vTotalRenglon.AppendLine(vUtilSql.WhereSql(vSQLWhere));
-            vTotalRenglon.AppendLine("  GROUP BY");
-            vTotalRenglon.AppendLine("		factura.ConsecutivoCompania");
-            vTotalRenglon.AppendLine("		, factura.Numero");
-            vTotalRenglon.AppendLine("  )");
-            #endregion
-            return vTotalRenglon.ToString();
-        }
-
-        private Dictionary<string, string> SqlMontoTotalDelRenglonOtrosCargosDeFactura(Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambioImpresion) {
-            Dictionary<string, string> vResult = new Dictionary<string, string>();
-            string vSqlTotalRenglonOtrosCargos = "renglonDetalleDeOtrosCargosFactura.TotalRenglon";
-            vResult["MontoEnMonedaOriginal"] = vSqlTotalRenglonOtrosCargos;
-            if (valTasaDeCambioImpresion == Saw.Lib.eTasaDeCambioParaImpresion.Original) {
-                vResult["MontoEnMonedaLocal"] = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql("factura.CambioABolivares", "factura.CodigoMoneda", vSqlTotalRenglonOtrosCargos, true, string.Empty);
-            } else {
-                vResult["MontoEnMonedaLocal"] = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql("factura.CambioABolivares", "factura.CodigoMoneda", vSqlTotalRenglonOtrosCargos, false, string.Empty);
-            }
-            return vResult;
-        }
-
-        private string SqlJoinConCTECalcularTotalRenglonOtrosCargosYDescuentos() {
-            StringBuilder vResult = new StringBuilder();
-            vResult.AppendLine("    LEFT JOIN CTE_TotalRenglonOtrosCargosFactura");
-            vResult.AppendLine("        ON CTE_TotalRenglonOtrosCargosFactura.ConsecutivoCompania = CxC.ConsecutivoCompania");
-            vResult.AppendLine("        AND CTE_TotalRenglonOtrosCargosFactura.NumeroFactura = CxC.NumeroDocumentoOrigen");
-            return vResult.ToString();
-        }
-
         private string SqlPorcentajeDeComision(bool valUsaAsignacionDeComisionEnCobranza) {
             string vResult = "Vendedor.comisionPorCobro";
-            if(valUsaAsignacionDeComisionEnCobranza) {
+            if (valUsaAsignacionDeComisionEnCobranza) {
                 vResult = "Cobranza.ComisionVendedor";
             }
             return vResult;
         }
-
-        private string SqlCalculoDeComisionEnCobranza(string valSQLMontoComisionableEnMonedaLocal) {
-            return $"{valSQLMontoComisionableEnMonedaLocal} * (Cobranza.ComisionVendedor / 100)";
+        string SqlComisionesPorCobranzaSegunOrigen(string valCodigoVendedor, eOrigenFacturacionOManual valOrigenCxC) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.CodigoDelVendedor, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.NombreDelVendedor, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.CodigoMonedaCobranza, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.MonedaCobranza,");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.FechaDoc, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.NumeroDoc, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.NumeroDelDocumento, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.NombreCliente, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.SimboloMonedaDoc, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.CambioABolivaresDoc, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.PorcentajeDeComision, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.MontoAbonadoOriginal, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.MontoAbonado, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.MontoComisionable, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.MontoComisionableEnMonedaLocal");
+            vSql.AppendLine("   FROM CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente");
+            vSql.AppendLine("   WHERE CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.Origen = " + insSql.EnumToSqlValue((int)valOrigenCxC));
+            if (!LibString.IsNullOrEmpty(valCodigoVendedor, true)) {
+                vSql.AppendLine("      AND CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente.CodigoDelVendedor = " + insSql.ToSqlValue(valCodigoVendedor));
+            }
+            return vSql.ToString();
         }
+        string SqlCTECxC(int valConsecutivoCompania) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("CTE_CxC AS (");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("	cxC.ConsecutivoCompania,");
+            vSql.AppendLine("	cxC.Numero,");
+            vSql.AppendLine("	cxC.TipoCxC,");
+            vSql.AppendLine("	cxC.CodigoMoneda,");
+            vSql.AppendLine("	cxC.CodigoCliente,");
+            vSql.AppendLine("	cxC.NumeroDocumentoOrigen,");
+            vSql.AppendLine("	cxC.MontoIVA,");
+            vSql.AppendLine("	(cxC.MontoExento + cxC.MontoGravado + cxC.MontoIVA) AS TotalCxC,");
+            vSql.AppendLine("	(cxC.MontoExento + cxC.MontoGravado) AS TotalExentoMasGravadoCxC,");
+            vSql.AppendLine("	cxC.Origen,");
+            vSql.AppendLine("	" + SqlConvertirElTipoDeDocumentoCxCATipodeDocumentoFactura() + " AS TipoCxCTipoFact");
+            vSql.AppendLine("FROM cxC");
+            vSql.AppendLine("WHERE cxC.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("	AND (cxC.MontoAbonado + cxC.MontoIVA + cxC.MontoExento) <> 0");
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        string SqlCTEFactRenglonFactVsArtInv(int valConsecutivoCompania) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            string vTiposDeDocsFactNCND = insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + ", " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + ", " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito);
+            vSql.AppendLine("CTE_FactRenglonFactVsArtInv AS(");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("	F.ConsecutivoCompania,");
+            vSql.AppendLine("	F.Numero AS NumeroFactura,");
+            vSql.AppendLine("	F.TipoDeDocumento,");
+            vSql.AppendLine("	SUM(" + insSql.RoundToNDecimals("(RF.PrecioSinIVA * RF.Cantidad) * (1 - (RF.PorcentajeDescuento / 100)) * (1 - (F.PorcentajeDescuento / 100))", 2) + ") AS TotalRenglonEnMonedaOriginal");
+            vSql.AppendLine("FROM factura F INNER JOIN renglonFactura RF ON F.ConsecutivoCompania = RF.ConsecutivoCompania AND F.Numero = RF.NumeroFactura AND F.TipoDeDocumento = RF.TipoDeDocumento");
+            vSql.AppendLine("	INNER JOIN articuloInventario AI ON RF.ConsecutivoCompania = AI.ConsecutivoCompania AND RF.Articulo = AI.Codigo");
+            vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("AND AI.ExcluirDeComision = " + insSql.ToSqlValue(false));
+            vSql.AppendLine("AND F.TipoDeDocumento IN (" + vTiposDeDocsFactNCND + ")");
+            vSql.AppendLine("GROUP BY F.ConsecutivoCompania, F.Numero, F.TipoDeDocumento");
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        string SqlCTEFactRenglonOtrosCargosVsOtrosCargos(int valConsecutivoCompania) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            string vTiposDeDocsFactNCND = insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + ", " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + ", " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito);
+            string vNoAplicaSoloInformativo = insSql.EnumToSqlValue(2); //eCA_NO_APLICA_SOLO_INFORMATIVO
+            vSql.AppendLine("CTE_FactRenglonOtrosCargosVsOtrosCargos AS (");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("	F.ConsecutivoCompania,");
+            vSql.AppendLine("	F.Numero AS NumeroFactura,");
+            vSql.AppendLine("	F.TipoDeDocumento,");
+            vSql.AppendLine("	SUM(ISNULL(ROC.TotalRenglon, 0)) AS TotalRenglonEnMonedaOriginal");
+            vSql.AppendLine("FROM factura F INNER JOIN renglonDetalleDeOtrosCargosFactura ROC ON");
+            vSql.AppendLine("	F.TipoDeDocumento = ROC.TipoDeDocumento AND F.Numero = ROC.NumeroFactura AND F.ConsecutivoCompania = ROC.ConsecutivoCompania");
+            vSql.AppendLine("	INNER JOIN otrosCargosDeFactura OCF  ON ROC.CodigoDeCargo = OCF.Codigo AND ROC.ConsecutivoCompania = OCF.ConsecutivoCompania");
+            vSql.AppendLine("WHERE F.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("AND OCF.ExcluirDeComision = " + insSql.ToSqlValue(false));
+            vSql.AppendLine("AND OCF.ComoAplicaAlTotalFactura <> " + vNoAplicaSoloInformativo); //eCA_NO_APLICA_SOLO_INFORMATIVO
+            vSql.AppendLine("AND F.TipoDeDocumento IN (" + vTiposDeDocsFactNCND + ")");
+            vSql.AppendLine("GROUP BY F.ConsecutivoCompania, F.Numero, F.TipoDeDocumento");
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        string SqlCTEFact(int valConsecutivoCompania, string valCodigoMonedaLocal) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            string vSqlCodigoMonedaLocal = insSql.ToSqlValue(valCodigoMonedaLocal);
+            string vTiposDeDocsFactNCND = insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + ", " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + ", " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito);
+            vSql.AppendLine("CTE_Fact AS (");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("	factura.ConsecutivoCompania,");
+            vSql.AppendLine("	factura.Numero,");
+            vSql.AppendLine("	factura.TipoDeDocumento,");
+            vSql.AppendLine("	ISNULL(factura.CodigoMoneda, '') AS CodigoMoneda,");
+            vSql.AppendLine("	" + insSql.IIF("ISNULL(factura.CambioMonedaCXC, 1) = 0", "1", "factura.CambioMonedaCXC", true) + " AS CambioMonedaCXC,");
+            vSql.AppendLine("	" + insSql.IIF("ISNULL(factura.CodigoMoneda, '') = " + vSqlCodigoMonedaLocal, "ISNULL(factura.IGTFML, 0)", "ISNULL(factura.IGTFME, 0)", true) + " AS TotalIGTF,");
+            vSql.AppendLine("	(factura.TotalIVA + " + insSql.IIF("ISNULL(factura.CodigoMoneda, '') = " + vSqlCodigoMonedaLocal, "ISNULL(factura.IGTFML, 0)", "ISNULL(factura.IGTFME, 0)", true) + ") AS TotalIvaMasTotalIGTF,");
+            vSql.AppendLine("	CTE_FactRenglonFactVsArtInv.TotalRenglonEnMonedaOriginal AS TotalExentoMasGravadoFact,");
+            vSql.AppendLine("	ISNULL(CTE_FactRenglonOtrosCargosVsOtrosCargos.TotalRenglonEnMonedaOriginal, 0) AS TotalOtrosCargosFact");
+            vSql.AppendLine("FROM factura INNER JOIN CTE_FactRenglonFactVsArtInv ON factura.ConsecutivoCompania = CTE_FactRenglonFactVsArtInv.ConsecutivoCompania AND factura.Numero = CTE_FactRenglonFactVsArtInv.NumeroFactura AND factura.TipoDeDocumento = CTE_FactRenglonFactVsArtInv.TipoDeDocumento");
+            vSql.AppendLine("	LEFT JOIN CTE_FactRenglonOtrosCargosVsOtrosCargos ON factura.ConsecutivoCompania = CTE_FactRenglonOtrosCargosVsOtrosCargos.ConsecutivoCompania AND factura.Numero = CTE_FactRenglonOtrosCargosVsOtrosCargos.NumeroFactura AND factura.TipoDeDocumento = CTE_FactRenglonOtrosCargosVsOtrosCargos.TipoDeDocumento");
+            vSql.AppendLine("WHERE factura.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("AND factura.TipoDeDocumento IN (" + vTiposDeDocsFactNCND + ")");
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        string SqlCTECxCVsFactVsCliente(int valConsecutivoCompania, string valCodigoMonedaLocal) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            string vSqlCodigoMonedaLocal = insSql.ToSqlValue(valCodigoMonedaLocal);
+            vSql.AppendLine("CTE_CxCVsFactVsCliente AS (");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("	CTE_CxC.ConsecutivoCompania,");
+            vSql.AppendLine("	CTE_CxC.Numero,");
+            vSql.AppendLine("	CTE_CxC.TipoCxC,");
+            vSql.AppendLine("	CTE_CxC.CodigoMoneda AS CodigoMonedaCxC,");
+            vSql.AppendLine("	CTE_CxC.CodigoCliente,");
+            vSql.AppendLine("	CTE_CxC.MontoIVA,");
+            vSql.AppendLine("	CTE_CxC.TotalCxC,");
+            vSql.AppendLine("	ISNULL(CTE_Fact.CodigoMoneda, '') AS CodigoMonedaFact,");
+            vSql.AppendLine("	ISNULL(CTE_Fact.CambioMonedaCXC, 1) AS CambioFactMonedaCXC,");
+            vSql.AppendLine("	(CTE_CxC.TotalExentoMasGravadoCxC - " + insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = 'VED'", insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = CTE_CxC.CodigoMoneda", "ISNULL(CTE_Fact.TotalIGTF, 0)", insSql.RoundToNDecimals("ISNULL(CTE_Fact.TotalIGTF, 0) / ISNULL(CTE_Fact.CambioMonedaCXC, 1)", 2), true), "ISNULL(CTE_Fact.TotalIGTF, 0)", true) + ") AS TotalExentoMasGravadoCxC, "); //hay que restar el IGTF porque lo estamos mandando a mto exento
+            vSql.AppendLine("	" + insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = " + vSqlCodigoMonedaLocal, insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = CTE_CxC.CodigoMoneda", "ISNULL(CTE_Fact.TotalIvaMasTotalIGTF, 0)", insSql.RoundToNDecimals("ISNULL(CTE_Fact.TotalIvaMasTotalIGTF, 0) / ISNULL(CTE_Fact.CambioMonedaCXC, 1)", 2), true), "ISNULL(CTE_Fact.TotalIvaMasTotalIGTF, 0)", true) + " AS TotalIvaMasTotalIGTFFact,");
+            vSql.AppendLine("	" + insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = " + vSqlCodigoMonedaLocal, insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = CTE_CxC.CodigoMoneda", "ISNULL(CTE_Fact.TotalIGTF, 0)", insSql.RoundToNDecimals("ISNULL(CTE_Fact.TotalIGTF, 0) / ISNULL(CTE_Fact.CambioMonedaCXC, 1)", 2), true), "ISNULL(CTE_Fact.TotalIGTF, 0)", true) + " AS TotalIGTF,");
+            vSql.AppendLine("	" + insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = " + vSqlCodigoMonedaLocal, insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = CTE_CxC.CodigoMoneda", "ISNULL(CTE_Fact.TotalExentoMasGravadoFact, 0)", insSql.RoundToNDecimals("ISNULL(CTE_Fact.TotalExentoMasGravadoFact, 0) / ISNULL(CTE_Fact.CambioMonedaCXC, 1)", 2), true), "ISNULL(CTE_Fact.TotalIGTF, 0)", true) + " AS TotalExentoMasGravadoFact,");
+            vSql.AppendLine("	" + insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = " + vSqlCodigoMonedaLocal, insSql.IIF("ISNULL(CTE_Fact.CodigoMoneda, '') = CTE_CxC.CodigoMoneda", "ISNULL(CTE_Fact.TotalOtrosCargosFact, 0)", insSql.RoundToNDecimals("ISNULL(CTE_Fact.TotalOtrosCargosFact, 0) / ISNULL(CTE_Fact.CambioMonedaCXC, 1)", 2), true), "ISNULL(CTE_Fact.TotalIGTF, 0)", true) + " AS TotalOtrosCargosFact,");
+            vSql.AppendLine("	CTE_CxC.NumeroDocumentoOrigen,");
+            vSql.AppendLine("	CTE_CxC.Origen,");
+            vSql.AppendLine("	cliente.Nombre AS NombreCliente ");
+            vSql.AppendLine("FROM CTE_CxC INNER JOIN cliente ON CTE_CxC.ConsecutivoCompania = cliente.ConsecutivoCompania AND CTE_CxC.CodigoCliente = cliente.Codigo");
+            vSql.AppendLine(" INNER JOIN CTE_Fact ON CTE_CxC.ConsecutivoCompania = CTE_Fact.ConsecutivoCompania AND CTE_CxC.NumeroDocumentoOrigen = CTE_Fact.Numero AND CTE_CxC.TipoCxCTipoFact = CTE_Fact.TipoDeDocumento");
+            vSql.AppendLine(" WHERE cliente.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND CTE_CXC.Origen = " + insSql.EnumToSqlValue((int)eOrigenFacturacionOManual.Factura));
+            vSql.AppendLine(" UNION");
+            vSql.AppendLine(" SELECT");
+            vSql.AppendLine(" CTE_CxC.ConsecutivoCompania,");
+            vSql.AppendLine(" CTE_CxC.Numero,");
+            vSql.AppendLine(" CTE_CxC.TipoCxC,");
+            vSql.AppendLine(" CTE_CxC.CodigoMoneda AS CodigoMonedaCxC,");
+            vSql.AppendLine(" CTE_CxC.CodigoCliente,");
+            vSql.AppendLine(" CTE_CxC.MontoIVA,");
+            vSql.AppendLine(" CTE_CxC.TotalCxC,");
+            vSql.AppendLine(" '' AS CodigoMonedaFact,");
+            vSql.AppendLine(" 1 AS CambioFactMonedaCXC,");
+            vSql.AppendLine(" 0 AS TotalExentoMasGravadoCxC,");
+            vSql.AppendLine(" 0 AS TotalIvaMasTotalIGTFFact,");
+            vSql.AppendLine(" 0 AS TotalIGTF,");
+            vSql.AppendLine(" 0 TotalExentoMasGravadoFact,");
+            vSql.AppendLine(" 0 AS TotalOtrosCargosFact,");
+            vSql.AppendLine(" CTE_CxC.NumeroDocumentoOrigen,");
+            vSql.AppendLine(" CTE_CxC.Origen,");
+            vSql.AppendLine(" cliente.Nombre AS NombreCliente ");
+            vSql.AppendLine(" FROM CTE_CxC INNER JOIN cliente ON CTE_CxC.ConsecutivoCompania = cliente.ConsecutivoCompania AND CTE_CxC.CodigoCliente = cliente.Codigo ");
+            vSql.AppendLine(" WHERE cliente.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND CTE_CxC.Origen = " + insSql.EnumToSqlValue((int)eOrigenFacturacionOManual.Manual));
+
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        string SqlCTECxCVsFactVsClienteCalculado() {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("CTE_CxCVsFactVsClienteCalculado AS (");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.ConsecutivoCompania,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.Numero,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.TipoCxC,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.CodigoMonedaCxC,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.CodigoCliente,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.MontoIVA,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.TotalCxC,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.TotalExentoMasGravadoCxC,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.NumeroDocumentoOrigen,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.Origen,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.CodigoMonedaFact,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.CambioFactMonedaCXC,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.TotalIvaMasTotalIGTFFact,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.TotalIGTF,");
+            vSql.AppendLine("	(CTE_CxCVsFactVsCliente.MontoIVA + CTE_CxCVsFactVsCliente.TotalIGTF) AS MontoIvaCxCMasIGTFFact,");
+            vSql.AppendLine("	" + insSql.IIF("(CTE_CxCVsFactVsCliente.MontoIVA + CTE_CxCVsFactVsCliente.TotalIGTF) = 0", "0", "(CTE_CxCVsFactVsCliente.TotalExentoMasGravadoCxC / (CTE_CxCVsFactVsCliente.MontoIVA + CTE_CxCVsFactVsCliente.TotalIGTF))", true) + " AS TotalExentoMasGravadoCxCEntreIvaMasIGTFFact,");
+            vSql.AppendLine("	" + insSql.IIF("CTE_CxCVsFactVsCliente.TotalIvaMasTotalIGTFFact = 0", "0", "((CTE_CxCVsFactVsCliente.TotalExentoMasGravadoFact + CTE_CxCVsFactVsCliente.TotalOtrosCargosFact)/ CTE_CxCVsFactVsCliente.TotalIvaMasTotalIGTFFact)", true) + " AS TotalExentoMasGravadoFactEntreIvaMasIgtfFact,");
+            vSql.AppendLine("	CTE_CxCVsFactVsCliente.NombreCliente");
+            vSql.AppendLine("FROM CTE_CxCVsFactVsCliente");
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        string SqlCTEDocCobradoCxCVsFactVsCliente(int valConsecutivoCompania) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("CTE_DocCobradoCxCVsFactVsCliente AS (");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("	DocCob.ConsecutivoCompania,");
+            vSql.AppendLine("	DocCob.NumeroCobranza,");
+            vSql.AppendLine("	DocCob.MontoAbonado,");
+            vSql.AppendLine("	DocCob.NumeroDelDocumentoCobrado,");
+            vSql.AppendLine("	CTE_CxCVsFactVsClienteCalculado.Numero AS NumeroDoc,");
+            vSql.AppendLine("	DocCob.CambioAMonedaDeCobranza,");
+            vSql.AppendLine("	CTE_CxCVsFactVsClienteCalculado.CodigoCliente,");
+            vSql.AppendLine("	CTE_CxCVsFactVsClienteCalculado.NombreCliente,");
+            vSql.AppendLine("	CTE_CxCVsFactVsClienteCalculado.TotalCxC,");
+            vSql.AppendLine("	" + insSql.RoundToNDecimals("DocCob.MontoAbonado - " + insSql.IIF("CTE_CxCVsFactVsClienteCalculado.MontoIvaCxCMasIGTFFact = 0", "0", "DocCob.MontoAbonado/ (1 + CTE_CxCVsFactVsClienteCalculado.TotalExentoMasGravadoCxCEntreIvaMasIGTFFact)", true), 2) + " AS MontoComisionableCxC,");
+            vSql.AppendLine("	" + insSql.RoundToNDecimals("DocCob.MontoAbonado - " + insSql.IIF("CTE_CxCVsFactVsClienteCalculado.TotalIvaMasTotalIGTFFact = 0", "0", "DocCob.MontoAbonado/ (1 + CTE_CxCVsFactVsClienteCalculado.TotalExentoMasGravadoFactEntreIvaMasIgtfFact)", true), 2) + " AS MontoComisionableFact,");
+            vSql.AppendLine("	CTE_CxCVsFactVsClienteCalculado.Origen");
+            vSql.AppendLine("FROM documentoCobrado AS DocCob INNER JOIN CTE_CxCVsFactVsClienteCalculado ON");
+            vSql.AppendLine("	DocCob.ConsecutivoCompania = CTE_CxCVsFactVsClienteCalculado.ConsecutivoCompania");
+            vSql.AppendLine("	AND DocCob.NumeroDelDocumentoCobrado = CTE_CxCVsFactVsClienteCalculado.Numero");
+            vSql.AppendLine("	AND DocCob.ConsecutivoCompania = CTE_CxCVsFactVsClienteCalculado.ConsecutivoCompania");
+            vSql.AppendLine("	AND DocCob.TipoDeDocumentoCobrado = CTE_CxCVsFactVsClienteCalculado.TipoCxC");
+            vSql.AppendLine("WHERE DocCob.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        string SqlCTECobranzaVsVendedorVsMoneda(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta, bool valUsaAsignacionDeComisionEnCobranza, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            string vSqlStatusCobranzaVigente = insSql.EnumToSqlValue((int)eStatusCobranza.Vigente);
+            string vSqlFechaCobranzaBetween = insSql.SqlDateValueBetween("", "Cobranza.Fecha", valFechaDesde, valFechaHasta);
+            string vSqlPorcentajeDeComision = SqlPorcentajeDeComision(valUsaAsignacionDeComisionEnCobranza);
+            vSql.AppendLine("CTE_CobranzaVsVendedorVsMoneda AS (");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("	cobranza.ConsecutivoCompania,");
+            vSql.AppendLine("	cobranza.Numero,");
+            vSql.AppendLine("	vendedor.Codigo AS CodigoDelVendedor,");
+            vSql.AppendLine("	vendedor.Nombre AS NombreDelVendedor,");
+            vSql.AppendLine("	" + vSqlPorcentajeDeComision + " AS PorcentajeDeComision,");
+            if (valTipoDeInforme == Saw.Lib.eTipoDeInforme.Resumido && valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares) {
+                vSql.AppendLine("	'VED' AS CodigoMonedaCobranza,");
+                vSql.AppendLine("   'Bolívar' AS MonedaCobranza,");
+                vSql.AppendLine("	'Bs.' AS SimboloMonedaDoc,");
+            } else {
+                vSql.AppendLine("	cobranza.CodigoMoneda AS CodigoMonedaCobranza,");
+                vSql.AppendLine("   moneda.Nombre AS MonedaCobranza,");
+                vSql.AppendLine("	Moneda.Simbolo AS SimboloMonedaDoc,");
+            }
+            vSql.AppendLine("	Cobranza.Fecha AS FechaDoc,");
+            vSql.AppendLine("	'Cob. ' + Cobranza.Numero + ' / Doc. ' AS NumeroCob,");
+            vSql.AppendLine("	Cobranza.CambioABolivares");
+            vSql.AppendLine("FROM cobranza INNER JOIN vendedor");
+            vSql.AppendLine("		ON cobranza.CodigoCobrador = Vendedor.Codigo");
+            vSql.AppendLine("		AND cobranza.ConsecutivoCompania = Vendedor.ConsecutivoCompania");
+            vSql.AppendLine("	INNER JOIN Moneda");
+            vSql.AppendLine("		ON Moneda.Codigo = Cobranza.CodigoMoneda");
+            vSql.AppendLine("WHERE cobranza.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("	AND " + vSqlFechaCobranzaBetween);
+            vSql.AppendLine("	AND Cobranza.StatusCobranza = " + vSqlStatusCobranzaVigente);
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        string SqlCTECobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente(Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTasaDeCambioParaImpresion valTasaDeCambio) {
+            QAdvSql insSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            string vSqlCambioABolivaresDoc = "CTE_DocCobradoCxCVsFactVsCliente.CambioAMonedaDeCobranza";
+            if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnBolivares && valTasaDeCambio == Saw.Lib.eTasaDeCambioParaImpresion.DelDia) {
+                vSqlCambioABolivaresDoc = _LibSaw.CampoMontoPorTasaDeCambioSegunCodMonedaSql(string.Empty, "CTE_CobranzaVsVendedorVsMoneda.CodigoMonedaCobranza", "1", false, string.Empty);
+            }
+            vSql.AppendLine("CTE_CobranzaVsVendedorVsMonedaVsDocCobradoCxCVsFactVsCliente AS(");
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMoneda.CodigoDelVendedor, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMoneda.NombreDelVendedor, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMoneda.CodigoMonedaCobranza, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMoneda.MonedaCobranza,");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMoneda.FechaDoc, ");
+            vSql.AppendLine("   CTE_DocCobradoCxCVsFactVsCliente.Origen,");
+            vSql.AppendLine("   CTE_DocCobradoCxCVsFactVsCliente.NumeroDoc, ");
+            vSql.AppendLine("   (CTE_CobranzaVsVendedorVsMoneda.NumeroCob + CTE_DocCobradoCxCVsFactVsCliente.NumeroDelDocumentoCobrado) AS NumeroDelDocumento,");
+            vSql.AppendLine("   CTE_DocCobradoCxCVsFactVsCliente.NombreCliente, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMoneda.SimboloMonedaDoc,");
+            vSql.AppendLine("   " + vSqlCambioABolivaresDoc + " AS CambioABolivaresDoc, ");
+            vSql.AppendLine("   CTE_CobranzaVsVendedorVsMoneda.PorcentajeDeComision, ");
+            vSql.AppendLine("   CTE_DocCobradoCxCVsFactVsCliente.MontoAbonado AS MontoAbonadoOriginal, ");
+            vSql.AppendLine("   ROUND(CTE_DocCobradoCxCVsFactVsCliente.MontoAbonado * " + vSqlCambioABolivaresDoc + ", 2) AS MontoAbonado,");
+            vSql.AppendLine("   CTE_DocCobradoCxCVsFactVsCliente.MontoComisionableCxC AS MontoComisionable, ");
+            vSql.AppendLine("   (CASE WHEN CTE_CobranzaVsVendedorVsMoneda.MonedaCobranza ='VED' THEN CTE_DocCobradoCxCVsFactVsCliente.MontoComisionableCxC ELSE ROUND(CTE_DocCobradoCxCVsFactVsCliente.MontoComisionableCxC * CTE_CobranzaVsVendedorVsMoneda.CambioABolivares, 2) END) AS MontoComisionableEnMonedaLocal");
+            vSql.AppendLine("   FROM CTE_CobranzaVsVendedorVsMoneda INNER JOIN CTE_DocCobradoCxCVsFactVsCliente");
+            vSql.AppendLine("	ON CTE_DocCobradoCxCVsFactVsCliente.NumeroCobranza = CTE_CobranzaVsVendedorVsMoneda.Numero");
+            vSql.AppendLine("	AND CTE_DocCobradoCxCVsFactVsCliente.ConsecutivoCompania = CTE_CobranzaVsVendedorVsMoneda.ConsecutivoCompania");
+            vSql.AppendLine("   WHERE CTE_DocCobradoCxCVsFactVsCliente.TotalCxC <> 0 ");
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+        #endregion //Comisiones por Vendedor
         #endregion //Metodos Generados
-
-
     } //End of class clsCobranzaSql
 
 } //End of namespace Galac.Adm.Brl.Venta

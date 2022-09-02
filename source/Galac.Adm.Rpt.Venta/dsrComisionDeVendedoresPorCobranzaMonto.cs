@@ -87,7 +87,7 @@ namespace Galac.Adm.Rpt.Venta {
                     OcultarColumnasSinMontoCobrado();
                     OrganizarColumnasSinMontoCobrado();
                     OrganizarTotalesPorMonedaCobranza();
-                    LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAbonado", string.Empty, "MontoAbonado", 2);
+                    LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalAbonado", string.Empty, "MontoAbonadoOriginal", 2);
 				    LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoComisionable", string.Empty, "MontoComisionable", 2);
                     LibReport.ConfigSummaryField(this, "txtTotalComisionable", "MontoComisionable", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
                     LibReport.ConfigSummaryField(this, "txtTotalComisionableEnMonedaLocal", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
@@ -219,8 +219,11 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoComision", string.Empty, "MontoComision", 2);
 				LibReport.ConfigFieldStr(this, "txtNivelDeComision", string.Empty, "NivelDeComision");
                 LibReport.ConfigFieldStr(this, "txtNotaFooter", vNotaFooter, string.Empty);
-
-                LibReport.ConfigSummaryField(this, "txtTotalAbonadoCobranza", "MontoAbonado", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
+                if (EsEnMonedaOriginal) { 
+                    LibReport.ConfigSummaryField(this, "txtTotalAbonadoCobranza", "MontoAbonadoOriginal", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
+                } else {
+                    LibReport.ConfigSummaryField(this, "txtTotalAbonadoCobranza", "MontoAbonado", SummaryFunc.Sum, "GHSecMonedaCobranza", SummaryRunning.Group, SummaryType.SubTotal);
+                }
                 LibReport.ConfigSummaryField(this, "txtTotalGeneralComisionable", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecVendedor", SummaryRunning.Group, SummaryType.SubTotal);
 
 				LibReport.ConfigGroupHeader(this, "GHSecVendedor", "CodigoDelVendedor", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
