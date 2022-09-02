@@ -62,3 +62,11 @@
 	path = bin/binAdministrativoVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativovb.git
 	branch = release/V2210
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
+	branch = release/IVA-31.1
+[submodule "source/VbaComun"]
+	path = source/VbaComun
+	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
+	branch = release/SawV22.6.0.0
