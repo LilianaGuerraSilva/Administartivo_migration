@@ -50,10 +50,6 @@
 	path = source/RetencionesVb
 	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
 	branch = release/SawV22.5.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git
-	branch = release/SawV22.6.0.0
 [submodule "source/Contabilidadvb"]
 	path = source/Contabilidadvb
 	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
