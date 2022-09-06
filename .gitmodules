@@ -42,10 +42,6 @@
 	path = source/Axi
 	url = https://gitlab.com/galac-software-enterprise/desa/axi.git
 	branch = release/SawV22.5.0.0
-[submodule "source/Contabilidadvb"]
-	path = source/Contabilidadvb
-	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
-	branch = release/SawV22.5.0.0
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://gitlab.com/galac-software-enterprise/desa/contabiwrp.git
@@ -54,6 +50,14 @@
 	path = source/RetencionesVb
 	url = https://gitlab.com/galac-software-enterprise/desa/retencionesvb.git
 	branch = release/SawV22.5.0.0
+[submodule "source/Contabilidadvb"]
+	path = source/Contabilidadvb
+	url = https://gitlab.com/galac-software-enterprise/desa/contabilidadvb.git
+	branch = release/IVA-32.1
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
+	branch = release/IVA-32.1
 [submodule "bin/binAdministrativoAos"]
 	path = bin/binAdministrativoAos
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativoaos.git
@@ -62,10 +66,6 @@
 	path = bin/binAdministrativoVb
 	url = https://gitlab.com/galac-software-enterprise/desa/binadministrativovb.git
 	branch = release/V2210
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://gitlab.com/galac-software-enterprise/desa/ivavb.git
-	branch = release/IVA-31.1
 [submodule "source/VbaComun"]
 	path = source/VbaComun
 	url = https://gitlab.com/galac-software-enterprise/desa/vbacomun.git

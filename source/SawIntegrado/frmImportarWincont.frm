@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.1#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmImportarWincont 
    BackColor       =   &H00F3F3F3&
    Caption         =   "Importar data de Wincont"
@@ -478,7 +478,7 @@ Private Function fEjecutaProcesoDeImportarDataDelWincont(ByVal valVersionBDDWinC
    varConExito = False
    gUtilRespaldo.sInicializaLosValoresDeClase txtProgreso, prgBarImportar, Importar, _
          gProyCompaniaActual.GetNombre, gProyCompaniaActual.GetCodigo
-   sImportaParametrosWincont
+   sImportaParametrosWincont valVersionBDDWinCont
    sImportaTipoDeComprobante
    sImportaLote
    sImportaParametrosActivoFijo
@@ -733,7 +733,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "sImportaTipoDeComprobante", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Sub sImportaParametrosWincont()
+Private Sub sImportaParametrosWincont(ByVal valDBVersion As String)
    Dim varParametrosWincontNavigator As clsParametrosNavigator
    Dim varRSTemp As ADODB.Recordset
    Dim varSQL As String
@@ -747,7 +747,7 @@ Private Sub sImportaParametrosWincont()
          varSQL = "DELETE FROM " & varParametrosWincontNavigator.GetTableName
          gDbUtil.Execute gDefDatabase.Conexion, varSQL
          If Not varParametrosWincontNavigator.fSearch() Then
-            varParametrosWincontNavigator.sRestaurarDatos varRSTemp
+            varParametrosWincontNavigator.sRestaurarDatos varRSTemp, valDBVersion
          End If
          gUtilRespaldo.sAddProgress
       End If

@@ -466,6 +466,12 @@ Enum enum_GenerarComprobanteDeDiferenciaCambiaria
    eGC_Nunca
 End Enum
 
+Enum enum_ExpresarBalancesEnMonedaExtrangera
+   eGC_NoAplicar = 0
+   eGc_ConDifCambiria
+   eGC_ConGananciaPerdidaCambiaria
+End Enum
+
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsEnumContabilidad"
 End Function
@@ -3659,3 +3665,33 @@ Public Sub FillComboBoxWithGenerarComprobanteDeDiferenciaCambiaria(ByRef varComb
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
 End Sub
+
+Public Function enumExpresarBalancesEnMonedaExtrangeraToString(ExpresarBalancesEnMonedaExtrangera As enum_ExpresarBalancesEnMonedaExtrangera) As String
+   Select Case ExpresarBalancesEnMonedaExtrangera
+      Case eGC_NoAplicar: enumExpresarBalancesEnMonedaExtrangeraToString = "No aplica"
+      Case eGc_ConDifCambiria: enumExpresarBalancesEnMonedaExtrangeraToString = "Saldo diario ajustado según la tasa del día"
+      Case eGC_ConGananciaPerdidaCambiaria: enumExpresarBalancesEnMonedaExtrangeraToString = "Con Ganancia o Pérdida cambiaria calculada automáticamente"
+      Case Else
+         enumExpresarBalancesEnMonedaExtrangeraToString = enumExpresarBalancesEnMonedaExtrangeraToString(0)
+   End Select
+End Function
+
+Public Function strExpresarBalancesEnMonedaExtrangeraToNum(ByVal ExpresarBalancesEnMonedaExtrangera As String, _
+   Optional ByVal ShowMessage As Boolean = True) As Integer
+   Dim mEnum As enum_ExpresarBalancesEnMonedaExtrangera
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eGC_Mensual To eGC_Nunca
+   If UCase(ExpresarBalancesEnMonedaExtrangera) = UCase(enumExpresarBalancesEnMonedaExtrangeraToString(mEnum)) Then
+      strExpresarBalancesEnMonedaExtrangeraToNum = nCount
+      GoTo h_EXIT
+   End If
+   nCount = nCount + 1
+   Next
+   strExpresarBalancesEnMonedaExtrangeraToNum = 0
+   If ShowMessage Then
+      gMessage.ProgrammerMessage "Valor " & ExpresarBalancesEnMonedaExtrangera & " no existe en tipo enumerativo ExpresarBalancesEnMonedaExtrangera"
+   End If
+h_EXIT:
+   Exit Function
+End Function
