@@ -9,15 +9,15 @@
     <LibGalacXtmCI>2104</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>2208</SawEnum>
-    <SawImportExport>2208</SawImportExport>
-    <SawMaquinaFiscal>2208</SawMaquinaFiscal>
+    <SawEnum>2209</SawEnum>
+    <SawImportExport>2209</SawImportExport>
+    <SawMaquinaFiscal>2289</SawMaquinaFiscal>
     <SawNav>2208</SawNav>
-    <SawRpt>2208</SawRpt>
+    <SawRpt>2209</SawRpt>
     <SawSP>2208</SawSP>
     <SawTbls>2208</SawTbls>
-    <SawVista>2208</SawVista>    
-    <ContabRpt>2109</ContabRpt>
+    <SawVista>2209</SawVista>    
+    <ContabRpt>2202</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
   </ComponentesCOM>
