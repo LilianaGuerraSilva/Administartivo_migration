@@ -22,7 +22,7 @@
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
   </ComponentesCOM>
   <ComponentesNET>
-    <GSEFF type="exe">5.2.0.0</GSEFF>
+    <GSEFF type="exe">5.2.1.0</GSEFF>
     <GSSDSL type="exe">5.1.0.0</GSSDSL>
     <GSXFV type="exe">5.1.0.0</GSXFV>
     <LibGalac.OIM>5.14.0.0</LibGalac.OIM>
