@@ -9,6 +9,7 @@ using System.Linq;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
+using Galac.Contab.Ccl.WinCont;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
     class clsVersion6_60 : clsVersionARestructurar {
@@ -25,9 +26,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 		private void ActualizaNombresInformes() {
 			StringBuilder vSql = new StringBuilder();
-			vSql.AppendLine("UPDATE Contab.ParametrosGen SET NombreM)ayorAnaliticoDetallado = ");
+			vSql.AppendLine("UPDATE Contab.ParametrosGen SET NombreMayorAnaliticoDetallado = ");
 			vSql.AppendLine(InsSql.ToSqlValue("Libro Mayor"));
-			vSql.AppendLine(" WHERE NombreMayorAnaliticoDeta)llado = ");
+			vSql.AppendLine(" WHERE NombreMayorAnaliticoDetallado = ");
 			vSql.AppendLine(InsSql.ToSqlValue("Mayor Analítico"));
 			Execute(vSql.ToString(), 0);
 			vSql.Clear();
@@ -47,10 +48,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		private void ModificarTablasWincont() {
-			string vSql = string.Empty;
+			StringBuilder vSql = new StringBuilder();
 			if (ColumnExists("Contab.ParametrosConciliacion", "ExpresarBalancesEnDiferentesMonedas")) {
-				vSql = vSql + "UPDATE Contab.ParametrosConciliacion SET ExpresarBalancesEnDiferentesMonedas = (CASE WHEN ExpresarBalancesEnDiferentesMonedas = 'N' THEN '" + (int)Galac.Contab.Ccl.WinCont.eExpresarBalancesEnMonedaExtrangera.NoAplicar + "' WHEN ExpresarBalancesEnDiferentesMonedas = 'S' THEN '" + (int)Galac.Contab.Ccl.WinCont.eExpresarBalancesEnMonedaExtrangera.ConDifCambiria + "' ELSE ExpresarBalancesEnDiferentesMonedas END) ";
-				Execute(vSql, 0);
+				vSql.AppendLine("UPDATE Contab.ParametrosConciliacion SET ExpresarBalancesEnDiferentesMonedas = (CASE WHEN ExpresarBalancesEnDiferentesMonedas = " + _insSql.ToSqlValue(LibConvert.BoolToSN(false)) + " THEN " + _insSql.EnumToSqlValue((int)eExpresarBalancesEnMonedaExtrangera.NoAplicar) + " WHEN ExpresarBalancesEnDiferentesMonedas = " + _insSql.ToSqlValue(LibConvert.BoolToSN(true)) + " THEN " + _insSql.EnumToSqlValue((int)eExpresarBalancesEnMonedaExtrangera.ConDifCambiria) + " ELSE ExpresarBalancesEnDiferentesMonedas END) ");
+				Execute(vSql.ToString(), 0);
 			}
 			AlterColumnIfExist("dbo.ASIENTO", "TasaDeCambio", InsSql.DecimalTypeForDb(30, 5), "", "");
 		}
