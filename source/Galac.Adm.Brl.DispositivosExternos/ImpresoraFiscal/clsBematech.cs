@@ -11,6 +11,7 @@ using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
 using System.Globalization;
+using LibGalac.Aos.Cnf;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsBematech : IImpresoraFiscalPdn {
@@ -770,7 +771,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             decimal vIGTF = 0;
             string vObservIGTF = "";
             try {
-                vVersionFirmware = GetFirmwareVesion();
+                vVersionFirmware = GetFirmwareVersion();
                 vIGTF = LibImportData.ToDec(LibXml.GetPropertyString(valDocumentoFiscal, "IGTFML"));
                 vImprimeDireccionALFinalDeLaFactura = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "ImprimeDireccionAlFinalDelComprobanteFiscal");
                 valDescuentoTotal = LibXml.GetPropertyString(valDocumentoFiscal, "PorcentajeDescuento");
@@ -1246,13 +1247,17 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             return null;
         }
 
-        private string GetFirmwareVesion() {
+        private string GetFirmwareVersion() {
             string vVersionFirmware = LibString.Space(6);
             Bematech_FI_VersionFirmwareMFD(ref vVersionFirmware);
-            if (LibString.IsNullOrEmpty(LibString.Trim(vVersionFirmware))) {
+            if (LibString.IsNullOrEmpty(LibString.Trim(vVersionFirmware)) && SkipFirmwareVersionValidation()) {
                 vVersionFirmware = _FirmwareVersBM4000IGTF;
             }
             return vVersionFirmware;
+        }
+
+        private bool SkipFirmwareVersionValidation() {
+            return LibConvert.SNToBool(LibAppSettings.ReadAppSettingsKey("SFVV"));            
         }
 
         public bool EstatusDeComunicacion(IFDiagnostico vDiagnostico) {
