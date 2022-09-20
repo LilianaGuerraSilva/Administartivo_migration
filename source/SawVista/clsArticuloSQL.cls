@@ -2390,16 +2390,26 @@ Public Function fQueryNotaES(ByVal valTipoOperacion As enum_TipodeOperacion, ByV
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
       SQL = SQL & " AND renglonNotaES.CodigoArticulo =" & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-         SQL = SQL & " AND RenglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND renglonNotaES.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND RenglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND renglonNotaES.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    Else
       SQL = SQL & " AND renglonNotaES.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
-         SQL = SQL & " AND renglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND renglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
-         SQL = SQL & " AND RenglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND renglonNotaES.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND RenglonNotaES.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND renglonNotaES.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    End If
    fQueryNotaES = SQL
@@ -2425,16 +2435,26 @@ Public Function fQueryTransferencia(ByVal valTipoOperacion As enum_TipodeOperaci
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
       SQL = SQL & " AND RenglonTransferencia.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-         SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND RenglonTransferencia.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND RenglonTransferencia.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    Else
       SQL = SQL & " AND RenglonTransferencia.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
-         SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
-         SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND RenglonTransferencia.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND RenglonTransferencia.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND RenglonTransferencia.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    End If
    fQueryTransferencia = SQL
@@ -2459,16 +2479,26 @@ Public Function fQueryFactura(ByVal valCodigoAlmacen As String, ByVal valConsecu
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
       SQL = SQL & " AND renglonFactura.Articulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-         SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND renglonfactura.rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND renglonfactura.rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    Else
       SQL = SQL & " AND renglonFactura.Articulo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
-         SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
-         SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND Renglonfactura.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND Renglonfactura.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    End If
    fQueryFactura = SQL
@@ -2498,16 +2528,26 @@ Public Function fQueryFacturaPC(ByVal valCodigoAlmacen As String, ByVal valConse
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
       SQL = SQL & " AND productoCompuesto.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-         SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND renglonfactura.rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND renglonfactura.rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    Else
       SQL = SQL & " AND productoCompuesto.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
-         SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
-         SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND Renglonfactura.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND Renglonfactura.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND Renglonfactura.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    End If
    fQueryFacturaPC = SQL
@@ -2533,16 +2573,26 @@ Public Function fQueryConteoFisico(ByVal valCodigoAlmacen As String, ByVal valCo
    If valTipoArticuloInvAsEnum = eTAI_UsaTalla_Color Or valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
       SQL = SQL & " AND RenglonConteoFisico.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigoCompuesto)
       If valTipoArticuloInvAsEnum = eTAI_UsaTalla_ColorySerial Then
-         SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND RenglonConteoFisico.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND RenglonConteoFisico.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    Else
       SQL = SQL & " AND RenglonConteoFisico.CodigoArticulo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
       If valTipoArticuloInvAsEnum = eTAI_UsaSerial Then
-        SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
       ElseIf valTipoArticuloInvAsEnum = eTAI_UsaSerial_Rollo Then
-         SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-         SQL = SQL & " AND RenglonConteoFisico.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         If (valSerial <> "" And valSerial <> "0") Then
+            SQL = SQL & " AND RenglonConteoFisico.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+         End If
+         If (valRollo <> "" And valRollo <> "0") Then
+            SQL = SQL & " AND RenglonConteoFisico.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+         End If
       End If
    End If
 h_EXIT: On Error GoTo 0
@@ -4736,8 +4786,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "fSqlInventarioPorCategoria", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fQueryCompra(ByVal valConsecutivoCompania As Long, ByVal valConsecutivoAlmacen As Long, ByVal valCodigoArticulo As String, ByVal valTipoArticuloInv As enum_TipoArticuloInv, _
-         Optional ByVal valSerial As String = "0", Optional ByVal valRollo As String = "0") As String
+Public Function fQueryCompra(ByVal valConsecutivoCompania As Long, ByVal valConsecutivoAlmacen As Long, ByVal valCodigoArticulo As String, ByVal valTipoArticuloInv As enum_TipoArticuloInv, ByVal valSerial As String, ByVal valRollo As String) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    If valTipoArticuloInv = eTAI_Simple Or valTipoArticuloInv = eTAI_UsaTalla_Color Then
@@ -4755,8 +4804,12 @@ Public Function fQueryCompra(ByVal valConsecutivoCompania As Long, ByVal valCons
       SQL = SQL & " ON compra.Consecutivo = CompraDetalleSerialRollo.ConsecutivoCompra "
       SQL = SQL & " AND compra.ConsecutivoCompania = CompraDetalleSerialRollo.ConsecutivoCompania"
       SQL = SQL & " WHERE CompraDetalleSerialRollo.CodigoArticulo =" & gUtilSQL.fSimpleSqlValue(valCodigoArticulo)
-      SQL = SQL & " AND CompraDetalleSerialRollo.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
-      SQL = SQL & " AND CompraDetalleSerialRollo.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+      If (valSerial <> "" And valSerial <> "0") Then
+         SQL = SQL & " AND CompraDetalleSerialRollo.Serial = " & gUtilSQL.fSimpleSqlValue(valSerial)
+      End If
+      If (valRollo <> "" And valRollo <> "0") Then
+         SQL = SQL & " AND CompraDetalleSerialRollo.Rollo = " & gUtilSQL.fSimpleSqlValue(valRollo)
+      End If
       SQL = SQL & " AND compra.ConsecutivoCompania = " & valConsecutivoCompania
       SQL = SQL & " AND compra.ConsecutivoAlmacen = " & gUtilSQL.fSimpleSqlValue(valConsecutivoAlmacen)
       SQL = SQL & " AND compra.StatusCompra = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCompra.eSCp_VIGENTE)
