@@ -675,7 +675,7 @@ Private Function fSqlDeclaracionIGTFGeneraMovBan_SQL(ByVal valRedondeaMontoDebit
    On Error GoTo h_ERROR
    SQL = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S' AND GeneradoPor <> '4'", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") AS BaseImponible, "
+      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'N' OR GeneradoPor = '4'", "0", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2)) & ") AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = '4'", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") AS MontoITF, "
    Else
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", gUtilSQL.fSQLTruncaA2Decimales("Monto * CambioAbolivares"), "0") & ") AS BaseImponible, "
@@ -699,7 +699,7 @@ Private Function fSqlDeclaracionIGTFNoGeneraMovBan_SQL(ByVal valRedondeaMontoDeb
    On Error GoTo h_ERROR
    SQL = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S' AND GeneradoPor <> '4'", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") AS BaseImponible, "
+      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'N' OR GeneradoPor = '4'", "0", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2)) & ") AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = '4'", "0", gUtilSQL.fRoundNDecimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ", 2)) & ") AS MontoITF, "
    Else
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = 'S'", gUtilSQL.fSQLTruncaA2Decimales(" Monto * CambioAbolivares "), "0") & ") AS BaseImponible, "
