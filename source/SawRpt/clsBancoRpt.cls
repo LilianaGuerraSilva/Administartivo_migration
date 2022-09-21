@@ -280,8 +280,9 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sDefaultConfigurationForLabels refRpt, "lblFechaInicialYFinal", "Del " & gConvert.dateToString(valFechaInicial) & " al " & gConvert.dateToString(valFechaFinal)
          gUtilReports.sConfiguraEncabezado refRpt, "lblCompania", "lblFechaYHoraDeEmision", "lblTituloDelReporte", "lblNumeroDePagina", "lblFechaInicialYFinal", gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision
          
-         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHCuentaBancaria", "NombreCuenta", ddGrpAll, ddRepeatOnPage, True, ddNPNone
-         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHTipoContribuyente", "TipoDeAlicuotaPorContribuyenteStr", ddGrpAll, ddRepeatOnPage, True, ddNPBefore
+         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHCuentaBancaria", "NombreCuenta", ddGrpFirstDetail, ddRepeatOnPageIncludeNoDetail, True, ddNPNone
+         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHTipoContribuyente", "TipoDeAlicuotaPorContribuyenteStr", ddGrpFirstDetail, ddRepeatOnPageIncludeNoDetail, True, ddNPBefore
+         gUtilReports.sDefaultConfigurationForGroupHeaderOrFooter refRpt, "GHAlicuota", "AlicuotaImpBancario", ddGrpAll, ddRepeatOnPage, True, ddNPNone
          
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtTipoAliContribuyente", "", "TipoDeAlicuotaPorContribuyenteStr"
          gUtilReports.sDefaultConfigurationForStrFields refRpt, "txtCuentaBancaria", "", "NombreCuenta"
@@ -302,6 +303,11 @@ Public Function fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinan
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtGFTotalCantOperaciones", "ParaContar", eSF_SUM, "GHTipoContribuyente", eSR_GROUP, eST_SUB_TOTAL, "#"
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtGFTotalBaseImponible", "BaseImponible", eSF_SUM, "GHTipoContribuyente", eSR_GROUP, eST_SUB_TOTAL
          gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtGFTotalImpuesto", "MontoITF", eSF_SUM, "GHTipoContribuyente", eSR_GROUP, eST_SUB_TOTAL
+         
+         gUtilReports.sDefaultConfigurationForNumericFields refRpt, "txtTotalTipoAlicuota", "", "AlicuotaImpBancario"
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtGFTotalCantOperacionesAlicuota", "ParaContar", eSF_SUM, "GHAlicuota", eSR_GROUP, eST_SUB_TOTAL, "#"
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtGFTotalBaseImponibleAlicuota", "BaseImponible", eSF_SUM, "GHAlicuota", eSR_GROUP, eST_SUB_TOTAL
+         gUtilReports.sDefaultConfigurationForSummaryFields refRpt, "txtGFTotalImpuestoAlicuota", "MontoITF", eSF_SUM, "GHAlicuota", eSR_GROUP, eST_SUB_TOTAL
          
          gUtilMargins.sAsignarMargenesGenerales refRpt
          Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
