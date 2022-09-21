@@ -468,7 +468,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanMB(ByVal valConsecutivoCompan
    vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
       vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
@@ -496,7 +496,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConse
    vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
       vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
@@ -526,7 +526,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanPago(ByVal valConsecutivoComp
    vSQL = vSQL & "AND MovimientoBancario.NumeroDocumento  = Pago.NumeroCheque AND MovimientoBancario.Fecha = Pago.Fecha "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
       vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
@@ -557,7 +557,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanCobranza(ByVal valConsecutivo
    vSQL = vSQL & "AND MovimientoBancario.NumeroDocumento  = Cobranza.Numero AND MovimientoBancario.Fecha = Cobranza.Fecha "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
       vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
@@ -588,7 +588,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP(ByVal valConsecutiv
    vSQL = vSQL & "AND MovimientoBancario.NumeroDocumento  = anticipo.ConsecutivoAnticipo AND MovimientoBancario.Fecha = anticipo.Fecha "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
       vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
@@ -621,7 +621,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanRendicion(ByVal valConsecutiv
    vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria = Adm.Rendicion.CodigoCuentaBancaria "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
       vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
@@ -655,7 +655,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago(ByVal valConsec
    vSQL = vSQL & "AND MovimientoBancario.NumeroDocumento = Saw.RenglonSolicitudesDePago.NumeroDocumento "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND MovimientoBancario.Monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status" & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
       vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
@@ -698,7 +698,6 @@ Private Function fSqlDeclaracionIGTFNoGeneraMovBan_SQL(ByVal valRedondeaMontoDeb
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
-   
    If valRedondeaMontoDebitoBancario Then
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(False) & " OR GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2)) & ") AS BaseImponible, "
       SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fRoundNDecimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ", 2)) & ") AS MontoITF, "
