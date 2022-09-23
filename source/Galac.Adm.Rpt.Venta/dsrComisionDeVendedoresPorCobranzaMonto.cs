@@ -75,7 +75,7 @@ namespace Galac.Adm.Rpt.Venta {
 				LibReport.ConfigFieldStr(this, "txtNumeroDoc", string.Empty, "NumeroDelDocumento");
 				LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
 				LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "SimboloMonedaDoc");
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioABolivares", string.Empty, "CambioABolivaresDoc", 2);
+				LibReport.ConfigFieldDecWithNDecimal(this, "txtCambioABolivares", string.Empty, "CambioABolivaresDoc", 4);
 				LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalComisionable", string.Empty, "", 2);
                 if (EsEnMonedaOriginal) {
                     #region Ocultar mensaje de tipo de cambio
@@ -125,7 +125,7 @@ namespace Galac.Adm.Rpt.Venta {
                     LibReport.ConfigFieldStr(this, "txtTipoDeCambioAMonedaLocal", vMensajeDeCambio, string.Empty);
                     #region Comision en Moneda Ext
                     if (vIncluirComisionEnMonedaExt){
-                        string vMontoComisionMonedaExtConSimbolo = "Monto Comisión en " + SimboloMonedaExtranjera + " - (" + SimboloMonedaExtranjera + " 1 = " + LibConvert.ToStr(TasaDeCambioComisionMonedaExt, 2) + " " +vMonedaLocal.GetHoySimboloMoneda() +")";
+                        string vMontoComisionMonedaExtConSimbolo = "Monto Comisión en " + SimboloMonedaExtranjera + " - (" + SimboloMonedaExtranjera + " 1 = " + LibConvert.ToStr(TasaDeCambioComisionMonedaExt, 4) + " " +vMonedaLocal.GetHoySimboloMoneda() +")";
                         LibReport.ConfigLabel(this, "lblMontoComisionEnMonedaExt", vMontoComisionMonedaExtConSimbolo);
                         LibReport.ChangeControlVisibility(this, "lblMontoComisionEnMonedaExt", true);
                         LibReport.ChangeControlVisibility(this, "txtMontoComisionEnMonedaExt", true);
@@ -179,7 +179,7 @@ namespace Galac.Adm.Rpt.Venta {
                         LibReport.ChangeControlLocation(this, "txtTotalGeneralComision", (float)9.07, (float)0.34);
                         lblTotalGeneralComision.Width = (float)2.81;
                         txtTotalGeneralComision.Width = (float)0.85;
-                        string vMontoComisionMonedaExtConSimbolo = "Monto Comisión en " + SimboloMonedaExtranjera + " - (" + SimboloMonedaExtranjera + " 1 = " + LibConvert.ToStr(TasaDeCambioComisionMonedaExt, 2) + " " + vMonedaLocal.GetHoySimboloMoneda() + ")";
+                        string vMontoComisionMonedaExtConSimbolo = "Monto Comisión en " + SimboloMonedaExtranjera + " - (" + SimboloMonedaExtranjera + " 1 = " + LibConvert.ToStr(TasaDeCambioComisionMonedaExt, 4) + " " + vMonedaLocal.GetHoySimboloMoneda() + ")";
                         LibReport.ConfigLabel(this, "lblTotalGeneralComisionEnMonedaExt", vMontoComisionMonedaExtConSimbolo);
                         LibReport.ChangeControlVisibility(this, "lblTotalGeneralComisionEnMonedaExt", true);
                         LibReport.ChangeControlLocation(this, "lblTotalGeneralComisionEnMonedaExt", (float)6.26, (float)0.5);
@@ -227,7 +227,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigSummaryField(this, "txtTotalGeneralComisionable", "MontoComisionableEnMonedaLocal", SummaryFunc.Sum, "GHSecVendedor", SummaryRunning.Group, SummaryType.SubTotal);
 
 				LibReport.ConfigGroupHeader(this, "GHSecVendedor", "CodigoDelVendedor", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.After);
-				LibReport.ConfigGroupHeader(this, "GHSecMonedaCobranza", "MonedaCobranza", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+				LibReport.ConfigGroupHeader(this, "GHSecMonedaCobranza", "MonedaCobranza", GroupKeepTogether.All, RepeatStyle.All, true, NewPage.None);
 
                 if (EsEnMonedaOriginal) {
                     LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
