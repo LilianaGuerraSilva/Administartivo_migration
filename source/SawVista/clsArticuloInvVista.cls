@@ -920,53 +920,50 @@ Private Function fSqlSelectViewArticuloCompra() As String
    vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
    
    vSQL = " SELECT "
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania,"
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo,"
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania,"
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Codigo,"
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Numero AS NumeroDocumento,"
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Fecha,"
    vSQL = vSQL & gUtilSQL.fSimpleSqlValue("COMPRA") & " AS TipoDeDocumento, "
    vSQL = vSQL & gUtilSQL.fNumToStrSQL(2) & " AS PrioridadOperacion,"
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion,"
-   vSQL = vSQL & " SUM ( " & gUtilSQL.getIIF(gUtilSQL.DfSQLIsNull(insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".CantidadRecibida"), gUtilSQL.fNumToStrSQL(0), insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".CantidadRecibida", True) & " ) " & " AS Entrada, "
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Descripcion, "
+   vSQL = vSQL & " SUM(ISNULL(" & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".CantidadRecibida, 0)) AS Entrada, "
    vSQL = vSQL & gUtilSQL.fNumToStrSQL(0) & " AS Salidad,"
-   vSQL = vSQL & " SUM ( " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".TotalCompraSinOtrosGastos + " & insComprasVista.GetViewNameComprasOtroGastosPorItem & ".OtrosGastosPorItem  * " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".CantidadRecibida)  * Compra.CambioAbolivares AS MontoOperacion, "
+   vSQL = vSQL & " SUM(ROUND((" & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".TotalCompraSinOtrosGastos + (" & insComprasVista.GetViewNameComprasOtroGastosPorItem & ".OtrosGastosPorItem  * ISNULL(" & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".CantidadRecibida, 0)))  * Compra.CambioAbolivares, 2)) AS MontoOperacion, "
    vSQL = vSQL & gUtilSQL.fBooleanToSqlValue(False) & " AS NotaDeCredito, "
    vSQL = vSQL & gUtilSQL.fSimpleSqlValue("") & " AS NumeroFacturaAfectada, "
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Fecha AS FechaParaBusqueda "
-   vSQL = vSQL & " FROM " & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1()
+   
+   vSQL = vSQL & " FROM " & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1
    vSQL = vSQL & " INNER JOIN "
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & " ON "
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".ConsecutivoCompania AND "
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo =   " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".CodigoArticulo "
-   vSQL = vSQL & " INNER JOIN "
-   vSQL = vSQL & insComprasVista.GetViewNameComprasOtroGastosPorItem & " ON "
-   
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".serial = " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Serial AND "
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".rollo = " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Rollo AND "
-  
-   
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania = " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".ConsecutivoCompania AND "
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".CodigoDelArticulo =   " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".CodigoArticulo "
+   vSQL = vSQL & " INNER JOIN " & insComprasVista.GetViewNameComprasOtroGastosPorItem & " ON "
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".serial = " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Serial AND "
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".rollo = " & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Rollo AND "
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".ConsecutivoCompania = " & insComprasVista.GetViewNameComprasOtroGastosPorItem & ".ConsecutivoCompania  AND "
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".NumeroSecuencial = " & insComprasVista.GetViewNameComprasOtroGastosPorItem & ".NumeroSecuencial AND "
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Numero = " & insComprasVista.GetViewNameComprasOtroGastosPorItem & ".Numero "
-   vSQL = vSQL & " INNER JOIN "
-   vSQL = vSQL & " Compra ON "
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania = Compra.ConsecutivoCompania " & " AND "
+   vSQL = vSQL & " INNER JOIN Compra ON "
+   vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".ConsecutivoCompania = Compra.ConsecutivoCompania AND "
+   vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".ConsecutivoCompra = Compra.Consecutivo AND "
+   vSQL = vSQL & insComprasVista.GetViewNameComprasOtroGastosPorItem & ".ConsecutivoCompra = Compra.Consecutivo AND "
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Numero = Compra.Numero  "
    
-   
    vSQL = vSQL & vSQLWhere
-   vSQL = vSQL & " Group By "
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".ConsecutivoCompania, "
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Codigo,"
+   vSQL = vSQL & " GROUP BY "
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".ConsecutivoCompania, "
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Codigo,"
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Numero,   "
    vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".Fecha, "
-   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".Descripcion,"
-   vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".NumeroSecuencial, Compra.CambioAbolivares "
+   vSQL = vSQL & GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1 & ".Descripcion,"
+   vSQL = vSQL & insComprasVista.GetViewNameComprasTotalCompraSinOtrosGastos & ".NumeroSecuencial "
   
    Set gEnumProyecto = Nothing
   fSqlSelectViewArticuloCompra = vSQL
    Exit Function
-h_ERROR:    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, " fSqlSelectViewArticuloCompra()", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR:    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, " fSqlSelectViewArticuloCompra", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function GetViewNameArticuloInvMovimientoDetallado() As String
   GetViewNameArticuloInvMovimientoDetallado = "IGV_ArticuloInvMovimientoDetallado"
@@ -984,7 +981,7 @@ Public Function fSqlViewArticuloInvMovimientoDetallado() As String
    fSqlViewArticuloInvMovimientoDetallado = vSQL
 h_EXIT:   On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewArticuloInvMovimiento", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewArticuloInvMovimientoDetallado", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Private Function fSqlSelectViewArticuloInvMovimientoNSDetallado() As String
    Dim vSQL As String
@@ -1171,7 +1168,7 @@ Public Function fSqlViewCompraFechaUltimaCompra() As String
    fSqlViewCompraFechaUltimaCompra = vSQL
 h_EXIT:   On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewArticuloInvMovimiento", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewCompraFechaUltimaCompra", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function GetViewNameComprasSecUltCom() As String

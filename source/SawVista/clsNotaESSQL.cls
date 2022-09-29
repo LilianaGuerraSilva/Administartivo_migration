@@ -232,17 +232,17 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Public Function fQueryNotaES(ByVal valTipoOperacion As enum_TipodeOperacion, ByVal valCodigoArticulo As String, ByVal valCodigoAlmacen As String, ByVal valConsecutivoCompania As Long) As String
-   Dim Sql As String
+   Dim SQL As String
    On Error GoTo h_ERROR
-   Sql = "SELECT SUM(" & "renglonNotaES" & ".Cantidad) AS SumCantidad"
-   Sql = Sql & " FROM " & "notaDeEntradaSalida" & " INNER JOIN " & "renglonNotaES" & ""
-   Sql = Sql & " ON " & "notaDeEntradaSalida" & ".NumeroDocumento=" & "renglonNotaES" & ".NumeroDocumento"
-   Sql = Sql & " AND " & "notaDeEntradaSalida" & ".ConsecutivoCompania = " & "renglonNotaES" & ".ConsecutivoCompania"
-   Sql = Sql & " WHERE " & "notaDeEntradaSalida" & ".ConsecutivoCompania=" & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & ""
-   Sql = Sql & " AND " & "notaDeEntradaSalida" & ".CodigoAlmacen='" & valCodigoAlmacen & "'"
-   Sql = Sql & " AND " & "notaDeEntradaSalida" & ".TipodeOperacion='" & valTipoOperacion & "'"
-   Sql = Sql & " AND " & "renglonNotaES" & ".CodigoArticulo='" & valCodigoArticulo & "'"
-   fQueryNotaES = Sql
+   SQL = "SELECT SUM(renglonNotaES.Cantidad) AS SumCantidad"
+   SQL = SQL & " FROM notaDeEntradaSalida INNER JOIN renglonNotaES"
+   SQL = SQL & " ON notaDeEntradaSalida.NumeroDocumento=renglonNotaES.NumeroDocumento"
+   SQL = SQL & " AND notaDeEntradaSalida.ConsecutivoCompania = renglonNotaES.ConsecutivoCompania"
+   SQL = SQL & " WHERE notaDeEntradaSalida.ConsecutivoCompania=" & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & ""
+   SQL = SQL & " AND notaDeEntradaSalida.CodigoAlmacen='" & valCodigoAlmacen & "'"
+   SQL = SQL & " AND notaDeEntradaSalida.TipodeOperacion='" & valTipoOperacion & "'"
+   SQL = SQL & " AND renglonNotaES.CodigoArticulo='" & valCodigoArticulo & "'"
+   fQueryNotaES = SQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
