@@ -909,7 +909,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 string vSerialMaquina = LibXml.GetPropertyString(valDocumentoFiscal, "SerialMaquinaFiscal");
                 string vFecha = LibXml.GetPropertyString(valDocumentoFiscal, "Fecha");
                 string vHora = LibXml.GetPropertyString(valDocumentoFiscal, "HoraModificacion");
-                DateTime vFechaDT = DateTime.Parse(vFecha, CultureInfo.InvariantCulture);
+                DateTime vFechaDT = LibConvert.ToDate(vFecha);
                 vFecha = LibConvert.ToStr(vFechaDT, "dd/MM/yy");
                 vRif = LibText.SubString(vRif, 0, 12);
                 string vReq = "";

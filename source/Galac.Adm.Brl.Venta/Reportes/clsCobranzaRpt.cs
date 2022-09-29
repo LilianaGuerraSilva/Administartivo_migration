@@ -49,7 +49,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             clsCobranzaSql insCobranzaSql = new clsCobranzaSql();
             LibGalac.Aos.Base.ILibDataRpt insComisionDeVendedoresPorCobranzaMonto = new Galac.Adm.Dal.Venta.clsCobranzaDat();
             string vCodigoMonedaLocal = vMonedaLocal.GetHoyCodigoMoneda();
-            vSql = insCobranzaSql.SqlComisionDeVendedoresPorCobranzaMonto(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTipoDeInforme,valMonedaDeReporte, valTasaDeCambioImpresion, valCantidadAImprimir, valCodigoVendedor, vCodigoMonedaLocal);
+            vSql = insCobranzaSql.SqlComisionesPorCobranza(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTipoDeInforme, valMonedaDeReporte, valTasaDeCambioImpresion, valCantidadAImprimir, valCodigoVendedor, vCodigoMonedaLocal);
             return insComisionDeVendedoresPorCobranzaMonto.GetDt(vSql, 0);
         }
         #endregion //Metodos Generados

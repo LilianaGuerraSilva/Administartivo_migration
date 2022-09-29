@@ -237,6 +237,7 @@ namespace Galac.Saw.DDL {
             bool vResult = false;
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine("SELECT Adm.Compra.ConsecutivoCompania, ");
+            vSQL.AppendLine("Adm.Compra.Consecutivo, ");
             vSQL.AppendLine("'N' + CAST(Adm.Compra.Consecutivo AS VARCHAR(10)) AS NumeroSecuencial,  ");
             if(LibDefGen.ProgramInfo.IsCountryPeru()) {
                 vSQL.AppendLine("Adm.Compra.Serie + CASE LEN(Adm.Compra.Serie) WHEN 0 THEN '' ELSE '-' END + Adm.Compra.Numero AS Numero, ");
@@ -268,12 +269,13 @@ namespace Galac.Saw.DDL {
             vSQL.AppendLine("Adm.CompraDetalleArticuloInventario ON Adm.Compra.ConsecutivoCompania = Adm.CompraDetalleArticuloInventario.ConsecutivoCompania AND ");
             vSQL.AppendLine("Adm.Compra.Consecutivo = Adm.CompraDetalleArticuloInventario.ConsecutivoCompra ");
             vSQL.AppendLine("INNER JOIN Saw.Almacen ON Adm.Compra.ConsecutivoCompania = Saw.Almacen.ConsecutivoCompania AND Adm.Compra.ConsecutivoAlmacen = Saw.Almacen.Consecutivo ");
-            vSQL.AppendLine("GROUP BY Adm.Compra.ConsecutivoCompania,Adm.Compra.Numero, Adm.Compra.Consecutivo, Adm.Compra.Serie + CASE LEN(Adm.Compra.Serie) WHEN 0 THEN '' ELSE '-' END + Adm.Compra.Numero, Adm.Compra.Fecha,  ");
+            vSQL.AppendLine("GROUP BY Adm.Compra.ConsecutivoCompania, Adm.Compra.Consecutivo, Adm.Compra.Numero, Adm.Compra.Serie + CASE LEN(Adm.Compra.Serie) WHEN 0 THEN '' ELSE '-' END + Adm.Compra.Numero, Adm.Compra.Fecha,  ");
             vSQL.AppendLine("Adm.Proveedor.CodigoProveedor, Adm.Compra.Moneda, Adm.Compra.CambioABolivares, Adm.Compra.GenerarCXP, Adm.Compra.TotalRenglones, Adm.Compra.TotalOtrosGastos, Adm.Compra.TotalCompra, ");
             vSQL.AppendLine("Adm.Compra.Comentarios, Adm.Compra.StatusCompra, Adm.Compra.FechaDeAnulacion, Adm.Compra.TipoDeCompra, Adm.Compra.NoFacturaNotaEntrega, Adm.Compra.TipoDeCompraParaCxP,  ");
             vSQL.AppendLine("Adm.Compra.CodigoMoneda, Adm.Compra.ConsecutivoAlmacen, Adm.Compra.NombreOperador, Saw.Almacen.Codigo ");
 
             vSQL.AppendLine("UNION SELECT Adm.OrdenDeCompra.ConsecutivoCompania, ");
+            vSQL.AppendLine("Adm.OrdenDeCompra.Consecutivo, ");
             vSQL.AppendLine("'S' + CAST(Adm.OrdenDeCompra.Consecutivo AS VARCHAR(10)) AS NumeroSecuencial,  ");
             vSQL.AppendLine("Adm.OrdenDeCompra.Serie + CASE LEN(Adm.OrdenDeCompra.Serie) WHEN 0 THEN '' ELSE '-' END + Adm.OrdenDeCompra.Numero AS Numero, ");
             vSQL.AppendLine("Adm.OrdenDeCompra.Fecha, Adm.Proveedor.CodigoProveedor,  ");
