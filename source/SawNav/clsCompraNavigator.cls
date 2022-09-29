@@ -40,7 +40,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", valConsecutivoCompaniaNew)
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", gConvert.ConvierteAlong(valRecordSet("Consecutivo").Value))
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Serie", 20, valRecordSet("Serie").Value)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Numero", 10, valRecordSet("Numero").Value)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Numero", 20, valRecordSet("Numero").Value)
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@Fecha", valRecordSet("Fecha").Value)
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoProveedor", gConvert.ConvierteAlong(valRecordSet("ConsecutivoProveedor").Value))
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoAlmacen", gConvert.ConvierteAlong(valRecordSet("ConsecutivoAlmacen").Value))
