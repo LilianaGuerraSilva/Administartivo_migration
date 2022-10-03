@@ -554,12 +554,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
 			get {
-				if (Action == eAccionSR.Insertar) {
-					return IsEnabled && ManejaDebitoBancario;
-				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
-					return IsEnabled && ManejaDebitoBancario && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado || TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.Cont14);
-				}
+				return ManejaDebitoBancario;
 			}
 		}
 
@@ -579,7 +574,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			: base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
 			Model.ConsecutivoCompania = Mfc.GetInt("Compania");
 		}
-		#endregion //Constructores
+		#endregion //ConstructoresvIsEnabledTipoDeAlicuotaPorContribuyente
 
 		#region Metodos Generados
 		protected override void InitializeLookAndFeel(CuentaBancaria valModel) {

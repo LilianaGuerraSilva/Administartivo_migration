@@ -561,7 +561,7 @@ namespace Galac.Adm.Dal.Banco {
 			vResultset = ((ILibDataComponent<IList<CuentaBancaria>, IList<CuentaBancaria>>) this).QueryInfo(eProcessMessageType.Query, "", vSql);
 			return vResultset;
 		}
-
+        [Obsolete("Método en desuso")]
 		public XElement MovimientosBancariosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(int valConsecutivoCompania, string valCodigoCuentaBancaria) {
 			XElement vResultset;
 			QAdvSql insQAdvSql = new QAdvSql("");

@@ -15,6 +15,7 @@ namespace Galac.Adm.Ccl.Banco {
 		bool EsValidaCuentaBancariaCajaChica(int valConsecutivoCompania, string valCodigoCuentaBancaria);
 		bool ExistenMovimientosCuentaBancaria(int valConsecutivoCompania);
 		bool ExistenMovimientosPorCuentaBancariaPosterioresAUnaFecha(int valConsecutivoCompania, string valCodigoCuentaBancaria, DateTime valFecha);
+		[Obsolete("Método en desuso")]
 		bool ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(int valConsecutivoCompania, string valCodigoCuentaBancaria);
 		decimal ObtieneAlicuotaIGTF(int valConsecutivoCompania, string valCodigoCuentaBancaria, DateTime valFechaMovimiento);
 		bool GeneraMovimientoDeITF(int valConsecutivoCompania, string valCodigoCuentaBancaria);
