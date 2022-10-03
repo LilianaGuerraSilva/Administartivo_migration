@@ -2247,9 +2247,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "getCodigoComisionXPorcentajeDeAlmacenaje", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLInsertarArtDeResDiario(ByVal valConsecutivoCompania As Long, ByVal valCodigo As String, _
-                  ByVal valDescripción As String, ByVal valAlicuota As enum_TipoDeAlicuota, _
-                     ByVal valNombreUsuario As String) As String
+Public Function fSQLInsertarArticuloEspecial(ByVal valConsecutivoCompania As Long, ByVal valCodigo As String, ByVal valDescripción As String, ByVal valAlicuota As enum_TipoDeAlicuota, ByVal valNombreUsuario As String) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "INSERT INTO articuloInventario(ConsecutivoCompania, "
@@ -2279,7 +2277,7 @@ Public Function fSQLInsertarArtDeResDiario(ByVal valConsecutivoCompania As Long,
    SQL = SQL & ", CuentaCostoDeVenta"
    SQL = SQL & ", CuentaInventario"
    SQL = SQL & ", ComisionaPorcentaje"
-   SQL = SQL & ") VALUES ("
+   SQL = SQL & ") SELECT "
    SQL = SQL & valConsecutivoCompania & ", "
    SQL = SQL & gUtilSQL.fSimpleSqlValue(valCodigo) & ", "
    SQL = SQL & gUtilSQL.fSimpleSqlValue(valDescripción) & ", "
@@ -2303,13 +2301,12 @@ Public Function fSQLInsertarArtDeResDiario(ByVal valConsecutivoCompania As Long,
    SQL = SQL & ", " & gUtilSQL.fSimpleSqlValue("")
    SQL = SQL & ", " & gUtilSQL.fSimpleSqlValue("")
    SQL = SQL & ", " & gUtilSQL.fBooleanToSqlValue(True)
-   SQL = SQL & ")"
+   SQL = SQL & " WHERE NOT EXISTS(SELECT ConsecutivoCompania, Codigo FROM articuloInventario WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo) & ")"
    
 h_EXIT: On Error GoTo 0
-   fSQLInsertarArtDeResDiario = SQL
+   fSQLInsertarArticuloEspecial = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLInsertarArticulosDeResDiario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLInsertarArticuloEspecial", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLCamposRequeridos(ByVal valNumero As String, ByVal valConsecutivoCompania As Long) As String
@@ -2852,7 +2849,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "fSqlInformeExistenciaEntreFechas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valCodigoAlmacen As String, ByVal valAlicuotas As String, ByVal valPrecio1 As String, ByVal valPrecio2 As String, ByVal strArtResumen As String, ByVal valMonedaExtranjera As Boolean, ByVal vGroupby As String, ByVal valUsaArticulosReservadosPorAlmacen As Boolean, ByVal vaUsaArticulosReservadosPorCotizacion As Boolean, Optional ByVal valBuscarPorSerial As Boolean, Optional ByVal valSerial As String, Optional ByVal valDescripcion As String) As String
+Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valCodigoAlmacen As String, ByVal valAlicuotas As String, ByVal valPrecio1 As String, ByVal valPrecio2 As String, ByVal strArtResumen As String, ByVal valMonedaExtranjera As Boolean, ByVal vGroupby As String, ByVal valUsaArticulosReservadosPorAlmacen As Boolean, ByVal vaUsaArticulosReservadosPorCotizacion As Boolean, ByVal valBuscarPorSerial As Boolean, ByVal valSerial As String, ByVal valDescripcion As String, ByVal valSqlArtIGTF As String) As String
    Dim insArticuloInvVista As clsArticuloInvVista
    Dim SQL As String
    Dim sqlWhere  As String
@@ -2870,6 +2867,9 @@ Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania
          End If
          sqlWhere = sqlWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo NOT  IN( " & strArtResumen & ")"
      End If
+   If gTexto.DfLen(valSqlArtIGTF) > 0 Then
+      sqlWhere = sqlWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo NOT  IN( " & valSqlArtIGTF & ")"
+   End If
     SQL = fSQLSearchArticuloInventarioFacturaSelect(valConsecutivoCompania, valCodigoArticulo, valCodigoAlmacen, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valUsaArticulosReservadosPorAlmacen, vaUsaArticulosReservadosPorCotizacion, valDescripcion)
     SQL = SQL & " UNION "
     SQL = SQL & fSQLSearchArticuloInventarioFacturaSelectCom(valConsecutivoCompania, valCodigoArticulo, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valCodigoAlmacen, valBuscarPorSerial, valSerial, valUsaArticulosReservadosPorAlmacen, vaUsaArticulosReservadosPorCotizacion, valDescripcion)
@@ -2879,10 +2879,10 @@ Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania
      SQL = SQL & articulosCom
   End If
   
-  articulosServicio = fSQLSearchArticuloInventarioFacturaSelectSoloServicios(valConsecutivoCompania, valCodigoArticulo, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valDescripcion, strArtResumen)
+   articulosServicio = fSQLSearchArticuloInventarioFacturaSelectSoloServicios(valConsecutivoCompania, valCodigoArticulo, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valDescripcion, strArtResumen, valSqlArtIGTF)
   If (articulosServicio <> "") Then
      SQL = SQL & " UNION "
-     SQL = SQL & fSQLSearchArticuloInventarioFacturaSelectSoloServicios(valConsecutivoCompania, valCodigoArticulo, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valDescripcion, strArtResumen)
+      SQL = SQL & fSQLSearchArticuloInventarioFacturaSelectSoloServicios(valConsecutivoCompania, valCodigoArticulo, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valDescripcion, strArtResumen, valSqlArtIGTF)
   End If
 Set insArticuloInvVista = Nothing
 h_EXIT:    On Error GoTo 0
@@ -4820,7 +4820,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fQueryCompra", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fSQLSearchArticuloInventarioFacturaSelectSoloServicios(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valPrecio1 As String, ByVal valPrecio2 As String, ByVal valsqlWhere As String, ByVal valMonedaExtranjera As Boolean, ByVal vGroupby As String, ByVal valBuscarPorSerial As Boolean, ByVal valSerial As String, Optional ByVal valDescripcion As String, Optional ByVal valArtResumen As String) As String
+Private Function fSQLSearchArticuloInventarioFacturaSelectSoloServicios(ByVal valConsecutivoCompania As Long, ByVal valCodigoArticulo As String, ByVal valPrecio1 As String, ByVal valPrecio2 As String, ByVal valsqlWhere As String, ByVal valMonedaExtranjera As Boolean, ByVal vGroupby As String, ByVal valBuscarPorSerial As Boolean, ByVal valSerial As String, ByVal valDescripcion As String, ByVal valArtResumen As String, ByVal valSqlArtIGTF As String) As String
 Dim insArticuloInvVista As clsArticuloInvVista
 Dim vSQL As String
 Dim vSQLWhere As String
@@ -4843,7 +4843,12 @@ End If
    vSQLWhere = vSQLWhere & "And ArticuloInventario.Descripcion LIKE " & gUtilSQL.fSimpleSqlValue(valDescripcion)
  End If
 vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
+   If gTexto.DfLen(valArtResumen) > 0 Then
 vSQLWhere = vSQLWhere & "And ArticuloInventario.Codigo NOT IN (" & valArtResumen & ")  "
+   End If
+   If gTexto.DfLen(valSqlArtIGTF) > 0 Then
+      vSQLWhere = vSQLWhere & "And ArticuloInventario.Codigo NOT IN (" & valSqlArtIGTF & ")  "
+   End If
 vSQL = " SELECT "
 vSQL = vSQL & " ArticuloInventario.codigo AS CodigoCompuesto, "
 vSQL = vSQL & " ArticuloInventario.descripcion,"
@@ -5203,3 +5208,33 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelReporteGananciaXProductoSegunLeyCosto", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
+Public Function fSQLInsertarArticuloEspecialME(ByVal valConsecutivoCompania As Long, ByVal valCodigo As String, ByVal valDescripcin As String, ByVal valAlicuota As enum_TipoDeAlicuota, ByVal valSqlValueNombreOperador As String, ByVal valSqlValueFechaUltModificacion As String) As String
+   Dim SQL As String
+   On Error GoTo h_ERROR
+   SQL = "INSERT INTO camposMonedaExtranjera(ConsecutivoCompania, Codigo, "
+   SQL = SQL & "MePrecioSinIva, MePrecioConIva, "
+   SQL = SQL & "MePrecioSinIva2, MePrecioConIva2, "
+   SQL = SQL & "MePrecioSinIva3, MePrecioConIva3, "
+   SQL = SQL & "MePrecioSinIva4, MePrecioConIva4, "
+   SQL = SQL & "NombreOperador, FechaUltimaModificacion"
+   SQL = SQL & ") SELECT " & valConsecutivoCompania & ", " & gUtilSQL.fSimpleSqlValue(valCodigo)
+   SQL = SQL & ",0,0,0,0,0,0,0,0,"
+   SQL = SQL & valSqlValueNombreOperador & ", " & valSqlValueFechaUltModificacion
+   SQL = SQL & " WHERE NOT EXISTS (SELECT ConsecutivoCompania, Codigo FROM camposMonedaExtranjera WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo) & ")"
+h_EXIT: On Error GoTo 0
+   fSQLInsertarArticuloEspecialME = SQL
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLInsertarArticuloEspecialME", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+Public Function fSQLInsertarSinoExisteLineaDeProducto(ByVal valSqlValueNombreOperador As String, ByVal valSqlValueFechaUltModificacion As String) As String
+   Dim SQL As String
+   On Error GoTo h_ERROR
+   SQL = "INSERT INTO Adm.LineaDeProducto (ConsecutivoCompania, Consecutivo, Nombre, PorcentajeComision,CentroDeCosto, NombreOperador, FechaUltimaModificacion) "
+   SQL = SQL & "SELECT ConsecutivoCompania, ISNULL((SELECT MAX(Consecutivo) From Adm.LineaDeProducto), 0) + 1, 'LINEA DE PRODUCTO', 0, '', " & valSqlValueNombreOperador & ", "
+   SQL = SQL & valSqlValueFechaUltModificacion & " FROM COMPANIA "
+   SQL = SQL & " WHERE NOT EXISTS(SELECT Nombre FROM Adm.LineaDeProducto WHERE ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND Nombre = 'LINEA DE PRODUCTO')"
+h_EXIT: On Error GoTo 0
+   fSQLInsertarSinoExisteLineaDeProducto = SQL
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLInsertarSinoExisteLineaDeProducto", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
