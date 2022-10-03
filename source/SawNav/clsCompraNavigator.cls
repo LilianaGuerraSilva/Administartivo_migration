@@ -63,8 +63,8 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoOrdenDeCompra", gConvert.ConvierteAlong(valRecordSet("ConsecutivoOrdenDeCompra").Value))
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NoFacturaNotaEntrega", 20, valRecordSet("NoFacturaNotaEntrega").Value)
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDeCompraParaCxp", 1, valRecordSet("TipoDeCompra").Value)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("CodigoMonedaCostoUltimaCompra", 4, valRecordSet("CodigoMonedaCostoUltimaCompra").Value)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("CambioCostoUltimaCompra", 4, valRecordSet("CambioCostoUltimaCompra").Value)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoMonedaCostoUltimaCompra", 4, valRecordSet("CodigoMonedaCostoUltimaCompra").Value)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@CambioCostoUltimaCompra", valRecordSet("CambioCostoUltimaCompra").Value)
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, valRecordSet("NombreOperador").Value)
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", valRecordSet("FechaUltimaModificacion").Value)
          insUtAdoCmd.fExecCmd vCmd
