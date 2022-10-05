@@ -540,7 +540,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Action == eAccionSR.Insertar) {
 					return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
 				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
 					return IsEnabled && !EsEcuador() && !ManejaDebitoBancario;
 				}
 			}
@@ -554,7 +553,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
 			get {
-				return ManejaDebitoBancario;
+				return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 			}
 		}
 
