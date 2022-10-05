@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="22.6" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="22.7" Siglas="Saw">
   <Proteccion>1802</Proteccion>
   <Libreria>
     <LibGalacCI>2104</LibGalacCI>
@@ -13,10 +13,10 @@
     <SawImportExport>2209</SawImportExport>
     <SawMaquinaFiscal>2209</SawMaquinaFiscal>
     <SawNav>2208</SawNav>
-    <SawRpt>2209</SawRpt>
+    <SawRpt>2210</SawRpt>
     <SawSP>2208</SawSP>
     <SawTbls>2208</SawTbls>
-    <SawVista>2209</SawVista>    
+    <SawVista>2210</SawVista>    
     <ContabRpt>2202</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
