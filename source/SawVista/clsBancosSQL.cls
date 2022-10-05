@@ -523,7 +523,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanPago(ByVal valConsecutivoComp
    vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
    vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
    vSQL = vSQL & "INNER JOIN Pago ON MovimientoBancario.ConsecutivoCompania = Pago.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.NroMovimientoRelacionado  = Pago.NumeroCheque AND MovimientoBancario.Fecha = Pago.Fecha "
+   vSQL = vSQL & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Pago.NumeroComprobante AS varchar) AND MovimientoBancario.Fecha = Pago.Fecha "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
       vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
@@ -554,7 +554,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanCobranza(ByVal valConsecutivo
    vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
    vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
    vSQL = vSQL & "INNER JOIN Cobranza ON MovimientoBancario.ConsecutivoCompania = Cobranza.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.NroMovimientoRelacionado  = Cobranza.Numero AND MovimientoBancario.Fecha = Cobranza.Fecha "
+   vSQL = vSQL & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Cobranza.Numero AS varchar) AND MovimientoBancario.Fecha = Cobranza.Fecha "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
       vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
@@ -617,7 +617,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanRendicion(ByVal valConsecutiv
    vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
    vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
    vSQL = vSQL & "INNER JOIN Adm.Rendicion ON MovimientoBancario.ConsecutivoCompania = Adm.Rendicion.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.NroMovimientoRelacionado  = Adm.Rendicion.NumeroDocumento AND MovimientoBancario.Fecha = Adm.Rendicion.FechaCierre "
+   vSQL = vSQL & "AND CAST(MovimientoBancario.NumeroDocumento AS varchar) = CAST(Adm.Rendicion.NumeroDocumento AS varchar) AND MovimientoBancario.Fecha = Adm.Rendicion.FechaCierre "
    vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria = Adm.Rendicion.CodigoCuentaBancaria "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
@@ -652,7 +652,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago(ByVal valConsec
    vSQL = vSQL & "INNER JOIN Saw.RenglonSolicitudesDePago ON Saw.SolicitudesDePago.ConsecutivoCompania = Saw.RenglonSolicitudesDePago.ConsecutivoCompania "
    vSQL = vSQL & "AND Saw.SolicitudesDePago.ConsecutivoSolicitud = Saw.RenglonSolicitudesDePago.ConsecutivoSolicitud  "
    vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria = Saw.RenglonSolicitudesDePago.CuentaBancaria "
-   vSQL = vSQL & "AND MovimientoBancario.NroMovimientoRelacionado = Saw.RenglonSolicitudesDePago.NumeroDocumento "
+   vSQL = vSQL & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Saw.RenglonSolicitudesDePago.ConsecutivoSolicitud AS varchar) + CAST(Saw.RenglonSolicitudesDePago.ConsecutivoRenglon AS varchar) "
    vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND MovimientoBancario.Monto > 0 "
    If valImprimirSoloCuentasActivas Then
       vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
