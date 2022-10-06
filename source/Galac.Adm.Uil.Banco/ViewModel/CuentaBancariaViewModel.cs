@@ -573,7 +573,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			: base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
 			Model.ConsecutivoCompania = Mfc.GetInt("Compania");
 		}
-		#endregion //ConstructoresvIsEnabledTipoDeAlicuotaPorContribuyente
+		#endregion //Constructores
 
 		#region Metodos Generados
 		protected override void InitializeLookAndFeel(CuentaBancaria valModel) {
