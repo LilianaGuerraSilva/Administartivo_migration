@@ -540,7 +540,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Action == eAccionSR.Insertar) {
 					return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
 				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
 					return IsEnabled && !EsEcuador() && !ManejaDebitoBancario;
 				}
 			}
@@ -554,12 +553,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
 			get {
-				if (Action == eAccionSR.Insertar) {
-					return IsEnabled && ManejaDebitoBancario;
-				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
-					return IsEnabled && ManejaDebitoBancario && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado || TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.Cont14);
-				}
+				return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 			}
 		}
 
