@@ -38,3 +38,31 @@
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
 	branch = release/v2104
+[submodule "source/Axi"]
+	path = source/Axi
+	url = https://github.com/Galac-Software/Axi.git
+	branch = release/V2.60.0.0
+[submodule "source/Contabilidadvb"]
+	path = source/Contabilidadvb
+	url = https://github.com/Galac-Software/ContabilidadVb.git
+	branch = release/IVA-32.1
+[submodule "source/ContabIwrp"]
+	path = source/ContabIwrp
+	url = https://github.com/Galac-Software/ContabiWrp.git
+	branch = develop
+[submodule "source/Lib/AosLib"]
+	path = source/Lib/AosLib
+	url = https://github.com/Galac-Software/AosLib.git
+	branch = release/v5.14.0.0
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
+	url = https://github.com/Galac-Software/vbaLib.git
+	branch = release/V2104
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://github.com/Galac-Software/RetencionesVb.git
+	branch = release/V10.0.0.0
+[submodule "source/VbaComun"]
+	path = source/VbaComun
+	url = https://github.com/Galac-Software/vbaComun.git
+	branch = release/SawV22.6.0.0
