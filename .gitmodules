@@ -66,3 +66,7 @@
 	path = bin/binAdministrativoVb
 	url = https://github.com/Galac-Software/BinAdministrativoVB.git
 	branch = release/V2212
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/Galac-Software/IvaVb.git
+	branch = release/V2104
