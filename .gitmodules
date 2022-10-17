@@ -14,10 +14,6 @@
 	path = bin/binContabilidadAos
 	url = https://github.com/Galac-Software/BinContabilidadAos.git
 	branch = release/2.60.3.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://github.com/Galac-Software/BinContabilidadVb.git
-	branch = release/V2202
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://github.com/Galac-Software/BinEsqNiif.git
