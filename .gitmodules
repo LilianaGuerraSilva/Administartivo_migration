@@ -62,3 +62,7 @@
 	path = bin/binContabilidadVb
 	url = https://github.com/Galac-Software/BinContabilidadVb.git
 	branch = release/V2202
+[submodule "bin/binAdministrativoVb"]
+	path = bin/binAdministrativoVb
+	url = https://github.com/Galac-Software/BinAdministrativoVB.git
+	branch = release/V2212
