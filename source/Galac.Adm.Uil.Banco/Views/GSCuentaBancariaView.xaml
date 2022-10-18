@@ -214,94 +214,113 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label
                         Name="lblManejaDebitoBancario"
                         Grid.Column="0"
-						Grid.ColumnSpan="2"
+                        Grid.ColumnSpan="2"
                         Margin="3,0,0,0"
-						VerticalAlignment="Center"
+                        VerticalAlignment="Center"
                         Content="Maneja Débito Bancario"
-						Style="{StaticResource LabelPrompt}" />
+                        Style="{StaticResource LabelPrompt}" />
                     <CheckBox
                         Name="chkManejaDebitoBancario"
                         Grid.Column="2"
-						Margin="3,0,3,0"
+                        Margin="3,0,3,0"
                         IsChecked="{Binding Path=ManejaDebitoBancario}"
                         IsEnabled="{Binding Path=IsEnabledITFDebitoBancario}"
-						Style="{StaticResource CheckBoxStyle}" />
+                        Style="{StaticResource CheckBoxStyle}" />
                     <Label
                         Name="lblManejaCreditoBancario"
                         Grid.Row="1"
-						Grid.RowSpan="2"
+                        Grid.RowSpan="2"
                         Grid.Column="0"
                         Margin="3,0,0,0"
-						VerticalAlignment="Center"
+                        VerticalAlignment="Center"
                         Content="Maneja Crédito Bancario"
                         Style="{StaticResource LabelPrompt}"
-						Visibility="Collapsed" />
+                        Visibility="Collapsed" />
                     <CheckBox
                         Name="chkManejaCreditoBancario"
                         Grid.Row="1"
-						Grid.RowSpan="2"
+                        Grid.RowSpan="2"
                         Grid.Column="2"
-						Margin="3,0,3,0"
+                        Margin="3,0,3,0"
                         IsChecked="{Binding Path=ManejaCreditoBancario}"
                         IsEnabled="{Binding Path=IsEnabledITFCreditoBancario}"
                         Style="{StaticResource CheckBoxStyle}"
-						Visibility="Collapsed" />
+                        Visibility="Collapsed" />
                     <Label
                         Name="lblTipoDeAlicuotaPorContribuyente"
                         Grid.Row="2"
                         Grid.Column="0"
-						Grid.ColumnSpan="2"
-						Margin="3,0,0,0"
-						VerticalAlignment="Center"
+                        Grid.ColumnSpan="2"
+                        Margin="3,0,0,0"
+                        VerticalAlignment="Center"
                         Content="Tipo de Alícuota por Contribuyente"
-						Style="{StaticResource LabelPrompt}" />
+                        Style="{StaticResource LabelPrompt}" />
                     <nsWpfControls:GSComboBoxWpf
                         Name="cmbTipoDeAlicuotaPorContribuyente"
                         Grid.Row="2"
                         Grid.Column="2"
                         Width="124"
-						Margin="0,3,0,3"
-						HorizontalAlignment="Center"
+                        Margin="0,3,0,3"
+                        HorizontalAlignment="Center"
                         IsEnabled="{Binding Path=IsEnabledTipoDeAlicuotaPorContribuyente}"
                         IsSynchronizedWithCurrentItem="True"
                         ItemsSource="{Binding Path=ArrayTipoAlicPorContIGTF}"
                         SelectedItem="{Binding Path=TipoDeAlicuotaPorContribuyente, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-						Style="{StaticResource ComboBoxStyle}" />
+                        Style="{StaticResource ComboBoxStyle}" />
                     <Label
-                        Name="lblGeneraMovBancarioPorIGTF"
+                        Name="lblExcluirDelInformeDeDeclaracionIGTF"
                         Grid.Row="3"
                         Grid.Column="0"
-						Grid.ColumnSpan="2"
-						Margin="3,0,0,0"
-						VerticalAlignment="Center"
-                        Content="Genera movimiento bancario de egreso por I.G.T.F."
-                        Style="{StaticResource LabelPrompt}"
-						Visibility="{Binding Path=IsVisibleGeneraMovBancarioPorIGTF, Converter={StaticResource boolToVisibilityConverter}}" />
+                        Grid.ColumnSpan="2"
+                        Margin="3,0,0,0"
+                        VerticalAlignment="Center"
+                        Content="Excluir del Informe de Declaración"
+                        Style="{StaticResource LabelPrompt}" />
                     <CheckBox
-                        Name="chkGeneraMovBancarioPorIGTF"
+                        Name="chkExcluirDelInformeDeDeclaracionIGTF"
                         Grid.Row="3"
                         Grid.Column="2"
-						Margin="3,0,0,0"
+                        Margin="3,0,0,0"
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding Path=ExcluirDelInformeDeDeclaracionIGTF}"
+                        IsEnabled="{Binding Path=IsEnabledExcluirDelInformeDeDeclaracionIGTF}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                    <Label
+                        Name="lblGeneraMovBancarioPorIGTF"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="3,0,0,0"
+                        VerticalAlignment="Center"
+                        Content="Genera movimiento bancario de egreso por I.G.T.F."
+                        Style="{StaticResource LabelPrompt}"
+                        Visibility="{Binding Path=IsVisibleGeneraMovBancarioPorIGTF, Converter={StaticResource boolToVisibilityConverter}}" />
+                    <CheckBox
+                        Name="chkGeneraMovBancarioPorIGTF"
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Margin="3,0,0,0"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding Path=GeneraMovBancarioPorIGTF}"
                         IsEnabled="{Binding Path=IsEnabled}"
                         Style="{StaticResource CheckBoxStyle}"
-						Visibility="{Binding Path=IsVisibleGeneraMovBancarioPorIGTF, Converter={StaticResource boolToVisibilityConverter}}" />
+                        Visibility="{Binding Path=IsVisibleGeneraMovBancarioPorIGTF, Converter={StaticResource boolToVisibilityConverter}}" />
                     <Label
                         Name="lblNotaTipoContribuyente"
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-						Margin="3,0,0,0"
-						VerticalAlignment="Center"
+                        Margin="3,0,0,0"
+                        VerticalAlignment="Center"
                         Content="Tipos de Contribuyentes según Art. 4 de la Ley de I.G.T.F."
                         FontSize="9"
                         Foreground="Red"
-						Style="{StaticResource LabelPrompt}" />
+                        Style="{StaticResource LabelPrompt}" />
                 </Grid>
             </GroupBox>
         </Grid>

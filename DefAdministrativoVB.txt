@@ -29,19 +29,19 @@ UnMonoMultiUsuario = (Monousuario, Multiusuario);//e
 unNombreProducto = (IVA, AXI, INFOCONT, DPN, DPJ,FACTURA, AXP, NOMINA, RET, WContabilidad,ISV,AdmInterno,SAW,WinIva,WinRet);//e
 UnTipoDeAxi = (AxiFinanciero, AxiFiscal);//e
 UnTipoDeNomina = (NominaFull, NominaSoho);//e
-UnTipoDeSAW = (SAW_Básico, SAW_Profesional, SAW_Entes_Públicos);//e
+UnTipoDeSAW = (SAW_BÃ¡sico, SAW_Profesional, SAW_Entes_PÃºblicos);//e
 UnTipoIntegracionSAW = (SAW_NORMAL, SAW_Integrado_Contabilidad);//e
-unTipoDeIVA = (Normal, Contribuyentes Especiales, Entes Públicos Nacionales);//e
+unTipoDeIVA = (Normal, Contribuyentes Especiales, Entes PÃºblicos Nacionales);//e
 UnTipoDeAutorizacion = (NuevaInstalacion, Reinstalacion);//e
 UnTipoDeFactura  = (Oficina, Distribuidor, Promocion);//e
-unMananaOTarde = (Mañana, Tarde);
+unMananaOTarde = (MaÃ±ana, Tarde);
 unStatusVisita = (Vigenta, Cancelada, Reasignada)
-UnTipoLLamada = (Venta, Servicio, Oficina, Promoción, Clave, Cobranza, Internet, Caveguias, Nuevos, Por Definir);//e
+UnTipoLLamada = (Venta, Servicio, Oficina, PromociÃ³n, Clave, Cobranza, Internet, Caveguias, Nuevos, Por Definir);//e
 UnTarjeta = (Visa, Master, AmericanExpress);//e
-unTipoDeAlmacen = (Principal, Secundario, Consignación, Mercancía en tienda); //e
+unTipoDeAlmacen = (Principal, Secundario, ConsignaciÃ³n, MercancÃ­a en tienda); //e
 UnTipodeOperacion= (Entrada de Inventario, Salida de Inventario); //e
-unTipoDeArticulo = (Mercancía, Servicio); //e
-unTipoDeServicio = (Actualización, Adiestramiento, Demostración, Garantía, Instalación, Reposición, Otro); //e
+unTipoDeArticulo = (MercancÃ­a, Servicio); //e
+unTipoDeServicio = (ActualizaciÃ³n, Adiestramiento, DemostraciÃ³n, GarantÃ­a, InstalaciÃ³n, ReposiciÃ³n, Otro); //e
 unStatusUsuario = (Activo, Inactivo);
 unNivelDePrecio = (Precio 1, Precio 2, Precio 3, Precio 4); //e
 unStatusDespacho = (Pendiente, Enviado, Anulado);
@@ -49,14 +49,14 @@ unCourier = (Mensajeros Radio MRW, Super Envios, Mensajero Galac, Oficina);
 unTipoDeDespacho = (Normal, Flete Destino, C.O.D.);
 unLugarDespacho = (Interior, Caracas);
 unHorario = (de 8:00 am a 12:00 pm,de 9:00 am a 11:30 am, de 1:30 pm a 4:30 pm, de 1:30 pm a 5:30 pm );
-unStatusParticipante =(Reservado,Confirmado,Asistió,Cancelado,No Asistió);
-unMotivoDelDespacho = (Factura, Reposición, Demo, Otros, Nota Entrega, Evento);
+unStatusParticipante =(Reservado,Confirmado,AsistiÃ³,Cancelado,No AsistiÃ³);
+unMotivoDelDespacho = (Factura, ReposiciÃ³n, Demo, Otros, Nota Entrega, Evento);
 unTipodePersonaRetencion = (PJ_Domiciliada, PJ_NoDomiciliada,PN_Residente,PN_NoResidente);
 unStatusPago = (Vigente, Anulada);//e
 unTipoDeCtaBancaria = (Corriente, Ahorros, Activos Liquidos);
 unStatusCtaBancaria = (Activo, Inactivo);
 unIngresoEgreso = (Ingreso, Egreso);
-unGeneradoPor = (Usuario, Cobranza, Orden de Pago, CxP, Débito Bancario, CxC, Gestion Cobranza, Compra, Anticipo, Retención en Cobranza);
+unGeneradoPor = (Usuario, Cobranza, Orden de Pago, CxP, DÃ©bito Bancario, CxC, Gestion Cobranza, Compra, Anticipo, RetenciÃ³n en Cobranza);
 unStatusCurso = (Disponible, Lleno,Cancelado, Dictado);
 unTipoDeCompra = (ComprasExentas, ComprasImportacion,ComprasNacionales, ComprasExoneradas,ComprasNoSujetas,ComprasSinDerechoAcredito);
 //                  CompraPtoLibreNE,CompraImportPtoLibreNE,
@@ -66,18 +66,18 @@ UnStatusContrato= (Vigente, Desactivado);
 UnDuracionDelContrato= (DuracionFija, DuracionIndefinida);
 UnValorDelRenglon = (ValorenArchivoArticulos, IndicarElValor);
 UnPeriodicidadContratos=(Mensual, Bimestral, Trimestral, Semestral, Anual, CuotaUnica);
-//unTipoDeCompra= (Nacional, Importación);
+//unTipoDeCompra= (Nacional, ImportaciÃ³n);
 UnPeriodoDeAplicacion= (EldelContrato, EspecialIndicar);
 UnRedondeaOtrunca= (Redondea, Trunca);
 UnModeloDeFactura = (StandarTamanoCarta, StandarMediaCarta, FormaLibre, Otro);
-UnTipoDePrefijo = (SinPrefijo, Año, Indicar)
+UnTipoDePrefijo = (SinPrefijo, AÃ±o, Indicar)
 unPreciosDeLosProductos = (PrecioConIVA, PrecioSinIVA)
 //unGeneradoPor= (Manual, Contrato);
 unFormaDeSeleccionarCompania = (EscogerCompaniaAlEntrar, EscogerUltimaCompaniaUsada); //e
-unStatusPregunta = (Por Responder, Respondida, Falta Información); //e
+unStatusPregunta = (Por Responder, Respondida, Falta InformaciÃ³n); //e
 //unTipoDeOrdenDePagoAImprimir = (OrdenDePagoConCheque, SoloOrdenDePago, OrdenDePagoSeparadaDeCheque); //e
 unMontoPorcentaje = (Por Monto, Por Porcentaje)
-unStatusServicio = (Pendiente, En Revisión, No Tiene Solución, Enviada Al Cliente, Revisada);
+unStatusServicio = (Pendiente, En RevisiÃ³n, No Tiene SoluciÃ³n, Enviada Al Cliente, Revisada);
 UnStatusConteoFisico= (Procesado, Por Procesar, Anular)
 unTipoDeOrdenDePagoAImprimir = (Orden de Pago con Cheque, Solo Orden de Pago, Orden de Pago separada de Cheque,Orden de Pago con Cheque y Cheque);//e
 unTipoDeTagDeReportes = (Nothing or Blank, Created by user, Moveable,Editable);//e
@@ -102,23 +102,23 @@ UnInfoGalacModoEnvio = (Por Definir, fax, e-mail, Mail y Fax, No por Ahora, No t
 UnEnviadoVia = (No Enviado, fax, e-mail); //e
 unStatusConciliacion = (En Proceso, Cerrada)
 //unDocumentosAImprimirRif = (Todos, SoloDocumentosLegales, Ninguno)
-UnCategoriaLlamada = (Por Definir, Entrante, Saliente, Atención en Oficina);//e
+UnCategoriaLlamada = (Por Definir, Entrante, Saliente, AtenciÃ³n en Oficina);//e
 UnComoSeEntero = (Por Definir, El Universal, El Nacional, Ultimas Noticias, Referido, Caveguias, Internet, Ya Es Cliente, Eventos, Otro);//e
 UnFormaDeLaInicial = (Por Monto, Por Porcentaje);//e
 unStatusRetencionIVACobranza = (No Aplica, Pendiente por Distribuir, Distribuido); //e
-unTipoDeTransaccionDeLibrosFiscales = (t01Registro "01 Registro", t02Complemento "02 Complemento",t03Anulación "03 Anulación", t04Ajuste "04 Ajuste"); //e
+unTipoDeTransaccionDeLibrosFiscales = (t01Registro "01 Registro", t02Complemento "02 Complemento",t03AnulaciÃ³n "03 AnulaciÃ³n", t04Ajuste "04 Ajuste"); //e
 unTipoDeProveedorDeLibrosFiscales = (Con Rif, Sin Rif, No Residenciado, No Domiciliado);//e
-unTipoDeVenta = (Interna, Exportacion, Sin Derecho a Crédito Fiscal, A Contribuyente, A No Contribuyente);//e
+unTipoDeVenta = (Interna, Exportacion, Sin Derecho a CrÃ©dito Fiscal, A Contribuyente, A No Contribuyente);//e
 UnStatusGestion = (Pendiente, Realizada, Finalizada); //e
 UnProximoPasoGestion = (Indicar, Llamar, Cobrar Mensajero, Cobrar Vendedor, Reclamo); //e
 UnRefinanciado = (Es Refinanciado, Sin Refinanciar)
 UnDondeSeEfectuaLaRetencionIVA = (No Retenida, CxP, Pago); //e
-UnFormaDeReiniciarComprobanteRetIVA = (Sin Escoger, Por Mes, Por Año, Al Completar); //e
+UnFormaDeReiniciarComprobanteRetIVA = (Sin Escoger, Por Mes, Por AÃ±o, Al Completar); //e
 UnTipoDeContribuyenteDelIva = (Contribuyente Formal, Contribuyente Ordinario, Contribuyente Especial, Conversion);//e
 //UnTipoDeCompra = (Factura, Nota de Entrega)
 unTablaCiiu = (Ninguna, Tabla Anterior a 2004, Tabla 2004);//e
 unModeloPlanillaForma00030 = (F00030_F03_Grafibond, F00030_F03_Olivenca, F00030_F04_Grafibond);//e
-unFormaDeOrdenarDetalleFactura = (Como fue cargada, Por Codigo de Artículo, Por Descripción de Artículo);//e
+unFormaDeOrdenarDetalleFactura = (Como fue cargada, Por Codigo de ArtÃ­culo, Por DescripciÃ³n de ArtÃ­culo);//e
 unFormaDeOrdenarCodigosString = (Normal, Especial);//e
 unStatusAnticipo = (Vigente, Anulado, Parcialmente Usado, Completamente Usado, Completamente Devuelto, Parcialmente Devuelto);//e
 unTipoDeAnticipo = (Cobrado, Pagado);//e
@@ -134,9 +134,9 @@ unTipoArticuloInv = (Simple,Usa Talla/Color, Usa Serial, Usa Talla/Color y Seria
 unAccionAlAnularFactDeMesesAnt = (Permitir Anular Sin Chequear, Preguntar Si Desea Anular, No Permitir Anular);//e
 unStatusNEntrega = (Borrador, Emitida, Reintegrada, Anulada);//e
 UnNEntregaGeneradaPor = (Usuario, Factura);//e 
-unConsultarDataPor = (Descuadre, Error de Sistema, Error de Usuario, Conversión, Integración, Conversión/Integración);//e
+unConsultarDataPor = (Descuadre, Error de Sistema, Error de Usuario, ConversiÃ³n, IntegraciÃ³n, ConversiÃ³n/IntegraciÃ³n);//e
 unImpresorasFiscales = (EPSON_PF_220, EPSON_PF_300,EPSON_TM_675_PF,EPSON_TM_950_PF,BEMATECH_MP_20_FI_II);//e
-unTipoDocumentoIdentificacion = (RUC, DNI, Carnet de Extranjería, Pasaporte, Otros Tipos de Documentos);//e
+unTipoDocumentoIdentificacion = (RUC, DNI, Carnet de ExtranjerÃ­a, Pasaporte, Otros Tipos de Documentos);//e
 unStatusRendicion = (EnProceso, Cerrada, Anulada);//e
 unTipoDeTransaccion = (Factura, Giro, ChequeDevuelto, NotaDeCredito, NotaDeDebito, NotaEntrega, NoAsignado, BoletaDeVenta, TicketMaquinaRegistradora, ReciboPorHonorarios, LiquidacionDeCompra, Otros); //e
 unAccionLimiteItemsFactura = (Solo Advertir,No Exeder numero Items);//e
@@ -151,15 +151,15 @@ unFechaSugeridaRetencionCxP = (FechaFacturaCxP, FechaRegistroCxP);//e
 unEstatusAlicuotaImpuestoEspecial = (Activo, Inactivo);//e
 unAplicaAContribuyente = (Todos Los Contribuyentes,Solo Personas Naturales,Solo Personas Juridicas);//e
 unAlicuotaIVA= (Reducida, Extendida);//e
-unBaseCalculoParaAlicuotaEspecial=(Total Factura,Monto Exento más Base Imponible,Solo Base Imponible,Solo Base Imponible Alícuota General);//e
+unBaseCalculoParaAlicuotaEspecial=(Total Factura,Monto Exento mÃ¡s Base Imponible,Solo Base Imponible,Solo Base Imponible AlÃ­cuota General);//e
 unStatusFacturaElectronica=(Sin Procesar,Aceptada,Rechazada);//e
 unTipoDePersonaLibrosElectronicos=(Natural,Juridico,NoDomiciliado);//e
 unStatusCompania=(Activa, Inactiva);//e
 unFormaDeCalculoDePrecioRenglonFactura = (APartirDelPrecioSinIVA, APartirDelPrecioConIVA); //e
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco,Generate
 
-{@S}UrbanizacionZP = record //"Urbanización - Zona Postal",
-   Urbanización: str30; //o,g,SEARCH
+{@S}UrbanizacionZP = record //"UrbanizaciÃ³n - Zona Postal",
+   UrbanizaciÃ³n: str30; //o,g,SEARCH
    ZonaPostal: str7; //o,g,SEARCH
    @PrimaryKey=Urbanizacion
 }
@@ -636,14 +636,14 @@ MenuDeInformes : boolean;
    @PrimaryKey=NombreDelUsuario
 }
 
-{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania
+{@S}Compania = Record //"CompaÃ±Ã­a",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania
    ConsecutivoCompania      : LongInt;//o,HIDE,sugestConsecutive
-   Codigo                   : Str4;  //u,g,o,"Código",sugestConsecutive,SEARCH
+   Codigo                   : Str4;  //u,g,o,"CÃ³digo",sugestConsecutive,SEARCH
    Nombre                   : Str50; //u,g,o,SEARCH
-   NumeroDeRIF              : Str20; //u,g,"N° R.I.F.",SEARCH
-   NumeroNIT                : Str12; //u,g,"N° N.I.T.",SEARCH
+   NumeroDeRIF              : Str20; //u,g,"NÂ° R.I.F.",SEARCH
+   NumeroNIT                : Str12; //u,g,"NÂ° N.I.T.",SEARCH
    TipoDeContribuyente      : UnTipoDeContribuyente; //g,SEARCH
-   Direccion                : TextArea;//"Dirección"
+   Direccion                : TextArea;//"DirecciÃ³n"
    Ciudad                   : Str100;
    Estado                   : Str20;
    ZonaPostal               : Str7;
@@ -667,7 +667,7 @@ MenuDeInformes : boolean;
    EsCatalogoGeneral        : Boolean;
    TipoDeContribuyenteIVA   : UnTipoDeContribuyenteDelIva;
    TablaCIIU                : UnTablaCiiu;
-   CodigoCIIU      	    : Str6;  // o,"Código CIIU",=CIIU.CodigoCIIU
+   CodigoCIIU      	    : Str6;  // o,"CÃ³digo CIIU",=CIIU.CodigoCIIU
    PorcentajeDePatente      : double;
    PersonaFiscal            : unTipoDePersonaFiscal;
    Pais			    : Str80;
@@ -676,9 +676,9 @@ MenuDeInformes : boolean;
    UsaS10                   : Boolean;//Hide
    EsAgenteDeRetencionIva   : Boolean;
    TipoDocumentoIdentificacion: unTipoDocumentoIdentificacion;
-   CodigoUbigeo             :str10//o, "Código Ubigeo", = Ubigeo.Codigo
+   CodigoUbigeo             :str10//o, "CÃ³digo Ubigeo", = Ubigeo.Codigo
    NombreUbigeo             :str40//"Ubigeo", logical,=Ubigeo.Nombre
-   CodigoMoneda             : str4;"=Moneda.Codigo","Código Moneda"
+   CodigoMoneda             : str4;"=Moneda.Codigo","CÃ³digo Moneda"
    StatusCompania           :unStatusCompania;//o
    StatusMonetaryReconversionProcess: str01;//o
    NombreOperador                    : Str10; //a
@@ -691,7 +691,7 @@ MenuDeInformes : boolean;
    Nombre		  : Str10; //o,g,=Moneda.Nombre,SEARCH
    FechaDeVigencia	  : unFecha;//o,g,SEARCH
    CambioABolivares	  : Double;//g
-   CodigoMoneda           : Str4; //=Moneda.Codigo, "Código"
+   CodigoMoneda           : Str4; //=Moneda.Codigo, "CÃ³digo"
    NombreOperador         : Str10; //a
    FechaUltimaModificacion: date;//a
    @PrimaryKey=Nombre,FechadeVigencia
@@ -700,18 +700,18 @@ MenuDeInformes : boolean;
 //{@S}Moneda = Record //Female,,
 //   Codigo       : str4; //o,SEARCH,g
 //   Nombre	: Str10; //o,SEARCH,g
-//   Símbolo	: str5; //SEARCH,g
+//   SÃ­mbolo	: str5; //SEARCH,g
 //   @PrimaryKey=Codigo
 //}
 
 
 {@M}Vendedor = Record //Male,Multiarchivo=Compania,GenerateRptConfigurar
    ConsecutivoCompania  : LongInt; //o,HIDE
-   Codigo		: Str5;//u,g,o,search,"Código",sugestConsecutive
+   Codigo		: Str5;//u,g,o,search,"CÃ³digo",sugestConsecutive
    Nombre		: Str35;//u,g,o,search
-   RIF			: Str20;//u,g,search,"N° R.I.F."
+   RIF			: Str20;//u,g,search,"NÂ° R.I.F."
    StatusVendedor	: unStatusVendedor;//g,search,"Status"
-   Direccion            : TextArea;//"Dirección"
+   Direccion            : TextArea;//"DirecciÃ³n"
    Ciudad               : Str100; //search,=Ciudad.NombreCiudad
    ZonaPostal		: Str7;//search
    Telefono		: Str40;//search
@@ -772,22 +772,22 @@ MenuDeInformes : boolean;
 
 {@M}Cliente = Record //Male,Multiarchivo=Compania 
    ConsecutivoCompania    : LongInt; //o,HIDE
-   Codigo                 : Str10; //g,o,"Código",sugestConsecutive,search
+   Codigo                 : Str10; //g,o,"CÃ³digo",sugestConsecutive,search
    Nombre                 : Str220; //u,g,o,search
-   NumeroRIF              : Str20; //u,g,"N° R.I.F.",search
-   NumeroNIT              : Str12; //u,"N° N.I.T."
+   NumeroRIF              : Str20; //u,g,"NÂ° R.I.F.",search
+   NumeroNIT              : Str12; //u,"NÂ° N.I.T."
 //TipoDeContribuyente: UnTipoDeContribuyente;
 //TipoDePersonaFiscal: UnTipoDePersonaFiscal;
-   Direccion              : TextArea;//"Dirección"
+   Direccion              : TextArea;//"DirecciÃ³n"
    Ciudad                 : Str100; //=Ciudad.NombreCiudad,"Ciudad",search
    ZonaPostal             : Str7;//search
-   Telefono               : Str40; //g,"Teléfonos",search
-   FAX                    : Str25; //g,"Nº Fax"
+   Telefono               : Str40; //g,"TelÃ©fonos",search
+   FAX                    : Str25; //g,"NÂº Fax"
    Status                 : unStatusCliente;
    Contacto               : Str35; //
    ZonaDeCobranza         : Str20; //=zonaCobranza.nombre,search
 //Categoria	: Str20;
-   CodigoVendedor         : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()",search
+   CodigoVendedor         : Str5;//"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()",search
    NombreVendedor         : Str35;//g,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()",search
    RazonInactividad       : Str35;
 //RetencionUsual: Str10;
@@ -819,18 +819,18 @@ MenuDeInformes : boolean;
 
 {@M}CxC = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania	: Longint; //HIDE
-    Numero	      : Str20;   //u,o,g,"Número",SEARCH
+    Numero	      : Str20;   //u,o,g,"NÃºmero",SEARCH
     Status            : unStatusDocumento;//g,"Status",SEARCH
     TipoCxC	      : unTipoDeCxC;//SEARCH
-    CodigoCliente     : Str10;//g,SEARCH,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+    CodigoCliente     : Str10;//g,SEARCH,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
     NombreCliente     : Str80;//g,search,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
-    CodigoVendedor    : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    CodigoVendedor    : Str5;//"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
     NombreVendedor    : Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
     Origen	      : unOrigenFacturacionOManual;
     Fecha	      : unFecha;//g,SEARCH,"Fecha"
-    FechaCancelacion  : unFecha;//a,"Fecha de Cancelación"
+    FechaCancelacion  : unFecha;//a,"Fecha de CancelaciÃ³n"
     FechaVencimiento  : unFecha;//"Fecha de Vencimiento"
-    FechaAnulacion    : unFecha;//a,"Fecha de Anulación"
+    FechaAnulacion    : unFecha;//a,"Fecha de AnulaciÃ³n"
 //NombreMoneda        : Str10;//=Moneda.Nombre
 //CambioABs           : Double;
 //ZonaCobranza        : Str20; //=ZonaCobranza.Nombre
@@ -848,7 +848,7 @@ MenuDeInformes : boolean;
     CambioABolivares    : Double;
     CodigoCC            : Str5;//=centroDeCostos.Codigo
     CentroDeCostos      : str40;//=centroDeCostos.Descripcion
-//Retención de Iva
+//RetenciÃ³n de Iva
     SeRetuvoIva           : Boolean;
 //MontoIvaRetenido        : Double;//logical
 //FechaAplicacionRetIVA   : date;//logical
@@ -869,7 +869,7 @@ MenuDeInformes : boolean;
     ConsecutivoMovimiento   : LongInt;//
     TotalOtrosImpuestos     : Currency;
     CodigoMoneda		: Str4;//
-    NumeroControl           : Str11; //"Número de Control"   
+    NumeroControl           : Str11; //"NÃºmero de Control"   
     NumeroComprobanteFiscal		: Str12;//   
     NumeroDeSerie                 : str10;
     NumeroDeDocumento           : str20;
@@ -879,7 +879,7 @@ MenuDeInformes : boolean;
 }
 {@D CxC}OtrosImpuestosCxC = Record////Multiarchivo=Compania, MALE
     ConsecutivoCompania : Longint; //HIDE,o
-    Numero		: Str20;   //HIDE,o,"Número CxC"
+    Numero		: Str20;   //HIDE,o,"NÃºmero CxC"
     TipoCxC		: unTipoDeCxC;//
     ConsecutivoRenglonOI: Longint; //HIDE,o, suggestConsecutive
     ConsecutivoOI: Longint; //HIDE,o,
@@ -890,11 +890,11 @@ MenuDeInformes : boolean;
 
 {@M}Cotizacion = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania	: Longint; //HIDE
-    Numero			: Str11;   //o,g,"Número",sugestConsecutive,search
+    Numero			: Str11;   //o,g,"NÃºmero",sugestConsecutive,search
     Fecha               : unFecha;//O,G,"Fecha",search
-    CodigoCliente       : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
+    CodigoCliente       : Str10;//g,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     NombreCliente       : Str80;//g,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
-    CodigoVendedor	: Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    CodigoVendedor	: Str5;//"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
     NombreVendedor	: Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
     CodigoNota1         : str10; //=NotaFinal.CodigoDeLaNota
     DescripcionNota1    : textArea; //logical,a,=NotaFinal.Descripcion
@@ -914,7 +914,7 @@ MenuDeInformes : boolean;
     Moneda              : str10;//=Moneda.Nombre,"Nombre de la Moneda"
     NombreOperador         : Str10; //a
     FechaUltimaModificacion: date; //a
-    Promoción : boolean; //cv"gProyParametros.getEsSistemaParaIG()",search
+    PromociÃ³n : boolean; //cv"gProyParametros.getEsSistemaParaIG()",search
     Confirmada: boolean; //cv"gProyParametros.getEsSistemaParaIG()",search
     OperadorQueIngresoLaCotizacion : str10; //a
     Seguimiento			: TextArea;//cv"gProyParametros.getEsSistemaParaIG()"
@@ -923,7 +923,7 @@ MenuDeInformes : boolean;
     FormaDeEnvio 			: unModoDeEnvio; //cv"gProyParametros.getEsSistemaParaIG()",search
     FechaDeUltimaEmisioDeFax	: date; //cv"gProyParametros.getEsSistemaParaIG()",search
     NumeroDeVecesFaxeado	: longint;//cv"gProyParametros.getEsSistemaParaIG()"
-    ReservarMercancia  : boolean; //"Reservar Mercancía"
+    ReservarMercancia  : boolean; //"Reservar MercancÃ­a"
     FechaDeRetiro      : date //"Fecha de Retiro"
     UsarDireccionFiscal   : Boolean;
     NoDirDespachoAimprimir: Integer; =DireccionDeDespacho.ConsecutivoDireccion
@@ -934,8 +934,8 @@ MenuDeInformes : boolean;
     ConsecutivoCompania	: Longint; //HIDE
     NumeroCotizacion	: Str11;   //o
     consecutivoRenglon	: longint; //o,HIDE
-    CodigoArticulo      : str15; //g,=ArticuloInventario.Codigo,"Código Inventario"
-    Descripcion         : textArea; //g,a,=ArticuloInventario.Descripcion,"Descripción"
+    CodigoArticulo      : str15; //g,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
+    Descripcion         : textArea; //g,a,=ArticuloInventario.Descripcion,"DescripciÃ³n"
     AlicuotaIVA         : unTipoDeAlicuota;//g,HIDE,a,=ArticuloInventario.AlicuotaIVA
     Cantidad            : Double;//O,G,"Cantidad"
     PrecioSinIVA        : Double;//g,A,=ArticuloInventario.PrecioSinIVA,"Precio sin IVA"
@@ -1010,7 +1010,7 @@ MenuDeInformes : boolean;
 //    DiasDeDiferenciaEntreCadaRespaldo: integer;
     AvisoDeClienteConDeuda: boolean;
     MontoAPartirDelCualEnviarAvisoDeuda: double;
-//    EnCualesDocumentosImprimirRif      : unDocumentosAImprimirRif;// "En cuáles documentos imprimir el RIF:"
+//    EnCualesDocumentosImprimirRif      : unDocumentosAImprimirRif;// "En cuÃ¡les documentos imprimir el RIF:"
 //    FontSizeNombreCompania             : Integer;
     OrdenamientoDeCodigoString : unFormaDeOrdenarCodigosString;
     ImprimirComprobanteDeCxC : boolean; //o
@@ -1031,13 +1031,13 @@ MenuDeInformes : boolean;
     EmitirDirecto          : Boolean;//o
     CantidadDeCopiasDeLaFacturaAlImprimir : Integer;//o
     UsaAlmacen             : Boolean;//o
-    CodigoGenericoCliente  : Str10;//"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+    CodigoGenericoCliente  : Str10;//"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
     NombreCliente          : Str80;//logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
-    CodigoGenericoVendedor : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    CodigoGenericoVendedor : Str5;//"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
     NombreVendedorr        : Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
     ConceptoReversoCobranza: Str8;//o,"Concepto Reverso de Cobranza",=conceptoBancario.codigo
-    ConceptoDebitoBancario : Str8;//o,"Concepto Débito Bancario",=conceptoBancario.codigo
-    ConceptoCreditoBancario : Str8;//o,"Concepto Crédito Bancario",=conceptoBancario.codigo
+    ConceptoDebitoBancario : Str8;//o,"Concepto DÃ©bito Bancario",=conceptoBancario.codigo
+    ConceptoCreditoBancario : Str8;//o,"Concepto CrÃ©dito Bancario",=conceptoBancario.codigo
     ModeloDeFactura        : UnModeloDeFactura;//o
     UsaCamposDefinibles    : Boolean;//o
     NombreCampoDefinible1  : Str20;
@@ -1123,8 +1123,8 @@ MenuDeInformes : boolean;
     NumeroRIFR                : Str20;
     CorreoElectronicoRepLegal : Str40;
     UsaCamposExtrasEnRenglonFactura : Boolean;
-    PedirInformacionLibroVentasXLSAlEmitirFactura  : boolean;//"Pedir Información del Libro de Ventas al Emitir Factura"
-    SugerirNumeroControlFactura                   : boolean;//"Sugerir N° Control de Factura"
+    PedirInformacionLibroVentasXLSAlEmitirFactura  : boolean;//"Pedir InformaciÃ³n del Libro de Ventas al Emitir Factura"
+    SugerirNumeroControlFactura                   : boolean;//"Sugerir NÂ° Control de Factura"
     EnDondeRetenerIVA                             : UnDondeSeEfectuaLaRetencionIVA;
     PrimerNumeroComprobanteRetIVA                 : Long;
     FormaDeReiniciarElNumeroDeComprobanteRetIVA   : UnFormaDeReiniciarComprobanteRetIVA;
@@ -1135,12 +1135,12 @@ MenuDeInformes : boolean;
     ConfirmarImpresionMovBancarioPorSecciones     : Boolean;
     ImprimirComprobanteDeMovBancario              : Boolean;
     IvaEsCostoEnCompras                           : Boolean;
-    ImprimirComprobanteDeRetIVA             : Boolean;//"Imprimir el Comprobante de Retención de IVA al ingresar el Pago"
+    ImprimirComprobanteDeRetIVA             : Boolean;//"Imprimir el Comprobante de RetenciÃ³n de IVA al ingresar el Pago"
     NumeroDeCopiasComprobanteRetencionIVA         : Integer;
     NombreContador	: Str20; //g,"Nombre Contador"
-    CedulaContador	: Str10; //g,"Cédula Contador"
-    NumeroCPC		: Str10; //g,"Número CPC"
-    ImprimirCentimosEnPlanilla : Boolean;//"Imprimir Céntimos en Planilla Forma 00030"
+    CedulaContador	: Str10; //g,"CÃ©dula Contador"
+    NumeroCPC		: Str10; //g,"NÃºmero CPC"
+    ImprimirCentimosEnPlanilla : Boolean;//"Imprimir CÃ©ntimos en Planilla Forma 00030"
     ModeloPlanillaForma00030 : unModeloPlanillaForma00030;
     NumCopiasNotaDeEntrega: integer;
     NombrePlantillaNotaDeEntrega: Str60;
@@ -1159,14 +1159,14 @@ MenuDeInformes : boolean;
     GenerarNumCompDeRetIVASoloSiPorcentajeEsMayorACero : Boolean;
     ExigirInformacionLibroDeCompras : Boolean;
     DetalleProdCompFactura : Boolean;//"Imprimir detalle de Productos Compuestos en Factura"
-    DetalleProdCompCotizacion : Boolean;//"Imprimir detalle de Productos Compuestos en Cotización"
+    DetalleProdCompCotizacion : Boolean;//"Imprimir detalle de Productos Compuestos en CotizaciÃ³n"
     FormaDeOrdenarDetalleFactura : unFormaDeOrdenarDetalleFactura;
     ImprimirBorradorAlInsertarFactura : Boolean;
     CuentaBancariaAnticipo : Str5;//o,"Cuenta Bancaria",=cuentaBancaria.Codigo
-    ConceptoBancarioAnticipoCobrado : str8;//"Código Concepto para Anticipo Cobrado",=conceptoBancario.codigo
-    ConceptoBancarioAnticipoPagado : str8;//"Código Concepto para Anticipo Pagado",=conceptoBancario.codigo
-    ConceptoBancarioReversoAnticipoCobrado : str8;//"Código Concepto de Reverso de Anticipo Cobrado",=conceptoBancario.codigo
-    ConceptoBancarioReversoAnticipoPagado : str8;//"Código Concepto de Reverso de Anticipo Pagado",=conceptoBancario.codigo
+    ConceptoBancarioAnticipoCobrado : str8;//"CÃ³digo Concepto para Anticipo Cobrado",=conceptoBancario.codigo
+    ConceptoBancarioAnticipoPagado : str8;//"CÃ³digo Concepto para Anticipo Pagado",=conceptoBancario.codigo
+    ConceptoBancarioReversoAnticipoCobrado : str8;//"CÃ³digo Concepto de Reverso de Anticipo Cobrado",=conceptoBancario.codigo
+    ConceptoBancarioReversoAnticipoPagado : str8;//"CÃ³digo Concepto de Reverso de Anticipo Pagado",=conceptoBancario.codigo
     NombrePlantillaReciboDeAnticipoCobrado : str50;
     NombrePlantillaReciboDeAnticipoPagado : str50;
     ImprimirComprobanteContableDeAntcipoCobrado : Boolean;
@@ -1188,10 +1188,10 @@ MenuDeInformes : boolean;
     MaximoDescuentoEnFactura : double;
     GenerarMovReversoSiAnulaPago : boolean;//"Generar Movimeinto de Reverso de Pago"
     ConceptoBancarioReversoDePago : Str04; //"Concepto Bancario de Reverso de Pago"
-    AccionAlAnularFactDeMesesAnt: unAccionAlAnularFactDeMesesAnt; //"Acción Al Anular Factura de Meses Anteriores"
+    AccionAlAnularFactDeMesesAnt: unAccionAlAnularFactDeMesesAnt; //"AcciÃ³n Al Anular Factura de Meses Anteriores"
     ColocarEnFacturaElVendedorAsinagoAlCliente :Boolean;
     PermitirDobleDescuentoEnFactura: boolean;
-    ComplConComodinEnBusqDeArtInv : boolean;//"Completar con comodín en la Busqueda de Artículo en Factura"
+    ComplConComodinEnBusqDeArtInv : boolean;//"Completar con comodÃ­n en la Busqueda de ArtÃ­culo en Factura"
     ModeloFacturaModoTexto : str50;
     ModeloFacturaModoTexto2: str50;
     ImprimirAnexoDeSerial : Boolean;
@@ -1201,9 +1201,9 @@ MenuDeInformes : boolean;
     SinonimoSerial         : str10;
     SinonimoRollo          : str10;
     SalInvBusqSerial	   : boolean;
-    PrimerNumeroCompRetencion	: Longint;// "Primer número del comprobante de Retención"
-    FechaPrimerNumero		: date;//"Primer número del comprobante de Retención"
-    ResetearNumero		: Boolean;//"Resetea el número del comprobante de Retención"
+    PrimerNumeroCompRetencion	: Longint;// "Primer nÃºmero del comprobante de RetenciÃ³n"
+    FechaPrimerNumero		: date;//"Primer nÃºmero del comprobante de RetenciÃ³n"
+    ResetearNumero		: Boolean;//"Resetea el nÃºmero del comprobante de RetenciÃ³n"
     ImprimirDatosClienteEnCompFiscal: boolean; //"Imprimir Datos del Cliente en Comprobante Fiscal"
     AsignarComisionDeVendedorEnCobranza: boolean; //"Asignar Comision De Vendedor En Cobranza"
     ManejaDebitoBancario        : boolean; //"Maneja Debito Bancario"
@@ -1212,37 +1212,37 @@ MenuDeInformes : boolean;
     RedondeaMontoCreditoBancario: boolean; //"Redondea Monto Credito Bancario"
     ConcatenaLetraEaArticuloExento:boolean; //"Concatena Letra (E) a Articulo Exento"
     NumItemImprimirFactura      : Integer;//o,"Numero de Items por Factura"
-    AccionLimiteItemsFactura :unAccionLimiteItemsFactura; //"Acción al Limite de Items de Factura"
-    LimpiezaDeCotizacionXFactura : boolean;//"Limpieza De Cotización por Factura Emitida"
-    BloquearNumeroCobranza  :boolean;//"Bloquear Número de Cobranza"
+    AccionLimiteItemsFactura :unAccionLimiteItemsFactura; //"AcciÃ³n al Limite de Items de Factura"
+    LimpiezaDeCotizacionXFactura : boolean;//"Limpieza De CotizaciÃ³n por Factura Emitida"
+    BloquearNumeroCobranza  :boolean;//"Bloquear NÃºmero de Cobranza"
     CambiarCobradorVendedor :boolean;//"Cambiar Cobrador/Factura"
-    IntegracionRIS :boolean;//"Integración con Sistema Medico (RIS)"    
+    IntegracionRIS :boolean;//"IntegraciÃ³n con Sistema Medico (RIS)"    
     AvisoDeFacturacionMenor : boolean; //"Aviso de Facturacion menor a 30 dias para un mismo cliente"
     UsaMismoNumeroCompRetTodasCxP: boolean; //"Usa el Mismo Numero de Comp. de Ret IVA para todas las CxP"
     TipoNegocio                  = unTipoNegocio;//"Tipo de Negocio"
     FechaMinimaIngresarDatos : date //
     NombreCampoDefinibleCliente1  : Str20;//"Campo Definible 1"
-    OrdenarCxPPorFacturaDocumento    :boolean;//"Ordenar CxP por Número de Factura/Documento"    
-    BuscarArticuloXSerialAlFacturar  :boolean;//"Buscar Artículos por Serial al Facturar"
+    OrdenarCxPPorFacturaDocumento    :boolean;//"Ordenar CxP por NÃºmero de Factura/Documento"    
+    BuscarArticuloXSerialAlFacturar  :boolean;//"Buscar ArtÃ­culos por Serial al Facturar"
     AvisoDeReservasvencidas : boolean; //"Aviso de Reservas vencidas"
     VerificarStock : boolean; //"Aviso de variacion del Stock "
     NombrePlantillaComprobanteDePagoSueldo : str50;
     ImprimirTransferenciaAlInsertar  :boolean; //"Mostrar Opcion de Imprimir al Insertar Transferencia"
     ActivarFacturacionPorAlmacen  :boolean; //"Filtrar Inventario Por Almacen al Facturar"
-    ValidarArticulosAlGenerarFactura : boolean; //"Válidar Artículos Al Generar Factura desde Cotización"
-    CampoCodigoAlternativoDeArticulo : unCampoCodigoAlternativoDeArticulo; //"Campo De Código Alterno de Artículo"
+    ValidarArticulosAlGenerarFactura : boolean; //"VÃ¡lidar ArtÃ­culos Al Generar Factura desde CotizaciÃ³n"
+    CampoCodigoAlternativoDeArticulo : unCampoCodigoAlternativoDeArticulo; //"Campo De CÃ³digo Alterno de ArtÃ­culo"
     ImprimeSerialRolloLuegoDeDescripArticulo : boolean;
   @PrimaryKey=ConsecutivoCompania
 }
 
-{@M}ArticuloInventario =  record //Multiarchivo=Compania, "Artículo Inventario"
+{@M}ArticuloInventario =  record //Multiarchivo=Compania, "ArtÃ­culo Inventario"
     ConsecutivoCompania: Longint; //HIDE
-    Codigo	       : str30;//O,g,"Código del Artículo",Search
-    Descripcion        : TextArea;//g,"Descripción",Search,o
+    Codigo	       : str30;//O,g,"CÃ³digo del ArtÃ­culo",Search
+    Descripcion        : TextArea;//g,"DescripciÃ³n",Search,o
     LineaDeProducto    : Str20; //g,=LineaDeProducto.Nombre,Search
     StatusdelArticulo  : UnStatusArticulo; //Search
-    TipoDeArticulo     : unTipoDeArticulo; //"Tipo de Artículo",Search
-    AlicuotaIVA        : unTipoDeAlicuota;//"Alícuota IVA",g
+    TipoDeArticulo     : unTipoDeArticulo; //"Tipo de ArtÃ­culo",Search
+    AlicuotaIVA        : unTipoDeAlicuota;//"AlÃ­cuota IVA",g
     PrecioSinIVA       : Double;//g
     PrecioConIVA       : Double;//g
     PrecioSinIVA2      : Double;//
@@ -1256,15 +1256,15 @@ MenuDeInformes : boolean;
 //EsProductoCompuesto  : boolean;
     CostoUnitario      : Double;
     Existencia         : Double; //a,       
-//cv"TipoDeArticulo = \"Mercancía\""
+//cv"TipoDeArticulo = \"MercancÃ­a\""
     CantidadMinima     : Double;
     CantidadMaxima     : Double;
 //Comisiones           : label;
 //ComisionPorVenta     : real;
 //ComisionPorCobranza  : real;
-    Estadísticas de Producto: label;
+    EstadÃ­sticas de Producto: label;
     Categoria          : Str20; //g,=Categoria.Descripcion,Search
-// Sólo aplica para Informática Galac
+// SÃ³lo aplica para InformÃ¡tica Galac
     TipoDeProducto	: unTipoDeProducto; //cv"gProyParametros.getEsSistemaParaIG()"
     NombrePrograma	: str15;            //cv"gProyParametros.getEsSistemaParaIG()"
     Otros Datos         : label;
@@ -1291,10 +1291,10 @@ MenuDeInformes : boolean;
     MargenGanancia2	: Double;
     MargenGanancia3	: Double;
     MargenGanancia4	: Double;
-    TipoArticuloInv     : unTipoArticuloInv; //"Tipo de Artículo",o
+    TipoArticuloInv     : unTipoArticuloInv; //"Tipo de ArtÃ­culo",o
     ComisionaPorcentaje : boolean; "Porcentaje"
     GastosAdmisibles    : Double; //"Porcentaje de Gastos Admisibles"
-    MargenGananciaXLey	: Double; //"% Ganancía Ley Costos"
+    MargenGananciaXLey	: Double; //"% GanancÃ­a Ley Costos"
     MargenGananciaXLey2	: Double;
     MargenGananciaXLey3	: Double;
     MargenGananciaXLey4	: Double;
@@ -1308,17 +1308,17 @@ MenuDeInformes : boolean;
 {@D ArticuloInventario}ProductoCompuesto = record //Multiarchivo=Compania
     ConsecutivoCompania	     : Longint; //HIDE
     CodigoConexionConElMaster: Str15; //HIDE,o
-    CodigoArticulo           : Str15; //u,g,=ArticuloInventario.Codigo,"Código Inventario"
-//Descripcion                : TextArea; //g,logical,=ArticuloInventario.Descripcion,"Descripción"
+    CodigoArticulo           : Str15; //u,g,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
+//Descripcion                : TextArea; //g,logical,=ArticuloInventario.Descripcion,"DescripciÃ³n"
     Cantidad                 : LongInt; //g
-    TipoArticuloInv          : unTipoArticuloInv; //"Tipo de Artículo",o,Search
+    TipoArticuloInv          : unTipoArticuloInv; //"Tipo de ArtÃ­culo",o,Search
     @PrimaryKey=ConsecutivoCompania,CodigoConexionConElMaster,CodigoArticulo
 }
 
 {@S}RenglonArtCompuestoFac = Record //Male,Multiarchivo=Compania
 	ConsecutivoCompania	: LongInt; //o,HIDE
-	NumeroFactura		: Str11; //"Número de Factura"
-	Articulo		: Str30; //"Artículo"
+	NumeroFactura		: Str11; //"NÃºmero de Factura"
+	Articulo		: Str30; //"ArtÃ­culo"
 	Cantidad		: Double;//
 	Serial			: Str50; //
 	Rollo			: Str20; //
@@ -1329,8 +1329,8 @@ MenuDeInformes : boolean;
 
 {@S}RenglonArtCompuestoCot = Record //Male,Multiarchivo=Compania
 	ConsecutivoCompania	: LongInt; //o,HIDE
-	NumeroCotizacion	: Str11; //"Número de Cotización"
-	Articulo		: Str30; //"Artículo"
+	NumeroCotizacion	: Str11; //"NÃºmero de CotizaciÃ³n"
+	Articulo		: Str30; //"ArtÃ­culo"
 	Cantidad		: Double;//
 	Serial			: Str50; //
 	Rollo			: Str20; //
@@ -1341,7 +1341,7 @@ MenuDeInformes : boolean;
 
 {@D ArticuloInventario}ExistenciaPorGrupo = record //Multiarchivo=Compania
     ConsecutivoCompania: Longint; //HIDE
-    CodigoArticulo     : str15;// = ArticuloInventario.Codigo,"Código Inventario"
+    CodigoArticulo     : str15;// = ArticuloInventario.Codigo,"CÃ³digo Inventario"
     codigoGrupo        : str10;//= GrupoTallaColor.CodigoGrupo
     CodigoTalla        : str3;//= Talla.CodigoTalla
     CodigoCOlor        : str3;//= Color.CodigoColor
@@ -1358,20 +1358,20 @@ MenuDeInformes : boolean;
 
 {@D ArticuloInventario}CodigoDeBarras = record //Multiarchivo=Compania
        ConsecutivoCompania	: Longint; //HIDE
-       CodigoArticulo           : Str15; //HIDE,o,u,g,=ArticuloInventario.Codigo,"Código Inventario"
-       CodigoDeBarra            : Str50; //u,g,=ArticuloInventario.Codigo,"Código Inventario"
+       CodigoArticulo           : Str15; //HIDE,o,u,g,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
+       CodigoDeBarra            : Str50; //u,g,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
        @PrimaryKey=ConsecutivoCompania,CodigoArticulo,CodigoDeBarra
        }
 
 {@M}Cobranza = record //Multiarchivo=Compania,
 	ConsecutivoCompania	: Longint; //HIDE
-	Numero			: Str10;  //u,O,G,search,"Número Cobranza",sugestConsecutive
+	Numero			: Str10;  //u,O,G,search,"NÃºmero Cobranza",sugestConsecutive
 	StatusCobranza		: unStatusCobranza;//O,G,SEARCH,"Status Cobranza"
 	Fecha				: unFecha;//O,G,"Fecha Cobranza",search
 	FechaAnulacion		: unFecha;//a
-	CodigoCliente		: Str10;//g,search,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+	CodigoCliente		: Str10;//g,search,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
 	NombreCliente		: Str80;//g,search,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
-	CodigoCobrador		: Str5;//g,"Código del Cobrador",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+	CodigoCobrador		: Str5;//g,"CÃ³digo del Cobrador",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
 	NombreCobrador		: Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
 	DesgloseDelCobro		: Label;
 	TotalDocumentos		: Double;//A"ACUM DocumentoCobrado.MontoAbonado"
@@ -1399,7 +1399,7 @@ MenuDeInformes : boolean;
 	Vuelto			: Double;
 	DescProntoPago		: Double;// "Descuentos por Pronto Pago"
 	DescProntoPagoPorc	: Double;
-	ComisionVendedor	: Double; // "Comisión De Venededor"
+	ComisionVendedor	: Double; // "ComisiÃ³n De Venededor"
 	AplicaCreditoBancario	: boolean;//ci"gProyParametros.getGenerarMovBancarioDesdeCobro()"
 	TipoDeDocumento		: unTipoDeDocumentoCobranza; //o
 	NumeroDeComprobanteISLR	: Longint;
@@ -1464,21 +1464,21 @@ MenuDeInformes : boolean;
 
 {@M}Factura = record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme, "Facturas"
     ConsecutivoCompania: Longint; //HIDE
-    Numero        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
+    Numero        : str11;  //O,G,U,"NÃºmero de Factura",search,suggestConsecutive
     Fecha            : unFecha;//O,G,"Fecha",search
     CodigoAlmacen : str5; //=Almacen.Codigo
     NombreAlmacen : Str40;//logical,a,=Almacen.NombreAlmacen
     NivelDePrecio : unNivelDePrecio; //"Nivel de Precio",cv"Not gProyParametros.getEsProgramaIG"
 //DatosDelCliente  : label;
-    CodigoCliente    : Str10;//"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+    CodigoCliente    : Str10;//"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
     NombreCliente    : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
-    CodigoVendedor	: Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    CodigoVendedor	: Str5;//"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
     NombreVendedor   : Str35;//Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()",search
     StatusFactura    : unStatusFactura;//g,"Status"
     TipoDeDocumento  : unTipoDocumentoFactura;//"Tipo de Documento"
     Observaciones    : TextArea;//"Observaciones"
 //MontoDelAbono    : Double;//"Cantidad Abonada"
-//NoDeCheque       : Str16; //"Número de Cheque"
+//NoDeCheque       : Str16; //"NÃºmero de Cheque"
 //PagoForma        : unFormaDePago; //"Forma de Pago"
 //CondicionesDePago: TextArea; //CI"GetPagoFormaStr() = gEnumAdministrativo.enumFormadePagoToString(eFP_CREDITO)"
 //PorcentajeIVA       : Double; //Logical
@@ -1527,7 +1527,7 @@ MenuDeInformes : boolean;
     NumeroDesde             : Str20;
     NumeroHasta             : Str20;
     NumeroControlHasta      : Str11;
-//Retención del Iva
+//RetenciÃ³n del Iva
     MontoIvaRetenido        : Double;//g
     FechaAplicacionRetIVA   : date;//g
     NumeroComprobanteRetIVA : Longint;//g
@@ -1539,7 +1539,7 @@ MenuDeInformes : boolean;
     NombreCaja              : Str60;//Logical,=Caja.NombreCaja	
     GeneraCobroDirecto      : boolean; //
     CodigoLote              : Str10;//HIDE
-    NumeroTarjetonServicios : Str10; //"Número de Tarjeton de Servicios"
+    NumeroTarjetonServicios : Str10; //"NÃºmero de Tarjeton de Servicios"
     Devolucion              : Boolean; //HIDE
     PorcentajeDescuento1    : Real;   //"% Desc1"
     PorcentajeDescuento2    : Real;   //"% Desc2"
@@ -1554,7 +1554,7 @@ MenuDeInformes : boolean;
     MontoGrabableAlicuota1  : Double;
     MontoGrabableAlicuota2  : Double;
     MontoGrabableAlicuota3  : Double;
-    NumeroComprobanteFiscal : Str12; //O,G,"Núm Comprobante Fiscal",search
+    NumeroComprobanteFiscal : Str12; //O,G,"NÃºm Comprobante Fiscal",search
     SerialMaquinaFiscal     : Str15;
     RealizoCierreZ	    : Boolean; 
     HoraModificacion	    : str5;
@@ -1566,12 +1566,12 @@ MenuDeInformes : boolean;
     NumeroDeDocumento           : str20;
     NombreOperador          : Str10; //a
     FechaUltimaModificacion: date;//a
-    NoCotizacionDeOrigen    :str11; //"No de Cotización de Origen"
+    NoCotizacionDeOrigen    :str11; //"No de CotizaciÃ³n de Origen"
     ImprimieFiscal          : Boolean; //""
     StatusFacturaElectronica: unStatusFacturaElectronica;
     TipoDeDocumentoAfectado : unTipoDocumentoFactura;//"Tipo de Documento Afectado"
-    NumeroDeSerieDocumentoAfactado: str10; //"Número de Serie de Documento Afectado"
-    NumeroDeDocumentoDocumentoAfactado: str20; //"Número de Docuemtno de Documento Afectado"
+    NumeroDeSerieDocumentoAfactado: str10; //"NÃºmero de Serie de Documento Afectado"
+    NumeroDeDocumentoDocumentoAfactado: str20; //"NÃºmero de Docuemtno de Documento Afectado"
     CambioMostrarTotalEnDivisas : Double; //HIDE,"Mostrar Total En Divisas"
     @PrimaryKey=ConsecutivoCompania,Numero,TipoDeDocumento
     @UniqueKey=ConsecutivoCompania,NumeroDeSerie,NumeroDeDocumento,TipoDeDocumento
@@ -1582,11 +1582,11 @@ MenuDeInformes : boolean;
     NumeroFactura    : str11;//HIDE,o
     TipoDeDocumento  : unTipoDocumentoFactura;//HIDE,o
     ConsecutivoRenglon: Longint; //HIDE,o
-    Articulo         : str15;//g,=ArticuloInventario.Codigo,"Código Inventario"
-    Descripcion      : textArea; //g,a,=ArticuloInventario.Descripcion,"Descripción"
-    CodigoVendedor1  : Str5;//g,=Vendedor.Codigo,"Cód Vendededor1"
-    CodigoVendedor2  : Str5;//g,=Vendedor.Codigo,"Cód Vendededor2"
-    CodigoVendedor3  : Str5;//g,=Vendedor.Codigo,"Cód Vendededor3"
+    Articulo         : str15;//g,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
+    Descripcion      : textArea; //g,a,=ArticuloInventario.Descripcion,"DescripciÃ³n"
+    CodigoVendedor1  : Str5;//g,=Vendedor.Codigo,"CÃ³d Vendededor1"
+    CodigoVendedor2  : Str5;//g,=Vendedor.Codigo,"CÃ³d Vendededor2"
+    CodigoVendedor3  : Str5;//g,=Vendedor.Codigo,"CÃ³d Vendededor3"
     AlicuotaIVA      : unTipoDeAlicuota;//g 
     Cantidad            : Double;//O,G,CP"Cantidad=0",CM"La Cantidad debe ser mayor o igual que uno","Cantidad"
     PrecioSinIVA        : Double;//g,A,=ArticuloInventario.PrecioSinIVA,"Precio sin IVA"
@@ -1595,7 +1595,7 @@ MenuDeInformes : boolean;
     MontoBrutoConIva    : Double; //LOGICAL,v,A"PrecioConIVA*Cantidad","Monto Bruto"
     PorcentajeDescuento : Real;   //g,"Porcentaje Descuento"
     MontoDescuento      : Double; //HIDE,logical,A"MontoBruto*PorcentajeDescuento/100"
-    TotalRenglon        : Double; //G,A,"Total del Renglón"
+    TotalRenglon        : Double; //G,A,"Total del RenglÃ³n"
     PorcentajeBaseImponible       : double; //g
     CampoExtraEnRenglonFactura1 : Str15;
     CampoExtraEnRenglonFactura2 : Str15;
@@ -1633,18 +1633,18 @@ MenuDeInformes : boolean;
 //    @PrimaryKey=ConsecutivoCompania,NumeroFactura,ConsecutivoRenglonAbono
 //}
 
-// INICIO ***************  En C#, y pegado al módulo de clasificar clientes
+// INICIO ***************  En C#, y pegado al mÃ³dulo de clasificar clientes
 
 {@M}FacturaMayorista = record //Multiarchivo=Compania
     ConsecutivoCompania: Longint; //o,HIDE
     Consecutivo	     : LongInt;//a,u,o,Consecutive,search,g
 
-    NumeroFactura    : str20;  //O,G,"Número de Factura",search,
-    NumeroFacturaGalacAlMayorista: str20;  //G,"Factura Gálac al Mayorista",search,
+    NumeroFactura    : str20;  //O,G,"NÃºmero de Factura",search,
+    NumeroFacturaGalacAlMayorista: str20;  //G,"Factura GÃ¡lac al Mayorista",search,
     Fecha            : unFecha;//O,G,"Fecha",search
-    CodigoCliente    : Str10;//o,"Código del Cliente",=Cliente.Codigo,
+    CodigoCliente    : Str10;//o,"CÃ³digo del Cliente",=Cliente.Codigo,
     NombreCliente    : Str80;//g,=Cliente.Nombre,logical,search
-    CodigoVendedor   : Str5;//o,"Código del Vendedor",=Cliente.Codigo,
+    CodigoVendedor   : Str5;//o,"CÃ³digo del Vendedor",=Cliente.Codigo,
     NombreVendedor   : Str35;//g,=Cliente.Nombre,logical,search
     StatusFactura    : unStatusFactura;//g,"Status",search
     Observaciones    : TextArea;//"Observaciones"
@@ -1653,7 +1653,7 @@ MenuDeInformes : boolean;
     CreditoOContado  : unFormadePago
     Pagado           : boolean;
     MontoAbonado     : double;
-    FechaAnulacion   : unFecha;//"Fecha de Anulación"
+    FechaAnulacion   : unFecha;//"Fecha de AnulaciÃ³n"
 
    SeccionFacturaMayoristaDetalle : seccion //"", Detail=FacturaMayoristaDetalle
 
@@ -1671,30 +1671,30 @@ MenuDeInformes : boolean;
     ConsecutivoFacturaMayorista: LongInt;//o,Hide
     Consecutivo                : Longint; //HIDE,o,Consecutive
 
-    Articulo         : str15;//g,=ArticuloInventario.Codigo,"Código Inventario"
-    Descripcion      : textArea; //g,a,=ArticuloInventario.Descripcion,"Descripción"
+    Articulo         : str15;//g,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
+    Descripcion      : textArea; //g,a,=ArticuloInventario.Descripcion,"DescripciÃ³n"
     TipoAlicuotaIVA  : unTipoDeAlicuota;//Hide 
     PorcAlicuotaIVA  : Double;//Hide
     Cantidad         : Double;//o,g,CP"Cantidad=0",CM"La Cantidad debe ser mayor o igual que uno","Cantidad"
     PrecioSinIVA     : Double;//g,A,=ArticuloInventario.PrecioSinIVA,"Precio sin IVA"
     PorcDescuento    : Double;//g,"Porcentaje Descuento"
-    TotalRenglon     : Double;//g,"Total Renglón"
+    TotalRenglon     : Double;//g,"Total RenglÃ³n"
     
 @PrimaryKey=ConsecutivoCompania,ConsecutivoFacturaMayorista,Consecutivo
 }
 
-//1) Informe de clientes Mayorista entre 2 fechas con detalle de renglones y resumido que totalice la cantidad por producto group by Articulo, rompiendo por número factura gálac y "crédito y contado"
+//1) Informe de clientes Mayorista entre 2 fechas con detalle de renglones y resumido que totalice la cantidad por producto group by Articulo, rompiendo por nÃºmero factura gÃ¡lac y "crÃ©dito y contado"
 //2)En Cliente colocar un status de mayorista
-//3) Manejo que la cantidad de items para 1 artículo de facturaMayorista no puede ser mayor que la cantidad en factura
-//4) Insersión rápida de cliente
+//3) Manejo que la cantidad de items para 1 artÃ­culo de facturaMayorista no puede ser mayor que la cantidad en factura
+//4) InsersiÃ³n rÃ¡pida de cliente
 //
-// fin ***************  En C#, y pegado al módulo de clasificar clientes
+// fin ***************  En C#, y pegado al mÃ³dulo de clasificar clientes
 
 
 {@S}Autorizacion = record //Multiarchivo=Compania
      ConsecutivoCompania	: Longint; //HIDE
      NoAutorizacion: Longint; //HIDE,o,u,suggestconsecutive,g
-     CodigoCliente		: Str10;//o,g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+     CodigoCliente		: Str10;//o,g,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
      NombreCliente		: Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
      FechaDeLaFactura : unFecha; //o,g,search
      NoFactura              : Str12; //g
@@ -1728,14 +1728,14 @@ MenuDeInformes : boolean;
 
 {@S}Llamada = record //Multiarchivo=Compania,
      ConsecutivoCompania	: Longint; //HIDE
-   	ConsecutivoLLamada	: Longint;  //o,g,"Número llamada",sugestConsecutive,u
+   	ConsecutivoLLamada	: Longint;  //o,g,"NÃºmero llamada",sugestConsecutive,u
    	Fecha				: unFecha; //search,g,o
    	Hora				: date;
    	TipoDeLlamada		: unTipoLlamada; //g,search
-      CodigoCliente		: Str10;//o,g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
+      CodigoCliente		: Str10;//o,g,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
       NombreCliente		: Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",Search
    	Contacto			: Str35;//SEARCH
-   	Direccion			: TextArea;//logical,=Cliente.Direccion, "Dirección"
+   	Direccion			: TextArea;//logical,=Cliente.Direccion, "DirecciÃ³n"
    	Ciudad			: Str100;//Logical,=Cliente.Ciudad,"Ciudad"
    	Telefono			: Str20;//Logical
    	Fax 				: Str20;//Logical
@@ -1767,10 +1767,10 @@ MenuDeInformes : boolean;
 //      @PrimaryKey=ConsecutivoCompania,DescripcionTipoLLamada
 //      }
 
-{@S}LineaDeProducto = Record //"Línea de Producto", Male, Multiarchivo=Compania,Esquema=Adm,Componente=Tablas,interop, impExp
+{@S}LineaDeProducto = Record //"LÃ­nea de Producto", Male, Multiarchivo=Compania,Esquema=Adm,Componente=Tablas,interop, impExp
    	ConsecutivoCompania: Longint; //HIDE
 	Consecutivo:         Longint; //HIDE,sugestconsecutive
-   	Nombre             : Str20; //o,g,SEARCH,"Nombre de la Línea"
+   	Nombre             : Str20; //o,g,SEARCH,"Nombre de la LÃ­nea"
         PorcentajeComision : double;
 	CentroDeCosto      : str20; //g, "Centro de Costos"
    	NombreOperador     : Str20; //a
@@ -1782,7 +1782,7 @@ MenuDeInformes : boolean;
 {@S}Categoria = Record //Multiarchivo=Compania, Componente=Inventario,Esquema=Saw,interop
    	ConsecutivoCompania 	: Longint; //HIDE
    	Consecutivo   		: Longint;//HIDE,Consecutive,u
-   	Descripcion         	: Str20; //o,g,"Categoría",SEARCH
+   	Descripcion         	: Str20; //o,g,"CategorÃ­a",SEARCH
 	NombreOperador		: Str10; //a
 	FechaUltimaModificacion : date;//a
       @PrimaryKey=ConsecutivoCompania,Consecutivo
@@ -1790,16 +1790,16 @@ MenuDeInformes : boolean;
 
 {@S}Visita = Record //Multiarchivo=Compania,
    	ConsecutivoCompania	: Longint; //HIDE
-   	ConsecutivoVisita	: Longint;//o,g,Consecutive, "Número",search, u
-	CodigoVendedor		: Str5;//g,search,"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+   	ConsecutivoVisita	: Longint;//o,g,Consecutive, "NÃºmero",search, u
+	CodigoVendedor		: Str5;//g,search,"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
 	NombreVendedor   	: Str35;//search,Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
    	Fecha			: unFecha;//search
 	Datos del Cliente	: label
-     	CodigoCliente		: Str10;//g,search,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+     	CodigoCliente		: Str10;//g,search,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
      	NombreCliente		: Str80;//g,search,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
    	Contacto		: Str35; //o,g
-   	Teléfono		: Str40;//logical,a,=cliente.telefono
-   	Dirección		: TextArea;//logical,a,=Cliente.Direccion
+   	TelÃ©fono		: Str40;//logical,a,=cliente.telefono
+   	DirecciÃ³n		: TextArea;//logical,a,=Cliente.Direccion
 	ZonaPostal              : Str7;//logical,a,=cliente.zonapostal
 	Datos Visita		: label
    	Comentarios     	: TextArea;//"Comentarios"
@@ -1809,7 +1809,7 @@ MenuDeInformes : boolean;
 	MananaOTarde 		: unMananaOTarde; //ci"VisitaEspecial"
    	Hora			: Str5; //ci"VisitaEspecial"
         GeneraCosto             : boolean;//
-        NumeroFactura           : str11;//"Número Factura Asociada"
+        NumeroFactura           : str11;//"NÃºmero Factura Asociada"
         ServicioRealizado       : Str50;//"Servicio Realizado" = ServiciosAlRealizarVisita.DescripcionDeLaAccion
         ServicioARealizar       : Str50;//"Servicio Realizado" = ServiciosAlRealizarVisita.DescripcionDeLaAccion
         Observaciones           : Str255;//"Observaciones"
@@ -1825,14 +1825,14 @@ MenuDeInformes : boolean;
       @PrimaryKey=ConsecutivoCompania,ConsecutivoVisita
 }
 
-{@S}Almacen =  record //Multiarchivo=Compania,"Almacén",
+{@S}Almacen =  record //Multiarchivo=Compania,"AlmacÃ©n",
        ConsecutivoCompania : Longint; //HIDE
        Codigo		   : str5;//O,g,search
        NombreAlmacen       : Str40; //g,search
        TipoDeAlmacen       : unTipoDeAlmacen; //g,search
-       // CodigoDelCliente : str5; //ci"getTipoDeAlmacenStr() = \"Consignación\""
-       CodigoCliente	   : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla() AND cmbTipoDeAlmacenStr = \"Consignación\"",search
-       NombreCliente	   : Str80;//Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla() AND cmbTipoDeAlmacenStr = \"Consignación\"",search
+       // CodigoDelCliente : str5; //ci"getTipoDeAlmacenStr() = \"ConsignaciÃ³n\""
+       CodigoCliente	   : Str10;//g,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla() AND cmbTipoDeAlmacenStr = \"ConsignaciÃ³n\"",search
+       NombreCliente	   : Str80;//Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla() AND cmbTipoDeAlmacenStr = \"ConsignaciÃ³n\"",search
        NombreOperador         : Str10; //a
        FechaUltimaModificacion: date; //a
 
@@ -1843,10 +1843,10 @@ MenuDeInformes : boolean;
        ConsecutivoCompania	: Longint; //HIDE
        CodigoAlmacen : str5; //o,g,=Almacen.Codigo,search
        NombreAlmacen : Str40;//Logical,a,=Almacen.NombreAlmacen
-       CodigoArticulo      : str15; //o,g,=ArticuloInventario.Codigo,"Código Inventario",search
-       Descripcion         : textArea; //Logical,a,=ArticuloInventario.Descripcion,"Descripción"
+       CodigoArticulo      : str15; //o,g,=ArticuloInventario.Codigo,"CÃ³digo Inventario",search
+       Descripcion         : textArea; //Logical,a,=ArticuloInventario.Descripcion,"DescripciÃ³n"
        Cantidad : double; //g
-       Ubicacion           : Str30;//"Ubicación"
+       Ubicacion           : Str30;//"UbicaciÃ³n"
   @PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo
 }
 {@D ExistenciaPorAlmacen}RenglonExistenciaAlmacen = record //Multiarchivo=Compania;
@@ -1857,7 +1857,7 @@ MenuDeInformes : boolean;
        CodigoSerial        : str50; //o,g
        CodigoRollo         : str20; //o,g
        Cantidad            : Double; //o,g
-       Ubicacion           : Str30;//"Ubicación"
+       Ubicacion           : Str30;//"UbicaciÃ³n"
 @PrimaryKey=ConsecutivoCompania,CodigoAlmacen,CodigoArticulo,ConsecutivoRenglon
 }
 
@@ -1865,12 +1865,12 @@ MenuDeInformes : boolean;
     ConsecutivoCompania  : Longint; //HIDE
     NumeroDocumento      : str11; //g,o,u,sugestConsecutive,search
     TipodeOperacion      : UnTipodeOperacion; //search,grid
-    CodigoCliente        : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
+    CodigoCliente        : Str10;//g,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     NombreCliente        : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     CodigoAlmacen        : str5; //g,=Almacen.Codigo,search
     NombreAlmacen        : Str40;//Logical,a,=Almacen.NombreAlmacen
     Fecha                : unFecha; //o,search
-    Descripción Artículo : textArea; //Logical,a
+    DescripciÃ³n ArtÃ­culo : textArea; //Logical,a
     Comentarios          : textArea; //search
     CodigoLote           : Str10;//HIDE
     NombreOperador       : Str10; //a
@@ -1882,8 +1882,8 @@ MenuDeInformes : boolean;
     ConsecutivoCompania	: Longint; //HIDE
     NumeroDocumento: Str11;   //o,HIDE
     consecutivoRenglon	: longint; //o,HIDE
-    CodigoArticulo      : str15; //g,o,=ArticuloInventario.Codigo,"Código Inventario"
-    //Descripcion         : textArea; //g,a,=ArticuloInventario.Descripcion,"Descripción"
+    CodigoArticulo      : str15; //g,o,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
+    //Descripcion         : textArea; //g,a,=ArticuloInventario.Descripcion,"DescripciÃ³n"
     Cantidad           : Double;//g,o
     TipoArticuloInv     : unTipoArticuloInv; //g,a,o
     Serial              : str50;
@@ -1894,7 +1894,7 @@ MenuDeInformes : boolean;
 {@M}Transferencia =  record //"Transferencia",Multiarchivo=Compania,
      ConsecutivoCompania  : Longint; //HIDE
      NumeroDocumento      : str10; //g,o,u,sugestConsecutive,search
-     CodigoAlmacenEntrada : str5;//g,=Almacen.Codigo,"Nombre Almacén",search
+     CodigoAlmacenEntrada : str5;//g,=Almacen.Codigo,"Nombre AlmacÃ©n",search
      NombreAlmacenEntrada : Str40;//Logical,a,=Almacen.NombreAlmacen
      CodigoAlmacenSalida  : str5;//g,=Almacen.Codigo,search
      NombreAlmacenSalida  : Str40;//Logical,a,=Almacen.NombreAlmacen
@@ -1909,7 +1909,7 @@ MenuDeInformes : boolean;
     ConsecutivoCompania	: Longint; //HIDE
     NumeroDocumento: Str10;   //o,HIDE
     consecutivoRenglon	: longint; //o,HIDE
-    CodigoArticulo      : str15; //o,g,=ArticuloInventario.Codigo,"Código Inventario"
+    CodigoArticulo      : str15; //o,g,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
     Cantidad           : Double; //o,g
     Serial             : str50;
     Rollo              : str15;
@@ -1917,8 +1917,8 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon
 }
 
-//{@S}UrbanizacionZP = record //"Urbanización - Zona Postal",
-//   Urbanización: str30; //o,g,SEARCH
+//{@S}UrbanizacionZP = record //"UrbanizaciÃ³n - Zona Postal",
+//   UrbanizaciÃ³n: str30; //o,g,SEARCH
 //   ZonaPostal: str7; //o,g,SEARCH
 //   @PrimaryKey=Urbanizacion
 //}
@@ -1934,20 +1934,20 @@ MenuDeInformes : boolean;
 //{@D Cliente}DireccionDeDespacho = Record //Multiarchivo=Compania
 {@S}DireccionDeDespacho = Record //Multiarchivo=Compania
       ConsecutivoCompania  : Longint; //HIDE
-      CodigoCliente	   : Str10;//o,"Código del Cliente",=cliente.codigo,HIDE
+      CodigoCliente	   : Str10;//o,"CÃ³digo del Cliente",=cliente.codigo,HIDE
       ConsecutivoDireccion : Longint; //o,Consecutive
       PersonaContacto	   : Str20;//g,"Contacto",search
-      Direccion            : Str100;//g,"Dirección",o,search
+      Direccion            : Str100;//g,"DirecciÃ³n",o,search
       Ciudad               : Str100; //g,=Ciudad.NombreCiudad,search
       ZonaPostal           : Str7;//g,
       @PrimaryKey=ConsecutivoCompania,CodigoCliente,ConsecutivoDireccion
 }
 
-// Temporal, sólo para crear una pantalla secundaria
+// Temporal, sÃ³lo para crear una pantalla secundaria
 {@S}CambiarDireccionDeDespacho = Record //Multiarchivo=Compania
       ConsecutivoCompania : Longint; //HIDE
       PersonaContacto	  : Str20;
-      Direccion           : TextArea;//g,"Dirección"
+      Direccion           : TextArea;//g,"DirecciÃ³n"
       Ciudad              : Str100; //g,"Ciudad"
       ZonaPostal          : Str7;
       UsarDireccionFiscal : Boolean;
@@ -1962,10 +1962,10 @@ MenuDeInformes : boolean;
    	ConsecutivoCompania	: Longint; //HIDE
    	ConsecutivoDespacho	: Longint; //o,Consecutive
 	ClienteDespacho		: unCourier;
-	NumeroDeGuia		: str15;//g,search,"Número de Guía"
-	FechaDeCreacion		: date: //search,g,o,a"glibreria.getfechadehoy",o,"Fecha Creación"
+	NumeroDeGuia		: str15;//g,search,"NÃºmero de GuÃ­a"
+	FechaDeCreacion		: date: //search,g,o,a"glibreria.getfechadehoy",o,"Fecha CreaciÃ³n"
 	TipoDespacho		: unTipoDeDespacho;
-	CodigoCliente		: Str10;//search,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+	CodigoCliente		: Str10;//search,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
 	NombreCliente		: Str80;//g,search,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
 	Contacto		: Str35; 
 	Telefono		: Str40; //Logical,a,=cliente.telefono
@@ -1984,11 +1984,11 @@ MenuDeInformes : boolean;
 
 {@S}OrdenDeServicio = Record //Multiarchivo=Compania,
       ConsecutivoCompania	: Longint; //HIDE
-      ConsecutivoOrdendeServicio: Longint;  //o,g,"Nº Orden de Servicio",Consecutive, u
+      ConsecutivoOrdendeServicio: Longint;  //o,g,"NÂº Orden de Servicio",Consecutive, u
       Fecha		  : unFecha; //o,g,search
-      CodigoCliente	  : Str10;//search,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+      CodigoCliente	  : Str10;//search,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
       NombreCliente	  : Str80;//search,g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
-      Direccion		  : TextArea;//Logical,"Dirección",=Cliente.Direccion
+      Direccion		  : TextArea;//Logical,"DirecciÃ³n",=Cliente.Direccion
       Ciudad		  : Str100;//Logical,=Cliente.Ciudad,"Ciudad"
       Telefono		  : Str20;//Logical
       Observaciones	  : TextArea;//o,"Observaciones"
@@ -1997,19 +1997,19 @@ MenuDeInformes : boolean;
       HoraInicial	  : str5;
       HoraFinal		  : str5;
       TipoDeServicio	  : UnTipoDeServicio; //search
-      CodigoVendedor	  : Str5;//g,"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+      CodigoVendedor	  : Str5;//g,"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
       NombreVendedor   	  : Str35;//Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
-      NumeroFactura	  : str11; //o,search,ci"TipodeServicio=\"Instalación\""
+      NumeroFactura	  : str11; //o,search,ci"TipodeServicio=\"InstalaciÃ³n\""
       NombreOperador          : Str10; //a,Search
       FechaUltimaModificacion : date;//a
       @PrimaryKey=ConsecutivoCompania,ConsecutivoOrdendeServicio
 }
 
-{@S}VersionPrograma = Record //Multiarchivo=Compania,"Versión Programa",
+{@S}VersionPrograma = Record //Multiarchivo=Compania,"VersiÃ³n Programa",
      ConsecutivoCompania: Longint; //HIDE
      NombrePrograma     : Str20;   //g,
      Fecha              : unFecha; //"Fecha",g,search,o
-     VersionPrograma    : str5;    //"Versión"g,search,o
+     VersionPrograma    : str5;    //"VersiÃ³n"g,search,o
      Mejoras            : textArea;//g,search,o
      Mejoras2           : textArea;
      Mejoras3           : textArea;
@@ -2028,12 +2028,12 @@ MenuDeInformes : boolean;
 
 {@M}Curso = record //Multiarchivo=Compania
        ConsecutivoCompania: Longint; //HIDE
-       Numero           : LongInt;  //o,"Número de Curso",sugestconsecutive,u
+       Numero           : LongInt;  //o,"NÃºmero de Curso",sugestconsecutive,u
        Fecha            : unFecha;//O,G,"Fecha",search
        Producto         : str20; //G,=TipoDeCurso.Nombre,search
        Turno		: unMananaOTarde; //G
        Horario          : unHorario;
-       Instructor       : Str5;//"Código del Instructor",=vendedor.codigo,ci"gProyParametros.GetUsaCodigoVendedorEnPantalla()"
+       Instructor       : Str5;//"CÃ³digo del Instructor",=vendedor.codigo,ci"gProyParametros.GetUsaCodigoVendedorEnPantalla()"
        NombreInstructor : Str35;//G,Logical,=Vendedor.nombre,ci"Not gProyParametros.GetUsaCodigoVendedorEnPantalla()",search
        StatusCurso      : unStatusCurso;//G 
        Cupo             : Integer;
@@ -2057,17 +2057,17 @@ MenuDeInformes : boolean;
 
 {@S}Proveedor = Record //Male,Multiarchivo=Compania,"Proveedor"
     ConsecutivoCompania    : LongInt; //o,HIDE
-    CodigoProveedor        : Str10; //g,o,"Código",sugestConsecutive,search
+    CodigoProveedor        : Str10; //g,o,"CÃ³digo",sugestConsecutive,search
     NombreProveedor        : Str60; //u,g,o,search
     Contacto		     : Str35; //search
-    NumeroRIF              : Str20; //u,g,"N° R.I.F."
-    NumeroNIT              : Str12; //"N° N.I.T."
+    NumeroRIF              : Str20; //u,g,"NÂ° R.I.F."
+    NumeroNIT              : Str12; //"NÂ° N.I.T."
     TipoDePersona          : UnTipoDePersonaRetencion; //ci"gProyParametros.getUsaRetencion()"
     CodigoRetencionUsual   : Str6;//o,g,ci"gProyParametros.getUsaRetencion()",=TablaRetencion.codigo
 //    BaseImponible          : Extended;//g,Logical,=Tablaretencion.BaseImponible
-    Telefonos              : Str40; //"Teléfonos",search
-    Direccion              : TextArea;//"Dirección"
-    Fax                    : Str25; //"Nº Fax"
+    Telefonos              : Str40; //"TelÃ©fonos",search
+    Direccion              : TextArea;//"DirecciÃ³n"
+    Fax                    : Str25; //"NÂº Fax"
     E-mail	               : str40;
     TipodeProveedor	   : Str20; //=tipoProveedor.nombre
     TipoDeProveedorDeLibrosFiscales : unTipoDeProveedorDeLibrosFiscales;
@@ -2093,15 +2093,15 @@ MenuDeInformes : boolean;
 
 {@M}CxP = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar
     ConsecutivoCompania           : Longint; //HIDE
-    Numero                        : str25; //o,g,search,"Número", u
+    Numero                        : str25; //o,g,search,"NÃºmero", u
     TipoDeCxP                     : unTipoDeCxC;//search,u
     Status                        : UnStatusDocumento;//g,search,"Status"
-    CodigoProveedor               : Str10;//o,search,g,"Código del Proveedor",=proveedor.codigoProveedor,ci"gProyParametros.getUsarCodigoProveedorEnPantalla()"
+    CodigoProveedor               : Str10;//o,search,g,"CÃ³digo del Proveedor",=proveedor.codigoProveedor,ci"gProyParametros.getUsarCodigoProveedorEnPantalla()"
     NombreProveedor               : Str60;//g,search,Logical,=Proveedor.nombreProveedor,ci"Not gProyParametros.getUsarCodigoProveedorEnPantalla()"
     Fecha                         : unFecha;//g, "Fecha"
-    FechaCancelacion              : unFecha;//a,search,"Fecha de Cancelación"
+    FechaCancelacion              : unFecha;//a,search,"Fecha de CancelaciÃ³n"
     FechaVencimiento              : unFecha;//"Fecha de Vencimiento"
-    FechaAnulacion                : unFecha;//a,"Fecha de Anulación"
+    FechaAnulacion                : unFecha;//a,"Fecha de AnulaciÃ³n"
     Moneda                        : str10;//=Moneda.Nombre,"Nombre de la Moneda"
     CambioABolivares              : Double;
     AplicaParaLibrodeCompras      : boolean;
@@ -2156,13 +2156,13 @@ MenuDeInformes : boolean;
     TotalDetraccion		  : Currency;
     StatusDetraccion		  : unStatusDetraccion;
     ConsecutivoMovimiento         : LongInt;//
-    NumeroDeclaracionAduana       : Str20; //"Número de Declaración Aduanal"
-    FechaDeclaracionAduana        : Date; //"Fecha de declaración Aduanal"
+    NumeroDeclaracionAduana       : Str20; //"NÃºmero de DeclaraciÃ³n Aduanal"
+    FechaDeclaracionAduana        : Date; //"Fecha de declaraciÃ³n Aduanal"
     UsaPrefijoSerie               : Boolean; //"Usar Prefijo Serie"
     NumeroSerie                   : Str10; //"Serie" o,search
-    NumeroDeDocumento             : Str20; //"Número" o,search
+    NumeroDeDocumento             : Str20; //"NÃºmero" o,search
     NumeroSerieDocAfectado        : Str10; //"Serie Afectada" 
-    NumeroDeDocumentoAfectado     : Str20; //"Número Doc Afectado" 
+    NumeroDeDocumentoAfectado     : Str20; //"NÃºmero Doc Afectado" 
     NombreOperador                	: Str10; //a
     FechaUltimaModificacion       	: Date;//a
     @PrimaryKey=ConsecutivoCompania,ConsecutivoCxP
@@ -2178,12 +2178,12 @@ MenuDeInformes : boolean;
 }
 {@M}Pago = record //Multiarchivo=Compania
     ConsecutivoCompania    : Longint; //HIDE
-    NumeroComprobante      : longint;//o,g,a,"Nº Comprobante ",sugestConsecutive,search,u
-    NumeroCheque           : Str15;  //O,G,"Número Cheque",search
+    NumeroComprobante      : longint;//o,g,a,"NÂº Comprobante ",sugestConsecutive,search,u
+    NumeroCheque           : Str15;  //O,G,"NÃºmero Cheque",search
     StatusOrdenDePago      : unStatusPago;//O,G,search,"Status Pago"
     Fecha                  : unFecha;//O,G,"Fecha Pago",search
     FechaAnulacion         : unFecha;//a
-    CodigoProveedor        : Str10;//search,"Código del Proveedor",=proveedor.codigoProveedor,ci"gProyParametros.getUsarCodigoProveedorEnPantalla()"
+    CodigoProveedor        : Str10;//search,"CÃ³digo del Proveedor",=proveedor.codigoProveedor,ci"gProyParametros.getUsarCodigoProveedorEnPantalla()"
     NombreProveedor        : Str60;//g,search,Logical,=Proveedor.nombreProveedor,ci"Not gProyParametros.getUsarCodigoProveedorEnPantalla()"
     DesgloseDelPago        : Label;
     TotalDocumentos        : Double;//A"ACUM DocumentoPagado.MontoAbonado"
@@ -2192,9 +2192,9 @@ MenuDeInformes : boolean;
     TotalOtros             : Double;
     MontoCheque            : Double;
     FormaDePago            : unFormaDeCancelarPago;
-    CodigoCuentaBancaria   : str5;//o,"Código Cuenta",=cuentaBancaria.codigo,
+    CodigoCuentaBancaria   : str5;//o,"CÃ³digo Cuenta",=cuentaBancaria.codigo,
     NombreCuentaBancaria   : Str40;//Logical,a=cuentaBancaria.nombrecuenta
-    CodigoConcepto         : str8;//"Código Concepto",=conceptoBancario.codigo,ci"gProyParametros.getGenerarMovBancarioDesdePago()"
+    CodigoConcepto         : str8;//"CÃ³digo Concepto",=conceptoBancario.codigo,ci"gProyParametros.getGenerarMovBancarioDesdePago()"
     NombreCodigoConcepto   : Str30;//Logical,a=ConceptoBancario.descripcion
     AplicaDebitoBancario   : boolean;//ci"gProyParametros.getGenerarMovBancarioDesdePago()"
     DescripcionPago	   : TextArea;
@@ -2290,22 +2290,23 @@ MenuDeInformes : boolean;
 
 {@S}CuentaBancaria = Record //Multiarchivo=Compania,Generate
     ConsecutivoCompania	: Longint; //HIDE
-    Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
+    Codigo		: Str5;//"CÃ³digo Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g
-    NumeroCuenta	: Str30;//"Nº de Cuenta Bancaria",Search,g
+    NumeroCuenta	: Str30;//"NÂº de Cuenta Bancaria",Search,g
     NombreCuenta	: Str40;//"Nombre de la Cuenta",Search,g
-    CodigoBanco		: integer;//=Banco.Codigo,ci"gProyParametros.GetUsaCodigoBancoEnPantalla()","Código del Banco",Search,g
+    CodigoBanco		: integer;//=Banco.Codigo,ci"gProyParametros.GetUsaCodigoBancoEnPantalla()","CÃ³digo del Banco",Search,g
     NombreBanco		: Str40;//Logical,=Banco.Nombre,ci"Not gProyParametros.GetUsaCodigoBancoEnPantalla","Nombre del Banco",Search,g
     NombreSucursal	: Str40;//"Nombre de la Sucursal"
     TipoCtaBancaria	: unTipoDeCtaBancaria;//"Tipo de Cuenta",Search
-    ManejaDebitoBancario: Boolean;//"Maneja Débito Bancario",ci"gProyParametros.GetManejaDebitoBancario()"
-    ManejaCreditoBancario: Boolean; //"Maneja Crédito Bancario", ci"gproyParametros.GetManejaCreditoBancario()"
+    ManejaDebitoBancario: Boolean;//"Maneja DÃ©bito Bancario",ci"gProyParametros.GetManejaDebitoBancario()"
+    ManejaCreditoBancario: Boolean; //"Maneja CrÃ©dito Bancario", ci"gproyParametros.GetManejaCreditoBancario()"
     SaldoDisponible	: Double;//a,"Saldo Disponible"
     NombreDeLaMoneda	: Str10; //=Moneda.Nombre,"Nombre de la Moneda",o
     NombrePlantillaCheque: str50;
     CuentaContable       : str30;//=Cuenta.Codigo,"Cuenta Contable" 
-    CodigoMoneda        :str4; //=Moneda.Codigo, "Código"
-    TipoDeAlicuotaPorContribuyente	: unTipoAlicPorContIGTF;	//"Tipo de Alícuota por Contribuyente"
+    CodigoMoneda        :str4; //=Moneda.Codigo, "CÃ³digo"
+    TipoDeAlicuotaPorContribuyente	: unTipoAlicPorContIGTF;	//"Tipo de AlÃ­cuota por Contribuyente"
+    ExcluirDelInformeDeDeclaracionIGTF : boolean;               //"Excluir del Informe de DeclaraciÃ³n"
     GeneraMovBancarioPorIGTF		: boolean;					//"Genera movimiento bancario de egreso por IGTF"
     NombreOperador	   : Str10;//a
     FechaUltimaModificacion: date;//a
@@ -2325,18 +2326,18 @@ MenuDeInformes : boolean;
 
 {@S}MovimientoBancario = Record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Componente=Banco, Generate
 	ConsecutivoCompania : Longint;//HIDE
-	ConsecutivoMovimiento : LongInt;//Search,"Nº Movimiento",g,Consecutive,o,a
+	ConsecutivoMovimiento : LongInt;//Search,"NÂº Movimiento",g,Consecutive,o,a
 	CodigoCtaBancaria : Str5;//Search,=CuentaBancaria.Codigo,"Cuenta Bancaria",g,o
 	NombreCtaBancaria : Str40;//Logical,=cuentabancaria.nombrecuenta
-	CodigoConcepto : Str8;//=ConceptoBancario.Codigo,"Código Concepto",Search,g,o
+	CodigoConcepto : Str8;//=ConceptoBancario.Codigo,"CÃ³digo Concepto",Search,g,o
 	DescripcionConcepto : Str30;//Logical,=ConceptoBancario.descripcion
 	Fecha : Date;//g,Search,o
 	TipoConcepto : unIngresoEgreso;//"Tipo Concepto",Search,g,a,=conceptobancario.tipo
 	Monto : Double;//g
-	NumeroDocumento : Str15;//"Nº Documento",Search
+	NumeroDocumento : Str15;//"NÂº Documento",Search
 	Descripcion : Str255;
 	GeneraImpuestoBancario : Boolean;//"Generar Impuesto Bancario",ci"insCuentabancaria.getManejaDebitoBancario()" or CI"insCuentabancaria.getManejaCreditoBancario()"
-	AlicuotaImpBancario : decimal;//"Alícuota",ci"insCuentabancaria.getManejaDebitoBancario()" or CI"insCuentabancaria.getManejaCreditoBancario()"	
+	AlicuotaImpBancario : decimal;//"AlÃ­cuota",ci"insCuentabancaria.getManejaDebitoBancario()" or CI"insCuentabancaria.getManejaCreditoBancario()"	
 	NroMovimientoRelacionado : Str15;//a
 	GeneradoPor : unGeneradoPor;//a,"Generado Por"
 	Moneda : Str10; //Logical,=CuentaBancaria.NombreDeLaMoneda,"Moneda",a
@@ -2354,9 +2355,9 @@ MenuDeInformes : boolean;
 
 {@S}Contrato = Record; //Multiarchivo=Compania, GenerateRptConfigurar
    ConsecutivoCompania: Longint; //HIDE
-   NumeroContrato     : Str5; //"Nº Contrato",g,sugestConsecutive,Search,o
+   NumeroContrato     : Str5; //"NÂº Contrato",g,sugestConsecutive,Search,o
    StatusContrato     : unStatusContrato;//g,search
-   CodigoCliente      : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
+   CodigoCliente      : Str10;//g,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
    NombreCliente      : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",Search
    DuracionDelContrato: UnDuracionDelContrato;
 //PreciosIncluyenIVA  : boolean;
@@ -2367,7 +2368,7 @@ MenuDeInformes : boolean;
 //Periodicidad        : unPeriodicidadContratos;//Logical
 //PeriodoDeAplicacion : unPeriodoDeAplicacion;//Logical
 //CambioDeValorDelItem: unValorDelRenglon;//Logical
-   CodigoVendedor     : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+   CodigoVendedor     : Str5;//"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
    NombreVendedor     : Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
    Moneda             : str10;
    FacturarAOtroCliente: Boolean; //"Facturar a otro cliente"
@@ -2383,8 +2384,8 @@ MenuDeInformes : boolean;
 	ConsecutivoCompania  : LongInt; //HIDE
 	NumeroContrato       : Str5; //HIDE,o
 	ConsecutivoContrato  : LongInt; //HIDE,o,consecutive
-      Articulo             : str15;//g,=ArticuloInventario.Codigo,"Código Inventario"
-      Descripcion          : textArea; //g,a,=ArticuloInventario.Descripcion,"Descripción"
+      Articulo             : str15;//g,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
+      Descripcion          : textArea; //g,a,=ArticuloInventario.Descripcion,"DescripciÃ³n"
       CambioDeValorDelItem : unValorDelRenglon;//g
       Imponible            : Double;//g
       Cantidad             : Real;//g,o
@@ -2400,22 +2401,22 @@ MenuDeInformes : boolean;
 //records de ret puestos solo para compatibilidad   
 {@M}RetPago = record //Multiarchivo=Compania
     ConsecutivoCompania    : Longint; //HIDE
-    NumeroComprobante    : longint;//o,"Nº Comprobante de Egreso",sugestConsecutive,search,u
-    NumeroReferencia  	: Str15;  //O,G,"Número del Cheque/Referencia",search
+    NumeroComprobante    : longint;//o,"NÂº Comprobante de Egreso",sugestConsecutive,search,u
+    NumeroReferencia  	: Str15;  //O,G,"NÃºmero del Cheque/Referencia",search
     Fecha           	 	: unFecha;//O,G,"Fecha Pago",search
     MesAplicacion       : byte;
     AnoAplicacion       : byte;
-    CodigoProveedor	 	: Str10;//g,"Código del Proveedor",=proveedor.codigoProveedor,ci"gProyParametros.getUsarCodigoProveedorEnPantalla()",search
+    CodigoProveedor	 	: Str10;//g,"CÃ³digo del Proveedor",=proveedor.codigoProveedor,ci"gProyParametros.getUsarCodigoProveedorEnPantalla()",search
     NombreProveedor	 	: Str60;//g,Logical,=Proveedor.nombreProveedor,ci"Not gProyParametros.getUsarCodigoProveedorEnPantalla()",search
     TotalDocumentos   	: Double;//Logical,A"ACUM DocumentoPagado.MontoAbonado"
     TotalRetencion   	: Double;//Logical,A"ACUM DocumentoPagado.MontoRetencion"
 //MontoPagado      	: Double;//vA"TotalDocumentos - TotalRetencion"
-    CodigoLote			: Str10;//g,"Código del Lote",a
+    CodigoLote			: Str10;//g,"CÃ³digo del Lote",a
     GeneradoPor			: unMotivoDelLote;//g,"Generado por"
     CampoExtra1			: str20;
     CampoExtra2			: str20;
     CampoExtra3			: str20;
-    PrimerNumeroCompRetencion	: Longint;// "Primer número del comprobante de Retención"
+    PrimerNumeroCompRetencion	: Longint;// "Primer nÃºmero del comprobante de RetenciÃ³n"
     NroComprobanteRetISLR       : Longint;
     Origen                      : unOrigen;
     NombreOperador         	: Str10; //a
@@ -2444,7 +2445,7 @@ MenuDeInformes : boolean;
 
 {@S}CamposMonedaExtranjera=  record //Multiarchivo=Compania
     ConsecutivoCompania	: Longint; //HIDE
-    Codigo			: str15;//O,g,"Código del Artículo",=ArticuloInventario.Codigo,search
+    Codigo			: str15;//O,g,"CÃ³digo del ArtÃ­culo",=ArticuloInventario.Codigo,search
     MePrecioSinIVA: Double;//g
     MePrecioConIVA: Double;//g
     MePrecioSinIVA2: Double;//
@@ -2474,7 +2475,7 @@ MenuDeInformes : boolean;
        Respuesta6         : textArea; //HIDE
        Respuesta7         : textArea; //HIDE
        Respuesta8         : textArea; //HIDE
-       Información Adicional: label;
+       InformaciÃ³n Adicional: label;
        PreguntadoPor : str10; //a
        NombreOperador     : str10; //a,"Respondido Por"
        FechaUltimaModificacion : Date; //a
@@ -2505,9 +2506,9 @@ MenuDeInformes : boolean;
 {@S}ClaveSuperUtilitario = record //Multiarchivo=Compania,
      ConsecutivoCompania  : LongInt; //o,HIDE
      NoAutorizacion: Longint; //HIDE,o,consecutive, u
-     CodigoCliente		: Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+     CodigoCliente		: Str10;//g,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
      NombreCliente		: Str80;//search,g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
-     A quien se autorizó: str60; //search,o
+     A quien se autorizÃ³: str60; //search,o
      NombreProducto: unNombreProducto; //g,search
      ClaveDeAcceso      : Str4; //o
      CodigoRegistro     : Str4;   //a
@@ -2539,12 +2540,12 @@ MenuDeInformes : boolean;
    NumeroSecuencial    : str10; //Hide,o,suggestConsecutive
    Numero              : str10; //u, g,o,search
    Fecha               : unFecha; //o,search
-   CodigoProveedor	   : Str10;//o,g,"Código del Proveedor",=Proveedor.codigoProveedor,ci"gProyParametros.getUsarCodigoProveedorEnPantalla()",search
+   CodigoProveedor	   : Str10;//o,g,"CÃ³digo del Proveedor",=Proveedor.codigoProveedor,ci"gProyParametros.getUsarCodigoProveedorEnPantalla()",search
    NombreProveedor	   : Str60;//g,Logical,=Proveedor.nombreProveedor,ci"Not gProyParametros.getUsarCodigoProveedorEnPantalla()",search
    CodigoAlmacen       : str5; //g,=Almacen.Codigo,search
    NombreAlmacen       : Str40;//Logical,a,=Almacen.NombreAlmacen
    Moneda              : str10;//=Moneda.Nombre,"Nombre de la Moneda"
-   CambioABolivares    : Double; //o,"Cambio a Bolívares"
+   CambioABolivares    : Double; //o,"Cambio a BolÃ­vares"
    GenerarCXP          : boolean; //"Generar Cuenta por Pagar"
    TotalRenglones      : Double;//A"ACUM RenglonCompra.Cantida * RenglonCompra.CostoUnitario "
    OtrosGastos         : double; //"Otros Gastos (Flete, etc.)"
@@ -2573,7 +2574,7 @@ MenuDeInformes : boolean;
     ConsecutivoCompania	   : Longint; //o,HIDE
     NumeroSecuencialCompra : Str10;   //o,HIDE
     consecutivoRenglon	   : longint; //o,HIDE
-    CodigoArticulo         : str15; //g,o,=ArticuloInventario.Codigo,"Código Inventario"
+    CodigoArticulo         : str15; //g,o,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
     Cantidad               : Double;//g,o
     CostoUnitario          : double; //g,o
     CantidadRecibida       : Double;
@@ -2595,10 +2596,10 @@ MenuDeInformes : boolean;
 {@S}RevisionDeData = record //Multiarchivo=Compania
    ConsecutivoCompania : Longint; //HIDE
    NumeroDeOrden       : longint; //o,g,a,suggestConsecutive, u
-   Recibido El Día     : unFecha; //g,search
+   Recibido El DÃ­a     : unFecha; //g,search
    StatusOrdenServicio : unStatusServicio; //g,search
 //   DATOS DEL DISKETTE  : frame;
-   CodigoCliente       : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+   CodigoCliente       : Str10;//g,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
    NombreCliente       : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
    NombrePrograma      : str20;//g,search,=Categoria.Descripcion
    Recibida Por        : Str10;//g,=usuario.nombreDelUsuario
@@ -2617,7 +2618,7 @@ MenuDeInformes : boolean;
 {@S}FacturasVendedor = record //Multiarchivo=Compania
    ConsecutivoCompania	   : Longint; //HIDE
    NumeroFactura    : Str11;//=Factura.numero,g,search,o
-   CodigoVendedor		: Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.GetUsaCodigoVendedorEnPantalla()"
+   CodigoVendedor		: Str5;//"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.GetUsaCodigoVendedorEnPantalla()"
    NombreVendedor   	: Str35;//LOGICAL,g,=Vendedor.nombre,ci"Not gProyParametros.GetUsaCodigoVendedorEnPantalla()",search
    Observaciones     : textArea;//search
    @PrimaryKey=ConsecutivoCompania,NumeroFactura
@@ -2625,8 +2626,8 @@ MenuDeInformes : boolean;
 
 {@S}CorreccionDeFechas = Record; //Multiarchivo=Compania
    ConsecutivoCompania	   : Longint; //v
-   NumeroAutorizacion      : Str9; //"Nº Autorización",g,sugestConsecutive,Search,o
-   CodigoCliente	   : Str10;//"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
+   NumeroAutorizacion      : Str9; //"NÂº AutorizaciÃ³n",g,sugestConsecutive,Search,o
+   CodigoCliente	   : Str10;//"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
    NombreCliente           : Str80;//g,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",Search
    Fecha                   : unFecha;
    ClaveDeCorreccion       : str4;
@@ -2641,7 +2642,7 @@ MenuDeInformes : boolean;
     ConsecutivoCompania    : Longint; //o,HIDE
     ConsecutivoConteo      : longint;//a,o,"Consecutivo Conteo", sugestConsecutive, u
     Fecha           	 	: unFecha;//O,G,"Fecha ",Search
-    CodigoAlmacen          : str5; //=Almacen.Codigo, "Código Almacén",Search
+    CodigoAlmacen          : str5; //=Almacen.Codigo, "CÃ³digo AlmacÃ©n",Search
     SoloUnaLinea           : Boolean; //
     LineaDeProducto        : Str20; //g,ci"SoloUnaLinea",=LineaDeProducto.Nombre,Search
     Status                 : UnStatusConteoFisico;,Search
@@ -2654,7 +2655,7 @@ MenuDeInformes : boolean;
     ConsecutivoCompania     : Longint; //HIDE
     ConsecutivoConteo       : longint;//o,v
     ConsecutivoRenglon      : Longint; //o,v
-    CodigoArticulo          : str15; //g,o,=ArticuloInventario.Codigo,"Código Inventario"
+    CodigoArticulo          : str15; //g,o,=ArticuloInventario.Codigo,"CÃ³digo Inventario"
     ExistenciaEnElComputador: Double;//g
     ExistenciaFisica        : Double;//g
     Diferencia              : Double;//g
@@ -2666,7 +2667,7 @@ MenuDeInformes : boolean;
 
 {@S}InformacionAdicional = Record; //Multiarchivo=Compania
    ConsecutivoCompania	   : Longint; //v
-   NumeroAutorizacion      : Str9; //"Nº Autorización",g,sugestConsecutive,Search,o
+   NumeroAutorizacion      : Str9; //"NÂº AutorizaciÃ³n",g,sugestConsecutive,Search,o
    AxP         : Boolean;
    Nomina      : Boolean;
 //IVA         : Boolean;
@@ -2686,8 +2687,8 @@ MenuDeInformes : boolean;
 
 {@S}OtrosCargosDeFactura =  record //Multiarchivo=Compania, "Otros Cargos de Factura"
     ConsecutivoCompania	: Longint; //HIDE	
-    Codigo		: str15;//Obligatory,grid,"Código del Cargo",Search
-    Descripcion: TextArea;//g,"Descripción",Search,obligatory
+    Codigo		: str15;//Obligatory,grid,"CÃ³digo del Cargo",Search
+    Descripcion: TextArea;//g,"DescripciÃ³n",Search,obligatory
     Status : UnStatusArticulo; //Search
     CALCULO : LABEL	
     SeCalculaEnBaseA: unBaseCalculoOtrosCargosDeFactura; //"Se Calcula en Base A"
@@ -2711,8 +2712,8 @@ MenuDeInformes : boolean;
 //    NumeroFactura    : str11;//HIDE,obligatory
 //    TipoDeDocumento  : unTipoDocumentoFactura;//HIDE,o
 //    ConsecutivoRenglon: Longint; //HIDE,obligatory
-//    CodigoDeCargo         : str15;//grid,=OtrosCargosDeFactura.Codigo,"Código Otro Cargo"
-//    Descripcion      : textArea; //grid,a=OtrosCargosDeFactura.Descripcion,"Descripción"
+//    CodigoDeCargo         : str15;//grid,=OtrosCargosDeFactura.Codigo,"CÃ³digo Otro Cargo"
+//    Descripcion      : textArea; //grid,a=OtrosCargosDeFactura.Descripcion,"DescripciÃ³n"
 //    SeCalculaEnBaseA: unBaseCalculoOtrosCargosDeFactura; //grid,a=OtrosCargosDeFactura.SeCalculaEnBaseA
 //     ComoAplicaAlTotalFactura : unComoAplicaOtrosCargosDeFactura //grid,a=OtrosCargosDeFactura.ComoAplicaAlTotalFactura
 //	//ojo totalRenglon no es editable si es por formula
@@ -2720,11 +2721,11 @@ MenuDeInformes : boolean;
 //    @PrimaryKey=ConsecutivoCompania,NumeroFactura,TipoDeDocumento,ConsecutivoRenglon
 //}
     
-{@S}ComisionCobranzaXVcto = Record //Multiarchivo=Compania,"Comisión Cobranza por Vencimiento",
+{@S}ComisionCobranzaXVcto = Record //Multiarchivo=Compania,"ComisiÃ³n Cobranza por Vencimiento",
    ConsecutivoCompania: Longint; //o,HIDE
    ConsecutivoComision: Longint; //o,HIDE   
-   PorcentajeComision : Real;   //o,a,"Porcentaje Comisión"
-   DiasVencidos: str12; //o,a,"Días Vencidos"
+   PorcentajeComision : Real;   //o,a,"Porcentaje ComisiÃ³n"
+   DiasVencidos: str12; //o,a,"DÃ­as Vencidos"
    NombreOperador         : Str10; //a
    FechaUltimaModificacion: date;//a
    @PrimaryKey=ConsecutivoCompania,ConsecutivoComision,PorcentajeComision,Diasvencidos
@@ -2752,8 +2753,8 @@ MenuDeInformes : boolean;
     ConsecutivoCompania   : Longint; //HIDE
     NumeroCotizacion      : str11;//HIDE,obligatory
     ConsecutivoRenglon    : Longint; //HIDE,obligatory
-    CodigoDeCargo         : str15;//grid,=OtrosCargosDeFactura.Codigo,"Código Otro Cargo"
-    Descripcion           : textArea; //grid,a=OtrosCargosDeFactura.Descripcion,"Descripción"
+    CodigoDeCargo         : str15;//grid,=OtrosCargosDeFactura.Codigo,"CÃ³digo Otro Cargo"
+    Descripcion           : textArea; //grid,a=OtrosCargosDeFactura.Descripcion,"DescripciÃ³n"
     SeCalculaEnBaseA      : unBaseCalculoOtrosCargosDeFactura; //grid,a=OtrosCargosDeFactura.SeCalculaEnBaseA
     ComoAplicaAlTotalCotizacion : unComoAplicaOtrosCargosDeFactura //grid,a=OtrosCargosDeFactura.ComoAplicaAlTotalFactura
 //ojo totalRenglon no es editable si es por formula
@@ -2763,7 +2764,7 @@ MenuDeInformes : boolean;
 
 {@S}ParametrosBaseDeDatos = Record //
     Secuencial              : Longint; //HIDE
-    ResincronizarLaConexionAlContabilizar: Boolean; //"Resincronizar la conexión al contabilizar"
+    ResincronizarLaConexionAlContabilizar: Boolean; //"Resincronizar la conexiÃ³n al contabilizar"
     NombreOperador          : str10;//
     FechaUltimaModificacion : date;// 
     @PrimaryKey=Secuencial
@@ -2774,7 +2775,7 @@ MenuDeInformes : boolean;
    Secuencial           : Longint; //HIDE,sugestConsecutive,u
    Fecha          : unFecha;//O,G,"Fecha",search
 // Para
-   CodigoCliente  : Str10;//g,search,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+   CodigoCliente  : Str10;//g,search,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
    NombreCliente  : Str80;//search,g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
 //
    Asunto         : Str40;
@@ -2788,10 +2789,10 @@ MenuDeInformes : boolean;
 }
 
 
-//  Esta definicion de Cuentas,Centro de Costos y TipoDeComprobante se hace sólo para 
-//  crear las conexiones de las Reglas de Contabilización
+//  Esta definicion de Cuentas,Centro de Costos y TipoDeComprobante se hace sÃ³lo para 
+//  crear las conexiones de las Reglas de ContabilizaciÃ³n
 //  con Cuenta Contable. Si se quiere ver la definicion de 
-//  registro de Cuentas COntables, se debe hacer a través de 
+//  registro de Cuentas COntables, se debe hacer a travÃ©s de 
 //  DefContabilidad-V1.txt
 //  La definicion de periodo, se hace solo para que el narrador no se queje porque falta el record
 
@@ -2805,8 +2806,8 @@ MenuDeInformes : boolean;
 
 {@S}Cuenta = Record //Multiarchivo=Periodo,Female
    ConsecutivoPeriodo  : LongInt;//o,v
-   Codigo                            : Str30;//o,g,"Código",search
-   Descripcion                       : Str40;//o,g,"Descripción",search
+   Codigo                            : Str30;//o,g,"CÃ³digo",search
+   Descripcion                       : Str40;//o,g,"DescripciÃ³n",search
    SaldoInicial                      : double; //v,a
    NombreOperador                    : Str10; //a
    FechaUltimaModificacion           : date;//a
@@ -2824,7 +2825,7 @@ MenuDeInformes : boolean;
 }
 
 {@S}TipoDeComprobante = Record //Male
-  CodigoDelTipo : Str2;//o,g,"Código",search
+  CodigoDelTipo : Str2;//o,g,"CÃ³digo",search
   NombreDelTipo : Str30;//o,g,"Nombre",search
   @primaryKey = CodigoDelTipo
 }
@@ -2832,7 +2833,7 @@ MenuDeInformes : boolean;
 
 {@S}ReglasDeContabilizacion = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania : LongInt;//o,v
-    Numero              : Str11;//u,o,g,sugestconsecutive,"Número",HIDE
+    Numero              : Str11;//u,o,g,sugestconsecutive,"NÃºmero",HIDE
     EditarComprobanteAfterInsert       : Boolean; 
     DiferenciaEnCambioyCalculo         : Str30;//=cuenta.codigo
 	CuentaDiferenciaCambiaria          : Str30;//=Cuenta.Codigo
@@ -2958,8 +2959,8 @@ MenuDeInformes : boolean;
 
 {@S}CategoriaCliente = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania  : LongInt;//o,v
-    Numero               : Str6;//u,o,g,sugestconsecutive,"Número",HIDE
-    Descripcion          : str20;//u,o,"Descripción"
+    Numero               : Str6;//u,o,g,sugestconsecutive,"NÃºmero",HIDE
+    Descripcion          : str20;//u,o,"DescripciÃ³n"
     CuentaCxCClientes    : Str30;//=cuenta.codigo
     CuentaCxCIngresos    : Str30;//=cuenta.codigo
     NombreOperador          : Str10; //a
@@ -2969,8 +2970,8 @@ MenuDeInformes : boolean;
 
 {@S}CategoriaProveedor = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania  : LongInt;//o,v
-    Numero               : Str6;//u,o,g,sugestconsecutive,"Número",HIDE
-    Descripcion          : str20;//u,o,"Descripción"	
+    Numero               : Str6;//u,o,g,sugestconsecutive,"NÃºmero",HIDE
+    Descripcion          : str20;//u,o,"DescripciÃ³n"	
     CuentaCxPGastos      : Str30;//=cuenta.codigo
     CuentaCxPProveedores : Str30;//=cuenta.codigo
     NombreOperador          : Str10; //a
@@ -2985,13 +2986,13 @@ MenuDeInformes : boolean;
     @PrimaryKey=NombreOperador
 }
 
-//{@M}Conciliacion = Record //Multiarchivo=Compania,"Conciliación",Female
+//{@M}Conciliacion = Record //Multiarchivo=Compania,"ConciliaciÃ³n",Female
 //    ConsecutivoCompania    : LongInt;//o,v
 //    NroConciliacion        : str9;//g
-//    CodigoCuenta           : str5;//"Código Cuenta",search,g,=CuantaBancaria.Codigo
+//    CodigoCuenta           : str5;//"CÃ³digo Cuenta",search,g,=CuantaBancaria.Codigo
 //    NombreCuenta           : str5;//logical,=CuentaBancaria.NombreCuenta,"Nombre Cuenta",search,g
 //    MesDeAplicacion        : byte;//"Mes",search,g
-//    AnoDeAplicacion        : byte;//"Año",search,g
+//    AnoDeAplicacion        : byte;//"AÃ±o",search,g
 //    SaldoEdoCuentaBancario : Double;
 //    Status                 : unStatusConciliacion;
 //    TotalDebe		   : Double;
@@ -3006,21 +3007,21 @@ MenuDeInformes : boolean;
 //    ConsecutivoCompania    : LongInt;//HIDE,o,v
 //    NroConciliacion        : str9;//HIDE,o
 //    CodigoCuenta           : str5;//HIDE,o
-//    Consecutivo            : LongInt;//u,o,g,consecutive,"Número",HIDE
+//    Consecutivo            : LongInt;//u,o,g,consecutive,"NÃºmero",HIDE
 //    CodConcepto	           : str8;//=ConceptoBancario.Codigo,"Concepto",g,o
 //    TipoConcepto   	   : str7;//"Tipo",g,a
 //    FechaRef		   : Date;//"Fecha Ref"g,o
-//    NumeroDocumento        : Str15;//"Nº Documento",g,o
-//    DescripcionDet	   : Str30;//"Descripción",g,o
+//    NumeroDocumento        : Str15;//"NÂº Documento",g,o
+//    DescripcionDet	   : Str30;//"DescripciÃ³n",g,o
 //    Monto		   : Double;//g
 //    @PrimaryKey=ConsecutivoCompania,NroConciliacion,CodigoCuenta,Consecutivo
 //}
 //TipoConcepto   	   : unIngresoEgreso;//"Tipo",g,a,=Conceptobancario.tipo
 
-{@S}GestionDeCobranza = Record //Male,Multiarchivo=Compania,"Gestión de Cobranza"
+{@S}GestionDeCobranza = Record //Male,Multiarchivo=Compania,"GestiÃ³n de Cobranza"
       ConsecutivoCompania    : LongInt; //o,HIDE
-      CodigoCliente	     : Str10;//search,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
-      NumeroDeLaGestion      : Str10;//search,u,o,g,sugestconsecutive,"Número"
+      CodigoCliente	     : Str10;//search,"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+      NumeroDeLaGestion      : Str10;//search,u,o,g,sugestconsecutive,"NÃºmero"
       NombreCliente	     : Str80;//g,search,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
       TelefonoCliente	     : Str40;//logical,=Cliente.telefono
       FaxCliente	     : Str25;//logical,=Cliente.fax
@@ -3041,7 +3042,7 @@ MenuDeInformes : boolean;
 
 {@S}ComprobanteRetencionIVA = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania  : LongInt;//o,Hide
-    Numero               : Str8;//u,o,g,sugestconsecutive,"Número",HIDE
+    Numero               : Str8;//u,o,g,sugestconsecutive,"NÃºmero",HIDE
     Fecha                : date;//u,g
     NombreOperador          : Str10; //a
     FechaUltimaModificacion : date;//a
@@ -3050,14 +3051,14 @@ MenuDeInformes : boolean;
 
 {@S}ImpTransacBancarias = record //"Impuesto a las Transacciones Bancarias"
      FechaDeInicioDeVigencia: date; //g,o,u,SEARCH
-     AlicuotaAlDebito   : Double; //g,"Alícuota al Débito"
-     AlicuotaAlCredito  : Double; //g,"Alícuota al Crédito"
+     AlicuotaAlDebito   : Double; //g,"AlÃ­cuota al DÃ©bito"
+     AlicuotaAlCredito  : Double; //g,"AlÃ­cuota al CrÃ©dito"
      @PrimaryKey=FechaDeInicioDeVigencia
 }
 
 
 
-//{@S}DebitoBancario=  record //"Débito Bancario"
+//{@S}DebitoBancario=  record //"DÃ©bito Bancario"
 //     FechaDeInicioDeVigencia: date; //g,o,u,SEARCH
 //     AlicuotaGeneral   : Double; //g,SEARCH
 //     @PrimaryKey=FechaDeInicioDeVigencia
@@ -3066,10 +3067,10 @@ MenuDeInformes : boolean;
 
 {@S}ConversionIVA = Record; //Multiarchivo=Compania
    ConsecutivoCompania     : Longint; //v
-   NumeroDeControl         : Str9; //"Nº de Control",g,sugestConsecutive,Search,o
-   CodigoCliente           : Str10;//"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
+   NumeroDeControl         : Str9; //"NÂº de Control",g,sugestConsecutive,Search,o
+   CodigoCliente           : Str10;//"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
    NombreCliente           : Str80;//g,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",Search
-   Telefono                : Str40; //g,"Teléfonos",=Cliente.Telefono
+   Telefono                : Str40; //g,"TelÃ©fonos",=Cliente.Telefono
    Fecha                   : unFecha;
    FechaDeRecepcion        : unFecha;
    FechaProbableDeEntrega  : unFecha;
@@ -3102,8 +3103,8 @@ MenuDeInformes : boolean;
 }	
 
 //{@S}CIIU = Record //"C.I.I.U.",Male
-//     CodigoCIIU     : Str6; // o,g,"Código CIIU"
-//     Descripcion    : Str50; // o,g, "Descripción"
+//     CodigoCIIU     : Str6; // o,g,"CÃ³digo CIIU"
+//     Descripcion    : Str50; // o,g, "DescripciÃ³n"
 //     EsTitulo       : Boolean;
 //     MuestroElCodigo: Boolean;
 //     @PrimaryKey=CodigoCIIU
@@ -3133,7 +3134,7 @@ MenuDeInformes : boolean;
 
 {@S}Lote = Record //Multiarchivo=Compania,"Lote"
     ConsecutivoCompania : Longint; //o,HIDE
-    CodigoLote          : Str10;//g,"Código de Lote",search,sugestConsecutive
+    CodigoLote          : Str10;//g,"CÃ³digo de Lote",search,sugestConsecutive
     FechaLote           : date;//g,search
     Modulo              : Str1;//
     Descripcion         : Str255;
@@ -3154,16 +3155,16 @@ MenuDeInformes : boolean;
 	Tipo				: unTipoDeAnticipo;//g
 	Fecha 			: date;//g,search
 	Numero			: Str20;//g,o,search,sugestconsecutive
-	CodigoCliente 		: Str10;//g,o,search,"Código del Proveedor",=cliente.codigo
+	CodigoCliente 		: Str10;//g,o,search,"CÃ³digo del Proveedor",=cliente.codigo
 	NombreCliente 		: Str80;//g,o,search,logical,=Cliente.nombre
-	CodigoProveedor 	: Str10;//g,o,search,"Código del Proveedor",=proveedor.codigoProveedor
+	CodigoProveedor 	: Str10;//g,o,search,"CÃ³digo del Proveedor",=proveedor.codigoProveedor
 	NombreProveedor 	: Str60;//g,o,search,logical,=proveedor.nombreProveedor
 	Moneda			: Str10;//o,=Moneda.Nombre,"Nombre de la Moneda"
 	Cambio			: Double;
 	GeneraMovBancario	: Boolean;
 	CodigoCuentaBancaria 	: Str5;//o,"Cuenta Bancaria",=cuentaBancaria.Codigo
 	NombreCuentaBancaria 	: Str40;//o,logical,=cuentaBancaria.Nombrecuenta
-	CodigoConceptoBancario 	: str8;//o,"Código Concepto",=conceptoBancario.codigo
+	CodigoConceptoBancario 	: str8;//o,"CÃ³digo Concepto",=conceptoBancario.codigo
 	NombreConceptoBancario 	: Str30;//o,logical,=ConceptoBancario.descripcion
 	GeneraImpuestoBancario	: Boolean;//
 	FechaAnulacion		: date;
@@ -3174,14 +3175,14 @@ MenuDeInformes : boolean;
 	MontoUsado		: Double;//g
 //	MontoRestante		: Double;//logical,A"MontoTotal-MontoUsado"
 	MontoDevuelto		: Double;//g
-//Diferencia en la devolución
+//Diferencia en la devoluciÃ³n
 	MontoDiferenciaEnDevolucion		: Double;//
 	DiferenciaEsIDB		: Boolean;
-	EsUnaDevolución		: Boolean;//HIDE
+	EsUnaDevoluciÃ³n		: Boolean;//HIDE
 	NumeroDelAnticipoDevuelto	: LongInt;//HIDE
-        NumeroCheque            : Str15;  //O,G,"Número Cheque",search
+        NumeroCheque            : Str15;  //O,G,"NÃºmero Cheque",search
 	AsociarAnticipoACotiz   : boolean;
-        NumeroCotizacion        : Str11;// "Número de Cot. Asociada", =cotizacion.Numero
+        NumeroCotizacion        : Str11;// "NÃºmero de Cot. Asociada", =cotizacion.Numero
 	ConsecutivoRendicion	: LongInt;//o,search,"Rendicion",=Rendicion.consecutivo
 	Generadopor		: unGeneradoPor;//o
 	NumeroDeCobranzaAsociado	:Str12;
@@ -3206,7 +3207,7 @@ MenuDeInformes : boolean;
 	Puerto			: unPuertoDeCaja;
 	Comando			: Str10;
 	PermitirAbrirSinSupervisor 	: Boolean;
-	UsaAccesoRapido			: Boolean;//"Usa Tecla de Acceso Rápido para Abrir Gaveta"
+	UsaAccesoRapido			: Boolean;//"Usa Tecla de Acceso RÃ¡pido para Abrir Gaveta"
 	UsaMaquinaFiscal		: Boolean;
 	ModeloDeMaquinaFiscal		: unImpresorasFiscales;
 	SerialDeMaquinaFiscal		: Str15;
@@ -3255,8 +3256,8 @@ MenuDeInformes : boolean;
 
 {@S}ServiciosAlRealizarVisita = RECORD //FEMALE
     Consecutivo             :  LongInt;//HIDE,u,o,a,consecutive
-    DescripcionDeLaAccion   : str50; //search,g,"Descripción de la Acción"
-    DuracionEstimada        : Str5;//search,g,"Duración Estimada"
+    DescripcionDeLaAccion   : str50; //search,g,"DescripciÃ³n de la AcciÃ³n"
+    DuracionEstimada        : Str5;//search,g,"DuraciÃ³n Estimada"
     @PrimaryKey = Consecutivo
 }
 
@@ -3304,35 +3305,35 @@ MenuDeInformes : boolean;
     CodigoColor         : str03; 
     @PrimaryKey = ConsecutivoCompania, CodigoGrupo,ConsecutivoRenglon
 }
-{@R Vendedor}VendedorXLienaDeProducto = Reporte //Multiarchivo=Compania,"Vendedores por Línea de Producto"
-	Codigo	: Str10;//"Código Vendedor"
+{@R Vendedor}VendedorXLienaDeProducto = Reporte //Multiarchivo=Compania,"Vendedores por LÃ­nea de Producto"
+	Codigo	: Str10;//"CÃ³digo Vendedor"
 	Nombre	: Str80;//"Nombre"
         NombreDeLineaDeProducto: str20; // "Nombre Linea"
         PorcentajeParticiapacion: Double;
 	@GroupBy=Codigo
 }
 {@R Vendedor}ListadoDeVendedores = Reporte //Multiarchivo=Compania,"Listado De Vendedores"
-	Codigo	 : Str10;//"Código"
+	Codigo	 : Str10;//"CÃ³digo"
 	Nombre	 : Str50;//"Nombre"
 	RIF      : Str10;//"RIF"
         Status   : str06;//"Status"
-        Direccion: str80;//"Dirección"
-        Telefono : str08;//"Teléfono"
+        Direccion: str80;//"DirecciÃ³n"
+        Telefono : str08;//"TelÃ©fono"
 	@GroupBy=Codigo
 }
 
 {@M}NotaDeEntrega = Record //Multiarchivo=Compania, MALE
     ConsecutivoCompania: Longint; //HIDE,o
     ConsecutivoNEntrega: Longint; //HIDE,o
-    Numero        : str10;  //o,g,u,"Número Nota de Entrega",search,sugestconsecutive
+    Numero        : str10;  //o,g,u,"NÃºmero Nota de Entrega",search,sugestconsecutive
     Fecha         : date;   //o,g,"Fecha",search
     CodigoAlmacen : str10;  //=Almacen.Codigo
     NombreAlmacen : Str40;  //logical,a,=Almacen.NombreAlmacen  
     NivelDePrecio : unNivelDePrecio; //"Nivel de Precio",cv"Not gProyParametros.getEsProgramaIG"
     Status           : unStatusNEntrega;//g,"Status"
-    CodigoCliente : Str10;  //"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"  
+    CodigoCliente : Str10;  //"CÃ³digo del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"  
     NombreCliente : Str80;  //g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
-    CodigoVendedor   : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    CodigoVendedor   : Str5;//"CÃ³digo del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
 //    NombreVendedor   : Str35;// Logical, =Vendedor.nombre, ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()", search
     TotalMontoExento : Decimal; //a
     TotalBaseImp     : Decimal; //A"ACUM RenglonNotaDeEntrega.PrecioConIVA"
@@ -3361,8 +3362,8 @@ MenuDeInformes : boolean;
     ConsecutivoCompania: Longint; //HIDE,O
     ConsecutivoNEntrega: Longint; //HIDE,O
     ConsecutivoRenglon : Longint; //HIDE,O
-    CodigoArticulo     : str30;//g,=ArticuloInventario.Codigo,"Código Articulo"
-    Descripcion        : textArea; //g,a,=ArticuloInventario.Descripcion,"Descripción"
+    CodigoArticulo     : str30;//g,=ArticuloInventario.Codigo,"CÃ³digo Articulo"
+    Descripcion        : textArea; //g,a,=ArticuloInventario.Descripcion,"DescripciÃ³n"
     CantidadSalida     : Decimal;//o,g,"Cantidad"
     CantRecibidaXClie  : Decimal;//o,g,"Cantidad Recibida por el Cliente"
     PorcAlicuotaIVA    : Decimal; //g,"Porcentaje Alicuota IVA" 
@@ -3370,7 +3371,7 @@ MenuDeInformes : boolean;
     PrecioConIVA       : Decimal;//g,a,=ArticuloInventario.PrecioConIVA,"Precio Con IVA"    
     Serial             : str50;
     Rollo              : str20;
-    TotalRenglon       : Decimal; //g,a,"Total del Renglón"
+    TotalRenglon       : Decimal; //g,a,"Total del RenglÃ³n"
     Reintegro          : boolean; //g
     TipoArticuloInv    : unTipoArticuloInv;//"Tipo de Articulo"
     @PrimaryKey=ConsecutivoCompania,ConsecutivoNEntrega,ConsecutivoRenglon
@@ -3381,7 +3382,7 @@ MenuDeInformes : boolean;
     Consecutivo         : Longint; //HIDE,o
     ConsecutivoNEntrega : Longint; //HIDE,o
     ConsecutivoRenglonNE: Longint; //HIDE,o
-    NumeroFactura       : str11;  //HIDE,o,u,"Número de Factura"
+    NumeroFactura       : str11;  //HIDE,o,u,"NÃºmero de Factura"
     TipoDeDocumento     : unTipoDocumentoFactura;//HIDE,"Tipo de Documento"
     NombreOperador          : Str10; //a
     FechaUltimaModificacion : date;//a
@@ -3393,7 +3394,7 @@ MenuDeInformes : boolean;
     ConsecutivoNEntrega : Longint; //HIDE,o,u
     ConsecutivoRenglonNE: Longint; //HIDE,o,u
     Consecutivo         : Longint; //HIDE,o
-    CodigoArticulo      : str30;//=ArticuloInventario.Codigo,"Código Articulo"
+    CodigoArticulo      : str30;//=ArticuloInventario.Codigo,"CÃ³digo Articulo"
     Serial              : str50;
     Rollo               : str20;
     CantidadSalida      : Decimal;//o,"Cantidad"
@@ -3405,7 +3406,7 @@ MenuDeInformes : boolean;
 {@S}RetirosACuenta = Record //Multiarchivo=Compania, MALE
     ConsecutivoCompania: Longint; //HIDE,o
     ConsecutivoRetiro  : Longint; //HIDE,o,u
-    CodigoVendedor     : str5;//=Vendedor.Codigo,"Código Vendedor"
+    CodigoVendedor     : str5;//=Vendedor.Codigo,"CÃ³digo Vendedor"
     Fecha 	       : date; 
     Monto              : Currency; 
     @PrimaryKey=ConsecutivoCompania,ConsecutivoRetiro
@@ -3414,8 +3415,8 @@ MenuDeInformes : boolean;
 {@M}HistoricoNumero = record //Multiarchivo=Compania
 	ConsecutivoCompania		: Longint; //HIDE 
 	ConsecutivoHistorico		: longint; //HIDE,suggestConsecutive, u
-	PrimerNumeroCompRetencion	: Longint;// "Primer número del comprobante de Retención"
-        FechaPrimerNumero		: date;//"Primer número del comprobante de Retención"
+	PrimerNumeroCompRetencion	: Longint;// "Primer nÃºmero del comprobante de RetenciÃ³n"
+        FechaPrimerNumero		: date;//"Primer nÃºmero del comprobante de RetenciÃ³n"
 	NombreOperador			: Str10; //a,g
 	FechaUltimaModificacion		: date;//a
 @PrimaryKey=ConsecutivoCompania,ConsecutivoHistorico
@@ -3424,8 +3425,8 @@ MenuDeInformes : boolean;
 {@M}OtrosImpuestos = Record // MALE
     ConsecutivoOI	: Longint; //HIDE,o, suggestConsecutive
     Siglas		: str06; //o, "Siglas Impuesto", search, g
-    Descripcion		: str40; //o, "Descripción", search, g
-    Formula		: str20; //o, "Fórmula de Cálculo"
+    Descripcion		: str40; //o, "DescripciÃ³n", search, g
+    Formula		: str20; //o, "FÃ³rmula de CÃ¡lculo"
     Activo		: boolean; //o, "Impuesto Activo"
     CodigoPais		: Str04; //o, HIDE 
     ModulosAfectados	: str50; //o
@@ -3434,8 +3435,8 @@ MenuDeInformes : boolean;
 
 {@M}Rendicion =  Record //Multiarchivo=Compania, FEMALE
     ConsecutivoCompania	    : Longint; //HIDE,o
-    Consecutivo             : longint; // o,a,Consecutive,g,"Número", u
-    CodigoBeneficiario      : str10; //o,"Código del Beneficiario",=Proveedor.codigoProveedor
+    Consecutivo             : longint; // o,a,Consecutive,g,"NÃºmero", u
+    CodigoBeneficiario      : str10; //o,"CÃ³digo del Beneficiario",=Proveedor.codigoProveedor
     NombreBeneficiario	    : str60; //g,Logical,=Proveedor.nombreProveedor,search
     FechaApertura	    : date; //g, "Fecha de Apertura",search
     FechaCierre		    : date; // "Fecha de Cierre"
@@ -3445,7 +3446,7 @@ MenuDeInformes : boolean;
     GeneraReembolso	    : boolean; //
     CodigoCuentaBancaria    : str5;//"Cuenta Bancaria"
     NombreCuentaBancaria    : str40;//logical,=cuentaBancaria.Nombrecuenta
-    CodigoConceptoBancario  : str8;//"Código Concepto"
+    CodigoConceptoBancario  : str8;//"CÃ³digo Concepto"
     NombreConceptoBancario  : str30;//logical,=ConceptoBancario.descripcion
     NumeroDocumento         : str15 //
     Observaciones	    : str100 //
@@ -3459,7 +3460,7 @@ MenuDeInformes : boolean;
     ConsecutivoCompania	        : LongInt;//o,HIDE
     ConsecutivoRendicion        : LongInt;//o,HIDE
     ConsecutivoRenglon          : LongInt;//o,HIDE
-    NumeroCxP                   : str20;//g,o,"Número de CxP",search
+    NumeroCxP                   : str20;//g,o,"NÃºmero de CxP",search
     MontoEnMonedaOriginalDeCxP  :Currency;
     CambioAMonedaDeRendicion    :Double;// =Cambio.CambioABolivares
     MontoEnMonedaDeRendicion    :Currency;
@@ -3477,31 +3478,31 @@ MenuDeInformes : boolean;
    
 {@S}Detracciones = Record //
     Codigo	   : str10;//g,o,Search
-    BienServicio   : Str100;//g,o,Search,"Descripción" 
+    BienServicio   : Str100;//g,o,Search,"DescripciÃ³n" 
     Porcentaje	   : Currency; //g,o
     Status	   : boolean; //g
     @PrimaryKey=Codigo
 }
 
 
-{@R Inventario}ExistenciaMercanciaEnTransito = Reporte //"Existencia de mercancía en Tránsito"
+{@R Inventario}ExistenciaMercanciaEnTransito = Reporte //"Existencia de mercancÃ­a en TrÃ¡nsito"
 	SecLineaProducto: section;
-	  LineaDeProducto: str20; //"Línea de Producto"
+	  LineaDeProducto: str20; //"LÃ­nea de Producto"
           SecCategoria: section;
-            Categoria: str20; //"Categoría"
+            Categoria: str20; //"CategorÃ­a"
             SecStatusdelArticulo: section;
-              StatusdelArticulo: str5; //"Status de Artículo"
+              StatusdelArticulo: str5; //"Status de ArtÃ­culo"
             {EndSeccion}
 	    @GroupBy = StatusdelArticulo
           {EndSeccion}
 	  @GroupBy = Categoria
 	{EndSeccion}
         @GroupBy = LineaDeProducto
-	Codigo	           : str15;   //"Código"
-	Descripcion        : str50;   //"Descripción"
+	Codigo	           : str15;   //"CÃ³digo"
+	Descripcion        : str50;   //"DescripciÃ³n"
 	Existencia         : Integer; //"Existencia"
 	CantidadReservada  : Integer; //"Reserva"
-        CantidadEnTransito : Integer; //"En Tránsito"
+        CantidadEnTransito : Integer; //"En TrÃ¡nsito"
         CantidadDisponible : Integer; //"Disponible"
 
 }
@@ -3552,14 +3553,14 @@ MenuDeInformes : boolean;
     Consecutivo          : longint; // o,a,Consecutive,g,"Consecutivo"
     Placa      		 : str20; //o,search,"Placa", u
     serialVIN	    	 : str40; //g,,search,"Serial VIN"
-    NombreModelo         : str20; // g,Search, =ModeloVehiculo.Nombre, "Modelo Vehículo"
+    NombreModelo         : str20; // g,Search, =ModeloVehiculo.Nombre, "Modelo VehÃ­culo"
     Marca     	         : Str20;//logical,=MarcaVehiculo.Marca
-    Ano                  : Integer;//g,search,"Año del Vehículo"
+    Ano                  : Integer;//g,search,"AÃ±o del VehÃ­culo"
     CodigoColor          : Str3; //=Color.CodigoColor, "Color"
-    CodigoCliente        : str10; //=Cliente.Codigo,search,g, "Código Cliente"
+    CodigoCliente        : str10; //=Cliente.Codigo,search,g, "CÃ³digo Cliente"
     NombreCliente        : str80; //logical,search,g,=Cliente.Nombre, "Nombre Cliente"
     RIFCliente           : str80; //logical,=Cliente.NumeroRif, "Nombre Cliente"
-    NumeroPoliza         : str20; //g,"Número de Póliza"
+    NumeroPoliza         : str20; //g,"NÃºmero de PÃ³liza"
     SerialMotor          : str40; //g,"Serial del Motor"
     NombreOperador       : Str10; //a
     FechaUltimaModificacion : date; //a
@@ -3601,9 +3602,9 @@ MenuDeInformes : boolean;
 
 {@M}ControlDespacho =  Record //Multiarchivo=Compania, MALE, GenerateRptConfigurar, GenerateFrmInforme, "Control de Despacho"
     ConsecutivoCompania	    : Longint; //HIDE,o
-    Numero                  : str30; // o,a,g,"Número", u
-    NumeroCotizacion        : str11; //o,"Número Cotización",=Cotizacion.Numero
-    CodigoCliente           : str10; //o,"Código",=Cliente.CodigoCliente
+    Numero                  : str30; // o,a,g,"NÃºmero", u
+    NumeroCotizacion        : str11; //o,"NÃºmero CotizaciÃ³n",=Cotizacion.Numero
+    CodigoCliente           : str10; //o,"CÃ³digo",=Cliente.CodigoCliente
     NombreCliente	    : str60; //g,Logical,=Cliente.Nombre,search
     FechaApertura	    : date; //g, "Fecha de Apertura",search
     FechaCierre		    : date; // "Fecha de Cierre"
@@ -3629,14 +3630,14 @@ MenuDeInformes : boolean;
 
 {@R ControlDespacho}ImpresionComprobanteDeDespacho  = Reporte //Multiarchivo=Compania, "Comprobante de despacho"
 	SecDespacho: Section       
-		Numero          : str30; // o,a,g,"Número", u
+		Numero          : str30; // o,a,g,"NÃºmero", u
 	{EndSeccion}
 	SecDespachoEmpaque: Section       
-		NumeroEmpaque   : str40; // "Número de Empaque"
+		NumeroEmpaque   : str40; // "NÃºmero de Empaque"
 	{EndSeccion}
 	ConsecutivoCompania 	:  Longint; //HIDE
-	NumeroCotizacion        : str11; //o,"Número Cotización",=Cotizacion.Numero
-	CodigoCliente           : str10; //o,"Código",=Cliente.CodigoCliente
+	NumeroCotizacion        : str11; //o,"NÃºmero CotizaciÃ³n",=Cotizacion.Numero
+	CodigoCliente           : str10; //o,"CÃ³digo",=Cliente.CodigoCliente
 	NombreCliente	    	: str60; //g,Logical,=Proveedor.nombreProveedor,search
         FechaApertura	    : date; //g, "Fecha de Apertura",search
 	FechaCierre		    : date; // "Fecha de Cierre"
@@ -3651,11 +3652,11 @@ MenuDeInformes : boolean;
 
 //{@R ControlDespacho}ImpresionComprobanteDeDespacho  = Reporte //Multiarchivo=Compania, "Listado de Despachos"
 //	SecDespacho: Section       
-//		Numero          : str30; // o,a,g,"Número", u
+//		Numero          : str30; // o,a,g,"NÃºmero", u
 //	{EndSeccion}
 //	ConsecutivoCompania 	:  Longint; //HIDE
-//	NumeroCotizacion        : str11; //o,"Número Cotización",=Cotizacion.Numero
-//	CodigoCliente           : str10; //o,"Código",=Cliente.CodigoCliente
+//	NumeroCotizacion        : str11; //o,"NÃºmero CotizaciÃ³n",=Cotizacion.Numero
+//	CodigoCliente           : str10; //o,"CÃ³digo",=Cliente.CodigoCliente
 //	NombreCliente	    	: str60; //g,Logical,=Proveedor.nombreProveedor,search
 //        FechaApertura	        : date; //g, "Fecha de Apertura",search
 //	FechaCierre		: date; // "Fecha de Cierre"
@@ -3668,16 +3669,16 @@ MenuDeInformes : boolean;
 {@R Contrato}ImprimirContrato  = Reporte //"Imprimir Contrato"
 
         SecContrato: Section
-		NumeroContrato: Str5;//"Número"
-                CodigoCliente : Str10;//"Código Cliente"
+		NumeroContrato: Str5;//"NÃºmero"
+                CodigoCliente : Str10;//"CÃ³digo Cliente"
                 NombreCliente : Str80;//"Nombre"
                 Observaciones : Str255;//"Observaciones"
-		CodigoClienteAFacturar : Str10;//"Código Cliente"
-		NombreClienteAFacturar : Str80;//"Código Cliente"
+		CodigoClienteAFacturar : Str10;//"CÃ³digo Cliente"
+		NombreClienteAFacturar : Str80;//"CÃ³digo Cliente"
        {EndSeccion}	
          ConsecutivoCompania	 : Longint; //HIDE,o, u
-         Articulo  Str30;//"Artículos"
-         Descripcion Str20;//"Descripción" 
+         Articulo  Str30;//"ArtÃ­culos"
+         Descripcion Str20;//"DescripciÃ³n" 
          Cantidad     : decimal;//"Cantidad"
          PrecioVenta  : decimal;//"Precio Venta"
          PorcentajeDescuento : decimal;//" % Descuento"        
@@ -3689,14 +3690,14 @@ MenuDeInformes : boolean;
 	SecContrato: Section
 		StatusContrato : Str80;//"Estatus"
 	{EndSeccion}
-	NumeroContrato: Str5;//"Número"
+	NumeroContrato: Str5;//"NÃºmero"
         ConsecutivoCompania	 : Longint; //HIDE,o, u
-        CodigoCliente : Str10;//"Código Cliente"
+        CodigoCliente : Str10;//"CÃ³digo Cliente"
         NombreCliente : Str80;//"Nombre"
         Observaciones : Str255;//"Observaciones"
-	CodigoClienteAFacturar : Str10;//"Código Cliente"
-	NombreClienteAFacturar : Str80;//"Código Cliente"
-	DuracionDelContrato    : UnDuracionDelContrato;//"Duración"
+	CodigoClienteAFacturar : Str10;//"CÃ³digo Cliente"
+	NombreClienteAFacturar : Str80;//"CÃ³digo Cliente"
+	DuracionDelContrato    : UnDuracionDelContrato;//"DuraciÃ³n"
 	FechaDeInicio          : date; //"Fecha de Inicio"
 	FechaFinal             : date; //"Fecha Final"
 

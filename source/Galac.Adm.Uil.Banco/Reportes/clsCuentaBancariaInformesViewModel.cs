@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using Galac.Adm.Rpt.Banco;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.ARRpt.Reports;
 using LibGalac.Aos.Base;
@@ -37,7 +38,7 @@ namespace Galac.Adm.Uil.Banco.Reportes {
 		private ILibRpt ConfigReportSaldosBancarios(clsSaldosBancariosViewModel valViewModel) {
 			ILibRpt vResult = null;
 			if (valViewModel != null) {
-				vResult = new Rpt.Banco.clsSaldosBancarios(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.SoloCuentasActivas) {
+				vResult = new clsSaldosBancarios(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta, valViewModel.SoloCuentasActivas) {
 					Worker = Manager
 				};
 			}

@@ -60,6 +60,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine(" WHERE NOT EXISTS (SELECT ConsecutivoCompania , Codigo FROM dbo.CamposMonedaExtranjera WHERE ");
 			vSql.AppendLine(" ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND Codigo = 'ND-NC IGTF @')");
 			Execute(vSql.ToString(), 0);
-		}		
+		}
+
+		private void CrearCampoExcluirDelInformeDeDeclaracionIGTF() {
+			QAdvSql InsSql = new QAdvSql("");
+			AddColumnBoolean("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", "", false);
+			AddNotNullConstraint("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF",InsSql.CharTypeForDb(1));
+		}
 	}
 }
