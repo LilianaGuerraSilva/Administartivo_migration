@@ -266,6 +266,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public string CuentaContable { get; set; }
         public string NombrePlantillaCheque { get; set; }
         public eTipoAlicPorContIGTF TipoDeAlicuotaPorContribuyente { get; set; }
+        public bool ExcluirDelInformeDeDeclaracionIGTF { get; set; }
         public bool GeneraMovBancarioPorIGTF { get; set; }
     }
 	

@@ -55,6 +55,7 @@ namespace Galac.Adm.Dal.Banco {
 			vParams.AddInString("CodigoMoneda", valRecord.CodigoMoneda, 4);
 			vParams.AddInBoolean("EsCajaChica", valRecord.EsCajaChicaAsBool);
 			vParams.AddInEnum("TipoDeAlicuotaPorContribuyente", valRecord.TipoDeAlicuotaPorContribuyenteAsDB);
+            vParams.AddInBoolean("ExcluirDelInformeDeDeclaracionIGTF", valRecord.ExcluirDelInformeDeDeclaracionIGTFAsBool);
 			vParams.AddInBoolean("GeneraMovBancarioPorIGTF", valRecord.GeneraMovBancarioPorIGTFAsBool);
 			vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
 			vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());

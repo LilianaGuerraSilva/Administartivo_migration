@@ -30,6 +30,7 @@ namespace Galac.Adm.Ccl.Banco {
 		private string _CuentaContable;
 		private string _CodigoMoneda;
 		private eTipoAlicPorContIGTF _TipoDeAlicuotaPorContribuyente;
+        private bool _ExcluirDelInformeDeDeclaracionIGTF;
 		private bool _GeneraMovBancarioPorIGTF;
 		private string _NombreOperador;
 		private DateTime _FechaUltimaModificacion;
@@ -174,10 +175,20 @@ namespace Galac.Adm.Ccl.Banco {
 			get { return LibEnumHelper.GetDescription(_TipoDeAlicuotaPorContribuyente); }
 		}
 
-		public bool GeneraMovBancarioPorIGTFAsBool {
-			get { return _GeneraMovBancarioPorIGTF; }
-			set { _GeneraMovBancarioPorIGTF = value; }
-		}
+        public bool ExcluirDelInformeDeDeclaracionIGTFAsBool {
+            get { return _ExcluirDelInformeDeDeclaracionIGTF; }
+            set { _ExcluirDelInformeDeDeclaracionIGTF = value; }
+        }
+
+        public string ExcluirDelInformeDeDeclaracionIGTF {
+            set { _ExcluirDelInformeDeDeclaracionIGTF = LibConvert.SNToBool(value); }
+        }
+
+
+        public bool GeneraMovBancarioPorIGTFAsBool {
+            get { return _GeneraMovBancarioPorIGTF; }
+            set { _GeneraMovBancarioPorIGTF = value; }
+        }
 
 		public string GeneraMovBancarioPorIGTF {
 			set { _GeneraMovBancarioPorIGTF = LibConvert.SNToBool(value); }
@@ -243,6 +254,7 @@ namespace Galac.Adm.Ccl.Banco {
 			CuentaContable = string.Empty;
 			CodigoMoneda = string.Empty;
 			TipoDeAlicuotaPorContribuyenteAsEnum = eTipoAlicPorContIGTF.NoAsignado;
+            ExcluirDelInformeDeDeclaracionIGTFAsBool = false;
 			GeneraMovBancarioPorIGTFAsBool = false;
 			NombreOperador = string.Empty;
 			FechaUltimaModificacion = LibDate.Today();
@@ -270,6 +282,7 @@ namespace Galac.Adm.Ccl.Banco {
 			vResult.CuentaContable = _CuentaContable;
 			vResult.CodigoMoneda = _CodigoMoneda;
 			vResult.TipoDeAlicuotaPorContribuyenteAsEnum = _TipoDeAlicuotaPorContribuyente;
+            vResult.ExcluirDelInformeDeDeclaracionIGTFAsBool = _ExcluirDelInformeDeDeclaracionIGTF;
 			vResult.GeneraMovBancarioPorIGTFAsBool = _GeneraMovBancarioPorIGTF;
 			vResult.NombreOperador = _NombreOperador;
 			vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
@@ -296,6 +309,7 @@ namespace Galac.Adm.Ccl.Banco {
 				"\nCuenta Contable = " + _CuentaContable +
 				"\nCódigo = " + _CodigoMoneda +
 				"\nTipo de Alícuota por Contribuyente = " + _TipoDeAlicuotaPorContribuyente.ToString() +
+               "\nExcluir del Informe de Declaración = " + _ExcluirDelInformeDeDeclaracionIGTF +
 				"\nGenera movimiento bancario de egreso por IGTF = " + _GeneraMovBancarioPorIGTF +
 				"\nNombre Operador = " + _NombreOperador +
 				"\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString() +
