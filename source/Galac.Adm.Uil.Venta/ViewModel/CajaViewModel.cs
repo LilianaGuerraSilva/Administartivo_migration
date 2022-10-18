@@ -621,13 +621,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public override void InitializeViewModel(eAccionSR valAction) {
             base.InitializeViewModel(valAction);
             InitializeRibbon();
-        }
-        protected override void ExecuteAction() {
-            base.ExecuteAction();
-            if (FamiliaImpresoraFiscalSeleccionada == eFamiliaImpresoraFiscal.BEMATECH) {
-                new clsBematech(RegistroDeRetornoEnTxt);
-            }
-        }
+        }        
         #endregion //Constructores e Inicializadores
 
         #region Comandos
@@ -674,8 +668,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
 
         protected override void ExecuteProcessBeforeAction() {
-            base.ExecuteProcessBeforeAction();
-            ActualizarRegistroDeMaquinaFiscal();
+            base.ExecuteProcessBeforeAction();            
             MoveFocusIfNecessary();
         }
 
@@ -917,14 +910,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } catch(System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
-        }
-
-        private void ActualizarRegistroDeMaquinaFiscal() {
-            ICajaPdn insCaja = new Brl.Venta.clsCajaNav();
-            if(UsaMaquinaFiscal && (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar)) {
-                insCaja.ActualizarRegistroDeMaquinaFiscal(Action, ConsecutivoCompania, ModeloDeMaquinaFiscal, SerialDeMaquinaFiscal, UltimoNumeroCompFiscal, NombreOperador);
-            }
-        }
+        }        
 
         public void MoverFocoSiCambiaTab() {
             MoveFocusIfNecessary();

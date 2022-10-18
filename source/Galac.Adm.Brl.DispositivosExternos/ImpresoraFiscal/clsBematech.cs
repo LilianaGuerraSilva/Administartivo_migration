@@ -206,19 +206,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         private eImpresoraFiscal vModelo;
         private bool _PortIsOpen = false;
-
-        public clsBematech() {
-        }
+        
         public clsBematech(XElement valXmlDatosImpresora) {
             _RegistroDeRetornoEnTxt = GetRegistroDeRetornoEnTxt();
             ConfigurarImpresora(valXmlDatosImpresora);
             ConfigurarArchivosDeRetornoBemaFi32();
-        }
-
-        public clsBematech(bool _RegistroDeRetornoEnTxt) {
-            _RegistroDeRetornoEnTxt = GetRegistroDeRetornoEnTxt();
-            ConfigurarArchivosDeRetornoBemaFi32();
-        }
+        }        
 
         private bool GetRegistroDeRetornoEnTxt() {
             try {
@@ -278,8 +271,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
+
         private void ConfigurarArchivosDeRetornoBemaFi32() {
-            string vBemaFi32Path = PathFile();
+            string vBemaFi32Path = PathFile(true);
+            vBemaFi32Path = PathFile();
             string vText = LibFile.ReadFile(vBemaFi32Path);
             string[] vContenidoFile = LibText.Split(vText, "\r\n", true);
             int vContarLineas = 0;
@@ -353,8 +348,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 string vresult = "";
                 if (valEsREtorno) {
-                    if (LibFile.FileExists(@"C:\Bema")) {
-                        vresult = @"\C:\Bema\Retorno.txt";
+                    if (LibFile.DirExists(@"C:\Bema")) {
+                        vresult = @"C:\Bema\Retorno.txt";
                     } else {
                         LibFile.CreateDir(@"C:\Bema");
                         vresult = @"C:\Bema\Retorno.txt";
