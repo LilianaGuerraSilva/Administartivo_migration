@@ -12,13 +12,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 	class clsVersionTemporalNoOficial : clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();			
-			InsertarSinoExisteLineaDeProducto();
-			CrearArticulosEspecialesIGTF_ML();
-			CrearArticulosEspecialesIGTF_ME();
-			DisposeConnectionNoTransaction();
-			return true;
+			StartConnectionNoTransaction();
+            InsertarSinoExisteLineaDeProducto();
+            CrearArticulosEspecialesIGTF_ML();
+            CrearArticulosEspecialesIGTF_ME();
+            CrearCampoRegistroTXTEnCajaRegistradora();
+            DisposeConnectionNoTransaction();			
+            return true;
         }
+
+		private void CrearCampoRegistroTXTEnCajaRegistradora() {
+			AddColumnBoolean("Adm.Caja", "RegistroDeRetornoEnTxt", "", false);
+			AddNotNullConstraint("Adm.Caja", "RegistroDeRetornoEnTxt", InsSql.CharTypeForDb(1));
+		}
 		private void InsertarSinoExisteLineaDeProducto() {
 			QAdvSql InsSql = new QAdvSql("");
 			string vFechaUltimaModificacion = InsSql.ToSqlValue(LibDate.Today());

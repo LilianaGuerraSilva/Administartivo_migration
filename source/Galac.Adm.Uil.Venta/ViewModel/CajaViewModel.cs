@@ -48,11 +48,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string PermitirDescripcionDelArticuloExtendidaPropertyName = "PermitirDescripcionDelArticuloExtendida";
         const string PermitirNombreDelClienteExtendidoPropertyName = "PermitirNombreDelClienteExtendido";
         const string UsarModoDotNetPropertyName = "UsarModoDotNet";
+        const string RegistroDeRetornoEnTxtPropertyName = "RegistroDeRetornoEnTxt";
         const string NombreOperadorPropertyName = "NombreOperador";
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";        
         const string IsEnabledUsaGavetaPropertyName = "IsEnabledUsaGaveta";
 		const string IsEnabledPuertoSerialPropertyName = "IsEnabledPuertoSerial";
-
+        const string IsVisibleRegistroDeRetornoEnTxtPropertyName = "IsVisibleRegistroDeRetornoEnTxt";
+               
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
         IImpresoraFiscalPdn insMaquinaFiscal;
         private bool _PuedeAbrirGaveta = false;        
@@ -162,15 +164,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.FamiliaImpresoraFiscalAsEnum;
             }
             set {
-                if(Model.FamiliaImpresoraFiscalAsEnum != value) {
+                if (Model.FamiliaImpresoraFiscalAsEnum != value) {
                     Model.FamiliaImpresoraFiscalAsEnum = value;
-                    UsarModoDotNet = FamiliaValidaParaModoMejorado(value);
+                    UsarModoDotNet = FamiliaValidaParaModoMejorado(value);                    
                     RaisePropertyChanged(FamiliaImpresoraFiscalPropertyName);
-                    RaisePropertyChanged(UsarModoDotNetPropertyName);                    
+                    RaisePropertyChanged(UsarModoDotNetPropertyName);
+                    RaisePropertyChanged(IsVisibleRegistroDeRetornoEnTxtPropertyName);
                 }
             }
         }
-
 
         [LibRequired(ErrorMessage = "El campo Nombre Caja es requerido.")]
         [LibGridColum("Nombre Caja", eGridColumType.Connection, IsForSearch = true, IsForList = true, ConnectionSearchCommandName = "ChooseNombreCajaCommand", ColumnOrder = 0, Width = 190)]
@@ -442,6 +444,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
+		
+		public bool RegistroDeRetornoEnTxt {
+            get {
+                return Model.RegistroDeRetornoEnTxtAsBool;
+            }
+            set {
+                if (Model.RegistroDeRetornoEnTxtAsBool != value) {
+                    Model.RegistroDeRetornoEnTxtAsBool = value;                    
+                    RaisePropertyChanged(RegistroDeRetornoEnTxtPropertyName);
+                }
+            }
+        }     
 
         public string NombreOperador {
             get {
@@ -505,7 +519,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get {
                 return UsaMaquinaFiscal;
             }
-        }        
+        }
+
+        public bool IsVisibleRegistroDeRetornoEnTxt {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado") && FamiliaImpresoraFiscal == eFamiliaImpresoraFiscal.BEMATECH;
+            }
+        }
 
         private bool FamiliaValidaParaModoMejorado(eFamiliaImpresoraFiscal valFamilia) {
             return (valFamilia == eFamiliaImpresoraFiscal.EPSONPNP
@@ -602,7 +622,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             base.InitializeViewModel(valAction);
             InitializeRibbon();
         }
-
+        protected override void ExecuteAction() {
+            base.ExecuteAction();
+            if (FamiliaImpresoraFiscalSeleccionada == eFamiliaImpresoraFiscal.BEMATECH) {
+                new clsBematech(RegistroDeRetornoEnTxt);
+            }
+        }
         #endregion //Constructores e Inicializadores
 
         #region Comandos

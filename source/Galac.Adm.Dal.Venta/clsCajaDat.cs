@@ -60,6 +60,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInBoolean("PermitirDescripcionDelArticuloExtendida", valRecord.PermitirDescripcionDelArticuloExtendidaAsBool);
             vParams.AddInBoolean("PermitirNombreDelClienteExtendido", valRecord.PermitirNombreDelClienteExtendidoAsBool);
             vParams.AddInBoolean("UsarModoDotNet", valRecord.UsarModoDotNetAsBool);
+            vParams.AddInBoolean("RegistroDeRetornoEnTxt", valRecord.RegistroDeRetornoEnTxtAsBool);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {

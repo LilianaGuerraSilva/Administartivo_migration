@@ -66,6 +66,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("PermitirDescripcionDelArticuloExtendida" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajPermitirDe NOT NULL, ");
             SQL.AppendLine("PermitirNombreDelClienteExtendido" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajPermitirNo NOT NULL, ");
             SQL.AppendLine("UsarModoDotNet" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajUsarModoDo NOT NULL, ");
+            SQL.AppendLine("RegistroDeRetornoEnTxt" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajRegistroDe NOT NULL, ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -82,7 +83,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(", UsaMaquinaFiscal, FamiliaImpresoraFiscal, " + DbSchema + ".Gv_EnumFamiliaImpresoraFiscal.StrValue AS FamiliaImpresoraFiscalStr, ModeloDeMaquinaFiscal, " + DbSchema + ".Gv_EnumImpresoraFiscal.StrValue AS ModeloDeMaquinaFiscalStr, SerialDeMaquinaFiscal");
             SQL.AppendLine(", PuertoMaquinaFiscal, " + DbSchema + ".Gv_EnumPuerto.StrValue AS PuertoMaquinaFiscalStr, AbrirGavetaDeDinero, UltimoNumeroCompFiscal, UltimoNumeroNCFiscal,TipoConexion, " + DbSchema + ".Gv_EnumTipoConexion.StrValue AS TipoConexionStr ");
             SQL.AppendLine(", IpParaConexion, MascaraSubred, Gateway, PermitirDescripcionDelArticuloExtendida");
-            SQL.AppendLine(", PermitirNombreDelClienteExtendido, UsarModoDotNet, NombreOperador, FechaUltimaModificacion");
+            SQL.AppendLine(", PermitirNombreDelClienteExtendido, UsarModoDotNet, RegistroDeRetornoEnTxt, NombreOperador, FechaUltimaModificacion");
             SQL.AppendLine(", Caja.fldTimeStamp, CAST(Caja.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".Caja");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumPuerto");
@@ -128,6 +129,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@PermitirDescripcionDelArticuloExtendida" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@PermitirNombreDelClienteExtendido" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@UsarModoDotNet" + InsSql.CharTypeForDb(1) + " = 'N',");
+            SQL.AppendLine("@RegistroDeRetornoEnTxt" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -165,6 +167,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            PermitirDescripcionDelArticuloExtendida,");
             SQL.AppendLine("            PermitirNombreDelClienteExtendido,");
             SQL.AppendLine("            UsarModoDotNet,");
+            SQL.AppendLine("            RegistroDeRetornoEnTxt,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -191,6 +194,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @PermitirDescripcionDelArticuloExtendida,");
             SQL.AppendLine("            @PermitirNombreDelClienteExtendido,");
             SQL.AppendLine("            @UsarModoDotNet,");
+            SQL.AppendLine("            @RegistroDeRetornoEnTxt,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -228,6 +232,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@PermitirDescripcionDelArticuloExtendida" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@PermitirNombreDelClienteExtendido" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@UsarModoDotNet" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@RegistroDeRetornoEnTxt" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -275,6 +280,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               PermitirDescripcionDelArticuloExtendida = @PermitirDescripcionDelArticuloExtendida,");
             SQL.AppendLine("               PermitirNombreDelClienteExtendido = @PermitirNombreDelClienteExtendido,");
             SQL.AppendLine("               UsarModoDotNet = @UsarModoDotNet,");
+            SQL.AppendLine("               RegistroDeRetornoEnTxt = @RegistroDeRetornoEnTxt,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -402,6 +408,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         PermitirDescripcionDelArticuloExtendida,");
             SQL.AppendLine("         PermitirNombreDelClienteExtendido,");
             SQL.AppendLine("         UsarModoDotNet,");
+            SQL.AppendLine("         RegistroDeRetornoEnTxt,");
             SQL.AppendLine("         NombreOperador,");
             SQL.AppendLine("         FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
@@ -462,7 +469,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      PermitirDescripcionDelArticuloExtendida,");
             SQL.AppendLine("      PermitirNombreDelClienteExtendido,");
             SQL.AppendLine("      UsarModoDotNet,");
-            SQL.AppendLine("      NombreOperador,");
+		    SQL.AppendLine("      RegistroDeRetornoEnTxt,");
+            SQL.AppendLine("      NombreOperador,");		
             SQL.AppendLine("      FechaUltimaModificacion ");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_Caja_B1");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
