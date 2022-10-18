@@ -10,8 +10,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Ccl.DispositivosExternos;
 using Galac.Saw.Ccl.Inventario;
-using System.Globalization;
-using LibGalac.Aos.Cnf;
+using LibGalac.Aos.Brl;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
     public class clsBematech : IImpresoraFiscalPdn {
