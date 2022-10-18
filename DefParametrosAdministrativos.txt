@@ -39,6 +39,7 @@ unBloquearEmision = (NoBloquear, BloquearPorCaja, BloqueoGeneral); //e
 unAplicacionAlicuota = (No_Aplica, Sustituir_Alicuota_Reducida, Sustituir_Alicuota_Adicional); //e,Componente=SttDef
 unFechaSugeridaRetencionesCxP = (FechaFacturaCxP, FechaRegistroCxP); //e,Componente=SttDef
 unOperativoFinanciero = (Operativo, Finaciero); //e
+unFormaDeAsociarCentroDeCosto = (NoAsociar, PorAlmacen, PorLineaDeProducto); //e,Componente=SttDef GENERATE
 
 {@F}DatosGeneralesCompania =Record//"1.1.- Compañia",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef,GENERATE
 	ConsecutivoCompania 				: Longint; //HIDE
@@ -312,7 +313,7 @@ unOperativoFinanciero = (Operativo, Finaciero); //e
 	NombreCampoDefinibleInventario3				: Str20;//"Campo Definible 3"
 	NombreCampoDefinibleInventario4				: Str20;//"Campo Definible 4"
 	NombreCampoDefinibleInventario5				: Str20;//"Campo Definible 5"
-	AsociaCentroDeCostoyAlmacen					: boolean;//"Asocia Centro de Costo y Almacén"
+	AsociarCentroDeCosto						: unFormaDeAsociarCentroDeCosto;//"Asociar Centro de Costo"
 	ActivarFacturacionPorAlmacen				: boolean;//"Filtrar Inventario por Almacén al Facturar"
 	AvisoDeReservasvencidas						: boolean;//"Alerta de Reservas Vencidas"
 	CantidadDeDecimales							: UnCantidadDeDecimales;//"Cantidad de Decimales"

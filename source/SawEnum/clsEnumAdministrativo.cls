@@ -1687,6 +1687,12 @@ Public Enum enum_TipoAlicPorContIGTF
    eTAPCIGTF_Cont6
 End Enum
 
+Public Enum enum_FormaDeAsociarCentroDeCostos
+   eFDACDC_NoAsociar = 0
+   eFDACDC_PorAlmacen
+   eFDACDC_PorLineaDeProducto
+End Enum
+
 Public Function me_saw() As Long
    me_saw = 1
 End Function

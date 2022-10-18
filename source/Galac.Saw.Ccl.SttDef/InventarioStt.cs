@@ -42,7 +42,7 @@ namespace Galac.Saw.Ccl.SttDef {
         private string _NombreCampoDefinibleInventario3;
         private string _NombreCampoDefinibleInventario4;
         private string _NombreCampoDefinibleInventario5;
-        private bool _AsociaCentroDeCostoyAlmacen;
+        private eFormaDeAsociarCentroDeCostos _AsociarCentroDeCostos;
         private bool _AvisoDeReservasvencidas;
         private bool _VerificarStock;
         private bool _ImprimeSerialRolloLuegoDeDescripArticulo;
@@ -184,15 +184,22 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _NombreCampoDefinibleInventario5 = LibString.Mid(value, 0, 20); }
         }
 
-        public bool AsociaCentroDeCostoyAlmacenAsBool {
-            get { return _AsociaCentroDeCostoyAlmacen; }
-            set { _AsociaCentroDeCostoyAlmacen = value; }
+        public eFormaDeAsociarCentroDeCostos AsociarCentroDeCostosAsEnum {
+            get { return _AsociarCentroDeCostos; }
+            set { _AsociarCentroDeCostos = value; }
         }
 
-        public string AsociaCentroDeCostoyAlmacen {
-            set { _AsociaCentroDeCostoyAlmacen = LibConvert.SNToBool(value); }
+        public string AsociarCentroDeCostos {
+            set { _AsociarCentroDeCostos = (eFormaDeAsociarCentroDeCostos)LibConvert.DbValueToEnum(value); }
         }
 
+        public string AsociarCentroDeCostosAsDB {
+            get { return LibConvert.EnumToDbValue((int) _AsociarCentroDeCostos); }
+        }
+
+        public string AsociarCentroDeCostosAsString {
+            get { return LibEnumHelper.GetDescription(_AsociarCentroDeCostos); }
+        }
 
         public bool AvisoDeReservasvencidasAsBool {
             get { return _AvisoDeReservasvencidas; }
@@ -263,7 +270,7 @@ namespace Galac.Saw.Ccl.SttDef {
             NombreCampoDefinibleInventario3 = "";
             NombreCampoDefinibleInventario4 = "";
             NombreCampoDefinibleInventario5 = "";
-            AsociaCentroDeCostoyAlmacenAsBool = false;
+            AsociarCentroDeCostosAsEnum = eFormaDeAsociarCentroDeCostos.NoAsociar;
             AvisoDeReservasvencidasAsBool = false;
             VerificarStockAsBool = false;
             ImprimeSerialRolloLuegoDeDescripArticuloAsBool = false;
@@ -290,7 +297,7 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.NombreCampoDefinibleInventario3 = _NombreCampoDefinibleInventario3;
             vResult.NombreCampoDefinibleInventario4 = _NombreCampoDefinibleInventario4;
             vResult.NombreCampoDefinibleInventario5 = _NombreCampoDefinibleInventario5;
-            vResult.AsociaCentroDeCostoyAlmacenAsBool = _AsociaCentroDeCostoyAlmacen;
+            vResult.AsociarCentroDeCostosAsEnum = _AsociarCentroDeCostos;
             vResult.AvisoDeReservasvencidasAsBool = _AvisoDeReservasvencidas;
             vResult.VerificarStockAsBool = _VerificarStock;
             vResult.ImprimeSerialRolloLuegoDeDescripArticuloAsBool = _ImprimeSerialRolloLuegoDeDescripArticulo;
@@ -317,7 +324,7 @@ namespace Galac.Saw.Ccl.SttDef {
                "\nNombre Campo Definible Inventario 3 = " + _NombreCampoDefinibleInventario3 +
                "\nNombre Campo Definible Inventario 4 = " + _NombreCampoDefinibleInventario4 +
                "\nNombre Campo Definible Inventario 5 = " + _NombreCampoDefinibleInventario5 +
-               "\nAsocia Centros De Costos a Almacén  = " + _AsociaCentroDeCostoyAlmacen +
+               "\nAsociar Centro de Costos = " + _AsociarCentroDeCostos.ToString() +
                "\nAlerta de reservas vencidas = " + _AvisoDeReservasvencidas +
                "\nAlerta por  Maximo o Minimo del Stock  ... = " + _VerificarStock +
                "\nImprime Serial Rollo Luego De Descripción de Artículo... = " + _ImprimeSerialRolloLuegoDeDescripArticulo;
