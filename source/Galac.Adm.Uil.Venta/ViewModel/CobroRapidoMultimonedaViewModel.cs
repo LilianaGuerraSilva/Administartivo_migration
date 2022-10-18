@@ -844,7 +844,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     new XElement("CodigoBanco", Cobro.CodigoBanco),
                     new XElement("Monto", Cobro.Monto.ToString("#.##")),
                     new XElement("CodigoMoneda", Cobro.CodigoMoneda),
-                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal.ToString("#.##"))));
+                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal.ToString("#.####"))));
             }
             return vXmlDatosDelCobro;
         }
