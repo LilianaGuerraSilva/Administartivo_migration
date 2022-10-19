@@ -19,6 +19,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			CrearArticulosEspecialesIGTF_ML();
 			CrearArticulosEspecialesIGTF_ME();
 			AgregarParametroAsociarCentroDeCostos();
+			CrearCampoExcluirDelInformeDeDeclaracionIGTF();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
