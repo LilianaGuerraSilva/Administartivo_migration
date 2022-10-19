@@ -205,12 +205,12 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         private eImpresoraFiscal vModelo;
         private bool _PortIsOpen = false;
-        
+
         public clsBematech(XElement valXmlDatosImpresora) {
             _RegistroDeRetornoEnTxt = GetRegistroDeRetornoEnTxt();
             ConfigurarImpresora(valXmlDatosImpresora);
             ConfigurarArchivosDeRetornoBemaFi32();
-        }        
+        }
 
         private bool GetRegistroDeRetornoEnTxt() {
             try {
@@ -1277,7 +1277,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string GetFirmwareVersion() {
             string vVersionFirmware;
             vVersionFirmware = LibString.Space(10);
-            Bematech_FI_VersionFirmwareMFD(ref vVersionFirmware);            
+            Bematech_FI_VersionFirmwareMFD(ref vVersionFirmware);
             if (_RegistroDeRetornoEnTxt) {
                 vVersionFirmware = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
             }
@@ -1308,7 +1308,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vVersion = LibString.Trim(vVersion);
                 vVersion = LibString.SubString(vVersion, 0, 8);
                 vResult = !LibString.IsNullOrEmpty(vVersion);
-                if (_RegistroDeRetornoEnTxt) {
+                if (_RegistroDeRetornoEnTxt && !vResult) {
                     vResult = LibImpresoraFiscalUtil.ObtenerVersionDeControlador(vDir, ref vVersion);
                     vVersion = LibString.Replace(vVersion, LibString.Space(1), "");
                 }
@@ -1330,7 +1330,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vRegAlicuotas = "";
             vRegAlicuotas = LibText.Space(79);
             vReq = Bematech_FI_RetornoAlicuotas(ref vRegAlicuotas);
-            vRegAlicuotas = LibString.Trim(vRegAlicuotas);            
+            vRegAlicuotas = LibString.Trim(vRegAlicuotas);
             if (_RegistroDeRetornoEnTxt) {
                 vRegAlicuotas = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
             }
