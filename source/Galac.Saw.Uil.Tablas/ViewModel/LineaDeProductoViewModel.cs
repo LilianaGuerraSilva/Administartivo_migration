@@ -172,7 +172,6 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             get {
                 return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad") &&
                     LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaCentroDeCostos");
-
             }
         }
 

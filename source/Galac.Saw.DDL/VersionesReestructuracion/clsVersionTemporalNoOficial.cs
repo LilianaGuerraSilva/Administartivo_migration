@@ -12,14 +12,18 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 	class clsVersionTemporalNoOficial : clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();			
-			InsertarSinoExisteLineaDeProducto();
+			StartConnectionNoTransaction();
+			//CrearTablaTransferenciaEntreCuentasBancarias(); Nota: se Oculta temporalmente
+			//AgregaColumnasReglasDeContabilizacion();
+			InsertarSiNoExisteLineaDeProducto();
 			CrearArticulosEspecialesIGTF_ML();
 			CrearArticulosEspecialesIGTF_ME();
+			AgregarParametroAsociarCentroDeCostos();
 			DisposeConnectionNoTransaction();
 			return true;
-        }
-		private void InsertarSinoExisteLineaDeProducto() {
+		}
+
+		private void InsertarSiNoExisteLineaDeProducto() {
 			QAdvSql InsSql = new QAdvSql("");
 			string vFechaUltimaModificacion = InsSql.ToSqlValue(LibDate.Today());
 			StringBuilder vSql = new StringBuilder();
@@ -54,6 +58,17 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine(" WHERE NOT EXISTS (SELECT ConsecutivoCompania , Codigo FROM dbo.CamposMonedaExtranjera WHERE ");
 			vSql.AppendLine(" ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND Codigo = 'ND-NC IGTF @')");
 			Execute(vSql.ToString(), 0);
+		}
+		private void AgregarParametroAsociarCentroDeCostos() {
+			AgregarNuevoParametro("AsociarCentroDeCostos", "Inventario", 5, "5.1.- Inventario", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("DELETE Comun.SettValueByCompany ");
+			vSql.AppendLine("WHERE NameSettDefinition = 'AsociaCentroDeCostoyAlmacen' ");
+			Execute(vSql.ToString());
+			vSql.Clear();
+			vSql.AppendLine("DELETE Comun.SettDefinition ");
+			vSql.AppendLine("WHERE Name = 'AsociaCentroDeCostoyAlmacen' ");
+			Execute(vSql.ToString());
 		}
 
 		private void CrearCampoExcluirDelInformeDeDeclaracionIGTF() {

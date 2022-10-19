@@ -13,6 +13,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Saw.Brl.Inventario;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class AlmacenViewModel : LibInputViewModelMfc<Almacen> {
@@ -329,10 +330,10 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     CodigoCliente = ConexionCodigoCliente.Codigo;
                     NombreCliente = ConexionCodigoCliente.Nombre;
                 }
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
@@ -351,21 +352,20 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     CodigoCc = "";
                     Descripcion = "";
                 }
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         public bool IsVisibleCeco {
             get {
-                if (!LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "AsociaCentroDeCostoyAlmacen")) && !LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "UsaCentroDeCostos"))) {
-                    return (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "AsociaCentroDeCostoyAlmacen") &&
-                    LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "UsaCentroDeCostos")) ? true : false;
-                } else {
+                if (LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "AsociarCentroDeCostos")) || LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "UsaCentroDeCostos"))) {
                     return false;
                 }
+                return (eFormaDeAsociarCentroDeCostos)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("RecordName", "AsociarCentroDeCostos") == eFormaDeAsociarCentroDeCostos.PorAlmacen &&
+                LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "UsaCentroDeCostos");
             }
         }
         

@@ -135,17 +135,12 @@ namespace Galac.Saw.Dal.SttDef {
                             vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "SettValueByCompanyINS"), ParametrosActualizacion(item, eAccionSR.Insertar));
                             insDb.Dispose();
                         } catch (System.Data.SqlClient.SqlException vEx) {
-                          
 
                         } catch (GalacException valException) {
 
                         }
                     }
-                    //} else {
-                    //    throw new GalacValidationException(vErrMsg);
-                    //}
                 }
-            
             }
            
             return vResult;
