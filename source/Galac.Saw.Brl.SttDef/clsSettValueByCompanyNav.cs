@@ -945,7 +945,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(valRecord.NombreCampoDefinibleInventario3, "NombreCampoDefinibleInventario3", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreCampoDefinibleInventario4, "NombreCampoDefinibleInventario4", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreCampoDefinibleInventario5, "NombreCampoDefinibleInventario5", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.AsociaCentroDeCostoyAlmacenAsBool), "AsociaCentroDeCostoyAlmacen", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.AsociarCentroDeCostosAsDB, "AsociarCentroDeCostos", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.AvisoDeReservasvencidasAsBool), "AvisoDeReservasvencidas", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.VerificarStockAsBool), "VerificarStock", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ImprimeSerialRolloLuegoDeDescripArticuloAsBool), "ImprimeSerialRolloLuegoDeDescripArticulo", valConsecutivoCompania));
@@ -972,7 +972,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.NombreCampoDefinibleInventario3 = ValorSegunColumna(valListGetSettValueByCompany, "NombreCampoDefinibleInventario3");
             vResult.NombreCampoDefinibleInventario4 = ValorSegunColumna(valListGetSettValueByCompany, "NombreCampoDefinibleInventario4");
             vResult.NombreCampoDefinibleInventario5 = ValorSegunColumna(valListGetSettValueByCompany, "NombreCampoDefinibleInventario5");
-            vResult.AsociaCentroDeCostoyAlmacenAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "AsociaCentroDeCostoyAlmacen"));
+            vResult.AsociarCentroDeCostosAsEnum = (eFormaDeAsociarCentroDeCostos)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "AsociarCentroDeCostos"));
             vResult.AvisoDeReservasvencidasAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "AvisoDeReservasvencidas"));
             vResult.VerificarStockAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "VerificarStock"));
             vResult.ImprimeSerialRolloLuegoDeDescripArticuloAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "ImprimeSerialRolloLuegoDeDescripArticulo"));

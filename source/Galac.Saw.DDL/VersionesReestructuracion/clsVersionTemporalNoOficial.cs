@@ -13,19 +13,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-            InsertarSinoExisteLineaDeProducto();
-            CrearArticulosEspecialesIGTF_ML();
-            CrearArticulosEspecialesIGTF_ME();
-            CrearCampoRegistroTXTEnCajaRegistradora();
-            DisposeConnectionNoTransaction();			
-            return true;
-        }
-
-		private void CrearCampoRegistroTXTEnCajaRegistradora() {
-			AddColumnBoolean("Adm.Caja", "RegistroDeRetornoEnTxt", "", false);
-			AddNotNullConstraint("Adm.Caja", "RegistroDeRetornoEnTxt", InsSql.CharTypeForDb(1));
+			//CrearTablaTransferenciaEntreCuentasBancarias(); Nota: se Oculta temporalmente
+			//AgregaColumnasReglasDeContabilizacion();
+			InsertarSiNoExisteLineaDeProducto();
+			CrearArticulosEspecialesIGTF_ML();
+			CrearArticulosEspecialesIGTF_ME();
+			AgregarParametroAsociarCentroDeCostos();
+			CrearCampoExcluirDelInformeDeDeclaracionIGTF();
+			CrearCampoRegistroTXTEnCajaRegistradora();
+			DisposeConnectionNoTransaction();
+			return true;
 		}
-		private void InsertarSinoExisteLineaDeProducto() {
+
+		private void InsertarSiNoExisteLineaDeProducto() {
 			QAdvSql InsSql = new QAdvSql("");
 			string vFechaUltimaModificacion = InsSql.ToSqlValue(LibDate.Today());
 			StringBuilder vSql = new StringBuilder();
@@ -34,6 +34,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine(" WHERE NOT EXISTS(SELECT LineaDeProducto.Nombre FROM Adm.LineaDeProducto WHERE LineaDeProducto.ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND LineaDeProducto.Nombre = 'LINEA DE PRODUCTO')");
 			Execute(vSql.ToString(), 0);
 		}
+
 		private void CrearArticulosEspecialesIGTF_ML() {
 			QAdvSql InsSql = new QAdvSql("");
 			StringBuilder vSql = new StringBuilder();
@@ -62,10 +63,27 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			Execute(vSql.ToString(), 0);
 		}
 
+		private void AgregarParametroAsociarCentroDeCostos() {
+			AgregarNuevoParametro("AsociarCentroDeCostos", "Inventario", 5, "5.1.- Inventario", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("DELETE Comun.SettValueByCompany ");
+			vSql.AppendLine("WHERE NameSettDefinition = 'AsociaCentroDeCostoyAlmacen' ");
+			Execute(vSql.ToString());
+			vSql.Clear();
+			vSql.AppendLine("DELETE Comun.SettDefinition ");
+			vSql.AppendLine("WHERE Name = 'AsociaCentroDeCostoyAlmacen' ");
+			Execute(vSql.ToString());
+		}
+
 		private void CrearCampoExcluirDelInformeDeDeclaracionIGTF() {
 			QAdvSql InsSql = new QAdvSql("");
 			AddColumnBoolean("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", "", false);
-			AddNotNullConstraint("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF",InsSql.CharTypeForDb(1));
+			AddNotNullConstraint("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", InsSql.CharTypeForDb(1));
+		}
+
+		private void CrearCampoRegistroTXTEnCajaRegistradora() {
+			AddColumnBoolean("Adm.Caja", "RegistroDeRetornoEnTxt", "", false);
+			AddNotNullConstraint("Adm.Caja", "RegistroDeRetornoEnTxt", InsSql.CharTypeForDb(1));
 		}
 	}
 }

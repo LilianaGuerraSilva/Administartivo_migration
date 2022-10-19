@@ -194,7 +194,7 @@ NombreCampoDefinibleInventario2;Inventario;5;5.1.- Inventario;1;;String;;N
 NombreCampoDefinibleInventario3;Inventario;5;5.1.- Inventario;1;;String;;N
 NombreCampoDefinibleInventario4;Inventario;5;5.1.- Inventario;1;;String;;N
 NombreCampoDefinibleInventario5;Inventario;5;5.1.- Inventario;1;;String;;N
-AsociaCentroDeCostoyAlmacen;Inventario;5;5.1.- Inventario;1;;Bool;;N
+AsociarCentroDeCostos;Inventario;5;5.1.- Inventario;1;;Enumerativo;;N
 AvisoDeReservasvencidas;Inventario;5;5.1.- Inventario;1;;Bool;;N
 VerificarStock;Inventario;5;5.1.- Inventario;1;;Bool;;N
 ImprimeSerialRolloLuegoDeDescripArticulo;Inventario;5;5.1.- Inventario;1;;Bool;;N
