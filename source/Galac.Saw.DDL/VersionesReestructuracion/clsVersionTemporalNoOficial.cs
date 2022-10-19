@@ -70,5 +70,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine("WHERE Name = 'AsociaCentroDeCostoyAlmacen' ");
 			Execute(vSql.ToString());
 		}
+
+		private void CrearCampoExcluirDelInformeDeDeclaracionIGTF() {
+			QAdvSql InsSql = new QAdvSql("");
+			AddColumnBoolean("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", "", false);
+			AddNotNullConstraint("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF",InsSql.CharTypeForDb(1));
+		}
 	}
 }

@@ -475,6 +475,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanMB(ByVal valConsecutivoCompan
    End If
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_USUARIO)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
    fSqlCTEDeclaracionIGTFGeneraMovBanMB = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
@@ -503,6 +504,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConse
    End If
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
    fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
@@ -534,6 +536,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanPago(ByVal valConsecutivoComp
    vSQL = vSQL & " AND Pago.StatusOrdenDePago = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusPago.eSP_VIGENTE)
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ORDEN_DE_PAGO)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
    fSqlCTEDeclaracionIGTFGeneraMovBanPago = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
@@ -565,6 +568,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanCobranza(ByVal valConsecutivo
    vSQL = vSQL & " AND Cobranza.StatusCobranza = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCobranza.eSC_VIGENTE)
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_COBRANZA)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
    fSqlCTEDeclaracionIGTFGeneraMovBanCobranza = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
@@ -596,6 +600,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP(ByVal valConsecutiv
    vSQL = vSQL & " AND anticipo.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCobranza.eSC_VIGENTE)
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ANTICIPO)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
    fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
@@ -629,6 +634,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanRendicion(ByVal valConsecutiv
    vSQL = vSQL & " AND Adm.Rendicion.StatusRendicion = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusRendicion.eSRd_CERRADA)
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_REPOSICION_DE_CAJACHICA)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
    fSqlCTEDeclaracionIGTFGeneraMovBanRendicion = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
@@ -665,6 +671,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago(ByVal valConsec
    vSQL = vSQL & " AND Saw.RenglonSolicitudesDePago.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusSolicitudRenglon.eSSR_Procesada)
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_SOLICITUD_DE_PAGO)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
    fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function

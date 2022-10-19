@@ -16,8 +16,8 @@ unStatusVendedor = (Activo, Inactivo, Restringido); //e
 unTipoDeContribuyente = (Contribuyente, NoContribuyente); //e, Esquema=Adm, Componente=Venta
 unTipoDePersonaFiscal = (PersonaJuridica, PersonaNatural); //e
 unStatusCliente = (Activo, Inactivo, Restringido, Suspendido); //e
-unStatusDocumento = (PorCancelar, Cancelado, ChequeDevuelto, Abonado, Anulado, Refinanciado); //e,Componente=Venta,Generate
-unTipoDeCxC = (Factura, ChequeDevuelto, NotaDeCredito, NotaDeDebito, NotaEntrega, Giro, NoAsignado);//e,Componente=Venta,Generate
+unStatusDocumento = (PorCancelar, Cancelado, ChequeDevuelto, Abonado, Anulado, Refinanciado); //e,Componente=Venta 
+unTipoDeCxC = (Factura, ChequeDevuelto, NotaDeCredito, NotaDeDebito, NotaEntrega, Giro, NoAsignado);//e,Componente=Venta 
 unOrigenFacturacionOManual = (Factura, Manual); //e
 unFormaDeEscogerCompania = (PorNombre, PorCodigo); //e
 unStatusCobranza = (Vigente, Anulada);//e
@@ -191,12 +191,12 @@ UnStatusExC = (Vigente,Anulada,Impaga); //e,Componente=Venta
 UnVencimientoCuotasExC = (Semanal,Quincenal,Mensual,Treinta Días); //e,Componente=Venta
 UnRedondeoCuotasExC = (No redondear,Redondear a Unidades, Redondear a Decenas,Redondear a Centenas,Redondear a Unidad de Mil); //e,Componente=Venta
 UnTipoDeDocumentoCobranza = (Cobranza De Factura,Cobranza Por Aplicacion De Retencion,Cobranza Por Refinanciamiento);//e,Componente=Venta
-unCantidadAImprimir =(Todos,Uno);//e,Componente=Venta,Generate
+unCantidadAImprimir =(Todos,Uno);//e,Componente=Venta 
 unFiltarCobranzaPor =(Cobrador,Cliente,CuentaBancaria);//e,Componente=Venta
-unMonedaDelInforme =(Bolivar,MonedaOrignal);//e,Componente=Venta,Generate
+unMonedaDelInforme =(Bolivar,MonedaOrignal);//e,Componente=Venta 
 unTasaDeCambio =(Original,DelDia);//e,Componente=Venta
-unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta,Generate
-unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco,Generate
+unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta 
+unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco 
 
 
 // Record Repetido en archivo Externo
@@ -1754,6 +1754,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
     CuentaContable       : str30;//=Cuenta.Codigo,"Cuenta Contable" 
     CodigoMoneda        :str4; //=Moneda.Codigo, "Código"
 	TipoDeAlicuotaPorContribuyente	: unTipoAlicPorContIGTF;	//"Tipo de Alícuota por Contribuyente"
+    ExcluirDelInformeDeDeclaracionIGTF : boolean;                   //"Excluir del Informe de Declaración"
 	GeneraMovBancarioPorIGTF		: boolean;					//"Genera movimiento bancario de egreso por IGTF"
     NombreOperador	   : Str20;//a
     FechaUltimaModificacion: date;//a
@@ -2402,7 +2403,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
     @PrimaryKey=ConsecutivoCompania,Numero,Fecha
 }
 
-{@S}ImpTransacBancarias = record //"Impuesto a las Transacciones Bancarias", IMPEXP,GENERATE
+{@S}ImpTransacBancarias = record //"Impuesto a las Transacciones Bancarias", IMPEXP 
     FechaDeInicioDeVigencia: date; //g,o,SEARCH,"Fecha de inicio de vigencia"
 	AlicuotaAlDebito : Double; //"Alícuota al Débito",HIDE
 	AlicuotaAlCredito : Double; //"Alícuota al Crédito",HIDE
@@ -2905,7 +2906,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
 }
 
 
-{@S}MovimientoBancario = Record //Multiarchivo=Compania,Componente=Banco,Esquema=Saw,interop,Generate
+{@S}MovimientoBancario = Record //Multiarchivo=Compania,Componente=Banco,Esquema=Saw,interop 
     ConsecutivoCompania			: Longint;//HIDE
     ConsecutivoMovimiento		: LongInt;//Search,"Nº Movimiento",g,Consecutive,o,a
     CodigoCtaBancaria			: Str5;//Search,=CuentaBancaria.Codigo,"Cuenta Bancaria",g,o
@@ -3938,7 +3939,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
 	Envia      : Str15;//"Envia"
 
 }
-{@M}Compra=  record //Multiarchivo=Compania "Compra", Componente=GestionCompras, Esquema=Adm,Generate
+{@M}Compra=  record //Multiarchivo=Compania "Compra", Componente=GestionCompras, Esquema=Adm 
    ConsecutivoCompania		: Longint; //HIDE
    Consecutivo    		: Longint; //Hide,o,suggestConsecutive
    Serie              		: str20; //u, g,o,search 
@@ -3966,9 +3967,9 @@ SeccionCompraDetalleArticuloInventario : seccion //"Items", Detail=CompraDetalle
    {EndSeccion} 
 SeccionSerialRollo : seccion //"Items", Detail=CompraDetalleSerialRollo 
    {EndSeccion} 
-   CodigoMonedaCostoUltimaCompra :Str4;//"C�digo Moneda"
+   CodigoMonedaCostoUltimaCompra :Str4;//"C�digo Moneda"
    MonedaCostoUltimaCompra : Str80;//logical,"Moneda Costo Ultima Compra",=Moneda.Nombre
-   CambioCostoUltimaCompra :Decimal;//"Cambio Costo �ltima Compra"   
+   CambioCostoUltimaCompra :Decimal;//"Cambio Costo �ltima Compra"   
    NombreOperador      : Str10; //a
    FechaUltimaModificacion: date;//a
    @PrimaryKey=ConsecutivoCompania,Consecutivo    

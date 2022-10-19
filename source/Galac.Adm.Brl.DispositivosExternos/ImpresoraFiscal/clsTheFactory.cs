@@ -81,13 +81,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 _ModelosAntiguos = (_ModeloFactory == eImpresoraFiscal.BIXOLON270 || _ModeloFactory == eImpresoraFiscal.OKIML1120 || _ModeloFactory == eImpresoraFiscal.BIXOLON350 || _ModeloFactory == eImpresoraFiscal.ACLASPP1F3 || _ModeloFactory == eImpresoraFiscal.HKA112);
                 _MaxLongitudDeTexto = (_ModelosAntiguos ? 30 : 40);
                 //                
-                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+                _ModeloSoportaComandosGenerales = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140 || _ModeloFactory == eImpresoraFiscal.ACLASPP9_PLUS);
                 // Pendiente por Agregar PANTUM PDL3100
-                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+                _ModeloUsaFlags = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140 || _ModeloFactory == eImpresoraFiscal.ACLASPP9_PLUS);
                 //                
                 _FormatoFirmwareTipo1 = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125);
                 //
-                _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
+                _FormatoFirmwareTipo2 = (_ModeloFactory == eImpresoraFiscal.BIXOLON812 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLYDT230 || _ModeloFactory == eImpresoraFiscal.HKA80 || _ModeloFactory == eImpresoraFiscal.ACLASPP9 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140 || _ModeloFactory == eImpresoraFiscal.ACLASPP9_PLUS);
                 //
                 _EsMatrizDePuntos = (_ModeloFactory == eImpresoraFiscal.DASCOMTALLY1125 || _ModeloFactory == eImpresoraFiscal.DASCOMTALLY1140);
             } catch (GalacException vEx) {
@@ -792,15 +792,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vMonto = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
                             vMedioDePago = LibText.CleanSpacesToBothSides(LibXml.GetElementValueOrEmpty(vXElement, "CodigoFormaDelCobro"));
                             vFormatoDeCobro = FormaDeCobro(vMedioDePago);
-                            decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));
-                            if (vTotalPagoME > 0 && vTotalPagadoML > 0 && vIGTFML > 0 && vMontoDec > vIGTFML && vNoEsUnicaMoneda) {
-                                vNoEsUnicaMoneda = false;
-                                vMontoDec = LibMath.Abs(vMontoDec - vIGTFML);
-                                vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMontoDec.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
-                            } else {
-                                vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);
-                            }
-                            if ((vNodosCount == 1) && (vMontoDec == vTotalFactura) && (vTotalPagoME == 0)) {
+                            decimal vMontoDec = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vXElement, "Monto"));                            
+                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaPagos, _DecimalesParaPagos);                            
+                            if ((vNodosCount == 1) && ((vMontoDec - vIGTFML) == vTotalFactura) && (vTotalPagoME == 0)) {
                                 vCmd = "1" + vFormatoDeCobro; //Un solo pago ML
                             } else if ((vNodosCount == 1) && (vTotalPagoME > 0)) {
                                 vCmd = "2" + vFormatoDeCobro + vMonto;
@@ -810,11 +804,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                             vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
                         }
                     }
-                    if (vTotalPagoME > 0 && vTotalPagadoML > 0 && !vNoEsUnicaMoneda) {
-                        if (vIGTFML > 0) {
-                            vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vIGTFML.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
-                            vCmd = "202" + vMonto;
-                            vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                    if (vTotalAPagar >= (vTotalPagoME + vTotalPagadoML)) {
+                        if (vTotalPagoME > 0 && vTotalPagadoML > 0 && !vNoEsUnicaMoneda) {
+                            if (vIGTFML > 0) {
+                                vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vIGTFML.ToString("#.##"), _EnterosParaPagos, _DecimalesParaPagos);
+                                vCmd = "202" + vMonto;
+                                vResult = vResult && _TfhkPrinter.SendCmd(vCmd);
+                            }
                         }
                     }
                     vResult = vResult && _TfhkPrinter.SendCmd(_CierreFacturaIGTF);
