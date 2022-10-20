@@ -110,6 +110,7 @@ namespace Galac.Adm.Brl.Venta {
                 vCurrentRecord.PermitirDescripcionDelArticuloExtendidaAsBool = false;
                 vCurrentRecord.PermitirNombreDelClienteExtendidoAsBool = false;
                 vCurrentRecord.UsarModoDotNetAsBool = false;
+                vCurrentRecord.RegistroDeRetornoEnTxtAsBool = false;
                 vCurrentRecord.NombreOperador = "";
                 vCurrentRecord.FechaUltimaModificacion = LibDate.Today();
                 vLista.Add(vCurrentRecord);
@@ -135,7 +136,7 @@ namespace Galac.Adm.Brl.Venta {
                 SQL.AppendLine(" SerialDeMaquinaFiscal, PuertoMaquinaFiscal, AbrirGavetaDeDinero, UltimoNumeroCompFiscal,");
                 SQL.AppendLine(" UltimoNumeroNCFiscal ,TipoConexion, IpParaConexion, MascaraSubred,");
                 SQL.AppendLine(" Gateway, PermitirDescripcionDelArticuloExtendida, PermitirNombreDelClienteExtendido, ");
-                SQL.AppendLine(" UsarModoDotNet, NombreOperador, CONVERT(varchar,FechaUltimaModificacion,101) AS FechaUltimaModificacion ");
+                SQL.AppendLine(" UsarModoDotNet, RegistroDeRetornoEnTxt, NombreOperador, CONVERT(varchar,FechaUltimaModificacion,101) AS FechaUltimaModificacion ");
                 SQL.AppendLine("FROM Adm.Caja WHERE Consecutivo = @Consecutivo");
                 SQL.AppendLine("AND ConsecutivoCompania = @ConsecutivoCompania ");
                 if(!LibString.IsNullOrEmpty(valSqlWhere)) {
@@ -182,6 +183,7 @@ namespace Galac.Adm.Brl.Venta {
             clsImpresoraFiscalCreator vCreatorImpresoraFiscal = new clsImpresoraFiscalCreator();
             string vPuerto = LibXml.GetPropertyString(xmlCaja,"PuertoMaquinaFiscal");
             string vModelo = LibXml.GetPropertyString(xmlCaja,"ModeloDeMaquinaFiscal");
+            string vRegistroDeRetornoEnTxt = LibXml.GetPropertyString(xmlCaja, "vRegistroDeRetornoEnTxt");
             SerialMaquinaFiscal = LibXml.GetPropertyString(xmlCaja,"SerialDeMaquinaFiscal");
             int vCajaDB = LibConvert.ToInt(LibXml.GetPropertyString(xmlCaja,"Consecutivo"));
             if(!LibString.IsNullOrEmpty(vPuerto) && !LibString.IsNullOrEmpty(vModelo) && valCajaLocal.Equals(vCajaDB)) {

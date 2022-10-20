@@ -57,6 +57,7 @@ Private mCodigoMonedaCompania As String
 Private mBaseImponibleIGTF As Currency
 Private mTotalAPagar As Currency
 Private mIGTFML As Currency
+Private mRegistroDeRetornoEnTxt As Boolean
 
 Private Function CM_FILE_NAME() As String
    CM_FILE_NAME = "clsDatosImprFiscal"
@@ -462,4 +463,12 @@ End Sub
 
 Public Function GetIGTFML() As Currency
    GetIGTFML = mIGTFML
+End Function
+
+Public Sub SetRegistroDeRetornoEnTxt(ByVal newRegistroDeRetornoEnTxt As Currency)
+   mRegistroDeRetornoEnTxt = newRegistroDeRetornoEnTxt
+End Sub
+
+Public Function GetRegistroDeRetornoEnTxt() As Boolean
+   GetRegistroDeRetornoEnTxt = mRegistroDeRetornoEnTxt
 End Function

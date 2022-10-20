@@ -206,29 +206,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private eImpresoraFiscal vModelo;
         private bool _PortIsOpen = false;
 
-        public clsBematech(XElement valXmlDatosImpresora) {
-            _RegistroDeRetornoEnTxt = GetRegistroDeRetornoEnTxt();
+        public clsBematech(XElement valXmlDatosImpresora) {           
             ConfigurarImpresora(valXmlDatosImpresora);
             ConfigurarArchivosDeRetornoBemaFi32();
-        }
-
-        private bool GetRegistroDeRetornoEnTxt() {
-            try {
-                bool vResult = false;
-                LibGpParams vParams = new LibGpParams();
-                int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-                int vConsecutivo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
-                vParams.AddInInteger("ConsecutivoCompania", vConsecutivoCompania);
-                vParams.AddInInteger("Consecutivo", vConsecutivo);
-                string vSql = "SELECT RegistroDeRetornoEnTxt FROM Adm.Caja WHERE ConsecutivoCompania=@ConsecutivoCompania AND Consecutivo=@Consecutivo";
-                XElement vReq = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", -1);
-                if (vReq != null && vReq.HasElements) {
-                    vResult = LibConvert.SNToBool(LibXml.GetPropertyString(vReq, "RegistroDeRetornoEnTxt"));
-                }
-                return vResult;
-            } catch (Exception) {
-                throw;
-            }
         }
 
         private void ConfigurarImpresora(XElement valXmlDatosImpresora) {
@@ -236,6 +216,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             ePuerto ePuerto = (ePuerto)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "PuertoMaquinaFiscal"));
             string vPuerto = ePuerto.GetDescription(1);
             vModelo = (eImpresoraFiscal)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valXmlDatosImpresora, "ModeloDeMaquinaFiscal"));
+            _RegistroDeRetornoEnTxt = LibConvert.SNToBool(LibXml.GetPropertyString(valXmlDatosImpresora, "RegistroDeRetornoEnTxt"));
             string vBemaFi32Path = PathFile();
             string vLeerFile;
             string[] vContenidoFile;
@@ -525,7 +506,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 if (valAbrirConexion) {
                     AbrirConexion();
-                }
+                }                
                 vRetorno = Bematech_FI_LecturaXSerial();
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
                 MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
@@ -609,6 +590,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vTextoBusqueda = "";
             string vPathFileRetorno = PathFile(true);
             if (LibFile.FileExists(vPathFileRetorno)) {
+                Thread.Sleep(150); // Para dar chance a que el S.O refresque el archivo de texto retorno.txt por si tenia datos anteriores
                 vResultFile = LibString.Trim(LibFile.ReadFile(vPathFileRetorno));
                 if (LibString.IsNullOrEmpty(vResultFile)) {
                     throw new GalacAlertException($"No hay acceso al archivo de retorno \"{vPathFileRetorno}\" o no fue encontrado, Verifique los permisos administrativos de la aplicación");
@@ -1110,7 +1092,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private bool RetornoACK(int valACK, ref string refMensajeRetorno) {
             bool vResult = false;
             refMensajeRetorno = "";
-
             switch (valACK) {
                 case 6:
                     refMensajeRetorno = "";

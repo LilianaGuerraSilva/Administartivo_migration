@@ -884,7 +884,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vResult = new XElement("GpData", new XElement("GpResult",
             new XElement("ModeloDeMaquinaFiscal", LibConvert.EnumToDbValue((int)ModeloDeMaquinaFiscal)),
             new XElement("PuertoMaquinaFiscal", LibConvert.EnumToDbValue((int)PuertoMaquinaFiscal)),
-            new XElement("TipoConexion", LibConvert.EnumToDbValue((int)TipoConexion))));
+            new XElement("TipoConexion", LibConvert.EnumToDbValue((int)TipoConexion)),
+            new XElement("RegistroDeRetornoEnTxt", LibConvert.BoolToSN(RegistroDeRetornoEnTxt))));
             return vResult;
         }       
 
