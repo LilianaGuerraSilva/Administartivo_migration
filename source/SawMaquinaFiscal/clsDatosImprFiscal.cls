@@ -465,7 +465,7 @@ Public Function GetIGTFML() As Currency
    GetIGTFML = mIGTFML
 End Function
 
-Public Sub SetRegistroDeRetornoEnTxt(ByVal newRegistroDeRetornoEnTxt As Currency)
+Public Sub SetRegistroDeRetornoEnTxt(ByVal newRegistroDeRetornoEnTxt As Boolean)
    mRegistroDeRetornoEnTxt = newRegistroDeRetornoEnTxt
 End Sub
 
