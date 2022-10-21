@@ -284,7 +284,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
         public bool IsEnabledAsociarCentroDeCostos {
             get {
-                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad") && 
+                return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad") && 
                        LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCentroDeCostos");
             }
         }
