@@ -209,6 +209,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					if (!Model.ManejaDebitoBancarioAsBool) {
 						TipoDeAlicuotaPorContribuyente = eTipoAlicPorContIGTF.NoAsignado;
 						GeneraMovBancarioPorIGTF = false;
+						ExcluirDelInformeDeDeclaracionIGTF = false;
 					}
 					RaisePropertyChanged(ManejaDebitoBancarioPropertyName);
 					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
