@@ -1897,7 +1897,7 @@ Private Function fSQLFacturasEntreFechas(ByVal valFechaDesde As Date, ByVal valF
    If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorAlmacen) Then
       varCodigoCentroDeCosto = "Almacen.CodigoCc"
    ElseIf (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociarCentroDeCostos = eFDACDC_PorLineaDeProducto) Then
-      varCodigoCentroDeCosto = "LineaDeProducto.CentroDeCosto"
+      varCodigoCentroDeCosto = "LineaProd.CentroDeCosto"
    Else
       varCodigoCentroDeCosto = ""
    End If
