@@ -941,7 +941,6 @@ Public Function fSqlViewVentasIVADetallado() As String ' detalle de todas las fa
    vSQL = vSQL & " UNION "
    vSQL = vSQL & fSqlVentasDetalladoSeccionUnion(True)
    fSqlViewVentasIVADetallado = vSQL
-   Debug.Print vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlViewVentasIVADetallado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
