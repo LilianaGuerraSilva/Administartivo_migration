@@ -573,8 +573,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Action == eAccionSR.Insertar) {
 					return IsEnabled && ManejaDebitoBancario;
 				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
-					return IsEnabled && ManejaDebitoBancario && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado || TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.Cont14);
+					return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 				}
 			}
 		}
