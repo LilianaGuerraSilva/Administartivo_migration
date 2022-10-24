@@ -8,16 +8,16 @@ using Galac.Adm.Ccl.DispositivosExternos;
 
 namespace Galac.Adm.Dal.Venta {
     [LibMefDalComponentMetadata(typeof(clsCajaED))]
-    public class clsCajaED:LibED, ILibMefDalComponent {
+    public class clsCajaED : LibED, ILibMefDalComponent {
         #region Variables
         #endregion //Variables
         #region Propiedades
         #endregion //Propiedades
         #region Constructores
-        
-		public clsCajaED() : base() {
+
+        public clsCajaED() : base() {
             DbSchema = "Adm";
-		}	       
+        }
         #endregion //Constructores
         #region Metodos Generados
 
@@ -42,9 +42,9 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlCreateTable() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine(InsSql.CreateTable("Caja",DbSchema) + " ( ");
-            SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + " CONSTRAINT nnCajConsecutiv NOT NULL, ");
-            SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10,0) + " CONSTRAINT nnCajConsecutiv NOT NULL, ");
+            SQL.AppendLine(InsSql.CreateTable("Caja" , DbSchema) + " ( ");
+            SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10 , 0) + " CONSTRAINT nnCajConsecutiv NOT NULL, ");
+            SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10 , 0) + " CONSTRAINT nnCajConsecutiv NOT NULL, ");
             SQL.AppendLine("NombreCaja" + InsSql.VarCharTypeForDb(60) + " CONSTRAINT nnCajNombreCaja NOT NULL, ");
             SQL.AppendLine("UsaGaveta" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajUsaGaveta NOT NULL, ");
             SQL.AppendLine("Puerto" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_CajPu DEFAULT ('0'), ");
@@ -72,7 +72,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_Caja PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, Consecutivo ASC)");
-            SQL.AppendLine(",CONSTRAINT u_CajConsecutivo UNIQUE NONCLUSTERED (ConsecutivoCompania, Consecutivo))");            
+            SQL.AppendLine(",CONSTRAINT u_CajConsecutivo UNIQUE NONCLUSTERED (ConsecutivoCompania, Consecutivo))");
             return SQL.ToString();
         }
 
@@ -106,8 +106,8 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpInsParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10,0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10 , 0) + ",");
+            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10 , 0) + ",");
             SQL.AppendLine("@NombreCaja" + InsSql.VarCharTypeForDb(60) + " = '',");
             SQL.AppendLine("@UsaGaveta" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@Puerto" + InsSql.CharTypeForDb(1) + " = '0',");
@@ -139,7 +139,7 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("   SET NOCOUNT ON;");
-            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10,0) + "");
+            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10 , 0) + "");
             SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
             SQL.AppendLine("	BEGIN");
             SQL.AppendLine("        BEGIN TRAN");
@@ -209,8 +209,8 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpUpdParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10,0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10 , 0) + ",");
+            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10 , 0) + ",");
             SQL.AppendLine("@NombreCaja" + InsSql.VarCharTypeForDb(60) + ",");
             SQL.AppendLine("@UsaGaveta" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@Puerto" + InsSql.CharTypeForDb(1) + ",");
@@ -245,7 +245,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("   SET NOCOUNT ON;");
             SQL.AppendLine("   DECLARE @CurrentTimeStamp timestamp");
             SQL.AppendLine("   DECLARE @ValidationMsg " + InsSql.VarCharTypeForDb(1500) + " --No puede ser más");
-            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10,0) + "");
+            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10 , 0) + "");
             //SQL.AppendLine("--DECLARE @CanBeChanged bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
@@ -316,8 +316,8 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpDelParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10,0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10 , 0) + ",");
+            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10 , 0) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -328,7 +328,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("   SET NOCOUNT ON;");
             SQL.AppendLine("   DECLARE @CurrentTimeStamp timestamp");
             SQL.AppendLine("   DECLARE @ValidationMsg " + InsSql.VarCharTypeForDb(1500) + " --No puede ser más");
-            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10,0) + "");
+            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10 , 0) + "");
             //SQL.AppendLine("--DECLARE @CanBeDeleted bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
@@ -375,8 +375,8 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpGetParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10,0));
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10 , 0) + ",");
+            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10 , 0));
             return SQL.ToString();
         }
 
@@ -455,7 +455,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      PermitirAbrirSinSupervisor,");
             SQL.AppendLine("      UsaAccesoRapido,");
             SQL.AppendLine("      UsaMaquinaFiscal,");
-            SQL.AppendLine("      TipoConexion,");			
+            SQL.AppendLine("      TipoConexion,");
             SQL.AppendLine("      FamiliaImpresoraFiscal,");
             SQL.AppendLine("      ModeloDeMaquinaFiscal,");
             SQL.AppendLine("      SerialDeMaquinaFiscal,");
@@ -469,8 +469,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      PermitirDescripcionDelArticuloExtendida,");
             SQL.AppendLine("      PermitirNombreDelClienteExtendido,");
             SQL.AppendLine("      UsarModoDotNet,");
-		    SQL.AppendLine("      RegistroDeRetornoEnTxt,");
-            SQL.AppendLine("      NombreOperador,");		
+            SQL.AppendLine("      RegistroDeRetornoEnTxt,");
+            SQL.AppendLine("      NombreOperador,");
             SQL.AppendLine("      FechaUltimaModificacion ");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_Caja_B1");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
@@ -484,7 +484,7 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpGetFKParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10 , 0) + ",");
             SQL.AppendLine("@XmlData" + InsSql.XmlTypeForDb());
             return SQL.ToString();
         }
@@ -512,22 +512,22 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpActualizaUltimoNumComprobanteParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10,0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10 , 0) + ",");
+            SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10 , 0) + ",");
             SQL.AppendLine("@Numero" + InsSql.VarCharTypeForDb(12) + ",");
             SQL.AppendLine("@EsNotaDeCredito" + InsSql.VarCharTypeForDb(1));
             return SQL.ToString();
         }
 
         private string SqlSpActualizaUltimoNumComprobante() {
-            StringBuilder SQL = new StringBuilder();           
+            StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
-            SQL.AppendLine("DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10,0) +  "");
+            SQL.AppendLine("DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10 , 0) + "");
             SQL.AppendLine("UPDATE Adm.Caja");
             SQL.AppendLine("SET  UltimoNumeroCompFiscal = CASE WHEN @EsNotaDeCredito ='S' THEN UltimoNumeroCompFiscal ELSE @Numero END,");
             SQL.AppendLine("     UltimoNumeroNCFiscal   = CASE WHEN @EsNotaDeCredito ='S' THEN @Numero ELSE  UltimoNumeroNCFiscal END");
             SQL.AppendLine("	 WHERE Consecutivo = @Consecutivo AND");
-            SQL.AppendLine("	 ConsecutivoCompania = @ConsecutivoCompania");                        
+            SQL.AppendLine("	 ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine(" SET @ReturnValue =  @@ROWCOUNT ");
             SQL.AppendLine(" RETURN @ReturnValue ");
             SQL.AppendLine("END");
@@ -536,19 +536,19 @@ namespace Galac.Adm.Dal.Venta {
         #endregion //Queries
 
         bool CrearTabla() {
-            bool vResult = insDbo.Create(DbSchema + ".Caja", SqlCreateTable(), false, eDboType.Tabla);
+            bool vResult = insDbo.Create(DbSchema + ".Caja" , SqlCreateTable() , false , eDboType.Tabla);
             return vResult;
         }
 
-        bool CrearVistas(){
+        bool CrearVistas() {
             bool vResult = false;
             LibViews insVistas = new LibViews();
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumPuerto", LibTpvCreator.SqlViewStandardEnum(typeof(ePuerto), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumFamiliaImpresoraFiscal", LibTpvCreator.SqlViewStandardEnum(typeof(eFamiliaImpresoraFiscal), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumImpresoraFiscal", LibTpvCreator.SqlViewStandardEnum(typeof(eImpresoraFiscal), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoConexion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoConexion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumPuertoImpFiscal", LibTpvCreator.SqlViewStandardEnum(typeof(ePuerto), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_Caja_B1", SqlViewB1(), true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumPuerto" , LibTpvCreator.SqlViewStandardEnum(typeof(ePuerto) , InsSql) , true , true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumFamiliaImpresoraFiscal" , LibTpvCreator.SqlViewStandardEnum(typeof(eFamiliaImpresoraFiscal) , InsSql) , true , true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumImpresoraFiscal" , LibTpvCreator.SqlViewStandardEnum(typeof(eImpresoraFiscal) , InsSql) , true , true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoConexion" , LibTpvCreator.SqlViewStandardEnum(typeof(eTipoConexion) , InsSql) , true , true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumPuertoImpFiscal" , LibTpvCreator.SqlViewStandardEnum(typeof(ePuerto) , InsSql) , true , true);
+            vResult = insVistas.Create(DbSchema + ".Gv_Caja_B1" , SqlViewB1() , true);
             insVistas.Dispose();
             return vResult;
         }
@@ -556,13 +556,13 @@ namespace Galac.Adm.Dal.Venta {
         bool CrearProcedimientos() {
             bool vResult = false;
             LibStoredProc insSps = new LibStoredProc();
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaINS", SqlSpInsParameters(), SqlSpIns(), true);
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaDEL", SqlSpDelParameters(), SqlSpDel(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaGetFk", SqlSpGetFKParameters(), SqlSpGetFK(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ActualizaUltimoNumComprobante",SqlSpActualizaUltimoNumComprobanteParameters(),SqlSpActualizaUltimoNumComprobante(),true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaINS" , SqlSpInsParameters() , SqlSpIns() , true);
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaUPD" , SqlSpUpdParameters() , SqlSpUpd() , true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaDEL" , SqlSpDelParameters() , SqlSpDel() , true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaGET" , SqlSpGetParameters() , SqlSpGet() , true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaSCH" , SqlSpSearchParameters() , SqlSpSearch() , true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaGetFk" , SqlSpGetFKParameters() , SqlSpGetFK() , true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ActualizaUltimoNumComprobante" , SqlSpActualizaUltimoNumComprobanteParameters() , SqlSpActualizaUltimoNumComprobante() , true) && vResult;
             insSps.Dispose();
             return vResult;
         }
@@ -579,7 +579,7 @@ namespace Galac.Adm.Dal.Venta {
 
         public bool InstalarVistasYSps() {
             bool vResult = false;
-            if (insDbo.Exists(DbSchema + ".Caja", eDboType.Tabla)) {
+            if (insDbo.Exists(DbSchema + ".Caja" , eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = true;
@@ -609,9 +609,6 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsCajaED
-
 } //End of namespace Galac.Adm.Dal.Venta
 
