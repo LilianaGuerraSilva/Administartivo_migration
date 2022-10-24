@@ -572,7 +572,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Action == eAccionSR.Insertar) {
 					return IsEnabled && ManejaDebitoBancario;
 				} else {
-					return IsEnabled && ManejaDebitoBancario !EsEcuador();
+					return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 				}
 			}
 		}
