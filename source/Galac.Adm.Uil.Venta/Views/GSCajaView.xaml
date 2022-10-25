@@ -194,6 +194,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label
                         Name="lblFamiliaDeMaquinaFiscal"
@@ -331,6 +332,22 @@
                         Style="{StaticResource TextBoxInputStyle}"
                         Text="{Binding Path=UltimoNumeroNCFiscal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                         TextAlignment="Right" />
+                    <Label
+                        Name="lblRegistroDeRetornoEnTxt"
+                        Grid.Row="8"
+                        Grid.Column="0"
+                        Content="Registro de Retorno en Txt......"
+                        Style="{StaticResource LabelPrompt}"
+                        Visibility="{Binding Path=IsVisibleRegistroDeRetornoEnTxt, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    <CheckBox
+                        Name="chkRegistroDeRetornoEnTxt"
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding Path=RegistroDeRetornoEnTxt}"
+                        IsEnabled="{Binding Path=IsEnabled}"
+                        Style="{StaticResource CheckBoxStyle}"
+                        Visibility="{Binding Path=IsVisibleRegistroDeRetornoEnTxt, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <Label
                         Name="lblPermitirDescripcionDelArticuloExtendida"
                         Grid.Row="0"

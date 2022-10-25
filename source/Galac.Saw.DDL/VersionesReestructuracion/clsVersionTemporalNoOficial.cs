@@ -20,6 +20,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			CrearArticulosEspecialesIGTF_ME();
 			AgregarParametroAsociarCentroDeCostos();
 			CrearCampoExcluirDelInformeDeDeclaracionIGTF();
+			CrearCampoRegistroTXTEnCajaRegistradora();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -33,6 +34,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine(" WHERE NOT EXISTS(SELECT LineaDeProducto.Nombre FROM Adm.LineaDeProducto WHERE LineaDeProducto.ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND LineaDeProducto.Nombre = 'LINEA DE PRODUCTO')");
 			Execute(vSql.ToString(), 0);
 		}
+
 		private void CrearArticulosEspecialesIGTF_ML() {
 			QAdvSql InsSql = new QAdvSql("");
 			StringBuilder vSql = new StringBuilder();
@@ -60,6 +62,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine(" ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND Codigo = 'ND-NC IGTF @')");
 			Execute(vSql.ToString(), 0);
 		}
+
 		private void AgregarParametroAsociarCentroDeCostos() {
 			AgregarNuevoParametro("AsociarCentroDeCostos", "Inventario", 5, "5.1.- Inventario", 1, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
 			StringBuilder vSql = new StringBuilder();
@@ -75,7 +78,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void CrearCampoExcluirDelInformeDeDeclaracionIGTF() {
 			QAdvSql InsSql = new QAdvSql("");
 			AddColumnBoolean("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", "", false);
-			AddNotNullConstraint("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF",InsSql.CharTypeForDb(1));
+			AddNotNullConstraint("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", InsSql.CharTypeForDb(1));
+		}
+
+		private void CrearCampoRegistroTXTEnCajaRegistradora() {
+			AddColumnBoolean("Adm.Caja", "RegistroDeRetornoEnTxt", "", false);
+			AddNotNullConstraint("Adm.Caja", "RegistroDeRetornoEnTxt", InsSql.CharTypeForDb(1));
 		}
 	}
 }

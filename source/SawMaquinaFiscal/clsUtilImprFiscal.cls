@@ -445,12 +445,14 @@ Public Function fGenerarXmlConDatosDeLaMaquinaFiscal(ByVal valDatosImpFiscal As 
    Dim ModeloImprFiscal As String
    Dim vTipoConexion As String
    Dim vPuertoImpFiscal As String
+   Dim vRegistroDeRetornoEnTxt As String
    
    vSaltoLinea = vbCrLf
    ModeloImprFiscal = gConvert.enumerativoAChar(valDatosImpFiscal.GetImpresoraFiscal)
    ModeloImprFiscal = fCaracteresXMLValidosEnDatosImprFiscal(ModeloImprFiscal)
    vTipoConexion = fCaracteresXMLValidosEnDatosImprFiscal(gConvert.enumerativoAChar(valDatosImpFiscal.GetTipoConexion))
    vPuertoImpFiscal = fCaracteresXMLValidosEnDatosImprFiscal(gConvert.enumerativoAChar(valDatosImpFiscal.GetPuertoImpresoraFiscal))
+   vRegistroDeRetornoEnTxt = gConvert.ConvertBooleanToString(valDatosImpFiscal.GetRegistroDeRetornoEnTxt)
    On Error GoTo h_Error
    Set insEnumProyecto = New clsEnumAdministrativo
    vXmlMaquinaFiscal = "<GpData>" & vSaltoLinea & "<GpResult>" & vSaltoLinea
@@ -458,6 +460,7 @@ Public Function fGenerarXmlConDatosDeLaMaquinaFiscal(ByVal valDatosImpFiscal As 
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<PuertoMaquinaFiscal>" & vPuertoImpFiscal & "</PuertoMaquinaFiscal>" & vSaltoLinea
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<TipoConexion>" & vTipoConexion & "</TipoConexion>" & vSaltoLinea
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<PuertoCom>1</PuertoCom>" & vSaltoLinea
+   vXmlMaquinaFiscal = vXmlMaquinaFiscal & "<RegistroDeRetornoEnTxt>" & vRegistroDeRetornoEnTxt & "</RegistroDeRetornoEnTxt>" & vSaltoLinea
    vXmlMaquinaFiscal = vXmlMaquinaFiscal & "</GpResult>" & vSaltoLinea & "</GpData>"
 h_EXIT: On Error GoTo 0
    fGenerarXmlConDatosDeLaMaquinaFiscal = vXmlMaquinaFiscal

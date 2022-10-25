@@ -22,7 +22,7 @@ using Galac.Saw.Lib;
 using LibGalac.Aos.Ccl.Usal;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CajaViewModel : LibInputViewModel<Caja> {
+    public class CajaViewModel: LibInputViewModel<Caja> {
 
         #region Constantes y Variables
 
@@ -48,14 +48,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string PermitirDescripcionDelArticuloExtendidaPropertyName = "PermitirDescripcionDelArticuloExtendida";
         const string PermitirNombreDelClienteExtendidoPropertyName = "PermitirNombreDelClienteExtendido";
         const string UsarModoDotNetPropertyName = "UsarModoDotNet";
+        const string RegistroDeRetornoEnTxtPropertyName = "RegistroDeRetornoEnTxt";
         const string NombreOperadorPropertyName = "NombreOperador";
-        const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";        
+        const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         const string IsEnabledUsaGavetaPropertyName = "IsEnabledUsaGaveta";
-		const string IsEnabledPuertoSerialPropertyName = "IsEnabledPuertoSerial";
+        const string IsEnabledPuertoSerialPropertyName = "IsEnabledPuertoSerial";
+        const string IsVisibleRegistroDeRetornoEnTxtPropertyName = "IsVisibleRegistroDeRetornoEnTxt";
 
         private Brl.DispositivosExternos.clsConexionPuertoSerial PuertoSerial;
         IImpresoraFiscalPdn insMaquinaFiscal;
-        private bool _PuedeAbrirGaveta = false;        
+        private bool _PuedeAbrirGaveta = false;
         FkCajaViewModel _ConexionNombreCaja;
         FkGUserViewModel _ConexionNombreDelOperador;
 
@@ -74,7 +76,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public ObservableCollection<ePuerto> ListarPuertosImpFiscal { get; set; }
 
         public ObservableCollection<eImpresoraFiscal> ListarMaquinaFiscal { get; set; }
-		
+
         public ObservableCollection<eTipoConexion> ListarTipoConexion { get; set; }
 
         eFamiliaImpresoraFiscal FamiliaImpresoraFiscalSeleccionada { get; set; }
@@ -109,11 +111,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return _ConexionNombreCaja;
             }
             set {
-                if(_ConexionNombreCaja != value) {
+                if (_ConexionNombreCaja != value) {
                     _ConexionNombreCaja = value;
                     RaisePropertyChanged(NombreCajaPropertyName);
                 }
-                if(_ConexionNombreCaja == null) {
+                if (_ConexionNombreCaja == null) {
                     NombreCaja = string.Empty;
                 }
             }
@@ -124,11 +126,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return _ConexionNombreDelOperador;
             }
             set {
-                if(_ConexionNombreDelOperador != value) {
+                if (_ConexionNombreDelOperador != value) {
                     _ConexionNombreDelOperador = value;
                     RaisePropertyChanged(NombreOperadorPropertyName);
                 }
-                if(_ConexionNombreDelOperador == null) {
+                if (_ConexionNombreDelOperador == null) {
                     NombreOperador = string.Empty;
                 }
             }
@@ -139,7 +141,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.ConsecutivoCompania;
             }
             set {
-                if(Model.ConsecutivoCompania != value) {
+                if (Model.ConsecutivoCompania != value) {
                     Model.ConsecutivoCompania = value;
                 }
             }
@@ -150,7 +152,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.Consecutivo;
             }
             set {
-                if(Model.Consecutivo != value) {
+                if (Model.Consecutivo != value) {
                     Model.Consecutivo = value;
                     RaisePropertyChanged(ConsecutivoPropertyName);
                 }
@@ -162,15 +164,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.FamiliaImpresoraFiscalAsEnum;
             }
             set {
-                if(Model.FamiliaImpresoraFiscalAsEnum != value) {
+                if (Model.FamiliaImpresoraFiscalAsEnum != value) {
                     Model.FamiliaImpresoraFiscalAsEnum = value;
                     UsarModoDotNet = FamiliaValidaParaModoMejorado(value);
                     RaisePropertyChanged(FamiliaImpresoraFiscalPropertyName);
-                    RaisePropertyChanged(UsarModoDotNetPropertyName);                    
+                    RaisePropertyChanged(UsarModoDotNetPropertyName);
+                    RaisePropertyChanged(IsVisibleRegistroDeRetornoEnTxtPropertyName);
                 }
             }
         }
-
 
         [LibRequired(ErrorMessage = "El campo Nombre Caja es requerido.")]
         [LibGridColum("Nombre Caja", eGridColumType.Connection, IsForSearch = true, IsForList = true, ConnectionSearchCommandName = "ChooseNombreCajaCommand", ColumnOrder = 0, Width = 190)]
@@ -179,7 +181,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.NombreCaja;
             }
             set {
-                if(Model.NombreCaja != value) {
+                if (Model.NombreCaja != value) {
                     Model.NombreCaja = value;
                     RaisePropertyChanged(NombreCajaPropertyName);
                 }
@@ -191,7 +193,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.UsaGavetaAsBool;
             }
             set {
-                if(Model.UsaGavetaAsBool != value) {
+                if (Model.UsaGavetaAsBool != value) {
                     Model.UsaGavetaAsBool = value;
                     _PuedeAbrirGaveta = value;
                     AbrirGavetaCommand.RaiseCanExecuteChanged();
@@ -209,7 +211,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.PuertoAsEnum;
             }
             set {
-                if(Model.PuertoAsEnum != value) {
+                if (Model.PuertoAsEnum != value) {
                     Model.PuertoAsEnum = value;
                     RaisePropertyChanged(PuertoPropertyName);
                     RaisePropertyChanged(PuertoMaquinaFiscalPropertyName);
@@ -223,7 +225,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.Comando;
             }
             set {
-                if(Model.Comando != value) {
+                if (Model.Comando != value) {
                     Model.Comando = value;
                     RaisePropertyChanged(ComandoPropertyName);
                 }
@@ -235,7 +237,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.PermitirAbrirSinSupervisorAsBool;
             }
             set {
-                if(Model.PermitirAbrirSinSupervisorAsBool != value) {
+                if (Model.PermitirAbrirSinSupervisorAsBool != value) {
                     Model.PermitirAbrirSinSupervisorAsBool = value;
                     RaisePropertyChanged(PermitirAbrirSinSupervisorPropertyName);
                 }
@@ -247,7 +249,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.UsaAccesoRapidoAsBool;
             }
             set {
-                if(Model.UsaAccesoRapidoAsBool != value) {
+                if (Model.UsaAccesoRapidoAsBool != value) {
                     Model.UsaAccesoRapidoAsBool = value;
                     RaisePropertyChanged(UsaAccesoRapidoPropertyName);
                 }
@@ -259,7 +261,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.UsaMaquinaFiscalAsBool;
             }
             set {
-                if(Model.UsaMaquinaFiscalAsBool != value) {
+                if (Model.UsaMaquinaFiscalAsBool != value) {
                     Model.UsaMaquinaFiscalAsBool = value;
                     RaisePropertyChanged(UsaMaquinaFiscalPropertyName);
                     RaisePropertyChanged(SerialDeMaquinaFiscalPropertyName);
@@ -273,7 +275,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.ModeloDeMaquinaFiscalAsEnum;
             }
             set {
-                if(Model.ModeloDeMaquinaFiscalAsEnum != value) {
+                if (Model.ModeloDeMaquinaFiscalAsEnum != value) {
                     Model.ModeloDeMaquinaFiscalAsEnum = value;
                     RaisePropertyChanged(ModeloDeMaquinaFiscalPropertyName);
                 }
@@ -287,7 +289,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.SerialDeMaquinaFiscal;
             }
             set {
-                if(Model.SerialDeMaquinaFiscal != value) {
+                if (Model.SerialDeMaquinaFiscal != value) {
                     Model.SerialDeMaquinaFiscal = value;
                     RaisePropertyChanged(SerialDeMaquinaFiscalPropertyName);
                 }
@@ -299,11 +301,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.TipoConexionAsEnum;
             }
             set {
-                if(Model.TipoConexionAsEnum != value) {
+                if (Model.TipoConexionAsEnum != value) {
                     Model.TipoConexionAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoConexionPropertyName);
-                    RaisePropertyChanged(IsEnabledPuertoSerialPropertyName);                    
+                    RaisePropertyChanged(IsEnabledPuertoSerialPropertyName);
                 }
             }
         }
@@ -328,7 +330,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.AbrirGavetaDeDineroAsBool;
             }
             set {
-                if(Model.AbrirGavetaDeDineroAsBool != value) {
+                if (Model.AbrirGavetaDeDineroAsBool != value) {
                     Model.AbrirGavetaDeDineroAsBool = value;
                     RaisePropertyChanged(AbrirGavetaDeDineroPropertyName);
                 }
@@ -340,7 +342,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.UltimoNumeroCompFiscal;
             }
             set {
-                if(Model.UltimoNumeroCompFiscal != value) {
+                if (Model.UltimoNumeroCompFiscal != value) {
                     Model.UltimoNumeroCompFiscal = value;
 
                     RaisePropertyChanged(UltimoNumeroCompFiscalPropertyName);
@@ -353,7 +355,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.UltimoNumeroNCFiscal;
             }
             set {
-                if(Model.UltimoNumeroNCFiscal != value) {
+                if (Model.UltimoNumeroNCFiscal != value) {
                     Model.UltimoNumeroNCFiscal = value;
                     RaisePropertyChanged(UltimoNumeroNCFiscalPropertyName);
                 }
@@ -365,7 +367,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.IpParaConexion;
             }
             set {
-                if(Model.IpParaConexion != value) {
+                if (Model.IpParaConexion != value) {
                     Model.IpParaConexion = value;
 
                     RaisePropertyChanged(IpParaConexionPropertyName);
@@ -378,7 +380,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.MascaraSubred;
             }
             set {
-                if(Model.MascaraSubred != value) {
+                if (Model.MascaraSubred != value) {
                     Model.MascaraSubred = value;
 
                     RaisePropertyChanged(MascaraSubredPropertyName);
@@ -391,7 +393,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.Gateway;
             }
             set {
-                if(Model.Gateway != value) {
+                if (Model.Gateway != value) {
                     Model.Gateway = value;
 
                     RaisePropertyChanged(GatewayPropertyName);
@@ -404,9 +406,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.PermitirDescripcionDelArticuloExtendidaAsBool;
             }
             set {
-                if(Model.PermitirDescripcionDelArticuloExtendidaAsBool != value) {
+                if (Model.PermitirDescripcionDelArticuloExtendidaAsBool != value) {
                     Model.PermitirDescripcionDelArticuloExtendidaAsBool = value;
-                    if(Model.PermitirDescripcionDelArticuloExtendidaAsBool) {
+                    if (Model.PermitirDescripcionDelArticuloExtendidaAsBool) {
                         UsarModoDotNet = false;
                         RaisePropertyChanged(UsarModoDotNetPropertyName);
                     }
@@ -420,9 +422,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.PermitirNombreDelClienteExtendidoAsBool;
             }
             set {
-                if(Model.PermitirNombreDelClienteExtendidoAsBool != value) {
+                if (Model.PermitirNombreDelClienteExtendidoAsBool != value) {
                     Model.PermitirNombreDelClienteExtendidoAsBool = value;
-                    if(Model.PermitirNombreDelClienteExtendidoAsBool) {
+                    if (Model.PermitirNombreDelClienteExtendidoAsBool) {
                         UsarModoDotNet = false;
                         RaisePropertyChanged(UsarModoDotNetPropertyName);
                     }
@@ -443,12 +445,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public bool RegistroDeRetornoEnTxt {
+            get {
+                return Model.RegistroDeRetornoEnTxtAsBool;
+            }
+            set {
+                if (Model.RegistroDeRetornoEnTxtAsBool != value) {
+                    Model.RegistroDeRetornoEnTxtAsBool = value;
+                    RaisePropertyChanged(RegistroDeRetornoEnTxtPropertyName);
+                }
+            }
+        }
+
         public string NombreOperador {
             get {
                 return Model.NombreOperador;
             }
             set {
-                if(Model.NombreOperador != value) {
+                if (Model.NombreOperador != value) {
                     Model.NombreOperador = value;
 
                     RaisePropertyChanged(NombreOperadorPropertyName);
@@ -461,7 +475,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return Model.FechaUltimaModificacion;
             }
             set {
-                if(Model.FechaUltimaModificacion != value) {
+                if (Model.FechaUltimaModificacion != value) {
                     Model.FechaUltimaModificacion = value;
                     RaisePropertyChanged(FechaUltimaModificacionPropertyName);
                 }
@@ -487,7 +501,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return LibEnumHelper<eFamiliaImpresoraFiscal>.GetValuesInArray();
             }
         }
-        
+
 
         public bool IsVisibleParaEpson {
             get {
@@ -505,11 +519,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get {
                 return UsaMaquinaFiscal;
             }
-        }        
+        }
+
+        public bool IsVisibleRegistroDeRetornoEnTxt {
+            get {
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado") && FamiliaImpresoraFiscal == eFamiliaImpresoraFiscal.BEMATECH;
+            }
+        }
 
         private bool FamiliaValidaParaModoMejorado(eFamiliaImpresoraFiscal valFamilia) {
             return (valFamilia == eFamiliaImpresoraFiscal.EPSONPNP
-                    || valFamilia == eFamiliaImpresoraFiscal.THEFACTORY                    
+                    || valFamilia == eFamiliaImpresoraFiscal.THEFACTORY
                     || valFamilia == eFamiliaImpresoraFiscal.BEMATECH);
 
         }
@@ -530,17 +550,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get {
                 return IsEnabled || LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Cancelar Documento");
             }
-        }        
+        }
 
         public bool IsEnabledForCajaGenerica {
             get {
                 return IsEnabled && Model.NombreCaja != "CAJA GENÉRICA";
             }
         }
-		
-		public bool IsEnabledPuertoSerial {
+
+        public bool IsEnabledPuertoSerial {
             get { return IsEnabled && TipoConexion == eTipoConexion.PuertoSerial; }
-        }  
+        }
 
         #endregion //Propiedades
 
@@ -558,7 +578,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ListarPuertosImpFiscal = new ObservableCollection<ePuerto>();
             ListarMaquinaFiscal = new ObservableCollection<eImpresoraFiscal>();
             ListarTipoConexion = new ObservableCollection<eTipoConexion>();
-            if(initAction == eAccionSR.Insertar) {
+            if (initAction == eAccionSR.Insertar) {
                 FamiliaImpresoraFiscal = eFamiliaImpresoraFiscal.THEFACTORY;
                 TipoConexion = eTipoConexion.PuertoSerial;
             }
@@ -579,7 +599,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
-            if(RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].AddTabGroupData(new LibRibbonGroupData("Gaveta"));
                 RibbonData.TabDataCollection[0].GroupDataCollection[1].AddRibbonControlData(CreateAbrirGavetaRibbonButtonData());
                 RibbonData.TabDataCollection[0].AddTabGroupData(new LibRibbonGroupData("Maquina Fiscal"));
@@ -602,7 +622,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             base.InitializeViewModel(valAction);
             InitializeRibbon();
         }
-
         #endregion //Constructores e Inicializadores
 
         #region Comandos
@@ -650,18 +669,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void ExecuteProcessBeforeAction() {
             base.ExecuteProcessBeforeAction();
-            ActualizarRegistroDeMaquinaFiscal();
             MoveFocusIfNecessary();
         }
 
         private void ExecuteAbrirGaveta() {
             bool vReturn = false;
             try {
-                if(UsaGaveta) {
+                if (UsaGaveta) {
                     IGavetaPdn vGaveta = new Brl.DispositivosExternos.CajaGaveta.clsGavetaNav();
                     vReturn = vGaveta.AbrirGaveta(Puerto, Comando);
                 }
-            } catch(GalacException vEx) {
+            } catch (GalacException vEx) {
                 LibExceptionDisplay.Show(vEx);
             }
         }
@@ -672,7 +690,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 IImpresoraFiscalPdn insIMaquinaFiscal = new clsImpresoraFiscalCreator().Crear(ImpresoraXmlFiscalData);
                 CajaDiagnosticoViewModel vViewModel = new CajaDiagnosticoViewModel(insIMaquinaFiscal, FamiliaImpresoraFiscal);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-            } catch(GalacException vEx) {
+            } catch (GalacException vEx) {
                 LibExceptionDisplay.Show(vEx);
             }
         }
@@ -687,7 +705,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 SerialDeMaquinaFiscal = insMaquinaFiscal.ObtenerSerial(true);
                 UltimoNumeroCompFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroFactura(true), "0", 8);
                 UltimoNumeroNCFiscal = LibText.FillWithCharToLeft(insMaquinaFiscal.ObtenerUltimoNumeroNotaDeCredito(true), "0", 8);
-            } catch(GalacException vEx) {
+            } catch (GalacException vEx) {
                 LibExceptionDisplay.Show(vEx);
             }
         }
@@ -702,20 +720,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteChooseNombreDelOperadorCommand(string valUserName) {
             try {
-                if(valUserName == null) {
+                if (valUserName == null) {
                     valUserName = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("UserName", valUserName);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Status", eStatusUsuario.Activo);
                 ConexionNombreDelOperador = ChooseRecord<FkGUserViewModel>("Usuario", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(ConexionNombreDelOperador != null) {
+                if (ConexionNombreDelOperador != null) {
                     NombreOperador = ConexionNombreDelOperador.UserName;
                 } else {
                     NombreOperador = string.Empty;
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -743,7 +761,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         ValidationResult SerialDeMaquinaFiscalValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if(UsaMaquinaFiscal && LibString.IsNullOrEmpty(SerialDeMaquinaFiscal)) {
+            if (UsaMaquinaFiscal && LibString.IsNullOrEmpty(SerialDeMaquinaFiscal)) {
                 return new ValidationResult("El seríal de la maquína Fiscal es requerido");
             } else {
                 return ValidationResult.Success;
@@ -752,7 +770,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         ValidationResult ModeloDeMaquinaFiscalValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if(UsaMaquinaFiscal && LibString.Len(ModeloDeMaquinaFiscalStr) <= 1) {
+            if (UsaMaquinaFiscal && LibString.Len(ModeloDeMaquinaFiscalStr) <= 1) {
                 return new ValidationResult("El Modelo de maquína Fiscal es requerido");
             } else {
                 return ValidationResult.Success;
@@ -762,7 +780,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         ValidationResult PuertoDeMaquinaFiscalValidating() {
             ValidationResult vResult = ValidationResult.Success;
             bool UseSamePorts = (Puerto == PuertoMaquinaFiscal);
-            if(UsaMaquinaFiscal && UsaGaveta && UseSamePorts) {
+            if (UsaMaquinaFiscal && UsaGaveta && UseSamePorts) {
                 return new ValidationResult("El puerto de la gaveta y el de la Máquina Fiscal no pueden ser el mismo");
             } else {
                 return ValidationResult.Success;
@@ -771,7 +789,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         ValidationResult ComandoGavetaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if(UsaGaveta && (Comando == string.Empty)) {
+            if (UsaGaveta && (Comando == string.Empty)) {
                 return new ValidationResult("El comando no puede estar en blanco si se usa la gavata");
             } else {
                 return ValidationResult.Success;
@@ -812,13 +830,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             FamiliaImpresoraFiscalSeleccionada = Model.FamiliaImpresoraFiscalAsEnum;
             var enumImpreFiscal = (IEnumerable<eImpresoraFiscal>)LibEnumHelper.GetValuesInEnumeration(typeof(eImpresoraFiscal));
             foreach (var enumerativoImpFiscal in enumImpreFiscal) {
-                if (FamiliaImpresoraFiscalSeleccionada.GetDescription() == (enumerativoImpFiscal).GetDescription(1)) {                    
+                if (FamiliaImpresoraFiscalSeleccionada.GetDescription() == (enumerativoImpFiscal).GetDescription(1)) {
                     ListarMaquinaFiscal.Add(enumerativoImpFiscal);
                 }
             }
-        }        
-		
-		 public void LlenarEnumerativosTipoDeConexion() {
+        }
+
+        public void LlenarEnumerativosTipoDeConexion() {
             ListarTipoConexion.Clear();
             switch (FamiliaImpresoraFiscal) {
                 case eFamiliaImpresoraFiscal.THEFACTORY:
@@ -827,21 +845,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 case eFamiliaImpresoraFiscal.QPRINT:
                 case eFamiliaImpresoraFiscal.BMC:
                     ListarTipoConexion.Add(eTipoConexion.PuertoSerial);
-                    break;                
+                    break;
                 case eFamiliaImpresoraFiscal.BEMATECH:
                     ListarTipoConexion.Add(eTipoConexion.PuertoSerial);
                     ListarTipoConexion.Add(eTipoConexion.USB);
                     break;
                 default:
-					ListarTipoConexion.Add(eTipoConexion.PuertoSerial);
+                    ListarTipoConexion.Add(eTipoConexion.PuertoSerial);
                     break;
             }
             RaisePropertyChanged(TipoConexionPropertyName);
         }
-		
+
 
         protected override Caja FindCurrentRecord(Caja valModel) {
-            if(valModel == null) {
+            if (valModel == null) {
                 return null;
             }
             LibGpParams vParams = new LibGpParams();
@@ -866,9 +884,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vResult = new XElement("GpData", new XElement("GpResult",
             new XElement("ModeloDeMaquinaFiscal", LibConvert.EnumToDbValue((int)ModeloDeMaquinaFiscal)),
             new XElement("PuertoMaquinaFiscal", LibConvert.EnumToDbValue((int)PuertoMaquinaFiscal)),
-            new XElement("TipoConexion", LibConvert.EnumToDbValue((int)TipoConexion))));
+            new XElement("TipoConexion", LibConvert.EnumToDbValue((int)TipoConexion)),
+            new XElement("RegistroDeRetornoEnTxt", LibConvert.BoolToSN(RegistroDeRetornoEnTxt))));
             return vResult;
-        }       
+        }
 
         string SerialPortFormat(ePuerto ePuerto) {
             return LibConvert.EnumToDbValue((int)ePuerto);
@@ -876,38 +895,28 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteChooseNombreCajaCommand(string valNombreCaja) {
             try {
-                if(valNombreCaja == null) {
+                if (valNombreCaja == null) {
                     valNombreCaja = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("NombreCaja", valNombreCaja);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 ConexionNombreCaja = ChooseRecord<FkCajaViewModel>("Caja Registradora", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if(ConexionNombreCaja != null) {
+                if (ConexionNombreCaja != null) {
                     NombreCaja = ConexionNombreCaja.NombreCaja;
                 } else {
                     NombreCaja = string.Empty;
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-
-        private void ActualizarRegistroDeMaquinaFiscal() {
-            ICajaPdn insCaja = new Brl.Venta.clsCajaNav();
-            if(UsaMaquinaFiscal && (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar)) {
-                insCaja.ActualizarRegistroDeMaquinaFiscal(Action, ConsecutivoCompania, ModeloDeMaquinaFiscal, SerialDeMaquinaFiscal, UltimoNumeroCompFiscal, NombreOperador);
             }
         }
 
         public void MoverFocoSiCambiaTab() {
             MoveFocusIfNecessary();
         }
-
         #endregion
-
     } //End of class CajaViewModel
-
 } //End of namespace Galac.Adm.Uil.Venta
 
