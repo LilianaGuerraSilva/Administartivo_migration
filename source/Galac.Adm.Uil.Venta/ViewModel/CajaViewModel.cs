@@ -22,7 +22,7 @@ using Galac.Saw.Lib;
 using LibGalac.Aos.Ccl.Usal;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CajaViewModel : LibInputViewModel<Caja> {
+    public class CajaViewModel: LibInputViewModel<Caja> {
 
         #region Constantes y Variables
 

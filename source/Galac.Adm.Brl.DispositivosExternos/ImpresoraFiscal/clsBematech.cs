@@ -13,7 +13,7 @@ using Galac.Saw.Ccl.Inventario;
 using LibGalac.Aos.Brl;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
-    public class clsBematech : IImpresoraFiscalPdn {
+    public class clsBematech: IImpresoraFiscalPdn {
         #region comandos Bema
         #region Funciones de Inicialización
         [DllImport("BemaFi32.dll")]
@@ -253,8 +253,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         private void ConfigurarArchivosDeRetornoBemaFi32() {
-            string vBemaFi32Path = PathFile(true);
-            vBemaFi32Path = PathFile();
+            string vBemaFi32Path = PathFile();
             string vText = LibFile.ReadFile(vBemaFi32Path);
             string[] vContenidoFile = LibText.Split(vText, "\r\n", true);
             int vContarLineas = 0;
@@ -316,7 +315,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vHora = LibString.SubString(vResult, vPosition + 1);
                 }
             }
-            if (!(LibString.IsNullOrEmpty(vFecha) && LibString.IsNullOrEmpty(vHora))) {
+            if (!LibString.IsNullOrEmpty(vFecha) && !LibString.IsNullOrEmpty(vHora)) {
                 vFecha = LibText.SubString(vFecha, 0, 2) + "/" + LibText.SubString(vFecha, 2, 2) + "/" + LibText.SubString(vFecha, 4, 2);
                 vHora = LibText.SubString(vHora, 0, 2) + ":" + LibText.SubString(vHora, 2, 2);
                 vResult = vFecha + LibText.Space(1) + vHora;
@@ -328,12 +327,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             try {
                 string vresult = "";
                 if (valEsREtorno) {
-                    if (LibFile.DirExists(@"C:\Bema")) {
-                        vresult = @"C:\Bema\Retorno.txt";
-                    } else {
+                    if (!LibFile.DirExists(@"C:\Bema")) {
                         LibFile.CreateDir(@"C:\Bema");
-                        vresult = @"C:\Bema\Retorno.txt";
                     }
+                    vresult = @"C:\Bema\Retorno.txt";
                 } else {
                     if (Environment.Is64BitOperatingSystem) {
                         vresult = Environment.GetFolderPath(Environment.SpecialFolder.SystemX86) + @"\BemaFi32.ini";
@@ -629,7 +626,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vPosicionLinea += 1;
                 }
                 if ((vPosicionLinea) >= vArrayTextoRetorno.Length) {
-                    throw new GalacAlertException($"El Ítem {valTextoBusqueda} no fue encontrado en la colección. Verifique la configuración regional o los permisos de la aplicación.");
+                    throw new GalacAlertException($"El ítem {valTextoBusqueda} no fue encontrado en la colección. Verifique la configuración regional o los permisos de la aplicación.");
                 }
                 vPosicionLinea = (valTipoLectura == eTipoDeLectura.UltimoReporteZ) ? vPosicionLinea + 1 : vPosicionLinea; //Para posicionarme en la linea del Último Numero Z                                
                 vCantidadCaracteres = 7;
@@ -929,7 +926,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vResultado = Bematech_FI_VendeArticulo(vCodigo, vDescripcionResumida, vPorcentajeAlicuota, vFormatoCantidad, vCantidad, vCantidaDecimales, vMonto, vFormatoDescuento, vPrcDescuento);
                     vEstatus &= RetornoStatus(vResultado, out vMensaje);
                     if (vResultado != 1) {
-                        throw new GalacException("Error al Imprimir Artículo " + vMensaje, eExceptionManagementType.Controlled);
+                        throw new GalacException("Error al imprimir artículo " + vMensaje, eExceptionManagementType.Controlled);
                     }
                 }
                 return vEstatus;

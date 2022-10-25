@@ -8,7 +8,7 @@ using Galac.Adm.Ccl.DispositivosExternos;
 
 namespace Galac.Adm.Dal.Venta {
     [LibMefDalComponentMetadata(typeof(clsCajaED))]
-    public class clsCajaED : LibED, ILibMefDalComponent {
+    public class clsCajaED: LibED, ILibMefDalComponent {
         #region Variables
         #endregion //Variables
         #region Propiedades
