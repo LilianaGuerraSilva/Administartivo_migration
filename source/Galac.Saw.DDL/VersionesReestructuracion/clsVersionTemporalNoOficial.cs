@@ -77,13 +77,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 		private void CrearCampoExcluirDelInformeDeDeclaracionIGTF() {
 			QAdvSql InsSql = new QAdvSql("");
-			AddColumnBoolean("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", "", false);
-			AddNotNullConstraint("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", InsSql.CharTypeForDb(1));
+			if (AddColumnBoolean("Saw.CuentaBancaria", "ExcluirDelInformeDeDeclaracionIGTF", "", false)) {				
+				AddDefaultConstraint("Saw.CuentaBancaria", "d_CueBanExcluirDel", InsSql.ToSqlValue(false), "ExcluirDelInformeDeDeclaracionIGTF");
+			}
 		}
 
 		private void CrearCampoRegistroTXTEnCajaRegistradora() {
-			AddColumnBoolean("Adm.Caja", "RegistroDeRetornoEnTxt", "", false);
-			AddNotNullConstraint("Adm.Caja", "RegistroDeRetornoEnTxt", InsSql.CharTypeForDb(1));
-		}
+			if (AddColumnBoolean("Adm.Caja", "RegistroDeRetornoEnTxt", "", false)) {
+				AddDefaultConstraint("Adm.Caja", "d_RegRetEnTxt", InsSql.ToSqlValue(false), "RegistroDeRetornoEnTxt");
+			}
+        }
 	}
 }
