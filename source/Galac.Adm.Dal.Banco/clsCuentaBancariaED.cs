@@ -60,7 +60,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("CuentaContable" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_CueBanCuCo DEFAULT (''), ");
 			SQL.AppendLine("CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_CueBanCoMo DEFAULT (''), ");
 			SQL.AppendLine("TipoDeAlicuotaPorContribuyente" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_CueBanTiDeAlPoCo DEFAULT ('0'), ");
-            SQL.AppendLine("ExcluirDelInformeDeDeclaracionIGTF" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCueBanExcluirDel NOT NULL, ");
+            SQL.AppendLine("ExcluirDelInformeDeDeclaracionIGTF" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_CueBanExcluirDel DEFAULT ('N'), ");
 			SQL.AppendLine("GeneraMovBancarioPorIGTF" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCueBanGeneraMovB NOT NULL, ");
 			SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
 			SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
