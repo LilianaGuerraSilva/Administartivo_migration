@@ -586,7 +586,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vResultFile = "";
             string vTextoBusqueda = "";
             string vPathFileRetorno = PathFile(true);
-            if (LibFile.FileExists(vPathFileRetorno)) {               
+            if (LibFile.FileExists(vPathFileRetorno)) {
                 vResultFile = LibString.Trim(LibFile.ReadFile(vPathFileRetorno));
                 if (LibString.IsNullOrEmpty(vResultFile)) {
                     throw new GalacAlertException($"No hay acceso al archivo de retorno \"{vPathFileRetorno}\" o no fue encontrado. Verifique los permisos de la aplicación.");
