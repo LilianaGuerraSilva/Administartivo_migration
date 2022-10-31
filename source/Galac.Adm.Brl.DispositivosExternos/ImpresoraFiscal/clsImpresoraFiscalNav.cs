@@ -53,7 +53,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         #region Metodos Generados       
 
         public void LeerDatosDeImpresoraFiscal(eTipoDocumentoFiscal valTipoOperacion) {
-            switch(valTipoOperacion) {
+            SerialImpresoraFiscal = _ImpresoraFiscal.ObtenerSerial(false);
+            switch (valTipoOperacion) {
                 case eTipoDocumentoFiscal.FacturaFiscal:
                 NumeroComprobanteFiscal = _ImpresoraFiscal.ObtenerUltimoNumeroFactura(false);
                 break;
@@ -63,8 +64,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 case eTipoDocumentoFiscal.ReporteZ:
                 NumeroComprobanteFiscal = _ImpresoraFiscal.ObtenerUltimoNumeroReporteZ(false);
                 break;
-            }
-            SerialImpresoraFiscal = _ImpresoraFiscal.ObtenerSerial(false);
+            }            
             NumeroComprobanteFiscal = LibConvert.ToStr(LibConvert.ToInt(NumeroComprobanteFiscal) + 1);
             NumeroComprobanteFiscal = LibText.FillWithCharToLeft(NumeroComprobanteFiscal,"0",8);
         }

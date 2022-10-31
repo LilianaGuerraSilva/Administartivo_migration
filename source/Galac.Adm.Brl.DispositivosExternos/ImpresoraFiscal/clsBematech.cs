@@ -404,13 +404,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 vSerial = LibText.Space(20);
                 vResult = Bematech_FI_NumeroSerieMFD(ref vSerial) == 1;
-                if (_RegistroDeRetornoEnTxt) {
-                    vSerial = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
-                    vSerial = LibText.Trim(vSerial);
-                    vResult = !LibString.IsNullOrEmpty(vSerial);
-                } else {
-                    vSerial = LibText.Trim(vSerial);
-                    vResult &= !LibString.IsNullOrEmpty(vSerial);
+                vResult &= RevisarEstadoImpresora(ref vMensajeStatus);
+                if (vResult) {
+                    if (_RegistroDeRetornoEnTxt) {
+                        vSerial = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
+                        vSerial = LibText.Trim(vSerial);
+                        vResult = !LibString.IsNullOrEmpty(vSerial);
+                    } else {
+                        vSerial = LibText.Trim(vSerial);
+                        vResult = !LibString.IsNullOrEmpty(vSerial);
+                    }
                 }
                 if (!vResult) {
                     vMensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
