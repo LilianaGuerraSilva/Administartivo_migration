@@ -16,6 +16,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public clsVersion6_61(string valCurrentDataBaseName) : base(valCurrentDataBaseName) {
             _VersionDataBase = "6.61";
         }
+		
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             InsertarSiNoExisteLineaDeProducto();

@@ -60,6 +60,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool _PuedeAbrirGaveta = false;
         FkCajaViewModel _ConexionNombreCaja;
         FkGUserViewModel _ConexionNombreDelOperador;
+        bool _RegistroDeRetornoEnTxtOld;
 
         #endregion //Constantes y Variables
 
@@ -464,7 +465,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             set {
                 if (Model.NombreOperador != value) {
                     Model.NombreOperador = value;
-
                     RaisePropertyChanged(NombreOperadorPropertyName);
                 }
             }
@@ -583,6 +583,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 TipoConexion = eTipoConexion.PuertoSerial;
             }
             PuertoSerial = new Brl.DispositivosExternos.clsConexionPuertoSerial();
+            _RegistroDeRetornoEnTxtOld = RegistroDeRetornoEnTxt;
         }
 
         protected override void InitializeLookAndFeel(Caja valModel) {
@@ -666,6 +667,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             };
         }
 
+        protected override void ExecuteAction() {
+            base.ExecuteAction();
+            if (Model.ModeloDeMaquinaFiscalAsEnum == eImpresoraFiscal.BEMATECH_MP_4000_FI && _RegistroDeRetornoEnTxtOld != RegistroDeRetornoEnTxt) {
+                LibMessages.MessageBox.Information(this, "Los cambios surtirán efecto la próxima vez que Inicie Sesión en el Sistema.", ModuleName);
+            }
+        }
 
         protected override void ExecuteProcessBeforeAction() {
             base.ExecuteProcessBeforeAction();
