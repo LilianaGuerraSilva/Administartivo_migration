@@ -608,7 +608,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                     vResultFile = BuscarValorEnTexto(vResultFile, vTextoBusqueda, valTipoLectura);
                 }
-                LibFile.DeleteFile(vPathFileRetorno);
+                if (_RegistroDeRetornoEnTxt) {
+                    LibFile.DeleteFile(vPathFileRetorno);
+                }
             } else {
                 string vBemaFi32Path = PathFile();
                 throw new GalacAlertException($"No fue encontrado o no hay acceso al archivo de retorno \"{vPathFileRetorno}\". Verifique el archivo de configuración \"{vBemaFi32Path}\" o los permisos de la aplicación.");
