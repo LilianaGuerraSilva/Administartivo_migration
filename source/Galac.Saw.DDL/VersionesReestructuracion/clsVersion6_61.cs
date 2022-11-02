@@ -20,6 +20,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             InsertarSiNoExisteLineaDeProducto();
+            InsertarSiNoExisteCategoria();
+            InsertarSiNoExisteUnidadDeVenta();
             CrearArticulosEspecialesIGTF_ML();
             CrearArticulosEspecialesIGTF_ME();
             AgregarParametroAsociarCentroDeCostos();
@@ -36,6 +38,26 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             vSql.AppendLine("INSERT INTO Adm.LineaDeProducto (ConsecutivoCompania, Consecutivo, Nombre, PorcentajeComision, CentroDeCosto, NombreOperador, FechaUltimaModificacion)");
             vSql.AppendLine(" SELECT COMPANIA.ConsecutivoCompania, ISNULL((SELECT MAX(LineaDeProducto.Consecutivo) From Adm.LineaDeProducto), 0) + 1, 'LINEA DE PRODUCTO', 0, '', 'JEFE', " + vFechaUltimaModificacion + " FROM COMPANIA");
             vSql.AppendLine(" WHERE NOT EXISTS(SELECT LineaDeProducto.Nombre FROM Adm.LineaDeProducto WHERE LineaDeProducto.ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND LineaDeProducto.Nombre = 'LINEA DE PRODUCTO')");
+            Execute(vSql.ToString(), 0);
+        }
+
+        private void InsertarSiNoExisteCategoria() {
+            QAdvSql InsSql = new QAdvSql("");
+            string vFechaUltimaModificacion = InsSql.ToSqlValue(LibDate.Today());
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("INSERT INTO Saw.Categoria (ConsecutivoCompania, Consecutivo, Descripcion, NombreOperador, FechaUltimaModificacion)");
+            vSql.AppendLine(" SELECT COMPANIA.ConsecutivoCompania, ISNULL((SELECT MAX(Categoria.Consecutivo) From Saw.Categoria), 0) + 1, 'CATEGORIA', 'JEFE', " + vFechaUltimaModificacion + " FROM COMPANIA");
+            vSql.AppendLine(" WHERE NOT EXISTS(SELECT Categoria.ConsecutivoCompania, Categoria.Descripcion FROM Saw.Categoria WHERE Categoria.ConsecutivoCompania = COMPANIA.ConsecutivoCompania AND Categoria.Descripcion = 'CATEGORIA')");
+            Execute(vSql.ToString(), 0);
+        }
+
+        private void InsertarSiNoExisteUnidadDeVenta() {
+            QAdvSql InsSql = new QAdvSql("");
+            string vFechaUltimaModificacion = InsSql.ToSqlValue(LibDate.Today());
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("INSERT INTO Saw.UnidadDeVenta (Nombre, Codigo, NombreOperador, FechaUltimaModificacion)");
+            vSql.AppendLine(" SELECT 'UNIDADES','','JEFE', " + vFechaUltimaModificacion );
+            vSql.AppendLine(" WHERE NOT EXISTS (SELECT Nombre FROM Saw.UnidadDeVenta WHERE Nombre = 'UNIDADES')");
             Execute(vSql.ToString(), 0);
         }
 
