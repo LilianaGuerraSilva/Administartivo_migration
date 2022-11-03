@@ -496,4 +496,12 @@ namespace Galac.Saw.Ccl.SttDef {
         [LibEnumDescription("A Partir del Precio Con IVA")]
         APartirDelPrecioConIVA
     }
+
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eCostoTerminadoCalculadoAPartirDe {
+        [LibEnumDescription("Costo de los materiales en Moneda Local")]
+        MonedaLocal = 0,
+        [LibEnumDescription("Costo de los materiales en Moneda Extranjera")]
+        MonedaExtranjera
+    }
 } //End of namespace namespace Galac.Saw.Ccl.SttDef
