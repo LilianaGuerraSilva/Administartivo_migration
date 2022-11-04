@@ -12,18 +12,20 @@ using LibGalac.Aos.UI.Mvvm.Helpers;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
-using Galac.Comun.Brl.SttDef;
+using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Uil.SttDef.ViewModel;
+using LibGalac.Aos.Uil;
 
-namespace Galac.Comun.Uil.SttDef.ViewModel {
-    public class InventarioProduccionViewModel : LibInputViewModelMfc<InventarioProduccion> {
+namespace Galac.Saw.Uil.SttDef.ViewModel {
+    public class InventarioProduccionViewModel : LibInputViewModelMfc<InventarioProduccionStt> {
         #region Constantes
         public const string CalcularCostoDelArticuloTerminadoAPartirDePropertyName = "CalcularCostoDelArticuloTerminadoAPartirDe";
         #endregion
         #region Propiedades
 
         public override string ModuleName {
-            get { return "5.5.- ProducciÃ³n"; }
+            get { return "5.5.- Producción"; }
         }
 
         public int  ConsecutivoCompania {
@@ -58,30 +60,31 @@ namespace Galac.Comun.Uil.SttDef.ViewModel {
         #endregion //Propiedades
         #region Constructores
         public InventarioProduccionViewModel()
-            : this(new InventarioProduccion(), eAccionSR.Insertar) {
+            : this(new InventarioProduccionStt(), eAccionSR.Insertar) {
         }
-        public InventarioProduccionViewModel(InventarioProduccion initModel, eAccionSR initAction)
+        public InventarioProduccionViewModel(InventarioProduccionStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CalcularCostoDelArticuloTerminadoAPartirDePropertyName;
         }
         #endregion //Constructores
         #region Metodos Generados
 
-        protected override void InitializeLookAndFeel(InventarioProduccion valModel) {
+        protected override void InitializeLookAndFeel(InventarioProduccionStt valModel) {
             base.InitializeLookAndFeel(valModel);
         }
 
-        protected override InventarioProduccion FindCurrentRecord(InventarioProduccion valModel) {
+        protected override InventarioProduccionStt FindCurrentRecord(InventarioProduccionStt valModel) {
             if (valModel == null) {
                 return null;
             }
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valModel.ConsecutivoCompania);
-            return BusinessComponent.GetData(eProcessMessageType.SpName, "InventarioProduccionGET", vParams.Get()).FirstOrDefault();
+            //LibGpParams vParams = new LibGpParams();
+            //vParams.AddInInteger("ConsecutivoCompania", valModel.ConsecutivoCompania);
+            //return BusinessComponent.GetData(eProcessMessageType.SpName, "InventarioProduccionGET", vParams.Get()).FirstOrDefault();
+            return valModel;
         }
 
-        protected override ILibBusinessComponentWithSearch<IList<InventarioProduccion>, IList<InventarioProduccion>> GetBusinessComponent() {
-            return new clsInventarioProduccionNav();
+        protected override ILibBusinessComponentWithSearch<IList<InventarioProduccionStt>, IList<InventarioProduccionStt>> GetBusinessComponent() {
+            return null;
         }
         #endregion //Metodos Generados
 

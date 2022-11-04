@@ -8,17 +8,27 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using Galac.Saw.Ccl.SttDef;
 
-namespace Galac.Comun.Ccl.SttDef {
+namespace Galac.Saw.Ccl.SttDef {
     [Serializable]
-    public class InventarioProduccion {
+    public class InventarioProduccionStt : ISettDefinition {
         #region Variables
+        private string _GroupName;
+        private string _Module;
         private int _ConsecutivoCompania;
         private eCostoTerminadoCalculadoAPartirDe _CalcularCostoDelArticuloTerminadoAPartirDe;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
+        public string GroupName {
+            get { return _GroupName; }
+            set { _GroupName = value; }
+        }
 
+        public string Module {
+            get { return _Module; }
+            set { _Module = value; }
+        }
         public int ConsecutivoCompania {
             get { return _ConsecutivoCompania; }
             set { _ConsecutivoCompania = value; }
@@ -53,7 +63,7 @@ namespace Galac.Comun.Ccl.SttDef {
         #endregion //Propiedades
         #region Constructores
 
-        public InventarioProduccion() {
+        public InventarioProduccionStt() {
             Clear();
         }
         #endregion //Constructores
@@ -65,12 +75,12 @@ namespace Galac.Comun.Ccl.SttDef {
 
         public void Clear() {
             ConsecutivoCompania = 0;
-            CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.MonedaLocal;
+            CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal;
             fldTimeStamp = 0;
         }
 
-        public InventarioProduccion Clone() {
-            InventarioProduccion vResult = new InventarioProduccion();
+        public InventarioProduccionStt Clone() {
+            InventarioProduccionStt vResult = new InventarioProduccionStt();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = _CalcularCostoDelArticuloTerminadoAPartirDe;
             vResult.fldTimeStamp = _fldTimeStamp;

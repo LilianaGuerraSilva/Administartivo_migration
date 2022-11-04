@@ -21,6 +21,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			AgregarParametroAsociarCentroDeCostos();
 			CrearCampoExcluirDelInformeDeDeclaracionIGTF();
 			CrearCampoRegistroTXTEnCajaRegistradora();
+			CrearParametroCalcularCostoDelArticuloTerminadoAPartirDe();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -87,5 +88,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				AddDefaultConstraint("Adm.Caja", "d_RegRetEnTxt", InsSql.ToSqlValue(false), "RegistroDeRetornoEnTxt");
 			}
         }
+
+		private void CrearParametroCalcularCostoDelArticuloTerminadoAPartirDe() {
+			AgregarNuevoParametro("CalcularCostoDelArticuloTerminadoAPartirDe", "Inventario", 5, "5.5.- Producción", 5, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
+		}
 	}
 }
