@@ -450,7 +450,6 @@ namespace Galac.Saw.Ccl.SttDef {
         Solo_Base_Imponible_Alicuota_General
     }
 
-
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeBusquedaArticulo {
         [LibEnumDescription("Código")]

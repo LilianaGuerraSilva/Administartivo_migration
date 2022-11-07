@@ -1,20 +1,13 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Xml;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
-using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.Ccl.SttDef {
     [Serializable]
-    public class InventarioProduccionStt : ISettDefinition {
+    public class ProduccionStt : ISettDefinition {
         #region Variables
         private string _GroupName;
         private string _Module;
-        private int _ConsecutivoCompania;
         private eCostoTerminadoCalculadoAPartirDe _CalcularCostoDelArticuloTerminadoAPartirDe;
         private long _fldTimeStamp;
         XmlDocument _datos;
@@ -28,10 +21,6 @@ namespace Galac.Saw.Ccl.SttDef {
         public string Module {
             get { return _Module; }
             set { _Module = value; }
-        }
-        public int ConsecutivoCompania {
-            get { return _ConsecutivoCompania; }
-            set { _ConsecutivoCompania = value; }
         }
 
         public eCostoTerminadoCalculadoAPartirDe CalcularCostoDelArticuloTerminadoAPartirDeAsEnum {
@@ -63,7 +52,7 @@ namespace Galac.Saw.Ccl.SttDef {
         #endregion //Propiedades
         #region Constructores
 
-        public InventarioProduccionStt() {
+        public ProduccionStt() {
             Clear();
         }
         #endregion //Constructores
@@ -74,27 +63,21 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public void Clear() {
-            ConsecutivoCompania = 0;
             CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal;
             fldTimeStamp = 0;
         }
 
-        public InventarioProduccionStt Clone() {
-            InventarioProduccionStt vResult = new InventarioProduccionStt();
-            vResult.ConsecutivoCompania = _ConsecutivoCompania;
+        public ProduccionStt Clone() {
+            ProduccionStt vResult = new ProduccionStt();
             vResult.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = _CalcularCostoDelArticuloTerminadoAPartirDe;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
 
         public override string ToString() {
-           return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
-               "\nCalcular el costo del artículo terminado a partir de = " + _CalcularCostoDelArticuloTerminadoAPartirDe.ToString();
+           return "\nCalcular el costo del artículo terminado a partir de = " + _CalcularCostoDelArticuloTerminadoAPartirDe.ToString();
         }
         #endregion //Metodos Generados
 
-
-    } //End of class InventarioProduccion
-
+    } //End of class Produccion
 } //End of namespace Galac.Comun.Ccl.SttDef
-

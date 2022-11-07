@@ -11,9 +11,6 @@ namespace Galac.Saw.Ccl.SttDef {
     [Serializable]
     public class SettValueByCompany {
     
-        
-
-      
         #region Variables
         private int _ConsecutivoCompania;
         private string _NameSettDefinition;
@@ -110,7 +107,6 @@ namespace Galac.Saw.Ccl.SttDef {
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
         #endregion //Metodos Generados
-
 
     } //End of class SettValueByCompany
 

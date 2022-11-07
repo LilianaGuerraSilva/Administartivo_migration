@@ -1666,24 +1666,24 @@ namespace Galac.Saw.Brl.SttDef {
         }
         #endregion //  VerificadorDePreciosStt
 
-        #region InventarioProduccionStt
-        private InventarioProduccionStt InventarioProduccionSttPorDefecto(int valConsecutivoCompania) {
-            InventarioProduccionStt insEntidad = new InventarioProduccionStt();
+        #region ProduccionStt
+        private ProduccionStt ProduccionSttPorDefecto(int valConsecutivoCompania) {
+            ProduccionStt insEntidad = new ProduccionStt();
             insEntidad.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal;
             return insEntidad;
         }
 
-        private void LlenaListado(InventarioProduccionStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
-            valBusinessObject.Add(ConvierteValor(valRecord.CalcularCostoDelArticuloTerminadoAPartirDeAsDB, "CalcularCostoDelArticuloTerminadoAPartirDe", valConsecutivoCompania));
+        private void LlenaListado(ProduccionStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
+            valBusinessObject.Add(ConvierteValor(valRecord.CalcularCostoDelArticuloTerminadoAPartirDeAsDB, "CostoTerminadoCalculadoAPartirDe", valConsecutivoCompania));
         }
-        InventarioProduccionStt GetInventarioProduccionStt(List<SettValueByCompany> valListGetSettValueByCompany) {
-            InventarioProduccionStt vResult = new InventarioProduccionStt();
-            vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "CalcularCostoDelArticuloTerminadoAPartirDe");
-            vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "CalcularCostoDelArticuloTerminadoAPartirDe");
-            vResult.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = (eCostoTerminadoCalculadoAPartirDe)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "CalcularCostoDelArticuloTerminadoAPartirDe"));
+        ProduccionStt GetProduccionStt(List<SettValueByCompany> valListGetSettValueByCompany) {
+            ProduccionStt vResult = new ProduccionStt();
+            vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "CostoTerminadoCalculadoAPartirDe");
+            vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "CostoTerminadoCalculadoAPartirDe");
+            vResult.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = (eCostoTerminadoCalculadoAPartirDe)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "CostoTerminadoCalculadoAPartirDe"));
             return vResult;
         }
-        #endregion // InventarioProduccionStt
+        #endregion // ProduccionStt
 
         public SettValueByCompany ConvierteValor(string Value, string valNameSettDefinition, int valConsecutivoCompania) {
             SettValueByCompany vResult = new SettValueByCompany();
@@ -1726,7 +1726,7 @@ namespace Galac.Saw.Brl.SttDef {
             LlenaListado(NotaEntregaSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
             LlenaListado(VerificadorDePreciosSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
             LlenaListado(ImagenesComprobantesRetencionSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(InventarioProduccionSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
+            LlenaListado(ProduccionSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
             return vResul;
         }
 
@@ -1772,7 +1772,7 @@ namespace Galac.Saw.Brl.SttDef {
             insParametros.ParametrosVendedorStt = GetVendedorStt(vListGetSettValueByCompany);
             insParametros.ParametrosVerificadorDePreciosStt = GetVerificadorDePreciosStt(vListGetSettValueByCompany);
             insParametros.ParametrosImagenesComprobantesRetencionStt = GetImagenesComprobantesRetencionStt(vListGetSettValueByCompany);
-            insParametros.ParametrosInventarioProduccionStt = GetInventarioProduccionStt(vListGetSettValueByCompany);
+            insParametros.ParametrosProduccionStt = GetProduccionStt(vListGetSettValueByCompany);
             insParametrosList.Add(insParametros);
             return insParametrosList;
         }
@@ -1840,7 +1840,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Add(GetRetencionIVAStt(vListGetSettValueByCompany));
             vResult.Add(GetVendedorStt(vListGetSettValueByCompany));
             vResult.Add(GetImagenesComprobantesRetencionStt(vListGetSettValueByCompany));
-            vResult.Add(GetInventarioProduccionStt(vListGetSettValueByCompany));
+            vResult.Add(GetProduccionStt(vListGetSettValueByCompany));
             return vResult;
         }
 

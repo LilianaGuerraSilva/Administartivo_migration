@@ -225,8 +225,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     LibInputViewModelBase<ImagenesComprobantesRetencionStt> vModel = new CxPComprasImagenesComprobanteRetViewModel(valContent as ImagenesComprobantesRetencionStt,eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);
                     vResult = vModel;
-                } else if (valContent is InventarioProduccionStt) {
-                    LibInputViewModelBase<InventarioProduccionStt> vModel = new InventarioProduccionViewModel(valContent as InventarioProduccionStt, eAccionSR);
+                } else if (valContent is ProduccionStt) {
+                    LibInputViewModelBase<ProduccionStt> vModel = new InventarioProduccionViewModel(valContent as ProduccionStt, eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);
                     vResult = vModel;
                 } else {

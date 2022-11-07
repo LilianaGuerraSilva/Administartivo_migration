@@ -12,35 +12,35 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <GroupBox
-            Margin="3"
-            Header="Preferencias de Costos"
-            Style="{StaticResource GroupBoxStyle}">
+        Margin="3"
+        Header="Cálculo de Costo"
+        Style="{StaticResource GroupBoxStyle}">
         <Grid FocusManager.FocusedElement="{Binding ElementName=cmbCalcularCostoDelArticuloTerminadoAPartirDe}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Label
-            Name="lblCalcularCostoDelArticuloTerminadoAPartirDe"
-            Grid.Row="0"
-            Grid.Column="0"
-            Content="Calcular el Costo del Artí­culo Terminado a Partir de........................................................................................"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSComboBoxWpf
-            Name="cmbCalcularCostoDelArticuloTerminadoAPartirDe"
-            Grid.Row="0"
-            Grid.Column="1"
-            Width="250"
-            HorizontalAlignment="Right"
-            IsEnabled="{Binding Path=IsEnabled}"
-            IsSynchronizedWithCurrentItem="True"
-            ItemsSource="{Binding Path=ArrayCostoTerminadoCalculadoAPartirDe}"
-            SelectedItem="{Binding Path=CalcularCostoDelArticuloTerminadoAPartirDe, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource ComboBoxStyle}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label
+                Name="lblCalcularCostoDelArticuloTerminadoAPartirDe"
+                Grid.Row="0"
+                Grid.Column="0"
+                Content="Calcular el costo del artí­culo terminado a partir de..........................................................................................."
+                Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSComboBoxWpf
+                Name="cmbCalcularCostoDelArticuloTerminadoAPartirDe"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="280"
+                HorizontalAlignment="Right"
+                IsEnabled="{Binding Path=IsEnabled}"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayCostoTerminadoCalculadoAPartirDe}"
+                SelectedItem="{Binding Path=CalcularCostoDelArticuloTerminadoAPartirDe, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource ComboBoxStyle}" />
         </Grid>
     </GroupBox>
 </UserControl>

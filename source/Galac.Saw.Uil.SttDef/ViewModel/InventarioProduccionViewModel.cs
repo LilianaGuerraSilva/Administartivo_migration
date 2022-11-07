@@ -18,7 +18,7 @@ using Galac.Saw.Uil.SttDef.ViewModel;
 using LibGalac.Aos.Uil;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
-    public class InventarioProduccionViewModel : LibInputViewModelMfc<InventarioProduccionStt> {
+    public class InventarioProduccionViewModel : LibInputViewModelMfc<ProduccionStt> {
         #region Constantes
         public const string CalcularCostoDelArticuloTerminadoAPartirDePropertyName = "CalcularCostoDelArticuloTerminadoAPartirDe";
         #endregion
@@ -60,20 +60,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #endregion //Propiedades
         #region Constructores
         public InventarioProduccionViewModel()
-            : this(new InventarioProduccionStt(), eAccionSR.Insertar) {
+            : this(new ProduccionStt(), eAccionSR.Insertar) {
         }
-        public InventarioProduccionViewModel(InventarioProduccionStt initModel, eAccionSR initAction)
+        public InventarioProduccionViewModel(ProduccionStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CalcularCostoDelArticuloTerminadoAPartirDePropertyName;
         }
         #endregion //Constructores
         #region Metodos Generados
 
-        protected override void InitializeLookAndFeel(InventarioProduccionStt valModel) {
+        protected override void InitializeLookAndFeel(ProduccionStt valModel) {
             base.InitializeLookAndFeel(valModel);
         }
 
-        protected override InventarioProduccionStt FindCurrentRecord(InventarioProduccionStt valModel) {
+        protected override ProduccionStt FindCurrentRecord(ProduccionStt valModel) {
             if (valModel == null) {
                 return null;
             }
@@ -83,7 +83,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return valModel;
         }
 
-        protected override ILibBusinessComponentWithSearch<IList<InventarioProduccionStt>, IList<InventarioProduccionStt>> GetBusinessComponent() {
+        protected override ILibBusinessComponentWithSearch<IList<ProduccionStt>, IList<ProduccionStt>> GetBusinessComponent() {
             return null;
         }
         #endregion //Metodos Generados
