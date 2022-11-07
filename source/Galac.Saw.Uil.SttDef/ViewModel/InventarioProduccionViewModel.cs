@@ -1,21 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Xml.Linq;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
-using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm;
-using LibGalac.Aos.UI.Mvvm.Command;
-using LibGalac.Aos.UI.Mvvm.Helpers;
-using LibGalac.Aos.UI.Mvvm.Messaging;
-using LibGalac.Aos.UI.Mvvm.Ribbon;
-using LibGalac.Aos.UI.Mvvm.Validation;
-using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.SttDef;
-using Galac.Saw.Uil.SttDef.ViewModel;
-using LibGalac.Aos.Uil;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class InventarioProduccionViewModel : LibInputViewModelMfc<ProduccionStt> {
@@ -26,17 +12,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         public override string ModuleName {
             get { return "5.5.- Producción"; }
-        }
-
-        public int  ConsecutivoCompania {
-            get {
-                return Model.ConsecutivoCompania;
-            }
-            set {
-                if (Model.ConsecutivoCompania != value) {
-                    Model.ConsecutivoCompania = value;
-                }
-            }
         }
 
         public eCostoTerminadoCalculadoAPartirDe  CalcularCostoDelArticuloTerminadoAPartirDe {
@@ -77,9 +52,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             if (valModel == null) {
                 return null;
             }
-            //LibGpParams vParams = new LibGpParams();
-            //vParams.AddInInteger("ConsecutivoCompania", valModel.ConsecutivoCompania);
-            //return BusinessComponent.GetData(eProcessMessageType.SpName, "InventarioProduccionGET", vParams.Get()).FirstOrDefault();
             return valModel;
         }
 
@@ -87,9 +59,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return null;
         }
         #endregion //Metodos Generados
-
-
     } //End of class InventarioProduccionViewModel
-
 } //End of namespace Galac.Comun.Uil.SttDef
 

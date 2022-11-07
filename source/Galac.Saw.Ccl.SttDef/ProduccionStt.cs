@@ -32,7 +32,7 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _CalcularCostoDelArticuloTerminadoAPartirDe = (eCostoTerminadoCalculadoAPartirDe)LibConvert.DbValueToEnum(value); }
         }
 
-        public string CalcularCostoDelArticuloTerminadoAPartirDeAsDB {
+        public string CostoTerminadoCalculadoAPartirDeAsDB {
             get { return LibConvert.EnumToDbValue((int) _CalcularCostoDelArticuloTerminadoAPartirDe); }
         }
 

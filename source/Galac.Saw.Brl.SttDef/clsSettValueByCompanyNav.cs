@@ -1674,7 +1674,7 @@ namespace Galac.Saw.Brl.SttDef {
         }
 
         private void LlenaListado(ProduccionStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
-            valBusinessObject.Add(ConvierteValor(valRecord.CalcularCostoDelArticuloTerminadoAPartirDeAsDB, "CostoTerminadoCalculadoAPartirDe", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.CostoTerminadoCalculadoAPartirDeAsDB, "CostoTerminadoCalculadoAPartirDe", valConsecutivoCompania));
         }
         ProduccionStt GetProduccionStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             ProduccionStt vResult = new ProduccionStt();
