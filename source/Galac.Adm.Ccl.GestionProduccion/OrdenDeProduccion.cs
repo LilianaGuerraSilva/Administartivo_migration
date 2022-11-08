@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
-
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Ccl.GestionProduccion {
     [Serializable]
@@ -33,6 +33,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private bool _AjustadaPostCierre;
         private string _Observacion;
         private string _MotivoDeAnulacion;
+        private eCostoTerminadoCalculadoAPartirDe _CostoTerminadoCalculadoAPartirDe;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -153,6 +154,24 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _MotivoDeAnulacion = LibString.Mid(value, 0, 600); }
         }
 
+
+        public eCostoTerminadoCalculadoAPartirDe CostoTerminadoCalculadoAPartirDeAsEnum {
+            get { return _CostoTerminadoCalculadoAPartirDe; }
+            set { _CostoTerminadoCalculadoAPartirDe = value; }
+        }
+
+        public string CostoTerminadoCalculadoAPartirDe {
+            set { _CostoTerminadoCalculadoAPartirDe = (eCostoTerminadoCalculadoAPartirDe)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string CostoTerminadoCalculadoAPartirDeAsDB {
+            get { return LibConvert.EnumToDbValue((int) _CostoTerminadoCalculadoAPartirDe); }
+        }
+
+        public string CostoTerminadoCalculadoAPartirDeAsString {
+            get { return LibEnumHelper.GetDescription(_CostoTerminadoCalculadoAPartirDe); }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 20); }
@@ -211,6 +230,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             AjustadaPostCierreAsBool = false;
             Observacion = string.Empty;
             MotivoDeAnulacion = string.Empty;
+            CostoTerminadoCalculadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -238,6 +258,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.AjustadaPostCierreAsBool = _AjustadaPostCierre;
             vResult.Observacion = _Observacion;
             vResult.MotivoDeAnulacion = _MotivoDeAnulacion;
+            vResult.CostoTerminadoCalculadoAPartirDeAsEnum = _CostoTerminadoCalculadoAPartirDe;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -260,6 +281,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nAjusta por Cierre = " + _AjustadaPostCierre +
                "\nObservación = " + _Observacion +
                "\nMotivo de Anulación = " + _MotivoDeAnulacion +
+               "\nCosto Terminado Calculado APartir De = " + _CostoTerminadoCalculadoAPartirDe.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }

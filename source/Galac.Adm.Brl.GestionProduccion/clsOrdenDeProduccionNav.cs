@@ -140,6 +140,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vCurrentRecord.AjustadaPostCierreAsBool = false;
             vCurrentRecord.Observacion = "";
             vCurrentRecord.MotivoDeAnulacion = "";
+            vCurrentRecord.CostoTerminadoCalculadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.MonedaLocal;
             vCurrentRecord.NombreOperador = "";
             vCurrentRecord.FechaUltimaModificacion = LibDate.Today();
             vLista.Add(vCurrentRecord);
@@ -197,6 +198,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MotivoDeAnulacion"), null))) {
                     vRecord.MotivoDeAnulacion = vItem.Element("MotivoDeAnulacion").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CostoTerminadoCalculadoAPartirDe"), null))) {
+                    vRecord.CostoTerminadoCalculadoAPartirDe = vItem.Element("CostoTerminadoCalculadoAPartirDe").Value;
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NombreOperador"), null))) {
                     vRecord.NombreOperador = vItem.Element("NombreOperador").Value;

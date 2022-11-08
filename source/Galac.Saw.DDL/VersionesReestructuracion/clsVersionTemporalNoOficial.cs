@@ -22,6 +22,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			CrearCampoExcluirDelInformeDeDeclaracionIGTF();
 			CrearCampoRegistroTXTEnCajaRegistradora();
 			CrearParametroCostoTerminadoCalculadoAPartirDe();
+			CrearCampoCostoTerminadoCalculadoAPartirDe();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -91,6 +92,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 		private void CrearParametroCostoTerminadoCalculadoAPartirDe() {
 			AgregarNuevoParametro("CostoTerminadoCalculadoAPartirDe", "Inventario", 5, "5.5.- Producción", 5, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
+		}
+		private void CrearCampoCostoTerminadoCalculadoAPartirDe() {
+			QAdvSql InsSql = new QAdvSql("");
+			if (AddColumnEnumerative("Adm.OrdenDeProduccion", "CostoTerminadoCalculadoAPartirDe", "", (int)eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal)) {
+				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCosTerCalAParDe", InsSql.ToSqlValue((int)eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal), "CostoTerminadoCalculadoAPartirDe");
+			}
 		}
 	}
 }

@@ -36,7 +36,7 @@
                 Grid.Column="1"
                 Width="280"
                 HorizontalAlignment="Right"
-                IsEnabled="{Binding Path=IsEnabled}"
+                IsEnabled="{Binding Path=IsEnabledCalcularCostosDelArtículoAPartirDe}"
                 IsSynchronizedWithCurrentItem="True"
                 ItemsSource="{Binding Path=ArrayCostoTerminadoCalculadoAPartirDe}"
                 SelectedItem="{Binding Path=CalcularCostoDelArticuloTerminadoAPartirDe, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

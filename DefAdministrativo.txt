@@ -196,7 +196,8 @@ unFiltarCobranzaPor =(Cobrador,Cliente,CuentaBancaria);//e,Componente=Venta
 unMonedaDelInforme =(Bolivar,MonedaOrignal);//e,Componente=Venta 
 unTasaDeCambio =(Original,DelDia);//e,Componente=Venta
 unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta 
-unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco 
+unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
+unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Componente=SttDef, GENERATE
 
 
 // Record Repetido en archivo Externo
@@ -1736,7 +1737,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
     @PrimaryKey=Consecutivo
 }
 
-{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
+{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,
     ConsecutivoCompania	: Longint; //HIDE
     Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g
@@ -4379,4 +4380,28 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	FechaDesde		: date;		//"Fecha desde"
 	FechaHasta		: date;		//"Fecha hasta"	
 	SoloCuentasActivas	: boolean;	//"Solo cuentas activas"
+}
+
+{@S}OrdenDeProduccion = Record//Esquema=Adm, GENERATE
+	ConsecutivoCompania		    : LongInt;//
+	Consecutivo		            : LongInt;//
+	Codigo		                : Str15;//
+	Descripcion		            : Str250;//dv=''
+	StatusOp		            : boolean;//"�ENUMERATIVO O BOOLEAN?",dv='0'
+	ConsecutivoAlmacenProductoTerminado		: LongInt;//
+	ConsecutivoAlmacenMateriales		: LongInt;//
+	FechaCreacion		        : date;//dv=''
+	FechaInicio		            : date;//dv=''
+	FechaFinalizacion		    : date;//dv=''
+	FechaAnulacion		        : date;//dv=''
+	FechaAjuste		            : date;//dv=''
+	AjustadaPostCierre		    : boolean;//"�ENUMERATIVO O BOOLEAN?",
+	Observacion		            : Str600;//dv=''
+	MotivoDeAnulacion		    : Str600;//dv=''
+	NumeroDecimales		        : LongInt;//
+    CostoTerminadoCalculadoAPartirDe : unCostoTerminadoCalculadoAPartirDe;
+//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
+	NombreOperador		        : Str10;//a
+	FechaUltimaModificacion	    : date;//a
+	@PrimaryKey=ConsecutivoCompania,Consecutivo
 }

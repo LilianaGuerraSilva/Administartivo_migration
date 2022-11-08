@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Mvvm;
 using Galac.Saw.Ccl.SttDef;
+using LibGalac.Aos.DefGen;
+using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {
     public class InventarioProduccionViewModel : LibInputViewModelMfc<ProduccionStt> {
@@ -32,6 +34,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return LibEnumHelper<eCostoTerminadoCalculadoAPartirDe>.GetValuesInArray();
             }
         }
+
+        public bool IsEnabledCalcularCostosDelArtículoAPartirDe {
+            get {
+                return (IsEnabled && UsaMonedaExtranjera() && !EsEcuador());
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         public InventarioProduccionViewModel()
@@ -57,6 +65,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         protected override ILibBusinessComponentWithSearch<IList<ProduccionStt>, IList<ProduccionStt>> GetBusinessComponent() {
             return null;
+        }
+
+        private bool EsEcuador() {
+            return LibDefGen.ProgramInfo.IsCountryEcuador();
+        }
+
+        private static bool UsaMonedaExtranjera() {
+            bool result = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "UsaMonedaExtranjera"));
+            LibMessages.MessageBox.Programmer(result,result.ToString());
+            return result;
         }
         #endregion //Metodos Generados
     } //End of class InventarioProduccionViewModel

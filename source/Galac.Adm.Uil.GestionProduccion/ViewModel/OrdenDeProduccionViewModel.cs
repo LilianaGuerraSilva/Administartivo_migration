@@ -36,6 +36,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string AjustadaPostCierrePropertyName = "AjustadaPostCierre";
         private const string ObservacionPropertyName = "Observacion";
         private const string MotivoDeAnulacionPropertyName = "MotivoDeAnulacion";
+        private const string CostoTerminadoCalculadoAPartirDePropertyName = "CostoTerminadoCalculadoAPartirDe";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 
