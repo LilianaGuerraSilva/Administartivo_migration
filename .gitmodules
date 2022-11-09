@@ -66,3 +66,7 @@
 	path = bin/binContabilidadVb
 	url = https://github.com/Galac-Software/BinContabilidadVb.git
 	branch = release/SawV22.8.0.0
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://github.com/Galac-Software/RetencionesVb.git
+	branch = release/SawV22.8.0.0
