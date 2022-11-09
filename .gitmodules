@@ -26,10 +26,6 @@
 	path = source/VbaComun
 	url = https://github.com/Galac-Software/vbaComun.git
 	branch = release/SawV22.8.0.0
-[submodule "source/RetencionesVb"]
-	path = source/RetencionesVb
-	url = https://github.com/Galac-Software/RetencionesVb.git
-	branch = release/SawV22.8.0.0
 [submodule "source/IvaVb"]
 	path = source/IvaVb
 	url = https://github.com/Galac-Software/IvaVb.git
