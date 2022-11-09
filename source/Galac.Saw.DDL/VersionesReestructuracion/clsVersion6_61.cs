@@ -12,11 +12,11 @@ using LibGalac.Aos.DefGen;
 using Galac.Contab.Ccl.WinCont;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-    class clsVersion6_61 : clsVersionARestructurar {
+    class clsVersion6_61: clsVersionARestructurar {
         public clsVersion6_61(string valCurrentDataBaseName) : base(valCurrentDataBaseName) {
             _VersionDataBase = "6.61";
         }
-		
+
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             InsertarSiNoExisteLineaDeProducto();
@@ -27,6 +27,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregarParametroAsociarCentroDeCostos();
             CrearCampoExcluirDelInformeDeDeclaracionIGTF();
             CrearCampoRegistroTXTEnCajaRegistradora();
+            CreaConstraintRetDocumentoPagado();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -56,7 +57,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             string vFechaUltimaModificacion = InsSql.ToSqlValue(LibDate.Today());
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("INSERT INTO Saw.UnidadDeVenta (Nombre, Codigo, NombreOperador, FechaUltimaModificacion)");
-            vSql.AppendLine(" SELECT 'UNIDADES','','JEFE', " + vFechaUltimaModificacion );
+            vSql.AppendLine(" SELECT 'UNIDADES','','JEFE', " + vFechaUltimaModificacion);
             vSql.AppendLine(" WHERE NOT EXISTS (SELECT Nombre FROM Saw.UnidadDeVenta WHERE Nombre = 'UNIDADES')");
             Execute(vSql.ToString(), 0);
         }
@@ -111,6 +112,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void CrearCampoRegistroTXTEnCajaRegistradora() {
             if (AddColumnBoolean("Adm.Caja", "RegistroDeRetornoEnTxt", "", false)) {
                 AddDefaultConstraint("Adm.Caja", "d_RegRetEnTxt", InsSql.ToSqlValue(false), "RegistroDeRetornoEnTxt");
+            }
+        }
+
+        private void CreaConstraintRetDocumentoPagado() {
+            if (ColumnExists("RetDocumentoPagado", "EsUnaCuentaATerceros")) {
+                AddDefaultConstraint("RetDocumentoPagado", "d_EsUnaCtaTerc", InsSql.ToSqlValue(false), "EsUnaCuentaATerceros");
             }
         }
     }
