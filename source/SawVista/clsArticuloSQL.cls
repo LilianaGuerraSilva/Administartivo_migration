@@ -2859,7 +2859,7 @@ Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania
    Set insArticuloInvVista = New clsArticuloInvVista
     sqlWhere = ""
     If gTexto.DfLen(valAlicuotas) > 0 Then
-      sqlWhere = " AlicuotaIva IN( " & valAlicuotas & ") "
+      sqlWhere = "AlicuotaIva IN( " & valAlicuotas & ")"
     End If
      If gTexto.DfLen(strArtResumen) > 0 Then
          If gTexto.DfLen(valAlicuotas) > 0 Then
@@ -2868,9 +2868,6 @@ Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania
          sqlWhere = sqlWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo NOT  IN( " & strArtResumen & ")"
      End If
    If gTexto.DfLen(valSqlArtIGTF) > 0 Then
-      If gTexto.DfLen(valAlicuotas) > 0 Then
-         sqlWhere = sqlWhere & " AND "
-      End If
       sqlWhere = sqlWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo NOT  IN( " & valSqlArtIGTF & ")"
    End If
     SQL = fSQLSearchArticuloInventarioFacturaSelect(valConsecutivoCompania, valCodigoArticulo, valCodigoAlmacen, valPrecio1, valPrecio2, sqlWhere, valMonedaExtranjera, vGroupby, valBuscarPorSerial, valSerial, valUsaArticulosReservadosPorAlmacen, vaUsaArticulosReservadosPorCotizacion, valDescripcion)
