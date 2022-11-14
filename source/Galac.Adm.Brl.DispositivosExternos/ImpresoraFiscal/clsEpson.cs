@@ -13,7 +13,7 @@ using Galac.Saw.Ccl.Inventario;
 using System.Globalization;
 
 namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
-    public class clsEpson : IImpresoraFiscalPdn {
+    public class clsEpson: IImpresoraFiscalPdn {
         #region comandos PNP      
         [DllImport("PNPDLL.dll")]
         public static extern string PFAbreNF();
@@ -923,7 +923,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 return vResult;
             } catch (Exception) {
                 throw;
-            }            
+            }
         }
 
         public bool ImprimirNotaCredito(XElement valDocumentoFiscal) {
@@ -988,8 +988,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (vEstado) {
                     vResult = LeerRepuestaImpFiscal(-1); // -1 es la ultima posición del arreglo de respuesta                    
                 }
-                if (!LibString.S1IsEqualToS2(vResult, _VersionFirmware)) {
-                    vResult = "26.3";
+                if (LibString.Len(vResult) > LibString.Len(_VersionFirmware)) {
+                    vResult = "26.3"; //Firmwares muy antiguos retornaban un string con una longitud de 10 digitos parecido : 0000654321
                 }
                 return vResult;
             } catch (Exception) {
@@ -1135,8 +1135,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string refAlicoutasRegistradasDescription = "";
             bool vEstado;
             string vMensaje = "";
+            string vVersionFirmware = ObtenerVersionDelFirmware();
             try {
-                if (_VersionFirmware == ObtenerVersionDelFirmware()) {
+                if (LibImportData.ToDec(vVersionFirmware) >= LibImportData.ToDec(_VersionFirmware)) {
                     vResult = PFestatus(ConsultaAlicuotas);
                     vEstado = CheckRequest(vResult, ref vMensaje);
                     if (vEstado) {
