@@ -307,7 +307,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             retorno = Bematech_FI_FechaHoraImpresora(ref vFecha, ref vHora);
             vFecha = LibString.Trim(vFecha);
             vHora = LibString.Trim(vHora);
-            if (_RegistroDeRetornoEnTxt) {
+            if (_RegistroDeRetornoEnTxt && (LibString.IsNullOrEmpty(vFecha) && LibString.IsNullOrEmpty(vFecha))) {
                 vResult = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
                 int vPosition = LibString.IndexOf(vResult, ",");
                 if (vPosition > 0) {
@@ -405,13 +405,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vSerial = LibText.Space(20);
                 vResult = Bematech_FI_NumeroSerieMFD(ref vSerial) == 1;
                 vResult &= RevisarEstadoImpresora(ref vMensajeStatus);
+                vSerial = LibText.Trim(vSerial);
                 if (vResult) {
-                    if (_RegistroDeRetornoEnTxt) {
+                    if (_RegistroDeRetornoEnTxt && LibString.IsNullOrEmpty(vSerial)) {
                         vSerial = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
                         vSerial = LibText.Trim(vSerial);
                         vResult = !LibString.IsNullOrEmpty(vSerial);
                     } else {
-                        vSerial = LibText.Trim(vSerial);
                         vResult = !LibString.IsNullOrEmpty(vSerial);
                     }
                 }
@@ -608,7 +608,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                     vResultFile = BuscarValorEnTexto(vResultFile, vTextoBusqueda, valTipoLectura);
                 }
-                LibFile.DeleteFile(vPathFileRetorno);
+                if (_RegistroDeRetornoEnTxt) {
+                    LibFile.DeleteFile(vPathFileRetorno);
+                }
             } else {
                 string vBemaFi32Path = PathFile();
                 throw new GalacAlertException($"No fue encontrado o no hay acceso al archivo de retorno \"{vPathFileRetorno}\". Verifique el archivo de configuración \"{vBemaFi32Path}\" o los permisos de la aplicación.");
@@ -1259,10 +1261,11 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vVersionFirmware;
             vVersionFirmware = LibString.Space(10);
             Bematech_FI_VersionFirmwareMFD(ref vVersionFirmware);
-            if (_RegistroDeRetornoEnTxt) {
+            vVersionFirmware = LibText.Trim(vVersionFirmware);
+            if (_RegistroDeRetornoEnTxt && LibString.IsNullOrEmpty(vVersionFirmware)) {
                 vVersionFirmware = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
+                vVersionFirmware = LibString.Trim(vVersionFirmware);
             }
-            vVersionFirmware = LibString.Trim(vVersionFirmware);
             return vVersionFirmware;
         }
 
@@ -1312,7 +1315,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             vRegAlicuotas = LibText.Space(79);
             vReq = Bematech_FI_RetornoAlicuotas(ref vRegAlicuotas);
             vRegAlicuotas = LibString.Trim(vRegAlicuotas);
-            if (_RegistroDeRetornoEnTxt) {
+            if (_RegistroDeRetornoEnTxt && LibString.IsNullOrEmpty(vRegAlicuotas)) {
                 vRegAlicuotas = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
             }
             vRegAlicuotas = LibText.Replace(vRegAlicuotas, "\0", "");

@@ -66,7 +66,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("PermitirDescripcionDelArticuloExtendida" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajPermitirDe NOT NULL, ");
             SQL.AppendLine("PermitirNombreDelClienteExtendido" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajPermitirNo NOT NULL, ");
             SQL.AppendLine("UsarModoDotNet" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajUsarModoDo NOT NULL, ");
-            SQL.AppendLine("RegistroDeRetornoEnTxt" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajRegistroDe NOT NULL, ");
+            SQL.AppendLine("RegistroDeRetornoEnTxt" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_RegRetEnTxt DEFAULT ('N'), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");

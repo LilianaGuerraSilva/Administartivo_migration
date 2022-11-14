@@ -569,7 +569,7 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
          "fSQLExportarVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLArticulosAExportar()
+Public Function fSQLArticulosAExportar() As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = " SELECT "
@@ -692,12 +692,17 @@ Public Function fSQLArticulosAExportar()
    SQL = SQL & " AND IGV_ExistenciaPorAlmacenArticulosDeInven_pIB1.CodigoAlmacen = Almacen.Codigo) "
 
    SQL = SQL & " WHERE articuloInventario.ConsecutivoCompania = " & mConsecutivoCompaniaActual
-   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue(insArticuloInventario.getCodigoArticuloResumenDiario(enum_TipoDeAlicuota.eTD_EXENTO))
-   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue(insArticuloInventario.getCodigoArticuloResumenDiario(enum_TipoDeAlicuota.eTD_ALICUOTAGENERAL))
-   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue(insArticuloInventario.getCodigoArticuloResumenDiario(enum_TipoDeAlicuota.eTD_ALICUOTA2))
-   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue(insArticuloInventario.getCodigoArticuloResumenDiario(enum_TipoDeAlicuota.eTD_ALICUOTA3))
-   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue(insArticuloInventario.getCodigoComisionXPorcentajeDeAlmacenaje)
-   
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_AliExenta  @")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_AliGeneral @")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_AliReducida@")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_AliExtendida")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_AliExentaNC @")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_AliGeneralNC @")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_AliReducidaNC @")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_AliExtendidaNC @")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_ComXPorcDeAlmacen @")
+   SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("ND-NC IGTF @")
+      
    If mIsEntreFechas Then
          SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("articuloInventario.FechaUltimaModificacion", mFechaInicial, mFechaFinal) & ")"
    End If
