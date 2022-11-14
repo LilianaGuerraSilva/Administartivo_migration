@@ -14,14 +14,6 @@
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
 	branch = release/v2104
-[submodule "source/Lib/AosLib"]
-	path = source/Lib/AosLib
-	url = https://github.com/Galac-Software/AosLib.git
-	branch = release/v5.14.0.0
-[submodule "source/Lib/VbaLib"]
-	path = source/Lib/VbaLib
-	url = https://github.com/Galac-Software/vbaLib.git
-	branch = release/V2104
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://github.com/Galac-Software/BinEsqNiif.git
