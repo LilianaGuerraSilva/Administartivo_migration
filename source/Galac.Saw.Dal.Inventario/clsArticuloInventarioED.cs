@@ -159,7 +159,7 @@ namespace Galac.Saw.Dal.Inventario {
 
             SQL.AppendLine(" WHERE ArticuloInventario.Codigo NOT  IN ");
             SQL.AppendLine(" ( 'RD_AliExenta  @' , 'RD_AliGeneral @' , 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @'");
-            SQL.AppendLine("  , 'RD_AliExentaNC @',  'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @') ");
+            SQL.AppendLine("  , 'RD_AliExentaNC @',  'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @') ");
             SQL.AppendLine(" GROUP BY ArticuloInventario.Codigo, ExistenciaPorGrupo.CodigoColor, ExistenciaPorGrupo.CodigoTalla, ArticuloInventario.Descripcion");
             SQL.AppendLine(" , Saw.Color.DescripcionColor, Saw.Talla.DescripcionTalla, ArticuloInventario.LineaDeProducto ");
             SQL.AppendLine(" , ArticuloInventario.ConsecutivoCompania, ArticuloInventario.PrecioSinIVA, ArticuloInventario.PrecioConIVA  ");
@@ -653,7 +653,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("	AND ArticuloInventario.Codigo = renglonCotizacion.CodigoArticulo)");
             SQL.AppendLine(" WHERE");
             SQL.AppendLine(" ArticuloInventario.Codigo NOT  IN( 'RD_AliExenta  @' , 'RD_AliGeneral @' , 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @'");
-            SQL.AppendLine(", 'RD_AliExentaNC @',  'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @')");
+            SQL.AppendLine(", 'RD_AliExentaNC @',  'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @')");
             SQL.AppendLine(" GROUP BY ArticuloInventario.Codigo, ExistenciaPorGrupo.CodigoColor, ExistenciaPorGrupo.CodigoTalla, ArticuloInventario.Descripcion, Saw.Color.DescripcionColor");
             SQL.AppendLine(", Saw.Talla.DescripcionTalla, ArticuloInventario.LineaDeProducto, ExistenciaPorAlmacen.Cantidad, ExistenciaPorGrupo.Existencia");
             SQL.AppendLine(", RenglonExistenciaAlmacen.Cantidad, ArticuloInventario.ConsecutivoCompania, ArticuloInventario.PrecioSinIVA, ArticuloInventario.PrecioConIVA");
@@ -710,7 +710,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("       OR ArticuloInventario.TipoArticuloInv = '1' ");
             SQL.AppendLine("       OR ArticuloInventario.TipoArticuloInv = '2' ");
             SQL.AppendLine("       OR ArticuloInventario.TipoArticuloInv = '4')");
-            SQL.AppendLine("       AND articuloInventario.Codigo NOT IN('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @', 'RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @')");
+            SQL.AppendLine("       AND articuloInventario.Codigo NOT IN('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @', 'RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @')");
             SQL.AppendLine("       AND articuloInventario.TipoDeArticulo <> '2'");
             SQL.AppendLine("       AND articuloInventario.TipoDeArticulo <> '1'");
             SQL.AppendLine("    UNION ");
@@ -755,7 +755,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("       articuloInventario.TipoDeArticulo <> '2'");
             SQL.AppendLine("       AND(articuloInventario.AlicuotaIva IN('1', '0', '2', '3', '5', '4', '6', '7'))");
             SQL.AppendLine("       AND ArticuloInventario.TipoArticuloInv = '0'");
-            SQL.AppendLine("       AND articuloInventario.Codigo NOT IN ('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @', 'RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @')");
+            SQL.AppendLine("       AND articuloInventario.Codigo NOT IN ('RD_AliExenta  @', 'RD_AliGeneral @', 'RD_AliReducida@', 'RD_AliExtendida', 'RD_ComXPorcDeAlmacen @', 'RD_AliExentaNC @', 'RD_AliGeneralNC @', 'RD_AliReducidaNC @', 'RD_AliExtendidaNC @', 'ND-NC IGTF @')");
             return SQL.ToString();
 
         }

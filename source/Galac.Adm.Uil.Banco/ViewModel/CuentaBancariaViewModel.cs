@@ -38,10 +38,12 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private const string CodigoMonedaPropertyName = "CodigoMoneda";
 		private const string EsCajaChicaPropertyName = "EsCajaChica";
 		private const string TipoDeAlicuotaPorContribuyentePropertyName = "TipoDeAlicuotaPorContribuyente";
+        private const string ExcluirDelInformeDeDeclaracionIGTFPropertyName = "ExcluirDelInformeDeDeclaracionIGTF";
 		private const string GeneraMovBancarioPorIGTFPropertyName = "GeneraMovBancarioPorIGTF";
 		private const string NombreOperadorPropertyName = "NombreOperador";
 		private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 		private const string IsEnabledTipoDeAlicuotaPorContribuyentePropertyName = "IsEnabledTipoDeAlicuotaPorContribuyente";
+		private const string IsEnabledExcluirDelInformeDeDeclaracionIGTFPropertyName = "IsEnabledExcluirDelInformeDeDeclaracionIGTF";
 		private const string IsVisibleGeneraMovBancarioPorIGTFPropertyName = "IsVisibleGeneraMovBancarioPorIGTF";
 		#endregion
 
@@ -207,9 +209,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					if (!Model.ManejaDebitoBancarioAsBool) {
 						TipoDeAlicuotaPorContribuyente = eTipoAlicPorContIGTF.NoAsignado;
 						GeneraMovBancarioPorIGTF = false;
+						ExcluirDelInformeDeDeclaracionIGTF = false;
 					}
 					RaisePropertyChanged(ManejaDebitoBancarioPropertyName);
 					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
+					RaisePropertyChanged(IsEnabledExcluirDelInformeDeDeclaracionIGTFPropertyName);
 				}
 			}
 		}
@@ -332,6 +336,19 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.TipoDeAlicuotaPorContribuyenteAsEnum = value;
 					IsDirty = true;
 					RaisePropertyChanged(TipoDeAlicuotaPorContribuyentePropertyName);
+                }
+            }
+        }
+
+        public bool  ExcluirDelInformeDeDeclaracionIGTF {
+            get {
+                return Model.ExcluirDelInformeDeDeclaracionIGTFAsBool;
+            }
+            set {
+                if (Model.ExcluirDelInformeDeDeclaracionIGTFAsBool != value) {
+                    Model.ExcluirDelInformeDeDeclaracionIGTFAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ExcluirDelInformeDeDeclaracionIGTFPropertyName);
 				}
 			}
 		}
@@ -540,7 +557,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Action == eAccionSR.Insertar) {
 					return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
 				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
 					return IsEnabled && !EsEcuador() && !ManejaDebitoBancario;
 				}
 			}
@@ -557,12 +573,21 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				if (Action == eAccionSR.Insertar) {
 					return IsEnabled && ManejaDebitoBancario;
 				} else {
-					ICuentaBancariaPdn CuentaBancariaNav = new clsCuentaBancariaNav();
-					return IsEnabled && ManejaDebitoBancario && !CuentaBancariaNav.ExistenMovimientosPorCuentaBancariaPosterioresAReformaIGTFGO6687ConIGTFMarcado(ConsecutivoCompania, Codigo) && (TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado || TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.Cont14);
+					return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 				}
 			}
 		}
 
+		public bool IsEnabledExcluirDelInformeDeDeclaracionIGTF {
+			get {
+				if (Action == eAccionSR.Insertar) {
+					return IsEnabled && ManejaDebitoBancario;
+				} else {
+					return IsEnabled && ManejaDebitoBancario && !EsEcuador();
+				}
+			}
+		}
+		
 		public bool IsVisibleGeneraMovBancarioPorIGTF {
 			get {
 				return !_MonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda);

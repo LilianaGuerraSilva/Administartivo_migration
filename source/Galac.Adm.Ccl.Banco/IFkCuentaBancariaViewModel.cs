@@ -23,6 +23,7 @@ namespace Galac.Adm.Ccl.Banco {
 		string CuentaContable { get; set; }
 		string NombrePlantillaCheque { get; set; }
 		eTipoAlicPorContIGTF TipoDeAlicuotaPorContribuyente { get; set; }
+		bool ExcluirDelInformeDeDeclaracionIGTF { get; set; }
 		bool GeneraMovBancarioPorIGTF { get; set; }
 		#endregion //Propiedades
 

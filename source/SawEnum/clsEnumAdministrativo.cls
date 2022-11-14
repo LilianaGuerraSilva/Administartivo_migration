@@ -1314,6 +1314,7 @@ Public Enum Enum_ImpresorasFiscales
    eIF_ELEPOS_VMAX_220_F
    eIF_ELEPOS_VMAX_300
    eIF_DASCOM_TALLY_1140
+   eIF_ACLAS_PP9_Plus
 End Enum
 
 Public Enum Enum_EstadoImpresionFiscal
@@ -1677,6 +1678,7 @@ Public Enum enum_FacturaGeneradaPor
    eFGP_Usuario = 0
    eFGP_Cotizacion
    eFGP_Galac360
+   eFGP_AjusteIGTF
 End Enum
 
 Public Enum enum_TipoAlicPorContIGTF
@@ -1684,6 +1686,12 @@ Public Enum enum_TipoAlicPorContIGTF
    eTAPCIGTF_Cont14
    eTAPCIGTF_Cont5
    eTAPCIGTF_Cont6
+End Enum
+
+Public Enum enum_FormaDeAsociarCentroDeCostos
+   eFDACDC_NoAsociar = 0
+   eFDACDC_PorAlmacen
+   eFDACDC_PorLineaDeProducto
 End Enum
 
 Public Function me_saw() As Long
@@ -10984,6 +10992,7 @@ Public Function enumImpresorasFiscalesToString(ByVal ImpresorasFiscales As Enum_
       Case eIF_ELEPOS_VMAX_220_F: enumImpresorasFiscalesToString = "ELEPOS VMAX 220-F"
       Case eIF_ELEPOS_VMAX_300: enumImpresorasFiscalesToString = "ELEPOS VMAX 300"
       Case eIF_DASCOM_TALLY_1140: enumImpresorasFiscalesToString = "DASCOM TALLY 1140"
+      Case eIF_ACLAS_PP9_Plus: enumImpresorasFiscalesToString = "ACLAS PP9 Plus"
       Case Else: enumImpresorasFiscalesToString = enumImpresorasFiscalesToString(0)
    End Select
 End Function
@@ -10992,7 +11001,7 @@ Public Function strImpresorasFiscalesToNum(ByVal ImpresorasFiscales As String, O
    Dim mEnum As Enum_ImpresorasFiscales
    Dim nCount As Integer
    nCount = 0
-   For mEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1140
+   For mEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_ACLAS_PP9_Plus
       If UCase(ImpresorasFiscales) = UCase(enumImpresorasFiscalesToString(mEnum)) Then
          strImpresorasFiscalesToNum = nCount
          GoTo h_EXIT
@@ -11071,6 +11080,8 @@ Public Sub FillComboBoxWithImpresorasFiscales(ByRef varComboBox As Object, Optio
       varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_ELEPOS_VMAX_300)
       nCount = nCount + 1
       varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1140)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumImpresorasFiscalesToString(Enum_ImpresorasFiscales.eIF_ACLAS_PP9_Plus)
       varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
       varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    End If
@@ -11087,10 +11098,10 @@ Public Function fEnumImpresorasFiscalesToStringInArray(Optional ByVal valPrepara
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1140 - Enum_ImpresorasFiscales.eIF_EPSON_PF_220
+   varLimiteSuperior = Enum_ImpresorasFiscales.eIF_ACLAS_PP9_Plus - Enum_ImpresorasFiscales.eIF_EPSON_PF_220
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_DASCOM_TALLY_1140
+   For varEnum = Enum_ImpresorasFiscales.eIF_EPSON_PF_220 To Enum_ImpresorasFiscales.eIF_ACLAS_PP9_Plus
       varArray(nCount) = varCaracterDelimitador & enumImpresorasFiscalesToString(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
@@ -13920,8 +13931,8 @@ Public Function enumFacturaGeneradaPorToString(FacturaGeneradaPor As enum_Factur
       Case eFGP_Usuario: enumFacturaGeneradaPorToString = "Usuario"
       Case eFGP_Cotizacion: enumFacturaGeneradaPorToString = "Cotizacion"
       Case eFGP_Galac360: enumFacturaGeneradaPorToString = "Galac 360"
-      Case Else
-         enumFacturaGeneradaPorToString = enumFacturaGeneradaPorToString(0)
+      Case eFGP_AjusteIGTF: enumFacturaGeneradaPorToString = "Ajuste IGTF"
+      Case Else: enumFacturaGeneradaPorToString = enumFacturaGeneradaPorToString(0)
    End Select
 End Function
 
@@ -13984,7 +13995,7 @@ Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, O
    Dim mEnum As enum_FacturaGeneradaPor
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eFGP_Usuario To eFGP_Galac360
+   For mEnum = eFGP_Usuario To eFGP_AjusteIGTF
       If UCase(FacturaGeneradaPor) = UCase(enumFacturaGeneradaPorToString(mEnum)) Then
          strFacturaGeneradaPorToNum = nCount
          GoTo h_EXIT

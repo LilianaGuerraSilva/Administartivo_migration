@@ -184,6 +184,7 @@ namespace Galac.Adm.Brl.Banco {
 			vCurrentRecord.CuentaContable = "";
 			vCurrentRecord.NombrePlantillaCheque = "";
 			vCurrentRecord.TipoDeAlicuotaPorContribuyenteAsEnum = eTipoAlicPorContIGTF.NoAsignado;
+			vCurrentRecord.ExcluirDelInformeDeDeclaracionIGTF = LibConvert.BoolToSN(false);
 			vCurrentRecord.GeneraMovBancarioPorIGTF = LibConvert.BoolToSN(false);
 			vLista.Add(vCurrentRecord);
 			instanciaDal.Insert(vLista);
@@ -215,6 +216,7 @@ namespace Galac.Adm.Brl.Banco {
 			vCurrentRecord.CuentaContable = "";
 			vCurrentRecord.NombrePlantillaCheque = "rpxChequeGenerico";
 			vCurrentRecord.TipoDeAlicuotaPorContribuyenteAsEnum = eTipoAlicPorContIGTF.NoAsignado;
+			vCurrentRecord.ExcluirDelInformeDeDeclaracionIGTF = LibConvert.BoolToSN(false);
 			vCurrentRecord.GeneraMovBancarioPorIGTF = LibConvert.BoolToSN(false);
 			vLista.Add(vCurrentRecord);
 			instanciaDal.Insert(vLista);

@@ -390,6 +390,16 @@ namespace Galac.Saw.Ccl.SttDef {
         eCCADA_CampoDefinible4
     }
 
+        [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eFormaDeAsociarCentroDeCostos {
+        [LibEnumDescription("No Asociar")]
+        NoAsociar = 0,
+        [LibEnumDescription("Por Almacén")]
+        PorAlmacen,
+        [LibEnumDescription("Por Línea de Producto")]
+        PorLineaDeProducto
+    }
+
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eIngresoEgreso {
         [LibEnumDescription("Ingreso")]

@@ -1,0 +1,20 @@
+# This is a basic workflow to make a copy of this repo to GitLab
+# to take a backup for all repo activities
+name: Mirror on GitLab
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Mirror + trigger CI
+      uses: SvanBoxel/gitlab-mirror-and-ci-action@master
+      with:
+        args: "https://gitlab.com/galac-software-enterprise/desa/administrativo.git"
+      env:
+        FORCE_PUSH: "false"
+        GITLAB_HOSTNAME: "gitlab.com"
+        GITLAB_USERNAME: "git.galac"
+        GITLAB_PASSWORD: ${{ secrets.GITLAB_GLOBAL }}
+        GITLAB_PROJECT_ID: "26335114" 
+        GITHUB_TOKEN: ${{ secrets.FOR_GITLAB_TOKEN }}

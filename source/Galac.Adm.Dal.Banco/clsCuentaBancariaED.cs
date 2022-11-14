@@ -60,6 +60,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("CuentaContable" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_CueBanCuCo DEFAULT (''), ");
 			SQL.AppendLine("CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_CueBanCoMo DEFAULT (''), ");
 			SQL.AppendLine("TipoDeAlicuotaPorContribuyente" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_CueBanTiDeAlPoCo DEFAULT ('0'), ");
+            SQL.AppendLine("ExcluirDelInformeDeDeclaracionIGTF" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_CueBanExcluirDel DEFAULT ('N'), ");
 			SQL.AppendLine("GeneraMovBancarioPorIGTF" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCueBanGeneraMovB NOT NULL, ");
 			SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
 			SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
@@ -83,8 +84,8 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine(", CuentaBancaria.NombreCuenta, CuentaBancaria.CodigoBanco, CuentaBancaria.NombreSucursal, CuentaBancaria.TipoCtaBancaria, " + DbSchema + ".Gv_EnumTipoDeCtaBancaria.StrValue AS TipoCtaBancariaStr");
 			SQL.AppendLine(", CuentaBancaria.ManejaDebitoBancario, CuentaBancaria.ManejaCreditoBancario, CuentaBancaria.SaldoDisponible, CuentaBancaria.NombreDeLaMoneda");
 			SQL.AppendLine(", CuentaBancaria.NombrePlantillaCheque, CuentaBancaria.CuentaContable, CuentaBancaria.CodigoMoneda");
-			SQL.AppendLine(", CuentaBancaria.TipoDeAlicuotaPorContribuyente, " + DbSchema + ".Gv_EnumTipoAlicPorContIGTF.StrValue AS TipoDeAlicuotaPorContribuyenteStr, CuentaBancaria.GeneraMovBancarioPorIGTF");
-			SQL.AppendLine(", CuentaBancaria.NombreOperador, CuentaBancaria.FechaUltimaModificacion, CuentaBancaria.EsCajaChica");
+            SQL.AppendLine(", CuentaBancaria.TipoDeAlicuotaPorContribuyente, " + DbSchema + ".Gv_EnumTipoAlicPorContIGTF.StrValue AS TipoDeAlicuotaPorContribuyenteStr, CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF, CuentaBancaria.GeneraMovBancarioPorIGTF, CuentaBancaria.NombreOperador");
+			SQL.AppendLine(", CuentaBancaria.FechaUltimaModificacion, CuentaBancaria.EsCajaChica");
 			SQL.AppendLine(", Comun.Banco.Nombre AS NombreBanco");
 			SQL.AppendLine(", CuentaBancaria.fldTimeStamp, CAST(CuentaBancaria.fldTimeStamp AS bigint) AS fldTimeStampBigint");
 			SQL.AppendLine("FROM " + DbSchema + ".CuentaBancaria");
@@ -120,6 +121,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
 			SQL.AppendLine("@EsCajaChica" + InsSql.CharTypeForDb(1) + " = 'N' , ");
 			SQL.AppendLine("@TipoDeAlicuotaPorContribuyente" + InsSql.CharTypeForDb(1) + " = '0',");
+            SQL.AppendLine("@ExcluirDelInformeDeDeclaracionIGTF" + InsSql.CharTypeForDb(1) + " = 'N',");
 			SQL.AppendLine("@GeneraMovBancarioPorIGTF" + InsSql.CharTypeForDb(1) + " = 'N',");
 			SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + " = '',");
 			SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
@@ -151,6 +153,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("            CuentaContable,");
 			SQL.AppendLine("            CodigoMoneda,");
 			SQL.AppendLine("            TipoDeAlicuotaPorContribuyente,");
+            SQL.AppendLine("            ExcluirDelInformeDeDeclaracionIGTF,");
 			SQL.AppendLine("            GeneraMovBancarioPorIGTF,");
 			SQL.AppendLine("            NombreOperador,");
 			SQL.AppendLine("            FechaUltimaModificacion,");
@@ -172,6 +175,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("            @CuentaContable,");
 			SQL.AppendLine("            @CodigoMoneda,");
 			SQL.AppendLine("            @TipoDeAlicuotaPorContribuyente,");
+            SQL.AppendLine("            @ExcluirDelInformeDeDeclaracionIGTF,");
 			SQL.AppendLine("            @GeneraMovBancarioPorIGTF,");
 			SQL.AppendLine("            @NombreOperador,");
 			SQL.AppendLine("            @FechaUltimaModificacion,");
@@ -205,6 +209,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
 			SQL.AppendLine("@EsCajaChica" + InsSql.CharTypeForDb(1) + ",");
 			SQL.AppendLine("@TipoDeAlicuotaPorContribuyente" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@ExcluirDelInformeDeDeclaracionIGTF" + InsSql.CharTypeForDb(1) + ",");
 			SQL.AppendLine("@GeneraMovBancarioPorIGTF" + InsSql.CharTypeForDb(1) + ",");
 			SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + ",");
 			SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
@@ -246,6 +251,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("               CuentaContable = @CuentaContable,");
 			SQL.AppendLine("               CodigoMoneda = @CodigoMoneda,");
 			SQL.AppendLine("               TipoDeAlicuotaPorContribuyente = @TipoDeAlicuotaPorContribuyente,");
+            SQL.AppendLine("               ExcluirDelInformeDeDeclaracionIGTF = @ExcluirDelInformeDeDeclaracionIGTF,");
 			SQL.AppendLine("               GeneraMovBancarioPorIGTF = @GeneraMovBancarioPorIGTF,");
 			SQL.AppendLine("               NombreOperador = @NombreOperador,");
 			SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion,");
@@ -370,6 +376,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("         CuentaBancaria.CuentaContable,");
 			SQL.AppendLine("         CuentaBancaria.CodigoMoneda,");
 			SQL.AppendLine("         CuentaBancaria.TipoDeAlicuotaPorContribuyente,");
+            SQL.AppendLine("         CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF,");
 			SQL.AppendLine("         CuentaBancaria.GeneraMovBancarioPorIGTF,");
 			SQL.AppendLine("         CuentaBancaria.NombreOperador,");
 			SQL.AppendLine("         CuentaBancaria.FechaUltimaModificacion,");

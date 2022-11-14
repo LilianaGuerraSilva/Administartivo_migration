@@ -37,14 +37,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NombreCampoDefinibleInventario3PropertyName = "NombreCampoDefinibleInventario3";
         public const string NombreCampoDefinibleInventario4PropertyName = "NombreCampoDefinibleInventario4";
         public const string NombreCampoDefinibleInventario5PropertyName = "NombreCampoDefinibleInventario5";
-        public const string AsociaCentroDeCostoyAlmacenPropertyName = "AsociaCentroDeCostoyAlmacen";
+        public const string FormaDeAsociarCentroDeCostoPropertyName = "FormaDeAsociarCentroDeCosto";
         public const string ActivarFacturacionPorAlmacenPropertyName = "ActivarFacturacionPorAlmacen";
         public const string AvisoDeReservasvencidasPropertyName = "AvisoDeReservasvencidas";
         public const string CantidadDeDecimalesPropertyName = "CantidadDeDecimales";
         public const string CodigoAlmacenGenericoPropertyName = "CodigoAlmacenGenerico";
         public const string ConsecutivoAlmacenGenericoPropertyName = "ConsecutivoAlmacenGenerico";
         public const string NombreAlmacenGenericoPropertyName = "NombreAlmacenGenerico";
-        public const string IsEnabledDatosAlmacenPropertyName = "IsEnabledDatosAlmacen";        
+        public const string IsEnabledDatosAlmacenPropertyName = "IsEnabledDatosAlmacen";
+        public const string IsEnabledAsociarCentroDeCostosPropertyName = "IsEnabledAsociarCentrosDeCosto";
         
         
         #endregion
@@ -269,16 +270,22 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool  AsociaCentroDeCostoyAlmacen {
+        public eFormaDeAsociarCentroDeCostos  AsociarCentroDeCostos {
             get {
-                return Model.AsociaCentroDeCostoyAlmacenAsBool;
+                return Model.AsociarCentroDeCostosAsEnum;
             }
             set {
-                if (Model.AsociaCentroDeCostoyAlmacenAsBool != value) {
-                    Model.AsociaCentroDeCostoyAlmacenAsBool = value;
+                if (Model.AsociarCentroDeCostosAsEnum != value) {
+                    Model.AsociarCentroDeCostosAsEnum = value;
                     IsDirty = true;
-                    RaisePropertyChanged(AsociaCentroDeCostoyAlmacenPropertyName);
+                    RaisePropertyChanged(FormaDeAsociarCentroDeCostoPropertyName);
                 }
+            }
+        }
+        public bool IsEnabledAsociarCentroDeCostos {
+            get {
+                return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaModuloDeContabilidad") && 
+                       LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCentroDeCostos");
             }
         }
 
@@ -398,7 +405,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return IsEnabled && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
             }
         }
-
+		
+        public eFormaDeAsociarCentroDeCostos[] ArrayAsociarCentroDeCostos {
+            get {
+                return LibEnumHelper<eFormaDeAsociarCentroDeCostos>.GetValuesInArray();
+            }
+        }
+		
         public bool IsEnabledDatosAlmacen {
             get {
                 return IsEnabled && UsaAlmacen && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsEmprendedor");
@@ -465,8 +478,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         #endregion //Metodos Generados
-
-
     } //End of class InventarioViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef

@@ -36,6 +36,7 @@ namespace Galac.Adm.Ccl.Venta {
         private bool _PermitirDescripcionDelArticuloExtendida;
         private bool _PermitirNombreDelClienteExtendido;
         private bool _UsarModoDotNet;
+        private bool _RegistroDeRetornoEnTxt;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;        
@@ -255,6 +256,16 @@ namespace Galac.Adm.Ccl.Venta {
         public string UsarModoDotNet {
             set { _UsarModoDotNet = LibConvert.SNToBool(value); }
         }
+		
+        public bool RegistroDeRetornoEnTxtAsBool {
+            get { return _RegistroDeRetornoEnTxt; }
+            set { _RegistroDeRetornoEnTxt = value; }
+        }
+
+        public string RegistroDeRetornoEnTxt {
+            set { _RegistroDeRetornoEnTxt = LibConvert.SNToBool(value); }
+        }
+		
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value,0,10); }
@@ -316,6 +327,7 @@ namespace Galac.Adm.Ccl.Venta {
             PermitirDescripcionDelArticuloExtendidaAsBool = false;
             PermitirNombreDelClienteExtendidoAsBool = false;
             UsarModoDotNetAsBool = false;
+            RegistroDeRetornoEnTxtAsBool = false;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -346,6 +358,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.PermitirDescripcionDelArticuloExtendidaAsBool = _PermitirDescripcionDelArticuloExtendida;
             vResult.PermitirNombreDelClienteExtendidoAsBool = _PermitirNombreDelClienteExtendido;
             vResult.UsarModoDotNetAsBool = _UsarModoDotNet;
+            vResult.RegistroDeRetornoEnTxtAsBool = _RegistroDeRetornoEnTxt;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -376,6 +389,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nPermitir Descripcion Del Articulo Extendida = " + _PermitirDescripcionDelArticuloExtendida +
                "\nPermitir Nombre Del Cliente Extendido = " + _PermitirNombreDelClienteExtendido +
                "\nUsarModoDotNet = " + _UsarModoDotNet +
+               "\negistro De Retorno En Txt  = " + _RegistroDeRetornoEnTxt +
                "\nNombre Operador = " + _NombreOperador +
                 "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
