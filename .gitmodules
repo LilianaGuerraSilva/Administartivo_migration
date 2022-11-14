@@ -62,3 +62,11 @@
 	path = source/VbaComun
 	url = https://github.com/Galac-Software/vbaComun.git
 	branch = release/SawV22.8.0.0
+[submodule "source/Lib/AosLib"]
+	path = source/Lib/AosLib
+	url = https://github.com/Galac-Software/AosLib.git
+	branch = release/v5.14.0.0
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
+	url = https://github.com/Galac-Software/vbaLib.git
+	branch = release/V2104
