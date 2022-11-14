@@ -4171,7 +4171,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	AgruparPor	:	boolean;//"Agrupar Por"
 	NombreCobrador	:	Str160;"Cobrador",Search,=Vendedor.Nombre
 	FiltrarPor	:	unFiltarCobranzaPor;//"Filtar Cobranza Por"
-	MonedaDelInforme	:	unMonedaDelInforme;"Monede Del Informe"
+	MonedaDelInforme	:	unMonedaDelInforme;"Moneda Del Informe"
 	TasaDeCambio	:	unTasaDeCambio;"Tasa de Cambio" 	
 	CantidadAImprimir :	unCantidadAImprimir;//"Cantidad a Imprimir"	
 }
@@ -4383,25 +4383,28 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 }
 
 {@S}OrdenDeProduccion = Record//Esquema=Adm, GENERATE
-	ConsecutivoCompania		    : LongInt;//
-	Consecutivo		            : LongInt;//
-	Codigo		                : Str15;//
-	Descripcion		            : Str250;//dv=''
-	StatusOp		            : boolean;//"�ENUMERATIVO O BOOLEAN?",dv='0'
+	ConsecutivoCompania		        : LongInt;//
+	Consecutivo		                : LongInt;//
+	Codigo		                    : Str15;//
+	Descripcion		                : Str250;//dv=''
+	StatusOp		                : boolean;//"�ENUMERATIVO O BOOLEAN?",dv='0'
 	ConsecutivoAlmacenProductoTerminado		: LongInt;//
-	ConsecutivoAlmacenMateriales		: LongInt;//
-	FechaCreacion		        : date;//dv=''
-	FechaInicio		            : date;//dv=''
-	FechaFinalizacion		    : date;//dv=''
-	FechaAnulacion		        : date;//dv=''
-	FechaAjuste		            : date;//dv=''
-	AjustadaPostCierre		    : boolean;//"�ENUMERATIVO O BOOLEAN?",
-	Observacion		            : Str600;//dv=''
-	MotivoDeAnulacion		    : Str600;//dv=''
-	NumeroDecimales		        : LongInt;//
+	ConsecutivoAlmacenMateriales	: LongInt;//
+	FechaCreacion		            : date;//dv=''
+	FechaInicio		                : date;//dv=''
+	FechaFinalizacion		        : date;//dv=''
+	FechaAnulacion		            : date;//dv=''
+	FechaAjuste		                : date;//dv=''
+	AjustadaPostCierre		        : boolean;//"�ENUMERATIVO O BOOLEAN?",
+	Observacion		                : Str600;//dv=''
+	MotivoDeAnulacion		        : Str600;//dv=''
+	NumeroDecimales		            : LongInt;//
+    Moneda              		    : str80;//logical,"Nombre de la Moneda"
     CostoTerminadoCalculadoAPartirDe : unCostoTerminadoCalculadoAPartirDe;
+    CodigoMonedaCostoProduccion     : str04; //=Moneda.Codigo, "Código Moneda Para El Costo"
+    CambioCostoProduccion           : double; //
 //ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
-	NombreOperador		        : Str10;//a
-	FechaUltimaModificacion	    : date;//a
+	NombreOperador		            : Str10;//a
+	FechaUltimaModificacion	        : date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
 }

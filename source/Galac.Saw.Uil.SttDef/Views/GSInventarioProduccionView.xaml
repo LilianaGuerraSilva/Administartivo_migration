@@ -38,7 +38,7 @@
                 HorizontalAlignment="Right"
                 IsEnabled="{Binding Path=IsEnabledCalcularCostosDelArtículoAPartirDe}"
                 IsSynchronizedWithCurrentItem="True"
-                ItemsSource="{Binding Path=ArrayCostoTerminadoCalculadoAPartirDe}"
+                ItemsSource="{Binding Path=ArrayCalcularCostoDelArticuloTerminadoAPartirDe}"
                 SelectedItem="{Binding Path=CalcularCostoDelArticuloTerminadoAPartirDe, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource ComboBoxStyle}" />
         </Grid>

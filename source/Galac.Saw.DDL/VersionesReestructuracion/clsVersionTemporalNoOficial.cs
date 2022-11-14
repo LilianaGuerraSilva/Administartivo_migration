@@ -22,7 +22,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			CrearCampoExcluirDelInformeDeDeclaracionIGTF();
 			CrearCampoRegistroTXTEnCajaRegistradora();
 			CrearParametroCostoTerminadoCalculadoAPartirDe();
-			CrearCampoCostoTerminadoCalculadoAPartirDe();
+			CrearCamposParaElManejoDeMonedaExtranjeraEnGestionProduccion();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -93,10 +93,16 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void CrearParametroCostoTerminadoCalculadoAPartirDe() {
 			AgregarNuevoParametro("CostoTerminadoCalculadoAPartirDe", "Inventario", 5, "5.5.- Producción", 5, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
 		}
-		private void CrearCampoCostoTerminadoCalculadoAPartirDe() {
+		private void CrearCamposParaElManejoDeMonedaExtranjeraEnGestionProduccion() {
 			QAdvSql InsSql = new QAdvSql("");
-			if (AddColumnEnumerative("Adm.OrdenDeProduccion", "CostoTerminadoCalculadoAPartirDe", "", (int)eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal)) {
-				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCosTerCalAParDe", InsSql.ToSqlValue((int)eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal), "CostoTerminadoCalculadoAPartirDe");
+			if (AddColumnEnumerative("Adm.OrdenDeProduccion", "CostoTerminadoCalculadoAPartirDe", "", (int)eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal)) {
+				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCosTerCalAParDe", InsSql.ToSqlValue((int)eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal), "CostoTerminadoCalculadoAPartirDe");
+			}
+			if (AddColumnString("Adm.OrdenDeProduccion", "CodigoMonedaCostoProduccion", 4, "", "VED")) {
+				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCoMoCoPr", InsSql.ToSqlValue("VED"), "CodigoMonedaCostoProduccion");
+			}
+			if (AddColumnDecimal("Adm.OrdenDeProduccion", "CambioCostoProduccion", 25, 4, "", (decimal)1.0)) {
+				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCaCoPr", InsSql.ToSqlValue((decimal)1.0), "CambioCostoProduccion");
 			}
 		}
 	}

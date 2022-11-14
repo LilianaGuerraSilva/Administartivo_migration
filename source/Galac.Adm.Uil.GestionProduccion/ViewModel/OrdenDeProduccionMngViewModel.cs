@@ -16,6 +16,7 @@ using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Brl.GestionProduccion.Reportes;
 using Galac.Adm.Ccl.GestionProduccion;
 using LibGalac.Aos.DefGen;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
@@ -202,7 +203,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
         }
-
         #endregion //Commands
 
         #region Metodos Generados

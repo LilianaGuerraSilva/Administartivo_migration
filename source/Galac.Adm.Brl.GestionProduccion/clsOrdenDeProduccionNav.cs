@@ -16,6 +16,7 @@ using Galac.Saw.Brl.Inventario;
 using LibGalac.Aos.Catching;
 using System.Collections.ObjectModel;
 using LibGalac.Aos.DefGen;
+using Galac.Comun.Brl.TablasGen;
 
 namespace Galac.Adm.Brl.GestionProduccion {
     public partial class clsOrdenDeProduccionNav : LibBaseNavMaster<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>>, IOrdenDeProduccionPdn {
@@ -68,6 +69,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsAlmacenNav();
                     vResult = vPdnModule.GetDataForList("Orden de Producción", ref refXmlDocument, valXmlParamsExpression);
                     break;
+		        case "Moneda":
+                    vPdnModule = new clsMonedaNav();
+                    vResult = vPdnModule.GetDataForList("Orden De Produccion", ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 case "Lista de Materiales":
                     vPdnModule = new Galac.Adm.Brl.GestionProduccion.clsListaDeMaterialesNav();
                     vResult = vPdnModule.GetDataForList("Orden de Producción", ref refXmlDocument, valXmlParamsExpression);
@@ -92,7 +97,37 @@ namespace Galac.Adm.Brl.GestionProduccion {
             }
         }
         #endregion //OrdenDeProduccionDetalleArticulo
+		
+		//private void FillWithForeignInfoOrdenDeProduccion(ref IList<OrdenDeProduccion> refData) {
+  //          XElement vInfoConexionMoneda = FindInfoMoneda(refData);
+  //          var vListMoneda = (from vRecord in vInfoConexionMoneda.Descendants("GpResult")
+  //                                    select new {
+  //                                        Codigo = vRecord.Element("Codigo").Value, 
+  //                                        Nombre = vRecord.Element("Nombre").Value, 
+  //                                        Simbolo = vRecord.Element("Simbolo").Value, 
+  //                                        Activa = vRecord.Element("Activa").Value
+  //                                    }).Distinct();
 
+  //          foreach (OrdenDeProduccion vItem in refData) {
+  //          }
+  //      }
+  //      private XElement FindInfoMoneda(IList<OrdenDeProduccion> valData) {
+  //          XElement vXElement = new XElement("GpData");
+  //          foreach(OrdenDeProduccion vItem in valData) {
+  //              vXElement.Add(FilterOrdenDeProduccionByDistinctMoneda(vItem).Descendants("GpResult"));
+  //          }
+  //          ILibPdn insMoneda = new clsMonedaNav();
+  //          XElement vXElementResult = insMoneda.GetFk("OrdenDeProduccion", ParametersGetFKMonedaForXmlSubSet(vXElement));
+  //          return vXElementResult;
+  //      }
+
+  //      private XElement FilterOrdenDeProduccionByDistinctMoneda(OrdenDeProduccion valMaster) {
+  //          XElement vXElement = new XElement("GpData",
+  //              from vEntity in valMaster.DetailOrdenDeProduccion.Distinct()
+  //              select new XElement("GpResult",
+  //                  new XElement("CodigoMonedaCostoProduccion", vEntity.CodigoMonedaCostoProduccion)));
+  //          return vXElement;
+  //      }
         XElement IOrdenDeProduccionPdn.FindByConsecutivo(int valConsecutivoCompania, int valConsecutivo) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("Consecutivo", valConsecutivo);
@@ -114,7 +149,15 @@ namespace Galac.Adm.Brl.GestionProduccion {
             SQL.AppendLine("AND Codigo = @Codigo");
             return LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
         }
-
+		
+        private StringBuilder ParametersGetFKMonedaForXmlSubSet(XElement valXElement) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddReturn();
+            vParams.AddInXml("XmlData", valXElement);
+            vResult = vParams.Get();
+            return vResult;
+        }
 
         #endregion //Metodos Generados
         #region Codigo Ejemplo
@@ -199,8 +242,17 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MotivoDeAnulacion"), null))) {
                     vRecord.MotivoDeAnulacion = vItem.Element("MotivoDeAnulacion").Value;
                 }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NumeroDecimales"), null))) {
+                    vRecord.NumeroDecimales = LibConvert.ToInt(vItem.Element("NumeroDecimales"));
+                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CostoTerminadoCalculadoAPartirDe"), null))) {
                     vRecord.CostoTerminadoCalculadoAPartirDe = vItem.Element("CostoTerminadoCalculadoAPartirDe").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CodigoMonedaCostoProduccion"), null))) {
+                    vRecord.CodigoMonedaCostoProduccion = vItem.Element("CodigoMonedaCostoProduccion").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CambioCostoProduccion"), null))) {
+                    vRecord.CambioCostoProduccion = LibConvert.ToDec(vItem.Element("CambioCostoProduccion"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NombreOperador"), null))) {
                     vRecord.NombreOperador = vItem.Element("NombreOperador").Value;

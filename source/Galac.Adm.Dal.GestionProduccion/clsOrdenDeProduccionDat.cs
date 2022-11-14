@@ -59,6 +59,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 vParams.AddInInteger("NumeroDecimales", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales"));
             }
             vParams.AddInEnum("CostoTerminadoCalculadoAPartirDe", valRecord.CostoTerminadoCalculadoAPartirDeAsDB);
+            vParams.AddInString("CodigoMonedaCostoProduccion", valRecord.CodigoMonedaCostoProduccion, 4);
+            vParams.AddInDecimal("CambioCostoProduccion", valRecord.CambioCostoProduccion, 2);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
@@ -330,6 +332,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidFechaFinalizacion(valAction, CurrentRecord.FechaFinalizacion) && vResult;
             vResult = IsValidFechaAnulacion(valAction, CurrentRecord.FechaAnulacion) && vResult;
            // vResult = IsValidFechaAjuste(valAction, CurrentRecord.FechaAjuste) && vResult;
+            vResult = IsValidCodigoMonedaCostoProduccion(valAction, CurrentRecord.CodigoMonedaCostoProduccion) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -476,6 +479,25 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaAjuste, false, valAction)) {
                 BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
                 vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidCodigoMonedaCostoProduccion(eAccionSR valAction, string valCodigoMonedaCostoProduccion){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCodigoMonedaCostoProduccion = LibString.Trim(valCodigoMonedaCostoProduccion);
+            if (LibString.IsNullOrEmpty(valCodigoMonedaCostoProduccion , true)) {
+                BuildValidationInfo(MsgRequiredField("Código Moneda Para El Costo"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Moneda", "Codigo", insDb.InsSql.ToSqlValue(valCodigoMonedaCostoProduccion), true)) {
+                    BuildValidationInfo("El valor asignado al campo Código Moneda Para El Costo no existe, escoga nuevamente.");
+                    vResult = false;
+                }
             }
             return vResult;
         }

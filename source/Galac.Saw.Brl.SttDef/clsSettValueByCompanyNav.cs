@@ -1669,7 +1669,7 @@ namespace Galac.Saw.Brl.SttDef {
         #region ProduccionStt
         private ProduccionStt ProduccionSttPorDefecto(int valConsecutivoCompania) {
             ProduccionStt insEntidad = new ProduccionStt();
-            insEntidad.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal;
+            insEntidad.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal;
             return insEntidad;
         }
 
@@ -1680,7 +1680,7 @@ namespace Galac.Saw.Brl.SttDef {
             ProduccionStt vResult = new ProduccionStt();
             vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "CostoTerminadoCalculadoAPartirDe");
             vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "CostoTerminadoCalculadoAPartirDe");
-            vResult.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = (eCostoTerminadoCalculadoAPartirDe)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "CostoTerminadoCalculadoAPartirDe"));
+            vResult.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "CostoTerminadoCalculadoAPartirDe"));
             return vResult;
         }
         #endregion // ProduccionStt

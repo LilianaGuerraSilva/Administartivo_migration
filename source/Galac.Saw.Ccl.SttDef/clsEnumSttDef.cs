@@ -4,7 +4,6 @@ using LibGalac.Aos.Base;
 
 namespace Galac.Saw.Ccl.SttDef {
 
-
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eItemsMontoFactura {
         [LibEnumDescription("No Permitir ITEMS Negativos")]
@@ -497,10 +496,10 @@ namespace Galac.Saw.Ccl.SttDef {
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eCostoTerminadoCalculadoAPartirDe {
+    public enum eFormaDeCalcularCostoTerminado {
         [LibEnumDescription("Costo de los materiales en Moneda Local")]
-        CostoEnMonedaLocal = 0,
+        APartirDeCostoEnMonedaLocal = 0,
         [LibEnumDescription("Costo de los materiales en Moneda Extranjera")]
-        CostoEnMonedaExtranjera
+        APartirDeCostoEnMonedaExtranjera
     }
 } //End of namespace namespace Galac.Saw.Ccl.SttDef

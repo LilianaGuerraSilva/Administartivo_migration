@@ -8,7 +8,7 @@ namespace Galac.Saw.Ccl.SttDef {
         #region Variables
         private string _GroupName;
         private string _Module;
-        private eCostoTerminadoCalculadoAPartirDe _CalcularCostoDelArticuloTerminadoAPartirDe;
+        private eFormaDeCalcularCostoTerminado _CalcularCostoDelArticuloTerminadoAPartirDe;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -23,13 +23,13 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _Module = value; }
         }
 
-        public eCostoTerminadoCalculadoAPartirDe CalcularCostoDelArticuloTerminadoAPartirDeAsEnum {
+        public eFormaDeCalcularCostoTerminado CalcularCostoDelArticuloTerminadoAPartirDeAsEnum {
             get { return _CalcularCostoDelArticuloTerminadoAPartirDe; }
             set { _CalcularCostoDelArticuloTerminadoAPartirDe = value; }
         }
 
         public string CalcularCostoDelArticuloTerminadoAPartirDe {
-            set { _CalcularCostoDelArticuloTerminadoAPartirDe = (eCostoTerminadoCalculadoAPartirDe)LibConvert.DbValueToEnum(value); }
+            set { _CalcularCostoDelArticuloTerminadoAPartirDe = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(value); }
         }
 
         public string CostoTerminadoCalculadoAPartirDeAsDB {
@@ -63,7 +63,7 @@ namespace Galac.Saw.Ccl.SttDef {
         }
 
         public void Clear() {
-            CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = eCostoTerminadoCalculadoAPartirDe.CostoEnMonedaLocal;
+            CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal;
             fldTimeStamp = 0;
         }
 

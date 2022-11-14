@@ -11,12 +11,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string CalcularCostoDelArticuloTerminadoAPartirDePropertyName = "CalcularCostoDelArticuloTerminadoAPartirDe";
         #endregion
         #region Propiedades
-
         public override string ModuleName {
             get { return "5.5.- Producción"; }
         }
 
-        public eCostoTerminadoCalculadoAPartirDe  CalcularCostoDelArticuloTerminadoAPartirDe {
+        public eFormaDeCalcularCostoTerminado CalcularCostoDelArticuloTerminadoAPartirDe {
             get {
                 return Model.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum;
             }
@@ -29,9 +28,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eCostoTerminadoCalculadoAPartirDe[] ArrayCostoTerminadoCalculadoAPartirDe {
+        public eFormaDeCalcularCostoTerminado[] ArrayCalcularCostoDelArticuloTerminadoAPartirDe {
             get {
-                return LibEnumHelper<eCostoTerminadoCalculadoAPartirDe>.GetValuesInArray();
+                return LibEnumHelper<eFormaDeCalcularCostoTerminado>.GetValuesInArray();
             }
         }
 
@@ -71,10 +70,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return LibDefGen.ProgramInfo.IsCountryEcuador();
         }
 
-        private static bool UsaMonedaExtranjera() {
-            bool result = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "UsaMonedaExtranjera"));
-            LibMessages.MessageBox.Programmer(result,result.ToString());
-            return result;
+        private bool UsaMonedaExtranjera() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
         }
         #endregion //Metodos Generados
     } //End of class InventarioProduccionViewModel
