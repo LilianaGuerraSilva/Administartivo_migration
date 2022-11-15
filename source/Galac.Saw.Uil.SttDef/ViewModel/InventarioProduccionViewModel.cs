@@ -39,6 +39,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return (IsEnabled && UsaMonedaExtranjera() && !EsEcuador());
             }
         }
+        public bool IsNotEnabledCalcularCostosDelArtículoAPartirDe {
+            get {
+                return !(IsEnabled && UsaMonedaExtranjera() && !EsEcuador());
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         public InventarioProduccionViewModel()

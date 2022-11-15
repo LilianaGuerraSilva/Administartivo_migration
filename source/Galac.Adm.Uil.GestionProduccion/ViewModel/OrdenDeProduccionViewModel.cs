@@ -354,8 +354,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             set {
                 if (Model.CostoTerminadoCalculadoAPartirDeAsEnum != value) {
                     Model.CostoTerminadoCalculadoAPartirDeAsEnum = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(CostoTerminadoCalculadoAPartirDePropertyName);
                 }
             }
         }
@@ -554,6 +552,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool IsEnabledCambioCostoProduccion { 
+            get {
+                return IsEnabled && (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar);
+            } 
+        }
+
         public bool IsVisibleFechaFinalizacion {
             get {
                 return StatusOp == eTipoStatusOrdenProduccion.Cerrada;
@@ -652,6 +656,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             base.InitializeLookAndFeel(valModel);
             if(LibString.IsNullOrEmpty(Codigo, true)) {
                 Codigo = GenerarProximoCodigo();
+            }
+            if (Action == eAccionSR.Insertar) {
+                CostoTerminadoCalculadoAPartirDe = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CostoTerminadoCalculadoAPartirDe"));
             }
         }
 
@@ -957,20 +964,20 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             CloseOnActionComplete = true;
         }
 
-        public bool AsignaTasaDelDia(string valCodigoMoneda) {
+        public bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
                 decimal vTasa = 1;
                 ConexionCodigoMonedaCostoProduccion = FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMonedaCostoProduccion = ConexionCodigoMonedaCostoProduccion.Codigo;
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCostoProduccion, FechaCreacion, out vTasa)) {
+                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCostoProduccion, valFecha, out vTasa)) {
                     CambioCostoProduccion = vTasa;
                     return true;
                 } else {
                     CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, false, 100, false); //ajustar
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
-                    vViewModel.FechaDeVigencia = FechaCreacion;
+                    vViewModel.FechaDeVigencia = valFecha;
                     vViewModel.CodigoMoneda = CodigoMonedaCostoProduccion;
                     //vViewModel.NombreMoneda = ;
                     vViewModel.IsEnabledFecha = false;
@@ -998,14 +1005,21 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private void AsignarValoresDeMonedaPorDefecto() {
             DateTime vFecha = (Action == eAccionSR.Insertar ? FechaCreacion : FechaFinalizacion);
+            decimal vTasa;
             ConexionCodigoMonedaCostoProduccion = FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", "USD"));
             CodigoMonedaCostoProduccion = ConexionCodigoMonedaCostoProduccion.Codigo;
             Moneda = ConexionCodigoMonedaCostoProduccion.Nombre;
             if (Action == eAccionSR.Insertar) {
-                AsignaTasaDelDia(CodigoMonedaCostoProduccion);
-            } else if (Action == eAccionSR.Cerrar && (vFecha < FechaFinalizacion)) {
-                if (LibMessages.MessageBox.YesNo(this, "Desea modificar la tasa de cambio de esta orden?", ModuleName)) {
-                    AsignaTasaDelDia(CodigoMonedaCostoProduccion);
+                AsignaTasaDelDia(CodigoMonedaCostoProduccion, vFecha);
+            } else if (Action == eAccionSR.Cerrar && (FechaCreacion < FechaFinalizacion)) {
+                if (LibMessages.MessageBox.YesNo(this, "Desea modificar la tasa de cambio de esta orden antes de cerrarla?", ModuleName)) {
+                    if (!((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCostoProduccion, vFecha, out vTasa)) {
+                        if (LibMessages.MessageBox.YesNo(this, "Desea usar la última tasa de cambio del día?", ModuleName)) {
+                            AsignaTasaDelDia(CodigoMonedaCostoProduccion, vFecha);
+                        } else {
+                            
+                        }
+                    }
                 }
             } else {
                 CodigoMonedaCostoProduccion = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(vFecha);
@@ -1015,7 +1029,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void ExecuteAction() {
-            if (UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera()) {
+            if (UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera() && (Action == eAccionSR.Insertar || Action == eAccionSR.Cerrar)) {
                 AsignarValoresDeMonedaPorDefecto();
             }
             base.ExecuteAction();

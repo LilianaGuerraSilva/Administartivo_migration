@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
                 <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <GroupBox
@@ -21,6 +22,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -41,6 +43,16 @@
                 ItemsSource="{Binding Path=ArrayCalcularCostoDelArticuloTerminadoAPartirDe}"
                 SelectedItem="{Binding Path=CalcularCostoDelArticuloTerminadoAPartirDe, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource ComboBoxStyle}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="280"
+                HorizontalAlignment="Right"
+                Foreground="#FFA00000"
+                Text="Para seleccionar otro valor debe activar el parámetro 'Usa Moneda Extranjera' en 7.2.- Banco."
+                TextAlignment="Justify"
+                TextWrapping="WrapWithOverflow"
+                Visibility="{Binding Path=IsNotEnabledCalcularCostosDelArtículoAPartirDe, Converter={StaticResource booleanToVisibilityConverter}}" />
         </Grid>
     </GroupBox>
 </UserControl>

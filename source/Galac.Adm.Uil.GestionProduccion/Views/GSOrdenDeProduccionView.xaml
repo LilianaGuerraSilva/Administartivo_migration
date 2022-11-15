@@ -76,7 +76,6 @@
             SelectedDate="{Binding Path=FechaInicio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}"
             Visibility="{Binding Path=IsVisibleFechaDeInicio, Converter={StaticResource booleanToVisibilityConverter}}" />
-
         <Label
             Name="lblFechaCreacion"
             Grid.Row="1"
@@ -163,7 +162,6 @@
             Content="{Binding Path=NombreAlmacenProductoTerminado}"
             Style="{StaticResource LabelCalculatedField}"
             Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" />
-
         <Label
             Name="lblCodigoAlmacenMateriales"
             Grid.Row="5"
@@ -195,7 +193,6 @@
             Content="{Binding Path=NombreAlmacenMateriales}"
             Style="{StaticResource LabelCalculatedField}"
             Visibility="{Binding Path=IsVisibleAlmacen, Converter={StaticResource booleanToVisibilityConverter}}" />
-
         <Label
             Name="lblFechaCierre"
             Grid.Row="6"
@@ -217,8 +214,6 @@
             SelectedDate="{Binding Path=FechaFinalizacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}"
             Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-
-
         <Label
             Name="lblFechaAnulacion"
             Grid.Row="7"
@@ -241,7 +236,6 @@
             SelectedDate="{Binding Path=FechaAnulacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             Style="{StaticResource DatePickerStyle}"
             Visibility="{Binding Path=IsVisibleFechaDeAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-
         <Label
             Name="lblMotivoAnulacion"
             Grid.Row="8"
@@ -271,7 +265,6 @@
             Margin="3"
             Header="Moneda Extranjera para el Costo"
             HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
-            IsEnabled="{Binding Path=IsEnabledCambioCostoProduccion}"
             Style="{StaticResource GroupBoxStyle}"
             Visibility="{Binding Path=IsVisibleCambioCostoProduccion, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid x:Name="gdDatosDelCosto">
@@ -318,7 +311,7 @@
                     BorderThickness="1"
                     DecimalDigits="4"
                     InputDataType="UDecimal"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsEnabledCambioCostoProduccion}"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=CambioCostoProduccion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
