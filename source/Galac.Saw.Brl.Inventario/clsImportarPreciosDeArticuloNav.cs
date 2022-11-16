@@ -431,11 +431,16 @@ namespace Galac.Saw.Brl.Inventario {
         private string SqlParaDesincorporarArticulosEIncorporarLosDelArchivo() {
             StringBuilder vSql = new StringBuilder();
             QAdvSql InsSql = new QAdvSql(string.Empty);
+            string vNombreOperador = InsSql.ToSqlValue(((CustomIdentity)Thread.CurrentPrincipal.Identity).Login);
+            string vFechaUltMod = InsSql.ToSqlValue(LibDate.Today());
             vSql.AppendLine("DECLARE @hdoc " + InsSql.NumericTypeForDb(10, 0) + "");
             vSql.AppendLine("EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlCodigos");
 
-            vSql.AppendLine("BEGIN");
-            vSql.AppendLine("UPDATE dbo.ArticuloInventario SET StatusdelArticulo = '1' WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            vSql.AppendLine("BEGIN ");
+            vSql.AppendLine("UPDATE dbo.ArticuloInventario SET StatusdelArticulo = '1',");
+            vSql.AppendLine(" NombreOperador = " + vNombreOperador + ",");
+            vSql.AppendLine(" FechaUltimaModificacion = " + vFechaUltMod);
+            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania");            
             vSql.AppendLine("END");
 
             vSql.AppendLine("BEGIN");
@@ -446,7 +451,9 @@ namespace Galac.Saw.Brl.Inventario {
             vSql.AppendLine("	Codigo " + InsSql.VarCharTypeForDb(30) + ")");
             vSql.AppendLine(")");
             vSql.AppendLine("UPDATE dbo.ArticuloInventario");
-            vSql.AppendLine("SET StatusdelArticulo = '0'");
+            vSql.AppendLine("SET StatusdelArticulo = '0', ");
+            vSql.AppendLine(" NombreOperador = " + vNombreOperador + ",");
+            vSql.AppendLine(" FechaUltimaModificacion = " + vFechaUltMod);
             vSql.AppendLine("FROM dbo.ArticuloInventario");
             vSql.AppendLine("INNER JOIN CTE_Codigos");
             vSql.AppendLine("ON ArticuloInventario.Codigo = CTE_Codigos.Codigo");
