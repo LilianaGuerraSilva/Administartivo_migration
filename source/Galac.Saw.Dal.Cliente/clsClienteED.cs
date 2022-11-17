@@ -140,7 +140,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("@FAX" + InsSql.VarCharTypeForDb(25) + " = '',");
             SQL.AppendLine("@Status" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@Contacto" + InsSql.VarCharTypeForDb(35) + " = '',");
-            SQL.AppendLine("@ZonaDeCobranza" + InsSql.VarCharTypeForDb(20) + ",");
+            SQL.AppendLine("@ZonaDeCobranza" + InsSql.VarCharTypeForDb(100) + ",");
             SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@RazonInactividad" + InsSql.VarCharTypeForDb(35) + " = '',");
             SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(100) + " = '',");
