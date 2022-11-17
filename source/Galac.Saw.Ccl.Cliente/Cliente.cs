@@ -134,7 +134,7 @@ namespace Galac.Saw.Ccl.Cliente {
 
         public string ZonaDeCobranza {
             get { return _ZonaDeCobranza; }
-            set { _ZonaDeCobranza = LibString.Mid(value, 0, 20); }
+            set { _ZonaDeCobranza = LibString.Mid(value, 0, 100); }
         }
 
         public string CodigoVendedor {
