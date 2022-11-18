@@ -2857,18 +2857,18 @@ Public Function fSQLSearchArticuloInventarioFactura(ByVal valConsecutivoCompania
    Dim articulosServicio As String
    On Error GoTo h_ERROR
    Set insArticuloInvVista = New clsArticuloInvVista
-    sqlWhere = ""
-    If gTexto.DfLen(valAlicuotas) > 0 Then
-      sqlWhere = " AlicuotaIva IN( " & valAlicuotas & ") "
-    End If
-     If gTexto.DfLen(strArtResumen) > 0 Then
-         If gTexto.DfLen(valAlicuotas) > 0 Then
-            sqlWhere = sqlWhere & " AND "
-         End If
-         sqlWhere = sqlWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo NOT  IN( " & strArtResumen & ")"
-     End If
+   sqlWhere = ""
+   If gTexto.DfLen(valAlicuotas) > 0 Then
+     sqlWhere = " AlicuotaIva IN( " & valAlicuotas & ") "
+   End If
+   If gTexto.DfLen(strArtResumen) > 0 Then
+      If gTexto.DfLen(sqlWhere) > 0 Then
+         sqlWhere = sqlWhere & " AND "
+      End If
+      sqlWhere = sqlWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo NOT  IN( " & strArtResumen & ")"
+   End If
    If gTexto.DfLen(valSqlArtIGTF) > 0 Then
-      If gTexto.DfLen(valAlicuotas) > 0 Then
+      If gTexto.DfLen(sqlWhere) > 0 Then
          sqlWhere = sqlWhere & " AND "
       End If
       sqlWhere = sqlWhere & insArticuloInvVista.GetViewNameArticulosDeInventarioConOSinExistenPorGrupoB1() & ".CodigoDelArticulo NOT  IN( " & valSqlArtIGTF & ")"

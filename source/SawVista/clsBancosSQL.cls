@@ -404,12 +404,12 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLTransaccionesPorConceptoYCuentaBancaria", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLDeclaracionITFGO6687(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCodigoCuenta As String, ByVal valConsecutivoCompania As String, ByVal valImprimirSoloCuentasActivas As Boolean, _
-                                    ByVal valCantidadAImprimir As Boolean, ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valCodigoConceptoDebitoBancario As String) As String
+                                    ByVal valCantidadAImprimir As Boolean, ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valCodigoConceptoDebitoBancario As String, ByVal valConceptoBancarioReversoDePago As String) As String
    Dim SQL As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   SQL = fSqlCTEDeclaracionIGTFGeneraMovBan(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valCodigoConceptoDebitoBancario)
+   SQL = fSqlCTEDeclaracionIGTFGeneraMovBan(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valCodigoConceptoDebitoBancario, valConceptoBancarioReversoDePago)
    SQL = SQL & fSqlDeclaracionIGTFGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
    SQL = SQL & " UNION "
    SQL = SQL & fSqlDeclaracionIGTFNoGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
@@ -427,7 +427,7 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeclaracionITFGO6687", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Private Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String, ByVal valCodigoConceptoDebitoBancario As String) As String
+Private Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String, ByVal valCodigoConceptoDebitoBancario As String, ByVal valConceptoBancarioReversoDePago As String) As String
    Dim vSQL As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
@@ -435,7 +435,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania
    vSQL = ";WITH CTE_DeclaracionIGTFGeneraMovBan AS ( "
    vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanMB(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
    vSQL = vSQL & " UNION "
-   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
+   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valConceptoBancarioReversoDePago)
    vSQL = vSQL & " UNION "
    vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanPago(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
    vSQL = vSQL & " UNION "
@@ -457,7 +457,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanMB(ByVal valConsecutivoCompan
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
    vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
    vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
    vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
@@ -481,12 +481,20 @@ h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanMB", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
+Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String, ByVal valConceptoBancarioReversoDePago As String) As String
    Dim vSQL As String
+   Dim vSqlSubSelect As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   
+   vSqlSubSelect = " SELECT MB.NumeroDocumento "
+   vSqlSubSelect = vSqlSubSelect & " FROM MovimientoBancario AS MB "
+   vSqlSubSelect = vSqlSubSelect & " WHERE " & gUtilSQL.fSQLValueBetween("MB.Fecha", valFechaInicial, valFechaFinal)
+   vSqlSubSelect = vSqlSubSelect & " AND MB.ConsecutivoCompania = MovimientoBancario.ConsecutivoCompania AND MB.CodigoCtaBancaria = MovimientoBancario.CodigoCtaBancaria "
+   vSqlSubSelect = vSqlSubSelect & " AND MB.CodigoConcepto = " & gUtilSQL.fSimpleSqlValue(valConceptoBancarioReversoDePago)
+   
+   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
    vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
    vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
    vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
@@ -505,6 +513,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConse
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
    vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   vSQL = vSQL & " AND MovimientoBancario.NumeroDocumento NOT IN (" & vSqlSubSelect & ") "
    fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
@@ -515,7 +524,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanPago(ByVal valConsecutivoComp
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
    vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
    vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
    vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
@@ -547,7 +556,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanCobranza(ByVal valConsecutivo
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
    vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
    vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
    vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
@@ -579,7 +588,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP(ByVal valConsecutiv
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
    vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
    vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
    vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
@@ -611,7 +620,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanRendicion(ByVal valConsecutiv
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
    vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
    vSQL = vSQL & gUtilSQL.getIIF("MovimientoBancario.CodigoConcepto = " & gUtilSQL.fSimpleSqlValue(valCodigoConceptoDebitoBancario), gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO), "MovimientoBancario.GeneradoPor", True) & " AS GeneradoPor, "
    vSQL = vSQL & " MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
@@ -645,7 +654,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago(ByVal valConsec
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
    vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, MovimientoBancario.GeneradoPor, "
    vSQL = vSQL & " MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
    vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
