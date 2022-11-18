@@ -43,16 +43,26 @@
                 ItemsSource="{Binding Path=ArrayCalcularCostoDelArticuloTerminadoAPartirDe}"
                 SelectedItem="{Binding Path=CalcularCostoDelArticuloTerminadoAPartirDe, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource ComboBoxStyle}" />
-            <TextBlock
+            <Border
                 Grid.Row="1"
                 Grid.Column="1"
-                Width="280"
-                HorizontalAlignment="Right"
-                Foreground="#FFA00000"
-                Text="Para seleccionar otro valor debe activar el parámetro 'Usa Moneda Extranjera' en 7.2.- Banco."
-                TextAlignment="Justify"
-                TextWrapping="WrapWithOverflow"
-                Visibility="{Binding Path=IsNotEnabledCalcularCostosDelArtículoAPartirDe, Converter={StaticResource booleanToVisibilityConverter}}" />
+                Grid.ColumnSpan="2"
+                Width="Auto"
+                Margin="3,3,3,3"
+                HorizontalAlignment="Left"
+                BorderBrush="Black"
+                BorderThickness="0.5"
+                Visibility="{Binding Path=IsNotEnabledCalcularCostosDelArtículoAPartirDe, Converter={StaticResource booleanToVisibilityConverter}}">
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="280"
+                    HorizontalAlignment="Right"
+                    Foreground="#FFA00000"
+                    Text="Para seleccionar otro valor, debe activar Usa Moneda Extranjera (7.2)"
+                    TextAlignment="Justify"
+                    TextWrapping="WrapWithOverflow" />
+            </Border>
         </Grid>
     </GroupBox>
 </UserControl>

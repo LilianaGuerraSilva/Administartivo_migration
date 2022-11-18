@@ -258,6 +258,18 @@
             Text="{Binding Path=MotivoDeAnulacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto"
             Visibility="{Binding Path=IsVisibleFechaDeAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+        <TextBlock
+            Grid.Row="9"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Width="Auto"
+            Margin="3,0,0,0"
+            HorizontalAlignment="Left"
+            Foreground="#FFA00000"
+            Text="Los costos de producción serán calculados en moneda local"
+            TextAlignment="Justify"
+            TextWrapping="WrapWithOverflow"
+            Visibility="{Binding Path=IsNotVisibleCambioCostoProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
         <GroupBox
             Grid.Row="9"
             Grid.Column="0"
@@ -273,41 +285,58 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label
-                    Name="lblCodigoMonedaProduccion"
+                    Name="lblMonedaCostoProduccion"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Código Moneda"
+                    HorizontalAlignment="Right"
+                    Content="Moneda"
                     Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSSeekConnection
-                    Name="txtCodigoMonedaProduccion"
+                <nsWpfControls:GSTextBoxWpf
+                    Name="txtCodigoMonedaCostoProduccion"
                     Grid.Row="0"
                     Grid.Column="1"
-                    Width="100"
+                    Width="40"
+                    Margin="10,4,10,4"
+                    nsWpf:LibFocusManager.FocusedPropertyName="CodigoMonedaCostoProduccion"
+                    nsWpf:LibFocusManager.IsFocused="True"
+                    BorderThickness="1"
+                    InputDataType="Alfanumeric"
+                    IsEnabled="False"
+                    MaxLength="3"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Text="{Binding Path=CodigoMonedaCostoProduccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtNombreMonedaProduccion"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Width="200"
                     Height="23"
                     Margin="3,0,25,0"
                     HorizontalAlignment="Left"
-                    ConnectionValue="{Binding Path=CodigoMonedaCostoProduccion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    ConnectionValue="{Binding Path=Moneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Nombre"
-                    IsEnabled="False"
-                    Model="{Binding Path=ConexionCodigoMonedaCostoProduccion, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseCodigoMonedaCostoProduccionCommand}" />
+                    IsEnabled="{Binding Path=IsEnabledNombreMonedaProduccion}"
+                    Model="{Binding Path=ConexionMoneda, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseMonedaCommand}" />
                 <Label
                     Name="lblCambioCostoProduccion"
                     Grid.Row="0"
-                    Grid.Column="2"
+                    Grid.Column="3"
                     Content="Cambio a Moneda Local"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtCambioCostoProduccion"
                     Grid.Row="0"
-                    Grid.Column="3"
-                    Width="180"
-                    Margin="3,4,0,4"
+                    Grid.Column="4"
+                    Width="120"
+                    Margin="10,4,0,4"
+                    HorizontalAlignment="Right"
                     BorderThickness="1"
                     DecimalDigits="4"
                     InputDataType="UDecimal"

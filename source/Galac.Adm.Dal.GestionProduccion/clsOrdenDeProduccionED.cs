@@ -122,8 +122,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@MotivoDeAnulacion" + InsSql.VarCharTypeForDb(600) + " = '',");
             SQL.AppendLine("@NumeroDecimales" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@CostoTerminadoCalculadoAPartirDe" + InsSql.CharTypeForDb(1) + " = '0',");
-            SQL.AppendLine("@CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + ",");
-            SQL.AppendLine("@CambioCostoProduccion" + InsSql.DecimalTypeForDb(30, 5) + " = 0,");
+            SQL.AppendLine("@CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + " = '',");
+            SQL.AppendLine("@CambioCostoProduccion" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -212,7 +212,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@MotivoDeAnulacion" + InsSql.VarCharTypeForDb(600) + ",");
             SQL.AppendLine("@CostoTerminadoCalculadoAPartirDe" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + ",");
-            SQL.AppendLine("@CambioCostoProduccion" + InsSql.DecimalTypeForDb(30, 5) + ",");
+            SQL.AppendLine("@CambioCostoProduccion" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());

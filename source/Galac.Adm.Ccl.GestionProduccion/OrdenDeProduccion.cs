@@ -180,12 +180,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
 
         public string CodigoMonedaCostoProduccion {
             get { return _CodigoMonedaCostoProduccion; }
-            set { _CodigoMonedaCostoProduccion = 
-                    (eFormaDeCalcularCostoTerminado)LibGlobalValues
-                    .Instance.GetAppMemInfo()
-                    .GlobalValuesGetInt("Parametros", "CostoTerminadoCalculadoAPartirDe") == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ? 
-                     LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera") : "VED"; 
-            }
+            set { _CodigoMonedaCostoProduccion = value; }
         }
 
         public decimal CambioCostoProduccion {
@@ -309,7 +304,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nObservación = " + _Observacion +
                "\nMotivo de Anulación = " + _MotivoDeAnulacion +
                "\nCosto Terminado Calculado A Partir De = " + _CostoTerminadoCalculadoAPartirDe.ToString() +
-               "\nCódigo Moneda del Costo = " + _CodigoMonedaCostoProduccion +
+               "\nCódigo Moneda Para El Costo = " + _CodigoMonedaCostoProduccion +
                "\nCambio Costo Produccion = " + _CambioCostoProduccion.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();

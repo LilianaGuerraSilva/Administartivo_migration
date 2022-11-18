@@ -19,6 +19,7 @@ using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Saw.Ccl.SttDef;
+using LibGalac.Aos.Uil;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class OrdenDeProduccionViewModel : LibInputMasterViewModelMfc<OrdenDeProduccion> {
@@ -42,9 +43,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string ObservacionPropertyName = "Observacion";
         private const string MotivoDeAnulacionPropertyName = "MotivoDeAnulacion";
         private const string CostoTerminadoCalculadoAPartirDePropertyName = "CostoTerminadoCalculadoAPartirDe";
+        private const string MonedaPropertyName = "Moneda";
         private const string CodigoMonedaCostoProduccionPropertyName = "CodigoMonedaCostoProduccion";
         private const string CambioCostoProduccionPropertyName = "CambioCostoProduccion";
-        private const string MonedaPropertyName = "Moneda";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 
@@ -54,7 +55,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private FkAlmacenViewModel _ConexionCodigoAlmacenProductoTerminado = null;
         private FkAlmacenViewModel _ConexionCodigoAlmacenMateriales = null;
-        private Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel _ConexionCodigoMonedaCostoProduccion = null;
+		private Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel _ConexionMoneda = null;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
 
         #endregion //Variables
@@ -119,7 +120,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Estado", eGridColumType.Enum, PrintingMemberPath = "StatusOpStr", ColumnOrder = 2)]
+        [LibGridColum("Estado", eGridColumType.Enum, PrintingMemberPath = "StatusOpStr", ColumnOrder = 2, Width = 70)]
         public eTipoStatusOrdenProduccion StatusOp {
             get {
                 return Model.StatusOpAsEnum;
@@ -254,6 +255,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibCustomValidation("FechaFinalizacionValidating")]
+        [LibGridColum("Fecha de Finalización", eGridColumType.DatePicker, ColumnOrder = 5, Width = 130)]
         public DateTime FechaFinalizacion {
             get {
                 return Model.FechaFinalizacion;
@@ -343,6 +345,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.Moneda = value;
                     IsDirty = true;
                     RaisePropertyChanged(MonedaPropertyName);
+                    if (LibString.IsNullOrEmpty(Moneda, true)) {
+                        ConexionMoneda = null;
+                    }
                 }
             }
         }
@@ -367,12 +372,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.CodigoMonedaCostoProduccion = value;
                     IsDirty = true;
                     RaisePropertyChanged(CodigoMonedaCostoProduccionPropertyName);
-                    if (LibString.IsNullOrEmpty(CodigoMonedaCostoProduccion, true)) {
-                        ConexionCodigoMonedaCostoProduccion = null;
-                    }
                 }
             }
         }
+
+        public string CodigoMoneda { get; set; }
 
         public decimal  CambioCostoProduccion {
             get {
@@ -386,6 +390,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
+
+        public decimal CambioMoneda { get; set; }
 
         public string NombreOperador {
             get {
@@ -462,18 +468,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-		
-        public Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel ConexionCodigoMonedaCostoProduccion {
+
+        public Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel ConexionMoneda {
             get {
-                return _ConexionCodigoMonedaCostoProduccion;
+                return _ConexionMoneda;
             }
             set {
-                if (_ConexionCodigoMonedaCostoProduccion != value) {
-                    _ConexionCodigoMonedaCostoProduccion = value;
-                    RaisePropertyChanged(CodigoMonedaCostoProduccionPropertyName);
+                if (_ConexionMoneda != value) {
+                    _ConexionMoneda = value;
+                    RaisePropertyChanged(MonedaPropertyName);
                 }
-                if (_ConexionCodigoMonedaCostoProduccion == null) {
-                    CodigoMonedaCostoProduccion = string.Empty;
+                if (_ConexionMoneda == null) {
+                    Moneda = string.Empty;
                 }
             }
         }
@@ -488,7 +494,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             private set;
         }
 		
-        public RelayCommand<string> ChooseCodigoMonedaCostoProduccionCommand {
+        public RelayCommand<string> ChooseMonedaCommand {
             get;
             private set;
         }
@@ -554,8 +560,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsEnabledCambioCostoProduccion { 
             get {
-                return IsEnabled && (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar);
-            } 
+                return (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar || Action == eAccionSR.Custom || Action == eAccionSR.Cerrar);
+            }
+        }
+
+        public bool IsEnabledNombreMonedaProduccion {
+            get {
+                return (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar || Action == eAccionSR.Custom || Action == eAccionSR.Cerrar);
+            }
         }
 
         public bool IsVisibleFechaFinalizacion {
@@ -569,6 +581,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 return UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera() && !EsEcuador();
             }
         }
+
+        public bool IsNotVisibleCambioCostoProduccion {
+            get {
+                return !(UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera() && !EsEcuador());
+            }
+        }
+
         protected override bool RecordIsReadOnly() {
             return base.RecordIsReadOnly() || Action == eAccionSR.Custom || Action == eAccionSR.Anular || Action == eAccionSR.Cerrar;
         }
@@ -602,7 +621,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
             vMonedaLocal = new Saw.Lib.clsNoComunSaw();
             InitializeDetails();
-
         }
 
         public override void InitializeViewModel(eAccionSR valAction) {
@@ -650,15 +668,25 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             ChooseCodigoAlmacenProductoTerminadoCommand = new RelayCommand<string>(ExecuteChooseCodigoAlmacenProductoTerminadoCommand);
             ChooseCodigoAlmacenMaterialesCommand = new RelayCommand<string>(ExecuteChooseCodigoAlmacenMaterialesCommand);
 			VerDetalleCommand = new RelayCommand(ExecuteVerDetalleCommand, CanExecuteVerDetalleCommand);
+            ChooseMonedaCommand = new RelayCommand<string>(ExecuteChooseMonedaCommand);
         }
 
         protected override void InitializeLookAndFeel(OrdenDeProduccion valModel) {
             base.InitializeLookAndFeel(valModel);
-            if(LibString.IsNullOrEmpty(Codigo, true)) {
+            if (LibString.IsNullOrEmpty(Codigo, true)) {
                 Codigo = GenerarProximoCodigo();
             }
             if (Action == eAccionSR.Insertar) {
+                CodigoMonedaCostoProduccion = AsignarCodigoDeLaMoneda();
                 CostoTerminadoCalculadoAPartirDe = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CostoTerminadoCalculadoAPartirDe"));
+            }
+            if (UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera() && Action != eAccionSR.Anular && Action != eAccionSR.Consultar && Action != eAccionSR.Eliminar) {
+                AsignarValoresDeMonedaPorDefecto();
+                AsignarCambioCostoDeProduccion();
+            } else if (!CalculaCostosAPartirDeMonedaExtranjera()) {
+                CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+                Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+                CambioMoneda = 1;
             }
         }
 
@@ -756,7 +784,37 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-
+        private void ExecuteChooseMonedaCommand(string valNombre) {
+            try {
+                if (valNombre == null) {
+                    valNombre = string.Empty;
+                }
+                XElement vXmlMonedaLocales = ((IMonedaLocalPdn)new clsMonedaLocalProcesos()).BusquedaTodasLasMonedasLocales(LibDefGen.ProgramInfo.Country);
+                IList<MonedaLocalActual> vListaDeMonedaLocales = new List<MonedaLocalActual>();
+                vListaDeMonedaLocales = vXmlMonedaLocales != null ? LibParserHelper.ParseToList<MonedaLocalActual>(new XDocument(vXmlMonedaLocales)) : null;
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Moneda_B1.Nombre", valNombre);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
+                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
+                if (vListaDeMonedaLocales != null && !LibDefGen.ProgramInfo.IsCountryEcuador()) {
+                    foreach (MonedaLocalActual vMoneda in vListaDeMonedaLocales) {
+                        vFixedCriteria.Add("Codigo", eBooleanOperatorType.IdentityInequality, vMoneda.CodigoMoneda);
+                    }
+                }
+                ConexionMoneda = null;
+                ConexionMoneda = ChooseRecord<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionMoneda != null) {
+                    Moneda = ConexionMoneda.Nombre;
+                    CodigoMonedaCostoProduccion = ConexionMoneda.Codigo;
+                } else {
+                    Moneda = string.Empty;
+                    CodigoMonedaCostoProduccion = string.Empty;
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
         #endregion
 
         #region Validation
@@ -967,19 +1025,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
-                decimal vTasa = 1;
-                ConexionCodigoMonedaCostoProduccion = FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
-                CodigoMonedaCostoProduccion = ConexionCodigoMonedaCostoProduccion.Codigo;
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCostoProduccion, valFecha, out vTasa)) {
-                    CambioCostoProduccion = vTasa;
+                ConexionMoneda = FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
+                CodigoMoneda = ConexionMoneda.Codigo;
+                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, valFecha, out decimal vTasa)) {
+                    CambioMoneda = vTasa;
                     return true;
                 } else {
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, false, 100, false); //ajustar
+                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, false, 100, false);
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
                     vViewModel.FechaDeVigencia = valFecha;
-                    vViewModel.CodigoMoneda = CodigoMonedaCostoProduccion;
-                    //vViewModel.NombreMoneda = ;
+                    vViewModel.CodigoMoneda = CodigoMoneda;
+                    vViewModel.NombreMoneda = ConexionMoneda.Nombre;
                     vViewModel.IsEnabledFecha = false;
                     vViewModel.IsEnabledMoneda = false;
                     bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
@@ -992,48 +1049,53 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     return true;
                 }
             } else {
-                CodigoMonedaCostoProduccion = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(FechaCreacion);
-                Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(FechaCreacion);
-                CambioCostoProduccion = 1;
+                CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(valFecha);
+                Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(valFecha);
+                CambioMoneda = 1;
                 return true;
             }
         }
 
         private void CambioChanged(decimal valCambio) {
-            CambioCostoProduccion = valCambio;
+            CambioMoneda = valCambio;
+        }
+
+        private void AsignarCambioCostoDeProduccion() {
+            CodigoMonedaCostoProduccion = CodigoMoneda;
+            if (Action == eAccionSR.Insertar) {
+                CambioCostoProduccion = CambioMoneda;
+            } else if (CambioMoneda != CambioCostoProduccion) {
+                if (LibMessages.MessageBox.YesNo(this, "La tasa de cambio del día es distinta a la de esta Orden de Produccion, desea cambiar la tasa por la de hoy?", ModuleName)) {
+                    CambioCostoProduccion = CambioMoneda;
+                }
+            }
         }
 
         private void AsignarValoresDeMonedaPorDefecto() {
-            DateTime vFecha = (Action == eAccionSR.Insertar ? FechaCreacion : FechaFinalizacion);
-            decimal vTasa;
-            ConexionCodigoMonedaCostoProduccion = FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", "USD"));
-            CodigoMonedaCostoProduccion = ConexionCodigoMonedaCostoProduccion.Codigo;
-            Moneda = ConexionCodigoMonedaCostoProduccion.Nombre;
-            if (Action == eAccionSR.Insertar) {
-                AsignaTasaDelDia(CodigoMonedaCostoProduccion, vFecha);
-            } else if (Action == eAccionSR.Cerrar && (FechaCreacion < FechaFinalizacion)) {
-                if (LibMessages.MessageBox.YesNo(this, "Desea modificar la tasa de cambio de esta orden antes de cerrarla?", ModuleName)) {
-                    if (!((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCostoProduccion, vFecha, out vTasa)) {
-                        if (LibMessages.MessageBox.YesNo(this, "Desea usar la última tasa de cambio del día?", ModuleName)) {
-                            AsignaTasaDelDia(CodigoMonedaCostoProduccion, vFecha);
-                        } else {
-                            
-                        }
-                    }
-                }
+            DateTime vFecha = LibDate.Today();
+            ConexionMoneda = FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", "USD"));
+            CodigoMoneda = ConexionMoneda.Codigo;
+            Moneda = ConexionMoneda.Nombre;
+            AsignaTasaDelDia(CodigoMoneda, vFecha);
+            //if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar || Action == eAccionSR.Custom ) {
+            //    AsignaTasaDelDia(CodigoMoneda, vFecha);
+            //}  else if (!CalculaCostosAPartirDeMonedaExtranjera()) {
+            //    CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            //    Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
+            //    CambioMoneda = 1;
+      //}
+    }
+
+        protected override void ExecuteAction() {
+            if (Action == eAccionSR.Cerrar && FechaFinalizacion < FechaInicio) {
+                LibMessages.MessageBox.Alert(this, "La fecha de finalización de la Orden de Producción no puede ser anterior a su fecha de inicio.", ModuleName);
+            } else if (Action == eAccionSR.Anular && FechaAnulacion < FechaInicio) {
+                LibMessages.MessageBox.Alert(this, "La fecha de anulación de la Orden de Producción no puede ser anterior a su fecha de inicio.", ModuleName);
             } else {
-                CodigoMonedaCostoProduccion = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(vFecha);
-                Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(vFecha);
-                CambioCostoProduccion = 1;
+                base.ExecuteAction();
             }
         }
 
-        protected override void ExecuteAction() {
-            if (UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera() && (Action == eAccionSR.Insertar || Action == eAccionSR.Cerrar)) {
-                AsignarValoresDeMonedaPorDefecto();
-            }
-            base.ExecuteAction();
-        }
         private bool EsEcuador() {
             return LibDefGen.ProgramInfo.IsCountryEcuador();
         }
@@ -1044,7 +1106,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private bool CalculaCostosAPartirDeMonedaExtranjera() {
             eFormaDeCalcularCostoTerminado vFormaDeCalcularCostoTerminado = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CostoTerminadoCalculadoAPartirDe"));
-            return vFormaDeCalcularCostoTerminado == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ? true : false;
+            return (vFormaDeCalcularCostoTerminado == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera);
+        }
+
+        private string AsignarCodigoDeLaMoneda() {
+            string valCodigo = "VED";
+            if (UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera()) {
+                valCodigo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            }
+            return valCodigo;
         }
         #endregion //Metodos
     } //End of class OrdenDeProduccionViewModel
