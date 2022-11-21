@@ -335,7 +335,7 @@
                     Grid.Row="0"
                     Grid.Column="4"
                     Width="120"
-                    Margin="10,4,0,4"
+                    Margin="0,4,0,4"
                     HorizontalAlignment="Right"
                     BorderThickness="1"
                     DecimalDigits="4"
