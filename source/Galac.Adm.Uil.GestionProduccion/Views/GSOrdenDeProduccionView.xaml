@@ -197,12 +197,11 @@
             Name="lblFechaCierre"
             Grid.Row="6"
             Grid.Column="0"
-            Width="127"
+            Width="140"
             Height="24"
-            HorizontalAlignment="Left"
             Content="Fecha de Finalización"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" Margin="3,0,0,0" VerticalAlignment="Center" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaFinalizacion"
             Grid.Row="6"
@@ -218,13 +217,12 @@
             Name="lblFechaAnulacion"
             Grid.Row="7"
             Grid.Column="0"
-            Width="116"
+            Width="140"
             Height="24"
-            Margin="3,3,0,0"
-            HorizontalAlignment="Left"
+            Margin="3,0,0,0"
             Content="Fecha de Anulación"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleFechaDeAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisibleFechaDeAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" VerticalAlignment="Center" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaAnulacion"
             Grid.Row="7"

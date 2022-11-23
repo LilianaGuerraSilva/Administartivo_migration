@@ -821,6 +821,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (ConexionMoneda != null) {
                     Moneda = ConexionMoneda.Nombre;
                     CodigoMonedaCostoProduccion = ConexionMoneda.Codigo;
+                    bool vConsultarAntesDeAsignarCambio = true;
+                    AsignarValoresDeMonedaPorDefecto();
+                    AsignarCambioCostoDeProduccion(vConsultarAntesDeAsignarCambio);
                 } else {
                     Moneda = string.Empty;
                     CodigoMonedaCostoProduccion = string.Empty;
@@ -1076,7 +1079,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             CambioMoneda = valCambio;
         }
 
-        private void AsignarCambioCostoDeProduccion() {
+        private void AsignarCambioCostoDeProduccion(bool valConsultarAntesDeAsignarCambio = false) {
             CodigoMonedaCostoProduccion = CodigoMoneda;
             if (Action == eAccionSR.Insertar) {
                 CambioCostoProduccion = CambioMoneda;
@@ -1105,7 +1108,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if (Action == eAccionSR.Cerrar) {
                 if (FechaFinalizacion < FechaInicio) {
                     LibMessages.MessageBox.Alert(this, "La fecha de finalización de la Orden de Producción no puede ser anterior a su fecha de inicio.", ModuleName);
-                } else if (LibMessages.MessageBox.YesNo(this, "Está seguro de cerrar esta Orden de Producción?", ModuleName)){
+                } else if (FechaFinalizacion > LibDate.Today()) {
+                    LibMessages.MessageBox.Alert(this, "La fecha de finalización de la Orden de Producción no puede ser superior a la fecha de hoy, por favor ingrese una fecha válida.", ModuleName);
+                } else if (LibMessages.MessageBox.YesNo(this, "Está seguro de cerrar esta Orden de Producción?", ModuleName)) {
                     base.ExecuteAction();
                 }
             } else if (Action == eAccionSR.Anular && FechaAnulacion < FechaInicio) {
