@@ -18,10 +18,6 @@
 	path = source/RetencionesVb
 	url = https://github.com/Galac-Software/RetencionesVb.git
 	branch = release/SawV22.8.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://github.com/Galac-Software/vbaComun.git
-	branch = release/SawV22.8.0.0
 [submodule "source/Lib/AosLib"]
 	path = source/Lib/AosLib
 	url = https://github.com/Galac-Software/AosLib.git
@@ -30,10 +26,6 @@
 	path = source/Lib/VbaLib
 	url = https://github.com/Galac-Software/vbaLib.git
 	branch = release/V2104
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://github.com/Galac-Software/BinAdministrativoAos.git
-	branch = release/V22.8.0.0
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/Galac-Software/BinComunAos.git
@@ -66,7 +58,3 @@
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
 	branch = release/v2104
-[submodule "bin/binAdministrativoVb"]
-	path = bin/binAdministrativoVb
-	url = https://github.com/Galac-Software/BinAdministrativoVB.git
-	branch = release/V2214
