@@ -1,7 +1,3 @@
-[submodule "source/Axi"]
-	path = source/Axi
-	url = https://github.com/Galac-Software/Axi.git
-	branch = release/SawV22.8.0.0
 [submodule "source/Contabilidadvb"]
 	path = source/Contabilidadvb
 	url = https://github.com/Galac-Software/ContabilidadVb.git
