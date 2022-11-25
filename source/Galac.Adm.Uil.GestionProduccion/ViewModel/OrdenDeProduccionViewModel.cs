@@ -566,7 +566,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsEnabledNombreMonedaProduccion {
             get {
-                return (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar || Action == eAccionSR.Custom || Action == eAccionSR.Cerrar);
+                return (Action == eAccionSR.Insertar);
             }
         }
 
@@ -584,7 +584,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsNotVisibleCambioCostoProduccion {
             get {
-                return !(UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera() && !EsEcuador());
+                return !IsVisibleCambioCostoProduccion;
             }
         }
 
