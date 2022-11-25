@@ -104,6 +104,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			if (AddColumnDecimal("Adm.OrdenDeProduccion", "CambioCostoProduccion", 25, 4, "", (decimal)1.0)) {
 				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCaCoPr", InsSql.ToSqlValue((decimal)1.0), "CambioCostoProduccion");
 			}
+			if (AddColumnCurrency("dbo.RenglonNotaES", "CostoUnitarioME", "", (decimal)0.0)) {
+				AddDefaultConstraint("dbo.RenglonNotaES", "d_RenNotESCoUnME", InsSql.ToSqlValue((decimal)1.0), "CostoUnitarioME");
+			}
 		}
 	}
 }

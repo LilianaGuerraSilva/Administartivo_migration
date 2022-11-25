@@ -428,6 +428,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     Ubicacion = "",                                        
                     ConsecutivoAlmacen = vOrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen,
                     CostoUnitario = vOrdenDeProduccionDetalleArticulo.CostoUnitario,
+                    CostoUnitarioME = vOrdenDeProduccionDetalleArticulo.CostoUnitarioME,
                     TipoActualizacion = eTipoActualizacion.ExistenciayCosto,
                     DetalleArticuloInventarioExistenciaSerial = new List<ArticuloInventarioExistenciaSerial>()
                 });
