@@ -1229,7 +1229,7 @@ End Enum
 
 Public Enum enum_ModoDeEnvioDeClave
    eMDEDC_NO_ASIGNADO = 0
-   eMDEDC_INDETERMINADO '(para ser asignado en reestructuración)
+   eMDEDC_INDETERMINADO '(para ser asignado en reestructuraciï¿½n)
    eMDEDC_TELEFONO
    eMDEDC_FAX
    eMDEDC_MAIL
@@ -1694,6 +1694,11 @@ Public Enum enum_FormaDeAsociarCentroDeCostos
    eFDACDC_PorLineaDeProducto
 End Enum
 
+Public Enum enum_FormaDeCalcularCostoTerminado
+   eFDCCT_APartirDeMonedaLocal = 0
+   eFDCCT_APartirDeMonedaExtranjera
+End Enum
+
 Public Function me_saw() As Long
    me_saw = 1
 End Function
@@ -1715,7 +1720,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_MenuG: enum_SystemModulesToStr = "G"
       Case eSM_AlicuotaIVA: enum_SystemModulesToStr = "Alicuota " & gGlobalization.fPromptIVA
       Case eSM_Almacen: enum_SystemModulesToStr = "Almacen"
-      Case eSM_ArticuloInventario: enum_SystemModulesToStr = "Artículo Inventario"
+      Case eSM_ArticuloInventario: enum_SystemModulesToStr = "Artï¿½culo Inventario"
       Case eSM_Autorizacion: enum_SystemModulesToStr = "Autorizacion"
       Case eSM_Banco: enum_SystemModulesToStr = "Banco"
       Case eSM_Caja: enum_SystemModulesToStr = "Caja Registradora"
@@ -1726,29 +1731,29 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_CambioaMonedaLocal: enum_SystemModulesToStr = "Cambio a Moneda Local"
       Case eSM_CamposMonedaExtranjera: enum_SystemModulesToStr = "Campos Moneda Extranjera"
       Case eSM_Categoria: enum_SystemModulesToStr = "Categoria"
-      Case eSM_CategoriaCliente: enum_SystemModulesToStr = "Categoría Cliente"
-      Case eSM_CategoriaProveedor: enum_SystemModulesToStr = "Categoría Proveedor"
+      Case eSM_CategoriaCliente: enum_SystemModulesToStr = "Categorï¿½a Cliente"
+      Case eSM_CategoriaProveedor: enum_SystemModulesToStr = "Categorï¿½a Proveedor"
       Case eSM_CIIU: enum_SystemModulesToStr = "C.I.I.U."
       Case eSM_Ciudad: enum_SystemModulesToStr = "Ciudad"
       Case eSM_ClaveSuperUtilitario: enum_SystemModulesToStr = "Clave Super Utilitario"
       Case eSM_Cliente: enum_SystemModulesToStr = "Cliente"
       Case eSM_Cobranza: enum_SystemModulesToStr = "Cobranza"
       Case eSM_Color: enum_SystemModulesToStr = "Color"
-      Case eSM_ComisionCobranzaXVcto: enum_SystemModulesToStr = "Comisión Cobranza por Vencimiento"
+      Case eSM_ComisionCobranzaXVcto: enum_SystemModulesToStr = "Comisiï¿½n Cobranza por Vencimiento"
       Case eSM_Compania: enum_SystemModulesToStr = "Empresa"
       Case eSM_Compra: enum_SystemModulesToStr = "Compra"
       Case eSM_ConceptoBancario: enum_SystemModulesToStr = "Concepto Bancario"
       Case eSM_Conciliacion: enum_SystemModulesToStr = "Conciliacion"
-      Case eSM_ConteoFisico: enum_SystemModulesToStr = "Conteo Físico"
+      Case eSM_ConteoFisico: enum_SystemModulesToStr = "Conteo Fï¿½sico"
       Case eSM_Contrato: enum_SystemModulesToStr = "Contrato"
-      Case eSM_CorreccionDeFechas: enum_SystemModulesToStr = "Corrección de fechas"
+      Case eSM_CorreccionDeFechas: enum_SystemModulesToStr = "Correcciï¿½n de fechas"
       Case eSM_Cotizacion: enum_SystemModulesToStr = "Cotizacion"
       Case eSM_CuentaBancaria: enum_SystemModulesToStr = "Cuenta Bancaria"
       Case eSM_Curso: enum_SystemModulesToStr = "Curso"
       Case eSM_CxC: enum_SystemModulesToStr = "CxC"
       Case eSM_CxP: enum_SystemModulesToStr = "CxP"
       Case eSM_Despacho: enum_SystemModulesToStr = "Despacho"
-      Case eSM_DiaDeDeclaracionDelIVA: enum_SystemModulesToStr = "Día de Declaración del " & gGlobalization.fPromptIVA
+      Case eSM_DiaDeDeclaracionDelIVA: enum_SystemModulesToStr = "Dï¿½a de Declaraciï¿½n del " & gGlobalization.fPromptIVA
       Case eSM_DireccionDeDespacho: enum_SystemModulesToStr = "Direccion De Despacho"
       Case eSM_DocumentoCobrado: enum_SystemModulesToStr = "Documento Cobrado"
       Case eSM_ExistenciaPorAlmacen: enum_SystemModulesToStr = "Existencia Por Almacen"
@@ -1761,46 +1766,46 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_LineaDeProducto: enum_SystemModulesToStr = "Linea De Producto"
       Case eSM_Llamada: enum_SystemModulesToStr = "Llamada"
       Case eSM_MailFax: enum_SystemModulesToStr = "Mail/Fax"
-      Case eSM_MaquinaFiscal: enum_SystemModulesToStr = "Máquina Fiscal"
-      Case eSM_MarcaVehiculo: enum_SystemModulesToStr = "Marca Vehículo"
-      Case eSM_ModeloVehiculo: enum_SystemModulesToStr = "Modelo Vehículo"
+      Case eSM_MaquinaFiscal: enum_SystemModulesToStr = "Mï¿½quina Fiscal"
+      Case eSM_MarcaVehiculo: enum_SystemModulesToStr = "Marca Vehï¿½culo"
+      Case eSM_ModeloVehiculo: enum_SystemModulesToStr = "Modelo Vehï¿½culo"
       Case eSM_Moneda: enum_SystemModulesToStr = "Moneda"
       Case eSM_Moneda: enum_SystemModulesToStr = "Moneda Local"
       Case eSM_MovimientoBancario: enum_SystemModulesToStr = "Movimiento Bancario"
       Case eSM_NotaDeEntradaSalida: enum_SystemModulesToStr = "Nota de Entrada/Salida/Auto-Consumos/Retiros"
       Case eSM_NotaFinal: enum_SystemModulesToStr = "Nota Final"
-      Case eSM_OPFalsoRetencion: enum_SystemModulesToStr = "Op Falso Retención"
+      Case eSM_OPFalsoRetencion: enum_SystemModulesToStr = "Op Falso Retenciï¿½n"
       Case eSM_OrdenDeCompra: enum_SystemModulesToStr = "Orden de Compra"
       Case eSM_OrdenDeServicio: enum_SystemModulesToStr = "Orden de Servicio"
       Case eSM_OtrosCargosDeFactura: enum_SystemModulesToStr = "Otros Cargos de Factura"
-      Case eSM_Parametros: enum_SystemModulesToStr = "Parámetros Administrativo"
+      Case eSM_Parametros: enum_SystemModulesToStr = "Parï¿½metros Administrativo"
       Case eSM_Pago: enum_SystemModulesToStr = "Pago"
       Case eSM_Pais: enum_SystemModulesToStr = "Pais"
       Case eSM_Parametros: enum_SystemModulesToStr = "Parametros"
-      Case eSM_ParametrosCompania: enum_SystemModulesToStr = "Parámetros Compañía"
+      Case eSM_ParametrosCompania: enum_SystemModulesToStr = "Parï¿½metros Compaï¿½ï¿½a"
       Case eSM_PlanillaForma00030: enum_SystemModulesToStr = "Planilla Forma 00030"
       Case eSM_PreguntasMasComunes: enum_SystemModulesToStr = "Preguntas"
       Case eSM_ProductoCompuesto: enum_SystemModulesToStr = "Producto Compuesto"
       Case eSM_PropAnalisisVenc: enum_SystemModulesToStr = "Prop Analisis Venc"
       Case eSM_Proveedor: enum_SystemModulesToStr = "Proveedor"
-      Case eSM_ReglasDeContabilizacion: enum_SystemModulesToStr = "Reglas de Contabilización"
-      Case eSM_RenglonArtCompuestoCot: enum_SystemModulesToStr = "Renglon Artículos Compuesto en Cotización"
-      Case eSM_RenglonArtCompuestoFac: enum_SystemModulesToStr = "Renglon Artículos Compuesto en Factura"
-      Case eSM_RenglonCobroDeFactura: enum_SystemModulesToStr = "Renglón Cobro de Factura"
-      Case eSM_RenglonComisionesDeVendedor: enum_SystemModulesToStr = "Renglón Comisiones de Vendedor"
-      Case eSM_RenglonCompra: enum_SystemModulesToStr = "Renglón Compra"
-      Case eSM_RenglonCompraXSerial: enum_SystemModulesToStr = "Renglón Compra por Serial"
-      Case eSM_RenglonConteoFisico: enum_SystemModulesToStr = "Renglón Conteo Físico"
-      Case eSM_RenglonContrato: enum_SystemModulesToStr = "Renglón Contrato"
-      Case eSM_RenglonCotizacion: enum_SystemModulesToStr = "Renglón Cotizacion"
+      Case eSM_ReglasDeContabilizacion: enum_SystemModulesToStr = "Reglas de Contabilizaciï¿½n"
+      Case eSM_RenglonArtCompuestoCot: enum_SystemModulesToStr = "Renglon Artï¿½culos Compuesto en Cotizaciï¿½n"
+      Case eSM_RenglonArtCompuestoFac: enum_SystemModulesToStr = "Renglon Artï¿½culos Compuesto en Factura"
+      Case eSM_RenglonCobroDeFactura: enum_SystemModulesToStr = "Renglï¿½n Cobro de Factura"
+      Case eSM_RenglonComisionesDeVendedor: enum_SystemModulesToStr = "Renglï¿½n Comisiones de Vendedor"
+      Case eSM_RenglonCompra: enum_SystemModulesToStr = "Renglï¿½n Compra"
+      Case eSM_RenglonCompraXSerial: enum_SystemModulesToStr = "Renglï¿½n Compra por Serial"
+      Case eSM_RenglonConteoFisico: enum_SystemModulesToStr = "Renglï¿½n Conteo Fï¿½sico"
+      Case eSM_RenglonContrato: enum_SystemModulesToStr = "Renglï¿½n Contrato"
+      Case eSM_RenglonCotizacion: enum_SystemModulesToStr = "Renglï¿½n Cotizacion"
       Case eSM_RenglonExistenciaAlmacen: enum_SystemModulesToStr = "Renglon Existencia por Almacen"
-      Case eSM_RenglonFactura: enum_SystemModulesToStr = "Renglón Factura"
-      Case eSM_RenglonGrupoColor: enum_SystemModulesToStr = "Renglón Grupo Color"
-      Case eSM_RenglonGrupoTalla: enum_SystemModulesToStr = "Renglón Grupo Talla"
-      Case eSM_RenglonNotaES: enum_SystemModulesToStr = "Renglón Nota Entrada / Salida"
-      Case eSM_RenglonOtrosCargosDeCotizacion: enum_SystemModulesToStr = "Renglón Otros Cargos de Cotización"
-      Case eSM_RenglonOtrosCargosDeFactura: enum_SystemModulesToStr = "Renglón Otros Cargos de Factura"
-      Case eSM_RenglonTransferencia: enum_SystemModulesToStr = "Renglón Transferencia"
+      Case eSM_RenglonFactura: enum_SystemModulesToStr = "Renglï¿½n Factura"
+      Case eSM_RenglonGrupoColor: enum_SystemModulesToStr = "Renglï¿½n Grupo Color"
+      Case eSM_RenglonGrupoTalla: enum_SystemModulesToStr = "Renglï¿½n Grupo Talla"
+      Case eSM_RenglonNotaES: enum_SystemModulesToStr = "Renglï¿½n Nota Entrada / Salida"
+      Case eSM_RenglonOtrosCargosDeCotizacion: enum_SystemModulesToStr = "Renglï¿½n Otros Cargos de Cotizaciï¿½n"
+      Case eSM_RenglonOtrosCargosDeFactura: enum_SystemModulesToStr = "Renglï¿½n Otros Cargos de Factura"
+      Case eSM_RenglonTransferencia: enum_SystemModulesToStr = "Renglï¿½n Transferencia"
       Case eSM_RespaldarRestaurar: enum_SystemModulesToStr = "Respaldar / Restaurar"
       Case eSM_ResumenDiarioVentas: enum_SystemModulesToStr = "Resumen Diario"
       Case eSM_RetDocumentoPagado: enum_SystemModulesToStr = "Ret Documento Pagado"
@@ -1814,20 +1819,20 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_TipoProveedor: enum_SystemModulesToStr = "Tipo Proveedor"
       Case eSM_Transferencia: enum_SystemModulesToStr = "Transferencia"
       Case eSM_UnidadDeVenta: enum_SystemModulesToStr = "Unidad De Venta"
-      Case eSM_UrbanizacionZP: enum_SystemModulesToStr = "Urbanización ZP"
+      Case eSM_UrbanizacionZP: enum_SystemModulesToStr = "Urbanizaciï¿½n ZP"
       Case eSM_Usuario: enum_SystemModulesToStr = "Usuario"
       Case eSM_Vendedor: enum_SystemModulesToStr = "Vendedor"
-      Case eSM_VersionPrograma: enum_SystemModulesToStr = "Versión Programa"
+      Case eSM_VersionPrograma: enum_SystemModulesToStr = "Versiï¿½n Programa"
       Case eSM_Visita: enum_SystemModulesToStr = "Visita"
       Case eSM_ZonaCobranza: enum_SystemModulesToStr = "Zona Cobranza"
       Case eSM_ProductoCompuesto: enum_SystemModulesToStr = "Producto Compuesto"
-      Case eSM_GestionDeCobranza:  enum_SystemModulesToStr = "Gestión de Cobranza"
-      Case eSM_ComprobanteRetencionIVA: enum_SystemModulesToStr = "Comprobante Retención " & gGlobalization.fPromptIVA
+      Case eSM_GestionDeCobranza:  enum_SystemModulesToStr = "Gestiï¿½n de Cobranza"
+      Case eSM_ComprobanteRetencionIVA: enum_SystemModulesToStr = "Comprobante Retenciï¿½n " & gGlobalization.fPromptIVA
       Case eSM_ChequeDeMovBancario: enum_SystemModulesToStr = "Cheque de Mov. Bancario"
       Case eSM_ServiciosAlRealizarVisita: enum_SystemModulesToStr = "Servicios Al Realizar Visita"
       Case eSM_PlanillaForma00030Nueva: enum_SystemModulesToStr = "Planilla Forma 00030 Nueva"
       Case eSM_PDT: enum_SystemModulesToStr = "Planillas Declarativas (PDT)"
-      Case eSM_Rendicion: enum_SystemModulesToStr = "Rendición"
+      Case eSM_Rendicion: enum_SystemModulesToStr = "Rendiciï¿½n"
       Case eSM_CajaChica: enum_SystemModulesToStr = "Reposicion de Caja Chica"
       Case eSM_Adelanto: enum_SystemModulesToStr = "Adelanto"
       Case eSM_TipoDeDocumentoLey: enum_SystemModulesToStr = "Tipo de Documento de Ley"
@@ -1837,7 +1842,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case esM_InteligenciaDeNegocio: enum_SystemModulesToStr = "Inteligencia De Negocio"
       Case esM_InformesVendedores: enum_SystemModulesToStr = "Informes Vendedores"
  
-      Case eSM_Vehiculo: enum_SystemModulesToStr = "Vehículo"
+      Case eSM_Vehiculo: enum_SystemModulesToStr = "Vehï¿½culo"
       Case eSM_ControlDespacho: enum_SystemModulesToStr = "Control Despacho"
       Case eSM_DetalleDeControlDespacho: enum_SystemModulesToStr = "Detalle de Control Despacho"
  
@@ -1853,15 +1858,15 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_RenglonImpuestoMunicipalRetNav: enum_SystemModulesToStr = "RenglonImpuesto Municipal Ret"
       Case eSM_NotaDeEntrega: enum_SystemModulesToStr = "Nota de Entrega"
       Case eSM_CompraDetalleGasto: enum_SystemModulesToStr = "Compra Detalle Gasto"
-      'módulos de winret
-      Case eSM_PlanillaDec: enum_SystemModulesToStr = "Planilla de Declaración"
+      'mï¿½dulos de winret
+      Case eSM_PlanillaDec: enum_SystemModulesToStr = "Planilla de Declaraciï¿½n"
       Case eSM_PlantillaRET: enum_SystemModulesToStr = "Plantilla de Retenciones"
       Case eSM_ValorUT: enum_SystemModulesToStr = "Valor U.T."
-      Case eSM_TarifaN2: enum_SystemModulesToStr = "Tarifa N°2"
+      Case eSM_TarifaN2: enum_SystemModulesToStr = "Tarifa Nï¿½2"
       Case eSM_ARCV: enum_SystemModulesToStr = "ARCV"
-      Case eSM_RelacionAnual: enum_SystemModulesToStr = "Relación Anual"
-      Case eSM_RenglonARCV: enum_SystemModulesToStr = "Renglón ARCV"
-      Case eSM_ConversionContabilidad: enum_SystemModulesToStr = "Conversión"
+      Case eSM_RelacionAnual: enum_SystemModulesToStr = "Relaciï¿½n Anual"
+      Case eSM_RenglonARCV: enum_SystemModulesToStr = "Renglï¿½n ARCV"
+      Case eSM_ConversionContabilidad: enum_SystemModulesToStr = "Conversiï¿½n"
       Case eSM_Contabilizar: enum_SystemModulesToStr = "Contabilizar"
       Case eSM_Balances: enum_SystemModulesToStr = "Balances"
       Case eSM_Informes: enum_SystemModulesToStr = "Informes"
@@ -1873,9 +1878,9 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_CondicionesDePago: enum_SystemModulesToStr = "Condiciones De Pago"
       Case eSM_ListaDeMateriales: enum_SystemModulesToStr = "Lista De Materiales"
       Case eSM_ListaDeMaterialesDetalleArticulo: enum_SystemModulesToStr = "Lista De Materiales Detalle Articulo"
-      Case eSM_OrdenDeProduccion: enum_SystemModulesToStr = "Orden de Producción"
-      Case eSM_OrdenDeProduccionDetalleArticulo: enum_SystemModulesToStr = "Orden de Producción Detalle Articulo"
-      Case eSM_OrdenDeProduccionDetalleMateriales: enum_SystemModulesToStr = "Orden de Producción Detalle Materiales"
+      Case eSM_OrdenDeProduccion: enum_SystemModulesToStr = "Orden de Producciï¿½n"
+      Case eSM_OrdenDeProduccionDetalleArticulo: enum_SystemModulesToStr = "Orden de Producciï¿½n Detalle Articulo"
+      Case eSM_OrdenDeProduccionDetalleMateriales: enum_SystemModulesToStr = "Orden de Producciï¿½n Detalle Materiales"
       ''Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
    End Select
 End Function
@@ -1884,10 +1889,10 @@ Public Function enumDiaDeLaSemanaToString(DiaDeLaSemana As enum_DiaDeLaSemana) A
    Select Case DiaDeLaSemana
       Case eDD_LUNES: enumDiaDeLaSemanaToString = "Lunes"
       Case eDD_MARTES: enumDiaDeLaSemanaToString = "Martes"
-      Case eDD_MIERCOLES: enumDiaDeLaSemanaToString = "Miércoles"
+      Case eDD_MIERCOLES: enumDiaDeLaSemanaToString = "Miï¿½rcoles"
       Case eDD_JUEVES: enumDiaDeLaSemanaToString = "Jueves"
       Case eDD_VIERNES: enumDiaDeLaSemanaToString = "Viernes"
-      Case eDD_SABADO: enumDiaDeLaSemanaToString = "Sábado"
+      Case eDD_SABADO: enumDiaDeLaSemanaToString = "Sï¿½bado"
       Case eDD_DOMINGO: enumDiaDeLaSemanaToString = "Domingo"
       Case Else: enumDiaDeLaSemanaToString = enumDiaDeLaSemanaToString(0)
    End Select
@@ -2044,7 +2049,7 @@ End Sub
 
 Public Function enumTipoDePersonaFiscalToString(ByVal tipoDePersonaFiscal As enum_TipoDePersonaFiscal) As String
    Select Case tipoDePersonaFiscal
-      Case eTD_PERSONAJURIDICA: enumTipoDePersonaFiscalToString = "Persona Jurídica"
+      Case eTD_PERSONAJURIDICA: enumTipoDePersonaFiscalToString = "Persona Jurï¿½dica"
       Case eTD_PERSONANATURAL: enumTipoDePersonaFiscalToString = "Persona Natural"
       Case Else: enumTipoDePersonaFiscalToString = enumTipoDePersonaFiscalToString(0)
    End Select
@@ -2266,16 +2271,16 @@ Public Function enumTipoDeCxCToString(ByVal tipodeCuenta As enum_TipoDeTransacci
       Case eTD_FACTURA: enumTipoDeCxCToString = "Factura"
       Case eTD_GIRO: enumTipoDeCxCToString = "Giro"
       Case eTD_CHEQUEDEVUELTO: enumTipoDeCxCToString = "Cheque Devuelto"
-      Case eTD_NOTADECREDITO: enumTipoDeCxCToString = "Nota de Crédito"
-      Case eTD_NOTADEDEBITO: enumTipoDeCxCToString = "Nota de Débito"
+      Case eTD_NOTADECREDITO: enumTipoDeCxCToString = "Nota de Crï¿½dito"
+      Case eTD_NOTADEDEBITO: enumTipoDeCxCToString = "Nota de Dï¿½bito"
       Case eTD_NOTAENTREGA: enumTipoDeCxCToString = "Nota de Entrega"
       Case eTD_NOASIGNADO: enumTipoDeCxCToString = "No Asignado"
       Case eTD_BOLETADEVENTA: enumTipoDeCxCToString = "Boleta de Venta"
-      Case eTD_TICKETMAQUINAREGISTRADORA: enumTipoDeCxCToString = "Ticket Máquina Registradora"
+      Case eTD_TICKETMAQUINAREGISTRADORA: enumTipoDeCxCToString = "Ticket Mï¿½quina Registradora"
       Case eTD_RECIBOPORHONORARIOS: enumTipoDeCxCToString = "Recibo por Honorarios"
-      Case eTD_LIQUIDACIONDECOMPRA: enumTipoDeCxCToString = "Liquidación de Compra"
+      Case eTD_LIQUIDACIONDECOMPRA: enumTipoDeCxCToString = "Liquidaciï¿½n de Compra"
       Case eTD_OTROS: enumTipoDeCxCToString = "Otros"
-      Case eTD_NOTADECREDITOCOMPROBANTEFISCAL: enumTipoDeCxCToString = "Nota de Crédito Comprobante Fiscal"
+      Case eTD_NOTADECREDITOCOMPROBANTEFISCAL: enumTipoDeCxCToString = "Nota de Crï¿½dito Comprobante Fiscal"
       Case Else: enumTipoDeCxCToString = enumTipoDeCxCToString(0)
       End Select
 End Function
@@ -2476,7 +2481,7 @@ End Sub
 Public Function enumFormaDeEscogerCompaniaToString(ByVal formaDeEscogerCompania As enum_FormaDeEscogerCompania) As String
    Select Case formaDeEscogerCompania
       Case eFD_PORNOMBRE: enumFormaDeEscogerCompaniaToString = "Por nombre"
-      Case eFD_PORCODIGO: enumFormaDeEscogerCompaniaToString = "Por código"
+      Case eFD_PORCODIGO: enumFormaDeEscogerCompaniaToString = "Por cï¿½digo"
       Case Else: enumFormaDeEscogerCompaniaToString = enumFormaDeEscogerCompaniaToString(0)
    End Select
 End Function
@@ -2568,13 +2573,13 @@ End Sub
 Public Function enumTipoDeAlicuotaToString(ByVal tipoDeAlicuota As enum_TipoDeAlicuota) As String
    Select Case tipoDeAlicuota
       Case eTD_EXENTO: enumTipoDeAlicuotaToString = "Exento"
-      Case eTD_ALICUOTAGENERAL: enumTipoDeAlicuotaToString = "Alícuota General"
-      Case eTD_ALICUOTA2: enumTipoDeAlicuotaToString = "Alícuota Reducida"
-      Case eTD_ALICUOTA3: enumTipoDeAlicuotaToString = "Alícuota Adicional"
+      Case eTD_ALICUOTAGENERAL: enumTipoDeAlicuotaToString = "Alï¿½cuota General"
+      Case eTD_ALICUOTA2: enumTipoDeAlicuotaToString = "Alï¿½cuota Reducida"
+      Case eTD_ALICUOTA3: enumTipoDeAlicuotaToString = "Alï¿½cuota Adicional"
       Case eTD_EXENTONC: enumTipoDeAlicuotaToString = "Exento NC"
-      Case eTD_ALICUOTAGENERALNC: enumTipoDeAlicuotaToString = "Alícuota General NC"
-      Case eTD_ALICUOTA2NC: enumTipoDeAlicuotaToString = "Alícuota Reducida NC"
-      Case eTD_ALICUOTA3NC: enumTipoDeAlicuotaToString = "Alícuota Adicional NC"
+      Case eTD_ALICUOTAGENERALNC: enumTipoDeAlicuotaToString = "Alï¿½cuota General NC"
+      Case eTD_ALICUOTA2NC: enumTipoDeAlicuotaToString = "Alï¿½cuota Reducida NC"
+      Case eTD_ALICUOTA3NC: enumTipoDeAlicuotaToString = "Alï¿½cuota Adicional NC"
       Case Else: enumTipoDeAlicuotaToString = enumTipoDeAlicuotaToString(0)
    End Select
 End Function
@@ -2674,9 +2679,9 @@ End Sub
 Public Function enumTipoDeProductoToString(ByVal tipoDeProducto As enum_TipoDeProducto) As String
    Select Case tipoDeProducto
       Case eTD_TP_NUEVO: enumTipoDeProductoToString = "Nuevo"
-      Case eTD_TP_ACTUALIZACION: enumTipoDeProductoToString = "Actualización"
+      Case eTD_TP_ACTUALIZACION: enumTipoDeProductoToString = "Actualizaciï¿½n"
       Case eTD_TP_OTRO: enumTipoDeProductoToString = "Otro"
-      Case eTD_TP_POLIZA: enumTipoDeProductoToString = "Póliza"
+      Case eTD_TP_POLIZA: enumTipoDeProductoToString = "Pï¿½liza"
       Case Else: enumTipoDeProductoToString = enumTipoDeProductoToString(0)
    End Select
 End Function
@@ -2775,13 +2780,13 @@ End Sub
 Public Function enumTipodocumentoFacturaToString(ByVal tipodocumentoFactura As enum_TipoDocumentoFactura) As String
    Select Case tipodocumentoFactura
       Case eTF_FACTURA: enumTipodocumentoFacturaToString = "Factura"
-      Case eTF_NOTADECREDITO: enumTipodocumentoFacturaToString = "Nota de Crédito"
-      Case eTF_NOTADEDEBITO: enumTipodocumentoFacturaToString = "Nota de Débito"
+      Case eTF_NOTADECREDITO: enumTipodocumentoFacturaToString = "Nota de Crï¿½dito"
+      Case eTF_NOTADEDEBITO: enumTipodocumentoFacturaToString = "Nota de Dï¿½bito"
       Case eTF_RESUMENDIARIODEVENTAS: enumTipodocumentoFacturaToString = "Resumen Diario de Ventas"
       Case eTF_NOASIGNADO: enumTipodocumentoFacturaToString = "No Asignado"
       Case eTF_COMPROBANTEFISCAL: enumTipodocumentoFacturaToString = "Comprobante Fiscal"
       Case eTF_BOLETA: enumTipodocumentoFacturaToString = "Boleta"
-      Case eTF_NOTADECREDITOCOMPROBANTEFISCAL: enumTipodocumentoFacturaToString = "Nota de Crédito Comprobante Fiscal"
+      Case eTF_NOTADECREDITOCOMPROBANTEFISCAL: enumTipodocumentoFacturaToString = "Nota de Crï¿½dito Comprobante Fiscal"
       Case eTF_NOTAENTREGA: enumTipodocumentoFacturaToString = "Nota de Entrega"
       Case Else: enumTipodocumentoFacturaToString = enumTipodocumentoFacturaToString(0)
       End Select
@@ -2839,7 +2844,7 @@ End Sub
 Public Function enumFormadePagoToString(ByVal formadePago As enum_FormaDePago) As String
    Select Case formadePago
       Case eFP_CONTADO: enumFormadePagoToString = "Contado"
-      Case eFP_CREDITO: enumFormadePagoToString = "Crédito"
+      Case eFP_CREDITO: enumFormadePagoToString = "Crï¿½dito"
       Case Else: enumFormadePagoToString = enumFormadePagoToString(0)
    End Select
 End Function
@@ -2885,7 +2890,7 @@ End Sub
 Public Function enumContadoCreditoToString(ByVal contadoCredito As enum_ContadoCredito) As String
    Select Case contadoCredito
       Case eCC_CONTADO: enumContadoCreditoToString = "Contado"
-      Case eCC_Credito: enumContadoCreditoToString = "Crédito"
+      Case eCC_Credito: enumContadoCreditoToString = "Crï¿½dito"
       Case eCC_CLAVE_TEMPORAL: enumContadoCreditoToString = "Clave Temporal"
       Case Else: enumContadoCreditoToString = enumContadoCreditoToString(0)
    End Select
@@ -3003,7 +3008,7 @@ End Sub
 
 Public Function enumTipoDeSAWToString(tipoDeSAW As enum_TipoDeSAW) As String
    Select Case tipoDeSAW
-      Case eTD_SAW_BASICO: enumTipoDeSAWToString = "Básico"
+      Case eTD_SAW_BASICO: enumTipoDeSAWToString = "Bï¿½sico"
       Case eTD_SAW_PROFESIONAL: enumTipoDeSAWToString = "Profesional"
       Case eTD_SAW_CONTRIBUYENTES_ESPECIALES: enumTipoDeSAWToString = "Contribuyentes Especiales"
       Case Else
@@ -3101,7 +3106,7 @@ Public Function enumTipoDeFacturaToString(ByVal tipoDeFactura As enum_TipoDeFact
    Select Case tipoDeFactura
       Case eTD_OFICINA: enumTipoDeFacturaToString = "Oficina"
       Case eTD_DISTRIBUIDOR: enumTipoDeFacturaToString = "Distribuidor"
-      Case eTD_PROMOCION: enumTipoDeFacturaToString = "Promoción"
+      Case eTD_PROMOCION: enumTipoDeFacturaToString = "Promociï¿½n"
       Case Else: enumTipoDeFacturaToString = enumTipoDeFacturaToString(0)
    End Select
 End Function
@@ -3153,7 +3158,7 @@ Public Function enumOrigenLlamadaToString(ByVal origenLlamada As enum_OrigenLlam
       Case eOL_MAILING: enumOrigenLlamadaToString = "Mailing"
       Case eOL_REFERIDO: enumOrigenLlamadaToString = "Referido"
       Case eOL_RADIO: enumOrigenLlamadaToString = "Radio"
-      Case eOL_PAGINASAMARRILLAS: enumOrigenLlamadaToString = "Páginas Amarrillas"
+      Case eOL_PAGINASAMARRILLAS: enumOrigenLlamadaToString = "Pï¿½ginas Amarrillas"
       Case eOL_EVENTO: enumOrigenLlamadaToString = "Evento"
       Case eOL_COMUNICADOFAX: enumOrigenLlamadaToString = "Comunicado Fax"
       Case eOL_OFICINA: enumOrigenLlamadaToString = "Oficina"
@@ -3222,7 +3227,7 @@ Public Function enumAccionToString(ByVal accion As enum_Accion) As String
       Case eAc_COTIZAR: enumAccionToString = "Cotizar"
       Case eAc_FACTURAR: enumAccionToString = "Facturar"
       Case eAc_PROBLEMA: enumAccionToString = "Problema"
-      Case eAc_REPOSICION: enumAccionToString = "Reposición"
+      Case eAc_REPOSICION: enumAccionToString = "Reposiciï¿½n"
       Case eAc_RELLAMAR: enumAccionToString = "Rellamar"
       Case Else: enumAccionToString = enumAccionToString(0)
    End Select
@@ -3279,7 +3284,7 @@ Public Function enumTipoLLamadaToString(ByVal tipoLLamada As enum_TipoLLamada) A
       Case eTL_VENTA: enumTipoLLamadaToString = "VENTA"
       Case eTL_SERVICIO: enumTipoLLamadaToString = "SERVICIO"
       Case eTL_OFICINA: enumTipoLLamadaToString = "OFICINA"
-      Case eTL_PROMOCION: enumTipoLLamadaToString = "Promoción"
+      Case eTL_PROMOCION: enumTipoLLamadaToString = "Promociï¿½n"
       Case eTL_CLAVE: enumTipoLLamadaToString = "Clave"
       Case eTL_COBRANZA: enumTipoLLamadaToString = "Cobranza"
       Case eTL_INTERNET: enumTipoLLamadaToString = "Internet"
@@ -3287,9 +3292,9 @@ Public Function enumTipoLLamadaToString(ByVal tipoLLamada As enum_TipoLLamada) A
       Case eTL_NUEVOS: enumTipoLLamadaToString = "Nuevos"
       Case eTL_OFFICE_SUPPORT: enumTipoLLamadaToString = "Office Support"
       Case eTL_POR_DEFINIR: enumTipoLLamadaToString = "Por Definir"
-      Case eTL_INSTALACION: enumTipoLLamadaToString = "Instalación"
-      Case eTL_CONFIGURACION: enumTipoLLamadaToString = "Configuración"
-      Case eTL_IMPRESION: enumTipoLLamadaToString = "Impresión"
+      Case eTL_INSTALACION: enumTipoLLamadaToString = "Instalaciï¿½n"
+      Case eTL_CONFIGURACION: enumTipoLLamadaToString = "Configuraciï¿½n"
+      Case eTL_IMPRESION: enumTipoLLamadaToString = "Impresiï¿½n"
       Case Else: enumTipoLLamadaToString = enumTipoLLamadaToString(0)
    End Select
 End Function
@@ -3362,9 +3367,9 @@ End Sub
 
 Public Function enumMananaOTardeToString(ByVal mananaOTarde As enum_MananaOTarde) As String
    Select Case mananaOTarde
-      Case eMO_MANANA: enumMananaOTardeToString = "Mañana"
+      Case eMO_MANANA: enumMananaOTardeToString = "Maï¿½ana"
       Case eMO_TARDE: enumMananaOTardeToString = "Tarde"
-      Case eMO_TODOELDIA: enumMananaOTardeToString = "Todo el día"
+      Case eMO_TODOELDIA: enumMananaOTardeToString = "Todo el dï¿½a"
       Case Else: enumMananaOTardeToString = enumMananaOTardeToString(0)
    End Select
 End Function
@@ -3518,8 +3523,8 @@ Public Function enumTipoDeAlmacenToString(ByVal tipoDeAlmacen As enum_TipoDeAlma
    Select Case tipoDeAlmacen
       Case eTD_PRINCIPAL: enumTipoDeAlmacenToString = "Principal"
       Case eTD_SECUNDARIO: enumTipoDeAlmacenToString = "Secundario"
-      Case eTD_CONSIGNACION: enumTipoDeAlmacenToString = "Consignación"
-      Case eTD_MERCANCIA_EN_TIENDA: enumTipoDeAlmacenToString = "Mercancía en tienda"
+      Case eTD_CONSIGNACION: enumTipoDeAlmacenToString = "Consignaciï¿½n"
+      Case eTD_MERCANCIA_EN_TIENDA: enumTipoDeAlmacenToString = "Mercancï¿½a en tienda"
       Case Else: enumTipoDeAlmacenToString = enumTipoDeAlmacenToString(0)
    End Select
 End Function
@@ -3620,7 +3625,7 @@ End Sub
 
 Public Function enumTipoDeArticuloToString(ByVal tipoDeArticulo As enum_TipoDeArticulo) As String
    Select Case tipoDeArticulo
-      Case eTD_MERCANCIA: enumTipoDeArticuloToString = "Mercancía"
+      Case eTD_MERCANCIA: enumTipoDeArticuloToString = "Mercancï¿½a"
       Case eTD_SERVICIO: enumTipoDeArticuloToString = "Servicio"
       Case eTD_PRODUCTO_COMPUESTO: enumTipoDeArticuloToString = "Producto Compuesto"
       Case Else: enumTipoDeArticuloToString = enumTipoDeArticuloToString(0)
@@ -3669,12 +3674,12 @@ End Sub
 
 Public Function enumTipoDeServicioToString(ByVal tipoDeServicio As enum_TipoDeServicio) As String
    Select Case tipoDeServicio
-      Case eTD_ACTUALIZACION: enumTipoDeServicioToString = "Actualización"
+      Case eTD_ACTUALIZACION: enumTipoDeServicioToString = "Actualizaciï¿½n"
       Case eTD_ADIESTRAMIENTO: enumTipoDeServicioToString = "Adiestramiento"
-      Case eTD_DEMOSTRACION: enumTipoDeServicioToString = "Demostración"
-      Case eTD_GARANTIA: enumTipoDeServicioToString = "Garantía"
-      Case eTD_INSTALACION: enumTipoDeServicioToString = "Instalación"
-      Case eTD_REPOSICION: enumTipoDeServicioToString = "Reposición"
+      Case eTD_DEMOSTRACION: enumTipoDeServicioToString = "Demostraciï¿½n"
+      Case eTD_GARANTIA: enumTipoDeServicioToString = "Garantï¿½a"
+      Case eTD_INSTALACION: enumTipoDeServicioToString = "Instalaciï¿½n"
+      Case eTD_REPOSICION: enumTipoDeServicioToString = "Reposiciï¿½n"
       Case eTD_OTRO: enumTipoDeServicioToString = "Otro"
       Case Else: enumTipoDeServicioToString = enumTipoDeServicioToString(0)
    End Select
@@ -3995,12 +4000,12 @@ End Sub
 Public Function enumMotivoDelDespachoToString(ByVal motivoDelDespacho As enum_MotivoDelDespacho) As String
    Select Case motivoDelDespacho
       Case eMD_FACTURA: enumMotivoDelDespachoToString = "Factura"
-      Case eMD_Reposicion: enumMotivoDelDespachoToString = "Reposición"
+      Case eMD_Reposicion: enumMotivoDelDespachoToString = "Reposiciï¿½n"
       Case eMD_DEMO: enumMotivoDelDespachoToString = "Demo"
       Case eMD_OTROS: enumMotivoDelDespachoToString = "Otros"
       Case eMD_NOTA_ENTREGA: enumMotivoDelDespachoToString = "Nota Entrega"
       Case eMD_EVENTO: enumMotivoDelDespachoToString = "Evento"
-      Case eMD_DEPOSITO_ENVIO: enumMotivoDelDespachoToString = "Depositó Envio 7.500 Bs"
+      Case eMD_DEPOSITO_ENVIO: enumMotivoDelDespachoToString = "Depositï¿½ Envio 7.500 Bs"
       Case Else: enumMotivoDelDespachoToString = enumMotivoDelDespachoToString(0)
    End Select
 End Function
@@ -4053,8 +4058,8 @@ End Sub
 
 Public Function enumTipodePersonaRetencionToString(ByVal tipodePersonaRetencion As enum_TipodePersonaRetencion) As String
    Select Case tipodePersonaRetencion
-      Case eTP_PJ_DOMICILIADA: enumTipodePersonaRetencionToString = "Jurídica Domiciliada"
-      Case eTP_PJ_NODOMICILIADA: enumTipodePersonaRetencionToString = "Jurídica No Domiciliada"
+      Case eTP_PJ_DOMICILIADA: enumTipodePersonaRetencionToString = "Jurï¿½dica Domiciliada"
+      Case eTP_PJ_NODOMICILIADA: enumTipodePersonaRetencionToString = "Jurï¿½dica No Domiciliada"
       Case eTP_PN_RESIDENTE: enumTipodePersonaRetencionToString = "Natural Residente"
       Case eTP_PN_NORESIDENTE: enumTipodePersonaRetencionToString = "Natural No Residente"
       Case Else: enumTipodePersonaRetencionToString = enumTipodePersonaRetencionToString(0)
@@ -4158,25 +4163,25 @@ Public Function enum_menusDelSistemaAdministrativoToStr(ByVal valMenu As menusDe
       Case me_INVENTARIO: enum_menusDelSistemaAdministrativoToStr = "Inventario"
       Case me_CXP: enum_menusDelSistemaAdministrativoToStr = "CxP y Pagos"
       Case me_BANCO: enum_menusDelSistemaAdministrativoToStr = "Banco"
-      Case me_PARAMETROS: enum_menusDelSistemaAdministrativoToStr = "Parámetros"
-      Case me_VEHICULOS: enum_menusDelSistemaAdministrativoToStr = "Vehículos"
+      Case me_PARAMETROS: enum_menusDelSistemaAdministrativoToStr = "Parï¿½metros"
+      Case me_VEHICULOS: enum_menusDelSistemaAdministrativoToStr = "Vehï¿½culos"
       Case me_IMPORTAREXPORTAR: enum_menusDelSistemaAdministrativoToStr = "Importar/Exportar"
       Case me_PRINCIPALWINCONT: enum_menusDelSistemaAdministrativoToStr = "Principal Contabilidad"
       Case me_ACTIVOFIJO: enum_menusDelSistemaAdministrativoToStr = "Activo Fijo"
       Case me_TABLASWINCONT: enum_menusDelSistemaAdministrativoToStr = "Tablas Contabilidad"
       Case me_IMPORTEXPORTWINCONT: enum_menusDelSistemaAdministrativoToStr = "Import-Export Contabilidad"
-      Case me_CONTABILIZACION: enum_menusDelSistemaAdministrativoToStr = "Contabilización"
+      Case me_CONTABILIZACION: enum_menusDelSistemaAdministrativoToStr = "Contabilizaciï¿½n"
       Case me_PRIVATE: enum_menusDelSistemaAdministrativoToStr = "Privado"
       Case me_COMPRAS: enum_menusDelSistemaAdministrativoToStr = "Compras"
-      Case me_INFORME_DE_AUDITORIA: enum_menusDelSistemaAdministrativoToStr = "Informe de Auditoría"
+      Case me_INFORME_DE_AUDITORIA: enum_menusDelSistemaAdministrativoToStr = "Informe de Auditorï¿½a"
       Case me_CONEXIONISLR: enum_menusDelSistemaAdministrativoToStr = "Impuesto sobre la Renta"
-      Case me_PRINCIPALCAJA: enum_menusDelSistemaAdministrativoToStr = "Facturación - Caja"
-      Case me_CONEXIONAXI: enum_menusDelSistemaAdministrativoToStr = "Ajuste por Inflación"
-      Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToStr = "Reposición de Caja Chica"
+      Case me_PRINCIPALCAJA: enum_menusDelSistemaAdministrativoToStr = "Facturaciï¿½n - Caja"
+      Case me_CONEXIONAXI: enum_menusDelSistemaAdministrativoToStr = "Ajuste por Inflaciï¿½n"
+      Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToStr = "Reposiciï¿½n de Caja Chica"
       Case me_ESTRUCTURA_COSTOS: enum_menusDelSistemaAdministrativoToStr = "Estructura de Costos"
-      Case me_CONVERSION_RESPALDO_LOTE: enum_menusDelSistemaAdministrativoToStr = "Conversión, Respadar y Lote"
-      Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToStr = "Tablas Continuación"
-      Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToStr = "Producción"
+      Case me_CONVERSION_RESPALDO_LOTE: enum_menusDelSistemaAdministrativoToStr = "Conversiï¿½n, Respadar y Lote"
+      Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToStr = "Tablas Continuaciï¿½n"
+      Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToStr = "Producciï¿½n"
       Case Else: enum_menusDelSistemaAdministrativoToStr = enum_menusDelSistemaAdministrativoToStr(0)
    End Select
 End Function
@@ -4185,7 +4190,7 @@ Public Function enumTipoDeCtaBancariaToString(ByVal tipoDeCtaBancaria As enum_Ti
    Select Case tipoDeCtaBancaria
       Case eTD_CORRIENTE: enumTipoDeCtaBancariaToString = "Corriente"
       Case eTD_AHORROS: enumTipoDeCtaBancariaToString = "Ahorros"
-      Case eTD_ACTIVOS_LIQUIDOS: enumTipoDeCtaBancariaToString = "Activos Líquidos"
+      Case eTD_ACTIVOS_LIQUIDOS: enumTipoDeCtaBancariaToString = "Activos Lï¿½quidos"
       Case Else: enumTipoDeCtaBancariaToString = enumTipoDeCtaBancariaToString(0)
    End Select
 End Function
@@ -4328,14 +4333,14 @@ Public Function enumGeneradoPorToString(ByVal GeneradoPor As enum_GeneradoPor) A
       Case eGP_COBRANZA: enumGeneradoPorToString = "Cobranza"
       Case eGP_ORDEN_DE_PAGO: enumGeneradoPorToString = "Orden de Pago"
       Case eGP_CXP: enumGeneradoPorToString = "CxP"
-      Case eGP_DEBITO_BANCARIO: enumGeneradoPorToString = "Débito Bancario"
+      Case eGP_DEBITO_BANCARIO: enumGeneradoPorToString = "Dï¿½bito Bancario"
       Case eGP_CXC: enumGeneradoPorToString = "CxC"
-      Case eGP_GESTION_COBRANZA: enumGeneradoPorToString = "Gestión de Cobranza"
+      Case eGP_GESTION_COBRANZA: enumGeneradoPorToString = "Gestiï¿½n de Cobranza"
       Case eGP_COMPRA: enumGeneradoPorToString = "Compra"
       Case eGP_ANTICIPO: enumGeneradoPorToString = "Anticipo"
-      Case eGP_RECONVERSION_MONETARIA: enumGeneradoPorToString = "Reconversión Monetaria"
+      Case eGP_RECONVERSION_MONETARIA: enumGeneradoPorToString = "Reconversiï¿½n Monetaria"
       Case eGP_S10: enumGeneradoPorToString = "Sistema 10"
-      Case eGP_RENDICION: enumGeneradoPorToString = "Rendición"
+      Case eGP_RENDICION: enumGeneradoPorToString = "Rendiciï¿½n"
       Case eGP_SOLICITUD_DE_PAGO: enumGeneradoPorToString = "Solicitud de Pago"
       Case eGP_REPOSICION_DE_CAJACHICA: enumGeneradoPorToString = "Caja Chica"
       Case eGP_RETENCION_EN_COBRANZA: enumGeneradoPorToString = "Ret. en Cobranza"
@@ -4434,11 +4439,11 @@ End Sub
 Public Function enumTipoDeCompraToString(ByVal tipoDeCompra As enum_TipoDeCompra) As String
    Select Case tipoDeCompra
       Case eTD_COMPRASEXENTAS: enumTipoDeCompraToString = "Exentas"
-      Case eTD_COMPRASIMPORTACION: enumTipoDeCompraToString = "Importación"
+      Case eTD_COMPRASIMPORTACION: enumTipoDeCompraToString = "Importaciï¿½n"
       Case eTD_COMPRASNACIONALES: enumTipoDeCompraToString = "Internas"
       Case eTD_COMPRASEXONERADAS: enumTipoDeCompraToString = "Exoneradas"
       Case eTD_COMPRASNOSUJETAS: enumTipoDeCompraToString = "No sujetas al Impuesto"
-      Case eTD_COMPRASSINDERECHOACREDITO: enumTipoDeCompraToString = "Sin derecho a crédito"
+      Case eTD_COMPRASSINDERECHOACREDITO: enumTipoDeCompraToString = "Sin derecho a crï¿½dito"
       Case Else: enumTipoDeCompraToString = enumTipoDeCompraToString(0)
    End Select
 End Function
@@ -4635,7 +4640,7 @@ Public Function enumFormaDeCancelarPagoToString(ByVal formaDeCancelarPago As enu
       Case eFD_EFECTIVO: enumFormaDeCancelarPagoToString = "Efectivo"
       Case eFD_CHEQUE: enumFormaDeCancelarPagoToString = "Cheque"
       Case eFD_TARJETA: enumFormaDeCancelarPagoToString = "Tarjeta"
-      Case eFD_DEPOSITO: enumFormaDeCancelarPagoToString = "Depósito"
+      Case eFD_DEPOSITO: enumFormaDeCancelarPagoToString = "Depï¿½sito"
       Case Else: enumFormaDeCancelarPagoToString = enumFormaDeCancelarPagoToString(0)
    End Select
 End Function
@@ -4745,9 +4750,9 @@ Public Function enumStatusParticipanteToString(ByVal statusParticipante As enum_
    Select Case statusParticipante
       Case eSP_RESERVADO: enumStatusParticipanteToString = "Reservado"
       Case eSP_CONFIRMADO: enumStatusParticipanteToString = "Confirmado"
-      Case eSP_ASISTIO: enumStatusParticipanteToString = "Asistió"
+      Case eSP_ASISTIO: enumStatusParticipanteToString = "Asistiï¿½"
       Case eSP_CANCELADO: enumStatusParticipanteToString = "Cancelado"
-      Case eSP_NO_ASISTIO: enumStatusParticipanteToString = "No Asistió"
+      Case eSP_NO_ASISTIO: enumStatusParticipanteToString = "No Asistiï¿½"
       Case eSP_LISTA_ESPERA: enumStatusParticipanteToString = "Lista de Espera"
       Case eSP_TRASLADADO: enumStatusParticipanteToString = "Trasladado"
       Case Else: enumStatusParticipanteToString = enumStatusParticipanteToString(0)
@@ -4802,7 +4807,7 @@ End Sub
 
 Public Function enumBaseCalculoOtrosCargosDeFacturaToString(ByVal baseCalculoOtrosCargosDeFactura As enum_BaseCalculoOtrosCargosDeFactura) As String
    Select Case baseCalculoOtrosCargosDeFactura
-      Case eBC_FORMULA: enumBaseCalculoOtrosCargosDeFacturaToString = "Fórmula"
+      Case eBC_FORMULA: enumBaseCalculoOtrosCargosDeFacturaToString = "Fï¿½rmula"
       Case eBC_MONTO_FIJO: enumBaseCalculoOtrosCargosDeFacturaToString = "Monto Fijo"
       Case eBC_INDICAR_MONTO: enumBaseCalculoOtrosCargosDeFacturaToString = "Indicar Monto"
       Case Else: enumBaseCalculoOtrosCargosDeFacturaToString = enumBaseCalculoOtrosCargosDeFacturaToString(0)
@@ -4995,8 +5000,8 @@ End Sub
 
 Public Function enumDuracionDelContratoToString(ByVal duracionDelContrato As enum_DuracionDelContrato) As String
    Select Case duracionDelContrato
-      Case eDD_DURACIONFIJA: enumDuracionDelContratoToString = "Duración Fija"
-      Case eDD_DURACIONINDEFINIDA: enumDuracionDelContratoToString = "Duración indefinida"
+      Case eDD_DURACIONFIJA: enumDuracionDelContratoToString = "Duraciï¿½n Fija"
+      Case eDD_DURACIONINDEFINIDA: enumDuracionDelContratoToString = "Duraciï¿½n indefinida"
       Case Else: enumDuracionDelContratoToString = enumDuracionDelContratoToString(0)
    End Select
 End Function
@@ -5092,7 +5097,7 @@ Public Function enumPeriodicidadContratosToString(ByVal periodicidadContratos As
       Case ePC_TRIMESTRAL: enumPeriodicidadContratosToString = "Trimestral"
       Case ePC_SEMESTRAL: enumPeriodicidadContratosToString = "Semestral"
       Case ePC_ANUAL: enumPeriodicidadContratosToString = "Anual"
-      Case ePC_CUOTAUNICA: enumPeriodicidadContratosToString = "Cuota única"
+      Case ePC_CUOTAUNICA: enumPeriodicidadContratosToString = "Cuota ï¿½nica"
       Case Else: enumPeriodicidadContratosToString = enumPeriodicidadContratosToString(0)
    End Select
 End Function
@@ -5423,7 +5428,7 @@ End Sub
 Public Function enumTipoDePrefijoToString(ByVal tipoDePrefijo As enum_TipoDePrefijo) As String
    Select Case tipoDePrefijo
       Case eTD_SINPREFIJO: enumTipoDePrefijoToString = "Sin Prefijo"
-      Case eTD_ANO: enumTipoDePrefijoToString = "Año"
+      Case eTD_ANO: enumTipoDePrefijoToString = "Aï¿½o"
       Case eTD_INDICAR: enumTipoDePrefijoToString = "Indicar"
       Case Else: enumTipoDePrefijoToString = enumTipoDePrefijoToString(0)
    End Select
@@ -5518,7 +5523,7 @@ End Sub
 Public Function enumFormaDeSeleccionarCompaniaToString(ByVal formaDeSeleccionarCompania As enum_FormaDeSeleccionarCompania) As String
    Select Case formaDeSeleccionarCompania
       Case eFD_ESCOGERCOMPANIAALENTRAR: enumFormaDeSeleccionarCompaniaToString = "Escoger una Empresa al entrar"
-      Case eFD_ESCOGERULTIMACOMPANIAUSADA: enumFormaDeSeleccionarCompaniaToString = "Escoger la última Empresa usada"
+      Case eFD_ESCOGERULTIMACOMPANIAUSADA: enumFormaDeSeleccionarCompaniaToString = "Escoger la ï¿½ltima Empresa usada"
       Case Else: enumFormaDeSeleccionarCompaniaToString = enumFormaDeSeleccionarCompaniaToString(0)
    End Select
 End Function
@@ -5565,7 +5570,7 @@ Public Function enumStatusPreguntaToString(ByVal statusPregunta As enum_StatusPr
    Select Case statusPregunta
       Case eSP_POR_RESPONDER: enumStatusPreguntaToString = "Por Responder"
       Case eSP_RESPONDIDA: enumStatusPreguntaToString = "Respondida"
-      Case eSP_FALTA_INFORMACION: enumStatusPreguntaToString = "Falta Información"
+      Case eSP_FALTA_INFORMACION: enumStatusPreguntaToString = "Falta Informaciï¿½n"
       Case Else: enumStatusPreguntaToString = enumStatusPreguntaToString(0)
    End Select
 End Function
@@ -5612,7 +5617,7 @@ End Sub
 
 Public Function enumTipoDeComprobanteChequeAImprimirToString(ByVal tipoDeComprobanteChequeAImprimir As enum_TipoDeComprobanteChequeAImprimir) As String
    Select Case tipoDeComprobanteChequeAImprimir
-      Case eKC_COMBANTECONCHEQUE: enumTipoDeComprobanteChequeAImprimirToString = "Comprobante de Impresión Con Cheque"
+      Case eKC_COMBANTECONCHEQUE: enumTipoDeComprobanteChequeAImprimirToString = "Comprobante de Impresiï¿½n Con Cheque"
       Case eKC_SOLOORCOMPROBANTE: enumTipoDeComprobanteChequeAImprimirToString = "Solo Comprobante"
       Case eKC_COMPROBANTESEPARADODECHEQUE:  enumTipoDeComprobanteChequeAImprimirToString = "Comprobante Separado de Cheque"
       Case Else: enumTipoDeComprobanteChequeAImprimirToString = enumTipoDeComprobanteChequeAImprimirToString(0)
@@ -5709,8 +5714,8 @@ End Sub
 Public Function enumStatusServicioToString(ByVal statusServicio As enum_StatusServicio) As String
    Select Case statusServicio
       Case eSS_PENDIENTE: enumStatusServicioToString = "Pendiente"
-      Case eSS_EN_REVISION: enumStatusServicioToString = "En Revisión"
-      Case eSS_NO_TIENE_SOLUCION: enumStatusServicioToString = "No Tiene Solución"
+      Case eSS_EN_REVISION: enumStatusServicioToString = "En Revisiï¿½n"
+      Case eSS_NO_TIENE_SOLUCION: enumStatusServicioToString = "No Tiene Soluciï¿½n"
       Case eSS_ENVIADA_AL_CLIENTE: enumStatusServicioToString = "Enviada Al Cliente"
       Case eSS_REVISADA: enumStatusServicioToString = "Revisada"
       Case Else: enumStatusServicioToString = enumStatusServicioToString(0)
@@ -5954,7 +5959,7 @@ End Sub
 Public Function enumTipoDeSolicitudDeIngresoDeTasaDeCambioToString(ByVal tipoDeSolicitudDeIngresoDeTasaDeCambio As enum_TipoDeSolicitudDeIngresoDeTasaDeCambio) As String
    Select Case tipoDeSolicitudDeIngresoDeTasaDeCambio
       Case eTD_SIEMPREALEMITIRPRIMERAFACTURA: enumTipoDeSolicitudDeIngresoDeTasaDeCambioToString = "Siempre al Emitir la primera Factura"
-      Case eTD_SOLOSIESNECESARIO: enumTipoDeSolicitudDeIngresoDeTasaDeCambioToString = "Sólo si es necesario"
+      Case eTD_SOLOSIESNECESARIO: enumTipoDeSolicitudDeIngresoDeTasaDeCambioToString = "Sï¿½lo si es necesario"
       Case Else: enumTipoDeSolicitudDeIngresoDeTasaDeCambioToString = enumTipoDeSolicitudDeIngresoDeTasaDeCambioToString(0)
    End Select
 End Function
@@ -6001,9 +6006,9 @@ End Sub
 Public Function enumCalculoParaComisionesSobreCobranzaEnBaseAToString(ByVal calculoParaComisionesSobreCobranzaEnBaseA As enum_CalculoParaComisionesSobreCobranzaEnBaseA) As String
    Select Case calculoParaComisionesSobreCobranzaEnBaseA
       Case eCP_MONTO: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = "Monto"
-      Case eCP_DIASVENCIDOS: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = "Días Vencidos"
-      Case eCP_PORCENTAJE_POR_ARTICULO: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = "Porcentaje por Artículo"
-      Case eCP_PORCENTAJE_POR_LINEA_DE_PRODUCTO: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = "Porcentaje por Línea de Producto"
+      Case eCP_DIASVENCIDOS: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = "Dï¿½as Vencidos"
+      Case eCP_PORCENTAJE_POR_ARTICULO: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = "Porcentaje por Artï¿½culo"
+      Case eCP_PORCENTAJE_POR_LINEA_DE_PRODUCTO: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = "Porcentaje por Lï¿½nea de Producto"
       Case eCP_MIXTO: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = "Mixto"
       Case Else: enumCalculoParaComisionesSobreCobranzaEnBaseAToString = enumCalculoParaComisionesSobreCobranzaEnBaseAToString(0)
    End Select
@@ -6121,7 +6126,7 @@ Public Function enumOpcionesParaElReporteListadoDePreciosToString(ByVal ItemAImp
    Select Case ItemAImprimir
       Case eORLP_PRECIODEVENTAENMONEDALOCAL: enumOpcionesParaElReporteListadoDePreciosToString = "En " & valMonedaLocal
       Case eORLP_PRECIODEVENTAMONEDAEXTRANJERA: enumOpcionesParaElReporteListadoDePreciosToString = "En Moneda Extranjera"
-      Case eORLP_PRECIODEVENTAALATASADELDIAENMONEDALOCAL: enumOpcionesParaElReporteListadoDePreciosToString = "En " & valMonedaLocal & " a la Tasa del Día"
+      Case eORLP_PRECIODEVENTAALATASADELDIAENMONEDALOCAL: enumOpcionesParaElReporteListadoDePreciosToString = "En " & valMonedaLocal & " a la Tasa del Dï¿½a"
       Case Else: enumOpcionesParaElReporteListadoDePreciosToString = enumOpcionesParaElReporteListadoDePreciosToString(0)
    End Select
 End Function
@@ -6374,7 +6379,7 @@ End Sub
 
 Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menusDelSistemaAdministrativo) As String
    Select Case valMenu
-      Case me_PRINCIPALSAW: enum_menusDelSistemaAdministrativoToTitle = "Menú Principal - Factura / Cotización / Contrato"
+      Case me_PRINCIPALSAW: enum_menusDelSistemaAdministrativoToTitle = "Menï¿½ Principal - Factura / Cotizaciï¿½n / Contrato"
       Case me_CXC
             If GetEsSistemaAdmInterno Then
                enum_menusDelSistemaAdministrativoToTitle = "CxC / Cobranzas / Vendedor / Orden de Servicio"
@@ -6385,7 +6390,7 @@ Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menus
       Case me_TABLASSAW: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas"
       Case me_INVENTARIO
             If GetEsSistemaAdmInterno Then
-               enum_menusDelSistemaAdministrativoToTitle = "Inventario / Revisión de Data"
+               enum_menusDelSistemaAdministrativoToTitle = "Inventario / Revisiï¿½n de Data"
             Else
                enum_menusDelSistemaAdministrativoToTitle = "Inventario"
             End If
@@ -6399,17 +6404,17 @@ Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menus
       
       Case me_PARAMETROS
             If gGlobalization.fEsCodigoVenezuela Then
-               enum_menusDelSistemaAdministrativoToTitle = "Usuarios / Parámetros"
+               enum_menusDelSistemaAdministrativoToTitle = "Usuarios / Parï¿½metros"
             Else
-               enum_menusDelSistemaAdministrativoToTitle = "Usuarios / Parámetros"
+               enum_menusDelSistemaAdministrativoToTitle = "Usuarios / Parï¿½metros"
             End If
-      Case me_VEHICULOS: enum_menusDelSistemaAdministrativoToTitle = "Vehículos"
+      Case me_VEHICULOS: enum_menusDelSistemaAdministrativoToTitle = "Vehï¿½culos"
       Case me_IMPORTAREXPORTAR: enum_menusDelSistemaAdministrativoToTitle = "Importar / Exportar"
       Case me_PRINCIPALWINCONT: enum_menusDelSistemaAdministrativoToTitle = "Comprobantes / Cuentas / Balances / Periodo"
       Case me_ACTIVOFIJO: enum_menusDelSistemaAdministrativoToTitle = "Activos Fijos"
       Case me_TABLASWINCONT: enum_menusDelSistemaAdministrativoToTitle = "Auxiliares / Centro De Costos / Tipo de Comprobante / Otros"
       Case me_IMPORTEXPORTWINCONT: enum_menusDelSistemaAdministrativoToTitle = "Importar-Exportar Datos"
-      Case me_CONTABILIZACION: enum_menusDelSistemaAdministrativoToTitle = "Contabilizar / Reglas de Contabilización"
+      Case me_CONTABILIZACION: enum_menusDelSistemaAdministrativoToTitle = "Contabilizar / Reglas de Contabilizaciï¿½n"
       Case me_PRIVATE: enum_menusDelSistemaAdministrativoToTitle = "Solo Programadores"
       Case me_COMPRAS: enum_menusDelSistemaAdministrativoToTitle = "Compras"
       Case me_INFORME_DE_AUDITORIA: enum_menusDelSistemaAdministrativoToTitle = "Informes de Auditoria"
@@ -6420,12 +6425,12 @@ Public Function enum_menusDelSistemaAdministrativoToTitle(ByVal valMenu As menus
          Else
                enum_menusDelSistemaAdministrativoToTitle = "Factura / Cliente / Inventario / Caja"
          End If
-      Case me_CONEXIONAXI: enum_menusDelSistemaAdministrativoToTitle = "Ajuste por Inflación"
-      Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToTitle = "Reposición de Caja Chica"
+      Case me_CONEXIONAXI: enum_menusDelSistemaAdministrativoToTitle = "Ajuste por Inflaciï¿½n"
+      Case me_CAJA_CHICA_RENDICION: enum_menusDelSistemaAdministrativoToTitle = "Reposiciï¿½n de Caja Chica"
       Case me_ESTRUCTURA_COSTOS: enum_menusDelSistemaAdministrativoToTitle = "Estructura de Costos"
-      Case me_CONVERSION_RESPALDO_LOTE: enum_menusDelSistemaAdministrativoToTitle = "Conversión / Respaldar / Lote"
-      Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas Continuación"
-      Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToTitle = "Producción"
+      Case me_CONVERSION_RESPALDO_LOTE: enum_menusDelSistemaAdministrativoToTitle = "Conversiï¿½n / Respaldar / Lote"
+      Case me_TABLASSAW_CONT: enum_menusDelSistemaAdministrativoToTitle = "Mantenimiento de Tablas Continuaciï¿½n"
+      Case me_PRODUCCION: enum_menusDelSistemaAdministrativoToTitle = "Producciï¿½n"
       Case Else: enum_menusDelSistemaAdministrativoToTitle = enum_menusDelSistemaAdministrativoToTitle(0)
    End Select
 End Function
@@ -6745,7 +6750,7 @@ Public Function enumCategoriaLlamadaToString(ByVal categoriaLlamada As enum_Cate
       Case eCL_POR_DEFINIR: enumCategoriaLlamadaToString = "Por Definir"
       Case eCL_ENTRANTE: enumCategoriaLlamadaToString = "Entrante"
       Case eCL_SALIENTE: enumCategoriaLlamadaToString = "Saliente"
-      Case eCL_ATENCION_EN_OFICINA: enumCategoriaLlamadaToString = "Atención en Oficina"
+      Case eCL_ATENCION_EN_OFICINA: enumCategoriaLlamadaToString = "Atenciï¿½n en Oficina"
       Case eCL_FAX: enumCategoriaLlamadaToString = "FAX"
       Case Else: enumCategoriaLlamadaToString = enumCategoriaLlamadaToString(0)
    End Select
@@ -6911,7 +6916,7 @@ Public Function enumStatusDeCotizacionGalacToString(ByVal statusDeCotizacionGala
       Case eSD_RECHAZADA: enumStatusDeCotizacionGalacToString = "Rechazada"
       Case eSD_NODEFINIDO: enumStatusDeCotizacionGalacToString = "No Definido"
       Case eSD_CONFIRMADA: enumStatusDeCotizacionGalacToString = "Confirmada"
-      Case eSD_FACTURADA_EN_OTRA_COTIZACION: enumStatusDeCotizacionGalacToString = "Fact.Otra Cotización"
+      Case eSD_FACTURADA_EN_OTRA_COTIZACION: enumStatusDeCotizacionGalacToString = "Fact.Otra Cotizaciï¿½n"
       Case Else: enumStatusDeCotizacionGalacToString = enumStatusDeCotizacionGalacToString(0)
    End Select
 End Function
@@ -7324,8 +7329,8 @@ End Function
 Public Function enum_VerPromocionNoPromocionTodosToString(ByVal promocion As enum_VerPromocionNoPromocionTodos) As String
    Select Case promocion
       Case eVer_TodosPromocion: enum_VerPromocionNoPromocionTodosToString = "Todos"
-      Case eVer_Promocion: enum_VerPromocionNoPromocionTodosToString = "Promoción"
-      Case eVer_NoPromocion: enum_VerPromocionNoPromocionTodosToString = "No Promoción"
+      Case eVer_Promocion: enum_VerPromocionNoPromocionTodosToString = "Promociï¿½n"
+      Case eVer_NoPromocion: enum_VerPromocionNoPromocionTodosToString = "No Promociï¿½n"
    End Select
 End Function
 
@@ -7476,8 +7481,8 @@ End Function
 Public Function enumStatusRetencionIVACobranzaToString(ByVal statusRetencionIVACobranza As enum_StatusRetencionIVACobranza) As String
    Select Case statusRetencionIVACobranza
       Case eSR_NO_APLICA: enumStatusRetencionIVACobranzaToString = "No Aplica"
-      Case eSR_PENDIENTE_POR_DISTRIBUIR: enumStatusRetencionIVACobranzaToString = "Retención del " & gGlobalization.fPromptIVA & " Pendiente de Distribuir"
-      Case eSR_DISTRIBUIDO: enumStatusRetencionIVACobranzaToString = "Retención del " & gGlobalization.fPromptIVA & " Distribuida"
+      Case eSR_PENDIENTE_POR_DISTRIBUIR: enumStatusRetencionIVACobranzaToString = "Retenciï¿½n del " & gGlobalization.fPromptIVA & " Pendiente de Distribuir"
+      Case eSR_DISTRIBUIDO: enumStatusRetencionIVACobranzaToString = "Retenciï¿½n del " & gGlobalization.fPromptIVA & " Distribuida"
       Case Else: enumStatusRetencionIVACobranzaToString = enumStatusRetencionIVACobranzaToString(0)
    End Select
 End Function
@@ -7543,7 +7548,7 @@ Public Function enumTipoDeTransaccionDeLibrosFiscalesToString(ByVal tipoDeTransa
    Select Case tipoDeTransaccionDeLibrosFiscales
       Case eTD_A01_REGISTRO: enumTipoDeTransaccionDeLibrosFiscalesToString = "01 Registro"
       Case eTD_A02_COMPLEMENTO: enumTipoDeTransaccionDeLibrosFiscalesToString = "02 Complemento"
-      Case eTD_A03_ANULACION: enumTipoDeTransaccionDeLibrosFiscalesToString = "03 Anulación"
+      Case eTD_A03_ANULACION: enumTipoDeTransaccionDeLibrosFiscalesToString = "03 Anulaciï¿½n"
       Case eTD_A04_AJUSTE: enumTipoDeTransaccionDeLibrosFiscalesToString = "04 Ajuste"
       Case Else: enumTipoDeTransaccionDeLibrosFiscalesToString = enumTipoDeTransaccionDeLibrosFiscalesToString(0)
    End Select
@@ -7698,7 +7703,7 @@ Public Function enumTipoDeVentaToString(ByVal tipoDeVenta As enum_TipoDeVenta) A
    Select Case tipoDeVenta
       Case eTD_INTERNA: enumTipoDeVentaToString = "Interna"
       Case eTD_EXPORTACION: enumTipoDeVentaToString = "Exportacion"
-      Case eTD_SIN_DERECHO_A_CREDITO_FISCAL: enumTipoDeVentaToString = "Sin Derecho a Crédito Fiscal"
+      Case eTD_SIN_DERECHO_A_CREDITO_FISCAL: enumTipoDeVentaToString = "Sin Derecho a Crï¿½dito Fiscal"
       Case eTD_A_CONTRIBUYENTE: enumTipoDeVentaToString = "A Contribuyente"
       Case eTD_A_NO_CONTRIBUYENTE: enumTipoDeVentaToString = "A No Contribuyente"
       Case Else: enumTipoDeVentaToString = enumTipoDeVentaToString(0)
@@ -7906,7 +7911,7 @@ Public Function enumFormaDeReiniciarComprobanteRetIVAToString(ByVal formaDeReini
    Select Case formaDeReiniciarComprobanteRetIVA
       Case eFD_SIN_ESCOGER: enumFormaDeReiniciarComprobanteRetIVAToString = "Sin Escoger"
       Case eFD_POR_MES: enumFormaDeReiniciarComprobanteRetIVAToString = "Por Mes"
-      Case eFD_POR_ANO: enumFormaDeReiniciarComprobanteRetIVAToString = "Por Año"
+      Case eFD_POR_ANO: enumFormaDeReiniciarComprobanteRetIVAToString = "Por Aï¿½o"
       Case eFD_AL_COMPLETAR: enumFormaDeReiniciarComprobanteRetIVAToString = "Al Completar"
       Case Else: enumFormaDeReiniciarComprobanteRetIVAToString = enumFormaDeReiniciarComprobanteRetIVAToString(0)
    End Select
@@ -7964,7 +7969,7 @@ Public Function enumTipoDeContribuyenteIvaToString(ByVal tipoDeContribuyenteDelI
       Case eTD_ORDINARIOS: enumTipoDeContribuyenteIvaToString = "Contribuyente Ordinario"
       Case eTD_ESPECIAL: enumTipoDeContribuyenteIvaToString = "Contribuyente Especial"
       Case eTD_ENTES_PUBLICOS: enumTipoDeContribuyenteIvaToString = "Entes Publicos"
-      Case eTD_CONVERSION: enumTipoDeContribuyenteIvaToString = "Conversión"
+      Case eTD_CONVERSION: enumTipoDeContribuyenteIvaToString = "Conversiï¿½n"
       Case Else: enumTipoDeContribuyenteIvaToString = enumTipoDeContribuyenteIvaToString(0)
    End Select
 End Function
@@ -8658,7 +8663,7 @@ Public Function enumProductoLlamadaToString(ByVal nombreProducto As enum_Product
       Case eNPLL_COMBO: enumProductoLlamadaToString = "COMBO"
       Case eNPLL_SERVICIO: enumProductoLlamadaToString = "SERVICIO"
       Case eNPLL_SAWINTEGRADO: enumProductoLlamadaToString = "SAW Integrado"
-      Case eNPLL_IVAGALAC: enumProductoLlamadaToString = "IVA Gálac"
+      Case eNPLL_IVAGALAC: enumProductoLlamadaToString = "IVA Gï¿½lac"
       Case eNPLL_DER: enumProductoLlamadaToString = "DER"
       Case eNPLL_PRESUPUESTO: enumProductoLlamadaToString = "PRE"
       Case eNPLL_NOMINA_WINDOWS: enumProductoLlamadaToString = "NOMINA WINDOWS"
@@ -8748,9 +8753,9 @@ Public Function enumAgruparLibroDeVentasToString(ByVal valAgruparLibroDeVentas A
    Select Case valAgruparLibroDeVentas
       Case eALDV_NINGUNO: enumAgruparLibroDeVentasToString = "Ninguno"
       Case eALDV_TALONARIO: enumAgruparLibroDeVentasToString = "Talonario"
-      Case eALDV_MAQUINA: enumAgruparLibroDeVentasToString = "Máquina"
-      Case eALDV_TALONARIO_Y_MAQUINA: enumAgruparLibroDeVentasToString = "Talonario y Máquina"
-      Case eALDV_MAQUINA_Y_TALONARIO: enumAgruparLibroDeVentasToString = "Máquina y Talonario"
+      Case eALDV_MAQUINA: enumAgruparLibroDeVentasToString = "Mï¿½quina"
+      Case eALDV_TALONARIO_Y_MAQUINA: enumAgruparLibroDeVentasToString = "Talonario y Mï¿½quina"
+      Case eALDV_MAQUINA_Y_TALONARIO: enumAgruparLibroDeVentasToString = "Mï¿½quina y Talonario"
       Case Else: enumAgruparLibroDeVentasToString = enumAgruparLibroDeVentasToString(0)
    End Select
 End Function
@@ -8885,7 +8890,7 @@ Public Function enumEntidadAExportarOImportarToString(ByVal EntidadAExportarOImp
    Select Case EntidadAExportarOImportar
       Case eEAEI_PROVEEDOR: enumEntidadAExportarOImportarToString = "Proveedores"
       Case eEAEI_CLIENTE: enumEntidadAExportarOImportarToString = "Clientes"
-      Case eEAEI_ARTICULO_INVENTARIO: enumEntidadAExportarOImportarToString = "Artículos de Inventario"
+      Case eEAEI_ARTICULO_INVENTARIO: enumEntidadAExportarOImportarToString = "Artï¿½culos de Inventario"
       Case eEAEI_CxC: enumEntidadAExportarOImportarToString = "Cuentas por Cobrar"
       Case eEAEI_CxP: enumEntidadAExportarOImportarToString = "Cuentas por Pagar"
       Case eEAEI_FACTURA: enumEntidadAExportarOImportarToString = "Facturas"
@@ -8946,8 +8951,8 @@ End Function
 Public Function enumFormaDeOrdenarDetalleFacturaToString(formaDeOrdenarDetalleFactura As enum_FormaDeOrdenarDetalleFactura) As String
    Select Case formaDeOrdenarDetalleFactura
       Case eFD_COMO_FUE_CARGADA: enumFormaDeOrdenarDetalleFacturaToString = "Como fue cargada"
-      Case eFD_POR_CODIGO_DE_ARTICULO: enumFormaDeOrdenarDetalleFacturaToString = "Por Codigo de Artículo"
-      Case eFD_POR_DESCRIPCION_DE_ARTICULO: enumFormaDeOrdenarDetalleFacturaToString = "Por Descripción de Artículo"
+      Case eFD_POR_CODIGO_DE_ARTICULO: enumFormaDeOrdenarDetalleFacturaToString = "Por Codigo de Artï¿½culo"
+      Case eFD_POR_DESCRIPCION_DE_ARTICULO: enumFormaDeOrdenarDetalleFacturaToString = "Por Descripciï¿½n de Artï¿½culo"
       Case Else
          enumFormaDeOrdenarDetalleFacturaToString = enumFormaDeOrdenarDetalleFacturaToString(0)
          End Select
@@ -9180,7 +9185,7 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_EFECTIVO: enumTipoDeFormaDePagoToString = "Efectivo"
       Case eTDA_TARJETA: enumTipoDeFormaDePagoToString = "Tarjeta"
       Case eTDA_CHEQUE: enumTipoDeFormaDePagoToString = "Cheque"
-      Case eTDA_DEPOSITO: enumTipoDeFormaDePagoToString = "Depósito"
+      Case eTDA_DEPOSITO: enumTipoDeFormaDePagoToString = "Depï¿½sito"
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToString = "Anticipo"
       Case Else: enumTipoDeFormaDePagoToString = enumTipoDeFormaDePagoToString(0)
    End Select
@@ -9399,7 +9404,7 @@ End Sub
 Public Function enumComprobanteConChequeToString(TipoComprobanteChequeAImprimir As enum_ComprobanteConCheque) As String
    Select Case TipoComprobanteChequeAImprimir
       Case eCC_ComprobanteConCheque: enumComprobanteConChequeToString = "Comprobante con  Cheque"
-      Case eCC_SoloComprobante: enumComprobanteConChequeToString = "Sólo Comprobante"
+      Case eCC_SoloComprobante: enumComprobanteConChequeToString = "Sï¿½lo Comprobante"
       Case eCC_ComprobanteSeparadoDeCheque: enumComprobanteConChequeToString = "Comprobante separado de Cheque"
       Case Else: enumComprobanteConChequeToString = enumComprobanteConChequeToString(0)
    End Select
@@ -10291,7 +10296,7 @@ End Sub
 Public Function enumItemsMontoFacturaToString(ComisionesEnRenglones As enum_ComisionesEnRenglones) As String
    Select Case ComisionesEnRenglones
       Case eIM_NO_PERMITIR_ITEMS_NEGATIVOS: enumItemsMontoFacturaToString = "No Permitir Items Negativos"
-      Case eIM_PERMITIR_CON_AUTORIZACION: enumItemsMontoFacturaToString = "Permitir con Autorización"
+      Case eIM_PERMITIR_CON_AUTORIZACION: enumItemsMontoFacturaToString = "Permitir con Autorizaciï¿½n"
       Case eIM_PERMITIR_SIEMPRE: enumItemsMontoFacturaToString = "Permitir Siempre"
       Case Else
          enumItemsMontoFacturaToString = enumItemsMontoFacturaToString(0)
@@ -10887,9 +10892,9 @@ Public Function enumConsultarDataPorToString(ByVal ConsultarDataPor As enum_Cons
       Case eCDP_DESCUADRE: enumConsultarDataPorToString = "Descuadre"
       Case eCDP_ERROR_DE_SISTEMA: enumConsultarDataPorToString = "Error de Sistema"
       Case eCDP_ERROR_DE_USUARIO: enumConsultarDataPorToString = "Error de Usuario"
-      Case eCDP_CONVERSION: enumConsultarDataPorToString = "Conversión"
-      Case eCDP_INTEGRACION: enumConsultarDataPorToString = "Integración"
-      Case eCDP_CONVERSION_E_INTEGRACION: enumConsultarDataPorToString = "Conversión/Integración"
+      Case eCDP_CONVERSION: enumConsultarDataPorToString = "Conversiï¿½n"
+      Case eCDP_INTEGRACION: enumConsultarDataPorToString = "Integraciï¿½n"
+      Case eCDP_CONVERSION_E_INTEGRACION: enumConsultarDataPorToString = "Conversiï¿½n/Integraciï¿½n"
       Case Else: enumConsultarDataPorToString = enumConsultarDataPorToString(0)
    End Select
 End Function
@@ -11111,7 +11116,7 @@ End Function
 
 Public Function enumEstadoImpresionFiscalToString(ByVal EstadoImpresionFiscal As Enum_EstadoImpresionFiscal) As String
    Select Case EstadoImpresionFiscal
-      Case eEIF_VERIFICANDO_CONEXION_CON_IMPRESORA: enumEstadoImpresionFiscalToString = "Verificando Conexión con Impresora"
+      Case eEIF_VERIFICANDO_CONEXION_CON_IMPRESORA: enumEstadoImpresionFiscalToString = "Verificando Conexiï¿½n con Impresora"
       Case eEIF_CIERRE_X: enumEstadoImpresionFiscalToString = "Cierre X"
       Case eEIF_CIERRE_Z: enumEstadoImpresionFiscalToString = "Cierre Z"
       Case eEIF_OBTENER_SERIAL: enumEstadoImpresionFiscalToString = "Obtener Serial"
@@ -11166,7 +11171,7 @@ Public Function enumTipoDocumentoIdentificacionPeruToString(ByVal TipoDocumentoI
    Select Case TipoDocumentoIdentificacionPeru
       Case eTDIP_RUC: enumTipoDocumentoIdentificacionPeruToString = "RUC"
       Case eTDIP_DNI: enumTipoDocumentoIdentificacionPeruToString = "DNI"
-      Case eTDIP_CARNET_DE_EXTRANJERIA: enumTipoDocumentoIdentificacionPeruToString = "Carnet de Extranjería"
+      Case eTDIP_CARNET_DE_EXTRANJERIA: enumTipoDocumentoIdentificacionPeruToString = "Carnet de Extranjerï¿½a"
       Case eTDIP_PASAPORTE: enumTipoDocumentoIdentificacionPeruToString = "Pasaporte"
       Case eTDIP_OTROS_TIPOS_DE_DOCUMENTOS: enumTipoDocumentoIdentificacionPeruToString = "Otros Documentos"
       Case Else: enumTipoDocumentoIdentificacionPeruToString = enumTipoDocumentoIdentificacionPeruToString(0)
@@ -11266,8 +11271,8 @@ Public Function enumTipodocumentoCxcToString(ByVal tipoDocumento As enum_TipoDoc
       Case eTCxP_FACTURA: enumTipodocumentoCxcToString = "Factura"
       Case eTCxP_GIRO: enumTipodocumentoCxcToString = "Giro"
       Case eTCxP_CHEQUEDEVUELTO: enumTipodocumentoCxcToString = "Cheque Devuelto"
-      Case eTCxP_NOTADECREDITO: enumTipodocumentoCxcToString = "Nota de Crédito"
-      Case eTCxP_NOTADEDEBITO: enumTipodocumentoCxcToString = "Nota de Débito"
+      Case eTCxP_NOTADECREDITO: enumTipodocumentoCxcToString = "Nota de Crï¿½dito"
+      Case eTCxP_NOTADEDEBITO: enumTipodocumentoCxcToString = "Nota de Dï¿½bito"
       Case eTCxP_NOTADEENTREGA: enumTipodocumentoCxcToString = "Nota de Entrega"
       Case Else: enumTipodocumentoCxcToString = enumTipodocumentoCxcToString(0)
    End Select
@@ -11354,7 +11359,7 @@ Public Function EnumTipoDeFormaDeCobroToString(ByVal TipoDeFormaDeCobro As enum_
    Select Case TipoDeFormaDeCobro
       Case eTFC_EFECTIVO: EnumTipoDeFormaDeCobroToString = "Efectivo"
       Case eTFC_TARJETA_DEBITO: EnumTipoDeFormaDeCobroToString = "Tarjeta de Debito"
-      Case eTFC_TARJETA_CREDITO: EnumTipoDeFormaDeCobroToString = "Tarjeta de Crédito"
+      Case eTFC_TARJETA_CREDITO: EnumTipoDeFormaDeCobroToString = "Tarjeta de Crï¿½dito"
       Case eTFC_CHEQUE: EnumTipoDeFormaDeCobroToString = "Cheque"
       Case eTFC_OTROS: EnumTipoDeFormaDeCobroToString = "Otros"
       Case Else: EnumTipoDeFormaDeCobroToString = EnumTipoDeFormaDeCobroToString(0)
@@ -11409,10 +11414,10 @@ Public Function enumTipoDocumentoToString(tipoDocumento As enum_TipoDocumentoIVA
    Select Case tipoDocumento
       Case eTD_TD_FACTURA: enumTipoDocumentoToString = "Factura"
       Case eTD_TD_NOTADEENTREGA: enumTipoDocumentoToString = "Nota de Entrega"
-      Case eTD_TD_NOTADECREDITO: enumTipoDocumentoToString = "Nota de Crédito"
-      Case eTD_TD_NOTADEDEBITO: enumTipoDocumentoToString = "Nota de Débito"
+      Case eTD_TD_NOTADECREDITO: enumTipoDocumentoToString = "Nota de Crï¿½dito"
+      Case eTD_TD_NOTADEDEBITO: enumTipoDocumentoToString = "Nota de Dï¿½bito"
       Case eTD_TD_RESUMENDIARIODEVENTAS: enumTipoDocumentoToString = "Resumen Diario de Ventas"
-      Case eTD_TD_VENTADEPASAJESAEREOS: enumTipoDocumentoToString = "Venta de Pasajes Aéreos"
+      Case eTD_TD_VENTADEPASAJESAEREOS: enumTipoDocumentoToString = "Venta de Pasajes Aï¿½reos"
       Case eTD_TD_RESUMENCONTRIBUYENTES: enumTipoDocumentoToString = "Resumen Contribuyentes"
       Case eTD_TD_FACTURAANULADA: enumTipoDocumentoToString = "Factura Anulada"
       Case eTD_TD_RESUMENNOCONTRIBUYENTES: enumTipoDocumentoToString = "Resumen No Contribuyentes"
@@ -11424,8 +11429,8 @@ End Function
 
 Public Function enumAccionLimiteItemsFacturaToString(AccionLimiteItemsFactura As enum_AccionLimiteItemsFactura) As String
    Select Case AccionLimiteItemsFactura
-      Case eALIF_SOLO_ADVERTIR: enumAccionLimiteItemsFacturaToString = "Sólo Advertir"
-      Case eALIF_NO_EXEDER_NUMERO_DE_ITEMS: enumAccionLimiteItemsFacturaToString = "No Exceder el Número de Items"
+      Case eALIF_SOLO_ADVERTIR: enumAccionLimiteItemsFacturaToString = "Sï¿½lo Advertir"
+      Case eALIF_NO_EXEDER_NUMERO_DE_ITEMS: enumAccionLimiteItemsFacturaToString = "No Exceder el Nï¿½mero de Items"
       Case Else
          enumAccionLimiteItemsFacturaToString = enumAccionLimiteItemsFacturaToString(0)
    End Select
@@ -11690,14 +11695,14 @@ End Function
 Public Function enumTipoDeVentaIvaToString(tipoDeVentaIva As enum_TipoDeVentaIva) As String
    Select Case tipoDeVentaIva
       Case eTD_TV_VENTASEXENTAS: enumTipoDeVentaIvaToString = "Exentas"
-      Case eTD_TV_VENTASEXPORTACION: enumTipoDeVentaIvaToString = "Exportación"
+      Case eTD_TV_VENTASEXPORTACION: enumTipoDeVentaIvaToString = "Exportaciï¿½n"
       Case eTD_TV_VENTASCONTRIBUYENTES: enumTipoDeVentaIvaToString = "A Contribuyentes"
       Case eTD_TV_VENTASNOCONTRIBUYENTES: enumTipoDeVentaIvaToString = "No Contribuyentes"
       Case eTD_TV_VENTASPTOLIBRENE: enumTipoDeVentaIvaToString = "Ventas Pto. Libre"
       Case eTD_TV_VENTASNOCONTRIBPTOLIBRENE: enumTipoDeVentaIvaToString = "No Contrib. Pto Libre"
       Case eTD_TV_VENTASEXONERADAS: enumTipoDeVentaIvaToString = "Exoneradas"
       Case eTD_TV_VENTASNOSUJETAS: enumTipoDeVentaIvaToString = "No Sujetas"
-      Case eTD_TV_VENTASSINDERECHOACREDITO: enumTipoDeVentaIvaToString = "Sin Derecho A Crédito"
+      Case eTD_TV_VENTASSINDERECHOACREDITO: enumTipoDeVentaIvaToString = "Sin Derecho A Crï¿½dito"
       Case Else
          enumTipoDeVentaIvaToString = enumTipoDeVentaIvaToString(0)
          End Select
@@ -11727,7 +11732,7 @@ End Function
 '   Select Case tipoDeTransaccion
 '      Case eTD_A01_REGISTRO: enumTipoDeTransaccionToString = "01 Registro"
 '      Case eTD_A02_COMPLEMENTO: enumTipoDeTransaccionToString = "02 Complemento"
-'      Case eTD_A03_ANULACION: enumTipoDeTransaccionToString = "03 Anulación"
+'      Case eTD_A03_ANULACION: enumTipoDeTransaccionToString = "03 Anulaciï¿½n"
 '      Case eTD_A04_AJUSTE: enumTipoDeTransaccionToString = "04 Ajuste"
 '      Case Else
 '         enumTipoDeTransaccionToString = enumTipoDeTransaccionToString(0)
@@ -11870,10 +11875,10 @@ Public Function enumTipoDocumentoIvaToString(tipoDocumentoIva As enum_TipoDocume
    Select Case tipoDocumentoIva
       Case eTD_TD_FACTURA: enumTipoDocumentoIvaToString = "Factura"
       Case eTD_TD_NOTADEENTREGA: enumTipoDocumentoIvaToString = "Nota de Entrega"
-      Case eTD_TD_NOTADECREDITO: enumTipoDocumentoIvaToString = "Nota de Crédito"
-      Case eTD_TD_NOTADEDEBITO: enumTipoDocumentoIvaToString = "Nota de Débito"
+      Case eTD_TD_NOTADECREDITO: enumTipoDocumentoIvaToString = "Nota de Crï¿½dito"
+      Case eTD_TD_NOTADEDEBITO: enumTipoDocumentoIvaToString = "Nota de Dï¿½bito"
       Case eTD_TD_RESUMENDIARIODEVENTAS: enumTipoDocumentoIvaToString = "Resumen Diario de Ventas"
-      Case eTD_TD_VENTADEPASAJESAEREOS: enumTipoDocumentoIvaToString = "Venta de Pasajes Aéreos"
+      Case eTD_TD_VENTADEPASAJESAEREOS: enumTipoDocumentoIvaToString = "Venta de Pasajes Aï¿½reos"
       Case eTD_TD_RESUMENCONTRIBUYENTES: enumTipoDocumentoIvaToString = "Resumen Contribuyentes"
       Case eTD_TD_FACTURAANULADA: enumTipoDocumentoIvaToString = "Factura Anulada"
       Case eTD_TD_RESUMENNOCONTRIBUYENTES: enumTipoDocumentoIvaToString = "Resumen No Contribuyentes"
@@ -11886,16 +11891,16 @@ End Function
 
 Public Function fEnumTipoDeReporteToString(ByVal valTipoDeReporte As enum_ReporteRPTIVA) As String
    Select Case valTipoDeReporte
-      Case eRPT_RelacionDeCompras: fEnumTipoDeReporteToString = "Relación de Compra"
-      Case eRPT_RelacionDeVentas: fEnumTipoDeReporteToString = "Relación de Venta"
+      Case eRPT_RelacionDeCompras: fEnumTipoDeReporteToString = "Relaciï¿½n de Compra"
+      Case eRPT_RelacionDeVentas: fEnumTipoDeReporteToString = "Relaciï¿½n de Venta"
       Case eRPT_InformeDeCompraVentas: fEnumTipoDeReporteToString = "Informes de Compras y Ventas"
       Case eRPT_InfDeCompraOVentaAUnClientOPro: fEnumTipoDeReporteToString = "Informes de Compras/Ventas a un Proveedor/Cliente"
-      Case eRPT_InfCreditosDebitosEnUnMes: fEnumTipoDeReporteToString = "Informes de Créditos y Débitos Detallados"
-      Case eRPT_InfCredDebEnUnMesResumido: fEnumTipoDeReporteToString = "Créditos y Débitos Resumido"
-      Case eRPT_InfCredDebDescuadrados: fEnumTipoDeReporteToString = "Informe de Créditos y Debitos Descuadrados"
-      Case eRPT_PlanillaH99Numero294638: fEnumTipoDeReporteToString = "Forma 02 - Planilla H99 N° 294638"
-      Case eRPT_PlanillaH99Numero0070556: fEnumTipoDeReporteToString = "Forma 02 - Planilla H99 N° 0070556"
-      Case eRPT_PlanillaH2000Numero0015483: fEnumTipoDeReporteToString = "Forma 02 - Planilla H2000 N° 0015483"
+      Case eRPT_InfCreditosDebitosEnUnMes: fEnumTipoDeReporteToString = "Informes de Crï¿½ditos y Dï¿½bitos Detallados"
+      Case eRPT_InfCredDebEnUnMesResumido: fEnumTipoDeReporteToString = "Crï¿½ditos y Dï¿½bitos Resumido"
+      Case eRPT_InfCredDebDescuadrados: fEnumTipoDeReporteToString = "Informe de Crï¿½ditos y Debitos Descuadrados"
+      Case eRPT_PlanillaH99Numero294638: fEnumTipoDeReporteToString = "Forma 02 - Planilla H99 Nï¿½ 294638"
+      Case eRPT_PlanillaH99Numero0070556: fEnumTipoDeReporteToString = "Forma 02 - Planilla H99 Nï¿½ 0070556"
+      Case eRPT_PlanillaH2000Numero0015483: fEnumTipoDeReporteToString = "Forma 02 - Planilla H2000 Nï¿½ 0015483"
       Case eRPT_Forma30: fEnumTipoDeReporteToString = "Planilla Forma 30"
       Case eRPT_BorradorPlanillaForma30: fEnumTipoDeReporteToString = "Borrador Planilla Forma 30"
       Case eRPT_InformeDeProrrateo: fEnumTipoDeReporteToString = "Informe de Prorrateo"
@@ -11909,17 +11914,17 @@ Public Function fEnumTipoDeReporteToString(ByVal valTipoDeReporte As enum_Report
       Case eRPT_LibroDeVentaXLS: fEnumTipoDeReporteToString = "Libro de Ventas A XLS"
       Case eRPT_SubRepLibroDeVentasXLS: fEnumTipoDeReporteToString = "Libro de Ventas Ajustadas"
       Case eRPT_Forma0030olivenca: fEnumTipoDeReporteToString = "Planilla Forma 00030 de Olivenca"
-      Case eRPT_PruebaDeImpresion: fEnumTipoDeReporteToString = "Prueba de Impresión - Acerca de"
-      Case eRPT_ComprobanteRetencionDeIva: fEnumTipoDeReporteToString = "Comprobante Retención de Iva"
-      Case eRPT_ComprobantesAutomaticosModificados: fEnumTipoDeReporteToString = "Listado de Comprobantes Automáticos Modificados"
+      Case eRPT_PruebaDeImpresion: fEnumTipoDeReporteToString = "Prueba de Impresiï¿½n - Acerca de"
+      Case eRPT_ComprobanteRetencionDeIva: fEnumTipoDeReporteToString = "Comprobante Retenciï¿½n de Iva"
+      Case eRPT_ComprobantesAutomaticosModificados: fEnumTipoDeReporteToString = "Listado de Comprobantes Automï¿½ticos Modificados"
       Case eRPT_DocumentosSinComprobantes: fEnumTipoDeReporteToString = "Documentos sin Comprobantes"
       Case eRPT_DocumentosContabilizados: fEnumTipoDeReporteToString = "Documentos Contabilizados"
       Case eRPT_ComprobantesCompraVentaDescuadrados: fEnumTipoDeReporteToString = "Informe de Comprobantes de Compra/Venta descuadrados"
       Case eRPT_ComprobantesCompraVentaPorLoteDescuadrados: fEnumTipoDeReporteToString = "Informe de Comprobantes de Compra/Venta Por Lote Descuadrados"
       Case eRPT_LibroDeVentaApaisado: fEnumTipoDeReporteToString = "Libro de Venta (Apaisado)"
       Case eRPT_ResumenDeComprobantes: fEnumTipoDeReporteToString = "Informe de Resumen De Comprobantes"
-      Case eRPT_ResumenDeCreditosYDebitosDelPeriodo: fEnumTipoDeReporteToString = "Resumen créditos y Débitos del periodo"
-      Case eRPT_ResumenDeCreditosYDebitosDelPeriodoApaisado: fEnumTipoDeReporteToString = "Resumen créditos y Débitos del periodo Apaisado"
+      Case eRPT_ResumenDeCreditosYDebitosDelPeriodo: fEnumTipoDeReporteToString = "Resumen crï¿½ditos y Dï¿½bitos del periodo"
+      Case eRPT_ResumenDeCreditosYDebitosDelPeriodoApaisado: fEnumTipoDeReporteToString = "Resumen crï¿½ditos y Dï¿½bitos del periodo Apaisado"
       Case eRPT_subRelacionDeVentas: fEnumTipoDeReporteToString = "Ventas Por Cuentade Terceros"
       Case eRPT_LibroDeVentaTerceros: fEnumTipoDeReporteToString = "Libro de Venta a Terceros"
       Case eRPT_LibroDeVentaApaisadoTerceros: fEnumTipoDeReporteToString = "Libro de Venta a Terceros (Apaisado)"
@@ -12006,8 +12011,8 @@ End Function
 
 Public Function enumStatusDetraccionToString(ByVal StatusDetraccion As enum_StatusDetraccion) As String
    Select Case StatusDetraccion
-      Case eSD_AUTODETRACCION: enumStatusDetraccionToString = "Auto Detracción"
-      Case eSD_DETRACCIONPORTERCERO: enumStatusDetraccionToString = "Detracción por Tercero"
+      Case eSD_AUTODETRACCION: enumStatusDetraccionToString = "Auto Detracciï¿½n"
+      Case eSD_DETRACCIONPORTERCERO: enumStatusDetraccionToString = "Detracciï¿½n por Tercero"
       Case eSD_NOAPLICADA: enumStatusDetraccionToString = "No Aplicada"
       Case Else: enumStatusDetraccionToString = enumStatusDetraccionToString(0)
    End Select
@@ -12026,7 +12031,7 @@ Public Function strStatusDetraccionToNum(ByVal StatusDetraccion As String, Optio
    Next
    strStatusDetraccionToNum = 0
    If showMessage Then
-      gMessage.ProgrammerMessage "Valor " & StatusDetraccion & " no existe en tipo enumerativo Status Detracción"
+      gMessage.ProgrammerMessage "Valor " & StatusDetraccion & " no existe en tipo enumerativo Status Detracciï¿½n"
    End If
 h_EXIT:
    Exit Function
@@ -12133,8 +12138,8 @@ End Function
 
 Public Function enumMonedasVenezolanasToString(MonedasVenezolanas As enum_MonedasVenezolanas) As String
    Select Case MonedasVenezolanas
-      Case eMV_Bolivar: enumMonedasVenezolanasToString = "Bolívar Viejo"
-      Case eMV_BolivarFuerte: enumMonedasVenezolanasToString = "Bolívar"
+      Case eMV_Bolivar: enumMonedasVenezolanasToString = "Bolï¿½var Viejo"
+      Case eMV_BolivarFuerte: enumMonedasVenezolanasToString = "Bolï¿½var"
       Case Else
          enumMonedasVenezolanasToString = enumMonedasVenezolanasToString(0)
    End Select
@@ -12541,7 +12546,7 @@ Public Sub FillComboBoxWithAgrupacionParaElLibroDeVentas(ByRef varComboBox As Ob
 End Sub
 Public Function enumCampoAMostrarCodigoRIFToString(CampoAMostrar As enum_CampoAMostrarCodigoRIF) As String
    Select Case CampoAMostrar
-      Case eCAMCR_CODIGO: enumCampoAMostrarCodigoRIFToString = "Código"
+      Case eCAMCR_CODIGO: enumCampoAMostrarCodigoRIFToString = "Cï¿½digo"
       Case eCAMCR_RIF: enumCampoAMostrarCodigoRIFToString = "RIF"
       Case Else
          enumCampoAMostrarCodigoRIFToString = enumCampoAMostrarCodigoRIFToString(0)
@@ -12608,16 +12613,16 @@ End Sub
 
 Public Function enumSolicitudGeneradaPorToString(SolicitudGeneradaPor As enum_SolicitudGeneradaPor) As String
    Select Case SolicitudGeneradaPor
-      Case eSGP_CalculosDeNomina: enumSolicitudGeneradaPorToString = "Cálculos de Nómina"
+      Case eSGP_CalculosDeNomina: enumSolicitudGeneradaPorToString = "Cï¿½lculos de Nï¿½mina"
       Case eSGP_Vacaciones: enumSolicitudGeneradaPorToString = "Vacaciones"
       Case eSGP_Utilidades: enumSolicitudGeneradaPorToString = "Utilidades"
       Case eSGP_PagoDeIntereses: enumSolicitudGeneradaPorToString = "Pago De Intereses"
       Case eSGP_Fideicomiso: enumSolicitudGeneradaPorToString = "Fideicomiso"
-      Case eSGP_Liquidacion: enumSolicitudGeneradaPorToString = "Liquidación"
+      Case eSGP_Liquidacion: enumSolicitudGeneradaPorToString = "Liquidaciï¿½n"
       Case eSGP_AdelantoDeVacaciones: enumSolicitudGeneradaPorToString = "Adelanto de Vacaciones"
       Case eSGP_AnticipoDePrestaciones: enumSolicitudGeneradaPorToString = "Anticipo de Prestaciones"
       Case eSGP_NoAplica: enumSolicitudGeneradaPorToString = "No Aplica"
-      Case eSGP_TicketsAlimentacion: enumSolicitudGeneradaPorToString = "Tickets de Alimentación"
+      Case eSGP_TicketsAlimentacion: enumSolicitudGeneradaPorToString = "Tickets de Alimentaciï¿½n"
       Case Else
          enumSolicitudGeneradaPorToString = enumSolicitudGeneradaPorToString(0)
    End Select
@@ -13050,8 +13055,8 @@ End Function
 
 Public Function enumTipoDeDocumentoRendicionToString(TipoDeDocumentoRendicion As enum_TipoDeDocumentoRendicion) As String
    Select Case TipoDeDocumentoRendicion
-      Case eTDDR_Rendicion: enumTipoDeDocumentoRendicionToString = "Rendición"
-      Case eTDDR_Reposicion: enumTipoDeDocumentoRendicionToString = "Reposición"
+      Case eTDDR_Rendicion: enumTipoDeDocumentoRendicionToString = "Rendiciï¿½n"
+      Case eTDDR_Reposicion: enumTipoDeDocumentoRendicionToString = "Reposiciï¿½n"
       Case Else
          enumTipoDeDocumentoRendicionToString = enumTipoDeDocumentoRendicionToString(0)
    End Select
@@ -13531,9 +13536,9 @@ End Sub
 Public Function enumBaseCalculoParaAlicuotaEspecialToString(BaseCalculoParaAlicuotaEspecial As enum_BaseCalculoParaAlicuotaEspecial) As String
    Select Case BaseCalculoParaAlicuotaEspecial
       Case eBCPAE_TotalFactura: enumBaseCalculoParaAlicuotaEspecialToString = "Total  Factura"
-      Case eBCPAE_MontoExentoMasBaseImponible: enumBaseCalculoParaAlicuotaEspecialToString = "Monto  Exento Más  Base  Imponible"
+      Case eBCPAE_MontoExentoMasBaseImponible: enumBaseCalculoParaAlicuotaEspecialToString = "Monto  Exento Mï¿½s  Base  Imponible"
       Case eBCPAE_SoloBaseImponible: enumBaseCalculoParaAlicuotaEspecialToString = "Solo  Base  Imponible"
-      Case eBCPAE_SoloBaseImponibleAlicuotaGeneral: enumBaseCalculoParaAlicuotaEspecialToString = "Solo  Base  Imponible  Alícuota  General"
+      Case eBCPAE_SoloBaseImponibleAlicuotaGeneral: enumBaseCalculoParaAlicuotaEspecialToString = "Solo  Base  Imponible  Alï¿½cuota  General"
       Case Else
          enumBaseCalculoParaAlicuotaEspecialToString = enumBaseCalculoParaAlicuotaEspecialToString(0)
    End Select
@@ -13582,8 +13587,8 @@ End Sub
 Public Function enumTipoDeAlicuotaEspecialToString(tipoDeAlicuota As enum_TipoDeAlicuotaEspecial) As String
    Select Case tipoDeAlicuota = eTDEsp_2
       Case eTDEsp_No: enumTipoDeAlicuotaEspecialToString = "Ninguna"
-      Case eTDEsp_1: enumTipoDeAlicuotaEspecialToString = "Alícuota Reducida 1"
-      Case eTDEsp_2: enumTipoDeAlicuotaEspecialToString = "Alícuota Reducida 2"
+      Case eTDEsp_1: enumTipoDeAlicuotaEspecialToString = "Alï¿½cuota Reducida 1"
+      Case eTDEsp_2: enumTipoDeAlicuotaEspecialToString = "Alï¿½cuota Reducida 2"
       Case Else
          enumTipoDeAlicuotaEspecialToString = enumTipoDeAlicuotaEspecialToString(0)
    End Select
@@ -13687,9 +13692,9 @@ End Sub
 Public Function enumTipoDePersonaLibrosElectronicosToString(TipoDePersonaLibrosElectronicos As enum_TipoDePersonaLibrosElectronicos) As String
    Select Case TipoDePersonaLibrosElectronicos
       Case eTDPLE_NaturalDomiciliado: enumTipoDePersonaLibrosElectronicosToString = "Natural Domiciliado"
-      Case eTDPLE_JuridicoDomiciliado: enumTipoDePersonaLibrosElectronicosToString = "Jurídico Domiciliado"
+      Case eTDPLE_JuridicoDomiciliado: enumTipoDePersonaLibrosElectronicosToString = "Jurï¿½dico Domiciliado"
       Case eTDPLE_NaturalNoDomiciliado: enumTipoDePersonaLibrosElectronicosToString = "Natural No Domiciliado"
-      Case eTDPLE_JuridicoNoDomiciliado: enumTipoDePersonaLibrosElectronicosToString = "Jurídico No Domiciliado"
+      Case eTDPLE_JuridicoNoDomiciliado: enumTipoDePersonaLibrosElectronicosToString = "Jurï¿½dico No Domiciliado"
       Case Else
          enumTipoDePersonaLibrosElectronicosToString = enumTipoDePersonaLibrosElectronicosToString(0)
    End Select
@@ -13989,6 +13994,34 @@ Public Function fEnumTipoAlicPorContIGTFToStringInArray(Optional ByVal valPrepar
    Next
    fEnumTipoAlicPorContIGTFToStringInArray = varArray
    On Error GoTo 0
+End Function
+
+Public Function enumFormaDeCalcularCostoTerminadoToString(FormaDeCalcularCostoTerminado As enum_FormaDeCalcularCostoTerminado) As String
+   Select Case FormaDeCalcularCostoTerminado
+      Case eFDCCT_APartirDeMonedaLocal: enumFormaDeCalcularCostoTerminadoToString = "A partir de moneda local"
+      Case eFDCCT_APartirDeMonedaExtranjera: enumFormaDeCalcularCostoTerminadoToString = "A partir de moneda extranjera"
+      Case Else
+         enumFormaDeCalcularCostoTerminadoToString = enumFormaDeCalcularCostoTerminadoToString(0)
+   End Select
+End Function
+
+Public Function strFormaDeCalcularCostoTerminadoToNum(ByVal FormaDeCalcularCostoTerminado As String, Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_FormaDeCalcularCostoTerminado
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eFDCCT_APartirDeMonedaLocal To eFDCCT_APartirDeMonedaExtranjera
+      If UCase(FormaDeCalcularCostoTerminado) = UCase(enumFormaDeCalcularCostoTerminadoToString(mEnum)) Then
+         strFormaDeCalcularCostoTerminadoToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strFormaDeCalcularCostoTerminadoToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & FormaDeCalcularCostoTerminado & " no existe en tipo enumerado FormaDeCalcularCostoTerminado"
+   End If
+h_EXIT:
+   Exit Function
 End Function
 
 Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, Optional ByVal showMessage As Boolean = True) As Integer
