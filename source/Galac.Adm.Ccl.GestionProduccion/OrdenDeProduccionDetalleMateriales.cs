@@ -211,7 +211,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nCantidad Reservada Inventario = " + _CantidadReservadaInventario.ToString() +
                "\nCantidad Consumida = " + _CantidadConsumida.ToString() +
                "\nCosto Unitario Articulo Inventario = " + _CostoUnitarioArticuloInventario.ToString() +
-               "\nCosto Unitario MEArticulo Inventario = " + _CostoUnitarioMEArticuloInventario.ToString() +
+               "\nCosto Unitario En Moneda Extranjera Articulo Inventario = " + _CostoUnitarioMEArticuloInventario.ToString() +
                "\nMonto Subtotal = " + _MontoSubtotal.ToString() +
                "\nAjusta por Cierre = " + _AjustadoPostCierre +
                "\nCantidad Ajustada = " + _CantidadAjustada.ToString();
@@ -238,7 +238,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             }
         }
         #endregion //Metodos Generados
-
 
     } //End of class OrdenDeProduccionDetalleMateriales
 

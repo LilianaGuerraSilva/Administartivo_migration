@@ -51,7 +51,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("CantidadReservadaInventario" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnOrdDeProDetMatCantidadRe NOT NULL, ");
             SQL.AppendLine("CantidadConsumida" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnOrdDeProDetMatCantidadCo NOT NULL, ");
             SQL.AppendLine("CostoUnitarioArticuloInventario" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_OrdDeProDetMatCoUnArIn DEFAULT (0), ");
-            SQL.AppendLine("CostoUnitarioMEArticuloInventario" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_OrdDeProDetMatCoUnMEIn DEFAULT ((0)), ");
             SQL.AppendLine("MontoSubtotal" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_OrdDeProDetMatMoSu DEFAULT (0), ");
             SQL.AppendLine("AjustadoPostCierre" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnOrdDeProDetMatAjustadoPo NOT NULL, ");
             SQL.AppendLine("CantidadAjustada" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnOrdDeProDetMatCantidadAj NOT NULL, ");
@@ -75,7 +74,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT OrdenDeProduccionDetalleMateriales.ConsecutivoCompania, OrdenDeProduccionDetalleMateriales.ConsecutivoOrdenDeProduccion, OrdenDeProduccionDetalleMateriales.ConsecutivoOrdenDeProduccionDetalleArticulo, OrdenDeProduccionDetalleMateriales.Consecutivo");
             SQL.AppendLine(", OrdenDeProduccionDetalleMateriales.ConsecutivoAlmacen, OrdenDeProduccionDetalleMateriales.CodigoArticulo, OrdenDeProduccionDetalleMateriales.Cantidad, OrdenDeProduccionDetalleMateriales.CantidadReservadaInventario");
-            SQL.AppendLine(", OrdenDeProduccionDetalleMateriales.CantidadConsumida, OrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario, OrdenDeProduccionDetalleMateriales.CostoUnitarioMEArticuloInventario, OrdenDeProduccionDetalleMateriales.MontoSubtotal, OrdenDeProduccionDetalleMateriales.AjustadoPostCierre");
+            SQL.AppendLine(", OrdenDeProduccionDetalleMateriales.CantidadConsumida, OrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario, OrdenDeProduccionDetalleMateriales.MontoSubtotal, OrdenDeProduccionDetalleMateriales.AjustadoPostCierre");
             SQL.AppendLine(", OrdenDeProduccionDetalleMateriales.CantidadAjustada");
             SQL.AppendLine(", dbo.ArticuloInventario.Descripcion AS DescripcionArticulo");
             SQL.AppendLine(", OrdenDeProduccionDetalleMateriales.fldTimeStamp, CAST(OrdenDeProduccionDetalleMateriales.fldTimeStamp AS bigint) AS fldTimeStampBigint");
@@ -99,7 +98,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@CantidadReservadaInventario" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@CantidadConsumida" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@CostoUnitarioArticuloInventario" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
-            SQL.AppendLine("@CostoUnitarioMEArticuloInventario" + InsSql.DecimalTypeForDb(25, 4) + " = (0),");
             SQL.AppendLine("@MontoSubtotal" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@AjustadoPostCierre" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@CantidadAjustada" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
@@ -125,7 +123,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            CantidadReservadaInventario,");
             SQL.AppendLine("            CantidadConsumida,");
             SQL.AppendLine("            CostoUnitarioArticuloInventario,");
-            SQL.AppendLine("            CostoUnitarioMEArticuloInventario,");
             SQL.AppendLine("            MontoSubtotal,");
             SQL.AppendLine("            AjustadoPostCierre,");
             SQL.AppendLine("            CantidadAjustada)");
@@ -140,7 +137,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            @CantidadReservadaInventario,");
             SQL.AppendLine("            @CantidadConsumida,");
             SQL.AppendLine("            @CostoUnitarioArticuloInventario,");
-            SQL.AppendLine("            @CostoUnitarioMEArticuloInventario,");
             SQL.AppendLine("            @MontoSubtotal,");
             SQL.AppendLine("            @AjustadoPostCierre,");
             SQL.AppendLine("            @CantidadAjustada)");
@@ -166,7 +162,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@CantidadReservadaInventario" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@CantidadConsumida" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@CostoUnitarioArticuloInventario" + InsSql.DecimalTypeForDb(25, 4) + ",");
-            SQL.AppendLine("@CostoUnitarioMEArticuloInventario" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@MontoSubtotal" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@AjustadoPostCierre" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CantidadAjustada" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -200,7 +195,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("               CantidadReservadaInventario = @CantidadReservadaInventario,");
             SQL.AppendLine("               CantidadConsumida = @CantidadConsumida,");
             SQL.AppendLine("               CostoUnitarioArticuloInventario = @CostoUnitarioArticuloInventario,");
-            SQL.AppendLine("               CostoUnitarioMEArticuloInventario = @CostoUnitarioMEArticuloInventario,");
             SQL.AppendLine("               MontoSubtotal = @MontoSubtotal,");
             SQL.AppendLine("               AjustadoPostCierre = @AjustadoPostCierre,");
             SQL.AppendLine("               CantidadAjustada = @CantidadAjustada");
@@ -324,7 +318,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         CantidadReservadaInventario,");
             SQL.AppendLine("         CantidadConsumida,");
             SQL.AppendLine("         CostoUnitarioArticuloInventario,");
-            SQL.AppendLine("         CostoUnitarioMEArticuloInventario,");
             SQL.AppendLine("         MontoSubtotal,");
             SQL.AppendLine("         AjustadoPostCierre,");
             SQL.AppendLine("         CantidadAjustada,");

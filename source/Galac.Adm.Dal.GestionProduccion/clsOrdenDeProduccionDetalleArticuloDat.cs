@@ -49,7 +49,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInDecimal("CantidadSolicitada", valRecord.CantidadSolicitada, 8);
             vParams.AddInDecimal("CantidadProducida", valRecord.CantidadProducida, 8);
             vParams.AddInDecimal("CostoUnitario", valRecord.CostoUnitario, 2);
-            vParams.AddInDecimal("CostoUnitarioME", valRecord.CostoUnitarioME, 2);
             vParams.AddInDecimal("MontoSubTotal", valRecord.MontoSubTotal, 2);
             vParams.AddInBoolean("AjustadoPostCierre", valRecord.AjustadoPostCierreAsBool);
             vParams.AddInDecimal("CantidadAjustada", valRecord.CantidadAjustada, 2);

@@ -106,6 +106,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			}
 			if (AddColumnCurrency("dbo.RenglonNotaES", "CostoUnitarioME", "", (decimal)0.0)) {
 				AddDefaultConstraint("dbo.RenglonNotaES", "d_RenNotESCoUnME", InsSql.ToSqlValue((decimal)1.0), "CostoUnitarioME");
+				StringBuilder vSql = new StringBuilder();
+				vSql.AppendLine("UPDATE dbo.RenglonNotaES");
+				vSql.AppendLine("SET CostoUnitarioME = CostoUnitario");
+				Execute(vSql.ToString());
 			}
 		}
 	}

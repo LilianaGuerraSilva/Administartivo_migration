@@ -27,7 +27,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private decimal _CantidadSolicitada;
         private decimal _CantidadProducida;
         private decimal _CostoUnitario;
-        private decimal _CostoUnitarioME;
         private decimal _MontoSubTotal;
         private bool _AjustadoPostCierre;
         private decimal _CantidadAjustada;
@@ -106,11 +105,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _CostoUnitario = value; }
         }
 
-        public decimal CostoUnitarioME {
-            get { return _CostoUnitarioME; }
-            set { _CostoUnitarioME = value; }
-        }
-
         public decimal MontoSubTotal {
             get { return _MontoSubTotal; }
             set { _MontoSubTotal = value; }
@@ -168,7 +162,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             CantidadSolicitada = 0;
             CantidadProducida = 0;
             CostoUnitario = 0;
-            CostoUnitarioME = 0;
             MontoSubTotal = 0;
             AjustadoPostCierreAsBool = false;
             CantidadAjustada = 0;
@@ -192,7 +185,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.CantidadSolicitada = _CantidadSolicitada;
             vResult.CantidadProducida = _CantidadProducida;
             vResult.CostoUnitario = _CostoUnitario;
-            vResult.CostoUnitarioME = _CostoUnitarioME;
             vResult.MontoSubTotal = _MontoSubTotal;
             vResult.AjustadoPostCierreAsBool = _AjustadoPostCierre;
             vResult.CantidadAjustada = _CantidadAjustada;
@@ -209,7 +201,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nCantidad Solicitada = " + _CantidadSolicitada.ToString() +
                "\nCantidad Producida = " + _CantidadProducida.ToString() +
                "\nCostoUnitario = " + _CostoUnitario.ToString() +
-               "\nCosto Unitario ME = " + _CostoUnitarioME.ToString() +
                "\nACUM OrdeProduccionDetalleMateriales.MontoSubtotal = " + _MontoSubTotal.ToString() +
                "\nAjusta por Cierre = " + _AjustadoPostCierre +
                "\nCantidad Ajustada = " + _CantidadAjustada.ToString();

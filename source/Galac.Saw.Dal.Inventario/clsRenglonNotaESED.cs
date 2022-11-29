@@ -90,8 +90,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("@TipoArticuloInv" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@Serial" + InsSql.VarCharTypeForDb(50) + " = '',");
             SQL.AppendLine("@Rollo" + InsSql.VarCharTypeForDb(20) + " = '',");
-            SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
-            SQL.AppendLine("@CostoUnitarioME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@CostoUnitarioME" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
             return SQL.ToString();
         }
 

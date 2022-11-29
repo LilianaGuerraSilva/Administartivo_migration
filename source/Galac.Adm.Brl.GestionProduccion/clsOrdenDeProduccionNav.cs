@@ -17,6 +17,7 @@ using LibGalac.Aos.Catching;
 using System.Collections.ObjectModel;
 using LibGalac.Aos.DefGen;
 using Galac.Comun.Brl.TablasGen;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Brl.GestionProduccion {
     public partial class clsOrdenDeProduccionNav : LibBaseNavMaster<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>>, IOrdenDeProduccionPdn {
@@ -97,37 +98,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             }
         }
         #endregion //OrdenDeProduccionDetalleArticulo
-		
-		//private void FillWithForeignInfoOrdenDeProduccion(ref IList<OrdenDeProduccion> refData) {
-  //          XElement vInfoConexionMoneda = FindInfoMoneda(refData);
-  //          var vListMoneda = (from vRecord in vInfoConexionMoneda.Descendants("GpResult")
-  //                                    select new {
-  //                                        Codigo = vRecord.Element("Codigo").Value, 
-  //                                        Nombre = vRecord.Element("Nombre").Value, 
-  //                                        Simbolo = vRecord.Element("Simbolo").Value, 
-  //                                        Activa = vRecord.Element("Activa").Value
-  //                                    }).Distinct();
 
-  //          foreach (OrdenDeProduccion vItem in refData) {
-  //          }
-  //      }
-  //      private XElement FindInfoMoneda(IList<OrdenDeProduccion> valData) {
-  //          XElement vXElement = new XElement("GpData");
-  //          foreach(OrdenDeProduccion vItem in valData) {
-  //              vXElement.Add(FilterOrdenDeProduccionByDistinctMoneda(vItem).Descendants("GpResult"));
-  //          }
-  //          ILibPdn insMoneda = new clsMonedaNav();
-  //          XElement vXElementResult = insMoneda.GetFk("OrdenDeProduccion", ParametersGetFKMonedaForXmlSubSet(vXElement));
-  //          return vXElementResult;
-  //      }
-
-  //      private XElement FilterOrdenDeProduccionByDistinctMoneda(OrdenDeProduccion valMaster) {
-  //          XElement vXElement = new XElement("GpData",
-  //              from vEntity in valMaster.DetailOrdenDeProduccion.Distinct()
-  //              select new XElement("GpResult",
-  //                  new XElement("CodigoMonedaCostoProduccion", vEntity.CodigoMonedaCostoProduccion)));
-  //          return vXElement;
-  //      }
         XElement IOrdenDeProduccionPdn.FindByConsecutivo(int valConsecutivoCompania, int valConsecutivo) {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("Consecutivo", valConsecutivo);
@@ -339,12 +310,12 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 }
             }
             XElement vData = new clsOrdenDeProduccionDetalleArticuloNav().BuscaExistenciaDeArticulos(refRecord[0].ConsecutivoCompania, vList);
-            var vDataArticculo = vDataXmlArticulo.Descendants("GpResult").Select(p => new {
+            string vCostoUnitario = (refRecord[0].CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal) ? "CostoUnitario" : "MeCostoUnitario";
+            var vDataArticulo = vDataXmlArticulo.Descendants("GpResult").Select(p => new {
                 CodigoArticulo = p.Element("Codigo").Value,
-                CostoUnitario = LibConvert.ToDec(p.Element("CostoUnitario")),
-                MeCostoUnitario = LibConvert.ToDec(p.Element("MeCostoUnitario")),
+                CostoUnitario = LibConvert.ToDec(p.Element(vCostoUnitario)),
                 Existencia = LibConvert.ToDec(p.Element("Existencia"))
-            }).ToList();            
+            }).ToList();
             var vDataExistencia = vData.Descendants("GpResult").Select(p => new {
                 Existencia = LibConvert.ToDec(p.Element("Cantidad"), 8),
                 CodigoArticulo = p.Element("CodigoArticulo").Value ,
@@ -354,7 +325,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
 
             foreach (OrdenDeProduccionDetalleArticulo vOrdenDeProduccionDetalleArticulo in refRecord[0].DetailOrdenDeProduccionDetalleArticulo) {                
                 foreach (OrdenDeProduccionDetalleMateriales vOrdenDeProduccionDetalleMateriales in vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales) {
-                    vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario = vDataArticculo.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo).FirstOrDefault().CostoUnitario;
+                    vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario = vDataArticulo.Where(p => p.CodigoArticulo == vOrdenDeProduccionDetalleMateriales.CodigoArticulo).FirstOrDefault().CostoUnitario;
                     vOrdenDeProduccionDetalleMateriales.MontoSubtotal = vOrdenDeProduccionDetalleMateriales.CostoUnitarioArticuloInventario * vOrdenDeProduccionDetalleMateriales.CantidadConsumida;
                     if (vOrdenDeProduccionDetalleMateriales.TipoDeArticuloAsEnum == eTipoDeArticulo.Mercancia && 
                         vOrdenDeProduccionDetalleMateriales.CantidadConsumida > vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario &&
@@ -427,8 +398,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     Cantidad = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleArticulo.CantidadProducida, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales")),
                     Ubicacion = "",                                        
                     ConsecutivoAlmacen = vOrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen,
-                    CostoUnitario = vOrdenDeProduccionDetalleArticulo.CostoUnitario,
-                    CostoUnitarioME = vOrdenDeProduccionDetalleArticulo.CostoUnitarioME,
+                    CostoUnitario = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ? 
+                                    (vOrdenDeProduccionDetalleArticulo.CostoUnitario * valOrdenDeProduccion.CambioCostoProduccion) : vOrdenDeProduccionDetalleArticulo.CostoUnitario,
+                    CostoUnitarioME = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ? 
+                                    vOrdenDeProduccionDetalleArticulo.CostoUnitario : (vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion),
                     TipoActualizacion = eTipoActualizacion.ExistenciayCosto,
                     DetalleArticuloInventarioExistenciaSerial = new List<ArticuloInventarioExistenciaSerial>()
                 });
@@ -562,7 +535,10 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     TipoArticuloInvAsEnum = eTipoArticuloInv.Simple,
                     Serial = "0",
                     Rollo = "0",
-                    CostoUnitario = vOrdenDeProduccionDetalleArticulo.CostoUnitario
+                    CostoUnitario = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ?
+                                    (vOrdenDeProduccionDetalleArticulo.CostoUnitario * valOrdenDeProduccion.CambioCostoProduccion) : vOrdenDeProduccionDetalleArticulo.CostoUnitario,
+                    CostoUnitarioME = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ?
+                                    vOrdenDeProduccionDetalleArticulo.CostoUnitario : (vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion)
                 });                
                 foreach (var vOrdenDeProduccionDetalleMateriales in vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales) {
                     if (vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario < vOrdenDeProduccionDetalleMateriales.CantidadConsumida) {
