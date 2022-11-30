@@ -52,7 +52,7 @@ namespace Galac.Saw.Dal.Cliente {
             vParams.AddInString("FAX", valRecord.FAX, 25);
             vParams.AddInEnum("Status", valRecord.StatusAsDB);
             vParams.AddInString("Contacto", valRecord.Contacto, 35);
-            vParams.AddInString("ZonaDeCobranza", valRecord.ZonaDeCobranza, 20);
+            vParams.AddInString("ZonaDeCobranza", valRecord.ZonaDeCobranza, 100);
             vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
             vParams.AddInString("RazonInactividad", valRecord.RazonInactividad, 35);
             vParams.AddInString("Email", valRecord.Email, 100);

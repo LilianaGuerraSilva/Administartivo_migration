@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="22.9" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="23.0" Siglas="Saw">
   <Proteccion>1802</Proteccion>
   <Libreria>
     <LibGalacCI>2104</LibGalacCI>
@@ -13,10 +13,10 @@
     <SawImportExport>2211</SawImportExport>
     <SawMaquinaFiscal>2211</SawMaquinaFiscal>
     <SawNav>2211</SawNav>
-    <SawRpt>2212</SawRpt>
+    <SawRpt>2213</SawRpt>
     <SawSP>2211</SawSP>
     <SawTbls>2211</SawTbls>
-    <SawVista>2212</SawVista>    
+    <SawVista>2213</SawVista>    
     <ContabRpt>2202</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -154,14 +154,14 @@
     <Galac.Adm.Uil.GestionCompras>2.60.8.0</Galac.Adm.Uil.GestionCompras>
     <Galac.Adm.Uil.GestionCompras.resources>2.60.8.0</Galac.Adm.Uil.GestionCompras.resources>
 
-    <Galac.Saw.Ccl.Cliente>2.60.2.0</Galac.Saw.Ccl.Cliente>
-    <Galac.Saw.Brl.Cliente>2.60.2.0</Galac.Saw.Brl.Cliente>
-    <Galac.Saw.Dal.Cliente>2.60.2.0</Galac.Saw.Dal.Cliente>
-    <Galac.Saw.Uil.Cliente>2.60.2.0</Galac.Saw.Uil.Cliente>
+    <Galac.Saw.Ccl.Cliente>2.60.3.0</Galac.Saw.Ccl.Cliente>
+    <Galac.Saw.Brl.Cliente>2.60.3.0</Galac.Saw.Brl.Cliente>
+    <Galac.Saw.Dal.Cliente>2.60.3.0</Galac.Saw.Dal.Cliente>
+    <Galac.Saw.Uil.Cliente>2.60.3.0</Galac.Saw.Uil.Cliente>
 
     <Galac.Saw.Ccl.Inventario>2.60.5.0</Galac.Saw.Ccl.Inventario>
     <Galac.Saw.Dal.Inventario>2.60.5.0</Galac.Saw.Dal.Inventario>
-    <Galac.Saw.Brl.Inventario>2.60.5.0</Galac.Saw.Brl.Inventario>
+    <Galac.Saw.Brl.Inventario>2.60.6.0</Galac.Saw.Brl.Inventario>
     <Galac.Saw.Rpt.Inventario>2.60.5.0</Galac.Saw.Rpt.Inventario>
     <Galac.Saw.Uil.Inventario>2.60.5.0</Galac.Saw.Uil.Inventario>
 
