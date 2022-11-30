@@ -60,6 +60,15 @@
             Content="{Binding Path=StatusOp}"
             Style="{StaticResource LabelStatusBlue}" />
         <Label
+            Grid.Row="0"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            Width="Auto"
+            Margin="0,20,3,0"
+            HorizontalAlignment="Right"
+            Content="{Binding Path=CostoTerminadoCalculadoAPartirDe}"
+            Style="{StaticResource LabelSubTitle}"/>
+        <Label
             Name="lblFechaInicio"
             Grid.Row="1"
             Grid.Column="0"
@@ -256,18 +265,6 @@
             Text="{Binding Path=MotivoDeAnulacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
             VerticalScrollBarVisibility="Auto"
             Visibility="{Binding Path=IsVisibleFechaDeAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-        <TextBlock
-            Grid.Row="9"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Width="Auto"
-            Margin="3,0,0,0"
-            HorizontalAlignment="Left"
-            Foreground="#FFA00000"
-            Text="Los costos de producción serán calculados en moneda local"
-            TextAlignment="Justify"
-            TextWrapping="WrapWithOverflow"
-            Visibility="{Binding Path=IsNotVisibleCambioCostoProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
         <GroupBox
             Grid.Row="9"
             Grid.Column="0"

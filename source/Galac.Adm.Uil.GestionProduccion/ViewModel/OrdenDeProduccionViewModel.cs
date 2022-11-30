@@ -357,6 +357,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             set {
                 if (Model.CostoTerminadoCalculadoAPartirDeAsEnum != value) {
                     Model.CostoTerminadoCalculadoAPartirDeAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CostoTerminadoCalculadoAPartirDePropertyName);
                 }
             }
         }
@@ -576,6 +578,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsVisibleCambioCostoProduccion {
             get {
+                if (Action == eAccionSR.Consultar) {
+                    return (CostoTerminadoCalculadoAPartirDe == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera);
+                }
                 return UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera() && !EsEcuador();
             }
         }
@@ -778,10 +783,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     CodigoAlmacenMateriales = string.Empty;
                     NombreAlmacenMateriales = string.Empty;
                 }
-            } catch(System.AccessViolationException) {
+            } catch(AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch(Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
         private void ExecuteChooseMonedaCommand(string valNombre) {
@@ -801,7 +806,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     }
                 }
                 ConexionMoneda = null;
-                ConexionMoneda = ChooseRecord<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
+                ConexionMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionMoneda != null) {
                     Moneda = ConexionMoneda.Nombre;
                     CodigoMonedaCostoProduccion = ConexionMoneda.Codigo;
@@ -812,10 +817,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Moneda = string.Empty;
                     CodigoMonedaCostoProduccion = string.Empty;
                 }
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
         #endregion

@@ -119,7 +119,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _AjustadoPostCierre = LibConvert.SNToBool(value); }
         }
 
-
         public decimal CantidadAjustada {
             get { return _CantidadAjustada; }
             set { _CantidadAjustada = value; }
