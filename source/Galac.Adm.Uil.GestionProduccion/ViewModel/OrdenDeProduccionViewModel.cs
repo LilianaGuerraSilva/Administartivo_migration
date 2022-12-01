@@ -578,16 +578,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsVisibleCambioCostoProduccion {
             get {
-                if (Action == eAccionSR.Consultar) {
-                    return (CostoTerminadoCalculadoAPartirDe == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera);
-                }
-                return UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera() && !EsEcuador();
-            }
-        }
-
-        public bool IsNotVisibleCambioCostoProduccion {
-            get {
-                return !IsVisibleCambioCostoProduccion;
+                //if (Action == eAccionSR.Consultar) {
+                //    return (CostoTerminadoCalculadoAPartirDe == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera);
+                //}
+                return UsaMonedaExtranjera() /*&& CalculaCostosAPartirDeMonedaExtranjera()*/ && !EsEcuador();
             }
         }
 
@@ -651,7 +645,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
             if (Action == eAccionSR.Anular || Action == eAccionSR.Consultar || Action == eAccionSR.Eliminar) {
                 Moneda = AsignarNombreMoneda().Nombre;
-            } else if (UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera()) {
+            } else if (UsaMonedaExtranjera()) {
                 AsignarValoresDeMonedaPorDefecto();
                 AsignarCambioCostoDeProduccion();
             } else if (!CalculaCostosAPartirDeMonedaExtranjera()) {
@@ -1032,8 +1026,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
-                ConexionMoneda = FirstConnectionRecordOrDefault<Comun.Uil.TablasGen.ViewModel.FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
+            if (!EsMonedaLocal(valCodigoMoneda)) {
+                ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMoneda = ConexionMoneda.Codigo;
                 if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, valFecha, out decimal vTasa)) {
                     CambioMoneda = vTasa;
@@ -1052,7 +1046,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                         if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
                             return false;
                         }
-                        AsignarValoresDeMonedaPorDefecto();
+                        CambioMoneda = 1;
                     }
                     return true;
                 }
@@ -1106,6 +1100,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return LibDefGen.ProgramInfo.IsCountryEcuador();
         }
 
+        private bool EsMonedaLocal(string valCodigoMoneda) {
+            return vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda);
+        }
+
         private bool UsaMonedaExtranjera() {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
         }
@@ -1116,11 +1114,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         private string AsignarCodigoDeLaMonedaAlInsertar() {
-            string valCodigo = "VED";
-            if (UsaMonedaExtranjera() && CalculaCostosAPartirDeMonedaExtranjera()) {
-                valCodigo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            string vCodigo = "VED";
+            if (UsaMonedaExtranjera()) {
+                vCodigo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             }
-            return valCodigo;
+            return vCodigo;
         }
 
         private FkMonedaViewModel AsignarNombreMoneda() {
@@ -1129,6 +1127,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             Moneda = ConexionMoneda.Nombre;
             return ConexionMoneda;
         }
+
         #endregion //Metodos
     } //End of class OrdenDeProduccionViewModel
+
 } //End of namespace Galac.Adm.Uil.GestionProduccion
