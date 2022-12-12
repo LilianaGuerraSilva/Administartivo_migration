@@ -1694,40 +1694,40 @@ namespace Galac.Saw.Brl.SttDef {
         }
 
         List<SettValueByCompany> DatosPorDefecto(int valConsecutivoCompania, string valCodigoMonedaLocal, string valNombreMonedaLocal, string valCodigoMonedaExtranjera, string valNombreMonedaExtranjera, string valCiudad) {
-            List<SettValueByCompany> vResul = new List<SettValueByCompany>();
-            LlenaListado(CompaniaSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(GeneralSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(FacturacionSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(FacturacionContinuacionSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            LlenaListado(ImpresiondeFacturaSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(ModeloDeFacturaSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(CamposDefiniblesSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(FacturaPuntoDeVentaSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(FacturaBalanzaEtiquetasSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(CotizacionSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(NotasDebitoCreditoEntregaSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(VendedorSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            LlenaListado(ClienteSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            LlenaListado(CobranzasSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(ComisionesSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(InventarioSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            LlenaListado(NotaEntradaSalidaSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(MetododecostosSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(ComprasSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(CxPProveedorPagosSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(RetencionIVAStttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(RetencionISLRSttPorDefecto(valCiudad), ref vResul, valConsecutivoCompania);
-            LlenaListado(PlanillaDeIVASttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(BancosSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(MonedaSttPorDefecto(valCodigoMonedaLocal, valNombreMonedaLocal, valCodigoMonedaExtranjera, valNombreMonedaExtranjera), ref vResul, valConsecutivoCompania);
-            LlenaListado(AnticipoSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(MovimientoBancarioSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            LlenaListado(ProcesosSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            LlenaListado(NotaEntregaSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            LlenaListado(VerificadorDePreciosSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            LlenaListado(ImagenesComprobantesRetencionSttPorDefecto(), ref vResul, valConsecutivoCompania);
-            LlenaListado(ProduccionSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
-            return vResul;
+            List<SettValueByCompany> vResult = new List<SettValueByCompany>();
+            LlenaListado(CompaniaSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(GeneralSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(FacturacionSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(FacturacionContinuacionSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(ImpresiondeFacturaSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(ModeloDeFacturaSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(CamposDefiniblesSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(FacturaPuntoDeVentaSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(FacturaBalanzaEtiquetasSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(CotizacionSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(NotasDebitoCreditoEntregaSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(VendedorSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(ClienteSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(CobranzasSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(ComisionesSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(InventarioSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(NotaEntradaSalidaSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(MetododecostosSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(ComprasSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(CxPProveedorPagosSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(RetencionIVAStttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(RetencionISLRSttPorDefecto(valCiudad), ref vResult, valConsecutivoCompania);
+            LlenaListado(PlanillaDeIVASttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(BancosSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(MonedaSttPorDefecto(valCodigoMonedaLocal, valNombreMonedaLocal, valCodigoMonedaExtranjera, valNombreMonedaExtranjera), ref vResult, valConsecutivoCompania);
+            LlenaListado(AnticipoSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(MovimientoBancarioSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(ProcesosSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(NotaEntregaSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(VerificadorDePreciosSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            LlenaListado(ImagenesComprobantesRetencionSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(ProduccionSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+            return vResult;
         }
 
         bool ISettValueByCompanyPdn.InsertaValoresPorDefecto(int valConsecutivoCompania, string valCodigoMonedaLocal, string valNombreMonedaLocal, string valCodigoMonedaExtranjera, string valNombreMonedaExtranjera, string valCiudad) {
@@ -1865,8 +1865,6 @@ namespace Galac.Saw.Brl.SttDef {
             vResult = instanciaDal.QueryInfo(eProcessMessageType.Query, vSql.ToString(), null);
             return vResult;
         }
-
-
 
         string ValorSegunColumna(List<SettValueByCompany> valListSettValueByCompany, string valColumna) {
             string vResult = "";
@@ -2114,7 +2112,6 @@ namespace Galac.Saw.Brl.SttDef {
             }
             return x;
         }
-
 
         bool ISettValueByCompanyPdn.ExisteMunicipio(int valConsecutivoMunicipio, string valNombreCiudad) {
             QAdvSql insQAdvSql = new QAdvSql("");
