@@ -168,7 +168,7 @@
                         Grid.Row="6"
                         Grid.Column="1"
                         IsChecked="{Binding Path=UsaMaquinaFiscal}"
-                        IsEnabled="{Binding Path=IsEnabled}"
+                        IsEnabled="{Binding Path=IsEnabledMaquinaFiscal}"
                         Style="{StaticResource CheckBoxStyle}"
                         Visibility="{Binding Path=IsVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}" />
                 </Grid>

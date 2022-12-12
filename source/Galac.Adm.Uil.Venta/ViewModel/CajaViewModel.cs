@@ -527,6 +527,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public bool IsEnabledMaquinaFiscal {
+            get {
+                return NombreCaja != "CAJA GENÉRICA" && IsEnabled;
+            }
+        }
+
         private bool FamiliaValidaParaModoMejorado(eFamiliaImpresoraFiscal valFamilia) {
             return (valFamilia == eFamiliaImpresoraFiscal.EPSONPNP
                     || valFamilia == eFamiliaImpresoraFiscal.THEFACTORY

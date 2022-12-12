@@ -132,19 +132,23 @@ namespace Galac.Adm.Brl.Venta {
                 vParams.AddInInteger("Consecutivo", valConsecutivo);
                 vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
                 StringBuilder SQL = new StringBuilder();
-                SQL.AppendLine("SELECT Consecutivo,NombreCaja,UsaGaveta,Puerto,Comando,PermitirAbrirSinSupervisor,");
+                SQL.AppendLine("SELECT Caja.Consecutivo,NombreCaja,UsaGaveta,Puerto,Comando,PermitirAbrirSinSupervisor,");
                 SQL.AppendLine(" UsaAccesoRapido, UsaMaquinaFiscal, FamiliaImpresoraFiscal, ModeloDeMaquinaFiscal,");
                 SQL.AppendLine(" SerialDeMaquinaFiscal, PuertoMaquinaFiscal, AbrirGavetaDeDinero, UltimoNumeroCompFiscal,");
                 SQL.AppendLine(" UltimoNumeroNCFiscal ,TipoConexion, IpParaConexion, MascaraSubred,");
                 SQL.AppendLine(" Gateway, PermitirDescripcionDelArticuloExtendida, PermitirNombreDelClienteExtendido, ");
-                SQL.AppendLine(" UsarModoDotNet, RegistroDeRetornoEnTxt, NombreOperador, CONVERT(varchar,FechaUltimaModificacion,101) AS FechaUltimaModificacion ");
-                SQL.AppendLine("FROM Adm.Caja WHERE Consecutivo = @Consecutivo");
-                SQL.AppendLine("AND ConsecutivoCompania = @ConsecutivoCompania ");
+                SQL.AppendLine(" UsarModoDotNet, RegistroDeRetornoEnTxt, CajaApertura.NombreDelUsuario AS NombreOperador, CONVERT(varchar,Caja.FechaUltimaModificacion,101) AS FechaUltimaModificacion ");
+                SQL.AppendLine(" FROM Adm.Caja ");
+                SQL.AppendLine(" LEFT JOIN Adm.CajaApertura ON");
+                SQL.AppendLine(" CajaApertura.ConsecutivoCompania = Caja.ConsecutivoCompania ");
+                SQL.AppendLine(" AND CajaApertura.ConsecutivoCaja = Caja.Consecutivo ");
+                SQL.AppendLine(" WHERE Caja.ConsecutivoCompania = @ConsecutivoCompania ");
+                SQL.AppendLine(" AND Caja.Consecutivo = @Consecutivo ");                
                 if (!LibString.IsNullOrEmpty(valSqlWhere)) {
                     SQL.AppendLine(" AND " + valSqlWhere);
                 }
                 XmlResult = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
-                vResult = (XmlResult != null && XmlResult.HasElements);
+                vResult = (XmlResult != null && XmlResult.HasElements);                
             } catch (Exception) {
                 return false;
             }
@@ -199,13 +203,13 @@ namespace Galac.Adm.Brl.Venta {
             IImpresoraFiscalPdn vImpresoraFiscal = null;
             clsImpresoraFiscalNav insMaquinaFiscalNav;
             eStatusImpresorasFiscales refStatusPapel = new eStatusImpresorasFiscales();
-
             try {
                 ICajaPdn insCaja = new clsCajaNav();
                 int CajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
                 int ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+                string vSqlWhere = "CajaApertura.CajaCerrada = " + new QAdvSql("").ToSqlValue(false);
                 if (!CajaLocal.Equals(0) && (ConsecutivoCompania > 0)) {
-                    insCaja.FindByConsecutivoCaja(ConsecutivoCompania, CajaLocal, "", ref xmlCajaDat);
+                    insCaja.FindByConsecutivoCaja(ConsecutivoCompania, CajaLocal, vSqlWhere, ref xmlCajaDat);
                     vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, CajaLocal);
                     insMaquinaFiscalNav = new clsImpresoraFiscalNav(vImpresoraFiscal);
                     insMaquinaFiscalNav.SerialImpresoraFiscal = SerialMaquinaFiscal;
