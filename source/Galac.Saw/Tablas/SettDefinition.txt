@@ -213,6 +213,7 @@ RutaImagen;Inventario;5;5.4-. Verificador de Precios;4;;String;;N
 TipoDePrecioAMostrarEnVerificador;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
 TipoDeBusquedaArticulo;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
 NivelDePrecioAMostrar;Inventario;5;5.4-. Verificador de Precios;4;;Enumerativo;;N
+CostoTerminadoCalculadoAPartirDe;Inventario;5;5.5.- Producción;5;;Enumerativo;;N
 GenerarCxpDesdeCompra;CxP/Compras;6;6.1.- Compras;1;;Bool;;S
 ImprimirOrdenDeCompra;CxP/Compras;6;6.1.- Compras;1;;Bool;;N
 NombrePlantillaOrdenDeCompra;CxP/Compras;6;6.1.- Compras;1;;String;;N

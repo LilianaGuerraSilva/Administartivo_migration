@@ -18,8 +18,8 @@ using Galac.Saw.Ccl.Inventario;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class ListaDeMaterialesDetalleArticuloViewModel : LibInputDetailViewModelMfc<ListaDeMaterialesDetalleArticulo> {
-        
-		#region Constantes
+
+        #region Constantes
 
         private const string CodigoArticuloInventarioPropertyName = "CodigoArticuloInventario";
         private const string DescripcionArticuloInventarioPropertyName = "DescripcionArticuloInventario";
@@ -29,7 +29,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Variables
 
         private FkArticuloInventarioViewModel _ConexionCodigoArticuloInventario = null;
-        private FkArticuloInventarioViewModel _ConexionDescripcionArticuloInventario = null;
 
         #endregion //Variables
 
@@ -39,7 +38,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get { return "Productos y/o Servicios"; }
         }
 
-        public int  ConsecutivoCompania {
+        public int ConsecutivoCompania {
             get {
                 return Model.ConsecutivoCompania;
             }
@@ -50,7 +49,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public int  ConsecutivoListaDeMateriales {
+        public int ConsecutivoListaDeMateriales {
             get {
                 return Model.ConsecutivoListaDeMateriales;
             }
@@ -61,7 +60,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public int  Consecutivo {
+        public int Consecutivo {
             get {
                 return Model.Consecutivo;
             }
@@ -72,8 +71,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width=180)]
-        public string  CodigoArticuloInventario {
+        [LibGridColum("Código Artículo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "CodigoArticuloInventario", ConnectionSearchCommandName = "ChooseCodigoArticuloInventarioCommand", Width = 180)]
+        public string CodigoArticuloInventario {
             get {
                 return Model.CodigoArticuloInventario;
             }
@@ -90,8 +89,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Descripción es requerido.")]
-        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width=300, Trimming = System.Windows.TextTrimming.WordEllipsis)]
-        public string  DescripcionArticuloInventario {
+        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "DescripcionArticuloInventario", ConnectionSearchCommandName = "ChooseDescripcionArticuloInventarioCommand", Width = 300, Trimming = System.Windows.TextTrimming.WordEllipsis)]
+        public string DescripcionArticuloInventario {
             get {
                 return Model.DescripcionArticuloInventario;
             }
@@ -99,14 +98,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (Model.DescripcionArticuloInventario != value) {
                     Model.DescripcionArticuloInventario = value;
                     IsDirty = true;
-                    RaisePropertyChanged(DescripcionArticuloInventarioPropertyName);                    
+                    RaisePropertyChanged(DescripcionArticuloInventarioPropertyName);
                 }
             }
         }
 
         [LibRequired(ErrorMessage = "El campo Cantidad es requerido.")]
         [LibGridColum("Cantidad", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 90, ConditionalPropertyDecimalDigits = "DecimalDigits")]
-        public decimal  Cantidad {
+        public decimal Cantidad {
             get {
                 return Model.Cantidad;
             }
@@ -136,7 +135,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     CodigoArticuloInventario = string.Empty;
                 }
             }
-        }        
+        }
 
         public RelayCommand<string> ChooseCodigoArticuloInventarioCommand {
             get;
@@ -176,13 +175,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            ChooseCodigoArticuloInventarioCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloInventarioCommand);            
+            ChooseCodigoArticuloInventarioCommand = new RelayCommand<string>(ExecuteChooseCodigoArticuloInventarioCommand);
         }
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-           // ConexionCodigoArticuloInventario = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("CodigoArticuloInventario", CodigoArticuloInventario));
-            
+            // ConexionCodigoArticuloInventario = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("CodigoArticuloInventario", CodigoArticuloInventario));
+
         }
 
         private void ExecuteChooseCodigoArticuloInventarioCommand(string valCodigo) {
@@ -194,7 +193,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusdelArticulo ", eStatusArticulo.Vigente), eLogicOperatorType.And);
                 vFixedCriteria.Add("TipoArticuloInv", eBooleanOperatorType.IdentityEquality, eTipoArticuloInv.Simple, eLogicOperatorType.And);
-                vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality , eTipoDeArticulo.ProductoCompuesto, eLogicOperatorType.And);
+                vFixedCriteria.Add("TipoDeArticulo", eBooleanOperatorType.IdentityInequality, eTipoDeArticulo.ProductoCompuesto, eLogicOperatorType.And);
                 ConexionCodigoArticuloInventario = Master.ChooseRecord<FkArticuloInventarioViewModel>("Artículo Inventario", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoArticuloInventario != null) {
                     CodigoArticuloInventario = ConexionCodigoArticuloInventario.Codigo;

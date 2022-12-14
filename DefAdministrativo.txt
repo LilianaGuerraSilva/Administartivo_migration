@@ -197,7 +197,7 @@ unMonedaDelInforme =(Bolivar,MonedaOrignal);//e,Componente=Venta
 unTasaDeCambio =(Original,DelDia);//e,Componente=Venta
 unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta 
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
-unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Componente=SttDef
+unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
 
 
 // Record Repetido en archivo Externo
@@ -1305,7 +1305,7 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 @PrimaryKey=ConsecutivoCompania,NumeroDocumento
 }
 
-{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania, GENERATE
+{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania
 	ConsecutivoCompania		: LongInt;//
 	NumeroDocumento		    : Str11;//
 	ConsecutivoRenglon		: LongInt;//
@@ -4405,7 +4405,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	MotivoDeAnulacion		        : Str600;//dv=''
 	NumeroDecimales		            : LongInt;//
     Moneda              		    : str80;//logical,=Moneda.Nombre, "Nombre de la Moneda"
-    CostoTerminadoCalculadoAPartirDe : unCostoTerminadoCalculadoAPartirDe;
+    CostoTerminadoCalculadoAPartirDe : unFormaDeCalcularCostoTerminado;
     CodigoMonedaCostoProduccion     : str04; //"Código Moneda Para El Costo"
     CambioCostoProduccion           : double; //
 //ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
@@ -4414,7 +4414,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
 }
 
-{@S}OrdenDeProduccionDetalleArticulo = Record//Esquema=Adm, GENERATE
+{@S}OrdenDeProduccionDetalleArticulo = Record//Esquema=Adm
 	ConsecutivoCompania		: LongInt;//
 	ConsecutivoOrdenDeProduccion		: LongInt;//
 	Consecutivo		: LongInt;//
@@ -4439,14 +4439,14 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	ConsecutivoOrdenDeProduccion		: LongInt;//
 	ConsecutivoOrdenDeProduccionDetalleArticulo		: LongInt;//
 	Consecutivo		                    : LongInt;//
-	ConsecutivoAlmacen		            : LongInt;//dv=(0)
+	ConsecutivoAlmacen		            : LongInt;//dv=0
 	CodigoArticulo		                : Str30;//dv=''
 	Cantidad		                    : decimal;//Decimales=9,Longitud=25,
 	CantidadReservadaInventario		    : decimal;//,
 	CantidadConsumida		            : decimal;//,
-	CostoUnitarioArticuloInventario		: decimal;//,dv=(0)
-	CostoUnitarioMEArticuloInventario	: decimal;//,dv=(0)
-	MontoSubtotal		                : decimal;//,dv=(0)
+	CostoUnitarioArticuloInventario		: decimal;//,dv=0
+	CostoUnitarioMEArticuloInventario	: decimal;//,dv=0
+	MontoSubtotal		                : decimal;//,dv=0
 	AjustadoPostCierre		            : boolean;//"�ENUMERATIVO O BOOLEAN?",
 	CantidadAjustada		            : decimal;//,
 //ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
