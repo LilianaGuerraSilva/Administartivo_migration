@@ -95,10 +95,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania = APT.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Saw.Almacen  AS AM ON " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenMateriales = AM.Consecutivo");
             SQL.AppendLine("      AND " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania = AM.ConsecutivoCompania");
-          //SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumCostoTerminadoCalculadoAPartirDe");
-          //SQL.AppendLine("ON " + DbSchema + ".OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe COLLATE MODERN_SPANISH_CS_AS");
-          //SQL.AppendLine(" = " + DbSchema + ".Gv_EnumCostoTerminadoCalculadoAPartirDe.DbValue");
-          //SQL.AppendLine("INNER JOIN dbo.Moneda ON  " + DbSchema + ".OrdenDeProduccion.CodigoMonedaCostoProduccion = dbo.Moneda.Codigo");
             return SQL.ToString();
         }
 

@@ -335,7 +335,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     }
                 }
                 vOrdenDeProduccionDetalleArticulo.MontoSubTotal = vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales.Sum(p => p.MontoSubtotal);
-                vOrdenDeProduccionDetalleArticulo.CostoUnitario = vOrdenDeProduccionDetalleArticulo.MontoSubTotal / vOrdenDeProduccionDetalleArticulo.CantidadProducida;
+                vOrdenDeProduccionDetalleArticulo.CostoUnitario = LibMath.RoundToNDecimals(vOrdenDeProduccionDetalleArticulo.MontoSubTotal / vOrdenDeProduccionDetalleArticulo.CantidadProducida, 2);
             }
             using (TransactionScope vScope = LibBusiness.CreateScope()) {
                 vResult = base.UpdateRecord(refRecord, true, eAccionSR.Modificar);
@@ -399,9 +399,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     Ubicacion = "",
                     ConsecutivoAlmacen = vOrdenDeProduccionDetalleArticulo.ConsecutivoAlmacen,
                     CostoUnitario = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ?
-                                    (vOrdenDeProduccionDetalleArticulo.CostoUnitario * valOrdenDeProduccion.CambioCostoProduccion) : vOrdenDeProduccionDetalleArticulo.CostoUnitario,
+                                    LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario * valOrdenDeProduccion.CambioCostoProduccion), 2) : vOrdenDeProduccionDetalleArticulo.CostoUnitario,
                     CostoUnitarioME = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ?
-                                    vOrdenDeProduccionDetalleArticulo.CostoUnitario : (vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion),
+                                    vOrdenDeProduccionDetalleArticulo.CostoUnitario : LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion), 2),
                     TipoActualizacion = eTipoActualizacion.ExistenciayCosto,
                     DetalleArticuloInventarioExistenciaSerial = new List<ArticuloInventarioExistenciaSerial>()
                 });
@@ -539,9 +539,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     Serial = "0",
                     Rollo = "0",
                     CostoUnitario = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ?
-                                    (vOrdenDeProduccionDetalleArticulo.CostoUnitario * valOrdenDeProduccion.CambioCostoProduccion) : vOrdenDeProduccionDetalleArticulo.CostoUnitario,
+                                    LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario * valOrdenDeProduccion.CambioCostoProduccion), 2) : vOrdenDeProduccionDetalleArticulo.CostoUnitario,
                     CostoUnitarioME = valOrdenDeProduccion.CostoTerminadoCalculadoAPartirDeAsEnum == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera ?
-                                    vOrdenDeProduccionDetalleArticulo.CostoUnitario : (vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion)
+                                    vOrdenDeProduccionDetalleArticulo.CostoUnitario : LibMath.RoundToNDecimals((vOrdenDeProduccionDetalleArticulo.CostoUnitario / valOrdenDeProduccion.CambioCostoProduccion), 2)
                 });
                 foreach (var vOrdenDeProduccionDetalleMateriales in vOrdenDeProduccionDetalleArticulo.DetailOrdenDeProduccionDetalleMateriales) {
                     if (vOrdenDeProduccionDetalleMateriales.CantidadReservadaInventario < vOrdenDeProduccionDetalleMateriales.CantidadConsumida) {
