@@ -1,0 +1,84 @@
+using System.Collections.Generic;
+using LibGalac.Aos.Base;
+using LibGalac.Aos.UI.Mvvm;
+using Galac.Saw.Ccl.SttDef;
+using LibGalac.Aos.DefGen;
+using LibGalac.Aos.UI.Mvvm.Messaging;
+
+namespace Galac.Saw.Uil.SttDef.ViewModel {
+    public class InventarioProduccionViewModel : LibInputViewModelMfc<ProduccionStt> {
+        #region Constantes
+        public const string CalcularCostoDelArticuloTerminadoAPartirDePropertyName = "CalcularCostoDelArticuloTerminadoAPartirDe";
+        #endregion
+        #region Propiedades
+        public override string ModuleName {
+            get { return "5.5.- Producción"; }
+        }
+
+        public eFormaDeCalcularCostoTerminado CalcularCostoDelArticuloTerminadoAPartirDe {
+            get {
+                return Model.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum;
+            }
+            set {
+                if (Model.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum != value) {
+                    Model.CalcularCostoDelArticuloTerminadoAPartirDeAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CalcularCostoDelArticuloTerminadoAPartirDePropertyName);
+                }
+            }
+        }
+
+        public eFormaDeCalcularCostoTerminado[] ArrayCalcularCostoDelArticuloTerminadoAPartirDe {
+            get {
+                return LibEnumHelper<eFormaDeCalcularCostoTerminado>.GetValuesInArray();
+            }
+        }
+
+        public bool IsEnabledCalcularCostosDelArtículoAPartirDe {
+            get {
+                return (IsEnabled && UsaMonedaExtranjera() && !EsEcuador());
+            }
+        }
+        public bool IsNotEnabledCalcularCostosDelArtículoAPartirDe {
+            get {
+                return (Action == eAccionSR.Modificar) && !(UsaMonedaExtranjera() && !EsEcuador());
+            }
+        }
+        #endregion //Propiedades
+        #region Constructores
+        public InventarioProduccionViewModel()
+            : this(new ProduccionStt(), eAccionSR.Insertar) {
+        }
+        public InventarioProduccionViewModel(ProduccionStt initModel, eAccionSR initAction)
+            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+            DefaultFocusedPropertyName = CalcularCostoDelArticuloTerminadoAPartirDePropertyName;
+        }
+        #endregion //Constructores
+        #region Metodos Generados
+
+        protected override void InitializeLookAndFeel(ProduccionStt valModel) {
+            base.InitializeLookAndFeel(valModel);
+        }
+
+        protected override ProduccionStt FindCurrentRecord(ProduccionStt valModel) {
+            if (valModel == null) {
+                return null;
+            }
+            return valModel;
+        }
+
+        protected override ILibBusinessComponentWithSearch<IList<ProduccionStt>, IList<ProduccionStt>> GetBusinessComponent() {
+            return null;
+        }
+
+        private bool EsEcuador() {
+            return LibDefGen.ProgramInfo.IsCountryEcuador();
+        }
+
+        private bool UsaMonedaExtranjera() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
+        }
+        #endregion //Metodos Generados
+    } //End of class InventarioProduccionViewModel
+} //End of namespace Galac.Comun.Uil.SttDef
+

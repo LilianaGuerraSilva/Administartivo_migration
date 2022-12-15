@@ -28,7 +28,7 @@ namespace Galac.Saw.Wrp.SttDef {
         #region Variables
         string _Title = "Sett Value By Company";
         ISettValueByCompanyPdn _Reglas;
-        LibXmlMemInfo _initAppMemoryInfo; 
+        LibXmlMemInfo _initAppMemoryInfo;
         LibXmlMFC _initMfc;
         #endregion //Variables
         #region Propiedades

@@ -37,6 +37,7 @@ namespace Galac.Saw.Ccl.SttDef {
         VendedorStt _ParametrosVendedorStt;
         VerificadorDePreciosStt _ParametrosVerificadorDePreciosStt;
         ImagenesComprobantesRetencionStt _ParametrosImagenesComprobantesRetencionStt;
+        ProduccionStt _ParametrosInventarioProduccionStt;
 
         public CotizacionStt ParametrosCotizacionStt {
             get { return _ParametrosCotizacionStt; }
@@ -178,12 +179,15 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _ParametrosVerificadorDePreciosStt = value; }
         }
 
-
         public ImagenesComprobantesRetencionStt ParametrosImagenesComprobantesRetencionStt {
             get { return _ParametrosImagenesComprobantesRetencionStt; }
             set { _ParametrosImagenesComprobantesRetencionStt = value; }
         }
 
+        public ProduccionStt ParametrosProduccionStt {
+            get { return _ParametrosInventarioProduccionStt; }
+            set { _ParametrosInventarioProduccionStt = value; }
+        }
     }
 
     public class Module {

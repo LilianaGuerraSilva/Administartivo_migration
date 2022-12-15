@@ -1694,6 +1694,11 @@ Public Enum enum_FormaDeAsociarCentroDeCostos
    eFDACDC_PorLineaDeProducto
 End Enum
 
+Public Enum enum_FormaDeCalcularCostoTerminado
+   eFDCCT_APartirDeMonedaLocal = 0
+   eFDCCT_APartirDeMonedaExtranjera
+End Enum
+
 Public Function me_saw() As Long
    me_saw = 1
 End Function
@@ -13989,6 +13994,34 @@ Public Function fEnumTipoAlicPorContIGTFToStringInArray(Optional ByVal valPrepar
    Next
    fEnumTipoAlicPorContIGTFToStringInArray = varArray
    On Error GoTo 0
+End Function
+
+Public Function enumFormaDeCalcularCostoTerminadoToString(FormaDeCalcularCostoTerminado As enum_FormaDeCalcularCostoTerminado) As String
+   Select Case FormaDeCalcularCostoTerminado
+      Case eFDCCT_APartirDeMonedaLocal: enumFormaDeCalcularCostoTerminadoToString = "A partir de moneda local"
+      Case eFDCCT_APartirDeMonedaExtranjera: enumFormaDeCalcularCostoTerminadoToString = "A partir de moneda extranjera"
+      Case Else
+         enumFormaDeCalcularCostoTerminadoToString = enumFormaDeCalcularCostoTerminadoToString(0)
+   End Select
+End Function
+
+Public Function strFormaDeCalcularCostoTerminadoToNum(ByVal FormaDeCalcularCostoTerminado As String, Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_FormaDeCalcularCostoTerminado
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eFDCCT_APartirDeMonedaLocal To eFDCCT_APartirDeMonedaExtranjera
+      If UCase(FormaDeCalcularCostoTerminado) = UCase(enumFormaDeCalcularCostoTerminadoToString(mEnum)) Then
+         strFormaDeCalcularCostoTerminadoToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strFormaDeCalcularCostoTerminadoToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & FormaDeCalcularCostoTerminado & " no existe en tipo enumerado FormaDeCalcularCostoTerminado"
+   End If
+h_EXIT:
+   Exit Function
 End Function
 
 Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, Optional ByVal showMessage As Boolean = True) As Integer

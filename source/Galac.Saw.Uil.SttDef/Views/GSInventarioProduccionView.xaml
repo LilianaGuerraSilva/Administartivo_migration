@@ -1,0 +1,68 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.SttDef.Views.GSInventarioProduccionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <GroupBox
+        Margin="3"
+        Header="Cálculo de Costo"
+        Style="{StaticResource GroupBoxStyle}">
+        <Grid FocusManager.FocusedElement="{Binding ElementName=cmbCalcularCostoDelArticuloTerminadoAPartirDe}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label
+                Name="lblCalcularCostoDelArticuloTerminadoAPartirDe"
+                Grid.Row="0"
+                Grid.Column="0"
+                Content="Calcular el costo del artí­culo terminado a partir de..........................................................................................."
+                Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSComboBoxWpf
+                Name="cmbCalcularCostoDelArticuloTerminadoAPartirDe"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="280"
+                HorizontalAlignment="Right"
+                IsEnabled="{Binding Path=IsEnabledCalcularCostosDelArtículoAPartirDe}"
+                IsSynchronizedWithCurrentItem="True"
+                ItemsSource="{Binding Path=ArrayCalcularCostoDelArticuloTerminadoAPartirDe}"
+                SelectedItem="{Binding Path=CalcularCostoDelArticuloTerminadoAPartirDe, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource ComboBoxStyle}" />
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Width="Auto"
+                Margin="3,3,3,3"
+                HorizontalAlignment="Left"
+                BorderBrush="Black"
+                BorderThickness="0.5"
+                Visibility="{Binding Path=IsNotEnabledCalcularCostosDelArtículoAPartirDe, Converter={StaticResource booleanToVisibilityConverter}}">
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="280"
+                    HorizontalAlignment="Right"
+                    Foreground="#FFA00000"
+                    Text="Para seleccionar otro valor, debe activar Usa Moneda Extranjera (7.2)"
+                    TextAlignment="Justify"
+                    TextWrapping="WrapWithOverflow" />
+            </Border>
+        </Grid>
+    </GroupBox>
+</UserControl>

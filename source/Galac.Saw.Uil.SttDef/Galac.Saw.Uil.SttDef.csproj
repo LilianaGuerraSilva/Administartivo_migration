@@ -154,6 +154,7 @@
     <Compile Include="ViewModel\FacturaImpresionViewModel.cs" />
     <Compile Include="ViewModel\FacturaModeloFacturaViewModel.cs" />
     <Compile Include="ViewModel\InventarioNotaEntradaSalidaViewModel.cs" />
+    <Compile Include="ViewModel\InventarioProduccionViewModel.cs" />
     <Compile Include="ViewModel\InventarioViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -244,6 +245,9 @@
     </Compile>
     <Compile Include="Views\GSInventarioNotaEntradaSalidaView.xaml.cs">
       <DependentUpon>GSInventarioNotaEntradaSalidaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSInventarioProduccionView.xaml.cs">
+      <DependentUpon>GSInventarioProduccionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSInventarioView.xaml.cs">
       <DependentUpon>GSInventarioView.xaml</DependentUpon>
@@ -384,6 +388,10 @@
     <Page Include="Views\GSInventarioNotaEntradaSalidaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSInventarioProduccionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Views\GSInventarioView.xaml">
       <Generator>MSBuild:Compile</Generator>

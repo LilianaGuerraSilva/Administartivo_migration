@@ -27,7 +27,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "5.2- Nota Entrada/Salida"; }
+            get { return "5.2.- Nota Entrada/Salida"; }
         }
 
         [LibCustomValidation ("NombrePlantillaCodigoDeBarrasValidating")]

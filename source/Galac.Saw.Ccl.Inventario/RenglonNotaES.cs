@@ -20,6 +20,7 @@ namespace Galac.Saw.Ccl.Inventario {
         private string _Serial;
         private string _Rollo;
         private decimal _CostoUnitario;
+        private decimal _CostoUnitarioME;
         #endregion //Variables
         #region Propiedades
 
@@ -88,6 +89,12 @@ namespace Galac.Saw.Ccl.Inventario {
             get { return _CostoUnitario; }
             set { _CostoUnitario = value; }
         }
+
+        public decimal CostoUnitarioME {
+            get { return _CostoUnitarioME; }
+            set { _CostoUnitarioME = value; }
+        }
+        
         #endregion //Propiedades
         #region Constructores
 
@@ -111,6 +118,7 @@ namespace Galac.Saw.Ccl.Inventario {
             Serial = string.Empty;
             Rollo = string.Empty;
             CostoUnitario = 0;
+            CostoUnitarioME = 0;
         }
 
         public RenglonNotaES Clone() {
@@ -124,6 +132,7 @@ namespace Galac.Saw.Ccl.Inventario {
             vResult.Serial = _Serial;
             vResult.Rollo = _Rollo;
             vResult.CostoUnitario = _CostoUnitario;
+            vResult.CostoUnitarioME = _CostoUnitarioME;
             return vResult;
         }
 
@@ -136,7 +145,8 @@ namespace Galac.Saw.Ccl.Inventario {
                "\nTipo Articulo Inv = " + _TipoArticuloInv.ToString() +
                "\nSerial = " + _Serial +
                "\nRollo = " + _Rollo +
-               "\nCosto Unitario = " + _CostoUnitario.ToString();
+               "\nCosto Unitario = " + _CostoUnitario.ToString() +
+               "\nCosto Unitario en Moneda Extranjera = " + _CostoUnitarioME.ToString();
         }
 
         #region Miembros de IEquatable<RenglonNotaES>
@@ -160,7 +170,6 @@ namespace Galac.Saw.Ccl.Inventario {
             }
         }
         #endregion //Metodos Generados
-
 
     } //End of class RenglonNotaES
 

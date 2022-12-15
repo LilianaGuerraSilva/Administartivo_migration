@@ -57,6 +57,9 @@
     <DataTemplate DataType="{x:Type nsCSVM:InventarioMetodoCostoViewModel}">
         <nsCSV:GSInventarioMetodoCostoView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:InventarioProduccionViewModel}">
+        <nsCSV:GSInventarioProduccionView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:CxPComprasViewModel}">
         <nsCSV:GSCxPComprasView />
     </DataTemplate>
