@@ -345,7 +345,7 @@
             Grid.Row="10"
             Grid.ColumnSpan="4"
             Margin="3"
-            Header="Articulo a Producir"
+            Header="Artículo a Producir"
             HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
             Style="{StaticResource GroupBoxStyle}">
             <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigo}">

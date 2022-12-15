@@ -1076,7 +1076,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if (Action == eAccionSR.Insertar) {
                 CambioCostoProduccion = CambioMoneda;
             } else if (CambioMoneda != CambioCostoProduccion) {
-                if (LibMessages.MessageBox.YesNo(this, "La tasa de cambio del día (" + LibConvert.NumToString(CambioMoneda, 2) + "Bs.) es distinta a la de esta Orden de Produccion (" + LibConvert.NumToString(CambioCostoProduccion, 2) + "Bs.), desea cambiar la tasa por la de hoy?", ModuleName)) {
+                if (LibMessages.MessageBox.YesNo(this, "La tasa de cambio del día (" + LibConvert.NumToString(CambioMoneda, 2) + vMonedaLocal.InstanceMonedaLocalActual.SimboloMoneda(LibDate.Today()) + ".) es distinta a la de esta Orden de Producción (" + LibConvert.NumToString(CambioCostoProduccion, 2) + vMonedaLocal.InstanceMonedaLocalActual.SimboloMoneda(LibDate.Today()) + ".) ¿Desea cambiar la tasa por la de hoy?", ModuleName)) {
                     CambioCostoProduccion = CambioMoneda;
                 }
             }
@@ -1095,7 +1095,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     LibMessages.MessageBox.Alert(this, "La fecha de finalización de la Orden de Producción no puede ser anterior a su fecha de inicio.", ModuleName);
                 } else if (FechaFinalizacion > LibDate.Today()) {
                     LibMessages.MessageBox.Alert(this, "La fecha de finalización de la Orden de Producción no puede ser superior a la fecha de hoy, por favor ingrese una fecha válida.", ModuleName);
-                } else if (LibMessages.MessageBox.YesNo(this, "Está seguro de cerrar esta Orden de Producción?", ModuleName)) {
+                } else if (LibMessages.MessageBox.YesNo(this, "¿Está seguro de cerrar esta Orden de Producción?", ModuleName)) {
                     base.ExecuteAction();
                 }
             } else if (Action == eAccionSR.Anular && FechaAnulacion < FechaInicio) {
