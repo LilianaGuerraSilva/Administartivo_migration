@@ -364,25 +364,25 @@ namespace Galac.Saw.Dal.SttDef {
                 throw;
             }
         }
-        private Saw.Ccl.SttDef.eTipoDeDatoParametros TipoDeDatoDeParametros(string  valDatatype) {
-            Saw.Ccl.SttDef.eTipoDeDatoParametros vResult = Saw.Ccl.SttDef.eTipoDeDatoParametros.String;
+        private eTipoDeDatoParametros TipoDeDatoDeParametros(string  valDatatype) {
+            eTipoDeDatoParametros vResult = eTipoDeDatoParametros.String;
 
             switch (valDatatype) {
               
                 case"Decimal":
-                    vResult = Saw.Ccl.SttDef.eTipoDeDatoParametros.Decimal;
+                    vResult = eTipoDeDatoParametros.Decimal;
                     break;
                 case "Enumerativo":
-                    vResult = Saw.Ccl.SttDef.eTipoDeDatoParametros.Enumerativo;
+                    vResult = eTipoDeDatoParametros.Enumerativo;
                     break;
                 case "Int":
-                    vResult = Saw.Ccl.SttDef.eTipoDeDatoParametros.Int;
+                    vResult = eTipoDeDatoParametros.Int;
                     break;
                 case "String":
-                    vResult = Saw.Ccl.SttDef.eTipoDeDatoParametros.String;
+                    vResult = eTipoDeDatoParametros.String;
                     break;
                 default:
-                    vResult = Saw.Ccl.SttDef.eTipoDeDatoParametros.String;
+                    vResult = eTipoDeDatoParametros.String;
                     break;
             }
             return vResult;

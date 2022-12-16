@@ -50,6 +50,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("Serial" + InsSql.VarCharTypeForDb(50) + " CONSTRAINT d_RenNotESSe DEFAULT (''), ");
             SQL.AppendLine("Rollo" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_RenNotESRo DEFAULT (''), ");
             SQL.AppendLine("CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_RenNotESCoUn DEFAULT (0), ");
+            SQL.AppendLine("CostoUnitarioME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_RenNotESCoUnME DEFAULT (0), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_RenglonNotaES PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, NumeroDocumento ASC, ConsecutivoRenglon ASC)");
@@ -68,7 +69,7 @@ namespace Galac.Saw.Dal.Inventario {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT RenglonNotaES.ConsecutivoCompania, RenglonNotaES.NumeroDocumento, RenglonNotaES.ConsecutivoRenglon, RenglonNotaES.CodigoArticulo");
             SQL.AppendLine(", RenglonNotaES.Cantidad, RenglonNotaES.TipoArticuloInv, " + DbSchema + ".Gv_EnumTipoArticuloInv.StrValue AS TipoArticuloInvStr, RenglonNotaES.Serial, RenglonNotaES.Rollo");
-            SQL.AppendLine(", RenglonNotaES.CostoUnitario");
+            SQL.AppendLine(", RenglonNotaES.CostoUnitario, RenglonNotaES.CostoUnitarioME");
             SQL.AppendLine(", RenglonNotaES.fldTimeStamp, CAST(RenglonNotaES.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".RenglonNotaES");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoArticuloInv");
@@ -89,7 +90,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("@TipoArticuloInv" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@Serial" + InsSql.VarCharTypeForDb(50) + " = '',");
             SQL.AppendLine("@Rollo" + InsSql.VarCharTypeForDb(20) + " = '',");
-            SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
+            SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@CostoUnitarioME" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
             return SQL.ToString();
         }
 
@@ -110,7 +112,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("            TipoArticuloInv,");
             SQL.AppendLine("            Serial,");
             SQL.AppendLine("            Rollo,");
-            SQL.AppendLine("            CostoUnitario)");
+            SQL.AppendLine("            CostoUnitario,");
+            SQL.AppendLine("            CostoUnitarioME)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @ConsecutivoCompania,");
             SQL.AppendLine("            @NumeroDocumento,");
@@ -120,7 +123,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("            @TipoArticuloInv,");
             SQL.AppendLine("            @Serial,");
             SQL.AppendLine("            @Rollo,");
-            SQL.AppendLine("            @CostoUnitario)");
+            SQL.AppendLine("            @CostoUnitario,");
+            SQL.AppendLine("            @CostoUnitarioME)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
             SQL.AppendLine("        RETURN @ReturnValue ");
@@ -142,6 +146,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("@Serial" + InsSql.VarCharTypeForDb(50) + ",");
             SQL.AppendLine("@Rollo" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@CostoUnitario" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@CostoUnitarioME" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -171,7 +176,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("               TipoArticuloInv = @TipoArticuloInv,");
             SQL.AppendLine("               Serial = @Serial,");
             SQL.AppendLine("               Rollo = @Rollo,");
-            SQL.AppendLine("               CostoUnitario = @CostoUnitario");
+            SQL.AppendLine("               CostoUnitario = @CostoUnitario,");
+			SQL.AppendLine("               CostoUnitarioME = @CostoUnitarioME");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND NumeroDocumento = @NumeroDocumento");
@@ -287,6 +293,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("         Serial,");
             SQL.AppendLine("         Rollo,");
             SQL.AppendLine("         CostoUnitario,");
+            SQL.AppendLine("         CostoUnitarioME,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".RenglonNotaES");
@@ -318,6 +325,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("        Serial,");
             SQL.AppendLine("        Rollo,");
             SQL.AppendLine("        CostoUnitario,");
+            SQL.AppendLine("        CostoUnitarioME,");
             SQL.AppendLine("        fldTimeStamp");
             SQL.AppendLine("    FROM RenglonNotaES");
             SQL.AppendLine(" 	WHERE NumeroDocumento = @NumeroDocumento");
@@ -372,7 +380,8 @@ namespace Galac.Saw.Dal.Inventario {
 			SQL.AppendLine("	        TipoArticuloInv,");
 			SQL.AppendLine("	        Serial,");
 			SQL.AppendLine("	        Rollo,");
-			SQL.AppendLine("	        CostoUnitario)");
+			SQL.AppendLine("	        CostoUnitario,");
+			SQL.AppendLine("	        CostoUnitarioME)");
 		    SQL.AppendLine("	    SELECT ");
 			SQL.AppendLine("	        @ConsecutivoCompania,");
 			SQL.AppendLine("	        @NumeroDocumento,");
@@ -382,7 +391,8 @@ namespace Galac.Saw.Dal.Inventario {
 			SQL.AppendLine("	        TipoArticuloInv,");
 			SQL.AppendLine("	        Serial,");
 			SQL.AppendLine("	        Rollo,");
-			SQL.AppendLine("	        CostoUnitario");
+			SQL.AppendLine("	        CostoUnitario,");
+			SQL.AppendLine("	        CostoUnitarioME");
 		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataRenglonNotaES/GpDetailRenglonNotaES',2) ");
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        ConsecutivoRenglon " + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -391,7 +401,8 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("	        TipoArticuloInv " + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("	        Serial " + InsSql.VarCharTypeForDb(50) + ",");
             SQL.AppendLine("	        Rollo " + InsSql.VarCharTypeForDb(20) + ",");
-            SQL.AppendLine("	        CostoUnitario " + InsSql.DecimalTypeForDb(25, 4) + ") AS XmlDocDetailOfNotaDeEntradaSalida");
+            SQL.AppendLine("	        CostoUnitario " + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("	        CostoUnitarioME " + InsSql.DecimalTypeForDb(25, 4) + ") AS XmlDocDetailOfNotaDeEntradaSalida");
             SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("	    RETURN @ReturnValue");

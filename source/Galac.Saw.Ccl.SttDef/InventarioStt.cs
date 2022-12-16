@@ -11,19 +11,10 @@ using Galac.Saw.Ccl.SttDef;
 namespace Galac.Saw.Ccl.SttDef {
     [Serializable]
     public class InventarioStt : ISettDefinition {
+
+        #region Variables
         private string _GroupName = null;
         private string _Module = null;
-
-        public string GroupName {
-            get { return _GroupName; }
-            set { _GroupName = value; }
-        }
-
-        public string Module {
-            get { return _Module; }
-            set { _Module = value; }
-        }
-        #region Variables
         private bool _UsarBaseImponibleDiferenteA0Y100;
         private bool _UsaAlmacen;
         private string _CodigoAlmacenGenerico;
@@ -50,6 +41,15 @@ namespace Galac.Saw.Ccl.SttDef {
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
+        public string GroupName {
+            get { return _GroupName; }
+            set { _GroupName = value; }
+        }
+
+        public string Module {
+            get { return _Module; }
+            set { _Module = value; }
+        }
 
         public bool UsarBaseImponibleDiferenteA0Y100AsBool {
             get { return _UsarBaseImponibleDiferenteA0Y100; }

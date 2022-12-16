@@ -441,11 +441,11 @@
                     Grid.Row="5"
                     Grid.Column="1"
                     Width="200"
+                    IsEnabled="{Binding Path=IsEnabledAsociarCentroDeCostos}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayAsociarCentroDeCostos}"
                     SelectedItem="{Binding Path=AsociarCentroDeCostos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource ComboBoxStyle}"
-                    IsEnabled="{Binding Path=IsEnabledAsociarCentroDeCostos}" />
+                    Style="{StaticResource ComboBoxStyle}" />
 
                 <Label
                     Name="lblAvisoDeReservasvencidas"

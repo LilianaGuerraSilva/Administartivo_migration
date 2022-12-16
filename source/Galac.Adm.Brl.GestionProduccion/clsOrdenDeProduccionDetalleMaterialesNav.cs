@@ -146,6 +146,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             vCurrentRecord.CantidadReservadaInventario = 0;
             vCurrentRecord.CantidadConsumida = 0;
             vCurrentRecord.CostoUnitarioArticuloInventario = 0;
+            vCurrentRecord.CostoUnitarioMEArticuloInventario = 0;
             vCurrentRecord.MontoSubtotal = 0;
             vCurrentRecord.AjustadoPostCierreAsBool = false;
             vCurrentRecord.CantidadAjustada = 0;
@@ -189,6 +190,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CostoUnitarioArticuloInventario"), null))) {
                     vRecord.CostoUnitarioArticuloInventario = LibConvert.ToDec(vItem.Element("CostoUnitarioArticuloInventario"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CostoUnitarioMEArticuloInventario"), null))) {
+                    vRecord.CostoUnitarioMEArticuloInventario = LibConvert.ToDec(vItem.Element("CostoUnitarioMEArticuloInventario"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("MontoSubtotal"), null))) {
                     vRecord.MontoSubtotal = LibConvert.ToDec(vItem.Element("MontoSubtotal"));

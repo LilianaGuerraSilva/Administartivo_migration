@@ -246,7 +246,7 @@
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbFormaDeCalculoDePrecioRenglonFactura"
                     Grid.Row="11"
-                    Grid.Column="1"                    
+                    Grid.Column="1"
                     Width="180"
                     IsEnabled="{Binding Path=IsEnabledFormaDeCalculoDePrecioRenglonFactura}"
                     IsSynchronizedWithCurrentItem="True"

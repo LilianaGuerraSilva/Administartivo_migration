@@ -4,7 +4,7 @@ using System.Text;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.Dal.Contracts;
 using Galac.Adm.Ccl.GestionProduccion;
-
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Dal.GestionProduccion {
     [LibMefDalComponentMetadata(typeof(clsOrdenDeProduccionED))]
@@ -58,6 +58,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("Observacion" + InsSql.VarCharTypeForDb(600) + " CONSTRAINT d_OrdDeProOb DEFAULT (''), ");
             SQL.AppendLine("MotivoDeAnulacion" + InsSql.VarCharTypeForDb(600) + " CONSTRAINT d_OrdDeProMoDeAn DEFAULT (''), ");
             SQL.AppendLine("NumeroDecimales" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProNumDec NOT NULL, ");
+            SQL.AppendLine("CostoTerminadoCalculadoAPartirDe" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_OrdDeProCosTerCalAParDe DEFAULT ('0'), ");
+            SQL.AppendLine("CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_OrdDeProCoMoCoPr DEFAULT (''), ");
+            SQL.AppendLine("CambioCostoProduccion" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_OrdDeProCaCoPr DEFAULT (1), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -80,7 +83,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("SELECT OrdenDeProduccion.ConsecutivoCompania, OrdenDeProduccion.Consecutivo, OrdenDeProduccion.Codigo, OrdenDeProduccion.Descripcion");
             SQL.AppendLine(", OrdenDeProduccion.StatusOp, " + DbSchema + ".Gv_EnumTipoStatusOrdenProduccion.StrValue AS StatusOpStr, OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado, OrdenDeProduccion.ConsecutivoAlmacenMateriales, OrdenDeProduccion.FechaCreacion");
             SQL.AppendLine(", OrdenDeProduccion.FechaInicio, OrdenDeProduccion.FechaFinalizacion, OrdenDeProduccion.FechaAnulacion, OrdenDeProduccion.FechaAjuste, OrdenDeProduccion.AjustadaPostCierre");
-            SQL.AppendLine(", OrdenDeProduccion.Observacion, OrdenDeProduccion.MotivoDeAnulacion, OrdenDeProduccion.NombreOperador, OrdenDeProduccion.FechaUltimaModificacion");
+            SQL.AppendLine(", OrdenDeProduccion.Observacion, OrdenDeProduccion.MotivoDeAnulacion, OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe");
+            SQL.AppendLine(", OrdenDeProduccion.CodigoMonedaCostoProduccion, OrdenDeProduccion.CambioCostoProduccion");
+            SQL.AppendLine(", OrdenDeProduccion.NombreOperador, OrdenDeProduccion.FechaUltimaModificacion");
             SQL.AppendLine(", OrdenDeProduccion.fldTimeStamp, CAST(OrdenDeProduccion.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".OrdenDeProduccion");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoStatusOrdenProduccion");
@@ -112,6 +117,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@Observacion" + InsSql.VarCharTypeForDb(600) + " = '',");
             SQL.AppendLine("@MotivoDeAnulacion" + InsSql.VarCharTypeForDb(600) + " = '',");
             SQL.AppendLine("@NumeroDecimales" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@CostoTerminadoCalculadoAPartirDe" + InsSql.CharTypeForDb(1) + " = '0',");
+            SQL.AppendLine("@CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + " = '',");
+            SQL.AppendLine("@CambioCostoProduccion" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -142,7 +150,10 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            AjustadaPostCierre,");
             SQL.AppendLine("            Observacion,");
             SQL.AppendLine("            MotivoDeAnulacion,");
-            SQL.AppendLine("            NumeroDecimales,"); 
+            SQL.AppendLine("            NumeroDecimales,");
+            SQL.AppendLine("            CostoTerminadoCalculadoAPartirDe,");
+            SQL.AppendLine("            CodigoMonedaCostoProduccion,");
+            SQL.AppendLine("            CambioCostoProduccion,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -161,7 +172,10 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("            @AjustadaPostCierre,");
             SQL.AppendLine("            @Observacion,");
             SQL.AppendLine("            @MotivoDeAnulacion,");
-            SQL.AppendLine("            @NumeroDecimales,"); 
+            SQL.AppendLine("            @NumeroDecimales,");
+            SQL.AppendLine("            @CostoTerminadoCalculadoAPartirDe,");
+            SQL.AppendLine("            @CodigoMonedaCostoProduccion,");
+            SQL.AppendLine("            @CambioCostoProduccion,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -192,6 +206,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("@AjustadaPostCierre" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@Observacion" + InsSql.VarCharTypeForDb(600) + ",");
             SQL.AppendLine("@MotivoDeAnulacion" + InsSql.VarCharTypeForDb(600) + ",");
+            SQL.AppendLine("@CostoTerminadoCalculadoAPartirDe" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + ",");
+            SQL.AppendLine("@CambioCostoProduccion" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -232,6 +249,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("               AjustadaPostCierre = @AjustadaPostCierre,");
             SQL.AppendLine("               Observacion = @Observacion,");
             SQL.AppendLine("               MotivoDeAnulacion = @MotivoDeAnulacion,");
+            SQL.AppendLine("               CostoTerminadoCalculadoAPartirDe = @CostoTerminadoCalculadoAPartirDe,");
+            SQL.AppendLine("               CodigoMonedaCostoProduccion = @CodigoMonedaCostoProduccion,");
+            SQL.AppendLine("               CambioCostoProduccion = @CambioCostoProduccion,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -355,6 +375,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("         OrdenDeProduccion.AjustadaPostCierre,");
             SQL.AppendLine("         OrdenDeProduccion.Observacion,");
             SQL.AppendLine("         OrdenDeProduccion.MotivoDeAnulacion,");
+            SQL.AppendLine("         OrdenDeProduccion.CostoTerminadoCalculadoAPartirDe,");
+            SQL.AppendLine("         OrdenDeProduccion.CodigoMonedaCostoProduccion,");
+            SQL.AppendLine("         OrdenDeProduccion.CambioCostoProduccion,");
             SQL.AppendLine("         OrdenDeProduccion.NombreOperador,");
             SQL.AppendLine("         OrdenDeProduccion.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(OrdenDeProduccion.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
@@ -458,7 +481,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             bool vResult = false;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoStatusOrdenProduccion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoStatusOrdenProduccion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_OrdenDeProduccion_B1", SqlViewB1(), true);
+			vResult = insVistas.Create(DbSchema + ".Gv_EnumCostoTerminadoCalculadoAPartirDe", LibTpvCreator.SqlViewStandardEnum(typeof(eFormaDeCalcularCostoTerminado), InsSql), true, true);
+			vResult = insVistas.Create(DbSchema + ".Gv_OrdenDeProduccion_B1", SqlViewB1(), true);
             insVistas.Dispose();
             return vResult;
         }
@@ -510,12 +534,12 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionSCH") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_OrdenDeProduccion_B1") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumTipoStatusOrdenProduccion") && vResult;
+			vResult = insVista.Drop(DbSchema + ".Gv_EnumCostoTerminadoCalculadoAPartirDe") && vResult;
             insSp.Dispose();
             insVista.Dispose();
             return vResult;
         }
         #endregion //Metodos Generados
-
 
     } //End of class clsOrdenDeProduccionED
 

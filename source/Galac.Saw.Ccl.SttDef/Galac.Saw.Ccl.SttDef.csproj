@@ -70,6 +70,7 @@
     <Compile Include="FacturaPuntoDeVentaStt.cs" />
     <Compile Include="GeneralStt.cs" />
     <Compile Include="ImpresiondeFacturaStt.cs" />
+    <Compile Include="ProduccionStt.cs" />
     <Compile Include="InventarioStt.cs" />
     <Compile Include="ISettDefinition.cs" />
     <Compile Include="ISettValueByCompanyPdn.cs" />

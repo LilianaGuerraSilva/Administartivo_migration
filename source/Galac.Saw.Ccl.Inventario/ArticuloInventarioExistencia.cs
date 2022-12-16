@@ -54,6 +54,7 @@ namespace Galac.Saw.Ccl.Inventario {
         }
 
         public decimal CostoUnitario { get; set; }
+        public decimal CostoUnitarioME { get; set; }
 
         public eTipoActualizacion TipoActualizacion { get; set; }
     }

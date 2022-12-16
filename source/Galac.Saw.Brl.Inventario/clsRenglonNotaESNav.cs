@@ -97,6 +97,7 @@ namespace Galac.Saw.Brl.Inventario {
             vCurrentRecord.Serial = "";
             vCurrentRecord.Rollo = "";
             vCurrentRecord.CostoUnitario = 0;
+            vCurrentRecord.CostoUnitarioME = 0;
             vLista.Add(vCurrentRecord);
             return instanciaDal.Insert(vLista).Success;
         }
@@ -134,6 +135,9 @@ namespace Galac.Saw.Brl.Inventario {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CostoUnitario"), null))) {
                     vRecord.CostoUnitario = LibConvert.ToDec(vItem.Element("CostoUnitario"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CostoUnitarioME"), null))) {
+                    vRecord.CostoUnitarioME = LibConvert.ToDec(vItem.Element("CostoUnitarioME"));
                 }
                 vResult.Add(vRecord);
             }

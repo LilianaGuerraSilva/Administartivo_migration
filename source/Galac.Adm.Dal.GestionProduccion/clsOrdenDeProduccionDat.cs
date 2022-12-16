@@ -15,9 +15,9 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.GestionProduccion;
 
 namespace Galac.Adm.Dal.GestionProduccion {
-    public class clsOrdenDeProduccionDat: LibData, ILibDataMasterComponentWithSearch<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>>, ILibDataRpt {
+    public class clsOrdenDeProduccionDat : LibData, ILibDataMasterComponentWithSearch<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>>, ILibDataRpt {
         #region Variables
-        LibTrn insTrn;
+        LibDataScope insTrn;
         OrdenDeProduccion _CurrentRecord;
         #endregion //Variables
         #region Propiedades
@@ -30,7 +30,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
 
         public clsOrdenDeProduccionDat() {
             DbSchema = "Adm";
-            insTrn = new LibTrn();
+            insTrn = new LibDataScope();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -57,8 +57,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddInString("MotivoDeAnulacion", valRecord.MotivoDeAnulacion, 600);
             if (valAction == eAccionSR.Insertar) {
                 vParams.AddInInteger("NumeroDecimales", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales"));
-            }            
-            vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
+            }
+            vParams.AddInEnum("CostoTerminadoCalculadoAPartirDe", valRecord.CostoTerminadoCalculadoAPartirDeAsDB);
+            vParams.AddInString("CodigoMonedaCostoProduccion", valRecord.CodigoMonedaCostoProduccion, 4);
+            vParams.AddInDecimal("CambioCostoProduccion", valRecord.CambioCostoProduccion, 4);
+            vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
@@ -97,7 +100,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 vParams.AddReturn();
             }
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
-            vParams.AddInString("Consecutivo", valRecord.Codigo,15);
+            vParams.AddInString("Consecutivo", valRecord.Codigo, 15);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
@@ -136,21 +139,17 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 CurrentRecord = refRecord[0];
                 if (Validate(eAccionSR.Eliminar, out vErrMsg)) {
                     if (ExecuteProcessBeforeDelete()) {
-                        insTrn.StartTransaction();
-                        vResult.Success = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDEL"), ParametrosClave(CurrentRecord, true, true));
+                        vResult.Success = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDEL"), ParametrosClave(CurrentRecord, true, true));
                         if (vResult.Success) {
                             ExecuteProcessAfterDelete();
                         }
-                        insTrn.CommitTransaction();
                     }
                 } else {
                     throw new GalacException(vErrMsg, eExceptionManagementType.Validation);
                 }
                 return vResult;
-            } finally {
-                if (!vResult.Success) {
-                    insTrn.RollBackTransaction();
-                }
+            } catch (GalacException vEx) {
+                throw vEx;
             }
         }
 
@@ -178,12 +177,11 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 CurrentRecord = refRecord[0];
                 //la generacin del cosnecutivo anteriormente estaba en ExecuteProcessBeforeInsert()
                 CurrentRecord.Consecutivo = new LibDatabase().NextLngConsecutive(DbSchema + ".OrdenDeProduccion", "Consecutivo", ParametrosProximoConsecutivo(CurrentRecord));
-                insTrn.StartTransaction();
                 if (ExecuteProcessBeforeInsert()) {
                     if (ValidateMasterDetail(eAccionSR.Insertar, CurrentRecord, valUseDetail)) {
-                        if (insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeProduccionINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
+                        if (insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "OrdenDeProduccionINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
                             if (valUseDetail) {
-							    vResult.Success = true;
+                                vResult.Success = true;
                                 InsertDetail(CurrentRecord);
                             } else {
                                 vResult.Success = true;
@@ -194,12 +192,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
                         }
                     }
                 }
-                insTrn.CommitTransaction();
                 return vResult;
-            } finally {
-                if (!vResult.Success) {
-                    insTrn.RollBackTransaction();
-                }
+            } catch (GalacException vEx) {
+                throw vEx;
             }
         }
 
@@ -224,7 +219,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        LibResponse ILibDataMasterComponent<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>>.SpecializedUpdate(IList<OrdenDeProduccion> refRecord,  bool valUseDetail, string valSpecializedAction) {
+        LibResponse ILibDataMasterComponent<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>>.SpecializedUpdate(IList<OrdenDeProduccion> refRecord, bool valUseDetail, string valSpecializedAction) {
             throw new ProgrammerMissingCodeException();
         }
 
@@ -237,7 +232,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             try {
                 CurrentRecord = refRecord[0];
                 if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
-                    insTrn.StartTransaction();
                     if (ExecuteProcessBeforeUpdate()) {
                         if (valUseDetail) {
                             vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
@@ -248,13 +242,10 @@ namespace Galac.Adm.Dal.GestionProduccion {
                             ExecuteProcessAfterUpdate();
                         }
                     }
-                    insTrn.CommitTransaction();
                 }
                 return vResult;
-            } finally {
-                if (!vResult.Success) {
-                    insTrn.RollBackTransaction();
-                }
+            } catch (GalacException vEx) {
+                throw vEx;
             }
         }
 
@@ -274,14 +265,14 @@ namespace Galac.Adm.Dal.GestionProduccion {
 
         LibResponse UpdateMaster(OrdenDeProduccion refRecord, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
-            vResult.Success = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeProduccionUPD"), ParametrosActualizacion(refRecord, valAction));
+            vResult.Success = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "OrdenDeProduccionUPD"), ParametrosActualizacion(refRecord, valAction));
             return vResult;
         }
 
         LibResponse UpdateMasterAndDetail(OrdenDeProduccion refRecord, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
             string vErrorMessage = "";
-            if (ValidateDetail(refRecord, eAccionSR.Modificar,out vErrorMessage)) {
+            if (ValidateDetail(refRecord, eAccionSR.Modificar, out vErrorMessage)) {
                 if (UpdateDetail(refRecord)) {
                     vResult = UpdateMaster(refRecord, valAction);
                 }
@@ -323,17 +314,18 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;
             vResult = IsValidDescripcion(valAction, CurrentRecord.Descripcion) && vResult;
             vResult = IsValidConsecutivoAlmacenProductoTerminado(valAction, CurrentRecord.ConsecutivoAlmacenProductoTerminado) && vResult;
-            vResult = IsValidConsecutivoAlmacenMateriales(valAction, CurrentRecord.ConsecutivoAlmacenMateriales) && vResult;            
+            vResult = IsValidConsecutivoAlmacenMateriales(valAction, CurrentRecord.ConsecutivoAlmacenMateriales) && vResult;
             vResult = IsValidFechaCreacion(valAction, CurrentRecord.FechaCreacion) && vResult;
             vResult = IsValidFechaInicio(valAction, CurrentRecord.FechaInicio) && vResult;
             vResult = IsValidFechaFinalizacion(valAction, CurrentRecord.FechaFinalizacion) && vResult;
             vResult = IsValidFechaAnulacion(valAction, CurrentRecord.FechaAnulacion) && vResult;
-           // vResult = IsValidFechaAjuste(valAction, CurrentRecord.FechaAjuste) && vResult;
+            // vResult = IsValidFechaAjuste(valAction, CurrentRecord.FechaAjuste) && vResult;
+            vResult = IsValidCodigoMonedaCostoProduccion(valAction, CurrentRecord.CodigoMonedaCostoProduccion) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
 
-        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -345,7 +337,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Insertar)) {
                 return true;
@@ -363,7 +355,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             }
             return vResult;
         }
-        private bool IsValidCodigo(eAccionSR valAction, int valConsecutivoCompania, string valCodigo){
+        private bool IsValidCodigo(eAccionSR valAction, int valConsecutivoCompania, string valCodigo) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -382,7 +374,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidDescripcion(eAccionSR valAction, string valDescripcion){
+        private bool IsValidDescripcion(eAccionSR valAction, string valDescripcion) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -395,7 +387,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidConsecutivoAlmacenProductoTerminado(eAccionSR valAction, int valConsecutivoAlmacenProductoTerminado){
+        private bool IsValidConsecutivoAlmacenProductoTerminado(eAccionSR valAction, int valConsecutivoAlmacenProductoTerminado) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -407,7 +399,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidConsecutivoAlmacenMateriales(eAccionSR valAction, int valConsecutivoAlmacenMateriales){
+        private bool IsValidConsecutivoAlmacenMateriales(eAccionSR valAction, int valConsecutivoAlmacenMateriales) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -419,7 +411,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidFechaCreacion(eAccionSR valAction, DateTime valFechaCreacion){
+        private bool IsValidFechaCreacion(eAccionSR valAction, DateTime valFechaCreacion) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -431,7 +423,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidFechaInicio(eAccionSR valAction, DateTime valFechaInicio){
+        private bool IsValidFechaInicio(eAccionSR valAction, DateTime valFechaInicio) {
             bool vResult = true;
             if ((valAction != eAccionSR.Custom)) {
                 return true;
@@ -443,7 +435,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidFechaFinalizacion(eAccionSR valAction, DateTime valFechaFinalizacion){
+        private bool IsValidFechaFinalizacion(eAccionSR valAction, DateTime valFechaFinalizacion) {
             bool vResult = true;
             if ((valAction != eAccionSR.Cerrar)) {
                 return true;
@@ -455,9 +447,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidFechaAnulacion(eAccionSR valAction, DateTime valFechaAnulacion){
+        private bool IsValidFechaAnulacion(eAccionSR valAction, DateTime valFechaAnulacion) {
             bool vResult = true;
-             if ((valAction != eAccionSR.Anular)) {
+            if ((valAction != eAccionSR.Anular)) {
                 return true;
             }
             if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaAnulacion, false, valAction)) {
@@ -467,7 +459,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidFechaAjuste(eAccionSR valAction, DateTime valFechaAjuste){
+        private bool IsValidFechaAjuste(eAccionSR valAction, DateTime valFechaAjuste) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -475,6 +467,25 @@ namespace Galac.Adm.Dal.GestionProduccion {
             if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaAjuste, false, valAction)) {
                 BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
                 vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidCodigoMonedaCostoProduccion(eAccionSR valAction, string valCodigoMonedaCostoProduccion) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCodigoMonedaCostoProduccion = LibString.Trim(valCodigoMonedaCostoProduccion);
+            if (LibString.IsNullOrEmpty(valCodigoMonedaCostoProduccion, true)) {
+                BuildValidationInfo(MsgRequiredField("Código Moneda Para El Costo"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Moneda", "Codigo", insDb.InsSql.ToSqlValue(valCodigoMonedaCostoProduccion), true)) {
+                    BuildValidationInfo("El valor asignado al campo Código Moneda Para El Costo no existe, escoga nuevamente.");
+                    vResult = false;
+                }
             }
             return vResult;
         }
@@ -545,7 +556,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
                 vNumeroDeLinea++;
             }
             if (!vResult) {
-                outErrorMessage = "Orden De Produccion Detalle Articulo"  + Environment.NewLine + vSbErrorInfo.ToString();
+                outErrorMessage = "Orden De Produccion Detalle Articulo" + Environment.NewLine + vSbErrorInfo.ToString();
             }
             return vResult;
         }
