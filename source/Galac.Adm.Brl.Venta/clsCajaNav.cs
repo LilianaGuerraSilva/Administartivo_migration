@@ -132,12 +132,13 @@ namespace Galac.Adm.Brl.Venta {
                 vParams.AddInInteger("Consecutivo", valConsecutivo);
                 vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
                 StringBuilder SQL = new StringBuilder();
-                SQL.AppendLine("SELECT Caja.Consecutivo,NombreCaja,UsaGaveta,Puerto,Comando,PermitirAbrirSinSupervisor,");
+                SQL.AppendLine(" SELECT TOP(1) CajaApertura.NombreDelUsuario AS NombreOperador,");
+                SQL.AppendLine(" Caja.Consecutivo, NombreCaja,UsaGaveta,Puerto,Comando,PermitirAbrirSinSupervisor,");
                 SQL.AppendLine(" UsaAccesoRapido, UsaMaquinaFiscal, FamiliaImpresoraFiscal, ModeloDeMaquinaFiscal,");
                 SQL.AppendLine(" SerialDeMaquinaFiscal, PuertoMaquinaFiscal, AbrirGavetaDeDinero, UltimoNumeroCompFiscal,");
                 SQL.AppendLine(" UltimoNumeroNCFiscal ,TipoConexion, IpParaConexion, MascaraSubred,");
                 SQL.AppendLine(" Gateway, PermitirDescripcionDelArticuloExtendida, PermitirNombreDelClienteExtendido, ");
-                SQL.AppendLine(" UsarModoDotNet, RegistroDeRetornoEnTxt, CajaApertura.NombreDelUsuario AS NombreOperador, CONVERT(varchar,Caja.FechaUltimaModificacion,101) AS FechaUltimaModificacion ");
+                SQL.AppendLine(" UsarModoDotNet, RegistroDeRetornoEnTxt,  CONVERT(varchar,Caja.FechaUltimaModificacion,101) AS FechaUltimaModificacion ");
                 SQL.AppendLine(" FROM Adm.Caja ");
                 SQL.AppendLine(" LEFT JOIN Adm.CajaApertura ON");
                 SQL.AppendLine(" CajaApertura.ConsecutivoCompania = Caja.ConsecutivoCompania ");
@@ -147,6 +148,7 @@ namespace Galac.Adm.Brl.Venta {
                 if (!LibString.IsNullOrEmpty(valSqlWhere)) {
                     SQL.AppendLine(" AND " + valSqlWhere);
                 }
+                SQL.AppendLine(" ORDER BY CajaApertura.NombreDelUsuario ASC ");
                 XmlResult = LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
                 vResult = (XmlResult != null && XmlResult.HasElements);                
             } catch (Exception) {
@@ -206,10 +208,9 @@ namespace Galac.Adm.Brl.Venta {
             try {
                 ICajaPdn insCaja = new clsCajaNav();
                 int CajaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
-                int ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-                string vSqlWhere = "CajaApertura.CajaCerrada = " + new QAdvSql("").ToSqlValue(false);
+                int ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");               
                 if (!CajaLocal.Equals(0) && (ConsecutivoCompania > 0)) {
-                    insCaja.FindByConsecutivoCaja(ConsecutivoCompania, CajaLocal, vSqlWhere, ref xmlCajaDat);
+                    insCaja.FindByConsecutivoCaja(ConsecutivoCompania, CajaLocal, "", ref xmlCajaDat);
                     vImpresoraFiscal = InitializeImpresoraFiscal(xmlCajaDat, CajaLocal);
                     insMaquinaFiscalNav = new clsImpresoraFiscalNav(vImpresoraFiscal);
                     insMaquinaFiscalNav.SerialImpresoraFiscal = SerialMaquinaFiscal;

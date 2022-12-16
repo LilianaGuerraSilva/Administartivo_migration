@@ -484,28 +484,27 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpUsuarioAsignadoGet() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine(" IF @ResumenDiario ='S' ");
-            SQL.AppendLine("    BEGIN ");
-            SQL.AppendLine("        IF (SELECT  COUNT(Adm.CajaApertura.NombreDelUsuario) AS CantidadApertura ");
-            SQL.AppendLine("           FROM Adm.CajaApertura");
-            SQL.AppendLine("           WHERE NombreDelUsuario = @NombreDelUsuario ");
-            SQL.AppendLine("           AND CajaCerrada = @CajaCerrada ");
-            SQL.AppendLine("           AND ConsecutivoCaja = @ConsecutivoCaja ");            
-            SQL.AppendLine("           AND ConsecutivoCompania = @ConsecutivoCompania) <> 0 ");
-            SQL.AppendLine("           SELECT 'S' AS UsuarioYaAsignado ");
-            SQL.AppendLine("        ELSE ");
-            SQL.AppendLine("           SELECT 'N' AS UsuarioYaAsignado ");
-            SQL.AppendLine("    END ");
+            SQL.AppendLine(" IF @ResumenDiario ='N' ");
+            SQL.AppendLine(" BEGIN ");
+            SQL.AppendLine(" IF (SELECT  COUNT(Adm.CajaApertura.NombreDelUsuario) AS CantidadApertura ");
+            SQL.AppendLine("   FROM Adm.CajaApertura");
+            SQL.AppendLine("   WHERE NombreDelUsuario = @NombreDelUsuario ");
+            SQL.AppendLine("   AND CajaCerrada = @CajaCerrada ");
+            SQL.AppendLine("   AND ConsecutivoCompania = @ConsecutivoCompania)> 0 ");
+            SQL.AppendLine("   SELECT 'S' AS UsuarioYaAsignado ");
             SQL.AppendLine(" ELSE ");
-            SQL.AppendLine("    BEGIN ");
-            SQL.AppendLine("        IF (SELECT  COUNT(Adm.CajaApertura.NombreDelUsuario) AS CantidadApertura ");
-            SQL.AppendLine("            FROM Adm.CajaApertura");
-            SQL.AppendLine("            WHERE NombreDelUsuario = @NombreDelUsuario ");
-            SQL.AppendLine("            AND ConsecutivoCaja = @ConsecutivoCaja ");
-            SQL.AppendLine("            AND ConsecutivoCompania = @ConsecutivoCompania)> 0 ");
-            SQL.AppendLine("            SELECT 'S' AS UsuarioYaAsignado ");
-            SQL.AppendLine("        ELSE ");
-            SQL.AppendLine("           SELECT 'N' AS UsuarioYaAsignado ");
+            SQL.AppendLine("   SELECT 'N' AS UsuarioYaAsignado ");
+            SQL.AppendLine(" END ");
+            SQL.AppendLine(" ELSE ");
+            SQL.AppendLine(" BEGIN ");
+            SQL.AppendLine(" IF (SELECT  COUNT(Adm.CajaApertura.NombreDelUsuario) AS CantidadApertura ");
+            SQL.AppendLine("   FROM Adm.CajaApertura");
+            SQL.AppendLine("   WHERE NombreDelUsuario = @NombreDelUsuario ");
+            SQL.AppendLine("   AND ConsecutivoCaja = @ConsecutivoCaja ");
+            SQL.AppendLine("   AND ConsecutivoCompania = @ConsecutivoCompania)> 0 ");
+            SQL.AppendLine("   SELECT 'S' AS UsuarioYaAsignado ");
+            SQL.AppendLine(" ELSE ");
+            SQL.AppendLine("   SELECT 'N' AS UsuarioYaAsignado ");
             SQL.AppendLine(" END ");
             return SQL.ToString();
         }
@@ -649,5 +648,6 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
     } //End of class clsCajaAperturaED
+
 } //End of namespace Galac.Adm.Dal.Venta
 
