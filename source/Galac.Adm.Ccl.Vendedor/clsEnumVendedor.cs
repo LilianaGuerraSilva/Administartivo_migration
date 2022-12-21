@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel;
 using LibGalac.Aos.Base;
 
-namespace Galac.Saw.Ccl.Vendedor {
+namespace Galac.Adm.Ccl.Vendedor {
 
 	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eStatusVendedor {
@@ -47,7 +47,24 @@ namespace Galac.Saw.Ccl.Vendedor {
         MenorANivel1
 	}
 
-
-
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eRutaDeComercializacion {
+        [LibEnumDescription("Ninguna")]
+        Ninguna = 0,
+        [LibEnumDescription("Aliado")]
+        Aliado,
+        [LibEnumDescription("Asesor")]
+        Asesor,
+        [LibEnumDescription("Consultor")]
+        Consultor,
+        [LibEnumDescription("Gerente")]
+        Gerente,
+        [LibEnumDescription("Incobrable")]
+        Incobrable,
+        [LibEnumDescription("Oficina")]
+        Oficina,
+        [LibEnumDescription("Vendedor")]
+        Vendedor
+    }
 
 } //End of namespace namespace Galac.Saw.Ccl.Vendedor

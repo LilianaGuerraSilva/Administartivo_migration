@@ -19,7 +19,7 @@ namespace Galac.Adm.Ccl.Venta {
         private eTipoDeCxC _TipoCxC;
         private string _CodigoCliente;
         private string _NombreCliente;
-        private string _CodigoVendedor;
+        private int _ConsecutivoVendedor;
         private string _NombreVendedor;
         private eOrigenFacturacionOManual _Origen;
         private DateTime _Fecha;
@@ -110,9 +110,9 @@ namespace Galac.Adm.Ccl.Venta {
             set { _NombreCliente = LibString.Mid(value, 0, 80); }
         }
 
-        public string CodigoVendedor {
-            get { return _CodigoVendedor; }
-            set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
+        public int ConsecutivoVendedor {
+            get { return _ConsecutivoVendedor; }
+            set { _ConsecutivoVendedor = value; }
         }
 
         public string NombreVendedor {
@@ -321,7 +321,7 @@ namespace Galac.Adm.Ccl.Venta {
             TipoCxCAsEnum = eTipoDeCxC.Factura;
             CodigoCliente = string.Empty;
             NombreCliente = string.Empty;
-            CodigoVendedor = string.Empty;
+            ConsecutivoVendedor = 0;
             NombreVendedor = string.Empty;
             OrigenAsEnum = eOrigenFacturacionOManual.Factura;
             Fecha = LibDate.Today();
@@ -364,7 +364,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.TipoCxCAsEnum = _TipoCxC;
             vResult.CodigoCliente = _CodigoCliente;
             vResult.NombreCliente = _NombreCliente;
-            vResult.CodigoVendedor = _CodigoVendedor;
+            vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.NombreVendedor = _NombreVendedor;
             vResult.OrigenAsEnum = _Origen;
             vResult.Fecha = _Fecha;
@@ -406,7 +406,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nStatus = " + _Status.ToString() +
                "\nTipo Cx C = " + _TipoCxC.ToString() +
                "\nCódigo del Cliente = " + _CodigoCliente +
-               "\nCódigo del Vendedor = " + _CodigoVendedor +
+               "\nConsecutivo del Vendedor = " + _ConsecutivoVendedor.ToString() +
                "\nOrigen = " + _Origen.ToString() +
                "\nFecha = " + _Fecha.ToShortDateString() +
                "\nFecha de Cancelación = " + _FechaCancelacion.ToShortDateString() +

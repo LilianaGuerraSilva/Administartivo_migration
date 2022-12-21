@@ -388,6 +388,8 @@ namespace Galac.Saw.ViewModel {
                 new XElement("UsaCobroDirectoEnMultimoneda","N"),
                 new XElement("CuentaBancariaCobroMultimoneda","00004"),
                 new XElement("ConceptoBancarioCobroMultimoneda","60340"),
+                new XElement("CuentaBancariaCobroDirecto", "00001"),
+                new XElement("ConceptoBancarioCobroDirecto", "60340"),
                 new XElement("EsModoAvanzado","N"),
                 new XElement("UsarLimiteMaximoParaIngresoDeTasaDeCambio","S"),
                 new XElement("MaximoLimitePermitidoParaLaTasaDeCambio","30.35"),

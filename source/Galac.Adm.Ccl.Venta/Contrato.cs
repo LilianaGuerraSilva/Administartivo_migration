@@ -18,7 +18,7 @@ namespace Galac.Adm.Ccl.Venta
         private DateTime _FechaFinal;
         private string _Observaciones;
         private string _NombreOperador;
-        private string _CodigoVendedor;
+        private int _ConsecutivoVendedor;
         private string _NombreVendedor;
         private string _Moneda;
         private DateTime _FechaUltimaModificacion;
@@ -102,9 +102,9 @@ namespace Galac.Adm.Ccl.Venta
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
         }
 
-        public string CodigoVendedor {
-            get { return _CodigoVendedor; }
-            set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
+        public int ConsecutivoVendedor {
+            get { return _ConsecutivoVendedor; }
+            set { _ConsecutivoVendedor = value; }
         }
 
         public string NombreVendedor {
@@ -161,7 +161,7 @@ namespace Galac.Adm.Ccl.Venta
             FechaFinal = LibDate.Today();
             Observaciones = string.Empty;
             NombreOperador = string.Empty;
-            CodigoVendedor = string.Empty;
+            ConsecutivoVendedor = 0;
             NombreVendedor = string.Empty;
             Moneda = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
@@ -181,7 +181,7 @@ namespace Galac.Adm.Ccl.Venta
             vResult.FechaFinal = _FechaFinal;
             vResult.Observaciones = _Observaciones;
             vResult.NombreOperador = _NombreOperador;
-            vResult.CodigoVendedor = _CodigoVendedor;
+            vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.NombreVendedor = _NombreVendedor;
             vResult.Moneda = _Moneda;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
@@ -190,18 +190,18 @@ namespace Galac.Adm.Ccl.Venta
         }
 
         public override string ToString() {
-           return "Consecutivo Compania = "        + _ConsecutivoCompania.ToString() +
-                  "\nNº Contrato = "               + _NumeroContrato +
-                  "\nStatus Contrato = "           + _StatusContrato.ToString() +
-                  "\nCódigo del Cliente = "        + _CodigoCliente +
-                  "\nDuracion Del Contrato = "     + _DuracionDelContrato.ToString() +
-                  "\nFecha De Inicio = "           + _FechaDeInicio.ToShortDateString() +
-                  "\nFecha Final = "               + _FechaFinal.ToShortDateString() +
-                  "\nObservaciones = "             + _Observaciones +
-                  "\nNombre Operador = "           + _NombreOperador +
-                  "\nCódigo del Vendedor = "       + _CodigoVendedor +
-                  "\nMoneda = "                    + _Moneda +
-                  "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
+           return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
+               "\nNº Contrato = " + _NumeroContrato +
+               "\nStatus Contrato = " + _StatusContrato.ToString() +
+               "\nCódigo del Cliente = " + _CodigoCliente +
+               "\nDuracion Del Contrato = " + _DuracionDelContrato.ToString() +
+               "\nFecha De Inicio = " + _FechaDeInicio.ToShortDateString() +
+               "\nFecha Final = " + _FechaFinal.ToShortDateString() +
+               "\nObservaciones = " + _Observaciones +
+               "\nNombre Operador = " + _NombreOperador +
+               "\nConsecutivo del Vendedor = " + _ConsecutivoVendedor.ToString() +
+               "\nMoneda = " + _Moneda +
+               "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
         #endregion //Metodos Generados
 

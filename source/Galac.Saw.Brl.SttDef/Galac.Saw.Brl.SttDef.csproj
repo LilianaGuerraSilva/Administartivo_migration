@@ -87,9 +87,17 @@
       <Project>{a7b9fb1e-47a1-4a4f-aeb5-7aef55d39b11}</Project>
       <Name>Galac.Adm.Brl.Banco</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.Vendedor\Galac.Adm.Brl.Vendedor.csproj">
+      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
+      <Name>Galac.Adm.Brl.Vendedor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Ccl.Banco\Galac.Adm.Ccl.Banco.csproj">
       <Project>{295d5b19-4600-48c4-9da1-879a1875fbb9}</Project>
       <Name>Galac.Adm.Ccl.Banco</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
+      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Brl.Cliente\Galac.Saw.Brl.Cliente.csproj">
       <Project>{78d48369-e4e8-4c92-8f1d-ce3369911509}</Project>
@@ -98,10 +106,6 @@
     <ProjectReference Include="..\Galac.Saw.Brl.Inventario\Galac.Saw.Brl.Inventario.csproj">
       <Project>{bbb05009-adca-47a1-9a3f-49421928f380}</Project>
       <Name>Galac.Saw.Brl.Inventario</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Brl.Vendedor\Galac.Saw.Brl.Vendedor.csproj">
-      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
-      <Name>Galac.Saw.Brl.Vendedor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
       <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
@@ -114,10 +118,6 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Ccl.Vendedor\Galac.Saw.Ccl.Vendedor.csproj">
-      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
-      <Name>Galac.Saw.Ccl.Vendedor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Dal.SttDef\Galac.Saw.Dal.SttDef.csproj">
       <Project>{5b6c365d-a26f-428c-b7d4-8536ed0b38cb}</Project>

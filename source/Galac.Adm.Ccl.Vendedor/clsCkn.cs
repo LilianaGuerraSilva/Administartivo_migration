@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LibGalac.Aos.Base;
 
-namespace Galac.Saw.Ccl.Vendedor {
+namespace Galac.Adm.Ccl.Vendedor {
     public sealed class clsCkn {
         #region Variables
         static private string _ConfigKeyForDbServiceAdministrativoVendedor = "";

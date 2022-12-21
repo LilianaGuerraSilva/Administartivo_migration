@@ -45,7 +45,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("Numero", valRecord.Numero, 11);
             vParams.AddInDateTime("Fecha", valRecord.Fecha);
             vParams.AddInString("CodigoCliente", valRecord.CodigoCliente, 10);
-            vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
+            vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInString("Observaciones", valRecord.Observaciones, 7000);
             vParams.AddInDecimal("TotalMontoExento", valRecord.TotalMontoExento, 2);
             vParams.AddInDecimal("TotalBaseImponible", valRecord.TotalBaseImponible, 2);
@@ -478,6 +478,23 @@ namespace Galac.Adm.Dal.Venta {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
+        private bool IsValidConsecutivoVendedor(eAccionSR valAction, int valConsecutivoVendedor){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivoVendedor == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo del Vendedor"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("Adm.Vendedor", "consecutivo", insDb.InsSql.ToSqlValue(valConsecutivoVendedor), true)) {
+                    BuildValidationInfo("El valor asignado al campo Consecutivo del Vendedor no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
             if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeRetiro, false, valAction)) {
                 BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
                 vResult = false;

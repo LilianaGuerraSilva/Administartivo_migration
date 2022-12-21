@@ -1605,6 +1605,106 @@ namespace Galac.Saw.DbMigrator {
         }
         #endregion
 
+        #region Migrar Vendedor
+        public void MigrarVendedor() {
+            QAdvSql vUtilSql = new QAdvSql("");
+            StringBuilder vSQL = new StringBuilder();
+            LibDataScope vDb = new LibDataScope();
+            vSQL.AppendLine("INSERT INTO Adm.Vendedor (");
+            vSQL.AppendLine("ConsecutivoCompania, ");
+            vSQL.AppendLine("Consecutivo, ");
+            vSQL.AppendLine("Codigo, ");
+            vSQL.AppendLine("Nombre, ");
+            vSQL.AppendLine("RIF, ");
+            vSQL.AppendLine("StatusVendedor, ");
+            vSQL.AppendLine("Direccion, ");
+            vSQL.AppendLine("Ciudad, ");
+            vSQL.AppendLine("ZonaPostal, ");
+            vSQL.AppendLine("Telefono, ");
+            vSQL.AppendLine("Fax, ");
+            vSQL.AppendLine("Email, ");
+            vSQL.AppendLine("Notas, ");
+            vSQL.AppendLine("ComisionPorVenta, ");
+            vSQL.AppendLine("ComisionPorCobro, ");
+            vSQL.AppendLine("TopeInicialVenta1, ");
+            vSQL.AppendLine("TopeFinalVenta1, ");
+            vSQL.AppendLine("PorcentajeVentas1, ");
+            vSQL.AppendLine("TopeFinalVenta2, ");
+            vSQL.AppendLine("PorcentajeVentas2, ");
+            vSQL.AppendLine("TopeFinalVenta3, ");
+            vSQL.AppendLine("PorcentajeVentas3, ");
+            vSQL.AppendLine("TopeFinalVenta4, ");
+            vSQL.AppendLine("PorcentajeVentas4, ");
+            vSQL.AppendLine("TopeFinalVenta5, ");
+            vSQL.AppendLine("PorcentajeVentas5, ");
+            vSQL.AppendLine("TopeInicialCobranza1, ");
+            vSQL.AppendLine("TopeFinalCobranza1, ");
+            vSQL.AppendLine("PorcentajeCobranza1, ");
+            vSQL.AppendLine("TopeFinalCobranza2, ");
+            vSQL.AppendLine("PorcentajeCobranza2, ");
+            vSQL.AppendLine("TopeFinalCobranza3, ");
+            vSQL.AppendLine("PorcentajeCobranza3, ");
+            vSQL.AppendLine("TopeFinalCobranza4, ");
+            vSQL.AppendLine("PorcentajeCobranza4, ");
+            vSQL.AppendLine("TopeFinalCobranza5, ");
+            vSQL.AppendLine("PorcentajeCobranza5, ");
+            vSQL.AppendLine("UsaComisionPorVenta, ");
+            vSQL.AppendLine("UsaComisionPorCobranza, ");
+            vSQL.AppendLine("CodigoLote, ");
+            vSQL.AppendLine("TipoDocumentoIdentificacion, ");
+            vSQL.AppendLine("NombreOperador, ");
+            vSQL.AppendLine("FechaUltimaModificacion, ");
+            vSQL.AppendLine("RutaDeComercializacion ) ");
+            vSQL.AppendLine("SELECT ConsecutivoCompania, ");
+            vSQL.AppendLine("ROW_NUMBER() OVER(PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania,Codigo ASC) AS Consecutivo, ");
+            vSQL.AppendLine("Codigo, ");
+            vSQL.AppendLine("Nombre, ");
+            vSQL.AppendLine("RIF, ");
+            vSQL.AppendLine("StatusVendedor, ");
+            vSQL.AppendLine("Direccion, ");
+            vSQL.AppendLine("Ciudad, ");
+            vSQL.AppendLine("ZonaPostal, ");
+            vSQL.AppendLine("Telefono, ");
+            vSQL.AppendLine("Fax, ");
+            vSQL.AppendLine("Email, ");
+            vSQL.AppendLine("Notas, ");
+            vSQL.AppendLine("ComisionPorVenta, ");
+            vSQL.AppendLine("ComisionPorCobro, ");
+            vSQL.AppendLine("TopeInicialVenta1, ");
+            vSQL.AppendLine("TopeFinalVenta1, ");
+            vSQL.AppendLine("PorcentajeVentas1, ");
+            vSQL.AppendLine("TopeFinalVenta2, ");
+            vSQL.AppendLine("PorcentajeVentas2, ");
+            vSQL.AppendLine("TopeFinalVenta3, ");
+            vSQL.AppendLine("PorcentajeVentas3, ");
+            vSQL.AppendLine("TopeFinalVenta4, ");
+            vSQL.AppendLine("PorcentajeVentas4, ");
+            vSQL.AppendLine("TopeFinalVenta5, ");
+            vSQL.AppendLine("PorcentajeVentas5, ");
+            vSQL.AppendLine("TopeInicialCobranza1, ");
+            vSQL.AppendLine("TopeFinalCobranza1, ");
+            vSQL.AppendLine("PorcentajeCobranza1, ");
+            vSQL.AppendLine("TopeFinalCobranza2, ");
+            vSQL.AppendLine("PorcentajeCobranza2, ");
+            vSQL.AppendLine("TopeFinalCobranza3, ");
+            vSQL.AppendLine("PorcentajeCobranza3, ");
+            vSQL.AppendLine("TopeFinalCobranza4, ");
+            vSQL.AppendLine("PorcentajeCobranza4, ");
+            vSQL.AppendLine("TopeFinalCobranza5, ");
+            vSQL.AppendLine("PorcentajeCobranza5, ");
+            vSQL.AppendLine("UsaComisionPorVenta, ");
+            vSQL.AppendLine("UsaComisionPorCobranza, ");
+            vSQL.AppendLine("CodigoLote, ");
+            vSQL.AppendLine("TipoDocumentoIdentificacion, ");
+            vSQL.AppendLine("NombreOperador, ");
+            vSQL.AppendLine("FechaUltimaModificacion, ");
+            vSQL.AppendLine("RutaDeComercializacion ");
+            vSQL.AppendLine("FROM dbo.Vendedor ");
+            vSQL.AppendLine("ORDER BY ConsecutivoCompania, Codigo ");
+            vDb.ExecuteWithScope(vSQL.ToString());
+        }
+        #endregion
+
         #region Migrar Data
         public bool MigrarData() {
             bool vResult = true;
@@ -1656,7 +1756,6 @@ namespace Galac.Saw.DbMigrator {
             if(LibGalac.Aos.Base.LibArray.Contains(_ModulesArray,"TipoProveedor")) {
                 MigrarTipoProveedor();
             }
-
             if(LibGalac.Aos.Base.LibArray.Contains(_ModulesArray,"ReglasDeContabilizacion")) {
                 MigrarReglasDeContabilizacion();
             }
@@ -1713,6 +1812,9 @@ namespace Galac.Saw.DbMigrator {
 
             if(LibGalac.Aos.Base.LibArray.Contains(_ModulesArray,"Cambio")) {
                 MigrarCambio();
+            }
+            if (LibGalac.Aos.Base.LibArray.Contains(_ModulesArray, "Vendedor")) {
+                MigrarVendedor();
             }
             return vResult;
         }

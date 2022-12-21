@@ -6,11 +6,11 @@ using System.Security.Permissions;
 using System.Xml;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
-using Entity = Galac.Saw.Ccl.Vendedor;
+using Entity = Galac.Adm.Ccl.Vendedor;
 using System.Xml.Linq;
 using System.Linq;
 
-namespace Galac.Saw.Brl.Vendedor {
+namespace Galac.Adm.Brl.Vendedor {
     public partial class clsVendedorNav : LibBaseNavMaster<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibPdn, Entity.IVendedorPdn {
         #region Variables
         #endregion //Variables
@@ -24,7 +24,7 @@ namespace Galac.Saw.Brl.Vendedor {
         #region Metodos Generados
 
         protected override ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>> GetDataInstance() {
-            return new Galac.Saw.Dal.Vendedor.clsVendedorDat();
+            return new Galac.Adm.Dal.Vendedor.clsVendedorDat();
         }
         #region Miembros de ILibPdn
 
@@ -40,24 +40,24 @@ namespace Galac.Saw.Brl.Vendedor {
         }
 
         bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
-            ILibDataFKSearch instanciaDal = new Galac.Saw.Dal.Vendedor.clsVendedorDat();
-            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_VendedorSCH", valXmlParamsExpression);
+            ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Vendedor.clsVendedorDat();
+            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_VendedorSCH", valXmlParamsExpression);
         }
 
-        System.Xml.Linq.XElement ILibPdn.GetFk(string valCallingModule, StringBuilder valParameters) {
-            ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>> instanciaDal = new Galac.Saw.Dal.Vendedor.clsVendedorDat();
-            return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_VendedorGetFk", valParameters);
+        System.Xml.Linq.XElement ILibPdn.GetFk(string valCallingModule, StringBuilder valParameters) { 
+            ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>> instanciaDal = new Galac.Adm.Dal.Vendedor.clsVendedorDat();
+            return instanciaDal.QueryInfo(eProcessMessageType.SpName, "Adm.Gp_VendedorGetFk", valParameters);
         }
         #endregion //Miembros de ILibPdn
 
         protected override bool RetrieveListInfo(string valModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             bool vResult = false;
-            ILibPdn vPdnModule;
             switch (valModule) {
                 case "Vendedor":
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
                 //case "Ciudad":
+                //    ILibPdn vPdnModule;
                 //    vPdnModule = new Galac.dbo.Brl.Ciudad.clsCiudadNav();
                 //    vResult = vPdnModule.GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
                 //    break;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LibGalac.Aos.Base;
 
-namespace Galac.Saw.Ccl.Vendedor {
+namespace Galac.Adm.Ccl.Vendedor {
     public interface IVendedorPdn : ILibPdn {
         System.Xml.Linq.XElement VendedorPorDefecto(int valConsecutivoCompania);
         string BuscarNombreVendedor(int valConsecutivoCompania, string valCodigo);

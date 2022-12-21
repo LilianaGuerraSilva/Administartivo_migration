@@ -9,11 +9,12 @@ using System.Xml.Linq;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 
-namespace Galac.Saw.Ccl.Vendedor {
+namespace Galac.Adm.Ccl.Vendedor {
     [Serializable]
     public class Vendedor {
         #region Variables
         private int _ConsecutivoCompania;
+        private int _Consecutivo;
         private string _Codigo;
         private string _Nombre;
         private string _RIF;
@@ -23,7 +24,7 @@ namespace Galac.Saw.Ccl.Vendedor {
         private string _ZonaPostal;
         private string _Telefono;
         private string _Fax;
-        private string _email;
+        private string _Email;
         private string _Notas;
         private decimal _ComisionPorVenta;
         private decimal _ComisionPorCobro;
@@ -51,8 +52,9 @@ namespace Galac.Saw.Ccl.Vendedor {
         private decimal _PorcentajeCobranza5;
         private bool _UsaComisionPorVenta;
         private bool _UsaComisionPorCobranza;
-        private eTipoDocumentoIdentificacion _TipoDocumentoIdentificacion;
         private string _CodigoLote;
+        private eTipoDocumentoIdentificacion _TipoDocumentoIdentificacion;
+        private eRutaDeComercializacion _RutaDeComercializacion;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -64,6 +66,11 @@ namespace Galac.Saw.Ccl.Vendedor {
         public int ConsecutivoCompania {
             get { return _ConsecutivoCompania; }
             set { _ConsecutivoCompania = value; }
+        }
+
+        public int Consecutivo {
+            get { return _Consecutivo; }
+            set { _Consecutivo = value; }
         }
 
         public string Codigo {
@@ -123,9 +130,9 @@ namespace Galac.Saw.Ccl.Vendedor {
             set { _Fax = LibString.Mid(value, 0, 20); }
         }
 
-        public string email {
-            get { return _email; }
-            set { _email = LibString.Mid(value, 0, 40); }
+        public string Email {
+            get { return _Email; }
+            set { _Email = LibString.Mid(value, 0, 40); }
         }
 
         public string Notas {
@@ -273,6 +280,11 @@ namespace Galac.Saw.Ccl.Vendedor {
         }
 
 
+        public string CodigoLote {
+            get { return _CodigoLote; }
+            set { _CodigoLote = LibString.Mid(value, 0, 10); }
+        }
+
         public eTipoDocumentoIdentificacion TipoDocumentoIdentificacionAsEnum {
             get { return _TipoDocumentoIdentificacion; }
             set { _TipoDocumentoIdentificacion = value; }
@@ -290,9 +302,21 @@ namespace Galac.Saw.Ccl.Vendedor {
             get { return LibEnumHelper.GetDescription(_TipoDocumentoIdentificacion); }
         }
 
-        public string CodigoLote {
-            get { return _CodigoLote; }
-            set { _CodigoLote = LibString.Mid(value, 0, 10); }
+        public eRutaDeComercializacion RutaDeComercializacionAsEnum {
+            get { return _RutaDeComercializacion; }
+            set { _RutaDeComercializacion = value; }
+        }
+
+        public string RutaDeComercializacion {
+            set { _RutaDeComercializacion = (eRutaDeComercializacion)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string RutaDeComercializacionAsDB {
+            get { return LibConvert.EnumToDbValue((int) _RutaDeComercializacion); }
+        }
+
+        public string RutaDeComercializacionAsString {
+            get { return LibEnumHelper.GetDescription(_RutaDeComercializacion); }
         }
 
         public string NombreOperador {
@@ -334,6 +358,7 @@ namespace Galac.Saw.Ccl.Vendedor {
 
         public void Clear() {
             ConsecutivoCompania = 0;
+            Consecutivo = 0;
             Codigo = "";
             Nombre = "";
             RIF = "";
@@ -343,7 +368,7 @@ namespace Galac.Saw.Ccl.Vendedor {
             ZonaPostal = "";
             Telefono = "";
             Fax = "";
-            email = "";
+            Email = "";
             Notas = "";
             ComisionPorVenta = 0;
             ComisionPorCobro = 0;
@@ -371,8 +396,9 @@ namespace Galac.Saw.Ccl.Vendedor {
             PorcentajeCobranza5 = 0;
             UsaComisionPorVentaAsBool = false;
             UsaComisionPorCobranzaAsBool = false;
+            CodigoLote = string.Empty;
             TipoDocumentoIdentificacionAsEnum = eTipoDocumentoIdentificacion.RUC;
-            CodigoLote = "";
+            RutaDeComercializacionAsEnum = eRutaDeComercializacion.Ninguna;
             NombreOperador = "";
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -381,6 +407,7 @@ namespace Galac.Saw.Ccl.Vendedor {
         public Vendedor Clone() {
             Vendedor vResult = new Vendedor();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
+            vResult.Consecutivo = _Consecutivo;
             vResult.Codigo = _Codigo;
             vResult.Nombre = _Nombre;
             vResult.RIF = _RIF;
@@ -390,7 +417,7 @@ namespace Galac.Saw.Ccl.Vendedor {
             vResult.ZonaPostal = _ZonaPostal;
             vResult.Telefono = _Telefono;
             vResult.Fax = _Fax;
-            vResult.email = _email;
+            vResult.Email = _Email;
             vResult.Notas = _Notas;
             vResult.ComisionPorVenta = _ComisionPorVenta;
             vResult.ComisionPorCobro = _ComisionPorCobro;
@@ -418,8 +445,9 @@ namespace Galac.Saw.Ccl.Vendedor {
             vResult.PorcentajeCobranza5 = _PorcentajeCobranza5;
             vResult.UsaComisionPorVentaAsBool = _UsaComisionPorVenta;
             vResult.UsaComisionPorCobranzaAsBool = _UsaComisionPorCobranza;
-            vResult.TipoDocumentoIdentificacionAsEnum = _TipoDocumentoIdentificacion;
             vResult.CodigoLote = _CodigoLote;
+            vResult.TipoDocumentoIdentificacionAsEnum = _TipoDocumentoIdentificacion;
+            vResult.RutaDeComercializacionAsEnum = _RutaDeComercializacion;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -428,6 +456,7 @@ namespace Galac.Saw.Ccl.Vendedor {
 
         public override string ToString() {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
+               "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nCódigo = " + _Codigo +
                "\nNombre = " + _Nombre +
                "\nN° R.I.F. = " + _RIF +
@@ -437,7 +466,7 @@ namespace Galac.Saw.Ccl.Vendedor {
                "\nZona Postal = " + _ZonaPostal +
                "\nTelefono = " + _Telefono +
                "\nFax = " + _Fax +
-               "\nemail = " + _email +
+               "\nEmail = " + _Email +
                "\nNotas = " + _Notas +
                "\nComision Por Venta = " + _ComisionPorVenta.ToString() +
                "\nComision Por Cobro = " + _ComisionPorCobro.ToString() +
@@ -465,7 +494,11 @@ namespace Galac.Saw.Ccl.Vendedor {
                "\nPorcentaje Cobranza 5 = " + _PorcentajeCobranza5.ToString() +
                "\nUsa Comision Por Venta = " + _UsaComisionPorVenta +
                "\nUsa Comision Por Cobranza = " + _UsaComisionPorCobranza +
-               "\nTipo Documento Identificacion = " + _TipoDocumentoIdentificacion.ToString();
+               "\nCodigo Lote = " + _CodigoLote +
+               "\nTipo Documento Identificacion = " + _TipoDocumentoIdentificacion.ToString() +
+               "\nRuta De Comercializacion = " + _RutaDeComercializacion.ToString() +
+               "\nNombre Operador = " + _NombreOperador +
+               "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
         #endregion //Metodos Generados
 

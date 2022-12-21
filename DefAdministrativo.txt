@@ -198,6 +198,7 @@ unTasaDeCambio =(Original,DelDia);//e,Componente=Venta
 unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta 
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
 unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
+unRutaDeComercializacion = (Ninguno, Agentes, Asesores, Consultor, Gerente, Incobrable, Oficina, Vendedores); //e,Componente=Venta, GENERATE
 
 
 // Record Repetido en archivo Externo
@@ -272,57 +273,59 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
    @PrimaryKey=Nombre,FechadeVigencia
 }
 
-{@M}Vendedor = Record //Male,Multiarchivo=Compania
-   ConsecutivoCompania  : LongInt; //o,HIDE
-   Codigo		: Str5;//u,g,o,search,"Código",sugestConsecutive
-   Nombre		: Str35;//u,g,o,search
-   RIF			: Str20;//u,g,search,"N° R.I.F."
-   StatusVendedor	: unStatusVendedor;//g,search,"Status"
-   Direccion            : TextArea;//"Dirección"
-   Ciudad               : Str100; //search,=Ciudad.NombreCiudad
-   ZonaPostal		: Str7;//search
-   Telefono		: Str40;//search
-   Fax			: Str20;
-   email		: Str40;
-   Notas 		: TextArea;
-   Comisiones           : Label;
-   ComisionPorVenta     : double;
-   ComisionPorCobro     : double;
-   TopeInicialVenta1    : Double;
-   TopeFinalVenta1      : Double
-   PorcentajeVentas1    : Double;
-   TopeFinalVenta2      : Double
-   PorcentajeVentas2    : Double;
-   TopeFinalVenta3      : Double
-   PorcentajeVentas3    : Double;
-   TopeFinalVenta4      : Double
-   PorcentajeVentas4    : Double;
-   TopeFinalVenta5      : Double
-   PorcentajeVentas5    : Double;
-   TopeInicialCobranza1 : Double;
-   TopeFinalCobranza1   : Double
-   PorcentajeCobranza1  : Double;
-   TopeFinalCobranza2   : Double
-   PorcentajeCobranza2  : Double;
-   TopeFinalCobranza3   : Double
-   PorcentajeCobranza3  : Double;
-   TopeFinalCobranza4   : Double
-   PorcentajeCobranza4  : Double;
-   TopeFinalCobranza5   : Double
-   PorcentajeCobranza5  : Double;
-   UsaComisionPorVenta  : Boolean;
-   UsaComisionPorCobranza: Boolean;
-   TipoDocumentoIdentificacion: unTipoDocumentoIdentificacion;
-   SeccionComisionesLinea : seccion //"", Detail=RenglonComisionesDeVendedor
-   {EndSeccion}
-
-   NombreOperador       : Str10; //a
-   FechaUltimaModificacion: date;//a
-   @PrimaryKey=ConsecutivoCompania,Codigo
+{@M}Vendedor = Record//Multiarchivo=Compania, "Vendedor", Componente=Vendedor, Esquema=Adm, EsquemaBD=Adm, GENERATE
+	ConsecutivoCompania		: LongInt;//
+	Consecutivo             : Longint;
+    Codigo		            : Str5;//
+	Nombre		            : Str35;//
+	RIF		                : Str20;//
+	StatusVendedor		    : unStatusVendedor;//
+	Direccion		        : TextArea;//
+	Ciudad		            : Str100;//
+	ZonaPostal		        : Str7;//
+	Telefono		        : Str40;//
+	Fax		                : Str20;//
+	Email		            : Str40;//
+	Notas		            : TextArea;//
+	ComisionPorVenta		: decimal;//
+	ComisionPorCobro		: decimal;//
+	TopeInicialVenta1		: decimal;//
+	TopeFinalVenta1		    : decimal;//
+	PorcentajeVentas1		: decimal;//
+	TopeFinalVenta2		    : decimal;//
+	PorcentajeVentas2		: decimal;//
+	TopeFinalVenta3		    : decimal;//
+	PorcentajeVentas3		: decimal;//
+	TopeFinalVenta4		    : decimal;//
+	PorcentajeVentas4		: decimal;//
+	TopeFinalVenta5		    : decimal;//
+	PorcentajeVentas5		: decimal;//
+	TopeInicialCobranza1	: decimal;//
+	TopeFinalCobranza1		: decimal;//
+	PorcentajeCobranza1		: decimal;//
+	TopeFinalCobranza2		: decimal;//
+	PorcentajeCobranza2		: decimal;//
+	TopeFinalCobranza3		: decimal;//
+	PorcentajeCobranza3		: decimal;//
+	TopeFinalCobranza4		: decimal;//
+	PorcentajeCobranza4		: decimal;//
+	TopeFinalCobranza5		: decimal;//
+	PorcentajeCobranza5		: decimal;//
+	UsaComisionPorVenta		: boolean;//
+	UsaComisionPorCobranza	: boolean;//
+	CodigoLote		        : Str10;//
+	TipoDocumentoIdentificacion		: unTipoDocumentoIdentificacion;//
+    RutaDeComercializacion  : unRutaDeComercializacion;//
+//ATENCIÓN: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
+	NombreOperador		    : Str10;//a
+	FechaUltimaModificacion	: date;//a
+	@PrimaryKey=ConsecutivoCompania,Consecutivo
+    @UniqueKey=ConsecutivoCompania,Codigo
 }
-{@D VENDEDOR}RenglonComisionesDeVendedor = Record //Male,Multiarchivo=Compania,
+
+{@D VENDEDOR}RenglonComisionesDeVendedor = Record //Male,Multiarchivo=Compania, GENERATE
    ConsecutivoCompania  : LongInt; //o,HIDE
-   CodigoVendedor       : Str5;//o
+   ConsecutivoVendedor       : Longint;//o
    ConsecutivoRenglon   : LongInt; //o
    NombreDeLineaDeProducto: str20; //g,O
    TipoDeComision       : unTipoComision; //g,o
@@ -390,15 +393,15 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
    }
 
 
-{@M}CxC = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta
+{@M}CxC = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta, GENERATE
     ConsecutivoCompania	      : Longint; //HIDE
     Numero	              : Str20;   //u,o,g,"Número",SEARCH
     Status                    : unStatusDocumento;//g,"Status",SEARCH
     TipoCxC	              : unTipoDeCxC;//SEARCH
     CodigoCliente             : Str10;//g,SEARCH,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
     NombreCliente             : Str80;//g,search,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
-    CodigoVendedor            : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
-    NombreVendedor            : Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    ConsecutivoVendedor            : Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
+    NombreVendedor            : LongInt;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
     Origen	              : unOrigenFacturacionOManual;
     Fecha	              : unFecha;//g,SEARCH,"Fecha"
     FechaCancelacion          : unFecha;//a,"Fecha de Cancelación"
@@ -461,13 +464,13 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
     @PrimaryKey=ConsecutivoCompania,Numero,TipoCxC,ConsecutivoRenglonOI
 }
 
-{@M}Cotizacion = Record //Female,Multiarchivo=Compania
+{@M}Cotizacion = Record //Female,Multiarchivo=Compania, GENERATE
     ConsecutivoCompania	: Longint; //HIDE
     Numero			: Str11;   //o,g,"Número",sugestConsecutive,search
     Fecha               : unFecha;//O,G,"Fecha",search
     CodigoCliente       : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     NombreCliente       : Str80;//g,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
-    CodigoVendedor	: Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    ConsecutivoVendedor	: Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
     NombreVendedor	: Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
     CodigoNota1         : str10; //=NotaFinal.CodigoDeLaNota
     DescripcionNota1    : textArea; //logical,a,=NotaFinal.Descripcion
@@ -853,14 +856,14 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
        @PrimaryKey=ConsecutivoCompania,CodigoArticulo,CodigoDeBarra
 }
 
-{@M}Cobranza = record //Multiarchivo=Compania,Componente=Venta, Esquema=Adm, EsquemaBD=Dbo,GenerateFrmInforme,GenerateRptConfigurar
+{@M}Cobranza = record //Multiarchivo=Compania,Componente=Venta, Esquema=Adm, EsquemaBD=Dbo,GenerateFrmInforme,GenerateRptConfigurar, GENERATE
 	ConsecutivoCompania		: LongInt;//Hide	
 	Numero			: Str10;  //u,O,G,search,"Número Cobranza",sugestConsecutive
 	StatusCobranza	:	unStatusCobranza;//O,G,SEARCH,"Status Cobranza"
 	Fecha		: date;//
 	FechaAnulacion		: date;//
 	CodigoCliente		: Str10;//
-	CodigoCobrador		: Str5;//
+	ConsecutivoCobrador		: longint;//
 	TotalDocumentos		: decimal;//
 	RetencionIslr		: decimal;//
 	TotalCobrado		: decimal;//
@@ -950,7 +953,7 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
 	@PrimaryKey= ConsecutivoCompania, ConsecutivoMaquinaFiscal
    }
 
-{@M}Factura = record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta
+{@M}Factura = record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta, GENERATE
     ConsecutivoCompania: Longint; //HIDE
     Numero        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha            : unFecha;//O,G,"Fecha",search
@@ -960,7 +963,7 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
 //DatosDelCliente  : label;
     CodigoCliente    : Str10;//"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
     NombreCliente    : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
-    CodigoVendedor	: Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    ConsecutivoVendedor	: Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
     NombreVendedor   : Str35;//Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()",search
     StatusFactura    : unStatusFactura;//g,"Status"
     TipoDeDocumento  : unTipoDocumentoFactura;//"Tipo de Documento"
@@ -1809,7 +1812,7 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
 
 
 
-{@S}Contrato = Record; //Multiarchivo=Compania
+{@S}Contrato = Record; //Multiarchivo=Compania, GENERATE
    ConsecutivoCompania: Longint; //HIDE
    NumeroContrato     : Str5; //"Nº Contrato",g,sugestConsecutive,Search,o
    StatusContrato     : unStatusContrato;//g,search
@@ -1824,7 +1827,7 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
 //Periodicidad        : unPeriodicidadContratos;//Logical
 //PeriodoDeAplicacion : unPeriodoDeAplicacion;//Logical
 //CambioDeValorDelItem: unValorDelRenglon;//Logical
-   CodigoVendedor     : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+   ConsecutivoVendedor     : Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
    NombreVendedor     : Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
    Moneda             : str10;
    FechaUltimaModificacion : date;//a
@@ -2775,10 +2778,10 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
     @PrimaryKey=ConsecutivoCompania,ConsecutivoNEntrega,ConsecutivoRenglonNE,Consecutivo
 }
 
-{@S}RetirosACuenta = Record //Multiarchivo=Compania, MALE
+{@S}RetirosACuenta = Record //Multiarchivo=Compania, MALE, GENERATE
     ConsecutivoCompania: Longint; //HIDE,o
     ConsecutivoRetiro  : Longint; //HIDE,o
-    CodigoVendedor     : str5;//=Vendedor.Codigo,"Código Vendedor"
+    ConsecutivoVendedor     : Longint;//=Vendedor.Consecutivo,"Consecutivo Vendedor"
     Fecha 	       : date; 
     Monto              : Currency; 
     @PrimaryKey=ConsecutivoCompania,ConsecutivoRetiro
@@ -3374,7 +3377,7 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
 }
 
 
-{@M}FacturaRapida = record //Multiarchivo=Compania, "Facturación Rápida", Componente=Venta, Esquema=dbo,  interop, GenerateRptConfigurar, GenerateFrmInforme
+{@M}FacturaRapida = record //Multiarchivo=Compania, "Facturación Rápida", Componente=Venta, Esquema=dbo,  interop, GenerateRptConfigurar, GenerateFrmInforme, GENERATE
     ConsecutivoCompania           : Longint; //HIDE
     Numero                        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha                         : unFecha;//O,G,"Fecha",search
@@ -3383,8 +3386,8 @@ unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranje
     NombreCliente                 : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     DireccionCliente              : TextArea;
     TelefonoCliente               : Str40; 
-    CodigoVendedor	          : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
-    NombreVendedor                : Str35;//Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()",search
+    ConsecutivoVendedor	          : Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
+    NombreVendedor                : Str35;//Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarConsecutivoVendedorEnPantallas()",search
     Observaciones                 : TextArea;
     TotalMontoExento              : Double; //
     TotalBaseImponible            : Double; //A"ACUM RenglonFactura.PrecioConIVA"
@@ -4434,7 +4437,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
 }
 
-{@S}OrdenDeProduccionDetalleMateriales = Record//Esquema=Adm, GENERATE
+{@S}OrdenDeProduccionDetalleMateriales = Record//Esquema=Adm
 	ConsecutivoCompania		            : LongInt;//
 	ConsecutivoOrdenDeProduccion		: LongInt;//
 	ConsecutivoOrdenDeProduccionDetalleArticulo		: LongInt;//

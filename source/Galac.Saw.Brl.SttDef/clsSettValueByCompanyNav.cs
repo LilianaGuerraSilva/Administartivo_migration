@@ -8,7 +8,7 @@ using LibGalac.Aos.Brl;
 using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
 using LibGalac.Aos.Base.Dal;
-using Galac.Saw.Ccl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Comun.Ccl.Impuesto;
 using Galac.Comun.Brl.Impuesto;
@@ -90,7 +90,7 @@ namespace Galac.Saw.Brl.SttDef {
                     vResult = vPdnModule.GetDataForList("Parametros", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Vendedor":
-                    vPdnModule = new Galac.Saw.Brl.Vendedor.clsVendedorNav();
+                    vPdnModule = new Galac.Adm.Brl.Vendedor.clsVendedorNav();
                     vResult = vPdnModule.GetDataForList("Parametros", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Almacén":
@@ -1593,7 +1593,7 @@ namespace Galac.Saw.Brl.SttDef {
 
         private string GetCodigoVendedorPorDefecto(int valConsecutivoCompania) {
             string vResult = "";
-            IVendedorPdn vPdnModule = new Galac.Saw.Brl.Vendedor.clsVendedorNav();
+            IVendedorPdn vPdnModule = new Galac.Adm.Brl.Vendedor.clsVendedorNav();
             vResult = ValorDeLaColumna(vPdnModule.VendedorPorDefecto(valConsecutivoCompania), "Codigo");
             return vResult;
         }

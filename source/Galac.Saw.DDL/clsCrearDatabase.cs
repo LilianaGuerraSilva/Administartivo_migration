@@ -664,6 +664,15 @@ namespace Galac.Saw.DDL {
 			bool vResult = new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarTabla();
 			return vResult;
 		}
+
+        public bool CrearVendedor() {
+            bool vResult;
+            vResult = new Galac.Adm.Dal.Vendedor.clsVendedorED().InstalarTabla();
+            if (CreateCompatibilityView) {
+                vResult = vResult && clsCompatViews.CrearVistaDboVendedor();
+            }
+            return vResult;
+        }
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Usuario")) {
@@ -797,7 +806,7 @@ namespace Galac.Saw.DDL {
                 vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarVistasYSps();
             }
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Vendedor")) {
-                vResult = vResult && new Galac.Saw.Dal.Vendedor.clsVendedorED().InstalarVistasYSps();
+                vResult = vResult && new Galac.Adm.Dal.Vendedor.clsVendedorED().InstalarVistasYSps();
             }
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ConceptoBancario")) {
                 vResult = vResult && new Galac.Adm.Dal.Banco.clsConceptoBancarioED().InstalarVistasYSps();

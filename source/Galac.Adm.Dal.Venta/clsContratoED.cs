@@ -48,7 +48,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("FechaFinal" + InsSql.DateTypeForDb() + " CONSTRAINT d_ConFeFi DEFAULT (''), ");
             SQL.AppendLine("Observaciones" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_ConOb DEFAULT (''), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
-            SQL.AppendLine("CodigoVendedor" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_ConCoVe DEFAULT (''), ");
+            SQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_ConCoVe DEFAULT (0), ");
             SQL.AppendLine("Moneda" + InsSql.VarCharTypeForDb(10) + " CONSTRAINT d_ConMo DEFAULT (''), ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -68,7 +68,7 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT Contrato.ConsecutivoCompania, Contrato.NumeroContrato, Contrato.StatusContrato, " + DbSchema + ".Gv_EnumStatusContrato.StrValue AS StatusContratoStr, Contrato.CodigoCliente");
             SQL.AppendLine(", Contrato.DuracionDelContrato, " + DbSchema + ".Gv_EnumDuracionDelContrato.StrValue AS DuracionDelContratoStr, Contrato.FechaDeInicio, Contrato.FechaFinal, Contrato.Observaciones");
-            SQL.AppendLine(", Contrato.NombreOperador, Contrato.CodigoVendedor, Contrato.Moneda, Contrato.FechaUltimaModificacion");
+            SQL.AppendLine(", Contrato.NombreOperador, Contrato.ConsecutivoVendedor, Contrato.Moneda, Contrato.FechaUltimaModificacion");
             SQL.AppendLine(", Cliente.nombre AS NombreCliente");
             SQL.AppendLine(", Contrato.fldTimeStamp, CAST(Contrato.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".Contrato");
@@ -97,7 +97,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@FechaFinal" + InsSql.DateTypeForDb() + " = '01/01/1900',");
             SQL.AppendLine("@Observaciones" + InsSql.VarCharTypeForDb(255) + " = '',");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
-            SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Moneda" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -122,7 +122,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            FechaFinal,");
             SQL.AppendLine("            Observaciones,");
             SQL.AppendLine("            NombreOperador,");
-            SQL.AppendLine("            CodigoVendedor,");
+            SQL.AppendLine("            ConsecutivoVendedor,");
             SQL.AppendLine("            Moneda,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -135,7 +135,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @FechaFinal,");
             SQL.AppendLine("            @Observaciones,");
             SQL.AppendLine("            @NombreOperador,");
-            SQL.AppendLine("            @CodigoVendedor,");
+            SQL.AppendLine("            @ConsecutivoVendedor,");
             SQL.AppendLine("            @Moneda,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -160,7 +160,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@FechaFinal" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@Observaciones" + InsSql.VarCharTypeForDb(255) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
-            SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Moneda" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -195,7 +195,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               FechaFinal = @FechaFinal,");
             SQL.AppendLine("               Observaciones = @Observaciones,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
-            SQL.AppendLine("               CodigoVendedor = @CodigoVendedor,");
+            SQL.AppendLine("               ConsecutivoVendedor = @ConsecutivoVendedor,");
             SQL.AppendLine("               Moneda = @Moneda,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -306,7 +306,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         Contrato.FechaFinal,");
             SQL.AppendLine("         Contrato.Observaciones,");
             SQL.AppendLine("         Contrato.NombreOperador,");
-            SQL.AppendLine("         Contrato.CodigoVendedor,");
+            SQL.AppendLine("         Contrato.ConsecutivoVendedor,");
             SQL.AppendLine("         Gv_Vendedor_B1.nombre AS NombreVendedor,");
             SQL.AppendLine("         Contrato.Moneda,");
             SQL.AppendLine("         Contrato.FechaUltimaModificacion,");
@@ -314,7 +314,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         Contrato.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".Contrato");
             SQL.AppendLine("             INNER JOIN dbo.Gv_Cliente_B1 ON " + DbSchema + ".Contrato.CodigoCliente = dbo.Gv_Cliente_B1.codigo");
-            SQL.AppendLine("             INNER JOIN dbo.Gv_Vendedor_B1 ON " + DbSchema + ".Contrato.CodigoVendedor = dbo.Gv_Vendedor_B1.codigo");
+            SQL.AppendLine("             INNER JOIN Adm.Gv_Vendedor_B1 ON " + DbSchema + ".Contrato.ConsecutivoVendedor = Adm.Gv_Vendedor_B1.consecutivo");
             SQL.AppendLine("      WHERE Contrato.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND Contrato.NumeroContrato = @NumeroContrato");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -388,7 +388,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".Contrato.StatusContrato,");
             SQL.AppendLine("      " + DbSchema + ".Contrato.CodigoCliente,");
             SQL.AppendLine("      " + DbSchema + ".Contrato.FechaDeInicio,");
-            SQL.AppendLine("      " + DbSchema + ".Contrato.CodigoVendedor");
+            SQL.AppendLine("      " + DbSchema + ".Contrato.ConsecutivoVendedor");
             SQL.AppendLine("      FROM " + DbSchema + ".Contrato");
             SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("          AND NumeroContrato IN (");

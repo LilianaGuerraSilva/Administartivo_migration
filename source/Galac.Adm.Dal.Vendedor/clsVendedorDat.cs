@@ -12,10 +12,10 @@ using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
-using Entity = Galac.Saw.Ccl.Vendedor;
-using Galac.Saw.Ccl.Vendedor;
+using Entity = Galac.Adm.Ccl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
 
-namespace Galac.Saw.Dal.Vendedor {
+namespace Galac.Adm.Dal.Vendedor {
     public class clsVendedorDat : LibData, ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>> {
         #region Variables
         LibTrn insTrn;
@@ -30,7 +30,7 @@ namespace Galac.Saw.Dal.Vendedor {
         #region Constructores
 
         public clsVendedorDat() {
-            DbSchema = "Saw";
+            DbSchema = "Adm";
             insTrn = new LibTrn();
         }
         #endregion //Constructores
@@ -41,6 +41,7 @@ namespace Galac.Saw.Dal.Vendedor {
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
+            vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInString("Codigo", valRecord.Codigo, 5);
             vParams.AddInString("Nombre", valRecord.Nombre, 35);
             vParams.AddInString("RIF", valRecord.RIF, 20);
@@ -50,7 +51,7 @@ namespace Galac.Saw.Dal.Vendedor {
             vParams.AddInString("ZonaPostal", valRecord.ZonaPostal, 7);
             vParams.AddInString("Telefono", valRecord.Telefono, 40);
             vParams.AddInString("Fax", valRecord.Fax, 20);
-            vParams.AddInString("email", valRecord.email, 40);
+            vParams.AddInString("Email", valRecord.Email, 40);
             vParams.AddInString("Notas", valRecord.Notas, 255);
             vParams.AddInDecimal("ComisionPorVenta", valRecord.ComisionPorVenta, 2);
             vParams.AddInDecimal("ComisionPorCobro", valRecord.ComisionPorCobro, 2);
@@ -80,6 +81,7 @@ namespace Galac.Saw.Dal.Vendedor {
             vParams.AddInBoolean("UsaComisionPorCobranza", valRecord.UsaComisionPorCobranzaAsBool);
             vParams.AddInString("CodigoLote", valRecord.CodigoLote, 10);
             vParams.AddInEnum("TipoDocumentoIdentificacion", valRecord.TipoDocumentoIdentificacionAsDB);
+            vParams.AddInEnum("RutaDeComercializacion", valRecord.RutaDeComercializacionAsDB);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
@@ -96,10 +98,18 @@ namespace Galac.Saw.Dal.Vendedor {
                 vParams.AddReturn();
             }
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
-            vParams.AddInString("Codigo", valRecord.Codigo, 5);
+            vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
+            vResult = vParams.Get();
+            return vResult;
+        }
+
+        private StringBuilder ParametrosProximoConsecutivo(Entity.Vendedor valRecord) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vResult = vParams.Get();
             return vResult;
         }
@@ -356,15 +366,15 @@ namespace Galac.Saw.Dal.Vendedor {
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             ClearValidationInfo();
-            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo);
-            vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;
+            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
+            vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidNombre(valAction, CurrentRecord.Nombre) && vResult;
             vResult = IsValidRIF(valAction, CurrentRecord.RIF) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
 
-        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, string valCodigo){
+        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -373,7 +383,7 @@ namespace Galac.Saw.Dal.Vendedor {
                 BuildValidationInfo(MsgRequiredField("Consecutivo Compania"));
                 vResult = false;
             } else if (valAction == eAccionSR.Insertar) {
-                if (KeyExists(valConsecutivoCompania, valCodigo)) {
+                if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
                     BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo Compania", valConsecutivoCompania));
                     vResult = false;
                 }
@@ -381,18 +391,17 @@ namespace Galac.Saw.Dal.Vendedor {
             return vResult;
         }
 
-        private bool IsValidCodigo(eAccionSR valAction, int valConsecutivoCompania, string valCodigo){
+        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){ //al parece este código no se usa, si genera muchos problemas se comenta
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            valCodigo = LibString.Trim(valCodigo);
-            if (LibString.IsNullOrEmpty(valCodigo, true)) {
-                BuildValidationInfo(MsgRequiredField("Código"));
+            if (valConsecutivo == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo"));
                 vResult = false;
             } else if (valAction == eAccionSR.Insertar) {
-                if (KeyExists(valConsecutivoCompania, valCodigo)) {
-                    BuildValidationInfo(MsgFieldValueAlreadyExist("Código", valCodigo));
+                if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
+                    BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo", valConsecutivo));
                     vResult = false;
                 }
             }
@@ -430,13 +439,13 @@ namespace Galac.Saw.Dal.Vendedor {
             return vResult;
         }
 
-        private bool KeyExists(int valConsecutivoCompania, string valCodigo) {
+        private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
             bool vResult = false;
             Entity.Vendedor vRecordBusqueda = new Entity.Vendedor();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
-            vRecordBusqueda.Codigo = valCodigo;
+            vRecordBusqueda.Consecutivo = valConsecutivo;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord("dbo.Vendedor", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
@@ -445,7 +454,7 @@ namespace Galac.Saw.Dal.Vendedor {
             bool vResult = false;
             LibDatabase insDb = new LibDatabase();
             //Programador ajuste el codigo necesario para busqueda de claves unicas;
-            vResult = insDb.ExistsRecord("dbo.Vendedor", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }

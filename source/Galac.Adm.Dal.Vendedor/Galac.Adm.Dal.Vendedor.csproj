@@ -8,8 +8,8 @@
     <ProjectGuid>{C97096C2-6491-48BA-A7BC-A9CCE5B101B5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Galac.Saw.Dal.Vendedor</RootNamespace>
-    <AssemblyName>Galac.Saw.Dal.Vendedor</AssemblyName>
+    <RootNamespace>Galac.Adm.Dal.Vendedor</RootNamespace>
+    <AssemblyName>Galac.Adm.Dal.Vendedor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -64,9 +64,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Galac.Saw.Ccl.Vendedor\Galac.Saw.Ccl.Vendedor.csproj">
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
       <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
-      <Name>Galac.Saw.Ccl.Vendedor</Name>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

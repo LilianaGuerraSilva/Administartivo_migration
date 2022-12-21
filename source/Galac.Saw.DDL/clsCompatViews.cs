@@ -412,8 +412,13 @@ namespace Galac.Saw.DDL {
             vResult &= LibViews.CreateCompatibilityView("CajaApertura",vSQL.ToString(),true);
             return vResult;
         }
+
         public static bool CrearVistaDboCambio() {
             return LibViews.CreateCompatibilityView("Cambio", "SELECT Cambio.CodigoMoneda, Cambio.FechaDeVigencia, Nombre, Cambio.CambioAMonedaLocal As CambioABolivares, Cambio.NombreOperador, Cambio.FechaUltimaModificacion FROM Comun.Cambio INNER JOIN dbo.Moneda ON dbo.Moneda.Codigo = Comun.Cambio.CodigoMoneda", true);
+        }
+
+        public static bool CrearVistaDboVendedor() {
+            return LibViews.CreateCompatibilityView("Vendedor", "SELECT ConsecutivoCompania, Codigo, Nombre, RIF, StatusVendedor, Direccion, Ciudad, ZonaPostal, Telefono, Fax, Email, Notas, ComisionPorVenta, ComisionPorCobro, TopeInicialVenta1, TopeFinalVenta1, PorcentajeVentas1, TopeFinalVenta2, PorcentajeVentas2, TopeFinalVenta3, PorcentajeVentas3, TopeFinalVenta4, PorcentajeVentas4, TopeFinalVenta5, PorcentajeVentas5, TopeInicialCobranza1, TopeFinalCobranza1, PorcentajeCobranza1, TopeFinalCobranza2, PorcentajeCobranza2, TopeFinalCobranza3, PorcentajeCobranza3, TopeFinalCobranza4, PorcentajeCobranza4, TopeFinalCobranza5, PorcentajeCobranza5, UsaComisionPorVenta, UsaComisionPorCobranza, CodigoLote, TipoDocumentoIdentificacion, NombreOperador, FechaUltimaModificacion, RutaDeComercializacion FROM Adm.Vendedor", true);
         }
     }
 
