@@ -54,9 +54,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				AddDefaultConstraint("dbo.Vendedor", "d_VenRuDeCo", InsSql.ToSqlValue((int)eRutaDeComercializacion.Ninguna), "RutaDeComercializacion");
 			}
 		}
-		private void CrearColumnaConsecutivoVendedor(string Tabla, string NombreColumna) {
+		private void CrearColumnaConsecutivoVendedor(string valTabla, string valNombreColumna, string valConstraint) {
 			QAdvSql InsSql = new QAdvSql("");
-			if (AddColumnInteger(Tabla, NombreColumna, "")) {
+			if (AddColumnInteger(valTabla, valNombreColumna, valConstraint)) {
 				AddNotNullConstraint("dbo.Vendedor", "d_VenRuDeCo", "RutaDeComercializacion");
 			}
 		}

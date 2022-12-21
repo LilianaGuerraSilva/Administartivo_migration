@@ -60,6 +60,7 @@
     <Compile Include="clsCajaDat.cs" />
     <Compile Include="clsCajaED.cs" />
     <Compile Include="clsCobranzaDat.cs" />
+    <Compile Include="clsCobranzaED.cs" />
     <Compile Include="clsCobroDeFacturaRapidaAnticipoDat.cs" />
     <Compile Include="clsCobroDeFacturaRapidaAnticipoDetalleDat.cs" />
     <Compile Include="clsCobroDeFacturaRapidaAnticipoDetalleED.cs" />
