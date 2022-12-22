@@ -473,11 +473,17 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        private bool IsValidFechaDeRetiro(eAccionSR valAction, DateTime valFechaDeRetiro){
+        private bool IsValidFechaDeRetiro(eAccionSR valAction, DateTime valFechaDeRetiro) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
+            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeRetiro, false, valAction)) {
+                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+                vResult = false;
+            }
+            return vResult;
+        }
         private bool IsValidConsecutivoVendedor(eAccionSR valAction, int valConsecutivoVendedor){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
@@ -492,12 +498,6 @@ namespace Galac.Adm.Dal.Venta {
                     BuildValidationInfo("El valor asignado al campo Consecutivo del Vendedor no existe, escoga nuevamente.");
                     vResult = false;
                 }
-            }
-            return vResult;
-        }
-            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFechaDeRetiro, false, valAction)) {
-                BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
-                vResult = false;
             }
             return vResult;
         }

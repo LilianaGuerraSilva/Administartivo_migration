@@ -1,0 +1,9 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.Vendedor.ViewModel"
+    xmlns:nsCSV="clr-namespace:Galac.Adm.Uil.Vendedor.Views">
+    <DataTemplate DataType="{x:Type nsCSVM:VendedorViewModel}">
+        <nsCSV:GSVendedorView />
+    </DataTemplate>
+</ResourceDictionary>

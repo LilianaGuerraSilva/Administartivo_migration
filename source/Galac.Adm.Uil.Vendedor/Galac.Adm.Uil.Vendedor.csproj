@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F8E98879-0458-41B6-B914-5F2C5CC28351}</ProjectGuid>
+    <ProjectGuid>{D34C559A-27C0-4F80-BC15-36B94A7CB477}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Galac.Adm.Uil.Vendedor</RootNamespace>
@@ -38,36 +38,36 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LibGalac.Aos.Base">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.Catching">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.Catching.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.UI.Wpf">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.UI.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.UI.WpfControls">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.UI.WpfControls.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.UI.WpfRD">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.UI.WpfRD.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.DefGen">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.DefGen.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.UI.Mvvm">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.UI.Mvvm.dll</HintPath>
-    </Reference>
-    <Reference Include="LibGalac.Aos.Uil">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.Uil.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
     <Reference Include="LibGalac.Aos.Brl">
-      <HintPath>..\..\..\..\..\bin\Lib\LibGalac.Aos.Brl.dll</HintPath>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -94,6 +94,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UIMefVendedor.cs" />
+    <Compile Include="ViewModel\clsFKViewModelVendedor.cs" />
+    <Compile Include="ViewModel\VendedorMngViewModel.cs" />
+    <Compile Include="ViewModel\VendedorViewModel.cs" />
+    <Compile Include="Views\GSVendedorView.xaml.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -103,6 +108,17 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSVendedorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

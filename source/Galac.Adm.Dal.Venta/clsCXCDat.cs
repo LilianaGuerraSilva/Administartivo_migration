@@ -664,7 +664,7 @@ namespace Galac.Adm.Dal.Venta {
         private bool ValidateDetailOtrosImpuestosCxC(CxC valRecord, eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             StringBuilder vSbErrorInfo = new StringBuilder();
-            int vNumeroDeLinea = 1;
+            //int vNumeroDeLinea = 1;
             outErrorMessage = string.Empty;
             //foreach (OtrosImpuestosCxC vDetail in valRecord.DetailOtrosImpuestosCxC) {
             //    bool vLineHasError = true;
