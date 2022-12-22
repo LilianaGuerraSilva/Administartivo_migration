@@ -1113,16 +1113,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda);
         }
 
-        private bool UsaMonedaExtranjera() {
+        public bool UsaMonedaExtranjera() {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
         }
 
-        private bool CalculaCostosAPartirDeMonedaExtranjera() {
+        public bool CalculaCostosAPartirDeMonedaExtranjera() {
             eFormaDeCalcularCostoTerminado vFormaDeCalcularCostoTerminado = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CostoTerminadoCalculadoAPartirDe"));
             return (vFormaDeCalcularCostoTerminado == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera);
         }
 
-        private string AsignarCodigoDeLaMonedaAlInsertar() {
+        public string AsignarCodigoDeLaMonedaAlInsertar() {
             string vCodigo = "VED";
             if (UsaMonedaExtranjera()) {
                 vCodigo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
