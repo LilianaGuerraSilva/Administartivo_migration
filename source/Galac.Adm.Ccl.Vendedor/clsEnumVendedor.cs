@@ -46,7 +46,13 @@ namespace Galac.Adm.Ccl.Vendedor {
         [LibEnumDescription("< Nivel 1")]
         MenorANivel1
 	}
-
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoComision {
+        [LibEnumDescription("Por Porcentaje")]
+        PorPorcentaje = 0,
+        [LibEnumDescription("Por Monto")]
+        PorMonto
+    }
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eRutaDeComercializacion {
         [LibEnumDescription("Ninguna")]

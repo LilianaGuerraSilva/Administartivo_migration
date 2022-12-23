@@ -59,6 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsRenglonComisionesDeVendedorDat.cs" />
+    <Compile Include="clsRenglonComisionesDeVendedorED.cs" />
     <Compile Include="clsVendedorDat.cs" />
     <Compile Include="clsVendedorED.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

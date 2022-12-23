@@ -1,24 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
-using LibGalac.Aos.UI.Mvvm.Helpers;
-using LibGalac.Aos.Brl.Contracts;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
-using LibGalac.Aos.Catching;
-using LibGalac.Aos.ARRpt.Reports;
 using Galac.Adm.Brl.Vendedor;
-using Galac.Adm.Brl.Vendedor.Reportes;
-using Galac.Saw.Ccl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
+using LibGalac.Aos.ARRpt.Reports;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
-    public class VendedorMngViewModel : LibMngMasterViewModelMfc<VendedorViewModel, Vendedor> {
+    public class VendedorMngViewModel : LibMngMasterViewModelMfc<VendedorViewModel, Ccl.Vendedor.Vendedor> {
         #region Propiedades
 
         public override string ModuleName {
@@ -45,10 +39,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Constructores
         #region Metodos Generados
 
-        protected override VendedorViewModel CreateNewElement(Vendedor valModel, eAccionSR valAction) {
+        protected override VendedorViewModel CreateNewElement(Ccl.Vendedor.Vendedor valModel, eAccionSR valAction) {
             var vNewModel = valModel;
             if (vNewModel == null) {
-                vNewModel = new Vendedor();
+                vNewModel = new Ccl.Vendedor.Vendedor();
             }
             return new VendedorViewModel(vNewModel, valAction);
         }
@@ -57,13 +51,13 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return LibSearchCriteria.CreateCriteria("Gv_Vendedor_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
         }
 
-        protected override ILibBusinessMasterComponentWithSearch<IList<Vendedor>, IList<Vendedor>> GetBusinessComponent() {
+        protected override ILibBusinessMasterComponentWithSearch<IList<Ccl.Vendedor.Vendedor>, IList<Ccl.Vendedor.Vendedor>> GetBusinessComponent() {
             return new clsVendedorNav();
         }
 
-        protected override ILibReportInfo GetDataRetrievesInstance() {
-            return new clsVendedorRpt();
-        }
+        //protected override ILibReportInfo GetDataRetrievesInstance() {
+        //    return new clsVendedorRpt();
+        //}
 
         protected override ILibRpt GetReportForList(string valModuleName, ILibReportInfo valReportInfo, LibCollFieldFormatForGrid valFieldsFormat, LibGpParams valParams) {
             return new LibGenericList(valModuleName, valReportInfo, valFieldsFormat, valParams);
@@ -71,23 +65,13 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
-        */
-        #endregion //Codigo Ejemplo
+            //InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateInformesRibbonGroup());
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-        */
-        #endregion //Codigo Ejemplo
             }
         }
 
@@ -108,20 +92,24 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return vResult;
         }
 
-        private void ExecuteInformesCommand() {
-            try {
-                if (LibMessages.ReportsView.ShowReportsView(new clsVendedorInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
-                    DialogResult = true;
-                }
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
-            }
-        }
+        //private void ExecuteInformesCommand() {
+        //    try {
+        //        if (LibMessages.ReportsView.ShowReportsView(new clsVendedorInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
+        //            DialogResult = true;
+        //        }
+        //    } catch (System.AccessViolationException) {
+        //        throw;
+        //    } catch (System.Exception vEx) {
+        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+        //    }
+        //}
 
         private bool CanExecuteInformesCommand() {
             return LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Informes");
+        }
+
+        protected override ILibReportInfo GetDataRetrievesInstance() {
+            throw new NotImplementedException();
         }
         #endregion //Metodos Generados
         #region Codigo Ejemplo

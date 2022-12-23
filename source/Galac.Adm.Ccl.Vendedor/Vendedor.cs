@@ -58,7 +58,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
-        //private GBindingList<RenglonComisionesDeVendedor> _DetailRenglonComisionesDeVendedor;
+		private ObservableCollection<RenglonComisionesDeVendedor> _DetailRenglonComisionesDeVendedor;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -334,10 +334,10 @@ namespace Galac.Adm.Ccl.Vendedor {
             set { _fldTimeStamp = value; }
         }
 
-        //public GBindingList<RenglonComisionesDeVendedor> DetailRenglonComisionesDeVendedor {
-        //    get { return _DetailRenglonComisionesDeVendedor; }
-        //    set { _DetailRenglonComisionesDeVendedor = value; }
-        //}
+        public ObservableCollection<RenglonComisionesDeVendedor> DetailRenglonComisionesDeVendedor {
+            get { return _DetailRenglonComisionesDeVendedor; }
+            set { _DetailRenglonComisionesDeVendedor = value; }
+        }
 
         public XmlDocument Datos {
             get { return _datos; }
@@ -347,6 +347,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         #region Constructores
 
         public Vendedor() {
+            _DetailRenglonComisionesDeVendedor = new ObservableCollection<RenglonComisionesDeVendedor>();
             Clear();
         }
         #endregion //Constructores
@@ -402,6 +403,7 @@ namespace Galac.Adm.Ccl.Vendedor {
             NombreOperador = "";
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
+            DetailRenglonComisionesDeVendedor = new ObservableCollection<RenglonComisionesDeVendedor>();
         }
 
         public Vendedor Clone() {

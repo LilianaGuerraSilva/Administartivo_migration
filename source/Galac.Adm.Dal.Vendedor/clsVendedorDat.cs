@@ -219,9 +219,9 @@ namespace Galac.Adm.Dal.Vendedor {
                 case eProcessMessageType.SpName:
                     valProcessMessage = insDb.ToSpName(DbSchema, valProcessMessage);
                     vResult = insDb.LoadFromSp<Entity.Vendedor>(valProcessMessage, valParameters, CmdTimeOut);
-                    //if (valUseDetail && vResult != null && vResult.Count > 0) {
-                    //    new clsRenglonComisionesDeVendedorDat().GetDetailAndAppendToMaster(ref vResult);
-                    //}
+                    if (valUseDetail && vResult != null && vResult.Count > 0) {
+                        new clsRenglonComisionesDeVendedorDat().GetDetailAndAppendToMaster(ref vResult);
+                    }
                     break;
                 default: break;
             }
@@ -346,14 +346,14 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private bool SetPkInDetailRenglonComisionesDeVendedorAndUpdateDb(Entity.Vendedor valRecord) {
             bool vResult = false;
-            //int vConsecutivo = 1;
-            //clsRenglonComisionesDeVendedorDat insRenglonComisionesDeVendedor = new clsRenglonComisionesDeVendedorDat();
-            //foreach (RenglonComisionesDeVendedor vDetail in valRecord.DetailRenglonComisionesDeVendedor) {
-            //    vDetail.ConsecutivoCompania = valRecord.ConsecutivoCompania;
-            //    vDetail.CodigoVendedor = valRecord.ConsecutivoCompania;
-            //    vConsecutivo++;
-            //}
-            //vResult = insRenglonComisionesDeVendedor.InsertChild(valRecord, insTrn);
+            int vConsecutivo = 1;
+            clsRenglonComisionesDeVendedorDat insRenglonComisionesDeVendedor = new clsRenglonComisionesDeVendedorDat();
+            foreach (RenglonComisionesDeVendedor vDetail in valRecord.DetailRenglonComisionesDeVendedor) {
+                vDetail.ConsecutivoCompania = valRecord.ConsecutivoCompania;
+                vDetail.ConsecutivoRenglon = valRecord.Consecutivo;
+                vConsecutivo++;
+            }
+            vResult = insRenglonComisionesDeVendedor.InsertChild(valRecord, insTrn);
             return vResult;
         }
 
@@ -491,14 +491,17 @@ namespace Galac.Adm.Dal.Vendedor {
         private bool ValidateDetailRenglonComisionesDeVendedor(Entity.Vendedor valRecord, eAccionSR eAccionSR, out string outErrorMessage) {
             bool vResult = true;
             StringBuilder vSbErrorInfo = new StringBuilder();
-            //int vNumeroDeLinea = 1;
-            //foreach (RenglonComisionesDeVendedor vDetail in valRecord.DetailRenglonComisionesDeVendedor) {
-            //    bool vLineHasError = true;
-            //    //agregar validaciones
-            //    vResult = vResult && (!vLineHasError);
-            //    vNumeroDeLinea++;
-            //}
-             outErrorMessage = vSbErrorInfo.ToString();
+            int vNumeroDeLinea = 1;
+            outErrorMessage = string.Empty;
+            foreach (RenglonComisionesDeVendedor vDetail in valRecord.DetailRenglonComisionesDeVendedor) {
+                bool vLineHasError = true;
+                //agregar validaciones
+                vResult = vResult && (!vLineHasError);
+                vNumeroDeLinea++;
+            }
+            if (!vResult) {
+                outErrorMessage = "Renglon Comisiones De Vendedor"  + Environment.NewLine + vSbErrorInfo.ToString();
+            }
             return vResult;
         }
         #endregion //Validaciones

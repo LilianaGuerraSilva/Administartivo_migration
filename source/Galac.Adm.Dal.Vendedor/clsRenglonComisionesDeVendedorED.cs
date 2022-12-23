@@ -1,0 +1,446 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using LibGalac.Aos.Dal;
+using LibGalac.Aos.Dal.Contracts;
+using Galac.Adm.Ccl.Vendedor;
+
+namespace Galac.Adm.Dal.Vendedor {
+    [LibMefDalComponentMetadata(typeof(clsRenglonComisionesDeVendedorED))]
+    public class clsRenglonComisionesDeVendedorED: LibED, ILibMefDalComponent {
+        #region Variables
+        #endregion //Variables
+        #region Propiedades
+        #endregion //Propiedades
+        #region Constructores
+        public clsRenglonComisionesDeVendedorED(): base(){
+            DbSchema = "Dbo";
+        }
+        #endregion //Constructores
+        #region Metodos Generados
+
+        #region Miembros de ILibMefDalComponent
+        string ILibMefDalComponent.DbSchema {
+            get { return DbSchema; }
+        }
+
+        string ILibMefDalComponent.Name {
+            get { return GetType().Name; }
+        }
+
+        string ILibMefDalComponent.Table {
+            get { return "RenglonComisionesDeVendedor"; }
+        }
+
+        bool ILibMefDalComponent.InstallTable() {
+            return InstalarTabla();
+        }
+        #endregion
+        #region Queries
+
+        private string SqlCreateTable() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine(InsSql.CreateTable("RenglonComisionesDeVendedor", DbSchema) + " ( ");
+            SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
+            SQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
+            SQL.AppendLine("ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
+            SQL.AppendLine("NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT nnRenComDeVenNombreDeLi NOT NULL, ");
+            SQL.AppendLine("TipoDeComision" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRenComDeVenTipoDeComi NOT NULL, ");
+            SQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenMonto NOT NULL, ");
+            SQL.AppendLine("Porcentaje" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenPorcentaje NOT NULL, ");
+            SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
+            SQL.AppendLine("CONSTRAINT p_RenglonComisionesDeVendedor PRIMARY KEY CLUSTERED");
+            SQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoRenglon ASC)");
+            SQL.AppendLine(",CONSTRAINT fk_RenglonComisionesDeVendedorVENDEDOR FOREIGN KEY (ConsecutivoCompania, NOT FOUND = CodigoVendedor)");
+            SQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
+            SQL.AppendLine("ON DELETE CASCADE");
+            SQL.AppendLine("ON UPDATE CASCADE");
+            SQL.AppendLine(")");
+            return SQL.ToString();
+        }
+
+        private string SqlViewB1() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("SELECT ConsecutivoCompania, ConsecutivoVendedor, ConsecutivoRenglon, NombreDeLineaDeProducto");
+            SQL.AppendLine(", TipoDeComision, " + DbSchema + ".Gv_EnumTipoComision.StrValue AS TipoDeComisionStr, Monto, Porcentaje");
+            SQL.AppendLine(", RenglonComisionesDeVendedor.fldTimeStamp, CAST(RenglonComisionesDeVendedor.fldTimeStamp AS bigint) AS fldTimeStampBigint");
+            SQL.AppendLine("FROM " + DbSchema + ".RenglonComisionesDeVendedor");
+            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoComision");
+            SQL.AppendLine("ON " + DbSchema + ".RenglonComisionesDeVendedor.TipoDeComision COLLATE MODERN_SPANISH_CS_AS");
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoComision.DbValue");
+            return SQL.ToString();
+        }
+
+        private string SqlSpInsParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " = 0,");
+            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + " = '',");
+            SQL.AppendLine("@TipoDeComision" + InsSql.CharTypeForDb(1) + " = '0',");
+            SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@Porcentaje" + InsSql.DecimalTypeForDb(25, 4) + " = 0");
+            return SQL.ToString();
+        }
+
+        private string SqlSpIns() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
+            SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
+            SQL.AppendLine("	BEGIN");
+            SQL.AppendLine("        BEGIN TRAN");
+            SQL.AppendLine("            INSERT INTO " + DbSchema + ".RenglonComisionesDeVendedor(");
+            SQL.AppendLine("            ConsecutivoCompania,");
+            SQL.AppendLine("            ConsecutivoVendedor,");
+            SQL.AppendLine("            ConsecutivoRenglon,");
+            SQL.AppendLine("            NombreDeLineaDeProducto,");
+            SQL.AppendLine("            TipoDeComision,");
+            SQL.AppendLine("            Monto,");
+            SQL.AppendLine("            Porcentaje)");
+            SQL.AppendLine("            VALUES(");
+            SQL.AppendLine("            @ConsecutivoCompania,");
+            SQL.AppendLine("            @ConsecutivoVendedor,");
+            SQL.AppendLine("            @ConsecutivoRenglon,");
+            SQL.AppendLine("            @NombreDeLineaDeProducto,");
+            SQL.AppendLine("            @TipoDeComision,");
+            SQL.AppendLine("            @Monto,");
+            SQL.AppendLine("            @Porcentaje)");
+            SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
+            SQL.AppendLine("        COMMIT TRAN");
+            SQL.AppendLine("        RETURN @ReturnValue ");
+            SQL.AppendLine("	END");
+            SQL.AppendLine("	ELSE");
+            SQL.AppendLine("		RETURN -1");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpUpdParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + ",");
+            SQL.AppendLine("@TipoDeComision" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@Porcentaje" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
+            return SQL.ToString();
+        }
+
+        private string SqlSpUpd() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @CurrentTimeStamp timestamp");
+            SQL.AppendLine("   DECLARE @ValidationMsg " + InsSql.VarCharTypeForDb(1500) + " --No puede ser más");
+            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
+            //SQL.AppendLine("--DECLARE @CanBeChanged bit");
+            SQL.AppendLine("   SET @ReturnValue = -1");
+            SQL.AppendLine("   SET @ValidationMsg = ''");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".RenglonComisionesDeVendedor WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon)");
+            SQL.AppendLine("   BEGIN");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".RenglonComisionesDeVendedor WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
+            SQL.AppendLine("      BEGIN");
+            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_RenglonComisionesDeVendedorCanBeUpdated @ConsecutivoCompania,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
+            //SQL.AppendLine("--IF @CanBeChanged = 1 --True");
+            //SQL.AppendLine("--BEGIN");
+            SQL.AppendLine("         BEGIN TRAN");
+            SQL.AppendLine("         UPDATE " + DbSchema + ".RenglonComisionesDeVendedor");
+            SQL.AppendLine("            SET ConsecutivoVendedor = @ConsecutivoVendedor,");
+            SQL.AppendLine("               NombreDeLineaDeProducto = @NombreDeLineaDeProducto,");
+            SQL.AppendLine("               TipoDeComision = @TipoDeComision,");
+            SQL.AppendLine("               Monto = @Monto,");
+            SQL.AppendLine("               Porcentaje = @Porcentaje");
+            SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
+            SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("               AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("         SET @ReturnValue = @@ROWCOUNT");
+            SQL.AppendLine("         IF @@ERROR = 0");
+            SQL.AppendLine("         BEGIN");
+            SQL.AppendLine("            COMMIT TRAN");
+            SQL.AppendLine("            IF @ReturnValue = 0");
+            SQL.AppendLine("               RAISERROR('El registro ha sido modificado o eliminado por otro usuario', 14, 1)");
+            SQL.AppendLine("         END");
+            SQL.AppendLine("         ELSE");
+            SQL.AppendLine("         BEGIN");
+            SQL.AppendLine("            SET @ReturnValue = -1");
+            SQL.AppendLine("            SET @ValidationMsg = 'Se ha producido un error al Modificar: ' + CAST(@@ERROR AS NVARCHAR(8))");
+            SQL.AppendLine("            RAISERROR(@ValidationMsg, 14 ,1)");
+            SQL.AppendLine("            ROLLBACK");
+            SQL.AppendLine("         END");
+            //SQL.AppendLine("--END");
+            //SQL.AppendLine("--ELSE");
+            //SQL.AppendLine("--	RAISERROR('El registro no puede ser modificado: %s', 14, 1, @ValidationMsg)");
+            SQL.AppendLine("      END");
+            SQL.AppendLine("      ELSE");
+            SQL.AppendLine("         RAISERROR('El registro ha sido modificado o eliminado por otro usuario.', 14, 1)");
+            SQL.AppendLine("   END");
+            SQL.AppendLine("   ELSE");
+            SQL.AppendLine("      RAISERROR('El registro no existe.', 14, 1)");
+            SQL.AppendLine("   RETURN @ReturnValue");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpDelParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
+            return SQL.ToString();
+        }
+
+        private string SqlSpDel() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @CurrentTimeStamp timestamp");
+            SQL.AppendLine("   DECLARE @ValidationMsg " + InsSql.VarCharTypeForDb(1500) + " --No puede ser más");
+            SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
+            //SQL.AppendLine("--DECLARE @CanBeDeleted bit");
+            SQL.AppendLine("   SET @ReturnValue = -1");
+            SQL.AppendLine("   SET @ValidationMsg = ''");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".RenglonComisionesDeVendedor WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon)");
+            SQL.AppendLine("   BEGIN");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".RenglonComisionesDeVendedor WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
+            SQL.AppendLine("      BEGIN");
+            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeDeleted bit; EXEC @CanBeDeleted = " + DbSchema + ".Gp_RenglonComisionesDeVendedorCanBeDeleted @ConsecutivoCompania,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
+            //SQL.AppendLine("--IF @CanBeDeleted = 1 --True");
+            //SQL.AppendLine("--BEGIN");
+            SQL.AppendLine("         BEGIN TRAN");
+            SQL.AppendLine("         DELETE FROM " + DbSchema + ".RenglonComisionesDeVendedor");
+            SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
+            SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("               AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("         SET @ReturnValue = @@ROWCOUNT");
+            SQL.AppendLine("         IF @@ERROR = 0");
+            SQL.AppendLine("         BEGIN");
+            SQL.AppendLine("            COMMIT TRAN");
+            SQL.AppendLine("            IF @ReturnValue = 0");
+            SQL.AppendLine("               RAISERROR('El registro ha sido modificado o eliminado por otro usuario', 14, 1)");
+            SQL.AppendLine("         END");
+            SQL.AppendLine("         ELSE");
+            SQL.AppendLine("         BEGIN");
+            SQL.AppendLine("            SET @ReturnValue = -1");
+            SQL.AppendLine("            SET @ValidationMsg = 'Se ha producido un error al Eliminar: ' + CAST(@@ERROR AS NVARCHAR(8))");
+            SQL.AppendLine("            RAISERROR(@ValidationMsg, 14 ,1)");
+            SQL.AppendLine("            ROLLBACK");
+            SQL.AppendLine("         END");
+            //SQL.AppendLine("--END");
+            //SQL.AppendLine("--ELSE");
+            //SQL.AppendLine("--	RAISERROR('El registro no puede ser eliminado: %s', 14, 1, @ValidationMsg)");
+            SQL.AppendLine("      END");
+            SQL.AppendLine("      ELSE");
+            SQL.AppendLine("         RAISERROR('El registro ha sido modificado o eliminado por otro usuario.', 14, 1)");
+            SQL.AppendLine("   END");
+            SQL.AppendLine("   ELSE");
+            SQL.AppendLine("      RAISERROR('El registro no existe.', 14, 1)");
+            SQL.AppendLine("   RETURN @ReturnValue");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpGetParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0));
+            return SQL.ToString();
+        }
+
+        private string SqlSpGet() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   SELECT ");
+            SQL.AppendLine("         ConsecutivoCompania,");
+            SQL.AppendLine("         ConsecutivoVendedor,");
+            SQL.AppendLine("         ConsecutivoRenglon,");
+            SQL.AppendLine("         NombreDeLineaDeProducto,");
+            SQL.AppendLine("         TipoDeComision,");
+            SQL.AppendLine("         Monto,");
+            SQL.AppendLine("         Porcentaje,");
+            SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
+            SQL.AppendLine("         fldTimeStamp");
+            SQL.AppendLine("      FROM " + DbSchema + ".RenglonComisionesDeVendedor");
+            SQL.AppendLine("      WHERE RenglonComisionesDeVendedor.ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("         AND RenglonComisionesDeVendedor.ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("   RETURN @@ROWCOUNT");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpSelDetailParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0));
+            return SQL.ToString();
+        }
+
+        private string SqlSpSelDetail() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("	SELECT ");
+            SQL.AppendLine("        ConsecutivoCompania,");
+            SQL.AppendLine("        ConsecutivoVendedor,");
+            SQL.AppendLine("        ConsecutivoRenglon,");
+            SQL.AppendLine("        NombreDeLineaDeProducto,");
+            SQL.AppendLine("        TipoDeComision,");
+            SQL.AppendLine("        Monto,");
+            SQL.AppendLine("        Porcentaje,");
+            SQL.AppendLine("        fldTimeStamp");
+            SQL.AppendLine("    FROM RenglonComisionesDeVendedor");
+            SQL.AppendLine(" 	WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine(" 	AND ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("    RETURN @@ROWCOUNT");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpDelDetailParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0));
+            return SQL.ToString();
+        }
+
+        private string SqlSpDelDetail() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("	DELETE FROM RenglonComisionesDeVendedor");
+            SQL.AppendLine(" 	WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine(" 	AND ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("    RETURN @@ROWCOUNT");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpInsDetailParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@XmlDataDetail" + InsSql.XmlTypeForDb());
+            return SQL.ToString();
+        }
+
+        private string SqlSpInsDetail() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("	SET NOCOUNT ON;");
+            SQL.AppendLine("	DECLARE @ReturnValue  " + InsSql.NumericTypeForDb(10, 0));
+	        SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
+	        SQL.AppendLine("	    BEGIN");
+            SQL.AppendLine("	    EXEC dbo.Gp_RenglonComisionesDeVendedorDelDet @ConsecutivoCompania = @ConsecutivoCompania, @ConsecutivoRenglon = @ConsecutivoRenglon");
+		    SQL.AppendLine("	    DECLARE @hdoc " + InsSql.NumericTypeForDb(10, 0));
+            SQL.AppendLine("	    EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlDataDetail");
+		    SQL.AppendLine("	    INSERT INTO dbo.RenglonComisionesDeVendedor(");
+			SQL.AppendLine("	        ConsecutivoCompania,");
+			SQL.AppendLine("	        ConsecutivoVendedor,");
+			SQL.AppendLine("	        ConsecutivoRenglon,");
+			SQL.AppendLine("	        NombreDeLineaDeProducto,");
+			SQL.AppendLine("	        TipoDeComision,");
+			SQL.AppendLine("	        Monto,");
+			SQL.AppendLine("	        Porcentaje)");
+		    SQL.AppendLine("	    SELECT ");
+			SQL.AppendLine("	        @ConsecutivoCompania,");
+			SQL.AppendLine("	        ConsecutivoVendedor,");
+			SQL.AppendLine("	        ConsecutivoRenglon,");
+			SQL.AppendLine("	        NombreDeLineaDeProducto,");
+			SQL.AppendLine("	        TipoDeComision,");
+			SQL.AppendLine("	        Monto,");
+			SQL.AppendLine("	        Porcentaje");
+		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataRenglonComisionesDeVendedor/GpDetailRenglonComisionesDeVendedor',2) ");
+            SQL.AppendLine("	    WITH (");
+            SQL.AppendLine("	        ConsecutivoVendedor " + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("	        ConsecutivoRenglon " + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("	        NombreDeLineaDeProducto " + InsSql.VarCharTypeForDb(20) + ",");
+            SQL.AppendLine("	        TipoDeComision " + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("	        Monto " + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("	        Porcentaje " + InsSql.DecimalTypeForDb(25, 4) + ") AS XmlDocDetailOfVENDEDOR");
+            SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
+            SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
+            SQL.AppendLine("	    RETURN @ReturnValue");
+	        SQL.AppendLine("	END");
+	        SQL.AppendLine("	ELSE");
+            SQL.AppendLine("	    RETURN -1");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+        #endregion //Queries
+
+        bool CrearTabla() {
+            bool vResult = insDbo.Create(DbSchema + ".RenglonComisionesDeVendedor", SqlCreateTable(), false, eDboType.Tabla);
+            return vResult;
+        }
+
+        bool CrearVistas(){
+            bool vResult = false;
+            LibViews insVistas = new LibViews();
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoComision", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoComision), InsSql), true, true);
+            vResult = insVistas.Create(DbSchema + ".Gv_RenglonComisionesDeVendedor_B1", SqlViewB1(), true);
+            insVistas.Dispose();
+            return vResult;
+        }
+
+        bool CrearProcedimientos() {
+            bool vResult = false;
+            LibStoredProc insSps = new LibStoredProc();
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorINS", SqlSpInsParameters(), SqlSpIns(), true);
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorDEL", SqlSpDelParameters(), SqlSpDel(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
+            insSps.Dispose();
+            return vResult;
+        }
+
+        public bool InstalarTabla() {
+            bool vResult = false;
+            if (CrearTabla()) {
+                CrearVistas();
+                CrearProcedimientos();
+                vResult = true;
+            }
+            return vResult;
+        }
+
+        public bool InstalarVistasYSps() {
+            bool vResult = false;
+            if (insDbo.Exists(DbSchema + ".RenglonComisionesDeVendedor", eDboType.Tabla)) {
+                CrearVistas();
+                CrearProcedimientos();
+                vResult = true;
+            }
+            return vResult;
+        }
+
+        public bool BorrarVistasYSps() {
+            bool vResult = false;
+            LibStoredProc insSp = new LibStoredProc();
+            LibViews insVista = new LibViews();
+            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorINS");
+            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorUPD") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorDEL") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorGET") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorInsDet") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorDelDet") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorSelDet") && vResult;
+            vResult = insVista.Drop(DbSchema + ".Gv_RenglonComisionesDeVendedor_B1") && vResult;
+            vResult = insVista.Drop(DbSchema + ".Gv_EnumTipoComision") && vResult;
+            insSp.Dispose();
+            insVista.Dispose();
+            return vResult;
+        }
+        #endregion //Metodos Generados
+
+
+    } //End of class clsRenglonComisionesDeVendedorED
+
+} //End of namespace Galac..Dal.ComponenteNoEspecificado
+

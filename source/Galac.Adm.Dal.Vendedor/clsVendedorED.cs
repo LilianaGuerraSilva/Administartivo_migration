@@ -52,7 +52,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("ZonaPostal" + InsSql.VarCharTypeForDb(7) + " CONSTRAINT d_VenZoPo DEFAULT (''), ");
             SQL.AppendLine("Telefono" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_VenTe DEFAULT (''), ");
             SQL.AppendLine("Fax" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_VenFa DEFAULT (''), ");
-            SQL.AppendLine("email" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_Venem DEFAULT (''), ");
+            SQL.AppendLine("Email" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_VenEm DEFAULT (''), ");
             SQL.AppendLine("Notas" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_VenNo DEFAULT (''), ");
             SQL.AppendLine("ComisionPorVenta" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_VenCoPoVe DEFAULT (0), ");
             SQL.AppendLine("ComisionPorCobro" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_VenCoPoCo DEFAULT (0), ");
@@ -134,7 +134,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@ZonaPostal" + InsSql.VarCharTypeForDb(7) + " = '',");
             SQL.AppendLine("@Telefono" + InsSql.VarCharTypeForDb(40) + " = '',");
             SQL.AppendLine("@Fax" + InsSql.VarCharTypeForDb(20) + " = '',");
-            SQL.AppendLine("@email" + InsSql.VarCharTypeForDb(40) + " = '',");
+            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + " = '',");
             SQL.AppendLine("@Notas" + InsSql.VarCharTypeForDb(255) + " = '',");
             SQL.AppendLine("@ComisionPorVenta" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@ComisionPorCobro" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
@@ -188,7 +188,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("            ZonaPostal,");
             SQL.AppendLine("            Telefono,");
             SQL.AppendLine("            Fax,");
-            SQL.AppendLine("            email,");
+            SQL.AppendLine("            Email,");
             SQL.AppendLine("            Notas,");
             SQL.AppendLine("            ComisionPorVenta,");
             SQL.AppendLine("            ComisionPorCobro,");
@@ -233,7 +233,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("            @ZonaPostal,");
             SQL.AppendLine("            @Telefono,");
             SQL.AppendLine("            @Fax,");
-            SQL.AppendLine("            @email,");
+            SQL.AppendLine("            @Email,");
             SQL.AppendLine("            @Notas,");
             SQL.AppendLine("            @ComisionPorVenta,");
             SQL.AppendLine("            @ComisionPorCobro,");
@@ -286,7 +286,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@ZonaPostal" + InsSql.VarCharTypeForDb(7) + ",");
             SQL.AppendLine("@Telefono" + InsSql.VarCharTypeForDb(40) + ",");
             SQL.AppendLine("@Fax" + InsSql.VarCharTypeForDb(20) + ",");
-            SQL.AppendLine("@email" + InsSql.VarCharTypeForDb(40) + ",");
+            SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + ",");
             SQL.AppendLine("@Notas" + InsSql.VarCharTypeForDb(255) + ",");
             SQL.AppendLine("@ComisionPorVenta" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@ComisionPorCobro" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -351,7 +351,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("               ZonaPostal = @ZonaPostal,");
             SQL.AppendLine("               Telefono = @Telefono,");
             SQL.AppendLine("               Fax = @Fax,");
-            SQL.AppendLine("               email = @email,");
+            SQL.AppendLine("               Email = @Email,");
             SQL.AppendLine("               Notas = @Notas,");
             SQL.AppendLine("               ComisionPorVenta = @ComisionPorVenta,");
             SQL.AppendLine("               ComisionPorCobro = @ComisionPorCobro,");
@@ -497,7 +497,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("         Vendedor.ZonaPostal,");
             SQL.AppendLine("         Vendedor.Telefono,");
             SQL.AppendLine("         Vendedor.Fax,");
-            SQL.AppendLine("         Vendedor.email,");
+            SQL.AppendLine("         Vendedor.Email,");
             SQL.AppendLine("         Vendedor.Notas,");
             SQL.AppendLine("         Vendedor.ComisionPorVenta,");
             SQL.AppendLine("         Vendedor.ComisionPorCobro,");
@@ -640,7 +640,8 @@ namespace Galac.Adm.Dal.Vendedor {
             if (CrearTabla()) {
                 CrearVistas();
                 CrearProcedimientos();
-                vResult = true;
+                clsRenglonComisionesDeVendedorED insDetailRenComDeVen = new clsRenglonComisionesDeVendedorED();
+                vResult = insDetailRenComDeVen.InstalarTabla();
             }
             //if (insDbo.Exists(DbSchema + ".Vendedor", eDboType.Tabla)) {
             //    ////clsRenglonComisionesDeVendedorED insDetailRenComDeVen = new clsRenglonComisionesDeVendedorED();
@@ -659,7 +660,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = true;
-                //vResult = new clsRenglonComisionesDeVendedorED().InstalarVistasYSps();
+                vResult = new clsRenglonComisionesDeVendedorED().InstalarVistasYSps();
                 //vResult = vResult && new clsVendedorXLienaDeProductoED().InstalarVistasYSps();
                 //vResult = vResult && new clsListadoDeVendedoresED().InstalarVistasYSps();
             }
@@ -670,6 +671,7 @@ namespace Galac.Adm.Dal.Vendedor {
             bool vResult = false;
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
+            vResult = new clsRenglonComisionesDeVendedorED().BorrarVistasYSps();
             vResult = insSp.Drop(DbSchema + ".Gp_VendedorINS") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_VendedorUPD") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_VendedorDEL") && vResult;

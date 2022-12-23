@@ -13,10 +13,10 @@ using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Vendedor;
-using Galac.Saw.Ccl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
 
-namespace Galac.Adm.Uil.Vendedor.ViewModel {
-    public class VendedorViewModel : LibInputMasterViewModelMfc<Vendedor> {
+namespace Galac.Adm.Uil.Vendedor.ViewModel { 
+    public class VendedorViewModel : LibInputMasterViewModelMfc<Galac.Adm.Ccl.Vendedor.Vendedor> {
         #region Constantes
         public const string ConsecutivoCompaniaPropertyName = "ConsecutivoCompania";
         public const string ConsecutivoPropertyName = "Consecutivo";
@@ -679,9 +679,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Propiedades
         #region Constructores
         public VendedorViewModel()
-            : this(new Vendedor(), eAccionSR.Insertar) {
+            : this(new Galac.Adm.Ccl.Vendedor.Vendedor(), eAccionSR.Insertar) {
         }
-        public VendedorViewModel(Vendedor initModel, eAccionSR initAction)
+        public VendedorViewModel(Galac.Adm.Ccl.Vendedor.Vendedor initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ConsecutivoCompaniaPropertyName;
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
@@ -690,11 +690,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Constructores
         #region Metodos Generados
 
-        protected override void InitializeLookAndFeel(Vendedor valModel) {
+        protected override void InitializeLookAndFeel(Galac.Adm.Ccl.Vendedor.Vendedor valModel) {
             base.InitializeLookAndFeel(valModel);
         }
 
-        protected override Vendedor FindCurrentRecord(Vendedor valModel) {
+        protected override Galac.Adm.Ccl.Vendedor.Vendedor FindCurrentRecord(Galac.Adm.Ccl.Vendedor.Vendedor valModel) {
             if (valModel == null) {
                 return null;
             }
@@ -704,7 +704,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return BusinessComponent.GetData(eProcessMessageType.SpName, "VendedorGET", vParams.Get(), UseDetail).FirstOrDefault();
         }
 
-        protected override ILibBusinessMasterComponentWithSearch<IList<Vendedor>, IList<Vendedor>> GetBusinessComponent() {
+        protected override ILibBusinessMasterComponentWithSearch<IList<Galac.Adm.Ccl.Vendedor.Vendedor>, IList<Galac.Adm.Ccl.Vendedor.Vendedor>> GetBusinessComponent() {
             return new clsVendedorNav();
         }
 

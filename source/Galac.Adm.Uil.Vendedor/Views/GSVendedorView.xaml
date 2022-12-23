@@ -9,7 +9,6 @@
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
     d:DesignHeight="580"
     d:DesignWidth="855"
-    Loaded="UserControl_Loaded"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -85,52 +84,13 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Width="140"
-                    nsWpf:LibFocusManager.FocusedPropertyName="CodigoVendedor"
+                    nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
                     nsWpf:LibFocusManager.IsFocused="True"
                     InputDataType="Alfanumeric"
                     IsEnabled="{Binding Path=IsEnabledCodigoVendedor}"
                     MaxLength="10"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=CodigoVendedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <Label
-                    Name="lblTipodeVendedor"
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Content="Tipo De Vendedor"
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSSeekConnection
-                    Name="txtTipodeVendedor"
-                    Grid.Row="0"
-                    Grid.Column="3"
-                    Grid.ColumnSpan="2"
-                    Width="140"
-                    Height="23"
-                    HorizontalAlignment="Left"
-                    ConnectionValue="{Binding Path=TipodeVendedor, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    DisplayMemberPath="nombre"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Model="{Binding Path=ConexionTipodeVendedor, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseTipodeVendedorCommand}" />
-                <Label
-                    Name="lblNombrePaisResidencia"
-                    Grid.Row="1"
-                    Grid.Column="4"
-                    Content="País de Residencia"
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleParaSujetoNoDomicilidado, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <nsWpfControls:GSSeekConnection
-                    Name="txtNombrePaisResidencia"
-                    Grid.Row="1"
-                    Grid.Column="5"
-                    Width="160"
-                    Height="23"
-                    HorizontalAlignment="Left"
-                    ConnectionValue="{Binding Path=NombrePaisResidencia, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    DisplayMemberPath="Nombre"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Model="{Binding Path=ConexionNombrePaisResidencia, Mode=TwoWay}"
-                    SearchCommand="{Binding Path=ChooseNombrePaisResidenciaCommand}"
-                    Visibility="{Binding Path=IsVisibleParaSujetoNoDomicilidado, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Label
                     Name="lblNumeroRIF"
                     Grid.Row="1"
@@ -221,27 +181,8 @@
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="160"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=NombreVendedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Visibility="{Binding Path=IsVisibleNombreVendedor, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <Label
-                    Name="lblNumeroNIT"
-                    Grid.Row="5"
-                    Grid.Column="0"
-                    Content="N° N.I.T."
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=isVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <nsWpfControls:GSTextBoxWpf
-                    Name="txtNumeroNIT"
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    Width="140"
-                    BorderThickness="1"
-                    InputDataType="Alfanumeric"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    MaxLength="12"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=NumeroNIT, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{Binding Path=isVisibleParaVenezuela, Converter={StaticResource booleanToVisibilityConverter}}" />
             </Grid>
         </GroupBox>
         <TabControl
@@ -265,7 +206,10 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <GroupBox Grid.RowSpan="3" Header="Datos de Contacto">
+                    <GroupBox
+                        Grid.RowSpan="5"
+                        Grid.ColumnSpan="2"
+                        Header="Datos de Contacto">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -333,7 +277,6 @@
                                 MaxLength="40"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=Telefonos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
                             <Label
                                 Name="lblFax"
                                 Grid.Row="3"
@@ -372,221 +315,8 @@
                                 Text="{Binding Path=Direccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap"
                                 VerticalScrollBarVisibility="Auto" />
-
-
                         </Grid>
                     </GroupBox>
-
-                    <GroupBox
-                        Grid.Column="1"
-                        Width="409"
-                        HorizontalAlignment="Left"
-                        Header="Pago">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Label
-                                Name="lblUsarBeneficiarioImpCheq"
-                                Grid.ColumnSpan="2"
-                                Margin="22,3,0,0"
-                                Content="Usar Beneficiario al Imprimir Cheque"
-                                Style="{StaticResource LabelPrompt}" />
-                            <CheckBox
-                                Name="chkUsarBeneficiarioImpCheq"
-                                Margin="6,8,0,6"
-                                HorizontalAlignment="Left"
-                                IsChecked="{Binding Path=UsarBeneficiarioImpCheq}"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                Style="{StaticResource CheckBoxStyle}" />
-
-                            <GroupBox
-                                Grid.Row="1"
-                                Grid.ColumnSpan="3"
-                                Width="397"
-                                HorizontalAlignment="Left"
-                                Header="Beneficiario">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <nsWpfControls:GSTextBoxWpf
-                                        Name="txtBeneficiario"
-                                        Grid.Column="1"
-                                        Width="375"
-                                        Margin="3,3,0,3"
-                                        BorderThickness="1"
-                                        InputDataType="Alfanumeric"
-                                        IsEnabled="{Binding Path=IsEnabledBeneficiario}"
-                                        MaxLength="60"
-                                        Style="{StaticResource TextBoxInputStyle}"
-                                        Text="{Binding Path=Beneficiario, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
-                            </GroupBox>
-
-                            <Label
-                                Name="lblNumeroCuentaBancaria"
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Content="Número Cuenta Bancaria"
-                                Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
-                                Name="txtNumeroCuentaBancaria"
-                                Grid.Row="2"
-                                Grid.ColumnSpan="3"
-                                Width="240"
-                                Margin="151,3,0,4"
-                                BorderThickness="1"
-                                InputDataType="Alfanumeric"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                MaxLength="20"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=NumeroCuentaBancaria, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
-                        </Grid>
-                    </GroupBox>
-
-
-                    <GroupBox
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Width="404"
-                        HorizontalAlignment="Left"
-                        Header="Datos de Retención ISLR"
-                        Visibility="{Binding Path=IsVisibleISLR, Converter={StaticResource booleanToVisibilityConverter}}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Label
-                                Name="lblTipoDePersona"
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Content="Tipo De Persona"
-                                Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSComboBoxWpf
-                                Name="cmbTipoDePersona"
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
-                                Width="236"
-                                Margin="3,3,0,3"
-                                IsEnabled="{Binding Path=IsEnabledTipoPersona}"
-                                IsSynchronizedWithCurrentItem="True"
-                                ItemsSource="{Binding Path=ArrayTipodePersonaRetencion}"
-                                SelectedItem="{Binding Path=TipoDePersona, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                Style="{StaticResource ComboBoxStyle}" />
-
-                            <Label
-                                Name="lblCodigoRetencionUsual"
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Content="Código Retención Usual"
-                                Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSSeekConnection
-                                Name="txtCodigoRetencionUsual"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Width="93"
-                                Height="23"
-                                Margin="3,3,0,3"
-                                HorizontalAlignment="Left"
-                                ConnectionValue="{Binding Path=CodigoRetencionUsual, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                DisplayMemberPath="codigo"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                Model="{Binding Path=ConexionCodigoRetencionUsual, Mode=TwoWay}"
-                                SearchCommand="{Binding Path=ChooseCodigoRetencionUsualCommand}" />
-                            <Label
-                                Name="lneDescripcionCodRet"
-                                Grid.Row="1"
-                                Grid.Column="2"
-                                Width="140"
-                                VerticalAlignment="Center"
-                                Content="{Binding Path=DescripcionCodRet}"
-                                Style="{StaticResource LabelCalculatedField}" />
-                        </Grid>
-                    </GroupBox>
-
-                    <GroupBox
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Width="403"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Header="Impuestos Municipales"
-                        Visibility="{Binding Path=IsVisibleMunicipales, Converter={StaticResource booleanToVisibilityConverter}}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            <Label
-                                Name="lblCodigoContribuyente"
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Content="Código Contribuyente"
-                                Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
-                                Name="txtCodigoContribuyente"
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
-                                Width="249"
-                                Margin="3,3,0,3"
-                                BorderThickness="1"
-                                InputDataType="Alfanumeric"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                MaxLength="20"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=CodigoContribuyente, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <Label
-                                Name="lblNumeroRUC"
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Content="R.U.C."
-                                Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
-                                Name="txtNumeroRUC"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
-                                Width="249"
-                                Height="23"
-                                Margin="3,3,0,3"
-                                BorderThickness="1"
-                                InputDataType="Alfanumeric"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                MaxLength="20"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=NumeroRUC, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
-                        </Grid>
-                    </GroupBox>
-
                 </Grid>
             </TabItem>
 
