@@ -6,10 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Vendedor.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    d:DesignHeight="580"
-    d:DesignWidth="855"
-    mc:Ignorable="d">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -60,8 +57,6 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -93,14 +88,14 @@
                     Text="{Binding Path=CodigoVendedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblNumeroRIF"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Width="110"
                     Height="23"
                     Content="{Binding Path=PromptNumeroRif}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtNumeroRIF"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="1"
                     Width="140"
                     Height="23"
@@ -110,42 +105,10 @@
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NumeroRIF, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <Button
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Width="140"
-                    Height="24"
-                    HorizontalAlignment="Left"
-                    Command="{Binding Path=ValidarRifWebCommand}"
-                    Content="{Binding Path=PromptValidarRifWeb}"
-                    IsEnabled="{Binding Path=IsEnabledValidaRif}" />
-                <Label
-                    Name="lblValidarRIF"
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    Width="140"
-                    Height="23"
-                    Margin="0,3"
-                    HorizontalAlignment="Left"
-                    Content="{Binding Path=RifContent}"
-                    FontWeight="Bold"
-                    Style="{StaticResource LabelPromptStatusForegroundColor}" />
-                <nsWpfControls:GSTextBoxWpf
-                    Name="txtNombreProvNoDomiciliado"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    Width="220"
-                    BorderThickness="1"
-                    InputDataType="String"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    MaxLength="12"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{Binding Path=IsVisibleParaSujetoNoDomicilidadoNatural, Converter={StaticResource booleanToVisibilityConverter}}" />
+
                 <Label
                     Name="lblNombreVendedor"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Width="56"
@@ -153,10 +116,9 @@
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtNombreVendedor"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Grid.Column="1"
-                    Grid.ColumnSpan="3"
-                    Width="432"
+                    Width="250"
                     BorderThickness="1"
                     InputDataType="String"
                     IsEnabled="{Binding Path=IsEnabled}"
@@ -164,6 +126,18 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Visibility="{Binding Path=IsVisibleNombreVendedor, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Name="lblStatus"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Content="Status"
+                    Style="{StaticResource LabelPrompt}" />
+                <ComboBox
+                    Name="cmbStatus"
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Width="200"
+                    Style="{StaticResource ComboBoxStyle}" />
             </Grid>
         </GroupBox>
         <TabControl
@@ -195,7 +169,8 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -206,12 +181,13 @@
                             </Grid.RowDefinitions>
                             <Label
                                 Name="lblContacto"
-                                Grid.Row="0"
+                                Grid.Row="3"
                                 Grid.Column="0"
                                 Content="Contacto"
                                 Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtContacto"
+                                Grid.Row="3"
                                 Grid.Column="1"
                                 Width="350"
                                 BorderThickness="1"
@@ -223,16 +199,15 @@
 
                             <Label
                                 Name="lblEmail"
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Content="E -mail"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Content="E-mail"
                                 Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtEmail"
-                                Grid.Row="1"
-                                Grid.Column="1"
+                                Grid.Row="2"
+                                Grid.Column="3"
                                 Width="350"
-                                Height="46"
                                 BorderThickness="1"
                                 InputDataType="String"
                                 InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
@@ -243,14 +218,14 @@
 
                             <Label
                                 Name="lblTelefonos"
-                                Grid.Row="2"
-                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.Column="2"
                                 Content="Teléfonos"
                                 Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtTelefonos"
-                                Grid.Row="2"
-                                Grid.Column="1"
+                                Grid.Row="0"
+                                Grid.Column="3"
                                 Width="350"
                                 BorderThickness="1"
                                 InputDataType="Alfanumeric"
@@ -260,14 +235,14 @@
                                 Text="{Binding Path=Telefonos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblFax"
-                                Grid.Row="3"
-                                Grid.Column="0"
+                                Grid.Row="1"
+                                Grid.Column="2"
                                 Content="Nº Fax"
                                 Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtFax"
-                                Grid.Row="3"
-                                Grid.Column="1"
+                                Grid.Row="1"
+                                Grid.Column="3"
                                 Width="350"
                                 BorderThickness="1"
                                 InputDataType="Alfanumeric"
@@ -278,13 +253,14 @@
 
                             <Label
                                 Name="lblDireccion"
-                                Grid.Row="4"
+                                Grid.Row="0"
                                 Grid.Column="0"
                                 Content="Dirección"
                                 Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSTextAreaWpf
                                 Name="txtDireccion"
-                                Grid.Row="4"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
                                 Grid.Column="1"
                                 Width="350"
                                 Height="117"
@@ -296,6 +272,25 @@
                                 Text="{Binding Path=Direccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                                 TextWrapping="Wrap"
                                 VerticalScrollBarVisibility="Auto" />
+                            <Label
+                                Name="lblNotas"
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                Content="Notas"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtNotas"
+                                Grid.Row="3"
+                                Grid.Column="3"
+                                Width="350"
+                                BorderThickness="1"
+                                InputDataType="String"
+                                InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
+                                IsEnabled="{Binding Path=IsEnabled}"
+                                MaxLength="100"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
                         </Grid>
                     </GroupBox>
                 </Grid>

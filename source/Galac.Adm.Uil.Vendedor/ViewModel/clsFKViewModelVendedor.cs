@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using LibGalac.Aos.UI.Mvvm.Helpers;
 using Galac.Adm.Ccl.Vendedor;
-using Galac.Adm.Ccl.Vendedor;
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
     public class FkVendedorViewModel : IFkVendedorViewModel {
