@@ -132,11 +132,15 @@
                     Grid.Column="2"
                     Content="Status"
                     Style="{StaticResource LabelPrompt}" />
-                <ComboBox
+                <nsWpfControls:GSComboBoxWpf
                     Name="cmbStatus"
                     Grid.Row="0"
                     Grid.Column="3"
-                    Width="200"
+                    Width="150"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayStatusVendedor}"
+                    SelectedItem="{Binding Path=StatusVendedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}" />
             </Grid>
         </GroupBox>
@@ -180,7 +184,7 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Label
-                                Name="lblContacto"
+                                Name="lblCiudad"
                                 Grid.Row="3"
                                 Grid.Column="0"
                                 Content="Contacto"
@@ -250,7 +254,6 @@
                                 MaxLength="25"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=Fax, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
                             <Label
                                 Name="lblDireccion"
                                 Grid.Row="0"
@@ -263,7 +266,7 @@
                                 Grid.RowSpan="3"
                                 Grid.Column="1"
                                 Width="350"
-                                Height="117"
+                                Height="90"
                                 VerticalAlignment="Top"
                                 BorderThickness="1"
                                 IsReadOnly="{Binding Path=IsReadOnly}"
@@ -308,7 +311,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
