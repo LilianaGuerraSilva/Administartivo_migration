@@ -48,6 +48,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string DireccionClientePropertyName = "DireccionCliente";
         private const string TelefonoClientePropertyName = "TelefonoCliente";
         private const string CodigoVendedorPropertyName = "CodigoVendedor";
+        private const string ConsecutivoVendedorPropertyName = "ConsecutivoVendedor";
         private const string NombreVendedorPropertyName = "NombreVendedor";
         private const string TotalMontoExentoPropertyName = "TotalMontoExento";
         private const string TotalBaseImponiblePropertyName = "TotalBaseImponible";
@@ -120,6 +121,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Variables
         private FkClienteViewModel _ConexionCliente = null;
         private FkVendedorViewModel _ConexionCodigoVendedor = null;
+        private FkVendedorViewModel _ConexionConsecutivoVendedor = null;
         private FkVendedorViewModel _ConexionNombreVendedor = null;
         private FkArticuloInventarioViewModel _ConexionArticulo = null;
         private FkArticuloInventarioViewModel _ConexionDescripcion = null;
@@ -300,6 +302,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public int  ConsecutivoVendedor {
+            get {
+                return Model.ConsecutivoVendedor;
+            }
+            set {
+                if (Model.ConsecutivoVendedor != value) {
+                    Model.ConsecutivoVendedor = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ConsecutivoVendedorPropertyName);
+                }
+            }
+        }
+		
         [LibRequired(ErrorMessage = "El campo Nombre del Vendedor es requerido.")]
         public string NombreVendedor {
             get {
@@ -1246,6 +1261,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public FkVendedorViewModel ConexionConsecutivoVendedor {
+            get {
+                return _ConexionConsecutivoVendedor;
+            }
+            set {
+                if (_ConexionConsecutivoVendedor != value) {
+                    _ConexionConsecutivoVendedor = value;
+                    RaisePropertyChanged(ConsecutivoVendedorPropertyName);
+                }
+                if (_ConexionConsecutivoVendedor == null) {
+                    ConsecutivoVendedor = 0;
+                }
+            }
+        }
+		
         public FkVendedorViewModel ConexionNombreVendedor {
             get {
                 return _ConexionNombreVendedor;
@@ -1417,7 +1447,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get;
             private set;
         }
-
+		
+        public RelayCommand<string> ChooseConsecutivoVendedorCommand {
+            get;
+            private set;
+        }
+		
         public RelayCommand<string> ChooseNombreVendedorCommand {
             get;
             private set;
@@ -2023,6 +2058,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ChooseNumeroRIFCommand = new RelayCommand<string>(ExecuteChooseNumeroRIFCommand);
             ChooseNombreClienteCommand = new RelayCommand<string>(ExecuteChooseNombreClienteCommand);
             ChooseCodigoVendedorCommand = new RelayCommand<string>(ExecuteChooseCodigoVendedorCommand);
+            ChooseConsecutivoVendedorCommand = new RelayCommand<string>(ExecuteChooseConsecutivoVendedorCommand);
             ChooseNombreVendedorCommand = new RelayCommand<string>(ExecuteChooseNombreVendedorCommand);
             ChooseArticuloCommand = new RelayCommand<string>(ExecuteChooseArticuloCommand);
             InsertaClienteCommand = new RelayCommand(ExecuteInsertaClienteCommand, CanExecuteInsertaClienteCommand);
@@ -2422,6 +2458,28 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valcodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionCodigoVendedor = ChooseRecord<FkVendedorViewModel>("Vendedor", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+		
+        private void ExecuteChooseConsecutivoVendedorCommand(string valconsecutivo) {
+            try {
+                if (valconsecutivo == null) {
+                    valconsecutivo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("consecutivo", valconsecutivo);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                ConexionConsecutivoVendedor = ChooseRecord<FkVendedorViewModel>("Vendedor", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionConsecutivoVendedor != null) {
+                    ConsecutivoVendedor = ConexionConsecutivoVendedor.Consecutivo;
+                    NombreVendedor = ConexionConsecutivoVendedor.Nombre;
+                } else {
+                    ConsecutivoVendedor = 0;
+                    NombreVendedor = string.Empty;
+                }
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {

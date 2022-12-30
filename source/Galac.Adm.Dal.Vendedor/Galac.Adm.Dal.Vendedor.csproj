@@ -50,6 +50,10 @@
       <Name>LibGalac.Aos.DefGen</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />

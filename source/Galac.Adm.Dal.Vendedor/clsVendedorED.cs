@@ -42,7 +42,7 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine(InsSql.CreateTable("Vendedor", DbSchema) + " ( ");
             SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenConsecutiv NOT NULL, ");
-            SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenConsecutiv NOT NULL, ");
+            SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenConsecut NOT NULL, ");
             SQL.AppendLine("Codigo" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT nnVenCodigo NOT NULL, ");
             SQL.AppendLine("Nombre" + InsSql.VarCharTypeForDb(35) + " CONSTRAINT nnVenNombre NOT NULL, ");
             SQL.AppendLine("RIF" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_VenRIF DEFAULT (''), ");

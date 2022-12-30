@@ -12,7 +12,6 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -95,6 +94,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsVendedorMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -126,6 +126,10 @@
     <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
       <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
       <Name>Galac.Adm.Ccl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.SttDef\Galac.Saw.Uil.SttDef.csproj">
+      <Project>{2B1FA9B0-AD50-4C75-805F-D9EFC6B236AB}</Project>
+      <Name>Galac.Saw.Uil.SttDef</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

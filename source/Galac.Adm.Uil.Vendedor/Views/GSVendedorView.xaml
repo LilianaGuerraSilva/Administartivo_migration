@@ -38,7 +38,7 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid FocusManager.FocusedElement="{Binding ElementName=txtCodigoVendedor}">
+    <Grid Width="670" FocusManager.FocusedElement="{Binding ElementName=txtCodigoVendedor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -50,7 +50,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Column="1" Header="Datos Vendedor">
+        <GroupBox Grid.Column="1" Header="Vendedor">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -75,17 +75,17 @@
                     Content="Código"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
-                    Name="txtCodigoVendedor"
+                    Name="txtCodigo"
                     Grid.Row="0"
                     Grid.Column="1"
                     Width="140"
                     nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
                     nsWpf:LibFocusManager.IsFocused="True"
                     InputDataType="Alfanumeric"
-                    IsEnabled="{Binding Path=IsEnabledCodigoVendedor}"
+                    IsEnabled="{Binding Path=IsEnabledCodigo}"
                     MaxLength="10"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=CodigoVendedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding Path=Codigo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblNumeroRIF"
                     Grid.Row="2"
@@ -119,13 +119,11 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Width="250"
-                    BorderThickness="1"
                     InputDataType="String"
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="160"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{Binding Path=IsVisibleNombreVendedor, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblStatus"
                     Grid.Row="0"
@@ -151,7 +149,7 @@
             <TabItem
                 Name="tbiSeccionGeneral"
                 Grid.Row="1"
-                Header="Contacto">
+                Header="Datos del Vendedor">
                 <Grid Name="gtSeccionGeneral">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -187,19 +185,19 @@
                                 Name="lblCiudad"
                                 Grid.Row="3"
                                 Grid.Column="0"
-                                Content="Contacto"
+                                Content="Ciudad"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
-                                Name="txtContacto"
+                            <nsWpfControls:GSSeekConnection
+                                Name="txtCiudad"
                                 Grid.Row="3"
                                 Grid.Column="1"
-                                Width="350"
-                                BorderThickness="1"
-                                InputDataType="Alfanumeric"
+                                Width="260"
+                                Height="23"
+                                ConnectionValue="{Binding Path=Ciudad, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                DisplayMemberPath="NombreCiudad"
                                 IsEnabled="{Binding Path=IsEnabled}"
-                                MaxLength="35"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=Contacto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Model="{Binding Path=ConexionCiudad, Mode=TwoWay}"
+                                SearchCommand="{Binding Path=ChooseCiudadCommand}" />
 
                             <Label
                                 Name="lblEmail"
@@ -211,8 +209,7 @@
                                 Name="txtEmail"
                                 Grid.Row="2"
                                 Grid.Column="3"
-                                Width="350"
-                                BorderThickness="1"
+                                Width="250"
                                 InputDataType="String"
                                 InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
                                 IsEnabled="{Binding Path=IsEnabled}"
@@ -221,22 +218,21 @@
                                 Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
                             <Label
-                                Name="lblTelefonos"
+                                Name="lblTelefono"
                                 Grid.Row="0"
                                 Grid.Column="2"
-                                Content="Teléfonos"
+                                Content="Teléfono"
                                 Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSTextBoxWpf
-                                Name="txtTelefonos"
+                                Name="txtTelefono"
                                 Grid.Row="0"
                                 Grid.Column="3"
-                                Width="350"
-                                BorderThickness="1"
+                                Width="250"
                                 InputDataType="Alfanumeric"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 MaxLength="40"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=Telefonos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding Path=Telefono, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblFax"
                                 Grid.Row="1"
@@ -247,8 +243,7 @@
                                 Name="txtFax"
                                 Grid.Row="1"
                                 Grid.Column="3"
-                                Width="350"
-                                BorderThickness="1"
+                                Width="250"
                                 InputDataType="Alfanumeric"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 MaxLength="25"
@@ -265,10 +260,8 @@
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 Grid.Column="1"
-                                Width="350"
+                                Width="260"
                                 Height="90"
-                                VerticalAlignment="Top"
-                                BorderThickness="1"
                                 IsReadOnly="{Binding Path=IsReadOnly}"
                                 MaxLength="255"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -285,7 +278,7 @@
                                 Name="txtNotas"
                                 Grid.Row="3"
                                 Grid.Column="3"
-                                Width="350"
+                                Width="250"
                                 BorderThickness="1"
                                 InputDataType="String"
                                 InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
@@ -300,13 +293,43 @@
             </TabItem>
 
             <TabItem
-                Name="tbiSeccionContable"
+                Name="tbiAsignacionDeComisiones"
                 Grid.Row="1"
                 Header="Asignación de Comisiones"
-                Visibility="{Binding Path=IsVisibleContablidadActiva, Converter={StaticResource booleanToVisibilityConverter}}">
-                <Grid Name="gtSeccionContable" Height="200">
-                    <GroupBox Height="200" Header="Información Contable">
-                        <Grid Width="695" Height="178">
+                Visibility="{Binding Path=IsVisibleAsignacionDeComisiones, Converter={StaticResource booleanToVisibilityConverter}}">
+                <Grid Name="gtAsignacionDeComisiones" Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Name="lblPorVentas"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="0,0,15,0"
+                        HorizontalAlignment="Right"
+                        Content="Por Ventas" />
+                    <CheckBox
+                        Name="chkbxPorVentas"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Path=UsaComisionPorVenta}"
+                        IsEnabled="{Binding Path=IsEnabled}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                    <!--#region Comisiones por Ventas-->
+                    <GroupBox
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Height="200"
+                        Header="Topes de Ventas"
+                        IsEnabled="{Binding Path=UsaComisionPorVenta}">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -319,93 +342,482 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-
                             <Label
-                                Name="lblCuentaContableGastos"
-                                Grid.RowSpan="2"
-                                Width="143"
-                                Height="52"
+                                Name="lblComisionPorVentaDesde"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="30,0,0,0"
+                                VerticalContentAlignment="Bottom"
+                                Content="Desde"
+                                Style="{StaticResource LabelPrompt}" />
+                            <Label
+                                Name="lblComisionPorVentaHasta"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Margin="30,0,0,0"
+                                VerticalContentAlignment="Bottom"
+                                Content="Hasta"
+                                Style="{StaticResource LabelPrompt}" />
+                            <Label
+                                Name="lblPorcentajeDeComisionPorVenta"
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Margin="19,0,0,0"
+                                VerticalContentAlignment="Bottom"
+                                Content="%"
+                                Style="{StaticResource LabelPrompt}" />
+                            <Label
+                                Name="lblComisionPorVentaNivel1"
+                                Grid.Row="1"
+                                Grid.Column="0"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
-                                Content="Gastos"
+                                Content="Nivel 1"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSSeekConnection
-                                Name="txtCuentaContableGastos"
-                                Grid.Column="1"
-                                Width="265"
-                                Height="23"
-                                ConnectionValue="{Binding Path=CuentaContableGastos, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                DisplayMemberPath="codigo"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                Model="{Binding Path=ConexionCuentaContableGastos, Mode=TwoWay}"
-                                SearchCommand="{Binding Path=ChooseCuentaContableGastosCommand}" />
-                            <Label
-                                Name="lneDescripcionCuentaContableGastos"
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeInicialVenta1"
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Width="263"
-                                Margin="3,3,0,0"
-                                Content="{Binding Path=DescripcionCuentaContableGastos}"
-                                Style="{StaticResource LabelCalculatedField}" />
-
-
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeInicialVenta1}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeInicialVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalVenta1"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta1}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeVentas1"
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas1}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeVentas1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
-                                Name="lblCuentaContableAnticipo"
+                                Name="lblComisionPorVentaNivel2"
                                 Grid.Row="2"
-                                Grid.RowSpan="2"
-                                Width="145"
-                                Height="52"
+                                Grid.Column="0"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"
-                                Content="Anticipo"
+                                Content="Nivel 2"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSSeekConnection
-                                Name="txtCuentaContableAnticipo"
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeInicialVenta2"
                                 Grid.Row="2"
                                 Grid.Column="1"
-                                Width="265"
-                                Height="23"
-                                ConnectionValue="{Binding Path=CuentaContableAnticipo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                DisplayMemberPath="codigo"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                Model="{Binding Path=ConexionCuentaContableAnticipo, Mode=TwoWay}"
-                                SearchCommand="{Binding Path=ChooseCuentaContableAnticipoCommand}" />
-
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalVenta2"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta2}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeVentas2"
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas2}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeVentas2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
-                                Name="lneDescripcionCuentaContableAnticipo"
+                                Name="lblComisionPorVentaNivel3"
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Nivel 3"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeInicialVenta3"
                                 Grid.Row="3"
                                 Grid.Column="1"
-                                Width="263"
-                                Content="{Binding Path=DescripcionCuentaContableAnticipo}"
-                                Style="{StaticResource LabelCalculatedField}" />
-
-                            <nsWpfControls:GSSeekConnection
-                                Name="txtCuentaContableCxP"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalVenta3"
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta3}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeVentas3"
+                                Grid.Row="3"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas3}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeVentas3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label
+                                Name="lblComisionPorVentaNivel4"
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Nivel 4"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeInicialVenta4"
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalVenta4"
                                 Grid.Row="4"
                                 Grid.Column="2"
-                                Width="260"
-                                Height="23"
-                                Margin="3"
-                                HorizontalAlignment="Left"
-                                ConnectionValue="{Binding Path=CuentaContableCxP, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                DisplayMemberPath="codigo"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                Model="{Binding Path=ConexionCuentaContableCxP, Mode=TwoWay}"
-                                SearchCommand="{Binding Path=ChooseCuentaContableCxPCommand}" />
-
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta3}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeVentas4"
+                                Grid.Row="4"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas4}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeVentas4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
-                                Name="lneDescripcionCuentaContableCxP"
+                                Name="lblComisionPorVentaNivel5"
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Nivel 5"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtVentasMayoresA"
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="Mayores a"
+                                TextAlignment="Right" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalVenta5"
                                 Grid.Row="5"
                                 Grid.Column="2"
-                                Width="263"
-                                Content="{Binding Path=DescripcionCuentaContableCxP}"
-                                Style="{StaticResource LabelCalculatedField}" />
-
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeVentas5"
+                                Grid.Row="5"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas4}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeVentas5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </GroupBox>
-
+                    <!--#endregion Comisiones por Ventas-->
+                    <Label
+                        Name="lblPorCobranza"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="0,0,15,0"
+                        HorizontalAlignment="Right"
+                        Content="Por Cobranza" />
+                    <CheckBox
+                        Name="chkPorCobranza"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding Path=UsaComisionPorCobranza}"
+                        IsEnabled="{Binding Path=IsEnabled}"
+                        Style="{StaticResource CheckBoxStyle}" />
+                    <!--#region Comisiones por Cobranza-->
+                    <GroupBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Height="200"
+                        Header="Topes de Cobranza"
+                        IsEnabled="{Binding Path=UsaComisionPorCobranza}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Name="lblComisionPorCobranzaDesde"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="30,0,0,0"
+                                VerticalContentAlignment="Bottom"
+                                Content="Desde"
+                                Style="{StaticResource LabelPrompt}" />
+                            <Label
+                                Name="lblComisionPorCobranzaHasta"
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Margin="30,0,0,0"
+                                VerticalContentAlignment="Bottom"
+                                Content="Hasta"
+                                Style="{StaticResource LabelPrompt}" />
+                            <Label
+                                Name="lblPorcentajeDeComisionPorCobranza"
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                Margin="19,0,0,0"
+                                VerticalContentAlignment="Bottom"
+                                Content="%"
+                                Style="{StaticResource LabelPrompt}" />
+                            <Label
+                                Name="lblComisionPorCobranzaNivel1"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Nivel 1"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeInicialCobranza1"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeInicialCobranza1}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeInicialCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalCobranza1"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalCobranza1}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeCobranza1"
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza1}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label
+                                Name="lblComisionPorCobranzaNivel2"
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Nivel 2"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeInicialCobranza2"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalCobranza2"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta2}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeCobranza2"
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza2}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label
+                                Name="lblComisionPorCobranzaNivel3"
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Nivel 3"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeInicialCobranza3"
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalCobranza3"
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalCobranza3}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeCobranza3"
+                                Grid.Row="3"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza3}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label
+                                Name="lblComisionPorCobranzaNivel4"
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Nivel 4"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeInicialCobranza4"
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalCobranza4"
+                                Grid.Row="4"
+                                Grid.Column="2"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalCobranza3}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeCobranza4"
+                                Grid.Row="4"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza4}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label
+                                Name="lblComisionPorCobranzaNivel5"
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Nivel 5"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtCobranzasMayoresA"
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="Mayores a"
+                                TextAlignment="Right" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtTopeFinalCobranza5"
+                                Grid.Row="5"
+                                Grid.Column="2"
+                                Width="100"
+                                InputDataType="Digit"
+                                IsEnabled="False"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtPorcentajeCobranza5"
+                                Grid.Row="5"
+                                Grid.Column="3"
+                                Width="50"
+                                InputDataType="Digit"
+                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza4}"
+                                MaxLength="10"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=PorcentajeCobranza5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </GroupBox>
+                    <!--#endregion Comisiones por Cobranza-->
                 </Grid>
             </TabItem>
         </TabControl>

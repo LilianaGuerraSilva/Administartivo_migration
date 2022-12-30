@@ -67,10 +67,6 @@ namespace Galac.Adm.Brl.Venta {
             return instanciaDal.QueryInfo(eProcessMessageType.SpName, "Adm.Gp_FacturaRapidaGetFk", valParameters);
         }
 
-
-
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo*/
          LibResponse IRenglonCobroDeFacturaPdn.InsertRenglonCobroDeFactura(IList<RenglonCobroDeFactura> refRecord)  {
 
              IRenglonCobroDeFacturaPdn c = new clsRenglonCobroDeFacturaNav ();
@@ -84,10 +80,6 @@ namespace Galac.Adm.Brl.Venta {
             }
 
         }
-
-
-         
-         // ojo samuel
 
           public  LibResponse InsertChildRenglonCobroDeFactura(int valConsecutivoCompania, string valNumeroFactura,eTipoDocumentoFactura valTipoDocumento, List<RenglonCobroDeFactura> valRecord) {
              //RenglonCobroDeFactura vRenglon = new RenglonCobroDeFactura();
@@ -104,7 +96,6 @@ namespace Galac.Adm.Brl.Venta {
              }
 
          }
-
 
         public XmlReader generarResultadoXml(RenglonCobroDeFactura refRecord) {
             string msj = "<GPResult><DatosContab><Datos><Documento>";
@@ -181,9 +172,6 @@ namespace Galac.Adm.Brl.Venta {
             }
             return vResult;
         }
-        
-        #endregion //Codigo Ejemplo
-
 
     } //End of class clsRenglonCobroDeFacturaNav
 

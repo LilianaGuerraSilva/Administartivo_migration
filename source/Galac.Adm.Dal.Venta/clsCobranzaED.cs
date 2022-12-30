@@ -82,9 +82,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(", CONSTRAINT fk_CobranzaCliente FOREIGN KEY (ConsecutivoCompania, CodigoCliente)");
             SQL.AppendLine("REFERENCES Saw.Cliente(ConsecutivoCompania, codigo)");
             SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_CobranzaVendedor FOREIGN KEY (ConsecutivoCompania, CodigoCobrador)");
-            SQL.AppendLine("REFERENCES dbo.Vendedor(ConsecutivoCompania, codigo)");
-            SQL.AppendLine("ON UPDATE CASCADE");
+            SQL.AppendLine(", CONSTRAINT fk_CobranzaVende FOREIGN KEY (ConsecutivoCompania, ConsecutivoCobrador)");
+            SQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
+            SQL.AppendLine("ON UPDATE NO ACTION");
             SQL.AppendLine(", CONSTRAINT fk_CobranzaMoneda FOREIGN KEY (Moneda)");
             SQL.AppendLine("REFERENCES Comun.Moneda(Nombre)");
             SQL.AppendLine("ON UPDATE CASCADE");

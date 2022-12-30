@@ -48,6 +48,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("Fecha" + InsSql.DateTypeForDb() + " CONSTRAINT nnFacRapFecha NOT NULL, ");
             SQL.AppendLine("CodigoCliente" + InsSql.VarCharTypeForDb(10) + " CONSTRAINT d_FacRapCoCl DEFAULT (''), ");
             SQL.AppendLine("CodigoVendedor" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_FacRapCoVe DEFAULT (''), ");
+            SQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnFacRapCoVe NOT NULL, ");
             SQL.AppendLine("Observaciones" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_FacRapOb DEFAULT (''), ");
             SQL.AppendLine("TotalMontoExento" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_FacRapToMoEx DEFAULT (0), ");
             SQL.AppendLine("TotalBaseImponible" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_FacRapToBaIm DEFAULT (0), ");
@@ -155,9 +156,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(", CONSTRAINT fk_FacturaRapidaCliente FOREIGN KEY (ConsecutivoCompania, CodigoCliente)");
             SQL.AppendLine("REFERENCES Saw.Cliente(ConsecutivoCompania, codigo)");
             SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_FacturaRapidaVendedor FOREIGN KEY (ConsecutivoCompania, CodigoVendedor)");
-            SQL.AppendLine("REFERENCES dbo.Vendedor(ConsecutivoCompania, codigo)");
-            SQL.AppendLine("ON UPDATE CASCADE");
+            SQL.AppendLine(", CONSTRAINT fk_FacturaRapidaVendedor FOREIGN KEY (ConsecutivoCompania, ConsecutivoVendedor)");
+            SQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, consecutivo)");
+            SQL.AppendLine("ON UPDATE NO ACTION");
             SQL.AppendLine(", CONSTRAINT fk_FacturaRapidaMoneda FOREIGN KEY (Moneda)");
             SQL.AppendLine("REFERENCES Comun.Moneda(Nombre)");
             SQL.AppendLine("ON UPDATE CASCADE");
@@ -181,7 +182,7 @@ namespace Galac.Adm.Dal.Venta {
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT Factura.ConsecutivoCompania, Factura.Numero, Factura.Fecha, Factura.CodigoCliente");
-            SQL.AppendLine(", Cliente.NumeroRIF, Cliente.Nombre as NombreCliente, Factura.CodigoVendedor, Factura.TotalMontoExento, Factura.TotalBaseImponible");
+            SQL.AppendLine(", Cliente.NumeroRIF, Cliente.Nombre as NombreCliente, Factura.CodigoVendedor, Factura.ConsecutivoVendedor, Factura.TotalMontoExento, Factura.TotalBaseImponible");
             SQL.AppendLine(", Factura.TotalRenglones, Factura.TotalIVA, Factura.TotalFactura, Factura.PorcentajeDescuento");
             SQL.AppendLine(", Factura.Moneda, Factura.NivelDePrecio, Factura.StatusFactura, " + DbSchema + ".Gv_EnumStatusFactura.StrValue AS StatusFacturaStr, Factura.TipoDeDocumento, " + DbSchema + ".Gv_EnumTipoDocumentoFactura.StrValue AS TipoDeDocumentoStr");
             SQL.AppendLine(", Factura.InsertadaManualmente, Factura.FacturaHistorica, Factura.Cancelada");
@@ -221,6 +222,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + " = '01/01/1900',");
             SQL.AppendLine("@CodigoCliente" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Observaciones" + InsSql.VarCharTypeForDb(7000) + " = '',");
             SQL.AppendLine("@TotalMontoExento" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@TotalBaseImponible" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
@@ -344,6 +346,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            Fecha,");
             SQL.AppendLine("            CodigoCliente,");
             SQL.AppendLine("            CodigoVendedor,");
+            SQL.AppendLine("            ConsecutivoVendedor,");
             SQL.AppendLine("            Observaciones,");
             SQL.AppendLine("            TotalMontoExento,");
             SQL.AppendLine("            TotalBaseImponible,");
@@ -455,6 +458,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @Fecha,");
             SQL.AppendLine("            @CodigoCliente,");
             SQL.AppendLine("            @CodigoVendedor,");
+            SQL.AppendLine("            @ConsecutivoVendedor,");
             SQL.AppendLine("            @Observaciones,");
             SQL.AppendLine("            @TotalMontoExento,");
             SQL.AppendLine("            @TotalBaseImponible,");
@@ -578,6 +582,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@CodigoCliente" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Observaciones" + InsSql.VarCharTypeForDb(255) + ",");
             SQL.AppendLine("@TotalMontoExento" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@TotalBaseImponible" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -711,6 +716,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            SET Fecha = @Fecha,");
             SQL.AppendLine("               CodigoCliente = @CodigoCliente,");
             SQL.AppendLine("               CodigoVendedor = @CodigoVendedor,");
+            SQL.AppendLine("               ConsecutivoVendedor = @ConsecutivoVendedor,");
             SQL.AppendLine("               Observaciones = @Observaciones,");
             SQL.AppendLine("               TotalMontoExento = @TotalMontoExento,");
             SQL.AppendLine("               TotalBaseImponible = @TotalBaseImponible,");
@@ -929,6 +935,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.NumeroRIF,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.NombreCliente,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.CodigoVendedor,");
+            SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.ConsecutivoVendedor,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.NombreVendedor,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.TotalMontoExento,");
             SQL.AppendLine("         " + DbSchema + ".Gv_FacturaRapida_B1.TotalBaseImponible,");
@@ -1015,6 +1022,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      ,''COLPIVOTE'' AS ColControl ");
             SQL.AppendLine("      ," + DbSchema + ".Gv_FacturaRapida_B1.ConsecutivoCompania");
             SQL.AppendLine("      ," + DbSchema + ".Gv_FacturaRapida_B1.CodigoVendedor");
+            SQL.AppendLine("      ," + DbSchema + ".Gv_FacturaRapida_B1.ConsecutivoVendedor");
             SQL.AppendLine("      ," + DbSchema + ".Gv_FacturaRapida_B1.TotalMontoExento");
             SQL.AppendLine("      ," + DbSchema + ".Gv_FacturaRapida_B1.TotalBaseImponible");
             SQL.AppendLine("      ," + DbSchema + ".Gv_FacturaRapida_B1.TotalRenglones");
@@ -1081,6 +1089,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      dbo.Factura.Numero,");
             SQL.AppendLine("      dbo.Factura.Fecha,");
             SQL.AppendLine("      dbo.Factura.CodigoVendedor,");
+            SQL.AppendLine("      dbo.Factura.ConsecutivoVendedor,");
             SQL.AppendLine("      dbo.Factura.ConsecutivoCaja,");
             SQL.AppendLine("      dbo.Factura.NumeroComprobanteFiscal,");
             SQL.AppendLine("      dbo.Factura.TipoDeDocumento");

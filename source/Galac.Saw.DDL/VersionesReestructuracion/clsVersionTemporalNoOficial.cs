@@ -22,7 +22,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			CrearParametroCostoTerminadoCalculadoAPartirDe();
 			CrearCamposParaElManejoDeMonedaExtranjeraEnGestionProduccion();
 			CrearColumnaRutaDeComercializacion();
-			CrearTablaAdmVendedor();
+			//CrearTablaAdmVendedor();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -72,9 +72,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
         private void CrearTablaAdmVendedor() {
 			if (!TableExists("Adm.Vendedor")) {
-				new Galac.Adm.Dal.Vendedor.clsVendedorED().InstalarTabla();
-				//DeleteAllRelationShipVendedor();
-				new Galac.Saw.DbMigrator.clsMigrarData(new string[] { "Vendedor" }).MigrarData();
+				new Adm.Dal.Vendedor.clsVendedorED().InstalarTabla();
+				new DbMigrator.clsMigrarData(new string[] { "Vendedor" }).MigrarData();
 				try {
 					if (TableExists("dbo.Vendedor")) {
 						if (ForeignKeyNameExists("fk_CobranzaVend")) {
@@ -86,27 +85,45 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 						}
 						if (ForeignKeyNameExists("fk_ContratoVend")) {
 							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.Contrato");
-							AddForeignKey("Adm.Vendedor", "dbo.Contrato", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+							CrearColumnaConsecutivoVendedor("dbo.Contrato", "ConsecutivoVendedor", " CONSTRAINT nnConCoVe NOT NULL");
+							LlenarColumnaConsecutivoVendedor("dbo.Contrato", "ConsecutivoVendedor", "CodigoVendedor");
+                            AddForeignKey("Adm.Vendedor", "dbo.Contrato", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+							DropColumnIfExist("dbo.Contrato", "CodigoVendedor");
 						}
-						if (ForeignKeyNameExists("fk_CotizacionVend")) {
-							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.Contizacion");
-							AddForeignKey("Adm.Vendedor", "dbo.Cotizacion", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+                        if (ForeignKeyNameExists("fk_CotizacionVend")) {
+                            DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.Cotizacion");
+							CrearColumnaConsecutivoVendedor("dbo.Cotizacion", "ConsecutivoVendedor", " CONSTRAINT nnCotCoVe NOT NULL");
+							LlenarColumnaConsecutivoVendedor("dbo.Cotizacion", "ConsecutivoVendedor", "CodigoVendedor");
+                            AddForeignKey("Adm.Vendedor", "dbo.Cotizacion", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+							DropColumnIfExist("dbo.Cotizacion", "CodigoVendedor");
 						}
-						if (ForeignKeyNameExists("fk_CxCVend")) {
-							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.CxC");
-							AddForeignKey("Adm.Vendedor", "dbo.CxC", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+                        if (ForeignKeyNameExists("fk_CxCVend")) {
+                            DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.CxC");
+							CrearColumnaConsecutivoVendedor("dbo.CxC", "ConsecutivoVendedor", " CONSTRAINT nnCxCCoVe NOT NULL");
+							LlenarColumnaConsecutivoVendedor("dbo.CxC", "ConsecutivoVendedor", "CodigoVendedor");
+                            AddForeignKey("Adm.Vendedor", "dbo.CxC", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+							DropColumnIfExist("dbo.CxC", "CodigoVendedor");
 						}
-						if (ForeignKeyNameExists("fk_facturaVend")) {
-							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.factura");
-							AddForeignKey("Adm.Vendedor", "dbo.factura", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+                        if (ForeignKeyNameExists("fk_facturaVend")) {
+                            DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.factura");
+							CrearColumnaConsecutivoVendedor("dbo.factura", "ConsecutivoVendedor", " CONSTRAINT nnFacCoVe NOT NULL");
+							LlenarColumnaConsecutivoVendedor("dbo.factura", "ConsecutivoVendedor", "CodigoVendedor");
+                            AddForeignKey("Adm.Vendedor", "dbo.factura", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+							DropColumnIfExist("dbo.factura", "CodigoVendedor");
 						}
-						if (ForeignKeyNameExists("fk_RenglonComisionesDeVendedorVend")) {
-							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.RenglonComisionesDeVendedor");
-							AddForeignKey("Adm.Vendedor", "dbo.RenglonComisionesDeVendedor", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+                        if (ForeignKeyNameExists("fk_RenglonComisionesDeVendedorVend")) {
+                            DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.RenglonComisionesDeVendedor");
+							CrearColumnaConsecutivoVendedor("dbo.RenglonComisionesDeVendedor", "ConsecutivoVendedor", " CONSTRAINT nnRenComDeVenCoVe NOT NULL");
+							LlenarColumnaConsecutivoVendedor("dbo.RenglonComisionesDeVendedor", "ConsecutivoVendedor", "CodigoVendedor");
+                            AddForeignKey("Adm.Vendedor", "dbo.RenglonComisionesDeVendedor", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+							DropColumnIfExist("dbo.RenglonComisionesDeVendedor", "CodigoVendedor");
 						}
-						if (ForeignKeyNameExists("fk_RetirosACuentaVend")) {
-							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.RetirosACuenta");
+                        if (ForeignKeyNameExists("fk_RetirosACuentaVend")) {
+                            DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.RetirosACuenta");
+							CrearColumnaConsecutivoVendedor("dbo.RetirosACuenta", "ConsecutivoVendedor", " CONSTRAINT nnRetACuenCoVe NOT NULL");
+							LlenarColumnaConsecutivoVendedor("dbo.RetirosACuenta", "ConsecutivoVendedor", "CodigoVendedor");
 							AddForeignKey("Adm.Vendedor", "dbo.RetirosACuenta", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
+							DropColumnIfExist("dbo.RetirosACuenta", "CodigoVendedor");
 						}
 						ExecuteDropTable("dbo.Vendedor");
 						clsCompatViews.CrearVistaDboVendedor();
@@ -115,37 +132,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 					throw vEx;
 				}
 			}
-			//CreateAllRelationShipProveedor();
-			//ExecuteDropTable("dbo.Vendedor");
-		}
-		private bool DeleteAllRelationShipVendedor() {
-			bool vResult = true;
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Vendedor", "Cobranza");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Vendedor", "Contrato");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Vendedor", "cxc");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Vendedor", "Cotizacion");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Vendedor", "factura");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Vendedor", "RenglonComisionesDeVendedor");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Vendedor", "RetirosACuenta");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Vendedor", "Cobranza");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Vendedor", "Contrato");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Vendedor", "cxc");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Vendedor", "Cotizacion");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Vendedor", "factura");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Vendedor", "RenglonComisionesDeVendedor");
-			vResult = vResult && DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "Adm.Vendedor", "RetirosACuenta");
-			return vResult;
-		}
-		private bool CreateAllRelationShipProveedor() {
-			bool vResult = true;
-			vResult = vResult && AddForeignKey("Adm.Vendedor", "Cobranza", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "Codigo" }, false);
-			vResult = vResult && AddForeignKey("Adm.Vendedor", "Contrato", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "Codigo" }, false);
-			vResult = vResult && AddForeignKey("Adm.Vendedor", "cxc", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "Codigo" }, false);
-			vResult = vResult && AddForeignKey("Adm.Vendedor", "Cotizacion", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "Codigo" }, false);
-			vResult = vResult && AddForeignKey("Adm.Vendedor", "factura", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "Codigo" }, false);
-			vResult = vResult && AddForeignKey("Adm.Vendedor", "RenglonComisionesDeVendedor", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "Codigo" }, false);
-			vResult = vResult && AddForeignKey("Adm.Vendedor", "RetirosACuenta", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "Codigo" }, false);
-			return vResult;
 		}
 	}
 }

@@ -17,6 +17,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _DireccionCliente;
         private string _TelefonoCliente;
         private string _CodigoVendedor;
+        private int _ConsecutivoVendedor;
         private string _NombreVendedor;
         private string _Observaciones;
         private decimal _TotalMontoExento;
@@ -174,6 +175,11 @@ namespace Galac.Adm.Ccl.Venta {
         public string CodigoVendedor {
             get { return _CodigoVendedor; }
             set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
+        }
+
+        public int ConsecutivoVendedor {
+            get { return _ConsecutivoVendedor; }
+            set { _ConsecutivoVendedor = value; }
         }
 
         public string NombreVendedor {
@@ -966,6 +972,7 @@ namespace Galac.Adm.Ccl.Venta {
             DireccionCliente = string.Empty;
             TelefonoCliente = string.Empty;
             CodigoVendedor = string.Empty;
+            ConsecutivoVendedor = 0;
             NombreVendedor = string.Empty;
             Observaciones = string.Empty;
             TotalMontoExento = 0;
@@ -1089,6 +1096,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.DireccionCliente = _DireccionCliente;
             vResult.TelefonoCliente = _TelefonoCliente;
             vResult.CodigoVendedor = _CodigoVendedor;
+            vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.NombreVendedor = _NombreVendedor;
             vResult.Observaciones = _Observaciones;
             vResult.TotalMontoExento = _TotalMontoExento;
@@ -1213,6 +1221,7 @@ namespace Galac.Adm.Ccl.Venta {
                 "\nFecha = " + _Fecha.ToShortDateString() +
                 "\nCódigo del Cliente = " + _CodigoCliente +
                 "\nCódigo del Vendedor = " + _CodigoVendedor +
+               "\nConsecutivo del Vendedor = " + _ConsecutivoVendedor.ToString() +
                 "\nObservaciones = " + _Observaciones +
                 "\nTotal Monto Exento = " + _TotalMontoExento.ToString() +
                 "\nTotal Base Imponible = " + _TotalBaseImponible.ToString() +

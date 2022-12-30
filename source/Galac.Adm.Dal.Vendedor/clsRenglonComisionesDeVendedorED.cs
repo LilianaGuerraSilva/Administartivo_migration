@@ -4,6 +4,7 @@ using System.Text;
 using LibGalac.Aos.Dal;
 using LibGalac.Aos.Dal.Contracts;
 using Galac.Adm.Ccl.Vendedor;
+using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Dal.Vendedor {
     [LibMefDalComponentMetadata(typeof(clsRenglonComisionesDeVendedorED))]
@@ -14,7 +15,7 @@ namespace Galac.Adm.Dal.Vendedor {
         #endregion //Propiedades
         #region Constructores
         public clsRenglonComisionesDeVendedorED(): base(){
-            DbSchema = "Dbo";
+            DbSchema = "Adm";
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -39,24 +40,24 @@ namespace Galac.Adm.Dal.Vendedor {
         #region Queries
 
         private string SqlCreateTable() {
-            StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine(InsSql.CreateTable("RenglonComisionesDeVendedor", DbSchema) + " ( ");
-            SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
-            SQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
-            SQL.AppendLine("ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
-            SQL.AppendLine("NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT nnRenComDeVenNombreDeLi NOT NULL, ");
-            SQL.AppendLine("TipoDeComision" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRenComDeVenTipoDeComi NOT NULL, ");
-            SQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenMonto NOT NULL, ");
-            SQL.AppendLine("Porcentaje" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenPorcentaje NOT NULL, ");
-            SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
-            SQL.AppendLine("CONSTRAINT p_RenglonComisionesDeVendedor PRIMARY KEY CLUSTERED");
-            SQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoRenglon ASC)");
-            SQL.AppendLine(",CONSTRAINT fk_RenglonComisionesDeVendedorVENDEDOR FOREIGN KEY (ConsecutivoCompania, NOT FOUND = CodigoVendedor)");
-            SQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
-            SQL.AppendLine("ON DELETE CASCADE");
-            SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(")");
-            return SQL.ToString();
+            StringBuilder vSQL = new StringBuilder();
+            vSQL.AppendLine(InsSql.CreateTable("RenglonComisionesDeVendedor", DbSchema) + " ( ");
+            vSQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenCoCo NOT NULL, ");
+            vSQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenCoVe NOT NULL, ");
+            vSQL.AppendLine("ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
+            vSQL.AppendLine("NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT nnRenComDeVenNombreDeLi NOT NULL, ");
+            vSQL.AppendLine("TipoDeComision" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRenComDeVenTipoDeComi NOT NULL, ");
+            vSQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenMonto NOT NULL, ");
+            vSQL.AppendLine("Porcentaje" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenPorcentaje NOT NULL, ");
+            vSQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
+            vSQL.AppendLine("CONSTRAINT p_RenglonComisionesDeVendedor PRIMARY KEY CLUSTERED");
+            vSQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoRenglon ASC)");
+            vSQL.AppendLine(",CONSTRAINT fk_RenglonComisionesDeVendedorVendedor FOREIGN KEY (ConsecutivoCompania, ConsecutivoVendedor)");
+            vSQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
+            vSQL.AppendLine("ON DELETE NO ACTION");
+            vSQL.AppendLine("ON UPDATE NO ACTION");
+            vSQL.AppendLine(")");
+            return vSQL.ToString();
         }
 
         private string SqlViewB1() {
@@ -189,6 +190,7 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpDelParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
@@ -248,6 +250,7 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpGetParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
@@ -277,7 +280,8 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpSelDetailParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0));
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
 
@@ -295,7 +299,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("        fldTimeStamp");
             SQL.AppendLine("    FROM RenglonComisionesDeVendedor");
             SQL.AppendLine(" 	WHERE ConsecutivoCompania = @ConsecutivoCompania");
-            SQL.AppendLine(" 	AND ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine(" 	AND ConsecutivoVendedor = @ConsecutivoVendedor");
             SQL.AppendLine("    RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
             return SQL.ToString();
@@ -304,7 +308,8 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpDelDetailParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0));
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
 
@@ -313,7 +318,8 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("	DELETE FROM RenglonComisionesDeVendedor");
             SQL.AppendLine(" 	WHERE ConsecutivoCompania = @ConsecutivoCompania");
-            SQL.AppendLine(" 	AND ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine(" 	AND ConsecutivoVendedor = @ConsecutivoVendedor");
+            SQL.AppendLine(" 	AND ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("    RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
             return SQL.ToString();
@@ -322,7 +328,8 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpInsDetailParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@XmlDataDetail" + InsSql.XmlTypeForDb());
             return SQL.ToString();
         }
@@ -438,7 +445,6 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
         #endregion //Metodos Generados
-
 
     } //End of class clsRenglonComisionesDeVendedorED
 

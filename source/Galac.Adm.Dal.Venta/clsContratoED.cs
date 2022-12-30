@@ -48,7 +48,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("FechaFinal" + InsSql.DateTypeForDb() + " CONSTRAINT d_ConFeFi DEFAULT (''), ");
             SQL.AppendLine("Observaciones" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_ConOb DEFAULT (''), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
-            SQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_ConCoVe DEFAULT (0), ");
+            SQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnConCoVe NOT NULL, ");
             SQL.AppendLine("Moneda" + InsSql.VarCharTypeForDb(10) + " CONSTRAINT d_ConMo DEFAULT (''), ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -57,9 +57,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(", CONSTRAINT fk_ContratoCliente FOREIGN KEY (ConsecutivoCompania, CodigoCliente)");
             SQL.AppendLine("REFERENCES Saw.Cliente(ConsecutivoCompania, codigo)");
             SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_ContratoVendedor FOREIGN KEY (ConsecutivoCompania, CodigoVendedor)");
-            SQL.AppendLine("REFERENCES dbo.Vendedor(ConsecutivoCompania, codigo)");
-            SQL.AppendLine("ON UPDATE CASCADE");
+            SQL.AppendLine(", CONSTRAINT fk_ContratoVendedor FOREIGN KEY (ConsecutivoCompania, ConsecutivoVendedor)");
+            SQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
+            SQL.AppendLine("ON UPDATE NO ACTION");
             SQL.AppendLine(")");
             return SQL.ToString();
         }
@@ -80,8 +80,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumDuracionDelContrato.DbValue");
             SQL.AppendLine("INNER JOIN dbo.Cliente ON  " + DbSchema + ".Contrato.CodigoCliente = dbo.Cliente.codigo");
             SQL.AppendLine("      AND " + DbSchema + ".Contrato.ConsecutivoCompania = dbo.Cliente.ConsecutivoCompania");
-            //SQL.AppendLine("INNER JOIN dbo.Vendedor ON  " + DbSchema + ".Contrato.CodigoVendedor = dbo.Vendedor.codigo");
-            //SQL.AppendLine("      AND " + DbSchema + ".Contrato.ConsecutivoCompania = dbo.Vendedor.ConsecutivoCompania");
+            //SQL.AppendLine("INNER JOIN Adm.Vendedor ON  " + DbSchema + ".Contrato.ConsecutivoVendedor = Adm.Vendedor.Consecutivo");
+            //SQL.AppendLine("      AND " + DbSchema + ".Contrato.ConsecutivoCompania = Adm.Vendedor.ConsecutivoCompania");
             return SQL.ToString();
         }
 
@@ -357,7 +357,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_Contrato_B1");
             //SQL.AppendLine("      INNER JOIN dbo.Gv_Cliente_B1 ON  " + DbSchema + ".Gv_Contrato_B1.CodigoCliente = dbo.Gv_Cliente_B1.codigo");
             //SQL.AppendLine("      AND " + DbSchema + ".Gv_Contrato_B1.ConsecutivoCompania = dbo.Gv_Cliente_B1.ConsecutivoCompania");
-            //SQL.AppendLine("      INNER JOIN dbo.Gv_Vendedor_B1 ON  " + DbSchema + ".Gv_Contrato_B1.CodigoVendedor = dbo.Gv_Vendedor_B1.codigo");
+            //SQL.AppendLine("      INNER JOIN dbo.Gv_Vendedor_B1 ON  " + DbSchema + ".Gv_Contrato_B1.ConsecutivoVendedor = dbo.Gv_Vendedor_B1.Consecutivo");
             //SQL.AppendLine("      AND " + DbSchema + ".Gv_Contrato_B1.ConsecutivoCompania = dbo.Gv_Vendedor_B1.ConsecutivoCompania");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");

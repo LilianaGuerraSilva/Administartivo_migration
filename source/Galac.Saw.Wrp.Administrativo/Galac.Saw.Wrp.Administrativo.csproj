@@ -153,11 +153,14 @@
     <Compile Include="IWrpImpuestoBancarioVb.cs" />
     <Compile Include="IWrpLibros.cs" />
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
+    <Compile Include="IWrpVendedorVb.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
+    <Compile Include="wrpRenglonComisionesDeVendedor.cs" />
     <Compile Include="wrpTransferenciaEntreCuentasBancarias.cs" />
+    <Compile Include="wrpVendedor.cs" />
     <Compile Include="wrpVentaInformes.cs" />
     <Compile Include="wrpClienteInsercionRapida.cs" />
     <Compile Include="wrpCobroRapidoMultimoneda.cs" />
@@ -269,6 +272,10 @@
     <ProjectReference Include="..\Galac.Adm.Uil.Rendicion\Galac.Adm.Uil.CajaChica.csproj">
       <Project>{be671f9e-6c42-4d7a-a932-e2fa823e3a20}</Project>
       <Name>Galac.Adm.Uil.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.Vendedor\Galac.Adm.Uil.Vendedor.csproj">
+      <Project>{f5813ca0-d3ff-4637-9c71-bd9b3d68bc9c}</Project>
+      <Name>Galac.Adm.Uil.Vendedor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.Venta\Galac.Adm.Uil.Venta.csproj">
       <Project>{e8ac8d72-32b9-4e08-ae7f-9a248fd5b179}</Project>

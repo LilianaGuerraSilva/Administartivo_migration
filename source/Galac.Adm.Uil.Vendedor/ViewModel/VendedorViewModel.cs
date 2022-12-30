@@ -14,9 +14,14 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
+using LibGalac.Aos.Uil;
+using Galac.Saw.Uil.SttDef.ViewModel;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel { 
     public class VendedorViewModel : LibInputMasterViewModelMfc<Galac.Adm.Ccl.Vendedor.Vendedor> {
+        #region Variables
+        private FkCiudadViewModel _ConexionCiudad = null;
+        #endregion
         #region Constantes
         public const string ConsecutivoCompaniaPropertyName = "ConsecutivoCompania";
         public const string ConsecutivoPropertyName = "Consecutivo";
@@ -131,6 +136,17 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     IsDirty = true;
                     RaisePropertyChanged(RIFPropertyName);
                 }
+            }
+        }
+        public string PromptNumeroRif {
+            get {
+                string vResult = "";
+                if (EsVenezuela()) {
+                    vResult = "N° R.I.F.";
+                } else if (EsEcuador()) {
+                    vResult = "RUC";
+                }
+                return vResult;
             }
         }
 
@@ -658,7 +674,22 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 return LibEnumHelper<eRutaDeComercializacion>.GetValuesInArray();
             }
         }
-
+        public FkCiudadViewModel ConexionCiudad {
+            get {
+                return _ConexionCiudad;
+            }
+            set {
+                if (_ConexionCiudad != value) {
+                    _ConexionCiudad = value;
+                    if (_ConexionCiudad != null) {
+                        Ciudad = _ConexionCiudad.NombreCiudad;
+                    }
+                }
+                if (_ConexionCiudad == null) {
+                    Ciudad = string.Empty;
+                }
+            }
+        }
         [LibDetailRequired(ErrorMessage = "Renglon Comisiones De Vendedor es requerido.")]
         public RenglonComisionesDeVendedorMngViewModel DetailRenglonComisionesDeVendedor {
             get;
@@ -676,6 +707,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public RelayCommand<string> DeleteRenglonComisionesDeVendedorCommand {
             get { return DetailRenglonComisionesDeVendedor.DeleteCommand; }
         }
+        public RelayCommand<string> ChooseCiudadCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
         public VendedorViewModel()
@@ -689,7 +724,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
         #endregion //Constructores
         #region Metodos Generados
-
+        protected override void InitializeCommands() {
+            base.InitializeCommands();
+            ChooseCiudadCommand = new RelayCommand<string>(ExecuteChooseCiudadCommand);
+        }
         protected override void InitializeLookAndFeel(Galac.Adm.Ccl.Vendedor.Vendedor valModel) {
             base.InitializeLookAndFeel(valModel);
         }
@@ -758,7 +796,29 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
+
         #endregion //RenglonComisionesDeVendedor
+        private static bool EsEcuador() {
+            return LibDefGen.ProgramInfo.IsCountryEcuador();
+        }
+
+        private static bool EsVenezuela() {
+            return LibDefGen.ProgramInfo.IsCountryVenezuela();
+        }
+        private void ExecuteChooseCiudadCommand(string valNombreCiudad) {
+            try {
+                if (valNombreCiudad == null) {
+                    valNombreCiudad = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("NombreCiudad", valNombreCiudad);
+                ConexionCiudad = null;
+                ConexionCiudad = LibFKRetrievalHelper.ChooseRecord<FkCiudadViewModel>("Ciudad", vDefaultCriteria, null, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
         #endregion //Metodos Generados
 
 
