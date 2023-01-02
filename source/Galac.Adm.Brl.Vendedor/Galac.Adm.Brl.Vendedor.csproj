@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsVendedorImpExp.cs" />
     <Compile Include="clsRenglonComisionesDeVendedorNav.cs" />
     <Compile Include="clsVendedorNav.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

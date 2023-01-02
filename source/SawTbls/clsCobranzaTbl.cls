@@ -33,9 +33,10 @@ Private Sub sAddForeignKeys()
    gDbUtil.AddForeignKeySegunTablaPrimaria "Cliente", GetTableName(), "Codigo", _
          "CodigoCliente", Not usarSoloUnElementoEnLaRelacion, _
          "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
-   gDbUtil.AddForeignKeySegunTablaPrimaria "Vendedor", GetTableName(), "Codigo", _
-         "CodigoCobrador", Not usarSoloUnElementoEnLaRelacion, _
-         "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
+'   gDbUtil.AddForeignKeySegunTablaPrimaria "Adm.Vendedor", GetTableName(), "Consecutivo", _
+'         "ConsecutivoCobrador", Not usarSoloUnElementoEnLaRelacion, _
+'         "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
+   gDbUtil.Execute gDefDatabase.Conexion, "ALTER TABLE Cobranza ADD CONSTRAINT fk_CobranzaVend FOREIGN KEY (ConsecutivoCompania,ConsecutivoCobrador) REFERENCES Adm.Vendedor (ConsecutivoCompania,Consecutivo) ON UPDATE NO ACTION ON DELETE NO ACTION"
    gDbUtil.AddForeignKeySegunTablaPrimaria "Moneda", GetTableName(), "", "", _
          usarSoloUnElementoEnLaRelacion, "Codigo", "CodigoMoneda", Not deleteOnCascade
    
@@ -100,7 +101,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "Fecha" & gUtilSQL.getDateTypeForDB & " CONSTRAINT nn" & GetTableName() & "Fecha NOT NULL, "
    SQL = SQL & "FechaAnulacion" & gUtilSQL.getDateTypeForDB & ", "
    SQL = SQL & "CodigoCliente" & gUtilSQL.getVarCharTypeForDB(10) & ", "
-   SQL = SQL & "CodigoCobrador" & gUtilSQL.getVarCharTypeForDB(5) & ", "
+   SQL = SQL & "ConsecutivoCobrador" & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "ConCob NOT NULL, "
    SQL = SQL & "TotalDocumentos" & gUtilSQL.getNumericTypeForDB(12, 2) & ", "
    SQL = SQL & "RetencionIslr" & gUtilSQL.getNumericTypeForDB(12, 2) & ", "
    SQL = SQL & "TotalCobrado" & gUtilSQL.getNumericTypeForDB(12, 2) & ", "

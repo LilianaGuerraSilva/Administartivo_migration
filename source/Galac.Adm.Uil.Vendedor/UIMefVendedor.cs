@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using LibGalac.Aos.Base;
@@ -11,8 +8,8 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using Galac.Adm.Uil.Vendedor.ViewModel;
 
 namespace Galac.Adm.Uil.Vendedor {
-    [LibMefUilComponentMetadata(typeof(UIMefVendedorVendedor), "Adm")]
-    public class UIMefVendedorVendedor : ILibMefUilComponent {
+    [LibMefUilComponentMetadata(typeof(UIMefVendedor), "Adm")]
+    public class UIMefVendedor : ILibMefUilComponent {
         #region Variables
         private VendedorMngViewModel _ViewModel;
         private ContentControl _View;
@@ -59,7 +56,7 @@ namespace Galac.Adm.Uil.Vendedor {
         #endregion //Propiedades
         #region Constructores
 
-        public UIMefVendedorVendedor() { 
+        public UIMefVendedor() { 
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -70,9 +67,9 @@ namespace Galac.Adm.Uil.Vendedor {
                     IsInitialized = true;
                     _ViewModel = new VendedorMngViewModel();
                 }
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
+            } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Name);
             }
         }
@@ -83,9 +80,9 @@ namespace Galac.Adm.Uil.Vendedor {
                 if (_ViewModel != null) {
                     _ViewModel.ExecuteSearchAndInitLookAndFeel();
                 }
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
+            } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Name);
             }
         }

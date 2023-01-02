@@ -7,12 +7,17 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using Galac.Adm.Brl.Vendedor;
-using Galac.Adm.Ccl.Vendedor;
 using LibGalac.Aos.ARRpt.Reports;
+using LibGalac.Aos.Brl.Contracts;
+using LibGalac.Aos.UI.Wpf;
+using System.Collections.ObjectModel;
+using LibGalac.Aos.UI.Mvvm.Helpers;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
-    public class VendedorMngViewModel : LibMngMasterViewModelMfc<VendedorViewModel, Ccl.Vendedor.Vendedor> {
+    [LibMefInstallValuesMetadata(typeof(VendedorMngViewModel))]
+    public class VendedorMngViewModel : LibMngMasterViewModelMfc<VendedorViewModel, Ccl.Vendedor.Vendedor>, ILibMefInstallValues {
         #region Propiedades
 
         public override string ModuleName {
@@ -23,6 +28,16 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             get;
             private set;
         }
+
+        public new ObservableCollection<LibGridColumModel> VisibleColumns {
+            get;
+            private set;
+        }
+
+        public RelayCommand ReinstallCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
 
@@ -30,11 +45,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, Consecutivo";
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            OrderByDirection = "DESC";
-        */
-        #endregion //Codigo Ejemplo
+            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(VendedorViewModel));
+            if (LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.IsCountryPeru()) {
+                if (VisibleColumns != null && VisibleColumns.Count > 0) {
+                    VisibleColumns.RemoveAt(3);
+                }
+            }
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -65,6 +81,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
+            ReinstallCommand = new RelayCommand(ExecuteReinstallCommand, CanExecuteReinstallCommand);
             //InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
         }
 
@@ -73,6 +90,17 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateInformesRibbonGroup());
             }
+        }
+
+        private LibRibbonButtonData CreateReinstallRibbonButtonData() {
+            return new LibRibbonButtonData() {
+                Label = "Reinstalar",
+                Command = ReinstallCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/add.png", UriKind.Relative),
+                ToolTipDescription = "Reinstalar datos",
+                ToolTipTitle = "Reinstalar",
+                IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
+            };
         }
 
         protected override void ExecuteCommandsRaiseCanExecuteChanged() {
@@ -110,6 +138,38 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         protected override ILibReportInfo GetDataRetrievesInstance() {
             throw new NotImplementedException();
+        }
+
+        private bool CanExecuteReinstallCommand() {
+            return HasAccessToModule();
+        }
+
+        private void ExecuteReinstallCommand() {
+            try {
+                InstallOrReInstallDataFromFile(eAccionSR.ReInstalar);
+                LibMessages.RefreshList.Send(ModuleName);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
+        internal bool InstallOrReInstallDataFromFile(eAccionSR valAction) {
+            bool vResult = false;
+            string vFileName = System.IO.Path.Combine(LibWorkPaths.PathOfCommonTablesForCountry(""), "Vendedor.txt");
+            if (valAction == eAccionSR.Instalar) {
+                vResult = LibImportExport.InstallData(vFileName, "Vendedor", new clsVendedorImpExp(), LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv));
+            } else {
+                vResult = LibImportExport.ReInstallData(vFileName, "Vendedor", new clsVendedorImpExp(), LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv));
+            }
+            return vResult;
+        }
+        
+        public bool InstallFromFile() {
+            string vFileName = System.IO.Path.Combine(LibWorkPaths.PathOfCommonTablesForCountry(""), "Vendedor.txt");
+            bool vResult = LibImportExport.InstallData(vFileName, "Vendedor", new clsVendedorImpExp(), LibEExportDelimiterType.ToDelimiter(eExportDelimiterType.Csv));
+            return vResult;
         }
         #endregion //Metodos Generados
         #region Codigo Ejemplo
@@ -179,7 +239,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
         */
         #endregion //Codigo Ejemplo
-
 
     } //End of class VendedorMngViewModel
 
