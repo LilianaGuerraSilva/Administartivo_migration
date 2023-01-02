@@ -15,7 +15,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
 using LibGalac.Aos.Uil;
-using Galac.Saw.Uil.SttDef.ViewModel;
+using Galac.Comun.Uil.TablasGen.ViewModel;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel { 
     public class VendedorViewModel : LibInputMasterViewModelMfc<Galac.Adm.Ccl.Vendedor.Vendedor> {

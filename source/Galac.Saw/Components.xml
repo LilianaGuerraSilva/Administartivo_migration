@@ -15,6 +15,7 @@
     <UilComponent Name="UIMefGestionComprasOrdenDeCompraImportacion" Module="Administrativo" SubModule="Compras" />
     <UilComponent Name="UIMefGestionComprasProveedor" Module="Administrativo" SubModule="Compras" />
 	  <UilComponent Name="UIMefBancoCuentaBancaria" Module="Administrativo" SubModule="Banco" />
+    <UilComponent Name="UIMefVendedor" Module="Administrativo" SubModule="Vendedor" />
 
     <!--<UilComponent Name="UIMefCliente" Module="Administrativo" PathOfModuleImage="/Images/Saw.ico"/>
 
