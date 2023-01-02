@@ -105,7 +105,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         protected override void ExecuteCommandsRaiseCanExecuteChanged() {
             base.ExecuteCommandsRaiseCanExecuteChanged();
-            InformesCommand.RaiseCanExecuteChanged();
+            //InformesCommand.RaiseCanExecuteChanged();
         }
 
         private LibRibbonGroupData CreateInformesRibbonGroup() {
