@@ -87,6 +87,24 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=Codigo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
+                    Name="lblNombreVendedor"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Width="56"
+                    Content="Nombre"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSTextBoxWpf
+                    Name="txtNombreVendedor"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="250"
+                    InputDataType="String"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    MaxLength="160"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <Label
                     Name="lblNumeroRIF"
                     Grid.Row="2"
                     Width="110"
@@ -106,24 +124,6 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NumeroRIF, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
-                <Label
-                    Name="lblNombreVendedor"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2"
-                    Width="56"
-                    Content="Nombre"
-                    Style="{StaticResource LabelPrompt}" />
-                <nsWpfControls:GSTextBoxWpf
-                    Name="txtNombreVendedor"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Width="250"
-                    InputDataType="String"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    MaxLength="160"
-                    Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Name="lblStatus"
                     Grid.Row="0"
@@ -179,8 +179,27 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
+                            <Label
+                                Name="lblDireccion"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Content="Dirección"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextAreaWpf
+                                Name="txtDireccion"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                Grid.Column="1"
+                                Width="260"
+                                Height="90"
+                                IsReadOnly="{Binding Path=IsReadOnly}"
+                                MaxLength="255"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=Direccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
                             <Label
                                 Name="lblCiudad"
                                 Grid.Row="3"
@@ -193,29 +212,14 @@
                                 Grid.Column="1"
                                 Width="260"
                                 Height="23"
+                                Margin="0,3"
+                                VerticalAlignment="Top"
                                 ConnectionValue="{Binding Path=Ciudad, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                 DisplayMemberPath="NombreCiudad"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 Model="{Binding Path=ConexionCiudad, Mode=TwoWay}"
                                 SearchCommand="{Binding Path=ChooseCiudadCommand}" />
 
-                            <Label
-                                Name="lblEmail"
-                                Grid.Row="2"
-                                Grid.Column="2"
-                                Content="E-mail"
-                                Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
-                                Name="txtEmail"
-                                Grid.Row="2"
-                                Grid.Column="3"
-                                Width="250"
-                                InputDataType="String"
-                                InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
-                                IsEnabled="{Binding Path=IsEnabled}"
-                                MaxLength="100"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
                             <Label
                                 Name="lblTelefono"
@@ -250,24 +254,22 @@
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=Fax, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
-                                Name="lblDireccion"
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Content="Dirección"
+                                Name="lblEmail"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Content="E-mail"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextAreaWpf
-                                Name="txtDireccion"
-                                Grid.Row="0"
-                                Grid.RowSpan="3"
-                                Grid.Column="1"
-                                Width="260"
-                                Height="90"
-                                IsReadOnly="{Binding Path=IsReadOnly}"
-                                MaxLength="255"
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtEmail"
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                Width="250"
+                                InputDataType="String"
+                                InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
+                                IsEnabled="{Binding Path=IsEnabled}"
+                                MaxLength="100"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=Direccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                TextWrapping="Wrap"
-                                VerticalScrollBarVisibility="Auto" />
+                                Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblNotas"
                                 Grid.Row="3"
@@ -277,16 +279,17 @@
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtNotas"
                                 Grid.Row="3"
+                                Grid.RowSpan="2"
                                 Grid.Column="3"
                                 Width="250"
+                                Height="50"
                                 BorderThickness="1"
                                 InputDataType="String"
                                 InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 MaxLength="100"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=Email, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
+                                Text="{Binding Path=Notas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -306,6 +309,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <!--#region Comisiones por Ventas-->
                     <Label
                         Name="lblPorVentas"
                         Grid.Row="0"
@@ -322,7 +326,6 @@
                         IsChecked="{Binding Path=UsaComisionPorVenta}"
                         IsEnabled="{Binding Path=IsEnabled}"
                         Style="{StaticResource CheckBoxStyle}" />
-                    <!--#region Comisiones por Ventas-->
                     <GroupBox
                         Grid.Row="1"
                         Grid.Column="0"
@@ -562,6 +565,7 @@
                         </Grid>
                     </GroupBox>
                     <!--#endregion Comisiones por Ventas-->
+                    <!--#region Comisiones por Cobranza-->
                     <Label
                         Name="lblPorCobranza"
                         Grid.Row="0"
@@ -578,7 +582,6 @@
                         IsChecked="{Binding Path=UsaComisionPorCobranza}"
                         IsEnabled="{Binding Path=IsEnabled}"
                         Style="{StaticResource CheckBoxStyle}" />
-                    <!--#region Comisiones por Cobranza-->
                     <GroupBox
                         Grid.Row="1"
                         Grid.Column="1"
@@ -686,10 +689,10 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta2}"
+                                IsEnabled="{Binding Path=IsEnabledTopeFinalCobranza2}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding Path=TopeFinalCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtPorcentajeCobranza2"
                                 Grid.Row="2"
@@ -818,6 +821,22 @@
                         </Grid>
                     </GroupBox>
                     <!--#endregion Comisiones por Cobranza-->
+                </Grid>
+            </TabItem>
+            <TabItem
+                Name="tbiComisionesPorLineaDeProducto"
+                Grid.Row="1"
+                Header="Comisiones Por Línea De Producto"
+                Visibility="{Binding Path=IsVisibleComisionesPorLineaDeProducto, Converter={StaticResource booleanToVisibilityConverter}}">
+                <Grid Name="gtComisionesPorLineaDeProducto" Height="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                 </Grid>
             </TabItem>
         </TabControl>

@@ -690,7 +690,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
-        [LibDetailRequired(ErrorMessage = "Renglon Comisiones De Vendedor es requerido.")]
+        //[LibDetailRequired(ErrorMessage = "Renglon Comisiones De Vendedor es requerido.")]
         public RenglonComisionesDeVendedorMngViewModel DetailRenglonComisionesDeVendedor {
             get;
             set;
@@ -798,6 +798,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         #endregion //RenglonComisionesDeVendedor
+        protected override void ReloadRelatedConnections() {
+            base.ReloadRelatedConnections();
+            //ConexionCiudad = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCiudadViewModel>("Ciudad", LibSearchCriteria.CreateCriteria("NombreCiudad", Ciudad), new Saw.Brl.SttDef.clsSettValueByCompanyNav());
+        }
         private static bool EsEcuador() {
             return LibDefGen.ProgramInfo.IsCountryEcuador();
         }
@@ -820,7 +824,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
         #endregion //Metodos Generados
-
 
     } //End of class VendedorViewModel
 
