@@ -16,6 +16,8 @@ using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
 using LibGalac.Aos.Uil;
 using Galac.Comun.Uil.TablasGen.ViewModel;
+using Galac.Adm.Uil.Vendedor.Properties;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel { 
     public class VendedorViewModel : LibInputMasterViewModelMfc<Galac.Adm.Ccl.Vendedor.Vendedor> {
@@ -67,6 +69,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public const string RutaDeComercializacionPropertyName = "RutaDeComercializacion";
         public const string NombreOperadorPropertyName = "NombreOperador";
         public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
+        public const string IsEnabledDetalleComisionesPorVentasPropertyName = "IsEnabledDetalleComisionesPorVentas";
+        public const string IsEnabledDetalleComisionesPorCobranzasPropertyName = "IsEnabledDetalleComisionesPorCobranzas";
         #endregion
         #region Propiedades
 
@@ -99,7 +103,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
-
+        [LibRequired(ErrorMessage = "Código del Vendedor es requerido.")]
+        [LibGridColum("Código", ColumnOrder = 0)]
         public string  Codigo {
             get {
                 return Model.Codigo;
@@ -113,6 +118,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
+        [LibRequired(ErrorMessage = "Nombre del Vendedor es requerido.")]
+        [LibGridColum("Nombre", ColumnOrder = 1)]
         public string  Nombre {
             get {
                 return Model.Nombre;
@@ -126,6 +133,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
+        //[LibRequired(ErrorMessage = "RIF/RUC del Vendedor es requerido.")]
+        [LibGridColum(HeaderResourceName = "lblEtiquetaNumero", HeaderResourceType = typeof(Resources), ColumnOrder = 2)]
         public string  RIF {
             get {
                 return Model.RIF;
@@ -138,6 +147,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
+
         public string PromptNumeroRif {
             get {
                 string vResult = "";
@@ -150,6 +160,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
+        [LibGridColum("Estado", eGridColumType.Enum, PrintingMemberPath = "StatusVendedorStr", ColumnOrder = 4, Width = 70)]
         public eStatusVendedor  StatusVendedor {
             get {
                 return Model.StatusVendedorAsEnum;
@@ -176,6 +187,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
+        [LibRequired(ErrorMessage = "El campo Ciudad es requerido.")]
+        [LibGridColum("Ciudad", ColumnOrder = 3)]
         public string  Ciudad {
             get {
                 return Model.Ciudad;
@@ -282,7 +295,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeInicialVenta1 {
             get {
-                return Model.TopeInicialVenta1;
+                return LibMath.RoundToNDecimals(Model.TopeInicialVenta1, 2);
             }
             set {
                 if (Model.TopeInicialVenta1 != value) {
@@ -575,6 +588,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.UsaComisionPorVentaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaComisionPorVentaPropertyName);
+                    RaisePropertyChanged(IsEnabledDetalleComisionesPorVentasPropertyName);
                 }
             }
         }
@@ -588,6 +602,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.UsaComisionPorCobranzaAsBool = value;
                     IsDirty = true;
                     RaisePropertyChanged(UsaComisionPorCobranzaPropertyName);
+                    RaisePropertyChanged(IsEnabledDetalleComisionesPorCobranzasPropertyName);
                 }
             }
         }
@@ -644,6 +659,40 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
+        public bool IsEnabledDetalleComisionesPorVentas {
+            get {
+                if (Action == eAccionSR.Insertar) {
+                    return UsaComisionPorVenta;
+                } else {
+                    return IsEnabled && UsaComisionPorVenta;
+                }
+            }
+        }
+
+        public bool IsEnabledDetalleComisionesPorCobranzas {
+            get {
+                if (Action == eAccionSR.Insertar) {
+                    return UsaComisionPorCobranza;
+                } else {
+                    return IsEnabled && UsaComisionPorCobranza;
+                }
+            }
+        }
+
+        public bool IsEnabledAsignacionDeComisiones {
+            get {
+                eComisionesEnFactura vFormaDeAsignarComisionesDeVendedor = (eComisionesEnFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ComisionesEnFactura");
+                return vFormaDeAsignarComisionesDeVendedor != eComisionesEnFactura.SobreRenglones;
+            }
+        }
+
+        public bool IsEnabledComisionesPorLineaDeProducto {
+            get {
+                eComisionesEnFactura vFormaDeAsignarComisionesDeVendedor = (eComisionesEnFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ComisionesEnFactura");
+                return vFormaDeAsignarComisionesDeVendedor != eComisionesEnFactura.SobreTotalFactura;
+            }
+        }
+
         public DateTime  FechaUltimaModificacion {
             get {
                 return Model.FechaUltimaModificacion;
@@ -690,22 +739,22 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
-        //[LibDetailRequired(ErrorMessage = "Renglon Comisiones De Vendedor es requerido.")]
-        public RenglonComisionesDeVendedorMngViewModel DetailRenglonComisionesDeVendedor {
+        //[LibRequired(ErrorMessage = "Comisiones de Vendedor por Linea de Producto es requerido.")]
+        public VendedorDetalleComisionesMngViewModel DetailVendedorDetalleComisiones {
             get;
             set;
         }
 
-        public RelayCommand<string> CreateRenglonComisionesDeVendedorCommand {
-            get { return DetailRenglonComisionesDeVendedor.CreateCommand; }
+        public RelayCommand<string> CreateVendedorDetalleComisionesCommand {
+            get { return DetailVendedorDetalleComisiones.CreateCommand; }
         }
 
-        public RelayCommand<string> UpdateRenglonComisionesDeVendedorCommand {
-            get { return DetailRenglonComisionesDeVendedor.UpdateCommand; }
+        public RelayCommand<string> UpdateVendedorDetalleComisionesCommand {
+            get { return DetailVendedorDetalleComisiones.UpdateCommand; }
         }
 
-        public RelayCommand<string> DeleteRenglonComisionesDeVendedorCommand {
-            get { return DetailRenglonComisionesDeVendedor.DeleteCommand; }
+        public RelayCommand<string> DeleteVendedorDetalleComisionesCommand {
+            get { return DetailVendedorDetalleComisiones.DeleteCommand; }
         }
         public RelayCommand<string> ChooseCiudadCommand {
             get;
@@ -747,18 +796,18 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         protected override void InitializeDetails() {
-            DetailRenglonComisionesDeVendedor = new RenglonComisionesDeVendedorMngViewModel(this, Model.DetailRenglonComisionesDeVendedor, Action);
-            DetailRenglonComisionesDeVendedor.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<RenglonComisionesDeVendedorViewModel>>(DetailRenglonComisionesDeVendedor_OnCreated);
-            DetailRenglonComisionesDeVendedor.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<RenglonComisionesDeVendedorViewModel>>(DetailRenglonComisionesDeVendedor_OnUpdated);
-            DetailRenglonComisionesDeVendedor.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<RenglonComisionesDeVendedorViewModel>>(DetailRenglonComisionesDeVendedor_OnDeleted);
-            DetailRenglonComisionesDeVendedor.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<RenglonComisionesDeVendedorViewModel>>(DetailRenglonComisionesDeVendedor_OnSelectedItemChanged);
+            DetailVendedorDetalleComisiones = new VendedorDetalleComisionesMngViewModel(this, Model.DetailVendedorDetalleComisiones, Action);
+            DetailVendedorDetalleComisiones.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel>>(DetailVendedorDetalleComisiones_OnCreated);
+            DetailVendedorDetalleComisiones.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel>>(DetailVendedorDetalleComisiones_OnUpdated);
+            DetailVendedorDetalleComisiones.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel>>(DetailVendedorDetalleComisiones_OnDeleted);
+            DetailVendedorDetalleComisiones.OnSelectedItemChanged += new EventHandler<SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel>>(DetailVendedorDetalleComisiones_OnSelectedItemChanged);
         }
         #region RenglonComisionesDeVendedor
 
-        private void DetailRenglonComisionesDeVendedor_OnSelectedItemChanged(object sender, SearchCollectionChangedEventArgs<RenglonComisionesDeVendedorViewModel> e) {
+        private void DetailVendedorDetalleComisiones_OnSelectedItemChanged(object sender, SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel> e) {
             try {
-                UpdateRenglonComisionesDeVendedorCommand.RaiseCanExecuteChanged();
-                DeleteRenglonComisionesDeVendedorCommand.RaiseCanExecuteChanged();
+                UpdateVendedorDetalleComisionesCommand.RaiseCanExecuteChanged();
+                DeleteVendedorDetalleComisionesCommand.RaiseCanExecuteChanged();
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -766,10 +815,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        private void DetailRenglonComisionesDeVendedor_OnDeleted(object sender, SearchCollectionChangedEventArgs<RenglonComisionesDeVendedorViewModel> e) {
+        private void DetailVendedorDetalleComisiones_OnDeleted(object sender, SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel> e) {
             try {
                 IsDirty = true;
-                Model.DetailRenglonComisionesDeVendedor.Remove(e.ViewModel.GetModel());
+                Model.DetailVendedorDetalleComisiones.Remove(e.ViewModel.GetModel());
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -777,7 +826,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        private void DetailRenglonComisionesDeVendedor_OnUpdated(object sender, SearchCollectionChangedEventArgs<RenglonComisionesDeVendedorViewModel> e) {
+        private void DetailVendedorDetalleComisiones_OnUpdated(object sender, SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel> e) {
             try {
                 IsDirty = e.ViewModel.IsDirty;
             } catch (System.AccessViolationException) {
@@ -787,9 +836,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        private void DetailRenglonComisionesDeVendedor_OnCreated(object sender, SearchCollectionChangedEventArgs<RenglonComisionesDeVendedorViewModel> e) {
+        private void DetailVendedorDetalleComisiones_OnCreated(object sender, SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel> e) {
             try {
-                Model.DetailRenglonComisionesDeVendedor.Add(e.ViewModel.GetModel());
+                Model.DetailVendedorDetalleComisiones.Add(e.ViewModel.GetModel());
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -797,11 +846,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        #endregion //RenglonComisionesDeVendedor
+        #endregion //VendedorDetalleComisiones
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             //ConexionCiudad = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCiudadViewModel>("Ciudad", LibSearchCriteria.CreateCriteria("NombreCiudad", Ciudad), new Saw.Brl.SttDef.clsSettValueByCompanyNav());
         }
+
         private static bool EsEcuador() {
             return LibDefGen.ProgramInfo.IsCountryEcuador();
         }
@@ -809,6 +859,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private static bool EsVenezuela() {
             return LibDefGen.ProgramInfo.IsCountryVenezuela();
         }
+
         private void ExecuteChooseCiudadCommand(string valNombreCiudad) {
             try {
                 if (valNombreCiudad == null) {
@@ -816,13 +867,14 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("NombreCiudad", valNombreCiudad);
                 ConexionCiudad = null;
-                ConexionCiudad = LibFKRetrievalHelper.ChooseRecord<FkCiudadViewModel>("Ciudad", vDefaultCriteria, null, string.Empty);
+                ConexionCiudad = ChooseRecord<FkCiudadViewModel>("Ciudad", vDefaultCriteria, null, string.Empty);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
+
         #endregion //Metodos Generados
 
     } //End of class VendedorViewModel

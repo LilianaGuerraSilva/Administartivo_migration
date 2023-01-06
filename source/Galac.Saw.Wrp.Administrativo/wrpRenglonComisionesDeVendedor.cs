@@ -12,7 +12,7 @@ using LibGalac.Aos.Uil;
 namespace Galac.Saw.Wrp.RenglonComisionesDeVendedor {
 
 
-    public class wrpRenglonComisionesDeVendedor: IWrpMfCs {
+    public class wrpVendedorDetalleComisiones: IWrpMfCs {
         #region Variables
         string _Title = "Renglon Comisiones De Vendedor";
         #endregion //Variables

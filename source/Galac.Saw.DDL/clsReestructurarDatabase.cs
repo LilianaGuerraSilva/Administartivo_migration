@@ -342,6 +342,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && clsCompatViews.CrearVistaDboImpTrasnBancarias();
             vResult = vResult && clsCompatViews.CrearVistaDboCaja();
             vResult = vResult && clsCompatViews.CrearVistaDboVendedor();
+            vResult = vResult && clsCompatViews.CrearVistaDboVendedorDetalleComisiones();
             return vResult;
         }
 

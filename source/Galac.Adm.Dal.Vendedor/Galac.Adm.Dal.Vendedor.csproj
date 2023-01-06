@@ -63,8 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clsRenglonComisionesDeVendedorDat.cs" />
-    <Compile Include="clsRenglonComisionesDeVendedorED.cs" />
+    <Compile Include="clsVendedorDetalleComisionesDat.cs" />
+    <Compile Include="clsVendedorDetalleComisionesED.cs" />
     <Compile Include="clsVendedorDat.cs" />
     <Compile Include="clsVendedorED.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

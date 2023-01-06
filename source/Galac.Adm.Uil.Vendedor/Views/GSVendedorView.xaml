@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
@@ -23,19 +24,7 @@
             <Style
                 x:Key="LabelPromptStatusForegroundColor"
                 BasedOn="{StaticResource LabelPrompt}"
-                TargetType="Label">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding ForeGroundRif}" Value="0">
-                        <Setter Property="Foreground" Value="DarkGreen" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding ForeGroundRif}" Value="1">
-                        <Setter Property="Foreground" Value="DarkRed" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding ForeGroundRif}" Value="2">
-                        <Setter Property="Foreground" Value="Black" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
+                TargetType="Label" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Width="670" FocusManager.FocusedElement="{Binding ElementName=txtCodigoVendedor}">
@@ -92,6 +81,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Width="56"
+                    VerticalAlignment="Center"
                     Content="Nombre"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
@@ -122,7 +112,7 @@
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Text="{Binding Path=NumeroRIF, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Text="{Binding Path=RIF, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label
                     Name="lblStatus"
@@ -140,6 +130,24 @@
                     ItemsSource="{Binding Path=ArrayStatusVendedor}"
                     SelectedItem="{Binding Path=StatusVendedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}" />
+                <Label
+                    Name="lblRutaDeComercializacion"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Content="Ruta de &#10;Comercialización"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <nsWpfControls:GSComboBoxWpf
+                    Name="cmbRutaDeComercializacion"
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Width="150"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayRutaDeComercializacion}"
+                    SelectedItem="{Binding Path=RutaDeComercializacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ComboBoxStyle}"
+                    Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
             </Grid>
         </GroupBox>
         <TabControl
@@ -187,12 +195,12 @@
                                 Grid.Column="0"
                                 Content="Dirección"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextAreaWpf
+                            <nsWpfControls:GSTextBoxWpf
                                 Name="txtDireccion"
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 Grid.Column="1"
-                                Width="260"
+                                Width="250"
                                 Height="90"
                                 IsReadOnly="{Binding Path=IsReadOnly}"
                                 MaxLength="255"
@@ -210,7 +218,7 @@
                                 Name="txtCiudad"
                                 Grid.Row="3"
                                 Grid.Column="1"
-                                Width="260"
+                                Width="250"
                                 Height="23"
                                 Margin="0,3"
                                 VerticalAlignment="Top"
@@ -219,8 +227,23 @@
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 Model="{Binding Path=ConexionCiudad, Mode=TwoWay}"
                                 SearchCommand="{Binding Path=ChooseCiudadCommand}" />
-
-
+                            <Label
+                                Name="lblZonaPosta"
+                                Grid.Row="5"
+                                Grid.Column="0"
+                                Content="Zona Postal"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSTextBoxWpf
+                                Name="txtZonaPostal"
+                                Grid.Row="5"
+                                Grid.Column="1"
+                                Width="250"
+                                VerticalAlignment="Top"
+                                InputDataType="Alfanumeric"
+                                IsEnabled="{Binding Path=IsEnabled}"
+                                MaxLength="40"
+                                Style="{StaticResource TextBoxInputStyle}"
+                                Text="{Binding Path=ZonaPostal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblTelefono"
                                 Grid.Row="0"
@@ -231,7 +254,7 @@
                                 Name="txtTelefono"
                                 Grid.Row="0"
                                 Grid.Column="3"
-                                Width="250"
+                                Width="245"
                                 InputDataType="Alfanumeric"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 MaxLength="40"
@@ -247,7 +270,7 @@
                                 Name="txtFax"
                                 Grid.Row="1"
                                 Grid.Column="3"
-                                Width="250"
+                                Width="245"
                                 InputDataType="Alfanumeric"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 MaxLength="25"
@@ -263,7 +286,7 @@
                                 Name="txtEmail"
                                 Grid.Row="2"
                                 Grid.Column="3"
-                                Width="250"
+                                Width="245"
                                 InputDataType="String"
                                 InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
                                 IsEnabled="{Binding Path=IsEnabled}"
@@ -281,8 +304,9 @@
                                 Grid.Row="3"
                                 Grid.RowSpan="2"
                                 Grid.Column="3"
-                                Width="250"
-                                Height="50"
+                                Width="245"
+                                Height="55"
+                                VerticalAlignment="Top"
                                 BorderThickness="1"
                                 InputDataType="String"
                                 InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
@@ -299,6 +323,7 @@
                 Name="tbiAsignacionDeComisiones"
                 Grid.Row="1"
                 Header="Asignación de Comisiones"
+                IsEnabled="{Binding Path=IsEnabledAsignacionDeComisiones}"
                 Visibility="{Binding Path=IsVisibleAsignacionDeComisiones, Converter={StaticResource booleanToVisibilityConverter}}">
                 <Grid Name="gtAsignacionDeComisiones" Height="Auto">
                     <Grid.ColumnDefinitions>
@@ -331,7 +356,7 @@
                         Grid.Column="0"
                         Height="200"
                         Header="Topes de Ventas"
-                        IsEnabled="{Binding Path=UsaComisionPorVenta}">
+                        IsEnabled="{Binding Path=IsEnabledDetalleComisionesPorVentas}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -385,7 +410,6 @@
                                 Grid.Column="1"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeInicialVenta1}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -395,7 +419,6 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta1}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -405,7 +428,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas1}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -433,7 +455,6 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta2}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -443,7 +464,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas2}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -471,7 +491,6 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta3}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalVenta3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -481,7 +500,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas3}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -509,7 +527,6 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalVenta3}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalVenta4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -519,7 +536,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas4}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -558,7 +574,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeVentas4}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -587,7 +602,7 @@
                         Grid.Column="1"
                         Height="200"
                         Header="Topes de Cobranza"
-                        IsEnabled="{Binding Path=UsaComisionPorCobranza}">
+                        IsEnabled="{Binding Path=IsEnabledDetalleComisionesPorCobranzas}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -641,7 +656,6 @@
                                 Grid.Column="1"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeInicialCobranza1}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -651,7 +665,6 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalCobranza1}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -661,7 +674,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza1}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -689,7 +701,6 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalCobranza2}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -699,7 +710,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza2}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -727,7 +737,6 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalCobranza3}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -737,7 +746,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza3}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -765,7 +773,6 @@
                                 Grid.Column="2"
                                 Width="100"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledTopeFinalCobranza3}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -775,7 +782,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza4}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -814,7 +820,6 @@
                                 Grid.Column="3"
                                 Width="50"
                                 InputDataType="Digit"
-                                IsEnabled="{Binding Path=IsEnabledPorcentajeCobranza4}"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -824,19 +829,70 @@
                 </Grid>
             </TabItem>
             <TabItem
-                Name="tbiComisionesPorLineaDeProducto"
+                Name="tbiSeccionVendedorDetalleComisiones"
                 Grid.Row="1"
-                Header="Comisiones Por Línea De Producto"
+                Header="Comisiones por Línea de Producto"
+                IsEnabled="{Binding Path=IsEnabledComisionesPorLineaDeProducto}"
                 Visibility="{Binding Path=IsVisibleComisionesPorLineaDeProducto, Converter={StaticResource booleanToVisibilityConverter}}">
                 <Grid Name="gtComisionesPorLineaDeProducto" Height="Auto">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+                    <ContentControl
+                        x:Name="dListaDeComisionesPorLineaDeProducto"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        Content="{Binding Path=DetailVendedorDetalleComisiones.SelectedItem}"
+                        Focusable="False"
+                        IsEnabled="{Binding Path=IsEnabled}" />
+                    <Border
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Height="25"
+                        Background="Transparent"
+                        BorderBrush="LightGray"
+                        BorderThickness="0,0,0,1">
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                nsWpf:LibKeyboardListener.FocusTarget="{Binding ElementName=dListaDeComisionesPorLineaDeProducto}"
+                                Command="{Binding Path=DetailVendedorDetalleComisiones.CreateCommand}"
+                                IsEnabled="{Binding Path=IsEnabled}"
+                                Style="{StaticResource MenuButtonStyle}"
+                                ToolTip="Nuevo">
+                                <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/add.png" />
+                            </Button>
+                            <Button
+                                Command="{Binding Path=DetailVendedorDetalleComisiones.DeleteCommand}"
+                                IsEnabled="{Binding Path=IsEnabled}"
+                                Style="{StaticResource MenuButtonStyle}"
+                                ToolTip="Eliminar">
+                                <Image Focusable="False" Source="/LibGalac.Aos.UI.WpfRD;component/Images/delete.png" />
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                    <nsWpfControls:GSDataGrid
+                        Name="dgDetailListaDeComisionesPorLineaDeProducto"
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Height="220"
+                        MinWidth="250"
+                        MinHeight="200"
+                        ColumnsMap="{Binding Path=DetailVendedorDetalleComisiones.VisibleColumns}"
+                        Focusable="False"
+                        IsReadOnly="True"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding Path=DetailVendedorDetalleComisiones.Items}"
+                        KeyboardNavigation.IsTabStop="False"
+                        SelectedIndex="{Binding Path=DetailVendedorDetalleComisiones.SelectedIndex}"
+                        SelectedItem="{Binding Path=DetailVendedorDetalleComisiones.SelectedItem, Mode=OneWayToSource}"
+                        Style="{StaticResource GSDataGridStyle}" />
                 </Grid>
             </TabItem>
         </TabControl>

@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 namespace Galac.Adm.Ccl.Vendedor{
 
-    public interface IFkRenglonComisionesDeVendedorViewModel {
+    public interface IFkVendedorDetalleComisionesViewModel {
         #region Propiedades
           int ConsecutivoCompania { get; set; }
           int ConsecutivoRenglon { get; set; }
         #endregion //Propiedades
 
 
-    } //End of class IFkRenglonComisionesDeVendedorViewModel
+    } //End of class IFkVendedorDetalleComisionesViewModel
 
-} //End of namespace Galac..Ccl.ComponenteNoEspecificado
+} //End of namespace Galac.Adm.Ccl.Vendedor
 

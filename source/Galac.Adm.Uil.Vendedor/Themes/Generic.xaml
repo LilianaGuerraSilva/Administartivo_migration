@@ -6,4 +6,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:VendedorViewModel}">
         <nsCSV:GSVendedorView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:VendedorDetalleComisionesViewModel}">
+        <nsCSV:GSVendedorDetalleComisionesView />
+    </DataTemplate>
 </ResourceDictionary>

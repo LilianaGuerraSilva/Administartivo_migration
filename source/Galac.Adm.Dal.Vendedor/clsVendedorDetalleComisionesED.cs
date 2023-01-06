@@ -7,14 +7,14 @@ using Galac.Adm.Ccl.Vendedor;
 using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Dal.Vendedor {
-    [LibMefDalComponentMetadata(typeof(clsRenglonComisionesDeVendedorED))]
-    public class clsRenglonComisionesDeVendedorED: LibED, ILibMefDalComponent {
+    [LibMefDalComponentMetadata(typeof(clsVendedorDetalleComisionesED))]
+    public class clsVendedorDetalleComisionesED : LibED, ILibMefDalComponent {
         #region Variables
         #endregion //Variables
         #region Propiedades
         #endregion //Propiedades
         #region Constructores
-        public clsRenglonComisionesDeVendedorED(): base(){
+        public clsVendedorDetalleComisionesED(): base(){
             DbSchema = "Adm";
         }
         #endregion //Constructores
@@ -30,7 +30,7 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         string ILibMefDalComponent.Table {
-            get { return "RenglonComisionesDeVendedor"; }
+            get { return "VendedorDetalleComisiones"; }
         }
 
         bool ILibMefDalComponent.InstallTable() {
@@ -41,7 +41,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private string SqlCreateTable() {
             StringBuilder vSQL = new StringBuilder();
-            vSQL.AppendLine(InsSql.CreateTable("RenglonComisionesDeVendedor", DbSchema) + " ( ");
+            vSQL.AppendLine(InsSql.CreateTable("VendedorDetalleComisiones", DbSchema) + " ( ");
             vSQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenCoCo NOT NULL, ");
             vSQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenCoVe NOT NULL, ");
             vSQL.AppendLine("ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
@@ -50,9 +50,9 @@ namespace Galac.Adm.Dal.Vendedor {
             vSQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenMonto NOT NULL, ");
             vSQL.AppendLine("Porcentaje" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenPorcentaje NOT NULL, ");
             vSQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
-            vSQL.AppendLine("CONSTRAINT p_RenglonComisionesDeVendedor PRIMARY KEY CLUSTERED");
+            vSQL.AppendLine("CONSTRAINT p_VendedorDetalleComisiones PRIMARY KEY CLUSTERED");
             vSQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoRenglon ASC)");
-            vSQL.AppendLine(",CONSTRAINT fk_RenglonComisionesDeVendedorVendedor FOREIGN KEY (ConsecutivoCompania, ConsecutivoVendedor)");
+            vSQL.AppendLine(",CONSTRAINT fk_VendedorDetalleComisionesVendedor FOREIGN KEY (ConsecutivoCompania, ConsecutivoVendedor)");
             vSQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
             vSQL.AppendLine("ON DELETE NO ACTION");
             vSQL.AppendLine("ON UPDATE NO ACTION");
@@ -64,10 +64,10 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT ConsecutivoCompania, ConsecutivoVendedor, ConsecutivoRenglon, NombreDeLineaDeProducto");
             SQL.AppendLine(", TipoDeComision, " + DbSchema + ".Gv_EnumTipoComision.StrValue AS TipoDeComisionStr, Monto, Porcentaje");
-            SQL.AppendLine(", RenglonComisionesDeVendedor.fldTimeStamp, CAST(RenglonComisionesDeVendedor.fldTimeStamp AS bigint) AS fldTimeStampBigint");
-            SQL.AppendLine("FROM " + DbSchema + ".RenglonComisionesDeVendedor");
+            SQL.AppendLine(", VendedorDetalleComisiones.fldTimeStamp, CAST(VendedorDetalleComisiones.fldTimeStamp AS bigint) AS fldTimeStampBigint");
+            SQL.AppendLine("FROM " + DbSchema + ".VendedorDetalleComisiones");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoComision");
-            SQL.AppendLine("ON " + DbSchema + ".RenglonComisionesDeVendedor.TipoDeComision COLLATE MODERN_SPANISH_CS_AS");
+            SQL.AppendLine("ON " + DbSchema + ".VendedorDetalleComisiones.TipoDeComision COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoComision.DbValue");
             return SQL.ToString();
         }
@@ -92,7 +92,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
             SQL.AppendLine("	BEGIN");
             SQL.AppendLine("        BEGIN TRAN");
-            SQL.AppendLine("            INSERT INTO " + DbSchema + ".RenglonComisionesDeVendedor(");
+            SQL.AppendLine("            INSERT INTO " + DbSchema + ".VendedorDetalleComisiones(");
             SQL.AppendLine("            ConsecutivoCompania,");
             SQL.AppendLine("            ConsecutivoVendedor,");
             SQL.AppendLine("            ConsecutivoRenglon,");
@@ -141,16 +141,16 @@ namespace Galac.Adm.Dal.Vendedor {
             //SQL.AppendLine("--DECLARE @CanBeChanged bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
-            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".RenglonComisionesDeVendedor WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon)");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon)");
             SQL.AppendLine("   BEGIN");
-            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".RenglonComisionesDeVendedor WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
-            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_RenglonComisionesDeVendedorCanBeUpdated @ConsecutivoCompania,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
+            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_VendedorDetalleComisionesCanBeUpdated @ConsecutivoCompania,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
             //SQL.AppendLine("--IF @CanBeChanged = 1 --True");
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
-            SQL.AppendLine("         UPDATE " + DbSchema + ".RenglonComisionesDeVendedor");
+            SQL.AppendLine("         UPDATE " + DbSchema + ".VendedorDetalleComisiones");
             SQL.AppendLine("            SET ConsecutivoVendedor = @ConsecutivoVendedor,");
             SQL.AppendLine("               NombreDeLineaDeProducto = @NombreDeLineaDeProducto,");
             SQL.AppendLine("               TipoDeComision = @TipoDeComision,");
@@ -206,16 +206,16 @@ namespace Galac.Adm.Dal.Vendedor {
             //SQL.AppendLine("--DECLARE @CanBeDeleted bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
-            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".RenglonComisionesDeVendedor WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon)");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon)");
             SQL.AppendLine("   BEGIN");
-            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".RenglonComisionesDeVendedor WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
-            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeDeleted bit; EXEC @CanBeDeleted = " + DbSchema + ".Gp_RenglonComisionesDeVendedorCanBeDeleted @ConsecutivoCompania,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
+            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeDeleted bit; EXEC @CanBeDeleted = " + DbSchema + ".Gp_VendedorDetalleComisionesCanBeDeleted @ConsecutivoCompania,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
             //SQL.AppendLine("--IF @CanBeDeleted = 1 --True");
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
-            SQL.AppendLine("         DELETE FROM " + DbSchema + ".RenglonComisionesDeVendedor");
+            SQL.AppendLine("         DELETE FROM " + DbSchema + ".VendedorDetalleComisiones");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND ConsecutivoRenglon = @ConsecutivoRenglon");
@@ -269,9 +269,9 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("         Porcentaje,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
-            SQL.AppendLine("      FROM " + DbSchema + ".RenglonComisionesDeVendedor");
-            SQL.AppendLine("      WHERE RenglonComisionesDeVendedor.ConsecutivoCompania = @ConsecutivoCompania");
-            SQL.AppendLine("         AND RenglonComisionesDeVendedor.ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("      FROM " + DbSchema + ".VendedorDetalleComisiones");
+            SQL.AppendLine("      WHERE VendedorDetalleComisiones.ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("         AND VendedorDetalleComisiones.ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
             return SQL.ToString();
@@ -280,8 +280,8 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpSelDetailParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0));
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0));
+            //SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
 
@@ -297,7 +297,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("        Monto,");
             SQL.AppendLine("        Porcentaje,");
             SQL.AppendLine("        fldTimeStamp");
-            SQL.AppendLine("    FROM RenglonComisionesDeVendedor");
+            SQL.AppendLine("    FROM VendedorDetalleComisiones");
             SQL.AppendLine(" 	WHERE ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine(" 	AND ConsecutivoVendedor = @ConsecutivoVendedor");
             SQL.AppendLine("    RETURN @@ROWCOUNT");
@@ -316,7 +316,7 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpDelDetail() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
-            SQL.AppendLine("	DELETE FROM RenglonComisionesDeVendedor");
+            SQL.AppendLine("	DELETE FROM VendedorDetalleComisiones");
             SQL.AppendLine(" 	WHERE ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine(" 	AND ConsecutivoVendedor = @ConsecutivoVendedor");
             SQL.AppendLine(" 	AND ConsecutivoRenglon = @ConsecutivoRenglon");
@@ -341,10 +341,10 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("	DECLARE @ReturnValue  " + InsSql.NumericTypeForDb(10, 0));
 	        SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
 	        SQL.AppendLine("	    BEGIN");
-            SQL.AppendLine("	    EXEC dbo.Gp_RenglonComisionesDeVendedorDelDet @ConsecutivoCompania = @ConsecutivoCompania, @ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("	    EXEC dbo.Gp_VendedorDetalleComisionesDelDet @ConsecutivoCompania = @ConsecutivoCompania, @ConsecutivoRenglon = @ConsecutivoRenglon");
 		    SQL.AppendLine("	    DECLARE @hdoc " + InsSql.NumericTypeForDb(10, 0));
             SQL.AppendLine("	    EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlDataDetail");
-		    SQL.AppendLine("	    INSERT INTO dbo.RenglonComisionesDeVendedor(");
+		    SQL.AppendLine("	    INSERT INTO dbo.VendedorDetalleComisiones(");
 			SQL.AppendLine("	        ConsecutivoCompania,");
 			SQL.AppendLine("	        ConsecutivoVendedor,");
 			SQL.AppendLine("	        ConsecutivoRenglon,");
@@ -360,7 +360,7 @@ namespace Galac.Adm.Dal.Vendedor {
 			SQL.AppendLine("	        TipoDeComision,");
 			SQL.AppendLine("	        Monto,");
 			SQL.AppendLine("	        Porcentaje");
-		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataRenglonComisionesDeVendedor/GpDetailRenglonComisionesDeVendedor',2) ");
+		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataVendedorDetalleComisiones/GpDetailVendedorDetalleComisiones',2) ");
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        ConsecutivoVendedor " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        ConsecutivoRenglon " + InsSql.NumericTypeForDb(10, 0) + ",");
@@ -380,7 +380,7 @@ namespace Galac.Adm.Dal.Vendedor {
         #endregion //Queries
 
         bool CrearTabla() {
-            bool vResult = insDbo.Create(DbSchema + ".RenglonComisionesDeVendedor", SqlCreateTable(), false, eDboType.Tabla);
+            bool vResult = insDbo.Create(DbSchema + ".VendedorDetalleComisiones", SqlCreateTable(), false, eDboType.Tabla);
             return vResult;
         }
 
@@ -388,7 +388,7 @@ namespace Galac.Adm.Dal.Vendedor {
             bool vResult = false;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoComision", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoComision), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_RenglonComisionesDeVendedor_B1", SqlViewB1(), true);
+            vResult = insVistas.Create(DbSchema + ".Gv_VendedorDetalleComisiones_B1", SqlViewB1(), true);
             insVistas.Dispose();
             return vResult;
         }
@@ -396,13 +396,13 @@ namespace Galac.Adm.Dal.Vendedor {
         bool CrearProcedimientos() {
             bool vResult = false;
             LibStoredProc insSps = new LibStoredProc();
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorINS", SqlSpInsParameters(), SqlSpIns(), true);
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorDEL", SqlSpDelParameters(), SqlSpDel(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_RenglonComisionesDeVendedorInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_VendedorDetalleComisionesINS", SqlSpInsParameters(), SqlSpIns(), true);
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_VendedorDetalleComisionesUPD", SqlSpUpdParameters(), SqlSpUpd(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_VendedorDetalleComisionesDEL", SqlSpDelParameters(), SqlSpDel(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_VendedorDetalleComisionesGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_VendedorDetalleComisionesSelDet", SqlSpSelDetailParameters(), SqlSpSelDetail(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_VendedorDetalleComisionesDelDet", SqlSpDelDetailParameters(), SqlSpDelDetail(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_VendedorDetalleComisionesInsDet", SqlSpInsDetailParameters(), SqlSpInsDetail(), true) && vResult;
             insSps.Dispose();
             return vResult;
         }
@@ -419,7 +419,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         public bool InstalarVistasYSps() {
             bool vResult = false;
-            if (insDbo.Exists(DbSchema + ".RenglonComisionesDeVendedor", eDboType.Tabla)) {
+            if (insDbo.Exists(DbSchema + ".VendedorDetalleComisiones", eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = true;
@@ -431,14 +431,14 @@ namespace Galac.Adm.Dal.Vendedor {
             bool vResult = false;
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
-            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorINS");
-            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorUPD") && vResult;
-            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorDEL") && vResult;
-            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorGET") && vResult;
-            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorInsDet") && vResult;
-            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorDelDet") && vResult;
-            vResult = insSp.Drop(DbSchema + ".Gp_RenglonComisionesDeVendedorSelDet") && vResult;
-            vResult = insVista.Drop(DbSchema + ".Gv_RenglonComisionesDeVendedor_B1") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_VendedorDetalleComisionesINS");
+            vResult = insSp.Drop(DbSchema + ".Gp_VendedorDetalleComisionesUPD") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_VendedorDetalleComisionesDEL") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_VendedorDetalleComisionesGET") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_VendedorDetalleComisionesInsDet") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_VendedorDetalleComisionesDelDet") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_VendedorDetalleComisionesSelDet") && vResult;
+            vResult = insVista.Drop(DbSchema + ".Gv_VendedorDetalleComisiones_B1") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumTipoComision") && vResult;
             insSp.Dispose();
             insVista.Dispose();
@@ -446,7 +446,7 @@ namespace Galac.Adm.Dal.Vendedor {
         }
         #endregion //Metodos Generados
 
-    } //End of class clsRenglonComisionesDeVendedorED
+    } //End of class clsVendedorDetalleComisionesED
 
-} //End of namespace Galac..Dal.ComponenteNoEspecificado
+} //End of namespace Galac.Adm.Dal.Vendedor
 

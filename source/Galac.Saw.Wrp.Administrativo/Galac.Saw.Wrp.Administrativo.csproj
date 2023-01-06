@@ -158,7 +158,6 @@
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
-    <Compile Include="wrpRenglonComisionesDeVendedor.cs" />
     <Compile Include="wrpTransferenciaEntreCuentasBancarias.cs" />
     <Compile Include="wrpVendedor.cs" />
     <Compile Include="wrpVentaInformes.cs" />

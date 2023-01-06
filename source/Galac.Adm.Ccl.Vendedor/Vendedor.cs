@@ -58,7 +58,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
-		private ObservableCollection<RenglonComisionesDeVendedor> _DetailRenglonComisionesDeVendedor;
+		private ObservableCollection<VendedorDetalleComisiones> _DetailRenglonComisionesDeVendedor;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -334,7 +334,7 @@ namespace Galac.Adm.Ccl.Vendedor {
             set { _fldTimeStamp = value; }
         }
 
-        public ObservableCollection<RenglonComisionesDeVendedor> DetailRenglonComisionesDeVendedor {
+        public ObservableCollection<VendedorDetalleComisiones> DetailVendedorDetalleComisiones {
             get { return _DetailRenglonComisionesDeVendedor; }
             set { _DetailRenglonComisionesDeVendedor = value; }
         }
@@ -347,7 +347,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         #region Constructores
 
         public Vendedor() {
-            _DetailRenglonComisionesDeVendedor = new ObservableCollection<RenglonComisionesDeVendedor>();
+            _DetailRenglonComisionesDeVendedor = new ObservableCollection<VendedorDetalleComisiones>();
             Clear();
         }
         #endregion //Constructores
@@ -358,7 +358,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         }
 
         public void Clear() {
-            ConsecutivoCompania = 0;
+            ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             Consecutivo = 0;
             Codigo = "";
             Nombre = "";
@@ -403,7 +403,7 @@ namespace Galac.Adm.Ccl.Vendedor {
             NombreOperador = "";
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
-            DetailRenglonComisionesDeVendedor = new ObservableCollection<RenglonComisionesDeVendedor>();
+            DetailVendedorDetalleComisiones = new ObservableCollection<VendedorDetalleComisiones>();
         }
 
         public Vendedor Clone() {

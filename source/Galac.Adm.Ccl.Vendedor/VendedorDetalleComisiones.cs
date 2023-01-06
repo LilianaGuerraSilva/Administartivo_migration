@@ -9,7 +9,7 @@ using Galac.Adm.Ccl.Vendedor;
 
 namespace Galac.Adm.Ccl.Vendedor{
     [Serializable]
-    public class RenglonComisionesDeVendedor: IEquatable<RenglonComisionesDeVendedor>, INotifyPropertyChanged, ICloneable {
+    public class VendedorDetalleComisiones: IEquatable<VendedorDetalleComisiones>, INotifyPropertyChanged, ICloneable {
         #region Variables
         private int _ConsecutivoCompania;
         private int _ConsecutivoVendedor;
@@ -82,7 +82,7 @@ namespace Galac.Adm.Ccl.Vendedor{
         #endregion //Propiedades
         #region Constructores
 
-        public RenglonComisionesDeVendedor() {
+        public VendedorDetalleComisiones() {
             Clear();
         }
         #endregion //Constructores
@@ -102,8 +102,8 @@ namespace Galac.Adm.Ccl.Vendedor{
             Porcentaje = 0;
         }
 
-        public RenglonComisionesDeVendedor Clone() {
-            RenglonComisionesDeVendedor vResult = new RenglonComisionesDeVendedor();
+        public VendedorDetalleComisiones Clone() {
+            VendedorDetalleComisiones vResult = new VendedorDetalleComisiones();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.ConsecutivoRenglon = _ConsecutivoRenglon;
@@ -124,17 +124,17 @@ namespace Galac.Adm.Ccl.Vendedor{
                "\nPorcentaje = " + _Porcentaje.ToString();
         }
 
-        #region Miembros de IEquatable<RenglonComisionesDeVendedor>
-        bool IEquatable<RenglonComisionesDeVendedor>.Equals(RenglonComisionesDeVendedor other) {
+        #region Miembros de IEquatable<VendedorDetalleComisiones>
+        bool IEquatable<VendedorDetalleComisiones>.Equals(VendedorDetalleComisiones other) {
             return Object.ReferenceEquals(this, other);
         }
-        #endregion //IEquatable<RenglonComisionesDeVendedor>
+        #endregion //IEquatable<VendedorDetalleComisiones>
 
-        #region Miembros de ICloneable<RenglonComisionesDeVendedor>
+        #region Miembros de ICloneable<VendedorDetalleComisiones>
         object ICloneable.Clone() {
             return this.Clone();
         }
-        #endregion //ICloneable<RenglonComisionesDeVendedor>
+        #endregion //ICloneable<VendedorDetalleComisiones>
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -147,7 +147,7 @@ namespace Galac.Adm.Ccl.Vendedor{
         #endregion //Metodos Generados
 
 
-    } //End of class RenglonComisionesDeVendedor
+    } //End of class VendedorDetalleComisiones
 
-} //End of namespace Galac..Ccl.ComponenteNoEspecificado
+} //End of namespace Galac.Adm.Ccl.Vendedor
 

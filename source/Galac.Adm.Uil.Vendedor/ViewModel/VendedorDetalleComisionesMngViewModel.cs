@@ -5,11 +5,11 @@ using Galac.Adm.Ccl.Vendedor;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
-    public class RenglonComisionesDeVendedorMngViewModel : LibMngDetailViewModelMfc<RenglonComisionesDeVendedorViewModel, RenglonComisionesDeVendedor> {
+    public class VendedorDetalleComisionesMngViewModel : LibMngDetailViewModelMfc<VendedorDetalleComisionesViewModel, VendedorDetalleComisiones> {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Renglon Comisiones De Vendedor"; }
+            get { return "Comisiones de Vendedor por Linea de Producto"; }
         }
 
         public VendedorViewModel Master {
@@ -19,17 +19,17 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Propiedades
         #region Constructores
 
-        public RenglonComisionesDeVendedorMngViewModel(VendedorViewModel initMaster )
+        public VendedorDetalleComisionesMngViewModel(VendedorViewModel initMaster )
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
             Title = "Buscar " + ModuleName;
         }
 
-        public RenglonComisionesDeVendedorMngViewModel(VendedorViewModel initMaster, ObservableCollection<RenglonComisionesDeVendedor> initDetail, eAccionSR initAction)
+        public VendedorDetalleComisionesMngViewModel(VendedorViewModel initMaster, ObservableCollection<VendedorDetalleComisiones> initDetail, eAccionSR initAction)
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
             foreach (var vItem in initDetail) {
-                var vViewModel = new RenglonComisionesDeVendedorViewModel(Master, vItem, initAction);
+                var vViewModel = new VendedorDetalleComisionesViewModel(Master, vItem, initAction);
                 vViewModel.InitializeViewModel(initAction);
                 Add(vViewModel);
             }
@@ -37,22 +37,20 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Constructores
         #region Metodos Generados
 
-        protected override RenglonComisionesDeVendedorViewModel CreateNewElement(RenglonComisionesDeVendedor valModel) {
+        protected override VendedorDetalleComisionesViewModel CreateNewElement(VendedorDetalleComisiones valModel) {
             var vNewModel = valModel;
             if (vNewModel == null) {
-                vNewModel = new RenglonComisionesDeVendedor();
+                vNewModel = new VendedorDetalleComisiones();
             }
-            return new RenglonComisionesDeVendedorViewModel(Master, vNewModel, eAccionSR.Insertar);
+            return new VendedorDetalleComisionesViewModel(Master, vNewModel, eAccionSR.Insertar);
         }
 
-        protected override void RaiseOnCreatedEvent(RenglonComisionesDeVendedorViewModel valViewModel) {
+        protected override void RaiseOnCreatedEvent(VendedorDetalleComisionesViewModel valViewModel) {
             valViewModel.Master = Master;
             base.RaiseOnCreatedEvent(valViewModel);
         }
         #endregion //Metodos Generados
 
-
-    } //End of class RenglonComisionesDeVendedorMngViewModel
-
-} //End of namespace Galac..Uil.ComponenteNoEspecificado
+    } //End of class VendedorDetalleComisionesMngViewModel
+} //End of namespace Galac.Adm.Uil.Vendedor
 

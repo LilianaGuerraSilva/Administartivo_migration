@@ -122,60 +122,60 @@ namespace Galac.Adm.Dal.Vendedor {
             string vErrMsg = "";
             LibDatabase insDB = new LibDatabase();
             if (valAction == eAccionSR.Eliminar) {
-                //if (insDB.ExistsValue("Saw.Cliente", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
-                //    vSbInfo.AppendLine("Cliente");
-                //}
-                //if (insDB.ExistsValue("dbo.CxC", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
-                //    vSbInfo.AppendLine("Cx C");
-                //}
-                //if (insDB.ExistsValue("dbo.Cotizacion", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
-                //    vSbInfo.AppendLine("Cotizacion");
-                //}
-                //if (insDB.ExistsValue("dbo.ParametrosCompania", "CodigoGenericoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
+                if (insDB.ExistsValueOnMultifile("dbo.Cliente", "ConsecutivoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Cliente");
+                }
+                if (insDB.ExistsValueOnMultifile("dbo.CxC", "ConsecutivoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("CxC");
+                }
+                if (insDB.ExistsValueOnMultifile("dbo.Cotizacion", "ConsecutivoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Cotizacion");
+                }
+                //if (insDB.ExistsValue("dbo.ParametrosCompania", "CodigoGenericoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
                 //    vSbInfo.AppendLine("Parametros Compania");
                 //}
-                //if (insDB.ExistsValue("dbo.Cobranza", "CodigoCobrador", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
-                //    vSbInfo.AppendLine("Cobranza");
-                //}
-                //if (insDB.ExistsValue("dbo.Factura", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
-                //    vSbInfo.AppendLine("Factura");
-                //}
-                //if (insDB.ExistsValue("dbo.RenglonFactura", "CodigoVendedor1", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Renglon Factura");
-                //}
-                //if (insDB.ExistsValue("dbo.RenglonFactura", "CodigoVendedor2", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Renglon Factura");
-                //}
-                //if (insDB.ExistsValue("dbo.RenglonFactura", "CodigoVendedor3", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Renglon Factura");
-                //}
-                //if (insDB.ExistsValue("dbo.Visita", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
+                if (insDB.ExistsValueOnMultifile("dbo.Cobranza", "ConsecutivoCobrador", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Cobranza");
+                }
+                if (insDB.ExistsValueOnMultifile("dbo.Factura", "ConsecutivoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Factura");
+                }
+                if (insDB.ExistsValueOnMultifile("dbo.RenglonFactura", "CodigoVendedor1", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Renglon Factura");
+                }
+                if (insDB.ExistsValueOnMultifile("dbo.RenglonFactura", "CodigoVendedor2", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Renglon Factura");
+                }
+                if (insDB.ExistsValueOnMultifile("dbo.RenglonFactura", "CodigoVendedor3", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Renglon Factura");
+                }
+                //if (insDB.ExistsValue("dbo.Visita", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
                 //    vSbInfo.AppendLine("Visita");
                 //}
-                //if (insDB.ExistsValue("dbo.OrdenDeServicio", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
+                //if (insDB.ExistsValue("dbo.OrdenDeServicio", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
                 //    vSbInfo.AppendLine("Orden De Servicio");
                 //}
-                //if (insDB.ExistsValue("dbo.Curso", "Instructor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
+                //if (insDB.ExistsValue("dbo.Curso", "Instructor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
                 //    vSbInfo.AppendLine("Curso");
                 //}
-                //if (insDB.ExistsValue("dbo.Contrato", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
-                //    vSbInfo.AppendLine("Contrato");
-                //}
-                //if (insDB.ExistsValue("dbo.Contrato", "NombreVendedor", insDB.InsSql.ToSqlValue(vRecord.nombre), true)) {
-                //    vSbInfo.AppendLine("Contrato");
-                //}
-                //if (insDB.ExistsValue("dbo.FacturasVendedor", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
+                if (insDB.ExistsValueOnMultifile("dbo.Contrato", "ConsecutivoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Contrato");
+                }
+                if (insDB.ExistsValueOnMultifile("dbo.Contrato", "NombreVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Nombre), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Contrato");
+                }
+                //if (insDB.ExistsValue("dbo.FacturasVendedor", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
                 //    vSbInfo.AppendLine("Facturas Vendedor");
                 //}
-                //if (insDB.ExistsValue("dbo.NotaDeEntrega", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.codigo), true)) {
+                //if (insDB.ExistsValue("dbo.NotaDeEntrega", "ConsecutivoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
                 //    vSbInfo.AppendLine("Nota De Entrega");
                 //}
-                //if (insDB.ExistsValue("dbo.RetirosACuenta", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
+                //if (insDB.ExistsValue("dbo.RetirosACuenta", "ConsecutivoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
                 //    vSbInfo.AppendLine("Retiros ACuenta");
                 //}
-                //if (vSbInfo.Length == 0) {
-                //    vResult.Success = true;
-                //}
+                if (vSbInfo.Length == 0) {
+                    vResult.Success = true;
+                }
             } else {
                 vResult.Success = true;
             }
@@ -191,25 +191,16 @@ namespace Galac.Adm.Dal.Vendedor {
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Eliminar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.Delete(IList<Entity.Vendedor> refRecord) {
             LibResponse vResult = new LibResponse();
-            try {
-                string vErrMsg = "";
-                CurrentRecord = refRecord[0];
-                if (Validate(eAccionSR.Eliminar, out vErrMsg)) {
-                    if (ExecuteProcessBeforeDelete()) {
-                        vResult.Success = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "VendedorDEL"), ParametrosClave(CurrentRecord, true, true));
-                        if (vResult.Success) {
-                            ExecuteProcessAfterDelete();
-                        }
-                    }
-                } else {
-                    throw new GalacException(vErrMsg, eExceptionManagementType.Validation);
-                }
-                return vResult;
-            } finally {
-                //if (!vResult.Success) {
-                //    insTrn.RollBackTransaction();
-                //}
+            string vErrMsg = "";
+            CurrentRecord = refRecord[0];
+            if (Validate(eAccionSR.Eliminar, out vErrMsg)) {
+                LibDatabase insDb = new LibDatabase();
+                vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorDEL"), ParametrosClave(CurrentRecord, true, true));
+                insDb.Dispose();
+            } else {
+                throw new GalacValidationException(vErrMsg);
             }
+            return vResult;
         }
 
         IList<Entity.Vendedor> ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.GetData(eProcessMessageType valType, string valProcessMessage, StringBuilder valParameters, bool valUseDetail) {
@@ -220,7 +211,7 @@ namespace Galac.Adm.Dal.Vendedor {
                     valProcessMessage = insDb.ToSpName(DbSchema, valProcessMessage);
                     vResult = insDb.LoadFromSp<Entity.Vendedor>(valProcessMessage, valParameters, CmdTimeOut);
                     if (valUseDetail && vResult != null && vResult.Count > 0) {
-                        new clsRenglonComisionesDeVendedorDat().GetDetailAndAppendToMaster(ref vResult);
+                        new clsVendedorDetalleComisionesDat().GetDetailAndAppendToMaster(ref vResult);
                     }
                     break;
                 default: break;
@@ -229,32 +220,34 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Entity.Vendedor.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.Insert(IList<Entity.Vendedor> refRecord, bool valUseDetail) {
             LibResponse vResult = new LibResponse();
-            try {
-                CurrentRecord = refRecord[0];
-                if (ExecuteProcessBeforeInsert()) {
-                    if (ValidateMasterDetail(eAccionSR.Insertar, CurrentRecord, valUseDetail)) {
-                        if (insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
-                            if (valUseDetail) {
-							    vResult.Success = true;
-                                InsertDetail(CurrentRecord);
-                            } else {
-                                vResult.Success = true;
-                            }
-                            if (vResult.Success) {
-                                ExecuteProcessAfterInsert();
-                            }
-                        }
-                    }
+            string vErrMsg = "";
+            CurrentRecord = refRecord[0];
+            if (ExecuteProcessBeforeInsert()) {
+                if (Validate(eAccionSR.Insertar, out vErrMsg)) {
+                    LibDatabase insDb = new LibDatabase();
+                    CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".Vendedor", "Consecutivo", ParametrosProximoConsecutivo(CurrentRecord));
+                    vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar));
+                    insDb.Dispose();
+                } else {
+                    throw new GalacValidationException(vErrMsg);
                 }
-                return vResult;
-            } finally {
-                if (!vResult.Success) {
-                    //insTrn.RollBackTransaction();
-                }
+                //if (insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
+                //    if (valUseDetail) {
+                //        vResult.Success = true;
+                //        InsertDetail(CurrentRecord);
+                //    } else {
+                //        vResult.Success = true;
+                //    }
+                //    if (vResult.Success) {
+                //        ExecuteProcessAfterInsert();
+                //    }
+                //}
             }
+            return vResult;
         }
 
         XElement ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.QueryInfo(eProcessMessageType valType, string valProcessMessage, StringBuilder valParameters) {
@@ -263,7 +256,10 @@ namespace Galac.Adm.Dal.Vendedor {
             switch (valType) {
                 case eProcessMessageType.Message:
                     if (valProcessMessage.Equals("ProximoCodigo")) {
-                        vResult = LibXml.ValueToXElement(insDb.NextStrConsecutive("Saw.Vendedor", "Codigo", valParameters, true, 5), "Codigo");
+                        vResult = LibXml.ValueToXElement(insDb.NextStrConsecutive(DbSchema + ".Vendedor", "Codigo", valParameters, true, 5), "Codigo");
+                    }
+                    if (valProcessMessage == "ProximoConsecutivo") {
+                        vResult = LibXml.ToXElement(LibXml.ValueToXmlDocument(insDb.NextLngConsecutive(DbSchema + ".Vendedor", "Consecutivo", valParameters.ToString()), "Consecutivo"));
                     }
                     break;
                 case eProcessMessageType.SpName:
@@ -285,26 +281,26 @@ namespace Galac.Adm.Dal.Vendedor {
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Modificar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.Update(IList<Entity.Vendedor> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
-            try {
-                CurrentRecord = refRecord[0];
-                if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
-                    if (ExecuteProcessBeforeUpdate()) {
-                        if (valUseDetail) {
-                            vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
-                        } else {
-                            vResult = UpdateMaster(CurrentRecord, valAction); //por si requiriese especialización por acción
-                        }
-                        if (vResult.Success) {
-                            ExecuteProcessAfterUpdate();
-                        }
-                    }
+            string vErrMsg = "";
+            CurrentRecord = refRecord[0];
+            if (ExecuteProcessBeforeUpdate()) {
+                if (Validate(eAccionSR.Modificar, out vErrMsg)) {
+                    LibDatabase insDb = new LibDatabase();
+                    vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorUPD"), ParametrosActualizacion(CurrentRecord, eAccionSR.Modificar));
+                    insDb.Dispose();
+                } else {
+                    throw new GalacValidationException(vErrMsg);
                 }
-                return vResult;
-            } finally {
-                if (!vResult.Success) {
-                    //insTrn.RollBackTransaction();
-                }
+                //if (valUseDetail) {
+                //    vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
+                //} else {
+                //    vResult = UpdateMaster(CurrentRecord, valAction); //por si requiriese especialización por acción
+                //}
+                //if (vResult.Success) {
+                //    ExecuteProcessAfterUpdate();
+                //}
             }
+            return vResult;
         }
 
         bool ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.ValidateAll(IList<Entity.Vendedor> refRecords, bool valUseDetail, eAccionSR valAction, StringBuilder refErrorMessage) {
@@ -347,8 +343,8 @@ namespace Galac.Adm.Dal.Vendedor {
         private bool SetPkInDetailRenglonComisionesDeVendedorAndUpdateDb(Entity.Vendedor valRecord) {
             bool vResult = false;
             int vConsecutivo = 1;
-            clsRenglonComisionesDeVendedorDat insRenglonComisionesDeVendedor = new clsRenglonComisionesDeVendedorDat();
-            foreach (RenglonComisionesDeVendedor vDetail in valRecord.DetailRenglonComisionesDeVendedor) {
+            clsVendedorDetalleComisionesDat insRenglonComisionesDeVendedor = new clsVendedorDetalleComisionesDat();
+            foreach (VendedorDetalleComisiones vDetail in valRecord.DetailVendedorDetalleComisiones) {
                 vDetail.ConsecutivoCompania = valRecord.ConsecutivoCompania;
                 vDetail.ConsecutivoRenglon = valRecord.Consecutivo;
                 vConsecutivo++;
@@ -365,9 +361,7 @@ namespace Galac.Adm.Dal.Vendedor {
         #region Validaciones
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
-            ClearValidationInfo();
-            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
-            vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
+            ClearValidationInfo();            
             vResult = IsValidNombre(valAction, CurrentRecord.Nombre) && vResult;
             vResult = IsValidRIF(valAction, CurrentRecord.RIF) && vResult;
             outErrorMessage = Information.ToString();
@@ -430,11 +424,6 @@ namespace Galac.Adm.Dal.Vendedor {
             if (LibString.IsNullOrEmpty(valRIF, true)) {
                 BuildValidationInfo(MsgRequiredField("N° R.I.F."));
                 vResult = false;
-            } else if (valAction == eAccionSR.Insertar) {
-                //if (KeyExists(valRIF)) {
-                //    BuildValidationInfo(MsgFieldValueAlreadyExist("N° R.I.F.", valRIF));
-                //    vResult = false;
-                //}
             }
             return vResult;
         }
@@ -493,7 +482,7 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder vSbErrorInfo = new StringBuilder();
             int vNumeroDeLinea = 1;
             outErrorMessage = string.Empty;
-            foreach (RenglonComisionesDeVendedor vDetail in valRecord.DetailRenglonComisionesDeVendedor) {
+            foreach (VendedorDetalleComisiones vDetail in valRecord.DetailVendedorDetalleComisiones) {
                 bool vLineHasError = true;
                 //agregar validaciones
                 vResult = vResult && (!vLineHasError);
@@ -524,14 +513,14 @@ namespace Galac.Adm.Dal.Vendedor {
                 string vMessage = "";
                 int vIndex = 0;
                 LibXmlResult vResult = new LibXmlResult();
-                vResult.AddTitle("Importación Proveedor");
+                vResult.AddTitle("Importación Vendedor");
                 List<Entity.Vendedor> vList = ParseToListEntity(refRecord);
                 LibDatabase insDb = new LibDatabase();
                 int vTotal = vList.Count();
                 foreach (Entity.Vendedor item in vList) {
                     try {
                         vMessage = string.Format("Insertando {0:n0} de {1:n0}", vIndex, vTotal);
-                        insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "ProveedorINST"), ParametrosActualizacion(item, eAccionSR.Insertar));
+                        insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorINST"), ParametrosActualizacion(item, eAccionSR.Insertar));
                     } catch (System.Data.SqlClient.SqlException vEx) {
                         if (LibExceptionMng.IsPrimaryKeyViolation(vEx)) {
                             vResult.AddDetailWithAttribute(item.Codigo, "Ya existe", eXmlResultType.Error);

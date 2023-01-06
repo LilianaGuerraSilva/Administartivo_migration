@@ -16,25 +16,25 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Vendedor;
 
 namespace Galac.Adm.Dal.Vendedor {
-    public class clsRenglonComisionesDeVendedorDat: LibData, ILibDataDetailComponent<IList<RenglonComisionesDeVendedor>, IList<RenglonComisionesDeVendedor>> {
+    public class clsVendedorDetalleComisionesDat: LibData, ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>> {
         #region Variables
-        RenglonComisionesDeVendedor _CurrentRecord;
+        VendedorDetalleComisiones _CurrentRecord;
         #endregion //Variables
         #region Propiedades
-        private RenglonComisionesDeVendedor CurrentRecord {
+        private VendedorDetalleComisiones CurrentRecord {
             get { return _CurrentRecord; }
             set { _CurrentRecord = value; }
         }
         #endregion //Propiedades
         #region Constructores
 
-        public clsRenglonComisionesDeVendedorDat() {
+        public clsVendedorDetalleComisionesDat() {
             DbSchema = "dbo";
         }
         #endregion //Constructores
         #region Metodos Generados
 
-        private StringBuilder ParametrosActualizacion(RenglonComisionesDeVendedor valRecord, eAccionSR valAction) {
+        private StringBuilder ParametrosActualizacion(VendedorDetalleComisiones valRecord, eAccionSR valAction) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
@@ -59,7 +59,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private StringBuilder ParametrosClave(RenglonComisionesDeVendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+        private StringBuilder ParametrosClave(VendedorDetalleComisiones valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             if (valAddReturnParameter) {
@@ -71,7 +71,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private StringBuilder ParametrosProximoConsecutivo(RenglonComisionesDeVendedor valRecord) {
+        private StringBuilder ParametrosProximoConsecutivo(VendedorDetalleComisiones valRecord) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
@@ -83,6 +83,7 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valMaster.ConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoVendedor", valMaster.Consecutivo);
             vResult = vParams.Get();
             return vResult;
         }
@@ -99,9 +100,9 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private XElement BuildElementDetail(Galac.Adm.Ccl.Vendedor.Vendedor valMaster) {
-            XElement vXElement = new XElement("GpDataRenglonComisionesDeVendedor",
-                from vEntity in valMaster.DetailRenglonComisionesDeVendedor
-                select new XElement("GpDetailRenglonComisionesDeVendedor",
+            XElement vXElement = new XElement("GpDataVendedorDetalleComisiones",
+                from vEntity in valMaster.DetailVendedorDetalleComisiones
+                select new XElement("GpDetailVendedorDetalleComisiones",
                     new XElement("ConsecutivoCompania", valMaster.ConsecutivoCompania),
                     new XElement("ConsecutivoVendedor", vEntity.ConsecutivoVendedor),
                     new XElement("ConsecutivoRenglon", vEntity.ConsecutivoRenglon),
@@ -111,18 +112,18 @@ namespace Galac.Adm.Dal.Vendedor {
                     new XElement("Porcentaje", vEntity.Porcentaje)));
             return vXElement;
         }
-        #region Miembros de ILibDataDetailComponent<IList<RenglonComisionesDeVendedor>, IList<RenglonComisionesDeVendedor>>
+        #region Miembros de ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>>
 
-        IList<RenglonComisionesDeVendedor> ILibDataDetailComponent<IList<RenglonComisionesDeVendedor>, IList<RenglonComisionesDeVendedor>>.GetData(eProcessMessageType valType, string valProcessMessage, StringBuilder valParameters) {
-            List<RenglonComisionesDeVendedor> vResult = new List<RenglonComisionesDeVendedor>();
+        IList<VendedorDetalleComisiones> ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>>.GetData(eProcessMessageType valType, string valProcessMessage, StringBuilder valParameters) {
+            List<VendedorDetalleComisiones> vResult = new List<VendedorDetalleComisiones>();
             LibDatabase insDb = new LibDatabase();
             switch (valType) {
                 case eProcessMessageType.SpName:
                     valProcessMessage = insDb.ToSpName(DbSchema, valProcessMessage);
-                    vResult = insDb.LoadFromSp<RenglonComisionesDeVendedor>(valProcessMessage, valParameters, CmdTimeOut);
+                    vResult = insDb.LoadFromSp<VendedorDetalleComisiones>(valProcessMessage, valParameters, CmdTimeOut);
                     break;
                 case eProcessMessageType.Query:
-                    vResult = insDb.LoadData<RenglonComisionesDeVendedor>(valProcessMessage, CmdTimeOut, valParameters);
+                    vResult = insDb.LoadData<VendedorDetalleComisiones>(valProcessMessage, CmdTimeOut, valParameters);
                     break;
                 default: throw new ProgrammerMissingCodeException();
             }
@@ -131,14 +132,14 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Insertar")]
-        LibResponse ILibDataDetailComponent<IList<RenglonComisionesDeVendedor>, IList<RenglonComisionesDeVendedor>>.Insert(IList<RenglonComisionesDeVendedor> refRecord, XmlReader valExtended) {
+        LibResponse ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>>.Insert(IList<VendedorDetalleComisiones> refRecord, XmlReader valExtended) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
             CurrentRecord = refRecord[0];
             if (ExecuteProcessBeforeInsert()) {
                 if (Validate(eAccionSR.Insertar, out vErrMsg)) {
                     LibDatabase insDb = new LibDatabase();
-                    vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "RenglonComisionesDeVendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar));
+                    vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorDetalleComisionesINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar));
                     insDb.Dispose();
                 } else {
                     throw new GalacValidationException(vErrMsg);
@@ -146,11 +147,11 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             return vResult;
         }
-        #endregion //ILibDataDetailComponent<IList<RenglonComisionesDeVendedor>, IList<RenglonComisionesDeVendedor>>
+        #endregion //ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>>
 
         public bool InsertChild(Galac.Adm.Ccl.Vendedor.Vendedor valRecord, LibTrn insTrn) {
             bool vResult = false;
-            vResult = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "RenglonComisionesDeVendedorInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
+            vResult = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "VendedorDetalleComisionesInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
             return vResult;
         }
         #region Validaciones
@@ -219,11 +220,11 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoRenglon) {
             bool vResult = false;
-            RenglonComisionesDeVendedor vRecordBusqueda = new RenglonComisionesDeVendedor();
+            VendedorDetalleComisiones vRecordBusqueda = new VendedorDetalleComisiones();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.ConsecutivoRenglon = valConsecutivoRenglon;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".RenglonComisionesDeVendedor", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord(DbSchema + ".VendedorDetalleComisiones", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
@@ -231,12 +232,12 @@ namespace Galac.Adm.Dal.Vendedor {
 
         public bool GetDetailAndAppendToMaster(ref List<Galac.Adm.Ccl.Vendedor.Vendedor>  refMaster) {
             bool vResult = false;
-            IList<RenglonComisionesDeVendedor> vDetail = null;
+            IList<VendedorDetalleComisiones> vDetail = null;
             foreach (Galac.Adm.Ccl.Vendedor.Vendedor vItemMaster in refMaster) {
-                vItemMaster.DetailRenglonComisionesDeVendedor = new ObservableCollection<RenglonComisionesDeVendedor>();
-                vDetail = new LibDatabase().LoadFromSp<RenglonComisionesDeVendedor>("dbo.Gp_RenglonComisionesDeVendedorSelDet", ParametrosDetail(vItemMaster), CmdTimeOut);
-                foreach (RenglonComisionesDeVendedor vItemDetail in vDetail) {
-                    vItemMaster.DetailRenglonComisionesDeVendedor.Add(vItemDetail);
+                vItemMaster.DetailVendedorDetalleComisiones = new ObservableCollection<VendedorDetalleComisiones>();
+                vDetail = new LibDatabase().LoadFromSp<VendedorDetalleComisiones>("Adm.Gp_VendedorDetalleComisionesSelDet", ParametrosDetail(vItemMaster), CmdTimeOut);
+                foreach (VendedorDetalleComisiones vItemDetail in vDetail) {
+                    vItemMaster.DetailVendedorDetalleComisiones.Add(vItemDetail);
                 }
             }
             vResult = true;
@@ -245,7 +246,7 @@ namespace Galac.Adm.Dal.Vendedor {
         #endregion //Metodos Generados
 
 
-    } //End of class clsRenglonComisionesDeVendedorDat
+    } //End of class clsVendedorDetalleComisionesDat
 
 } //End of namespace Galac..Dal.ComponenteNoEspecificado
 

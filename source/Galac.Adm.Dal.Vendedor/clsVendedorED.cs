@@ -533,7 +533,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("         CAST(Vendedor.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         Vendedor.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".Vendedor");
-            SQL.AppendLine("             INNER JOIN dbo.Gv_Ciudad_B1 ON " + DbSchema + ".Vendedor.Ciudad = dbo.Gv_Ciudad_B1.NombreCiudad");
+            SQL.AppendLine("             INNER JOIN Comun.Gv_Ciudad_B1 ON " + DbSchema + ".Vendedor.Ciudad = Comun.Gv_Ciudad_B1.NombreCiudad");
             SQL.AppendLine("      WHERE Vendedor.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND Vendedor.Consecutivo = @Consecutivo");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -564,6 +564,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
             SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Consecutivo,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Codigo,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RIF,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.StatusVendedorStr,");
@@ -574,7 +575,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.ZonaPostal,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Telefono");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_Vendedor_B1");
-            SQL.AppendLine("      INNER JOIN dbo.Ciudad ON  " + DbSchema + ".Gv_Vendedor_B1.Ciudad = dbo.Ciudad.NombreCiudad");
+            SQL.AppendLine("      INNER JOIN Comun.Ciudad ON  " + DbSchema + ".Gv_Vendedor_B1.Ciudad = Comun.Ciudad.NombreCiudad");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
             SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
@@ -640,15 +641,15 @@ namespace Galac.Adm.Dal.Vendedor {
             if (CrearTabla()) {
                 CrearVistas();
                 CrearProcedimientos();
-                clsRenglonComisionesDeVendedorED insDetailRenComDeVen = new clsRenglonComisionesDeVendedorED();
-                vResult = insDetailRenComDeVen.InstalarTabla();
+                clsVendedorDetalleComisionesED insDetailVenDetalleComisiones = new clsVendedorDetalleComisionesED();
+                vResult = insDetailVenDetalleComisiones.InstalarTabla();
             }
             //if (insDbo.Exists(DbSchema + ".Vendedor", eDboType.Tabla)) {
-            //    ////clsRenglonComisionesDeVendedorED insDetailRenComDeVen = new clsRenglonComisionesDeVendedorED();
-            //    //vResult = insDetailRenComDeVen.InstalarTabla();
-            //    ////clsVendedorXLienaDeProductoED insDetailVenXLiDePro = new clsVendedorXLienaDeProductoED();
+            //    clsVendedorDetalleComisionesED insDetailRenComDeVen = new clsVendedorDetalleComisionesED();
+            //    vResult = insDetailRenComDeVen.InstalarTabla();
+            //    //clsVendedorXLienaDeProductoED insDetailVenXLiDePro = new clsVendedorXLienaDeProductoED();
             //    //vResult = vResult && insDetailVenXLiDePro.InstalarTabla();
-            //    ////clsListadoDeVendedoresED insDetailLisDeVen = new clsListadoDeVendedoresED();
+            //    //clsListadoDeVendedoresED insDetailLisDeVen = new clsListadoDeVendedoresED();
             //    //vResult = vResult && insDetailLisDeVen.InstalarTabla();
             //}
             return vResult;
@@ -660,7 +661,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 CrearVistas();
                 CrearProcedimientos();
                 vResult = true;
-                vResult = new clsRenglonComisionesDeVendedorED().InstalarVistasYSps();
+                vResult = new clsVendedorDetalleComisionesED().InstalarVistasYSps();
                 //vResult = vResult && new clsVendedorXLienaDeProductoED().InstalarVistasYSps();
                 //vResult = vResult && new clsListadoDeVendedoresED().InstalarVistasYSps();
             }
@@ -671,7 +672,7 @@ namespace Galac.Adm.Dal.Vendedor {
             bool vResult = false;
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
-            vResult = new clsRenglonComisionesDeVendedorED().BorrarVistasYSps();
+            vResult = new clsVendedorDetalleComisionesED().BorrarVistasYSps();
             vResult = insSp.Drop(DbSchema + ".Gp_VendedorINS") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_VendedorUPD") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_VendedorDEL") && vResult;

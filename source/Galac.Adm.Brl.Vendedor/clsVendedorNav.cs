@@ -9,6 +9,7 @@ using LibGalac.Aos.Brl;
 using Entity = Galac.Adm.Ccl.Vendedor;
 using System.Xml.Linq;
 using System.Linq;
+using Galac.Comun.Brl.TablasGen;
 
 namespace Galac.Adm.Brl.Vendedor {
     public partial class clsVendedorNav : LibBaseNavMaster<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibPdn, Entity.IVendedorPdn {
@@ -56,12 +57,11 @@ namespace Galac.Adm.Brl.Vendedor {
                 case "Vendedor":
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
-                //case "Ciudad":
-                //    ILibPdn vPdnModule;
-                //    vPdnModule = new Galac.dbo.Brl.Ciudad.clsCiudadNav();
-                //    vResult = vPdnModule.GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
-                //    break;
-                //    break;
+                case "Ciudad":
+                    ILibPdn vPdnModule;
+                    vPdnModule = new clsCiudadNav();
+                    vResult = vPdnModule.GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 default: throw new NotImplementedException();
             }
             return vResult;

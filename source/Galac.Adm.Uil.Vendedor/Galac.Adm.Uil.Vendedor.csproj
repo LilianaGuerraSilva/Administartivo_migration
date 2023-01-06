@@ -101,22 +101,21 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <AppDesigner Include="Properties\" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="UIMefVendedor.cs" />
     <Compile Include="ViewModel\clsFKViewModelVendedor.cs" />
-    <Compile Include="ViewModel\RenglonComisionesDeVendedorMngViewModel.cs" />
-    <Compile Include="ViewModel\RenglonComisionesDeVendedorViewModel.cs" />
+    <Compile Include="ViewModel\VendedorDetalleComisionesMngViewModel.cs" />
+    <Compile Include="ViewModel\VendedorDetalleComisionesViewModel.cs" />
     <Compile Include="ViewModel\VendedorMngViewModel.cs" />
     <Compile Include="ViewModel\VendedorViewModel.cs" />
+    <Compile Include="Views\GSVendedorDetalleComisionesView.xaml.cs">
+      <DependentUpon>GSVendedorDetalleComisionesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSVendedorView.xaml.cs">
       <DependentUpon>GSVendedorView.xaml</DependentUpon>
     </Compile>
@@ -130,12 +129,38 @@
       <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
       <Name>Galac.Adm.Ccl.Vendedor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.GestionCompras\Galac.Adm.Uil.GestionCompras.csproj">
+      <Project>{706F412D-F9E1-4E0B-A740-9CA195272AB8}</Project>
+      <Name>Galac.Adm.Uil.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82C458B1-C93B-46A9-B58C-63ECD3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Tablas\Galac.Saw.Uil.Tablas.csproj">
+      <Project>{005FABDF-508B-4757-8A54-BE3603405283}</Project>
+      <Name>Galac.Saw.Uil.Tablas</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\GSVendedorDetalleComisionesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\GSVendedorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.es-PE.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.es-PE.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,22 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Xml.Linq;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
-using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
 using LibGalac.Aos.UI.Mvvm.Helpers;
 using LibGalac.Aos.UI.Mvvm.Messaging;
-using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
+using Galac.Saw.Uil.Tablas.ViewModel;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
-    public class RenglonComisionesDeVendedorViewModel : LibInputDetailViewModelMfc<RenglonComisionesDeVendedor> {
+    public class VendedorDetalleComisionesViewModel : LibInputDetailViewModelMfc<VendedorDetalleComisiones> {
         #region Constantes
         public const string ConsecutivoVendedorPropertyName = "ConsecutivoVendedor";
         public const string ConsecutivoRenglonPropertyName = "ConsecutivoRenglon";
@@ -24,11 +19,16 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public const string TipoDeComisionPropertyName = "TipoDeComision";
         public const string MontoPropertyName = "Monto";
         public const string PorcentajePropertyName = "Porcentaje";
+        public const string IsVisibleMontoPropertyName = "IsVisibleMonto";
+        public const string IsVisiblePorcentajePropertyName = "IsVisiblePorcentaje";
+        #endregion
+        #region Variables
+        private FkLineaDeProductoViewModel _ConexionLineaDeProducto = null;
         #endregion
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Renglon Comisiones De Vendedor"; }
+            get { return "Comisiones de Vendedor por Linea de Producto"; }
         }
 
         public int  ConsecutivoCompania {
@@ -96,6 +96,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TipoDeComisionAsEnum = value;
                     IsDirty = true;
                     RaisePropertyChanged(TipoDeComisionPropertyName);
+                    RaisePropertyChanged(IsVisibleMontoPropertyName);
+                    RaisePropertyChanged(IsVisiblePorcentajePropertyName);
                 }
             }
         }
@@ -135,34 +137,94 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 return LibEnumHelper<eTipoComision>.GetValuesInArray();
             }
         }
-
+        public bool IsVisibleMonto {
+            get {
+                return (TipoDeComision == eTipoComision.PorMonto);
+            }
+        }
+        public bool IsVisiblePorcentaje {
+            get {
+                return (TipoDeComision == eTipoComision.PorPorcentaje);
+            }
+        }
         public VendedorViewModel Master {
             get;
             set;
         }
+
+        public FkLineaDeProductoViewModel ConexionNombreDeLineaDeProducto {
+            get {
+                return _ConexionLineaDeProducto;
+            }
+            set {
+                if (_ConexionLineaDeProducto != value) {
+                    _ConexionLineaDeProducto = value;
+                    RaisePropertyChanged(NombreDeLineaDeProductoPropertyName);
+                }
+                if (_ConexionLineaDeProducto == null) {
+                    NombreDeLineaDeProducto = string.Empty;
+                }
+            }
+        }
+
+        public RelayCommand<string> ChooseNombreDeLineaDeProductoCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
-        public RenglonComisionesDeVendedorViewModel()
-            : base(new RenglonComisionesDeVendedor(), eAccionSR.Insertar, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+        public VendedorDetalleComisionesViewModel()
+            : base(new VendedorDetalleComisiones(), eAccionSR.Insertar, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
         }
-        public RenglonComisionesDeVendedorViewModel(VendedorViewModel initMaster, RenglonComisionesDeVendedor initModel, eAccionSR initAction)
+        public VendedorDetalleComisionesViewModel(VendedorViewModel initMaster, VendedorDetalleComisiones initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Master = initMaster;
         }
         #endregion //Constructores
         #region Metodos Generados
 
-        protected override void InitializeLookAndFeel(RenglonComisionesDeVendedor valModel) {
+        protected override void InitializeLookAndFeel(VendedorDetalleComisiones valModel) {
             base.InitializeLookAndFeel(valModel);
         }
 
-        protected override ILibBusinessDetailComponent<IList<RenglonComisionesDeVendedor>, IList<RenglonComisionesDeVendedor>> GetBusinessComponent() {
-            return new clsRenglonComisionesDeVendedorNav();
+        protected override ILibBusinessDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>> GetBusinessComponent() {
+            return new clsVendedorDetalleComisionesNav();
         }
+
+        protected override void InitializeCommands() {
+            base.InitializeCommands();
+            ChooseNombreDeLineaDeProductoCommand = new RelayCommand<string>(ExecuteChooseNombreDeLineaDeProductoCommand);
+        }
+
+        protected override void ReloadRelatedConnections() {
+            base.ReloadRelatedConnections();
+            // ConexionCodigoArticuloInventario = Master.FirstConnectionRecordOrDefault<FkArticuloInventarioViewModel>("Artículo Inventario", LibSearchCriteria.CreateCriteria("CodigoArticuloInventario", CodigoArticuloInventario));
+
+        }
+
+        private void ExecuteChooseNombreDeLineaDeProductoCommand(string valNombre) {
+            try {
+                if (valNombre == null) {
+                    valNombre = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_LineaDeProducto_B1.Nombre", valNombre);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                ConexionNombreDeLineaDeProducto = Master.ChooseRecord<FkLineaDeProductoViewModel>("Línea De Producto", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionNombreDeLineaDeProducto != null) {
+                    NombreDeLineaDeProducto = ConexionNombreDeLineaDeProducto.Nombre;
+                } else {
+                    NombreDeLineaDeProducto = string.Empty;
+                }
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
         #endregion //Metodos Generados
 
+    } //End of class VendedorDetalleComisionesViewModel
 
-    } //End of class RenglonComisionesDeVendedorViewModel
-
-} //End of namespace Galac..Uil.ComponenteNoEspecificado
+} //End of namespace Galac.Adm.Uil.Vendedor
 

@@ -113,10 +113,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 						}
                         if (ForeignKeyNameExists("fk_RenglonComisionesDeVendedorVend")) {
                             DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.RenglonComisionesDeVendedor");
-							CrearColumnaConsecutivoVendedor("dbo.RenglonComisionesDeVendedor", "ConsecutivoVendedor", " CONSTRAINT nnRenComDeVenCoVe NOT NULL");
-							LlenarColumnaConsecutivoVendedor("dbo.RenglonComisionesDeVendedor", "ConsecutivoVendedor", "CodigoVendedor");
-                            AddForeignKey("Adm.Vendedor", "dbo.RenglonComisionesDeVendedor", new string[] { "ConsecutivoCompania", "Codigo" }, new string[] { "ConsecutivoCompania", "CodigoVendedor" }, false, false);
-							DropColumnIfExist("dbo.RenglonComisionesDeVendedor", "CodigoVendedor");
 						}
                         if (ForeignKeyNameExists("fk_RetirosACuentaVend")) {
                             DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.RetirosACuenta");
@@ -126,7 +122,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 							DropColumnIfExist("dbo.RetirosACuenta", "CodigoVendedor");
 						}
 						ExecuteDropTable("dbo.Vendedor");
+						ExecuteDropTable("dbo.RenglonComisionesDeVendedor");
 						clsCompatViews.CrearVistaDboVendedor();
+						clsCompatViews.CrearVistaDboVendedorDetalleComisiones();
 					}
 				} catch (GalacException vEx) {
 					throw vEx;
