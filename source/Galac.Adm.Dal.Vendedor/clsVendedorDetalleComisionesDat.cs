@@ -29,7 +29,7 @@ namespace Galac.Adm.Dal.Vendedor {
         #region Constructores
 
         public clsVendedorDetalleComisionesDat() {
-            DbSchema = "dbo";
+            DbSchema = "Adm";
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -49,11 +49,12 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private StringBuilder ParametrosActualizacionDetail(Galac.Adm.Ccl.Vendedor.Vendedor valRecord, eAccionSR eAccionSR) {
+        private StringBuilder ParametrosActualizacionDetail(Ccl.Vendedor.Vendedor valRecord, eAccionSR eAccionSR) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoVendedor", valRecord.Consecutivo);
             vParams.AddInXml("XmlDataDetail", ParseToXml(valRecord));
             vResult = vParams.Get();
             return vResult;
@@ -66,6 +67,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 vParams.AddReturn();
             }
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
             vResult = vParams.Get();
             return vResult;
@@ -75,11 +77,13 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
+            vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
             vResult = vParams.Get();
             return vResult;
         }
 
-        StringBuilder ParametrosDetail(Galac.Adm.Ccl.Vendedor.Vendedor valMaster) {
+        StringBuilder ParametrosDetail(Ccl.Vendedor.Vendedor valMaster) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valMaster.ConsecutivoCompania);
@@ -88,8 +92,8 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private XElement ParseToXml(Galac.Adm.Ccl.Vendedor.Vendedor valEntidad) {
-            List<Galac.Adm.Ccl.Vendedor.Vendedor> vListEntidades = new List<Galac.Adm.Ccl.Vendedor.Vendedor>();
+        private XElement ParseToXml(Ccl.Vendedor.Vendedor valEntidad) {
+            List<Ccl.Vendedor.Vendedor> vListEntidades = new List<Ccl.Vendedor.Vendedor>();
             vListEntidades.Add(valEntidad);
             XElement vXElement = new XElement("GpData",
                 from vEntity in vListEntidades
@@ -99,7 +103,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return vXElement;
         }
 
-        private XElement BuildElementDetail(Galac.Adm.Ccl.Vendedor.Vendedor valMaster) {
+        private XElement BuildElementDetail(Ccl.Vendedor.Vendedor valMaster) {
             XElement vXElement = new XElement("GpDataVendedorDetalleComisiones",
                 from vEntity in valMaster.DetailVendedorDetalleComisiones
                 select new XElement("GpDetailVendedorDetalleComisiones",
@@ -149,11 +153,12 @@ namespace Galac.Adm.Dal.Vendedor {
         }
         #endregion //ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>>
 
-        public bool InsertChild(Galac.Adm.Ccl.Vendedor.Vendedor valRecord, LibTrn insTrn) {
+        public bool InsertChild(Ccl.Vendedor.Vendedor valRecord, LibDataScope insTrn) {
             bool vResult = false;
-            vResult = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "VendedorDetalleComisionesInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
+            vResult = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorDetalleComisionesInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
             return vResult;
         }
+
         #region Validaciones
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;

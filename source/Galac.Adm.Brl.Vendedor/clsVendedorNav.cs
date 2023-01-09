@@ -10,6 +10,7 @@ using Entity = Galac.Adm.Ccl.Vendedor;
 using System.Xml.Linq;
 using System.Linq;
 using Galac.Comun.Brl.TablasGen;
+using Galac.Saw.Brl.Tablas;
 
 namespace Galac.Adm.Brl.Vendedor {
     public partial class clsVendedorNav : LibBaseNavMaster<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibPdn, Entity.IVendedorPdn {
@@ -25,7 +26,7 @@ namespace Galac.Adm.Brl.Vendedor {
         #region Metodos Generados
 
         protected override ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>> GetDataInstance() {
-            return new Galac.Adm.Dal.Vendedor.clsVendedorDat();
+            return new Dal.Vendedor.clsVendedorDat();
         }
         #region Miembros de ILibPdn
 
@@ -41,7 +42,7 @@ namespace Galac.Adm.Brl.Vendedor {
         }
 
         bool ILibPdn.GetDataForList(string valCallingModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
-            ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Vendedor.clsVendedorDat();
+            ILibDataFKSearch instanciaDal = new Dal.Vendedor.clsVendedorDat();
             return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_VendedorSCH", valXmlParamsExpression);
         }
 
@@ -53,14 +54,19 @@ namespace Galac.Adm.Brl.Vendedor {
 
         protected override bool RetrieveListInfo(string valModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
             bool vResult = false;
+            ILibPdn vPdnModule;
             switch (valModule) {
                 case "Vendedor":
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Ciudad":
-                    ILibPdn vPdnModule;
                     vPdnModule = new clsCiudadNav();
                     vResult = vPdnModule.GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Línea de Producto":
+                    vPdnModule = new clsLineaDeProductoNav();
+                    vResult = vPdnModule.GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
+                    //vResult = ((ILibPdn)this).GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
             }
@@ -84,7 +90,7 @@ namespace Galac.Adm.Brl.Vendedor {
             return insVendedor;
         }
  
-        System.Xml.Linq.XElement Entity.IVendedorPdn.VendedorPorDefecto(int valConsecutivoCompania) {
+        XElement Entity.IVendedorPdn.VendedorPorDefecto(int valConsecutivoCompania) {
             return VendedorToXml(VendedorPorDefecto(valConsecutivoCompania)); 
         }
 
@@ -128,7 +134,7 @@ namespace Galac.Adm.Brl.Vendedor {
             vSql.AppendLine("  WHERE");
             vSql.AppendLine("	Codigo = @Codigo");
             vSql.AppendLine("	AND ConsecutivoCompania = @ConsecutivoCompania");
-            vResult = LibGalac.Aos.Brl.LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+            vResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
             return vResult;
         }
         #region Utilizado en reportes de cobranza

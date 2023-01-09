@@ -36,6 +36,10 @@
     <Reference Include="Galac.Comun.Uil.TablasGen">
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
     </Reference>
+    <Reference Include="Galac.Saw.Ccl.Tablas, Version=2.60.3.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Galac.Saw.Ccl.Tablas.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.ARRpt">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
@@ -132,6 +136,10 @@
     <ProjectReference Include="..\Galac.Adm.Uil.GestionCompras\Galac.Adm.Uil.GestionCompras.csproj">
       <Project>{706F412D-F9E1-4E0B-A740-9CA195272AB8}</Project>
       <Name>Galac.Adm.Uil.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120CF-ED36-4227-BBFC-EF9E534B7F50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82C458B1-C93B-46A9-B58C-63ECD3633861}</Project>

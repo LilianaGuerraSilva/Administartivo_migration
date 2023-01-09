@@ -18,7 +18,7 @@ using Galac.Adm.Ccl.Vendedor;
 namespace Galac.Adm.Dal.Vendedor {
     public class clsVendedorDat : LibData, ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibDataImport {
         #region Variables
-        LibTrn insTrn;
+        LibDataScope insTrn;
         Entity.Vendedor _CurrentRecord;
         #endregion //Variables
         #region Propiedades
@@ -31,7 +31,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         public clsVendedorDat() {
             DbSchema = "Adm";
-            insTrn = new LibTrn();
+            insTrn = new LibDataScope();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -230,7 +230,17 @@ namespace Galac.Adm.Dal.Vendedor {
                 if (Validate(eAccionSR.Insertar, out vErrMsg)) {
                     LibDatabase insDb = new LibDatabase();
                     CurrentRecord.Consecutivo = insDb.NextLngConsecutive(DbSchema + ".Vendedor", "Consecutivo", ParametrosProximoConsecutivo(CurrentRecord));
-                    vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar));
+                    if (insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
+                        if (valUseDetail) {
+                            vResult.Success = true;
+                            InsertDetail(CurrentRecord);
+                        } else {
+                            vResult.Success = true;
+                        }
+                        if (vResult.Success) {
+                            ExecuteProcessAfterInsert();
+                        }
+                    }
                     insDb.Dispose();
                 } else {
                     throw new GalacValidationException(vErrMsg);
@@ -319,7 +329,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         LibResponse UpdateMaster(Entity.Vendedor refRecord, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
-            vResult.Success = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "VendedorUPD"), ParametrosActualizacion(refRecord, valAction));
+            vResult.Success = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorUPD"), ParametrosActualizacion(refRecord, valAction));
             return vResult;
         }
 
@@ -336,26 +346,27 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private bool InsertDetail(Entity.Vendedor valRecord) {
             bool vResult = true;
-            vResult = vResult && SetPkInDetailRenglonComisionesDeVendedorAndUpdateDb(valRecord);
+            vResult = vResult && SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(valRecord);
             return vResult;
         }
 
-        private bool SetPkInDetailRenglonComisionesDeVendedorAndUpdateDb(Entity.Vendedor valRecord) {
+        private bool SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(Entity.Vendedor valRecord) {
             bool vResult = false;
             int vConsecutivo = 1;
-            clsVendedorDetalleComisionesDat insRenglonComisionesDeVendedor = new clsVendedorDetalleComisionesDat();
+            clsVendedorDetalleComisionesDat insVendedorDetalleComisiones = new clsVendedorDetalleComisionesDat();
             foreach (VendedorDetalleComisiones vDetail in valRecord.DetailVendedorDetalleComisiones) {
                 vDetail.ConsecutivoCompania = valRecord.ConsecutivoCompania;
-                vDetail.ConsecutivoRenglon = valRecord.Consecutivo;
+                vDetail.ConsecutivoVendedor = valRecord.Consecutivo;
+                vDetail.ConsecutivoRenglon = vConsecutivo;
                 vConsecutivo++;
             }
-            vResult = insRenglonComisionesDeVendedor.InsertChild(valRecord, insTrn);
+            vResult = insVendedorDetalleComisiones.InsertChild(valRecord, insTrn);
             return vResult;
         }
 
         private bool UpdateDetail(Entity.Vendedor valRecord) {
             bool vResult = true;
-            vResult = vResult && SetPkInDetailRenglonComisionesDeVendedorAndUpdateDb(valRecord);
+            vResult = vResult && SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(valRecord);
             return vResult;
         }
         #region Validaciones

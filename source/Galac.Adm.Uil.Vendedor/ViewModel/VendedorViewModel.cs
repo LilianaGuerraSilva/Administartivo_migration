@@ -693,6 +693,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
+        public bool IsVisibleRutaDeComercializacion {
+            get { 
+                return LibDefGen.IsInternalSystem(); 
+            }
+        }
+
         public DateTime  FechaUltimaModificacion {
             get {
                 return Model.FechaUltimaModificacion;
@@ -874,7 +880,14 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-
+        protected override void ExecuteAction() {
+            if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
+                if (!UsaComisionPorVenta && !UsaComisionPorCobranza) {
+                    LibMessages.MessageBox.Alert(this,"Recuerde asignar Comisiones de Venta y/o Cobranza a este Vendedor.", ModuleName);
+                }
+            }
+            base.ExecuteAction();
+        }
         #endregion //Metodos Generados
 
     } //End of class VendedorViewModel

@@ -42,16 +42,16 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlCreateTable() {
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine(InsSql.CreateTable("VendedorDetalleComisiones", DbSchema) + " ( ");
-            vSQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenCoCo NOT NULL, ");
-            vSQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenCoVe NOT NULL, ");
-            vSQL.AppendLine("ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnRenComDeVenConsecutiv NOT NULL, ");
-            vSQL.AppendLine("NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT nnRenComDeVenNombreDeLi NOT NULL, ");
-            vSQL.AppendLine("TipoDeComision" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRenComDeVenTipoDeComi NOT NULL, ");
-            vSQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenMonto NOT NULL, ");
-            vSQL.AppendLine("Porcentaje" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnRenComDeVenPorcentaje NOT NULL, ");
+            vSQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenDetComConsecutiv NOT NULL, ");
+            vSQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenDetComConsecutiv NOT NULL, ");
+            vSQL.AppendLine("ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenDetComConsecutiv NOT NULL, ");
+            vSQL.AppendLine("NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT nnVenDetComNombreDeLi NOT NULL, ");
+            vSQL.AppendLine("TipoDeComision" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnVenDetComTipoDeComi NOT NULL, ");
+            vSQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnVenDetComMonto NOT NULL, ");
+            vSQL.AppendLine("Porcentaje" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnVenDetComPorcentaje NOT NULL, ");
             vSQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             vSQL.AppendLine("CONSTRAINT p_VendedorDetalleComisiones PRIMARY KEY CLUSTERED");
-            vSQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoRenglon ASC)");
+            vSQL.AppendLine("(ConsecutivoCompania ASC, ConsecutivoVendedor ASC, ConsecutivoRenglon ASC)");
             vSQL.AppendLine(",CONSTRAINT fk_VendedorDetalleComisionesVendedor FOREIGN KEY (ConsecutivoCompania, ConsecutivoVendedor)");
             vSQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
             vSQL.AppendLine("ON DELETE NO ACTION");
@@ -75,7 +75,7 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpInsParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " = 0,");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@TipoDeComision" + InsSql.CharTypeForDb(1) + " = '0',");
@@ -141,23 +141,23 @@ namespace Galac.Adm.Dal.Vendedor {
             //SQL.AppendLine("--DECLARE @CanBeChanged bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
-            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon)");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoVendedor = @ConsecutivoVendedor AND ConsecutivoRenglon = @ConsecutivoRenglon)");
             SQL.AppendLine("   BEGIN");
-            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoVendedor = @ConsecutivoVendedor AND ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
-            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_VendedorDetalleComisionesCanBeUpdated @ConsecutivoCompania,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
+            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_VendedorDetalleComisionesCanBeUpdated @ConsecutivoCompania,@ConsecutivoVendedor,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
             //SQL.AppendLine("--IF @CanBeChanged = 1 --True");
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".VendedorDetalleComisiones");
-            SQL.AppendLine("            SET ConsecutivoVendedor = @ConsecutivoVendedor,");
-            SQL.AppendLine("               NombreDeLineaDeProducto = @NombreDeLineaDeProducto,");
+            SQL.AppendLine("            SET NombreDeLineaDeProducto = @NombreDeLineaDeProducto,");
             SQL.AppendLine("               TipoDeComision = @TipoDeComision,");
             SQL.AppendLine("               Monto = @Monto,");
             SQL.AppendLine("               Porcentaje = @Porcentaje");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("               AND ConsecutivoVendedor = @ConsecutivoVendedor");
             SQL.AppendLine("               AND ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("         SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("         IF @@ERROR = 0");
@@ -206,18 +206,19 @@ namespace Galac.Adm.Dal.Vendedor {
             //SQL.AppendLine("--DECLARE @CanBeDeleted bit");
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
-            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon)");
+            SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoVendedor = @ConsecutivoVendedor AND ConsecutivoRenglon = @ConsecutivoRenglon)");
             SQL.AppendLine("   BEGIN");
-            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".VendedorDetalleComisiones WHERE ConsecutivoCompania = @ConsecutivoCompania AND ConsecutivoVendedor = @ConsecutivoVendedor AND ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
-            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeDeleted bit; EXEC @CanBeDeleted = " + DbSchema + ".Gp_VendedorDetalleComisionesCanBeDeleted @ConsecutivoCompania,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
+            SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeDeleted bit; EXEC @CanBeDeleted = " + DbSchema + ".Gp_VendedorDetalleComisionesCanBeDeleted @ConsecutivoCompania,@ConsecutivoVendedor,@ConsecutivoRenglon, @CurrentTimeStamp, @ValidationMsg out");
             //SQL.AppendLine("--IF @CanBeDeleted = 1 --True");
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         DELETE FROM " + DbSchema + ".VendedorDetalleComisiones");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("               AND ConsecutivoVendedor = @ConsecutivoVendedor");
             SQL.AppendLine("               AND ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("         SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("         IF @@ERROR = 0");
@@ -271,6 +272,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("         fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".VendedorDetalleComisiones");
             SQL.AppendLine("      WHERE VendedorDetalleComisiones.ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("         AND VendedorDetalleComisiones.ConsecutivoVendedor = @ConsecutivoVendedor");
             SQL.AppendLine("         AND VendedorDetalleComisiones.ConsecutivoRenglon = @ConsecutivoRenglon");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
@@ -298,8 +300,8 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("        Porcentaje,");
             SQL.AppendLine("        fldTimeStamp");
             SQL.AppendLine("    FROM VendedorDetalleComisiones");
-            SQL.AppendLine(" 	WHERE ConsecutivoCompania = @ConsecutivoCompania");
-            SQL.AppendLine(" 	AND ConsecutivoVendedor = @ConsecutivoVendedor");
+            SQL.AppendLine(" 	WHERE ConsecutivoVendedor = @ConsecutivoVendedor");
+            SQL.AppendLine(" 	AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("    RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
             return SQL.ToString();
@@ -308,8 +310,7 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpDelDetailParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0));
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
 
@@ -317,9 +318,8 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("	DELETE FROM VendedorDetalleComisiones");
-            SQL.AppendLine(" 	WHERE ConsecutivoCompania = @ConsecutivoCompania");
-            SQL.AppendLine(" 	AND ConsecutivoVendedor = @ConsecutivoVendedor");
-            SQL.AppendLine(" 	AND ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine(" 	WHERE ConsecutivoVendedor = @ConsecutivoVendedor");
+            SQL.AppendLine(" 	AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("    RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
             return SQL.ToString();
@@ -329,7 +329,6 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@XmlDataDetail" + InsSql.XmlTypeForDb());
             return SQL.ToString();
         }
@@ -341,10 +340,10 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("	DECLARE @ReturnValue  " + InsSql.NumericTypeForDb(10, 0));
 	        SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
 	        SQL.AppendLine("	    BEGIN");
-            SQL.AppendLine("	    EXEC dbo.Gp_VendedorDetalleComisionesDelDet @ConsecutivoCompania = @ConsecutivoCompania, @ConsecutivoRenglon = @ConsecutivoRenglon");
+            SQL.AppendLine("	    EXEC Adm.Gp_VendedorDetalleComisionesDelDet @ConsecutivoCompania = @ConsecutivoCompania, @ConsecutivoVendedor = @ConsecutivoVendedor");
 		    SQL.AppendLine("	    DECLARE @hdoc " + InsSql.NumericTypeForDb(10, 0));
             SQL.AppendLine("	    EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlDataDetail");
-		    SQL.AppendLine("	    INSERT INTO dbo.VendedorDetalleComisiones(");
+		    SQL.AppendLine("	    INSERT INTO Adm.VendedorDetalleComisiones(");
 			SQL.AppendLine("	        ConsecutivoCompania,");
 			SQL.AppendLine("	        ConsecutivoVendedor,");
 			SQL.AppendLine("	        ConsecutivoRenglon,");
@@ -354,7 +353,7 @@ namespace Galac.Adm.Dal.Vendedor {
 			SQL.AppendLine("	        Porcentaje)");
 		    SQL.AppendLine("	    SELECT ");
 			SQL.AppendLine("	        @ConsecutivoCompania,");
-			SQL.AppendLine("	        ConsecutivoVendedor,");
+			SQL.AppendLine("	        @ConsecutivoVendedor,");
 			SQL.AppendLine("	        ConsecutivoRenglon,");
 			SQL.AppendLine("	        NombreDeLineaDeProducto,");
 			SQL.AppendLine("	        TipoDeComision,");
@@ -362,12 +361,11 @@ namespace Galac.Adm.Dal.Vendedor {
 			SQL.AppendLine("	        Porcentaje");
 		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataVendedorDetalleComisiones/GpDetailVendedorDetalleComisiones',2) ");
             SQL.AppendLine("	    WITH (");
-            SQL.AppendLine("	        ConsecutivoVendedor " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        ConsecutivoRenglon " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        NombreDeLineaDeProducto " + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("	        TipoDeComision " + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("	        Monto " + InsSql.DecimalTypeForDb(25, 4) + ",");
-            SQL.AppendLine("	        Porcentaje " + InsSql.DecimalTypeForDb(25, 4) + ") AS XmlDocDetailOfVENDEDOR");
+            SQL.AppendLine("	        Porcentaje " + InsSql.DecimalTypeForDb(25, 4) + ") AS XmlDocDetailOfVendedor");
             SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("	    RETURN @ReturnValue");
@@ -375,6 +373,8 @@ namespace Galac.Adm.Dal.Vendedor {
 	        SQL.AppendLine("	ELSE");
             SQL.AppendLine("	    RETURN -1");
             SQL.AppendLine("END");
+            string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\view.sql";
+            LibFile.WriteLineInFile(vPath, SQL.ToString(), true);
             return SQL.ToString();
         }
         #endregion //Queries

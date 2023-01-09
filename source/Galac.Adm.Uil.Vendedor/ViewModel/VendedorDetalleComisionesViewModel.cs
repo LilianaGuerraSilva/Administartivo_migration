@@ -9,6 +9,8 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Uil.Tablas.ViewModel;
+using LibGalac.Aos.Uil;
+using Galac.Saw.Brl.Tablas;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
     public class VendedorDetalleComisionesViewModel : LibInputDetailViewModelMfc<VendedorDetalleComisiones> {
@@ -208,8 +210,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     valNombre = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_LineaDeProducto_B1.Nombre", valNombre);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                ConexionNombreDeLineaDeProducto = Master.ChooseRecord<FkLineaDeProductoViewModel>("Línea De Producto", vDefaultCriteria, vFixedCriteria, string.Empty);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_LineaDeProducto_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
+                ConexionNombreDeLineaDeProducto = LibFKRetrievalHelper.ChooseRecord<FkLineaDeProductoViewModel>("Línea de Producto", vDefaultCriteria, vFixedCriteria, new clsLineaDeProductoNav(), string.Empty);
                 if (ConexionNombreDeLineaDeProducto != null) {
                     NombreDeLineaDeProducto = ConexionNombreDeLineaDeProducto.Nombre;
                 } else {
