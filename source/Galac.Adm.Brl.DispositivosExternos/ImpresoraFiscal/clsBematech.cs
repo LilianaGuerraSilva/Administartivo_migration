@@ -72,6 +72,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("BemaFI32.dll")]
         public static extern int Bematech_FI_NumeroComprobanteFiscal([MarshalAs(UnmanagedType.VBByRefStr)] ref string NumeroComprobante);
         [DllImport("BemaFI32.dll")]
+        public static extern int Bematech_FI_ContadorNotaDeCreditoMFD([MarshalAs(UnmanagedType.VBByRefStr)] ref string NumeroComprobante);
+        [DllImport("BemaFI32.dll")]
         public static extern int Bematech_FI_NumeroReducciones([MarshalAs(UnmanagedType.VBByRefStr)] ref string NumeroReducciones);
         #endregion
 
@@ -195,6 +197,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         #endregion Constantes
         #region Variables
         bool _RegistroDeRetornoEnTxt;
+        bool _UsaPuertoUsb;
         #endregion
         private enum eTipoDeLectura {
             NoAplica = 0,
@@ -231,8 +234,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vPuerto = "USB";
                 } else {
                     vPuerto = "COM" + vPuerto;
-
                 }
+                _UsaPuertoUsb = (vTipoConexion == eTipoConexion.USB);
                 vLeerFile = LibFile.ReadFile(vBemaFi32Path);
                 vContenidoFile = LibText.Split(vLeerFile, "\r\n", true);
                 if (vContenidoFile != null && vContenidoFile.Length > 0) {
@@ -269,7 +272,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                         EditarFileBemaFi32INI(vBemaFi32Path, "Log", "1");
                     } else if (LibString.S1IsEqualToS2(vLineas, @"Path=C:\")) {
                         EditarFileBemaFi32INI(vBemaFi32Path, "Path", @"C:\Bema");
-                    } else if (vContarLineas >= 25) {
+                    } else if (LibString.S1IsEqualToS2(vLineas, "ControlPuerta=0") && _UsaPuertoUsb) { //Abrir Puerto de forma Automatica, USB no necesita hacerlo manual
+                        EditarFileBemaFi32INI(vBemaFi32Path, "ControlPuerta", "1");
+                    } else if (LibString.S1IsEqualToS2(vLineas, "ControlPuerta=1") && !_UsaPuertoUsb) { //Abrir Puerto de forma Manual, COM  necesita hacerlo de esta manera
+                        EditarFileBemaFi32INI(vBemaFi32Path, "ControlPuerta", "0");
+                    } else if (LibString.S1IsInS2(vLineas, "ConfigRede=1")) {
+                        EditarFileBemaFi32INI(vBemaFi32Path, "ConfigRede", "0");
+                    } else if (vContarLineas >= 30) {
                         break;
                     }
                     vContarLineas += 1;
@@ -302,23 +311,30 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             int retorno = 0;
             string vFecha = "";
             string vHora = "";
+            string vMensaje = "";
+            bool vReq;
             vFecha = LibText.Space(6);
             vHora = LibText.Space(6);
             retorno = Bematech_FI_FechaHoraImpresora(ref vFecha, ref vHora);
-            vFecha = LibString.Trim(vFecha);
-            vHora = LibString.Trim(vHora);
-            if (_RegistroDeRetornoEnTxt && (LibString.IsNullOrEmpty(vFecha) && LibString.IsNullOrEmpty(vFecha))) {
-                vResult = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
-                int vPosition = LibString.IndexOf(vResult, ",");
-                if (vPosition > 0) {
-                    vFecha = LibString.SubString(vResult, 0, vPosition);
-                    vHora = LibString.SubString(vResult, vPosition + 1);
+            vReq = RevisarEstadoImpresora(ref vMensaje);
+            if (vReq) {
+                vFecha = LibString.Trim(vFecha);
+                vHora = LibString.Trim(vHora);
+                if (_RegistroDeRetornoEnTxt && (LibString.IsNullOrEmpty(vFecha) && LibString.IsNullOrEmpty(vFecha))) {
+                    vResult = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
+                    int vPosition = LibString.IndexOf(vResult, ",");
+                    if (vPosition > 0) {
+                        vFecha = LibString.SubString(vResult, 0, vPosition);
+                        vHora = LibString.SubString(vResult, vPosition + 1);
+                    }
                 }
-            }
-            if (!LibString.IsNullOrEmpty(vFecha) && !LibString.IsNullOrEmpty(vHora)) {
-                vFecha = LibText.SubString(vFecha, 0, 2) + "/" + LibText.SubString(vFecha, 2, 2) + "/" + LibText.SubString(vFecha, 4, 2);
-                vHora = LibText.SubString(vHora, 0, 2) + ":" + LibText.SubString(vHora, 2, 2);
-                vResult = vFecha + LibText.Space(1) + vHora;
+                if (!LibString.IsNullOrEmpty(vFecha) && !LibString.IsNullOrEmpty(vHora)) {
+                    vFecha = LibText.SubString(vFecha, 0, 2) + "/" + LibText.SubString(vFecha, 2, 2) + "/" + LibText.SubString(vFecha, 4, 2);
+                    vHora = LibText.SubString(vHora, 0, 2) + ":" + LibText.SubString(vHora, 2, 2);
+                    vResult = vFecha + LibText.Space(1) + vHora;
+                }
+            } else {
+                throw new GalacException("Error al Obtener Fecha Y Hora", eExceptionManagementType.Controlled);
             }
             return vResult;
         }
@@ -353,8 +369,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vResult = false;
             try {
                 if (!_PortIsOpen) {
-                    vResult = (Bematech_FI_AbrePuertaSerial() != -5);
-                    _PortIsOpen = true;
+                    if (_UsaPuertoUsb) {
+                        _PortIsOpen = true;
+                        vResult = _PortIsOpen;
+                    } else {
+                        vResult = (Bematech_FI_AbrePuertaSerial() != -5);
+                        _PortIsOpen = vResult;
+                    }
                 } else {
                     _PortIsOpen = true;
                     vResult = _PortIsOpen;
@@ -371,9 +392,16 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             bool vResult = false;
             try {
                 if (_PortIsOpen) {
-                    vResult = (Bematech_FI_CierraPuertaSerial() == 1);
-                    Thread.Sleep(250);
-                    _PortIsOpen = false;
+                    if (_UsaPuertoUsb) {
+                        _PortIsOpen = false;
+                        vResult = true;
+                        Thread.Sleep(250);
+                    } else {
+                        vResult = (Bematech_FI_CierraPuertaSerial() == 1);
+                        Thread.Sleep(250);
+                        vResult = true;
+                        _PortIsOpen = vResult;
+                    }
                 } else {
                     vResult = true;
                 }
@@ -388,7 +416,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             int valStatus = 0;
             string MensajeStatus = "";
             valStatus = Bematech_FI_VerificaImpresoraPrendida();
-            if (RetornoStatus(valStatus, out MensajeStatus)) {
+            if (RevisarEstadoImpresora(ref MensajeStatus)) {
                 vResult = true;
             }
             return vResult;
@@ -398,14 +426,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             string vSerial = "";
             string vMensajeStatus = "";
             bool vResult = false;
+            int vRetorno;
             try {
                 if (valAbrirConexion) {
                     AbrirConexion();
                 }
                 vSerial = LibText.Space(20);
-                vResult = Bematech_FI_NumeroSerieMFD(ref vSerial) == 1;
-                vResult &= RevisarEstadoImpresora(ref vMensajeStatus);
+                vRetorno = Bematech_FI_NumeroSerieMFD(ref vSerial);
                 vSerial = LibText.Trim(vSerial);
+                vResult = RevisarEstadoImpresora(ref vMensajeStatus);
                 if (vResult) {
                     if (_RegistroDeRetornoEnTxt && LibString.IsNullOrEmpty(vSerial)) {
                         vSerial = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
@@ -414,8 +443,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     } else {
                         vResult = !LibString.IsNullOrEmpty(vSerial);
                     }
-                }
-                if (!vResult) {
+                } else {
                     vMensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
                     throw new GalacException(vMensajeStatus, eExceptionManagementType.Controlled);
                 }
@@ -468,7 +496,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 AbrirConexion();
                 vEstatus = Bematech_FI_ReduccionZ("", "");
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
-                Thread.Sleep(400);
+                Thread.Sleep(2000); // Pausa de 2 Segundos pues la impresora queda en espera luego de calcular el cierre diario
                 CerrarConexion();
                 if (!vResult) {
                     throw new GalacException(MensajeStatus, eExceptionManagementType.Controlled);
@@ -498,7 +526,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         public string ObtenerUltimoNumeroFactura(bool valAbrirConexion) {
-            string vUltimaFactura = LibText.Space(8);
+            string vUltimaFactura;
             int vRetorno = 0;
             bool vResult = false;
             string MensajeStatus = "";
@@ -507,12 +535,19 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (valAbrirConexion) {
                     AbrirConexion();
                 }
-                vRetorno = Bematech_FI_LecturaXSerial();
+                vUltimaFactura = LibText.Space(6);
+                vRetorno = Bematech_FI_NumeroComprobanteFiscal(ref vUltimaFactura);
+                vUltimaFactura = LibText.Trim(vUltimaFactura);
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
-                MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
                 if (vResult) {
-                    vUltimaFactura = LeerArchivoDeRetorno(eTipoDeLectura.UltimaFactura);
-                    MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
+                    if (_RegistroDeRetornoEnTxt && LibString.IsNullOrEmpty(vUltimaFactura)) {
+                        vResult = Bematech_FI_LecturaXSerial() == 1;
+                        vUltimaFactura = LeerArchivoDeRetorno(eTipoDeLectura.UltimaFactura);
+                        vUltimaFactura = LibText.Trim(vUltimaFactura);
+                        vResult = !LibString.IsNullOrEmpty(vUltimaFactura);
+                    } else {
+                        vResult = !LibString.IsNullOrEmpty(vUltimaFactura);
+                    }
                 } else {
                     MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones.";
                     throw new GalacException(MensajeStatus, eExceptionManagementType.Controlled);
@@ -537,11 +572,19 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (valAbrirConexion) {
                     AbrirConexion();
                 }
-                vRetorno = Bematech_FI_LecturaXSerial();
+                vUltimaNotaCredito = LibText.Space(6);
+                vRetorno = Bematech_FI_ContadorNotaDeCreditoMFD(ref vUltimaNotaCredito);
+                vUltimaNotaCredito = LibText.Trim(vUltimaNotaCredito);
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
-                MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
                 if (vResult) {
-                    vUltimaNotaCredito = LeerArchivoDeRetorno(eTipoDeLectura.UltimaNotaDeCredito);
+                    if (_RegistroDeRetornoEnTxt && LibString.IsNullOrEmpty(vUltimaNotaCredito)) {
+                        vResult = Bematech_FI_LecturaXSerial() == 1;
+                        vUltimaNotaCredito = LeerArchivoDeRetorno(eTipoDeLectura.UltimaNotaDeCredito);
+                        vUltimaNotaCredito = LibText.Trim(vUltimaNotaCredito);
+                        vResult = !LibString.IsNullOrEmpty(vUltimaNotaCredito);
+                    } else {
+                        vResult = !LibString.IsNullOrEmpty(vUltimaNotaCredito);
+                    }
                 } else {
                     MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones.";
                     throw new GalacException(MensajeStatus, eExceptionManagementType.Controlled);
@@ -557,7 +600,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         public string ObtenerUltimoNumeroReporteZ(bool valAbrirConexion) {
-            string vUltimoZ = LibText.Space(8);
+            string vUltimoZ;
             int vRetorno = 0;
             bool vResult = false;
             string MensajeStatus = "";
@@ -566,13 +609,20 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 if (valAbrirConexion) {
                     AbrirConexion();
                 }
-                vRetorno = Bematech_FI_LecturaXSerial();
+                vUltimoZ = LibText.Space(4);
+                vRetorno = Bematech_FI_NumeroReducciones(ref vUltimoZ);
+                vUltimoZ = LibText.Trim(vUltimoZ);
                 vResult = RevisarEstadoImpresora(ref MensajeStatus);
                 if (vResult) {
-                    vUltimoZ = LeerArchivoDeRetorno(eTipoDeLectura.UltimoReporteZ);
-                    MensajeStatus = LibText.CleanSpacesToBothSides(MensajeStatus);
+                    if (_RegistroDeRetornoEnTxt && LibString.IsNullOrEmpty(vUltimoZ)) {
+                        vUltimoZ = LeerArchivoDeRetorno(eTipoDeLectura.NoAplica);
+                        vUltimoZ = LibText.Trim(vUltimoZ);
+                        vResult = !LibString.IsNullOrEmpty(vUltimoZ);
+                    } else {
+                        vResult = !LibString.IsNullOrEmpty(vUltimoZ);
+                    }
                 } else {
-                    MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones.";
+                    MensajeStatus += "\r\nError de comunicación revisar puertos y conexiones";
                     throw new GalacException(MensajeStatus, eExceptionManagementType.Controlled);
                 }
                 if (valAbrirConexion) {
@@ -714,8 +764,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 valRazonSocial = LibText.SubString(valRazonSocial, 0, 41);
                 valRif = LibText.SubString(valRif, 0, 18);
                 valDireccion = LibText.SubString(valDireccion, 0, 133);
+                valDireccion = LibString.IsNullOrEmpty(valDireccion) ? "-" : valDireccion;
                 vRepuesta = Bematech_FI_AbreComprobanteDeVentaEx(valRif, valRazonSocial, valDireccion);
-                vResult = RetornoStatus(vRepuesta, out MensajeStatus);
+                vResult = RevisarEstadoImpresora(ref MensajeStatus);
                 if (!vResult) {
                     throw new GalacException("error al abrir el Comprobante Fiscal: " + MensajeStatus, eExceptionManagementType.Controlled);
                 }
@@ -749,7 +800,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 vMinuto = LibText.FillWithCharToLeft(LibConvert.ToStr(vHoraTM.Minute), "0", 2);
                 vSegundo = "00";
                 vRepuesta = Bematech_FI_AbreNotaDeCredito(valRazonSocial, valSerialMaquina, valRif, vDia, vMes, vAno, vHora, vMinuto, vSegundo, valNumeroComprobanteFiscal);
-                vResult = RetornoStatus(vRepuesta, out MensajeStatus);
+                vResult = RevisarEstadoImpresora(ref MensajeStatus);
                 if (!vResult) {
                     throw new GalacException("error al abrir la Nota de Crédito: " + MensajeStatus, eExceptionManagementType.Controlled);
                 }
@@ -817,7 +868,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 if (vModelo == eImpresoraFiscal.BEMATECH_MP_20_FI_II && valEsNotaDeCredito) {
                     vResult = Bematech_FI_FinalizarCierreCupon(vTexto);
-                    Seguir = RetornoStatus(vResult, out vMensaje);
+                    Seguir = RevisarEstadoImpresora(ref vMensaje);
                     return Seguir;
                 } else {
                     if (LibText.Len(vTotalMonedaExtranjera) > 0 && !valEsNotaDeCredito) {
@@ -847,7 +898,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                 }
                 vResult = Bematech_FI_FinalizarCierreCupon(vTexto);
-                Seguir = RetornoStatus(vResult, out vMensaje);
+                Seguir = RevisarEstadoImpresora(ref vMensaje);
                 if (!Seguir) {
                     throw new GalacException(vMensaje, eExceptionManagementType.Controlled);
                 }
@@ -928,10 +979,10 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                     vDescripcionExtendida = vDescripcionExtendida + (LibString.IsNullOrEmpty(vSerial) ? "" : vSerial) + (LibString.IsNullOrEmpty(vRollo) ? "" : vRollo);
                     vResultado = Bematech_FI_ExtenderDescripcionArticulo(vDescripcionExtendida);
-                    vEstatus = RetornoStatus(vResultado, out vMensaje);
+                    vEstatus = RevisarEstadoImpresora(ref vMensaje);
                     vResultado = Bematech_FI_VendeArticulo(vCodigo, vDescripcionResumida, vPorcentajeAlicuota, vFormatoCantidad, vCantidad, vCantidaDecimales, vMonto, vFormatoDescuento, vPrcDescuento);
-                    vEstatus &= RetornoStatus(vResultado, out vMensaje);
-                    if (vResultado != 1) {
+                    vEstatus &= RevisarEstadoImpresora(ref vMensaje);
+                    if (!vEstatus) {
                         throw new GalacException("Error al imprimir artículo " + vMensaje, eExceptionManagementType.Controlled);
                     }
                 }
