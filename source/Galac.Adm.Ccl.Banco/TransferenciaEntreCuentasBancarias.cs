@@ -33,7 +33,7 @@ namespace Galac.Adm.Ccl.Banco {
 		private decimal _MontoComisionEgreso;
 		private string _CodigoConceptoComisionEgreso;
 		private string _DescripcionConceptoComisionEgreso;
-		private bool _GeneraImpuestoBancarioEgreso;
+        private bool _GeneraIGTFComisionEgreso;
 		private string _CodigoCuentaBancariaDestino;
 		private string _NombreCuentaBancariaDestino;
 		private decimal _SaldoCuentaBancariaDestino;
@@ -48,7 +48,7 @@ namespace Galac.Adm.Ccl.Banco {
 		private decimal _MontoComisionIngreso;
 		private string _CodigoConceptoComisionIngreso;
 		private string _DescripcionConceptoComisionIngreso;
-		private bool _GeneraImpuestoBancarioIngreso;
+        private bool _GeneraIGTFComisionIngreso;
 		private string _NombreOperador;
 		private DateTime _FechaUltimaModificacion;
 		private long _fldTimeStamp;
@@ -105,7 +105,7 @@ namespace Galac.Adm.Ccl.Banco {
 
 		public string CodigoCuentaBancariaOrigen {
 			get { return _CodigoCuentaBancariaOrigen; }
-			set { _CodigoCuentaBancariaOrigen = LibString.Mid(value, 0, 5); }
+            set { _CodigoCuentaBancariaOrigen = LibString.Mid(value, 0, 8); }
 		}
 
 		public string NombreCuentaBancariaOrigen {
@@ -181,18 +181,18 @@ namespace Galac.Adm.Ccl.Banco {
 			set { _DescripcionConceptoComisionEgreso = LibString.Mid(value, 0, 30); }
 		}
 
-		public bool GeneraImpuestoBancarioEgresoAsBool {
-			get { return _GeneraImpuestoBancarioEgreso; }
-			set { _GeneraImpuestoBancarioEgreso = value; }
+        public bool GeneraIGTFComisionEgresoAsBool {
+            get { return _GeneraIGTFComisionEgreso; }
+            set { _GeneraIGTFComisionEgreso = value; }
 		}
 
-		public string GeneraImpuestoBancarioEgreso {
-			set { _GeneraImpuestoBancarioEgreso = LibConvert.SNToBool(value); }
+        public string GeneraIGTFComisionEgreso {
+            set { _GeneraIGTFComisionEgreso = LibConvert.SNToBool(value); }
 		}
 
 		public string CodigoCuentaBancariaDestino {
 			get { return _CodigoCuentaBancariaDestino; }
-			set { _CodigoCuentaBancariaDestino = LibString.Mid(value, 0, 5); }
+            set { _CodigoCuentaBancariaDestino = LibString.Mid(value, 0, 8); }
 		}
 
 		public string NombreCuentaBancariaDestino {
@@ -268,13 +268,13 @@ namespace Galac.Adm.Ccl.Banco {
 			set { _DescripcionConceptoComisionIngreso = LibString.Mid(value, 0, 30); }
 		}
 
-		public bool GeneraImpuestoBancarioIngresoAsBool {
-			get { return _GeneraImpuestoBancarioIngreso; }
-			set { _GeneraImpuestoBancarioIngreso = value; }
+        public bool GeneraIGTFComisionIngresoAsBool {
+            get { return _GeneraIGTFComisionIngreso; }
+            set { _GeneraIGTFComisionIngreso = value; }
 		}
 
-		public string GeneraImpuestoBancarioIngreso {
-			set { _GeneraImpuestoBancarioIngreso = LibConvert.SNToBool(value); }
+        public string GeneraIGTFComisionIngreso {
+            set { _GeneraIGTFComisionIngreso = LibConvert.SNToBool(value); }
 		}
 
 		public string NombreOperador {
@@ -324,7 +324,7 @@ namespace Galac.Adm.Ccl.Banco {
 			GeneraComisionEgresoAsBool = false;
 			MontoComisionEgreso = 0;
 			CodigoConceptoComisionEgreso = string.Empty;
-			GeneraImpuestoBancarioEgresoAsBool = false;
+            GeneraIGTFComisionEgresoAsBool = false;
 			CodigoCuentaBancariaDestino = string.Empty;
 			CambioABolivaresIngreso = 1;
 			MontoTransferenciaIngreso = 0;
@@ -332,7 +332,7 @@ namespace Galac.Adm.Ccl.Banco {
 			GeneraComisionIngresoAsBool = false;
 			MontoComisionIngreso = 0;
 			CodigoConceptoComisionIngreso = string.Empty;
-			GeneraImpuestoBancarioIngresoAsBool = false;
+            GeneraIGTFComisionIngresoAsBool = false;
 			NombreOperador = string.Empty;
 			FechaUltimaModificacion = LibDate.Today();
 			fldTimeStamp = 0;
@@ -354,7 +354,7 @@ namespace Galac.Adm.Ccl.Banco {
 			vResult.GeneraComisionEgresoAsBool = _GeneraComisionEgreso;
 			vResult.MontoComisionEgreso = _MontoComisionEgreso;
 			vResult.CodigoConceptoComisionEgreso = _CodigoConceptoComisionEgreso;
-			vResult.GeneraImpuestoBancarioEgresoAsBool = _GeneraImpuestoBancarioEgreso;
+            vResult.GeneraIGTFComisionEgresoAsBool = _GeneraIGTFComisionEgreso;
 			vResult.CodigoCuentaBancariaDestino = _CodigoCuentaBancariaDestino;
 			vResult.CambioABolivaresIngreso = _CambioABolivaresIngreso;
 			vResult.MontoTransferenciaIngreso = _MontoTransferenciaIngreso;
@@ -362,7 +362,7 @@ namespace Galac.Adm.Ccl.Banco {
 			vResult.GeneraComisionIngresoAsBool = _GeneraComisionIngreso;
 			vResult.MontoComisionIngreso = _MontoComisionIngreso;
 			vResult.CodigoConceptoComisionIngreso = _CodigoConceptoComisionIngreso;
-			vResult.GeneraImpuestoBancarioIngresoAsBool = _GeneraImpuestoBancarioIngreso;
+            vResult.GeneraIGTFComisionIngresoAsBool = _GeneraIGTFComisionIngreso;
 			vResult.NombreOperador = _NombreOperador;
 			vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
 			vResult.fldTimeStamp = _fldTimeStamp;

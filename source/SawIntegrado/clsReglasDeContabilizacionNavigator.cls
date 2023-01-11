@@ -120,6 +120,7 @@ Private mChicaChicaTipoComprobante As String
 Private mTipoContabilizacionDePagosSueldos As String
 Private mTipoContabilizacionRendicion As String
 Private mTipoContabilizacionCajaChica As String
+Private mTipoContabilizacionTransferenciaEntreCuenta As String
 Private mPagosSueldosTipoComprobante As String
 Private mContabIndividualPagosSueldos As String
 Private mEditarComprobanteDePagosSueldos As Boolean
@@ -192,7 +193,9 @@ Private mEditarComprobanteAfterInsertCajaChica As Boolean
 Private mEditarComprobanteAfterInsertCajaChicaIsSet As Boolean
 
 Private mSiglasTipoComprobanteCajaChica As String
+Private mSiglasTipoComprobanteTransferenciaEntreCuenta As String
 Private mContabIndividualCajaChica As String
+Private mContabIndividualTransferenciaEntreCuenta As String
 Private mCuentaCajaChicaGasto As String
 Private mMostrarDesglosadoCajaChica As Boolean
 Private mMostrarDesglosadoCajaChicaIsSet As Boolean
@@ -207,10 +210,13 @@ Private mCuentaRendicionesBanco As String
 Private mCuentaRendicionesAnticipos As String
 Private mMostrarDesglosadoRendiciones As Boolean
 Private mMostrarDesglosadoRendicionesIsSet As Boolean
-
-
-
-
+Private mCuentaTransfCtasBancoDestino As String
+Private mCuentaTransfCtasBancoOrigen As String
+Private mCuentaTransfCtasGastoComDestino As String
+Private mCuentaTransfCtasGastoComOrigen As String
+Private mEditarComprobanteAfterInsertTransfCtas As String
+Private mEditarComprobanteAfterInsertTransfCtasIsSet As String
+Private mTransfCtasSigasTipoComprobante As String
 'Enum enum_TipoDeCtaContabilizacionClienteProveedor
 Public Function eTC_ReglaProvCxP() As Integer
    eTC_ReglaProvCxP = 0
@@ -650,7 +656,11 @@ Public Sub sClrRecord()
    SetCuentaRendicionesAnticipos ""
    SetMostrarDesglosadoRendiciones False
    mMostrarDesglosadoRendicionesIsSet = False
-
+   
+   SetCuentaTransfCtasBancoDestino ""
+   SetCuentaTransfCtasBancoOrigen ""
+   SetCuentaTransfCtasGastoComDestino ""
+   SetCuentaTransfCtasGastoComOrigen ""
    
    SetNombreOperador gProyUsuarioActual.GetNombreDelUsuario
    SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
@@ -1772,7 +1782,16 @@ End Function
 Public Sub SetTipoContabilizacionCajaChicaStr(ByVal valNewValue As String)
    mTipoContabilizacionCajaChica = valNewValue
 End Sub
-
+Public Function GetTipoContabilizacionTransferenciaEntreCuentaStr() As String
+   GetTipoContabilizacionTransferenciaEntreCuentaStr = mTipoContabilizacionTransferenciaEntreCuenta
+End Function
+Public Function GetTipoContabilizacionTransferenciaEntreCuentaAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionTransferenciaEntreCuentaAsEnum = _
+         gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionTransferenciaEntreCuentaStr, False)
+End Function
+Public Sub SetTipoContabilizacionTransferenciaEntreCuentaStr(ByVal valNewValue As String)
+   mTipoContabilizacionTransferenciaEntreCuenta = valNewValue
+End Sub
 Public Function GetPagosSueldosTipoComprobante() As String
    GetPagosSueldosTipoComprobante = mPagosSueldosTipoComprobante
 End Function
@@ -1947,6 +1966,36 @@ Public Sub SetContabIndividualCajaChicaStr(ByVal valNewValue As String)
    mContabIndividualCajaChica = valNewValue
 End Sub
 
+Public Function GetSiglasTipoComprobanteTransferenciaEntreCuenta() As String
+   GetSiglasTipoComprobanteTransferenciaEntreCuenta = mTransfCtasSigasTipoComprobante
+End Function
+
+Public Sub SetSiglasTipoComprobanteTransferenciaEntreCuenta(ByVal valNewValue As String)
+   mTransfCtasSigasTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetContabIndividualTransferenciaEntreCuentaStr() As String
+   GetContabIndividualTransferenciaEntreCuentaStr = mContabIndividualTransferenciaEntreCuenta
+End Function
+
+Public Function GetContabIndividualTransferenciaEntreCuentaChar() As String
+   If GetContabIndividualTransferenciaEntreCuentaStr = "" Then
+      GetContabIndividualTransferenciaEntreCuentaChar = ""
+   Else
+      GetContabIndividualTransferenciaEntreCuentaChar = gConvert.enumerativoAChar( _
+            gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualTransferenciaEntreCuentaStr, False))
+   End If
+End Function
+
+Public Function GetContabIndividualTransferenciaEntreCuentaAsEnum() As enum_ContabilizacionIndividual
+   GetContabIndividualTransferenciaEntreCuentaAsEnum = _
+         gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualTransferenciaEntreCuentaStr, False)
+End Function
+
+Public Sub SetContabIndividualTransferenciaEntreCuentaStr(ByVal valNewValue As String)
+   mContabIndividualTransferenciaEntreCuenta = valNewValue
+End Sub
+
 Public Function GetCuentaCajaChicaGasto() As String
    GetCuentaCajaChicaGasto = mCuentaCajaChicaGasto
 End Function
@@ -1954,8 +2003,6 @@ End Function
 Public Sub SetCuentaCajaChicaGasto(ByVal valNewValue As String)
    mCuentaCajaChicaGasto = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
-
-
 
 Public Function GetMostrarDesglosadoCajaChica() As Boolean
    GetMostrarDesglosadoCajaChica = mMostrarDesglosadoCajaChica
@@ -2060,8 +2107,6 @@ Public Sub SetMostrarDesglosadoRendiciones(ByVal valNewValue As Boolean, Optiona
    mMostrarDesglosadoRendiciones = valNewValue
    mMostrarDesglosadoRendicionesIsSet = valueWasTrueOrFalseInSearch
 End Sub
-
-
 
 Public Function GetNombreOperador() As String
    GetNombreOperador = mNombreOperador
@@ -2387,7 +2432,6 @@ Private Sub setRSWithValues(ByVal valAction As AccionSobreRecord)
    If gDbUtil.FieldInRecordSet(mrsReglasDeContabilizacion, "CuentaRetencionImpuestoMunicipal") Then
      mrsReglasDeContabilizacion("CuentaRetencionImpuestoMunicipal") = GetCuentaRetencionImpuestoMunicipal()
    End If
-   
    If gDbUtil.FieldInRecordSet(mrsReglasDeContabilizacion, "EditarComprobanteAfterInsertCxC") Then
       mrsReglasDeContabilizacion("EditarComprobanteAfterInsertCxC") = gConvert.ConvertBooleanToString(GetEditarComprobanteAfterInsertCxC())
    End If
@@ -2465,8 +2509,18 @@ Private Sub setRSWithValues(ByVal valAction As AccionSobreRecord)
    If gDbUtil.FieldInRecordSet(mrsReglasDeContabilizacion, "MostrarDesglosadoRendiciones") Then
       mrsReglasDeContabilizacion("MostrarDesglosadoRendiciones") = gConvert.ConvertBooleanToString(GetMostrarDesglosadoRendiciones())
    End If
-
-   
+   If gDbUtil.FieldInRecordSet(mrsReglasDeContabilizacion, "CuentaTransfCtasBancoDestino") Then
+      mrsReglasDeContabilizacion("CuentaRendicionesAnticipos") = GetCuentaTransfCtasBancoDestino()
+   End If
+   If gDbUtil.FieldInRecordSet(mrsReglasDeContabilizacion, "CuentaTransfCtasBancoOrigen") Then
+      mrsReglasDeContabilizacion("CuentaRendicionesAnticipos") = GetCuentaTransfCtasBancoOrigen()
+   End If
+   If gDbUtil.FieldInRecordSet(mrsReglasDeContabilizacion, "CuentaTransfCtasGastoComOrigen") Then
+      mrsReglasDeContabilizacion("CuentaRendicionesAnticipos") = GetCuentaTransfCtasGastoComOrigen()
+   End If
+   If gDbUtil.FieldInRecordSet(mrsReglasDeContabilizacion, "CuentaTransfCtasGastoComDestino") Then
+      mrsReglasDeContabilizacion("CuentaRendicionesAnticipos") = GetCuentaTransfCtasGastoComDestino()
+   End If
    
    If gDbUtil.FieldInRecordSet(mrsReglasDeContabilizacion, "NombreOperador") Then
       mrsReglasDeContabilizacion("NombreOperador") = GetNombreOperador()
@@ -3111,8 +3165,41 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetMostrarDesglosadoRendiciones gConvert.ConvertStringToBoolean(valRecordSet("MostrarDesglosadoRendiciones"))
       End If
    End If
-
-   
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaTransfCtasBancoDestino") Then
+      If Not IsNull(valRecordSet("CuentaTransfCtasBancoDestino")) Then
+         SetCuentaTransfCtasBancoDestino valRecordSet("CuentaTransfCtasBancoDestino")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaTransfCtasGastoComOrigen") Then
+      If Not IsNull(valRecordSet("CuentaTransfCtasGastoComOrigen")) Then
+         SetCuentaTransfCtasGastoComOrigen valRecordSet("CuentaTransfCtasGastoComOrigen")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaTransfCtasGastoComDestino") Then
+      If Not IsNull(valRecordSet("CuentaTransfCtasGastoComDestino")) Then
+         SetCuentaTransfCtasGastoComDestino valRecordSet("CuentaTransfCtasGastoComDestino")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaTransfCtasBancoOrigen") Then
+      If Not IsNull(valRecordSet("CuentaTransfCtasBancoOrigen")) Then
+         SetCuentaTransfCtasBancoOrigen valRecordSet("CuentaTransfCtasBancoOrigen")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TransfCtasSigasTipoComprobante") Then
+      If Not IsNull(valRecordSet("TransfCtasSigasTipoComprobante")) Then
+         SetSiglasTipoComprobanteTransferenciaEntreCuenta valRecordSet("TransfCtasSigasTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualTransfCtas") Then
+      If Not IsNull(valRecordSet("ContabIndividualTransfCtas")) Then
+         SetContabIndividualTransferenciaEntreCuentaStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualTransfCtas")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertTransfCtas") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertTransfCtas")) Then
+          SetEditarComprobanteAfterInsertTransfCtas gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertTransfCtas"))
+      End If
+   End If
    
    If gDbUtil.FieldInRecordSet(valRecordSet, "NombreOperador") Then
       If Not IsNull(valRecordSet("NombreOperador")) Then
@@ -3564,6 +3651,7 @@ Public Function fLasCuentasDeReglasDeContabilizacionEstanCompletas(ByVal valModu
          Case eCG_INVENTARIO: EstanCompletas = fLasCuentasDeInventarioEstanCompletas()
          Case eCG_PAGO_SUELDOS: EstanCompletas = fLasCuentasDePagoSueldoEstanCompletas()
          Case eCG_REPOSICION: EstanCompletas = fLasCuentasDeReposicionEstanCompletas()
+         Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: EstanCompletas = fLasCuentaTransfCtasEstanCompletas()
       End Select
    End If
    If Not EstanCompletas And valConMensaje Then
@@ -3642,8 +3730,8 @@ Public Function fTextoMenuDeContabilizar(ByVal valModulo As enum_ComprobanteGene
          fTextoMenuDeContabilizar = fGenericoDeTextoMenuContabilizar(valModulo, GetTipoContabilizacionAnticipoAsEnum, GetContabPorLoteAnticipoAsEnum)
       Case eCG_REPOSICION:
          fTextoMenuDeContabilizar = fGenericoDeTextoMenuContabilizar(valModulo, GetTipoContabilizacionCajaChicaAsEnum, GetContabPorLoteAnticipoAsEnum)
-      'Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA:
-        ' fTextoMenuDeContabilizar = fGenericoDeTextoMenuContabilizar(valModulo, GetTipoContabilizacionCajaChicaAsEnum, GetContabPorLoteAnticipoAsEnum)
+      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA:
+         fTextoMenuDeContabilizar = fGenericoDeTextoMenuContabilizar(valModulo, GetTipoContabilizacionCajaChicaAsEnum, GetContabPorLoteAnticipoAsEnum)
       Case Else
          gMessage.Advertencia "Falta fTextoMenuDeContabilizar clsReglasDeContabilizacionNavigator - Case Else"
    End Select
@@ -3728,6 +3816,7 @@ Public Function fBuscaElTipoDeContabilizacion(ByVal valModulo As enum_Comprobant
       Case eCG_ANTICIPO: fBuscaElTipoDeContabilizacion = GetTipoContabilizacionAnticipoAsEnum
       Case eCG_PAGO_SUELDOS: fBuscaElTipoDeContabilizacion = GetTipoContabilizacionDePagosSueldosAsEnum()
       Case eCG_REPOSICION: fBuscaElTipoDeContabilizacion = GetTipoContabilizacionCajaChicaAsEnum()
+      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: fBuscaElTipoDeContabilizacion = GetTipoContabilizacionCajaChicaAsEnum()
       Case Else: gMessage.Advertencia "Falta Buscar tipo de Contabilizacion en fBuscaElTipoDeContabilizacion clsReglasDeContabilizacionNavigator - Case Else"
    End Select
 h_EXIT: On Error GoTo 0
@@ -3747,8 +3836,9 @@ Public Function fBuscaElTipoDeContabilizacionIndividual(ByVal valModulo As enum_
       Case eCG_MOVIMIENTO_BANCARIO: fBuscaElTipoDeContabilizacionIndividual = GetContabIndividualMovBancarioAsEnum
       Case eCG_RESUMEN_DIARIO_VENTAS: fBuscaElTipoDeContabilizacionIndividual = GetContabIndividualRDVtasAsEnum
       Case eCG_ANTICIPO: fBuscaElTipoDeContabilizacionIndividual = GetContabIndividualAnticipoAsEnum
-     Case eCG_PAGO_SUELDOS: fBuscaElTipoDeContabilizacionIndividual = GetContabIndividualPagosSueldosAsEnum
+      Case eCG_PAGO_SUELDOS: fBuscaElTipoDeContabilizacionIndividual = GetContabIndividualPagosSueldosAsEnum
       Case eCG_REPOSICION: fBuscaElTipoDeContabilizacionIndividual = GetContabIndividualCajaChicaAsEnum
+      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: fBuscaElTipoDeContabilizacionIndividual = GetContabIndividualTransferenciaEntreCuentaAsEnum
      Case Else: gMessage.Advertencia "Falta Buscar tipo de Contabilizacion en fBuscaElTipoDeContabilizacionIndividual clsReglasDeContabilizacionNavigator - Case Else"
    End Select
 h_EXIT: On Error GoTo 0
@@ -4346,7 +4436,6 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@EditarComprobanteAfterInsertCajaChica", 1, valRecordSet("EditarComprobanteAfterInsertCajaChica").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@SiglasTipoComprobanteCajaChica", 2, valRecordSet("SiglasTipoComprobanteCajaChica").value)
 
-
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabIndividualCajaChica", 1, valRecordSet("ContabIndividualCajaChica").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaCajaChicaGasto", 30, valRecordSet("CuentaCajaChicaGasto").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@MostrarDesglosadoCajaChica", 1, valRecordSet("MostrarDesglosadoCajaChica").value)
@@ -4360,6 +4449,15 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaRendicionesBanco", 30, valRecordSet("CuentaRendicionesBanco").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaRendicionesAnticipos", 30, valRecordSet("CuentaRendicionesAnticipos").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@MostrarDesglosadoRendiciones", 1, valRecordSet("MostrarDesglosadoRendiciones").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoContabilizacionTransfCtas", 1, valRecordSet("TipoContabilizacionTransfCtas").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabPorLoteTransfCtas", 1, valRecordSet("ContabPorLoteTransfCtas").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasBancoDestino", 30, valRecordSet("CuentaTransfCtasBancoDestino").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasGastoComOrigen", 30, valRecordSet("CuentaTransfCtasGastoComOrigen").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasGastoComDestino", 30, valRecordSet("CuentaTransfCtasGastoComDestino").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasBancoOrigen", 30, valRecordSet("CuentaTransfCtasBancoOrigen").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TransfCtasSigasTipoComprobante", 2, valRecordSet("TransfCtasSigasTipoComprobante").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@EditarComprobanteAfterInsertTransfCtas", 1, valRecordSet("EditarComprobanteAfterInsertTransfCtas").value)
+      
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, valRecordSet("NombreOperador").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", valRecordSet("FechaUltimaModificacion").value)
       insUtAdoCmd.fExecCmd vCmd
@@ -4473,6 +4571,7 @@ Public Function fEditaComprobanteDespuesDeInsertar(ByVal valModulo As enum_Compr
       Case eCG_INVENTARIO: fEditaComprobanteDespuesDeInsertar = gProyReglasDeContabilizacion.GetEditarComprobanteAfterInsertInventario
       Case eCG_PAGO_SUELDOS: fEditaComprobanteDespuesDeInsertar = gProyReglasDeContabilizacion.GetEditarComprobanteDePagosSueldos
       Case eCG_REPOSICION: fEditaComprobanteDespuesDeInsertar = gProyReglasDeContabilizacion.GetEditarComprobanteAfterInsertCajaChica
+      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: fEditaComprobanteDespuesDeInsertar = gProyReglasDeContabilizacion.GetEditarComprobanteAfterInsertTransfCtas
    End Select
 h_EXIT:
    On Error GoTo 0
@@ -4628,4 +4727,65 @@ Private Sub sBuscarCuentaUsaAuxiliar(ByVal valXmlCuentas As String)
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sBuscarCuentaUsaAuxiliar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Public Function GetCuentaTransfCtasBancoDestino() As String
+   GetCuentaTransfCtasBancoDestino = mCuentaTransfCtasBancoDestino
+End Function
+
+Public Sub SetCuentaTransfCtasBancoDestino(ByVal valNewValue As String)
+   mCuentaTransfCtasBancoDestino = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaTransfCtasGastoComOrigen() As String
+   GetCuentaTransfCtasGastoComOrigen = mCuentaTransfCtasGastoComOrigen
+End Function
+
+Public Sub SetCuentaTransfCtasGastoComOrigen(ByVal valNewValue As String)
+   mCuentaTransfCtasGastoComOrigen = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaTransfCtasGastoComDestino() As String
+   GetCuentaTransfCtasGastoComDestino = mCuentaTransfCtasGastoComDestino
+End Function
+
+Public Sub SetCuentaTransfCtasGastoComDestino(ByVal valNewValue As String)
+   mCuentaTransfCtasGastoComDestino = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaTransfCtasBancoOrigen() As String
+   GetCuentaTransfCtasBancoOrigen = mCuentaTransfCtasBancoOrigen
+End Function
+
+Public Sub SetCuentaTransfCtasBancoOrigen(ByVal valNewValue As String)
+   mCuentaTransfCtasBancoOrigen = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Private Function fLasCuentaTransfCtasEstanCompletas() As Boolean
+   Dim EstanCompletas As Boolean
+   On Error GoTo h_ERROR
+   EstanCompletas = GetCuentaTransfCtasBancoDestino <> ""
+   EstanCompletas = EstanCompletas And GetCuentaTransfCtasBancoOrigen <> ""
+   EstanCompletas = EstanCompletas And GetCuentaTransfCtasGastoComDestino <> ""
+   EstanCompletas = EstanCompletas And GetCuentaTransfCtasGastoComOrigen <> ""
+   If (gProyParametrosCompania.GetManejaDebitoBancario) Then
+      EstanCompletas = EstanCompletas And fLasCuentasDeDebitoBancarioEstanCompletas()
+   End If
+   If (gProyParametrosCompania.GetManejaCreditoBancario) Then
+      EstanCompletas = EstanCompletas And fLasCuentasDeCreditoBancarioEstanCompletas()
+   End If
+h_EXIT:
+   fLasCuentaTransfCtasEstanCompletas = EstanCompletas
+   On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentaTransfCtasEstanCompletas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Public Function GetEditarComprobanteAfterInsertTransfCtas() As Boolean
+   GetEditarComprobanteAfterInsertTransfCtas = mEditarComprobanteAfterInsertTransfCtas
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertTransfCtas(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertTransfCtas = valNewValue
+   mEditarComprobanteAfterInsertTransfCtasIsSet = valueWasTrueOrFalseInSearch
 End Sub

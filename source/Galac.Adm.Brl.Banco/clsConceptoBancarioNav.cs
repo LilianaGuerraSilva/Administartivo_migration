@@ -57,6 +57,9 @@ namespace Galac.Adm.Brl.Banco {
                 case "Concepto Bancario":
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
+                case "Transferencias Bancarias":
+                    vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 default: throw new NotImplementedException();
             }
             return vResult;
@@ -158,6 +161,8 @@ namespace Galac.Adm.Brl.Banco {
                 new XElement("TRANSERENCIA_EGRESO", "60343"),
                 new XElement("DETRACCION_INGRESO", "60344"),
                 new XElement("DETRACCION_EGRESO", "60345"),
+                new XElement("REV_AUTOMATICO_TRANSF_INGRESO", "60347"),
+                new XElement("REV_AUTOMATICO_TRANSF_EGRESO", "60348"),
                 new XElement("REV_AUTOMATICO_SOLI_PAGADO", "G0001")));
             return vXElement;
         }

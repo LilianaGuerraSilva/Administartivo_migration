@@ -99,4 +99,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:CxPComprasImagenesComprobanteRetViewModel}">
         <nsCSV:GSCxPComprasImagenesComprobanteRetViewModel />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:BancosTransferenciaViewModel}">
+        <nsCSV:GSBancosTransferenciaView />
+    </DataTemplate>
 </ResourceDictionary>

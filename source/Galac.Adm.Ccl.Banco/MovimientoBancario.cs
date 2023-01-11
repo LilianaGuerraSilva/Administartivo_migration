@@ -24,6 +24,7 @@ namespace Galac.Adm.Ccl.Banco {
         private string _NumeroDocumento;
         private string _Descripcion;
         private bool _GeneraImpuestoBancario;
+        private bool _GeneraIGTFComision;
         private decimal _AlicuotaImpBancario;
         private string _NroMovimientoRelacionado;
         private eGeneradoPor _GeneradoPor;
@@ -117,7 +118,14 @@ namespace Galac.Adm.Ccl.Banco {
         public string GeneraImpuestoBancario {
             set { _GeneraImpuestoBancario = LibConvert.SNToBool(value); }
         }
+        public bool GeneraIGTFComisionAsBool {
+            get { return _GeneraIGTFComision; }
+            set { _GeneraIGTFComision = value; }
+        }
 
+        public string GeneraIGTFComision {
+            set { _GeneraIGTFComision = LibConvert.SNToBool(value); }
+        }
 
         public decimal AlicuotaImpBancario {
             get { return _AlicuotaImpBancario; }
