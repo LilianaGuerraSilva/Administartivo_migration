@@ -13,8 +13,8 @@ namespace Galac.Adm.Rpt.Venta {
     /// <summary>
     /// Summary description for dsrCuadreCajaPorUsuario.
     /// </summary>
-    public partial class dsrCuadreCajaPorUsuario : DataDynamics.ActiveReports.ActiveReport {
-		#region Variables
+    public partial class dsrCuadreCajaPorUsuario: DataDynamics.ActiveReports.ActiveReport {
+        #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
         #endregion //Variables
@@ -35,8 +35,8 @@ namespace Galac.Adm.Rpt.Venta {
                 _RpxFileName = initRpxFileName;
             }
         }
-		#endregion //Constructores
-		#region Metodos Generados
+        #endregion //Constructores
+        #region Metodos Generados
 
         public string ReportTitle() {
             return "Cuadre de Caja Por Usuario";
@@ -58,24 +58,23 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigHeader(this, "txtNombreCompania", "lblFechaYHoraDeEmision", "lblTituloInforme", "txtNroDePagina", "lblFechaInicialYFinal", LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintPageNumber, LibGalac.Aos.ARRpt.LibGraphPrnSettings.PrintEmitDate);
                 #region Columnas (Cabeceras del informe)
                 LibReport.ConfigFieldStr(this, "txtNombreUsuario", string.Empty, "NombreUsuario");
-                LibReport.ConfigFieldInt(this, "txtConsecutivoCaja", string.Empty, "ConsecutivoCaja");
-				LibReport.ConfigFieldStr(this, "txtNombreCaja", string.Empty, "NombreCaja");
-				LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDoc");
-				LibReport.ConfigFieldStr(this, "txtMonedaCobro", string.Empty, "MonedaCobro");
-				LibReport.ConfigFieldStr(this, "txtCodMonedaCobro", string.Empty, "CodMonedaCobro");
-				LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
-				LibReport.ConfigFieldStr(this, "txtNumeroDoc", string.Empty, "NumeroDoc");
-				LibReport.ConfigFieldStr(this, "txtNumeroCompFiscal", string.Empty, "NumFiscal");
-				LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoDoc", string.Empty, "MontoDoc", 2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoPagado", string.Empty, "MontoPagado", 2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoVuelto", string.Empty, "Vuelto", 2);
+                LibReport.ConfigFieldStr(this, "txtNombreCaja", string.Empty, "NombreCaja");
+                LibReport.ConfigFieldStr(this, "txtMonedaDoc", string.Empty, "MonedaDoc");
+                LibReport.ConfigFieldStr(this, "txtMonedaCobro", string.Empty, "MonedaCobro");
+                LibReport.ConfigFieldStr(this, "txtCodMonedaCobro", string.Empty, "CodMonedaCobro");
+                LibReport.ConfigFieldDate(this, "txtFecha", string.Empty, "Fecha", "dd/MM/yyyy");
+                LibReport.ConfigFieldStr(this, "txtNumeroDoc", string.Empty, "NumeroDoc");
+                LibReport.ConfigFieldStr(this, "txtNumeroCompFiscal", string.Empty, "NumFiscal");
+                LibReport.ConfigFieldStr(this, "txtNombreCliente", string.Empty, "NombreCliente");
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoDoc", string.Empty, "MontoDoc", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoPagado", string.Empty, "MontoPagado", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtMontoVuelto", string.Empty, "Vuelto", 2);
                 #endregion
                 #region Totales
                 // Por Moneda de Cobro
                 LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalMontoDoc", LibConvert.ToStr((decimal)0), "", 2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalMontoPagado", LibConvert.ToStr((decimal)0), "", 2);
-				LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalMontoVuelto", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalMontoPagado", LibConvert.ToStr((decimal)0), "", 2);
+                LibReport.ConfigFieldDecWithNDecimal(this, "txtTotalMontoVuelto", LibConvert.ToStr((decimal)0), "", 2);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoDoc", "MontoDoc", SummaryFunc.Sum, "GHSecMonedaCobro", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoPagado", "MontoPagado", SummaryFunc.Sum, "GHSecMonedaCobro", SummaryRunning.Group, SummaryType.SubTotal);
                 LibReport.ConfigSummaryField(this, "txtTotalMontoVuelto", "Vuelto", SummaryFunc.Sum, "GHSecMonedaCobro", SummaryRunning.Group, SummaryType.SubTotal);
@@ -109,10 +108,9 @@ namespace Galac.Adm.Rpt.Venta {
                 }
                 #endregion
                 LibReport.ConfigGroupHeader(this, "GHSecOperador", "NombreUsuario", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHSecCaja", "ConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHSecMonedaDoc", "MonedaDoc", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-				LibReport.ConfigGroupHeader(this, "GHSecMonedaCobro", "MonedaCobro", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
-
+                LibReport.ConfigGroupHeader(this, "GHSecCaja", "NombreCaja", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecMonedaDoc", "MonedaDoc", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
+                LibReport.ConfigGroupHeader(this, "GHSecMonedaCobro", "MonedaCobro", GroupKeepTogether.FirstDetail, RepeatStyle.OnPage, true, NewPage.None);
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
                 return true;
             }
@@ -153,7 +151,7 @@ namespace Galac.Adm.Rpt.Venta {
             string vCodMonedaCobroRenglon = string.Empty;
             vCodMonedaCobroRenglon = txtCodMonedaCobro.Text;
             string vCodigoMonedaLocal = vMonedaLocal.GetHoyCodigoMoneda();
-            if (LibString.S1IsEqualToS2(vCodMonedaCobroRenglon, vCodigoMonedaLocal)){
+            if (LibString.S1IsEqualToS2(vCodMonedaCobroRenglon, vCodigoMonedaLocal)) {
                 totalMontoPagadoCajaMonedaLocal += LibConvert.ToDec(txtMontoPagado.Text);
                 totalVueltoCajaMonedaLocal += LibConvert.ToDec(txtMontoVuelto.Text);
                 totalMontoPagadoOperadorMonedaLocal += LibConvert.ToDec(txtMontoPagado.Text);
