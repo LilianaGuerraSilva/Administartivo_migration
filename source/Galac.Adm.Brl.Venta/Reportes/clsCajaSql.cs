@@ -616,22 +616,13 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
             vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
-            #region Manejo para Fechas de Apertura y Cierre de Caja
-            const string dateStyleSQL = "103";
-            string horaModificacionDoc = vUtilSql.IIF("factura.HoraModificacion <> " + vUtilSql.ToSqlValue(string.Empty), "factura.HoraModificacion", vUtilSql.ToSqlValue("00:00"), true);
-            string fechaModificacionDoc = "CONVERT(" + vUtilSql.VarCharTypeForDb(10) + ", factura.fecha, " + dateStyleSQL + ")" + vUtilSql.CharConcat() + vUtilSql.ToSqlValue(" ");
-            string fechaModificaccionDocCompleta = vUtilSql.ToDate(fechaModificacionDoc + vUtilSql.CharConcat() + horaModificacionDoc);
-            string horaCajaApertura = vUtilSql.IIF("CajaApertura.HoraApertura <> " + vUtilSql.ToSqlValue(string.Empty), "CajaApertura.HoraApertura", vUtilSql.ToSqlValue("00:00"), true);
-            string fechaCajaApertura = "CONVERT(" + vUtilSql.VarCharTypeForDb(10) + ", CajaApertura.Fecha, " + dateStyleSQL + ")" + vUtilSql.CharConcat() + vUtilSql.ToSqlValue(" ");
-            string fechaCajaAperturaCompleta = vUtilSql.ToDate(fechaCajaApertura + vUtilSql.CharConcat()+ horaCajaApertura);
-            string horaCierreCaja = vUtilSql.IIF("CajaApertura.HoraCierre <> " + vUtilSql.ToSqlValue(string.Empty), "CajaApertura.HoraCierre", vUtilSql.ToSqlValue("23:59"), true);
-            string fechaCierreCaja = vUtilSql.ToDate(fechaCajaApertura + vUtilSql.CharConcat() + horaCierreCaja);
-            string fechaCierreCajaCompleta = vUtilSql.IIF("CajaApertura.CajaCerrada = " + vUtilSql.ToSqlValue(LibConvert.BoolToSN(false)), vUtilSql.ToDate(vUtilSql.GetToday()), fechaCierreCaja, true);
+            #region Manejo para Fechas de Apertura y Cierre de Caja            
+            string horaCierre = " AND factura.HoraModificacion BETWEEN  CajaApertura.HoraApertura AND " + vUtilSql.IIF("CajaApertura.HoraCierre <> " + vUtilSql.ToSqlValue(string.Empty), "CajaApertura.HoraCierre", vUtilSql.ToSqlValue("00:00"), true);
+            string fechaCierre = " AND Factura.Fecha = " + vUtilSql.IIF("CajaApertura.CajaCerrada = " + vUtilSql.ToSqlValue(false), "GETDATE()", "CajaApertura.Fecha", true);
             #endregion Manejo para Fechas de Apertura y Cierre de Caja
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, fechaModificaccionDocCompleta, fechaCajaAperturaCompleta, "AND", ">=");
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, fechaModificaccionDocCompleta, fechaCierreCajaCompleta, "AND", "<=");
+            vSQLWhere = vSQLWhere + fechaCierre + horaCierre;            
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
-                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "CajaApertura.NombreDelUsuario", valNombreDelOperador);
+                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "Factura.NombreOperador", valNombreDelOperador);
             }
             vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
             #endregion Filtro de consulta
@@ -642,8 +633,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string existeVuelto = "SUM(" + montoRenglon + ")" + mayorA + "factura.TotalFactura " + vUtilSql.LogicalOp("AND") + "factura.TotalFactura" + mayorA + vUtilSql.ToInt("0");
             string calculoMontoVuelto = vUtilSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - factura.TotalFactura", vUtilSql.ToInt("0"), true);
             string montoVuelto = vUtilSql.IIF(monedasIguales, calculoMontoVuelto, vUtilSql.ToInt("0"), true);
-            #endregion
-            vSql.AppendLine(vUtilSql.SetDateFormat());
+            #endregion            
             vSql.AppendLine(" SELECT");
             vSql.AppendLine("    Factura.NombreOperador AS NombreUsuario");            
             vSql.AppendLine("   , caja.NombreCaja AS NombreCaja");
