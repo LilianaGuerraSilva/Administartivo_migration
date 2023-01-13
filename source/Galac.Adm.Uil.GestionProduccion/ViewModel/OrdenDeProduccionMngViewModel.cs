@@ -161,7 +161,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Custom);
                 if (vViewModel.UsaMonedaExtranjera() && !((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(vViewModel.CodigoMonedaCostoProduccion, LibDate.Today(), out decimal vTasa) && !LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Ingresar Cambio del Día")) {
-                    LibMessages.MessageBox.Alert(this, "Usted no posee permisos para ingresar tasa de cambio del día, por favor diríjase a su supervisor o ingrese al sistema con otro usuario y vuelva a intentar.", ModuleName);
+                    MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
                 } else {
                     vViewModel.InitializeViewModel(eAccionSR.Custom);
                     bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
@@ -197,7 +197,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             try {
                 OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Cerrar);
                 if (vViewModel.UsaMonedaExtranjera() && !((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(vViewModel.CodigoMonedaCostoProduccion, LibDate.Today(), out decimal vTasa) && !LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Ingresar Cambio del Día")) {
-                    LibMessages.MessageBox.Alert(this, "Usted no posee permisos para ingresar tasa de cambio del día, por favor diríjase a su supervisor o ingrese al sistema con otro usuario y vuelva a intentar.", ModuleName);
+                    MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
                 } else {
                     vViewModel.InitializeViewModel(eAccionSR.Cerrar);
                     bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
@@ -254,7 +254,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override void ExecuteCreateCommand() {
             OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Insertar);
             if (vViewModel.UsaMonedaExtranjera() && !((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(vViewModel.AsignarCodigoDeLaMonedaAlInsertar(), LibDate.Today(), out decimal vTasa) && !LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Ingresar Cambio del Día")) {
-                LibMessages.MessageBox.Alert(this, "Usted no posee permisos para ingresar tasa de cambio del día, por favor diríjase a su supervisor o ingrese al sistema con otro usuario y vuelva a intentar.", ModuleName);
+                MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
             } else {
                 base.ExecuteCreateCommand();
             }
@@ -263,7 +263,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         protected override void ExecuteUpdateCommand() {
             OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Modificar);
             if (vViewModel.UsaMonedaExtranjera() && !((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(vViewModel.CodigoMonedaCostoProduccion, LibDate.Today(), out decimal vTasa) && !LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Ingresar Cambio del Día")) {
-                LibMessages.MessageBox.Alert(this, "Usted no posee permisos para ingresar tasa de cambio del día, por favor diríjase a su supervisor o ingrese al sistema con otro usuario y vuelva a intentar.", ModuleName);
+                MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
             } else {
                 base.ExecuteUpdateCommand();
             }
