@@ -20,7 +20,7 @@ using Galac.Adm.Uil.Vendedor.Properties;
 using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel { 
-    public class VendedorViewModel : LibInputMasterViewModelMfc<Galac.Adm.Ccl.Vendedor.Vendedor> {
+    public class VendedorViewModel : LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
         #region Variables
         private FkCiudadViewModel _ConexionCiudad = null;
         #endregion
@@ -632,7 +632,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
-
+        [LibGridColum("Ruta de Comercialización", Type = eGridColumType.Enum, PrintingMemberPath = "RutaDeComercializacionStr", ColumnOrder = 5, Width = 180)]
         public eRutaDeComercializacion  RutaDeComercializacion {
             get {
                 return Model.RutaDeComercializacionAsEnum;
@@ -769,9 +769,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Propiedades
         #region Constructores
         public VendedorViewModel()
-            : this(new Galac.Adm.Ccl.Vendedor.Vendedor(), eAccionSR.Insertar) {
+            : this(new Ccl.Vendedor.Vendedor(), eAccionSR.Insertar) {
         }
-        public VendedorViewModel(Galac.Adm.Ccl.Vendedor.Vendedor initModel, eAccionSR initAction)
+        public VendedorViewModel(Ccl.Vendedor.Vendedor initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ConsecutivoCompaniaPropertyName;
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
@@ -783,11 +783,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             base.InitializeCommands();
             ChooseCiudadCommand = new RelayCommand<string>(ExecuteChooseCiudadCommand);
         }
-        protected override void InitializeLookAndFeel(Galac.Adm.Ccl.Vendedor.Vendedor valModel) {
+        protected override void InitializeLookAndFeel(Ccl.Vendedor.Vendedor valModel) {
             base.InitializeLookAndFeel(valModel);
         }
 
-        protected override Galac.Adm.Ccl.Vendedor.Vendedor FindCurrentRecord(Galac.Adm.Ccl.Vendedor.Vendedor valModel) {
+        protected override Ccl.Vendedor.Vendedor FindCurrentRecord(Ccl.Vendedor.Vendedor valModel) {
             if (valModel == null) {
                 return null;
             }
@@ -797,7 +797,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return BusinessComponent.GetData(eProcessMessageType.SpName, "VendedorGET", vParams.Get(), UseDetail).FirstOrDefault();
         }
 
-        protected override ILibBusinessMasterComponentWithSearch<IList<Galac.Adm.Ccl.Vendedor.Vendedor>, IList<Galac.Adm.Ccl.Vendedor.Vendedor>> GetBusinessComponent() {
+        protected override ILibBusinessMasterComponentWithSearch<IList<Ccl.Vendedor.Vendedor>, IList<Ccl.Vendedor.Vendedor>> GetBusinessComponent() {
             return new clsVendedorNav();
         }
 
@@ -814,10 +814,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             try {
                 UpdateVendedorDetalleComisionesCommand.RaiseCanExecuteChanged();
                 DeleteVendedorDetalleComisionesCommand.RaiseCanExecuteChanged();
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
@@ -825,30 +825,30 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             try {
                 IsDirty = true;
                 Model.DetailVendedorDetalleComisiones.Remove(e.ViewModel.GetModel());
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         private void DetailVendedorDetalleComisiones_OnUpdated(object sender, SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel> e) {
             try {
                 IsDirty = e.ViewModel.IsDirty;
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
         private void DetailVendedorDetalleComisiones_OnCreated(object sender, SearchCollectionChangedEventArgs<VendedorDetalleComisionesViewModel> e) {
             try {
                 Model.DetailVendedorDetalleComisiones.Add(e.ViewModel.GetModel());
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
@@ -874,10 +874,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("NombreCiudad", valNombreCiudad);
                 ConexionCiudad = null;
                 ConexionCiudad = ChooseRecord<FkCiudadViewModel>("Ciudad", vDefaultCriteria, null, string.Empty);
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
         protected override void ExecuteAction() {

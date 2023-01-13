@@ -9,4 +9,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:VendedorDetalleComisionesViewModel}">
         <nsCSV:GSVendedorDetalleComisionesView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:VendedorImportarExportarViewModel}">
+        <nsCSV:GSVendedorImportarView />
+    </DataTemplate>
 </ResourceDictionary>

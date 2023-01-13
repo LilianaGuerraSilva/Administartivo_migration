@@ -14,9 +14,10 @@ using LibGalac.Aos.Dal;
 using LibGalac.Aos.DefGen;
 using Entity = Galac.Adm.Ccl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
+using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Adm.Dal.Vendedor {
-    public class clsVendedorDat : LibData, ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibDataImport {
+    public class clsVendedorDat : LibData, ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibDataImport, IVendedorDatPdn {
         #region Variables
         LibDataScope insTrn;
         Entity.Vendedor _CurrentRecord;
@@ -245,17 +246,6 @@ namespace Galac.Adm.Dal.Vendedor {
                 } else {
                     throw new GalacValidationException(vErrMsg);
                 }
-                //if (insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
-                //    if (valUseDetail) {
-                //        vResult.Success = true;
-                //        InsertDetail(CurrentRecord);
-                //    } else {
-                //        vResult.Success = true;
-                //    }
-                //    if (vResult.Success) {
-                //        ExecuteProcessAfterInsert();
-                //    }
-                //}
             }
             return vResult;
         }
@@ -291,26 +281,26 @@ namespace Galac.Adm.Dal.Vendedor {
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Modificar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.Update(IList<Entity.Vendedor> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
-            string vErrMsg = "";
-            CurrentRecord = refRecord[0];
-            if (ExecuteProcessBeforeUpdate()) {
-                if (Validate(eAccionSR.Modificar, out vErrMsg)) {
-                    LibDatabase insDb = new LibDatabase();
-                    vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorUPD"), ParametrosActualizacion(CurrentRecord, eAccionSR.Modificar));
-                    insDb.Dispose();
-                } else {
-                    throw new GalacValidationException(vErrMsg);
+            //string vErrMsg = "";
+            try {
+                CurrentRecord = refRecord[0];
+                if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
+                    if (ExecuteProcessBeforeUpdate()) {
+                        if (valUseDetail) {
+                            vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
+                        } else {
+                            vResult = UpdateMaster(CurrentRecord, valAction); //por si requiriese especialización por acción
+                        }
+                        if (vResult.Success) {
+                            ExecuteProcessAfterUpdate();
+                        }
+                    }
                 }
-                //if (valUseDetail) {
-                //    vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
-                //} else {
-                //    vResult = UpdateMaster(CurrentRecord, valAction); //por si requiriese especialización por acción
-                //}
-                //if (vResult.Success) {
-                //    ExecuteProcessAfterUpdate();
-                //}
+                return vResult;
+
+            } finally {
+
             }
-            return vResult;
         }
 
         bool ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.ValidateAll(IList<Entity.Vendedor> refRecords, bool valUseDetail, eAccionSR valAction, StringBuilder refErrorMessage) {
@@ -372,7 +362,9 @@ namespace Galac.Adm.Dal.Vendedor {
         #region Validaciones
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
-            ClearValidationInfo();            
+            ClearValidationInfo();
+            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
+            //vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidNombre(valAction, CurrentRecord.Nombre) && vResult;
             vResult = IsValidRIF(valAction, CurrentRecord.RIF) && vResult;
             outErrorMessage = Information.ToString();
@@ -384,7 +376,7 @@ namespace Galac.Adm.Dal.Vendedor {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (valConsecutivoCompania == 0) {
+            if (valConsecutivoCompania <= 0) {
                 BuildValidationInfo(MsgRequiredField("Consecutivo Compania"));
                 vResult = false;
             } else if (valAction == eAccionSR.Insertar) {
@@ -459,9 +451,6 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        
-
-
         private bool ValidateMasterDetail(eAccionSR valAction,Entity.Vendedor valRecordMaster, bool valUseDetail) {
             bool vResult = false;
             string vErrMsg;
@@ -484,23 +473,30 @@ namespace Galac.Adm.Dal.Vendedor {
         private bool ValidateDetail(Entity.Vendedor valRecord, eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             outErrorMessage = "";
-            vResult = vResult && ValidateDetailRenglonComisionesDeVendedor(valRecord, valAction, out outErrorMessage);
+            vResult = vResult && ValidateDetailVendedorDetalleComisiones(valRecord, valAction, out outErrorMessage);
+            if (!LibString.IsNullOrEmpty(outErrorMessage)) {
+                LibMessages.MessageBox.Alert(this, outErrorMessage, "Vendedor");
+            }
             return vResult;
         }
 
-        private bool ValidateDetailRenglonComisionesDeVendedor(Entity.Vendedor valRecord, eAccionSR eAccionSR, out string outErrorMessage) {
+        private bool ValidateDetailVendedorDetalleComisiones(Entity.Vendedor valRecord, eAccionSR eAccionSR, out string outErrorMessage) {
             bool vResult = true;
             StringBuilder vSbErrorInfo = new StringBuilder();
             int vNumeroDeLinea = 1;
             outErrorMessage = string.Empty;
             foreach (VendedorDetalleComisiones vDetail in valRecord.DetailVendedorDetalleComisiones) {
                 bool vLineHasError = true;
-                //agregar validaciones
+                if (LibString.IsNullOrEmpty(vDetail.NombreDeLineaDeProducto)) {
+                    vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Nombre de la Línea de Producto.");
+                } else {
+                    vLineHasError = false;
+                }
                 vResult = vResult && (!vLineHasError);
                 vNumeroDeLinea++;
             }
             if (!vResult) {
-                outErrorMessage = "Renglon Comisiones De Vendedor"  + Environment.NewLine + vSbErrorInfo.ToString();
+                outErrorMessage = "Comisiones De Vendedor"  + Environment.NewLine + vSbErrorInfo.ToString();
             }
             return vResult;
         }
@@ -680,6 +676,33 @@ namespace Galac.Adm.Dal.Vendedor {
                 vResult.Add(vRecord);
             }
             return vResult;
+        }
+
+        public LibResponse InsertarListaDeVendedorMaster(IList<Entity.Vendedor> valListOfRecords) {
+            return InsertRecord(valListOfRecords);
+        }
+        private LibResponse InsertRecord(IList<Entity.Vendedor> refRecord) {
+            LibResponse vResult = new LibResponse();
+            string vErrMsg;
+            try {
+                foreach (var item in refRecord) {
+                    CurrentRecord = item;
+                    if (ExecuteProcessBeforeInsert()) {
+                        if (Validate(eAccionSR.Insertar, out vErrMsg)) {
+                            if (insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
+                                vResult.Success = true;
+                                if (vResult.Success) {
+                                    ExecuteProcessAfterInsert();
+                                }
+                            }
+                        }
+                    }
+                }
+                return vResult;
+            } finally {
+                if (!vResult.Success) {
+                }
+            }
         }
         #endregion //Metodos Generados
     } //End of class clsVendedorDat

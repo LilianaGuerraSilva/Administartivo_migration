@@ -34,6 +34,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             private set;
         }
 
+        public RelayCommand ImportCommand {
+            get;
+            private set;
+        }
+
         public RelayCommand ReinstallCommand {
             get;
             private set;
@@ -46,10 +51,13 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, Consecutivo";
             VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(VendedorViewModel));
-            if (LibGalac.Aos.DefGen.LibDefGen.ProgramInfo.IsCountryPeru()) {
+            if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                 if (VisibleColumns != null && VisibleColumns.Count > 0) {
                     VisibleColumns.RemoveAt(3);
                 }
+            }
+            if (!LibDefGen.IsInternalSystem()) {
+                VisibleColumns.RemoveAt(5); //Se oculta Ruta de Comercialización para sistemas distintos al interno
             }
         }
         #endregion //Constructores
@@ -82,16 +90,35 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ReinstallCommand = new RelayCommand(ExecuteReinstallCommand, CanExecuteReinstallCommand);
+            ImportCommand = new RelayCommand(ExecuteImportCommand, CanExecuteImportCommand);
             //InformesCommand = new RelayCommand(ExecuteInformesCommand, CanExecuteInformesCommand);
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateImportarRibbonGroup());
                 //RibbonData.TabDataCollection[0].AddTabGroupData(CreateInformesRibbonGroup());
             }
         }
-
+        private LibRibbonGroupData CreateImportarRibbonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Importar/Exportar");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Importar/Exportar Vendedores",
+                Command = ImportCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/importExport.png", UriKind.Relative),
+                ToolTipDescription = "Importar/Exportar Vendedores",
+                ToolTipTitle = "Importar/Exportar Vendedores"
+            });
+            return vResult;
+        }
+        private bool CanExecuteImportCommand() {
+            bool vResult = false;
+            vResult = (LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Insertar") &&
+                LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Modificar"));
+            return vResult;
+            //return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleNameOriginal, "Importar") && CurrentItem != null;
+        }
         private LibRibbonButtonData CreateReinstallRibbonButtonData() {
             return new LibRibbonButtonData() {
                 Label = "Reinstalar",
@@ -101,6 +128,20 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 ToolTipTitle = "Reinstalar",
                 IsVisible = !LibDefGen.DataBaseInfo.IsReadOnlyRMDB
             };
+        }
+
+        private void ExecuteImportCommand() {
+            try {
+                clsVendedorImpExp vInstancia = new clsVendedorImpExp();
+                VendedorImportarExportarViewModel vViewModel = new VendedorImportarExportarViewModel(ModuleName, vInstancia);
+                vViewModel.InitializeViewModel(eAccionSR.Importar);
+                bool result = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
+            }
         }
 
         protected override void ExecuteCommandsRaiseCanExecuteChanged() {
@@ -120,17 +161,17 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return vResult;
         }
 
-        //private void ExecuteInformesCommand() {
-        //    try {
-        //        if (LibMessages.ReportsView.ShowReportsView(new clsVendedorInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
-        //            DialogResult = true;
-        //        }
-        //    } catch (System.AccessViolationException) {
-        //        throw;
-        //    } catch (System.Exception vEx) {
-        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
-        //    }
-        //}
+        private void ExecuteInformesCommand() {
+            try {
+                //if (LibMessages.ReportsView.ShowReportsView(new clsVendedorInformesViewModel(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()))) {
+                //    DialogResult = true;
+                //}
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
 
         private bool CanExecuteInformesCommand() {
             return LibSecurityManager.CurrentUserHasAccessTo(ModuleName, "Informes");
@@ -148,10 +189,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             try {
                 InstallOrReInstallDataFromFile(eAccionSR.ReInstalar);
                 LibMessages.RefreshList.Send(ModuleName);
-            } catch (System.AccessViolationException) {
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx);
             }
         }
 

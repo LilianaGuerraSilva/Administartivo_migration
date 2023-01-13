@@ -283,7 +283,6 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0));
-            //SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0));
             return SQL.ToString();
         }
 
@@ -373,8 +372,6 @@ namespace Galac.Adm.Dal.Vendedor {
 	        SQL.AppendLine("	ELSE");
             SQL.AppendLine("	    RETURN -1");
             SQL.AppendLine("END");
-            string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\view.sql";
-            LibFile.WriteLineInFile(vPath, SQL.ToString(), true);
             return SQL.ToString();
         }
         #endregion //Queries

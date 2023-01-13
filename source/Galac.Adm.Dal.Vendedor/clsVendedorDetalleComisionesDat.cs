@@ -16,9 +16,10 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Vendedor;
 
 namespace Galac.Adm.Dal.Vendedor {
-    public class clsVendedorDetalleComisionesDat: LibData, ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>> {
+    public class clsVendedorDetalleComisionesDat: LibData, ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>>, IVendedorDatDetalleComisionesPdn {
         #region Variables
         VendedorDetalleComisiones _CurrentRecord;
+        LibDataScope insTrn;
         #endregion //Variables
         #region Propiedades
         private VendedorDetalleComisiones CurrentRecord {
@@ -78,7 +79,6 @@ namespace Galac.Adm.Dal.Vendedor {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
-            vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
             vResult = vParams.Get();
             return vResult;
         }
@@ -99,6 +99,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 from vEntity in vListEntidades
                 select new XElement("GpResult",
                     new XElement("ConsecutivoCompania", vEntity.ConsecutivoCompania),
+                    new XElement("Consecutivo", vEntity.Consecutivo),
                     new XElement(BuildElementDetail(vEntity))));
             return vXElement;
         }
@@ -108,7 +109,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 from vEntity in valMaster.DetailVendedorDetalleComisiones
                 select new XElement("GpDetailVendedorDetalleComisiones",
                     new XElement("ConsecutivoCompania", valMaster.ConsecutivoCompania),
-                    new XElement("ConsecutivoVendedor", vEntity.ConsecutivoVendedor),
+                    new XElement("ConsecutivoVendedor", valMaster.Consecutivo),
                     new XElement("ConsecutivoRenglon", vEntity.ConsecutivoRenglon),
                     new XElement("NombreDeLineaDeProducto", vEntity.NombreDeLineaDeProducto),
                     new XElement("TipoDeComision", vEntity.TipoDeComisionAsDB),
@@ -210,7 +211,7 @@ namespace Galac.Adm.Dal.Vendedor {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            //throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
             return vResult;
         }
 
@@ -219,14 +220,15 @@ namespace Galac.Adm.Dal.Vendedor {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
+            //throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
             return vResult;
         }
 
-        private bool KeyExists(int valConsecutivoCompania, int valConsecutivoRenglon) {
+        private bool KeyExists(int valConsecutivoCompania, int valConsecutivoVendedor, int valConsecutivoRenglon) {
             bool vResult = false;
             VendedorDetalleComisiones vRecordBusqueda = new VendedorDetalleComisiones();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
+            vRecordBusqueda.ConsecutivoVendedor = valConsecutivoVendedor;
             vRecordBusqueda.ConsecutivoRenglon = valConsecutivoRenglon;
             LibDatabase insDb = new LibDatabase();
             vResult = insDb.ExistsRecord(DbSchema + ".VendedorDetalleComisiones", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
@@ -235,10 +237,10 @@ namespace Galac.Adm.Dal.Vendedor {
         }
         #endregion //Validaciones
 
-        public bool GetDetailAndAppendToMaster(ref List<Galac.Adm.Ccl.Vendedor.Vendedor>  refMaster) {
+        public bool GetDetailAndAppendToMaster(ref List<Ccl.Vendedor.Vendedor>  refMaster) {
             bool vResult = false;
             IList<VendedorDetalleComisiones> vDetail = null;
-            foreach (Galac.Adm.Ccl.Vendedor.Vendedor vItemMaster in refMaster) {
+            foreach (Ccl.Vendedor.Vendedor vItemMaster in refMaster) {
                 vItemMaster.DetailVendedorDetalleComisiones = new ObservableCollection<VendedorDetalleComisiones>();
                 vDetail = new LibDatabase().LoadFromSp<VendedorDetalleComisiones>("Adm.Gp_VendedorDetalleComisionesSelDet", ParametrosDetail(vItemMaster), CmdTimeOut);
                 foreach (VendedorDetalleComisiones vItemDetail in vDetail) {
@@ -247,6 +249,33 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             vResult = true;
             return vResult;
+        }
+
+        public LibResponse InsertarListaDeVendedorDetail(IList<VendedorDetalleComisiones> valListOfRecords) {
+            return InsertDetail(valListOfRecords);
+        }
+        private LibResponse InsertDetail(IList<VendedorDetalleComisiones> refRecord) {
+            LibResponse vResult = new LibResponse();
+            string vErrMsg = "";
+            try {
+                foreach (var item in refRecord) {
+                    CurrentRecord = item;
+                    if (ExecuteProcessBeforeInsert()) {
+                        if (Validate(eAccionSR.Insertar, out vErrMsg)) {
+                            if (insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorDetalleComisionesINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
+                                vResult.Success = true;
+                                if (vResult.Success) {
+                                    ExecuteProcessAfterInsert();
+                                }
+                            }
+                        }
+                    }
+                }
+                return vResult;
+            } finally {
+                if (!vResult.Success) {
+                }
+            }
         }
         #endregion //Metodos Generados
 

@@ -52,6 +52,8 @@
     <Compile Include="clsEnumVendedor.cs" />
     <Compile Include="IFkVendedorDetalleComisionesViewModel.cs" />
     <Compile Include="IFkVendedorViewModel.cs" />
+    <Compile Include="IVendedorDatDetalleComisionesPdn.cs" />
+    <Compile Include="IVendedorDatPdn.cs" />
     <Compile Include="IVendedorPdn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VendedorDetalleComisiones.cs" />

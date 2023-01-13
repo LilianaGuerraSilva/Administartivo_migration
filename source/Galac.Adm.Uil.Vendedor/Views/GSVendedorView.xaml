@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Vendedor.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" Width="675">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -255,7 +255,7 @@
                                 Grid.Row="0"
                                 Grid.Column="3"
                                 Width="245"
-                                InputDataType="Alfanumeric"
+                                InputDataType="Digit"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 MaxLength="40"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -881,9 +881,9 @@
                         Name="dgDetailListaDeComisionesPorLineaDeProducto"
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
-                        Height="220"
+                        Height="170"
                         MinWidth="250"
-                        MinHeight="200"
+                        MinHeight="150"
                         ColumnsMap="{Binding Path=DetailVendedorDetalleComisiones.VisibleColumns}"
                         Focusable="False"
                         IsReadOnly="True"

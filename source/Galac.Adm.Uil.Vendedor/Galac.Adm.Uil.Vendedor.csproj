@@ -115,10 +115,14 @@
     <Compile Include="ViewModel\clsFKViewModelVendedor.cs" />
     <Compile Include="ViewModel\VendedorDetalleComisionesMngViewModel.cs" />
     <Compile Include="ViewModel\VendedorDetalleComisionesViewModel.cs" />
+    <Compile Include="ViewModel\VendedorImportarExportarViewModel.cs" />
     <Compile Include="ViewModel\VendedorMngViewModel.cs" />
     <Compile Include="ViewModel\VendedorViewModel.cs" />
     <Compile Include="Views\GSVendedorDetalleComisionesView.xaml.cs">
       <DependentUpon>GSVendedorDetalleComisionesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSVendedorImportarView.xaml.cs">
+      <DependentUpon>GSVendedorImportarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSVendedorView.xaml.cs">
       <DependentUpon>GSVendedorView.xaml</DependentUpon>
@@ -152,6 +156,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\GSVendedorDetalleComisionesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSVendedorImportarView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

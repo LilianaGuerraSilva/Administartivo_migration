@@ -108,12 +108,15 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine(", Vendedor.TopeFinalCobranza2, Vendedor.PorcentajeCobranza2, Vendedor.TopeFinalCobranza3, Vendedor.PorcentajeCobranza3");
             SQL.AppendLine(", Vendedor.TopeFinalCobranza4, Vendedor.PorcentajeCobranza4, Vendedor.TopeFinalCobranza5, Vendedor.PorcentajeCobranza5");
             SQL.AppendLine(", Vendedor.UsaComisionPorVenta, Vendedor.UsaComisionPorCobranza, Vendedor.TipoDocumentoIdentificacion, Vendedor.CodigoLote");
-            SQL.AppendLine(", Vendedor.NombreOperador, Vendedor.FechaUltimaModificacion, Vendedor.RutaDeComercializacion");
+            SQL.AppendLine(", Vendedor.NombreOperador, Vendedor.FechaUltimaModificacion, Vendedor.RutaDeComercializacion, " + DbSchema + ".Gv_EnumRutaDeComercializacion.StrValue AS RutaDeComercializacionStr");
             SQL.AppendLine(", Vendedor.fldTimeStamp, CAST(Vendedor.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".Vendedor");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumStatusVendedor");
             SQL.AppendLine("ON " + DbSchema + ".Vendedor.StatusVendedor COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusVendedor.DbValue");
+            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumRutaDeComercializacion");
+            SQL.AppendLine("ON " + DbSchema + ".Vendedor.RutaDeComercializacion COLLATE MODERN_SPANISH_CS_AS");
+            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumRutaDeComercializacion.DbValue");
             //SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoDocumentoIdentificacion");
             //SQL.AppendLine("ON " + DbSchema + ".Vendedor.TipoDocumentoIdentificacion COLLATE MODERN_SPANISH_CS_AS");
             //SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoDocumentoIdentificacion.DbValue");
@@ -568,9 +571,11 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RIF,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.StatusVendedorStr,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RutaDeComercializacionStr,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.StatusVendedor,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RutaDeComercializacion,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Ciudad,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.ZonaPostal,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Telefono");
