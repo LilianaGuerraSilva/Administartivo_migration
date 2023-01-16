@@ -16,7 +16,6 @@ using Galac.Adm.Brl.Banco;
 using Galac.Adm.Brl.Banco.Reportes;
 using Galac.Adm.Ccl.Banco;
 using LibGalac.Aos.DefGen;
-using System.Xml.Linq;
 
 namespace Galac.Adm.Uil.Banco.ViewModel {
 	public class TransferenciaEntreCuentasBancariasMngViewModel : LibMngViewModelMfc<TransferenciaEntreCuentasBancariasViewModel, TransferenciaEntreCuentasBancarias> {
@@ -151,11 +150,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		protected override bool CanExecuteCreateCommand() {
-			return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Insertar");
+			return CurrentItem != null && CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Insertar");
 		}
 
 		protected override bool CanExecuteReadCommand() {
-			return CanRead && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Consultar");
+			return CurrentItem != null && CanRead && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Consultar");
 		}
 
 		private bool CanExecuteAnularCommand() {

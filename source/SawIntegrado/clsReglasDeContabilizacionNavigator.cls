@@ -2125,6 +2125,47 @@ Public Sub SetFechaUltimaModificacion(ByVal valNewValue As Date)
    mFechaUltimaModificacionIsSet = True
 End Sub
 
+Public Function GetCuentaTransfCtasBancoDestino() As String
+   GetCuentaTransfCtasBancoDestino = mCuentaTransfCtasBancoDestino
+End Function
+
+Public Sub SetCuentaTransfCtasBancoDestino(ByVal valNewValue As String)
+   mCuentaTransfCtasBancoDestino = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaTransfCtasGastoComOrigen() As String
+   GetCuentaTransfCtasGastoComOrigen = mCuentaTransfCtasGastoComOrigen
+End Function
+
+Public Sub SetCuentaTransfCtasGastoComOrigen(ByVal valNewValue As String)
+   mCuentaTransfCtasGastoComOrigen = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaTransfCtasGastoComDestino() As String
+   GetCuentaTransfCtasGastoComDestino = mCuentaTransfCtasGastoComDestino
+End Function
+
+Public Sub SetCuentaTransfCtasGastoComDestino(ByVal valNewValue As String)
+   mCuentaTransfCtasGastoComDestino = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaTransfCtasBancoOrigen() As String
+   GetCuentaTransfCtasBancoOrigen = mCuentaTransfCtasBancoOrigen
+End Function
+
+Public Sub SetCuentaTransfCtasBancoOrigen(ByVal valNewValue As String)
+   mCuentaTransfCtasBancoOrigen = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertTransfCtas() As Boolean
+   GetEditarComprobanteAfterInsertTransfCtas = mEditarComprobanteAfterInsertTransfCtas
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertTransfCtas(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertTransfCtas = valNewValue
+   mEditarComprobanteAfterInsertTransfCtasIsSet = valueWasTrueOrFalseInSearch
+End Sub
+
 Public Function GetTableName() As String
    GetTableName = "Saw.ReglasDeContabilizacion"
 End Function
@@ -4729,38 +4770,6 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sBuscarCuentaUsaAuxiliar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Function GetCuentaTransfCtasBancoDestino() As String
-   GetCuentaTransfCtasBancoDestino = mCuentaTransfCtasBancoDestino
-End Function
-
-Public Sub SetCuentaTransfCtasBancoDestino(ByVal valNewValue As String)
-   mCuentaTransfCtasBancoDestino = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetCuentaTransfCtasGastoComOrigen() As String
-   GetCuentaTransfCtasGastoComOrigen = mCuentaTransfCtasGastoComOrigen
-End Function
-
-Public Sub SetCuentaTransfCtasGastoComOrigen(ByVal valNewValue As String)
-   mCuentaTransfCtasGastoComOrigen = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetCuentaTransfCtasGastoComDestino() As String
-   GetCuentaTransfCtasGastoComDestino = mCuentaTransfCtasGastoComDestino
-End Function
-
-Public Sub SetCuentaTransfCtasGastoComDestino(ByVal valNewValue As String)
-   mCuentaTransfCtasGastoComDestino = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetCuentaTransfCtasBancoOrigen() As String
-   GetCuentaTransfCtasBancoOrigen = mCuentaTransfCtasBancoOrigen
-End Function
-
-Public Sub SetCuentaTransfCtasBancoOrigen(ByVal valNewValue As String)
-   mCuentaTransfCtasBancoOrigen = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
 Private Function fLasCuentaTransfCtasEstanCompletas() As Boolean
    Dim EstanCompletas As Boolean
    On Error GoTo h_ERROR
@@ -4771,21 +4780,12 @@ Private Function fLasCuentaTransfCtasEstanCompletas() As Boolean
    If (gProyParametrosCompania.GetManejaDebitoBancario) Then
       EstanCompletas = EstanCompletas And fLasCuentasDeDebitoBancarioEstanCompletas()
    End If
-   If (gProyParametrosCompania.GetManejaCreditoBancario) Then
-      EstanCompletas = EstanCompletas And fLasCuentasDeCreditoBancarioEstanCompletas()
-   End If
+'   If (gProyParametrosCompania.GetManejaCreditoBancario) Then
+'      EstanCompletas = EstanCompletas And fLasCuentasDeCreditoBancarioEstanCompletas()
+'   End If
 h_EXIT:
    fLasCuentaTransfCtasEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentaTransfCtasEstanCompletas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
-Public Function GetEditarComprobanteAfterInsertTransfCtas() As Boolean
-   GetEditarComprobanteAfterInsertTransfCtas = mEditarComprobanteAfterInsertTransfCtas
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertTransfCtas(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertTransfCtas = valNewValue
-   mEditarComprobanteAfterInsertTransfCtasIsSet = valueWasTrueOrFalseInSearch
-End Sub

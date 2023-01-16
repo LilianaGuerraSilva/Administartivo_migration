@@ -85,14 +85,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void AgregarConceptosBancarioReversosTransferencia() {
 			QAdvSql InsSql = new QAdvSql("");
 			StringBuilder vSql = new StringBuilder();
-			vSql.AppendLine("IF NOT EXISTS (SELECT Codigo FROM Adm.ConceptoBancario WHERE Codigo = '60347')");
 			vSql.AppendLine("INSERT INTO Adm.ConceptoBancario(Consecutivo, Codigo,Descripcion,Tipo,NombreOperador,FechaUltimaModificacion)");
-			vSql.AppendLine("VALUES ((SELECT MAX(Consecutivo) + 1 FROM Adm.ConceptoBancario), " + InsSql.ToSqlValue("60347") + ", " + InsSql.ToSqlValue("REV AUTOMATICO TRANSF INGRESO") + ", " + InsSql.ToSqlValue("0") + ", " + InsSql.ToSqlValue("JEFE") + ", " + InsSql.ToSqlValue(LibDate.Today()) + ")");
+			vSql.AppendLine(" SELECT (SELECT MAX(Consecutivo) + 1 FROM Adm.ConceptoBancario)," + InsSql.ToSqlValue("60347") + "," + InsSql.ToSqlValue("REV AUTOMATICO TRANSF INGRESO") + ", " + InsSql.ToSqlValue("0") + ", " + InsSql.ToSqlValue("JEFE") + ", " + InsSql.ToSqlValue(LibDate.Today()) + ")");
+			vSql.AppendLine(" WHERE NOT EXISTS (SELECT Codigo FROM Adm.ConceptoBancario WHERE Codigo = '60347')");
 			Execute(vSql.ToString());
 			vSql.Clear();
-			vSql.AppendLine("IF NOT EXISTS (SELECT Codigo FROM Adm.ConceptoBancario WHERE Codigo = '60348')");
 			vSql.AppendLine("INSERT INTO Adm.ConceptoBancario(Consecutivo, Codigo,Descripcion,Tipo,NombreOperador,FechaUltimaModificacion)");
-			vSql.AppendLine("VALUES ((SELECT MAX(Consecutivo) + 1 FROM Adm.ConceptoBancario), " + InsSql.ToSqlValue("60348") + ", " + InsSql.ToSqlValue("REV AUTOMATICO TRANSF EGRESO") + ", " + InsSql.ToSqlValue("1") + ", " + InsSql.ToSqlValue("JEFE") + ", " + InsSql.ToSqlValue(LibDate.Today()) + ")");
+			vSql.AppendLine(" SELECT (SELECT MAX(Consecutivo) + 1 FROM Adm.ConceptoBancario)," + InsSql.ToSqlValue("60348") + "," + InsSql.ToSqlValue("REV AUTOMATICO TRANSF EGRESO") + ", " + InsSql.ToSqlValue("1") + ", " + InsSql.ToSqlValue("JEFE") + ", " + InsSql.ToSqlValue(LibDate.Today()) + ")");
+			vSql.AppendLine(" WHERE NOT EXISTS (SELECT Codigo FROM Adm.ConceptoBancario WHERE Codigo = '60348')");
 			Execute(vSql.ToString());
 		}
 		private void AgregarParametroTransferenciaBancaria() {

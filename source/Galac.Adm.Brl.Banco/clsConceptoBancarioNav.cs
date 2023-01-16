@@ -161,6 +161,7 @@ namespace Galac.Adm.Brl.Banco {
                 new XElement("TRANSERENCIA_EGRESO", "60343"),
                 new XElement("DETRACCION_INGRESO", "60344"),
                 new XElement("DETRACCION_EGRESO", "60345"),
+                new XElement("PAGO_RETENCION_DIRECTO_DESDE_CXP", "60346"),
                 new XElement("REV_AUTOMATICO_TRANSF_INGRESO", "60347"),
                 new XElement("REV_AUTOMATICO_TRANSF_EGRESO", "60348"),
                 new XElement("REV_AUTOMATICO_SOLI_PAGADO", "G0001")));

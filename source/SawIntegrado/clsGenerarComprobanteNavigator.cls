@@ -1800,7 +1800,7 @@ Private Function fSQLMovimientoBancariosEntreFechas(ByVal valFechaDesde As Date,
    Sql = Sql & " movimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania AND "
    Sql = Sql & " movimientoBancario.CodigoCtaBancaria = cuentaBancaria.Codigo"
 
-   Sql = Sql & " LEFT OUTER JOIN CUENTA"
+   Sql = Sql & " LEFT JOIN CUENTA"
    Sql = Sql & " ON cuentaBancaria.ConsecutivoCompania = cuenta.consecutivocompania"
    Sql = Sql & " AND cuentaBancaria.cuentacontable = cuenta.codigo"
    Sql = Sql & " AND cuentabancaria.consecutivocompania = " & gProyCompaniaActual.GetConsecutivoCompania
@@ -1822,7 +1822,7 @@ Private Function fSQLMovimientoBancariosEntreFechas(ByVal valFechaDesde As Date,
    Sql = Sql & " movimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania AND "
    Sql = Sql & " movimientoBancario.CodigoCtaBancaria = cuentaBancaria.Codigo"
 
-   Sql = Sql & " LEFT OUTER JOIN CUENTA"
+   Sql = Sql & " LEFT JOIN CUENTA"
    Sql = Sql & " ON cuentaBancaria.ConsecutivoCompania = cuenta.consecutivocompania"
    Sql = Sql & " AND cuentaBancaria.cuentacontable = cuenta.codigo"
    Sql = Sql & " AND cuentabancaria.consecutivocompania = " & gProyCompaniaActual.GetConsecutivoCompania
