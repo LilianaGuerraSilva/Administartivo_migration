@@ -188,7 +188,7 @@ namespace Galac.Adm.Brl.Banco {
 				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoDebitoBancario"),
 				Fecha = item.Fecha,
 				TipoConceptoAsEnum = eIngresoEgreso.Egreso,
-				Monto = item.MontoComisionEgreso * valAlicuota,
+				Monto = LibMath.RoundToNDecimals(item.MontoComisionEgreso * valAlicuota, 2),
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = string.Format("Impuesto por egreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
 				GeneraImpuestoBancarioAsBool = false,
@@ -211,7 +211,7 @@ namespace Galac.Adm.Brl.Banco {
 				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"),
 				Fecha = item.Fecha,
 				TipoConceptoAsEnum = eIngresoEgreso.Egreso,
-				Monto = item.MontoComisionIngreso * valAlicuota,
+				Monto = LibMath.RoundToNDecimals(item.MontoComisionIngreso * valAlicuota,2),
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = string.Format("Impuesto por ingreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
 				GeneraImpuestoBancarioAsBool = false,
@@ -332,7 +332,7 @@ namespace Galac.Adm.Brl.Banco {
 				vDescripcion += string.Format("+ Comisión por egreso - ");
 			}
 			if (item.GeneraIGTFComisionEgresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) && valAlicuota > 0.0m) {
-				vMonto += item.MontoComisionEgreso * (valAlicuota / 100.0m);
+				vMonto += LibMath.RoundToNDecimals(item.MontoComisionEgreso * (valAlicuota / 100.0m),2);
 				vDescripcion += string.Format("+ Impuesto por egreso - ");
 			}
 			return new MovimientoBancario() {
@@ -370,7 +370,7 @@ namespace Galac.Adm.Brl.Banco {
 				vDescripcion += string.Format("+ Comisión por ingreso - ");
 			}
 			if (item.GeneraIGTFComisionIngresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaDestino) && valAlicuota > 0.0m) {
-				vMonto += item.MontoComisionIngreso * (valAlicuota / 100.0m);
+				vMonto +=  LibMath.RoundToNDecimals(item.MontoComisionIngreso * (valAlicuota / 100.0m), 2);
 				vDescripcion += string.Format("+ Impuesto por ingreso - ");
 			}
 			return new MovimientoBancario() {

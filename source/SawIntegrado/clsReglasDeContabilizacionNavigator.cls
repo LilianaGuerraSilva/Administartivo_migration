@@ -2108,23 +2108,6 @@ Public Sub SetMostrarDesglosadoRendiciones(ByVal valNewValue As Boolean, Optiona
    mMostrarDesglosadoRendicionesIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
-Public Function GetNombreOperador() As String
-   GetNombreOperador = mNombreOperador
-End Function
-
-Public Sub SetNombreOperador(ByVal valNewValue As String)
-   mNombreOperador = gTexto.DfMid(valNewValue, 1, 10)
-End Sub
-
-Public Function GetFechaUltimaModificacion() As Date
-   GetFechaUltimaModificacion = mFechaUltimaModificacion
-End Function
-
-Public Sub SetFechaUltimaModificacion(ByVal valNewValue As Date)
-   mFechaUltimaModificacion = valNewValue
-   mFechaUltimaModificacionIsSet = True
-End Sub
-
 Public Function GetCuentaTransfCtasBancoDestino() As String
    GetCuentaTransfCtasBancoDestino = mCuentaTransfCtasBancoDestino
 End Function
@@ -2164,6 +2147,23 @@ End Function
 Public Sub SetEditarComprobanteAfterInsertTransfCtas(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mEditarComprobanteAfterInsertTransfCtas = valNewValue
    mEditarComprobanteAfterInsertTransfCtasIsSet = valueWasTrueOrFalseInSearch
+End Sub
+
+Public Function GetNombreOperador() As String
+   GetNombreOperador = mNombreOperador
+End Function
+
+Public Sub SetNombreOperador(ByVal valNewValue As String)
+   mNombreOperador = gTexto.DfMid(valNewValue, 1, 10)
+End Sub
+
+Public Function GetFechaUltimaModificacion() As Date
+   GetFechaUltimaModificacion = mFechaUltimaModificacion
+End Function
+
+Public Sub SetFechaUltimaModificacion(ByVal valNewValue As Date)
+   mFechaUltimaModificacion = valNewValue
+   mFechaUltimaModificacionIsSet = True
 End Sub
 
 Public Function GetTableName() As String
@@ -4364,7 +4364,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
    Dim vCmd As ADODB.Command
    On Error GoTo h_ERROR
    Set insUtAdoCmd = New clsUtilAdoCmd
-   valRecordSet.filter = "ConsecutivoCompania = " & valConsecutivoCompaniaOld
+   valRecordSet.Filter = "ConsecutivoCompania = " & valConsecutivoCompaniaOld
    While Not valRecordSet.EOF
       Set vCmd = insUtAdoCmd.fCreateCmd("Saw.Gp_ReglasDeContabilizacionINS", gDefDatabase.Conexion)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", valConsecutivoCompaniaNew)
@@ -4506,7 +4506,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       gUtilRespaldo.sAddProgress
       valRecordSet.MoveNext
    Wend
-   valRecordSet.filter = adFilterNone
+   valRecordSet.Filter = adFilterNone
    Set insUtAdoCmd = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
