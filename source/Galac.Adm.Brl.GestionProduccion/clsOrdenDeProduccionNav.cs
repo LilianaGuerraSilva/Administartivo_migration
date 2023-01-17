@@ -583,6 +583,31 @@ namespace Galac.Adm.Brl.GestionProduccion {
             return vNotaDeEntradaSalidaPdn.AnularNotaDeSalidaAsociadaProduccion(valOrdenDeProduccion.ConsecutivoCompania, valOrdenDeProduccion.Consecutivo);
         }
 
+        public bool ExisteTasaDeCambioParaElDia(string valMoneda, DateTime valFecha, out decimal outTasa) {
+            StringBuilder vSQL = new StringBuilder();
+            outTasa = 0;
+            vSQL.AppendLine("SELECT CodigoMoneda, CambioAMonedaLocal , CambioAMonedaLocalVenta FROM Comun.Cambio WHERE CodigoMoneda = @CodigoMoneda AND FechaDeVigencia = @Fecha ");
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInDateTime("Fecha", valFecha);
+            vParams.AddInString("CodigoMoneda", valMoneda, 4);
+            XElement vData = LibBusiness.ExecuteSelect(vSQL.ToString(), vParams.Get(), "", 0);
+            if (vData != null) {
+                var vEntity = (from vRecord in vData.Descendants("GpResult")
+                               select new {
+                                   CodigoMoneda = vRecord.Element("CodigoMoneda").Value,
+                                   CambioAMonedaLocal = LibConvert.ToDec(vRecord.Element("CambioAMonedaLocal"), 4),
+                                   CambioAMonedaLocalVenta = LibConvert.ToDec(vRecord.Element("CambioAMonedaLocalVenta"), 4)
+                               }).FirstOrDefault();
+                if (vEntity != null) {
+                    outTasa = vEntity.CambioAMonedaLocal;
+                    return true;
+                } else {
+                    return false;
+                }
+
+            }
+            return false;
+        }
     } //End of class clsOrdenDeProduccionNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

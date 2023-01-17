@@ -56,6 +56,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private FkAlmacenViewModel _ConexionCodigoAlmacenMateriales = null;
         private FkMonedaViewModel _ConexionMoneda = null;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
+        private bool _UsaMonedaExtranjera;
 
         #endregion //Variables
 
@@ -367,7 +368,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public string LabelFormaDeCalcularCostosDeProduccion {
             get {
-                if (CostoTerminadoCalculadoAPartirDe == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal || !UsaMonedaExtranjera()) {
+                if (CostoTerminadoCalculadoAPartirDe == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal || !UsaMonedaExtranjera) {
                     return "Costo de los materiales en Bolívares";
                 } else {
                     return "Costo de los materiales en " + Moneda;
@@ -570,6 +571,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
+        public bool UsaMonedaExtranjera {
+            get { return _UsaMonedaExtranjera; }
+            set {
+                if (_UsaMonedaExtranjera != value) {
+                    _UsaMonedaExtranjera = value;
+                }
+            }
+        }
         public bool IsEnabledCambioCostoProduccion {
             get {
                 return (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar || Action == eAccionSR.Custom || Action == eAccionSR.Cerrar);
@@ -590,7 +599,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsVisibleCambioCostoProduccion {
             get {
-                return UsaMonedaExtranjera() && !EsEcuador();
+                return UsaMonedaExtranjera&& !EsEcuador();
             }
         }
 
@@ -629,6 +638,18 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             InitializeDetails();
         }
 
+        public OrdenDeProduccionViewModel(OrdenDeProduccion initModel, eAccionSR initAction, bool initUsaMonedaExtranjera) 
+            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
+            UsaMonedaExtranjera = initUsaMonedaExtranjera;
+            DefaultFocusedPropertyName = CodigoPropertyName;
+            Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            if (initAction == eAccionSR.Custom) {
+                CustomActionLabel = "Iniciar";
+            }
+            vMonedaLocal = new Saw.Lib.clsNoComunSaw();
+            InitializeDetails();
+        }
+
         public override void InitializeViewModel(eAccionSR valAction) {
             base.InitializeViewModel(valAction);
             if (Action == eAccionSR.Insertar) {
@@ -654,7 +675,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
             if (Action == eAccionSR.Anular || Action == eAccionSR.Consultar || Action == eAccionSR.Eliminar) {
                 Moneda = AsignarNombreMoneda().Nombre;
-            } else if (UsaMonedaExtranjera()) {
+            } else if (UsaMonedaExtranjera) {
                 AsignarValoresDeMonedaPorDefecto();
                 AsignarCambioCostoDeProduccion();
             } else if (!CalculaCostosAPartirDeMonedaExtranjera()) {
@@ -1113,18 +1134,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             return vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda);
         }
 
-        public bool UsaMonedaExtranjera() {
-            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
-        }
-
-        public bool CalculaCostosAPartirDeMonedaExtranjera() {
+        private bool CalculaCostosAPartirDeMonedaExtranjera() {
             eFormaDeCalcularCostoTerminado vFormaDeCalcularCostoTerminado = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CostoTerminadoCalculadoAPartirDe"));
             return (vFormaDeCalcularCostoTerminado == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera);
         }
 
-        public string AsignarCodigoDeLaMonedaAlInsertar() {
+        private string AsignarCodigoDeLaMonedaAlInsertar() {
             string vCodigo = "VED";
-            if (UsaMonedaExtranjera()) {
+            if (UsaMonedaExtranjera) {
                 vCodigo = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             }
             return vCodigo;
