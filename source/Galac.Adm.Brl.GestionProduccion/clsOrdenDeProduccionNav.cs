@@ -582,7 +582,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
             INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaPdn = new clsNotaDeEntradaSalidaNav();
             return vNotaDeEntradaSalidaPdn.AnularNotaDeSalidaAsociadaProduccion(valOrdenDeProduccion.ConsecutivoCompania, valOrdenDeProduccion.Consecutivo);
         }
-
     } //End of class clsOrdenDeProduccionNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

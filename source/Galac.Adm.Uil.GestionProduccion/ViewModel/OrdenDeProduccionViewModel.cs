@@ -1033,7 +1033,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             CloseOnActionComplete = true;
         }
 
-        public bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
+        private bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (!EsMonedaLocal(valCodigoMoneda)) {
                 ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
@@ -1088,7 +1088,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             AsignaTasaDelDia(CodigoMoneda, vFecha);
         }
 
-
         protected override void ExecuteAction() {
             if (Action == eAccionSR.Cerrar) {
                 if (FechaFinalizacion < FechaInicio) {
@@ -1116,7 +1115,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private bool UsaMonedaExtranjera() {
             return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
         }
-
         private bool CalculaCostosAPartirDeMonedaExtranjera() {
             eFormaDeCalcularCostoTerminado vFormaDeCalcularCostoTerminado = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CostoTerminadoCalculadoAPartirDe"));
             return (vFormaDeCalcularCostoTerminado == eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaExtranjera);
