@@ -11,6 +11,8 @@ using Galac.Adm.Brl.GestionProduccion;
 using Galac.Adm.Brl.GestionProduccion.Reportes;
 using Galac.Adm.Ccl.GestionProduccion;
 using LibGalac.Aos.DefGen;
+using Galac.Comun.Ccl.TablasGen;
+using Galac.Comun.Brl.TablasGen;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
@@ -152,7 +154,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void ExecuteIniciarCommand() {
             try {
                 OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Custom);
-                if (UsaMonedaExtranjera() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion) && !TienePermisoParaAsignarTasaDelDía()) {
+                if (UsaMonedaExtranjera() && !TienePermisoParaAsignarTasaDelDía() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion)) {
                     MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
                 } else {
                     vViewModel.InitializeViewModel(eAccionSR.Custom);
@@ -188,7 +190,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private void ExecuteCerrarCommand() {
             try {
                 OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Cerrar);
-                if (UsaMonedaExtranjera() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion) && !TienePermisoParaAsignarTasaDelDía()) {
+                if (UsaMonedaExtranjera() && !TienePermisoParaAsignarTasaDelDía() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion)) {
                     MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
                 } else {
                     vViewModel.InitializeViewModel(eAccionSR.Cerrar);
@@ -245,7 +247,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void ExecuteCreateCommand() {
             OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Insertar);
-            if (UsaMonedaExtranjera() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion) && !TienePermisoParaAsignarTasaDelDía()) {
+            if (UsaMonedaExtranjera() && !TienePermisoParaAsignarTasaDelDía() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion)) {
                 MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
             } else {
                 base.ExecuteCreateCommand();
@@ -254,7 +256,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void ExecuteUpdateCommand() {
             OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Modificar);
-            if (UsaMonedaExtranjera() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion) && !TienePermisoParaAsignarTasaDelDía()) {
+            if (UsaMonedaExtranjera() && !TienePermisoParaAsignarTasaDelDía() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion)) {
                 MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
             } else {
                 base.ExecuteUpdateCommand();
@@ -274,7 +276,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         private bool HayTasaDelDía(string valCodigoMoneda) {
-            return (new clsOrdenDeProduccionNav()).ExisteTasaDeCambioParaElDia(valCodigoMoneda, LibDate.Today(), out decimal vTasa);
+            return ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(valCodigoMoneda, LibDate.Today(), out decimal vTasa);
         }
         #endregion //Metodos
 

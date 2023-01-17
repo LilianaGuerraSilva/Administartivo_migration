@@ -1033,7 +1033,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             CloseOnActionComplete = true;
         }
 
-        public bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
+        private bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (!EsMonedaLocal(valCodigoMoneda)) {
                 ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
@@ -1087,7 +1087,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             AsignarNombreMoneda();
             AsignaTasaDelDia(CodigoMoneda, vFecha);
         }
-
 
         protected override void ExecuteAction() {
             if (Action == eAccionSR.Cerrar) {
