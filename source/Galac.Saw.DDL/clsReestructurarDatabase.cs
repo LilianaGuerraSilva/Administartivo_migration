@@ -170,7 +170,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Venta.clsContratoED().InstalarVistasYSps();
-			//vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
+			vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
             vResult = vResult && CrearVistasDeCompatibilidad();
             return vResult;
         }
@@ -180,8 +180,8 @@ namespace Galac.Saw.DDL {
             vResult = vResult && BorrarVistasDeCompatibilidad();
             vResult = vResult && BorrarVistasDeContabilidad();
             //ORGANICEN EL ORDEN DE ELIMINACION DE VISTAS Y SPS POR DEPENDENCIAS, ESTA DESORDENADO
+            vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Venta.clsContratoED().BorrarVistasYSps();
-			//vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Venta.clsCajaED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Venta.clsCajaAperturaED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaED().BorrarVistasYSps();

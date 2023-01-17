@@ -198,7 +198,7 @@ unTasaDeCambio =(Original,DelDia);//e,Componente=Venta
 unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta 
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
 unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
-
+unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
 
 // Record Repetido en archivo Externo
 //{@S}UrbanizacionZP = record //"Urbanización - Zona Postal",Componente=Tablas,Esquema=Saw,interop
@@ -4453,4 +4453,34 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	NombreOperador		                : Str10;//a
 	FechaUltimaModificacion	            : date;//a
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,ConsecutivoOrdenDeProduccionDetalleArticulo,Consecutivo
+}
+{@S}TransferenciaEntreCuentasBancarias = record //Multiarchivo=Compania,"Transferencia Entre Cuentas Bancarias",Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
+	ConsecutivoCompania				: LongInt;	//Hide	
+	Consecutivo						: LongInt; 	//v,g,"Consecutivo Transferencia",sugestConsecutive
+	Status							: unStatusTransferenciaBancaria;//o,g,search,"Status "
+	Fecha							: date;		//g,search
+	NumeroDocumento					: Str20;	//o,g,search
+	Descripcion						: Str255;	//
+	FechaDeAnulacion				: date;		//
+	CodigoCuentaBancariaOrigen		: Str8		//o,g,search,"Codigo Cuenta Bancaria Origen",=cuentaBancaria.codigo
+	CambioABolivaresEgreso			: decimal;	//"Cambio a Bolívares Egreso"
+	MontoTransferenciaEgreso		: decimal;	//
+	CodigoConceptoEgreso			: Str8;		//g,search
+	GeneraComisionEgreso			: Boolean;
+	MontoComisionEgreso				: decimal;	//
+	CodigoConceptoComisionEgreso	: Str8;		//
+	GeneraIGTFComisionEgreso		: Boolean;
+	CodigoCuentaBancariaDestino 	: Str8		//"Codigo Cuenta Bancaria Destino",=cuentaBancaria.codigo,g,search
+	CambioABolivaresIngreso			: decimal;	//"Cambio a Bolívares Ingreso"
+	MontoTransferenciaIngreso 		: decimal;	//
+	CodigoConceptoIngreso 			: Str8;		//g,search
+	GeneraComisionIngreso		 	: Boolean;
+	MontoComisionIngreso 			: decimal;	//
+	CodigoConceptoComisionIngreso 	: Str8;		//
+	GeneraIGTFComisionIngreso		: Boolean;
+	NombreOperador					: Str10;	//a
+	FechaUltimaModificacion			: date;		//a	
+	@PrimaryKey=ConsecutivoCompania,Consecutivo
+	@UniqueKey=ConsecutivoCompania,NumeroDocumento,CodigoCuentaBancariaOrigen
+	//este uk es solo para que narrador pueda generar, no se pasa
 }

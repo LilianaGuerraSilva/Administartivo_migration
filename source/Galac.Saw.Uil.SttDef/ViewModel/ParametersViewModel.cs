@@ -181,6 +181,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     LibInputViewModelBase<MovimientoBancarioStt> vModel = new BancosMovimientoBancarioViewModel(valContent as MovimientoBancarioStt,eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);
                     vResult = vModel;
+                } else if (valContent is TransferenciaStt) {
+                    LibInputViewModelBase<TransferenciaStt> vModel = new BancosTransferenciaViewModel(valContent as TransferenciaStt, eAccionSR);
+                    vModel.InitializeViewModel(eAccionSR);
+                    vResult = vModel;
                 } else if(valContent is NotaEntradaSalidaStt) {
                     LibInputViewModelBase<NotaEntradaSalidaStt> vModel = new InventarioNotaEntradaSalidaViewModel(valContent as NotaEntradaSalidaStt,eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);

@@ -97,14 +97,7 @@ namespace Galac.Saw.Wrp.TransferenciaEntreCuentasBancarias {
 				throw new GalacWrapperException(Title + " - Inicializar", vEx);
 			}
 		}
-		string IWrpTransferenciaEntreCuentasBancariasVb.ExecuteAndReturnValue(string vfwAction, string vfwCurrentCompany, string vfwCurrentParameters) {
-			string vResult = String.Empty;
-			LibGlobalValues insGV = CreateGlobalValues(vfwCurrentCompany, vfwCurrentParameters);
-			ILibMenuMultiFile insMenu = new Galac.Adm.Uil.Banco.clsTransferenciaEntreCuentasBancariasMenu();
-			insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, insGV.GVDictionary);
-			vResult = ((Galac.Adm.Uil.Banco.clsTransferenciaEntreCuentasBancariasMenu)insMenu).ViewModelStr;
-			return vResult;
-		}
+		
 		void IWrpTransferenciaEntreCuentasBancariasVb.InitializeContext(string vfwInfo) {
 			try {
 				LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
@@ -117,16 +110,23 @@ namespace Galac.Saw.Wrp.TransferenciaEntreCuentasBancarias {
 		}
 		#endregion //Miembros de IWrpMfVb
 
-
 		private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {
 			LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
 			LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(valCurrentMfc));
-			//LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Periodo", "Consecutivo");
+			LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Periodo", "Consecutivo");
 			LibGlobalValues.Instance.GetMfcInfo().Add("Periodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Periodo", "ConsecutivoPeriodo"));
 			return LibGlobalValues.Instance;
 		}
 		#endregion //Metodos Generados
 
+		string IWrpTransferenciaEntreCuentasBancariasVb.ExecuteAndReturnValue(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+			string vResult = String.Empty;
+			LibGlobalValues insGV = CreateGlobalValues(vfwCurrentMfc, vfwCurrentParameters);
+			ILibMenuMultiFile insMenu = new Galac.Adm.Uil.Banco.clsTransferenciaEntreCuentasBancariasMenu();
+			insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, insGV.GVDictionary);
+			vResult = ((Galac.Adm.Uil.Banco.clsTransferenciaEntreCuentasBancariasMenu)insMenu).ViewModelStr;
+			return vResult;
+		}
 	} //End of class wrpTransferenciaEntreCuentasBancarias
 
 } //End of namespace Galac.Saw.Wrp.Banco

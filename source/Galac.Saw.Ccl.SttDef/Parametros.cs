@@ -27,6 +27,7 @@ namespace Galac.Saw.Ccl.SttDef {
         ModeloDeFacturaStt _ParametrosModeloDeFacturaStt;
         MonedaStt _ParametrosMonedaStt;
         MovimientoBancarioStt _ParametrosMovimientoBancarioStt;
+        TransferenciaStt _ParametrosTransferenciaBancariaStt;
         NotaEntradaSalidaStt _ParametrosNotaEntradaSalidaStt;
         NotaEntregaStt _ParametrosNotaEntregaStt;
         NotasDebitoCreditoEntregaStt _ParametrosNotasDebitoCreditoEntregaStt;
@@ -134,6 +135,10 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _ParametrosMovimientoBancarioStt = value; }
         }
 
+        public TransferenciaStt ParametrosTransferenciaBancariaStt {
+            get { return _ParametrosTransferenciaBancariaStt; }
+            set { _ParametrosTransferenciaBancariaStt = value; }
+        }
         public NotaEntradaSalidaStt ParametrosNotaEntradaSalidaStt {
             get { return _ParametrosNotaEntradaSalidaStt; }
             set { _ParametrosNotaEntradaSalidaStt = value; }

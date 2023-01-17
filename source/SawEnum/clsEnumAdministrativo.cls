@@ -234,7 +234,7 @@ Public Enum enum_SystemModules
    eSM_OrdenDeProduccion
    eSM_OrdenDeProduccionDetalleArticulo
    eSM_OrdenDeProduccionDetalleMateriales
-'   eSM_TransferenciaEntreCuentasBancarias
+   eSM_TransferenciaEntreCuentasBancarias
 End Enum
 
 Public Enum enum_DiaDeLaSemana
@@ -1175,6 +1175,8 @@ Public Enum enum_ConceptoBancarioPorDefecto
    eCB_REVERSO_PAGO_CAJA_CHICA
    eCB_REVERSO_EGRESO_REPOSICION_CAJA_CHICA
    eCB_REVERSO_INGRESO_REPOSICION_CAJA_CHICA
+   eCB_REV_AUTOMATICO_TRANSF_INGRESO
+   eCB_REV_AUTOMATICO_TRANSF_EGRESO
 End Enum
 
 Public Enum enum_MesesDelAno
@@ -1561,6 +1563,12 @@ Public Enum enum_StatusRendicion
    eSRd_CERRADA
    eSRd_ANULADA
 End Enum
+
+Public Enum enum_StatusTransferenciaEntreCuentas
+   eSTEC_VIGENTE = 0
+   eSTEC_ANULADA
+End Enum
+
 Public Enum enum_OrigenRendicion
    eOR_Manual = 0
    eOR_Sistema10
@@ -1881,7 +1889,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_OrdenDeProduccion: enum_SystemModulesToStr = "Orden de Producción"
       Case eSM_OrdenDeProduccionDetalleArticulo: enum_SystemModulesToStr = "Orden de Producción Detalle Articulo"
       Case eSM_OrdenDeProduccionDetalleMateriales: enum_SystemModulesToStr = "Orden de Producción Detalle Materiales"
-      ''Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
+      Case eSM_TransferenciaEntreCuentasBancarias: enum_SystemModulesToStr = "Transferencia entre Cuentas Bancarias"
    End Select
 End Function
 
@@ -9463,8 +9471,10 @@ Public Function fCodigoConceptoBancarioPorDefecto(ByVal valCualConcepto As enum_
       Case eCB_TRANSERENCIA_EGRESO: fCodigoConceptoBancarioPorDefecto = "60343" '"EGRESO POR TRANSFERENCIA"
       Case eCB_DETRACCION_INGRESO: fCodigoConceptoBancarioPorDefecto = "60344" '"INGRESO POR DETRACCION"
       Case eCB_DETRACCION_EGRESO: fCodigoConceptoBancarioPorDefecto = "60345" '"EGRESO POR DETRACCION"
-      Case eCB_REV_AUTOMATICO_SOLI_PAGADO: fCodigoConceptoBancarioPorDefecto = "G0001"  '"REVERSO AUTOMATICO SOLICITUD DE PAGO"
       Case eCB_PAGO_RETENCION_DIRECTO_DESDE_CXP: fCodigoConceptoBancarioPorDefecto = "60346" '"PAGO DIRECTO RETENCION DESDE CXP"
+      Case eCB_REV_AUTOMATICO_TRANSF_INGRESO: fCodigoConceptoBancarioPorDefecto = "60347" '"REV AUTOMATICO TRANSF INGRESO"
+      Case eCB_REV_AUTOMATICO_TRANSF_EGRESO: fCodigoConceptoBancarioPorDefecto = "60348" '"REV AUTOMATICO TRANSF EGRESO"
+      Case eCB_REV_AUTOMATICO_SOLI_PAGADO: fCodigoConceptoBancarioPorDefecto = "G0001"  '"REVERSO AUTOMATICO SOLICITUD DE PAGO"
       Case eCB_PAGO_CAJA_CHICA: fCodigoConceptoBancarioPorDefecto = "CC001" '"PAGO A PROVEEDORES DESDE CAJA CHICA
       Case eCB_EGRESO_REPOSICION_CAJA_CHICA: fCodigoConceptoBancarioPorDefecto = "CC002" '"EGRESO DESDE X CUENTA BANCARIA HACIA CAJA CHICA
       Case eCB_INGRESO_REPOSICION_CAJA_CHICA: fCodigoConceptoBancarioPorDefecto = "CC003" '"INGRESO PARA REPONER EL MONTO DE CAJA CHICA
@@ -9491,6 +9501,8 @@ Public Function fDescripcionConceptoBancarioPorDefecto(ByVal valCualConcepto As 
       Case eCB_DETRACCION_EGRESO: fDescripcionConceptoBancarioPorDefecto = "EGRESO POR DETRACCION" '"60345"
       Case eCB_REV_AUTOMATICO_SOLI_PAGADO: fDescripcionConceptoBancarioPorDefecto = "REVERSO AUTOMATICO SOLICITUD DE PAGO"  '"G0001"'
       Case eCB_PAGO_RETENCION_DIRECTO_DESDE_CXP: fDescripcionConceptoBancarioPorDefecto = "PAGO DIRECTO RETENCION DESDE CXP." '"60346"
+      Case eCB_REV_AUTOMATICO_TRANSF_INGRESO: fDescripcionConceptoBancarioPorDefecto = "REV AUTOMATICO TRANSF INGRESO" '"60347"
+      Case eCB_REV_AUTOMATICO_TRANSF_EGRESO: fDescripcionConceptoBancarioPorDefecto = "REV AUTOMATICO TRANSF EGRESO" '"60348"
       Case eCB_PAGO_CAJA_CHICA: fDescripcionConceptoBancarioPorDefecto = "PAGO PROVEEDORES - CAJA CHICA" '"CC001
       Case eCB_EGRESO_REPOSICION_CAJA_CHICA: fDescripcionConceptoBancarioPorDefecto = "EGRESO - REPOSICION CAJA CHICA" '"CC002
       Case eCB_INGRESO_REPOSICION_CAJA_CHICA: fDescripcionConceptoBancarioPorDefecto = "REPOSICION CAJA CHICA" '"CC003
@@ -9516,6 +9528,8 @@ Public Function fTipoDeConceptoBancarioPorDefecto(ByVal valCualConcepto As enum_
       Case eCB_TRANSERENCIA_EGRESO: fTipoDeConceptoBancarioPorDefecto = enum_IngresoEgreso.eIE_EGRESO '"60343"
       Case eCB_REV_AUTOMATICO_SOLI_PAGADO: fTipoDeConceptoBancarioPorDefecto = enum_IngresoEgreso.eIE_INGRESO '"G0001"'
       Case eCB_PAGO_RETENCION_DIRECTO_DESDE_CXP: fTipoDeConceptoBancarioPorDefecto = enum_IngresoEgreso.eIE_EGRESO '"60346"
+      Case eCB_REV_AUTOMATICO_TRANSF_INGRESO: fTipoDeConceptoBancarioPorDefecto = enum_IngresoEgreso.eIE_INGRESO '"60347"
+      Case eCB_REV_AUTOMATICO_TRANSF_EGRESO: fTipoDeConceptoBancarioPorDefecto = enum_IngresoEgreso.eIE_EGRESO '"60348"
       Case eCB_PAGO_CAJA_CHICA: fTipoDeConceptoBancarioPorDefecto = enum_IngresoEgreso.eIE_EGRESO '"CC001
       Case eCB_EGRESO_REPOSICION_CAJA_CHICA: fTipoDeConceptoBancarioPorDefecto = enum_IngresoEgreso.eIE_EGRESO '"CC002
       Case eCB_INGRESO_REPOSICION_CAJA_CHICA: fTipoDeConceptoBancarioPorDefecto = enum_IngresoEgreso.eIE_INGRESO '"CC003
@@ -14041,4 +14055,71 @@ Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, O
    End If
 h_EXIT:
    Exit Function
+End Function
+Public Function enumStatusTransferenciaEntreCuentasToString(ByVal StatusTransferenciaEntreCuentas As enum_StatusTransferenciaEntreCuentas) As String
+   Select Case StatusTransferenciaEntreCuentas
+      Case eSTEC_VIGENTE: enumStatusTransferenciaEntreCuentasToString = "Vigente"
+      Case eSTEC_ANULADA: enumStatusTransferenciaEntreCuentasToString = "Anulada"
+      Case Else: enumStatusTransferenciaEntreCuentasToString = enumStatusTransferenciaEntreCuentasToString(0)
+   End Select
+End Function
+
+Public Function strStatusTransferenciaEntreCuentasToNum(ByVal StatusTransferenciaEntreCuentas As String, Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_StatusTransferenciaEntreCuentas
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = eSTEC_VIGENTE To eSTEC_ANULADA
+      If UCase(StatusTransferenciaEntreCuentas) = UCase(enumStatusTransferenciaEntreCuentasToString(mEnum)) Then
+         strStatusTransferenciaEntreCuentasToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strStatusTransferenciaEntreCuentasToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & StatusTransferenciaEntreCuentas & " no existe en tipo enumerativo Status Transferencia Entre Cuentas"
+   End If
+h_EXIT:
+   Exit Function
+End Function
+
+Public Sub FillComboBoxWithStatusTransferenciaEntreCuentas(ByRef varComboBox As Object, Optional action As AccionSobreRecord = Abrir)
+   Dim nCount As Integer
+   If TypeOf varComboBox Is ComboBox Then
+      nCount = 0
+      If action = Buscar Then
+         varComboBox.Text = gDefGen.getSearchAllComboBox()
+         varComboBox.List(nCount) = gDefGen.getSearchAllComboBox()
+         nCount = nCount + 1
+      Else
+         varComboBox.Text = enumStatusTransferenciaEntreCuentasToString(enum_StatusTransferenciaEntreCuentas.eSTEC_VIGENTE)
+      End If
+      varComboBox.List(nCount) = enumStatusTransferenciaEntreCuentasToString(enum_StatusTransferenciaEntreCuentas.eSTEC_VIGENTE)
+      nCount = nCount + 1
+      varComboBox.List(nCount) = enumStatusTransferenciaEntreCuentasToString(enum_StatusTransferenciaEntreCuentas.eSTEC_ANULADA)
+      varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
+      varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
+   End If
+End Sub
+
+Public Function fenumStatusTransferenciaEntreCuentasToStringInArray(Optional ByVal valPrepararParaSql As Boolean = False) As Variant
+   Dim varEnum As enum_StatusTransferenciaEntreCuentas
+   Dim varArray() As String
+   Dim varLimiteSuperior As Integer
+   Dim nCount As Integer
+   Dim varCaracterDelimitador As String
+   On Error Resume Next
+   varCaracterDelimitador = ""
+   If valPrepararParaSql Then
+      varCaracterDelimitador = "'"
+   End If
+   varLimiteSuperior = enum_StatusTransferenciaEntreCuentas.eSTEC_ANULADA - enum_StatusTransferenciaEntreCuentas.eSTEC_VIGENTE
+   nCount = 0
+   ReDim varArray(0 To varLimiteSuperior)
+   For varEnum = eSTEC_VIGENTE To eSTEC_ANULADA
+      varArray(nCount) = varCaracterDelimitador & enumStatusTransferenciaEntreCuentasToString(varEnum) & varCaracterDelimitador
+      nCount = nCount + 1
+   Next
+   fenumStatusTransferenciaEntreCuentasToStringInArray = varArray
+   On Error GoTo 0
 End Function
