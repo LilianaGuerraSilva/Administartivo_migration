@@ -515,7 +515,6 @@ namespace Galac.Adm.Dal.Vendedor {
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Insertar")]
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Importar")]
         public LibXmlResult Import(XmlReader refRecord, LibProgressManager valManager, bool valShowMessage) {
-            //throw new ProgrammerMissingCodeException("PROGRAMADOR: El codigo generado bajo el atributo IMPEXP del record, es solo referencial. DEBE AJUSTARLO ya que el Narrador actualmente desconoce la estructura de su archivo de importacion!!!!");
             try {
                 string vMessage = "";
                 int vIndex = 0;
@@ -527,7 +526,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 foreach (Entity.Vendedor item in vList) {
                     try {
                         vMessage = string.Format("Insertando {0:n0} de {1:n0}", vIndex, vTotal);
-                        insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorINST"), ParametrosActualizacion(item, eAccionSR.Insertar));
+                        insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(item, eAccionSR.Insertar));
                     } catch (System.Data.SqlClient.SqlException vEx) {
                         if (LibExceptionMng.IsPrimaryKeyViolation(vEx)) {
                             vResult.AddDetailWithAttribute(item.Codigo, "Ya existe", eXmlResultType.Error);
@@ -684,25 +683,25 @@ namespace Galac.Adm.Dal.Vendedor {
         private LibResponse InsertRecord(IList<Entity.Vendedor> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg;
-            try {
-                foreach (var item in refRecord) {
-                    CurrentRecord = item;
-                    if (ExecuteProcessBeforeInsert()) {
-                        if (Validate(eAccionSR.Insertar, out vErrMsg)) {
-                            if (insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
-                                vResult.Success = true;
-                                if (vResult.Success) {
-                                    ExecuteProcessAfterInsert();
-                                }
+            //try {
+            foreach (var item in refRecord) {
+                CurrentRecord = item;
+                if (ExecuteProcessBeforeInsert()) {
+                    if (Validate(eAccionSR.Insertar, out vErrMsg)) {
+                        if (insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
+                            vResult.Success = true;
+                            if (vResult.Success) {
+                                ExecuteProcessAfterInsert();
                             }
                         }
                     }
                 }
-                return vResult;
-            } finally {
-                if (!vResult.Success) {
-                }
             }
+            return vResult;
+            //} finally {
+            //    if (!vResult.Success) {
+            //    }
+            //}
         }
         #endregion //Metodos Generados
     } //End of class clsVendedorDat

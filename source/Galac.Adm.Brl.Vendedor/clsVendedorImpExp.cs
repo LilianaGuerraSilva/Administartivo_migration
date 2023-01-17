@@ -106,6 +106,9 @@ namespace Galac.Adm.Brl.Vendedor {
         public bool VerifyIntegrityOfRecord(XElement valRecord, StringBuilder refErrorMessage) {
             bool vResult = false;
             XElement vXElement = DistributeLine(valRecord);
+            foreach (XElement vVendedor in vXElement.Nodes()) {
+                LlenarListaDeVendedores(vVendedor);
+            }
             XmlDocument vXDoc = new XmlDocument();
             vXDoc.Load(vXElement.CreateReader());
             if (vXDoc != null) {
@@ -131,7 +134,7 @@ namespace Galac.Adm.Brl.Vendedor {
             int vIndex = 1;
             foreach (var item in vVendedorList) {
                 try {
-                    vResultOperacion = insVendedorDatPdn.InsertarListaDeVendedorMaster(new List<Ccl.Vendedor.Vendedor>() { item });
+                    vResultOperacion = insVendedorDatPdn.InsertarListaDeVendedorMaster(vVendedorList);
                     vResult.Success = vResult.Success && vResultOperacion.Success;
                     if (!vResultOperacion.Success) {
                         vResult.AddInformation(vResultOperacion.GetInformation());
@@ -205,9 +208,6 @@ namespace Galac.Adm.Brl.Vendedor {
                         new XElement("CodigoLote", vParser.GetString(0, "CodigoLote", "")),
                         new XElement("TipoDocumentoIdentificacion", vParser.GetString(0, "TipoDocumentoIdentificacion", "")),
                         new XElement("RutaDeComercializacion", vParser.GetString(0, "RutaDeComercializacion", ""))));
-                foreach (XElement vVendedor in vXElement.Nodes()) {
-
-                }
                 return vXElement;
             } catch (XmlException vEx) {
                 throw new GalacException("Error distribuyendo la línea del archivo.", eExceptionManagementType.Uncontrolled, vEx);
@@ -242,7 +242,7 @@ namespace Galac.Adm.Brl.Vendedor {
         public void LlenarListaDeVendedores(XElement valVendedor) {
             Ccl.Vendedor.Vendedor vVendedor = new Ccl.Vendedor.Vendedor();
             vVendedor.ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            //vVendedor.Consecutivo = ;
+            vVendedor.Consecutivo = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(valVendedor, "Consecutivo"));
             vVendedor.Codigo = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "Codigo"));
             vVendedor.Nombre = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "Nombre"));
             vVendedor.RIF = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "RIF"));
@@ -278,11 +278,12 @@ namespace Galac.Adm.Brl.Vendedor {
             vVendedor.PorcentajeCobranza4 = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(valVendedor, "PorcentajeCobranza4"));
             vVendedor.TopeFinalCobranza5 = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(valVendedor, "TopeFinalCobranza5"));
             vVendedor.PorcentajeCobranza5 = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(valVendedor, "PorcentajeCobranza5"));
-            vVendedor.UsaComisionPorVentaAsBool = LibConvert.ToBool(LibXml.GetElementValueOrEmpty(valVendedor, "UsaComisionPorVenta"));
-            vVendedor.UsaComisionPorCobranzaAsBool = LibConvert.ToBool(LibXml.GetElementValueOrEmpty(valVendedor, "UsaComisionPorCobranza"));
+            vVendedor.UsaComisionPorVenta = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "UsaComisionPorVenta"));
+            vVendedor.UsaComisionPorCobranza = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "UsaComisionPorCobranza"));
             vVendedor.CodigoLote = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "CodigoLote"));
             vVendedor.TipoDocumentoIdentificacionAsEnum = (eTipoDocumentoIdentificacion)LibConvert.ToInt(LibXml.GetElementValueOrEmpty(valVendedor, "TipoDocumentoIdentificacion"));
             vVendedor.RutaDeComercializacionAsEnum = (eRutaDeComercializacion)LibConvert.ToInt(LibXml.GetElementValueOrEmpty(valVendedor, "RutaDeComercializacion"));
+            vVendedorList.Add(vVendedor);
         }
         public bool VerifyIntegrityOfRecord(XmlReader valRecord, XmlDocument refXmlDocResult, StringBuilder refErrorMessage) {
             throw new NotImplementedException();

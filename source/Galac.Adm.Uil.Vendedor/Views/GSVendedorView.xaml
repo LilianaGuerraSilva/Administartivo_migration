@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Vendedor.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls" Width="675">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Width="675">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -148,6 +149,15 @@
                     SelectedItem="{Binding Path=RutaDeComercializacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}"
                     Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="2"
+                    Width="Auto"
+                    Margin="0,20,3,0"
+                    HorizontalAlignment="Right"
+                    Content="{Binding LabelFormaDeCalcularCostosDeProduccion}"
+                    Style="{StaticResource LabelSubTitle}" />
             </Grid>
         </GroupBox>
         <TabControl
