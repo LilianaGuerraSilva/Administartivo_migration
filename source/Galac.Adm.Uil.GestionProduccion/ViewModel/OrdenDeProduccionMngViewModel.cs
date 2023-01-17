@@ -151,7 +151,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private void ExecuteIniciarCommand() {
             try {
-                OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Custom, UsaMonedaExtranjera());
+                OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Custom);
                 if (UsaMonedaExtranjera() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion) && !TienePermisoParaAsignarTasaDelDía()) {
                     MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
                 } else {
@@ -187,7 +187,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private void ExecuteCerrarCommand() {
             try {
-                OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Cerrar, UsaMonedaExtranjera());
+                OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Cerrar);
                 if (UsaMonedaExtranjera() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion) && !TienePermisoParaAsignarTasaDelDía()) {
                     MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
                 } else {
@@ -244,7 +244,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void ExecuteCreateCommand() {
-            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Insertar, UsaMonedaExtranjera());
+            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Insertar);
             if (UsaMonedaExtranjera() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion) && !TienePermisoParaAsignarTasaDelDía()) {
                 MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
             } else {
@@ -253,7 +253,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void ExecuteUpdateCommand() {
-            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Modificar, UsaMonedaExtranjera());
+            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Modificar);
             if (UsaMonedaExtranjera() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion) && !TienePermisoParaAsignarTasaDelDía()) {
                 MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
             } else {
