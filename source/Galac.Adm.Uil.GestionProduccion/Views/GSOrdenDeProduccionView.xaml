@@ -67,7 +67,7 @@
             Margin="0,20,3,0"
             HorizontalAlignment="Right"
             Content="{Binding LabelFormaDeCalcularCostosDeProduccion}"
-            Style="{StaticResource LabelSubTitle}"/>
+            Style="{StaticResource LabelSubTitle}" />
         <Label
             Name="lblFechaInicio"
             Grid.Row="1"
@@ -208,9 +208,11 @@
             Grid.Column="0"
             Width="140"
             Height="24"
+            Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Fecha de Finalización"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" Margin="3,0,0,0" VerticalAlignment="Center" />
+            Visibility="{Binding Path=IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaFinalizacion"
             Grid.Row="6"
@@ -229,9 +231,10 @@
             Width="140"
             Height="24"
             Margin="3,0,0,0"
+            VerticalAlignment="Center"
             Content="Fecha de Anulación"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisibleFechaDeAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" VerticalAlignment="Center" />
+            Visibility="{Binding Path=IsVisibleFechaDeAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSDatePickerWpf
             Name="dtpFechaAnulacion"
             Grid.Row="7"
