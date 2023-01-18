@@ -273,7 +273,7 @@ unRutaDeComercializacion = (Ninguno, Agentes, Asesores, Consultor, Gerente, Inco
    @PrimaryKey=Nombre,FechadeVigencia
 }
 
-{@M}Vendedor = Record//Multiarchivo=Compania, "Vendedor", Componente=Vendedor, Esquema=Adm, EsquemaBD=Adm, GENERATE
+{@M}Vendedor = Record//Multiarchivo=Compania, "Vendedor", Componente=Vendedor, impexp, Esquema=Adm, EsquemaBD=Adm, GENERATE
 	ConsecutivoCompania		: LongInt;//
 	Consecutivo             : Longint;
     Codigo		            : Str5;//
@@ -316,6 +316,8 @@ unRutaDeComercializacion = (Ninguno, Agentes, Asesores, Consultor, Gerente, Inco
 	CodigoLote		        : Str10;//
 	TipoDocumentoIdentificacion		: unTipoDocumentoIdentificacion;//
     RutaDeComercializacion  : unRutaDeComercializacion;//
+    SeccionVendedorDetalleComisiones : seccion //"Items", Detail=VendedorDetalleComisiones
+   {EndSeccion}
 //ATENCIÓN: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
 	NombreOperador		    : Str10;//a
 	FechaUltimaModificacion	: date;//a
@@ -323,7 +325,7 @@ unRutaDeComercializacion = (Ninguno, Agentes, Asesores, Consultor, Gerente, Inco
     @UniqueKey=ConsecutivoCompania,Codigo
 }
 
-{@D VENDEDOR}RenglonComisionesDeVendedor = Record //Male,Multiarchivo=Compania, GENERATE
+{@D VENDEDOR}VendedorDetalleComisiones = Record //Male,Multiarchivo=Compania, Componente=Vendedor, Esquema=Adm, EsquemaBD=Adm, GENERATE
    ConsecutivoCompania  : LongInt; //o,HIDE
    ConsecutivoVendedor       : Longint;//o
    ConsecutivoRenglon   : LongInt; //o
@@ -331,7 +333,7 @@ unRutaDeComercializacion = (Ninguno, Agentes, Asesores, Consultor, Gerente, Inco
    TipoDeComision       : unTipoComision; //g,o
    Monto                : Double; //g,o
    Porcentaje           : Double; //g,o
-   @PrimaryKey=ConsecutivoCompania,CodigoVendedor,ConsecutivoRenglon
+   @PrimaryKey=ConsecutivoCompania,ConsecutivoVendedor,ConsecutivoRenglon
 }
 {@S}ZonaCobranza = Record //,Female,Multiarchivo=Compania,Componente=Tablas,Esquema=Saw, interop
     ConsecutivoCompania	: Longint; //HIDE
@@ -2778,7 +2780,7 @@ unRutaDeComercializacion = (Ninguno, Agentes, Asesores, Consultor, Gerente, Inco
     @PrimaryKey=ConsecutivoCompania,ConsecutivoNEntrega,ConsecutivoRenglonNE,Consecutivo
 }
 
-{@S}RetirosACuenta = Record //Multiarchivo=Compania, MALE, GENERATE
+{@S}RetirosACuenta = Record //Multiarchivo=Compania, MALE
     ConsecutivoCompania: Longint; //HIDE,o
     ConsecutivoRetiro  : Longint; //HIDE,o
     ConsecutivoVendedor     : Longint;//=Vendedor.Consecutivo,"Consecutivo Vendedor"
@@ -3385,7 +3387,8 @@ unRutaDeComercializacion = (Ninguno, Agentes, Asesores, Consultor, Gerente, Inco
     NumeroRIF                     : Str20;//g,Logical,=Cliente.NumeroRIF,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     NombreCliente                 : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     DireccionCliente              : TextArea;
-    TelefonoCliente               : Str40; 
+    TelefonoCliente               : Str40;
+    CodigoVendedor                : Str10;
     ConsecutivoVendedor	          : Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
     NombreVendedor                : Str35;//Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarConsecutivoVendedorEnPantallas()",search
     Observaciones                 : TextArea;
