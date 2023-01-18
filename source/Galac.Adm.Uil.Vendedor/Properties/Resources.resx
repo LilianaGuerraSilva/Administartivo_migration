@@ -120,7 +120,4 @@
   <data name="lblEtiquetaNumero" xml:space="preserve">
     <value>R.I.F.</value>
   </data>
-  <data name="lblValidacionNumero" xml:space="preserve">
-    <value>El campo R.I.F es requerido.</value>
-  </data>
 </root>

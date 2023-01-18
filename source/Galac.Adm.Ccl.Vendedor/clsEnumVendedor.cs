@@ -4,7 +4,7 @@ using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.Vendedor {
 
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	[TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eStatusVendedor {
         [LibEnumDescription("Activo")]
         Activo = 0, 
@@ -14,8 +14,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         Restringido
 	}
 
-
-	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	[TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eTipoDocumentoIdentificacion {
         [LibEnumDescription("R UC")]
         RUC = 0, 
@@ -29,7 +28,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         OtrosTiposdeDocumentos
 	}
 
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eNivelDeComisionVentaYCobranza{
         [LibEnumDescription("Nivel 1")]
         Nivel1 = 0, 
@@ -46,16 +45,18 @@ namespace Galac.Adm.Ccl.Vendedor {
         [LibEnumDescription("< Nivel 1")]
         MenorANivel1
 	}
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoComision {
         [LibEnumDescription("Por Porcentaje")]
         PorPorcentaje = 0,
         [LibEnumDescription("Por Monto")]
         PorMonto
     }
-    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eRutaDeComercializacion {
-        [LibEnumDescription("Ninguna")]
+        [LibEnumDescription("No Asignado")]
         Ninguna = 0,
         [LibEnumDescription("Aliado")]
         Aliado,

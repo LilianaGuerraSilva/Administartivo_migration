@@ -133,7 +133,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        //[LibRequired(ErrorMessage = "RIF/RUC del Vendedor es requerido.")]
         [LibGridColum(HeaderResourceName = "lblEtiquetaNumero", HeaderResourceType = typeof(Resources), ColumnOrder = 2)]
         public string  RIF {
             get {
@@ -308,7 +307,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeFinalVenta1 {
             get {
-                return Model.TopeFinalVenta1;
+                return LibMath.RoundToNDecimals(Model.TopeFinalVenta1, 2);
             }
             set {
                 if (Model.TopeFinalVenta1 != value) {
@@ -321,7 +320,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  PorcentajeVentas1 {
             get {
-                return Model.PorcentajeVentas1;
+                return LibMath.RoundToNDecimals(Model.PorcentajeVentas1, 2);
             }
             set {
                 if (Model.PorcentajeVentas1 != value) {
@@ -334,7 +333,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeFinalVenta2 {
             get {
-                return Model.TopeFinalVenta2;
+                return LibMath.RoundToNDecimals(Model.TopeFinalVenta2, 2);
             }
             set {
                 if (Model.TopeFinalVenta2 != value) {
@@ -347,7 +346,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  PorcentajeVentas2 {
             get {
-                return Model.PorcentajeVentas2;
+                return LibMath.RoundToNDecimals(Model.PorcentajeVentas2, 2);
             }
             set {
                 if (Model.PorcentajeVentas2 != value) {
@@ -360,7 +359,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeFinalVenta3 {
             get {
-                return Model.TopeFinalVenta3;
+                return LibMath.RoundToNDecimals(Model.TopeFinalVenta3, 2);
             }
             set {
                 if (Model.TopeFinalVenta3 != value) {
@@ -373,7 +372,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  PorcentajeVentas3 {
             get {
-                return Model.PorcentajeVentas3;
+                return LibMath.RoundToNDecimals(Model.PorcentajeVentas3, 2);
             }
             set {
                 if (Model.PorcentajeVentas3 != value) {
@@ -386,7 +385,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeFinalVenta4 {
             get {
-                return Model.TopeFinalVenta4;
+                return LibMath.RoundToNDecimals(Model.TopeFinalVenta4, 2);
             }
             set {
                 if (Model.TopeFinalVenta4 != value) {
@@ -399,7 +398,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  PorcentajeVentas4 {
             get {
-                return Model.PorcentajeVentas4;
+                return LibMath.RoundToNDecimals(Model.PorcentajeVentas4, 2);
             }
             set {
                 if (Model.PorcentajeVentas4 != value) {
@@ -412,7 +411,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeFinalVenta5 {
             get {
-                return Model.TopeFinalVenta5;
+                return LibMath.RoundToNDecimals(Model.TopeFinalVenta5, 2);
             }
             set {
                 if (Model.TopeFinalVenta5 != value) {
@@ -425,7 +424,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  PorcentajeVentas5 {
             get {
-                return Model.PorcentajeVentas5;
+                return LibMath.RoundToNDecimals(Model.PorcentajeVentas5, 2);
             }
             set {
                 if (Model.PorcentajeVentas5 != value) {
@@ -438,7 +437,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeInicialCobranza1 {
             get {
-                return Model.TopeInicialCobranza1;
+                return LibMath.RoundToNDecimals(Model.TopeInicialCobranza1, 2);
             }
             set {
                 if (Model.TopeInicialCobranza1 != value) {
@@ -451,7 +450,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeFinalCobranza1 {
             get {
-                return Model.TopeFinalCobranza1;
+                return LibMath.RoundToNDecimals(Model.TopeFinalCobranza1, 2);
             }
             set {
                 if (Model.TopeFinalCobranza1 != value) {
@@ -464,7 +463,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  PorcentajeCobranza1 {
             get {
-                return Model.PorcentajeCobranza1;
+                return LibMath.RoundToNDecimals(Model.PorcentajeCobranza1, 2);
             }
             set {
                 if (Model.PorcentajeCobranza1 != value) {
@@ -477,7 +476,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal  TopeFinalCobranza2 {
             get {
-                return Model.TopeFinalCobranza2;
+                return LibMath.RoundToNDecimals(Model.TopeFinalCobranza2, 2);
             }
             set {
                 if (Model.TopeFinalCobranza2 != value) {

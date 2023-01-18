@@ -111,6 +111,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Resources.es-PE.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.es-PE.resx</DependentUpon>
+    </Compile>
     <Compile Include="UIMefVendedor.cs" />
     <Compile Include="ViewModel\clsFKViewModelVendedor.cs" />
     <Compile Include="ViewModel\VendedorDetalleComisionesMngViewModel.cs" />

@@ -89,7 +89,8 @@
                     Name="txtNombreVendedor"
                     Grid.Row="1"
                     Grid.Column="1"
-                    Width="250"
+                    Grid.ColumnSpan="3"
+                    Width="521"
                     InputDataType="String"
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="160"
@@ -126,6 +127,7 @@
                     Grid.Row="0"
                     Grid.Column="3"
                     Width="150"
+                    HorizontalAlignment="Right"
                     IsEnabled="{Binding Path=IsEnabled}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayStatusVendedor}"
@@ -133,14 +135,15 @@
                     Style="{StaticResource ComboBoxStyle}" />
                 <Label
                     Name="lblRutaDeComercializacion"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.Column="2"
-                    Content="Ruta de &#10;Comercialización"
+                    Content="Ruta de Comercialización"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbRutaDeComercializacion"
-                    Grid.Row="1"
+                    HorizontalAlignment="Right"
+                    Grid.Row="2"
                     Grid.Column="3"
                     Width="150"
                     IsEnabled="{Binding Path=IsEnabled}"
@@ -149,15 +152,6 @@
                     SelectedItem="{Binding Path=RutaDeComercializacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}"
                     Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <Label
-                    Grid.Row="3"
-                    Grid.Column="2"
-                    Grid.ColumnSpan="2"
-                    Width="Auto"
-                    Margin="0,20,3,0"
-                    HorizontalAlignment="Right"
-                    Content="{Binding LabelFormaDeCalcularCostosDeProduccion}"
-                    Style="{StaticResource LabelSubTitle}" />
             </Grid>
         </GroupBox>
         <TabControl
@@ -184,7 +178,8 @@
                     <GroupBox
                         Grid.RowSpan="5"
                         Grid.ColumnSpan="2"
-                        Header="Datos de Contacto">
+                        Header="Datos de Contacto"
+                        Height="250">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -193,6 +188,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -208,10 +204,10 @@
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtDireccion"
                                 Grid.Row="0"
-                                Grid.RowSpan="3"
+                                Grid.RowSpan="4"
                                 Grid.Column="1"
                                 Width="250"
-                                Height="90"
+                                Height="100"
                                 IsReadOnly="{Binding Path=IsReadOnly}"
                                 MaxLength="255"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -220,13 +216,13 @@
                                 VerticalScrollBarVisibility="Auto" />
                             <Label
                                 Name="lblCiudad"
-                                Grid.Row="3"
+                                Grid.Row="4"
                                 Grid.Column="0"
                                 Content="Ciudad"
                                 Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSSeekConnection
                                 Name="txtCiudad"
-                                Grid.Row="3"
+                                Grid.Row="4"
                                 Grid.Column="1"
                                 Width="250"
                                 Height="23"
@@ -265,7 +261,7 @@
                                 Grid.Row="0"
                                 Grid.Column="3"
                                 Width="245"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="{Binding Path=IsEnabled}"
                                 MaxLength="40"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -312,10 +308,10 @@
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtNotas"
                                 Grid.Row="3"
-                                Grid.RowSpan="2"
+                                Grid.RowSpan="3"
                                 Grid.Column="3"
                                 Width="245"
-                                Height="55"
+                                Height="90"
                                 VerticalAlignment="Top"
                                 BorderThickness="1"
                                 InputDataType="String"
@@ -419,7 +415,7 @@
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -428,7 +424,7 @@
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -437,7 +433,7 @@
                                 Grid.Row="1"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -454,7 +450,7 @@
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -464,7 +460,7 @@
                                 Grid.Row="2"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -473,7 +469,7 @@
                                 Grid.Row="2"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -490,7 +486,7 @@
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -500,7 +496,7 @@
                                 Grid.Row="3"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalVenta3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -509,7 +505,7 @@
                                 Grid.Row="3"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -526,7 +522,7 @@
                                 Grid.Row="4"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -536,7 +532,7 @@
                                 Grid.Row="4"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalVenta4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -545,7 +541,7 @@
                                 Grid.Row="4"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -562,7 +558,6 @@
                                 Grid.Row="5"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -573,7 +568,7 @@
                                 Grid.Row="5"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -583,7 +578,7 @@
                                 Grid.Row="5"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeVentas5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -665,7 +660,7 @@
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -674,7 +669,7 @@
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -683,7 +678,7 @@
                                 Grid.Row="1"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -700,7 +695,7 @@
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -710,7 +705,7 @@
                                 Grid.Row="2"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -719,7 +714,7 @@
                                 Grid.Row="2"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -736,7 +731,7 @@
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -746,7 +741,7 @@
                                 Grid.Row="3"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -755,7 +750,7 @@
                                 Grid.Row="3"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -772,7 +767,7 @@
                                 Grid.Row="4"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -782,7 +777,7 @@
                                 Grid.Row="4"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -791,7 +786,7 @@
                                 Grid.Row="4"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -808,7 +803,7 @@
                                 Grid.Row="5"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -819,7 +814,7 @@
                                 Grid.Row="5"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -829,7 +824,7 @@
                                 Grid.Row="5"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Digit"
+                                InputDataType="Alfanumeric"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=PorcentajeCobranza5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -891,9 +886,9 @@
                         Name="dgDetailListaDeComisionesPorLineaDeProducto"
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
-                        Height="170"
-                        MinWidth="250"
-                        MinHeight="150"
+                        Height="225"
+                        MinWidth="450"
+                        MinHeight="100"
                         ColumnsMap="{Binding Path=DetailVendedorDetalleComisiones.VisibleColumns}"
                         Focusable="False"
                         IsReadOnly="True"

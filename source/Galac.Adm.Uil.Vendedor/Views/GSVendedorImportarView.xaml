@@ -35,8 +35,8 @@
             Name="lblTipoDeSeparacion"
             Grid.Row="1"
             Grid.Column="0"
-            Content="Tipo de Separación:"
             VerticalAlignment="Center"
+            Content="Tipo de Separación"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSComboBoxWpf
             Name="cmbTipoDeSeparacion"
@@ -53,8 +53,8 @@
             Name="lblNombreDelArchivo"
             Grid.Row="2"
             Grid.Column="0"
-            Content="Nombre File Exportación"
             VerticalAlignment="Center"
+            Content="Nombre Archivo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSTextBoxWpf
             Name="txtNombreDelArchivo"
