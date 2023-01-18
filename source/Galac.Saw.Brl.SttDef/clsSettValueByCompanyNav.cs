@@ -1750,7 +1750,7 @@ namespace Galac.Saw.Brl.SttDef {
             LlenaListado(VerificadorDePreciosSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
             LlenaListado(ImagenesComprobantesRetencionSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(ProduccionSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
-			LlenaListado(TransferenciaBancariaSttPorDefecto(valConsecutivoCompania), ref vResul, valConsecutivoCompania);
+			LlenaListado(TransferenciaBancariaSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
             return vResult;
         }
 
