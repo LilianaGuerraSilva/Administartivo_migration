@@ -529,7 +529,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsEnabledMaquinaFiscal {
             get {
-                return NombreCaja != "CAJA GENÉRICA" && IsEnabled;
+                return IsEnabled && !LibString.S1IsEqualToS2(NombreCaja, "CAJA GENÉRICA");
             }
         }
 
