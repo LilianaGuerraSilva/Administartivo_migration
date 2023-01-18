@@ -920,9 +920,9 @@ namespace Galac.Saw.DDL {
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "NotaDeEntradaSalida")) {
                 vResult = vResult && new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaED().InstalarVistasYSps();
             }
-			//if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TransferenciaEntreCuentasBancarias")) {
-			//	vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
-			//}
+			if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TransferenciaEntreCuentasBancarias")) {
+				vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
+			}
             return vResult;
         }
     }

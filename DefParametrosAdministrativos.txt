@@ -480,6 +480,11 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	UsaCodigoConceptoBancarioEnPantalla			: boolean;//"Usa C�digo Concepto Bancario en Pantalla"
 }
 
+{@F}BancosTransferencia =Record//"7.5.- Transferencia Bancaria",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef,GENERATE
+	ConsecutivoCompania 								: Longint; //HIDE
+	ConceptoBancarioReversoTransferenciaIngreso			: str10;//=conceptoBancario.codigo, "Concepto Bancario Reverso Transferencia Ingreso"
+	ConceptoBancarioReversoTransferenciaEgreso			: str10;//=conceptoBancario.codigo, "Concepto Bancario Reverso Transferencia Egreso"
+}
 {@F}NotasDeEntrega =Record//"8.1-Notas de entrega",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 			: Longint; //HIDE
 	TipoPrefijoNotaEntrega			: UnTipoDePrefijo;//"Tipo de Prefijo"

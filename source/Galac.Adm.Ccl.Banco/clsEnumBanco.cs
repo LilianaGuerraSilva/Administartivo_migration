@@ -1,5 +1,6 @@
 using System;
-using System.ComponentModel;using LibGalac.Aos.Base;
+using System.ComponentModel;
+using LibGalac.Aos.Base;
 
 namespace Galac.Adm.Ccl.Banco {
 	[TypeConverter(typeof(LibEnumTypeConverter))]

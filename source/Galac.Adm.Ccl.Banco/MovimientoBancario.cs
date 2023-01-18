@@ -118,7 +118,6 @@ namespace Galac.Adm.Ccl.Banco {
             set { _GeneraImpuestoBancario = LibConvert.SNToBool(value); }
         }
 
-
         public decimal AlicuotaImpBancario {
             get { return _AlicuotaImpBancario; }
             set { _AlicuotaImpBancario = value; }
