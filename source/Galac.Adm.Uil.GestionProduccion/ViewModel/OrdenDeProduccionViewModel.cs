@@ -1033,6 +1033,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             CloseOnActionComplete = true;
         }
 
+        private void CambioChanged(decimal valCambio) {
+            CambioMoneda = valCambio;
+        }
+
         private bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (!EsMonedaLocal(valCodigoMoneda)) {
@@ -1052,10 +1056,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     vViewModel.IsEnabledMoneda = false;
                     bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
                     if (!vResult) {
-                        if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                        if (UsaDivisaComoMonedaPrincipalDeIngresoDeDatos()) {
                             return false;
                         }
-                        CambioMoneda = 1;
+                        if (Action == eAccionSR.Cerrar) {
+                            CambioMoneda = CambioCostoProduccion;
+                        } else {
+                            CambioMoneda = 1;
+                        }
                     }
                     return true;
                 }
@@ -1067,8 +1075,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        private void CambioChanged(decimal valCambio) {
-            CambioMoneda = valCambio;
+        private static bool UsaDivisaComoMonedaPrincipalDeIngresoDeDatos() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"));
         }
 
         private void AsignarCambioCostoDeProduccion(bool valConsultarAntesDeAsignarCambio = false) {
