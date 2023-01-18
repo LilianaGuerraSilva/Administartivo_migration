@@ -13,10 +13,10 @@
     <SawImportExport>2211</SawImportExport>
     <SawMaquinaFiscal>2211</SawMaquinaFiscal>
     <SawNav>2211</SawNav>
-    <SawRpt>2213</SawRpt>
+    <SawRpt>2214</SawRpt>
     <SawSP>2211</SawSP>
     <SawTbls>2211</SawTbls>
-    <SawVista>2213</SawVista>    
+    <SawVista>2214</SawVista>    
     <ContabRpt>2202</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
