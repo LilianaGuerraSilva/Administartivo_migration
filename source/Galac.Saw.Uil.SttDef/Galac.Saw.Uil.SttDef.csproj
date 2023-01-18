@@ -127,6 +127,7 @@
     <Compile Include="ViewModel\BancosAnticipoViewModel.cs" />
     <Compile Include="ViewModel\BancosMonedaViewModel.cs" />
     <Compile Include="ViewModel\BancosMovimientoBancarioViewModel.cs" />
+    <Compile Include="ViewModel\BancosTransferenciaViewModel.cs" />
     <Compile Include="ViewModel\BancosViewModel.cs" />
     <Compile Include="ViewModel\clsFKViewModel.cs" />
     <Compile Include="ViewModel\CxPComprasPlanillaIVAViewModel.cs" />
@@ -172,6 +173,9 @@
     </Compile>
     <Compile Include="Views\GSBancosMovimientoBancarioView.xaml.cs">
       <DependentUpon>GSBancosMovimientoBancarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSBancosTransferenciaView.xaml.cs">
+      <DependentUpon>GSBancosTransferenciaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSBancosView.xaml.cs">
       <DependentUpon>GSBancosView.xaml</DependentUpon>
@@ -290,6 +294,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSBancosMovimientoBancarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSBancosTransferenciaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

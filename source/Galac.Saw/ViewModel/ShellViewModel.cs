@@ -400,6 +400,7 @@ namespace Galac.Saw.ViewModel {
                 new XElement("EsUsuarioSupervisor","S")),
             new XElement("Compania",
                 new XElement("Nombre","Prueba"),
+                new XElement("Consecutivo","1"),
                 new XElement("NumeroRif","J000001")));
             return base.AddEspecialGlobalValues(valGlobalValuesElement);
         }

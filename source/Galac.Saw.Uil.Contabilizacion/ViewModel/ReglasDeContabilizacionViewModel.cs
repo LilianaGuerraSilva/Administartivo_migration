@@ -5802,6 +5802,10 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaCobranzaRetencionIVA);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaCobranzaCobradoAnticipo);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaCobranzaCxCClientes);
+            vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasBancoDestino);
+            vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasBancoOrigen);
+            vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasGastoComDestino);
+            vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasGastoComOrigen);
             if((LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion","UsarVentasConIvaDiferido"))) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionIvaDiferido);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCobranzaIvaDiferido);

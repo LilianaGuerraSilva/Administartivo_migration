@@ -1496,6 +1496,29 @@ namespace Galac.Saw.Brl.SttDef {
         }
 
         #endregion // MovimientoBancarioStt
+        #region TransferenciaBancariaStt
+        private TransferenciaStt TransferenciaBancariaSttPorDefecto(int valConsecutivoCompania) {
+            TransferenciaStt insEntidad = new TransferenciaStt();
+            insEntidad.ConceptoBancarioReversoTransfIngreso = GetConceptoBancario("REV_AUTOMATICO_TRANSF_INGRESO");
+            insEntidad.ConceptoBancarioReversoTransfEgreso = GetConceptoBancario("REV_AUTOMATICO_TRANSF_EGRESO");
+            return insEntidad;
+        }
+
+        private void LlenaListado(TransferenciaStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
+            valBusinessObject.Add(ConvierteValor(valRecord.ConceptoBancarioReversoTransfIngreso, "ConceptoBancarioReversoTransfIngreso", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.ConceptoBancarioReversoTransfEgreso, "ConceptoBancarioReversoTransfEgreso", valConsecutivoCompania));
+        }
+        TransferenciaStt GetTransferenciaStt(List<SettValueByCompany> valListGetSettValueByCompany) {
+            TransferenciaStt vResult = new TransferenciaStt();
+            vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "ConceptoBancarioReversoTransfIngreso");
+            vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "ConceptoBancarioReversoTransfIngreso");
+            vResult.ConceptoBancarioReversoTransfIngreso = ValorSegunColumna(valListGetSettValueByCompany, "ConceptoBancarioReversoTransfIngreso");
+            vResult.ConceptoBancarioReversoTransfEgreso = ValorSegunColumna(valListGetSettValueByCompany, "ConceptoBancarioReversoTransfEgreso");
+            return vResult;
+        }
+
+        #endregion // TransferenciaBancariaStt
+
         #region  ProcesosStt
         ProcesosStt ProcesosSttPorDefecto(int valConsecutivoCompania) {
             ProcesosStt insEntidad = new ProcesosStt();
@@ -1727,6 +1750,7 @@ namespace Galac.Saw.Brl.SttDef {
             LlenaListado(VerificadorDePreciosSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
             LlenaListado(ImagenesComprobantesRetencionSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(ProduccionSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
+			LlenaListado(TransferenciaBancariaSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
             return vResult;
         }
 
@@ -1762,6 +1786,7 @@ namespace Galac.Saw.Brl.SttDef {
             insParametros.ParametrosModeloDeFacturaStt = GetModeloDeFacturaStt(vListGetSettValueByCompany);
             insParametros.ParametrosMonedaStt = GetMonedaStt(vListGetSettValueByCompany);
             insParametros.ParametrosMovimientoBancarioStt = GetMovimientoBancarioStt(vListGetSettValueByCompany);
+            insParametros.ParametrosTransferenciaBancariaStt = GetTransferenciaStt(vListGetSettValueByCompany);
             insParametros.ParametrosNotaEntradaSalidaStt = GetNotaEntradaSalidaStt(vListGetSettValueByCompany);
             insParametros.ParametrosNotaEntregaStt = GetNotaEntregaStt(vListGetSettValueByCompany);
             insParametros.ParametrosNotasDebitoCreditoEntregaStt = GetNotasDebitoCreditoEntregaStt(vListGetSettValueByCompany);
@@ -1829,6 +1854,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Add(GetModeloDeFacturaStt(vListGetSettValueByCompany));
             vResult.Add(GetMonedaStt(vListGetSettValueByCompany));
             vResult.Add(GetMovimientoBancarioStt(vListGetSettValueByCompany));
+            vResult.Add(GetTransferenciaStt(vListGetSettValueByCompany));
             vResult.Add(GetNotaEntradaSalidaStt(vListGetSettValueByCompany));
             vResult.Add(GetNotaEntregaStt(vListGetSettValueByCompany));
             vResult.Add(GetNotasDebitoCreditoEntregaStt(vListGetSettValueByCompany));

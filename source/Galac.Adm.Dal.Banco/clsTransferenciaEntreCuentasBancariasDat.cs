@@ -38,22 +38,22 @@ namespace Galac.Adm.Dal.Banco {
 			vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 20);
 			vParams.AddInString("Descripcion", valRecord.Descripcion, 255);
 			vParams.AddInDateTime("FechaDeAnulacion", valRecord.FechaDeAnulacion);
-			vParams.AddInString("CodigoCuentaBancariaOrigen", valRecord.CodigoCuentaBancariaOrigen, 5);
+            vParams.AddInString("CodigoCuentaBancariaOrigen", valRecord.CodigoCuentaBancariaOrigen, 8);
 			vParams.AddInDecimal("CambioABolivaresEgreso", valRecord.CambioABolivaresEgreso, 4);
 			vParams.AddInDecimal("MontoTransferenciaEgreso", valRecord.MontoTransferenciaEgreso, 2);
 			vParams.AddInString("CodigoConceptoEgreso", valRecord.CodigoConceptoEgreso, 8);
 			vParams.AddInBoolean("GeneraComisionEgreso", valRecord.GeneraComisionEgresoAsBool);
 			vParams.AddInDecimal("MontoComisionEgreso", valRecord.MontoComisionEgreso, 2);
 			vParams.AddInString("CodigoConceptoComisionEgreso", valRecord.CodigoConceptoComisionEgreso, 8);
-			vParams.AddInBoolean("GeneraImpuestoBancarioEgreso", valRecord.GeneraImpuestoBancarioEgresoAsBool);
-			vParams.AddInString("CodigoCuentaBancariaDestino", valRecord.CodigoCuentaBancariaDestino, 5);
+            vParams.AddInBoolean("GeneraIGTFComisionEgreso", valRecord.GeneraIGTFComisionEgresoAsBool);
+            vParams.AddInString("CodigoCuentaBancariaDestino", valRecord.CodigoCuentaBancariaDestino, 8);
 			vParams.AddInDecimal("CambioABolivaresIngreso", valRecord.CambioABolivaresIngreso, 4);
 			vParams.AddInDecimal("MontoTransferenciaIngreso", valRecord.MontoTransferenciaIngreso, 2);
 			vParams.AddInString("CodigoConceptoIngreso", valRecord.CodigoConceptoIngreso, 8);
 			vParams.AddInBoolean("GeneraComisionIngreso", valRecord.GeneraComisionIngresoAsBool);
 			vParams.AddInDecimal("MontoComisionIngreso", valRecord.MontoComisionIngreso, 2);
 			vParams.AddInString("CodigoConceptoComisionIngreso", valRecord.CodigoConceptoComisionIngreso, 8);
-			vParams.AddInBoolean("GeneraImpuestoBancarioIngreso", valRecord.GeneraImpuestoBancarioIngresoAsBool);
+            vParams.AddInBoolean("GeneraIGTFComisionIngreso", valRecord.GeneraIGTFComisionIngresoAsBool);
 			vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
 			vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
 			if (valAction == eAccionSR.Modificar) {
@@ -242,8 +242,8 @@ namespace Galac.Adm.Dal.Banco {
 			vResult = IsValidCodigoConceptoIngreso(valAction, CurrentRecord.CodigoConceptoIngreso) && vResult;
 			vResult = IsValidMontoComisionIngreso(valAction, CurrentRecord.MontoComisionIngreso, CurrentRecord.GeneraComisionIngresoAsBool) && vResult;
 			vResult = IsValidCodigoConceptoComisionIngreso(valAction, CurrentRecord.CodigoConceptoComisionIngreso, CurrentRecord.GeneraComisionIngresoAsBool) && vResult;
-			vResult = IsValidConceptoImpuestoBancarioEgreso(valAction, CurrentRecord.GeneraImpuestoBancarioEgresoAsBool) && vResult;
-			vResult = IsValidConceptoImpuestoBancarioIngreso(valAction, CurrentRecord.GeneraImpuestoBancarioIngresoAsBool) && vResult;
+			vResult = IsValidConceptoImpuestoBancarioEgreso(valAction, CurrentRecord.GeneraIGTFComisionEgresoAsBool) && vResult;
+			vResult = IsValidConceptoImpuestoBancarioIngreso(valAction, CurrentRecord.GeneraIGTFComisionIngresoAsBool) && vResult;
 			vResult = IsValidCuentasBancariasDiferentes(valAction, CurrentRecord.CodigoCuentaBancariaOrigen, CurrentRecord.CodigoCuentaBancariaDestino) && vResult;
 			vResult = IsValidMontosConMonedasIguales(valAction, CurrentRecord) & vResult;
 			vResult = IsValidFechaParaConciliacionYPeriodoContable(valAction, CurrentRecord) && vResult;
@@ -492,24 +492,24 @@ namespace Galac.Adm.Dal.Banco {
 			return vResult;
 		}
 
-		private bool IsValidConceptoImpuestoBancarioEgreso(eAccionSR valAction, bool valGeneraImpuestoBancarioEgreso) {
+		private bool IsValidConceptoImpuestoBancarioEgreso(eAccionSR valAction, bool valGeneraIGTFComisionEgreso) {
 			bool vResult = true;
 			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
 				return true;
 			}
-			if (valGeneraImpuestoBancarioEgreso && LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoDebitoBancario"), true)) {
+			if (valGeneraIGTFComisionEgreso && LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoDebitoBancario"), true)) {
 				BuildValidationInfo(MsgRequiredField("Concepto Débito Bancario") + " Debe configurarse desde Parámetros");
 				vResult = false;
 			}
 			return vResult;
 		}
 
-		private bool IsValidConceptoImpuestoBancarioIngreso(eAccionSR valAction, bool valGeneraImpuestoBancarioIngreso) {
+		private bool IsValidConceptoImpuestoBancarioIngreso(eAccionSR valAction, bool valGeneraIGTFComisionIngreso) {
 			bool vResult = true;
 			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
 				return true;
 			}
-			if (valGeneraImpuestoBancarioIngreso && LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"), true)) {
+			if (valGeneraIGTFComisionIngreso && LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"), true)) {
 				BuildValidationInfo(MsgRequiredField("Concepto Crédito Bancario") + " Debe configurarse desde Parámetros");
 				vResult = false;
 			}

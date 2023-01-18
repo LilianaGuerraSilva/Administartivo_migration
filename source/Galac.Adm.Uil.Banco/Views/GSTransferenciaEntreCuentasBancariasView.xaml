@@ -279,23 +279,7 @@
                     Padding="3,0"
                     Content="{Binding Path=DescripcionConceptoEgreso}"
                     Style="{StaticResource LabelCalculatedField}" />
-                <Label
-                    Grid.Row="7"
-                    Grid.Column="0"
-                    Content="Generar I.G.T.F."
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=ManejaDebitoCuentaBancariaOrigen, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <CheckBox
-                    Name="chkGeneraImpuestoBancarioEgreso"
-                    Grid.Row="7"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Left"
-                    Content="{Binding Path=AlicuotaImpuestoBancarioEgreso}"
-                    IsChecked="{Binding Path=GeneraImpuestoBancarioEgreso}"
-                    IsEnabled="{Binding Path=IsInsertar}"
-                    Style="{StaticResource CheckBoxStyle}"
-                    Visibility="{Binding Path=ManejaDebitoCuentaBancariaOrigen, Converter={StaticResource booleanToVisibilityConverter}}" />
+
 
                 <GroupBox
                     Grid.Row="8"
@@ -321,6 +305,7 @@
                             <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -372,6 +357,23 @@
                             HorizontalAlignment="Right"
                             Content="{Binding Path=DescripcionConceptoComisionEgreso}"
                             Style="{StaticResource LabelCalculatedField}" />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Content="Generar I.G.T.F."
+                            Style="{StaticResource LabelPrompt}"
+                            Visibility="{Binding Path=ManejaDebitoCuentaBancariaOrigen, Converter={StaticResource booleanToVisibilityConverter}}" />
+                        <CheckBox
+                            Name="chkGeneraIGTFComisionEgreso"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Left"
+                            Content="{Binding Path=AlicuotaImpuestoBancarioEgreso}"
+                            IsChecked="{Binding Path=GeneraIGTFComisionEgreso}"
+                            IsEnabled="{Binding Path=IsEnabledGeneraComisionEgreso}"
+                            Style="{StaticResource CheckBoxStyle}"
+                            Visibility="{Binding Path=ManejaDebitoCuentaBancariaOrigen, Converter={StaticResource booleanToVisibilityConverter}}" />
                     </Grid>
                 </GroupBox>
             </Grid>
@@ -526,23 +528,7 @@
                     Padding="3,0"
                     Content="{Binding Path=DescripcionConceptoIngreso}"
                     Style="{StaticResource LabelCalculatedField}" />
-                <Label
-                    Grid.Row="7"
-                    Grid.Column="0"
-                    Content="Generar I.G.T.F."
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=ManejaCreditoCuentaBancariaDestino, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <CheckBox
-                    Name="chkGeneraImpuestoBancarioIngreso"
-                    Grid.Row="7"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    HorizontalAlignment="Left"
-                    Content="{Binding Path=AlicuotaImpuestoBancarioIngreso}"
-                    IsChecked="{Binding Path=GeneraImpuestoBancarioIngreso}"
-                    IsEnabled="{Binding Path=IsInsertar}"
-                    Style="{StaticResource CheckBoxStyle}"
-                    Visibility="{Binding Path=ManejaCreditoCuentaBancariaDestino, Converter={StaticResource booleanToVisibilityConverter}}" />
+                
 
                 <GroupBox
                     Grid.Row="8"
@@ -567,6 +553,7 @@
                             <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -618,6 +605,23 @@
                             HorizontalAlignment="Right"
                             Content="{Binding Path=DescripcionConceptoComisionIngreso}"
                             Style="{StaticResource LabelCalculatedField}" />
+                        <Label
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Content="Generar I.G.T.F."
+                            Style="{StaticResource LabelPrompt}"
+                            Visibility="{Binding Path=ManejaCreditoCuentaBancariaDestino, Converter={StaticResource booleanToVisibilityConverter}}" />
+                        <CheckBox
+                            Name="chkGeneraIGTFComisionIngreso"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Left"
+                            Content="{Binding Path=AlicuotaImpuestoBancarioIngreso}"
+                            IsChecked="{Binding Path=GeneraIGTFComisionIngreso}"
+                            IsEnabled="{Binding Path=IsEnabledGeneraComisionIngreso}"
+                            Style="{StaticResource CheckBoxStyle}"
+                            Visibility="{Binding Path=ManejaCreditoCuentaBancariaDestino, Converter={StaticResource booleanToVisibilityConverter}}" />
                     </Grid>
                 </GroupBox>
 

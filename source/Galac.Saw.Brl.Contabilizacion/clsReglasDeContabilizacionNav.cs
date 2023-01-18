@@ -252,7 +252,9 @@ namespace Galac.Saw.Brl.Contabilizacion {
                 case "ReposicionDeCajaChica":
                 vEstancompletas = fLasCuentasDeReposicionEstanCompletas(insReglasDeContabilizacion);
                 break;
-
+                case "TransferenciaEntreCuentas":
+                vEstancompletas = fLasCuentasDeTransferenciasEstanCompletas(insReglasDeContabilizacion);
+                break;
                 default: throw new NotImplementedException();
                 }
             }
@@ -480,6 +482,17 @@ namespace Galac.Saw.Brl.Contabilizacion {
             bool vEstancompletas;
             vEstancompletas = (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaDebitoBancarioBancos)))
                            && (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaDebitoBancarioGasto)));
+            vResult = vEstancompletas;
+            return vResult;
+        }
+
+        bool fLasCuentasDeTransferenciasEstanCompletas(ReglasDeContabilizacion insReglasDeContabilizacion) {
+            bool vResult = false;
+            bool vEstancompletas;
+            vEstancompletas = (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaTransfCtasBancoDestino)))
+                              && (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaTransfCtasGastoComDestino)))
+                              && (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaTransfCtasGastoComOrigen)))
+                              && (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaTransfCtasBancoOrigen)));
             vResult = vEstancompletas;
             return vResult;
         }

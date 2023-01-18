@@ -454,7 +454,7 @@
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Text="{Binding Path=TopeInicialVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <nsWpfControls:GSTextBoxWpf
                                 Name="txtTopeFinalVenta2"
                                 Grid.Row="2"

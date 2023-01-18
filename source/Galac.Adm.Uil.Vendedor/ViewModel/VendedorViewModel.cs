@@ -23,6 +23,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
     public class VendedorViewModel : LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
         #region Variables
         private FkCiudadViewModel _ConexionCiudad = null;
+        private decimal _TopeInicialVenta2;
         #endregion
         #region Constantes
         public const string ConsecutivoCompaniaPropertyName = "ConsecutivoCompania";
@@ -43,6 +44,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public const string TopeInicialVenta1PropertyName = "TopeInicialVenta1";
         public const string TopeFinalVenta1PropertyName = "TopeFinalVenta1";
         public const string PorcentajeVentas1PropertyName = "PorcentajeVentas1";
+        public const string TopeInicialVenta2PropertyName = "TopeInicialVenta2";
         public const string TopeFinalVenta2PropertyName = "TopeFinalVenta2";
         public const string PorcentajeVentas2PropertyName = "PorcentajeVentas2";
         public const string TopeFinalVenta3PropertyName = "TopeFinalVenta3";
@@ -314,6 +316,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalVenta1 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalVenta1PropertyName);
+                    RaisePropertyChanged(TopeInicialVenta2PropertyName);
                 }
             }
         }
@@ -327,6 +330,18 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.PorcentajeVentas1 = value;
                     IsDirty = true;
                     RaisePropertyChanged(PorcentajeVentas1PropertyName);
+                }
+            }
+        }
+
+        public decimal TopeInicialVenta2 {
+            get {
+                return LibMath.RoundToNDecimals(_TopeInicialVenta2, 2);
+            }
+            set {
+                if (_TopeInicialVenta2 != Model.TopeFinalVenta1 + 1) {
+                    _TopeInicialVenta2 = Model.TopeFinalVenta1 + 1;
+                    IsDirty = true;
                 }
             }
         }

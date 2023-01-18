@@ -4058,8 +4058,7 @@
         <TabItem
             Name="tbiTransferenciaEntreCuentasBancarias"
             Header="Transferencia entre Cuentas Bancarias"
-            Visibility="Collapsed">
-            <!--  comment:  Visibility="{Binding Path=TabTransferenciaEntreCuentasBancariasVisible, Converter={StaticResource booleanToVisibilityConverter}}"  -->
+            Visibility="{Binding Path=TabTransferenciaEntreCuentasBancariasVisible, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="310" />

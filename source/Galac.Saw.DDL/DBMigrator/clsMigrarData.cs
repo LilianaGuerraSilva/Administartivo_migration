@@ -2224,6 +2224,8 @@ namespace Galac.Saw.DbMigrator {
             vSQL.Append("ModeloNotaEntregaModoTexto,");
             vSQL.Append("ProductoTerminado,");
             vSQL.Append("ProductoMateriaPrima");
+            vSQL.Append("ConceptoBancarioReversoTransfIngreso,");
+            vSQL.Append("ConceptoBancarioReversoTransfEgreso,");
             vResult = vSQL.ToString();
             return vResult;
 

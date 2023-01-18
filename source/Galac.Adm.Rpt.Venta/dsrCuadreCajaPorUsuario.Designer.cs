@@ -52,7 +52,6 @@ namespace Galac.Adm.Rpt.Venta
             this.txtTotalMontoPagadoOperadorMonedaExt = new DataDynamics.ActiveReports.TextBox();
             this.txtTotalMontoVueltoOperadorMonedaExt = new DataDynamics.ActiveReports.TextBox();
             this.GHSecCaja = new DataDynamics.ActiveReports.GroupHeader();
-            this.txtConsecutivoCaja = new DataDynamics.ActiveReports.TextBox();
             this.lblNombreCaja = new DataDynamics.ActiveReports.Label();
             this.txtNombreCaja = new DataDynamics.ActiveReports.TextBox();
             this.GFSecCaja = new DataDynamics.ActiveReports.GroupFooter();
@@ -102,7 +101,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalesPorOperadorMonedaExt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoPagadoOperadorMonedaExt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoVueltoOperadorMonedaExt)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtConsecutivoCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombreCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCaja)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalesPorCajaMonedaLocal)).BeginInit();
@@ -405,22 +403,11 @@ namespace Galac.Adm.Rpt.Venta
             // GHSecCaja
             // 
             this.GHSecCaja.Controls.AddRange(new DataDynamics.ActiveReports.ARControl[] {
-            this.txtConsecutivoCaja,
             this.lblNombreCaja,
             this.txtNombreCaja});
             this.GHSecCaja.Height = 0.18025F;
             this.GHSecCaja.Name = "GHSecCaja";
             this.GHSecCaja.Format += new System.EventHandler(this.GHSecCaja_Format);
-            // 
-            // txtConsecutivoCaja
-            // 
-            this.txtConsecutivoCaja.Height = 0.15625F;
-            this.txtConsecutivoCaja.Left = 1.312F;
-            this.txtConsecutivoCaja.Name = "txtConsecutivoCaja";
-            this.txtConsecutivoCaja.Style = "font-size: 8pt; text-align: left; ddo-char-set: 1";
-            this.txtConsecutivoCaja.Text = "txtConsecutivoCaja";
-            this.txtConsecutivoCaja.Top = 0F;
-            this.txtConsecutivoCaja.Width = 0.7F;
             // 
             // lblNombreCaja
             // 
@@ -436,12 +423,12 @@ namespace Galac.Adm.Rpt.Venta
             // txtNombreCaja
             // 
             this.txtNombreCaja.Height = 0.15625F;
-            this.txtNombreCaja.Left = 2.012F;
+            this.txtNombreCaja.Left = 1.312F;
             this.txtNombreCaja.Name = "txtNombreCaja";
             this.txtNombreCaja.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtNombreCaja.Text = "txtNombreCaja";
             this.txtNombreCaja.Top = 0F;
-            this.txtNombreCaja.Width = 2F;
+            this.txtNombreCaja.Width = 2.7F;
             // 
             // GFSecCaja
             // 
@@ -776,7 +763,6 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalesPorOperadorMonedaExt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoPagadoOperadorMonedaExt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtTotalMontoVueltoOperadorMonedaExt)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.txtConsecutivoCaja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblNombreCaja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNombreCaja)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblTotalesPorCajaMonedaLocal)).EndInit();
@@ -828,7 +814,6 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtTotalMontoPagadoOperadorMonedaLocal;
         private DataDynamics.ActiveReports.TextBox txtTotalMontoVueltoOperadorMonedaLocal;
         private DataDynamics.ActiveReports.GroupHeader GHSecCaja;
-        private DataDynamics.ActiveReports.TextBox txtConsecutivoCaja;
         private DataDynamics.ActiveReports.Label lblNombreCaja;
         private DataDynamics.ActiveReports.TextBox txtNombreCaja;
         private DataDynamics.ActiveReports.GroupFooter GFSecCaja;
