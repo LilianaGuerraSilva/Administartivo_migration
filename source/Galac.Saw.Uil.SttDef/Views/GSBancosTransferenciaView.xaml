@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.SttDef.Views.GSBancosTransferenciaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsVm="clr-namespace:Galac.Saw.Uil.SttDef.ViewModel"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/Galac.Saw.Uil.SttDef;component/Themes/rsdGroupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <GroupBox Header="" Style="{StaticResource GroupBoxStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label
+                Name="lblConceptoBancarioReversoTransfIngreso"
+                Grid.Row="0"
+                Grid.Column="0"
+                Content="Concepto Bancario Reverso Transferencia Ingreso"
+                Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSSeekConnection
+                Name="txtConceptoBancarioReversoTransfIngreso"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="120"
+                Height="23"
+                Margin="3"
+                HorizontalAlignment="Left"
+                ConnectionValue="{Binding Path=ConceptoBancarioReversoTransfIngreso, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                DisplayMemberPath="codigo"
+                IsEnabled="{Binding Path=IsEnabled}"
+                Model="{Binding Path=ConexionConceptoBancarioReversoTransfIngreso, Mode=TwoWay}"
+                SearchCommand="{Binding Path=ChooseConceptoBancarioReversoTransfIngresoCommand}" />
+            <Label
+                Name="lblConceptoBancarioReversoTransfEgreso"
+                Grid.Row="1"
+                Grid.Column="0"
+                Content="Concepto Bancario Reverso Transferencia Egreso"
+                Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSSeekConnection
+                Name="txtConceptoBancarioReversoTransfEgreso"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="120"
+                Height="23"
+                Margin="3"
+                HorizontalAlignment="Left"
+                ConnectionValue="{Binding Path=ConceptoBancarioReversoTransfEgreso, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                DisplayMemberPath="codigo"
+                IsEnabled="{Binding Path=IsEnabled}"
+                Model="{Binding Path=ConexionConceptoBancarioReversoTransfEgreso, Mode=TwoWay}"
+                SearchCommand="{Binding Path=ChooseConceptoBancarioReversoTransfEgresoCommand}" />
+        </Grid>
+    </GroupBox>
+</UserControl>
