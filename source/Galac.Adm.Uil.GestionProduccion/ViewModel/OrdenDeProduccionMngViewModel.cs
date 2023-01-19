@@ -246,7 +246,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void ExecuteCreateCommand() {
-            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(CurrentItem.GetModel(), eAccionSR.Insertar);
+            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel();
             if (UsaMonedaExtranjera() && !TienePermisoParaAsignarTasaDelDía() && !HayTasaDelDía(vViewModel.CodigoMonedaCostoProduccion)) {
                 MostrarMensajeParaUsuariosSinPermisosParaInsertarTasaDeCambio();
             } else {
