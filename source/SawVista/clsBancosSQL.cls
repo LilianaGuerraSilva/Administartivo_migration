@@ -418,6 +418,8 @@ Public Function fSQLDeclaracionITFGO6687(ByVal valFechaInicial As Date, ByVal va
    SQL = SQL & " UNION "
    SQL = SQL & fSqlDeclaracionIGTF_RDV_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
    SQL = SQL & " UNION "
+   SQL = SQL & fSqlDeclaracionIGTF_RDV_CierreZ_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
+   SQL = SQL & " UNION "
    SQL = SQL & fSqlDeclaracionIGTFFactura_NC_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
    SQL = SQL & " UNION "
    SQL = SQL & fSqlDeclaracionIGTFFactura_ND_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
@@ -804,6 +806,7 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFFactura_NC_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlDeclaracionIGTFFactura_ND_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
    Dim SQL As String
    On Error GoTo h_ERROR
@@ -827,4 +830,28 @@ Private Function fSqlDeclaracionIGTFFactura_ND_SQL(ByVal valRedondeaMontoDebitoB
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFFactura_ND_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fSqlDeclaracionIGTF_RDV_CierreZ_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
+   Dim SQL As String
+   On Error GoTo h_ERROR
+   SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Resumen Diario de Ventas (Cierre Z)' AS NombreCuenta, CodigoMoneda, Fecha, "
+   If valRedondeaMontoDebitoBancario Then
+      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
+      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
+   Else
+      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
+      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
+   End If
+   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
+   SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
+   SQL = SQL & " FROM factura "
+   SQL = SQL & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & "  AND factura.RealizoCierreZ = " & gUtilSQL.fBooleanToSqlValue(True) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   SQL = SQL & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   SQL = SQL & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
+   SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
+   fSqlDeclaracionIGTF_RDV_CierreZ_SQL = SQL
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTF_RDV_CierreZ_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
