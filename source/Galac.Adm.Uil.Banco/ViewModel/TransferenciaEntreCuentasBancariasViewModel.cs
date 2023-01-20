@@ -99,7 +99,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		[LibGridColum("Consecutivo", eGridColumType.Integer, Alignment = eTextAlignment.Right, Width = 80)]
+		//[LibGridColum("Consecutivo", eGridColumType.Integer, Alignment = eTextAlignment.Right, Width = 80)]
 		public int Consecutivo {
 			get {
 				return Model.Consecutivo;

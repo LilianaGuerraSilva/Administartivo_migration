@@ -4456,7 +4456,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 }
 {@S}TransferenciaEntreCuentasBancarias = record //Multiarchivo=Compania,"Transferencia Entre Cuentas Bancarias",Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
 	ConsecutivoCompania				: LongInt;	//Hide	
-	Consecutivo						: LongInt; 	//v,g,"Consecutivo Transferencia",sugestConsecutive
+	Consecutivo						: LongInt; 	//Hide,"Consecutivo Transferencia",sugestConsecutive
 	Status							: unStatusTransferenciaBancaria;//o,g,search,"Status "
 	Fecha							: date;		//g,search
 	NumeroDocumento					: Str20;	//o,g,search
