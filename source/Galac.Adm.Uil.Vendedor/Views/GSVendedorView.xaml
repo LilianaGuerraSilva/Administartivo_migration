@@ -142,10 +142,10 @@
                     Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbRutaDeComercializacion"
-                    HorizontalAlignment="Right"
                     Grid.Row="2"
                     Grid.Column="3"
                     Width="150"
+                    HorizontalAlignment="Right"
                     IsEnabled="{Binding Path=IsEnabled}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayRutaDeComercializacion}"
@@ -178,8 +178,8 @@
                     <GroupBox
                         Grid.RowSpan="5"
                         Grid.ColumnSpan="2"
-                        Header="Datos de Contacto"
-                        Height="250">
+                        Height="250"
+                        Header="Datos de Contacto">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -410,33 +410,33 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 1"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeInicialVenta1"
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeInicialVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalVenta1"
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalVenta1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeVentas1"
                                 Grid.Row="1"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeVentas1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeVentas1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblComisionPorVentaNivel2"
                                 Grid.Row="2"
@@ -445,34 +445,34 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 2"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeInicialVenta2"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeInicialVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalVenta2"
                                 Grid.Row="2"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeVentas2"
                                 Grid.Row="2"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeVentas2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeVentas2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblComisionPorVentaNivel3"
                                 Grid.Row="3"
@@ -481,34 +481,34 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 3"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeInicialVenta3"
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeInicialVenta3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalVenta3"
                                 Grid.Row="3"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalVenta3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeVentas3"
                                 Grid.Row="3"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeVentas3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeVentas3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblComisionPorVentaNivel4"
                                 Grid.Row="4"
@@ -517,34 +517,34 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 4"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeInicialVenta4"
                                 Grid.Row="4"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeInicialVenta4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalVenta4"
                                 Grid.Row="4"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalVenta4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeVentas4"
                                 Grid.Row="4"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeVentas4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeVentas4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblComisionPorVentaNivel5"
                                 Grid.Row="5"
@@ -553,35 +553,32 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 5"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
-                                Name="txtVentasMayoresA"
+                            <Label
+                                Name="lblVentasMayoresA"
                                 Grid.Row="5"
                                 Grid.Column="1"
-                                Width="100"
-                                IsEnabled="False"
-                                MaxLength="10"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="Mayores a"
-                                TextAlignment="Right" />
-                            <nsWpfControls:GSTextBoxWpf
+                                HorizontalAlignment="Right"
+                                Content="Mayores a"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalVenta5"
                                 Grid.Row="5"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalVenta4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalVenta5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeVentas5"
                                 Grid.Row="5"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeVentas5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeVentas5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </GroupBox>
                     <!--#endregion Comisiones por Ventas-->
@@ -655,33 +652,33 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 1"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeInicialCobranza1"
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeInicialCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalCobranza1"
                                 Grid.Row="1"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeCobranza1"
                                 Grid.Row="1"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblComisionPorCobranzaNivel2"
                                 Grid.Row="2"
@@ -690,34 +687,34 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 2"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeInicialCobranza2"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalCobranza1, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeInicialCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalCobranza2"
                                 Grid.Row="2"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeCobranza2"
                                 Grid.Row="2"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblComisionPorCobranzaNivel3"
                                 Grid.Row="3"
@@ -726,34 +723,34 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 3"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeInicialCobranza3"
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalCobranza2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeInicialCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalCobranza3"
                                 Grid.Row="3"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeCobranza3"
                                 Grid.Row="3"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblComisionPorCobranzaNivel4"
                                 Grid.Row="4"
@@ -762,34 +759,34 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 4"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeInicialCobranza4"
                                 Grid.Row="4"
                                 Grid.Column="1"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalCobranza3, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeInicialCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalCobranza4"
                                 Grid.Row="4"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeCobranza4"
                                 Grid.Row="4"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lblComisionPorCobranzaNivel5"
                                 Grid.Row="5"
@@ -798,36 +795,32 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 5"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSTextBoxWpf
-                                Name="txtCobranzasMayoresA"
+                            <Label
+                                Name="lblCobranzasMayoresA"
                                 Grid.Row="5"
                                 Grid.Column="1"
-                                Width="100"
-                                InputDataType="Alfanumeric"
-                                IsEnabled="False"
-                                MaxLength="10"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="Mayores a"
-                                TextAlignment="Right" />
-                            <nsWpfControls:GSTextBoxWpf
+                                HorizontalAlignment="Right"
+                                Content="Mayores a"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalCobranza5"
                                 Grid.Row="5"
                                 Grid.Column="2"
                                 Width="100"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                            <nsWpfControls:GSTextBoxWpf
+                                Value="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeCobranza5"
                                 Grid.Row="5"
                                 Grid.Column="3"
                                 Width="50"
-                                InputDataType="Alfanumeric"
+                                InputDataType="UDecimal"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=PorcentajeCobranza5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=PorcentajeCobranza5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </GroupBox>
                     <!--#endregion Comisiones por Cobranza-->

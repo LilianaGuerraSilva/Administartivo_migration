@@ -19,11 +19,16 @@ using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Adm.Uil.Vendedor.Properties;
 using Galac.Saw.Ccl.SttDef;
 
-namespace Galac.Adm.Uil.Vendedor.ViewModel { 
+namespace Galac.Adm.Uil.Vendedor.ViewModel {
     public class VendedorViewModel : LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
         #region Variables
         private FkCiudadViewModel _ConexionCiudad = null;
         private decimal _TopeInicialVenta2;
+        private decimal _TopeInicialVenta3;
+        private decimal _TopeInicialVenta4;
+        private decimal _TopeInicialCobranza2;
+        private decimal _TopeInicialCobranza3;
+        private decimal _TopeInicialCobranza4;
         #endregion
         #region Constantes
         public const string ConsecutivoCompaniaPropertyName = "ConsecutivoCompania";
@@ -47,8 +52,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public const string TopeInicialVenta2PropertyName = "TopeInicialVenta2";
         public const string TopeFinalVenta2PropertyName = "TopeFinalVenta2";
         public const string PorcentajeVentas2PropertyName = "PorcentajeVentas2";
+        public const string TopeInicialVenta3PropertyName = "TopeInicialVenta3";
         public const string TopeFinalVenta3PropertyName = "TopeFinalVenta3";
         public const string PorcentajeVentas3PropertyName = "PorcentajeVentas3";
+        public const string TopeInicialVenta4PropertyName = "TopeInicialVenta4";
         public const string TopeFinalVenta4PropertyName = "TopeFinalVenta4";
         public const string PorcentajeVentas4PropertyName = "PorcentajeVentas4";
         public const string TopeFinalVenta5PropertyName = "TopeFinalVenta5";
@@ -56,10 +63,13 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public const string TopeInicialCobranza1PropertyName = "TopeInicialCobranza1";
         public const string TopeFinalCobranza1PropertyName = "TopeFinalCobranza1";
         public const string PorcentajeCobranza1PropertyName = "PorcentajeCobranza1";
+        public const string TopeInicialCobranza2PropertyName = "TopeInicialCobranza2";
         public const string TopeFinalCobranza2PropertyName = "TopeFinalCobranza2";
         public const string PorcentajeCobranza2PropertyName = "PorcentajeCobranza2";
+        public const string TopeInicialCobranza3PropertyName = "TopeInicialCobranza3";
         public const string TopeFinalCobranza3PropertyName = "TopeFinalCobranza3";
         public const string PorcentajeCobranza3PropertyName = "PorcentajeCobranza3";
+        public const string TopeInicialCobranza4PropertyName = "TopeInicialCobranza4";
         public const string TopeFinalCobranza4PropertyName = "TopeFinalCobranza4";
         public const string PorcentajeCobranza4PropertyName = "PorcentajeCobranza4";
         public const string TopeFinalCobranza5PropertyName = "TopeFinalCobranza5";
@@ -80,7 +90,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             get { return "Vendedor"; }
         }
 
-        public int  ConsecutivoCompania {
+        public int ConsecutivoCompania {
             get {
                 return Model.ConsecutivoCompania;
             }
@@ -93,7 +103,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public int  Consecutivo {
+        public int Consecutivo {
             get {
                 return Model.Consecutivo;
             }
@@ -107,7 +117,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
         [LibRequired(ErrorMessage = "Código del Vendedor es requerido.")]
         [LibGridColum("Código", ColumnOrder = 0)]
-        public string  Codigo {
+        public string Codigo {
             get {
                 return Model.Codigo;
             }
@@ -122,7 +132,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         [LibRequired(ErrorMessage = "Nombre del Vendedor es requerido.")]
         [LibGridColum("Nombre", ColumnOrder = 1)]
-        public string  Nombre {
+        public string Nombre {
             get {
                 return Model.Nombre;
             }
@@ -136,7 +146,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibGridColum(HeaderResourceName = "lblEtiquetaNumero", HeaderResourceType = typeof(Resources), ColumnOrder = 2)]
-        public string  RIF {
+        public string RIF {
             get {
                 return Model.RIF;
             }
@@ -162,7 +172,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibGridColum("Estado", eGridColumType.Enum, PrintingMemberPath = "StatusVendedorStr", ColumnOrder = 4, Width = 70)]
-        public eStatusVendedor  StatusVendedor {
+        public eStatusVendedor StatusVendedor {
             get {
                 return Model.StatusVendedorAsEnum;
             }
@@ -175,7 +185,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public string  Direccion {
+        public string Direccion {
             get {
                 return Model.Direccion;
             }
@@ -190,7 +200,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         [LibRequired(ErrorMessage = "El campo Ciudad es requerido.")]
         [LibGridColum("Ciudad", ColumnOrder = 3)]
-        public string  Ciudad {
+        public string Ciudad {
             get {
                 return Model.Ciudad;
             }
@@ -203,7 +213,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public string  ZonaPostal {
+        public string ZonaPostal {
             get {
                 return Model.ZonaPostal;
             }
@@ -216,7 +226,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public string  Telefono {
+        public string Telefono {
             get {
                 return Model.Telefono;
             }
@@ -229,7 +239,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public string  Fax {
+        public string Fax {
             get {
                 return Model.Fax;
             }
@@ -242,7 +252,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public string  Email {
+        public string Email {
             get {
                 return Model.Email;
             }
@@ -255,7 +265,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public string  Notas {
+        public string Notas {
             get {
                 return Model.Notas;
             }
@@ -268,7 +278,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public decimal  ComisionPorVenta {
+        public decimal ComisionPorVenta {
             get {
                 return Model.ComisionPorVenta;
             }
@@ -281,7 +291,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public decimal  ComisionPorCobro {
+        public decimal ComisionPorCobro {
             get {
                 return Model.ComisionPorCobro;
             }
@@ -294,7 +304,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public decimal  TopeInicialVenta1 {
+        public decimal TopeInicialVenta1 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeInicialVenta1, 2);
             }
@@ -307,7 +317,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public decimal  TopeFinalVenta1 {
+        public decimal TopeFinalVenta1 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeFinalVenta1, 2);
             }
@@ -316,19 +326,32 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalVenta1 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalVenta1PropertyName);
+                    _TopeInicialVenta2 = value + 1;
                     RaisePropertyChanged(TopeInicialVenta2PropertyName);
+                    if (value != 0) {
+                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto() + 1;
+                        RaisePropertyChanged(TopeFinalVenta5PropertyName);
+                    }
                 }
             }
         }
 
-        public decimal  PorcentajeVentas1 {
+        public decimal PorcentajeVentas1 {
             get {
                 return LibMath.RoundToNDecimals(Model.PorcentajeVentas1, 2);
             }
             set {
                 if (Model.PorcentajeVentas1 != value) {
-                    Model.PorcentajeVentas1 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value > Model.PorcentajeVentas2 && Model.TopeFinalVenta2 != 0) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeVentas1 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeVentas1PropertyName);
                 }
             }
@@ -338,15 +361,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             get {
                 return LibMath.RoundToNDecimals(_TopeInicialVenta2, 2);
             }
-            set {
-                if (_TopeInicialVenta2 != Model.TopeFinalVenta1 + 1) {
-                    _TopeInicialVenta2 = Model.TopeFinalVenta1 + 1;
-                    IsDirty = true;
-                }
-            }
+            set { _TopeInicialVenta2 = value; }
         }
 
-        public decimal  TopeFinalVenta2 {
+        public decimal TopeFinalVenta2 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeFinalVenta2, 2);
             }
@@ -355,24 +373,44 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalVenta2 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalVenta2PropertyName);
+                    _TopeInicialVenta3 = value + 1;
+                    RaisePropertyChanged(TopeInicialVenta3PropertyName);
+                    if (value != 0) {
+                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto() + 1;
+                        RaisePropertyChanged(TopeFinalVenta5PropertyName);
+                    }
                 }
             }
         }
 
-        public decimal  PorcentajeVentas2 {
+        public decimal PorcentajeVentas2 {
             get {
                 return LibMath.RoundToNDecimals(Model.PorcentajeVentas2, 2);
             }
             set {
                 if (Model.PorcentajeVentas2 != value) {
-                    Model.PorcentajeVentas2 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value <= Model.PorcentajeVentas1 || (Model.PorcentajeVentas3 < value && Model.TopeFinalVenta3 != 0)) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeVentas2 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeVentas2PropertyName);
                 }
             }
         }
+        public decimal TopeInicialVenta3 {
+            get {
+                return LibMath.RoundToNDecimals(_TopeInicialVenta3, 2);
+            }
+            set { _TopeInicialVenta3 = value; }
+        }
 
-        public decimal  TopeFinalVenta3 {
+        public decimal TopeFinalVenta3 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeFinalVenta3, 2);
             }
@@ -381,24 +419,44 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalVenta3 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalVenta3PropertyName);
+                    _TopeInicialVenta4 = value + 1;
+                    RaisePropertyChanged(TopeInicialVenta4PropertyName);
+                    if (value != 0) {
+                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto() + 1;
+                        RaisePropertyChanged(TopeFinalVenta5PropertyName);
+                    }
                 }
             }
         }
 
-        public decimal  PorcentajeVentas3 {
+        public decimal PorcentajeVentas3 {
             get {
                 return LibMath.RoundToNDecimals(Model.PorcentajeVentas3, 2);
             }
             set {
                 if (Model.PorcentajeVentas3 != value) {
-                    Model.PorcentajeVentas3 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value <= Model.PorcentajeVentas2 || (Model.PorcentajeVentas4 < value && Model.TopeFinalVenta4 != 0)) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeVentas3 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeVentas3PropertyName);
                 }
             }
         }
+        public decimal TopeInicialVenta4 {
+            get {
+                return LibMath.RoundToNDecimals(_TopeInicialVenta4, 2);
+            }
+            set { _TopeInicialVenta4 = value; }
+        }
 
-        public decimal  TopeFinalVenta4 {
+        public decimal TopeFinalVenta4 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeFinalVenta4, 2);
             }
@@ -407,24 +465,36 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalVenta4 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalVenta4PropertyName);
+                    if (value != 0) {
+                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto() + 1;
+                        RaisePropertyChanged(TopeFinalVenta5PropertyName);
+                    }
                 }
             }
         }
 
-        public decimal  PorcentajeVentas4 {
+        public decimal PorcentajeVentas4 {
             get {
                 return LibMath.RoundToNDecimals(Model.PorcentajeVentas4, 2);
             }
             set {
                 if (Model.PorcentajeVentas4 != value) {
-                    Model.PorcentajeVentas4 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value <= Model.PorcentajeVentas3 || Model.PorcentajeVentas5 < value) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeVentas4 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeVentas4PropertyName);
                 }
             }
         }
 
-        public decimal  TopeFinalVenta5 {
+        public decimal TopeFinalVenta5 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeFinalVenta5, 2);
             }
@@ -437,20 +507,28 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public decimal  PorcentajeVentas5 {
+        public decimal PorcentajeVentas5 {
             get {
                 return LibMath.RoundToNDecimals(Model.PorcentajeVentas5, 2);
             }
             set {
                 if (Model.PorcentajeVentas5 != value) {
-                    Model.PorcentajeVentas5 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value <= Model.PorcentajeVentas4) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeVentas5 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeVentas5PropertyName);
                 }
             }
         }
 
-        public decimal  TopeInicialCobranza1 {
+        public decimal TopeInicialCobranza1 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeInicialCobranza1, 2);
             }
@@ -463,7 +541,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public decimal  TopeFinalCobranza1 {
+        public decimal TopeFinalCobranza1 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeFinalCobranza1, 2);
             }
@@ -472,24 +550,45 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza1 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza1PropertyName);
+                    _TopeInicialCobranza2 = value + 1;
+                    RaisePropertyChanged(TopeInicialCobranza2PropertyName);
+                    if (value != 0) {
+                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto() + 1;
+                        RaisePropertyChanged(TopeFinalCobranza5PropertyName);
+                    }
                 }
             }
         }
 
-        public decimal  PorcentajeCobranza1 {
+        public decimal PorcentajeCobranza1 {
             get {
                 return LibMath.RoundToNDecimals(Model.PorcentajeCobranza1, 2);
             }
             set {
                 if (Model.PorcentajeCobranza1 != value) {
-                    Model.PorcentajeCobranza1 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value > Model.PorcentajeCobranza2 && Model.TopeFinalCobranza2 != 0) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeCobranza1 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeCobranza1PropertyName);
                 }
             }
         }
 
-        public decimal  TopeFinalCobranza2 {
+        public decimal TopeInicialCobranza2 {
+            get {
+                return LibMath.RoundToNDecimals(_TopeInicialCobranza2, 2);
+            }
+            set { _TopeInicialCobranza2 = value; }
+        }
+
+        public decimal TopeFinalCobranza2 {
             get {
                 return LibMath.RoundToNDecimals(Model.TopeFinalCobranza2, 2);
             }
@@ -498,24 +597,45 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza2 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza2PropertyName);
+                    _TopeInicialCobranza3 = value + 1;
+                    RaisePropertyChanged(TopeInicialCobranza3PropertyName);
+                    if (value != 0) {
+                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto() + 1;
+                        RaisePropertyChanged(TopeFinalCobranza5PropertyName);
+                    }
                 }
             }
         }
 
-        public decimal  PorcentajeCobranza2 {
+        public decimal PorcentajeCobranza2 {
             get {
                 return Model.PorcentajeCobranza2;
             }
             set {
                 if (Model.PorcentajeCobranza2 != value) {
-                    Model.PorcentajeCobranza2 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value <= Model.PorcentajeCobranza1 || (Model.PorcentajeCobranza3 < value && Model.TopeFinalCobranza3 != 0)) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeCobranza2 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeCobranza2PropertyName);
                 }
             }
         }
 
-        public decimal  TopeFinalCobranza3 {
+        public decimal TopeInicialCobranza3 {
+            get {
+                return LibMath.RoundToNDecimals(_TopeInicialCobranza3, 2);
+            }
+            set { _TopeInicialCobranza3 = value; }
+        }
+
+        public decimal TopeFinalCobranza3 {
             get {
                 return Model.TopeFinalCobranza3;
             }
@@ -524,24 +644,45 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza3 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza3PropertyName);
+                    _TopeInicialCobranza4 = value + 1;
+                    RaisePropertyChanged(TopeInicialCobranza4PropertyName);
+                    if (value != 0) {
+                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto() + 1;
+                        RaisePropertyChanged(TopeFinalCobranza5PropertyName);
+                    }
                 }
             }
         }
 
-        public decimal  PorcentajeCobranza3 {
+        public decimal PorcentajeCobranza3 {
             get {
                 return Model.PorcentajeCobranza3;
             }
             set {
                 if (Model.PorcentajeCobranza3 != value) {
-                    Model.PorcentajeCobranza3 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value <= Model.PorcentajeCobranza2 || (Model.PorcentajeCobranza4 < value && Model.TopeFinalCobranza4 != 0)) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeCobranza3 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeCobranza3PropertyName);
                 }
             }
         }
 
-        public decimal  TopeFinalCobranza4 {
+        public decimal TopeInicialCobranza4 {
+            get {
+                return LibMath.RoundToNDecimals(_TopeInicialCobranza4, 2);
+            }
+            set { _TopeInicialCobranza4 = value; }
+        }
+
+        public decimal TopeFinalCobranza4 {
             get {
                 return Model.TopeFinalCobranza4;
             }
@@ -550,24 +691,36 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza4 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza4PropertyName);
+                    if (value != 0) {
+                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto() + 1;
+                        RaisePropertyChanged(TopeFinalCobranza5PropertyName);
+                    }
                 }
             }
         }
 
-        public decimal  PorcentajeCobranza4 {
+        public decimal PorcentajeCobranza4 {
             get {
                 return Model.PorcentajeCobranza4;
             }
             set {
                 if (Model.PorcentajeCobranza4 != value) {
-                    Model.PorcentajeCobranza4 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value <= Model.PorcentajeCobranza3 || (Model.PorcentajeCobranza5 < value && Model.TopeFinalCobranza5 != 0)) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeCobranza4 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeCobranza4PropertyName);
                 }
             }
         }
 
-        public decimal  TopeFinalCobranza5 {
+        public decimal TopeFinalCobranza5 {
             get {
                 return Model.TopeFinalCobranza5;
             }
@@ -580,20 +733,28 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public decimal  PorcentajeCobranza5 {
+        public decimal PorcentajeCobranza5 {
             get {
                 return Model.PorcentajeCobranza5;
             }
             set {
                 if (Model.PorcentajeCobranza5 != value) {
-                    Model.PorcentajeCobranza5 = value;
-                    IsDirty = true;
+                    if (value < 0 || value > 100) {
+                        MostrarMensajePorcentajeDeComisionFueraDeRango();
+                    } else {
+                        if (value <= Model.PorcentajeCobranza4) {
+                            MostrarMensajePorcentajeDeComisionConValorNoAceptado();
+                        } else {
+                            Model.PorcentajeCobranza4 = value;
+                            IsDirty = true;
+                        }
+                    }
                     RaisePropertyChanged(PorcentajeCobranza5PropertyName);
                 }
             }
         }
 
-        public bool  UsaComisionPorVenta {
+        public bool UsaComisionPorVenta {
             get {
                 return Model.UsaComisionPorVentaAsBool;
             }
@@ -607,7 +768,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public bool  UsaComisionPorCobranza {
+        public bool UsaComisionPorCobranza {
             get {
                 return Model.UsaComisionPorCobranzaAsBool;
             }
@@ -621,7 +782,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public string  CodigoLote {
+        public string CodigoLote {
             get {
                 return Model.CodigoLote;
             }
@@ -634,7 +795,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public eTipoDocumentoIdentificacion  TipoDocumentoIdentificacion {
+        public eTipoDocumentoIdentificacion TipoDocumentoIdentificacion {
             get {
                 return Model.TipoDocumentoIdentificacionAsEnum;
             }
@@ -647,7 +808,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
         [LibGridColum("Ruta de Comercialización", Type = eGridColumType.Enum, PrintingMemberPath = "RutaDeComercializacionStr", ColumnOrder = 5, Width = 180)]
-        public eRutaDeComercializacion  RutaDeComercializacion {
+        public eRutaDeComercializacion RutaDeComercializacion {
             get {
                 return Model.RutaDeComercializacionAsEnum;
             }
@@ -660,7 +821,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public string  NombreOperador {
+        public string NombreOperador {
             get {
                 return Model.NombreOperador;
             }
@@ -708,12 +869,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         public bool IsVisibleRutaDeComercializacion {
-            get { 
-                return LibDefGen.IsInternalSystem(); 
+            get {
+                return LibDefGen.IsInternalSystem();
             }
         }
 
-        public DateTime  FechaUltimaModificacion {
+        public DateTime FechaUltimaModificacion {
             get {
                 return Model.FechaUltimaModificacion;
             }
@@ -897,10 +1058,36 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         protected override void ExecuteAction() {
             if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
                 if (!UsaComisionPorVenta && !UsaComisionPorCobranza) {
-                    LibMessages.MessageBox.Alert(this,"Recuerde asignar Comisiones de Venta y/o Cobranza a este Vendedor.", ModuleName);
+                    LibMessages.MessageBox.Alert(this, "Recuerde asignar Comisiones de Venta y/o Cobranza a este Vendedor.", ModuleName);
                 }
             }
             base.ExecuteAction();
+        }
+
+        private void MostrarMensajePorcentajeDeComisionConValorNoAceptado() {
+            LibMessages.MessageBox.Warning(this, "Recuerde que los porcentajes de comisiones deben tener un orden lógico.", ModuleName);
+        }
+
+        private void MostrarMensajePorcentajeDeComisionFueraDeRango() {
+            LibMessages.MessageBox.Warning(this, "Recuerde que los porcentajes de comisiones deben tener un valor entre 0 y 100.", ModuleName);
+        }
+
+        public decimal TopeFinalDeVentaMasAlto() {
+            decimal vTopeMasAlto = 0;
+            vTopeMasAlto = vTopeMasAlto < TopeFinalVenta1 ? TopeFinalVenta1 : vTopeMasAlto;
+            vTopeMasAlto = vTopeMasAlto < TopeFinalVenta2 ? TopeFinalVenta2 : vTopeMasAlto;
+            vTopeMasAlto = vTopeMasAlto < TopeFinalVenta3 ? TopeFinalVenta3 : vTopeMasAlto;
+            vTopeMasAlto = vTopeMasAlto < TopeFinalVenta4 ? TopeFinalVenta4 : vTopeMasAlto;
+            return vTopeMasAlto;
+        }
+
+        public decimal TopeFinalDeCobranzaMasAlto() {
+            decimal vTopeMasAlto = 0;
+            vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza1 ? TopeFinalCobranza1 : vTopeMasAlto;
+            vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza2 ? TopeFinalCobranza2 : vTopeMasAlto;
+            vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza3 ? TopeFinalCobranza3 : vTopeMasAlto;
+            vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza4 ? TopeFinalCobranza4 : vTopeMasAlto;
+            return vTopeMasAlto;
         }
         #endregion //Metodos Generados
 
