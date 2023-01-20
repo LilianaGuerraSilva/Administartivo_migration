@@ -150,7 +150,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		protected override bool CanExecuteCreateCommand() {
-			return CurrentItem != null && CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Insertar");
+			return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Insertar");
 		}
 
 		protected override bool CanExecuteReadCommand() {
