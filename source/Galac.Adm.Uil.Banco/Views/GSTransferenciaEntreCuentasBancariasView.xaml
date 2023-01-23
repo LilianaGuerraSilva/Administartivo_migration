@@ -69,7 +69,7 @@
                     HorizontalContentAlignment="Right"
                     Content="{Binding Path=Consecutivo}"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=NotIsInsertar, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="Hidden" />
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
