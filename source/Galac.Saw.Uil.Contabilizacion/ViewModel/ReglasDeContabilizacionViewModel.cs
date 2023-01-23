@@ -3712,6 +3712,9 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             set {
                 if (_ConexionTransfCtasSigasTipoComprobante != value) {
                     _ConexionTransfCtasSigasTipoComprobante = value;
+                    if (_ConexionTransfCtasSigasTipoComprobante != null) {
+                        TransfCtasSigasTipoComprobante = _ConexionTransfCtasSigasTipoComprobante.Codigo;
+                    }
                     RaisePropertyChanged(TransfCtasSigasTipoComprobantePropertyName);
                 }
                 if (_ConexionTransfCtasSigasTipoComprobante == null) {
