@@ -71,7 +71,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             set {
                 if (_ConexionConceptoBancarioReversoTransfIngreso != value) {
                     _ConexionConceptoBancarioReversoTransfIngreso = value;
-                    RaisePropertyChanged(ConceptoBancarioReversoTransfIngresoPropertyName);
+                    if (_ConexionConceptoBancarioReversoTransfIngreso != null) {
+                        ConceptoBancarioReversoTransfIngreso = _ConexionConceptoBancarioReversoTransfIngreso.Codigo;
+                    }
                 }
                 if (_ConexionConceptoBancarioReversoTransfIngreso == null) {
                     ConceptoBancarioReversoTransfIngreso = string.Empty;
@@ -86,7 +88,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             set {
                 if (_ConexionConceptoBancarioReversoTransfEgreso != value) {
                     _ConexionConceptoBancarioReversoTransfEgreso = value;
-                    RaisePropertyChanged(ConceptoBancarioReversoTransfEgresoPropertyName);
+                    if (_ConexionConceptoBancarioReversoTransfEgreso != null) {
+                        ConceptoBancarioReversoTransfEgreso = _ConexionConceptoBancarioReversoTransfEgreso.Codigo;
+                    }
                 }
                 if (_ConexionConceptoBancarioReversoTransfEgreso == null) {
                     ConceptoBancarioReversoTransfEgreso = string.Empty;
