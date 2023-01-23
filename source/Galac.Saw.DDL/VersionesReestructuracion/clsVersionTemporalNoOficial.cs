@@ -96,12 +96,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			Execute(vSql.ToString());
 		}
 		private void AgregarParametroTransferenciaBancaria() {
-			if (AgregarNuevoParametro("ConceptoBancarioReversoTransfIngreso", "Bancos", 7, "7.5.- Transferencias Bancarias", 5, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "")){
+			if (AgregarNuevoParametro("ConceptoBancarioReversoTransfIngreso", "Bancos", 7, "7.5.- Transferencias Bancarias", 5, "", eTipoDeDatoParametros.String, "", 'N', "")){
 				if (RecordCountOfSql("SELECT * FROM Adm.ConceptoBancario WHERE Codigo = '60347' AND Descripcion = 'REV AUTOMATICO TRANSF INGRESO' AND Tipo = '0'") > 0) {
 					Execute("UPDATE Comun.SettValueByCompany SET Value = '60347' WHERE NameSettDefinition = 'ConceptoBancarioReversoTransfIngreso'");
 				}
 			}
-			if (AgregarNuevoParametro("ConceptoBancarioReversoTransfEgreso", "Bancos", 7, "7.5.- Transferencias Bancarias", 5, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "")) {
+			if (AgregarNuevoParametro("ConceptoBancarioReversoTransfEgreso", "Bancos", 7, "7.5.- Transferencias Bancarias", 5, "", eTipoDeDatoParametros.String, "", 'N', "")) {
 				if (RecordCountOfSql("SELECT * FROM Adm.ConceptoBancario WHERE Codigo = '60348' AND Descripcion = 'REV AUTOMATICO TRANSF EGRESO' AND Tipo = '1'") > 0) {
 					Execute("UPDATE Comun.SettValueByCompany SET Value = '60348' WHERE NameSettDefinition = 'ConceptoBancarioReversoTransfEgreso'");
 				}
