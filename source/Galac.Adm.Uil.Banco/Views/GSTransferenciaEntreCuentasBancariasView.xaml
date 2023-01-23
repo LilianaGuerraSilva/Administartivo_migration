@@ -69,7 +69,7 @@
                     HorizontalContentAlignment="Right"
                     Content="{Binding Path=Consecutivo}"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=NotIsInsertar, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="Hidden" />
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
@@ -83,7 +83,7 @@
                     HorizontalAlignment="Stretch"
                     BorderThickness="1"
                     InputDataType="Alfanumeric"
-                    IsEnabled="{Binding Path= IsEnabled}"
+                    IsEnabled="{Binding Path=IsInsertar}"
                     MaxLength="20"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=NumeroDocumento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -528,7 +528,7 @@
                     Padding="3,0"
                     Content="{Binding Path=DescripcionConceptoIngreso}"
                     Style="{StaticResource LabelCalculatedField}" />
-                
+
 
                 <GroupBox
                     Grid.Row="8"
