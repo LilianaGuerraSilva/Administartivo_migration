@@ -144,13 +144,20 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            
-            LibSearchCriteria vFixedCriteriaIngreso = LibSearchCriteria.CreateCriteria("Adm.Gv_ConceptoBancario_B1.Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Ingreso));
-            vFixedCriteriaIngreso.Add(LibSearchCriteria.CreateCriteria("codigo", ConceptoBancarioReversoTransfIngreso), eLogicOperatorType.And);
-            ConexionConceptoBancarioReversoTransfIngreso = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", vFixedCriteriaIngreso, new clsSettValueByCompanyNav());
-            LibSearchCriteria vFixedCriteriaEgreso = LibSearchCriteria.CreateCriteria("Adm.Gv_ConceptoBancario_B1.Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Egreso));
-            vFixedCriteriaEgreso.Add(LibSearchCriteria.CreateCriteria("codigo", ConceptoBancarioReversoTransfEgreso), eLogicOperatorType.And);
-            ConexionConceptoBancarioReversoTransfEgreso = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", vFixedCriteriaEgreso, new clsSettValueByCompanyNav());
+            if (LibString.IsNullOrEmpty(ConceptoBancarioReversoTransfIngreso, true)) {
+                ConexionConceptoBancarioReversoTransfIngreso = null;
+            } else {
+                LibSearchCriteria vFixedCriteriaIngreso = LibSearchCriteria.CreateCriteria("Adm.Gv_ConceptoBancario_B1.Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Ingreso));
+                vFixedCriteriaIngreso.Add(LibSearchCriteria.CreateCriteria("codigo", ConceptoBancarioReversoTransfIngreso), eLogicOperatorType.And);
+                ConexionConceptoBancarioReversoTransfIngreso = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", vFixedCriteriaIngreso, new clsSettValueByCompanyNav());
+            }
+            if (LibString.IsNullOrEmpty(ConceptoBancarioReversoTransfEgreso, true)) {
+                ConexionConceptoBancarioReversoTransfEgreso = null;
+            } else {
+                LibSearchCriteria vFixedCriteriaEgreso = LibSearchCriteria.CreateCriteria("Adm.Gv_ConceptoBancario_B1.Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Egreso));
+                vFixedCriteriaEgreso.Add(LibSearchCriteria.CreateCriteria("codigo", ConceptoBancarioReversoTransfEgreso), eLogicOperatorType.And);
+                ConexionConceptoBancarioReversoTransfEgreso = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", vFixedCriteriaEgreso, new clsSettValueByCompanyNav());
+            }
         }
 
         private void ExecuteChooseConceptoBancarioReversoTransfIngresoCommand(string valcodigo) {
