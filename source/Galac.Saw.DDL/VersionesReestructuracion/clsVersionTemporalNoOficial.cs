@@ -39,20 +39,17 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void CrearCamposParaElManejoDeMonedaExtranjeraEnGestionProduccion() {
 			QAdvSql InsSql = new QAdvSql("");
 			if (AddColumnEnumerative("Adm.OrdenDeProduccion", "CostoTerminadoCalculadoAPartirDe", "", (int)eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal)) {
-				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCosTerCalAParDe", InsSql.ToSqlValue((int)eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal), "CostoTerminadoCalculadoAPartirDe");
+				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCosTerCalAParDe", InsSql.EnumToSqlValue((int)eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal), "CostoTerminadoCalculadoAPartirDe");
 			}
-			if (AddColumnString("Adm.OrdenDeProduccion", "CodigoMonedaCostoProduccion", 4, "", "VED")) {
-				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCoMoCoPr", InsSql.ToSqlValue("VED"), "CodigoMonedaCostoProduccion");
+			if (AddColumnString("Adm.OrdenDeProduccion", "CodigoMonedaCostoProduccion", 4, "", "VED")){
+				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCoMoCoPr", InsSql.ToSqlValue(""), "CodigoMonedaCostoProduccion");
 			}
 			if (AddColumnDecimal("Adm.OrdenDeProduccion", "CambioCostoProduccion", 25, 4, "", (decimal)1.0)) {
 				AddDefaultConstraint("Adm.OrdenDeProduccion", "d_OrdDeProCaCoPr", InsSql.ToSqlValue((decimal)1.0), "CambioCostoProduccion");
 			}
 			if (AddColumnCurrency("dbo.RenglonNotaES", "CostoUnitarioME", "", (decimal)0.0)) {
-				AddDefaultConstraint("dbo.RenglonNotaES", "d_RenNotESCoUnME", InsSql.ToSqlValue((decimal)1.0), "CostoUnitarioME");
-				StringBuilder vSql = new StringBuilder();
-				vSql.AppendLine("UPDATE dbo.RenglonNotaES");
-				vSql.AppendLine("SET CostoUnitarioME = CostoUnitario");
-				Execute(vSql.ToString());
+				AddDefaultConstraint("dbo.RenglonNotaES", "d_RenNotESCoUnME", InsSql.ToSqlValue((decimal)0.0), "CostoUnitarioME");
+				Execute("UPDATE dbo.RenglonNotaES SET CostoUnitarioME = CostoUnitario");
 			}
 		}
 		private void CrearColumnaRutaDeComercializacion() {
@@ -192,12 +189,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			Execute(vSql.ToString());
 		}
 		private void AgregarParametroTransferenciaBancaria() {
-			if (AgregarNuevoParametro("ConceptoBancarioReversoTransfIngreso", "Bancos", 7, "7.5.- Transferencias Bancarias", 5, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "")){
+			if (AgregarNuevoParametro("ConceptoBancarioReversoTransfIngreso", "Bancos", 7, "7.5.- Transferencias Bancarias", 5, "", eTipoDeDatoParametros.String, "", 'N', "")){
 				if (RecordCountOfSql("SELECT * FROM Adm.ConceptoBancario WHERE Codigo = '60347' AND Descripcion = 'REV AUTOMATICO TRANSF INGRESO' AND Tipo = '0'") > 0) {
 					Execute("UPDATE Comun.SettValueByCompany SET Value = '60347' WHERE NameSettDefinition = 'ConceptoBancarioReversoTransfIngreso'");
 				}
 			}
-			if (AgregarNuevoParametro("ConceptoBancarioReversoTransfEgreso", "Bancos", 7, "7.5.- Transferencias Bancarias", 5, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "")) {
+			if (AgregarNuevoParametro("ConceptoBancarioReversoTransfEgreso", "Bancos", 7, "7.5.- Transferencias Bancarias", 5, "", eTipoDeDatoParametros.String, "", 'N', "")) {
 				if (RecordCountOfSql("SELECT * FROM Adm.ConceptoBancario WHERE Codigo = '60348' AND Descripcion = 'REV AUTOMATICO TRANSF EGRESO' AND Tipo = '1'") > 0) {
 					Execute("UPDATE Comun.SettValueByCompany SET Value = '60348' WHERE NameSettDefinition = 'ConceptoBancarioReversoTransfEgreso'");
 				}

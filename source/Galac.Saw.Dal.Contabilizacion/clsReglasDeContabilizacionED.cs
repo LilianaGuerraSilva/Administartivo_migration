@@ -44,7 +44,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("CuentaIva1Debito" + InsSql.VarCharTypeForDb(30) + " , ");
             SQL.AppendLine("DondeContabilizarRetIva" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_RegDeConDondeConta DEFAULT ('0'), ");
             SQL.AppendLine("CuentaRetencionIva" + InsSql.VarCharTypeForDb(30) + " , ");
-            SQL.AppendLine("CuentaDiferenciaCambiaria" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RegDeConCuDiCa DEFAULT (''), ");
+            SQL.AppendLine("CuentaDiferenciaCambiaria" + InsSql.VarCharTypeForDb(30) + " , ");
             SQL.AppendLine("CxCTipoComprobante" + InsSql.VarCharTypeForDb(2) + " , ");
             SQL.AppendLine("TipoContabilizacionCxC" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("ContabIndividualCxc" + InsSql.CharTypeForDb(1) + " , ");
@@ -72,7 +72,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("CuentaCobranzaCobradoAnticipo" + InsSql.VarCharTypeForDb(30) + " , ");
             SQL.AppendLine("CuentaCobranzaIvaDiferido" + InsSql.VarCharTypeForDb(30) + ", ");
             SQL.AppendLine("PagoTipoComprobante" + InsSql.VarCharTypeForDb(2) + " , ");
-            SQL.AppendLine("ManejarDiferenciaCambiariaEnCobranza" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRegDeConManejarDif NOT NULL, ");
+            SQL.AppendLine("ManejarDiferenciaCambiariaEnCobranza" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("TipoContabilizacionPagos" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("ContabIndividualPagos" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("ContabPorLotePagos" + InsSql.CharTypeForDb(1) + " , ");
@@ -81,7 +81,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("CuentaPagosOtros" + InsSql.VarCharTypeForDb(30) + " , ");
             SQL.AppendLine("CuentaPagosBanco" + InsSql.VarCharTypeForDb(30) + " , ");
             SQL.AppendLine("CuentaPagosPagadoAnticipo" + InsSql.VarCharTypeForDb(30) + " , ");
-            SQL.AppendLine("ManejarDiferenciaCambiariaEnPagos" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnRegDeConManejarDif NOT NULL, ");
+            SQL.AppendLine("ManejarDiferenciaCambiariaEnPagos" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("TipoContabilizacionFacturacion" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("ContabIndividualFacturacion" + InsSql.CharTypeForDb(1) + " , ");
             SQL.AppendLine("ContabPorLoteFacturacion" + InsSql.CharTypeForDb(1) + " , ");

@@ -3640,7 +3640,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 if (_ConexionCuentaTransfCtasBancoDestino == null) {
                     CuentaTransfCtasBancoDestino = string.Empty;
                     CuentaTransfCtasBancoDestinoDescripcion = string.Empty;
-                    CuentaTransfCtasBancoDestinoDescripcion = ConexionCuentaTransfCtasBancoDestino.Descripcion;
+                    RaisePropertyChanged(CuentaTransfCtasBancoDestinoDescripcionPropertyName);
                 }
             }
         }
@@ -3661,7 +3661,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 if (_ConexionCuentaTransfCtasGastoComOrigen == null) {
                     CuentaTransfCtasGastoComOrigen = string.Empty;
                     CuentaTransfCtasGastoComOrigenDescripcion = string.Empty;
-                    CuentaTransfCtasGastoComOrigenDescripcion = ConexionCuentaTransfCtasGastoComOrigen.Descripcion;
+                    RaisePropertyChanged(CuentaTransfCtasGastoComOrigenDescripcionPropertyName);
                 }
             }
         }
@@ -3682,7 +3682,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 if (_ConexionCuentaTransfCtasGastoComDestino == null) {
                     CuentaTransfCtasGastoComDestino = string.Empty;
                     CuentaTransfCtasGastoComDestinoDescripcion = string.Empty;
-                    CuentaTransfCtasGastoComDestinoDescripcion = ConexionCuentaTransfCtasGastoComDestino.Descripcion;
+                    RaisePropertyChanged(CuentaTransfCtasGastoComDestinoDescripcionPropertyName);
                 }
             }
         }
@@ -3698,10 +3698,11 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 }
                 RaisePropertyChanged(CuentaTransfCtasBancoOrigenPropertyName);
                 RaisePropertyChanged(CuentaTransfCtasBancoOrigenDescripcionPropertyName);
+
                 if (_ConexionCuentaTransfCtasBancoOrigen == null) {
                     CuentaTransfCtasBancoOrigen = string.Empty;
                     CuentaTransfCtasBancoOrigenDescripcion = string.Empty;
-                    CuentaTransfCtasBancoOrigenDescripcion = ConexionCuentaTransfCtasBancoOrigen.Descripcion;
+                    RaisePropertyChanged(CuentaTransfCtasBancoOrigenDescripcionPropertyName);
                 }
             }
         }
@@ -3712,6 +3713,9 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             set {
                 if (_ConexionTransfCtasSigasTipoComprobante != value) {
                     _ConexionTransfCtasSigasTipoComprobante = value;
+                    if (_ConexionTransfCtasSigasTipoComprobante != null) {
+                        TransfCtasSigasTipoComprobante = _ConexionTransfCtasSigasTipoComprobante.Codigo;
+                    }
                     RaisePropertyChanged(TransfCtasSigasTipoComprobantePropertyName);
                 }
                 if (_ConexionTransfCtasSigasTipoComprobante == null) {
