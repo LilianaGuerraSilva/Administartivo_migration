@@ -74,8 +74,8 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "TipoArticuloInv" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "TipoArticu NOT NULL, "
    SQL = SQL & "Serial" & gUtilSQL.getVarCharTypeForDB(50) & " CONSTRAINT nn" & GetTableName() & "Serial NOT NULL, "
    SQL = SQL & "Rollo" & gUtilSQL.getVarCharTypeForDB(20) & "CONSTRAINT nn" & GetTableName() & "Rollo NOT NULL, "
-   SQL = SQL & "CostoUnitario " & gUtilSQL.getNumericTypeForDB(12, 4) & " CONSTRAINT nn" & GetTableName() & "d_RenNotESCoUn DEFAULT (0), "
-   SQL = SQL & "CostoUnitarioME " & gUtilSQL.getNumericTypeForDB(12, 4) & " , "
+   SQL = SQL & "CostoUnitario " & gUtilSQL.getNumericTypeForDB(12, 4) & " CONSTRAINT d_RenNotESCoUn DEFAULT (0), "
+   SQL = SQL & "CostoUnitarioME " & gUtilSQL.getNumericTypeForDB(12, 4) & " CONSTRAINT d_RenNotESCoUnME DEFAULT (0), "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"
    gDbUtil.Execute gDefDatabase.Conexion, SQL
    sAddPrimaryKeyAndOtherConstrains

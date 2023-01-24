@@ -59,7 +59,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("MotivoDeAnulacion" + InsSql.VarCharTypeForDb(600) + " CONSTRAINT d_OrdDeProMoDeAn DEFAULT (''), ");
             SQL.AppendLine("NumeroDecimales" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnOrdDeProNumDec NOT NULL, ");
             SQL.AppendLine("CostoTerminadoCalculadoAPartirDe" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_OrdDeProCosTerCalAParDe DEFAULT ('0'), ");
-            SQL.AppendLine("CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + " , ");
+            SQL.AppendLine("CodigoMonedaCostoProduccion" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_OrdDeProCoMoCoPr DEFAULT (''), ");
             SQL.AppendLine("CambioCostoProduccion" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_OrdDeProCaCoPr DEFAULT (1), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(20) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
@@ -70,8 +70,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("REFERENCES Saw.Almacen(ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_OrdenDeProduccionAlmacenMateriales FOREIGN KEY (ConsecutivoCompania, ConsecutivoAlmacenMateriales)");
-            SQL.AppendLine("REFERENCES Saw.Almacen(ConsecutivoCompania, Consecutivo)");
-            
+            SQL.AppendLine("REFERENCES Saw.Almacen(ConsecutivoCompania, Consecutivo)");            
             SQL.AppendLine(",CONSTRAINT u_OrdDeProConsecutivo UNIQUE NONCLUSTERED (ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine(",CONSTRAINT u_OrdDeProniaigo UNIQUE NONCLUSTERED (ConsecutivoCompania,Codigo)");
             SQL.AppendLine(")");
