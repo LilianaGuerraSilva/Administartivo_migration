@@ -70,8 +70,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("REFERENCES Saw.Almacen(ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_OrdenDeProduccionAlmacenMateriales FOREIGN KEY (ConsecutivoCompania, ConsecutivoAlmacenMateriales)");
-            SQL.AppendLine("REFERENCES Saw.Almacen(ConsecutivoCompania, Consecutivo)");
-            
+            SQL.AppendLine("REFERENCES Saw.Almacen(ConsecutivoCompania, Consecutivo)");            
             SQL.AppendLine(",CONSTRAINT u_OrdDeProConsecutivo UNIQUE NONCLUSTERED (ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine(",CONSTRAINT u_OrdDeProniaigo UNIQUE NONCLUSTERED (ConsecutivoCompania,Codigo)");
             SQL.AppendLine(")");
