@@ -132,7 +132,7 @@ namespace Galac.Adm.Brl.Venta {
                 vParams.AddInInteger("Consecutivo", valConsecutivo);
                 vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
                 StringBuilder SQL = new StringBuilder();
-                SQL.AppendLine(" SELECT TOP(1) CajaApertura.NombreDelUsuario AS NombreOperador,");
+                SQL.AppendLine(" SELECT TOP(1) ISNULL(CajaApertura.NombreDelUsuario,'') AS NombreOperador,");
                 SQL.AppendLine(" Caja.Consecutivo, NombreCaja,UsaGaveta,Puerto,Comando,PermitirAbrirSinSupervisor,");
                 SQL.AppendLine(" UsaAccesoRapido, UsaMaquinaFiscal, FamiliaImpresoraFiscal, ModeloDeMaquinaFiscal,");
                 SQL.AppendLine(" SerialDeMaquinaFiscal, PuertoMaquinaFiscal, AbrirGavetaDeDinero, UltimoNumeroCompFiscal,");
