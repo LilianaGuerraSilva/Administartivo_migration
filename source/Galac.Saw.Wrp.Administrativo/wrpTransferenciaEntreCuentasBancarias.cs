@@ -114,7 +114,7 @@ namespace Galac.Saw.Wrp.TransferenciaEntreCuentasBancarias {
 			LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
 			LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(valCurrentMfc));
 			LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Periodo", "Consecutivo");
-			LibGlobalValues.Instance.GetMfcInfo().Add("Periodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Periodo", "ConsecutivoPeriodo"));
+			//LibGlobalValues.Instance.GetMfcInfo().Add("Periodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Periodo", "ConsecutivoPeriodo"));
 			return LibGlobalValues.Instance;
 		}
 		#endregion //Metodos Generados
