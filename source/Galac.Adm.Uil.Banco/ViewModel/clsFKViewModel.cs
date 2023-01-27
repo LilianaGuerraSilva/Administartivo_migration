@@ -113,9 +113,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		public int ConsecutivoCompania { get; set; }
 		[LibGridColum("Nº Movimiento")]
 		public int Consecutivo { get; set; }
-		[LibGridColum("Status")]
+		[LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusStr", Width = 80)]
 		public eStatusTransferenciaBancaria Status { get; set; }
-		[LibGridColum("Fecha")]
+		[LibGridColum("Fecha", eGridColumType.DatePicker)]
 		public DateTime Fecha { get; set; }
 		[LibGridColum("Nº Documento")]
 		public string NumeroDocumento { get; set; }
