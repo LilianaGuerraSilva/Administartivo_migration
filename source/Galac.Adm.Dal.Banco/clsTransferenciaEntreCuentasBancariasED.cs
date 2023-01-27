@@ -553,16 +553,16 @@ namespace Galac.Adm.Dal.Banco {
 		}
 
 		public bool BorrarVistasYSps() {
-			bool vResult = false;
+			bool vResult;
 			LibStoredProc insSp = new LibStoredProc();
 			LibViews insVista = new LibViews();
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasINS");
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasUPD") && vResult;
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasDEL") && vResult;
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasGET") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasContaSCH");
 			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasGetFk") && vResult;
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasContaSCH") && vResult;
 			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasSCH") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasGET") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasDEL") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasUPD") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasINS") && vResult;
 			vResult = insVista.Drop(DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1") && vResult;
 			vResult = insVista.Drop(DbSchema + ".Gv_EnumStatusTransferenciaBancaria") && vResult;
 			insSp.Dispose();
@@ -580,53 +580,55 @@ namespace Galac.Adm.Dal.Banco {
 		}
 
 		private string SqlSpContabSch() {
-			StringBuilder SQL = new StringBuilder();
-			SQL.AppendLine("BEGIN");
-			SQL.AppendLine("   SET NOCOUNT ON;");
-			SQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
-			SQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
-			SQL.AppendLine("   IF(@UseTopClausule = 'S') ");
-			SQL.AppendLine("    SET @TopClausule = 'TOP 500'");
-			SQL.AppendLine("   ELSE ");
-			SQL.AppendLine("    SET @TopClausule = ''");
-			SQL.AppendLine("   SET @strSQL = ");
-			SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+			StringBuilder vSQL = new StringBuilder();
+			StringBuilder vSqlComprobantePeriodo = new StringBuilder();
+			vSqlComprobantePeriodo.AppendLine("      (SELECT Comprobante.NoDocumentoOrigen, COMPROBANTE.GeneradoPor, COMPROBANTE.ConsecutivoDocOrigen, ");
+			vSqlComprobantePeriodo.AppendLine("      Periodo.ConsecutivoCompania, Periodo.FechaAperturaDelPeriodo, Periodo.FechaCierreDelPeriodo  ");
+			vSqlComprobantePeriodo.AppendLine("      FROM COMPROBANTE INNER JOIN PERIODO ");
+			vSqlComprobantePeriodo.AppendLine("          ON  PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo");
+			vSqlComprobantePeriodo.AppendLine("          AND PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo) ");
 
-			SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.StatusStr,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoCuentaBancariaOrigen,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoConceptoEgreso,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoCuentaBancariaDestino,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoConceptoIngreso,");
-			SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo,");
-			SQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Status");
-			SQL.AppendLine("      FROM " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1 ");
+			vSQL.AppendLine("BEGIN");
+			vSQL.AppendLine("   SET NOCOUNT ON;");
+			vSQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+			vSQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+			vSQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+			vSQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+			vSQL.AppendLine("   ELSE ");
+			vSQL.AppendLine("    SET @TopClausule = ''");
+			vSQL.AppendLine("   SET @strSQL = ");
+			vSQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
 
-			SQL.AppendLine("      LEFT JOIN ( SELECT dbo.Comprobante.NoDocumentoOrigen,dbo.COMPROBANTE.GeneradoPor,dbo.COMPROBANTE.ConsecutivoDocOrigen, ");
-			SQL.AppendLine("      dbo.Periodo.ConsecutivoCompania,dbo.Periodo.FechaAperturaDelPeriodo,dbo.Periodo.FechaCierreDelPeriodo  FROM   dbo.COMPROBANTE");
-			SQL.AppendLine("      INNER JOIN dbo.PERIODO ON  dbo.PERIODO.ConsecutivoPeriodo  = dbo.COMPROBANTE.ConsecutivoPeriodo");
-			SQL.AppendLine("      AND dbo.PERIODO.ConsecutivoPeriodo  = dbo.COMPROBANTE.ConsecutivoPeriodo) ComprobantePeriodo");
+			vSQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.StatusStr,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoCuentaBancariaOrigen,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoConceptoEgreso,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoCuentaBancariaDestino,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoConceptoIngreso,");
+			vSQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Status");
 
-			SQL.AppendLine("      ON  " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo  = ComprobantePeriodo.ConsecutivoDocOrigen");
-			SQL.AppendLine("      AND " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento = ComprobantePeriodo.NoDocumentoOrigen AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('O','''') + '");
+			vSQL.AppendLine("      FROM " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1 ");
+			vSQL.AppendLine("      LEFT JOIN " + vSqlComprobantePeriodo + " AS ComprobantePeriodo");
+			vSQL.AppendLine("      ON  " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo  = ComprobantePeriodo.ConsecutivoDocOrigen");
+			vSQL.AppendLine("      AND " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento = ComprobantePeriodo.NoDocumentoOrigen ");
+			vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('O','''') + '");
+			vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoCompania = " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania");
+			vSQL.AppendLine("      AND ComprobantePeriodo.FechaAperturaDelPeriodo < " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
+			vSQL.AppendLine("      AND ComprobantePeriodo.FechaCierreDelPeriodo   > " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
 
-			SQL.AppendLine("      AND  ComprobantePeriodo.ConsecutivoCompania =     " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania");
-			SQL.AppendLine("      AND  ComprobantePeriodo.FechaAperturaDelPeriodo < " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
-			SQL.AppendLine("      AND  ComprobantePeriodo.FechaCierreDelPeriodo   > " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
-
-			SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
-			SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere + ' AND ComprobantePeriodo.ConsecutivoDocOrigen is null '  ");
-
-			SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
-			SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
-			SQL.AppendLine("   EXEC(@strSQL)");
-			SQL.AppendLine("END");
-			return SQL.ToString();
+			vSQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+			vSQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere + ' AND ComprobantePeriodo.ConsecutivoDocOrigen IS NULL '  ");
+			vSQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+			vSQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+			vSQL.AppendLine("   EXEC(@strSQL)");
+			vSQL.AppendLine("END");
+			return vSQL.ToString();
 		}
 		#endregion //Metodos Generados
 
