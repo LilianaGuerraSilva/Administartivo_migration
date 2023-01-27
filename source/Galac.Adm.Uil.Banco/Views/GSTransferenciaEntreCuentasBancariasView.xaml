@@ -108,7 +108,8 @@
                     HorizontalAlignment="Right"
                     HorizontalContentAlignment="Right"
                     Content="{Binding Path=StatusYFechaDeAnulacion}"
-                    Style="{StaticResource LabelStatusBlue}" />
+                    Style="{StaticResource LabelStatusBlue}"
+                    Visibility="{Binding Path=IsVisibleAlContabilizar, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
@@ -136,7 +137,9 @@
             Grid.Column="0"
             Margin="10,3"
             VerticalAlignment="Top"
-            Header="Cuenta de Origen">
+            Header="Cuenta de Origen"
+            Visibility="{Binding Path=IsVisibleAlContabilizar, Converter={StaticResource booleanToVisibilityConverter}}">
+
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -384,7 +387,8 @@
             Grid.Column="1"
             Margin="10,3"
             VerticalAlignment="Top"
-            Header="Cuenta de Destino">
+            Header="Cuenta de Destino"
+            Visibility="{Binding Path=IsVisibleAlContabilizar, Converter={StaticResource booleanToVisibilityConverter}}">
 
             <Grid>
                 <Grid.ColumnDefinitions>

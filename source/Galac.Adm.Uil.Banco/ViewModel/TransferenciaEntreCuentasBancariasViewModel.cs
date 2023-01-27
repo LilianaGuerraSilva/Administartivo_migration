@@ -68,6 +68,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		public const string IsEnabledGeneraIGTFComisionEgresoPropertyName = "IsEnabledGeneraIGTFComisionEgreso";
 		public const string IsEnabledGeneraComisionIngresoPropertyName = "IsEnabledGeneraComisionIngreso";
 		public const string IsEnabledGeneraIGTFComisionIngresoPropertyName = "IsEnabledGeneraIGTFComisionIngreso";
+		public const string IsVisibleAlContabilizarPropertyName = "IsVisibleAlContabilizar";
 		#endregion
 
 		#region Variables
@@ -81,10 +82,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private FkMonedaViewModel _ConexionCodigoMonedaIngreso = null;
 		private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
 		private FkTransferenciaEntreCuentasBancariasViewModel _ConexionNumeroTransferencia;
-		#endregion //Variables
+        private bool _IsVisibleAlContabilizar;
+        #endregion //Variables
 
-		#region Propiedades
-		public override string ModuleName {
+        #region Propiedades
+        public override string ModuleName {
 			get { return "Transferencia entre Cuentas Bancarias"; }
 		}
 
@@ -876,6 +878,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				return !IsVisibleEscogerNumeroTransferencia;
 			}
 		}
+		public bool IsVisibleAlContabilizar {
+			get {
+				return _IsVisibleAlContabilizar;
+			}
+			set {
+				_IsVisibleAlContabilizar = value;
+			}
+		}
 		#endregion //Propiedades
 
 		#region Constructores
@@ -887,8 +897,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			: base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
 			DefaultFocusedPropertyName = NumeroDocumentoPropertyName;
 			Model.ConsecutivoCompania = Mfc.GetInt("Compania");
-			IsInsertar = initAction == eAccionSR.Insertar;
+			IsInsertar = (initAction == eAccionSR.Insertar);
 			vMonedaLocal = new Saw.Lib.clsNoComunSaw();
+			IsVisibleAlContabilizar = (initAction != eAccionSR.Contabilizar);
 		}
 
 		public TransferenciaEntreCuentasBancariasViewModel(eAccionSR initAction)
@@ -1223,6 +1234,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					RaisePropertyChanged(NumeroDocumentoPropertyName);
 					if (ConexionNumeroTransferencia != null) {
 						NumeroDocumento = ConexionNumeroTransferencia.NumeroDocumento;
+						RaisePropertyChanged(NumeroDocumentoPropertyName);
+                        IsVisibleAlContabilizar = true;
+						RaisePropertyChanged(IsVisibleAlContabilizarPropertyName);
 					}
 				}
 				if (_ConexionNumeroTransferencia == null) {
