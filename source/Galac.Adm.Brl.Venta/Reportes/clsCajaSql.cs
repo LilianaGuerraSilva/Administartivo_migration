@@ -617,8 +617,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
             #region Manejo para Fechas de Apertura y Cierre de Caja            
-            string horaCierre = " AND factura.HoraModificacion BETWEEN  CajaApertura.HoraApertura AND " + vUtilSql.IIF("CajaApertura.HoraCierre <> " + vUtilSql.ToSqlValue(string.Empty), "CajaApertura.HoraCierre", vUtilSql.ToSqlValue("00:00"), true);
-            string fechaCierre = " AND Factura.Fecha = " + vUtilSql.IIF("CajaApertura.CajaCerrada = " + vUtilSql.ToSqlValue(false), "GETDATE()", "CajaApertura.Fecha", true);
+            string horaCierre = " AND factura.HoraModificacion BETWEEN  CajaApertura.HoraApertura AND " + vUtilSql.IIF("CajaApertura.HoraCierre <> " + vUtilSql.ToSqlValue(string.Empty), "CajaApertura.HoraCierre", vUtilSql.ToSqlValue("23:59"), true);
+            string fechaCierre = " AND Factura.Fecha = CajaApertura.Fecha";
             #endregion Manejo para Fechas de Apertura y Cierre de Caja
             vSQLWhere = vSQLWhere + fechaCierre + horaCierre;            
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
