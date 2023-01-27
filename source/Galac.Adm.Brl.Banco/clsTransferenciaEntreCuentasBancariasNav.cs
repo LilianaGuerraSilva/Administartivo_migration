@@ -67,8 +67,8 @@ namespace Galac.Adm.Brl.Banco {
 					vPdnModule = new Comun.Brl.TablasGen.clsMonedaNav();
 					vResult = vPdnModule.GetDataForList("Compra", ref refXmlDocument, valXmlParamsExpression);
 					break;
-				case "Contabilizar Transferencia Entre Cuentas Bancarias":
-					vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
+				case "ContabilizarTransferenciaEntreCuentasBancarias":
+					vResult = ContabGetDataForList(ref refXmlDocument, valXmlParamsExpression);
 					break;
 				default: throw new NotImplementedException();
 			}
@@ -393,6 +393,11 @@ namespace Galac.Adm.Brl.Banco {
 				NombreOperador = item.NombreOperador,
 				FechaUltimaModificacion = LibDate.Today(),
 			};
+		}
+
+		private bool ContabGetDataForList(ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
+			ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasDat();
+			return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_TransferenciaEntreCuentasBancariasContaSCH", valXmlParamsExpression);
 		}
 		#endregion //Codigo Ejemplo
 

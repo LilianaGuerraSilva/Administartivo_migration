@@ -99,7 +99,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		//[LibGridColum("Consecutivo", eGridColumType.Integer, Alignment = eTextAlignment.Right, Width = 80)]
 		public int Consecutivo {
 			get {
 				return Model.Consecutivo;
@@ -1355,7 +1354,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		private void ExecuteChooseNumeroTransferenciaCommand(string valNumero) {
 			string vModuleName = "Transferencia entre Cuentas Bancarias";
-			if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar || Action == LibGalac.Aos.Base.eAccionSR.Anular) { 
 				try {
 					if (valNumero == null) {
 						valNumero = string.Empty;
@@ -1365,8 +1363,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					if (Action == LibGalac.Aos.Base.eAccionSR.Anular) {
 						vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
 					} else if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-						vModuleName = "Contabilizar Transferencia Entre Cuentas Bancarias";
-						vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
+						vModuleName = "ContabilizarTransferenciaEntreCuentasBancarias";
 					}
 					ConexionNumeroTransferencia = null;
 					ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
@@ -1384,7 +1381,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				} catch (System.Exception vEx) {
 					LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
 				}
-			}
 		}
 		protected override bool RecordIsReadOnly() {
 			return base.RecordIsReadOnly() || Action == eAccionSR.Contabilizar;
