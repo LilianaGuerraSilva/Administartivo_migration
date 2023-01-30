@@ -111,21 +111,20 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 	public class FkTransferenciaEntreCuentasBancariasViewModel : IFkTransferenciaEntreCuentasBancariasViewModel {
 		public int ConsecutivoCompania { get; set; }
-		[LibGridColum("Nº Movimiento")]
 		public int Consecutivo { get; set; }
-		[LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusStr", Width = 80)]
+		[LibGridColum("Status  ", eGridColumType.Enum, PrintingMemberPath = "StatusStr", Width = 50)]
 		public eStatusTransferenciaBancaria Status { get; set; }
-		[LibGridColum("Fecha", eGridColumType.DatePicker)]
+		[LibGridColum("Fecha  ", eGridColumType.DatePicker, Width = 50)]
 		public DateTime Fecha { get; set; }
-		[LibGridColum("Nº Documento")]
+		[LibGridColum("Nº Documento  ", Width = 50)]
 		public string NumeroDocumento { get; set; }
-		[LibGridColum("Cuenta Bancaria Origen")]
+		[LibGridColum("Cuenta Origen  ", Width = 80)]
 		public string CodigoCuentaBancariaOrigen { get; set; }
-		[LibGridColum("Concepto Bancario de Egreso")]
+		[LibGridColum("Concepto Egreso", Width = 80)]
 		public string CodigoConceptoEgreso { get; set; }
-		[LibGridColum("Cuenta Bancaria Destino")]
+		[LibGridColum("Cuenta Destino", Width = 80)]
 		public string CodigoCuentaBancariaDestino { get; set; }
-		[LibGridColum("Concepto Bancario de Ingreso")]
+		[LibGridColum("Concepto Ingreso", Width = 80)]
 		public string CodigoConceptoIngreso { get; set; }
 	}
 }
