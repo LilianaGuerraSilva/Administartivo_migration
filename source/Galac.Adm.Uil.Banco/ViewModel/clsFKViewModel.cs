@@ -114,17 +114,17 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		public int Consecutivo { get; set; }
 		[LibGridColum("Status  ", eGridColumType.Enum, PrintingMemberPath = "StatusStr", Width = 50)]
 		public eStatusTransferenciaBancaria Status { get; set; }
-		[LibGridColum("Fecha  ", eGridColumType.DatePicker, Width = 50)]
+		[LibGridColum("Fecha  ", eGridColumType.DatePicker, Width = 80)]
 		public DateTime Fecha { get; set; }
-		[LibGridColum("Nº Documento  ", Width = 50)]
+		[LibGridColum("Nº Documento  ", Width = 120)]
 		public string NumeroDocumento { get; set; }
-		[LibGridColum("Cuenta Origen  ", Width = 80)]
+		[LibGridColum("Cuenta Origen  ", Width = 120)]
 		public string CodigoCuentaBancariaOrigen { get; set; }
-		[LibGridColum("Concepto Egreso", Width = 80)]
+		[LibGridColum("Concepto Egreso", Width = 120)]
 		public string CodigoConceptoEgreso { get; set; }
-		[LibGridColum("Cuenta Destino", Width = 80)]
+		[LibGridColum("Cuenta Destino", Width = 120)]
 		public string CodigoCuentaBancariaDestino { get; set; }
-		[LibGridColum("Concepto Ingreso", Width = 80)]
+		[LibGridColum("Concepto Ingreso", Width = 120)]
 		public string CodigoConceptoIngreso { get; set; }
 	}
 }
