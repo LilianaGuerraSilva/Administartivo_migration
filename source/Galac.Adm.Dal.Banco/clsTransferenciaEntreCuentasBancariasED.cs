@@ -582,16 +582,22 @@ namespace Galac.Adm.Dal.Banco {
 		private string SqlSpContabSch() {
 			StringBuilder vSQL = new StringBuilder();
 			StringBuilder vSqlComprobantePeriodo = new StringBuilder();
+			string vSqlStdSeparator = InsSql.ToSqlValue(LibGalac.Aos.Base.LibText.StandardSeparator());
+
 			vSqlComprobantePeriodo.AppendLine("      (SELECT Comprobante.NoDocumentoOrigen, COMPROBANTE.GeneradoPor, COMPROBANTE.ConsecutivoDocOrigen, ");
 			vSqlComprobantePeriodo.AppendLine("      Periodo.ConsecutivoCompania, Periodo.FechaAperturaDelPeriodo, Periodo.FechaCierreDelPeriodo  ");
 			vSqlComprobantePeriodo.AppendLine("      FROM COMPROBANTE INNER JOIN PERIODO ");
 			vSqlComprobantePeriodo.AppendLine("          ON  PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo");
 			vSqlComprobantePeriodo.AppendLine("          AND PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo) ");
-
+	
 			vSQL.AppendLine("BEGIN");
 			vSQL.AppendLine("   SET NOCOUNT ON;");
 			vSQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
 			vSQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+			vSQL.AppendLine("   DECLARE @SqlStatusNumero AS " + InsSql.VarCharTypeForDb(500));
+
+			vSQL.AppendLine("   SET @SqlStatusNumero = 'CAST(Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Status AS varchar) + ' + '''' + " + vSqlStdSeparator + " +  '''' +  ' + CAST(Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento AS varchar) '");
+
 			vSQL.AppendLine("   IF(@UseTopClausule = 'S') ");
 			vSQL.AppendLine("    SET @TopClausule = 'TOP 500'");
 			vSQL.AppendLine("   ELSE ");
@@ -615,8 +621,8 @@ namespace Galac.Adm.Dal.Banco {
 
 			vSQL.AppendLine("      FROM " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1 ");
 			vSQL.AppendLine("      LEFT JOIN " + vSqlComprobantePeriodo + " AS ComprobantePeriodo");
-			vSQL.AppendLine("      ON  " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo  = ComprobantePeriodo.ConsecutivoDocOrigen");
-			vSQL.AppendLine("      AND " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento = ComprobantePeriodo.NoDocumentoOrigen ");
+			vSQL.AppendLine("      ON  " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo = ComprobantePeriodo.ConsecutivoDocOrigen AND ' + @SqlStatusNumero ");
+			vSQL.AppendLine("      + ' = ComprobantePeriodo.NoDocumentoOrigen ");
 			vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('O','''') + '");
 			vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoCompania = " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania");
 			vSQL.AppendLine("      AND ComprobantePeriodo.FechaAperturaDelPeriodo < " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
@@ -628,6 +634,7 @@ namespace Galac.Adm.Dal.Banco {
 			vSQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
 			vSQL.AppendLine("   EXEC(@strSQL)");
 			vSQL.AppendLine("END");
+
 			return vSQL.ToString();
 		}
 		#endregion //Metodos Generados
