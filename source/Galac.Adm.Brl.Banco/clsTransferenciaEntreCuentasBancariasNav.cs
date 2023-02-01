@@ -122,7 +122,7 @@ namespace Galac.Adm.Brl.Banco {
 				vAlicuota = vCuentaBancariaPdn.ObtieneAlicuotaIGTF(item.ConsecutivoCompania, item.CodigoCuentaBancariaDestino, item.Fecha);
 				vList.Add(GenerarMovimientoBancarioIngreso(item, vAlicuota));
 				if (item.GeneraComisionIngresoAsBool) {
-					vList.Add(GenerarMovimientoBancarioComisionIngreso(item, vAlicuota));
+					vList.Add(GenerarMovimientoBancarioComisionIngreso(item));
 					if (item.GeneraIGTFComisionIngresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) && vAlicuota > 0.0m) {
 						vList.Add(GenerarMovimientoBancarioImpuestoIngreso(item, vAlicuota));
 					}
@@ -250,7 +250,7 @@ namespace Galac.Adm.Brl.Banco {
 			};
 		}
 
-		private MovimientoBancario GenerarMovimientoBancarioComisionIngreso(TransferenciaEntreCuentasBancarias item, decimal valAlicuota) {
+		private MovimientoBancario GenerarMovimientoBancarioComisionIngreso(TransferenciaEntreCuentasBancarias item) {
 			return new MovimientoBancario() {
 				ConsecutivoCompania = item.ConsecutivoCompania,
 				CodigoCtaBancaria = item.CodigoCuentaBancariaDestino,

@@ -889,7 +889,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private string MensajeValidacionMontos {
-			get { return "Si las Monedas de las Cuentas Bancarias coinciden, El Monto de Ingreso no debe ser mayor al Monto de Egreso."; }
+			get { return "Si las Monedas de las Cuentas Bancarias coinciden, el Monto de Ingreso no debe ser mayor al Monto de Egreso."; }
 
 		}
 		#endregion //Propiedades
