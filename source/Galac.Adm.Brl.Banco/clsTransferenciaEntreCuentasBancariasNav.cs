@@ -113,20 +113,19 @@ namespace Galac.Adm.Brl.Banco {
 			foreach (TransferenciaEntreCuentasBancarias item in refRecord) {
 				vAlicuota = vCuentaBancariaPdn.ObtieneAlicuotaIGTF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen, item.Fecha);
 				vList.Add(GenerarMovimientoBancarioEgreso(item, vAlicuota));
-				if (item.GeneraIGTFComisionEgresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) && vAlicuota > 0.0m) {
-					vList.Add(GenerarMovimientoBancarioImpuestoEgreso(item, vAlicuota / 100.0m));
-				}
 				if (item.GeneraComisionEgresoAsBool) {
-					vList.Add(GenerarMovimientoBancarioComisionEgreso(item));
+					vList.Add(GenerarMovimientoBancarioComisionEgreso(item, vAlicuota));
+					if (item.GeneraIGTFComisionEgresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) && vAlicuota > 0.0m) {
+						vList.Add(GenerarMovimientoBancarioImpuestoEgreso(item, vAlicuota));
+					}
 				}
-
 				vAlicuota = vCuentaBancariaPdn.ObtieneAlicuotaIGTF(item.ConsecutivoCompania, item.CodigoCuentaBancariaDestino, item.Fecha);
 				vList.Add(GenerarMovimientoBancarioIngreso(item, vAlicuota));
-				if (item.GeneraIGTFComisionIngresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) && vAlicuota > 0.0m) {
-					vList.Add(GenerarMovimientoBancarioImpuestoIngreso(item, vAlicuota / 100.0m));
-				}
 				if (item.GeneraComisionIngresoAsBool) {
 					vList.Add(GenerarMovimientoBancarioComisionIngreso(item));
+					if (item.GeneraIGTFComisionIngresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) && vAlicuota > 0.0m) {
+						vList.Add(GenerarMovimientoBancarioImpuestoIngreso(item, vAlicuota));
+					}
 				}
 			}
 			if (vResult.Success = vMovimientoBancarioPdn.Insert(vList)) {
@@ -145,7 +144,7 @@ namespace Galac.Adm.Brl.Banco {
 				Monto = item.MontoTransferenciaEgreso,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = item.Descripcion,
-				GeneraImpuestoBancarioAsBool = item.GeneraIGTFComisionEgresoAsBool,
+				GeneraImpuestoBancarioAsBool = false,
 				AlicuotaImpBancario = item.GeneraIGTFComisionEgresoAsBool ? valAlicuota : 0.0m,
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresEgreso,
@@ -168,7 +167,7 @@ namespace Galac.Adm.Brl.Banco {
 				Monto = item.MontoTransferenciaIngreso,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = item.Descripcion,
-				GeneraImpuestoBancarioAsBool = item.GeneraIGTFComisionIngresoAsBool,
+				GeneraImpuestoBancarioAsBool = false,
 				AlicuotaImpBancario = item.GeneraIGTFComisionIngresoAsBool ? valAlicuota : 0.0m,
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresIngreso,
@@ -188,12 +187,12 @@ namespace Galac.Adm.Brl.Banco {
 				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoDebitoBancario"),
 				Fecha = item.Fecha,
 				TipoConceptoAsEnum = eIngresoEgreso.Egreso,
-				Monto = LibMath.RoundToNDecimals(item.MontoComisionEgreso * valAlicuota, 2),
+				Monto = LibMath.RoundToNDecimals(item.MontoComisionEgreso * valAlicuota/100, 2),
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = string.Format("Impuesto por egreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
 				GeneraImpuestoBancarioAsBool = false,
-				AlicuotaImpBancario = 0,
-				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
+				AlicuotaImpBancario = item.GeneraIGTFComisionEgresoAsBool ? valAlicuota : 0.0m,
+				GeneradoPorAsEnum = eGeneradoPor.DebitoBancario,
 				CambioABolivares = item.CambioABolivaresEgreso,
 				ImprimirChequeAsBool = false,
 				ConciliadoSNAsBool = false,
@@ -201,33 +200,34 @@ namespace Galac.Adm.Brl.Banco {
 				GenerarAsientoDeRetiroEnCuentaAsBool = false,
 				NombreOperador = item.NombreOperador,
 				FechaUltimaModificacion = LibDate.Today(),
-			};
+			};			
 		}
 
 		private MovimientoBancario GenerarMovimientoBancarioImpuestoIngreso(TransferenciaEntreCuentasBancarias item, decimal valAlicuota) {
-			return new MovimientoBancario() {
-				ConsecutivoCompania = item.ConsecutivoCompania,
-				CodigoCtaBancaria = item.CodigoCuentaBancariaDestino,
-				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"),
-				Fecha = item.Fecha,
-				TipoConceptoAsEnum = eIngresoEgreso.Egreso,
-				Monto = LibMath.RoundToNDecimals(item.MontoComisionIngreso * valAlicuota,2),
-				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
-				Descripcion = string.Format("Impuesto por ingreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
-				GeneraImpuestoBancarioAsBool = false,
-				AlicuotaImpBancario = 0,
-				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
-				CambioABolivares = item.CambioABolivaresIngreso,
-				ImprimirChequeAsBool = false,
-				ConciliadoSNAsBool = false,
-				NroConciliacion = string.Empty,
-				GenerarAsientoDeRetiroEnCuentaAsBool = false,
-				NombreOperador = item.NombreOperador,
-				FechaUltimaModificacion = LibDate.Today(),
-			};
+			return null;
+			//return new MovimientoBancario() {
+			//	ConsecutivoCompania = item.ConsecutivoCompania,
+			//	CodigoCtaBancaria = item.CodigoCuentaBancariaDestino,
+			//	CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"),
+			//	Fecha = item.Fecha,
+			//	TipoConceptoAsEnum = eIngresoEgreso.Egreso,
+			//	Monto = LibMath.RoundToNDecimals(item.MontoComisionIngreso * valAlicuota/100,2),
+			//	NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
+			//	Descripcion = string.Format("Impuesto por ingreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
+			//	GeneraImpuestoBancarioAsBool = false,
+			//	AlicuotaImpBancario = item.GeneraIGTFComisionIngresoAsBool ? valAlicuota : 0.0m,
+			//	GeneradoPorAsEnum = eGeneradoPor.DebitoBancario,
+			//	CambioABolivares = item.CambioABolivaresIngreso,
+			//	ImprimirChequeAsBool = false,
+			//	ConciliadoSNAsBool = false,
+			//	NroConciliacion = string.Empty,
+			//	GenerarAsientoDeRetiroEnCuentaAsBool = false,
+			//	NombreOperador = item.NombreOperador,
+			//	FechaUltimaModificacion = LibDate.Today(),
+			//};
 		}
 
-		private MovimientoBancario GenerarMovimientoBancarioComisionEgreso(TransferenciaEntreCuentasBancarias item) {
+		private MovimientoBancario GenerarMovimientoBancarioComisionEgreso(TransferenciaEntreCuentasBancarias item, decimal valAlicuota) {
 			return new MovimientoBancario() {
 				ConsecutivoCompania = item.ConsecutivoCompania,
 				CodigoCtaBancaria = item.CodigoCuentaBancariaOrigen,
@@ -237,8 +237,8 @@ namespace Galac.Adm.Brl.Banco {
 				Monto = item.MontoComisionEgreso,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = string.Format("Comisión por egreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
-				GeneraImpuestoBancarioAsBool = false,
-				AlicuotaImpBancario = 0,
+				GeneraImpuestoBancarioAsBool = item.GeneraIGTFComisionEgresoAsBool,
+				AlicuotaImpBancario = item.GeneraIGTFComisionEgresoAsBool ? valAlicuota : 0.0m,
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresEgreso,
 				ImprimirChequeAsBool = false,

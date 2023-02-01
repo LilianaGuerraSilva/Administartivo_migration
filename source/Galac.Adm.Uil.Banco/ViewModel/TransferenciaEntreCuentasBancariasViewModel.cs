@@ -878,6 +878,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				return !IsVisibleEscogerNumeroTransferencia;
 			}
 		}
+
 		public bool IsVisibleAlContabilizar {
 			get {
 				return _IsVisibleAlContabilizar;
@@ -885,6 +886,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			set {
 				_IsVisibleAlContabilizar = value;
 			}
+		}
+
+		private string MensajeValidacionMontos {
+			get { return "Si las Monedas de las Cuentas Bancarias coinciden, el Monto de Ingreso no debe ser mayor al Monto de Egreso."; }
+
 		}
 		#endregion //Propiedades
 
@@ -1108,7 +1114,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			} else if (MontoTransferenciaEgreso <= 0) {
 				vResult = new ValidationResult("El campo Monto de Egreso debe ser mayor que 0.");
 			} else if (!LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaOrigen, true) && LibString.S1IsEqualToS2(CodigoMonedaCuentaBancariaOrigen, CodigoMonedaCuentaBancariaDestino) && MontoTransferenciaEgreso < MontoTransferenciaIngreso) {
-				vResult = new ValidationResult("Si las Monedas de las Cuentas Bancarias coinciden, El Monto de Ingreso no debe ser mayor al Monto de Egreso.");
+				vResult = new ValidationResult(MensajeValidacionMontos);
 			}
 			return vResult;
 		}
@@ -1142,7 +1148,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			} else if (MontoTransferenciaIngreso <= 0) {
 				vResult = new ValidationResult("El campo Monto de Ingreso debe ser mayor que 0.");
 			} else if (!LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaDestino, true) && LibString.S1IsEqualToS2(CodigoMonedaCuentaBancariaOrigen, CodigoMonedaCuentaBancariaDestino) && MontoTransferenciaEgreso < MontoTransferenciaIngreso) {
-				vResult = new ValidationResult("Si las Monedas de las Cuentas Bancarias coinciden, El Monto de Ingreso no debe ser mayor al Monto de Egreso.");
+				vResult = new ValidationResult(MensajeValidacionMontos);
 			}
 			return vResult;
 		}
@@ -1369,18 +1375,22 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private void ExecuteChooseNumeroTransferenciaCommand(string valNumero) {
 			string vModuleName = "Transferencia entre Cuentas Bancarias";
 				try {
-					if (valNumero == null) {
-						valNumero = string.Empty;
-					}
-					LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
-					LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-					if (Action == LibGalac.Aos.Base.eAccionSR.Anular) {
-						vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
-					} else if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-						vModuleName = "ContabilizarTransferenciaEntreCuentasBancarias";
-					}
-					ConexionNumeroTransferencia = null;
-					ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
+				if (valNumero == null) {
+					valNumero = string.Empty;
+				}
+				LibSearchCriteria vSearchcriteria = null;
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+				if (Action == LibGalac.Aos.Base.eAccionSR.Anular) {
+					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
+					vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
+				} else if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
+					//LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.StatusStr", valNumero);
+					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
+					vModuleName = "ContabilizarTransferenciaEntreCuentasBancarias";
+				}
+				ConexionNumeroTransferencia = null;
+				LibSearchCriteria vSearchcriteria1 = vSearchcriteria;
+				ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria1, vFixedCriteria, string.Empty);
 					if (ConexionNumeroTransferencia == null) {
 						NumeroDocumento = "";
 					} else {

@@ -537,10 +537,12 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
    Dim vCodigoCuentaBancaria As String
    Dim insMovimientoBancario As clsMovimientoBancarioNavigator
    Dim insCtaBancaria As clsCuentaBancariaNavigator
+   Dim vNroDocContabiliacion As String
    On Error GoTo h_ERROR
    Continuar = True
    Set insMovimientoBancario = New clsMovimientoBancarioNavigator
    Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("TransferenciaEntreCuentasBancarias", "wrpTransferenciaEntreCuentasBancarias"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
+   
    parametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
    vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), parametros)
    If (vDatos <> "") Then
@@ -554,16 +556,14 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
             vCodigoCuentaBancaria = gLibGalacDataParse.GetString(0, "CodigoCuentaBancariaOrigen")
             vFechaAnulacion = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaDeAnulacion", ""))
             vStatus = gLibGalacDataParse.GetString(0, "Status")
+            vNroDocContabiliacion = gConvert.enumerativoAChar(gEnumProyecto.strStatusTransferenciaEntreCuentasToNum(vStatus)) & gTexto.fSeparadorStandardDeElementosString & vNumero
             Set TransferenciaEntreCuentasNav = New clsTransferenciaEntreCuentasNav
             Set generarComprobanteNavigator = New clsGenerarComprobanteNavigator
-            If (vStatus <> gEnumProyecto.enumStatusTransferenciaEntreCuentasToString(eSTEC_ANULADA)) Then
-               If (generarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNumero, False, False, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo)) Then
-                   Set insCtaBancaria = New clsCuentaBancariaNavigator
-                   insMovimientoBancario.sCargarValoresDeLaCuentaBancaria insCtaBancaria, vCodigoCuentaBancaria, False
-                   generarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNumero, False, True, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo, insCtaBancaria.GetTipoDeAlicuotaPorContribuyenteAsEnum
-               End If
-            Else
-               TransferenciaEntreCuentasNav.fAnularTransferenciaEntreCuentasBancarias True, vFechaAnulacion, vNumero, vFecha, vConsecutivo, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha
+            If (generarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNumero, False, False, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo)) Then
+                Set insCtaBancaria = New clsCuentaBancariaNavigator
+                insMovimientoBancario.sCargarValoresDeLaCuentaBancaria insCtaBancaria, vCodigoCuentaBancaria, False
+                generarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNroDocContabiliacion, False, True, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo, insCtaBancaria.GetTipoDeAlicuotaPorContribuyenteAsEnum
+               Set insCtaBancaria = Nothing
             End If
             Set generarComprobanteNavigator = Nothing
             Set TransferenciaEntreCuentasNav = Nothing
