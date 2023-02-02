@@ -570,21 +570,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
 			get {
-				if (Action == eAccionSR.Insertar) {
-					return IsEnabled && ManejaDebitoBancario;
-				} else {
-					return IsEnabled && ManejaDebitoBancario && !EsEcuador();
-				}
+				return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 			}
 		}
 
 		public bool IsEnabledExcluirDelInformeDeDeclaracionIGTF {
 			get {
-				if (Action == eAccionSR.Insertar) {
-					return IsEnabled && ManejaDebitoBancario;
-				} else {
-					return IsEnabled && ManejaDebitoBancario && !EsEcuador();
-				}
+				return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 			}
 		}
 		

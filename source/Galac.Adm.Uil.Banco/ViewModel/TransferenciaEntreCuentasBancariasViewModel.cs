@@ -68,6 +68,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		public const string IsEnabledGeneraIGTFComisionEgresoPropertyName = "IsEnabledGeneraIGTFComisionEgreso";
 		public const string IsEnabledGeneraComisionIngresoPropertyName = "IsEnabledGeneraComisionIngreso";
 		public const string IsEnabledGeneraIGTFComisionIngresoPropertyName = "IsEnabledGeneraIGTFComisionIngreso";
+		public const string IsVisibleAlContabilizarPropertyName = "IsVisibleAlContabilizar";
 		#endregion
 
 		#region Variables
@@ -81,10 +82,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private FkMonedaViewModel _ConexionCodigoMonedaIngreso = null;
 		private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
 		private FkTransferenciaEntreCuentasBancariasViewModel _ConexionNumeroTransferencia;
-		#endregion //Variables
+        private bool _IsVisibleAlContabilizar;
+        #endregion //Variables
 
-		#region Propiedades
-		public override string ModuleName {
+        #region Propiedades
+        public override string ModuleName {
 			get { return "Transferencia entre Cuentas Bancarias"; }
 		}
 
@@ -99,7 +101,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		//[LibGridColum("Consecutivo", eGridColumType.Integer, Alignment = eTextAlignment.Right, Width = 80)]
 		public int Consecutivo {
 			get {
 				return Model.Consecutivo;
@@ -877,6 +878,20 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				return !IsVisibleEscogerNumeroTransferencia;
 			}
 		}
+
+		public bool IsVisibleAlContabilizar {
+			get {
+				return _IsVisibleAlContabilizar;
+			}
+			set {
+				_IsVisibleAlContabilizar = value;
+			}
+		}
+
+		private string MensajeValidacionMontos {
+			get { return "Si las Monedas de las Cuentas Bancarias coinciden, el Monto de Ingreso no debe ser mayor al Monto de Egreso."; }
+
+		}
 		#endregion //Propiedades
 
 		#region Constructores
@@ -888,8 +903,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			: base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
 			DefaultFocusedPropertyName = NumeroDocumentoPropertyName;
 			Model.ConsecutivoCompania = Mfc.GetInt("Compania");
-			IsInsertar = initAction == eAccionSR.Insertar;
+			IsInsertar = (initAction == eAccionSR.Insertar);
 			vMonedaLocal = new Saw.Lib.clsNoComunSaw();
+			IsVisibleAlContabilizar = (initAction != eAccionSR.Contabilizar);
 		}
 
 		public TransferenciaEntreCuentasBancariasViewModel(eAccionSR initAction)
@@ -1098,7 +1114,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			} else if (MontoTransferenciaEgreso <= 0) {
 				vResult = new ValidationResult("El campo Monto de Egreso debe ser mayor que 0.");
 			} else if (!LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaOrigen, true) && LibString.S1IsEqualToS2(CodigoMonedaCuentaBancariaOrigen, CodigoMonedaCuentaBancariaDestino) && MontoTransferenciaEgreso < MontoTransferenciaIngreso) {
-				vResult = new ValidationResult("Si las Monedas de las Cuentas Bancarias coinciden, El Monto de Ingreso no debe ser mayor al Monto de Egreso.");
+				vResult = new ValidationResult(MensajeValidacionMontos);
 			}
 			return vResult;
 		}
@@ -1132,7 +1148,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			} else if (MontoTransferenciaIngreso <= 0) {
 				vResult = new ValidationResult("El campo Monto de Ingreso debe ser mayor que 0.");
 			} else if (!LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaDestino, true) && LibString.S1IsEqualToS2(CodigoMonedaCuentaBancariaOrigen, CodigoMonedaCuentaBancariaDestino) && MontoTransferenciaEgreso < MontoTransferenciaIngreso) {
-				vResult = new ValidationResult("Si las Monedas de las Cuentas Bancarias coinciden, El Monto de Ingreso no debe ser mayor al Monto de Egreso.");
+				vResult = new ValidationResult(MensajeValidacionMontos);
 			}
 			return vResult;
 		}
@@ -1224,6 +1240,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					RaisePropertyChanged(NumeroDocumentoPropertyName);
 					if (ConexionNumeroTransferencia != null) {
 						NumeroDocumento = ConexionNumeroTransferencia.NumeroDocumento;
+						RaisePropertyChanged(NumeroDocumentoPropertyName);
+                        IsVisibleAlContabilizar = true;
+						RaisePropertyChanged(IsVisibleAlContabilizarPropertyName);
 					}
 				}
 				if (_ConexionNumeroTransferencia == null) {
@@ -1355,21 +1374,23 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		private void ExecuteChooseNumeroTransferenciaCommand(string valNumero) {
 			string vModuleName = "Transferencia entre Cuentas Bancarias";
-			if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar || Action == LibGalac.Aos.Base.eAccionSR.Anular) { 
 				try {
-					if (valNumero == null) {
-						valNumero = string.Empty;
-					}
-					LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
-					LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-					if (Action == LibGalac.Aos.Base.eAccionSR.Anular) {
-						vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
-					} else if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-						vModuleName = "Contabilizar Transferencia Entre Cuentas Bancarias";
-						vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
-					}
-					ConexionNumeroTransferencia = null;
-					ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
+				if (valNumero == null) {
+					valNumero = string.Empty;
+				}
+				LibSearchCriteria vSearchcriteria = null;
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+				if (Action == LibGalac.Aos.Base.eAccionSR.Anular) {
+					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
+					vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
+				} else if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
+					//LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.StatusStr", valNumero);
+					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
+					vModuleName = "ContabilizarTransferenciaEntreCuentasBancarias";
+				}
+				ConexionNumeroTransferencia = null;
+				LibSearchCriteria vSearchcriteria1 = vSearchcriteria;
+				ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria1, vFixedCriteria, string.Empty);
 					if (ConexionNumeroTransferencia == null) {
 						NumeroDocumento = "";
 					} else {
@@ -1384,7 +1405,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				} catch (System.Exception vEx) {
 					LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
 				}
-			}
 		}
 		protected override bool RecordIsReadOnly() {
 			return base.RecordIsReadOnly() || Action == eAccionSR.Contabilizar;
