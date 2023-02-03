@@ -33,7 +33,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		public const string SaldoCuentaBancariaOrigenPropertyName = "SaldoCuentaBancariaOrigen";
 		public const string CodigoMonedaCuentaBancariaOrigenPropertyName = "CodigoMonedaCuentaBancariaOrigen";
 		public const string NombreMonedaCuentaBancariaOrigenPropertyName = "NombreMonedaCuentaBancariaOrigen";
-		public const string ManejaDebitoCuentaBancariaOrigenPropertyName = "ManejaDebitoCuentaBancariaOrigen";
 		public const string CambioABolivaresEgresoPropertyName = "CambioABolivaresEgreso";
 		public const string MontoTransferenciaEgresoPropertyName = "MontoTransferenciaEgreso";
 		public const string CodigoConceptoEgresoPropertyName = "CodigoConceptoEgreso";
@@ -49,7 +48,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		public const string SaldoCuentaBancariaDestinoPropertyName = "SaldoCuentaBancariaDestino";
 		public const string CodigoMonedaCuentaBancariaDestinoPropertyName = "CodigoMonedaCuentaBancariaDestino";
 		public const string NombreMonedaCuentaBancariaDestinoPropertyName = "NombreMonedaCuentaBancariaDestino";
-		public const string ManejaCreditoCuentaBancariaDestinoPropertyName = "ManejaCreditoCuentaBancariaDestino";
 		public const string CambioABolivaresIngresoPropertyName = "CambioABolivaresIngreso";
 		public const string MontoTransferenciaIngresoPropertyName = "MontoTransferenciaIngreso";
 		public const string CodigoConceptoIngresoPropertyName = "CodigoConceptoIngreso";
@@ -63,8 +61,8 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		public const string NombreOperadorPropertyName = "NombreOperador";
 		public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 		public const string IsEnabledGeneraComisionEgresoPropertyName = "IsEnabledGeneraComisionEgreso";
-		public const string IsEnabledGeneraIGTFComisionEgresoPropertyName = "IsEnabledGeneraIGTFComisionEgreso";
 		public const string IsEnabledGeneraComisionIngresoPropertyName = "IsEnabledGeneraComisionIngreso";
+		public const string IsEnabledGeneraIGTFComisionEgresoPropertyName = "IsEnabledGeneraIGTFComisionEgreso";
 		public const string IsEnabledGeneraIGTFComisionIngresoPropertyName = "IsEnabledGeneraIGTFComisionIngreso";
 		public const string IsVisibleAlContabilizarPropertyName = "IsVisibleAlContabilizar";
 		public const string IsEnabledCambioABolivaresEgresoPropertyName = "IsEnabledCambioABolivaresEgreso";
@@ -269,19 +267,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		public bool ManejaDebitoCuentaBancariaOrigen {
-			get {
-				return Model.ManejaDebitoCuentaBancariaOrigenAsBool;
-			}
-			set {
-				if (Model.ManejaDebitoCuentaBancariaOrigenAsBool != value) {
-					Model.ManejaDebitoCuentaBancariaOrigenAsBool = value;
-					IsDirty = true;
-					RaisePropertyChanged(ManejaDebitoCuentaBancariaOrigenPropertyName);
-				}
-			}
-		}
-
 		[LibCustomValidation("CambioABolivaresEgresoValidating")]
 		public decimal CambioABolivaresEgreso {
 			get {
@@ -354,6 +339,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					DescripcionConceptoComisionEgreso = string.Empty;
 					RaisePropertyChanged(GeneraComisionEgresoPropertyName);
 					RaisePropertyChanged(IsEnabledGeneraComisionEgresoPropertyName);
+					RaisePropertyChanged(IsEnabledGeneraIGTFComisionEgresoPropertyName);
 				}
 			}
 		}
@@ -500,19 +486,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-		public bool ManejaCreditoCuentaBancariaDestino {
-			get {
-				return Model.ManejaCreditoCuentaBancariaDestinoAsBool;
-			}
-			set {
-				if (Model.ManejaCreditoCuentaBancariaDestinoAsBool != value) {
-					Model.ManejaCreditoCuentaBancariaDestinoAsBool = value;
-					IsDirty = true;
-					RaisePropertyChanged(ManejaCreditoCuentaBancariaDestinoPropertyName);
-				}
-			}
-		}
-
 		[LibCustomValidation("CambioABolivaresIngresoValidating")]
 		public decimal CambioABolivaresIngreso {
 			get {
@@ -586,6 +559,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					DescripcionConceptoComisionIngreso = string.Empty;
 					RaisePropertyChanged(GeneraComisionIngresoPropertyName);
 					RaisePropertyChanged(IsEnabledGeneraComisionIngresoPropertyName);
+					RaisePropertyChanged(IsEnabledGeneraIGTFComisionIngresoPropertyName);
 				}
 			}
 		}
@@ -702,14 +676,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					SaldoCuentaBancariaOrigen = 0;
 					CodigoMonedaCuentaBancariaOrigen = string.Empty;
 					NombreMonedaCuentaBancariaOrigen = string.Empty;
-					GeneraIGTFComisionEgreso = ManejaDebitoCuentaBancariaOrigen = false;
+					//GeneraIGTFComisionEgreso = (IsVisibleGeneraIGTFComisionEgreso == false);
 				} else {
 					CodigoCuentaBancariaOrigen = value.Codigo;
 					NombreCuentaBancariaOrigen = value.NombreCuenta;
 					SaldoCuentaBancariaOrigen = value.SaldoDisponible;
 					CodigoMonedaCuentaBancariaOrigen = value.CodigoMoneda;
 					NombreMonedaCuentaBancariaOrigen = value.NombreDeLaMoneda;
-					GeneraIGTFComisionEgreso = (ManejaDebitoCuentaBancariaOrigen == value.ManejaDebitoBancario);
+					//GeneraIGTFComisionEgreso = (IsVisibleGeneraIGTFComisionEgreso == value.ManejaDebitoBancario);
 				}
 			}
 		}
@@ -767,14 +741,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					SaldoCuentaBancariaDestino = 0;
 					CodigoMonedaCuentaBancariaDestino = string.Empty;
 					NombreMonedaCuentaBancariaDestino = string.Empty;
-					GeneraIGTFComisionIngreso = ManejaCreditoCuentaBancariaDestino = false;
+					//GeneraIGTFComisionIngreso = (IsVisibleGeneraIGTFComisionIngreso == false);
 				} else {
 					CodigoCuentaBancariaDestino = value.Codigo;
 					NombreCuentaBancariaDestino = value.NombreCuenta;
 					SaldoCuentaBancariaDestino = value.SaldoDisponible;
 					CodigoMonedaCuentaBancariaDestino = value.CodigoMoneda;
 					NombreMonedaCuentaBancariaDestino = value.NombreDeLaMoneda;
-					GeneraIGTFComisionIngreso = (ManejaCreditoCuentaBancariaDestino == value.ManejaCreditoBancario);
+					//GeneraIGTFComisionIngreso = (IsVisibleGeneraIGTFComisionIngreso == value.ManejaCreditoBancario);
 				}
 			}
 		}
@@ -903,9 +877,22 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			get { return IsInsertar && !vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino); }
 		}
 		private string MensajeValidacionMontos {
-			get { return "Si las Monedas de las Cuentas Bancarias coinciden, el Monto de Ingreso no debe ser mayor al Monto de Egreso."; }
+			get { return "El Monto de Ingreso debe ser menor igual al de Egreso, cuando la moneda de ambas cuentas coincide."; }
 
 		}
+
+		public bool IsEnabledGeneraIGTFComisionEgreso {
+            get {
+				return IsInsertar && GeneraComisionEgreso &&
+				  (ConexionCodigoCuentaBancariaOrigen != null && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario); }
+        }
+
+		public bool IsEnabledGeneraIGTFComisionIngreso {
+            get {
+				return IsInsertar && GeneraComisionIngreso &&
+				  (ConexionCodigoCuentaBancariaDestino != null && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario); }
+        }
+
 		#endregion //Propiedades
 
 		#region Constructores

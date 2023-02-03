@@ -24,7 +24,6 @@ namespace Galac.Adm.Ccl.Banco {
 		private decimal _SaldoCuentaBancariaOrigen;
 		private string _CodigoMonedaCuentaBancariaOrigen;
 		private string _NombreMonedaCuentaBancariaOrigen;
-		private bool _ManejaDebitoCuentaBancariaOrigen;
 		private decimal _CambioABolivaresEgreso;
 		private decimal _MontoTransferenciaEgreso;
 		private string _CodigoConceptoEgreso;
@@ -39,7 +38,6 @@ namespace Galac.Adm.Ccl.Banco {
 		private decimal _SaldoCuentaBancariaDestino;
 		private string _CodigoMonedaCuentaBancariaDestino;
 		private string _NombreMonedaCuentaBancariaDestino;
-		private bool _ManejaCreditoCuentaBancariaDestino;
 		private decimal _CambioABolivaresIngreso;
 		private decimal _MontoTransferenciaIngreso;
 		private string _CodigoConceptoIngreso;
@@ -128,15 +126,6 @@ namespace Galac.Adm.Ccl.Banco {
 			set { _NombreMonedaCuentaBancariaOrigen = LibString.Mid(value, 0, 80); }
 		}
 
-		public bool ManejaDebitoCuentaBancariaOrigenAsBool {
-			get { return _ManejaDebitoCuentaBancariaOrigen; }
-			set { _ManejaDebitoCuentaBancariaOrigen = value; }
-		}
-
-		public string ManejaDebitoCuentaBancariaOrigen {
-			set { _ManejaDebitoCuentaBancariaOrigen = LibConvert.SNToBool(value); }
-		}
-
 		public decimal CambioABolivaresEgreso {
 			get { return _CambioABolivaresEgreso; }
 			set { _CambioABolivaresEgreso = value; }
@@ -215,15 +204,6 @@ namespace Galac.Adm.Ccl.Banco {
 			set { _NombreMonedaCuentaBancariaDestino = LibString.Mid(value, 0, 80); }
 		}
 
-		public bool ManejaCreditoCuentaBancariaDestinoAsBool {
-			get { return _ManejaCreditoCuentaBancariaDestino; }
-			set { _ManejaCreditoCuentaBancariaDestino = value; }
-		}
-
-		public string ManejaCreditoCuentaBancariaDestino {
-			set { _ManejaCreditoCuentaBancariaDestino = LibConvert.SNToBool(value); }
-		}
-
 		public decimal CambioABolivaresIngreso {
 			get { return _CambioABolivaresIngreso; }
 			set { _CambioABolivaresIngreso = value; }
@@ -296,10 +276,10 @@ namespace Galac.Adm.Ccl.Banco {
 			get { return _datos; }
 			set { _datos = value; }
 		}
-		#endregion //Propiedades
+        #endregion //Propiedades
 
-		#region Constructores
-		public TransferenciaEntreCuentasBancarias() {
+        #region Constructores
+        public TransferenciaEntreCuentasBancarias() {
 			Clear();
 		}
 		#endregion //Constructores
