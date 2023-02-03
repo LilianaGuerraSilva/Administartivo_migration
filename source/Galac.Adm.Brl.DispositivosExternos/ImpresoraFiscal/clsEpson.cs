@@ -152,9 +152,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private void AjustarAnchoDeLineaSegunModelo() {
             if (_ModeloEpson.Equals(eImpresoraFiscal.EPSON_PF_300)) {
                 PFTipoImp("300");
-                _MaxCantidadCaracteres = 48;               
+                _MaxCantidadCaracteres = 48;
             } else {
-                _MaxCantidadCaracteres = 38;                
+                _MaxCantidadCaracteres = 38;
                 PFTipoImp("0");
             }
         }
@@ -487,7 +487,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
 
         public bool ImprimirFacturaFiscal(XElement vDocumentoFiscal) {
             bool vResult = false;
-            try {                
+            try {
                 AbrirConexion();
                 if (AbrirComprobanteFiscal(vDocumentoFiscal)) {
                     vResult = ImprimirTodosLosArticulos(vDocumentoFiscal);
@@ -693,16 +693,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad, _EnterosParaCantidad, _DecimalesParaCantidad, ".");
                     vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaMonto, _DecimalesParaMonto, ".");
                     vDescripcion = vCodigo + "|" + vDescripcion;
+                    vDescipcionExtendida = "";
                     if (LibString.Len(vDescripcion) > _MaxCantidadCaracteresDescripcion) {
-                        vDescipcionExtendida = LibString.SubString(vDescripcion, _MaxCantidadCaracteresDescripcion, _MaxCantidadCaracteresDescripcion);
-                        vDescripcion = LibText.Left(vDescripcion, _MaxCantidadCaracteresDescripcion);
-                    }                    
-                    vResultado = PFrenglon(vDescripcion, vCantidad, vMonto, vPorcentajeAlicuota);
-                    vEstatus &= CheckRequest(vResultado, ref vMensaje);
-                    if (!LibString.IsNullOrEmpty(vDescipcionExtendida)) {
+                        vDescipcionExtendida = LibString.Left(vDescripcion, _MaxCantidadCaracteresDescripcion);
+                        vDescripcion = LibString.SubString(vDescripcion, _MaxCantidadCaracteresDescripcion, _MaxCantidadCaracteresDescripcion);
                         vResultado = PFTfiscal(vDescipcionExtendida);
                         vEstatus &= CheckRequest(vResultado, ref vMensaje);
                     }
+                    vResultado = PFrenglon(vDescripcion, vCantidad, vMonto, vPorcentajeAlicuota);
+                    vEstatus &= CheckRequest(vResultado, ref vMensaje);
                     if (!vEstatus) {
                         throw new GalacException("Error al Imprimir Articulo", eExceptionManagementType.Controlled);
                     }
