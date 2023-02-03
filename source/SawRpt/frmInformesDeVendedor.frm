@@ -88,13 +88,13 @@ Begin VB.Form frmInformesDeVendedor
       Begin VB.OptionButton optImprimirInforme 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
-         Caption         =   "Listado de Vendores por Comisión por Línea de Producto ...................................................."
+         Caption         =   "Listado de Vendedores por Comisión por Línea de Producto..........................................."
          ForeColor       =   &H00A84439&
-         Height          =   495
+         Height          =   585
          Index           =   1
          Left            =   120
          TabIndex        =   1
-         Top             =   975
+         Top             =   870
          Width           =   3570
       End
    End
@@ -181,7 +181,7 @@ Begin VB.Form frmInformesDeVendedor
       AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BackStyle       =   0  'Transparent
-      Caption         =   "Titulo del Informe"
+      Caption         =   "Título del Informe"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   12
@@ -192,11 +192,11 @@ Begin VB.Form frmInformesDeVendedor
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H000040C0&
-      Height          =   345
+      Height          =   300
       Left            =   4050
       TabIndex        =   17
       Top             =   135
-      Width           =   2115
+      Width           =   2100
    End
 End
 Attribute VB_Name = "frmInformesDeVendedor"

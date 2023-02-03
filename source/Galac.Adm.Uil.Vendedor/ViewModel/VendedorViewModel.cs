@@ -126,7 +126,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "Nombre del Vendedor es requerido.")]
-        [LibGridColum("Nombre", ColumnOrder = 1)]
+        [LibGridColum("Nombre", ColumnOrder = 1, Width = 220)]
         public string Nombre {
             get {
                 return Model.Nombre;
