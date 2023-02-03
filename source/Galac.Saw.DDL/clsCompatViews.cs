@@ -418,10 +418,45 @@ namespace Galac.Saw.DDL {
         }
 
         public static bool CrearVistaDboVendedor() {
-            return LibViews.CreateCompatibilityView("Vendedor", "SELECT ConsecutivoCompania, Codigo, Nombre, RIF, StatusVendedor, Direccion, Ciudad, ZonaPostal, Telefono, Fax, Email, Notas, ComisionPorVenta, ComisionPorCobro, TopeInicialVenta1, TopeFinalVenta1, PorcentajeVentas1, TopeFinalVenta2, PorcentajeVentas2, TopeFinalVenta3, PorcentajeVentas3, TopeFinalVenta4, PorcentajeVentas4, TopeFinalVenta5, PorcentajeVentas5, TopeInicialCobranza1, TopeFinalCobranza1, PorcentajeCobranza1, TopeFinalCobranza2, PorcentajeCobranza2, TopeFinalCobranza3, PorcentajeCobranza3, TopeFinalCobranza4, PorcentajeCobranza4, TopeFinalCobranza5, PorcentajeCobranza5, UsaComisionPorVenta, UsaComisionPorCobranza, CodigoLote, TipoDocumentoIdentificacion, NombreOperador, FechaUltimaModificacion, RutaDeComercializacion FROM Adm.Vendedor", true);
+            return LibViews.CreateCompatibilityView("Vendedor", "SELECT ConsecutivoCompania, " +
+                " Consecutivo, Codigo, Nombre, RIF, " +
+                " StatusVendedor, Direccion, Ciudad, ZonaPostal, Telefono, Fax, Email, Notas, " +
+                " CAST(Adm.Vendedor.ComisionPorVenta AS MONEY) AS ComisionPorVenta, " +
+                " CAST(Adm.Vendedor.ComisionPorCobro AS MONEY) AS ComisionPorCobro, " +
+                " CAST(Adm.Vendedor.TopeInicialVenta1 AS MONEY) AS TopeInicialVenta1, " +
+                " CAST(Adm.Vendedor.TopeFinalVenta1 AS MONEY) AS TopeFinalVenta1, " +
+                " CAST(Adm.Vendedor.PorcentajeVentas1 AS MONEY) AS PorcentajeVentas1, " +
+                " CAST(Adm.Vendedor.TopeFinalVenta2 AS MONEY) AS TopeFinalVenta2, " +
+                " CAST(Adm.Vendedor.PorcentajeVentas2 AS MONEY) AS PorcentajeVentas2, " +
+                " CAST(Adm.Vendedor.TopeFinalVenta3 AS MONEY) AS TopeFinalVenta3, " +
+                " CAST(Adm.Vendedor.PorcentajeVentas3 AS MONEY) AS PorcentajeVentas3, " +
+                " CAST(Adm.Vendedor.TopeFinalVenta4 AS MONEY) AS TopeFinalVenta4, " +
+                " CAST(Adm.Vendedor.PorcentajeVentas4 AS MONEY) AS PorcentajeVentas4, " +
+                " CAST(Adm.Vendedor.TopeFinalVenta5 AS MONEY) AS TopeFinalVenta5, " +
+                " CAST(Adm.Vendedor.PorcentajeVentas5 AS MONEY) AS PorcentajeVentas5, " +
+                " CAST(Adm.Vendedor.TopeInicialCobranza1 AS MONEY) AS TopeInicialCobranza1, " +
+                " CAST(Adm.Vendedor.TopeFinalCobranza1 AS MONEY) AS TopeFinalCobranza1, " +
+                " CAST(Adm.Vendedor.PorcentajeCobranza1 AS MONEY) AS PorcentajeCobranza1, " +
+                " CAST(Adm.Vendedor.TopeFinalCobranza2 AS MONEY) AS TopeFinalCobranza2, " +
+                " CAST(Adm.Vendedor.PorcentajeCobranza2 AS MONEY) AS PorcentajeCobranza2, " +
+                " CAST(Adm.Vendedor.TopeFinalCobranza3 AS MONEY) AS TopeFinalCobranza3, " +
+                " CAST(Adm.Vendedor.PorcentajeCobranza3 AS MONEY) AS PorcentajeCobranza3, " +
+                " CAST(Adm.Vendedor.TopeFinalCobranza4 AS MONEY) AS TopeFinalCobranza4, " +
+                " CAST(Adm.Vendedor.PorcentajeCobranza4 AS MONEY) AS PorcentajeCobranza4, " +
+                " CAST(Adm.Vendedor.TopeFinalCobranza5 AS MONEY) AS TopeFinalCobranza5, " +
+                " CAST(Adm.Vendedor.PorcentajeCobranza5 AS MONEY) AS PorcentajeCobranza5, " +
+                " UsaComisionPorVenta, UsaComisionPorCobranza, CodigoLote, TipoDocumentoIdentificacion," +
+                " NombreOperador, FechaUltimaModificacion, RutaDeComercializacion FROM Adm.Vendedor", true);
         }
-        public static bool CrearVistaDboVendedorDetalleComisiones() {
-            return LibViews.CreateCompatibilityView("VendedorDetalleComisiones", "SELECT Adm.VendedorDetalleComisiones.ConsecutivoCompania, Adm.Vendedor.Codigo AS CodigoVendedor, ConsecutivoRenglon, NombreDeLineaDeProducto, TipoDeComision, Monto, Porcentaje FROM Adm.VendedorDetalleComisiones INNER JOIN Adm.Vendedor ON Adm.Vendedor.ConsecutivoCompania = Adm.VendedorDetalleComisiones.ConsecutivoCompania AND Adm.Vendedor.Consecutivo = Adm.VendedorDetalleComisiones.ConsecutivoVendedor", true);
+        public static bool CrearVistaDboRenglonComisionesDeVendedor() {
+            return LibViews.CreateCompatibilityView("RenglonComisionesDeVendedor", "SELECT Adm.VendedorDetalleComisiones.ConsecutivoCompania, " +
+                " Adm.Vendedor.Codigo AS CodigoVendedor, ConsecutivoRenglon, NombreDeLineaDeProducto, TipoDeComision, " +
+                " CAST(Adm.VendedorDetalleComisiones.Monto AS MONEY) AS Monto, " +
+                " CAST(Adm.VendedorDetalleComisiones.Porcentaje AS MONEY) AS Porcentaje " +
+                " FROM Adm.VendedorDetalleComisiones " +
+                " INNER JOIN Adm.Vendedor " +
+                " ON Adm.Vendedor.ConsecutivoCompania = Adm.VendedorDetalleComisiones.ConsecutivoCompania " +
+                " AND Adm.Vendedor.Consecutivo = Adm.VendedorDetalleComisiones.ConsecutivoVendedor", true);
         }
     }
 

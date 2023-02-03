@@ -205,8 +205,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoDocumentoFactura.DbValue");
             SQL.AppendLine("INNER JOIN Cliente ON  " + DbSchema + ".Factura.CodigoCliente = Cliente.Codigo");
             SQL.AppendLine("      AND " + DbSchema + ".Factura.ConsecutivoCompania = Cliente.ConsecutivoCompania");
-            SQL.AppendLine("INNER JOIN dbo.Vendedor ON  " + DbSchema + ".Factura.CodigoVendedor = dbo.Vendedor.codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".Factura.ConsecutivoCompania = dbo.Vendedor.ConsecutivoCompania");
+            SQL.AppendLine("INNER JOIN Adm.Vendedor ON  " + DbSchema + ".Factura.CodigoVendedor = Adm.Vendedor.codigo");
+            SQL.AppendLine("      AND " + DbSchema + ".Factura.ConsecutivoCompania = Adm.Vendedor.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Adm.Caja ON  " + DbSchema + ".Factura.ConsecutivoCaja = Adm.Caja.Consecutivo");
             SQL.AppendLine("      AND " + DbSchema + ".Factura.ConsecutivoCompania = Adm.Caja.ConsecutivoCompania");            
             SQL.AppendLine("INNER JOIN dbo.Moneda AS MonedaDeCobro ON  " + DbSchema + ".Factura.CodigoMonedaDeCobro = MonedaDeCobro.codigo");

@@ -70,7 +70,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("REFERENCES Saw.ZonaCobranza(ConsecutivoCompania, Nombre)");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_ClienteVendedor FOREIGN KEY (ConsecutivoCompania, ConsecutivoVendedor)");
-            SQL.AppendLine("REFERENCES dbo.Vendedor(ConsecutivoCompania, Consecutivo)");
+            SQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine("ON UPDATE NO ACTION");
             SQL.AppendLine(", CONSTRAINT fk_ClienteCuenta FOREIGN KEY (ConsecutivoCompania, CuentaContableCxC)");
             SQL.AppendLine("REFERENCES dbo.Cuenta(ConsecutivoCompania, codigo)");

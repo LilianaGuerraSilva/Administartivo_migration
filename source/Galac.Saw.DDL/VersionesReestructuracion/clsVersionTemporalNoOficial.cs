@@ -84,35 +84,30 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 							CrearColumnaConsecutivoVendedor("dbo.Cobranza", "ConsecutivoCobrador", " CONSTRAINT nnCobCoCo NOT NULL");
 							LlenarColumnaConsecutivoVendedor("dbo.Cobranza", "ConsecutivoCobrador", "CodigoCobrador");
 							AddForeignKey("Adm.Vendedor", "dbo.Cobranza", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoCobrador" }, false, false);
-							DropColumnIfExist("dbo.Cobranza", "CodigoCobrador");
 						}
 						if (ForeignKeyNameExists("fk_ContratoVend")) {
 							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.Contrato");
 							CrearColumnaConsecutivoVendedor("dbo.Contrato", "ConsecutivoVendedor", " CONSTRAINT nnConCoVe NOT NULL");
 							LlenarColumnaConsecutivoVendedor("dbo.Contrato", "ConsecutivoVendedor", "CodigoVendedor");
 							AddForeignKey("Adm.Vendedor", "dbo.Contrato", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoVendedor" }, false, false);
-							//DropColumnIfExist("dbo.Contrato", "CodigoVendedor");
 						}
 						if (ForeignKeyNameExists("fk_CotizacionVend")) {
 							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.Cotizacion");
 							CrearColumnaConsecutivoVendedor("dbo.Cotizacion", "ConsecutivoVendedor", " CONSTRAINT nnCotCoVe NOT NULL");
 							LlenarColumnaConsecutivoVendedor("dbo.Cotizacion", "ConsecutivoVendedor", "CodigoVendedor");
 							AddForeignKey("Adm.Vendedor", "dbo.Cotizacion", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoVendedor" }, false, false);
-							DropColumnIfExist("dbo.Cotizacion", "CodigoVendedor");
 						}
 						if (ForeignKeyNameExists("fk_CxCVend")) {
 							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.CxC");
 							CrearColumnaConsecutivoVendedor("dbo.CxC", "ConsecutivoVendedor", " CONSTRAINT nnCxCCoVe NOT NULL");
 							LlenarColumnaConsecutivoVendedor("dbo.CxC", "ConsecutivoVendedor", "CodigoVendedor");
 							AddForeignKey("Adm.Vendedor", "dbo.CxC", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoVendedor" }, false, false);
-							DropColumnIfExist("dbo.CxC", "CodigoVendedor");
 						}
 						if (ForeignKeyNameExists("fk_facturaVend")) {
 							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.factura");
 							CrearColumnaConsecutivoVendedor("dbo.factura", "ConsecutivoVendedor", " CONSTRAINT nnFacCoVe NOT NULL");
 							LlenarColumnaConsecutivoVendedor("dbo.factura", "ConsecutivoVendedor", "CodigoVendedor");
 							AddForeignKey("Adm.Vendedor", "dbo.factura", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoVendedor" }, false, false);
-							//DropColumnIfExist("dbo.factura", "CodigoVendedor");
 						}
 						if (ForeignKeyNameExists("fk_RenglonComisionesDeVendedorVend")) {
 							DeleteAllrelationShipsBetweenTables(_CurrentDataBaseName, "dbo.Vendedor", "dbo.RenglonComisionesDeVendedor");
@@ -122,7 +117,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 							CrearColumnaConsecutivoVendedor("dbo.RetirosACuenta", "ConsecutivoVendedor", " CONSTRAINT nnRetACuenCoVe NOT NULL");
 							LlenarColumnaConsecutivoVendedor("dbo.RetirosACuenta", "ConsecutivoVendedor", "CodigoVendedor");
 							AddForeignKey("Adm.Vendedor", "dbo.RetirosACuenta", new string[] { "ConsecutivoCompania", "Consecutivo" }, new string[] { "ConsecutivoCompania", "ConsecutivoVendedor" }, false, false);
-							DropColumnIfExist("dbo.RetirosACuenta", "CodigoVendedor");
 						}
 						if (!ColumnExists("dbo.Cliente", "ConsecutivoVendedor")) {
 							CrearColumnaConsecutivoVendedor("dbo.Cliente", "ConsecutivoVendedor", " CONSTRAINT nnConCliVe NOT NULL");
@@ -131,7 +125,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 						ExecuteDropTable("dbo.Vendedor");
 						ExecuteDropTable("dbo.RenglonComisionesDeVendedor");
 						clsCompatViews.CrearVistaDboVendedor();
-						clsCompatViews.CrearVistaDboVendedorDetalleComisiones();
+						clsCompatViews.CrearVistaDboRenglonComisionesDeVendedor();
 					}
 				} catch (GalacException vEx) {
 					throw vEx;

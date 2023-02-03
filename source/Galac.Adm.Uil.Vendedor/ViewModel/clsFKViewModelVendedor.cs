@@ -11,12 +11,17 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
     public class FkVendedorViewModel : IFkVendedorViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }
+        [LibGridColum("Código")]
         public string Codigo { get; set; }
+        [LibGridColum("Nombre Vendedor", Width = 200)]
         public string Nombre { get; set; }
+        [LibGridColum("RIF")]
         public string RIF { get; set; }
+        [LibGridColum("Status", eGridColumType.Enum, PrintingMemberPath = "StatusVendedorStr")]
         public eStatusVendedor StatusVendedor { get; set; }
         public string Ciudad { get; set; }
         public string ZonaPostal { get; set; }
+        [LibGridColum("Teléfono")]
         public string Telefono { get; set; }
     }
     public class FkLineaDeProductoViewModel : IFkLineaDeProductoViewModel {

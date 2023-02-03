@@ -670,7 +670,7 @@ namespace Galac.Saw.DDL {
             vResult = new Galac.Adm.Dal.Vendedor.clsVendedorED().InstalarTabla();
             if (CreateCompatibilityView) {
                 vResult = vResult && clsCompatViews.CrearVistaDboVendedor();
-                vResult = vResult && clsCompatViews.CrearVistaDboVendedorDetalleComisiones();
+                vResult = vResult && clsCompatViews.CrearVistaDboRenglonComisionesDeVendedor();
             }
             return vResult;
         }

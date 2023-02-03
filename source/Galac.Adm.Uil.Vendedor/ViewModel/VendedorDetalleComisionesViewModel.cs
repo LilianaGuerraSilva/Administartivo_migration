@@ -88,7 +88,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Tipo De Comisión es requerido.")]
-        [LibGridColum("Tipo de Comisión", eGridColumType.Enum, PrintingMemberPath = "TipoDeComisionStr")]
+        [LibGridColum("Tipo de Comisión", eGridColumType.Enum, PrintingMemberPath = "TipoDeComisionStr", Width = 145)]
         public eTipoComision  TipoDeComision {
             get {
                 return Model.TipoDeComisionAsEnum;
@@ -105,7 +105,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Monto es requerido.")]
-        [LibGridColum("Monto", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("Monto", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 145)]
         public decimal  Monto {
             get {
                 return Model.Monto;
@@ -120,7 +120,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Porcentaje es requerido.")]
-        [LibGridColum("Porcentaje", eGridColumType.Numeric, Alignment = eTextAlignment.Right)]
+        [LibGridColum("Porcentaje", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 145)]
         public decimal  Porcentaje {
             get {
                 return Model.Porcentaje;

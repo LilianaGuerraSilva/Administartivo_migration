@@ -92,6 +92,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "UsaComisionPorCobranza " & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "UsaComiCob NOT NULL, "
    SQL = SQL & "CodigoLote " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "TipoDocumentoIdentificacion" & gUtilSQL.getCharTypeForDB(1) & ", "
+   SQL = SQL & "RutaDeComercializacion" & gUtilSQL.getCharTypeForDB(1) & ", "
    SQL = SQL & "NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "FechaUltimaModificacion " & gUtilSQL.getDateTypeForDB() & ", "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"

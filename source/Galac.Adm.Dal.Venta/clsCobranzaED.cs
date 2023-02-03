@@ -121,8 +121,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusRetencionIVACobranza.DbValue");
             SQL.AppendLine("INNER JOIN Saw.Cliente ON  " + DbSchema + ".Cobranza.CodigoCliente = Saw.Cliente.codigo");
             SQL.AppendLine("      AND " + DbSchema + ".Cobranza.ConsecutivoCompania = Saw.Cliente.ConsecutivoCompania");
-            SQL.AppendLine("INNER JOIN dbo.Vendedor ON  " + DbSchema + ".Cobranza.CodigoCobrador = dbo.Vendedor.codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".Cobranza.ConsecutivoCompania = dbo.Vendedor.ConsecutivoCompania");
+            SQL.AppendLine("INNER JOIN Adm.Vendedor ON  " + DbSchema + ".Cobranza.CodigoCobrador = Adm.Vendedor.codigo");
+            SQL.AppendLine("      AND " + DbSchema + ".Cobranza.ConsecutivoCompania = Adm.Vendedor.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Comun.Moneda ON  " + DbSchema + ".Cobranza.Moneda = Comun.Moneda.Nombre");
             return SQL.ToString();
         }

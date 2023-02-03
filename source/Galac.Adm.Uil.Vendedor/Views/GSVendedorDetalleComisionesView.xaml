@@ -18,7 +18,9 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -39,7 +41,8 @@
             Name="txtNombreDeLaLineaDeProducto"
             Grid.Row="0"
             Grid.Column="1"
-            Width="280"
+            Grid.ColumnSpan="3"
+            Width="327"
             Height="23"
             Margin="3"
             HorizontalAlignment="Left"
@@ -66,16 +69,17 @@
             Style="{StaticResource ComboBoxStyle}" />
         <Label
             Name="lblMonto"
-            Grid.Row="4"
-            Grid.Column="0"
+            Grid.Row="3"
+            Grid.Column="2"
             Content="Monto"
             Style="{StaticResource LabelPrompt}"
             Visibility="{Binding Path=IsVisibleMonto, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtMonto"
-            Grid.Row="4"
-            Grid.Column="1"
+            Grid.Row="3"
+            Grid.Column="3"
             Width="120"
+            Margin="27,0,0,0"
             BorderThickness="1"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabled}"
@@ -85,22 +89,23 @@
             Value="{Binding Path=Monto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Name="lblPorcentaje"
-            Grid.Row="5"
-            Grid.Column="0"
+            Grid.Row="3"
+            Grid.Column="2"
             Content="Porcentaje"
             Style="{StaticResource LabelPrompt}"
-            Visibility="{Binding Path=IsVisiblePorcentaje, Converter={StaticResource booleanToVisibilityConverter}}"/>
+            Visibility="{Binding Path=IsVisiblePorcentaje, Converter={StaticResource booleanToVisibilityConverter}}" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtPorcentaje"
-            Grid.Row="5"
-            Grid.Column="1"
+            Grid.Row="3"
+            Grid.Column="3"
             Width="120"
+            Margin="3,0,0,0"
             BorderThickness="1"
             InputDataType="UDecimal"
             IsEnabled="{Binding Path=IsEnabled}"
             MaxLength="28"
             Style="{StaticResource TextBoxInputStyle}"
-            Value="{Binding Path=Porcentaje, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-            Visibility="{Binding Path=IsVisiblePorcentaje, Converter={StaticResource booleanToVisibilityConverter}}" />
+            Visibility="{Binding Path=IsVisiblePorcentaje, Converter={StaticResource booleanToVisibilityConverter}}"
+            Value="{Binding Path=Porcentaje, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

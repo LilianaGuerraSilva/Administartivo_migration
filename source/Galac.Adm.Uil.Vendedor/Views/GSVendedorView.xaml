@@ -7,7 +7,8 @@
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Vendedor.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    Width="675">
+    Width="680"
+    MaxHeight="410">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -28,7 +29,7 @@
                 TargetType="Label" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Width="670" FocusManager.FocusedElement="{Binding ElementName=txtCodigoVendedor}">
+    <Grid Width="Auto" FocusManager.FocusedElement="{Binding ElementName=txtCodigoVendedor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -40,7 +41,10 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <GroupBox Grid.Column="1" Header="Vendedor">
+        <GroupBox
+            Grid.Column="1"
+            Width="Auto"
+            Header="Vendedor">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -90,7 +94,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Grid.ColumnSpan="3"
-                    Width="521"
+                    Width="540"
                     InputDataType="String"
                     IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="160"
@@ -152,12 +156,22 @@
                     SelectedItem="{Binding Path=RutaDeComercializacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}"
                     Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Width="Auto"
+                    Margin="3"
+                    HorizontalAlignment="Left"
+                    Content="{Binding LabelMontosDeComisiones}"
+                    Style="{StaticResource LabelSubTitle}" />
             </Grid>
         </GroupBox>
         <TabControl
             Name="tbcVendedor"
             Grid.Row="1"
-            Grid.Column="1">
+            Grid.Column="1"
+            Width="Auto">
             <TabItem
                 Name="tbiSeccionGeneral"
                 Grid.Row="1"
@@ -178,7 +192,7 @@
                     <GroupBox
                         Grid.RowSpan="5"
                         Grid.ColumnSpan="2"
-                        Height="250"
+                        Height="226"
                         Header="Datos de Contacto">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -207,7 +221,7 @@
                                 Grid.RowSpan="4"
                                 Grid.Column="1"
                                 Width="250"
-                                Height="100"
+                                Height="115"
                                 IsReadOnly="{Binding Path=IsReadOnly}"
                                 MaxLength="255"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -234,7 +248,7 @@
                                 Model="{Binding Path=ConexionCiudad, Mode=TwoWay}"
                                 SearchCommand="{Binding Path=ChooseCiudadCommand}" />
                             <Label
-                                Name="lblZonaPosta"
+                                Name="lblZonaPostal"
                                 Grid.Row="5"
                                 Grid.Column="0"
                                 Content="Zona Postal"
@@ -311,7 +325,7 @@
                                 Grid.RowSpan="3"
                                 Grid.Column="3"
                                 Width="245"
-                                Height="90"
+                                Height="85"
                                 VerticalAlignment="Top"
                                 BorderThickness="1"
                                 InputDataType="String"
@@ -324,7 +338,6 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-
             <TabItem
                 Name="tbiAsignacionDeComisiones"
                 Grid.Row="1"
@@ -345,13 +358,14 @@
                         Name="lblPorVentas"
                         Grid.Row="0"
                         Grid.Column="0"
-                        Margin="0,0,15,0"
+                        Margin="0,1,15,0"
                         HorizontalAlignment="Right"
                         Content="Por Ventas" />
                     <CheckBox
                         Name="chkbxPorVentas"
                         Grid.Row="0"
                         Grid.Column="0"
+                        Margin="0,1,0,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         IsChecked="{Binding Path=UsaComisionPorVenta}"
@@ -587,13 +601,14 @@
                         Name="lblPorCobranza"
                         Grid.Row="0"
                         Grid.Column="1"
-                        Margin="0,0,15,0"
+                        Margin="0,1,15,0"
                         HorizontalAlignment="Right"
                         Content="Por Cobranza" />
                     <CheckBox
                         Name="chkPorCobranza"
                         Grid.Row="0"
                         Grid.Column="1"
+                        Margin="0,1,0,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         IsChecked="{Binding Path=UsaComisionPorCobranza}"
@@ -811,7 +826,7 @@
                                 IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
-                                Value="{Binding Path=TopeFinalCobranza4, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                                Value="{Binding Path=TopeFinalCobranza5, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <nsWpfControls:GSNumericBoxWpf
                                 Name="txtPorcentajeCobranza5"
                                 Grid.Row="5"
@@ -879,8 +894,8 @@
                         Name="dgDetailListaDeComisionesPorLineaDeProducto"
                         Grid.Row="2"
                         Grid.ColumnSpan="2"
-                        Height="225"
-                        MinWidth="450"
+                        Height="201"
+                        MinWidth="650"
                         MinHeight="100"
                         ColumnsMap="{Binding Path=DetailVendedorDetalleComisiones.VisibleColumns}"
                         Focusable="False"
@@ -890,7 +905,8 @@
                         KeyboardNavigation.IsTabStop="False"
                         SelectedIndex="{Binding Path=DetailVendedorDetalleComisiones.SelectedIndex}"
                         SelectedItem="{Binding Path=DetailVendedorDetalleComisiones.SelectedItem, Mode=OneWayToSource}"
-                        Style="{StaticResource GSDataGridStyle}" />
+                        Style="{StaticResource GSDataGridStyle}"
+                        VerticalScrollBarVisibility="Auto" />
                 </Grid>
             </TabItem>
         </TabControl>

@@ -305,6 +305,8 @@ namespace Galac.Saw.DDL {
             vResult = vResult && insDbo.Drop("dbo.RenglonCompraXSerial", eDboType.Vista);
             vResult = vResult && insDbo.Drop("dbo.CajaApertura", eDboType.Vista);
             vResult = vResult && insDbo.Drop("dbo.Caja", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.Vendedor", eDboType.Vista);
+            vResult = vResult && insDbo.Drop("dbo.RenglonComisionesDeVendedor", eDboType.Vista);
             return vResult;
         }
 
@@ -344,7 +346,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && clsCompatViews.CrearVistaDboImpTrasnBancarias();
             vResult = vResult && clsCompatViews.CrearVistaDboCaja();
             vResult = vResult && clsCompatViews.CrearVistaDboVendedor();
-            vResult = vResult && clsCompatViews.CrearVistaDboVendedorDetalleComisiones();
+            vResult = vResult && clsCompatViews.CrearVistaDboRenglonComisionesDeVendedor();
             return vResult;
         }
 

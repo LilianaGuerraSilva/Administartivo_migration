@@ -465,7 +465,7 @@ namespace Galac.Adm.Dal.Venta {
                 vResult = false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("dbo.Vendedor", "codigo", insDb.InsSql.ToSqlValue(valCodigoVendedor), true)) {
+                if (!insDb.ExistsValue("Adm.Vendedor", "codigo", insDb.InsSql.ToSqlValue(valCodigoVendedor), true)) {
                     BuildValidationInfo("El valor asignado al campo Código del Vendedor no existe, escoga nuevamente.");
                     vResult = false;
                 }
