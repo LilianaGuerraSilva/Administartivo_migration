@@ -173,7 +173,7 @@
                     Margin="3"
                     HorizontalAlignment="Left"
                     ConnectionValue="{Binding Path=CodigoCuentaBancariaOrigen, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                    DisplayMemberPath="CodigoCuentaBancariaOrigen"
+                    DisplayMemberPath="CodigoCuenta"
                     IsEnabled="{Binding Path=IsInsertar}"
                     Model="{Binding Path=ConexionCodigoCuentaBancariaOrigen, Mode=TwoWay}"
                     SearchCommand="{Binding Path=ChooseCodigoCuentaBancariaOrigenCommand}" />
@@ -233,7 +233,7 @@
                     BorderThickness="1"
                     DecimalDigits="4"
                     InputDataType="UDecimal"
-                    IsEnabled="{Binding Path=NotIsInMonedaLocalEgreso}"
+                    IsEnabled="{Binding Path=IsEnabledCambioABolivaresEgreso}"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=CambioABolivaresEgreso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -305,8 +305,8 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="8.1" />
-                            <ColumnDefinition Width="10.724"/>
-                            <ColumnDefinition Width="101.176"/>
+                            <ColumnDefinition Width="10.724" />
+                            <ColumnDefinition Width="101.176" />
                             <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -318,24 +318,32 @@
 
                         <Label
                             Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
                             Content="Monto"
-                            Style="{StaticResource LabelPrompt}" Grid.ColumnSpan="3" Margin="3,0,0,0" VerticalAlignment="Center" />
+                            Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSNumericBoxWpf
                             Name="txtMontoComisionEgreso"
                             Grid.Row="0"
                             Grid.Column="3"
                             Width="144"
+                            Margin="0,3,0,4"
+                            HorizontalAlignment="Center"
                             BorderThickness="1"
                             InputDataType="UDecimal"
                             IsEnabled="{Binding Path=IsEnabledGeneraComisionEgreso}"
                             MaxLength="28"
                             Style="{StaticResource TextBoxInputStyle}"
-                            Value="{Binding Path=MontoComisionEgreso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Margin="0,3,0,4" />
+                            Value="{Binding Path=MontoComisionEgreso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                         <Label
                             Grid.Row="1"
                             Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
                             Content="Concepto Bancario"
-                            Style="{StaticResource LabelPrompt}" Grid.ColumnSpan="3" Margin="3,0,0,0" VerticalAlignment="Center" />
+                            Style="{StaticResource LabelPrompt}" />
                         <nsWpfControls:GSSeekConnection
                             Name="txtCodigoConceptoComisionEgreso"
                             Grid.Row="1"
@@ -358,24 +366,29 @@
                             Height="23"
                             Margin="3,0,0,0"
                             Padding="3,0"
+                            VerticalAlignment="Center"
                             Content="{Binding Path=DescripcionConceptoComisionEgreso}"
-                            Style="{StaticResource LabelCalculatedField}" VerticalAlignment="Center" />
+                            Style="{StaticResource LabelCalculatedField}" />
                         <Label
                             Grid.Row="3"
                             Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            Margin="3,0,0,0"
+                            VerticalAlignment="Center"
                             Content="Generar I.G.T.F."
                             Style="{StaticResource LabelPrompt}"
-                            Visibility="{Binding Path=ManejaDebitoCuentaBancariaOrigen, Converter={StaticResource booleanToVisibilityConverter}}" Grid.ColumnSpan="3" Margin="3,0,0,0" VerticalAlignment="Center" />
+                            Visibility="{Binding Path=ManejaDebitoCuentaBancariaOrigen, Converter={StaticResource booleanToVisibilityConverter}}" />
                         <CheckBox
                             Name="chkGeneraIGTFComisionEgreso"
                             Grid.Row="3"
                             Grid.Column="3"
+                            Margin="3,0,0,0"
                             HorizontalAlignment="Left"
                             Content="{Binding Path=AlicuotaImpuestoBancarioEgreso}"
                             IsChecked="{Binding Path=GeneraIGTFComisionEgreso}"
                             IsEnabled="{Binding Path=IsEnabledGeneraComisionEgreso}"
                             Style="{StaticResource CheckBoxStyle}"
-                            Visibility="{Binding Path=ManejaDebitoCuentaBancariaOrigen, Converter={StaticResource booleanToVisibilityConverter}}" Margin="3,0,0,0" />
+                            Visibility="{Binding Path=ManejaDebitoCuentaBancariaOrigen, Converter={StaticResource booleanToVisibilityConverter}}" />
                     </Grid>
                 </GroupBox>
             </Grid>
@@ -482,7 +495,7 @@
                     BorderThickness="1"
                     DecimalDigits="4"
                     InputDataType="UDecimal"
-                    IsEnabled="{Binding Path=NotIsInMonedaLocalIngreso}"
+                    IsEnabled="{Binding Path=IsEnabledCambioABolivaresIngreso}"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=CambioABolivaresIngreso, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
