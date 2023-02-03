@@ -676,14 +676,13 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					SaldoCuentaBancariaOrigen = 0;
 					CodigoMonedaCuentaBancariaOrigen = string.Empty;
 					NombreMonedaCuentaBancariaOrigen = string.Empty;
-					//GeneraIGTFComisionEgreso = (IsVisibleGeneraIGTFComisionEgreso == false);
 				} else {
 					CodigoCuentaBancariaOrigen = value.Codigo;
 					NombreCuentaBancariaOrigen = value.NombreCuenta;
 					SaldoCuentaBancariaOrigen = value.SaldoDisponible;
 					CodigoMonedaCuentaBancariaOrigen = value.CodigoMoneda;
 					NombreMonedaCuentaBancariaOrigen = value.NombreDeLaMoneda;
-					//GeneraIGTFComisionEgreso = (IsVisibleGeneraIGTFComisionEgreso == value.ManejaDebitoBancario);
+
 				}
 			}
 		}
@@ -741,14 +740,12 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					SaldoCuentaBancariaDestino = 0;
 					CodigoMonedaCuentaBancariaDestino = string.Empty;
 					NombreMonedaCuentaBancariaDestino = string.Empty;
-					//GeneraIGTFComisionIngreso = (IsVisibleGeneraIGTFComisionIngreso == false);
 				} else {
 					CodigoCuentaBancariaDestino = value.Codigo;
 					NombreCuentaBancariaDestino = value.NombreCuenta;
 					SaldoCuentaBancariaDestino = value.SaldoDisponible;
 					CodigoMonedaCuentaBancariaDestino = value.CodigoMoneda;
 					NombreMonedaCuentaBancariaDestino = value.NombreDeLaMoneda;
-					//GeneraIGTFComisionIngreso = (IsVisibleGeneraIGTFComisionIngreso == value.ManejaCreditoBancario);
 				}
 			}
 		}
@@ -1281,8 +1278,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			if (LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaOrigen)) {
 				return;
 			}
-			//vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-			//if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) {
 			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) { 
 				decimal vTasa = 1;
 				ConexionCodigoMonedaEgreso = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMonedaCuentaBancariaOrigen));
@@ -1314,8 +1309,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			if (LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaDestino)) {
 				return;
 			}
-			//vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-			//if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) {
 			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) { 
 				decimal vTasa = 1;
 				ConexionCodigoMonedaIngreso = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMonedaCuentaBancariaDestino));
@@ -1409,14 +1402,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				throw;
 			}
 		}
-
-		//private bool EsMonedaLocal(string valCodigoMoneda) {
-		//	bool vResult;
-		//	//IMonedaLocalActual vMonedaLocalActual = new clsMonedaLocalActual();
-		//	//vMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-		//	vResult = vMonedaLocal.EsMonedaLocalDelPais(valCodigoMoneda);
-		//	return vResult;
-		//}
 
 		#endregion //Código Programador
 
