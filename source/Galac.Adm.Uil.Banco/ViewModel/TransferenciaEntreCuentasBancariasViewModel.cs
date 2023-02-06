@@ -337,6 +337,8 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					MontoComisionEgreso = 0;
 					CodigoConceptoComisionEgreso = string.Empty;
 					DescripcionConceptoComisionEgreso = string.Empty;
+					GeneraIGTFComisionEgreso = (ConexionCodigoCuentaBancariaOrigen != null && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario && Model.GeneraComisionEgresoAsBool);
+
 					RaisePropertyChanged(GeneraComisionEgresoPropertyName);
 					RaisePropertyChanged(IsEnabledGeneraComisionEgresoPropertyName);
 					RaisePropertyChanged(IsEnabledGeneraIGTFComisionEgresoPropertyName);
@@ -557,6 +559,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					MontoComisionIngreso = 0;
 					CodigoConceptoComisionIngreso = string.Empty;
 					DescripcionConceptoComisionIngreso = string.Empty;
+					GeneraIGTFComisionIngreso = (ConexionCodigoCuentaBancariaDestino != null && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario);
 					RaisePropertyChanged(GeneraComisionIngresoPropertyName);
 					RaisePropertyChanged(IsEnabledGeneraComisionIngresoPropertyName);
 					RaisePropertyChanged(IsEnabledGeneraIGTFComisionIngresoPropertyName);
@@ -874,7 +877,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			get { return IsInsertar && !vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino); }
 		}
 		private string MensajeValidacionMontos {
-			get { return "El Monto de Ingreso debe ser menor igual al de Egreso, cuando la moneda de ambas cuentas coincide."; }
+			get { return "El Monto de Ingreso debe ser menor o igual al de Egreso, cuando la moneda de ambas cuentas coincide."; }
 
 		}
 
@@ -1088,6 +1091,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
 				} else if (LibDate.DateIsGreaterThanToday(Fecha, false, string.Empty)) {
 					vResult = new ValidationResult("La fecha de la transferencia no puede ser mayor a la fecha de hoy.");
+				//} else if (true) { //si la compañía usa contabilidad y la fecha >= fecha de inicio contabilizacion (parámetros)
+				//	if (true) { //la fecha no pertenece al período actual (parámetros)
+				//		vResult = new ValidationResult("la fecha no pertenece al período actual.");
+				//	} else if (true) {//el período actual está cerrado (parámetros)
+				//		vResult = new ValidationResult("el período actual está cerrado.");
+				//	}else if (true) {//el mes de la fecha está cerrado.
+				//		vResult = new ValidationResult("el mes está cerrado.");
+    //                }					
 				}
 			}
 			return vResult;
