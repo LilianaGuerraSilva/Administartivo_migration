@@ -1385,7 +1385,7 @@ Private Sub sEjecutaElReporteDeclaracionITFGO6687()
    Set reporte = New DDActiveReports2.ActiveReport
    Set insConfigurar = New clsBancoRpt
    
-   SqlDelReporte = insBancosSQL.fSQLDeclaracionITFGO6687(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text, gProyParametrosCompania.GetConsecutivoCompania, gAPI.fGetCheckBoxValue(chkImprimirSoloCuentasActivas), CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno), gProyParametrosCompania.GetRedondeaMontoDebitoBancario, gProyParametrosCompania.GetConceptoDebitoBancario, gProyParametrosCompania.GetConceptoBancarioReversoDePago)
+   SqlDelReporte = insBancosSQL.fSQLDeclaracionITFGO6687(FechaInicial, FechaFinal, txtNumeroDeCuenta.Text, gProyParametrosCompania.GetConsecutivoCompania, gAPI.fGetCheckBoxValue(chkImprimirSoloCuentasActivas), CmbCantidadAImprimir(0).Text = gEnumReport.enumCantidadAImprimirToString(eCI_uno), gProyParametrosCompania.GetRedondeaMontoDebitoBancario, gProyParametrosCompania.GetConceptoDebitoBancario, gProyParametrosCompania.GetConceptoBancarioReversoDePago, gProyParametrosCompania.GetConceptoBancarioReversoTransfEgreso)
    If insConfigurar.fConfiguraDatosDelReporteDeDeclaracionImpuestoTransaccionesFinancierasGO6687(reporte, SqlDelReporte, FechaInicial, FechaFinal, gProyCompaniaActual.GetNombreCompaniaParaInformes(False, False)) Then
       gUtilReports.sMostrarOImprimirReporte reporte, 1, mDondeImprimir, "Declaración del Impuesto a las Transacciones Financieras"
    End If
