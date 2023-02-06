@@ -366,7 +366,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         public decimal TotalGastosSeguro {
             get {
-                return PorcentajDistribucionFOB * Master.DetailCompraDetalleGasto.Items.Where(p => p.TipoDeCosto == eTipoDeCosto.Seguro).Sum(p => p.Monto) / 100;
+                decimal vTotalGastosSeguro = PorcentajDistribucionFOB * Master.DetailCompraDetalleGasto.Items.Where(p => p.TipoDeCosto == eTipoDeCosto.Seguro).Sum(p => p.Monto) / 100;
+                return LibMath.RoundToNDecimals(vTotalGastosSeguro, 2);
             }
         }
 
