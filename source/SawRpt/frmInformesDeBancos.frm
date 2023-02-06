@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
+Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomct2.ocx"
 Begin VB.Form frmInformesDeBancos 
    BackColor       =   &H00F3F3F3&
    Caption         =   "Informes de Bancos"
@@ -97,7 +97,7 @@ Begin VB.Form frmInformesDeBancos
          _ExtentY        =   503
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   93585411
+         Format          =   78708739
          CurrentDate     =   37187
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -110,7 +110,7 @@ Begin VB.Form frmInformesDeBancos
          _ExtentY        =   503
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   93585411
+         Format          =   78708739
          CurrentDate     =   37187
       End
       Begin VB.Label lblFechaInicial 
