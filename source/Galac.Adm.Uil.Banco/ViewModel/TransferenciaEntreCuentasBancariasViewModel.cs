@@ -956,11 +956,17 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		protected override void ReloadRelatedConnections() {
 			base.ReloadRelatedConnections();
-			ConexionCodigoCuentaBancariaOrigen = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", LibSearchCriteria.CreateCriteria("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaOrigen));
+			LibSearchCriteria vDefaultCriteriaOrigen = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaOrigen);
+			vDefaultCriteriaOrigen.Add("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
+			ConexionCodigoCuentaBancariaOrigen = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteriaOrigen);
+
 			ConexionCodigoConceptoEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoEgreso));
 			ConexionCodigoConceptoComisionEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionEgreso));
 
-			ConexionCodigoCuentaBancariaDestino = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", LibSearchCriteria.CreateCriteria("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaDestino));
+			LibSearchCriteria vDefaultCriteriaDestino = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaDestino);
+			vDefaultCriteriaDestino.Add("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
+			ConexionCodigoCuentaBancariaDestino = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteriaDestino);
+
 			ConexionCodigoConceptoIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoIngreso));
 			ConexionCodigoConceptoComisionIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionIngreso));
 		}
@@ -971,7 +977,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
 				vFixedCriteria.Add("Saw.Gv_CuentaBancaria_B1.Status", eStatusCtaBancaria.Activo);
 				ConexionCodigoCuentaBancariaOrigen = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
 				if (ConexionCodigoCuentaBancariaOrigen != null) {
@@ -1015,7 +1021,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Egreso);
 				ConexionCodigoConceptoComisionEgreso = null;
-				ConexionCodigoConceptoComisionEgreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
+				ConexionCodigoConceptoComisionEgreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria);
 			} catch (AccessViolationException) {
 				throw;
 			} catch (Exception vEx) {
@@ -1029,10 +1035,10 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
 				vFixedCriteria.Add("Saw.Gv_CuentaBancaria_B1.Status", eStatusCtaBancaria.Activo);
 				ConexionCodigoCuentaBancariaDestino = null;
-				ConexionCodigoCuentaBancariaDestino = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
+				ConexionCodigoCuentaBancariaDestino = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria);
 				if (ConexionCodigoCuentaBancariaDestino != null) {
 					if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ManejaCreditoBancario") && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario && ConexionCodigoCuentaBancariaDestino.TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado) {
 						string vErrorMsg = string.Format("La cuenta bancaria de Destino que ha seleccionado ({0}) genera I.G.T.F., pero no tiene un Tipo de Alícuota por Contribuyente asignado. Debe modificar esta cuenta bancaria antes de continuar.", 0);
