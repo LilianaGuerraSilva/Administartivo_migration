@@ -298,7 +298,6 @@
                         Margin="3,0,0,0"
                         VerticalAlignment="Center"
                         Content="Genera movimiento bancario de egreso por I.G.T.F."
-                        IsEnabled="{Binding Path=IsEnabledGeneraMovBancarioPorIGTF}"
                         Style="{StaticResource LabelPrompt}" />
                     <CheckBox
                         Name="chkGeneraMovBancarioPorIGTF"
