@@ -298,8 +298,7 @@
                         Margin="3,0,0,0"
                         VerticalAlignment="Center"
                         Content="Genera movimiento bancario de egreso por I.G.T.F."
-                        Style="{StaticResource LabelPrompt}"
-                        Visibility="{Binding Path=IsVisibleGeneraMovBancarioPorIGTF, Converter={StaticResource boolToVisibilityConverter}}" />
+                        Style="{StaticResource LabelPrompt}" />
                     <CheckBox
                         Name="chkGeneraMovBancarioPorIGTF"
                         Grid.Row="4"
@@ -307,9 +306,8 @@
                         Margin="3,0,0,0"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding Path=GeneraMovBancarioPorIGTF}"
-                        IsEnabled="{Binding Path=IsEnabled}"
-                        Style="{StaticResource CheckBoxStyle}"
-                        Visibility="{Binding Path=IsVisibleGeneraMovBancarioPorIGTF, Converter={StaticResource boolToVisibilityConverter}}" />
+                        IsEnabled="{Binding Path=IsEnabledGeneraMovBancarioPorIGTF}"
+                        Style="{StaticResource CheckBoxStyle}" />
                     <Label
                         Name="lblNotaTipoContribuyente"
                         Grid.Row="5"
