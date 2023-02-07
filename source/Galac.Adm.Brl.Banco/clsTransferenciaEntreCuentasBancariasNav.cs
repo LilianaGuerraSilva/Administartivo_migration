@@ -193,7 +193,7 @@ namespace Galac.Adm.Brl.Banco {
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = string.Format("Impuesto por egreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
 				GeneraImpuestoBancarioAsBool = false,
-				AlicuotaImpBancario = item.GeneraIGTFComisionIngresoAsBool ? valAlicuota : 0.0m,
+				AlicuotaImpBancario = item.GeneraIGTFComisionEgresoAsBool ? valAlicuota : 0.0m,
 				NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
 				GeneradoPorAsEnum = eGeneradoPor.DebitoBancario,
 				CambioABolivares = item.CambioABolivaresEgreso,
