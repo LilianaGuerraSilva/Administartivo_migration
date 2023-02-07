@@ -476,10 +476,10 @@ Begin VB.Form frmInformesDeCobranza
       Begin VB.OptionButton optInformesDeCobranzas 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
-         Caption         =   "Cobranzas por &vendedor .................."
+         Caption         =   "Cobranzas por &Vendedor ................."
          CausesValidation=   0   'False
          ForeColor       =   &H00A84439&
-         Height          =   195
+         Height          =   255
          Index           =   0
          Left            =   120
          TabIndex        =   0
@@ -689,7 +689,7 @@ Begin VB.Form frmInformesDeCobranza
          _ExtentY        =   476
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   97976323
+         Format          =   95551491
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -702,7 +702,7 @@ Begin VB.Form frmInformesDeCobranza
          _ExtentY        =   476
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   97976323
+         Format          =   95551491
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -2204,7 +2204,7 @@ Private Function fEjecutaElReportedetalladoPorCobro(ByVal OpcionesComisionesSobr
             sql = sql & insVendedor.GetTableName & ".Codigo, "
          Else
             sql = sql & insCobranza.GetTableName & ".Moneda, "
-            sql = sql & insVendedor.GetTableName & ".Codigo, "
+            sql = sql & "vendedor.Codigo, "
          End If
          sql = sql & insCobranza.GetTableName & ".Fecha, "
          sql = sql & insCobranza.GetTableName & ".Numero"

@@ -98,6 +98,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "Status " & gUtilSQL.getCharTypeForDB(1) & ", "
    SQL = SQL & "TipoCxc " & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "TipoCxC NOT NULL, "
    SQL = SQL & "CodigoCliente " & gUtilSQL.getVarCharTypeForDB(10) & ", "
+   SQL = SQL & "CodigoVendedor " & gUtilSQL.getVarCharTypeForDB(5) & ", "
    SQL = SQL & "ConsecutivoVendedor " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "VenCon NOT NULL, "
    SQL = SQL & "Origen " & gUtilSQL.getCharTypeForDB(1) & ", "
    SQL = SQL & "Fecha " & gUtilSQL.getDateTypeForDB() & ", "

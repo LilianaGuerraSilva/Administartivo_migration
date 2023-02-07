@@ -11,7 +11,6 @@ using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
-using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
@@ -126,7 +125,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "Nombre del Vendedor es requerido.")]
-        [LibGridColum("Nombre", ColumnOrder = 1, Width = 220)]
+        [LibGridColum("Nombre", ColumnOrder = 1, Width = 300)]
         public string Nombre {
             get {
                 return Model.Nombre;
@@ -657,7 +656,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
             set {
                 if (Model.PorcentajeCobranza5 != value) {
-                    Model.PorcentajeCobranza4 = value;
+                    Model.PorcentajeCobranza5 = value;
                     RaisePropertyChanged(PorcentajeCobranza5PropertyName);
                 }
             }

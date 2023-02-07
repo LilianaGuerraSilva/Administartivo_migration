@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using LibGalac.Aos.UI.Mvvm.Helpers;
 using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Ccl.Tablas;
+using Galac.Comun.Ccl.TablasGen;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
@@ -24,6 +21,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         [LibGridColum("Teléfono")]
         public string Telefono { get; set; }
     }
+
     public class FkLineaDeProductoViewModel : IFkLineaDeProductoViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }
@@ -31,5 +29,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public string Nombre { get; set; }
         [LibGridColum("Porcentaje de Comisión", eGridColumType.Numeric, Width = 150, Alignment = eTextAlignment.Right)]
         public decimal PorcentajeComision { get; set; }
+    }
+
+    public class FkCiudadViewModel : IFkCiudadViewModel {
+        [LibGridColum("Ciudad", Width = 300)]
+        public string NombreCiudad { get; set; }
     }
 }
