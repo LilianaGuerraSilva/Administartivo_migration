@@ -19,6 +19,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			AgregaColumnasReglasDeContabilizacion();
 			AgregarConceptosBancarioReversosTransferencia();
 			AgregarParametroTransferenciaBancaria();
+			ActualizarCamposGeneraMovBancarioPorIGTFCuentaBancaria();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -103,6 +104,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 					Execute("UPDATE Comun.SettValueByCompany SET Value = '60348' WHERE NameSettDefinition = 'ConceptoBancarioReversoTransfEgreso'");
 				}
 			}
+		}
+
+		private void ActualizarCamposGeneraMovBancarioPorIGTFCuentaBancaria() {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("UPDATE Saw.CuentaBancaria ");
+			vSql.AppendLine("SET GeneraMovBancarioPorIGTF = 'S', ");
+			vSql.AppendLine("WHERE CodigoMoneda = 'VED' AND ");
+			vSql.AppendLine("    ManejaDebitoBancario = 'S' ");
+			Execute(vSql.ToString(), 0);
 		}
 	}
 }
