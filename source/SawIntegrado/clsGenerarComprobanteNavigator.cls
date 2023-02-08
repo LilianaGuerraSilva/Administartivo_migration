@@ -677,7 +677,7 @@ Public Sub sDesContabilizar(ByVal valAction As AccionSobreRecord, ByVal valModul
             ElseIf valModuloAContabilizar = eCG_REPOSICION Then
                sGenerarComprobanteDeAnulacionDeRendicion valModuloAContabilizar, valNumeroDocumento, 0, True, valFechaDeAnulacion, eCG_ANULACION_REPOSICION
             ElseIf valModuloAContabilizar = eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA Then
-               sGenerarComprobanteDeAnulacionDeTransferenciaEntreCuentas valModuloAContabilizar, valNumeroDocumento, 0, True, valFechaDeAnulacion, eCG_ANULACION_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA
+               sGenerarComprobanteDeAnulacionDeTransferenciaEntreCuentas valModuloAContabilizar, valNumeroDocumento, 0, True, valFechaDeAnulacion, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA
             Else
                insComprobanteContable.sColocaEnCeroTodosLosAsientosDelComprobante
                insComprobanteContable.sColocaDescripcionDeAnuladoAlComprobante insComprobanteContable.GetDescripcion
@@ -4771,7 +4771,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeTransferenciaEntreCuentas(ByVal valG
             insComprobanteNavigator.SetGeneradoPorStr gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valAccionAnulacionModulo)
             If insComprobanteNavigator.fInsert(insertar, True, True) Then
                If insComprobanteNavigator.fSearchByField("Numero", insComprobanteNavigator.GetNumero, True, True) Then
-                    If (gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(eCG_ANULACION_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA)) Then
+                    If (gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA)) Then
                         insFrmComprobanteInput.sInitLookAndFeelAndSetValues Modificar, Nothing, False, False, insComprobanteNavigator
                     Else
                         gMessage.exito "El Comprobante fué generado exitosamente"

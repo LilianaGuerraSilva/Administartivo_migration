@@ -19,6 +19,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			AgregaColumnasReglasDeContabilizacion();
 			AgregarConceptosBancarioReversosTransferencia();
 			AgregarParametroTransferenciaBancaria();
+			ActualizarCamposGeneraMovBancarioPorIGTFCuentaBancaria();
 			EliminarNullsEnCuentasContablesCliente();
 			DisposeConnectionNoTransaction();
 			return true;
@@ -122,6 +123,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine("SET CuentaContableIngresos = ''");
 			vSql.AppendLine("WHERE CuentaContableIngresos IS NULL");
 			Execute(vSql.ToString());
+		}
+
+		private void ActualizarCamposGeneraMovBancarioPorIGTFCuentaBancaria() {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("UPDATE Saw.CuentaBancaria ");
+			vSql.AppendLine("SET GeneraMovBancarioPorIGTF = 'S' ");
+			vSql.AppendLine("WHERE CodigoMoneda = 'VED' AND ");
+			vSql.AppendLine("ManejaDebitoBancario = 'S' ");
+			Execute(vSql.ToString(), 0);
 		}
 	}
 }
