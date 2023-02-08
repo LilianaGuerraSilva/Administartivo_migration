@@ -542,7 +542,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
    Continuar = True
    Set insMovimientoBancario = New clsMovimientoBancarioNavigator
    Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("TransferenciaEntreCuentasBancarias", "wrpTransferenciaEntreCuentasBancarias"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
-   
+
    parametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
    vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), parametros)
    If (vDatos <> "") Then

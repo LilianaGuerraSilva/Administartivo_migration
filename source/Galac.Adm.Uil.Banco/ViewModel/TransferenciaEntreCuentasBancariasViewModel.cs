@@ -882,16 +882,18 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		public bool IsEnabledGeneraIGTFComisionEgreso {
-            get {
+			get {
 				return IsInsertar && GeneraComisionEgreso &&
-				  (ConexionCodigoCuentaBancariaOrigen != null && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario); }
-        }
+				  (ConexionCodigoCuentaBancariaOrigen != null && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario);
+			}
+		}
 
 		public bool IsEnabledGeneraIGTFComisionIngreso {
-            get {
+			get {
 				return IsInsertar && GeneraComisionIngreso &&
-				  (ConexionCodigoCuentaBancariaDestino != null && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario); }
-        }
+				  (ConexionCodigoCuentaBancariaDestino != null && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario);
+			}
+		}
 
 		#endregion //Propiedades
 
@@ -1089,14 +1091,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult FechaValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else {
-				if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
-					vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
-				} else if (LibDate.DateIsGreaterThanToday(Fecha, false, string.Empty)) {
-					vResult = new ValidationResult("La fecha de la transferencia no puede ser mayor a la fecha de hoy.");
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
+				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
+			} else if (LibDate.DateIsGreaterThanToday(Fecha, false, string.Empty)) {
+				vResult = new ValidationResult("La fecha de la transferencia no puede ser mayor a la fecha de hoy.");
 				//} else if (true) { //si la compañía usa contabilidad y la fecha >= fecha de inicio contabilizacion (parámetros)
 				//	if (true) { //la fecha no pertenece al período actual (parámetros)
 				//		vResult = new ValidationResult("la fecha no pertenece al período actual.");
@@ -1104,8 +1106,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				//		vResult = new ValidationResult("el período actual está cerrado.");
 				//	}else if (true) {//el mes de la fecha está cerrado.
 				//		vResult = new ValidationResult("el mes está cerrado.");
-    //                }					
-				}
+				//                }					
 			}
 			return vResult;
 		}
@@ -1113,12 +1114,12 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		#region Código Programador
 		private ValidationResult CambioABolivaresEgresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
-			bool vEsMonedaLocal = vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen);
-
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (!vEsMonedaLocal && (CambioABolivaresEgreso == 1 || CambioABolivaresEgreso <= 0)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			bool vEsMonedaLocal = vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen);
+			if (!vEsMonedaLocal && (CambioABolivaresEgreso == 1 || CambioABolivaresEgreso <= 0)) {
 				vResult = new ValidationResult("El campo Cambio de Egreso debe ser distinto de 1 y mayor que 0.");
 			} else if (vEsMonedaLocal && CambioABolivaresEgreso != 1) {
 				vResult = new ValidationResult("El campo Cambio de Egreso debe ser igual a 1.");
@@ -1127,10 +1128,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult MontoTransferenciaEgresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (MontoTransferenciaEgreso <= 0) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (MontoTransferenciaEgreso <= 0) {
 				vResult = new ValidationResult("El campo Monto de Egreso debe ser mayor que 0.");
 			} else if (!LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaOrigen, true) && LibString.S1IsEqualToS2(CodigoMonedaCuentaBancariaOrigen, CodigoMonedaCuentaBancariaDestino) && MontoTransferenciaEgreso < MontoTransferenciaIngreso) {
 				vResult = new ValidationResult(MensajeValidacionMontos);
@@ -1139,21 +1141,23 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult MontoComisionEgresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (GeneraComisionEgreso && MontoComisionEgreso <= 0) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (GeneraComisionEgreso && MontoComisionEgreso <= 0) {
 				vResult = new ValidationResult("El campo Monto Comisión de Egreso debe ser mayor que 0.");
 			}
 			return vResult;
 		}
 
-		private ValidationResult CambioABolivaresIngresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
-			bool vEsMonedaLocal = vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino);
+		private ValidationResult CambioABolivaresIngresoValidating() {			
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (!vEsMonedaLocal && (CambioABolivaresIngreso == 1 || CambioABolivaresIngreso <= 0)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			bool vEsMonedaLocal = vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino);
+			if (!vEsMonedaLocal && (CambioABolivaresIngreso == 1 || CambioABolivaresIngreso <= 0)) {
 				vResult = new ValidationResult("El campo Cambio de Ingreso debe ser distinto de 1 y mayor que 0.");
 			} else if (vEsMonedaLocal && CambioABolivaresIngreso != 1) {
 				vResult = new ValidationResult("El campo Cambio de Ingreso debe ser igual a 1.");
@@ -1162,10 +1166,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult MontoTransferenciaIngresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (MontoTransferenciaIngreso <= 0) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (MontoTransferenciaIngreso <= 0) {
 				vResult = new ValidationResult("El campo Monto de Ingreso debe ser mayor que 0.");
 			} else if (!LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaDestino, true) && LibString.S1IsEqualToS2(CodigoMonedaCuentaBancariaOrigen, CodigoMonedaCuentaBancariaDestino) && MontoTransferenciaEgreso < MontoTransferenciaIngreso) {
 				vResult = new ValidationResult(MensajeValidacionMontos);
@@ -1174,40 +1179,44 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult MontoComisionIngresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (GeneraComisionIngreso && MontoComisionIngreso <= 0) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (GeneraComisionIngreso && MontoComisionIngreso <= 0) {
 				vResult = new ValidationResult("El campo Monto Comisión de Ingreso debe ser mayor que 0.");
 			}
 			return vResult;
 		}
 
 		private ValidationResult CodigoConceptoComisionEgresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (GeneraComisionEgreso && LibString.IsNullOrEmpty(CodigoConceptoComisionEgreso)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (GeneraComisionEgreso && LibString.IsNullOrEmpty(CodigoConceptoComisionEgreso)) {
 				vResult = new ValidationResult("El campo Concepto Comisión de Egreso es requerido.");
 			}
 			return vResult;
 		}
 
 		private ValidationResult CodigoConceptoComisionIngresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (GeneraComisionIngreso && LibString.IsNullOrEmpty(CodigoConceptoComisionIngreso)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (GeneraComisionIngreso && LibString.IsNullOrEmpty(CodigoConceptoComisionIngreso)) {
 				vResult = new ValidationResult("El campo Concepto Comisión de Ingreso es requerido.");
 			}
 			return vResult;
 		}
 
 		private ValidationResult CodigoCuentasBancariasValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (LibString.S1IsEqualToS2(CodigoCuentaBancariaDestino, CodigoCuentaBancariaOrigen)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (LibString.S1IsEqualToS2(CodigoCuentaBancariaDestino, CodigoCuentaBancariaOrigen)) {
 				vResult = new ValidationResult("Los campos Cuenta Bancaria (Origen y Destino) no deben coincidir.");
 			}
 			return vResult;
@@ -1295,7 +1304,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			if (LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaOrigen)) {
 				return;
 			}
-			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) { 
+			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) {
 				decimal vTasa = 1;
 				ConexionCodigoMonedaEgreso = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMonedaCuentaBancariaOrigen));
 				if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCuentaBancariaOrigen, Fecha, out vTasa)) {
@@ -1326,7 +1335,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			if (LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaDestino)) {
 				return;
 			}
-			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) { 
+			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) {
 				decimal vTasa = 1;
 				ConexionCodigoMonedaIngreso = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMonedaCuentaBancariaDestino));
 				if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCuentaBancariaDestino, Fecha, out vTasa)) {
