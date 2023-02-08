@@ -109,9 +109,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void ActualizarCamposGeneraMovBancarioPorIGTFCuentaBancaria() {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("UPDATE Saw.CuentaBancaria ");
-			vSql.AppendLine("SET GeneraMovBancarioPorIGTF = 'S', ");
+			vSql.AppendLine("SET GeneraMovBancarioPorIGTF = 'S' ");
 			vSql.AppendLine("WHERE CodigoMoneda = 'VED' AND ");
-			vSql.AppendLine("    ManejaDebitoBancario = 'S' ");
+			vSql.AppendLine("ManejaDebitoBancario = 'S' ");
 			Execute(vSql.ToString(), 0);
 		}
 	}
