@@ -20,6 +20,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			AgregarConceptosBancarioReversosTransferencia();
 			AgregarParametroTransferenciaBancaria();
 			ActualizarCamposGeneraMovBancarioPorIGTFCuentaBancaria();
+			EliminarNullsEnCuentasContablesCliente();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -104,6 +105,24 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 					Execute("UPDATE Comun.SettValueByCompany SET Value = '60348' WHERE NameSettDefinition = 'ConceptoBancarioReversoTransfEgreso'");
 				}
 			}
+		}
+		
+		private void EliminarNullsEnCuentasContablesCliente() {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("UPDATE Cliente");
+			vSql.AppendLine("SET CuentaContableAnticipo = ''");
+			vSql.AppendLine("WHERE CuentaContableAnticipo IS NULL");
+			Execute(vSql.ToString());
+			vSql.Clear();
+			vSql.AppendLine("UPDATE Cliente");
+			vSql.AppendLine("SET CuentaContableCxC = ''");
+			vSql.AppendLine("WHERE CuentaContableCxC IS NULL");
+			Execute(vSql.ToString());
+			vSql.Clear();
+			vSql.AppendLine("UPDATE Cliente");
+			vSql.AppendLine("SET CuentaContableIngresos = ''");
+			vSql.AppendLine("WHERE CuentaContableIngresos IS NULL");
+			Execute(vSql.ToString());
 		}
 
 		private void ActualizarCamposGeneraMovBancarioPorIGTFCuentaBancaria() {
