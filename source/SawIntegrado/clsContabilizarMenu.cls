@@ -562,7 +562,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
             If (generarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNumero, False, False, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo)) Then
                 Set insCtaBancaria = New clsCuentaBancariaNavigator
                 insMovimientoBancario.sCargarValoresDeLaCuentaBancaria insCtaBancaria, vCodigoCuentaBancaria, False
-                generarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNumero, False, True, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo, insCtaBancaria.GetTipoDeAlicuotaPorContribuyenteAsEnum
+                generarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA, vFecha, vNroDocContabiliacion, False, True, eSM_TransferenciaEntreCuentasBancarias, vConsecutivo, insCtaBancaria.GetTipoDeAlicuotaPorContribuyenteAsEnum
                Set insCtaBancaria = Nothing
             End If
             Set generarComprobanteNavigator = Nothing
