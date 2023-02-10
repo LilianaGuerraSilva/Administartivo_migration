@@ -131,7 +131,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   ,  Caja.Consecutivo AS ConsecutivoCaja");
             vSql.AppendLine("   ,  CajaApertura.MontoApertura AS MontoApertura");
             vSql.AppendLine(" FROM Adm.Caja");
-            vSql.AppendLine(" INNER JOIN CajaApertura");
+            vSql.AppendLine(" INNER JOIN Adm.CajaApertura");
             vSql.AppendLine("   ON CajaApertura.ConsecutivoCompania = Caja.ConsecutivoCompania");
             vSql.AppendLine("   AND CajaApertura.ConsecutivoCaja = Caja.Consecutivo");
             if (LibString.Len(vSQLWhere) > 0) {
@@ -618,7 +618,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
             #region Manejo para Fechas de Apertura y Cierre de Caja            
             string horaCierre = " AND factura.HoraModificacion BETWEEN  CajaApertura.HoraApertura AND " + vUtilSql.IIF("CajaApertura.HoraCierre <> " + vUtilSql.ToSqlValue(string.Empty), "CajaApertura.HoraCierre", vUtilSql.ToSqlValue("23:59"), true);
-            string fechaCierre = " AND Factura.Fecha = CajaApertura.Fecha";
+            string fechaCierre = " AND Factura.Fecha <=" + vUtilSql.IIF("CajaApertura.CajaCerrada="+vUtilSql.ToSqlValue(false), "CajaApertura.Fecha", "GetDate()",true);
             #endregion Manejo para Fechas de Apertura y Cierre de Caja
             vSQLWhere = vSQLWhere + fechaCierre + horaCierre;            
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
