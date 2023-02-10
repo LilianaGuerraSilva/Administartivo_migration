@@ -604,8 +604,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    Caja.NombreCaja");
             return vSql.ToString();
 		}
-		
-		public string SqlCuadreCajaPorUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador) {
+
+        public string SqlCuadreCajaPorUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador) {
             const int vConsecutivoCajaGenerica = 0;
             QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
@@ -618,9 +618,9 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
             #region Manejo para Fechas de Apertura y Cierre de Caja            
             string horaCierre = " AND factura.HoraModificacion BETWEEN  CajaApertura.HoraApertura AND " + vUtilSql.IIF("CajaApertura.HoraCierre <> " + vUtilSql.ToSqlValue(string.Empty), "CajaApertura.HoraCierre", vUtilSql.ToSqlValue("23:59"), true);
-            string fechaCierre = " AND Factura.Fecha <=" + vUtilSql.IIF("CajaApertura.CajaCerrada="+vUtilSql.ToSqlValue(false), "CajaApertura.Fecha", "GetDate()",true);
+            string fechaCierre = " AND Factura.Fecha <=" + vUtilSql.IIF("CajaApertura.CajaCerrada=" + vUtilSql.ToSqlValue(false), "CajaApertura.Fecha", "GetDate()", true);
             #endregion Manejo para Fechas de Apertura y Cierre de Caja
-            vSQLWhere = vSQLWhere + fechaCierre + horaCierre;            
+            vSQLWhere = vSQLWhere + fechaCierre + horaCierre;
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
                 vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "Factura.NombreOperador", valNombreDelOperador);
             }
@@ -635,7 +635,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string montoVuelto = vUtilSql.IIF(monedasIguales, calculoMontoVuelto, vUtilSql.ToInt("0"), true);
             #endregion            
             vSql.AppendLine(" SELECT");
-            vSql.AppendLine("    Factura.NombreOperador AS NombreUsuario");            
+            vSql.AppendLine("    Factura.NombreOperador AS NombreUsuario");
             vSql.AppendLine("   , caja.NombreCaja AS NombreCaja");
             vSql.AppendLine("   , factura.Moneda AS MonedaDoc");
             vSql.AppendLine("	, MonedaRenglon.Nombre AS MonedaCobro");
@@ -667,11 +667,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	INNER JOIN Adm.CajaApertura");
             vSql.AppendLine("		ON CajaApertura.ConsecutivoCaja = Factura.ConsecutivoCaja");
             vSql.AppendLine("		AND CajaApertura.ConsecutivoCompania = Factura.ConsecutivoCompania");
-            if(LibString.Len(vSQLWhere) > 0) {
+            if (LibString.Len(vSQLWhere) > 0) {
                 vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
             }
             vSql.AppendLine(" GROUP BY");
-            vSql.AppendLine("    Factura.NombreOperador");            
+            vSql.AppendLine("    Factura.NombreOperador");
             vSql.AppendLine("   , factura.Moneda");
             vSql.AppendLine("   , caja.NombreCaja");
             vSql.AppendLine("   , factura.Numero");
@@ -684,7 +684,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	, MonedaRenglon.Codigo");
             vSql.AppendLine("	, factura.CodigoMoneda");
             vSql.AppendLine(" ORDER BY");
-            vSql.AppendLine("    Factura.NombreOperador");            
+            vSql.AppendLine("    Factura.NombreOperador");
             vSql.AppendLine("   , caja.NombreCaja");
             vSql.AppendLine("   , factura.Moneda");
             vSql.AppendLine("	, MonedaRenglon.Nombre");
@@ -692,10 +692,8 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   , factura.Numero");
             vSql.AppendLine("   , Cliente.Nombre");
             return vSql.ToString();
-		}
+        }
         #endregion //Metodos Generados
-
-
     } //End of class clsCajaSql
 
 } //End of namespace Galac.Adm.Brl.Venta
