@@ -961,16 +961,17 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			LibSearchCriteria vDefaultCriteriaOrigen = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaOrigen);
 			vDefaultCriteriaOrigen.Add("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
 			ConexionCodigoCuentaBancariaOrigen = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteriaOrigen);
-
-			ConexionCodigoConceptoEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoEgreso));
-			ConexionCodigoConceptoComisionEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionEgreso));
-
+			if (Action != eAccionSR.Contabilizar) {
+				ConexionCodigoConceptoEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoEgreso));
+				ConexionCodigoConceptoComisionEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionEgreso));
+			}
 			LibSearchCriteria vDefaultCriteriaDestino = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaDestino);
 			vDefaultCriteriaDestino.Add("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
 			ConexionCodigoCuentaBancariaDestino = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteriaDestino);
-
-			ConexionCodigoConceptoIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoIngreso));
-			ConexionCodigoConceptoComisionIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionIngreso));
+			if (Action != eAccionSR.Contabilizar) {
+				ConexionCodigoConceptoIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoIngreso));
+				ConexionCodigoConceptoComisionIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionIngreso));
+			}
 		}
 
 		private void ExecuteChooseCodigoCuentaBancariaOrigenCommand(string valCodigo) {
@@ -1371,6 +1372,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 		public override void InitializeViewModel(eAccionSR valAction) {
 			base.InitializeViewModel(valAction);
+			if (valAction == eAccionSR.Anular) {
+				ReloadRelatedConnections();
+            }
 			Model.ConsecutivoCompania = Mfc.GetInt("Compania");
 		}
 
@@ -1382,23 +1386,20 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				}
 				LibSearchCriteria vSearchcriteria = null;
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-				if (Action == LibGalac.Aos.Base.eAccionSR.Anular) {
-					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
-					vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
-				} else if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-					//LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.StatusStr", valNumero);
+				if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
 					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
 					vModuleName = "ContabilizarTransferenciaEntreCuentasBancarias";
 				}
-				ConexionNumeroTransferencia = null;
-				LibSearchCriteria vSearchcriteria1 = vSearchcriteria;
-				ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria1, vFixedCriteria, string.Empty);
+				ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
 				if (ConexionNumeroTransferencia == null) {
 					NumeroDocumento = "";
 				} else {
 					Model.ConsecutivoCompania = ConexionNumeroTransferencia.ConsecutivoCompania;
 					Model.Consecutivo = ConexionNumeroTransferencia.Consecutivo;
 					InitializeViewModel(Action);
+					if (Action == eAccionSR.Contabilizar) {
+						ReloadRelatedConnections();
+					}
 					GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly)
 					  .ToList().ForEach(p => RaisePropertyChanged(p.Name));
 				}
