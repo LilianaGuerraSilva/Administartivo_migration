@@ -121,8 +121,8 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		private void ExecuteInsertarCommand() {
 			try {
-				TransferenciaEntreCuentasBancariasViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Anular);
-				vViewModel.InitializeViewModel(eAccionSR.Anular);
+				TransferenciaEntreCuentasBancariasViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Insertar);
+				vViewModel.InitializeViewModel(eAccionSR.Insertar);
 				bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
 				if (result) {
 					SearchItems();
@@ -136,8 +136,8 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		private void ExecuteConsultarCommand() {
 			try {
-				TransferenciaEntreCuentasBancariasViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Anular);
-				vViewModel.InitializeViewModel(eAccionSR.Anular);
+				TransferenciaEntreCuentasBancariasViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Consultar);
+				vViewModel.InitializeViewModel(eAccionSR.Consultar);
 				bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
 				if (result) {
 					SearchItems();
@@ -154,7 +154,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		protected override bool CanExecuteReadCommand() {
-			return CurrentItem != null && CanRead && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Consultar");
+			return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Consultar");
 		}
 
 		private bool CanExecuteAnularCommand() {
