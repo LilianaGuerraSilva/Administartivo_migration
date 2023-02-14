@@ -898,7 +898,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsVisibleFechaAnulacion {
 			get {
-				return Action == eAccionSR.Anular || Action == eAccionSR.Consultar || (Action == eAccionSR.Contabilizar && Status == eStatusTransferenciaBancaria.Anulada);
+				return Action == eAccionSR.Anular || (Action == eAccionSR.Consultar && Status == eStatusTransferenciaBancaria.Anulada) || (Action == eAccionSR.Contabilizar && Status == eStatusTransferenciaBancaria.Anulada);
 			}
 		}
 
