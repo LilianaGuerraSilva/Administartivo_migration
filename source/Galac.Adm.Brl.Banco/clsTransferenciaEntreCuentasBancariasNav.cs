@@ -361,7 +361,7 @@ namespace Galac.Adm.Brl.Banco {
 				GenerarAsientoDeRetiroEnCuentaAsBool = false,
 				NombreOperador = item.NombreOperador,
 				FechaUltimaModificacion = LibDate.Today(),
-		};
+			};
 		}
 
 		private MovimientoBancario GenerarMovimientoBancarioIngresoAnulacion(TransferenciaEntreCuentasBancarias item, decimal valAlicuota) {

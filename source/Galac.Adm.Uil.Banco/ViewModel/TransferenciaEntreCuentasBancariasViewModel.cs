@@ -870,7 +870,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-
 		public bool IsEnabledCambioABolivaresEgreso {
 			get { return IsInsertar && !vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen); }
 		}
@@ -1408,6 +1407,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			base.InitializeViewModel(valAction);
 			if (valAction == eAccionSR.Anular) {
 				ReloadRelatedConnections();
+				Model.FechaDeAnulacion = Model.Fecha;
             }
 			Model.ConsecutivoCompania = Mfc.GetInt("Compania");
 		}

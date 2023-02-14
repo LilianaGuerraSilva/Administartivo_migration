@@ -123,9 +123,11 @@
                 <Label
                     Name="lblStatus"
                     Grid.Row="1"
+                    Grid.RowSpan="2"
                     Grid.Column="2"
-                    Width="300"
-                    HorizontalAlignment="Right"
+                    Width="222"
+                    Margin="359,0,0,56"
+                    HorizontalAlignment="Left"
                     HorizontalContentAlignment="Right"
                     Content="{Binding Path=StatusYFechaDeAnulacion}"
                     Style="{StaticResource LabelStatusBlue}"
