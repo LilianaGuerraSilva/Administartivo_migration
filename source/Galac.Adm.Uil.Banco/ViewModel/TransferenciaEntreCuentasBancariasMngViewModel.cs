@@ -158,13 +158,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private bool CanExecuteAnularCommand() {
-			return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Anular") && PuedeEjecutarPorParametrosContabilidad() && CurrentItem.Status == eStatusTransferenciaBancaria.Vigente;
+			return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Anular") && CurrentItem.Status == eStatusTransferenciaBancaria.Vigente && PuedeEjecutarPorParametrosContabilidad();
 		}
 
 		private bool PuedeEjecutarPorParametrosContabilidad() {
 			bool vPuede = true;
 			if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")) {
-				if (!LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Periodo", "PeriodoCerrado"))) {
+				if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "PeriodoCerrado")) {
+					vPuede = false;
 					if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "MesCerrado")) {
 						vPuede = false;
 					}

@@ -345,7 +345,7 @@ namespace Galac.Adm.Brl.Banco {
 				ConsecutivoCompania = item.ConsecutivoCompania,
 				CodigoCtaBancaria = item.CodigoCuentaBancariaOrigen,
 				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoBancarioReversoTransfIngreso"),
-				Fecha = LibDate.Today(),
+				Fecha = item.FechaDeAnulacion,
 				TipoConceptoAsEnum = eIngresoEgreso.Ingreso,
 				Monto = vMonto,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
@@ -361,7 +361,7 @@ namespace Galac.Adm.Brl.Banco {
 				GenerarAsientoDeRetiroEnCuentaAsBool = false,
 				NombreOperador = item.NombreOperador,
 				FechaUltimaModificacion = LibDate.Today(),
-			};
+		};
 		}
 
 		private MovimientoBancario GenerarMovimientoBancarioIngresoAnulacion(TransferenciaEntreCuentasBancarias item, decimal valAlicuota) {
@@ -384,7 +384,7 @@ namespace Galac.Adm.Brl.Banco {
 				ConsecutivoCompania = item.ConsecutivoCompania,
 				CodigoCtaBancaria = item.CodigoCuentaBancariaDestino,
 				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoBancarioReversoTransfEgreso"),
-				Fecha = LibDate.Today(),
+				Fecha = item.FechaDeAnulacion,
 				TipoConceptoAsEnum = eIngresoEgreso.Egreso,
 				Monto = vMonto,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
@@ -407,7 +407,48 @@ namespace Galac.Adm.Brl.Banco {
 			ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasDat();
 			return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_TransferenciaEntreCuentasBancariasContaSCH", valXmlParamsExpression);
 		}
-		#endregion //Codigo Ejemplo
+
+        bool ITransferenciaEntreCuentasBancariasPdn.PerteneceAUnMesCerrado(DateTime valFecha) {
+			bool vResult = false;
+			if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "UsaCierreDeMes")) {
+				return vResult;
+			}
+			string vSQL = "SELECT Mes1Cerrado, Mes2Cerrado, Mes3Cerrado, Mes4Cerrado, Mes5Cerrado, Mes6Cerrado, Mes7Cerrado, Mes8Cerrado, Mes9Cerrado, Mes10Cerrado, Mes11Cerrado, Mes12Cerrado FROM PERIODO WHERE ConsecutivoPeriodo = @ConsecutivoPeriodo";
+			XElement vDataPeriodo = LibBusiness.ExecuteSelect(vSQL, LibGlobalValues.Instance.GetMfcInfo().GetIntAsParam("Periodo"), "", 0);
+			vResult = FechaPerteneceAUnMesCerrado(valFecha, vDataPeriodo);
+			return vResult;
+        }
+
+		private bool FechaPerteneceAUnMesCerrado(DateTime vFecha, XElement vDataPeriodo) {
+			bool vResult = false;
+			if (LibDate.F1IsGreaterOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaAperturaDelPeriodo")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre1")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes1Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre1")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre2")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes2Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre2")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre3")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes3Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre3")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre4")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes4Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre4")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre5")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes5Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre5")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre6")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes6Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre6")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre7")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes7Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre7")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre8")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes8Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre8")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre9")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes9Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre9")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre10")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes10Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre10")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre11")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes11Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre11")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaCierreDelPeriodo")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes12Cerrado"))) {
+				vResult = true;
+			}
+			return vResult;
+		}
+		#endregion //Código Programador
 
 	} //End of class clsTransferenciaEntreCuentasBancariasNav
 

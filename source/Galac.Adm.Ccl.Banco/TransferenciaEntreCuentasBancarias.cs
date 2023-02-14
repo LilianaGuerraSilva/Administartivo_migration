@@ -296,7 +296,7 @@ namespace Galac.Adm.Ccl.Banco {
 			Fecha = LibDate.Today();
 			NumeroDocumento = string.Empty;
 			Descripcion = string.Empty;
-			FechaDeAnulacion = LibDate.MinDateForDB();
+			FechaDeAnulacion = LibDate.Today();
 			CodigoCuentaBancariaOrigen = string.Empty;
 			CambioABolivaresEgreso = 1;
 			MontoTransferenciaEgreso = 0;
