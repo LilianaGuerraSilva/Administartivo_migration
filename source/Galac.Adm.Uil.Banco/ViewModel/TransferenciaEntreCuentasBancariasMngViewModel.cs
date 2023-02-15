@@ -166,9 +166,8 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")) {
 				if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "PeriodoCerrado")) {
 					vPuede = false;
-					if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "MesCerrado")) {
-						vPuede = false;
-					}
+				} else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "MesCerrado")) {
+					vPuede = false;
 				}
 			}
 			return vPuede;
