@@ -127,7 +127,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public string StatusYFechaDeAnulacion {//Label de Status
 			get {
-				return Status.GetDescription() + (Status == eStatusTransferenciaBancaria.Anulada ? (" - " + FechaDeAnulacion.ToShortDateString()) : string.Empty);
+				return Status.GetDescription();
 			}
 		}
 
@@ -178,6 +178,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
+		[LibCustomValidation("FechaDeAnulacionValidating")]
 		public DateTime FechaDeAnulacion {
 			get {
 				return Model.FechaDeAnulacion;
@@ -185,6 +186,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			set {
 				if (Model.FechaDeAnulacion != value) {
 					Model.FechaDeAnulacion = value;
+					IsDirty = true;
 					RaisePropertyChanged(FechaDeAnulacionPropertyName);
 				}
 			}
@@ -868,7 +870,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-
 		public bool IsEnabledCambioABolivaresEgreso {
 			get { return IsInsertar && !vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen); }
 		}
@@ -892,6 +893,18 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			get {
 				return IsInsertar && GeneraComisionIngreso &&
 				  (ConexionCodigoCuentaBancariaDestino != null && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario);
+			}
+		}
+
+		public bool IsVisibleFechaAnulacion {
+			get {
+				return Action == eAccionSR.Anular || (Action == eAccionSR.Consultar && Status == eStatusTransferenciaBancaria.Anulada) || (Action == eAccionSR.Contabilizar && Status == eStatusTransferenciaBancaria.Anulada);
+			}
+		}
+
+		public bool IsEnabledFechaAnulacion {
+			get {
+				return Action == eAccionSR.Anular;
 			}
 		}
 
@@ -1095,22 +1108,42 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
 			}
+			bool PertenerceAUnMesCerrado = ((ITransferenciaEntreCuentasBancariasPdn)BusinessComponent).PerteneceAUnMesCerrado(Fecha);
 			ValidationResult vResult = ValidationResult.Success;
 			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
 				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
 			} else if (LibDate.DateIsGreaterThanToday(Fecha, false, string.Empty)) {
 				vResult = new ValidationResult("La fecha de la transferencia no puede ser mayor a la fecha de hoy.");
-				//} else if (true) { //si la compañía usa contabilidad y la fecha >= fecha de inicio contabilizacion (parámetros)
-				//	if (true) { //la fecha no pertenece al período actual (parámetros)
-				//		vResult = new ValidationResult("la fecha no pertenece al período actual.");
-				//	} else if (true) {//el período actual está cerrado (parámetros)
-				//		vResult = new ValidationResult("el período actual está cerrado.");
-				//	}else if (true) {//el mes de la fecha está cerrado.
-				//		vResult = new ValidationResult("el mes está cerrado.");
-				//                }					
+			} else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")
+				&&  (Fecha > LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaCierre") || Fecha < LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaApertura")) ) {
+					vResult = new ValidationResult("La Fecha de la Transferencia debe pertenecer al Período Actual.");
+			} else if (PertenerceAUnMesCerrado) {
+				vResult = new ValidationResult("La fecha de la transferencia pertenece a un Mes Cerrado.");				
 			}
 			return vResult;
 		}
+
+		private ValidationResult FechaDeAnulacionValidating() {
+			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Contabilizar) || (Action == eAccionSR.Insertar)) {
+				return ValidationResult.Success;
+			}
+			bool PertenerceAUnMesCerrado = ((ITransferenciaEntreCuentasBancariasPdn)BusinessComponent).PerteneceAUnMesCerrado(FechaDeAnulacion);
+			ValidationResult vResult = ValidationResult.Success;
+			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeAnulacion, false, Action)) {
+				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
+			} else if (LibDate.DateIsGreaterThanToday(FechaDeAnulacion, false, string.Empty)) {
+				vResult = new ValidationResult("La Fecha de Anulación de la transferencia no puede ser mayor a la fecha de hoy.");
+			} else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")
+				&& (FechaDeAnulacion > LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaCierre") || FechaDeAnulacion < LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaApertura"))) {
+				vResult = new ValidationResult("La Fecha de Anulación de la Transferencia debe pertenecer al Período Actual.");
+			} else if (PertenerceAUnMesCerrado) {
+				vResult = new ValidationResult("La Fecha de Anulación de la transferencia pertenece a un Mes Cerrado.");
+			} else if (FechaDeAnulacion < Fecha) {
+				vResult = new ValidationResult("La Fecha de Anulación no puede ser menor a la de la transferencia.");
+			}
+			return vResult;
+		}
+
 		#endregion //Metodos Generados
 
 		#region Código Programador
@@ -1298,7 +1331,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		void AnulaTransferencia() {
 			Model.StatusAsEnum = eStatusTransferenciaBancaria.Anulada;
-			Model.FechaDeAnulacion = LibDate.Today();
+			Model.FechaDeAnulacion = FechaDeAnulacion;
 		}
 
 		public void AsignaTasaDelDiaEgreso() {
@@ -1374,6 +1407,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			base.InitializeViewModel(valAction);
 			if (valAction == eAccionSR.Anular) {
 				ReloadRelatedConnections();
+				Model.FechaDeAnulacion = Model.Fecha;
             }
 			Model.ConsecutivoCompania = Mfc.GetInt("Compania");
 		}

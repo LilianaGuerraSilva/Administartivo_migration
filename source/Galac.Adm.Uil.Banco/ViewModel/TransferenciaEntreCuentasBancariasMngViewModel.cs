@@ -150,7 +150,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		protected override bool CanExecuteCreateCommand() {
-			return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Insertar");
+			return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Insertar") && PuedeEjecutarPorParametrosContabilidad();
 		}
 
 		protected override bool CanExecuteReadCommand() {
@@ -158,7 +158,19 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private bool CanExecuteAnularCommand() {
-			return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Anular") && CurrentItem.Status == eStatusTransferenciaBancaria.Vigente;
+			return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Anular") && CurrentItem.Status == eStatusTransferenciaBancaria.Vigente && PuedeEjecutarPorParametrosContabilidad();
+		}
+
+		private bool PuedeEjecutarPorParametrosContabilidad() {
+			bool vPuede = true;
+			if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")) {
+				if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "PeriodoCerrado")) {
+					vPuede = false;
+				} else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "MesCerrado")) {
+					vPuede = false;
+				}
+			}
+			return vPuede;
 		}
 		#endregion
 
