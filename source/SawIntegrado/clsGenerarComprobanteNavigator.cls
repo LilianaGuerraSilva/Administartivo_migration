@@ -4569,7 +4569,7 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    
    vSqlStatusNumero = gUtilSQL.fCast("Adm.TransferenciaEntreCuentasBancarias.Status", eTDSS_VARCHAR, "")
    vSqlStatusNumero = vSqlStatusNumero & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.fSeparadorStandardDeElementosString) & gUtilSQL.CharConcat
-   vSqlStatusNumero = vSqlStatusNumero & gUtilSQL.fCast("Adm.TransferenciaEntreCuentasBancarias.NumeroDocumento", eTDSS_VARCHAR, "")
+   vSqlStatusNumero = vSqlStatusNumero & gUtilSQL.fCast("Adm.TransferenciaEntreCuentasBancarias.Consecutivo", eTDSS_VARCHAR, "")
    
    codigoDelAuxiliar = ""  'No tiene auxiliares
    '  EL MOVIMIENTO BANCARIO ES UN INGRESO
