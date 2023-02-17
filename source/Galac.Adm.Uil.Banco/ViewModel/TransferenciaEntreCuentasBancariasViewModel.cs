@@ -1019,7 +1019,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Egreso);
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Egreso));
 				ConexionCodigoConceptoEgreso = null;
 				ConexionCodigoConceptoEgreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
 			} catch (AccessViolationException) {
@@ -1035,7 +1035,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Egreso);
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Egreso));
 				ConexionCodigoConceptoComisionEgreso = null;
 				ConexionCodigoConceptoComisionEgreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria);
 			} catch (AccessViolationException) {
@@ -1078,7 +1078,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Ingreso);
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Ingreso));
 				ConexionCodigoConceptoIngreso = null;
 				ConexionCodigoConceptoIngreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
 			} catch (AccessViolationException) {
@@ -1094,7 +1094,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Egreso);
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Egreso));
 				ConexionCodigoConceptoComisionIngreso = null;
 				ConexionCodigoConceptoComisionIngreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
 			} catch (AccessViolationException) {
@@ -1421,7 +1421,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				LibSearchCriteria vSearchcriteria = null;
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
 				if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
+					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo", valNumero);
 					vModuleName = "ContabilizarTransferenciaEntreCuentasBancarias";
 				}
 				ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
