@@ -1421,7 +1421,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				LibSearchCriteria vSearchcriteria = null;
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
 				if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
+					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo", valNumero);
 					vModuleName = "ContabilizarTransferenciaEntreCuentasBancarias";
 				}
 				ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);

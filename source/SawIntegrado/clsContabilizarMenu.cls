@@ -557,7 +557,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
             vCodigoCuentaBancaria = gLibGalacDataParse.GetString(0, "CodigoCuentaBancariaOrigen")
             vFechaAnulacion = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaDeAnulacion", ""))
             vStatus = gLibGalacDataParse.GetString(0, "Status")
-            vNroDocContabiliacion = gConvert.enumerativoAChar(gEnumProyecto.strStatusTransferenciaEntreCuentasToNum(vStatus)) & gTexto.fSeparadorStandardDeElementosString & vNumero
+            vNroDocContabiliacion = gConvert.enumerativoAChar(gEnumProyecto.strStatusTransferenciaEntreCuentasToNum(vStatus)) & gTexto.fSeparadorStandardDeElementosString & gConvert.fConvierteAString(vConsecutivo)
             Set TransferenciaEntreCuentasNav = New clsTransferenciaEntreCuentasNav
             Set generarComprobanteNavigator = New clsGenerarComprobanteNavigator
             If (gEnumProyecto.enumStatusTransferenciaEntreCuentasToString(eSTEC_ANULADA) = vStatus) Then
