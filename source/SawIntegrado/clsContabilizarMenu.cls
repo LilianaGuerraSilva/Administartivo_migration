@@ -578,6 +578,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
             Set TransferenciaEntreCuentasNav = Nothing
         End If
     Else
+        gMessage.InformationMessage "Acción cancelada por el usuario. ", "Contabilización de Transferencia entre Cuentas Bancarias"
         Continuar = False
     End If
     parametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
