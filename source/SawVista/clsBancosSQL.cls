@@ -492,7 +492,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConse
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
    
-   vSqlSubSelect = " SELECT MB.NumeroDocumento "
+   vSqlSubSelect = " SELECT MB.ConsecutivoMovimiento "
    vSqlSubSelect = vSqlSubSelect & " FROM MovimientoBancario AS MB "
    vSqlSubSelect = vSqlSubSelect & " WHERE " & gUtilSQL.fSQLValueBetween("MB.Fecha", valFechaInicial, valFechaFinal)
    vSqlSubSelect = vSqlSubSelect & " AND MB.ConsecutivoCompania = MovimientoBancario.ConsecutivoCompania AND MB.CodigoCtaBancaria = MovimientoBancario.CodigoCtaBancaria "
@@ -517,7 +517,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConse
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
    vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   vSQL = vSQL & " AND MovimientoBancario.NumeroDocumento NOT IN (" & vSqlSubSelect & ") "
+   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoMovimiento NOT IN (" & vSqlSubSelect & ") "
    fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
