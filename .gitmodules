@@ -22,3 +22,27 @@
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
 	branch = release/v2104
+[submodule "bin/binAdministrativoVb"]
+	path = bin/binAdministrativoVb
+	url = https://github.com/Galac-Software/BinAdministrativoVB.git
+	branch = release/V2301
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
+	url = https://github.com/Galac-Software/BinAdministrativoAos.git
+	branch = release/V23.1.0.0
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
+	url = https://github.com/Galac-Software/BinComunAos.git
+	branch = release/SawV23.1.0.0
+[submodule "bin/binContabilidadAos"]
+	path = bin/binContabilidadAos
+	url = https://github.com/Galac-Software/BinContabilidadAos.git
+	branch = release/SawV23.1.0.0
+[submodule "bin/binContabilidadVb"]
+	path = bin/binContabilidadVb
+	url = https://github.com/Galac-Software/BinContabilidadVb.git
+	branch = release/SawV23.1.0.0
+[submodule "bin/binEsqNiif"]
+	path = bin/binEsqNiif
+	url = https://github.com/Galac-Software/BinEsqNiif.git
+	branch = release/SawV23.1.0.0
