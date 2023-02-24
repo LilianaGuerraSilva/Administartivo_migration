@@ -161,6 +161,10 @@ namespace Galac.Adm.Dal.Banco {
 				if (insDB.ExistsValueOnMultifile("dbo.Anticipo", "CodigoCuentaBancaria", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
 					vSbInfo.AppendLine("Anticipo");
 				}
+				if (insDB.ExistsValueOnMultifile("Adm.TransferenciaEntreCuentasBancarias", "CodigoCuentaBancariaOrigen", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true) 
+					|| insDB.ExistsValueOnMultifile("Adm.TransferenciaEntreCuentasBancarias", "CodigoCuentaBancariaDestino", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+						vSbInfo.AppendLine("Transferencia entre Cuentas Bancarias");
+				}
 
 				if (vSbInfo.Length == 0) {
 					vResult.Success = true;

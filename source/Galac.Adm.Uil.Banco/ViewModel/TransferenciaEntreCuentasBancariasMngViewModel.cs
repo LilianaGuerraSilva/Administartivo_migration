@@ -121,8 +121,8 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		private void ExecuteInsertarCommand() {
 			try {
-				TransferenciaEntreCuentasBancariasViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Anular);
-				vViewModel.InitializeViewModel(eAccionSR.Anular);
+				TransferenciaEntreCuentasBancariasViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Insertar);
+				vViewModel.InitializeViewModel(eAccionSR.Insertar);
 				bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
 				if (result) {
 					SearchItems();
@@ -136,8 +136,8 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		private void ExecuteConsultarCommand() {
 			try {
-				TransferenciaEntreCuentasBancariasViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Anular);
-				vViewModel.InitializeViewModel(eAccionSR.Anular);
+				TransferenciaEntreCuentasBancariasViewModel vViewModel = CreateNewElement(CurrentItem.GetModel(), eAccionSR.Consultar);
+				vViewModel.InitializeViewModel(eAccionSR.Consultar);
 				bool result = LibMessages.EditViewModel.ShowEditor(vViewModel);
 				if (result) {
 					SearchItems();
@@ -150,15 +150,27 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		protected override bool CanExecuteCreateCommand() {
-			return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Insertar");
+			return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Insertar") && PuedeEjecutarPorParametrosContabilidad();
 		}
 
 		protected override bool CanExecuteReadCommand() {
-			return CurrentItem != null && CanRead && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Consultar");
+			return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Consultar");
 		}
 
 		private bool CanExecuteAnularCommand() {
-			return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Anular") && CurrentItem.Status == eStatusTransferenciaBancaria.Vigente;
+			return CurrentItem != null && LibSecurityManager.CurrentUserHasAccessTo(ModuleName.Substring(0, 27), "Anular") && CurrentItem.Status == eStatusTransferenciaBancaria.Vigente && PuedeEjecutarPorParametrosContabilidad();
+		}
+
+		private bool PuedeEjecutarPorParametrosContabilidad() {
+			bool vPuede = true;
+			if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")) {
+				if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "PeriodoCerrado")) {
+					vPuede = false;
+				} else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "MesCerrado")) {
+					vPuede = false;
+				}
+			}
+			return vPuede;
 		}
 		#endregion
 

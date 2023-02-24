@@ -135,6 +135,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         private string _PorcAlicuotaGeneral = string.Empty;
         private string _PorcAlicuotaReducida = string.Empty;
         private string _PorcAlicuotaAdicional = string.Empty;
+        private const int _MaxCantidadCaracteresDescripcion = 20;
         #endregion
 
         public clsEpson(XElement valXmlDatosImpresora) {
@@ -691,7 +692,14 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     }
                     vCantidad = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vCantidad, _EnterosParaCantidad, _DecimalesParaCantidad, ".");
                     vMonto = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(vMonto, _EnterosParaMonto, _DecimalesParaMonto, ".");
-                    vDescripcion = vCodigo + " | " + vDescripcion;
+                    vDescripcion = vCodigo + "|" + vDescripcion;
+                    vDescipcionExtendida = "";
+                    if (LibString.Len(vDescripcion) > _MaxCantidadCaracteresDescripcion) {
+                        vDescipcionExtendida = LibString.Left(vDescripcion, _MaxCantidadCaracteresDescripcion);
+                        vDescripcion = LibString.SubString(vDescripcion, _MaxCantidadCaracteresDescripcion, _MaxCantidadCaracteresDescripcion);
+                        vResultado = PFTfiscal(vDescipcionExtendida);
+                        vEstatus &= CheckRequest(vResultado, ref vMensaje);
+                    }
                     vResultado = PFrenglon(vDescripcion, vCantidad, vMonto, vPorcentajeAlicuota);
                     vEstatus &= CheckRequest(vResultado, ref vMensaje);
                     if (!vEstatus) {

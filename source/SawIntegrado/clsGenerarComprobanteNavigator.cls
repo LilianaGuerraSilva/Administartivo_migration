@@ -677,7 +677,7 @@ Public Sub sDesContabilizar(ByVal valAction As AccionSobreRecord, ByVal valModul
             ElseIf valModuloAContabilizar = eCG_REPOSICION Then
                sGenerarComprobanteDeAnulacionDeRendicion valModuloAContabilizar, valNumeroDocumento, 0, True, valFechaDeAnulacion, eCG_ANULACION_REPOSICION
             ElseIf valModuloAContabilizar = eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA Then
-               sGenerarComprobanteDeAnulacionDeTransferenciaEntreCuentas valModuloAContabilizar, valNumeroDocumento, 0, True, valFechaDeAnulacion, eCG_ANULACION_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA
+               sGenerarComprobanteDeAnulacionDeTransferenciaEntreCuentas valModuloAContabilizar, valNumeroDocumento, 0, True, valFechaDeAnulacion, eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA
             Else
                insComprobanteContable.sColocaEnCeroTodosLosAsientosDelComprobante
                insComprobanteContable.sColocaDescripcionDeAnuladoAlComprobante insComprobanteContable.GetDescripcion
@@ -4569,7 +4569,7 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    
    vSqlStatusNumero = gUtilSQL.fCast("Adm.TransferenciaEntreCuentasBancarias.Status", eTDSS_VARCHAR, "")
    vSqlStatusNumero = vSqlStatusNumero & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.fSeparadorStandardDeElementosString) & gUtilSQL.CharConcat
-   vSqlStatusNumero = vSqlStatusNumero & gUtilSQL.fCast("Adm.TransferenciaEntreCuentasBancarias.NumeroDocumento", eTDSS_VARCHAR, "")
+   vSqlStatusNumero = vSqlStatusNumero & gUtilSQL.fCast("Adm.TransferenciaEntreCuentasBancarias.Consecutivo", eTDSS_VARCHAR, "")
    
    codigoDelAuxiliar = ""  'No tiene auxiliares
    '  EL MOVIMIENTO BANCARIO ES UN INGRESO
@@ -4590,7 +4590,11 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    
    Sql = Sql & " WHERE Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND " & vSqlStatusNumero & " IN (" & ConjuntoDeTransferenciaEntreCuentasSinContabilizar & ")"
-   Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   If (valEsUnReverso) Then
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.FechaDeAnulacion", valFechaDesde, valFechaHasta) & ")"
+   Else
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoIngreso, cuenta.Codigo"
    
    '  ESTAS INSTRUCCIONES SON PARA LA COMISION DE EGRESO
@@ -4612,7 +4616,11 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    Sql = Sql & " WHERE Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND Adm.TransferenciaEntreCuentasBancarias.GeneraComisionEgreso = " & gUtilSQL.fBooleanToStrSQL(True)
    Sql = Sql & " AND " & vSqlStatusNumero & " IN (" & ConjuntoDeTransferenciaEntreCuentasSinContabilizar & ")"
-   Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   If (valEsUnReverso) Then
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.FechaDeAnulacion", valFechaDesde, valFechaHasta) & ")"
+   Else
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, cuenta.Codigo"
    
    If insMovimiento.fAplicaReformaIGTFGO6687(valFechaDesde) Then
@@ -4641,7 +4649,11 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    Sql = Sql & " WHERE Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND Adm.TransferenciaEntreCuentasBancarias.GeneraIGTFComisionEgreso = " & gUtilSQL.fBooleanToStrSQL(True)
    Sql = Sql & " AND " & vSqlStatusNumero & " IN (" & ConjuntoDeTransferenciaEntreCuentasSinContabilizar & ")"
-   Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   If (valEsUnReverso) Then
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.FechaDeAnulacion", valFechaDesde, valFechaHasta) & ")"
+   Else
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, cuenta.Codigo"
 
    '  ESTAS INSTRUCCIONES SON PARA LA COMISION DE INGRESO
@@ -4663,7 +4675,11 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    Sql = Sql & " WHERE Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND Adm.TransferenciaEntreCuentasBancarias.GeneraComisionIngreso = " & gUtilSQL.fBooleanToStrSQL(True)
    Sql = Sql & " AND " & vSqlStatusNumero & " IN (" & ConjuntoDeTransferenciaEntreCuentasSinContabilizar & ")"
-   Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   If (valEsUnReverso) Then
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.FechaDeAnulacion", valFechaDesde, valFechaHasta) & ")"
+   Else
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, cuenta.Codigo"
    
    '  ESTAS INSTRUCCIONES SON PARA IGTF DE LA COMISION DE INGRESO
@@ -4685,7 +4701,11 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    Sql = Sql & " WHERE Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND Adm.TransferenciaEntreCuentasBancarias.GeneraIGTFComisionIngreso = " & gUtilSQL.fBooleanToStrSQL(True)
    Sql = Sql & " AND " & vSqlStatusNumero & " IN (" & ConjuntoDeTransferenciaEntreCuentasSinContabilizar & ")"
-   Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   If (valEsUnReverso) Then
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.FechaDeAnulacion", valFechaDesde, valFechaHasta) & ")"
+   Else
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, cuenta.Codigo"
 
    '  EL MOVIMIENTO BANCARIO ES UN EGRESO
@@ -4706,7 +4726,11 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    
    Sql = Sql & " WHERE Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND " & vSqlStatusNumero & " IN (" & ConjuntoDeTransferenciaEntreCuentasSinContabilizar & ")"
-   Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   If (valEsUnReverso) Then
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.FechaDeAnulacion", valFechaDesde, valFechaHasta) & ")"
+   Else
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoEgreso, Adm.TransferenciaEntreCuentasBancarias.GeneraIGTFComisionEgreso, Adm.TransferenciaEntreCuentasBancarias.GeneraComisionEgreso, cuenta.Codigo"
    
    '  EL MOVIMIENTO BANCARIO ES UN COMISION DE INGRESO + IGTF INGRESO
@@ -4726,7 +4750,11 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    
    Sql = Sql & " WHERE Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Sql = Sql & " AND " & vSqlStatusNumero & " IN (" & ConjuntoDeTransferenciaEntreCuentasSinContabilizar & ")"
-   Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   If (valEsUnReverso) Then
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.FechaDeAnulacion", valFechaDesde, valFechaHasta) & ")"
+   Else
+      Sql = Sql & " AND (" & gUtilSQL.DfSQLDateValueBetween("Adm.TransferenciaEntreCuentasBancarias.Fecha", valFechaDesde, valFechaHasta) & ")"
+   End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoIngreso, Adm.TransferenciaEntreCuentasBancarias.GeneraIGTFComisionIngreso, Adm.TransferenciaEntreCuentasBancarias.GeneraComisionIngreso, cuenta.Codigo"
    
    
@@ -4771,7 +4799,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeTransferenciaEntreCuentas(ByVal valG
             insComprobanteNavigator.SetGeneradoPorStr gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valAccionAnulacionModulo)
             If insComprobanteNavigator.fInsert(insertar, True, True) Then
                If insComprobanteNavigator.fSearchByField("Numero", insComprobanteNavigator.GetNumero, True, True) Then
-                    If (gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(eCG_ANULACION_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA)) Then
+                    If (gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA)) Then
                         insFrmComprobanteInput.sInitLookAndFeelAndSetValues Modificar, Nothing, False, False, insComprobanteNavigator
                     Else
                         gMessage.exito "El Comprobante fué generado exitosamente"
