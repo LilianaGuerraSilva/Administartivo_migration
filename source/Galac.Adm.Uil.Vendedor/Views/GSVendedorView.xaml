@@ -76,7 +76,7 @@
                     nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
                     nsWpf:LibFocusManager.IsFocused="True"
                     InputDataType="Alfanumeric"
-                    IsEnabled="{Binding Path=IsEnabledCodigo}"
+                    IsEnabled="{Binding Path=IsEnabled}"
                     MaxLength="10"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=Codigo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
