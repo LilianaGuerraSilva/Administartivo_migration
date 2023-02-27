@@ -50,10 +50,6 @@
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
 	branch = master
-[submodule "source/Contabilidadvb"]
-	path = source/Contabilidadvb
-	url = https://github.com/Galac-Software/ContabilidadVb.git
-	branch = release/SawV23.1.0.0
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://github.com/Galac-Software/ContabiWrp.git
