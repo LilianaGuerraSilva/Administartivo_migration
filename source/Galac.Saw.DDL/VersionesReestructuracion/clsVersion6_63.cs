@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-	class clsVersion6_62 : clsVersionARestructurar {
-		public clsVersion6_62(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
+	class clsVersion6_63 : clsVersionARestructurar {
+		public clsVersion6_63(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
 			CrearParametroCostoTerminadoCalculadoAPartirDe();
