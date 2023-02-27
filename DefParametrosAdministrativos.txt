@@ -4,7 +4,7 @@ PatronPresentacion=MVVM
 
 $GENERATE$
 //#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
-//#INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
+#INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
 //#INCLUDE=ExternalSttdef,"C:\Git\Administrativo\DefParametrosAdministrativos.txt"
 //#INCLUDE=ExternarWincont,"C:\cvs\documentos\vba\Def\DefContabilidad-V1.txt"
 
