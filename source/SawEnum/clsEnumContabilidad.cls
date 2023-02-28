@@ -105,6 +105,7 @@ Enum enum_ComprobanteGeneradoPor
    eCG_REPOSICION
    eCG_ANULACION_REPOSICION
    eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA
+   eCG_ORDEN_DE_PRODUCCION
    eCG_GANANCIA_PERDIDA_CAMBIARIA = 80
 End Enum
 
@@ -312,8 +313,8 @@ Public Enum enum_MetodoAjuste
 End Enum
 Public Enum enum_TipoDeCuentaDpc10
    ETDCD10_ACTIVO = 0
-   Etdcd10_Pasivo
-   Etdcd10_Patrimonio
+   etdcd10_Pasivo
+   etdcd10_Patrimonio
 End Enum
 
 Public Enum enum_TipoDeCuentaDpc10Monetaria
@@ -366,7 +367,7 @@ Public Enum enum_TipoCuentaParaCosto
    eTCC_SinAsignar = 0
    eTCC_Ingreso
    eTCC_Costo
-   eTCC_gasto
+   eTCC_Gasto
    eTCC_NoDeducible
 End Enum
 
@@ -651,6 +652,7 @@ Public Function enumComprobanteGeneradoPorToString(comprobanteGeneradoPor As enu
       Case eCG_REPOSICION: enumComprobanteGeneradoPorToString = "Reposición de Caja Chica"
       Case eCG_ANULACION_REPOSICION: enumComprobanteGeneradoPorToString = "Anulación de Reposición de Caja Chica"
       Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: enumComprobanteGeneradoPorToString = "Transferencia entre Cuentas Bancarias"
+      Case eCG_ORDEN_DE_PRODUCCION: enumComprobanteGeneradoPorToString = "Orden de Producción"
       Case eCG_GANANCIA_PERDIDA_CAMBIARIA: enumComprobanteGeneradoPorToString = "Ganancia/Pérdida Cambiaria"
       Case Else: enumComprobanteGeneradoPorToString = enumComprobanteGeneradoPorToString(0)
    End Select
@@ -758,6 +760,8 @@ A_Partir_De_Aqui:
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA)
    nCount = nCount + 1
+   varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_ORDEN_DE_PRODUCCION)
+   nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_GANANCIA_PERDIDA_CAMBIARIA)
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
@@ -836,6 +840,8 @@ Public Sub FillComboBoxWithComprobanteGeneradoPorSinComprobanteDeApertura(ByRef 
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_ANULACION_REPOSICION)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_ORDEN_DE_PRODUCCION)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumComprobanteGeneradoPorToString(enum_ComprobanteGeneradoPor.eCG_GANANCIA_PERDIDA_CAMBIARIA)
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
@@ -2373,8 +2379,8 @@ End Sub
 Public Function enumTipoDeCuentaDpc10ToString(TipoDeCuentaDPC10 As enum_TipoDeCuentaDpc10) As String
    Select Case TipoDeCuentaDPC10
       Case ETDCD10_ACTIVO: enumTipoDeCuentaDpc10ToString = "Activo"
-      Case Etdcd10_Pasivo: enumTipoDeCuentaDpc10ToString = "Pasivo"
-      Case Etdcd10_Patrimonio: enumTipoDeCuentaDpc10ToString = "Patrimonio (Capital)"
+      Case etdcd10_Pasivo: enumTipoDeCuentaDpc10ToString = "Pasivo"
+      Case etdcd10_Patrimonio: enumTipoDeCuentaDpc10ToString = "Patrimonio (Capital)"
       Case Else
          enumTipoDeCuentaDpc10ToString = enumTipoDeCuentaDpc10ToString(0)
    End Select
@@ -2394,7 +2400,7 @@ Public Function strTipoDeCuentaDpc10ToNum(ByVal TipoDeCuentaDPC10 As String, Opt
    Dim mEnum As enum_TipoDeCuentaDpc10
    Dim nCount As Integer
    nCount = 0
-   For mEnum = ETDCD10_ACTIVO To Etdcd10_Patrimonio
+   For mEnum = ETDCD10_ACTIVO To etdcd10_Patrimonio
       If UCase(TipoDeCuentaDPC10) = UCase(enumTipoDeCuentaDpc10ToString(mEnum)) Then
          strTipoDeCuentaDpc10ToNum = nCount
          GoTo h_EXIT
@@ -2441,9 +2447,9 @@ Public Sub FillComboBoxWithTipoDeCuentaDpc10(ByRef varComboBox As Object, Option
    End If
    varComboBox.List(nCount) = enumTipoDeCuentaDpc10ToString(enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO)
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeCuentaDpc10ToString(enum_TipoDeCuentaDpc10.Etdcd10_Pasivo)
+   varComboBox.List(nCount) = enumTipoDeCuentaDpc10ToString(enum_TipoDeCuentaDpc10.etdcd10_Pasivo)
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoDeCuentaDpc10ToString(enum_TipoDeCuentaDpc10.Etdcd10_Patrimonio)
+   varComboBox.List(nCount) = enumTipoDeCuentaDpc10ToString(enum_TipoDeCuentaDpc10.etdcd10_Patrimonio)
       varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub
@@ -2694,10 +2700,10 @@ Public Function fEnumTipoDeCuentaDpc10ToStringInArray(Optional ByVal valPreparar
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoDeCuentaDpc10.Etdcd10_Patrimonio - enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO
+   varLimiteSuperior = enum_TipoDeCuentaDpc10.etdcd10_Patrimonio - enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO To enum_TipoDeCuentaDpc10.Etdcd10_Patrimonio
+   For varEnum = enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO To enum_TipoDeCuentaDpc10.etdcd10_Patrimonio
       varArray(nCount) = varCaracterDelimitador & enumTipoDeCuentaDpc10ToStringCorto(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
@@ -2708,8 +2714,8 @@ End Function
 Public Function enumTipoDeCuentaDpc10ToStringCorto(CuentaDpc10 As enum_TipoDeCuentaDpc10) As String
    Select Case CuentaDpc10
       Case ETDCD10_ACTIVO: enumTipoDeCuentaDpc10ToStringCorto = "Activo"
-      Case Etdcd10_Pasivo: enumTipoDeCuentaDpc10ToStringCorto = "Pasivo"
-      Case Etdcd10_Patrimonio: enumTipoDeCuentaDpc10ToStringCorto = "Patrimonio Cta. Dpc10"
+      Case etdcd10_Pasivo: enumTipoDeCuentaDpc10ToStringCorto = "Pasivo"
+      Case etdcd10_Patrimonio: enumTipoDeCuentaDpc10ToStringCorto = "Patrimonio Cta. Dpc10"
    End Select
 End Function
 
@@ -2724,10 +2730,10 @@ Public Function fEnumTipoDeCuentaFiscalToStringInArray(Optional ByVal valPrepara
    If valPrepararParaSql Then
       varCaracterDelimitador = "'"
    End If
-   varLimiteSuperior = enum_TipoDeCuentaDpc10.Etdcd10_Patrimonio - enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO
+   varLimiteSuperior = enum_TipoDeCuentaDpc10.etdcd10_Patrimonio - enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO
    nCount = 0
    ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO To enum_TipoDeCuentaDpc10.Etdcd10_Patrimonio
+   For varEnum = enum_TipoDeCuentaDpc10.ETDCD10_ACTIVO To enum_TipoDeCuentaDpc10.etdcd10_Patrimonio
       varArray(nCount) = varCaracterDelimitador & enumTipoDeCuentaFiscalToStringCorto(varEnum) & varCaracterDelimitador
       nCount = nCount + 1
    Next
@@ -2738,8 +2744,8 @@ End Function
 Public Function enumTipoDeCuentaFiscalToStringCorto(CuentaFiscal As enum_TipoDeCuentaDpc10) As String
    Select Case CuentaFiscal
       Case ETDCD10_ACTIVO: enumTipoDeCuentaFiscalToStringCorto = "Activo Fiscal"
-      Case Etdcd10_Pasivo: enumTipoDeCuentaFiscalToStringCorto = "Pasivo Fiscal"
-      Case Etdcd10_Patrimonio: enumTipoDeCuentaFiscalToStringCorto = "Patrimonio Cta. Fiscal"
+      Case etdcd10_Pasivo: enumTipoDeCuentaFiscalToStringCorto = "Pasivo Fiscal"
+      Case etdcd10_Patrimonio: enumTipoDeCuentaFiscalToStringCorto = "Patrimonio Cta. Fiscal"
    End Select
 End Function
  
@@ -2876,7 +2882,7 @@ Public Function stringCortoTipoDeCuentaDpc10ToNum(ByVal CuentaDpc10 As String, _
    Dim mEnum As enum_TipoDeCuentaDpc10
    Dim nCount As Integer
    nCount = 0
-   For mEnum = ETDCD10_ACTIVO To Etdcd10_Patrimonio
+   For mEnum = ETDCD10_ACTIVO To etdcd10_Patrimonio
       If UCase(CuentaDpc10) = UCase(enumTipoDeCuentaDpc10ToStringCorto(mEnum)) Then
          stringCortoTipoDeCuentaDpc10ToNum = nCount
          GoTo h_EXIT
@@ -2955,7 +2961,7 @@ Public Function stringCortoTipoDeCuentaFiscalToNum(ByVal CuentaFiscal As String,
    Dim mEnum As enum_TipoDeCuentaDpc10
    Dim nCount As Integer
    nCount = 0
-   For mEnum = ETDCD10_ACTIVO To Etdcd10_Patrimonio
+   For mEnum = ETDCD10_ACTIVO To etdcd10_Patrimonio
       If UCase(CuentaFiscal) = UCase(enumTipoDeCuentaFiscalToStringCorto(mEnum)) Then
          stringCortoTipoDeCuentaFiscalToNum = nCount
          GoTo h_EXIT
@@ -3161,7 +3167,7 @@ Public Function enumTipoCuentaParaCostoToString(TipoCuentaParaCosto As enum_Tipo
       Case eTCC_SinAsignar: enumTipoCuentaParaCostoToString = "Sin Asignar"
       Case eTCC_Ingreso: enumTipoCuentaParaCostoToString = "Ingreso"
       Case eTCC_Costo: enumTipoCuentaParaCostoToString = "Costo"
-      Case eTCC_gasto: enumTipoCuentaParaCostoToString = "Gasto"
+      Case eTCC_Gasto: enumTipoCuentaParaCostoToString = "Gasto"
       Case eTCC_NoDeducible: enumTipoCuentaParaCostoToString = "No Deducible"
       Case Else
          enumTipoCuentaParaCostoToString = enumTipoCuentaParaCostoToString(0)
@@ -3211,7 +3217,7 @@ Public Sub FillComboBoxWithTipoCuentaParaCosto(ByRef varComboBox As Object, Opti
    varComboBox.List(nCount) = enumTipoCuentaParaCostoToString(eTCC_Costo)
    
    nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoCuentaParaCostoToString(eTCC_gasto)
+   varComboBox.List(nCount) = enumTipoCuentaParaCostoToString(eTCC_Gasto)
    
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoCuentaParaCostoToString(eTCC_NoDeducible)

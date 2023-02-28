@@ -21,89 +21,72 @@ Private Function GetGender() As Enum_Gender
 End Function
 
 Public Function fSQLFechaUltimoComprobanteDelPeriodo(ByVal valConsecutivoPerido As Long, ByVal valFecha As Date) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vWhere As String
    On Error GoTo h_ERROR
-   vWhere = ""
-  
    vWhere = gUtilSQL.fSQLValueDateWithComparisonRule("", "COMPROBANTE.Fecha", valFecha, "=")
    vWhere = gUtilSQL.fSQLEnumValueWithAnd(vWhere, "COMPROBANTE.GeneradoPor", enum_ComprobanteGeneradoPor.eCG_INVENTARIO)
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "COMPROBANTE.ConsecutivoPeriodo", valConsecutivoPerido)
-   vWhere = gUtilSQL.getWhereSQL(vWhere)
    
-   vSQL = " SELECT  COMPROBANTE.Fecha "
-   vSQL = vSQL & "   FROM   COMPROBANTE  "
-   vSQL = vSQL & vWhere
-  fSQLFechaUltimoComprobanteDelPeriodo = vSQL
+   vSql = " SELECT COMPROBANTE.Fecha FROM COMPROBANTE  " & gUtilSQL.getWhereSQL(vWhere)
+  fSQLFechaUltimoComprobanteDelPeriodo = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLFechaUltimoComprobanteDelPeriodo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLFechaUltimoComprobanteDelPeriodo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLFechaAContabilizar(ByVal valConsecutivoCompania As Long, ByVal valFechaCierrePeriodo As Date, ByVal valFechaInicioMetodo As Date) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vWhere As String
    On Error GoTo h_ERROR
-   vWhere = ""
-
    vWhere = gUtilSQL.fSQLValueDatesBetween("", "COMPROBANTE.Fecha", valFechaInicioMetodo, valFechaCierrePeriodo)
    vWhere = gUtilSQL.fSQLEnumValueWithAnd(vWhere, "COMPROBANTE.GeneradoPor", enum_ComprobanteGeneradoPor.eCG_INVENTARIO)
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "PERIODO.ConsecutivoCompania", valConsecutivoCompania)
-   vWhere = gUtilSQL.getWhereSQL(vWhere)
 
-   vSQL = " SELECT ISNULL (  MAX (COMPROBANTE.Fecha)+ 1 , " & gUtilSQL.fDateToSQLValue(gUtilDate.fColocaUltimoDiaDelMes(valFechaInicioMetodo)) & "  )"
-   vSQL = vSQL & "   FROM   COMPROBANTE  "
-   vSQL = vSQL & "   INNER JOIN "
-   vSQL = vSQL & "   dbo.PERIODO ON "
-   vSQL = vSQL & "   dbo.COMPROBANTE.ConsecutivoPeriodo = dbo.periodo.ConsecutivoPeriodo "
-   vSQL = vSQL & vWhere
- fSQLFechaAContabilizar = vSQL
+   vSql = " SELECT ISNULL(MAX(COMPROBANTE.Fecha)+ 1, " & gUtilSQL.fDateToSQLValue(gUtilDate.fColocaUltimoDiaDelMes(valFechaInicioMetodo)) & "  )"
+   vSql = vSql & "   FROM COMPROBANTE INNER JOIN PERIODO ON COMPROBANTE.ConsecutivoPeriodo = periodo.ConsecutivoPeriodo " & gUtilSQL.getWhereSQL(vWhere)
+ fSQLFechaAContabilizar = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLFechaAContabilizar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLFechaAContabilizar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fAgregaUnaCuentaAlSQL(ByVal valDebeOHaber As String, ByVal valEsUnReverso As Boolean, _
-            ByVal valMontoDeLaCuenta As String, ByVal valCodigoDeLaCuenta As String, _
+Private Function fAgregaUnaCuentaAlSQL(ByVal valDebeOHaber As String, ByVal valEsUnReverso As Boolean, ByVal valMontoDeLaCuenta As String, ByVal valCodigoDeLaCuenta As String, _
             ByVal valLaCuentaUsaAuxiliares As Boolean, ByVal valCodigoDelAuxiliar As String, _
             ByVal valNoDocumentoOrigen As String, ByVal valDescripcionDelAsiento As String, _
             ByVal valCondicionDeStatusAnulado As String, ByVal valCodigoCentroDeCosto As String, ByVal valInsCompaniaActual As Object, ByVal valInsgProyParametrosCompania As Object) As String
-     
-   Dim SQL As String
+   Dim Sql As String
    Dim gProyCompaniaActual As Object
    Dim gProyParametrosCompania As Object
    On Error GoTo h_ERROR
    Set gProyCompaniaActual = valInsCompaniaActual
    Set gProyParametrosCompania = valInsgProyParametrosCompania
-   SQL = gUtilSQL.fSimpleSqlValue(fCambiaDebeHaberSiEsUnReverso(valDebeOHaber, valEsUnReverso)) & ", "
-   SQL = SQL & valMontoDeLaCuenta & ", "
-   
+   Sql = gUtilSQL.fSimpleSqlValue(fCambiaDebeHaberSiEsUnReverso(valDebeOHaber, valEsUnReverso)) & ", "
+   Sql = Sql & valMontoDeLaCuenta & ", "
    If gTexto.DfInStr(valCodigoDeLaCuenta, gUtilSQL.getPrefijoIIF) <> 0 Then
-      SQL = SQL & valCodigoDeLaCuenta & ", "
+      Sql = Sql & valCodigoDeLaCuenta & ", "
    Else
-      SQL = SQL & "'" & valCodigoDeLaCuenta & "' , "
+      Sql = Sql & "'" & valCodigoDeLaCuenta & "' , "
    End If
-   SQL = SQL & fColocaAuxiliarSiAplica(valLaCuentaUsaAuxiliares, valCodigoDelAuxiliar, gProyCompaniaActual.GetUsaAuxiliares)
+   Sql = Sql & fColocaAuxiliarSiAplica(valLaCuentaUsaAuxiliares, valCodigoDelAuxiliar, gProyCompaniaActual.GetUsaAuxiliares)
    If (gProyCompaniaActual.GetUsaCentroDeCostos And gProyParametrosCompania.GetAsociaCentroDeCostoyAlmacen) And valCodigoCentroDeCosto <> "" Then
-        SQL = SQL & valCodigoCentroDeCosto & ", "
+        Sql = Sql & valCodigoCentroDeCosto & ", "
    Else
-   SQL = SQL & gUtilSQL.fSimpleSqlValue("NA") & ", "
+   Sql = Sql & gUtilSQL.fSimpleSqlValue("NA") & ", "
    End If
    If gTexto.DfLeft(valNoDocumentoOrigen, 1) <> vbTab Then
-         SQL = SQL & valNoDocumentoOrigen & ", "
+         Sql = Sql & valNoDocumentoOrigen & ", "
    Else
       valNoDocumentoOrigen = gTexto.fLimpiaStringDeCharAAmbosLados(valNoDocumentoOrigen, vbTab)
-      SQL = SQL & valNoDocumentoOrigen & ", "
+      Sql = Sql & valNoDocumentoOrigen & ", "
    End If
-   SQL = SQL & valDescripcionDelAsiento
-   fAgregaUnaCuentaAlSQL = SQL
+   Sql = Sql & valDescripcionDelAsiento
+   fAgregaUnaCuentaAlSQL = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fAgregaUnaCuentaAlSQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fAgregaUnaCuentaAlSQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fCambiaDebeHaberSiEsUnReverso(ByVal valNaturaleza As String, ByVal valEsUnReverso As Boolean) As String
    Dim varNaturalezaResultante As String
    On Error GoTo h_ERROR
@@ -119,9 +102,9 @@ h_EXIT:
    fCambiaDebeHaberSiEsUnReverso = varNaturalezaResultante
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fCambiaDebeHaberSiEsUnReverso", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCambiaDebeHaberSiEsUnReverso", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fColocaAuxiliarSiAplica(ByVal valLaCuentaUsaAuxiliares As Boolean, ByVal valCodigoDelAuxiliar As String, ByVal valUsaAuxiliares As Boolean) As String
    Dim ColocarAuxiliar As Boolean
    On Error GoTo h_ERROR
@@ -138,79 +121,76 @@ Private Function fColocaAuxiliarSiAplica(ByVal valLaCuentaUsaAuxiliares As Boole
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fColocaAuxiliarSiAplica", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fColocaAuxiliarSiAplica", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
- Public Function fSQLCostoDeVenta(ByVal valConsecutivoCompania As Long, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valDetallado As Boolean, ByVal valAgruparPorCuentaArticulo As Boolean, ByVal valInsCompaniaActual As Object, ByVal valInsgProyParametrosCompania As Object, ByVal valInsgProyReglasDeContabilizacion As Object, ByVal valNroDocumentoOrigen As String, ByVal valDescripcionAsiento As String, ByVal valFechaCierreCostoPromedio As Date) As String
-Dim vResult As String
-vResult = ""
- If (valDetallado) Then
-        
+
+Public Function fSQLCostoDeVenta(ByVal valConsecutivoCompania As Long, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valDetallado As Boolean, ByVal valAgruparPorCuentaArticulo As Boolean, ByVal valInsCompaniaActual As Object, ByVal valInsgProyParametrosCompania As Object, ByVal valInsgProyReglasDeContabilizacion As Object, ByVal valNroDocumentoOrigen As String, ByVal valDescripcionAsiento As String, ByVal valFechaCierreCostoPromedio As Date) As String
+   Dim vResult As String
+   On Error GoTo h_ERROR
+   vResult = ""
+   If valDetallado Then
      If (valAgruparPorCuentaArticulo) Then
           vResult = fSelectCostoVentaDetalladoAgrupadoPorCuentaArticuloComprobante(valConsecutivoCompania, valFechaDesde, valFechaHasta, valEsUnReverso, valInsCompaniaActual, valInsgProyParametrosCompania, valInsgProyReglasDeContabilizacion, valFechaCierreCostoPromedio)
          Else
            vResult = fSelectCostoVentaDetalladoComprobante(valConsecutivoCompania, valFechaDesde, valFechaHasta, valEsUnReverso, valInsCompaniaActual, valInsgProyParametrosCompania, valInsgProyReglasDeContabilizacion, valFechaCierreCostoPromedio)
          End If
-      
     Else
          If (valAgruparPorCuentaArticulo) Then
             vResult = fSelectCostoVentaResumidoAgrupadoPorCuentaArticuloComprobante(valConsecutivoCompania, valFechaDesde, valFechaHasta, valEsUnReverso, valInsCompaniaActual, valInsgProyParametrosCompania, valInsgProyReglasDeContabilizacion, valNroDocumentoOrigen, valDescripcionAsiento, valFechaCierreCostoPromedio)
          Else
             vResult = fSelectCostoVentaResumidoComprobante(valConsecutivoCompania, valFechaDesde, valFechaHasta, valEsUnReverso, valInsCompaniaActual, valInsgProyParametrosCompania, valInsgProyReglasDeContabilizacion, valNroDocumentoOrigen, valDescripcionAsiento, valFechaCierreCostoPromedio)
          End If
-        
     End If
   fSQLCostoDeVenta = vResult
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fColocaAuxiliarSiAplica", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSelectCostoVentaDetalladoComprobante(ByVal valConsecutivoCompania As Long, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valInsCompaniaActual As Object, ByVal valInsgProyParametrosCompania As Object, ByVal valInsgProyReglasDeContabilizacion As Object, ByVal valFechaCierreCostoPromedio As Date) As String
    Dim gProyReglasDeContabilizacion As Object
    Set gProyReglasDeContabilizacion = valInsgProyReglasDeContabilizacion
    Dim sqlWhere As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vMonto As String
    On Error GoTo h_ERROR
    vMonto = " ISNULL(SUM (salidas * costofinal),0) "
    sqlWhere = gUtilSQL.fSQLValueDatesBetween(fSqlCondicionTipoDocumento(), "Gf_CostoPromedioPonderado.Fecha", valFechaDesde, valFechaHasta)
    sqlWhere = gUtilSQL.getWhereSQL(sqlWhere)
-   vSQL = "  SELECT "
-   vSQL = vSQL & " fecha " & " , "
-   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, gProyReglasDeContabilizacion.GetCuentaCostoDeVenta, False, "", "numerodocumento", "TipoDeDocumento", "", "", valInsCompaniaActual, valInsgProyParametrosCompania) & " , "
-   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, gProyReglasDeContabilizacion.GetCuentaInventario, False, "", "numerodocumento AS Numero", "TipoDeDocumento AS TIPO ", "", "", valInsCompaniaActual, valInsgProyParametrosCompania)
- 
-   vSQL = vSQL & "   FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado  "
-   vSQL = vSQL & sqlWhere
-   vSQL = vSQL & "  group by fecha,numerodocumento,tipodedocumento "
-   vSQL = vSQL & " order by fecha  ,numerodocumento"
-   fSelectCostoVentaDetalladoComprobante = vSQL
+   vSql = "  SELECT fecha, "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, gProyReglasDeContabilizacion.GetCuentaCostoDeVenta, False, "", "numerodocumento", "TipoDeDocumento", "", "", valInsCompaniaActual, valInsgProyParametrosCompania) & " , "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, gProyReglasDeContabilizacion.GetCuentaInventario, False, "", "numerodocumento AS Numero", "TipoDeDocumento AS TIPO ", "", "", valInsCompaniaActual, valInsgProyParametrosCompania)
+   vSql = vSql & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado  "
+   vSql = vSql & sqlWhere
+   vSql = vSql & " GROUP BY fecha,numerodocumento,tipodedocumento "
+   vSql = vSql & " ORDER BY fecha  ,numerodocumento"
+   fSelectCostoVentaDetalladoComprobante = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSelectCostoVentaDetalladoComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSelectCostoVentaDetalladoComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSelectCostoVentaResumidoComprobante(ByVal valConsecutivoCompania As Long, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valInsCompaniaActual As Object, ByVal valInsgProyParametrosCompania As Object, ByVal valInsgProyReglasDeContabilizacion As Object, ByVal valNroDocumentoOrigen As String, ByVal valDescripcionAsiento As String, ByVal valFechaCierreCostoPromedio As Date) As String
    Dim gProyReglasDeContabilizacion As Object
    Set gProyReglasDeContabilizacion = valInsgProyReglasDeContabilizacion
    Dim sqlWhere As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vMonto As String
    On Error GoTo h_ERROR
    vMonto = " ISNULL(SUM (salidas * costofinal),0) "
    sqlWhere = gUtilSQL.fSQLValueDatesBetween(fSqlCondicionTipoDocumento(), "Gf_CostoPromedioPonderado.Fecha", valFechaDesde, valFechaHasta)
    sqlWhere = gUtilSQL.getWhereSQL(sqlWhere)
-   vSQL = "  SELECT "
-   vSQL = vSQL & gUtilSQL.fDateToSQLValue(valFechaHasta) & " AS FECHA " & " , "
-   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, gProyReglasDeContabilizacion.GetCuentaCostoDeVenta, False, "", gUtilSQL.fSimpleSqlValue(valNroDocumentoOrigen), gUtilSQL.fSimpleSqlValue(valDescripcionAsiento), "", "", valInsCompaniaActual, valInsgProyParametrosCompania) & " , "
-   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, gProyReglasDeContabilizacion.GetCuentaInventario, False, "", gUtilSQL.fSimpleSqlValue(valNroDocumentoOrigen), gUtilSQL.fSimpleSqlValue(valDescripcionAsiento), "", "", valInsCompaniaActual, valInsgProyParametrosCompania)
+   vSql = "SELECT "
+   vSql = vSql & gUtilSQL.fDateToSQLValue(valFechaHasta) & " AS FECHA  , "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, gProyReglasDeContabilizacion.GetCuentaCostoDeVenta, False, "", gUtilSQL.fSimpleSqlValue(valNroDocumentoOrigen), gUtilSQL.fSimpleSqlValue(valDescripcionAsiento), "", "", valInsCompaniaActual, valInsgProyParametrosCompania) & " , "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, gProyReglasDeContabilizacion.GetCuentaInventario, False, "", gUtilSQL.fSimpleSqlValue(valNroDocumentoOrigen), gUtilSQL.fSimpleSqlValue(valDescripcionAsiento), "", "", valInsCompaniaActual, valInsgProyParametrosCompania)
 
-   vSQL = vSQL & "   FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado "
-   vSQL = vSQL & sqlWhere
-   fSelectCostoVentaResumidoComprobante = vSQL
+   vSql = vSql & " FROM dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado "
+   vSql = vSql & sqlWhere
+   fSelectCostoVentaResumidoComprobante = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSelectCostoVentaDetalladoComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSelectCostoVentaDetalladoComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSelectCostoVentaDetalladoAgrupadoPorCuentaArticuloComprobante(ByVal valConsecutivoCompania As Long, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valInsCompaniaActual As Object, ByVal valInsgProyParametrosCompania As Object, ByVal valInsgProyReglasDeContabilizacion As Object, ByVal valFechaCierreCostoPromedio As Date) As String
@@ -219,53 +199,38 @@ Private Function fSelectCostoVentaDetalladoAgrupadoPorCuentaArticuloComprobante(
    Dim sqlWhere As String
    Dim sqlCuentaInvHaber As String
    Dim sqlCuentaInvDebe As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vMonto As String
    On Error GoTo h_ERROR
    vMonto = " ISNULL(SUM (salidas * costofinal),0) "
-   
    sqlCuentaInvHaber = " ArticuloInventario.CuentaInventario = " & gUtilSQL.fSimpleSqlValue("") & " OR " & gUtilSQL.DfSQLIsNull("ArticuloInventario.CuentaInventario")
    sqlCuentaInvHaber = gUtilSQL.getIIF(sqlCuentaInvHaber, gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaInventario), "ArticuloInventario.CuentaInventario", True)
-   
-   
    sqlCuentaInvDebe = " ArticuloInventario.CuentaCostoDeVenta = " & gUtilSQL.fSimpleSqlValue("") & " OR " & gUtilSQL.DfSQLIsNull("ArticuloInventario.CuentaCostoDeVenta")
    sqlCuentaInvDebe = gUtilSQL.getIIF(sqlCuentaInvDebe, gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaCostoDeVenta), "ArticuloInventario.CuentaCostoDeVenta", True)
-   
-   
    sqlWhere = gUtilSQL.fSQLValueDatesBetween(fSqlCondicionTipoDocumento(), "Gf_CostoPromedioPonderado.Fecha", valFechaDesde, valFechaHasta)
    sqlWhere = gUtilSQL.getWhereSQL(sqlWhere)
-   
-   vSQL = "  SELECT "
-   vSQL = vSQL & " fecha " & " , "
-   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, sqlCuentaInvDebe, False, "", "numerodocumento", "TipoDeDocumento", gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(""), valInsCompaniaActual, valInsgProyParametrosCompania)
-  
-   vSQL = vSQL & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado  INNER JOIN "
-   vSQL = vSQL & " ArticuloInventario ON "
-   vSQL = vSQL & " Gf_CostoPromedioPonderado.Codigo = dbo.ArticuloInventario.Codigo AND "
-   vSQL = vSQL & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "  = ArticuloInventario.ConsecutivoCompania "
-   
-   vSQL = vSQL & sqlWhere
-   vSQL = vSQL & "  group by fecha,numerodocumento,tipodedocumento,CuentaCostoDeVenta"
+   vSql = "SELECT fecha, "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, sqlCuentaInvDebe, False, "", "numerodocumento", "TipoDeDocumento", gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(""), valInsCompaniaActual, valInsgProyParametrosCompania)
+   vSql = vSql & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado  INNER JOIN "
+   vSql = vSql & " ArticuloInventario ON "
+   vSql = vSql & " Gf_CostoPromedioPonderado.Codigo = dbo.ArticuloInventario.Codigo AND "
+   vSql = vSql & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "  = ArticuloInventario.ConsecutivoCompania "
+   vSql = vSql & sqlWhere
+   vSql = vSql & " GROUP BY fecha,numerodocumento,tipodedocumento,CuentaCostoDeVenta"
 
-   vSQL = vSQL & " UNION "
-   vSQL = vSQL & " SELECT "
-   vSQL = vSQL & " fecha " & " , "
-   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, sqlCuentaInvHaber, False, "", "numerodocumento", "TipoDeDocumento", gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(""), valInsCompaniaActual, valInsgProyParametrosCompania)
-   
-   
-   vSQL = vSQL & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado INNER JOIN "
-   vSQL = vSQL & " ArticuloInventario ON "
-   vSQL = vSQL & " Gf_CostoPromedioPonderado.Codigo = dbo.ArticuloInventario.Codigo AND "
-   vSQL = vSQL & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "  = ArticuloInventario.ConsecutivoCompania "
-   
-   vSQL = vSQL & sqlWhere
-   vSQL = vSQL & " group by fecha,numerodocumento,tipodedocumento,CuentaInventario "
-   vSQL = vSQL & " order by fecha  ,numerodocumento"
-   fSelectCostoVentaDetalladoAgrupadoPorCuentaArticuloComprobante = vSQL
+   vSql = vSql & " UNION "
+   vSql = vSql & " SELECT fecha, "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, sqlCuentaInvHaber, False, "", "numerodocumento", "TipoDeDocumento", gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(""), valInsCompaniaActual, valInsgProyParametrosCompania)
+   vSql = vSql & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado INNER JOIN "
+   vSql = vSql & " ArticuloInventario ON Gf_CostoPromedioPonderado.Codigo = dbo.ArticuloInventario.Codigo AND "
+   vSql = vSql & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "  = ArticuloInventario.ConsecutivoCompania "
+   vSql = vSql & sqlWhere
+   vSql = vSql & " GROUP BY fecha, numerodocumento, tipodedocumento, CuentaInventario "
+   vSql = vSql & " ORDER BY fecha, numerodocumento"
+   fSelectCostoVentaDetalladoAgrupadoPorCuentaArticuloComprobante = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSelectCostoVentaDetalladoComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSelectCostoVentaDetalladoComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSelectCostoVentaResumidoAgrupadoPorCuentaArticuloComprobante(ByVal valConsecutivoCompania As Long, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valInsCompaniaActual As Object, ByVal valInsgProyParametrosCompania As Object, ByVal valInsgProyReglasDeContabilizacion As Object, ByVal valNroDocumentoOrigen As String, ByVal valDescripcionAsiento As String, ByVal valFechaCierreCostoPromedio As Date) As String
@@ -274,53 +239,39 @@ Private Function fSelectCostoVentaResumidoAgrupadoPorCuentaArticuloComprobante(B
    Dim sqlWhere As String
    Dim sqlCuentaInvHaber As String
    Dim sqlCuentaInvDebe As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vMonto As String
    On Error GoTo h_ERROR
    vMonto = " ISNULL(SUM (salidas * costofinal),0) "
-   
    sqlCuentaInvHaber = " ArticuloInventario.CuentaInventario = " & gUtilSQL.fSimpleSqlValue("") & " OR " & gUtilSQL.DfSQLIsNull("ArticuloInventario.CuentaInventario")
    sqlCuentaInvHaber = gUtilSQL.getIIF(sqlCuentaInvHaber, gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaInventario), "ArticuloInventario.CuentaInventario", True)
-   
    sqlCuentaInvDebe = " ArticuloInventario.CuentaCostoDeVenta = " & gUtilSQL.fSimpleSqlValue("") & " OR " & gUtilSQL.DfSQLIsNull("ArticuloInventario.CuentaCostoDeVenta")
    sqlCuentaInvDebe = gUtilSQL.getIIF(sqlCuentaInvDebe, gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaCostoDeVenta), "ArticuloInventario.CuentaCostoDeVenta", True)
-  
-   
    sqlWhere = gUtilSQL.fSQLValueDatesBetween(fSqlCondicionTipoDocumento(), "Gf_CostoPromedioPonderado.Fecha", valFechaDesde, valFechaHasta)
    sqlWhere = gUtilSQL.getWhereSQL(sqlWhere)
    
-   vSQL = "  SELECT "
-   vSQL = vSQL & gUtilSQL.fDateToSQLValue(valFechaHasta) & " AS FECHA " & " , "
-   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, sqlCuentaInvDebe, False, "", gUtilSQL.fSimpleSqlValue(valNroDocumentoOrigen), gUtilSQL.fSimpleSqlValue(valDescripcionAsiento), gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(""), valInsCompaniaActual, valInsgProyParametrosCompania)
-  
-   vSQL = vSQL & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado  INNER JOIN "
-   vSQL = vSQL & " ArticuloInventario ON "
-   vSQL = vSQL & " Gf_CostoPromedioPonderado.Codigo = dbo.ArticuloInventario.Codigo AND "
-   vSQL = vSQL & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "  = ArticuloInventario.ConsecutivoCompania "
-   vSQL = vSQL & sqlWhere
-   vSQL = vSQL & " group by ArticuloInventario.CuentaCostoDeVenta "
- 
-   vSQL = vSQL & " UNION "
-   vSQL = vSQL & " SELECT "
-   vSQL = vSQL & gUtilSQL.fDateToSQLValue(valFechaHasta) & " AS FECHA " & " , "
-   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, sqlCuentaInvHaber, False, "", gUtilSQL.fSimpleSqlValue(valNroDocumentoOrigen), gUtilSQL.fSimpleSqlValue(valDescripcionAsiento), gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(""), valInsCompaniaActual, valInsgProyParametrosCompania)
-   
-   
-   vSQL = vSQL & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado INNER JOIN "
-   vSQL = vSQL & " ArticuloInventario ON "
-   vSQL = vSQL & " Gf_CostoPromedioPonderado.Codigo = dbo.ArticuloInventario.Codigo AND "
-   vSQL = vSQL & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "  = ArticuloInventario.ConsecutivoCompania "
-   
-   vSQL = vSQL & sqlWhere
-   vSQL = vSQL & " group by CuentaInventario "
-   
-   fSelectCostoVentaResumidoAgrupadoPorCuentaArticuloComprobante = vSQL
+   vSql = "SELECT "
+   vSql = vSql & gUtilSQL.fDateToSQLValue(valFechaHasta) & " AS FECHA, "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, sqlCuentaInvDebe, False, "", gUtilSQL.fSimpleSqlValue(valNroDocumentoOrigen), gUtilSQL.fSimpleSqlValue(valDescripcionAsiento), gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(""), valInsCompaniaActual, valInsgProyParametrosCompania)
+   vSql = vSql & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado  INNER JOIN "
+   vSql = vSql & " ArticuloInventario ON "
+   vSql = vSql & " Gf_CostoPromedioPonderado.Codigo = dbo.ArticuloInventario.Codigo AND "
+   vSql = vSql & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "  = ArticuloInventario.ConsecutivoCompania "
+   vSql = vSql & sqlWhere
+   vSql = vSql & " GROUP BY ArticuloInventario.CuentaCostoDeVenta "
+   vSql = vSql & " UNION "
+   vSql = vSql & " SELECT "
+   vSql = vSql & gUtilSQL.fDateToSQLValue(valFechaHasta) & " AS FECHA, "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, sqlCuentaInvHaber, False, "", gUtilSQL.fSimpleSqlValue(valNroDocumentoOrigen), gUtilSQL.fSimpleSqlValue(valDescripcionAsiento), gUtilSQL.fSimpleSqlValue(""), gUtilSQL.fSimpleSqlValue(""), valInsCompaniaActual, valInsgProyParametrosCompania)
+   vSql = vSql & " FROM   dbo.Gf_CostoPromedioPonderado( " & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "," & gUtilSQL.fDateToSQLValue(valFechaCierreCostoPromedio) & "," & gUtilSQL.fDateToSQLValue(valFechaHasta) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, False) & "," & fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, True) & ") AS Gf_CostoPromedioPonderado INNER JOIN "
+   vSql = vSql & " ArticuloInventario ON Gf_CostoPromedioPonderado.Codigo = dbo.ArticuloInventario.Codigo AND "
+   vSql = vSql & gUtilSQL.fNumToStrSQL(valConsecutivoCompania) & "  = ArticuloInventario.ConsecutivoCompania "
+   vSql = vSql & sqlWhere
+   vSql = vSql & " GROUP BY CuentaInventario "
+   fSelectCostoVentaResumidoAgrupadoPorCuentaArticuloComprobante = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-   
-
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSelectCostoVentaDetalladoComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSelectCostoVentaDetalladoComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fArticuloInventarioMaxOrMinCodigo(ByVal valConsecutivoCompania As Long, ByVal valMax As Boolean) As String
@@ -328,89 +279,68 @@ Private Function fArticuloInventarioMaxOrMinCodigo(ByVal valConsecutivoCompania 
    Dim vResult As String
    On Error GoTo h_ERROR
    Set insArticulo = New clsArticuloSQL
-      vResult = insArticulo.fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, valMax)
+   vResult = insArticulo.fArticuloInventarioMaxOrMinCodigo(valConsecutivoCompania, valMax)
    fArticuloInventarioMaxOrMinCodigo = vResult
  Set insArticulo = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fArticuloInventarioMaxOrMinCodigo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fArticuloInventarioMaxOrMinCodigo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
 
 Private Function fSqlCondicionTipoDocumento() As String
    Dim vResult As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vResult = ""
-   vResult = "Gf_CostoPromedioPonderado" & ".TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumTipodocumentoFacturaToString(eTF_FACTURA))
-   vResult = vResult & " OR " & "Gf_CostoPromedioPonderado" & ".TipoDeDocumento= " & gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumTipodocumentoFacturaToString(eTF_COMPROBANTEFISCAL))
+   vResult = "Gf_CostoPromedioPonderado.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumTipodocumentoFacturaToString(eTF_FACTURA))
+   vResult = vResult & " OR Gf_CostoPromedioPonderado.TipoDeDocumento= " & gUtilSQL.fSimpleSqlValue(gEnumProyecto.enumTipodocumentoFacturaToString(eTF_COMPROBANTEFISCAL))
    fSqlCondicionTipoDocumento = "(" & vResult & ")"
    Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSqlCondicionTipoDocumento", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCondicionTipoDocumento", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLCoutComprobantes(ByVal valConsecutivoCompania As Long, ByVal valGeneradoPor As enum_ComprobanteGeneradoPor, ByVal valFechaOperacion As Date) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vWhere As String
    On Error GoTo h_ERROR
-   vWhere = ""
    vWhere = gUtilSQL.fSQLValueDateWithComparisonRule("", "COMPROBANTE.Fecha", valFechaOperacion, ">=")
    vWhere = gUtilSQL.fSQLValueWithAnd(vWhere, "COMPROBANTE.GeneradoPor", gConvert.enumerativoAChar(valGeneradoPor), False)
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "periodo.ConsecutivoCompania", valConsecutivoCompania)
-   vWhere = gUtilSQL.getWhereSQL(vWhere)
    
-   vSQL = " SELECT COUNT(Numero) AS  Total "
-   vSQL = vSQL & " FROM periodo "
-   vSQL = vSQL & " INNER JOIN  COMPROBANTE ON "
-   vSQL = vSQL & " periodo.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo "
-   vSQL = vSQL & vWhere
-   fSQLCoutComprobantes = vSQL
+   vSql = " SELECT COUNT(Numero) AS  Total FROM periodo INNER JOIN  COMPROBANTE ON periodo.ConsecutivoPeriodo = COMPROBANTE.ConsecutivoPeriodo " & gUtilSQL.getWhereSQL(vWhere)
+   fSQLCoutComprobantes = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLCoutComprobantes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLCoutComprobantes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Public Function fSQLFechaMaxComprobanteDelPeriodoInventario(ByVal valConsecutivoPerido As Long) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vWhere As String
    On Error GoTo h_ERROR
-   vWhere = ""
    vWhere = gUtilSQL.fSQLEnumValueWithAnd(vWhere, "COMPROBANTE.GeneradoPor", enum_ComprobanteGeneradoPor.eCG_INVENTARIO)
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "COMPROBANTE.ConsecutivoPeriodo", valConsecutivoPerido)
-   vWhere = gUtilSQL.getWhereSQL(vWhere)
    
-   vSQL = " SELECT  MAX(COMPROBANTE.Fecha) "
-   vSQL = vSQL & "   FROM   COMPROBANTE  "
-   vSQL = vSQL & vWhere
- fSQLFechaMaxComprobanteDelPeriodoInventario = vSQL
+   vSql = " SELECT  MAX(COMPROBANTE.Fecha) FROM   COMPROBANTE  " & gUtilSQL.getWhereSQL(vWhere)
+ fSQLFechaMaxComprobanteDelPeriodoInventario = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLFechaMaxComprobanteDelPeriodoInventario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLFechaMaxComprobanteDelPeriodoInventario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLDeleteComprobantesDeCostoDeInventarioEntreFechas(ByVal valConsecutivoPerido As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim vWhere As String
    On Error GoTo h_ERROR
-   vWhere = ""
    vWhere = gUtilSQL.fSQLValueDatesBetween("", "COMPROBANTE.Fecha", valFechaInicial, valFechaFinal)
    vWhere = gUtilSQL.fSQLEnumValueWithAnd(vWhere, "COMPROBANTE.GeneradoPor", enum_ComprobanteGeneradoPor.eCG_INVENTARIO)
    vWhere = gUtilSQL.fSQLNumberValueWithAnd(vWhere, "COMPROBANTE.ConsecutivoPeriodo", valConsecutivoPerido)
-   vWhere = gUtilSQL.getWhereSQL(vWhere)
-      
-   vSQL = "  DELETE FROM  COMPROBANTE  "
-   vSQL = vSQL & vWhere
-  fSQLDeleteComprobantesDeCostoDeInventarioEntreFechas = vSQL
+   
+   vSql = " DELETE FROM  COMPROBANTE " & gUtilSQL.getWhereSQL(vWhere)
+  fSQLDeleteComprobantesDeCostoDeInventarioEntreFechas = vSql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLDeleteComprobantesDeCostoDeInventarioEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeleteComprobantesDeCostoDeInventarioEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
-
