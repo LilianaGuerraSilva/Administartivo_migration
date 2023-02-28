@@ -6176,7 +6176,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         }
 
         private bool EsModuloProduccion() {
-            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "EsModuloDeProduccion"));
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("ReglasDeContabilizacion", "EsModuloDeProduccion"));
         }
     } //End of class ReglasDeContabilizacionViewModel
 } //End of namespace Galac.Saw.Uil.Contabilizacion
