@@ -24,8 +24,8 @@ unComisionesEnRenglones = (PorUnVendedor, PordosVendedores, PorTresVendedores);/
 UnTipoDeNivelDePrecios = (Por Usuario, PorCliente);//e
 unAccionAlAnularFactDeMesesAnt = (Permitir Anular Sin Chequear, Preguntar Si Desea Anular, No Permitir Anular);//e
 unAccionLimiteItemsFactura = (Solo Advertir,No Exeder numero Items);//e
-unFormaDeOrdenarDetalleFactura = (Como fue cargada, Por Codigo de Art�culo, Por Descripci�n de Art�culo);//e
-UnTipoDePrefijo = (SinPrefijo, A�o, Indicar);//e
+unFormaDeOrdenarDetalleFactura = (Como fue cargada, Por Codigo de Artículo, Por Descripción de Artículo);//e
+UnTipoDePrefijo = (SinPrefijo, Año, Indicar);//e
 UnModeloDeFactura = (StandarTamanoCarta, StandarMediaCarta, FormaLibre, Otro);//e
 UnItemsMontoFactura = (No Permitir ITEMS Negativos, Permitir con Autorizacion, Permitir Siempre);//e
 UnCampoCodigoAlternativoDeArticulo = (No Asignado,Campo Definible 1,Campo Definible 1,Campo Definible 3,Campo Definible 4);//e
@@ -36,7 +36,7 @@ unTipoDeMetodoDeCosteo = (Ultimo Costo,Costo Promedio);//e
 unTipoDeOrdenDePagoAImprimir = (OrdenDePagoConCheque, SoloOrdenDePago, OrdenDePagoSeparadaDeCheque); //e
 UnDondeSeEfectuaLaRetencionIVA = (No Retenida, CxP, Pago); //e,
 UnDondeSeEfectuaLaRetencionISLR = (No Retenida, CxP, Pago); //e,
-UnFormaDeReiniciarComprobanteRetIVA = (Sin Escoger, Por Mes, Por A�o, Al Completar); //e
+UnFormaDeReiniciarComprobanteRetIVA = (Sin Escoger, Por Mes, Por Año, Al Completar); //e
 unModeloPlanillaForma00030 = (F00030_F03_Grafibond, F00030_F03_Olivenca, F00030_F04_Grafibond);//e
 unComprobanteConCheque = (Comprobante con Cheque, Solo Comprobante, Comprobante separado de Cheque);//e
 unTipoDocumentoFactura = (Factura, NotaDeCredito, NotaDeDebito, ResumenDiarioDeVentas, NoAsignado, ComprobanteFiscal, Boleta);//e
@@ -48,25 +48,25 @@ unOperativoFinanciero = (Operativo, Finaciero); //e
 unFormaDeAsociarCentroDeCosto = (NoAsociar, PorAlmacen, PorLineaDeProducto); //e,Componente=SttDef 
 unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Componente=SttDef, GENERATE
 
-{@F}DatosGeneralesCompania =Record//"1.1.- Compa�ia",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
+{@F}DatosGeneralesCompania =Record//"1.1.- Compañia",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 				: Longint; //HIDE
 	AutorellenaResumenDiario			: boolean;//"Auto Rellenar con (0) el Numero DESDE/HASTA en Resumen Diario"
-	EsAsociadoEnCtaDeParticipacion		: boolean;//"Es Asociado en Cta de Participaci�n"
-	EscogerCompaniaAlEntrar				: boolean;//"Escoger Compa�ia al Entrar"
+	EsAsociadoEnCtaDeParticipacion		: boolean;//"Es Asociado en Cta de Participación"
+	EscogerCompaniaAlEntrar				: boolean;//"Escoger Compañia al Entrar"
 	FechaDeInicioContabilizacion		: date;//"Fecha de Inicio de Contabilizacion"
 	FechaMinimaIngresarDatos			: date;//"Fecha Minima Ingresar Datos"
-	FormaDeEscogerCompania				: unFormaDeEscogerCompania;//"Forma de Escoger Compa�ia"
+	FormaDeEscogerCompania				: unFormaDeEscogerCompania;//"Forma de Escoger Compañia"
 	IntegracionRIS						: boolean;//"Integracion RIS"
-	TipoDeAgrupacionParaLibrosDeVenta	: unTipoDeAgrupacionParaLibrosDeVenta;//"Tipo de Agrupaci�n Para Libros de Venta"
+	TipoDeAgrupacionParaLibrosDeVenta	: unTipoDeAgrupacionParaLibrosDeVenta;//"Tipo de Agrupación Para Libros de Venta"
 	TipoNegocio							: unTipoNegocio;//"Tipo Negocio"
 	UsaNotaEntrega						: boolean;//"Usa Nota de Entrega"
 	VerificarDocumentoSinContabilizar	: boolean;//"Verificar Documento Sin Contabilizar"
-	UsarVentasConIvaDiferido		: boolean;//"Usar Ventas con D�bito Fiscal Diferido"
-	ImprimirVentasDiferidas			: boolean;//"Mostrar las Ventas con D�bito Fiscal Diferido en el Libro de Ventas"
-        AplicarIVAEspecial                      : boolean;//"Activa el uso de la al�cuota de 10% del decreto 2.602"
-        AplicacionAlicuotaEspecial              : unAplicacionAlicuota;//"Modo de aplicaci�n del IVA de 10, se elige si sustituye la al�cuota general o reducida"
+	UsarVentasConIvaDiferido		: boolean;//"Usar Ventas con Débito Fiscal Diferido"
+	ImprimirVentasDiferidas			: boolean;//"Mostrar las Ventas con Débito Fiscal Diferido en el Libro de Ventas"
+        AplicarIVAEspecial                      : boolean;//"Activa el uso de la alícuota de 10% del decreto 2.602"
+        AplicacionAlicuotaEspecial              : unAplicacionAlicuota;//"Modo de aplicación del IVA de 10, se elige si sustituye la alícuota general o reducida"
         FechaInicioAlicuotaIva10Porciento       : date;//"Fecha de inicio del rango valor del decreto de IVA del 10%"
-        FechaFinAlicuotaIva10Porciento          : date;//"Fecha de finalizaci�n del rango valor del decreto de IVA del 10%"
+        FechaFinAlicuotaIva10Porciento          : date;//"Fecha de finalización del rango valor del decreto de IVA del 10%"
 }
 
 {@F}DatosGenerales =Record//"1.2.- General",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
@@ -74,14 +74,14 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	UsaMultiplesAlicuotas				: boolean;//"Usa Multiples Alicuotas (Reducida / Extendida)"
 	ValidarRifEnLaWeb					: boolean;//"Validar Rif en la Web"
 	PermitirEditarIVAenCxCCxP			: boolean;//"Permitir Editar IVA en CxC y CxP"
-	OrdenamientoDeCodigoString			: unFormaDeOrdenarCodigosString;//"Forma de Ordenar C�gigos de Tipo Texto(Aplica para Lista de Precio)"
+	OrdenamientoDeCodigoString			: unFormaDeOrdenarCodigosString;//"Forma de Ordenar Cógigos de Tipo Texto(Aplica para Lista de Precio)"
 	ImprimirComprobanteDeCxC			: boolean;//"Imprimir Comprobante de CxC"
 	ImprimirComprobanteDeCxP			: boolean;//"Imprimir Comprobante de CxP"
-	EscogerUltimaCompaniaUsada			: boolean;//"Escoger Ultima Compa�ia Usada"
+	EscogerUltimaCompaniaUsada			: boolean;//"Escoger Ultima Compañia Usada"
 	EsSistemaParaIG						: boolean;//"Es Sistema Para IG"
 }
 
-{@F}FacturaFacturacion =Record//"2.1.- Facturaci�n",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
+{@F}FacturaFacturacion =Record//"2.1.- Facturación",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 							: Longint; //HIDE			
 	BuscarArticuloXSerialAlFacturar					: boolean;//"Buscar Articulo por Serial al Facturar"
 	CambiarFechaEnCuotasLuegoDeFijarFechaEntrega	: boolean;//"Cambiar Fecha en Cuotas Luego de Fijar Fecha Entrega"
@@ -95,7 +95,7 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	NombreVendedorTres								: Str100;//"Nombre Vendedor Tres"
 	NombreVendedorUno								: Str100;//"Nombre Vendedor Uno"
 	NumFacturasManualesFaltantes					: Integer;//"Num. Facturas Manuales Faltantes"
-	PedirInformacionLibroVentasXlsalEmitirFactura	: boolean;//"Exigir Informaci�n Fiscal  Libro Ventas Xls alEmitirFactura"
+	PedirInformacionLibroVentasXlsalEmitirFactura	: boolean;//"Exigir Información Fiscal  Libro Ventas Xls alEmitirFactura"
 	PermitirFacturarConCantidadCero					: boolean;//"Permitir Facturar Con Cantidad Cero"
 	ResumenVtasAfectaInventario						: boolean;//"Resumen Vtas Afecta Inventario"
 	SugerirNumeroControlFactura						: boolean;//"Sugerir Numero Control Factura"
@@ -108,10 +108,10 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	PermitirCambioTasaMondExtrajalEmitirFactura		: boolean;//"PermitirCambio de Tasa de Monda Extrajera al Emitir Factura"
 }
 
-{@F}FacturaFacturacionCont =Record//"2.2.- Facturaci�n (Continuaci�n)",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
+{@F}FacturaFacturacionCont =Record//"2.2.- Facturación (Continuación)",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 						: Longint; //HIDE
 	UsarOtrosCargoDeFactura						: boolean;//"Usar Otros Cargo de Factura"
-	UltimaFechaDeFacturacionHistorica			: date;//"Ultima Fecha de Facturaci�n Hist�rica"
+	UltimaFechaDeFacturacionHistorica			: date;//"Ultima Fecha de Facturación Histórica"
 	UsaCamposExtrasEnRenglonFactura				: boolean;//"Usa Campos Extras en Renglon Factura"
 	UsaCobroDirecto								: boolean;//"Usa Cobro Directo"
 	PermitirIncluirFacturacionHistorica			: boolean;//"Permitir Incluir Facturacion Historica"
@@ -120,20 +120,20 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	GenerarCxCalEmitirUnaFacturaHistorica		: boolean;//"Generar CxC al Emitir una Factura Historica"
 	MaximoDescuentoEnFactura					: double;//"Maximo Descuento en Factura"
 	MesFacturacionEnCurso						: unMes;//"Mes Facturacion en Curso"
-	AccionAlAnularFactDeMesesAnt				: unAccionAlAnularFactDeMesesAnt;//"Acci�n al Anular Fact de Meses Anteriores"
+	AccionAlAnularFactDeMesesAnt				: unAccionAlAnularFactDeMesesAnt;//"Acción al Anular Fact de Meses Anteriores"
 	EmitirDirecto								: boolean;//"Emitir Directo"
 	ConceptoBancarioCobroDirecto				: Str8://=conceptoBancario.codigo,"Concepto Bancario"
 	CuentaBancariaCobroDirecto					: Str5;//=cuentaBancaria.Codigo,"Cuenta Bancaria Cobro Directo"
-	BloquearEmision                             : unBloquearEmision; //"Bloquear Emisi�n al perder Conexi�n con la Impresora Fiscal" 
-	MostrarMtoTotalBsFEnObservaciones           : boolean; //"Mostrar Total En Bol�vares Fuertes" 
+	BloquearEmision                             : unBloquearEmision; //"Bloquear Emisión al perder Conexión con la Impresora Fiscal" 
+	MostrarMtoTotalBsFEnObservaciones           : boolean; //"Mostrar Total En Bolívares Fuertes" 
 }
 
 {@F}FacturaImpresion =Record//"2.3.- Impresi�n de Factura",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 							: Longint; //HIDE
 	DetalleProdCompFactura							: boolean;//"Imprimir Detalle de Productos Compuestos"
-	AccionLimiteItemsFactura						: unAccionLimiteItemsFactura;//"Acci�n al Limite de Items de Factura"
-	ConcatenaLetraEaArticuloExento					: boolean;//"Concatenar Letra (E) a Art�culo Exento o Exonerado"
-	CantidadDeCopiasDeLaFacturaAlImprimir			: Integer;//"N�mero de copias al imprimir"
+	AccionLimiteItemsFactura						: unAccionLimiteItemsFactura;//"Acción al Limite de Items de Factura"
+	ConcatenaLetraEaArticuloExento					: boolean;//"Concatenar Letra (E) a Artículo Exento o Exonerado"
+	CantidadDeCopiasDeLaFacturaAlImprimir			: Integer;//"Número de copias al imprimir"
 	NombrePlantillaAnexoSeriales					: Str100;//"Nombre Plantilla Anexo Seriales"
 	NoImprimirFactura								: boolean;//"No imprimir la Factura despues de insertar"
 	FormaDeOrdenarDetalleFactura					: unFormaDeOrdenarDetalleFactura;//"Forma de Ordenar el Detalle"
@@ -144,7 +144,7 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	ImprimirTipoCobroEnFactura						: boolean;//"Imprimir Tipo Cobro en Factura"
 	ImprimirFacturaConSubtotalesPorLineaDeProducto	: boolean;//
 	NumItemImprimirFactura							: Integer;//
-	NumeroDeCerosALaIzquierda						: Integer;//"N�mero M�ximo de ceros a la izquierda"
+	NumeroDeCerosALaIzquierda						: Integer;//"Número Máximo de ceros a la izquierda"
 	UsarDecimalesAlImprimirCantidad					: boolean;//"Usar decimales al imprimir "Cantidad"
 }
 
@@ -170,10 +170,10 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	NombrePlantillaBoleta		: str50;//"Nombre Plantilla Factura"
 	PrimeraBoleta				: Str11;//
 	ModeloDeBoleta				: UnModeloDeFactura;//"Modelo de Boleta"
-	NumeroSerieBoleta		: str4;//"N�mero de Serie para Boleta"
-	UsaEmisionElectronicaFactura1	: boolean;//"Usa Emisi�n Electr�nica de Factura 1"
-	UsaEmisionElectronicaFactura2	: boolean;//"Usa Emisi�n Electr�nica de Factura 2"
-	UsaEmisionElectronicaBoleta	: boolean;//"Usa Emisi�n Electr�nica de Boleta"
+	NumeroSerieBoleta		: str4;//"Número de Serie para Boleta"
+	UsaEmisionElectronicaFactura1	: boolean;//"Usa Emisión Electrónica de Factura 1"
+	UsaEmisionElectronicaFactura2	: boolean;//"Usa Emisión Electrónica de Factura 2"
+	UsaEmisionElectronicaBoleta	: boolean;//"Usa Emisión Electrónica de Boleta"
 }
 
 {@F}FacturaCamposDefinibles =Record//"2.5.- Campos Definibles",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
@@ -227,96 +227,97 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 
 {@F}FacturaGuiaDeRemision =Record//"2.8.- Gu�a de Remisi�n",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 		: Longint; //HIDE
-	UsaEmisionElectronicaGuiaDeRemision	: boolean;//"Usa Emisi�n Electr�nica de Gu�a de Remisi�n"
-	NumeroSerieGuiaDeRemision	: str4;//"Numero de Serie para Gu�a de Remisi�n"
-	NombrePlantillaGuiaDeRemision	: str50;//"Nombre Plantilla de Gu�a de Remisi�n"
+	UsaEmisionElectronicaGuiaDeRemision	: boolean;//"Usa Emisión Electrónica de Guía de Remisión"
+	NumeroSerieGuiaDeRemision	: str4;//"Numero de Serie para Guía de Remisión"
+	NombrePlantillaGuiaDeRemision	: str50;//"Nombre Plantilla de Guía de Remisión"
 	PrimeraGuiaDeRemision		: Str11;//	
 	ModeloDeGuiaDeRemision		: UnModeloDeFactura;//
 }
 
 {@F}CotizacionCotizacion =Record//"3.1.- Cotizaci�n",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 				: Longint; //HIDE
-	ValidarArticulosAlGenerarFactura	: boolean;//"Validar Articulos al Generar Factura desde Cotizaci�n"
-	NombrePlantillaCotizacion			: str50;//"Plantilla de Impresi�n"
-	LimpiezaDeCotizacionXFactura		: boolean;//"Limpieza de Pedidos de Cotizaci�n por Emisi�n de Factura"
+	ValidarArticulosAlGenerarFactura	: boolean;//"Validar Articulos al Generar Factura desde Cotización"
+	NombrePlantillaCotizacion			: str50;//"Plantilla de Impresión"
+	LimpiezaDeCotizacionXFactura		: boolean;//"Limpieza de Pedidos de Cotización por Emisión de Factura"
 	DetalleProdCompCotizacion			: boolean;//"Imprimir Detalle de Productos Compuestos"
-	CampoCodigoAlternativoDeArticulo	:UnCampoCodigoAlternativoDeArticulo;//"Campo Definible de Cod. Alterno de Art�culo"
+	CampoCodigoAlternativoDeArticulo	:UnCampoCodigoAlternativoDeArticulo;//"Campo Definible de Cod. Alterno de Artículo"
 }
+
 
 {@F}CotizacionNotaDebitoCredito =Record//"3.2.- Nota de D�bito / Cr�dito",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 			: Longint; //HIDE
-	NCPreNumerada					: boolean;//"Usa Nota de Cr�dito Pre-Numerada"
-	NDPreNumerada					: boolean;//"Usa Nota de D�bito Pre-Numerada"
-	NombrePlantillaNotaDeCredito	: str50;//"Plantilla de Impresi�n"
-	NombrePlantillaNotaDeDebito		: str50;//"Plantilla de Impresi�n"
-	PrimeraNotaDeCredito			: str11;//"N�mero Inicial"
-	PrimeraNotaDeDebito			: str11;//"N�mero Inicial"
+	NCPreNumerada					: boolean;//"Usa Nota de Crédito Pre-Numerada"
+	NDPreNumerada					: boolean;//"Usa Nota de Débito Pre-Numerada"
+	NombrePlantillaNotaDeCredito	: str50;//"Plantilla de Impresión"
+	NombrePlantillaNotaDeDebito		: str50;//"Plantilla de Impresión"
+	PrimeraNotaDeCredito			: str11;//"Número Inicial"
+	PrimeraNotaDeDebito			: str11;//"Número Inicial"
 	PrefijoNC						: str5;//"Prefijo"
 	PrefijoND						: str5;//"Prefijo"
 	TipoDePrefijoNC					: UnTipoDePrefijo;//"Prefijo"
 	TipoDePrefijoND					: UnTipoDePrefijo;//"Prefijo"
-	NumeroSerieFacturaNC		: str4;//"N�mero de Serie para Nota de Cr�dito"
-	NumeroSerieBoletaNC		: str4;//"N�mero de Serie para Nota de Cr�dito"
-	NumeroSerieFacturaND		: str4;//"N�mero de Serie para Nota de D�bito"
-	NumeroSerieBoletaND		: str4;//"N�mero de Serie para Nota de D�bito"
-	UsaEmisionElectronicaNC	: boolean;//"Usa Emisi�n Electr�nica de Nota de Cr�dito"
-	UsaEmisionElectronicaND	: boolean;//"Usa Emisi�n Electr�nica de Nota de D�bito"
+	NumeroSerieFacturaNC		: str4;//"Número de Serie para Nota de Crédito"
+	NumeroSerieBoletaNC		: str4;//"Número de Serie para Nota de Crédito"
+	NumeroSerieFacturaND		: str4;//"Número de Serie para Nota de Débito"
+	NumeroSerieBoletaND		: str4;//"Número de Serie para Nota de Débito"
+	UsaEmisionElectronicaNC	: boolean;//"Usa Emisión Electrónica de Nota de Crédito"
+	UsaEmisionElectronicaND	: boolean;//"Usa Emisión Electrónica de Nota de Débito"
 }
 
 {@F}CotizacionVendedor =Record//"3.3.- Vendedor",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 			: Longint; //HIDE
-	UsaCodigoVendedorEnPantalla		: boolean;//"Al Realizar una B�squeda Usar el Codigo del Vendedor"
-	LongitudCodigoVendedor			: Integer;//"Longitud del C�digo del Vendedor"
-	CodigoGenericoVendedor			: str5;//"Vendedor Gen�rico"
+	UsaCodigoVendedorEnPantalla		: boolean;//"Al Realizar una Búsqueda Usar el Codigo del Vendedor"
+	LongitudCodigoVendedor			: Integer;//"Longitud del Código del Vendedor"
+	CodigoGenericoVendedor			: str5;//"Vendedor Genérico"
 }
 
 {@F}CXCCobranzasCliente =Record//"4.1.- Cliente",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 						: Longint; //HIDE
-	CodigoGenericoCliente						: str11;//"Cliente Gen�rico"
-	BuscarClienteXRifAlFacturar					: boolean;//"Usar el Rif del Cliente al Realizar una B�squeda"
+	CodigoGenericoCliente						: str11;//"Cliente Genérico"
+	BuscarClienteXRifAlFacturar					: boolean;//"Usar el Rif del Cliente al Realizar una Búsqueda"
 	AvisoDeClienteConDeuda						: boolean;//"Avisar si el Cliente Tiene una Deuda"
-	AvisoDeFacturacionMenor						: boolean;//"Aviso al Facturar al Mismo Cliente en un Periodo Menor a 30 D�as"
-	ColocarEnFacturaElVendedorAsinagoAlCliente	: boolean;//"Colocar en Factura y Cotizaci�n el Vendedor Asignado al Cliente"
-	LongitudCodigoCliente						: Integer;//"Longitud del C�digo del Cliente"
-	ImprimirDatosClienteEnCompFiscal			: boolean;//"Imprimir Datos del Cliente en Comprobante de Impresi�n Fiscal"
+	AvisoDeFacturacionMenor						: boolean;//"Aviso al Facturar al Mismo Cliente en un Periodo Menor a 30 Días"
+	ColocarEnFacturaElVendedorAsinagoAlCliente	: boolean;//"Colocar en Factura y Cotización el Vendedor Asignado al Cliente"
+	LongitudCodigoCliente						: Integer;//"Longitud del Código del Cliente"
+	ImprimirDatosClienteEnCompFiscal			: boolean;//"Imprimir Datos del Cliente en Comprobante de Impresión Fiscal"
 	NombreCampoDefinibleCliente1				: str20;//"Campo Definible 1"
-	UsaCodigoClienteEnPantalla					: boolean;//"Usar C�digo del Cliente al Realizar una B�squeda"
+	UsaCodigoClienteEnPantalla					: boolean;//"Usar Código del Cliente al Realizar una Búsqueda"
 	RellenaCerosAlaIzquierda					: boolean;//"Rellena Ceros a la Izquierda"
 	MontoApartirDelCualEnviarAvisoDeuda			: double;//"Monto a Partir del Cual Enviar Aviso de Deuda"
-        UsaClienteGenericoAlFacturar                            : boolean;//"Usar Cliente Gen�rico al facturar"
+        UsaClienteGenericoAlFacturar                            : boolean;//"Usar Cliente Genérico al facturar"
 }
 
 {@F}CXCCobranzas =Record//"4.2.- Cobranzas",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 						: Longint; //HIDE
 	NombrePlantillaCompobanteCobranza			: str50;//"Nombre Plantilla Comprobante Cobranza"
-	SugerirConsecutivoEnCobranza				: boolean;//"Sugerir N�mero de Cobranza"
+	SugerirConsecutivoEnCobranza				: boolean;//"Sugerir Número de Cobranza"
 	UsarZonaCobranza							: boolean;//"Usar Zona de Cobranza"
 	ImprimirCombrobanteAlIngresarCobranza		: boolean;//"Imprimir Comprobante al Ingresar Cobranza"	
 	ConceptoReversoCobranza						: Str10;//=conceptoBancario.codigo, "Concepto de Reverso de Cobranza"
-	AsignarComisionDeVendedorEnCobranza			: boolean;//"Asignar Comisi�n de Vendedor en Cobranza"
-	BloquearNumeroCobranza						: boolean;//"Bloquear N�mero de Cobranza"
+	AsignarComisionDeVendedorEnCobranza			: boolean;//"Asignar Comisión de Vendedor en Cobranza"
+	BloquearNumeroCobranza						: boolean;//"Bloquear Número de Cobranza"
 	CambiarCobradorVendedor						: boolean;//"Cambiar Cobrador Vendedor"
 }
 
 {@F}CXCCobranzasComisiones =Record//"4.3.- Comisiones",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 						: Longint; //HIDE
 	FormaDeCalcularComisionesSobreCobranza		: unCalculoParaComisionesSobreCobranzaEnBaseA;//"Opciones para Calcular las Comisiones Sobre Cobranza"
-	NombrePlantillaComisionSobreCobranza		: str50;//"Nombre Plantilla Comisi�n Sobre Cobranza"
+	NombrePlantillaComisionSobreCobranza		: str50;//"Nombre Plantilla Comisión Sobre Cobranza"
 }
 
 {@F}Inventario =Record//"5.1.- Inventario",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 						: Longint; //HIDE
-	SinonimoColor								: str10;//"Sin�nimo Color"
-	SinonimoGrupo								: str15;//"Sin�nimo Grupo"
-	SinonimoRollo								: str10;//"Sin�nimo Rollo"
-	SinonimoSerial								: str10;//"Sin�nimo Serial"
-	SinonimoTalla								: str10;//"Sin�nimo Talla"
+	SinonimoColor								: str10;//"Sinónimo Color"
+	SinonimoGrupo								: str15;//"Sinónimo Grupo"
+	SinonimoRollo								: str10;//"Sinónimo Rollo"
+	SinonimoSerial								: str10;//"Sinónimo Serial"
+	SinonimoTalla								: str10;//"Sinónimo Talla"
 	PermitirSobregiro							: unPermitirSobregiro;//"Permitir Sobregiro"
-	VerificarStock								: boolean;//"Alerta por M�ximo o M�nimo Stock"
+	VerificarStock								: boolean;//"Alerta por Máximo o Mínimo Stock"
 	UsarBaseImponibleDiferenteA0Y100			: boolean;//"Usar Base Imponible Diferente 100%"
-	UsaAlmacen									: boolean;//"Usa Almac�n"
-	ImprimeSerialRolloLuegoDeDescripArticulo	: boolean;//"Imprime Serial Rollo Luego de Descripci�n de Art�culo"
-	ImprimirTransferenciaAlInsertar				: boolean;//"Mostrar Opci�n de Imprimir al insertar Transferencia"
+	UsaAlmacen									: boolean;//"Usa Almacén"
+	ImprimeSerialRolloLuegoDeDescripArticulo	: boolean;//"Imprime Serial Rollo Luego de Descripción de Artículo"
+	ImprimirTransferenciaAlInsertar				: boolean;//"Mostrar Opción de Imprimir al insertar Transferencia"
 	NombreCampoDefinibleInventario1				: Str20;//"Campo Definible 1"
 	NombreCampoDefinibleInventario2				: Str20;//"Campo Definible 2"
 	NombreCampoDefinibleInventario3				: Str20;//"Campo Definible 3"
@@ -334,18 +335,18 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 
 {@F}InventarioNotaEntradaSalida =Record//"5.2- Nota Entrada/Salida",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 						: Longint; //HIDE
-	NombrePlantillaCodigoDeBarras				: str50;//"Plantilla de Impresi�n de C�digos de Barras"
+	NombrePlantillaCodigoDeBarras				: str50;//"Plantilla de Impresión de Códigos de Barras"
 	ImprimirReporteAlIngresarNotaEntradaSalida 	: boolean;//"Imprimir Precio de los Articulos en el comprobante de Nota de Entrada / Salida al Insertar"
 	ImprimirNotaESconPrecio						: boolean;//"Imprimir Nota de Entrada / Salida al Insertar"
-	NombrePlantillaNotaEntradaSalida			: str50;//"Plantilla de Impresi�n"
+	NombrePlantillaNotaEntradaSalida			: str50;//"Plantilla de Impresión"
 }
 
 {@F}InventarioMetodoCosto =Record//"5.3.- M�todo  de costos",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 			: Longint; //HIDE
-	MetodoDeCosteo					: unTipoDeMetodoDeCosteo;//"M�todo de Costeo"
-	MaximoGastosAdmisibles			: Decimal;//"Porcentaje M�ximo de Gastos Admisibles"
-	FechaContabilizacionDeCosteo	: date;//"Fecha Contabilizaci�n de Costeo"
-	FechaDesdeUsoMetodoDeCosteo		: date;//"Fecha de Inicio de Uso del M�todo de Costo"
+	MetodoDeCosteo					: unTipoDeMetodoDeCosteo;//"Método de Costeo"
+	MaximoGastosAdmisibles			: Decimal;//"Porcentaje Máximo de Gastos Admisibles"
+	FechaContabilizacionDeCosteo	: date;//"Fecha Contabilización de Costeo"
+	FechaDesdeUsoMetodoDeCosteo		: date;//"Fecha de Inicio de Uso del Método de Costo"
 	ComprobanteCostoDetallado		: boolean;//"Comprobante Costo Detallado"
 	CalculoAutomaticoDeCosto		: boolean;//"Actualizar Costos y Ajustar Precio de Articulos en Cada Operacion"
 }
@@ -361,17 +362,17 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	ImprimirCompraAlInsertar		: boolean;//"Imprimir Compra al Insertar"
 	IvaEsCostoEnCompras				: boolean;//"Iva es Costo en Compras"
 	GenerarCxpDesdeCompra			: boolean;//"Generar CxP desde Compra"
-	NombrePlantillaOrdenDeCompra	: str50;//"Plantilla de Impresi�n Orden de Compra"
-	NombrePlantillaCompra			: str50;//"Plantilla de Impresi�n Compra"
+	NombrePlantillaOrdenDeCompra	: str50;//"Plantilla de Impresión Orden de Compra"
+	NombrePlantillaCompra			: str50;//"Plantilla de Impresión Compra"
 }
 
 {@F}CxPComprasCxCProveedor =Record//"6.2.- CxP / Proveedor / Pagos",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 						: Longint; //HIDE
-	NombrePlantillaComprobanteDePago			: str50;//"Plantilla de Impresi�n"
-	OrdenarCxPPorFacturaDocumento				: boolean;//"Ordernar CxP por N�mero de Factura / Documento"
-	NombrePlantillaRetencionImpuestoMunicipal	: str50;//"Plantilla de Impresi�n"
-	NumCopiasComprobantepago					: Integer;//"N�mero de Copias del Comprobante de Pago"
-	PrimerNumeroComprobanteRetImpuestoMunicipal	: Integer;//"Primer N�mero de Comprobante"
+	NombrePlantillaComprobanteDePago			: str50;//"Plantilla de Impresión"
+	OrdenarCxPPorFacturaDocumento				: boolean;//"Ordernar CxP por Número de Factura / Documento"
+	NombrePlantillaRetencionImpuestoMunicipal	: str50;//"Plantilla de Impresión"
+	NumCopiasComprobantepago					: Integer;//"Número de Copias del Comprobante de Pago"
+	PrimerNumeroComprobanteRetImpuestoMunicipal	: Integer;//"Primer Número de Comprobante"
 	RetieneImpuestoMunicipal					: boolean;//"Retiene Impuesto Municipal"
 	TipoDeOrdenDePagoAImprimir					: unTipoDeOrdenDePagoAImprimir;//"Tipo de Orden de Pago"
 	UsarCodigoProveedorEnPantalla				: boolean;//"Usar Codigo Proveedor al Realizar Busqueda"
@@ -380,7 +381,7 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	NoImprimirComprobanteDePago					: boolean;//"No Imprimir Comprobante de Pago Inmediatamente"
 	AvisarSiProveedorTieneAnticipos				: boolean;//"Avisar si Proveedor Tiene Anticipos Pendientes"
 	ExigirInformacionLibroDeCompras				: boolean;//"Exigir Informacion Libro de Compras"
-	ConfirmarImpresionPorSecciones				: boolean;//"Confirmar Impresi�n por Secciones"
+	ConfirmarImpresionPorSecciones				: boolean;//"Confirmar Impresión por Secciones"
 	ConceptoBancarioReversoDePago				: Str8://=conceptoBancario.codigo,"Concepto Bancario de Reverso de Pago"
         FechaSugeridaRetencionesCxP      : unFechaSugeridaRetencionesCxP;//"Fecha Sugerida para las retenciones"
 }
@@ -389,12 +390,12 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	ConsecutivoCompania 								: Longint; //HIDE
 	EnDondeRetenerIVA									: UnDondeSeEfectuaLaRetencionIVA;//"En Donde Retener IVA"
 	ImprimirComprobanteDeRetIva							: boolean;//""
-	FormaDeReiniciarElNumeroDeComprobanteRetIva			: UnFormaDeReiniciarComprobanteRetIVA;//"Forma de Reiniciar el N�mero de Comprobante Ret IVA"
+	FormaDeReiniciarElNumeroDeComprobanteRetIva			: UnFormaDeReiniciarComprobanteRetIVA;//"Forma de Reiniciar el Número de Comprobante Ret IVA"
 	GenerarNumCompDeRetIvasoloSiPorcentajeEsMayorAcero	: boolean;//"Generar NumComp de Ret IVA solo Si Porcentaje es Mayor A Cero"
 	UsaMismoNumeroCompRetTodasCxP						: boolean;//""
 	UnComprobanteDeRetIvaporHoja						: boolean;//"Un Comprobante de Ret IVA por Hoja"
-	PrimerNumeroComprobanteRetIva						: Integer;//"Primer N�mero Comprobante Ret IVA"
-	NumeroDeCopiasComprobanteRetencionIva				: Integer;//"N�mero de Copias Comprobante Retencion IVA"
+	PrimerNumeroComprobanteRetIva						: Integer;//"Primer Número Comprobante Ret IVA"
+	NumeroDeCopiasComprobanteRetencionIva				: Integer;//"Número de Copias Comprobante Retencion IVA"
 	NombrePlantillaComprobanteDeRetIVA					: str50;//"Nombre Plantilla Comprobante de Ret IVA"
 }
 
@@ -402,48 +403,48 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 {@F}CxPComprasRetISLR =Record//"6.4.- Retenci�n ISLR",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 					: Longint; //HIDE
 	NumeroRifr								: str15;//"RIF"
-	NumCopiasComprobanteRetencion			: Integer;//"N�mero de Copias del Comprobante Retenci�n"
+	NumCopiasComprobanteRetencion			: Integer;//"Número de Copias del Comprobante Retención"
 	NombreYapellidor						: str100;//"Nombre y Apellido"
-	Telefonor								: str7;//"Tel�fono (C�digo / N�mero)"
-	TomarEnCuentaRetencionesCeroParaArcvyRa	: boolean;//"Tomar en Cuenta Retenciones en Cero (0) en la Relaci�n Anual y los ARCV"
-	UsaRetencion							: boolean;//"Usa M�dulo de Retenciones"
+	Telefonor								: str7;//"Teléfono (Código / Número)"
+	TomarEnCuentaRetencionesCeroParaArcvyRa	: boolean;//"Tomar en Cuenta Retenciones en Cero (0) en la Relación Anual y los ARCV"
+	UsaRetencion							: boolean;//"Usa Módulo de Retenciones"
 	MesDelCierreFiscal						: str10;//"Dia / Mes de Cierre Fiscal"
-	EnDondeRetenerISLR						: UnDondeSeEfectuaLaRetencionISLR;//"Donde se Efectua la Retenci�n ISLR"
+	EnDondeRetenerISLR						: UnDondeSeEfectuaLaRetencionISLR;//"Donde se Efectua la Retención ISLR"
 	DiaDelCierreFiscal						: str10;//""
-	Direccionr								: str100;//"Direcci�n"
-	CorreoElectronicoRepLegal				: str100;//"Correo Electr�nico"
+	Direccionr								: str100;//"Dirección"
+	CorreoElectronicoRepLegal				: str100;//"Correo Electrónico"
 	CiudadRepLegal							: str100;//"Ciudad"
 	CodTelfr								: str4;//""
 }
 
 {@F}CxPComprasPlanillaIVA =Record//"6.5.- Planilla de IVA (Forma 30)",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 		: Longint; //HIDE
-	CedulaContador				: str20;//"C�dula"
+	CedulaContador				: str20;//"Cédula"
 	ModeloPlanillaForma00030	: unModeloPlanillaForma00030;//"Modelo Planilla Forma 00030"
 	NombreContador				: str100;//"Nombre"
-	ImprimirCentimosEnPlanilla	: boolean;//"Imprimir C�ntimos en Planilla Forma 00030"
-	NumeroCpc					: str20;//"N�mero CPC"
+	ImprimirCentimosEnPlanilla	: boolean;//"Imprimir Céntimos en Planilla Forma 00030"
+	NumeroCpc					: str20;//"Número CPC"
 }
 
 
 {@F}Bancos =Record//"7.1.- Bancos",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 								: Longint; //HIDE
 	RedondeaMontoCreditoBancario						: boolean;//"Redondea Monto Credito Bancario"
-	RedondeaMontoDebitoBancario							: boolean;//"Redondea Monto D�bito Bancario"
-	UsaCodigoBancoEnPantalla							: boolean;//"Usa C�digo Banco en Pantalla"
+	RedondeaMontoDebitoBancario							: boolean;//"Redondea Monto Débito Bancario"
+	UsaCodigoBancoEnPantalla							: boolean;//"Usa Código Banco en Pantalla"
 	ManejaCreditoBancario								: boolean;//""
-	ManejaDebitoBancario								: boolean;//"Maneja D�bito Bancario"
-	CodigoGenericoCuentaBancaria						: str10;//=cuentaBancaria.Codigo,"Cuenta Bancaria G�nerica"
+	ManejaDebitoBancario								: boolean;//"Maneja Débito Bancario"
+	CodigoGenericoCuentaBancaria						: str10;//=cuentaBancaria.Codigo,"Cuenta Bancaria Génerica"
 	ConsideraConciliadosLosMovIngresadosAntesDeFecha	: boolean;//"Considera Conciliados los Movimientos  Ingresados Antes de Fecha"
 	ConceptoCreditoBancario								: str10;//""
-	ConceptoDebitoBancario								: str10;//=conceptoBancario.codigo, "Concepto D�bito Bancario"
-	FechaDeInicioConciliacion							: date;//"Fecha de Incio Conciliaci�n"
+	ConceptoDebitoBancario								: str10;//=conceptoBancario.codigo, "Concepto Débito Bancario"
+	FechaDeInicioConciliacion							: date;//"Fecha de Incio Conciliación"
 }
 
 {@F}BancosMoneda =Record//"7.2-Moneda",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 					: Longint; //HIDE
 	CodigoMonedaExtranjera					: Str3;//"Moneda Extranjera"
-	CodigoMonedaLocal						: str3;//"C�digo"
+	CodigoMonedaLocal						: str3;//"Código"
 	NombreMonedaExtranjera					: str50;//"Nombre Moneda Extranjera"
 	NombreMonedaLocal						: str50;//"Nombre Moneda Local"
 	UsaMonedaExtranjera						: boolean;//"Usa Moneda Extranjera"
@@ -452,21 +453,21 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 
 {@F}BancosAnticipo =Record//"7.3.- Anticipo",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 					: Longint; //HIDE
-	SugerirConsecutivoAnticipo				: boolean;//"Sugerir N�mero de Anticipo"
+	SugerirConsecutivoAnticipo				: boolean;//"Sugerir Número de Anticipo"
 	TipoComprobanteDeAnticipoAImprimir		: unComprobanteConCheque;//"Tipo de Comprobante de Anticipo a Imprimir"
-	NombrePlantillaReciboDeAnticipoCobrado	: str50;//"Plantilla Impresi�n"
-	NombrePlantillaReciboDeAnticipoPagado	: str50;//"Plantilla Impresi�n"
+	NombrePlantillaReciboDeAnticipoCobrado	: str50;//"Plantilla Impresión"
+	NombrePlantillaReciboDeAnticipoPagado	: str50;//"Plantilla Impresión"
 	ConceptoBancarioAnticipoCobrado			: str10://=conceptoBancario.codigo, "Concepto Bancario del Anticipo"
 	ConceptoBancarioAnticipoPagado			: str10;//=conceptoBancario.codigo, "Concepto Bancario del Anticipo"
-	ConceptoBancarioReversoAnticipoCobrado	: str10;//=conceptoBancario.codigo, "Concepto Bancario Reverso / Devoluci�n"
-	ConceptoBancarioReversoAnticipoPagado	: str10;//=conceptoBancario.codigo, "Concepto Bancario Reverso / Devoluci�n"
-	CuentaBancariaAnticipo					: str10;//=cuentaBancaria.Codigo, "Cuenta Bancaria Gen�rica"
+	ConceptoBancarioReversoAnticipoCobrado	: str10;//=conceptoBancario.codigo, "Concepto Bancario Reverso / Devolución"
+	ConceptoBancarioReversoAnticipoPagado	: str10;//=conceptoBancario.codigo, "Concepto Bancario Reverso / Devolución"
+	CuentaBancariaAnticipo					: str10;//=cuentaBancaria.Codigo, "Cuenta Bancaria Genérica"
 }
 
 {@F}BancosMovimientoBancario =Record//"7.4.- Movimiento Bancario",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 						: Longint; //HIDE
 	ConceptoBancarioReversoSolicitudDePago		: str10;//=conceptoBancario.codigo, "Concepto de Reverso de Solicitud de Pago"
-	ConfirmarImpresionMovBancarioPorSecciones	: boolean;//"Confirmar Impresi�n por Secciones"
+	ConfirmarImpresionMovBancarioPorSecciones	: boolean;//"Confirmar Impresión por Secciones"
 	BeneficiarioGenerico						: str10;//"Codigo de Beneficiario"
 	ImprimirCompContDespuesDeChequeMovBancario	: boolean;//"Imprimir Comprobante de Cheque Inmediatamente"
 	GenerarMovBancarioDesdeCobro				: boolean;//"Generar Movimiento Bancario Desde Cobro"
@@ -474,10 +475,10 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	GenerarMovReversoSiAnulaPago				: boolean;//""
 	ImprimirComprobanteDeMovBancario			: boolean;//"Imprimir Comprobante Contable de Cheque"
 	MandarMensajeNumeroDeMovimientoBancario		: boolean;//""
-	NombrePlantillaComprobanteDePagoSueldo		: str50;//"Plantilla de Impresi�n de Comprobante de Pago Sueldo"
-	NombrePlantillaComprobanteDeMovBancario		: str50;//"Plantilla de Impresi�n de Movimiento Bancario"
-	NumCopiasComprobanteMovBancario				: Integer;//"N�mero de Copias Para Comprobante de Movimiento Bancario"
-	UsaCodigoConceptoBancarioEnPantalla			: boolean;//"Usa C�digo Concepto Bancario en Pantalla"
+	NombrePlantillaComprobanteDePagoSueldo		: str50;//"Plantilla de Impresión de Comprobante de Pago Sueldo"
+	NombrePlantillaComprobanteDeMovBancario		: str50;//"Plantilla de Impresión de Movimiento Bancario"
+	NumCopiasComprobanteMovBancario				: Integer;//"Número de Copias Para Comprobante de Movimiento Bancario"
+	UsaCodigoConceptoBancarioEnPantalla			: boolean;//"Usa Código Concepto Bancario en Pantalla"
 }
 
 {@F}BancosTransferencia =Record//"7.5.- Transferencia Bancaria",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef,GENERATE
@@ -488,11 +489,11 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 {@F}NotasDeEntrega =Record//"8.1-Notas de entrega",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 			: Longint; //HIDE
 	TipoPrefijoNotaEntrega			: UnTipoDePrefijo;//"Tipo de Prefijo"
-	NumCopiasOrdenDeDespacho		: Integer;//"N�mero de Copias"
+	NumCopiasOrdenDeDespacho		: Integer;//"Número de Copias"
 	NotaEntregaPreNumerada			: boolean;//"Usa Nora de Entrega Pre-Numerada"
-	NombrePlantillaOrdenDeDespacho	: str50;//"Plantilla de Impresi�n"
-	NombrePlantillaNotaEntrega		: str50;//"Plantilla de Impresi�n"
-	PrimeraNotaEntrega				: str10;//"N�mero Inicial"
+	NombrePlantillaOrdenDeDespacho	: str50;//"Plantilla de Impresión"
+	NombrePlantillaNotaEntrega		: str50;//"Plantilla de Impresión"
+	PrimeraNotaEntrega				: str10;//"Número Inicial"
 	PrefijoNotaEntrega				: str5;//"Prefijo"
 	ModeloNotaEntrega				: UnModeloDeFactura;//"Modelo Nota de Entrega"
 	ModeloNotaEntregaModoTexto		: str50;//"Modelo Nota de Entrega Modo Texto"
@@ -514,14 +515,14 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 //    ConsecutivoCompania	: Longint; //HIDE
 //    Codigo		: Str5;//
 //    Status		: unStatusCtaBancaria;//Search,g
-//    NumeroCuenta	: Str30;//"N� de Cuenta Bancaria",Search,g
+//    NumeroCuenta	: Str30;//"Nº de Cuenta Bancaria",Search,g
 //    NombreCuenta	: Str40;//"Nombre de la Cuenta",Search,g
 //    CodigoBanco		: integer;//
 //    NombreBanco		: Str40;//
 //    NombreSucursal	: Str40;//"Nombre de la Sucursal"
 //    TipoCtaBancaria	: unTipoDeCtaBancaria;//"Tipo de Cuenta",Search
-//    ManejaDebitoBancario: Boolean;//"Maneja D�bito Bancario",ci"gProyParametros.GetManejaDebitoBancario()"
-//    ManejaCreditoBancario: Boolean; //"Maneja Cr�dito Bancario", ci"gproyParametros.GetManejaCreditoBancario()"
+//    ManejaDebitoBancario: Boolean;//"Maneja Débito Bancario",ci"gProyParametros.GetManejaDebitoBancario()"
+//    ManejaCreditoBancario: Boolean; //"Maneja Crédito Bancario", ci"gproyParametros.GetManejaCreditoBancario()"
 //    SaldoDisponible	: Double;//a,"Saldo Disponible"
 //    NombreDeLaMoneda	: Str10; //
 //    NombrePlantillaCheque: str50;
@@ -532,14 +533,14 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 //    @PrimaryKey=ConsecutivoCompania,Codigo
 //}
 
-//{@S}Compania = Record //"Compa��a",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania,Componente=Compania,Esquema=Saw,EsquemaBd=Dbo,interop
+//{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania,Componente=Compania,Esquema=Saw,EsquemaBd=Dbo,interop
 //   ConsecutivoCompania      : LongInt;//o,HIDE,sugestConsecutive
-//   Codigo                   : Str4;  //u,g,o,"C�digo",sugestConsecutive,SEARCH
+//   Codigo                   : Str4;  //u,g,o,"Código",sugestConsecutive,SEARCH
 //   Nombre                   : Str50; //u,g,o,SEARCH
-//   NumeroDeRIF              : Str20; //u,g,"N� R.I.F.",SEARCH
-//   NumeroNIT                : Str12; //u,g,"N� N.I.T.",SEARCH
+//   NumeroDeRIF              : Str20; //u,g,"N° R.I.F.",SEARCH
+//   NumeroNIT                : Str12; //u,g,"N° N.I.T.",SEARCH
 ////   TipoDeContribuyente      : UnTipoDeContribuyente; //g,SEARCH
-//   Direccion                : TextArea;//"Direcci�n"
+//   Direccion                : TextArea;//"Dirección"
 //   Ciudad                   : Str100;
 //   Estado                   : Str20;
 //   ZonaPostal               : Str7;
@@ -563,7 +564,7 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 //   EsCatalogoGeneral        : Boolean;
 ////   TipoDeContribuyenteIVA   : UnTipoDeContribuyenteDelIva;
 ////   TablaCIIU                : UnTablaCiiu;
-////   CodigoCIIU      	    : Str6;  // o,"C�digo CIIU",=CIIU.CodigoCIIU
+////   CodigoCIIU      	    : Str6;  // o,"Código CIIU",=CIIU.CodigoCIIU
 //   PorcentajeDePatente      : double;
 ////   PersonaFiscal            : unTipoDePersonaFiscal;
 //   Pais			    : Str80;
@@ -575,7 +576,7 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 //   EstaIntegradaConNomina  : Boolean;
 //   CodigoDeIntegracion     : Str40;//"CodigoDeIntegracion"
 ////   ConsecutivoMunicipio	   : LongInt;  // o,"ConsecutivoMunicipio",=MunicipioCiudad.Consecutivo
-//   CodigoContribuyente 	   : Str20;  // "C�digo Contribuyente"
+//   CodigoContribuyente 	   : Str20;  // "Código Contribuyente"
 //   NoResolucion            : Str5;
 //   ObligadoALlevarContabilidad: Boolean; 
 //   NombreComercials		    : Str60;

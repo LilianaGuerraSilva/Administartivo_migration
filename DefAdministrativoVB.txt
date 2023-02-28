@@ -156,7 +156,7 @@ unStatusFacturaElectronica=(Sin Procesar,Aceptada,Rechazada);//e
 unTipoDePersonaLibrosElectronicos=(Natural,Juridico,NoDomiciliado);//e
 unStatusCompania=(Activa, Inactiva);//e
 unFormaDeCalculoDePrecioRenglonFactura = (APartirDelPrecioSinIVA, APartirDelPrecioConIVA); //e
-unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
+unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco,Generate
 unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
 
 {@S}UrbanizacionZP = record //"Urbanización - Zona Postal",
@@ -1025,7 +1025,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=Secuencial
 }
 
-{@S}ParametrosCompania = Record, GENERATE
+{@S}ParametrosCompania = Record 
     ConsecutivoCompania    : Longint;
     usaMonedaExtranjera    : boolean;//o,g,SEARCH
     UsaPrecioSinIva        : Boolean;//o
@@ -2290,7 +2290,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=Codigo
 }
 
-{@S}CuentaBancaria = Record //Multiarchivo=Compania
+{@S}CuentaBancaria = Record //Multiarchivo=Compania,Generate
     ConsecutivoCompania	: Longint; //HIDE
     Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g
@@ -2326,7 +2326,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=ConsecutivoCompania,ConsecutivoMovimiento
 }
 
-{@S}MovimientoBancario = Record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Componente=Banco
+{@S}MovimientoBancario = Record //Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Componente=Banco, Generate
 	ConsecutivoCompania : Longint;//HIDE
 	ConsecutivoMovimiento : LongInt;//Search,"Nº Movimiento",g,Consecutive,o,a
 	CodigoCtaBancaria : Str5;//Search,=CuentaBancaria.Codigo,"Cuenta Bancaria",g,o
