@@ -12,17 +12,6 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
-Private Function CM_FILE_NAME() As String
-   CM_FILE_NAME = "clsReglasDeContabilizacionMenu"
-End Function
-
-Private Function CM_MESSAGE_NAME() As String
-   CM_MESSAGE_NAME = "Reglas De Contabilización"
-End Function
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
 
 Public Sub sCreaElMenuDeReglasDeContabilizacion(ByRef refForma As Form)
    Dim numSubMenu As Long
@@ -33,77 +22,66 @@ Public Sub sCreaElMenuDeReglasDeContabilizacion(ByRef refForma As Form)
    Call gUtilMenus.fAddMenuItem(refForma, gDefgen.AccionSobreRecordStr(imprimir), numSubMenu, gProyUsuarioActual.GetModificarReglasDeContabilizacion, False)
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCreaElMenuDeReglasDeContabilizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "sCreaElMenuDeReglasDeContabilizacion", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sEjecutaAccionEscogidaMenuReglasDeContabilizacion(ByVal valCaptionMenuEscogido As String)
    On Error GoTo h_ERROR
-   Select Case valCaptionMenuEscogido
-      Case gDefgen.AccionSobreRecordStr(imprimir):   fImprimeReglasDeContabilizacion
-      Case Else: sEjecutaAccion insertar
-   End Select
+   If valCaptionMenuEscogido = gDefgen.AccionSobreRecordStr(imprimir) Then
+      fImprimeReglasDeContabilizacion
+   Else
+      sEjecutaAccion insertar
+   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEjecutaAccionEscogidaMenuReglasDeContabilizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "sEjecutaAccionEscogidaMenuReglasDeContabilizacion", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
 
 Private Sub fImprimeReglasDeContabilizacion()
    Dim insReglasDeContabilizacionNavigator As clsReglasDeContabilizacionNavigator
    On Error GoTo h_ERROR
    Set insReglasDeContabilizacionNavigator = New clsReglasDeContabilizacionNavigator
    insReglasDeContabilizacionNavigator.fImprimeReglasDeContabilizacion
-   
    Set insReglasDeContabilizacionNavigator = Nothing
 h_EXIT:  On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fImprimeReglasDeContabilizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "fImprimeReglasDeContabilizacion", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
- 
-
 
 Private Sub sEjecutaAccion(ByVal valAccion As AccionSobreRecord)
    On Error GoTo h_ERROR
    If gProyCompaniaActual.fLaCompaniaYElPeriodoFueronEscogidos Then
       If Not gContPeriodoActual.ElPeriodoEstaCerrado(True) Then
-            sBuscaElRecordDeReglasDeContabilizacionYejecutaLaAccion valAccion
+         sBuscaElRecordDeReglasDeContabilizacionYejecutaLaAccion valAccion
       End If
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEjecutaAccion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "sEjecutaAccion", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
- 
  
 Public Sub sBuscaElRecordDeReglasDeContabilizacionYejecutaLaAccion(ByVal valAccion As AccionSobreRecord)
    On Error GoTo h_ERROR
-      If (gProyReglasDeContabilizacion.fRsRecordCount = 0) Or _
-             (gProyReglasDeContabilizacion.GetConsecutivoCompania <> gProyCompaniaActual.GetConsecutivoCompania) Then
-         gProyReglasDeContabilizacion.sEscogeReglasDeContabilizacionDeLaCiaActualSiNoExisteLoCrea False
-      End If
-      sEjecutaAccionInterop valAccion
+   If (gProyReglasDeContabilizacion.fRsRecordCount = 0) Or (gProyReglasDeContabilizacion.GetConsecutivoCompania <> gProyCompaniaActual.GetConsecutivoCompania) Then
+      gProyReglasDeContabilizacion.sEscogeReglasDeContabilizacionDeLaCiaActualSiNoExisteLoCrea False
+   End If
+   sEjecutaAccionInterop valAccion
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sBuscaElRecordDeReglasDeContabilizacionYejecutaLaAccion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "sBuscaElRecordDeReglasDeContabilizacionYejecutaLaAccion", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaAccionInterop(ByVal valAccion As AccionSobreRecord)
-  Dim objWrapper As Object
-  Dim vParametros As String
-  Dim insLibSaW As clsLibSAW
-  Dim insLibServerProperty As clsLibServerProperty
-  Dim insReglasReglasDeContabilizacion As clsReglasDeContabilizacionNavigator
+   Dim objWrapper As Object
+   Dim vParametros As String
+   Dim insLibSaW As clsLibSAW
+   Dim insLibServerProperty As clsLibServerProperty
+   Dim insReglasReglasDeContabilizacion As clsReglasDeContabilizacionNavigator
    On Error GoTo h_ERROR
    Set insLibSaW = New clsLibSAW
    Set insLibServerProperty = New clsLibServerProperty
    Set objWrapper = CreateObject(gUtilWrp.fWrpClassName("Contabilizacion", "wrpReglasDeContabilizacion"))
    Set insReglasReglasDeContabilizacion = New clsReglasDeContabilizacionNavigator
-
    If gProyCompaniaActual.fLaCompaniaYElPeriodoFueronEscogidos Then
      If Not gContPeriodoActual.ElPeriodoEstaCerrado(True) Then
         vParametros = "<GpData><ReglasDeContabilizacion><UsaAuxiliares>" & gConvert.ConvertBooleanToString(gProyCompaniaActual.GetUsaAuxiliares) & "</UsaAuxiliares>"
@@ -145,6 +123,7 @@ Private Sub sEjecutaAccionInterop(ByVal valAccion As AccionSobreRecord)
         vParametros = vParametros & gContPeriodoActual.GetNivel10 & "</Niveles>"
         vParametros = vParametros & "<ServerVersionIs2008OrHigher>" & gConvert.ConvertBooleanToString(insLibServerProperty.fSqlServerVersionIs2008OrHigher) & "</ServerVersionIs2008OrHigher>"
         vParametros = vParametros & "<UsarVentasConIvaDiferido>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsarVentasConIvaDiferido) & "</UsarVentasConIvaDiferido>"
+        vParametros = vParametros & "<EsModuloDeProduccion>" & gConvert.ConvertBooleanToString(gProyParametros.fEsModuloDeProduccion) & "</EsModuloDeProduccion>"
         vParametros = vParametros & "</ReglasDeContabilizacion></GpData>"
         objWrapper.InitializeComponent gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword, gWorkPaths.fAppPath & gDefProg.GetConfigFileName
         objWrapper.InitializeDefProg gDefProg.GetSiglasDelPrograma, gDefProg.GetVersionDelPrograma, gDefProg.GetVersionBaseDeDatos, gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gConvert.dateToString(gDefProg.GetFechaDeLaVersion), gDefgen.GetValorDeLaCaracteristicaEspecial, gDefProg.GetPais, gConvert.fConvierteAString(1), gDefProg.GetAllowUseOfPASOnLine
@@ -157,13 +136,10 @@ Private Sub sEjecutaAccionInterop(ByVal valAccion As AccionSobreRecord)
     Set objWrapper = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEjecutaAccion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "sEjecutaAccion", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-
 Private Function sDesactivaLosTipoComprobanteQueTenganRecordsAsociados(ByVal valTipoDeComprobante As String) As Boolean
-
    Dim vResult As Boolean
    Dim varComprobanteNavigator As clsComprobanteNavigator
    On Error GoTo h_ERROR
@@ -176,11 +152,9 @@ Private Function sDesactivaLosTipoComprobanteQueTenganRecordsAsociados(ByVal val
          End If
       End If
    End If
-   
    Set varComprobanteNavigator = Nothing
-  sDesactivaLosTipoComprobanteQueTenganRecordsAsociados = vResult
+   sDesactivaLosTipoComprobanteQueTenganRecordsAsociados = vResult
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sDesactivaLosTipoComprobanteQueTenganRecordsAsociados", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionMenu", "sDesactivaLosTipoComprobanteQueTenganRecordsAsociados", "Reglas De Contabilización", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
