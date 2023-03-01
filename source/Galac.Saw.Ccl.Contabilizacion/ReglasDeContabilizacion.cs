@@ -133,8 +133,8 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         private string _CuentaRendicionesBanco;
         private string _CuentaRendicionesAnticipos;
         private string _SiglasTipoComprobanteRendiciones;
-        private eContabilizacionIndividual _ContabIndividualTransfCtas;
         private eTipoDeContabilizacion _TipoContabilizacionTransfCtas;
+        private eContabilizacionIndividual _ContabIndividualTransfCtas;
         private eContabilizacionPorLote _ContabPorLoteTransfCtas;
         private string _CuentaTransfCtasBancoDestino;
         private string _CuentaTransfCtasGastoComOrigen;
@@ -142,6 +142,13 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         private string _CuentaTransfCtasBancoOrigen;
         private string _TransfCtasSigasTipoComprobante;
         private bool _EditarComprobanteAfterInsertTransfCtas;
+        private eTipoDeContabilizacion _TipoContabilizacionOrdenDeProduccion;
+        private eContabilizacionIndividual _ContabIndividualOrdenDeProduccion;
+        private eContabilizacionPorLote _ContabPorLoteOrdenDeProduccion;
+        private string _CuentaOrdenDeProduccionProductoTerminado;
+        private string _CuentaOrdenDeProduccionMateriaPrima;
+        private string _OrdenDeProduccionTipoComprobante;
+        private bool _EditarComprobanteAfterInsertOrdenDeProduccion;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -1290,6 +1297,84 @@ namespace Galac.Saw.Ccl.Contabilizacion {
         public string EditarComprobanteAfterInsertTransfCtas {
             set { _EditarComprobanteAfterInsertTransfCtas = LibConvert.SNToBool(value); }
         }
+
+
+        public eTipoDeContabilizacion TipoContabilizacionOrdenDeProduccionAsEnum {
+            get { return _TipoContabilizacionOrdenDeProduccion; }
+            set { _TipoContabilizacionOrdenDeProduccion = value; }
+        }
+
+        public string TipoContabilizacionOrdenDeProduccion {
+            set { _TipoContabilizacionOrdenDeProduccion = (eTipoDeContabilizacion)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string TipoContabilizacionOrdenDeProduccionAsDB {
+            get { return LibConvert.EnumToDbValue((int) _TipoContabilizacionOrdenDeProduccion); }
+        }
+
+        public string TipoContabilizacionOrdenDeProduccionAsString {
+            get { return LibEnumHelper.GetDescription(_TipoContabilizacionOrdenDeProduccion); }
+        }
+
+        public eContabilizacionIndividual ContabIndividualOrdenDeProduccionAsEnum {
+            get { return _ContabIndividualOrdenDeProduccion; }
+            set { _ContabIndividualOrdenDeProduccion = value; }
+        }
+
+        public string ContabIndividualOrdenDeProduccion {
+            set { _ContabIndividualOrdenDeProduccion = (eContabilizacionIndividual)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string ContabIndividualOrdenDeProduccionAsDB {
+            get { return LibConvert.EnumToDbValue((int) _ContabIndividualOrdenDeProduccion); }
+        }
+
+        public string ContabIndividualOrdenDeProduccionAsString {
+            get { return LibEnumHelper.GetDescription(_ContabIndividualOrdenDeProduccion); }
+        }
+
+        public eContabilizacionPorLote ContabPorLoteOrdenDeProduccionAsEnum {
+            get { return _ContabPorLoteOrdenDeProduccion; }
+            set { _ContabPorLoteOrdenDeProduccion = value; }
+        }
+
+        public string ContabPorLoteOrdenDeProduccion {
+            set { _ContabPorLoteOrdenDeProduccion = (eContabilizacionPorLote)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string ContabPorLoteOrdenDeProduccionAsDB {
+            get { return LibConvert.EnumToDbValue((int) _ContabPorLoteOrdenDeProduccion); }
+        }
+
+        public string ContabPorLoteOrdenDeProduccionAsString {
+            get { return LibEnumHelper.GetDescription(_ContabPorLoteOrdenDeProduccion); }
+        }
+
+        public string CuentaOrdenDeProduccionProductoTerminado {
+            get { return _CuentaOrdenDeProduccionProductoTerminado; }
+            set { _CuentaOrdenDeProduccionProductoTerminado = LibString.Mid(value, 0, 30); }
+        }
+
+        public string CuentaOrdenDeProduccionMateriaPrima {
+            get { return _CuentaOrdenDeProduccionMateriaPrima; }
+            set { _CuentaOrdenDeProduccionMateriaPrima = LibString.Mid(value, 0, 30); }
+        }
+
+        public string OrdenDeProduccionTipoComprobante {
+            get { return _OrdenDeProduccionTipoComprobante; }
+            set { _OrdenDeProduccionTipoComprobante = LibString.Mid(value, 0, 2); }
+        }
+
+        public bool EditarComprobanteAfterInsertOrdenDeProduccionAsBool {
+            get { return _EditarComprobanteAfterInsertOrdenDeProduccion; }
+            set { _EditarComprobanteAfterInsertOrdenDeProduccion = value; }
+        }
+
+        public string EditarComprobanteAfterInsertOrdenDeProduccion {
+            set { _EditarComprobanteAfterInsertOrdenDeProduccion = LibConvert.SNToBool(value); }
+        }
+
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value,0,10); }
@@ -1453,6 +1538,13 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             CuentaTransfCtasBancoOrigen = string.Empty;
             TransfCtasSigasTipoComprobante = string.Empty;
             EditarComprobanteAfterInsertTransfCtasAsBool = false;
+            TipoContabilizacionOrdenDeProduccionAsEnum = eTipoDeContabilizacion.CadaDocumento;
+            ContabIndividualOrdenDeProduccionAsEnum = eContabilizacionIndividual.Inmediata;
+            ContabPorLoteOrdenDeProduccionAsEnum = eContabilizacionPorLote.Diaria;
+            CuentaOrdenDeProduccionProductoTerminado = string.Empty;
+            CuentaOrdenDeProduccionMateriaPrima = string.Empty;
+            OrdenDeProduccionTipoComprobante = string.Empty;
+            EditarComprobanteAfterInsertOrdenDeProduccionAsBool = false;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -1590,6 +1682,13 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             vResult.CuentaTransfCtasBancoOrigen = _CuentaTransfCtasBancoOrigen;
             vResult.TransfCtasSigasTipoComprobante = _TransfCtasSigasTipoComprobante;
             vResult.EditarComprobanteAfterInsertTransfCtasAsBool = _EditarComprobanteAfterInsertTransfCtas;
+            vResult.TipoContabilizacionOrdenDeProduccionAsEnum = _TipoContabilizacionOrdenDeProduccion;
+            vResult.ContabIndividualOrdenDeProduccionAsEnum = _ContabIndividualOrdenDeProduccion;
+            vResult.ContabPorLoteOrdenDeProduccionAsEnum = _ContabPorLoteOrdenDeProduccion;
+            vResult.CuentaOrdenDeProduccionProductoTerminado = _CuentaOrdenDeProduccionProductoTerminado;
+            vResult.CuentaOrdenDeProduccionMateriaPrima = _CuentaOrdenDeProduccionMateriaPrima;
+            vResult.OrdenDeProduccionTipoComprobante = _OrdenDeProduccionTipoComprobante;
+            vResult.EditarComprobanteAfterInsertOrdenDeProduccionAsBool = _EditarComprobanteAfterInsertOrdenDeProduccion;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
