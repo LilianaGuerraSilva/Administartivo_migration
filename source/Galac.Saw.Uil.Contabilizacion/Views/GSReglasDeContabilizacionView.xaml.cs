@@ -22,8 +22,8 @@ namespace Galac.Saw.Uil.Contabilizacion.Views {
         public GSReglasDeContabilizacionView() {
             InitializeComponent();
         }
-
         #endregion //Constructores
+
 
     } //End of class GSReglasDeContabilizacionView.xaml
 
