@@ -2950,6 +2950,16 @@ MenuDeInformes : boolean;
     CuentaRendicionesAnticipos         : Str30; //=cuenta.codigo
     MostrarDesglosadoRendiciones       : Boolean;
 
+// Transferencias entre Cuentas Bancarias
+    TipoContabilizacionTransfCtas        : UnTipoDeContabilizacion;
+    ContabIndividualTransfCtas           : UnContabilizacionIndividual;
+    ContabPorLoteTransfCtas              : UnContabilizacionPorLote;
+    CuentaTransfCtasBancoDestino         : Str30; //=cuenta.codigo
+    CuentaTransfCtasGastoComOrigen       : Str30; //=cuenta.codigo
+    CuentaTransfCtasGastoComDestino      : Str30; //=cuenta.codigo
+    CuentaTransfCtasBancoOrigen          : Str30; //=cuenta.codigo
+    TransfCtasSigasTipoComprobante       : str2:
+
 // Orden de Produccion
     TipoContabilizacionOrdenDeProduccion        : UnTipoDeContabilizacion;
     ContabIndividualOrdenDeProduccion           : UnContabilizacionIndividual;
