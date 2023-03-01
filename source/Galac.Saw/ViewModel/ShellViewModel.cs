@@ -393,8 +393,10 @@ namespace Galac.Saw.ViewModel {
                 new XElement("MaximoLimitePermitidoParaLaTasaDeCambio","30.35"),
                 new XElement("CostoTerminadoCalculadoAPartirDe","1"),
                 new XElement("CodigoGenericoCliente", "000000000A"),
-                new XElement("EsModuloDeProduccion", "S"),
                 new XElement("EsUsuarioSupervisor","S")),
+            new XElement("ReglasDeContabilizacion",
+                new XElement("MuestraTipoComprobante", "S"),
+                new XElement("EsModuloDeProduccion", "S")),
             new XElement("Compania",
                 new XElement("Nombre","Prueba"),
                 new XElement("NumeroRif","J000001")));

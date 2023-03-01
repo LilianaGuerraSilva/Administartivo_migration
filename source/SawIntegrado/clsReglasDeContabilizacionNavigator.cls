@@ -217,6 +217,14 @@ Private mCuentaTransfCtasGastoComOrigen As String
 Private mEditarComprobanteAfterInsertTransfCtas As String
 Private mEditarComprobanteAfterInsertTransfCtasIsSet As String
 Private mTransfCtasSigasTipoComprobante As String
+Private mTipoContabilizacionOrdenDeProduccion As String
+Private mContabIndividualOrdenDeProduccion As String
+Private mContabPorLoteOrdenDeProduccion As String
+Private mCuentaOrdenDeProduccionProductoTerminado As String
+Private mCuentaOrdenDeProduccionMateriaPrima As String
+Private mOrdenDeProduccionTipoComprobante As String
+Private mEditarComprobanteAfterInsertOrdenDeProduccion As String
+Private mEditarComprobanteAfterInsertOrdenDeProduccionIsSet As String
 
 Public Function eTC_ReglaProvCxP() As Integer
    eTC_ReglaProvCxP = 0
@@ -642,7 +650,14 @@ Public Sub sClrRecord()
    SetCuentaTransfCtasBancoOrigen ""
    SetCuentaTransfCtasGastoComDestino ""
    SetCuentaTransfCtasGastoComOrigen ""
-   
+   SetTipoContabilizacionOrdenDeProduccionStr ""
+   SetContabIndividualOrdenDeProduccionStr ""
+   SetContabPorLoteOrdenDeProduccionStr ""
+   SetCuentaOrdenDeProduccionProductoTerminado ""
+   SetCuentaOrdenDeProduccionMateriaPrima ""
+   SetOrdenDeProduccionTipoComprobante ""
+   SetEditarComprobanteAfterInsertOrdenDeProduccion False
+   mEditarComprobanteAfterInsertOrdenDeProduccionIsSet = False
    SetNombreOperador gProyUsuarioActual.GetNombreDelUsuario
    SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
    mFechaUltimaModificacionIsSet = False
@@ -2134,6 +2149,104 @@ Public Sub SetEditarComprobanteAfterInsertTransfCtas(ByVal valNewValue As Boolea
    mEditarComprobanteAfterInsertTransfCtas = valNewValue
    mEditarComprobanteAfterInsertTransfCtasIsSet = valueWasTrueOrFalseInSearch
 End Sub
+Public Function GetTipoContabilizacionOrdenDeProduccionStr() As String
+   GetTipoContabilizacionOrdenDeProduccionStr = mTipoContabilizacionOrdenDeProduccion
+End Function
+
+Public Function GetTipoContabilizacionOrdenDeProduccionChar() As String
+   If GetTipoContabilizacionOrdenDeProduccionStr = "" Then
+      GetTipoContabilizacionOrdenDeProduccionChar = ""
+   Else
+      GetTipoContabilizacionOrdenDeProduccionChar = gConvert.enumerativoAChar( _
+            gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionOrdenDeProduccionStr, False))
+   End If
+End Function
+
+Public Function GetTipoContabilizacionOrdenDeProduccionAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionOrdenDeProduccionAsEnum = _
+         gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionOrdenDeProduccionStr, False)
+End Function
+
+Public Sub SetTipoContabilizacionOrdenDeProduccionStr(ByVal valNewValue As String)
+   mTipoContabilizacionOrdenDeProduccion = valNewValue
+End Sub
+
+Public Function GetContabIndividualOrdenDeProduccionStr() As String
+   GetContabIndividualOrdenDeProduccionStr = mContabIndividualOrdenDeProduccion
+End Function
+
+Public Function GetContabIndividualOrdenDeProduccionChar() As String
+   If GetContabIndividualOrdenDeProduccionStr = "" Then
+      GetContabIndividualOrdenDeProduccionChar = ""
+   Else
+      GetContabIndividualOrdenDeProduccionChar = gConvert.enumerativoAChar( _
+            gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualOrdenDeProduccionStr, False))
+   End If
+End Function
+
+Public Function GetContabIndividualOrdenDeProduccionAsEnum() As enum_ContabilizacionIndividual
+   GetContabIndividualOrdenDeProduccionAsEnum = _
+         gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualOrdenDeProduccionStr, False)
+End Function
+
+Public Sub SetContabIndividualOrdenDeProduccionStr(ByVal valNewValue As String)
+   mContabIndividualOrdenDeProduccion = valNewValue
+End Sub
+
+Public Function GetContabPorLoteOrdenDeProduccionStr() As String
+   GetContabPorLoteOrdenDeProduccionStr = mContabPorLoteOrdenDeProduccion
+End Function
+
+Public Function GetContabPorLoteOrdenDeProduccionChar() As String
+   If GetContabPorLoteOrdenDeProduccionStr = "" Then
+      GetContabPorLoteOrdenDeProduccionChar = ""
+   Else
+      GetContabPorLoteOrdenDeProduccionChar = gConvert.enumerativoAChar( _
+            gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteOrdenDeProduccionStr, False))
+   End If
+End Function
+
+Public Function GetContabPorLoteOrdenDeProduccionAsEnum() As enum_ContabilizacionPorLote
+   GetContabPorLoteOrdenDeProduccionAsEnum = _
+         gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteOrdenDeProduccionStr, False)
+End Function
+
+Public Sub SetContabPorLoteOrdenDeProduccionStr(ByVal valNewValue As String)
+   mContabPorLoteOrdenDeProduccion = valNewValue
+End Sub
+
+Public Function GetCuentaOrdenDeProduccionProductoTerminado() As String
+   GetCuentaOrdenDeProduccionProductoTerminado = mCuentaOrdenDeProduccionProductoTerminado
+End Function
+
+Public Sub SetCuentaOrdenDeProduccionProductoTerminado(ByVal valNewValue As String)
+   mCuentaOrdenDeProduccionProductoTerminado = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaOrdenDeProduccionMateriaPrima() As String
+   GetCuentaOrdenDeProduccionMateriaPrima = mCuentaOrdenDeProduccionMateriaPrima
+End Function
+
+Public Sub SetCuentaOrdenDeProduccionMateriaPrima(ByVal valNewValue As String)
+   mCuentaOrdenDeProduccionMateriaPrima = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetOrdenDeProduccionTipoComprobante() As String
+   GetOrdenDeProduccionTipoComprobante = mOrdenDeProduccionTipoComprobante
+End Function
+
+Public Sub SetOrdenDeProduccionTipoComprobante(ByVal valNewValue As String)
+   mOrdenDeProduccionTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertOrdenDeProduccion() As Boolean
+   GetEditarComprobanteAfterInsertOrdenDeProduccion = mEditarComprobanteAfterInsertOrdenDeProduccion
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertOrdenDeProduccion(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertOrdenDeProduccion = valNewValue
+   mEditarComprobanteAfterInsertOrdenDeProduccionIsSet = valueWasTrueOrFalseInSearch
+End Sub
 
 Public Function GetNombreOperador() As String
    GetNombreOperador = mNombreOperador
@@ -2649,8 +2762,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaRetencionImpuestoMunicipal valRecordSet("CuentaRetencionImpuestoMunicipal")
       End If
    End If
-   
-   
    If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCxC") Then
       If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCxC")) Then
          SetEditarComprobanteAfterInsertCxC gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCxC"))
@@ -2701,14 +2812,12 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetEditarComprobanteAfterInsertInventario gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertInventario"))
       End If
    End If
-
    If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCajaChica") Then
       If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCajaChica")) Then
          SetEditarComprobanteAfterInsertCajaChica gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCajaChica"))
       End If
    End If
-   
-         If gDbUtil.FieldInRecordSet(valRecordSet, "SiglasTipoComprobanteCajaChica") Then
+   If gDbUtil.FieldInRecordSet(valRecordSet, "SiglasTipoComprobanteCajaChica") Then
       If Not IsNull(valRecordSet("SiglasTipoComprobanteCajaChica")) Then
          SetSiglasTipoComprobanteCajaChica valRecordSet("SiglasTipoComprobanteCajaChica")
       End If
@@ -2816,7 +2925,41 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
           SetEditarComprobanteAfterInsertTransfCtas gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertTransfCtas"))
       End If
    End If
-   
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionOrdenDeProduccion") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionOrdenDeProduccion")) Then
+         SetTipoContabilizacionOrdenDeProduccionStr valRecordSet("TipoContabilizacionOrdenDeProduccion")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualOrdenDeProduccion") Then
+      If Not IsNull(valRecordSet("ContabIndividualOrdenDeProduccion")) Then
+         SetContabIndividualOrdenDeProduccionStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualOrdenDeProduccion")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "ContabPorLoteOrdenDeProduccion") Then
+      If Not IsNull(valRecordSet("ContabPorLoteOrdenDeProduccion")) Then
+         SetContabPorLoteOrdenDeProduccionStr gEnumProyecto.enumContabilizacionPorLoteToString(gConvert.charAEnumerativoInt(valRecordSet("ContabPorLoteOrdenDeProduccion")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaOrdenDeProduccionProductoTerminado") Then
+      If Not IsNull(valRecordSet("CuentaOrdenDeProduccionProductoTerminado")) Then
+         SetCuentaOrdenDeProduccionProductoTerminado valRecordSet("CuentaOrdenDeProduccionProductoTerminado")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaOrdenDeProduccionMateriaPrima") Then
+      If Not IsNull(valRecordSet("CuentaOrdenDeProduccionMateriaPrima")) Then
+         SetCuentaOrdenDeProduccionMateriaPrima valRecordSet("CuentaOrdenDeProduccionMateriaPrima")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "OrdenDeProduccionTipoComprobante") Then
+      If Not IsNull(valRecordSet("OrdenDeProduccionTipoComprobante")) Then
+         SetOrdenDeProduccionTipoComprobante valRecordSet("OrdenDeProduccionTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertOrdenDeProduccion") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion")) Then
+          SetEditarComprobanteAfterInsertOrdenDeProduccion gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion"))
+      End If
+   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "NombreOperador") Then
       If Not IsNull(valRecordSet("NombreOperador")) Then
          SetNombreOperador valRecordSet("NombreOperador")
@@ -3906,6 +4049,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaRendicionesAnticipos", 30, valRecordSet("CuentaRendicionesAnticipos").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@MostrarDesglosadoRendiciones", 1, valRecordSet("MostrarDesglosadoRendiciones").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoContabilizacionTransfCtas", 1, valRecordSet("TipoContabilizacionTransfCtas").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabIndividualTransfCtas", 1, valRecordSet("ContabIndividualTransfCtas").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabPorLoteTransfCtas", 1, valRecordSet("ContabPorLoteTransfCtas").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasBancoDestino", 30, valRecordSet("CuentaTransfCtasBancoDestino").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasGastoComOrigen", 30, valRecordSet("CuentaTransfCtasGastoComOrigen").value)
@@ -3913,6 +4057,13 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasBancoOrigen", 30, valRecordSet("CuentaTransfCtasBancoOrigen").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TransfCtasSigasTipoComprobante", 2, valRecordSet("TransfCtasSigasTipoComprobante").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@EditarComprobanteAfterInsertTransfCtas", 1, valRecordSet("EditarComprobanteAfterInsertTransfCtas").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoContabilizacionOrdenDeProduccion", 1, valRecordSet("TipoContabilizacionOrdenDeProduccion").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabIndividualOrdenDeProduccion", 1, valRecordSet("ContabIndividualOrdenDeProduccion").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabPorLoteOrdenDeProduccion", 1, valRecordSet("ContabPorLoteOrdenDeProduccion").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaOrdenDeProduccionProductoTerminado", 30, valRecordSet("CuentaOrdenDeProduccionProductoTerminado").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaOrdenDeProduccionMateriaPrima", 30, valRecordSet("CuentaOrdenDeProduccionMateriaPrima").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@OrdenDeProduccionTipoComprobante", 30, valRecordSet("OrdenDeProduccionTipoComprobante").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@EditarComprobanteAfterInsertOrdenDeProduccion", 1, valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion").value)
       
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, valRecordSet("NombreOperador").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", valRecordSet("FechaUltimaModificacion").value)
@@ -4202,21 +4353,4 @@ h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeOrdenDeProduccionEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-'*** código temporal para que compile
-Public Function GetCuentaOrdenDeProduccionProductoTerminado() As String
-   GetCuentaOrdenDeProduccionProductoTerminado = ""
-End Function
-
-Public Function GetCuentaOrdenDeProduccionMateriales() As String
-   GetCuentaOrdenDeProduccionMateriales = ""
-End Function
-
-Public Function GetSiglasTipoComprobanteOrdenDeProduccion() As String
-   GetSiglasTipoComprobanteOrdenDeProduccion = ""
-End Function
-
-Public Function GetEditarComprobanteAfterInsertOrdenDeProduccion() As Boolean
-   GetEditarComprobanteAfterInsertOrdenDeProduccion = True
 End Function

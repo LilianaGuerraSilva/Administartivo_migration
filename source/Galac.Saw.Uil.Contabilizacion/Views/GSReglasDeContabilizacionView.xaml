@@ -4528,7 +4528,7 @@
         <TabItem
             Name="tbiGestionProduccion"
             Header="Producción"
-            Visibility="{Binding Path=EsModuloDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}">
+            Visibility="{Binding Path=TabProduccionVisible, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid Name="gtGestionProduccion">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -4559,8 +4559,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Content="Editar Inmediatamente el Comprobante Generado"
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkEditarComprobanteAfterInsertOrdenDeProduccion"
                     Grid.Row="1"
@@ -4568,8 +4567,7 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=EditarComprobanteAfterInsertOrdenDeProduccion}"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}"
-                    Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Style="{StaticResource CheckBoxStyle}" />
                 <GroupBox
                     Grid.Row="2"
                     Grid.ColumnSpan="3"

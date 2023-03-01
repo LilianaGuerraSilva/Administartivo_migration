@@ -3842,10 +3842,17 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             set {
                 if (_ConexionCuentaOrdenDeProduccionProductoTerminado != value) {
                     _ConexionCuentaOrdenDeProduccionProductoTerminado = value;
+                    if (ConexionCuentaOrdenDeProduccionProductoTerminado != null) {
+                        CuentaOrdenDeProduccionProductoTerminado = ConexionCuentaOrdenDeProduccionProductoTerminado.Codigo;
+                        CuentaOrdenDeProduccionProductoTerminadoDescripcion = ConexionCuentaOrdenDeProduccionProductoTerminado.Descripcion;
+                    }
                     RaisePropertyChanged(CuentaOrdenDeProduccionProductoTerminadoPropertyName);
+                    RaisePropertyChanged(CuentaOrdenDeProduccionProductoTerminadoDescripcionPropertyName);
                 }
                 if (_ConexionCuentaOrdenDeProduccionProductoTerminado == null) {
                     CuentaOrdenDeProduccionProductoTerminado = string.Empty;
+                    CuentaOrdenDeProduccionProductoTerminadoDescripcion = string.Empty;
+                    RaisePropertyChanged(CuentaOrdenDeProduccionProductoTerminadoDescripcionPropertyName);
                 }
             }
         }
@@ -3857,10 +3864,17 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             set {
                 if (_ConexionCuentaOrdenDeProduccionMateriaPrima != value) {
                     _ConexionCuentaOrdenDeProduccionMateriaPrima = value;
+                    if (ConexionCuentaOrdenDeProduccionMateriaPrima != null) {
+                        CuentaOrdenDeProduccionMateriaPrima = ConexionCuentaOrdenDeProduccionMateriaPrima.Codigo;
+                        CuentaOrdenDeProduccionMateriaPrimaDescripcion = ConexionCuentaOrdenDeProduccionMateriaPrima.Descripcion;
+                    }
                     RaisePropertyChanged(CuentaOrdenDeProduccionMateriaPrimaPropertyName);
+                    RaisePropertyChanged(CuentaOrdenDeProduccionMateriaPrimaDescripcionPropertyName);
                 }
                 if (_ConexionCuentaOrdenDeProduccionMateriaPrima == null) {
                     CuentaOrdenDeProduccionMateriaPrima = string.Empty;
+                    CuentaOrdenDeProduccionMateriaPrimaDescripcion = string.Empty;
+                    RaisePropertyChanged(CuentaOrdenDeProduccionMateriaPrimaDescripcionPropertyName);
                 }
             }
         }
@@ -5895,6 +5909,8 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string CuentaTransfCtasBancoOrigenDescripcionPropertyName = "CuentaTransfCtasBancoOrigenDescripcion";
         public const string CuentaTransfCtasGastoComDestinoDescripcionPropertyName = "CuentaTransfCtasGastoComDestinoDescripcion";
         public const string CuentaTransfCtasGastoComOrigenDescripcionPropertyName = "CuentaTransfCtasGastoComOrigenDescripcion";
+        public const string CuentaOrdenDeProduccionProductoTerminadoDescripcionPropertyName = "CuentaOrdenDeProduccionProductoTerminadoDescripcion";
+        public const string CuentaOrdenDeProduccionMateriaPrimaDescripcionPropertyName = "CuentaOrdenDeProduccionMateriaPrimaDescripcion";
 
         private LibSearchCriteria SearchCriteriaConexionCuenta(string codigo) {
             LibSearchCriteria vSearchcriteria;
@@ -5977,7 +5993,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaInventario);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaIva1Credito);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaIva1Debito);
-            if(TipoContribuyenteEspecial) {
+            if (TipoContribuyenteEspecial) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaRetencionIva);
             }
             vResult = vResult || LibString.IsNullOrEmpty(DiferenciaEnCambioyCalculo);
@@ -5989,16 +6005,16 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaCostoDeVenta);
             vResult = vResult || LibString.IsNullOrEmpty(CtaDePagosSueldos);
             vResult = vResult || LibString.IsNullOrEmpty(CtaDePagosSueldosBanco);
-            if(TabResumenDiarioDeVentasVisible) {
+            if (TabResumenDiarioDeVentasVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaRDVtasCaja);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaRDVtasMontoTotal);
             }
-            if(TabImpuestosALasTransaccionesFinancierasVisible) {
+            if (TabImpuestosALasTransaccionesFinancierasVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaDebitoBancarioGasto);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaDebitoBancarioBancos);
                 //vResult = vResult || LibString.IsNullOrEmpty(CuentaCreditoBancarioBancos);
             }
-            if(TabCajaChicaVisible) {
+            if (TabCajaChicaVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCajaChicaGasto);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCajaChicaBancoHaber);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCajaChicaBancoDebe);
@@ -6036,15 +6052,16 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasBancoOrigen);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasGastoComDestino);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasGastoComOrigen);
-            vResult = vResult || LibString.IsNullOrEmpty(CuentaOrdenDeProduccionProductoTerminado);
-            vResult = vResult || LibString.IsNullOrEmpty(CuentaOrdenDeProduccionMateriaPrima);
-            if((LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion","UsarVentasConIvaDiferido"))) {
+            if (TabProduccionVisible) {
+                vResult = vResult || LibString.IsNullOrEmpty(CuentaOrdenDeProduccionProductoTerminado);
+                vResult = vResult || LibString.IsNullOrEmpty(CuentaOrdenDeProduccionMateriaPrima);
+            }
+            if (UsaVentasConIvaDiferido()) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionIvaDiferido);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCobranzaIvaDiferido);
             }
             return vResult;
         }
-
 
         protected override bool UpdateRecord() {
             ValidationResult vResult = ValidationResult.Success;
@@ -6157,12 +6174,16 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
-        public bool EsModuloDeProduccion {
+        public bool TabProduccionVisible {
             get {
                 return EsModuloProduccion();
             }
         }
 
+        private bool UsaVentasConIvaDiferido() {
+            return (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion", "UsarVentasConIvaDiferido"));
+        }
+        
         private ValidationResult CuentaDiferenciaCambiariaValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {

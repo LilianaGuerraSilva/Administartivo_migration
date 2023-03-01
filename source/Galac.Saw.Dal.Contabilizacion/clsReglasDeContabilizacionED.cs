@@ -326,7 +326,7 @@ namespace Galac.Saw.Dal.Contabilizacion {
             SQL.AppendLine("@TransfCtasSigasTipoComprobante" + InsSql.VarCharTypeForDb(2) + ",");
             SQL.AppendLine("@EditarComprobanteAfterInsertTransfCtas" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@TipoContabilizacionOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " = '0',");
-            SQL.AppendLine("@ContabIndividualOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " = '0',");
+            SQL.AppendLine("@ContabIndividualOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " = '1',");
             SQL.AppendLine("@ContabPorLoteOrdenDeProduccion" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@CuentaOrdenDeProduccionProductoTerminado" + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("@CuentaOrdenDeProduccionMateriaPrima" + InsSql.VarCharTypeForDb(30) + ",");
