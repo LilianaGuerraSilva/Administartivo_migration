@@ -328,9 +328,9 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    vSqlStatusConsecutivo = vSqlStatusConsecutivo & gUtilSQL.fCast("OdP.Consecutivo", eTDSS_VARCHAR, "")
    
    If valEsUnReverso Then
-      vSqlFecha = "OdP.Consecutivo.FechaFinalizacion"
+      vSqlFecha = "OdP.FechaFinalizacion"
    Else
-      vSqlFecha = "OdP.Consecutivo.FechaAnulacion"
+      vSqlFecha = "OdP.FechaAnulacion"
    End If
    
    vSql = "SELECT OdP.Consecutivo, "
