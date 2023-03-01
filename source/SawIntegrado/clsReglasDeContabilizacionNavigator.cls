@@ -4491,6 +4491,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaRendicionesAnticipos", 30, valRecordSet("CuentaRendicionesAnticipos").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@MostrarDesglosadoRendiciones", 1, valRecordSet("MostrarDesglosadoRendiciones").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoContabilizacionTransfCtas", 1, valRecordSet("TipoContabilizacionTransfCtas").value)
+      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabIndividualTransfCtas", 1, valRecordSet("ContabIndividualTransfCtas").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@ContabPorLoteTransfCtas", 1, valRecordSet("ContabPorLoteTransfCtas").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasBancoDestino", 30, valRecordSet("CuentaTransfCtasBancoDestino").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@CuentaTransfCtasGastoComOrigen", 30, valRecordSet("CuentaTransfCtasGastoComOrigen").value)
