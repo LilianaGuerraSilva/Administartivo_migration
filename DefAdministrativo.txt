@@ -2145,14 +2145,6 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
 //  DefContabilidad-V1.txt
 //  La definicion de periodo, se hace solo para que el narrador no se queje porque falta el record
 
-{@S} TipoDeComprobante = Record //Male,GENERATE,Componente=Tablas,Esquema=Contab,GENERATE,"Tipo de Comprobante",interop
-  Codigo 			: Str2;//o,g,"Código",search
-  Nombre			: Str30;//o,g,"Nombre",u,search
-  NombreOperador        	: Str20; //a
-  FechaUltimaModificacion       : date;//a
-  fldOrigen 			: unInsertSource; //v, "Origen"
-  @primaryKey = Codigo
-}
 
 {@S}ReglasDeContabilizacion = Record//Multiarchivo=Compania,Componente=Contabilizacion,Esquema=Saw,interop,UNICO,"Reglas de Contabilización", GENERATE
     ConsecutivoCompania                         : LongInt;//o,v,HIDE
