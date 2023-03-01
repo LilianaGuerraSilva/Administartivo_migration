@@ -104,7 +104,7 @@ Public Sub sEjecutaAccionEscogidaMenuContabilizar(ByVal valCaptionMenuEscogido A
       Case fTextoMenuDeContabilizar(eCG_ANTICIPO) & "-" & gEnumProyecto.enumTipoDeAnticipoToString(eTDA_COBRADO): sEjecutaContabilizar eCG_ANTICIPO, enum_TipoDeAnticipo.eTDA_COBRADO
       Case fTextoMenuDeContabilizar(eCG_ANTICIPO) & "-" & gEnumProyecto.enumTipoDeAnticipoToString(eTDA_PAGADO): sEjecutaContabilizar eCG_ANTICIPO, enum_TipoDeAnticipo.eTDA_PAGADO
       Case fTextoMenuDeContabilizar(eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA): sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas
-      Case "Orden de Produccion": sEjecutacontabilizarOrdenDeProduccion
+      Case fTextoMenuDeContabilizar(eCG_ORDEN_DE_PRODUCCION): sEjecutacontabilizarOrdenDeProduccion
       Case "Documento Por Lote": sEjecutaProcesoDeContabilizacionPorLote
       Case "Pago de Sueldos": sEjecutaContabilizar eCG_PAGO_SUELDOS, -1
       Case "Costos Inventario": sEjecutaContabilizar eCG_INVENTARIO, -1
@@ -562,6 +562,8 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpTransferenciaEntreCuentasBancarias"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
       
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
+      'vContabilizadopor = gConvert.enumerativoAChar(gConvert.charAEnumerativoInt(gEnumProyectoWincont.enumComprobanteGeneradoPorToString(eCG_ORDEN_DE_PRODUCCION)))
+a
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       If (vDatos = "") Then
          gMessage.InformationMessage "Acción cancelada por el usuario. ", "Contabilización de Orden de Producción"
