@@ -208,7 +208,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
         }
-
+        
         [LibRequired(ErrorMessage = "El campo Nombre de Almacén Materiales es requerido.")]
         public string NombreAlmacenMateriales {
             get {
@@ -662,14 +662,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             DefaultFocusedPropertyName = CodigoPropertyName;
         }
 
-        public OrdenDeProduccionViewModel(bool a) 
-            : this(new OrdenDeProduccion(), eAccionSR.Insertar) {
-            DeleteConfirmationMessage = "¿Está seguro que desea eliminar este registro?";
-            AllowButtonsToGetFocus = false;
-            Action = eAccionSR.Contabilizar;
-            InitializeCommands();
-        }
-
         public override void InitializeViewModel(eAccionSR valAction) {
             LibMessages.MessageBox.Alert(this, "InitializeViewModel", LibConvert.ToStr(valAction));
             base.InitializeViewModel(valAction);
@@ -779,7 +771,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Commands
 
         private bool CanExecuteVerDetalleCommand() {
-            return DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales != null && DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales.Items != null && DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales.Items.Count > 0;
+
+            return DetailOrdenDeProduccionDetalleArticulo.Items.Count > 0 && DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales != null && DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales.Items != null && DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales.Items.Count > 0;
         }
 
         private void ExecuteVerDetalleCommand() {
@@ -969,9 +962,12 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         #region Metodos Generados
 
-        protected override OrdenDeProduccion FindCurrentRecord(OrdenDeProduccion valModel) {
+        protected override OrdenDeProduccion FindCurrentRecord(OrdenDeProduccion valModel) {            
             if (valModel == null) {
                 return null;
+            }
+            if (Action == eAccionSR.Contabilizar) {
+                return valModel;
             }
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valModel.ConsecutivoCompania);
