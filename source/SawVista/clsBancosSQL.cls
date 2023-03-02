@@ -490,7 +490,7 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConse
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
    
-   vSqlSubSelect = " SELECT MB.NumeroDocumento "
+   vSqlSubSelect = " SELECT MB.ConsecutivoMovimiento "
    vSqlSubSelect = vSqlSubSelect & " FROM MovimientoBancario AS MB "
    vSqlSubSelect = vSqlSubSelect & " WHERE " & gUtilSQL.fSQLValueBetween("MB.Fecha", valFechaInicial, valFechaFinal)
    vSqlSubSelect = vSqlSubSelect & " AND MB.ConsecutivoCompania = MovimientoBancario.ConsecutivoCompania AND MB.CodigoCtaBancaria = MovimientoBancario.CodigoCtaBancaria "
@@ -512,11 +512,11 @@ Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConse
    If valCantidadAImprimir Then
       vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
-   vSql = vSql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO)
-   vSql = vSql & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   vSql = vSql & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   vSql = vSql & " AND MovimientoBancario.NumeroDocumento NOT IN (" & vSqlSubSelect & ") "
-   fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario = vSql
+   vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO)
+   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoMovimiento NOT IN (" & vSqlSubSelect & ") "
+   fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
