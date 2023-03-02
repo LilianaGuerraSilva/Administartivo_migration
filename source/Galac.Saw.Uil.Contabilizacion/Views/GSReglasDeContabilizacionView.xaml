@@ -4525,5 +4525,220 @@
                     SearchCommand="{Binding Path=ChooseSiglasTipoComprobanteRendicionesCommand}" />
             </Grid>
         </TabItem>
+        <TabItem
+            Name="tbiGestionProduccion"
+            Header="Producción"
+            Visibility="{Binding Path=TabProduccionVisible, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Grid Name="gtGestionProduccion">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Content="Reglas de Contabilización de Ordenes de Producción"
+                    FontSize="13"
+                    Style="{StaticResource LabelTitle}" />
+                <Label
+                    Name="lblEditarComprobanteAfterInsertOrdenDeProduccion"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Content="Editar Inmediatamente el Comprobante Generado"
+                    Style="{StaticResource LabelPrompt}" />
+                <CheckBox
+                    Name="chkEditarComprobanteAfterInsertOrdenDeProduccion"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"
+                    IsChecked="{Binding Path=EditarComprobanteAfterInsertOrdenDeProduccion}"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Style="{StaticResource CheckBoxStyle}" />
+                <GroupBox
+                    Grid.Row="2"
+                    Grid.ColumnSpan="3"
+                    Width="514"
+                    Margin="3"
+                    Header="Cuentas Orden de Producción"
+                    HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
+                    Style="{StaticResource GroupBoxStyle}">
+                    <Grid Name="gtProduccion">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.RowSpan="5"
+                            Grid.Column="2"
+                            Background="{x:Null}"
+                            BorderBrush="{StaticResource NormalBorderBrush}"
+                            BorderThickness="1,0,0,0" />
+                        <Border
+                            Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            Background="{x:Null}"
+                            BorderBrush="{StaticResource SolidBorderBrush}"
+                            BorderThickness="0,0,0,1" />
+                        <Border
+                            Grid.Row="2"
+                            Grid.ColumnSpan="3"
+                            Background="{x:Null}"
+                            BorderBrush="{StaticResource SolidBorderBrush}"
+                            BorderThickness="0,0,0,1" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Content="DEBE"
+                            FontSize="12" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Content="HABER"
+                            FontSize="12" />
+                        <Label
+                            Name="lblCuentaOrdenDeProduccionProductoTerminado"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="3,3,14,3"
+                            Content="Cuenta Producto Terminado"
+                            Style="{StaticResource LabelPrompt}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaOrdenDeProduccionProductoTerminado"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Width="150"
+                            Height="23"
+                            Margin="3"
+                            HorizontalAlignment="Left"
+                            ConnectionValue="{Binding Path=CuentaOrdenDeProduccionProductoTerminado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaOrdenDeProduccionProductoTerminado, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ChooseCuentaOrdenDeProduccionProductoTerminadoCommand}" />
+                        <Label
+                            Name="lblCuentaOrdenDeProduccionMateriaPrima"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Content="Cuenta Materia Prima"
+                            Style="{StaticResource LabelPrompt}" />
+                        <nsWpfControls:GSSeekConnection
+                            Name="txtCuentaOrdenDeProduccionMateriaPrima"
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Width="150"
+                            Height="23"
+                            Margin="3"
+                            HorizontalAlignment="Left"
+                            ConnectionValue="{Binding Path=CuentaOrdenDeProduccionMateriaPrima, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                            DisplayMemberPath="Codigo"
+                            IsEnabled="{Binding Path=IsEnabled}"
+                            Model="{Binding Path=ConexionCuentaOrdenDeProduccionMateriaPrima, Mode=TwoWay}"
+                            SearchCommand="{Binding Path=ChooseCuentaOrdenDeProduccionMateriaPrimaCommand}" />
+                    </Grid>
+                </GroupBox>
+                <Label
+                    Name="lblOrdenDeProduccionTipoComprobante"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Margin="3,3,140,3"
+                    Content="Siglas del Tipo de Comprobante"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <nsWpfControls:GSSeekConnection
+                    Name="txtOrdenDeProduccionTipoComprobante"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Width="150"
+                    Height="23"
+                    Margin="3"
+                    HorizontalAlignment="Left"
+                    ConnectionValue="{Binding Path=OrdenDeProduccionTipoComprobante, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                    DisplayMemberPath="Codigo"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    Model="{Binding Path=ConexionOrdenDeProduccionTipoComprobante, Mode=TwoWay}"
+                    SearchCommand="{Binding Path=ChooseOrdenDeProduccionTipoComprobanteCommand}"
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Name="lblTipoContabilizacionOrdenDeProduccion"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Content="Tipo Contabilización Orden de Producción"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <nsWpfControls:GSComboBoxWpf
+                    Name="cmbTipoContabilizacionOrdenDeProduccion"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Width="150"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayTipoDeContabilizacion}"
+                    SelectedItem="{Binding Path=TipoContabilizacionOrdenDeProduccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ComboBoxStyle}"
+                    Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Name="lblContabIndividualOrdenDeProduccion"
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Content="Cómo Contabilizar"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <nsWpfControls:GSComboBoxWpf
+                    Name="cmbContabIndividualOrdenDeProduccion"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Width="150"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayContabilizacionIndividual}"
+                    SelectedItem="{Binding Path=ContabIndividualOrdenDeProduccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ComboBoxStyle}"
+                    Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Name="lblContabPorLoteOrdenDeProduccion"
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Content="Contabilizar por Lote Orden de Producción"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <nsWpfControls:GSComboBoxWpf
+                    Name="cmbContabPorLoteOrdenDeProduccion"
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Width="150"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding Path=ArrayContabilizacionPorLote}"
+                    SelectedItem="{Binding Path=ContabPorLoteOrdenDeProduccion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource ComboBoxStyle}"
+                    Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
+            </Grid>
+        </TabItem>
     </TabControl>
 </UserControl>
