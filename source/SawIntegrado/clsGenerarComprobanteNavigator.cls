@@ -839,7 +839,7 @@ End Function
 Private Function fConstruyeSQLsegunElModuloAContabilizar(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valModuloAContabilizar As enum_ComprobanteGeneradoPor, ByVal valEsUnReverso As Boolean, ByVal valDescripcionDelAsiento As String, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNoDocumentoOrigen As String, ByVal valGeneraElMovimientoBancario As Boolean, ByVal valTipoDocumento As Integer, ByRef refRegla As String, ByVal valConsecutivoDocumentoOrigen As Long, ByVal valTipoAlicPorContIGTF As enum_TipoAlicPorContIGTF) As String
    Dim insArticulo As clsArticuloInventarioNavigator
    Dim insGenerarComprobanteSql As clsGenerarComprobanteSQL
-   Dim vSql As String
+   Dim vSQL As String
    Dim insComprobanteSQL As clsComprobanteSQL
    Dim vConjuntoDeRegistrosSinContabilizar As String
    Dim insMovimiento As clsMovimientoBancarioNavigator
@@ -850,68 +850,68 @@ Private Function fConstruyeSQLsegunElModuloAContabilizar(ByVal valFechaDesde As 
    Set insGenerarComprobanteSql = New clsGenerarComprobanteSQL
    Set insMovimiento = New clsMovimientoBancarioNavigator
    refRegla = ""
-   vSql = ""
+   vSQL = ""
    vConjuntoDeRegistrosSinContabilizar = fSQLConjuntoRecordsDeContabilizacion1oMasDocumentos(valModuloAContabilizar, valContabilizarSolo1Documento, valNoDocumentoOrigen, valFechaDesde, valFechaHasta, valTipoAlicPorContIGTF)
    vPorcentajeIGTF = insMovimiento.fBuscaAlicuotaImpTranscBancariasReformaIGTFGO6687(valTipoAlicPorContIGTF, valFechaDesde)
    Set insMovimiento = Nothing
    Select Case valModuloAContabilizar
       Case eCG_CXC:
-         vSql = fSQLCxCEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
+         vSQL = fSQLCxCEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
          refRegla = gProyReglasDeContabilizacion.GetCuentaCxCClientes
       Case eCG_FACTURA:
          If gProyReglasDeContabilizacion.GetContabilizarPorArticulo Then
-            vSql = fSQLFacturasEntreFechasPorArticulo(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
+            vSQL = fSQLFacturasEntreFechasPorArticulo(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
          Else
-            vSql = fSQLFacturasEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
+            vSQL = fSQLFacturasEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
          End If
          refRegla = gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes
       Case eCG_CXP:
-         vSql = fSQLCxPEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento, valConsecutivoDocumentoOrigen)
+         vSQL = fSQLCxPEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento, valConsecutivoDocumentoOrigen)
          refRegla = gProyReglasDeContabilizacion.GetCuentaCxPProveedores
       Case eCG_COBRANZA:
-         vSql = fSQLCobranzasEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valGeneraElMovimientoBancario, valTipoDocumento)
+         vSQL = fSQLCobranzasEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valGeneraElMovimientoBancario, valTipoDocumento)
          refRegla = gProyReglasDeContabilizacion.GetCuentaCobranzaCxCClientes
       Case eCG_PAGOS:
-         vSql = fSQLPagosEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valGeneraElMovimientoBancario, valTipoDocumento)
+         vSQL = fSQLPagosEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valGeneraElMovimientoBancario, valTipoDocumento)
          refRegla = gProyReglasDeContabilizacion.GetCuentaPagosCxPProveedores
       Case eCG_MOVIMIENTO_BANCARIO:
          If Not valEsUnReverso Then
-            vSql = fSQLMovimientoBancariosEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
+            vSQL = fSQLMovimientoBancariosEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
          End If
       Case eCG_RESUMEN_DIARIO_VENTAS
          If gProyReglasDeContabilizacion.GetContabilizarPorArticuloRDVtas Then
-            vSql = fSQLResumenVentasEntreFechasPorArticulo(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
+            vSQL = fSQLResumenVentasEntreFechasPorArticulo(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
             refRegla = gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes
          Else
-            vSql = fSQLResumenVentasEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
+            vSQL = fSQLResumenVentasEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
          End If
       Case eCG_ANTICIPO:
-         vSql = fSQLAnticiposEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
+         vSQL = fSQLAnticiposEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento)
          If valTipoDocumento = enum_TipoDeAnticipo.eTDA_COBRADO Then
             refRegla = gProyReglasDeContabilizacion.GetCuentaAnticipoCobrado
          ElseIf valTipoDocumento = enum_TipoDeAnticipo.eTDA_PAGADO Then
             refRegla = gProyReglasDeContabilizacion.GetCuentaAnticipoPagado
          End If
       Case eCG_INVENTARIO:
-         vSql = insComprobanteSQL.fSQLCostoDeVenta(gProyCompaniaActual.GetConsecutivoCompania, valFechaDesde, valFechaHasta, valEsUnReverso, gProyParametrosCompania.GetComprobanteCostoDetallado, gProyReglasDeContabilizacion.GetAgruparPorCuentaDeArticuloInven, gProyCompaniaActual, gProyParametrosCompania, gProyReglasDeContabilizacion, valNoDocumentoOrigen, "Factura", insArticulo.fFechaReporteCostoPromedio(valFechaDesde, True))
+         vSQL = insComprobanteSQL.fSQLCostoDeVenta(gProyCompaniaActual.GetConsecutivoCompania, valFechaDesde, valFechaHasta, valEsUnReverso, gProyParametrosCompania.GetComprobanteCostoDetallado, gProyReglasDeContabilizacion.GetAgruparPorCuentaDeArticuloInven, gProyCompaniaActual, gProyParametrosCompania, gProyReglasDeContabilizacion, valNoDocumentoOrigen, "Factura", insArticulo.fFechaReporteCostoPromedio(valFechaDesde, True))
       Case eCG_PAGO_SUELDOS:
-         vSql = fSqlComprobantePagoSueldos(gProyCompaniaActual.GetConsecutivoCompania, valNoDocumentoOrigen, valDescripcionDelAsiento, valEsUnReverso)
+         vSQL = fSqlComprobantePagoSueldos(gProyCompaniaActual.GetConsecutivoCompania, valNoDocumentoOrigen, valDescripcionDelAsiento, valEsUnReverso)
          refRegla = gProyReglasDeContabilizacion.GetCtaDePagosSueldos
      Case eCG_REPOSICION:
-         vSql = fSQLCajaChicaEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento, valConsecutivoDocumentoOrigen, valTipoAlicPorContIGTF)
+         vSQL = fSQLCajaChicaEntreFechas(valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoDocumento, valConsecutivoDocumentoOrigen, valTipoAlicPorContIGTF)
          refRegla = gProyReglasDeContabilizacion.GetCuentaCajaChicaGasto
      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA:
-         vSql = insGenerarComprobanteSql.fSQLTransferenciaEntreCuentasEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, gContPeriodoActual.GetConsecutivoPeriodo, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoAlicPorContIGTF, valTipoAlicPorContIGTF, vPorcentajeIGTF, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComOrigen, gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoOrigen, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComDestino, gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto)
+         vSQL = insGenerarComprobanteSql.fSQLTransferenciaEntreCuentasEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, gContPeriodoActual.GetConsecutivoPeriodo, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoAlicPorContIGTF, valTipoAlicPorContIGTF, vPorcentajeIGTF, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComOrigen, gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoOrigen, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComDestino, gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto)
          refRegla = gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino
      Case eCG_ORDEN_DE_PRODUCCION:
-         vSql = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima)
+         vSQL = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima)
          refRegla = gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado
    End Select
    Set insArticulo = Nothing
    Set insComprobanteSQL = Nothing
    Set insGenerarComprobanteSql = Nothing
 h_EXIT:
-   fConstruyeSQLsegunElModuloAContabilizar = vSql
+   fConstruyeSQLsegunElModuloAContabilizar = vSQL
    On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fConstruyeSQLsegunElModuloAContabilizar", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -1104,16 +1104,16 @@ End Function
 
 Private Function fGetTasaCambioCobranza(ByVal valConjuntoDeCobranzasSinContabilizar As String, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date) As Currency
    Dim RsTasaCambioCobranza As ADODB.Recordset
-   Dim vSql As String
+   Dim vSQL As String
    Dim vTasaCambioCobranza As Currency
    On Error GoTo h_ERROR
    vTasaCambioCobranza = 1
    Set RsTasaCambioCobranza = New ADODB.Recordset
-   vSql = "SELECT TOP 1 CambioAbolivares FROM Cobranza "
-   vSql = vSql & " WHERE Cobranza.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   vSql = vSql & " AND Cobranza.Numero IN (" & valConjuntoDeCobranzasSinContabilizar & ")"
-   vSql = vSql & " AND " & gUtilSQL.DfSQLDateValueBetween(" Cobranza.Fecha ", valFechaDesde, valFechaHasta)
-   If gDbUtil.fOpenRecordset(RsTasaCambioCobranza, vSql, gDefDatabase.Conexion) Then
+   vSQL = "SELECT TOP 1 CambioAbolivares FROM Cobranza "
+   vSQL = vSQL & " WHERE Cobranza.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = vSQL & " AND Cobranza.Numero IN (" & valConjuntoDeCobranzasSinContabilizar & ")"
+   vSQL = vSQL & " AND " & gUtilSQL.DfSQLDateValueBetween(" Cobranza.Fecha ", valFechaDesde, valFechaHasta)
+   If gDbUtil.fOpenRecordset(RsTasaCambioCobranza, vSQL, gDefDatabase.Conexion) Then
       If gDbUtil.fRecordCount(RsTasaCambioCobranza) > 0 Then
          vTasaCambioCobranza = gConvert.fConvertStringToCurrency(RsTasaCambioCobranza.Fields("CambioAbolivares").value)
       End If
@@ -1688,24 +1688,24 @@ End Function
 Private Function fGetDiferenciaCambiariaEnPago(ByVal valNumeroDelDocumento As String) As Currency
     Dim vResult As Currency
     Dim rsDocPagado As ADODB.Recordset
-    Dim vSql As String
+    Dim vSQL As String
     Dim SqlMontoAMonedaDelPago As String
     On Error GoTo h_ERROR
     Set rsDocPagado = New ADODB.Recordset
     vResult = 0
     SqlMontoAMonedaDelPago = gUtilSQL.getIIF("CXP.CodigoMoneda=" & gUtilSQL.fSimpleSqlValue(gProyCompaniaActual.GetCodigoMoneda), "DocumentoPagado.MontoAbonado * CambioAMonedaDelPago", "DocumentoPagado.MontoAbonado/CambioAMonedaDelPago * CXP.CambioAbolivares")
-    vSql = " SELECT SUM(" & SqlMontoAMonedaDelPago & ") - SUM(DocumentoPagado.MontoAbonado * Pago.CambioaBolivares) AS DifCambiariaPago " & vbCrLf
-    vSql = vSql & " FROM CXP LEFT JOIN DocumentoPagado ON" & vbCrLf
-    vSql = vSql & " CXP.ConsecutivoCxp = DocumentoPagado.ConsecutivoCXP" & vbCrLf
-    vSql = vSql & " AND  CXP.ConsecutivoCompania = DocumentoPagado.ConsecutivoCompania" & vbCrLf
-    vSql = vSql & " LEFT JOIN Pago ON"
-    vSql = vSql & " DocumentoPagado.numeroComprobante = Pago.numeroComprobante"
-    vSql = vSql & " AND  DocumentoPagado.ConsecutivoCompania = Pago.ConsecutivoCompania"
-    vSql = vSql & " WHERE DocumentoPagado.NumeroComprobante =" & gUtilSQL.fSimpleSqlValue(valNumeroDelDocumento) & vbCrLf
-    vSql = vSql & " AND DocumentoPagado.ConsecutivoCompania=" & gUtilSQL.fNumToStrSQL(gProyCompaniaActual.GetConsecutivoCompania) & vbCrLf
-    vSql = vSql & " AND CXP.Status IN(" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & "," & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CANCELADO) & ")" & vbCrLf
-    vSql = vSql & " GROUP BY DocumentoPagado.NumeroComprobante"
-    If gDbUtil.fOpenRecordset(rsDocPagado, vSql, gDefDatabase.Conexion) Then
+    vSQL = " SELECT SUM(" & SqlMontoAMonedaDelPago & ") - SUM(DocumentoPagado.MontoAbonado * Pago.CambioaBolivares) AS DifCambiariaPago " & vbCrLf
+    vSQL = vSQL & " FROM CXP LEFT JOIN DocumentoPagado ON" & vbCrLf
+    vSQL = vSQL & " CXP.ConsecutivoCxp = DocumentoPagado.ConsecutivoCXP" & vbCrLf
+    vSQL = vSQL & " AND  CXP.ConsecutivoCompania = DocumentoPagado.ConsecutivoCompania" & vbCrLf
+    vSQL = vSQL & " LEFT JOIN Pago ON"
+    vSQL = vSQL & " DocumentoPagado.numeroComprobante = Pago.numeroComprobante"
+    vSQL = vSQL & " AND  DocumentoPagado.ConsecutivoCompania = Pago.ConsecutivoCompania"
+    vSQL = vSQL & " WHERE DocumentoPagado.NumeroComprobante =" & gUtilSQL.fSimpleSqlValue(valNumeroDelDocumento) & vbCrLf
+    vSQL = vSQL & " AND DocumentoPagado.ConsecutivoCompania=" & gUtilSQL.fNumToStrSQL(gProyCompaniaActual.GetConsecutivoCompania) & vbCrLf
+    vSQL = vSQL & " AND CXP.Status IN(" & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_ABONADO) & "," & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusDocumento.eSD_CANCELADO) & ")" & vbCrLf
+    vSQL = vSQL & " GROUP BY DocumentoPagado.NumeroComprobante"
+    If gDbUtil.fOpenRecordset(rsDocPagado, vSQL, gDefDatabase.Conexion) Then
         If gDbUtil.fRecordCount(rsDocPagado) > 0 Then
             vResult = rsDocPagado.Fields("DifCambiariaPago")
         End If
@@ -1721,19 +1721,19 @@ End Function
 Private Function fGetDiferenciaCambiariaEnCobranza(ByVal valNumeroDelDocumento As String) As Currency
     Dim vResult As Currency
     Dim rsDocCobrado As ADODB.Recordset
-    Dim vSql As String
+    Dim vSQL As String
     On Error GoTo h_ERROR
     Set rsDocCobrado = New ADODB.Recordset
     vResult = 0
-    vSql = " SELECT SUM(DocumentoCobrado.MontoAbonado * DocumentoCobrado.CambioAMonedaDeCobranza ) - SUM(DocumentoCobrado.MontoAbonadoEnMonedaOriginal * CXC.CambioAbolivares)  AS DifCambiariaCobro " & vbCrLf
-    vSql = vSql & " FROM CXC LEFT JOIN DocumentoCobrado ON" & vbCrLf
-    vSql = vSql & " CXC.Numero =DocumentoCobrado.NumeroDelDocumentoCobrado" & vbCrLf
-    vSql = vSql & " AND CXC.ConsecutivoCompania = DocumentoCobrado.ConsecutivoCompania" & vbCrLf
-    vSql = vSql & " WHERE DocumentoCobrado.NumeroCobranza = " & gUtilSQL.fSimpleSqlValue(valNumeroDelDocumento) & vbCrLf
-    vSql = vSql & " AND DocumentoCobrado.ConsecutivoCompania =" & gUtilSQL.fNumToStrSQL(gProyCompaniaActual.GetConsecutivoCompania) & vbCrLf
-    vSql = vSql & " AND CXC.Status IN(" & gUtilSQL.fSQLSimpleValueForEnum(eSD_ABONADO) & "," & gUtilSQL.fSQLSimpleValueForEnum(eSD_CANCELADO) & ")" & vbCrLf
-    vSql = vSql & " GROUP BY DocumentoCobrado.NumeroCobranza" & vbCrLf
-    If gDbUtil.fOpenRecordset(rsDocCobrado, vSql, gDefDatabase.Conexion) Then
+    vSQL = " SELECT SUM(DocumentoCobrado.MontoAbonado * DocumentoCobrado.CambioAMonedaDeCobranza ) - SUM(DocumentoCobrado.MontoAbonadoEnMonedaOriginal * CXC.CambioAbolivares)  AS DifCambiariaCobro " & vbCrLf
+    vSQL = vSQL & " FROM CXC LEFT JOIN DocumentoCobrado ON" & vbCrLf
+    vSQL = vSQL & " CXC.Numero =DocumentoCobrado.NumeroDelDocumentoCobrado" & vbCrLf
+    vSQL = vSQL & " AND CXC.ConsecutivoCompania = DocumentoCobrado.ConsecutivoCompania" & vbCrLf
+    vSQL = vSQL & " WHERE DocumentoCobrado.NumeroCobranza = " & gUtilSQL.fSimpleSqlValue(valNumeroDelDocumento) & vbCrLf
+    vSQL = vSQL & " AND DocumentoCobrado.ConsecutivoCompania =" & gUtilSQL.fNumToStrSQL(gProyCompaniaActual.GetConsecutivoCompania) & vbCrLf
+    vSQL = vSQL & " AND CXC.Status IN(" & gUtilSQL.fSQLSimpleValueForEnum(eSD_ABONADO) & "," & gUtilSQL.fSQLSimpleValueForEnum(eSD_CANCELADO) & ")" & vbCrLf
+    vSQL = vSQL & " GROUP BY DocumentoCobrado.NumeroCobranza" & vbCrLf
+    If gDbUtil.fOpenRecordset(rsDocCobrado, vSQL, gDefDatabase.Conexion) Then
         If gDbUtil.fRecordCount(rsDocCobrado) > 0 Then
             vResult = rsDocCobrado.Fields("DifCambiariaCobro")
         End If
@@ -3424,7 +3424,7 @@ Private Function fSqlComprobantePagoSueldos(ByVal valConsecutivoCompania As Long
    Dim vSQLWhere As String
    Dim sqlCuentaHaber As String
    Dim sqlCuentaDebe As String
-   Dim vSql As String
+   Dim vSQL As String
    Dim vMonto As String
    Dim vDescripcionAsiento As String
    Dim vCuentaContableDebe As String
@@ -3439,20 +3439,20 @@ Private Function fSqlComprobantePagoSueldos(ByVal valConsecutivoCompania As Long
    vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "MovimientosBancarios_B1.GeneradoPor", enum_GeneradoPor.eGP_SOLICITUD_DE_PAGO)
    vSQLWhere = gUtilSQL.fSQLNumberValueWithAnd(vSQLWhere, "MovimientosBancarios_B1.ConsecutivoCompania", valConsecutivoCompania)
    vSQLWhere = gUtilSQL.getWhereSQL(vSQLWhere)
-   vSql = " SELECT "
-   vSql = vSql & "  IGV_BeneficiarioSolicitudesDePago_B1.Codigo,"
-   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, sqlCuentaDebe, False, "", valNumeroDocumento, valDescripcionDelAsiento, "", "") & ", "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, sqlCuentaHaber, False, "", valNumeroDocumento, valDescripcionDelAsiento, "", "")
-   vSql = vSql & " FROM IGV_MovimientosBancarios_B1 AS  MovimientosBancarios_B1 "
-   vSql = vSql & "INNER JOIN dbo.IGV_BeneficiarioSolicitudesDePago_B1 ON "
-   vSql = vSql & "MovimientosBancarios_B1.ConsecutivoCompania = dbo.IGV_BeneficiarioSolicitudesDePago_B1.ConsecutivoCompania AND"
+   vSQL = " SELECT "
+   vSQL = vSQL & "  IGV_BeneficiarioSolicitudesDePago_B1.Codigo,"
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, sqlCuentaDebe, False, "", valNumeroDocumento, valDescripcionDelAsiento, "", "") & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, sqlCuentaHaber, False, "", valNumeroDocumento, valDescripcionDelAsiento, "", "")
+   vSQL = vSQL & " FROM IGV_MovimientosBancarios_B1 AS  MovimientosBancarios_B1 "
+   vSQL = vSQL & "INNER JOIN dbo.IGV_BeneficiarioSolicitudesDePago_B1 ON "
+   vSQL = vSQL & "MovimientosBancarios_B1.ConsecutivoCompania = dbo.IGV_BeneficiarioSolicitudesDePago_B1.ConsecutivoCompania AND"
    If Not valEsUnReverso Then
-      vSql = vSql & "  MovimientosBancarios_B1.NroMovimientoRelacionado = dbo.IGV_BeneficiarioSolicitudesDePago_B1.NumeroAsociado AND"
+      vSQL = vSQL & "  MovimientosBancarios_B1.NroMovimientoRelacionado = dbo.IGV_BeneficiarioSolicitudesDePago_B1.NumeroAsociado AND"
    Else
-      vSql = vSql & "  MovimientosBancarios_B1.NroMovimientoRelacionado = 'RE'" & gUtilSQL.CharConcat & " dbo.IGV_BeneficiarioSolicitudesDePago_B1.NumeroAsociado AND"
+      vSQL = vSQL & "  MovimientosBancarios_B1.NroMovimientoRelacionado = 'RE'" & gUtilSQL.CharConcat & " dbo.IGV_BeneficiarioSolicitudesDePago_B1.NumeroAsociado AND"
    End If
-   vSql = vSql & "  MovimientosBancarios_B1.Monto = dbo.IGV_BeneficiarioSolicitudesDePago_B1.Monto"
-   vSql = vSql & vSQLWhere
+   vSQL = vSQL & "  MovimientosBancarios_B1.Monto = dbo.IGV_BeneficiarioSolicitudesDePago_B1.Monto"
+   vSQL = vSQL & vSQLWhere
    '// DEBITO BANCARIO
    vSQLWhere = gUtilSQL.fSQLValueWithAnd("", "MovimientosBancarios_B1.NumeroDocumento", valNumeroDocumento, False)
    vSQLWhere = gUtilSQL.fSQLEnumValueWithAnd(vSQLWhere, "MovimientosBancarios_B1.GeneradoPor", enum_GeneradoPor.eGP_DEBITO_BANCARIO)
@@ -3462,18 +3462,18 @@ Private Function fSqlComprobantePagoSueldos(ByVal valConsecutivoCompania As Long
    vCuentaContableDebe = gUtilSQL.getIIF(gUtilSQL.fFirst("IGV_movimientoBancarioRelacionado.TipoConcepto", "NONE") & " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto), True)
    vCuentaContableHaber = gUtilSQL.getIIF(gUtilSQL.fFirst("cuentaBancaria.CuentaContable", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaDebitoBancarioBancos), gUtilSQL.fFirst("cuentaBancaria.CuentaContable", "NONE"), True)
    vMonto = "SUM(MovimientosBancarios_B1.Monto * MovimientosBancarios_B1.CambioAbolivares)"
-   vSql = vSql & " UNION SELECT MovimientosBancarios_B1.CodigoConcepto, "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, vCuentaContableDebe, False, vCuentaContableDebe, valNumeroDocumento, vDescripcionAsiento, "", "") & ", "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, vCuentaContableHaber, False, vCuentaContableHaber, valNumeroDocumento, vDescripcionAsiento, "", "")
-   vSql = vSql & " FROM IGV_MovimientosBancarios_B1 AS  MovimientosBancarios_B1   INNER JOIN cuentaBancaria ON "
-   vSql = vSql & " MovimientosBancarios_B1.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania AND "
-   vSql = vSql & " MovimientosBancarios_B1.CodigoCtaBancaria = cuentaBancaria.codigo INNER JOIN IGV_MovimientosBancarios_B1 AS IGV_movimientoBancarioRelacionado "
-   vSql = vSql & " ON  MovimientosBancarios_B1.NroMovimientoRelacionado = IGV_movimientoBancarioRelacionado .ConsecutivoMovimiento "
-   vSql = vSql & " AND MovimientosBancarios_B1.consecutivoCompania = IGV_movimientoBancarioRelacionado.consecutivoCompania"
-   vSql = vSql & vSQLWhere
-   vSql = vSql & " GROUP BY MovimientosBancarios_B1.CodigoConcepto"
+   vSQL = vSQL & " UNION SELECT MovimientosBancarios_B1.CodigoConcepto, "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMonto, vCuentaContableDebe, False, vCuentaContableDebe, valNumeroDocumento, vDescripcionAsiento, "", "") & ", "
+   vSQL = vSQL & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, vMonto, vCuentaContableHaber, False, vCuentaContableHaber, valNumeroDocumento, vDescripcionAsiento, "", "")
+   vSQL = vSQL & " FROM IGV_MovimientosBancarios_B1 AS  MovimientosBancarios_B1   INNER JOIN cuentaBancaria ON "
+   vSQL = vSQL & " MovimientosBancarios_B1.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania AND "
+   vSQL = vSQL & " MovimientosBancarios_B1.CodigoCtaBancaria = cuentaBancaria.codigo INNER JOIN IGV_MovimientosBancarios_B1 AS IGV_movimientoBancarioRelacionado "
+   vSQL = vSQL & " ON  MovimientosBancarios_B1.NroMovimientoRelacionado = IGV_movimientoBancarioRelacionado .ConsecutivoMovimiento "
+   vSQL = vSQL & " AND MovimientosBancarios_B1.consecutivoCompania = IGV_movimientoBancarioRelacionado.consecutivoCompania"
+   vSQL = vSQL & vSQLWhere
+   vSQL = vSQL & " GROUP BY MovimientosBancarios_B1.CodigoConcepto"
    Set insLibSaW = Nothing
-   fSqlComprobantePagoSueldos = vSql
+   fSqlComprobantePagoSueldos = vSQL
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fSqlComprobantePagoSueldos", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4011,11 +4011,11 @@ End Function
 
 Private Function fCuentaContableExisteParaElPeriodo(ByVal valCodigoCtaContable As String, ByVal valConsecutivoPeriodo As Long) As Boolean
    Dim vResult As Boolean
-   Dim vSql As String
+   Dim vSQL As String
    On Error GoTo h_ERROR
-   vSql = "SELECT Codigo FROM CUENTA WHERE CUENTA.ConsecutivoPeriodo = " & valConsecutivoPeriodo
-   vSql = vSql & " AND CUENTA.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCtaContable)
-   vResult = (gDbUtil.fRecordCountOfSql(vSql) > 0)
+   vSQL = "SELECT Codigo FROM CUENTA WHERE CUENTA.ConsecutivoPeriodo = " & valConsecutivoPeriodo
+   vSQL = vSQL & " AND CUENTA.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCtaContable)
+   vResult = (gDbUtil.fRecordCountOfSql(vSQL) > 0)
 h_EXIT: On Error GoTo 0
    fCuentaContableExisteParaElPeriodo = vResult
    Exit Function
@@ -4023,21 +4023,21 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Function
 
 Private Sub sBuscaCuentaContableDeCtaBancatriaAsignadasEnReglas(ByRef refCuentaMovBancarioBancosHaber As String, ByRef refCuentaMovBancarioBancosDebe As String, ByRef refCuentaMovBancarioBancosIngresos As String, ByRef refCuentaMovBancarioBancosGasto As String, ByRef refCuentaDebitoBancarioGasto As String, ByRef refCuentaDebitoBancarioBancos As String, ByRef refCuentaCreditoBancarioGasto As String, ByRef refCuentaCreditoBancarioBancos As String)
-   Dim vSql As String
+   Dim vSQL As String
    Dim rsCuentasEnReglas As ADODB.Recordset
    On Error GoTo h_ERROR
-   vSql = "SELECT CuentaMovBancarioBancosHaber"
-   vSql = vSql & ", CuentaMovBancarioBancosDebe"
-   vSql = vSql & ", CuentaMovBancarioIngresos "
-   vSql = vSql & ", CuentaMovBancarioGasto "
-   vSql = vSql & ", CuentaDebitoBancarioGasto "
-   vSql = vSql & ", CuentaDebitoBancarioBancos"
-   vSql = vSql & ", CuentaCreditoBancarioGasto"
-   vSql = vSql & ", CuentaCreditoBancarioBancos"
-   vSql = vSql & " FROM SAW.ReglasDeContabilizacion"
-   vSql = vSql & " WHERE SAW.ReglasDeContabilizacion.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = "SELECT CuentaMovBancarioBancosHaber"
+   vSQL = vSQL & ", CuentaMovBancarioBancosDebe"
+   vSQL = vSQL & ", CuentaMovBancarioIngresos "
+   vSQL = vSQL & ", CuentaMovBancarioGasto "
+   vSQL = vSQL & ", CuentaDebitoBancarioGasto "
+   vSQL = vSQL & ", CuentaDebitoBancarioBancos"
+   vSQL = vSQL & ", CuentaCreditoBancarioGasto"
+   vSQL = vSQL & ", CuentaCreditoBancarioBancos"
+   vSQL = vSQL & " FROM SAW.ReglasDeContabilizacion"
+   vSQL = vSQL & " WHERE SAW.ReglasDeContabilizacion.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Set rsCuentasEnReglas = New ADODB.Recordset
-   If gDbUtil.fOpenRecordset(rsCuentasEnReglas, vSql, Conexion) Then
+   If gDbUtil.fOpenRecordset(rsCuentasEnReglas, vSQL, Conexion) Then
       If gDbUtil.fRecordCount(rsCuentasEnReglas) > 0 Then
          refCuentaMovBancarioBancosHaber = rsCuentasEnReglas.Fields("CuentaMovBancarioBancosHaber").value
          refCuentaMovBancarioBancosDebe = rsCuentasEnReglas.Fields("CuentaMovBancarioBancosDebe").value
@@ -4059,12 +4059,12 @@ End Sub
 Public Function fGetPeriodoByFechaMovimientoBancario(ByVal valFecha As Date) As Long
    Dim vConsecutivoPeriodo As Long
    Dim rsPeriodo As ADODB.Recordset
-   Dim vSql As String
+   Dim vSQL As String
    On Error GoTo h_ERROR
-   vSql = "SELECT ConsecutivoPeriodo FROM PERIODO WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania & " AND " & gUtilSQL.fDateToSQLValue(valFecha) & " BETWEEN FechaAperturaDelPeriodo AND FechaCierreDelPeriodo"
+   vSQL = "SELECT ConsecutivoPeriodo FROM PERIODO WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania & " AND " & gUtilSQL.fDateToSQLValue(valFecha) & " BETWEEN FechaAperturaDelPeriodo AND FechaCierreDelPeriodo"
    gDbUtil.sCloseIfOpened rsPeriodo
    Set rsPeriodo = New ADODB.Recordset
-   If gDbUtil.fOpenRecordSetAllParameters(rsPeriodo, vSql, gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
+   If gDbUtil.fOpenRecordSetAllParameters(rsPeriodo, vSQL, gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
       If gDbUtil.fRecordCount(rsPeriodo) > 0 Then
          vConsecutivoPeriodo = rsPeriodo.Fields("ConsecutivoPeriodo").value
       End If
@@ -4230,12 +4230,12 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
 End Sub
 
 Private Sub sPostDescontabilizacionActualizarFactura(ByVal valNumeroCobranza As String)
-   Dim vSql As String
+   Dim vSQL As String
    Dim insGenearComprobanteSql As clsGenerarComprobanteSQL
    On Error GoTo h_ERROR
    Set insGenearComprobanteSql = New clsGenerarComprobanteSQL
-   vSql = insGenearComprobanteSql.fSqlPostDescontabilizacionActualizarFactura(gProyCompaniaActual.GetConsecutivoCompania, valNumeroCobranza)
-   gDbUtil.Execute gDefDatabase.Conexion, vSql
+   vSQL = insGenearComprobanteSql.fSqlPostDescontabilizacionActualizarFactura(gProyCompaniaActual.GetConsecutivoCompania, valNumeroCobranza)
+   gDbUtil.Execute gDefDatabase.Conexion, vSQL
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "sPostDescontabilizacionActualizarFactura", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4243,19 +4243,19 @@ End Sub
 
 Private Sub sPostDescontabilizacionActualizarDocumentoCobrado(ByVal valNumeroCobranza As String)
    Dim insGenerarComprobanteSql As clsGenerarComprobanteSQL
-   Dim vSql As String
+   Dim vSQL As String
    On Error GoTo h_ERROR
    Set insGenerarComprobanteSql = New clsGenerarComprobanteSQL
-   vSql = insGenerarComprobanteSql.fSqlPostDescontabilizacionActualizarDocumentoCobrado(gProyCompaniaActual.GetConsecutivoCompania, valNumeroCobranza)
+   vSQL = insGenerarComprobanteSql.fSqlPostDescontabilizacionActualizarDocumentoCobrado(gProyCompaniaActual.GetConsecutivoCompania, valNumeroCobranza)
    Set insGenerarComprobanteSql = Nothing
-   gDbUtil.Execute gDefDatabase.Conexion, vSql
+   gDbUtil.Execute gDefDatabase.Conexion, vSQL
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "sPostDescontabilizacionActualizarDocumentoCobrado", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fEsNotaCreditoDeFacturaConDiferimiento(ByVal valNumeroFactura As String, ByVal valTipoDocumento As Integer) As Boolean
-   Dim vSql As String
+   Dim vSQL As String
    Dim vRstFactura As ADODB.Recordset
    Dim vResult As Boolean
    Dim vTipoDocumentoFactura As enum_TipoDocumentoFactura
@@ -4266,11 +4266,11 @@ Private Function fEsNotaCreditoDeFacturaConDiferimiento(ByVal valNumeroFactura A
    ElseIf valTipoDocumento = enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL Then
       vTipoDocumentoFactura = eTF_COMPROBANTEFISCAL
    End If
-   vSql = "SELECT EsOriginalmenteDiferida FROM factura WHERE Numero = " & gUtilSQL.fSimpleSqlValue(valNumeroFactura)
-   vSql = vSql & " AND TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(vTipoDocumentoFactura)
-   vSql = vSql & " AND ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   vSQL = "SELECT EsOriginalmenteDiferida FROM factura WHERE Numero = " & gUtilSQL.fSimpleSqlValue(valNumeroFactura)
+   vSQL = vSQL & " AND TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(vTipoDocumentoFactura)
+   vSQL = vSQL & " AND ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    Set vRstFactura = New ADODB.Recordset
-   If gDbUtil.fOpenRecordset(vRstFactura, vSql, gDefDatabase.Conexion) Then
+   If gDbUtil.fOpenRecordset(vRstFactura, vSQL, gDefDatabase.Conexion) Then
       If gDbUtil.fRecordCount(vRstFactura) > 0 Then
          vResult = gConvert.ConvertStringToBoolean(vRstFactura.Fields("EsOriginalmenteDiferida").value)
       End If
