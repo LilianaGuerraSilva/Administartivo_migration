@@ -5964,6 +5964,12 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
+        public bool TabProduccionVisible {
+            get {
+                return EsModuloProduccion();
+            }
+        }
+
         public bool LeyendaFacturaVisible {
             get {
                 return ContabilizarPorArticulo;
@@ -6174,12 +6180,6 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
-        public bool TabProduccionVisible {
-            get {
-                return EsModuloProduccion();
-            }
-        }
-
         private bool UsaVentasConIvaDiferido() {
             return (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion", "UsarVentasConIvaDiferido"));
         }
@@ -6201,4 +6201,3 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         }
     } //End of class ReglasDeContabilizacionViewModel
 } //End of namespace Galac.Saw.Uil.Contabilizacion
-
