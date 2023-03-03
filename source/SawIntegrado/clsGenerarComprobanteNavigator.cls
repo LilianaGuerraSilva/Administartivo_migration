@@ -904,7 +904,7 @@ Private Function fConstruyeSQLsegunElModuloAContabilizar(ByVal valFechaDesde As 
          vSql = insGenerarComprobanteSql.fSQLTransferenciaEntreCuentasEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, gContPeriodoActual.GetConsecutivoPeriodo, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, valTipoAlicPorContIGTF, valTipoAlicPorContIGTF, vPorcentajeIGTF, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComOrigen, gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto, gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoOrigen, gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComDestino, gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto)
          refRegla = gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino
      Case eCG_ORDEN_DE_PRODUCCION:
-         vSql = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriales)
+         vSql = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima)
          refRegla = gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado
    End Select
    Set insArticulo = Nothing
@@ -934,7 +934,7 @@ Private Function fTipoDeComprobante(ByVal valModuloAContabilizar As enum_Comprob
          Case eCG_INVENTARIO:  varTipo = gProyReglasDeContabilizacion.GetInventarioTipoComprobante
          Case eCG_REPOSICION:  varTipo = gProyReglasDeContabilizacion.GetSiglasTipoComprobanteCajaChica
          Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: varTipo = gProyReglasDeContabilizacion.GetSiglasTipoComprobanteTransferenciaEntreCuenta
-         Case eCG_ORDEN_DE_PRODUCCION: varTipo = gProyReglasDeContabilizacion.GetSiglasTipoComprobanteOrdenDeProduccion
+         Case eCG_ORDEN_DE_PRODUCCION: varTipo = gProyReglasDeContabilizacion.GetOrdenDeProduccionTipoComprobante
       End Select
    End If
 h_EXIT:
