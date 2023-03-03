@@ -440,7 +440,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        //[LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
+        [LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
         public OrdenDeProduccionDetalleArticuloMngViewModel DetailOrdenDeProduccionDetalleArticulo {
             get;
             set;
@@ -539,7 +539,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsVisibleFechaDeInicio {
             get {
-                return StatusOp != eTipoStatusOrdenProduccion.Ingresada;
+                return StatusOp != eTipoStatusOrdenProduccion.Ingresada && Action == eAccionSR.Insertar;
             }
         }
 
@@ -671,11 +671,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public override void InitializeViewModel(eAccionSR valAction) {
             base.InitializeViewModel(valAction);
-            Model.ConsecutivoCompania = Mfc.GetInt("Compania");
-            if (LibText.IsNullOrEmpty(Model.Codigo) && valAction != eAccionSR.Cerrar && valAction != eAccionSR.Anular && valAction != eAccionSR.ReImprimir && valAction != eAccionSR.Contabilizar) {
-                Model.Codigo = GenerarProximoCodigo();
-            }
-            if (Action != eAccionSR.Contabilizar) {
+            if (Action == eAccionSR.Contabilizar) {
+                VerDetalleCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged(StatusOpPropertyName);
+            } else {
                 if (Action == eAccionSR.Insertar) {
                     if (DetailOrdenDeProduccionDetalleArticulo.Items.Count() == 0) {
                         DetailOrdenDeProduccionDetalleArticulo.CreateCommand.Execute(null);
@@ -707,8 +706,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
                     CambioMoneda = 1;
                 }
-            } else {
-                VerDetalleCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -740,10 +737,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if (Action == eAccionSR.Contabilizar) {
                 ChooseCodigoOrdenProduccionCommand = new RelayCommand<string>(ExecuteChooseCodigoOrdenProduccionCommand);
             }
-        }       
+        }
 
         protected override void InitializeLookAndFeel(OrdenDeProduccion valModel) {
             base.InitializeLookAndFeel(valModel);
+            if (LibString.IsNullOrEmpty(Codigo, true) && Action != eAccionSR.Contabilizar) {
+                Codigo = GenerarProximoCodigo();
+            }
         }
 
         protected override void InitializeDetails() {
@@ -775,7 +775,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         #region Commands
 
         private bool CanExecuteVerDetalleCommand() {
-
             return DetailOrdenDeProduccionDetalleArticulo.Items.Count > 0 && DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales != null && DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales.Items != null && DetailOrdenDeProduccionDetalleArticulo.Items[0].DetailOrdenDeProduccionDetalleMateriales.Items.Count > 0;
         }
 
@@ -1241,7 +1240,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     valNumero = string.Empty;
                 }
                 LibSearchCriteria vSearchcriteria = null;
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("StatusOp", eTipoStatusOrdenProduccion.Cerrada);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusOp", eTipoStatusOrdenProduccion.Anulada), eLogicOperatorType.Or);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")), eLogicOperatorType.And);
+
                 if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
                     vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.Consecutivo", valNumero);
                     vModuleName = "ContabilizarOrdenDeProduccion";
@@ -1252,11 +1254,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 } else {
                     Model.ConsecutivoCompania = ConexionCodigoOrdenProduccion.ConsecutivoCompania;
                     Model.Consecutivo = ConexionCodigoOrdenProduccion.Consecutivo;
-                    Model.StatusOp = LibConvert.EnumToDbValue((int)ConexionCodigoOrdenProduccion.StatusOP);
                     Model.StatusOpAsEnum = ConexionCodigoOrdenProduccion.StatusOP;
-                    InitializeViewModel(Action);
-                    GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly)
-                      .ToList().ForEach(p => RaisePropertyChanged(p.Name));
+                    ReloadModel(FindCurrentRecord(Model));
                 }
             } catch (System.AccessViolationException) {
                 throw;

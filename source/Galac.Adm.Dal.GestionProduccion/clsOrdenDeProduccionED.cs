@@ -530,7 +530,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vSQL.AppendLine("      LEFT JOIN " + vSqlComprobantePeriodo + " AS ComprobantePeriodo");
             vSQL.AppendLine("      ON  " + DbSchema + ".Gv_OrdenDeProduccion_B1.Consecutivo = ComprobantePeriodo.ConsecutivoDocOrigen AND ' + @SqlStatusNumero ");
             vSQL.AppendLine("      + ' = ComprobantePeriodo.NoDocumentoOrigen ");
-            vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('O','''') + '");
+            //vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('O','''') + '");
             vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoCompania = " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoCompania");
             vSQL.AppendLine("      AND ComprobantePeriodo.FechaAperturaDelPeriodo < " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaFinalizacion");
             vSQL.AppendLine("      AND ComprobantePeriodo.FechaCierreDelPeriodo   > " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaFinalizacion");
