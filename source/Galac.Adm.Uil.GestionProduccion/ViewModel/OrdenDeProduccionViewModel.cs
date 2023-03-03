@@ -612,15 +612,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
             }
         }
-        public bool IsVisibleEscogerNumeroOrdenProduccion {
+        public bool IsVisibleEscogerCodigoOrdenProduccion {
             get {
                 return Action == eAccionSR.Contabilizar;
             }
         }
 
-        public bool IsVisibleEditarNumeroDocumento {
+        public bool IsVisibleEditarCodigoDocumento {
             get {
-                return !IsVisibleEscogerNumeroOrdenProduccion;
+                return !IsVisibleEscogerCodigoOrdenProduccion;
             }
         }
 
@@ -637,6 +637,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get; 
             private set; 
         }
+        public bool IsInsertar { get; set; }
+
+        public bool NotIsInsertar {
+            get { return !IsInsertar; }
+        }
 
         #endregion //Propiedades
 
@@ -650,6 +655,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CodigoPropertyName;
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            IsInsertar = (initAction == eAccionSR.Insertar);
             if (initAction == eAccionSR.Custom) {
                 CustomActionLabel = "Iniciar";
             }
@@ -691,7 +697,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     CodigoMonedaCostoProduccion = AsignarCodigoDeLaMonedaAlInsertar();
                     CostoTerminadoCalculadoAPartirDe = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CostoTerminadoCalculadoAPartirDe"));
                 }
-
                 if (Action == eAccionSR.Anular || Action == eAccionSR.Consultar || Action == eAccionSR.Eliminar) {
                     Moneda = AsignarNombreMoneda().Nombre;
                 } else if (UsaMonedaExtranjera()) {
@@ -702,6 +707,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today());
                     CambioMoneda = 1;
                 }
+            } else {
+                VerDetalleCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -1246,6 +1253,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.ConsecutivoCompania = ConexionCodigoOrdenProduccion.ConsecutivoCompania;
                     Model.Consecutivo = ConexionCodigoOrdenProduccion.Consecutivo;
                     Model.StatusOp = LibConvert.EnumToDbValue((int)ConexionCodigoOrdenProduccion.StatusOP);
+                    Model.StatusOpAsEnum = ConexionCodigoOrdenProduccion.StatusOP;
                     InitializeViewModel(Action);
                     GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly)
                       .ToList().ForEach(p => RaisePropertyChanged(p.Name));
