@@ -104,7 +104,7 @@ Public Sub sEjecutaAccionEscogidaMenuContabilizar(ByVal valCaptionMenuEscogido A
       Case fTextoMenuDeContabilizar(eCG_ANTICIPO) & "-" & gEnumProyecto.enumTipoDeAnticipoToString(eTDA_COBRADO): sEjecutaContabilizar eCG_ANTICIPO, enum_TipoDeAnticipo.eTDA_COBRADO
       Case fTextoMenuDeContabilizar(eCG_ANTICIPO) & "-" & gEnumProyecto.enumTipoDeAnticipoToString(eTDA_PAGADO): sEjecutaContabilizar eCG_ANTICIPO, enum_TipoDeAnticipo.eTDA_PAGADO
       Case fTextoMenuDeContabilizar(eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA): sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas
-      Case "Orden de Produccion": sEjecutacontabilizarOrdenDeProduccion
+      Case fTextoMenuDeContabilizar(eCG_ORDEN_DE_PRODUCCION): sEjecutacontabilizarOrdenDeProduccion
       Case "Documento Por Lote": sEjecutaProcesoDeContabilizacionPorLote
       Case "Pago de Sueldos": sEjecutaContabilizar eCG_PAGO_SUELDOS, -1
       Case "Costos Inventario": sEjecutaContabilizar eCG_INVENTARIO, -1
