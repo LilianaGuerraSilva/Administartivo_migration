@@ -44,17 +44,16 @@ namespace Galac.Adm.Uil.GestionProduccion {
 
         string EjecutaStr(eAccionSR valAction, bool valUseInterop) {
             string vResult = string.Empty;
-            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(true);
-            vViewModel.InitializeViewModel(eAccionSR.Contabilizar);
-            LibMessages.MessageBox.Alert(this, "InitializeViewModel", "EjecutaStr");
+            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(valAction);
+            vViewModel.InitializeViewModel(valAction);
             LibMessages.EditViewModel.ShowEditor(vViewModel, valUseInterop);
             if (vViewModel.DialogResult) {
                 XElement vXmlResult = new XElement("Datos",
                     new XElement("Documento",
-                        new XElement("Fecha", LibConvert.ToStr(vViewModel.FechaFinalizacion, "dd/MM/yyyy"))
-                        , new XElement("Consecutivo", vViewModel.Consecutivo)
+                        new XElement("Consecutivo", vViewModel.Consecutivo)
                         , new XElement("Codigo", vViewModel.Codigo)
-                        , new XElement("Status", vViewModel.StatusOp)
+                        , new XElement("StatusOp", vViewModel.StatusOp)
+                        , new XElement("FechaFinalizacion", LibConvert.ToStr(vViewModel.FechaFinalizacion, "dd/MM/yyyy"))
                         , new XElement("FechaDeAnulacion", LibConvert.ToStr(vViewModel.FechaAnulacion, "dd/MM/yyyy"))
                         ));
                 vResult = vXmlResult.ToString();

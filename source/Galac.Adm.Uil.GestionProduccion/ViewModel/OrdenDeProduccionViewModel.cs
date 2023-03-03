@@ -57,7 +57,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private FkAlmacenViewModel _ConexionCodigoAlmacenMateriales = null;
         private FkMonedaViewModel _ConexionMoneda = null;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
-        //private bool _IsVisibleAlContabilizar;
+        private bool _IsVisibleAlContabilizar;
         private FkOrdenDeProduccionViewModel _ConexionCodigoOrdenProduccion;
 
         #endregion //Variables
@@ -440,7 +440,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
+        //[LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
         public OrdenDeProduccionDetalleArticuloMngViewModel DetailOrdenDeProduccionDetalleArticulo {
             get;
             set;
@@ -612,26 +612,26 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "CantidadDeDecimales");
             }
         }
-        //public bool IsVisibleEscogerNumeroOrdenProduccion {
-        //    get {
-        //        return Action == eAccionSR.Contabilizar;
-        //    }
-        //}
+        public bool IsVisibleEscogerNumeroOrdenProduccion {
+            get {
+                return Action == eAccionSR.Contabilizar;
+            }
+        }
 
-        //public bool IsVisibleEditarNumeroDocumento {
-        //    get {
-        //        return !IsVisibleEscogerNumeroOrdenProduccion;
-        //    }
-        //}
+        public bool IsVisibleEditarNumeroDocumento {
+            get {
+                return !IsVisibleEscogerNumeroOrdenProduccion;
+            }
+        }
 
-        //public bool IsVisibleAlContabilizar {
-        //    get {
-        //        return _IsVisibleAlContabilizar;
-        //    }
-        //    set {
-        //        _IsVisibleAlContabilizar = value;
-        //    }
-        //}
+        public bool IsVisibleAlContabilizar {
+            get {
+                return _IsVisibleAlContabilizar;
+            }
+            set {
+                _IsVisibleAlContabilizar = value;
+            }
+        }
 
         public RelayCommand<string> ChooseCodigoOrdenProduccionCommand { 
             get; 
@@ -660,10 +660,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public OrdenDeProduccionViewModel(eAccionSR initAction)
             : base(new OrdenDeProduccion(), initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CodigoPropertyName;
+            InitializeDetails();
         }
 
         public override void InitializeViewModel(eAccionSR valAction) {
-            LibMessages.MessageBox.Alert(this, "InitializeViewModel", LibConvert.ToStr(valAction));
             base.InitializeViewModel(valAction);
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
             if (LibText.IsNullOrEmpty(Model.Codigo) && valAction != eAccionSR.Cerrar && valAction != eAccionSR.Anular && valAction != eAccionSR.ReImprimir && valAction != eAccionSR.Contabilizar) {
@@ -737,9 +737,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void InitializeLookAndFeel(OrdenDeProduccion valModel) {
             base.InitializeLookAndFeel(valModel);
-            //if (LibString.IsNullOrEmpty(Codigo, true) && Action != eAccionSR.Contabilizar) {
-            //    Codigo = GenerarProximoCodigo();
-            //}
         }
 
         protected override void InitializeDetails() {
@@ -1103,9 +1100,14 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     RaisePropertyChanged(CodigoPropertyName);
                     if (ConexionCodigoOrdenProduccion != null) {
                         Codigo = ConexionCodigoOrdenProduccion.Codigo;
+                        StatusOp = ConexionCodigoOrdenProduccion.StatusOP;
+                        FechaAnulacion = ConexionCodigoOrdenProduccion.FechaAnulacion;
+                        FechaFinalizacion = ConexionCodigoOrdenProduccion.FechaFinalizacion;
                         RaisePropertyChanged(CodigoPropertyName);
-                        //IsVisibleAlContabilizar = true;
-                        //RaisePropertyChanged(IsVisibleAlContabilizarPropertyName);
+                        RaisePropertyChanged(StatusOpPropertyName);
+                        RaisePropertyChanged(FechaAnulacionPropertyName);
+                        RaisePropertyChanged(FechaFinalizacionPropertyName);
+                        RaisePropertyChanged(IsVisibleAlContabilizarPropertyName);
                     }
                 }
                 if (_ConexionCodigoOrdenProduccion == null) {
@@ -1243,6 +1245,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 } else {
                     Model.ConsecutivoCompania = ConexionCodigoOrdenProduccion.ConsecutivoCompania;
                     Model.Consecutivo = ConexionCodigoOrdenProduccion.Consecutivo;
+                    Model.StatusOp = LibConvert.EnumToDbValue((int)ConexionCodigoOrdenProduccion.StatusOP);
                     InitializeViewModel(Action);
                     GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly)
                       .ToList().ForEach(p => RaisePropertyChanged(p.Name));

@@ -560,9 +560,8 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       Set insGenerarComprobanteNavigator = New clsGenerarComprobanteNavigator
       'TODO:MAYEL ajustar nombre de valComponentName, valClassName según aplique
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpOrdenDeProduccion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
-      
+
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
-      'vContabilizadopor = gConvert.enumerativoAChar(gConvert.charAEnumerativoInt(gEnumProyectoWincont.enumComprobanteGeneradoPorToString(eCG_ORDEN_DE_PRODUCCION)))
 
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       If (vDatos = "") Then
@@ -583,7 +582,7 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             Dim vStatusOpInt As Integer
             vEsReverso = False
             vStatusOp = gLibGalacDataParse.GetString(0, "StatusOp")
-            vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaCreacion"))
+            vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaFinalizacion"))
             vStatusOpInt = 2 'Se asume cerrada por defecto para no crear el enumerativo en Vb
             If gTexto.fS1EsIgualAS2(vStatusOp, "Anulada") Then
                vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaAnulacion"))

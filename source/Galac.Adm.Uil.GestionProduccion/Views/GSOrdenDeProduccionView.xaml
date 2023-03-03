@@ -107,19 +107,17 @@
             Grid.Column="0"
             Content="Código de Orden"
             Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf
+        <nsWpfControls:GSSeekConnection
             Name="txtCodigo"
             Grid.Row="2"
             Grid.Column="1"
-            Width="120"
-            nsWpf:LibFocusManager.FocusedPropertyName="Codigo"
-            nsWpf:LibFocusManager.IsFocused="True"
+            Margin="3,1,0,1"
             BorderThickness="1"
-            InputDataType="Alfanumeric"
-            IsEnabled="{Binding Path=IsEnabled}"
+            ConnectionValue="{Binding Path=Codigo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+            DisplayMemberPath="Codigo"
             MaxLength="15"
-            Style="{StaticResource TextBoxInputStyle}"
-            Text="{Binding Path=Codigo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            Model="{Binding Path=ChooseCodigoOrdenProduccionCommand, Mode=TwoWay}"
+            SearchCommand="{Binding Path=ChooseCodigoOrdenProduccionCommand}" />
         <Label
             Name="lblDescripcion"
             Grid.Row="3"
