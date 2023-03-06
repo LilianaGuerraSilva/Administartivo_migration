@@ -507,6 +507,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
 
             vSQL.AppendLine("    ' SELECT ' + @TopClausule + '");
             vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.Codigo,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.StatusOpStr,");
             vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.Descripcion,");
             vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoAlmacenProductoTerminado,");
             vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoAlmacenMateriales,");
@@ -530,11 +531,10 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vSQL.AppendLine("      LEFT JOIN " + vSqlComprobantePeriodo + " AS ComprobantePeriodo");
             vSQL.AppendLine("      ON  " + DbSchema + ".Gv_OrdenDeProduccion_B1.Consecutivo = ComprobantePeriodo.ConsecutivoDocOrigen AND ' + @SqlStatusNumero ");
             vSQL.AppendLine("      + ' = ComprobantePeriodo.NoDocumentoOrigen ");
-            //vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('O','''') + '");
+            vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('P','''') + '");
             vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoCompania = " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoCompania");
             vSQL.AppendLine("      AND ComprobantePeriodo.FechaAperturaDelPeriodo < " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaFinalizacion");
             vSQL.AppendLine("      AND ComprobantePeriodo.FechaCierreDelPeriodo   > " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaFinalizacion");
-            vSQL.AppendLine("      AND " + DbSchema + ".Gv_OrdenDeProduccion_B1.StatusOp IN (2,3) ");
 
             vSQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             vSQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere + ' AND ComprobantePeriodo.ConsecutivoDocOrigen IS NULL '  ");
