@@ -52,7 +52,7 @@ namespace Galac.Adm.Uil.GestionProduccion {
                     new XElement("Documento",
                         new XElement("Consecutivo", vViewModel.Consecutivo)
                         , new XElement("Codigo", vViewModel.Codigo)
-                        , new XElement("StatusOp", vViewModel.StatusOp)
+                        , new XElement("StatusOp", (int)vViewModel.StatusOp)
                         , new XElement("FechaFinalizacion", LibConvert.ToStr(vViewModel.FechaFinalizacion, "dd/MM/yyyy"))
                         , new XElement("FechaDeAnulacion", LibConvert.ToStr(vViewModel.FechaAnulacion, "dd/MM/yyyy"))
                         ));

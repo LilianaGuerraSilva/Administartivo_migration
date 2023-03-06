@@ -9,10 +9,9 @@ namespace Galac.Adm.Ccl. GestionProduccion {
         int ConsecutivoCompania { get; set; }
         int Consecutivo { get; set; }
         string Codigo { get; set; }
-        eTipoStatusOrdenProduccion StatusOP { get; set; }
+        eTipoStatusOrdenProduccion StatusOp { get; set; }
         DateTime FechaAnulacion { get; set; }
         DateTime FechaFinalizacion { get; set; }
-
         #endregion //Propiedades
     } //End of class IFkOrdenDeProduccionViewModel
 

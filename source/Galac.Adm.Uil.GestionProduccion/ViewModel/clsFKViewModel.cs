@@ -79,10 +79,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         [LibGridColum("Descripcion", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Descripcion", Width = 250)]
         public string Descripcion { get; set; }
 
-        [LibGridColum("Estado", eGridColumType.Enum, PrintingMemberPath = "StatusOpStr", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.StatusOpStr", Width = 80)]
-        public eTipoStatusOrdenProduccion StatusOP { get; set; }
+        [LibGridColum("Estado", eGridColumType.Enum, PrintingMemberPath = "StatusOpStr", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.StatusOp", Width = 80)]
+        public eTipoStatusOrdenProduccion StatusOp { get; set; }
 
         public DateTime FechaFinalizacion { get; set; }
+
         public DateTime FechaAnulacion { get; set; }
     }
 }

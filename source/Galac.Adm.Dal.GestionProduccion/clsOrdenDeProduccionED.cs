@@ -456,8 +456,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.Consecutivo,");
             SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado,");
-            SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenMateriales");
-          //  SQL.AppendLine("      ," + DbSchema + ".OrdenDeProduccion.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
+            SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenMateriales,");
+            SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.StatusOp");
+            //  SQL.AppendLine("      ," + DbSchema + ".OrdenDeProduccion.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".OrdenDeProduccion");
             SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("          AND Consecutivo IN (");

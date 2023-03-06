@@ -58,7 +58,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private FkMonedaViewModel _ConexionMoneda = null;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
         private bool _IsVisibleAlContabilizar;
-        private FkOrdenDeProduccionViewModel _ConexionCodigoOrdenProduccion;
+        private FkOrdenDeProduccionViewModel _ConexionCodigoOrdenProduccion = null;
 
         #endregion //Variables
 
@@ -673,7 +673,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             base.InitializeViewModel(valAction);
             if (Action == eAccionSR.Contabilizar) {
                 VerDetalleCommand.RaiseCanExecuteChanged();
-                RaisePropertyChanged(StatusOpPropertyName);
             } else {
                 if (Action == eAccionSR.Insertar) {
                     if (DetailOrdenDeProduccionDetalleArticulo.Items.Count() == 0) {
@@ -1103,10 +1102,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             set {
                 if (_ConexionCodigoOrdenProduccion != value) {
                     _ConexionCodigoOrdenProduccion = value;
-                    RaisePropertyChanged(CodigoPropertyName);
-                    if (ConexionCodigoOrdenProduccion != null) {
+                    if (_ConexionCodigoOrdenProduccion != null) {
                         Codigo = ConexionCodigoOrdenProduccion.Codigo;
-                        StatusOp = ConexionCodigoOrdenProduccion.StatusOP;
+                        StatusOp = ConexionCodigoOrdenProduccion.StatusOp;
                         FechaAnulacion = ConexionCodigoOrdenProduccion.FechaAnulacion;
                         FechaFinalizacion = ConexionCodigoOrdenProduccion.FechaFinalizacion;
                         RaisePropertyChanged(CodigoPropertyName);
@@ -1114,6 +1112,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                         RaisePropertyChanged(FechaAnulacionPropertyName);
                         RaisePropertyChanged(FechaFinalizacionPropertyName);
                         RaisePropertyChanged(IsVisibleAlContabilizarPropertyName);
+
                     }
                 }
                 if (_ConexionCodigoOrdenProduccion == null) {
@@ -1239,13 +1238,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (valNumero == null) {
                     valNumero = string.Empty;
                 }
-                LibSearchCriteria vSearchcriteria = null;
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("StatusOp", eTipoStatusOrdenProduccion.Cerrada);
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("StatusOp", eTipoStatusOrdenProduccion.Anulada), eLogicOperatorType.Or);
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")), eLogicOperatorType.And);
-
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eTipoStatusOrdenProduccion.Cerrada);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eTipoStatusOrdenProduccion.Anulada), eLogicOperatorType.Or);
+                LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-                    vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.Consecutivo", valNumero);
+                    vSearchcriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.Consecutivo", valNumero), eLogicOperatorType.And);
                     vModuleName = "ContabilizarOrdenDeProduccion";
                 }
                 ConexionCodigoOrdenProduccion = ChooseRecord<FkOrdenDeProduccionViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
@@ -1254,7 +1251,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 } else {
                     Model.ConsecutivoCompania = ConexionCodigoOrdenProduccion.ConsecutivoCompania;
                     Model.Consecutivo = ConexionCodigoOrdenProduccion.Consecutivo;
-                    Model.StatusOpAsEnum = ConexionCodigoOrdenProduccion.StatusOP;
+                    Model.StatusOpAsEnum = ConexionCodigoOrdenProduccion.StatusOp;
+                    Model.Descripcion = ConexionCodigoOrdenProduccion.Descripcion;
+                    InitializeDetails();
                     ReloadModel(FindCurrentRecord(Model));
                 }
             } catch (System.AccessViolationException) {

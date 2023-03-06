@@ -131,7 +131,7 @@
             ConnectionValue="{Binding Path=Codigo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
             DisplayMemberPath="Codigo"
             MaxLength="15"
-            Model="{Binding Path=ChooseCodigoOrdenProduccionCommand, Mode=TwoWay}"
+            Model="{Binding Path=ChooseCodigoOrdenProduccionCommand}"
             SearchCommand="{Binding Path=ChooseCodigoOrdenProduccionCommand}"
             Visibility="{Binding Path=IsVisibleEscogerCodigoOrdenProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
         <Label
