@@ -2232,7 +2232,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
-        public string  OrdenDeProduccionTipoComprobante {
+        public string OrdenDeProduccionTipoComprobante {
             get {
                 return Model.OrdenDeProduccionTipoComprobante;
             }
@@ -3887,8 +3887,11 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 if (_ConexionOrdenDeProduccionTipoComprobante != value) {
                     _ConexionOrdenDeProduccionTipoComprobante = value;
                     RaisePropertyChanged(OrdenDeProduccionTipoComprobantePropertyName);
+                    if (ConexionOrdenDeProduccionTipoComprobante != null) {
+                        OrdenDeProduccionTipoComprobante = ConexionOrdenDeProduccionTipoComprobante.Codigo;
+                    }
                 }
-                if (_ConexionOrdenDeProduccionTipoComprobante == null) {
+                if (ConexionOrdenDeProduccionTipoComprobante == null) {
                     OrdenDeProduccionTipoComprobante = string.Empty;
                 }
             }
@@ -4608,6 +4611,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             ReloadRelatedConnectionsCajaChica();
             ReloadRelatedConnectionsRendiciones();
 			ReloadRelatedConnectionsTransfCtas();
+            ReloadRelatedConnectionsProduccion();
         }
 
         private void ExecuteChooseCuentaIva1CreditoCommand(string valCodigo) {
