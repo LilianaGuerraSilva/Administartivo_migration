@@ -637,10 +637,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             get; 
             private set; 
         }
-        public bool IsInsertar { get; set; }
 
-        public bool NotIsInsertar {
-            get { return !IsInsertar; }
+        public new bool IsEnabled() {
+            return (Action != eAccionSR.Contabilizar);
+        }
+
+        public bool NotIsEnabled {
+            get { return !IsEnabled(); }
         }
 
         #endregion //Propiedades
@@ -655,7 +658,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = CodigoPropertyName;
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
-            IsInsertar = (initAction == eAccionSR.Insertar);
             if (initAction == eAccionSR.Custom) {
                 CustomActionLabel = "Iniciar";
             }
@@ -1253,6 +1255,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.Consecutivo = ConexionCodigoOrdenProduccion.Consecutivo;
                     Model.StatusOpAsEnum = ConexionCodigoOrdenProduccion.StatusOp;
                     Model.Descripcion = ConexionCodigoOrdenProduccion.Descripcion;
+                    //ConexionCodigoAlmacenProductoTerminado = ChooseRecord<FkAlmacenViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
+                    //Model.ConsecutivoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Consecutivo;
+                    //CodigoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Codigo;
+                    //NombreAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.NombreAlmacen;
+                    //Model.ConsecutivoAlmacenMateriales = ConexionCodigoAlmacenMateriales.Consecutivo;
                     InitializeDetails();
                     ReloadModel(FindCurrentRecord(Model));
                 }
