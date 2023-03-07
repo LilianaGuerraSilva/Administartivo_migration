@@ -11,7 +11,15 @@ namespace Galac.Adm.Ccl. GestionProduccion {
         string Codigo { get; set; }
         eTipoStatusOrdenProduccion StatusOp { get; set; }
         DateTime FechaAnulacion { get; set; }
+        DateTime FechaCreacion { get; set; }
         DateTime FechaFinalizacion { get; set; }
+        string ConsecutivoAlmacenProductoTerminado { get; set; }
+        string ConsecutivoAlmacenMateriales { get; set; }
+        string Observacion { get; set; }
+        string CodigoMonedaCostoProduccion { get; set; }
+
+        decimal CambioCostoProduccion { get; set; }
+
         #endregion //Propiedades
     } //End of class IFkOrdenDeProduccionViewModel
 

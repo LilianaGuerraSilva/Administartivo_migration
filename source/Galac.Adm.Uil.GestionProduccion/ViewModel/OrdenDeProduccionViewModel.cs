@@ -674,7 +674,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public override void InitializeViewModel(eAccionSR valAction) {
             base.InitializeViewModel(valAction);
             if (Action == eAccionSR.Contabilizar) {
-                VerDetalleCommand.RaiseCanExecuteChanged();
+                Moneda = AsignarNombreMoneda().Nombre;
             } else {
                 if (Action == eAccionSR.Insertar) {
                     if (DetailOrdenDeProduccionDetalleArticulo.Items.Count() == 0) {
@@ -748,7 +748,11 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void InitializeDetails() {
-            DetailOrdenDeProduccionDetalleArticulo = new OrdenDeProduccionDetalleArticuloMngViewModel(this, Model.DetailOrdenDeProduccionDetalleArticulo, Action);
+            if (Action == eAccionSR.Contabilizar) {
+                DetailOrdenDeProduccionDetalleArticulo = new OrdenDeProduccionDetalleArticuloMngViewModel(this, Model.DetailOrdenDeProduccionDetalleArticulo, eAccionSR.Consultar);
+            } else {
+                DetailOrdenDeProduccionDetalleArticulo = new OrdenDeProduccionDetalleArticuloMngViewModel(this, Model.DetailOrdenDeProduccionDetalleArticulo, Action);
+            }
             DetailOrdenDeProduccionDetalleArticulo.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleArticuloViewModel>>(DetailOrdenDeProduccionDetalleArticulo_OnCreated);
             DetailOrdenDeProduccionDetalleArticulo.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleArticuloViewModel>>(DetailOrdenDeProduccionDetalleArticulo_OnUpdated);
             DetailOrdenDeProduccionDetalleArticulo.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleArticuloViewModel>>(DetailOrdenDeProduccionDetalleArticulo_OnDeleted);
@@ -762,7 +766,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private LibRibbonButtonData CreateAccionRibbonGroup() {
             LibRibbonButtonData vResult = new LibRibbonButtonData() {
-                Label = Action == eAccionSR.Insertar || Action == eAccionSR.Modificar ? "Editar Detalle" : "Ver Detalle",
+                Label = Action == eAccionSR.Insertar || Action == eAccionSR.Modificar || Action == eAccionSR.Contabilizar ? "Editar Detalle" : "Ver Detalle",
                 Command = VerDetalleCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
                 ToolTipDescription = "Detalle",
@@ -966,17 +970,19 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         #region Metodos Generados
 
-        protected override OrdenDeProduccion FindCurrentRecord(OrdenDeProduccion valModel) {            
+        protected override OrdenDeProduccion FindCurrentRecord(OrdenDeProduccion valModel) {
             if (valModel == null) {
                 return null;
             }
-            if (Action == eAccionSR.Contabilizar) {
+            if (Action == eAccionSR.Contabilizar && valModel.Consecutivo == 0) {
                 return valModel;
+            }else {
+                LibGpParams vParamsConta = new LibGpParams();
+                vParamsConta.AddInInteger("ConsecutivoCompania", valModel.ConsecutivoCompania);
+                vParamsConta.AddInInteger("Consecutivo", valModel.Consecutivo);
+                return BusinessComponent.GetData(eProcessMessageType.SpName, "OrdenDeProduccionGET", vParamsConta.Get(), UseDetail).FirstOrDefault();
             }
-            LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valModel.ConsecutivoCompania);
-            vParams.AddInInteger("Consecutivo", valModel.Consecutivo);
-            return BusinessComponent.GetData(eProcessMessageType.SpName, "OrdenDeProduccionGET", vParams.Get(), UseDetail).FirstOrDefault();
+            
         }
 
         protected override ILibBusinessMasterComponentWithSearch<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>> GetBusinessComponent() {
@@ -1233,7 +1239,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             Moneda = ConexionMoneda.Nombre;
             return ConexionMoneda;
         }
-
+        
         private void ExecuteChooseCodigoOrdenProduccionCommand(string valNumero) {
             string vModuleName = "Orden de Producción";
             try {
@@ -1255,13 +1261,52 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.Consecutivo = ConexionCodigoOrdenProduccion.Consecutivo;
                     Model.StatusOpAsEnum = ConexionCodigoOrdenProduccion.StatusOp;
                     Model.Descripcion = ConexionCodigoOrdenProduccion.Descripcion;
-                    //ConexionCodigoAlmacenProductoTerminado = ChooseRecord<FkAlmacenViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
-                    //Model.ConsecutivoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Consecutivo;
-                    //CodigoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Codigo;
-                    //NombreAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.NombreAlmacen;
-                    //Model.ConsecutivoAlmacenMateriales = ConexionCodigoAlmacenMateriales.Consecutivo;
-                    InitializeDetails();
+                    Model.Observacion = ConexionCodigoOrdenProduccion.Observacion;
+                    Model.FechaCreacion = ConexionCodigoOrdenProduccion.FechaCreacion;
+                    Model.CodigoAlmacenProductoTerminado = ConexionCodigoOrdenProduccion.ConsecutivoAlmacenProductoTerminado;
+                    Model.CodigoAlmacenMateriales = ConexionCodigoOrdenProduccion.ConsecutivoAlmacenMateriales;
+                    Model.CodigoMonedaCostoProduccion = ConexionCodigoOrdenProduccion.CodigoMonedaCostoProduccion;
+                    ConexionMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", Model.CodigoMonedaCostoProduccion), null);
+                    Model.Moneda = ConexionMoneda.Nombre;
+                    Model.CambioCostoProduccion = ConexionCodigoOrdenProduccion.CambioCostoProduccion;
+                    if (Model.Consecutivo != 0) {
+                        LibSearchCriteria vDefaultCriteriaAlmacen = LibSearchCriteria.CreateCriteriaFromText("Gv_Almacen_B1.Consecutivo", Model.CodigoAlmacenProductoTerminado);
+                        LibSearchCriteria vFixedCriteriaAlmacen = LibSearchCriteria.CreateCriteria("Gv_Almacen_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
+                        ConexionCodigoAlmacenProductoTerminado = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteriaAlmacen, vFixedCriteriaAlmacen, string.Empty);
+                        if (ConexionCodigoAlmacenProductoTerminado != null) {
+                            Model.ConsecutivoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Consecutivo;
+                            CodigoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Codigo;
+                            NombreAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.NombreAlmacen;
+                        } else {
+                            Model.ConsecutivoAlmacenProductoTerminado = 0;
+                            CodigoAlmacenProductoTerminado = string.Empty;
+                            NombreAlmacenProductoTerminado = string.Empty;
+                        }
+                        LibSearchCriteria vDefaultCriteriaAlmacenMateriales = LibSearchCriteria.CreateCriteriaFromText("Gv_Almacen_B1.Consecutivo", Model.CodigoAlmacenMateriales);
+                        LibSearchCriteria vFixedCriteriaAlmacenMateriales = LibSearchCriteria.CreateCriteria("Gv_Almacen_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
+                        ConexionCodigoAlmacenMateriales = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteriaAlmacenMateriales, vFixedCriteriaAlmacenMateriales, string.Empty);
+                        if (ConexionCodigoAlmacenMateriales != null) {
+                            Model.ConsecutivoAlmacenMateriales = ConexionCodigoAlmacenMateriales.Consecutivo;
+                            CodigoAlmacenMateriales = ConexionCodigoAlmacenMateriales.Codigo;
+                            NombreAlmacenMateriales = ConexionCodigoAlmacenMateriales.NombreAlmacen;
+                        } else {
+                            Model.ConsecutivoAlmacenProductoTerminado = 0;
+                            CodigoAlmacenProductoTerminado = string.Empty;
+                            NombreAlmacenProductoTerminado = string.Empty;
+                        }
+                    }
+
+                    LibGpParams vParamsConta = new LibGpParams();
+                    vParamsConta.AddInInteger("ConsecutivoCompania", Model.ConsecutivoCompania);
+                    vParamsConta.AddInInteger("Consecutivo", Model.Consecutivo);
+                    OrdenDeProduccion vordend = BusinessComponent.GetData(eProcessMessageType.SpName, "OrdenDeProduccionGET", vParamsConta.Get(), UseDetail).FirstOrDefault();
+
+                    Model.DetailOrdenDeProduccionDetalleArticulo.Add(vordend.DetailOrdenDeProduccionDetalleArticulo[0]);
+                    
                     ReloadModel(FindCurrentRecord(Model));
+                    InitializeDetails();
+                    VerDetalleCommand.RaiseCanExecuteChanged();
+                    InitializeViewModel(eAccionSR.Contabilizar);
                 }
             } catch (System.AccessViolationException) {
                 throw;

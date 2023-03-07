@@ -44,7 +44,7 @@ namespace Galac.Adm.Uil.GestionProduccion {
 
         string EjecutaStr(eAccionSR valAction, bool valUseInterop) {
             string vResult = string.Empty;
-            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(valAction);
+            OrdenDeProduccionViewModel vViewModel = new OrdenDeProduccionViewModel(new OrdenDeProduccion() { ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"), Consecutivo = _Consecutivo }, valAction);
             vViewModel.InitializeViewModel(valAction);
             LibMessages.EditViewModel.ShowEditor(vViewModel, valUseInterop);
             if (vViewModel.DialogResult) {
