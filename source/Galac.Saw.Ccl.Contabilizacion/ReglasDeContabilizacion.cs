@@ -1539,7 +1539,7 @@ namespace Galac.Saw.Ccl.Contabilizacion {
             TransfCtasSigasTipoComprobante = string.Empty;
             EditarComprobanteAfterInsertTransfCtasAsBool = false;
             TipoContabilizacionOrdenDeProduccionAsEnum = eTipoDeContabilizacion.CadaDocumento;
-            ContabIndividualOrdenDeProduccionAsEnum = eContabilizacionIndividual.Inmediata;
+            ContabIndividualOrdenDeProduccionAsEnum = eContabilizacionIndividual.Pospuesta;
             ContabPorLoteOrdenDeProduccionAsEnum = eContabilizacionPorLote.Diaria;
             CuentaOrdenDeProduccionProductoTerminado = string.Empty;
             CuentaOrdenDeProduccionMateriaPrima = string.Empty;

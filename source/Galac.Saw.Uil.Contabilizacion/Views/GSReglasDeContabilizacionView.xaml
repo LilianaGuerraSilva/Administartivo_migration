@@ -4531,9 +4531,8 @@
             Visibility="{Binding Path=TabProduccionVisible, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid Name="gtGestionProduccion">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="310" />
+                    <ColumnDefinition Width="210" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -4558,8 +4557,9 @@
                     Name="lblEditarComprobanteAfterInsertOrdenDeProduccion"
                     Grid.Row="1"
                     Grid.Column="0"
+                    Width="310"
                     Content="Editar Inmediatamente el Comprobante Generado"
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelReglas}" />
                 <CheckBox
                     Name="chkEditarComprobanteAfterInsertOrdenDeProduccion"
                     Grid.Row="1"
@@ -4583,11 +4583,11 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="22" />
                         </Grid.RowDefinitions>
                         <Border
                             Grid.RowSpan="5"
@@ -4623,18 +4623,15 @@
                             FontSize="12" />
                         <Label
                             Name="lblCuentaOrdenDeProduccionProductoTerminado"
-                            Grid.Row="2"
+                            Grid.Row="1"
                             Grid.Column="0"
-                            Margin="3,3,14,3"
                             Content="Cuenta Producto Terminado"
-                            Style="{StaticResource LabelPrompt}" />
+                            Style="{StaticResource LabelReglas}" />
                         <nsWpfControls:GSSeekConnection
                             Name="txtCuentaOrdenDeProduccionProductoTerminado"
-                            Grid.Row="2"
+                            Grid.Row="1"
                             Grid.Column="1"
                             Width="150"
-                            Height="23"
-                            Margin="3"
                             HorizontalAlignment="Left"
                             ConnectionValue="{Binding Path=CuentaOrdenDeProduccionProductoTerminado, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                             DisplayMemberPath="Codigo"
@@ -4646,14 +4643,12 @@
                             Grid.Row="3"
                             Grid.Column="0"
                             Content="Cuenta Materia Prima"
-                            Style="{StaticResource LabelPrompt}" />
+                            Style="{StaticResource LabelReglas}" />
                         <nsWpfControls:GSSeekConnection
                             Name="txtCuentaOrdenDeProduccionMateriaPrima"
                             Grid.Row="3"
                             Grid.Column="2"
                             Width="150"
-                            Height="23"
-                            Margin="3"
                             HorizontalAlignment="Left"
                             ConnectionValue="{Binding Path=CuentaOrdenDeProduccionMateriaPrima, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                             DisplayMemberPath="Codigo"
@@ -4666,9 +4661,8 @@
                     Name="lblOrdenDeProduccionTipoComprobante"
                     Grid.Row="5"
                     Grid.Column="0"
-                    Margin="3,3,140,3"
                     Content="Siglas del Tipo de Comprobante"
-                    Style="{StaticResource LabelPrompt}"
+                    Style="{StaticResource LabelReglas}"
                     Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSSeekConnection
                     Name="txtOrdenDeProduccionTipoComprobante"
@@ -4689,7 +4683,7 @@
                     Grid.Row="6"
                     Grid.Column="0"
                     Content="Tipo Contabilización Orden de Producción"
-                    Style="{StaticResource LabelPrompt}"
+                    Style="{StaticResource LabelReglas}"
                     Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbTipoContabilizacionOrdenDeProduccion"
@@ -4707,7 +4701,7 @@
                     Grid.Row="7"
                     Grid.Column="0"
                     Content="Cómo Contabilizar"
-                    Style="{StaticResource LabelPrompt}"
+                    Style="{StaticResource LabelReglas}"
                     Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbContabIndividualOrdenDeProduccion"
@@ -4725,7 +4719,7 @@
                     Grid.Row="8"
                     Grid.Column="0"
                     Content="Contabilizar por Lote Orden de Producción"
-                    Style="{StaticResource LabelPrompt}"
+                    Style="{StaticResource LabelReglas}"
                     Visibility="{Binding Path=IsVisibleContabilizacionOrdenDeProduccion, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbContabPorLoteOrdenDeProduccion"
