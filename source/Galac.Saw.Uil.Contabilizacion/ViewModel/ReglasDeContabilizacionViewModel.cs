@@ -2232,7 +2232,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
-        public string  OrdenDeProduccionTipoComprobante {
+        public string OrdenDeProduccionTipoComprobante {
             get {
                 return Model.OrdenDeProduccionTipoComprobante;
             }
@@ -3887,8 +3887,11 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 if (_ConexionOrdenDeProduccionTipoComprobante != value) {
                     _ConexionOrdenDeProduccionTipoComprobante = value;
                     RaisePropertyChanged(OrdenDeProduccionTipoComprobantePropertyName);
+                    if (ConexionOrdenDeProduccionTipoComprobante != null) {
+                        OrdenDeProduccionTipoComprobante = ConexionOrdenDeProduccionTipoComprobante.Codigo;
+                    }
                 }
-                if (_ConexionOrdenDeProduccionTipoComprobante == null) {
+                if (ConexionOrdenDeProduccionTipoComprobante == null) {
                     OrdenDeProduccionTipoComprobante = string.Empty;
                 }
             }
@@ -4608,6 +4611,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             ReloadRelatedConnectionsCajaChica();
             ReloadRelatedConnectionsRendiciones();
 			ReloadRelatedConnectionsTransfCtas();
+            ReloadRelatedConnectionsProduccion();
         }
 
         private void ExecuteChooseCuentaIva1CreditoCommand(string valCodigo) {
@@ -5964,6 +5968,12 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
+        public bool TabProduccionVisible {
+            get {
+                return EsModuloProduccion();
+            }
+        }
+
         public bool LeyendaFacturaVisible {
             get {
                 return ContabilizarPorArticulo;
@@ -6174,12 +6184,6 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
-        public bool TabProduccionVisible {
-            get {
-                return EsModuloProduccion();
-            }
-        }
-
         private bool UsaVentasConIvaDiferido() {
             return (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion", "UsarVentasConIvaDiferido"));
         }
@@ -6201,4 +6205,3 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         }
     } //End of class ReglasDeContabilizacionViewModel
 } //End of namespace Galac.Saw.Uil.Contabilizacion
-
