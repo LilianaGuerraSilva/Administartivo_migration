@@ -456,8 +456,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.Consecutivo,");
             SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenProductoTerminado,");
-            SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenMateriales");
-          //  SQL.AppendLine("      ," + DbSchema + ".OrdenDeProduccion.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
+            SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.ConsecutivoAlmacenMateriales,");
+            SQL.AppendLine("      " + DbSchema + ".OrdenDeProduccion.StatusOp");
+            //  SQL.AppendLine("      ," + DbSchema + ".OrdenDeProduccion.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".OrdenDeProduccion");
             SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("          AND Consecutivo IN (");
@@ -468,6 +469,82 @@ namespace Galac.Adm.Dal.GestionProduccion {
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
             return SQL.ToString();
+        }
+
+        private string SqlSpContabSchParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
+            SQL.AppendLine("@SQLOrderBy" + InsSql.VarCharTypeForDb(500) + " = null,");
+            SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + " = null,");
+            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
+            return SQL.ToString();
+        }
+
+        private string SqlSpContabSch() {
+            StringBuilder vSQL = new StringBuilder();
+            StringBuilder vSqlComprobantePeriodo = new StringBuilder();
+            string vSqlStdSeparator = InsSql.ToSqlValue(LibGalac.Aos.Base.LibText.StandardSeparator());
+
+            vSqlComprobantePeriodo.AppendLine("      (SELECT Comprobante.NoDocumentoOrigen, COMPROBANTE.GeneradoPor, COMPROBANTE.ConsecutivoDocOrigen, ");
+            vSqlComprobantePeriodo.AppendLine("      Periodo.ConsecutivoCompania, Periodo.FechaAperturaDelPeriodo, Periodo.FechaCierreDelPeriodo  ");
+            vSqlComprobantePeriodo.AppendLine("      FROM COMPROBANTE INNER JOIN PERIODO ");
+            vSqlComprobantePeriodo.AppendLine("          ON  PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo");
+            vSqlComprobantePeriodo.AppendLine("          AND PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo) ");
+
+            vSQL.AppendLine("BEGIN");
+            vSQL.AppendLine("   SET NOCOUNT ON;");
+            vSQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+            vSQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+            vSQL.AppendLine("   DECLARE @SqlStatusNumero AS " + InsSql.VarCharTypeForDb(500));
+
+            vSQL.AppendLine("   SET @SqlStatusNumero = 'CAST(Adm.Gv_OrdenDeProduccion_B1.StatusOp AS varchar) + ' + '''' + " + vSqlStdSeparator + " +  '''' +  ' + CAST(Adm.Gv_OrdenDeProduccion_B1.Consecutivo AS varchar) '");
+
+            vSQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+            vSQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+            vSQL.AppendLine("   ELSE ");
+            vSQL.AppendLine("    SET @TopClausule = ''");
+            vSQL.AppendLine("   SET @strSQL = ");
+            vSQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+
+            vSQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.Codigo,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.StatusOpStr,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.Descripcion,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoAlmacenProductoTerminado,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoAlmacenMateriales,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaCreacion,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaInicio,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaFinalizacion,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaAnulacion,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaAjuste,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.AjustadaPostCierre,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.Observacion,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.MotivoDeAnulacion,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.CostoTerminadoCalculadoAPartirDe,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.CodigoMonedaCostoProduccion,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.CambioCostoProduccion,");
+            vSQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoCompania,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.Consecutivo,");
+            vSQL.AppendLine("       " + DbSchema + ".Gv_OrdenDeProduccion_B1.StatusOp");
+
+            vSQL.AppendLine("      FROM " + DbSchema + ".Gv_OrdenDeProduccion_B1 ");
+            vSQL.AppendLine("      LEFT JOIN " + vSqlComprobantePeriodo + " AS ComprobantePeriodo");
+            vSQL.AppendLine("      ON  " + DbSchema + ".Gv_OrdenDeProduccion_B1.Consecutivo = ComprobantePeriodo.ConsecutivoDocOrigen AND ' + @SqlStatusNumero ");
+            vSQL.AppendLine("      + ' = ComprobantePeriodo.NoDocumentoOrigen ");
+            vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('P','''') + '");
+            vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoCompania = " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoCompania");
+            vSQL.AppendLine("      AND ComprobantePeriodo.FechaAperturaDelPeriodo < " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaFinalizacion");
+            vSQL.AppendLine("      AND ComprobantePeriodo.FechaCierreDelPeriodo   > " + DbSchema + ".Gv_OrdenDeProduccion_B1.FechaFinalizacion");
+
+            vSQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+            vSQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere + ' AND ComprobantePeriodo.ConsecutivoDocOrigen IS NULL '  ");
+            vSQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+            vSQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+            vSQL.AppendLine("   EXEC(@strSQL)");
+            vSQL.AppendLine("END");
+
+            return vSQL.ToString();
         }
         #endregion //Queries
 
@@ -495,6 +572,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionGetFk", SqlSpGetFKParameters(), SqlSpGetFK(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_OrdenDeProduccionDatContaSCH", SqlSpContabSchParameters(), SqlSpContabSch(), true) && vResult;
             insSps.Dispose();
             return vResult;
         }
@@ -525,6 +603,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
             vResult = new clsOrdenDeProduccionDetalleArticuloED().BorrarVistasYSps();
+            vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDatContaSCH") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionINS") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionUPD") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_OrdenDeProduccionDEL") && vResult;
@@ -538,6 +617,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             insVista.Dispose();
             return vResult;
         }
+        
         #endregion //Metodos Generados
 
     } //End of class clsOrdenDeProduccionED

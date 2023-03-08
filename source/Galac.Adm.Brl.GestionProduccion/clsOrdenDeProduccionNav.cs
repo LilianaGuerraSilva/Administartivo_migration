@@ -57,6 +57,11 @@ namespace Galac.Adm.Brl.GestionProduccion {
             ILibDataMasterComponent<IList<OrdenDeProduccion>, IList<OrdenDeProduccion>> instanciaDal = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
             return instanciaDal.QueryInfo(eProcessMessageType.SpName, "Adm.Gp_OrdenDeProduccionGetFk", valParameters);
         }
+
+        private bool ContabGetDataForList(ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
+            ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.GestionProduccion.clsOrdenDeProduccionDat();
+            return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_OrdenDeProduccionDatContaSCH", valXmlParamsExpression);
+        }
         #endregion //Miembros de ILibPdn
 
         protected override bool RetrieveListInfo(string valModule, ref XmlDocument refXmlDocument, StringBuilder valXmlParamsExpression) {
@@ -81,6 +86,9 @@ namespace Galac.Adm.Brl.GestionProduccion {
                 case "Artículo Inventario":
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
                     vResult = vPdnModule.GetDataForList("Orden de Producción", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "ContabilizarOrdenDeProduccion":
+                    vResult = ContabGetDataForList(ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
             }
@@ -238,7 +246,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
         */
         #endregion //Codigo Ejemplo
 
-
         protected override LibResponse DoSpecializedAction(IList<OrdenDeProduccion> refRecord, eAccionSR valAction, XmlReader valExtended, bool valUseDetail) {
             if (valAction == eAccionSR.Custom) {
                 return IniciarOrdenDeProduccion(refRecord);
@@ -356,8 +363,6 @@ namespace Galac.Adm.Brl.GestionProduccion {
             }
             return vResult;
         }
-
-
 
         private LibResponse ActualizaCantidadyCostoPorCierre(OrdenDeProduccion valOrdenDeProduccion) {
             LibResponse vResult = new LibResponse();
@@ -582,6 +587,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
             INotaDeEntradaSalidaPdn vNotaDeEntradaSalidaPdn = new clsNotaDeEntradaSalidaNav();
             return vNotaDeEntradaSalidaPdn.AnularNotaDeSalidaAsociadaProduccion(valOrdenDeProduccion.ConsecutivoCompania, valOrdenDeProduccion.Consecutivo);
         }
+
     } //End of class clsOrdenDeProduccionNav
 
 } //End of namespace Galac.Adm.Brl.GestionProduccion

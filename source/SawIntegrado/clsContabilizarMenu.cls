@@ -104,7 +104,7 @@ Public Sub sEjecutaAccionEscogidaMenuContabilizar(ByVal valCaptionMenuEscogido A
       Case fTextoMenuDeContabilizar(eCG_ANTICIPO) & "-" & gEnumProyecto.enumTipoDeAnticipoToString(eTDA_COBRADO): sEjecutaContabilizar eCG_ANTICIPO, enum_TipoDeAnticipo.eTDA_COBRADO
       Case fTextoMenuDeContabilizar(eCG_ANTICIPO) & "-" & gEnumProyecto.enumTipoDeAnticipoToString(eTDA_PAGADO): sEjecutaContabilizar eCG_ANTICIPO, enum_TipoDeAnticipo.eTDA_PAGADO
       Case fTextoMenuDeContabilizar(eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA): sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas
-      Case "Orden de Produccion": sEjecutacontabilizarOrdenDeProduccion
+      Case fTextoMenuDeContabilizar(eCG_ORDEN_DE_PRODUCCION): sEjecutacontabilizarOrdenDeProduccion
       Case "Documento Por Lote": sEjecutaProcesoDeContabilizacionPorLote
       Case "Pago de Sueldos": sEjecutaContabilizar eCG_PAGO_SUELDOS, -1
       Case "Costos Inventario": sEjecutaContabilizar eCG_INVENTARIO, -1
@@ -559,8 +559,8 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
    If fSePuedeEjecutarContabilizacion(gEnumProyectoWincont.enumComprobanteGeneradoPorToString(eCG_ORDEN_DE_PRODUCCION)) Then
       Set insGenerarComprobanteNavigator = New clsGenerarComprobanteNavigator
       'TODO:MAYEL ajustar nombre de valComponentName, valClassName según aplique
-      Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpTransferenciaEntreCuentasBancarias"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
-      
+      Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpOrdenDeProduccion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
+
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       If (vDatos = "") Then
@@ -581,7 +581,7 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             Dim vStatusOpInt As Integer
             vEsReverso = False
             vStatusOp = gLibGalacDataParse.GetString(0, "StatusOp")
-            vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaCreacion"))
+            vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaFinalizacion"))
             vStatusOpInt = 2 'Se asume cerrada por defecto para no crear el enumerativo en Vb
             If gTexto.fS1EsIgualAS2(vStatusOp, "Anulada") Then
                vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaAnulacion"))

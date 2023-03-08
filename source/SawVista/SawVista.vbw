@@ -53,3 +53,4 @@ clsProcesosDeInventarioSql = 0, 0, 0, 0, C
 clsRendicionSQL = 0, 0, 0, 0, C
 clsControlDespachoVista = 0, 0, 0, 0, C
 clsControlDespachoSQL = 0, 0, 0, 0, C
+clsGenerarComprobanteSQL = 0, 0, 0, 0, C
