@@ -13,6 +13,8 @@ using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
+using Galac.Saw.Wrp.OrdenDeProduccion;
+
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.Inventario {
 #elif IsExeBsS​
@@ -23,7 +25,7 @@ namespace Galac.Saw.Wrp.Inventario {
 
     [ClassInterface(ClassInterfaceType.None)]
 
-    public class wrpOrdenDeProduccion : System.EnterpriseServices.ServicedComponent, IWrpMfVb {
+    public class wrpOrdenDeProduccion : System.EnterpriseServices.ServicedComponent, IWrpOrdenDeProduccionVb {
         #region Variables
         string _Title = "OrdenDeProduccion";
         #endregion //Variables
@@ -38,11 +40,11 @@ namespace Galac.Saw.Wrp.Inventario {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        void IWrpMfVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+        void IWrpOrdenDeProduccionVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 LibGlobalValues insGV = CreateGlobalValues(vfwCurrentMfc, vfwCurrentParameters);
-                ILibMenu insMenu = new Galac.Adm.Uil.GestionProduccion.clsOrdenDeProduccionMenu(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoDocumentoOrigen"));
-                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
+                ILibMenuMultiFile insMenu = new Galac.Adm.Uil.GestionProduccion.clsOrdenDeProduccionMenu(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoDocumentoOrigen"));
+                insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, insGV.GVDictionary);
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
             } catch (Exception vEx) {
@@ -53,7 +55,7 @@ namespace Galac.Saw.Wrp.Inventario {
             }
         }
 
-        string IWrpMfVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
+        string IWrpOrdenDeProduccionVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
             LibSearch insLibSearch = new LibSearch();
             List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
@@ -77,7 +79,7 @@ namespace Galac.Saw.Wrp.Inventario {
             return "";
         }
 
-        void IWrpMfVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
+        void IWrpOrdenDeProduccionVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
                 LibWrpHelper.ConfigureRuntimeContext(vfwLogin, vfwPassword);
@@ -89,7 +91,7 @@ namespace Galac.Saw.Wrp.Inventario {
             }
         }
 
-        void IWrpMfVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
+        void IWrpOrdenDeProduccionVb.InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine) {
             try {
                 string vLogicUnitDir = LibGalac.Aos.Cnf.LibAppSettings.ULS;
                 LibGalac.Aos.DefGen.LibDefGen.InitializeProgramInfo(vfwProgramInitials, vfwProgramVersion, vfwDbVersion, LibConvert.ToDate(vfwStrDateOfVersion), vfwStrHourOfVersion, "", vfwCountry, LibConvert.ToInt(vfwCMTO));
@@ -102,7 +104,7 @@ namespace Galac.Saw.Wrp.Inventario {
             }
         }
 
-        void IWrpMfVb.InitializeContext(string vfwInfo) {
+        void IWrpOrdenDeProduccionVb.InitializeContext(string vfwInfo) {
             try {
                 LibGalac.Aos.DefGen.LibDefGen.Initialize(vfwInfo);
             } catch(Exception vEx) {
@@ -117,11 +119,21 @@ namespace Galac.Saw.Wrp.Inventario {
         private LibGlobalValues CreateGlobalValues(string valCurrentMfc, string valCurrentParameters) {
             LibGlobalValues.Instance.LoadCompleteAppMemInfo(valCurrentParameters);
             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibConvert.ToInt(valCurrentMfc));
+            LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Periodo", "Consecutivo");
             return LibGlobalValues.Instance;
         }
 
         void RegisterDefaultTypesIfMissing() {
             LibGalac.Aos.Uil.LibMessagesHandler.RegisterMessages();
+        }
+
+        string IWrpOrdenDeProduccionVb.ExecuteAndReturnValue(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
+            string vResult = String.Empty;
+            LibGlobalValues insGV = CreateGlobalValues(vfwCurrentMfc, vfwCurrentParameters);
+            ILibMenuMultiFile insMenu = new Adm.Uil.GestionProduccion.clsOrdenDeProduccionMenu();
+            insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1, insGV.GVDictionary);
+            vResult = ((Galac.Adm.Uil.GestionProduccion.clsOrdenDeProduccionMenu)insMenu).ViewModelStr;
+            return vResult;
         }
         #endregion //Metodos Generados
 
