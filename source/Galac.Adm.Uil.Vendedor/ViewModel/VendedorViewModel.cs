@@ -334,6 +334,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialVenta2 {
             get {
+                if (UsaComisionPorVenta && Action == eAccionSR.Consultar && TopeFinalVenta1 != 0) {
+                    return TopeFinalVenta1 + 1;
+                }
                 return LibMath.RoundToNDecimals(_TopeInicialVenta2, 2);
             }
             set { _TopeInicialVenta2 = value; }
@@ -374,6 +377,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
         public decimal TopeInicialVenta3 {
             get {
+                if (UsaComisionPorVenta && Action == eAccionSR.Consultar && TopeFinalVenta2 != 0) {
+                    return TopeFinalVenta2 + 1;
+                }
                 return LibMath.RoundToNDecimals(_TopeInicialVenta3, 2);
             }
             set { _TopeInicialVenta3 = value; }
@@ -399,6 +405,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
+
         [LibCustomValidation("PorcentajeVentas3Validating")]
         public decimal PorcentajeVentas3 {
             get {
@@ -413,6 +420,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
         public decimal TopeInicialVenta4 {
             get {
+                if (UsaComisionPorVenta && Action == eAccionSR.Consultar && TopeFinalVenta3 != 0) {
+                    return TopeFinalVenta3 + 1;
+                }
                 return LibMath.RoundToNDecimals(_TopeInicialVenta4, 2);
             }
             set { _TopeInicialVenta4 = value; }
@@ -519,6 +529,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza2 {
             get {
+                if (UsaComisionPorCobranza && Action == eAccionSR.Consultar && TopeFinalCobranza1 != 0) {
+                    return TopeFinalCobranza1 + 1;
+                }
                 return LibMath.RoundToNDecimals(_TopeInicialCobranza2, 2);
             }
             set { _TopeInicialCobranza2 = value; }
@@ -560,6 +573,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza3 {
             get {
+                if (UsaComisionPorCobranza && Action == eAccionSR.Consultar && TopeFinalCobranza2 != 0) {
+                    return TopeFinalCobranza2 + 1;
+                }
                 return LibMath.RoundToNDecimals(_TopeInicialCobranza3, 2);
             }
             set { _TopeInicialCobranza3 = value; }
@@ -601,6 +617,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza4 {
             get {
+                if (UsaComisionPorCobranza && Action == eAccionSR.Consultar && TopeFinalCobranza3 != 0) {
+                    return TopeFinalCobranza3 + 1;
+                }
                 return LibMath.RoundToNDecimals(_TopeInicialCobranza4, 2);
             }
             set { _TopeInicialCobranza4 = value; }

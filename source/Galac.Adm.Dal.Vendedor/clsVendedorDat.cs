@@ -289,7 +289,7 @@ namespace Galac.Adm.Dal.Vendedor {
                         if (valUseDetail) {
                             vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
                         } else {
-                            vResult = UpdateMaster(CurrentRecord, valAction); //por si requiriese especialización por acción
+                            vResult = UpdateMaster(CurrentRecord, valAction);
                         }
                         if (vResult.Success) {
                             ExecuteProcessAfterUpdate();
@@ -341,7 +341,7 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(Entity.Vendedor valRecord) {
-            bool vResult = false;
+            bool vResult = true;
             int vConsecutivo = 1;
             clsVendedorDetalleComisionesDat insVendedorDetalleComisiones = new clsVendedorDetalleComisionesDat();
             foreach (VendedorDetalleComisiones vDetail in valRecord.DetailVendedorDetalleComisiones) {
@@ -355,9 +355,10 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool UpdateDetail(Entity.Vendedor valRecord) {
-            bool vResult = true;
-            vResult = vResult && SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(valRecord);
-            return vResult;
+            if (valRecord.DetailVendedorDetalleComisiones.Count() > 0) {
+                return SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(valRecord);
+            }
+            return true;
         }
         #region Validaciones
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
@@ -365,8 +366,8 @@ namespace Galac.Adm.Dal.Vendedor {
             ClearValidationInfo();
             vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
             //vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
-            vResult = IsValidNombre(valAction, CurrentRecord.Nombre) && vResult;
-            vResult = IsValidRIF(valAction, CurrentRecord.RIF) && vResult;
+            vResult &= IsValidNombre(valAction, CurrentRecord.Nombre);
+            vResult &= IsValidRIF(valAction, CurrentRecord.RIF);
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -473,7 +474,7 @@ namespace Galac.Adm.Dal.Vendedor {
         private bool ValidateDetail(Entity.Vendedor valRecord, eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             outErrorMessage = "";
-            vResult = vResult && ValidateDetailVendedorDetalleComisiones(valRecord, valAction, out outErrorMessage);
+            vResult &= ValidateDetailVendedorDetalleComisiones(valRecord, valAction, out outErrorMessage);
             if (!LibString.IsNullOrEmpty(outErrorMessage)) {
                 LibMessages.MessageBox.Alert(this, outErrorMessage, "Vendedor");
             }
