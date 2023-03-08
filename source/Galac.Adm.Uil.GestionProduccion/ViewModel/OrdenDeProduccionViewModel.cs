@@ -47,7 +47,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private const string CambioCostoProduccionPropertyName = "CambioCostoProduccion";
         private const string NombreOperadorPropertyName = "NombreOperador";
         private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
-        public const string IsVisibleAlContabilizarPropertyName = "IsVisibleAlContabilizar";
 
         #endregion
 
@@ -57,7 +56,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         private FkAlmacenViewModel _ConexionCodigoAlmacenMateriales = null;
         private FkMonedaViewModel _ConexionMoneda = null;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
-        private bool _IsVisibleAlContabilizar;
         private FkOrdenDeProduccionViewModel _ConexionCodigoOrdenProduccion = null;
 
         #endregion //Variables
@@ -539,7 +537,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         public bool IsVisibleFechaDeInicio {
             get {
-                return StatusOp != eTipoStatusOrdenProduccion.Ingresada && Action == eAccionSR.Insertar;
+                return StatusOp != eTipoStatusOrdenProduccion.Ingresada;
             }
         }
 
@@ -624,26 +622,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        public bool IsVisibleAlContabilizar {
-            get {
-                return _IsVisibleAlContabilizar;
-            }
-            set {
-                _IsVisibleAlContabilizar = value;
-            }
-        }
-
         public RelayCommand<string> ChooseCodigoOrdenProduccionCommand { 
             get; 
             private set; 
         }
 
-        public new bool IsEnabled() {
-            return (Action != eAccionSR.Contabilizar);
-        }
-
-        public bool NotIsEnabled {
-            get { return !IsEnabled(); }
+        public bool IsEnabledCodigo {
+            get { return IsEnabled && (Action != eAccionSR.Contabilizar); }
         }
 
         #endregion //Propiedades
@@ -674,7 +659,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public override void InitializeViewModel(eAccionSR valAction) {
             base.InitializeViewModel(valAction);
             if (Action == eAccionSR.Contabilizar) {
-                Moneda = AsignarNombreMoneda().Nombre;
+                CodigoMonedaCostoProduccion = Model.CodigoMonedaCostoProduccion;
+                Moneda = Model.Moneda;
+                AsignarNombreMoneda();
             } else {
                 if (Action == eAccionSR.Insertar) {
                     if (DetailOrdenDeProduccionDetalleArticulo.Items.Count() == 0) {
@@ -748,11 +735,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void InitializeDetails() {
-            if (Action == eAccionSR.Contabilizar) {
-                DetailOrdenDeProduccionDetalleArticulo = new OrdenDeProduccionDetalleArticuloMngViewModel(this, Model.DetailOrdenDeProduccionDetalleArticulo, eAccionSR.Consultar);
-            } else {
-                DetailOrdenDeProduccionDetalleArticulo = new OrdenDeProduccionDetalleArticuloMngViewModel(this, Model.DetailOrdenDeProduccionDetalleArticulo, Action);
-            }
+            DetailOrdenDeProduccionDetalleArticulo = new OrdenDeProduccionDetalleArticuloMngViewModel(this, Model.DetailOrdenDeProduccionDetalleArticulo, Action);
             DetailOrdenDeProduccionDetalleArticulo.OnCreated += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleArticuloViewModel>>(DetailOrdenDeProduccionDetalleArticulo_OnCreated);
             DetailOrdenDeProduccionDetalleArticulo.OnUpdated += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleArticuloViewModel>>(DetailOrdenDeProduccionDetalleArticulo_OnUpdated);
             DetailOrdenDeProduccionDetalleArticulo.OnDeleted += new EventHandler<SearchCollectionChangedEventArgs<OrdenDeProduccionDetalleArticuloViewModel>>(DetailOrdenDeProduccionDetalleArticulo_OnDeleted);
@@ -766,7 +749,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private LibRibbonButtonData CreateAccionRibbonGroup() {
             LibRibbonButtonData vResult = new LibRibbonButtonData() {
-                Label = Action == eAccionSR.Insertar || Action == eAccionSR.Modificar || Action == eAccionSR.Contabilizar ? "Editar Detalle" : "Ver Detalle",
+                Label = Action == eAccionSR.Insertar || Action == eAccionSR.Modificar ? "Editar Detalle" : "Ver Detalle",
                 Command = VerDetalleCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/report.png", UriKind.Relative),
                 ToolTipDescription = "Detalle",
@@ -1044,8 +1027,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
-            //ConexionCodigoAlmacenProductoTerminado = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("Codigo", CodigoAlmacenProductoTerminado));
-            //ConexionCodigoAlmacenMateriales = FirstConnectionRecordOrDefault<FkAlmacenViewModel>("Almacén", LibSearchCriteria.CreateCriteria("Codigo", CodigoAlmacenMateriales));
         }
 
         #endregion //Metodos Generados
@@ -1119,7 +1100,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                         RaisePropertyChanged(StatusOpPropertyName);
                         RaisePropertyChanged(FechaAnulacionPropertyName);
                         RaisePropertyChanged(FechaFinalizacionPropertyName);
-                        RaisePropertyChanged(IsVisibleAlContabilizarPropertyName);
 
                     }
                 }
@@ -1295,18 +1275,13 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                             NombreAlmacenProductoTerminado = string.Empty;
                         }
                     }
-
-                    LibGpParams vParamsConta = new LibGpParams();
-                    vParamsConta.AddInInteger("ConsecutivoCompania", Model.ConsecutivoCompania);
-                    vParamsConta.AddInInteger("Consecutivo", Model.Consecutivo);
-                    OrdenDeProduccion vordend = BusinessComponent.GetData(eProcessMessageType.SpName, "OrdenDeProduccionGET", vParamsConta.Get(), UseDetail).FirstOrDefault();
-
-                    Model.DetailOrdenDeProduccionDetalleArticulo.Add(vordend.DetailOrdenDeProduccionDetalleArticulo[0]);
-                    
                     ReloadModel(FindCurrentRecord(Model));
                     InitializeDetails();
                     VerDetalleCommand.RaiseCanExecuteChanged();
+                    ReloadRelatedConnections();
                     InitializeViewModel(eAccionSR.Contabilizar);
+                    GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly)
+                      .ToList().ForEach(p => RaisePropertyChanged(p.Name));
                 }
             } catch (System.AccessViolationException) {
                 throw;
