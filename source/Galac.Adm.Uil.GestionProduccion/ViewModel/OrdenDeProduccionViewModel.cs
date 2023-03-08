@@ -1253,30 +1253,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     Model.Moneda = ConexionMoneda.Nombre;
                     Model.CambioCostoProduccion = ConexionCodigoOrdenProduccion.CambioCostoProduccion;
                     if (Model.Consecutivo != 0) {
-                        LibSearchCriteria vDefaultCriteriaAlmacen = LibSearchCriteria.CreateCriteriaFromText("Gv_Almacen_B1.Consecutivo", Model.CodigoAlmacenProductoTerminado);
-                        LibSearchCriteria vFixedCriteriaAlmacen = LibSearchCriteria.CreateCriteria("Gv_Almacen_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
-                        ConexionCodigoAlmacenProductoTerminado = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteriaAlmacen, vFixedCriteriaAlmacen, string.Empty);
-                        if (ConexionCodigoAlmacenProductoTerminado != null) {
-                            Model.ConsecutivoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Consecutivo;
-                            CodigoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Codigo;
-                            NombreAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.NombreAlmacen;
-                        } else {
-                            Model.ConsecutivoAlmacenProductoTerminado = 0;
-                            CodigoAlmacenProductoTerminado = string.Empty;
-                            NombreAlmacenProductoTerminado = string.Empty;
-                        }
-                        LibSearchCriteria vDefaultCriteriaAlmacenMateriales = LibSearchCriteria.CreateCriteriaFromText("Gv_Almacen_B1.Consecutivo", Model.CodigoAlmacenMateriales);
-                        LibSearchCriteria vFixedCriteriaAlmacenMateriales = LibSearchCriteria.CreateCriteria("Gv_Almacen_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
-                        ConexionCodigoAlmacenMateriales = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteriaAlmacenMateriales, vFixedCriteriaAlmacenMateriales, string.Empty);
-                        if (ConexionCodigoAlmacenMateriales != null) {
-                            Model.ConsecutivoAlmacenMateriales = ConexionCodigoAlmacenMateriales.Consecutivo;
-                            CodigoAlmacenMateriales = ConexionCodigoAlmacenMateriales.Codigo;
-                            NombreAlmacenMateriales = ConexionCodigoAlmacenMateriales.NombreAlmacen;
-                        } else {
-                            Model.ConsecutivoAlmacenProductoTerminado = 0;
-                            CodigoAlmacenProductoTerminado = string.Empty;
-                            NombreAlmacenProductoTerminado = string.Empty;
-                        }
+                        AlmacenProductoTerminado();
+                        AlmacenListaMateriales();
                     }
                     ReloadModel(FindCurrentRecord(Model));
                     InitializeDetails();
@@ -1290,6 +1268,36 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 throw;
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+
+        private void AlmacenProductoTerminado() {
+            LibSearchCriteria vDefaultCriteriaAlmacen = LibSearchCriteria.CreateCriteriaFromText("Gv_Almacen_B1.Consecutivo", Model.CodigoAlmacenProductoTerminado);
+            LibSearchCriteria vFixedCriteriaAlmacen = LibSearchCriteria.CreateCriteria("Gv_Almacen_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
+            ConexionCodigoAlmacenProductoTerminado = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteriaAlmacen, vFixedCriteriaAlmacen, string.Empty);
+            if (ConexionCodigoAlmacenProductoTerminado != null) {
+                Model.ConsecutivoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Consecutivo;
+                CodigoAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.Codigo;
+                NombreAlmacenProductoTerminado = ConexionCodigoAlmacenProductoTerminado.NombreAlmacen;
+            } else {
+                Model.ConsecutivoAlmacenProductoTerminado = 0;
+                CodigoAlmacenProductoTerminado = string.Empty;
+                NombreAlmacenProductoTerminado = string.Empty;
+            }
+        }
+
+        private void AlmacenListaMateriales() {
+            LibSearchCriteria vDefaultCriteriaAlmacenMateriales = LibSearchCriteria.CreateCriteriaFromText("Gv_Almacen_B1.Consecutivo", Model.CodigoAlmacenMateriales);
+            LibSearchCriteria vFixedCriteriaAlmacenMateriales = LibSearchCriteria.CreateCriteria("Gv_Almacen_B1.ConsecutivoCompania", Model.ConsecutivoCompania);
+            ConexionCodigoAlmacenMateriales = ChooseRecord<FkAlmacenViewModel>("Almacén", vDefaultCriteriaAlmacenMateriales, vFixedCriteriaAlmacenMateriales, string.Empty);
+            if (ConexionCodigoAlmacenMateriales != null) {
+                Model.ConsecutivoAlmacenMateriales = ConexionCodigoAlmacenMateriales.Consecutivo;
+                CodigoAlmacenMateriales = ConexionCodigoAlmacenMateriales.Codigo;
+                NombreAlmacenMateriales = ConexionCodigoAlmacenMateriales.NombreAlmacen;
+            } else {
+                Model.ConsecutivoAlmacenProductoTerminado = 0;
+                CodigoAlmacenProductoTerminado = string.Empty;
+                NombreAlmacenProductoTerminado = string.Empty;
             }
         }
         #endregion //Metodos
