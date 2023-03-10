@@ -581,10 +581,10 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             Dim vStatusOpInt As Integer
             vEsReverso = False
             vStatusOp = gLibGalacDataParse.GetString(0, "StatusOp")
+            vStatusOpInt = gConvert.ConvierteAInteger(vStatusOp)
             vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaFinalizacion"))
             If gTexto.fS1EsIgualAS2(vStatusOp, "3") Then ' Orden Anulada
                vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaDeAnulacion"))
-               vStatusOpInt = 3 'Se cambia a anulada
             ElseIf Not gTexto.fS1EsIgualAS2(vStatusOp, "2") Then 'No es Anulada y no es Cerrada > no se contabiliza
                GoTo h_EXIT
             End If
