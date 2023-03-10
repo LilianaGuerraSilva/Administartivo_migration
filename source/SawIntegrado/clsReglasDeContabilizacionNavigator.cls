@@ -4347,7 +4347,8 @@ End Function
 Private Function fLasCuentasDeOrdenDeProduccionEstanCompletas() As Boolean
    Dim vEstanCompletas As Boolean
    On Error GoTo h_ERROR
-   vEstanCompletas = True
+   vEstanCompletas = GetCuentaOrdenDeProduccionMateriaPrima <> ""
+   vEstanCompletas = vEstanCompletas And GetCuentaOrdenDeProduccionProductoTerminado <> ""
 h_EXIT:
    fLasCuentasDeOrdenDeProduccionEstanCompletas = vEstanCompletas
    On Error GoTo 0

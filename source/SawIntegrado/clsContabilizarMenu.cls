@@ -581,13 +581,12 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             Dim vStatusOpInt As Integer
             vEsReverso = False
             vStatusOp = gLibGalacDataParse.GetString(0, "StatusOp")
+            vStatusOpInt = gConvert.ConvierteAInteger(vStatusOp)
             vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaFinalizacion"))
-            vStatusOpInt = 2 'Se asume cerrada por defecto para no crear el enumerativo en Vb
-            If gTexto.fS1EsIgualAS2(vStatusOp, "Anulada") Then
-               vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaAnulacion"))
+            If gTexto.fS1EsIgualAS2(vStatusOp, "3") Then ' Orden Anulada
+               vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaDeAnulacion"))
                vEsReverso = True
-               vStatusOpInt = 3 'Se cambia a anulada
-            ElseIf Not gTexto.fS1EsIgualAS2(vStatusOp, "Cerrada") Then 'No es Anulada y no es Cerrada > no se contabiliza
+            ElseIf Not gTexto.fS1EsIgualAS2(vStatusOp, "2") Then 'No es Anulada y no es Cerrada > no se contabiliza
                GoTo h_EXIT
             End If
             vNroDocContabiliacion = gConvert.enumerativoAChar(vStatusOpInt) & gTexto.fSeparadorStandardDeElementosString & gConvert.fConvierteAString(vConsecutivo)
