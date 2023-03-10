@@ -438,7 +438,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
+        //[LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
+        [LibCustomValidation("ValidateDetalleDeOrdenDeProduccion")]
         public OrdenDeProduccionDetalleArticuloMngViewModel DetailOrdenDeProduccionDetalleArticulo {
             get;
             set;
@@ -951,6 +952,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
             }
             return vResult;
+        }
+
+        private ValidationResult ValidateDetalleDeOrdenDeProduccion() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action == eAccionSR.Contabilizar) {
+                return ValidationResult.Success;
+            } else {
+                return new ValidationResult("Orden De Produccion Detalle Articulo es requerido.");
+            }
         }
         #endregion //Validation
 

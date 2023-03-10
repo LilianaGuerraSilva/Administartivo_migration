@@ -564,6 +564,7 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo>"
       vParametros = vParametros & "<FechaAperturaDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaAperturaDelPeriodo) & "</FechaAperturaDelPeriodo>"
       vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo>"
+      vParametros = vParametros & "<Parametros>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaMonedaExtranjera) & "</Parametros>"
       vParametros = vParametros & "</DatosDocumento></GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       If (vDatos = "") Then
