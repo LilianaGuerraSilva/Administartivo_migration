@@ -71,6 +71,10 @@
       <Project>{a28fb32d-b951-4d64-8feb-74a261425585}</Project>
       <Name>Galac.Saw.Ccl.Inventario</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82C458B1-C93B-46A9-B58C-63ECD3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

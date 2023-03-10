@@ -27,6 +27,7 @@ namespace Galac.Saw.Ccl.SttDef {
         ModeloDeFacturaStt _ParametrosModeloDeFacturaStt;
         MonedaStt _ParametrosMonedaStt;
         MovimientoBancarioStt _ParametrosMovimientoBancarioStt;
+        TransferenciaStt _ParametrosTransferenciaBancariaStt;
         NotaEntradaSalidaStt _ParametrosNotaEntradaSalidaStt;
         NotaEntregaStt _ParametrosNotaEntregaStt;
         NotasDebitoCreditoEntregaStt _ParametrosNotasDebitoCreditoEntregaStt;
@@ -37,6 +38,7 @@ namespace Galac.Saw.Ccl.SttDef {
         VendedorStt _ParametrosVendedorStt;
         VerificadorDePreciosStt _ParametrosVerificadorDePreciosStt;
         ImagenesComprobantesRetencionStt _ParametrosImagenesComprobantesRetencionStt;
+        ProduccionStt _ParametrosInventarioProduccionStt;
 
         public CotizacionStt ParametrosCotizacionStt {
             get { return _ParametrosCotizacionStt; }
@@ -133,6 +135,10 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _ParametrosMovimientoBancarioStt = value; }
         }
 
+        public TransferenciaStt ParametrosTransferenciaBancariaStt {
+            get { return _ParametrosTransferenciaBancariaStt; }
+            set { _ParametrosTransferenciaBancariaStt = value; }
+        }
         public NotaEntradaSalidaStt ParametrosNotaEntradaSalidaStt {
             get { return _ParametrosNotaEntradaSalidaStt; }
             set { _ParametrosNotaEntradaSalidaStt = value; }
@@ -178,12 +184,15 @@ namespace Galac.Saw.Ccl.SttDef {
             set { _ParametrosVerificadorDePreciosStt = value; }
         }
 
-
         public ImagenesComprobantesRetencionStt ParametrosImagenesComprobantesRetencionStt {
             get { return _ParametrosImagenesComprobantesRetencionStt; }
             set { _ParametrosImagenesComprobantesRetencionStt = value; }
         }
 
+        public ProduccionStt ParametrosProduccionStt {
+            get { return _ParametrosInventarioProduccionStt; }
+            set { _ParametrosInventarioProduccionStt = value; }
+        }
     }
 
     public class Module {

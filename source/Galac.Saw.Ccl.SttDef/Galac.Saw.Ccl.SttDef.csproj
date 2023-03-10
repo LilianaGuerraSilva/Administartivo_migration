@@ -70,6 +70,7 @@
     <Compile Include="FacturaPuntoDeVentaStt.cs" />
     <Compile Include="GeneralStt.cs" />
     <Compile Include="ImpresiondeFacturaStt.cs" />
+    <Compile Include="ProduccionStt.cs" />
     <Compile Include="InventarioStt.cs" />
     <Compile Include="ISettDefinition.cs" />
     <Compile Include="ISettValueByCompanyPdn.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="RetencionIVAStt.cs" />
     <Compile Include="SettDefinition.cs" />
     <Compile Include="SettValueByCompany.cs" />
+    <Compile Include="TransferenciaStt.cs" />
     <Compile Include="VendedorStt.cs" />
     <Compile Include="VerificadorDePreciosStt.cs" />
   </ItemGroup>

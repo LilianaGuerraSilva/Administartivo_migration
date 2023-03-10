@@ -18,7 +18,7 @@ using Galac.Adm.Ccl.GestionProduccion;
 namespace Galac.Adm.Dal.GestionProduccion {
     public class clsOrdenDeProduccionDetalleArticuloDat: LibData, ILibDataDetailComponent<IList<OrdenDeProduccionDetalleArticulo>, IList<OrdenDeProduccionDetalleArticulo>> {
         #region Variables
-        LibTrn insTrn;
+        LibDataScope insTrn;
         OrdenDeProduccionDetalleArticulo _CurrentRecord;
         #endregion //Variables
         #region Propiedades
@@ -31,7 +31,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
 
         public clsOrdenDeProduccionDetalleArticuloDat() {
             DbSchema = "Adm";
-            insTrn = new LibTrn();
+            insTrn = new LibDataScope();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -170,9 +170,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
         }
         #endregion //ILibDataDetailComponent<IList<OrdenDeProduccionDetalleArticulo>, IList<OrdenDeProduccionDetalleArticulo>>
 
-        public bool InsertChild(OrdenDeProduccion valRecord, LibTrn insTrn) {
+        public bool InsertChild(OrdenDeProduccion valRecord, LibDataScope insTrn) {
             bool vResult = false;
-            vResult = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDetalleArticuloInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
+            vResult = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDetalleArticuloInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
             foreach (var item in valRecord.DetailOrdenDeProduccionDetalleArticulo ) {
                 vResult = vResult && InsertDetail(item, insTrn);
             }
@@ -182,7 +182,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
 
         LibResponse UpdateMaster(OrdenDeProduccionDetalleArticulo refRecord, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
-            vResult.Success = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDetalleArticuloUPD"), ParametrosActualizacion(refRecord, valAction));
+            vResult.Success = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDetalleArticuloUPD"), ParametrosActualizacion(refRecord, valAction));
             return vResult;
         }
 
@@ -197,13 +197,13 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool InsertDetail(OrdenDeProduccionDetalleArticulo valRecord, LibTrn insTrn) {
+        private bool InsertDetail(OrdenDeProduccionDetalleArticulo valRecord, LibDataScope insTrn) {
             bool vResult = true;
             vResult = vResult && SetPkInDetailOrdenDeProduccionDetalleMaterialesAndUpdateDb(valRecord, insTrn);
             return vResult;
         }
 
-        private bool SetPkInDetailOrdenDeProduccionDetalleMaterialesAndUpdateDb(OrdenDeProduccionDetalleArticulo valRecord, LibTrn insTrn) {
+        private bool SetPkInDetailOrdenDeProduccionDetalleMaterialesAndUpdateDb(OrdenDeProduccionDetalleArticulo valRecord, LibDataScope insTrn) {
             bool vResult = false;
             int vConsecutivo = 1;
             clsOrdenDeProduccionDetalleMaterialesDat insOrdenDeProduccionDetalleMateriales = new clsOrdenDeProduccionDetalleMaterialesDat(insTrn);
@@ -218,7 +218,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool UpdateDetail(OrdenDeProduccionDetalleArticulo valRecord, LibTrn insTrn) {
+        private bool UpdateDetail(OrdenDeProduccionDetalleArticulo valRecord, LibDataScope insTrn) {
             bool vResult = true;
             vResult = vResult && SetPkInDetailOrdenDeProduccionDetalleMaterialesAndUpdateDb(valRecord, insTrn);
             return vResult;

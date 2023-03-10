@@ -196,8 +196,9 @@ unFiltarCobranzaPor =(Cobrador,Cliente,CuentaBancaria);//e,Componente=Venta
 unMonedaDelInforme =(Bolivar,MonedaOrignal);//e,Componente=Venta 
 unTasaDeCambio =(Original,DelDia);//e,Componente=Venta
 unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta 
-unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco 
-
+unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
+unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
+unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
 
 // Record Repetido en archivo Externo
 //{@S}UrbanizacionZP = record //"Urbanización - Zona Postal",Componente=Tablas,Esquema=Saw,interop
@@ -1298,22 +1299,27 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
     Descripción Artículo : textArea; //Logical,a
     Comentarios          : textArea; //search
     CodigoLote           : Str10;//HIDE
+    CodigoMonedaCostoProduccion     : str04; //"Código Moneda Para El Costo"
     NombreOperador       : Str10; //a
     FechaUltimaModificacion: date;//a
 @PrimaryKey=ConsecutivoCompania,NumeroDocumento
 }
 
-{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania,
-    ConsecutivoCompania	: Longint; //HIDE
-    NumeroDocumento: Str11;   //o,HIDE
-    consecutivoRenglon	: longint; //o,HIDE
-    CodigoArticulo      : str15; //g,o,=ArticuloInventario.Codigo,"Código Inventario"
-    //Descripcion         : textArea; //g,a,=ArticuloInventario.Descripcion,"Descripción"
-    Cantidad           : Double;//g,o
-    TipoArticuloInv     : unTipoArticuloInv; //g,a,o
-    Serial              : str50;
-    Rollo               : str20;
-    @PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon
+{@D NotaDeEntradaSalida}RenglonNotaES = Record //Multiarchivo=Compania
+	ConsecutivoCompania		: LongInt;//
+	NumeroDocumento		    : Str11;//
+	ConsecutivoRenglon		: LongInt;//
+	CodigoArticulo		    : Str30;//
+	Cantidad		        : decimal;//
+	TipoArticuloInv		    : boolean;//"�ENUMERATIVO O BOOLEAN?",
+	Serial		            : Str50;//
+	Rollo		            : Str20;//
+	CostoUnitario		    : decimal;//dv=0
+    CostoUnitarioME		    : decimal;//dv=0
+//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
+	NombreOperador		    : Str10;//a
+	FechaUltimaModificacion	: date;//a
+	@PrimaryKey=ConsecutivoCompania,NumeroDocumento,ConsecutivoRenglon,Serial,Rollo
 }
 
 {@M}Transferencia =  record //"Transferencia",Multiarchivo=Compania, Componente=Inventario,Esquema=Saw
@@ -1736,7 +1742,7 @@ unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", C
     @PrimaryKey=Consecutivo
 }
 
-{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
+{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,
     ConsecutivoCompania	: Longint; //HIDE
     Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g
@@ -4170,7 +4176,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	AgruparPor	:	boolean;//"Agrupar Por"
 	NombreCobrador	:	Str160;"Cobrador",Search,=Vendedor.Nombre
 	FiltrarPor	:	unFiltarCobranzaPor;//"Filtar Cobranza Por"
-	MonedaDelInforme	:	unMonedaDelInforme;"Monede Del Informe"
+	MonedaDelInforme	:	unMonedaDelInforme;"Moneda Del Informe"
 	TasaDeCambio	:	unTasaDeCambio;"Tasa de Cambio" 	
 	CantidadAImprimir :	unCantidadAImprimir;//"Cantidad a Imprimir"	
 }
@@ -4379,4 +4385,102 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	FechaDesde		: date;		//"Fecha desde"
 	FechaHasta		: date;		//"Fecha hasta"	
 	SoloCuentasActivas	: boolean;	//"Solo cuentas activas"
+}
+
+{@S}OrdenDeProduccion = Record//Esquema=Adm,
+	ConsecutivoCompania		        : LongInt;//
+	Consecutivo		                : LongInt;//
+	Codigo		                    : Str15;//
+	Descripcion		                : Str250;//dv=''
+	StatusOp		                : boolean;//"�ENUMERATIVO O BOOLEAN?",dv='0'
+	ConsecutivoAlmacenProductoTerminado		: LongInt;//
+	ConsecutivoAlmacenMateriales	: LongInt;//
+	FechaCreacion		            : date;//dv=''
+	FechaInicio		                : date;//dv=''
+	FechaFinalizacion		        : date;//dv=''
+	FechaAnulacion		            : date;//dv=''
+	FechaAjuste		                : date;//dv=''
+	AjustadaPostCierre		        : boolean;//"�ENUMERATIVO O BOOLEAN?",
+	Observacion		                : Str600;//dv=''
+	MotivoDeAnulacion		        : Str600;//dv=''
+	NumeroDecimales		            : LongInt;//
+    Moneda              		    : str80;//logical,=Moneda.Nombre, "Nombre de la Moneda"
+    CostoTerminadoCalculadoAPartirDe : unFormaDeCalcularCostoTerminado;
+    CodigoMonedaCostoProduccion     : str04; //"Código Moneda Para El Costo"
+    CambioCostoProduccion           : double; //
+//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
+	NombreOperador		            : Str10;//a
+	FechaUltimaModificacion	        : date;//a
+	@PrimaryKey=ConsecutivoCompania,Consecutivo
+}
+
+{@S}OrdenDeProduccionDetalleArticulo = Record//Esquema=Adm
+	ConsecutivoCompania		: LongInt;//
+	ConsecutivoOrdenDeProduccion		: LongInt;//
+	Consecutivo		: LongInt;//
+	ConsecutivoListaDeMateriales		: LongInt;//
+	ConsecutivoAlmacen		: LongInt;//
+	CodigoArticulo		: Str30;//
+	CantidadSolicitada		: decimal;//Decimales=9,Longitud=25,
+	CantidadProducida		: decimal;//Decimales=9,Longitud=25,
+	CostoUnitario		: decimal;//,dv=(0)
+	CostoUnitarioME		: decimal;//,dv=(0)
+	MontoSubTotal		: decimal;//,dv=(0)
+	AjustadoPostCierre		: boolean;//"�ENUMERATIVO O BOOLEAN?",
+	CantidadAjustada		: decimal;//,
+//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
+	NombreOperador		: Str10;//a
+	FechaUltimaModificacion	: date;//a
+	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,Consecutivo
+}
+
+{@S}OrdenDeProduccionDetalleMateriales = Record//Esquema=Adm, GENERATE
+	ConsecutivoCompania		            : LongInt;//
+	ConsecutivoOrdenDeProduccion		: LongInt;//
+	ConsecutivoOrdenDeProduccionDetalleArticulo		: LongInt;//
+	Consecutivo		                    : LongInt;//
+	ConsecutivoAlmacen		            : LongInt;//dv=0
+	CodigoArticulo		                : Str30;//dv=''
+	Cantidad		                    : decimal;//Decimales=9,Longitud=25,
+	CantidadReservadaInventario		    : decimal;//,
+	CantidadConsumida		            : decimal;//,
+	CostoUnitarioArticuloInventario		: decimal;//,dv=0
+	CostoUnitarioMEArticuloInventario	: decimal;//,dv=0
+	MontoSubtotal		                : decimal;//,dv=0
+	AjustadoPostCierre		            : boolean;//"�ENUMERATIVO O BOOLEAN?",
+	CantidadAjustada		            : decimal;//,
+//ATENCI�N: Ultimos campos del Record. Los campos nuevos deben ir antes de estas l�neas.
+	NombreOperador		                : Str10;//a
+	FechaUltimaModificacion	            : date;//a
+	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,ConsecutivoOrdenDeProduccionDetalleArticulo,Consecutivo
+}
+{@S}TransferenciaEntreCuentasBancarias = record //Multiarchivo=Compania,"Transferencia Entre Cuentas Bancarias",Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
+	ConsecutivoCompania				: LongInt;	//Hide	
+	Consecutivo						: LongInt; 	//Hide,"Consecutivo Transferencia",sugestConsecutive
+	Status							: unStatusTransferenciaBancaria;//o,g,search,"Status "
+	Fecha							: date;		//g,search
+	NumeroDocumento					: Str20;	//o,g,search
+	Descripcion						: Str255;	//
+	FechaDeAnulacion				: date;		//
+	CodigoCuentaBancariaOrigen		: Str8		//o,g,search,"Codigo Cuenta Bancaria Origen",=cuentaBancaria.codigo
+	CambioABolivaresEgreso			: decimal;	//"Cambio a Bolívares Egreso"
+	MontoTransferenciaEgreso		: decimal;	//
+	CodigoConceptoEgreso			: Str8;		//g,search
+	GeneraComisionEgreso			: Boolean;
+	MontoComisionEgreso				: decimal;	//
+	CodigoConceptoComisionEgreso	: Str8;		//
+	GeneraIGTFComisionEgreso		: Boolean;
+	CodigoCuentaBancariaDestino 	: Str8		//"Codigo Cuenta Bancaria Destino",=cuentaBancaria.codigo,g,search
+	CambioABolivaresIngreso			: decimal;	//"Cambio a Bolívares Ingreso"
+	MontoTransferenciaIngreso 		: decimal;	//
+	CodigoConceptoIngreso 			: Str8;		//g,search
+	GeneraComisionIngreso		 	: Boolean;
+	MontoComisionIngreso 			: decimal;	//
+	CodigoConceptoComisionIngreso 	: Str8;		//
+	GeneraIGTFComisionIngreso		: Boolean;
+	NombreOperador					: Str10;	//a
+	FechaUltimaModificacion			: date;		//a	
+	@PrimaryKey=ConsecutivoCompania,Consecutivo
+	@UniqueKey=ConsecutivoCompania,NumeroDocumento,CodigoCuentaBancariaOrigen
+	//este uk es solo para que narrador pueda generar, no se pasa
 }

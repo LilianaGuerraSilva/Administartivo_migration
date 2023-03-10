@@ -47,6 +47,7 @@ namespace Galac.Saw.Dal.Inventario {
             vParams.AddInString("Serial", valRecord.Serial, 50);
             vParams.AddInString("Rollo", valRecord.Rollo, 20);
             vParams.AddInDecimal("CostoUnitario", valRecord.CostoUnitario, 2);
+            vParams.AddInDecimal("CostoUnitarioME", valRecord.CostoUnitarioME, 2);
             vResult = vParams.Get();
             return vResult;
         }
@@ -117,7 +118,8 @@ namespace Galac.Saw.Dal.Inventario {
                     new XElement("TipoArticuloInv", vEntity.TipoArticuloInvAsDB),
                     new XElement("Serial", vEntity.Serial),
                     new XElement("Rollo", vEntity.Rollo),
-                    new XElement("CostoUnitario", vEntity.CostoUnitario)));
+                    new XElement("CostoUnitario", vEntity.CostoUnitario),
+                    new XElement("CostoUnitarioME", vEntity.CostoUnitarioME)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<RenglonNotaES>, IList<RenglonNotaES>>

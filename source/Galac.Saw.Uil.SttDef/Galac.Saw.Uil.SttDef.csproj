@@ -127,6 +127,7 @@
     <Compile Include="ViewModel\BancosAnticipoViewModel.cs" />
     <Compile Include="ViewModel\BancosMonedaViewModel.cs" />
     <Compile Include="ViewModel\BancosMovimientoBancarioViewModel.cs" />
+    <Compile Include="ViewModel\BancosTransferenciaViewModel.cs" />
     <Compile Include="ViewModel\BancosViewModel.cs" />
     <Compile Include="ViewModel\clsFKViewModel.cs" />
     <Compile Include="ViewModel\CxPComprasPlanillaIVAViewModel.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="ViewModel\FacturaImpresionViewModel.cs" />
     <Compile Include="ViewModel\FacturaModeloFacturaViewModel.cs" />
     <Compile Include="ViewModel\InventarioNotaEntradaSalidaViewModel.cs" />
+    <Compile Include="ViewModel\InventarioProduccionViewModel.cs" />
     <Compile Include="ViewModel\InventarioViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -171,6 +173,9 @@
     </Compile>
     <Compile Include="Views\GSBancosMovimientoBancarioView.xaml.cs">
       <DependentUpon>GSBancosMovimientoBancarioView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSBancosTransferenciaView.xaml.cs">
+      <DependentUpon>GSBancosTransferenciaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSBancosView.xaml.cs">
       <DependentUpon>GSBancosView.xaml</DependentUpon>
@@ -245,6 +250,9 @@
     <Compile Include="Views\GSInventarioNotaEntradaSalidaView.xaml.cs">
       <DependentUpon>GSInventarioNotaEntradaSalidaView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GSInventarioProduccionView.xaml.cs">
+      <DependentUpon>GSInventarioProduccionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GSInventarioView.xaml.cs">
       <DependentUpon>GSInventarioView.xaml</DependentUpon>
     </Compile>
@@ -286,6 +294,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSBancosMovimientoBancarioView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSBancosTransferenciaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -384,6 +396,10 @@
     <Page Include="Views\GSInventarioNotaEntradaSalidaView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSInventarioProduccionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Views\GSInventarioView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
-
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Ccl.GestionProduccion {
     [Serializable]
@@ -33,6 +33,10 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private bool _AjustadaPostCierre;
         private string _Observacion;
         private string _MotivoDeAnulacion;
+        private string _Moneda;
+        private eFormaDeCalcularCostoTerminado _CostoTerminadoCalculadoAPartirDe;
+        private string _CodigoMonedaCostoProduccion;
+        private decimal _CambioCostoProduccion;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -142,7 +146,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _AjustadaPostCierre = LibConvert.SNToBool(value); }
         }
 
-
         public string Observacion {
             get { return _Observacion; }
             set { _Observacion = LibString.Mid(value, 0, 600); }
@@ -151,6 +154,38 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         public string MotivoDeAnulacion {
             get { return _MotivoDeAnulacion; }
             set { _MotivoDeAnulacion = LibString.Mid(value, 0, 600); }
+        }
+
+        public string Moneda {
+            get { return _Moneda; }
+            set { _Moneda = LibString.Mid(value, 0, 80); }
+        }
+
+        public eFormaDeCalcularCostoTerminado CostoTerminadoCalculadoAPartirDeAsEnum {
+            get { return _CostoTerminadoCalculadoAPartirDe; }
+            set { _CostoTerminadoCalculadoAPartirDe = value; }
+        }
+
+        public string CostoTerminadoCalculadoAPartirDe {
+            set { _CostoTerminadoCalculadoAPartirDe = (eFormaDeCalcularCostoTerminado)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string CostoTerminadoCalculadoAPartirDeAsDB {
+            get { return LibConvert.EnumToDbValue((int) _CostoTerminadoCalculadoAPartirDe); }
+        }
+
+        public string CostoTerminadoCalculadoAPartirDeAsString {
+            get { return LibEnumHelper.GetDescription(_CostoTerminadoCalculadoAPartirDe); }
+        }
+
+        public string CodigoMonedaCostoProduccion {
+            get { return _CodigoMonedaCostoProduccion; }
+            set { _CodigoMonedaCostoProduccion = value; }
+        }
+
+        public decimal CambioCostoProduccion {
+            get { return _CambioCostoProduccion; }
+            set { _CambioCostoProduccion = value; }
         }
 
         public string NombreOperador {
@@ -211,6 +246,10 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             AjustadaPostCierreAsBool = false;
             Observacion = string.Empty;
             MotivoDeAnulacion = string.Empty;
+            Moneda = string.Empty;
+            CostoTerminadoCalculadoAPartirDeAsEnum = eFormaDeCalcularCostoTerminado.APartirDeCostoEnMonedaLocal;
+            CodigoMonedaCostoProduccion = "VED";
+            CambioCostoProduccion = 1;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -238,6 +277,10 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.AjustadaPostCierreAsBool = _AjustadaPostCierre;
             vResult.Observacion = _Observacion;
             vResult.MotivoDeAnulacion = _MotivoDeAnulacion;
+            vResult.Moneda = _Moneda;
+            vResult.CostoTerminadoCalculadoAPartirDeAsEnum = _CostoTerminadoCalculadoAPartirDe;
+            vResult.CodigoMonedaCostoProduccion = _CodigoMonedaCostoProduccion;
+            vResult.CambioCostoProduccion = _CambioCostoProduccion;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -260,13 +303,13 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nAjusta por Cierre = " + _AjustadaPostCierre +
                "\nObservación = " + _Observacion +
                "\nMotivo de Anulación = " + _MotivoDeAnulacion +
+               "\nCosto Terminado Calculado A Partir De = " + _CostoTerminadoCalculadoAPartirDe.ToString() +
+               "\nCódigo Moneda Para El Costo = " + _CodigoMonedaCostoProduccion +
+               "\nCambio Costo Produccion = " + _CambioCostoProduccion.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
         #endregion //Metodos Generados
-
-
     } //End of class OrdenDeProduccion
-
 } //End of namespace Galac.Adm.Ccl.GestionProduccion
 

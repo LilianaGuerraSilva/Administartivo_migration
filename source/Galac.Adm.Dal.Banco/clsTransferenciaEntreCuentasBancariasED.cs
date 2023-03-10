@@ -45,22 +45,22 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("NumeroDocumento" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT nnTraEntCueBanNumeroDocu NOT NULL, ");
 			SQL.AppendLine("Descripcion" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT nnTraEntCueBanDescripcio NOT NULL, ");
 			SQL.AppendLine("FechaDeAnulacion" + InsSql.DateTypeForDb() + " CONSTRAINT d_TraEntCueBanFeDeAn DEFAULT (''), ");
-			SQL.AppendLine("CodigoCuentaBancariaOrigen" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT nnTraEntCueBanCtaOrigen NOT NULL, ");
+            SQL.AppendLine("CodigoCuentaBancariaOrigen" + InsSql.VarCharTypeForDb(8) + " CONSTRAINT nnTraEntCueBanCodigoCuen NOT NULL, ");
 			SQL.AppendLine("CambioABolivaresEgreso" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_TraEntCueBanCaABEg DEFAULT (1), ");
 			SQL.AppendLine("MontoTransferenciaEgreso" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnTraEntCueBanMtoEgreso NOT NULL, ");
 			SQL.AppendLine("CodigoConceptoEgreso" + InsSql.VarCharTypeForDb(8) + " CONSTRAINT nnTraEntCueBanConcEgreso NOT NULL, ");
 			SQL.AppendLine("GeneraComisionEgreso" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnTraEntCueBanGenComiEgr NOT NULL, ");
 			SQL.AppendLine("MontoComisionEgreso" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_TraEntCueBanMtoCoEgr DEFAULT (0), ");
 			SQL.AppendLine("CodigoConceptoComisionEgreso" + InsSql.VarCharTypeForDb(8) + " CONSTRAINT nnTraEntCueBanConcCoEgr NOT NULL, ");
-			SQL.AppendLine("GeneraImpuestoBancarioEgreso" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnTraEntCueBanGenImpEgr NOT NULL, ");
-			SQL.AppendLine("CodigoCuentaBancariaDestino" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT nnTraEntCueBanCtaDestino NOT NULL, ");
+            SQL.AppendLine("GeneraIGTFComisionEgreso" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnTraEntCueBanGeneraIGTF NOT NULL, ");
+            SQL.AppendLine("CodigoCuentaBancariaDestino" + InsSql.VarCharTypeForDb(8) + " CONSTRAINT d_TraEntCueBanCoCuBaDe DEFAULT (''), ");
 			SQL.AppendLine("CambioABolivaresIngreso" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_TraEntCueBanCaABIn DEFAULT (1), ");
 			SQL.AppendLine("MontoTransferenciaIngreso" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnTraEntCueBanMtoIngreso NOT NULL, ");
 			SQL.AppendLine("CodigoConceptoIngreso" + InsSql.VarCharTypeForDb(8) + " CONSTRAINT nnTraEntCueBanConcIngreso NOT NULL, ");
 			SQL.AppendLine("GeneraComisionIngreso" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnTraEntCueBanGenComiIng NOT NULL, ");
 			SQL.AppendLine("MontoComisionIngreso" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_TraEntCueBanMtoCoIng DEFAULT (0), ");
 			SQL.AppendLine("CodigoConceptoComisionIngreso" + InsSql.VarCharTypeForDb(8) + " CONSTRAINT nnTraEntCueBanConcCoIng NOT NULL, ");
-			SQL.AppendLine("GeneraImpuestoBancarioIngreso" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnTraEntCueBanGenImpIng NOT NULL, ");
+            SQL.AppendLine("GeneraIGTFComisionIngreso" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnTraEntCueBanGeneraIGTF NOT NULL, ");
 			SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
 			SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
 			SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -75,9 +75,9 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("SELECT TransferenciaEntreCuentasBancarias.ConsecutivoCompania, TransferenciaEntreCuentasBancarias.Consecutivo, TransferenciaEntreCuentasBancarias.Status, " + DbSchema + ".Gv_EnumStatusTransferenciaBancaria.StrValue AS StatusStr, TransferenciaEntreCuentasBancarias.Fecha");
 			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.NumeroDocumento, TransferenciaEntreCuentasBancarias.Descripcion, TransferenciaEntreCuentasBancarias.FechaDeAnulacion, TransferenciaEntreCuentasBancarias.CodigoCuentaBancariaOrigen");
 			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.CambioABolivaresEgreso, TransferenciaEntreCuentasBancarias.MontoTransferenciaEgreso, TransferenciaEntreCuentasBancarias.CodigoConceptoEgreso, TransferenciaEntreCuentasBancarias.GeneraComisionEgreso");
-			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.MontoComisionEgreso, TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, TransferenciaEntreCuentasBancarias.GeneraImpuestoBancarioEgreso");
+			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.MontoComisionEgreso, TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, TransferenciaEntreCuentasBancarias.GeneraIGTFComisionEgreso");
 			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.CodigoCuentaBancariaDestino, TransferenciaEntreCuentasBancarias.CambioABolivaresIngreso, TransferenciaEntreCuentasBancarias.MontoTransferenciaIngreso, TransferenciaEntreCuentasBancarias.CodigoConceptoIngreso");
-			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.GeneraComisionIngreso, TransferenciaEntreCuentasBancarias.MontoComisionIngreso, TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, TransferenciaEntreCuentasBancarias.GeneraImpuestoBancarioIngreso");
+			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.GeneraComisionIngreso, TransferenciaEntreCuentasBancarias.MontoComisionIngreso, TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, TransferenciaEntreCuentasBancarias.GeneraIGTFComisionIngreso");
 			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.NombreOperador, TransferenciaEntreCuentasBancarias.FechaUltimaModificacion");
 			SQL.AppendLine(", TransferenciaEntreCuentasBancarias.fldTimeStamp, CAST(TransferenciaEntreCuentasBancarias.fldTimeStamp AS bigint) AS fldTimeStampBigint");
 			SQL.AppendLine("FROM " + DbSchema + ".TransferenciaEntreCuentasBancarias");
@@ -97,22 +97,22 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("@NumeroDocumento" + InsSql.VarCharTypeForDb(20) + " = '',");
 			SQL.AppendLine("@Descripcion" + InsSql.VarCharTypeForDb(255) + " = '',");
 			SQL.AppendLine("@FechaDeAnulacion" + InsSql.DateTypeForDb() + " = '01/01/1900',");
-			SQL.AppendLine("@CodigoCuentaBancariaOrigen" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@CodigoCuentaBancariaOrigen" + InsSql.VarCharTypeForDb(8) + ",");
 			SQL.AppendLine("@CambioABolivaresEgreso" + InsSql.DecimalTypeForDb(25, 4) + " = 1,");
 			SQL.AppendLine("@MontoTransferenciaEgreso" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
 			SQL.AppendLine("@CodigoConceptoEgreso" + InsSql.VarCharTypeForDb(8) + ",");
 			SQL.AppendLine("@GeneraComisionEgreso" + InsSql.CharTypeForDb(1) + " = 'N',");
 			SQL.AppendLine("@MontoComisionEgreso" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
 			SQL.AppendLine("@CodigoConceptoComisionEgreso" + InsSql.VarCharTypeForDb(8) + ",");
-			SQL.AppendLine("@GeneraImpuestoBancarioEgreso" + InsSql.CharTypeForDb(1) + " = 'N',");
-			SQL.AppendLine("@CodigoCuentaBancariaDestino" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@GeneraIGTFComisionEgreso" + InsSql.CharTypeForDb(1) + " = 'N',");
+            SQL.AppendLine("@CodigoCuentaBancariaDestino" + InsSql.VarCharTypeForDb(8) + ",");
 			SQL.AppendLine("@CambioABolivaresIngreso" + InsSql.DecimalTypeForDb(25, 4) + " = 1,");
 			SQL.AppendLine("@MontoTransferenciaIngreso" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
 			SQL.AppendLine("@CodigoConceptoIngreso" + InsSql.VarCharTypeForDb(8) + ",");
 			SQL.AppendLine("@GeneraComisionIngreso" + InsSql.CharTypeForDb(1) + " = 'N',");
 			SQL.AppendLine("@MontoComisionIngreso" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
 			SQL.AppendLine("@CodigoConceptoComisionIngreso" + InsSql.VarCharTypeForDb(8) + ",");
-			SQL.AppendLine("@GeneraImpuestoBancarioIngreso" + InsSql.CharTypeForDb(1) + " = 'N',");
+            SQL.AppendLine("@GeneraIGTFComisionIngreso" + InsSql.CharTypeForDb(1) + " = 'N',");
 			SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
 			SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
 			return SQL.ToString();
@@ -142,7 +142,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("            GeneraComisionEgreso,");
 			SQL.AppendLine("            MontoComisionEgreso,");
 			SQL.AppendLine("            CodigoConceptoComisionEgreso,");
-			SQL.AppendLine("            GeneraImpuestoBancarioEgreso,");
+			SQL.AppendLine("            GeneraIGTFComisionEgreso,");
 			SQL.AppendLine("            CodigoCuentaBancariaDestino,");
 			SQL.AppendLine("            CambioABolivaresIngreso,");
 			SQL.AppendLine("            MontoTransferenciaIngreso,");
@@ -150,7 +150,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("            GeneraComisionIngreso,");
 			SQL.AppendLine("            MontoComisionIngreso,");
 			SQL.AppendLine("            CodigoConceptoComisionIngreso,");
-			SQL.AppendLine("            GeneraImpuestoBancarioIngreso,");
+			SQL.AppendLine("            GeneraIGTFComisionIngreso,");
 			SQL.AppendLine("            NombreOperador,");
 			SQL.AppendLine("            FechaUltimaModificacion)");
 			SQL.AppendLine("            VALUES(");
@@ -168,7 +168,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("            @GeneraComisionEgreso,");
 			SQL.AppendLine("            @MontoComisionEgreso,");
 			SQL.AppendLine("            @CodigoConceptoComisionEgreso,");
-			SQL.AppendLine("            @GeneraImpuestoBancarioEgreso,");
+			SQL.AppendLine("            @GeneraIGTFComisionEgreso,");
 			SQL.AppendLine("            @CodigoCuentaBancariaDestino,");
 			SQL.AppendLine("            @CambioABolivaresIngreso,");
 			SQL.AppendLine("            @MontoTransferenciaIngreso,");
@@ -176,7 +176,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("            @GeneraComisionIngreso,");
 			SQL.AppendLine("            @MontoComisionIngreso,");
 			SQL.AppendLine("            @CodigoConceptoComisionIngreso,");
-			SQL.AppendLine("            @GeneraImpuestoBancarioIngreso,");
+			SQL.AppendLine("            @GeneraIGTFComisionIngreso,");
 			SQL.AppendLine("            @NombreOperador,");
 			SQL.AppendLine("            @FechaUltimaModificacion)");
 			SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -199,22 +199,22 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("@NumeroDocumento" + InsSql.VarCharTypeForDb(20) + ",");
 			SQL.AppendLine("@Descripcion" + InsSql.VarCharTypeForDb(255) + ",");
 			SQL.AppendLine("@FechaDeAnulacion" + InsSql.DateTypeForDb() + ",");
-			SQL.AppendLine("@CodigoCuentaBancariaOrigen" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@CodigoCuentaBancariaOrigen" + InsSql.VarCharTypeForDb(8) + ",");
 			SQL.AppendLine("@CambioABolivaresEgreso" + InsSql.DecimalTypeForDb(25, 4) + ",");
 			SQL.AppendLine("@MontoTransferenciaEgreso" + InsSql.DecimalTypeForDb(25, 4) + ",");
 			SQL.AppendLine("@CodigoConceptoEgreso" + InsSql.VarCharTypeForDb(8) + ",");
 			SQL.AppendLine("@GeneraComisionEgreso" + InsSql.CharTypeForDb(1) + ",");
 			SQL.AppendLine("@MontoComisionEgreso" + InsSql.DecimalTypeForDb(25, 4) + ",");
 			SQL.AppendLine("@CodigoConceptoComisionEgreso" + InsSql.VarCharTypeForDb(8) + ",");
-			SQL.AppendLine("@GeneraImpuestoBancarioEgreso" + InsSql.CharTypeForDb(1) + ",");
-			SQL.AppendLine("@CodigoCuentaBancariaDestino" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@GeneraIGTFComisionEgreso" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@CodigoCuentaBancariaDestino" + InsSql.VarCharTypeForDb(8) + ",");
 			SQL.AppendLine("@CambioABolivaresIngreso" + InsSql.DecimalTypeForDb(25, 4) + ",");
 			SQL.AppendLine("@MontoTransferenciaIngreso" + InsSql.DecimalTypeForDb(25, 4) + ",");
 			SQL.AppendLine("@CodigoConceptoIngreso" + InsSql.VarCharTypeForDb(8) + ",");
 			SQL.AppendLine("@GeneraComisionIngreso" + InsSql.CharTypeForDb(1) + ",");
 			SQL.AppendLine("@MontoComisionIngreso" + InsSql.DecimalTypeForDb(25, 4) + ",");
 			SQL.AppendLine("@CodigoConceptoComisionIngreso" + InsSql.VarCharTypeForDb(8) + ",");
-			SQL.AppendLine("@GeneraImpuestoBancarioIngreso" + InsSql.CharTypeForDb(1) + ",");
+            SQL.AppendLine("@GeneraIGTFComisionIngreso" + InsSql.CharTypeForDb(1) + ",");
 			SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
 			SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
 			SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -254,7 +254,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("               GeneraComisionEgreso = @GeneraComisionEgreso,");
 			SQL.AppendLine("               MontoComisionEgreso = @MontoComisionEgreso,");
 			SQL.AppendLine("               CodigoConceptoComisionEgreso = @CodigoConceptoComisionEgreso,");
-			SQL.AppendLine("               GeneraImpuestoBancarioEgreso = @GeneraImpuestoBancarioEgreso,");
+            SQL.AppendLine("               GeneraIGTFComisionEgreso = @GeneraIGTFComisionEgreso,");
 			SQL.AppendLine("               CodigoCuentaBancariaDestino = @CodigoCuentaBancariaDestino,");
 			SQL.AppendLine("               CambioABolivaresIngreso = @CambioABolivaresIngreso,");
 			SQL.AppendLine("               MontoTransferenciaIngreso = @MontoTransferenciaIngreso,");
@@ -262,7 +262,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("               GeneraComisionIngreso = @GeneraComisionIngreso,");
 			SQL.AppendLine("               MontoComisionIngreso = @MontoComisionIngreso,");
 			SQL.AppendLine("               CodigoConceptoComisionIngreso = @CodigoConceptoComisionIngreso,");
-			SQL.AppendLine("               GeneraImpuestoBancarioIngreso = @GeneraImpuestoBancarioIngreso,");
+            SQL.AppendLine("               GeneraIGTFComisionIngreso = @GeneraIGTFComisionIngreso,");
 			SQL.AppendLine("               NombreOperador = @NombreOperador,");
 			SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
 			SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -388,7 +388,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.MontoComisionEgreso,");
 			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso,");
 			SQL.AppendLine("         ISNULL(ConceptoBCoEgreso.Descripcion,'') AS DescripcionConceptoComisionEgreso,");
-			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.GeneraImpuestoBancarioEgreso,");
+            SQL.AppendLine("         TransferenciaEntreCuentasBancarias.GeneraIGTFComisionEgreso,");
 			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.CodigoCuentaBancariaDestino,");
 			SQL.AppendLine("         CuentaBDestino.NombreCuenta AS NombreCuentaBancariaDestino,");
 			SQL.AppendLine("         CuentaBDestino.SaldoDisponible AS SaldoCuentaBancariaDestino,");
@@ -403,7 +403,7 @@ namespace Galac.Adm.Dal.Banco {
 			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.MontoComisionIngreso,");
 			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso,");
 			SQL.AppendLine("         ISNULL(ConceptoBCoIngreso.Descripcion,'') AS DescripcionConceptoComisionIngreso,");
-			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.GeneraImpuestoBancarioIngreso,");
+            SQL.AppendLine("         TransferenciaEntreCuentasBancarias.GeneraIGTFComisionIngreso,");
 			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.NombreOperador,");
 			SQL.AppendLine("         TransferenciaEntreCuentasBancarias.FechaUltimaModificacion,");
 			SQL.AppendLine("         CAST(TransferenciaEntreCuentasBancarias.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
@@ -527,6 +527,7 @@ namespace Galac.Adm.Dal.Banco {
 			vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasGET", SqlSpGetParameters(), SqlSpGet(), true) && vResult;
 			vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasSCH", SqlSpSearchParameters(), SqlSpSearch(), true) && vResult;
 			vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasGetFk", SqlSpGetFKParameters(), SqlSpGetFK(), true) && vResult;
+			vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasContaSCH", SqlSpContabSchParameters(), SqlSpContabSch(), true) && vResult;
 			insSps.Dispose();
 			return vResult;
 		}
@@ -552,20 +553,89 @@ namespace Galac.Adm.Dal.Banco {
 		}
 
 		public bool BorrarVistasYSps() {
-			bool vResult = false;
+			bool vResult;
 			LibStoredProc insSp = new LibStoredProc();
 			LibViews insVista = new LibViews();
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasINS");
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasUPD") && vResult;
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasDEL") && vResult;
-			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasGET") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasContaSCH");
 			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasGetFk") && vResult;
 			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasSCH") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasGET") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasDEL") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasUPD") && vResult;
+			vResult = insSp.Drop(DbSchema + ".Gp_TransferenciaEntreCuentasBancariasINS") && vResult;
 			vResult = insVista.Drop(DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1") && vResult;
 			vResult = insVista.Drop(DbSchema + ".Gv_EnumStatusTransferenciaBancaria") && vResult;
 			insSp.Dispose();
 			insVista.Dispose();
 			return vResult;
+		}
+
+		private string SqlSpContabSchParameters() {
+			StringBuilder SQL = new StringBuilder();
+			SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
+			SQL.AppendLine("@SQLOrderBy" + InsSql.VarCharTypeForDb(500) + " = null,");
+			SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + " = null,");
+			SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
+			return SQL.ToString();
+		}
+
+		private string SqlSpContabSch() {
+			StringBuilder vSQL = new StringBuilder();
+			StringBuilder vSqlComprobantePeriodo = new StringBuilder();
+			string vSqlStdSeparator = InsSql.ToSqlValue(LibGalac.Aos.Base.LibText.StandardSeparator());
+
+			vSqlComprobantePeriodo.AppendLine("      (SELECT Comprobante.NoDocumentoOrigen, COMPROBANTE.GeneradoPor, COMPROBANTE.ConsecutivoDocOrigen, ");
+			vSqlComprobantePeriodo.AppendLine("      Periodo.ConsecutivoCompania, Periodo.FechaAperturaDelPeriodo, Periodo.FechaCierreDelPeriodo  ");
+			vSqlComprobantePeriodo.AppendLine("      FROM COMPROBANTE INNER JOIN PERIODO ");
+			vSqlComprobantePeriodo.AppendLine("          ON  PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo");
+			vSqlComprobantePeriodo.AppendLine("          AND PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo) ");
+	
+			vSQL.AppendLine("BEGIN");
+			vSQL.AppendLine("   SET NOCOUNT ON;");
+			vSQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+			vSQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+			vSQL.AppendLine("   DECLARE @SqlStatusNumero AS " + InsSql.VarCharTypeForDb(500));
+
+			vSQL.AppendLine("   SET @SqlStatusNumero = 'CAST(Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Status AS varchar) + ' + '''' + " + vSqlStdSeparator + " +  '''' +  ' + CAST(Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo AS varchar) '");
+
+			vSQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+			vSQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+			vSQL.AppendLine("   ELSE ");
+			vSQL.AppendLine("    SET @TopClausule = ''");
+			vSQL.AppendLine("   SET @strSQL = ");
+			vSQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+
+			vSQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.StatusStr,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoCuentaBancariaOrigen,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoConceptoEgreso,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoCuentaBancariaDestino,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.CodigoConceptoIngreso,");
+			vSQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo,");
+			vSQL.AppendLine("       " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Status");
+
+			vSQL.AppendLine("      FROM " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1 ");
+			vSQL.AppendLine("      LEFT JOIN " + vSqlComprobantePeriodo + " AS ComprobantePeriodo");
+			vSQL.AppendLine("      ON  " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo = ComprobantePeriodo.ConsecutivoDocOrigen AND ' + @SqlStatusNumero ");
+			vSQL.AppendLine("      + ' = ComprobantePeriodo.NoDocumentoOrigen ");
+			vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('O','''') + '");
+			vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoCompania = " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania");
+			vSQL.AppendLine("      AND ComprobantePeriodo.FechaAperturaDelPeriodo < " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
+			vSQL.AppendLine("      AND ComprobantePeriodo.FechaCierreDelPeriodo   > " + DbSchema + ".Gv_TransferenciaEntreCuentasBancarias_B1.Fecha");
+
+			vSQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+			vSQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere + ' AND ComprobantePeriodo.ConsecutivoDocOrigen IS NULL '  ");
+			vSQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+			vSQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+			vSQL.AppendLine("   EXEC(@strSQL)");
+			vSQL.AppendLine("END");
+
+			return vSQL.ToString();
 		}
 		#endregion //Metodos Generados
 

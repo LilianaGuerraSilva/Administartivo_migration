@@ -24,6 +24,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
         private decimal _CantidadReservadaInventario;
         private decimal _CantidadConsumida;
         private decimal _CostoUnitarioArticuloInventario;
+        private decimal _CostoUnitarioMEArticuloInventario;
         private decimal _MontoSubtotal;
         private bool _AjustadoPostCierre;
         private decimal _CantidadAjustada;
@@ -111,6 +112,11 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             set { _CostoUnitarioArticuloInventario = value; }
         }
 
+        public decimal CostoUnitarioMEArticuloInventario {
+            get { return _CostoUnitarioMEArticuloInventario; }
+            set { _CostoUnitarioMEArticuloInventario = value; }
+        }
+
         public decimal MontoSubtotal {
             get { return _MontoSubtotal; }
             set { _MontoSubtotal = value; }
@@ -165,6 +171,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             CantidadReservadaInventario = 0;
             CantidadConsumida = 0;
             CostoUnitarioArticuloInventario = 0;
+            CostoUnitarioMEArticuloInventario = 0;
             MontoSubtotal = 0;
             AjustadoPostCierreAsBool = false;
             CantidadAjustada = 0;
@@ -186,6 +193,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             vResult.CantidadReservadaInventario = _CantidadReservadaInventario;
             vResult.CantidadConsumida = _CantidadConsumida;
             vResult.CostoUnitarioArticuloInventario = _CostoUnitarioArticuloInventario;
+            vResult.CostoUnitarioMEArticuloInventario = _CostoUnitarioMEArticuloInventario;
             vResult.MontoSubtotal = _MontoSubtotal;
             vResult.AjustadoPostCierreAsBool = _AjustadoPostCierre;
             vResult.CantidadAjustada = _CantidadAjustada;
@@ -203,6 +211,7 @@ namespace Galac.Adm.Ccl.GestionProduccion {
                "\nCantidad Reservada Inventario = " + _CantidadReservadaInventario.ToString() +
                "\nCantidad Consumida = " + _CantidadConsumida.ToString() +
                "\nCosto Unitario Articulo Inventario = " + _CostoUnitarioArticuloInventario.ToString() +
+               "\nCosto Unitario En Moneda Extranjera Articulo Inventario = " + _CostoUnitarioMEArticuloInventario.ToString() +
                "\nMonto Subtotal = " + _MontoSubtotal.ToString() +
                "\nAjusta por Cierre = " + _AjustadoPostCierre +
                "\nCantidad Ajustada = " + _CantidadAjustada.ToString();
@@ -229,7 +238,6 @@ namespace Galac.Adm.Ccl.GestionProduccion {
             }
         }
         #endregion //Metodos Generados
-
 
     } //End of class OrdenDeProduccionDetalleMateriales
 

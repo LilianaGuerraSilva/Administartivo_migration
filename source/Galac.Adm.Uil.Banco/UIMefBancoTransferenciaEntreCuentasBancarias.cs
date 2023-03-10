@@ -11,7 +11,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using Galac.Adm.Uil.Banco.ViewModel;
 
 namespace Galac.Adm.Uil.Banco {
-	[LibMefUilComponentMetadata(typeof(UIMefBancoTransferenciaEntreCuentasBancarias), "Adm")]
+	[LibMefUilComponentMetadata(typeof(UIMefBancoTransferenciaEntreCuentasBancarias), "Bancos")]
 	public class UIMefBancoTransferenciaEntreCuentasBancarias : ILibMefUilComponent {
 		#region Variables
 		private TransferenciaEntreCuentasBancariasMngViewModel _ViewModel;

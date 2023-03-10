@@ -16,9 +16,9 @@ using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.GestionProduccion;
 
 namespace Galac.Adm.Dal.GestionProduccion {
-    public class clsOrdenDeProduccionDetalleMaterialesDat: LibData, ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>> {
+    public class clsOrdenDeProduccionDetalleMaterialesDat : LibData, ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>> {
         #region Variables
-        LibTrn insTrn;
+        LibDataScope insTrn;
         OrdenDeProduccionDetalleMateriales _CurrentRecord;
         #endregion //Variables
         #region Propiedades
@@ -31,9 +31,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
 
         public clsOrdenDeProduccionDetalleMaterialesDat() {
             DbSchema = "Adm";
-            insTrn = new LibTrn();
+            insTrn = new LibDataScope();
         }
-        public clsOrdenDeProduccionDetalleMaterialesDat(LibTrn initTrn) {
+        public clsOrdenDeProduccionDetalleMaterialesDat(LibDataScope initTrn) {
             DbSchema = "Adm";
             insTrn = initTrn;
         }
@@ -67,7 +67,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valRecord.ConsecutivoOrdenDeProduccion);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valRecord.Consecutivo );
+            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valRecord.Consecutivo);
             vParams.AddInXml("XmlDataDetail", ParseToXml(valRecord));
             vResult = vParams.Get();
             return vResult;
@@ -102,8 +102,8 @@ namespace Galac.Adm.Dal.GestionProduccion {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valMaster.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoOrdenDeProduccion", valMaster.ConsecutivoOrdenDeProduccion);
-            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valMaster.Consecutivo );
-            
+            vParams.AddInInteger("ConsecutivoOrdenDeProduccionDetalleArticulo", valMaster.Consecutivo);
+
             vResult = vParams.Get();
             return vResult;
         }
@@ -176,9 +176,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
         }
         #endregion //ILibDataDetailComponent<IList<OrdenDeProduccionDetalleMateriales>, IList<OrdenDeProduccionDetalleMateriales>>
 
-        public bool InsertChild(OrdenDeProduccionDetalleArticulo valRecord, LibTrn insTrn) {
+        public bool InsertChild(OrdenDeProduccionDetalleArticulo valRecord, LibDataScope insTrn) {
             bool vResult = false;
-            vResult = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDetalleMaterialesInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
+            vResult = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "OrdenDeProduccionDetalleMaterialesInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
             return vResult;
         }
         #region Validaciones
@@ -195,7 +195,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidConsecutivoAlmacen(eAccionSR valAction, int valConsecutivoAlmacen){
+        private bool IsValidConsecutivoAlmacen(eAccionSR valAction, int valConsecutivoAlmacen) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -213,13 +213,13 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidCodigoArticulo(eAccionSR valAction, string valCodigoArticulo){
+        private bool IsValidCodigoArticulo(eAccionSR valAction, string valCodigoArticulo) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             valCodigoArticulo = LibString.Trim(valCodigoArticulo);
-            if (LibString.IsNullOrEmpty(valCodigoArticulo , true)) {
+            if (LibString.IsNullOrEmpty(valCodigoArticulo, true)) {
                 BuildValidationInfo(MsgRequiredField("CodigoArticulo"));
                 vResult = false;
             } else {
@@ -232,40 +232,32 @@ namespace Galac.Adm.Dal.GestionProduccion {
             return vResult;
         }
 
-        private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad){
-            bool vResult = true;
+        private bool IsValidCantidad(eAccionSR valAction, decimal valCantidad) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-            return vResult;
         }
 
-        private bool IsValidCantidadReservadaInventario(eAccionSR valAction, decimal valCantidadReservadaInventario){
-            bool vResult = true;
+        private bool IsValidCantidadReservadaInventario(eAccionSR valAction, decimal valCantidadReservadaInventario) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-            return vResult;
         }
 
-        private bool IsValidCantidadConsumida(eAccionSR valAction, decimal valCantidadConsumida){
-            bool vResult = true;
+        private bool IsValidCantidadConsumida(eAccionSR valAction, decimal valCantidadConsumida) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-            return vResult;
         }
 
-        private bool IsValidCantidadAjustada(eAccionSR valAction, decimal valCantidadAjustada){
-            bool vResult = true;
+        private bool IsValidCantidadAjustada(eAccionSR valAction, decimal valCantidadAjustada) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-            return vResult;
         }
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoOrdenDeProduccion, int valConsecutivoOrdenDeProduccionDetalleArticulo, int valConsecutivo) {
@@ -282,7 +274,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
         }
         #endregion //Validaciones
 
-        public bool GetDetailAndAppendToMaster(ref List<OrdenDeProduccionDetalleArticulo>  refMaster) {
+        public bool GetDetailAndAppendToMaster(ref List<OrdenDeProduccionDetalleArticulo> refMaster) {
             bool vResult = false;
             List<OrdenDeProduccionDetalleMateriales> vDetail = null;
             foreach (OrdenDeProduccionDetalleArticulo vItemMaster in refMaster) {

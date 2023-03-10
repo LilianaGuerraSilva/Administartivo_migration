@@ -38,22 +38,22 @@ namespace Galac.Adm.Dal.Banco {
 			vParams.AddInString("NumeroDocumento", valRecord.NumeroDocumento, 20);
 			vParams.AddInString("Descripcion", valRecord.Descripcion, 255);
 			vParams.AddInDateTime("FechaDeAnulacion", valRecord.FechaDeAnulacion);
-			vParams.AddInString("CodigoCuentaBancariaOrigen", valRecord.CodigoCuentaBancariaOrigen, 5);
+            vParams.AddInString("CodigoCuentaBancariaOrigen", valRecord.CodigoCuentaBancariaOrigen, 8);
 			vParams.AddInDecimal("CambioABolivaresEgreso", valRecord.CambioABolivaresEgreso, 4);
 			vParams.AddInDecimal("MontoTransferenciaEgreso", valRecord.MontoTransferenciaEgreso, 2);
 			vParams.AddInString("CodigoConceptoEgreso", valRecord.CodigoConceptoEgreso, 8);
 			vParams.AddInBoolean("GeneraComisionEgreso", valRecord.GeneraComisionEgresoAsBool);
 			vParams.AddInDecimal("MontoComisionEgreso", valRecord.MontoComisionEgreso, 2);
 			vParams.AddInString("CodigoConceptoComisionEgreso", valRecord.CodigoConceptoComisionEgreso, 8);
-			vParams.AddInBoolean("GeneraImpuestoBancarioEgreso", valRecord.GeneraImpuestoBancarioEgresoAsBool);
-			vParams.AddInString("CodigoCuentaBancariaDestino", valRecord.CodigoCuentaBancariaDestino, 5);
+            vParams.AddInBoolean("GeneraIGTFComisionEgreso", valRecord.GeneraIGTFComisionEgresoAsBool);
+            vParams.AddInString("CodigoCuentaBancariaDestino", valRecord.CodigoCuentaBancariaDestino, 8);
 			vParams.AddInDecimal("CambioABolivaresIngreso", valRecord.CambioABolivaresIngreso, 4);
 			vParams.AddInDecimal("MontoTransferenciaIngreso", valRecord.MontoTransferenciaIngreso, 2);
 			vParams.AddInString("CodigoConceptoIngreso", valRecord.CodigoConceptoIngreso, 8);
 			vParams.AddInBoolean("GeneraComisionIngreso", valRecord.GeneraComisionIngresoAsBool);
 			vParams.AddInDecimal("MontoComisionIngreso", valRecord.MontoComisionIngreso, 2);
 			vParams.AddInString("CodigoConceptoComisionIngreso", valRecord.CodigoConceptoComisionIngreso, 8);
-			vParams.AddInBoolean("GeneraImpuestoBancarioIngreso", valRecord.GeneraImpuestoBancarioIngresoAsBool);
+            vParams.AddInBoolean("GeneraIGTFComisionIngreso", valRecord.GeneraIGTFComisionIngresoAsBool);
 			vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
 			vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
 			if (valAction == eAccionSR.Modificar) {
@@ -91,15 +91,15 @@ namespace Galac.Adm.Dal.Banco {
 					vResult.Success = true;
 				}
 			} else if (valAction == eAccionSR.Anular) {
-				if (insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord[0], valIsOrigen: true).Get()) ||
-					insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord[0], valIsOrigen: false).Get()) ||
+				if (insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord[0].ConsecutivoCompania, refRecord[0].CodigoCuentaBancariaOrigen, refRecord[0].CodigoCuentaBancariaDestino, refRecord[0].FechaDeAnulacion, valIsOrigen: true).Get()) ||
+					insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord[0].ConsecutivoCompania, refRecord[0].CodigoCuentaBancariaOrigen, refRecord[0].CodigoCuentaBancariaDestino, refRecord[0].FechaDeAnulacion, valIsOrigen: false).Get()) ||
 					insDB.ExistsRecord("dbo.MovimientoBancario", "ConsecutivoCompania", SqlConciliacionCerradaEnMovimientosBancariosParametros(refRecord[0]).Get())) {
 					vSbInfo.AppendLine("- Los Movimientos Bancarios están conciliados.");
 				}
-				if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaModuloDeContabilidad"))) {
-					if (insDB.RecordCountOfSql(SqlFechaPerteneceAPeriodoCerrado(refRecord[0])) > 0) {
+				if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "UsaModuloDeContabilidad"))) {
+					if (insDB.RecordCountOfSql(SqlFechaPerteneceAPeriodoCerrado(refRecord[0].ConsecutivoCompania, refRecord[0].FechaDeAnulacion)) > 0) {
 						vSbInfo.AppendLine("- El Período Contable está cerrado.");
-					} else if (insDB.RecordCountOfSql(SqlFechaPerteneceAMesCerrado(refRecord[0])) > 0) {
+					} else if (insDB.RecordCountOfSql(SqlFechaPerteneceAMesCerrado(refRecord[0].ConsecutivoCompania, refRecord[0].FechaDeAnulacion)) > 0) {
 						vSbInfo.AppendLine("- El Mes Contable está cerrado.");
 					}
 				}
@@ -187,13 +187,12 @@ namespace Galac.Adm.Dal.Banco {
 			return vResult;
 		}
 
-		[PrincipalPermission(SecurityAction.Demand, Role = "Transferencia entre Cuentas.Modificar")]
 		[PrincipalPermission(SecurityAction.Demand, Role = "Transferencia entre Cuentas.Anular")]
 		LibResponse ILibDataComponent<IList<TransferenciaEntreCuentasBancarias>, IList<TransferenciaEntreCuentasBancarias>>.Update(IList<TransferenciaEntreCuentasBancarias> refRecord) {
 			LibResponse vResult = new LibResponse();
 			CurrentRecord = refRecord[0];
 			if (ExecuteProcessBeforeUpdate()) {
-				if (Validate(eAccionSR.Modificar, out string vErrMsg)) {
+				if (Validate(eAccionSR.Anular, out string vErrMsg)) {
 					LibDatabase insDb = new LibDatabase();
 					vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "TransferenciaEntreCuentasBancariasUPD"), ParametrosActualizacion(CurrentRecord, eAccionSR.Modificar));
 					insDb.Dispose();
@@ -228,6 +227,7 @@ namespace Galac.Adm.Dal.Banco {
 			bool vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania);
 			vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
 			vResult = IsValidFecha(valAction, CurrentRecord.Fecha) && vResult;
+			vResult = IsValidFechaParaConciliacionYPeriodoContable(valAction, CurrentRecord) && vResult;
 			vResult = IsValidNumeroDocumento(valAction, CurrentRecord.NumeroDocumento) && vResult;
 			vResult = IsValidDescripcion(valAction, CurrentRecord.Descripcion) && vResult;
 			vResult = IsValidCodigoCuentaBancariaOrigen(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.CodigoCuentaBancariaOrigen) && vResult;
@@ -242,11 +242,12 @@ namespace Galac.Adm.Dal.Banco {
 			vResult = IsValidCodigoConceptoIngreso(valAction, CurrentRecord.CodigoConceptoIngreso) && vResult;
 			vResult = IsValidMontoComisionIngreso(valAction, CurrentRecord.MontoComisionIngreso, CurrentRecord.GeneraComisionIngresoAsBool) && vResult;
 			vResult = IsValidCodigoConceptoComisionIngreso(valAction, CurrentRecord.CodigoConceptoComisionIngreso, CurrentRecord.GeneraComisionIngresoAsBool) && vResult;
-			vResult = IsValidConceptoImpuestoBancarioEgreso(valAction, CurrentRecord.GeneraImpuestoBancarioEgresoAsBool) && vResult;
-			vResult = IsValidConceptoImpuestoBancarioIngreso(valAction, CurrentRecord.GeneraImpuestoBancarioIngresoAsBool) && vResult;
+			vResult = IsValidConceptoImpuestoBancarioEgreso(valAction, CurrentRecord.GeneraIGTFComisionEgresoAsBool) && vResult;
+			vResult = IsValidConceptoImpuestoBancarioIngreso(valAction, CurrentRecord.GeneraIGTFComisionIngresoAsBool) && vResult;
 			vResult = IsValidCuentasBancariasDiferentes(valAction, CurrentRecord.CodigoCuentaBancariaOrigen, CurrentRecord.CodigoCuentaBancariaDestino) && vResult;
 			vResult = IsValidMontosConMonedasIguales(valAction, CurrentRecord) & vResult;
-			vResult = IsValidFechaParaConciliacionYPeriodoContable(valAction, CurrentRecord) && vResult;
+			vResult = IsValidFechaDeAnulacion(valAction, CurrentRecord.FechaDeAnulacion) && vResult;
+			vResult = IsValidFechaDeAnulacionParaConciliacionYPeriodoContable(valAction, CurrentRecord) && vResult;
 			outErrorMessage = Information.ToString();
 			return vResult;
 		}
@@ -492,24 +493,24 @@ namespace Galac.Adm.Dal.Banco {
 			return vResult;
 		}
 
-		private bool IsValidConceptoImpuestoBancarioEgreso(eAccionSR valAction, bool valGeneraImpuestoBancarioEgreso) {
+		private bool IsValidConceptoImpuestoBancarioEgreso(eAccionSR valAction, bool valGeneraIGTFComisionEgreso) {
 			bool vResult = true;
 			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
 				return true;
 			}
-			if (valGeneraImpuestoBancarioEgreso && LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoDebitoBancario"), true)) {
+			if (valGeneraIGTFComisionEgreso && LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoDebitoBancario"), true)) {
 				BuildValidationInfo(MsgRequiredField("Concepto Débito Bancario") + " Debe configurarse desde Parámetros");
 				vResult = false;
 			}
 			return vResult;
 		}
 
-		private bool IsValidConceptoImpuestoBancarioIngreso(eAccionSR valAction, bool valGeneraImpuestoBancarioIngreso) {
+		private bool IsValidConceptoImpuestoBancarioIngreso(eAccionSR valAction, bool valGeneraIGTFComisionIngreso) {
 			bool vResult = true;
 			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Anular)) {
 				return true;
 			}
-			if (valGeneraImpuestoBancarioIngreso && LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"), true)) {
+			if (valGeneraIGTFComisionIngreso && LibString.IsNullOrEmpty(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"), true)) {
 				BuildValidationInfo(MsgRequiredField("Concepto Crédito Bancario") + " Debe configurarse desde Parámetros");
 				vResult = false;
 			}
@@ -551,23 +552,24 @@ namespace Galac.Adm.Dal.Banco {
 				return true;
 			}
 			LibDatabase insDB = new LibDatabase();
-			if (insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord, valIsOrigen: true).Get())) {
+			if (insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord.ConsecutivoCompania, refRecord.CodigoCuentaBancariaOrigen, refRecord.CodigoCuentaBancariaDestino, refRecord.Fecha, valIsOrigen: true).Get())) {
 				BuildValidationInfo("La Fecha no puede pertenecer a una Conciliación Cerrada para la Cuenta Bancaria Origen.");
 				vResult = false;
 			}
-			if (insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord, valIsOrigen: false).Get())) {
+			if (insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord.ConsecutivoCompania, refRecord.CodigoCuentaBancariaOrigen, refRecord.CodigoCuentaBancariaDestino, refRecord.Fecha, valIsOrigen: false).Get())) {
 				BuildValidationInfo("La Fecha no puede pertenecer a una Conciliación Cerrada para la Cuenta Bancaria Destino.");
 				vResult = false;
 			}
-			if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaModuloDeContabilidad"))) {
-				if (insDB.RecordCountOfSql(SqlFechaPerteneceAPeriodoCerrado(refRecord)) > 0) {
+			if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "UsaModuloDeContabilidad"))) {
+				if (insDB.RecordCountOfSql(SqlFechaPerteneceAPeriodoCerrado(refRecord.ConsecutivoCompania, refRecord.Fecha)) > 0) {
 					BuildValidationInfo("La Fecha no puede pertenecer a un Período Contable Cerrado.");
 					vResult = false;
-				} else if (insDB.RecordCountOfSql(SqlFechaPerteneceAMesCerrado(refRecord)) > 0) {
+				} else if (insDB.RecordCountOfSql(SqlFechaPerteneceAMesCerrado(refRecord.ConsecutivoCompania, refRecord.Fecha)) > 0) {
 					BuildValidationInfo("La Fecha no puede pertenecer a un Mes Contable Cerrado.");
 					vResult = false;
 				}
 			}
+
 			insDB.Dispose();
 			return vResult;
 		}
@@ -589,6 +591,33 @@ namespace Galac.Adm.Dal.Banco {
 			insDb.Dispose();
 			return vResult;
 		}
+
+		private bool IsValidFechaDeAnulacionParaConciliacionYPeriodoContable(eAccionSR valAction, TransferenciaEntreCuentasBancarias refRecord) {
+			bool vResult = true;
+			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Insertar)) {
+				return true;
+			}
+			LibDatabase insDB = new LibDatabase();
+			if (insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord.ConsecutivoCompania, refRecord.CodigoCuentaBancariaOrigen, refRecord.CodigoCuentaBancariaDestino, refRecord.FechaDeAnulacion, valIsOrigen: true).Get())) {
+				BuildValidationInfo("La Fecha de la Anulación no puede pertenecer a una Conciliación Cerrada para la Cuenta Bancaria Origen.");
+				vResult = false;
+			}
+			if (insDB.ExistsRecord("dbo.Conciliacion", "ConsecutivoCompania", SqlFechaPerteneceAConciliacionCerradaParametros(refRecord.ConsecutivoCompania, refRecord.CodigoCuentaBancariaOrigen, refRecord.CodigoCuentaBancariaDestino, refRecord.FechaDeAnulacion, valIsOrigen: false).Get())) {
+				BuildValidationInfo("La Fecha de la Anulación no puede pertenecer a una Conciliación Cerrada para la Cuenta Bancaria Destino.");
+				vResult = false;
+			}
+			if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "UsaModuloDeContabilidad"))) {
+				if (insDB.RecordCountOfSql(SqlFechaPerteneceAPeriodoCerrado(refRecord.ConsecutivoCompania, refRecord.FechaDeAnulacion)) > 0) {
+					BuildValidationInfo("La Fecha de Anulación no puede pertenecer a un Período Contable Cerrado.");
+					vResult = false;
+				} else if (insDB.RecordCountOfSql(SqlFechaPerteneceAMesCerrado(refRecord.ConsecutivoCompania, refRecord.FechaDeAnulacion)) > 0) {
+					BuildValidationInfo("La Fecha de Anulación no puede pertenecer a un Mes Contable Cerrado.");
+					vResult = false;
+				}
+			}
+			insDB.Dispose();
+			return vResult;
+		}
 		#endregion //Validaciones
 
 		#region Miembros de ILibDataFKSearch
@@ -598,6 +627,21 @@ namespace Galac.Adm.Dal.Banco {
 			refResulset = insDb.LoadForConnect(valProcessMessage, valXmlParamsExpression, CmdTimeOut);
 			if (refResulset != null && refResulset.DocumentElement != null && refResulset.DocumentElement.HasChildNodes) {
 				vResult = true;
+			}
+			return vResult;
+		}
+
+		private bool IsValidFechaDeAnulacion(eAccionSR valAction, DateTime valFecha) {
+			bool vResult = true;
+			if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar) || (valAction == eAccionSR.Insertar)) {
+				return true;
+			}
+			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFecha, false, valAction)) {
+				BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
+				vResult = false;
+			} else if (LibDate.DateIsGreaterThanToday(valFecha, false, string.Empty)) {
+				BuildValidationInfo(LibDate.MsgDateIsGreaterThanToday("Fecha de Anulación"));
+				vResult = false;
 			}
 			return vResult;
 		}
@@ -618,12 +662,12 @@ namespace Galac.Adm.Dal.Banco {
 			return "El campo " + valCampo + " no existe o es de un tipo inadecuado (Debe ser " + valTipo.GetDescription() + ").";
 		}
 
-		private LibGpParams SqlFechaPerteneceAConciliacionCerradaParametros(TransferenciaEntreCuentasBancarias refRecord, bool valIsOrigen) {
+		private LibGpParams SqlFechaPerteneceAConciliacionCerradaParametros(int valConsecutivoCompania, string valCodigoCuentaBancariaOrigen, string valCodigoCuentaBancariaDestino, DateTime valFechaAValidar, bool valIsOrigen) {
 			LibGpParams dbParam = new LibGpParams();
-			dbParam.AddInInteger("ConsecutivoCompania", refRecord.ConsecutivoCompania);
-			dbParam.AddInString("CodigoCuenta", valIsOrigen ? refRecord.CodigoCuentaBancariaOrigen : refRecord.CodigoCuentaBancariaDestino, 5);
-			dbParam.AddInInteger("MesDeAplicacion", refRecord.Fecha.Month);
-			dbParam.AddInInteger("AnoDeAplicacion", refRecord.Fecha.Year);
+			dbParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+			dbParam.AddInString("CodigoCuenta", valIsOrigen ? valCodigoCuentaBancariaOrigen : valCodigoCuentaBancariaDestino, 5);
+			dbParam.AddInInteger("MesDeAplicacion", valFechaAValidar.Month);
+			dbParam.AddInInteger("AnoDeAplicacion", valFechaAValidar.Year);
 			dbParam.AddInEnum("Status", (int) eStatusConciliacion.Cerrada);
 			return dbParam;
 		}
@@ -637,7 +681,7 @@ namespace Galac.Adm.Dal.Banco {
 			return dbParam;
 		}
 
-		private string SqlFechaPerteneceAPeriodoCerrado(TransferenciaEntreCuentasBancarias refRecord) {
+		private string SqlFechaPerteneceAPeriodoCerrado(int valConsecutivoCompania, DateTime valFechaAValidar) {
 			QAdvSql vSqlUtil = new QAdvSql("");
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "";
@@ -645,9 +689,9 @@ namespace Galac.Adm.Dal.Banco {
 			vSql.AppendLine("SELECT ConsecutivoPeriodo");
 			vSql.AppendLine("FROM dbo.PERIODO");
 
-			vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "ConsecutivoCompania", refRecord.ConsecutivoCompania);
-			vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "FechaAperturaDelPeriodo", refRecord.Fecha, vSqlUtil.CurrentDateFormat, "AND", "<=");
-			vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "FechaCierreDelPeriodo", refRecord.Fecha, vSqlUtil.CurrentDateFormat, "AND", ">=");
+			vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "ConsecutivoCompania", valConsecutivoCompania);
+			vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "FechaAperturaDelPeriodo", valFechaAValidar, vSqlUtil.CurrentDateFormat, "AND", "<=");
+			vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "FechaCierreDelPeriodo", valFechaAValidar, vSqlUtil.CurrentDateFormat, "AND", ">=");
 			vSQLWhere = vSqlUtil.SqlBoolValueWithAnd(vSQLWhere, "PeriodoCerrado", true);
 			vSQLWhere = vSqlUtil.WhereSql(vSQLWhere);
 			vSql.AppendLine(vSQLWhere);
@@ -655,7 +699,7 @@ namespace Galac.Adm.Dal.Banco {
 			return vSql.ToString();
 		}
 
-		private string SqlFechaPerteneceAMesCerrado(TransferenciaEntreCuentasBancarias refRecord) {
+		private string SqlFechaPerteneceAMesCerrado(int valConsecutivoCompania, DateTime valFechaAValidar) {
 			QAdvSql vSqlUtil = new QAdvSql("");
 			StringBuilder vSql = new StringBuilder();
 			string vSQLWhere = "", vSQLWhereMeses = "", vSQLWhereParaMes;
@@ -663,16 +707,16 @@ namespace Galac.Adm.Dal.Banco {
 			vSql.AppendLine("SELECT ConsecutivoPeriodo");
 			vSql.AppendLine("FROM dbo.PERIODO");
 
-			vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "ConsecutivoCompania", refRecord.ConsecutivoCompania);
+			vSQLWhere = vSqlUtil.SqlIntValueWithAnd(vSQLWhere, "ConsecutivoCompania", valConsecutivoCompania);
 			vSQLWhere = vSqlUtil.SqlBoolValueWithAnd(vSQLWhere, "UsaCierreDeMes", true);
 			vSQLWhere = vSqlUtil.SqlBoolValueWithAnd(vSQLWhere, "PeriodoCerrado", false);
-			vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "FechaAperturaDelPeriodo", refRecord.Fecha, vSqlUtil.CurrentDateFormat, "AND", "<=");
-			vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "FechaCierreDelPeriodo", refRecord.Fecha, vSqlUtil.CurrentDateFormat, "AND", ">");
+			vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "FechaAperturaDelPeriodo", valFechaAValidar, vSqlUtil.CurrentDateFormat, "AND", "<=");
+			vSQLWhere = vSqlUtil.SqlDateValueWithOperators(vSQLWhere, "FechaCierreDelPeriodo", valFechaAValidar, vSqlUtil.CurrentDateFormat, "AND", ">");
 
 			for (int i = 1; i < 12; i++) {
 				vSQLWhereParaMes = "";
 				vSQLWhereParaMes = vSqlUtil.SqlBoolValueWithAnd(vSQLWhereParaMes, "Mes" + LibConvert.ToStr(i) + "Cerrado", true);
-				vSQLWhereParaMes = vSqlUtil.SqlDateValueWithOperators(vSQLWhereParaMes, "FechaDeCierre" + LibConvert.ToStr(i), refRecord.Fecha, vSqlUtil.CurrentDateFormat, "AND", ">=");
+				vSQLWhereParaMes = vSqlUtil.SqlDateValueWithOperators(vSQLWhereParaMes, "FechaDeCierre" + LibConvert.ToStr(i), valFechaAValidar, vSqlUtil.CurrentDateFormat, "AND", ">=");
 
 				vSQLWhereMeses += "(" + vSQLWhereParaMes + (i < 11 ? ") OR " : ")");
 			}

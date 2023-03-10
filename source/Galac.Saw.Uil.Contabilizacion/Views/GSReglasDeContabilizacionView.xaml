@@ -4047,19 +4047,19 @@
                     Height="20"
                     Margin="1,2,0,0"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
                     ConnectionValue="{Binding Path=SiglasTipoComprobanteCajaChica, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Codigo"
                     IsEnabled="{Binding Path=IsEnabledSiglasTipoComprobanteCajaChica}"
                     Model="{Binding Path=ConexionSiglasTipoComprobanteCajaChica, Mode=TwoWay}"
                     SearchCommand="{Binding Path=ChooseSiglasTipoComprobanteCajaChicaCommand}"
-                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" VerticalAlignment="Top" />
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
             </Grid>
         </TabItem>
         <TabItem
             Name="tbiTransferenciaEntreCuentasBancarias"
             Header="Transferencia entre Cuentas Bancarias"
-            Visibility="Collapsed">
-            <!--  comment:  Visibility="{Binding Path=TabTransferenciaEntreCuentasBancariasVisible, Converter={StaticResource booleanToVisibilityConverter}}"  -->
+            Visibility="{Binding Path=TabTransferenciaEntreCuentasBancariasVisible, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid HorizontalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="310" />
@@ -4085,7 +4085,7 @@
                     Grid.Row="3"
                     Grid.ColumnSpan="2"
                     Margin="3"
-                    Header="Cuentas del Comprobante Contable del Transferencia entre Cuentas Bancarias"
+                    Header="Cuentas del Comprobante Contable de Transferencia entre Cuentas Bancarias"
                     HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}"
                     Style="{StaticResource GroupBoxStyle}">
                     <Grid Name="gtTransferenciaEntreCuentasBancarias">
@@ -4328,7 +4328,7 @@
                             Name="lblCuentaTransfCtasIGTFCreditoDescripcionIGTF"
                             Grid.Row="18"
                             Grid.Column="1"
-                            Foreground="Black" 
+                            Foreground="Black"
                             Visibility="Collapsed" />
                         <Label
                             Name="lblCuentaTransfCtasBancoDestIGTF"
@@ -4341,13 +4341,13 @@
                             Name="lblCuentaTransfCtasIGTFBancoDestinoIGTF"
                             Grid.Row="19"
                             Grid.Column="2"
-                            FontSize="11" 
+                            FontSize="11"
                             Visibility="Collapsed" />
                         <Label
                             Name="lblCuentaTransfCtasIGTFBancoDestinoDescripcionIGTF"
                             Grid.Row="20"
                             Grid.Column="2"
-                            Foreground="Black" 
+                            Foreground="Black"
                             Visibility="Collapsed" />
                     </Grid>
                 </GroupBox>
@@ -4373,9 +4373,11 @@
                     Name="lblCuentaTransfCtasTipoComprobante"
                     Grid.Row="4"
                     Grid.Column="0"
+                    Margin="1,1,0,1"
+                    VerticalAlignment="Stretch"
                     Content="Siglas del Tipo de Comprobante"
                     Style="{StaticResource LabelReglas}"
-                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" Margin="1,1,0,1" VerticalAlignment="Stretch" />
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSSeekConnection
                     Name="txtTransfCtasSigasTipoComprobante"
                     Grid.Row="4"
@@ -4384,12 +4386,13 @@
                     Height="20"
                     Margin="1,2,0,0"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
                     ConnectionValue="{Binding Path=TransfCtasSigasTipoComprobante, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     DisplayMemberPath="Codigo"
                     IsEnabled="{Binding Path=IsEnabledTransfCtasSigasTipoComprobante}"
                     Model="{Binding Path=ConexionTransfCtasSigasTipoComprobante, Mode=TwoWay}"
                     SearchCommand="{Binding Path=ChooseTransfCtasSigasTipoComprobanteCommand}"
-                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" VerticalAlignment="Top" />
+                    Visibility="{Binding Path=TipoComprobanteVisible, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Label
                     Name="lblContabIndividualTransCtas"
                     Grid.Row="5"
@@ -4401,7 +4404,7 @@
                     Grid.Row="5"
                     Grid.Column="1"
                     Width="120"
-                    IsEnabled= "False"
+                    IsEnabled="False"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayContabilizacionIndividual}"
                     SelectedItem="{Binding Path=ContabIndividualTransfCtas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

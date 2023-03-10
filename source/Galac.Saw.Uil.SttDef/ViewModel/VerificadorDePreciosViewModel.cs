@@ -122,7 +122,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private bool _IsEnabledUsaMonedaExtranjera;
 
         public bool IsEnabledUsaMonedaExtranjera {
-            get { return _IsEnabledUsaMonedaExtranjera; }
+            get { return IsEnabled && _IsEnabledUsaMonedaExtranjera; }
             set {
                 if (_IsEnabledUsaMonedaExtranjera != value) {
                     _IsEnabledUsaMonedaExtranjera = value;

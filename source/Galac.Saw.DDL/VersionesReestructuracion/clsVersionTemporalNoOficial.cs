@@ -13,10 +13,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-			//CrearTablaTransferenciaEntreCuentasBancarias(); Nota: se Oculta temporalmente
-			//AgregaColumnasReglasDeContabilizacion();			
 			DisposeConnectionNoTransaction();
 			return true;
-		}		
+		}
 	}
 }

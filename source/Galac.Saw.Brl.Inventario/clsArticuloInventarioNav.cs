@@ -417,7 +417,7 @@ namespace Galac.Saw.Brl.Inventario {
                     }
                     if (item.TipoActualizacion == eTipoActualizacion.ExistenciayCosto || item.TipoActualizacion == eTipoActualizacion.Costo) {
                         //TODO: Revisar parametro es moneda local del siguiente metodo.
-                        ActualizarCostoUnitarioArticuloInventario(valConsecutivoCompania, vArticulo.CodigoArticulo, item.CostoUnitario, item.CostoUnitario, true);
+                        ActualizarCostoUnitarioArticuloInventario(valConsecutivoCompania, vArticulo.CodigoArticulo, item.CostoUnitario, item.CostoUnitarioME, true);
                     }
                 }
             }
