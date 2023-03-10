@@ -1229,14 +1229,36 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (valNumero == null) {
                     valNumero = string.Empty;
                 }
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eTipoStatusOrdenProduccion.Cerrada);
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eTipoStatusOrdenProduccion.Anulada), eLogicOperatorType.Or);
-                LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+
+                LibSearchCriteria vFixedCriteria1 = new LibSearchCriteria();
+                LibSearchCriteria vFixedCriteria2 = new LibSearchCriteria();
+                LibSearchCriteria vFixedCriteria3 = new LibSearchCriteria();
+                LibSearchCriteria vFixedCriteria4 = new LibSearchCriteria();
+                LibSearchCriteria vFixedCriteria5 = new LibSearchCriteria();
+
+                vFixedCriteria2.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", eBooleanOperatorType.IdentityEquality, LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
+                vFixedCriteria2.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eBooleanOperatorType.IdentityEquality, eTipoStatusOrdenProduccion.Cerrada));
+                vFixedCriteria2.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaFinalizacion", eBooleanOperatorType.GreaterThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaAperturaDelPeriodo"))));
+                vFixedCriteria2.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaFinalizacion", eBooleanOperatorType.LessThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaCierreDelPeriodo"))));
+
+                vFixedCriteria3.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", eBooleanOperatorType.IdentityEquality, LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
+                vFixedCriteria3.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eBooleanOperatorType.IdentityEquality, eTipoStatusOrdenProduccion.Anulada));
+                vFixedCriteria3.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaAnulacion", eBooleanOperatorType.GreaterThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaAperturaDelPeriodo"))));
+                vFixedCriteria3.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaAnulacion", eBooleanOperatorType.LessThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaCierreDelPeriodo"))));
+
+                vFixedCriteria1.Add(vFixedCriteria2, eLogicOperatorType.Or);
+                vFixedCriteria4.Add(vFixedCriteria3, eLogicOperatorType.Or);
+
+                vFixedCriteria5.Add(vFixedCriteria1, eLogicOperatorType.Or);
+                vFixedCriteria5.Add(vFixedCriteria4, eLogicOperatorType.Or);
+
+                LibSearchCriteria vSearchcriteria = null;
+                
                 if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-                    vSearchcriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.Consecutivo", valNumero), eLogicOperatorType.And);
+                    vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.Consecutivo", valNumero);
                     vModuleName = "ContabilizarOrdenDeProduccion";
                 }
-                ConexionCodigoOrdenProduccion = ChooseRecord<FkOrdenDeProduccionViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
+                ConexionCodigoOrdenProduccion = ChooseRecord<FkOrdenDeProduccionViewModel>(vModuleName, vSearchcriteria, vFixedCriteria5, string.Empty);
                 if (ConexionCodigoOrdenProduccion == null) {
                     Codigo = "";
                 } else {

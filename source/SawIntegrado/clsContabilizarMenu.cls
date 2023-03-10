@@ -561,7 +561,10 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       'TODO:MAYEL ajustar nombre de valComponentName, valClassName según aplique
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpOrdenDeProduccion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
 
-      vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
+      vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo>"
+      vParametros = vParametros & "<FechaAperturaDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaAperturaDelPeriodo) & "</FechaAperturaDelPeriodo>"
+      vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo>"
+      vParametros = vParametros & "</DatosDocumento></GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       If (vDatos = "") Then
          gMessage.InformationMessage "Acción cancelada por el usuario. ", "Contabilización de Orden de Producción"
