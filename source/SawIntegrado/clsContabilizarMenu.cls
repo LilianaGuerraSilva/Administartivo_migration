@@ -585,6 +585,7 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaFinalizacion"))
             If gTexto.fS1EsIgualAS2(vStatusOp, "3") Then ' Orden Anulada
                vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaDeAnulacion"))
+               vEsReverso = True
             ElseIf Not gTexto.fS1EsIgualAS2(vStatusOp, "2") Then 'No es Anulada y no es Cerrada > no se contabiliza
                GoTo h_EXIT
             End If
