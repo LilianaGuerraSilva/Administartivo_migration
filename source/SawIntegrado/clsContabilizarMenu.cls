@@ -581,12 +581,20 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             Dim vStatusOpInt As Integer
             vEsReverso = False
             vStatusOp = gLibGalacDataParse.GetString(0, "StatusOp")
+            If vStatusOp = "2" Then
+               vStatusOp = "Cerrada"
+               vStatusOpInt = 2
+            ElseIf vStatusOp = "3" Then
+               vStatusOp = "Anulada"
+               vStatusOpInt = 3
+            Else
+               vStatusOp = "Iniciada"
+               vStatusOpInt = 0
+            End If
             vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaFinalizacion"))
-            vStatusOpInt = 2 'Se asume cerrada por defecto para no crear el enumerativo en Vb
             If gTexto.fS1EsIgualAS2(vStatusOp, "Anulada") Then
-               vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaAnulacion"))
+               vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaDeAnulacion"))
                vEsReverso = True
-               vStatusOpInt = 3 'Se cambia a anulada
             ElseIf Not gTexto.fS1EsIgualAS2(vStatusOp, "Cerrada") Then 'No es Anulada y no es Cerrada > no se contabiliza
                GoTo h_EXIT
             End If

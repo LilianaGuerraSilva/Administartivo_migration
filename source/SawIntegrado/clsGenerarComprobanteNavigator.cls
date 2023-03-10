@@ -905,7 +905,6 @@ Private Function fConstruyeSQLsegunElModuloAContabilizar(ByVal valFechaDesde As 
          refRegla = gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino
      Case eCG_ORDEN_DE_PRODUCCION:
          vSQL = insGenerarComprobanteSql.fSQLOrdenDeProduccionEntreFechas(gProyCompaniaActual.GetConsecutivoCompania, vConjuntoDeRegistrosSinContabilizar, valFechaDesde, valFechaHasta, valEsUnReverso, valDescripcionDelAsiento, valContabilizarSolo1Documento, valNoDocumentoOrigen, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado, gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionMateriaPrima)
-         refRegla = gProyReglasDeContabilizacion.GetCuentaOrdenDeProduccionProductoTerminado
    End Select
    Set insArticulo = Nothing
    Set insComprobanteSQL = Nothing
