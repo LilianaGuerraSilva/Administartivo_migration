@@ -318,8 +318,10 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    Dim vCCMateriales As String
    Dim vSqlStatusConsecutivo As String
    Dim vSqlFecha As String
+   Dim vSqlCambio As String
    On Error GoTo h_ERROR
    
+   vSqlCambio = gUtilSQL.getIIF("OdP.CostoTerminadoCalculadoAPartirDe = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FormaDeCalcularCostoTerminado.eFDCCT_APartirDeMonedaLocal), "1", "OdP.CambioCostoProduccion", True)
    vCCProductoTerminado = gUtilSQL.getIIF("(AI_Articulo.CuentaInventario = '')", gUtilSQL.fSimpleSqlValue(valCuentaOrdenDeProduccionProductoTerminado), "AI_Articulo.CuentaInventario", True)
    vCCMateriales = gUtilSQL.getIIF("(AI_Material.CuentaInventario = '')", gUtilSQL.fSimpleSqlValue(valCuentaOrdenDeProduccionMateriales), "AI_Material.CuentaInventario", True)
    
@@ -334,7 +336,7 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    End If
    
    vSql = "SELECT OdP.Consecutivo, "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(OdP_DetArticulo.MontoSubTotal)", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, " ROUND(SUM(OdP_DetArticulo.MontoSubTotal * " & vSqlCambio & " ),2 ) ", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
       
    vSql = vSql & " FROM Adm.OrdenDeProduccion AS OdP"
    vSql = vSql & " INNER JOIN "
@@ -353,7 +355,7 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
     
    vSql = vSql & " UNION "
    vSql = vSql & " SELECT OdP.Consecutivo, "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(OdP_DetMateriales.MontoSubtotal)", vCCMateriales, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
+   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, " ROUND(SUM(OdP_DetMateriales.MontoSubtotal * " & vSqlCambio & " ),2 ) ", vCCMateriales, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
    
    vSql = vSql & " FROM ArticuloInventario AS AI_Material"
    vSql = vSql & " INNER JOIN "
