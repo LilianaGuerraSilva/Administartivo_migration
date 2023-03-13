@@ -561,9 +561,9 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       'TODO:MAYEL ajustar nombre de valComponentName, valClassName según aplique
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpOrdenDeProduccion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
 
-      vParametros = "<GpData><DatosDocumento><Consecutivo>" & gConvert.fConvierteAString(-1) & "</Consecutivo>"
-      vParametros = vParametros & "<FechaAperturaDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaAperturaDelPeriodo) & "</FechaAperturaDelPeriodo>"
-      vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo></DatosDocumento>"
+      vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo>"
+      vParametros = vParametros & "<FechaAperturaDelPeriodo>" & gConvert.dateToString(gContPeriodoActual.GetFechaAperturaDelPeriodo) & "</FechaAperturaDelPeriodo>"
+      vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.dateToString(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo></DatosDocumento>"
       vParametros = vParametros & "<Parametros><UsaMonedaExtranjera>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaMonedaExtranjera) & "</UsaMonedaExtranjera>"
       vParametros = vParametros & "<CodigoMonedaExtranjera>" & gProyParametrosCompania.GetCodigoMonedaExtranjera & "</CodigoMonedaExtranjera>"
       vParametros = vParametros & "<CantidadDeDecimales>" & gProyParametrosCompania.GetCantidadDeDecimalesStr & "</CantidadDeDecimales>"
