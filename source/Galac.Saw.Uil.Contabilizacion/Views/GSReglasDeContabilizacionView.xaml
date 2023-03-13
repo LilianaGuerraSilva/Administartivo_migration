@@ -4581,6 +4581,7 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20" />
@@ -4639,10 +4640,16 @@
                             Model="{Binding Path=ConexionCuentaOrdenDeProduccionProductoTerminado, Mode=TwoWay}"
                             SearchCommand="{Binding Path=ChooseCuentaOrdenDeProduccionProductoTerminadoCommand}" />
                         <Label
+                            Name="lblCuentaOrdenDeProduccionProductoTerminadoDescripcion"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Content="{Binding Path=CuentaOrdenDeProduccionProductoTerminadoDescripcion}"
+                            Foreground="Black" />
+                        <Label
                             Name="lblCuentaOrdenDeProduccionMateriaPrima"
                             Grid.Row="3"
                             Grid.Column="0"
-                            Content="Cuenta Materia Prima"
+                            Content="Cuenta Materiales"
                             Style="{StaticResource LabelReglas}" />
                         <nsWpfControls:GSSeekConnection
                             Name="txtCuentaOrdenDeProduccionMateriaPrima"
@@ -4655,6 +4662,11 @@
                             IsEnabled="{Binding Path=IsEnabled}"
                             Model="{Binding Path=ConexionCuentaOrdenDeProduccionMateriaPrima, Mode=TwoWay}"
                             SearchCommand="{Binding Path=ChooseCuentaOrdenDeProduccionMateriaPrimaCommand}" />
+                        <Label
+                            Name="lblCuentaOrdenDeProduccionMateriaPrimaDescripcion"
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Content="{Binding Path=CuentaOrdenDeProduccionMateriaPrimaDescripcion}" />
                     </Grid>
                 </GroupBox>
                 <Label

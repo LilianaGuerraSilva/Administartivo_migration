@@ -318,10 +318,12 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    Dim vCCMateriales As String
    Dim vSqlStatusConsecutivo As String
    Dim vSqlFecha As String
+   Dim vSqlCambio As String
    On Error GoTo h_ERROR
    
+   vSqlCambio = gUtilSQL.getIIF("OdP.CostoTerminadoCalculadoAPartirDe = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FormaDeCalcularCostoTerminado.eFDCCT_APartirDeMonedaLocal), "1", "OdP.CambioCostoProduccion", True)
    vCCProductoTerminado = gUtilSQL.getIIF("(AI_Articulo.CuentaInventario = '')", gUtilSQL.fSimpleSqlValue(valCuentaOrdenDeProduccionProductoTerminado), "AI_Articulo.CuentaInventario", True)
-   vCCMateriales = gUtilSQL.getIIF("(AI_Articulo.CuentaInventario = '')", gUtilSQL.fSimpleSqlValue(valCuentaOrdenDeProduccionMateriales), "AI_Articulo.CuentaInventario", True)
+   vCCMateriales = gUtilSQL.getIIF("(AI_Material.CuentaInventario = '')", gUtilSQL.fSimpleSqlValue(valCuentaOrdenDeProduccionMateriales), "AI_Material.CuentaInventario", True)
    
    vSqlStatusConsecutivo = gUtilSQL.fCast("OdP.StatusOp", eTDSS_VARCHAR, "")
    vSqlStatusConsecutivo = vSqlStatusConsecutivo & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.fSeparadorStandardDeElementosString) & gUtilSQL.CharConcat
@@ -334,28 +336,41 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    End If
    
    vSql = "SELECT OdP.Consecutivo, "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(OdP_DetArticulo.MontoSubTotal)", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1) & ", "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "SUM(OdP_DetMateriales.MontoSubtotal)", vCCMateriales, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
-   
-   vSql = vSql & " FROM Adm.OrdenDeProduccion AS OdP INNER JOIN Adm.OrdenDeProduccionDetalleArticulo AS OdP_DetArticulo"
-   vSql = vSql & "    ON OdP.ConsecutivoCompania = OdP_DetArticulo.ConsecutivoCompania"
-   vSql = vSql & "    AND OdP.Consecutivo = OdP_DetArticulo.ConsecutivoOrdenDeProduccion"
-   vSql = vSql & "    INNER JOIN Adm.OrdenDeProduccionDetalleMateriales AS OdP_DetMateriales"
-   vSql = vSql & "    ON OdP_DetArticulo.ConsecutivoCompania = OdP_DetMateriales.ConsecutivoCompania"
-   vSql = vSql & "    AND OdP_DetArticulo.ConsecutivoOrdenDeProduccion = OdP_DetMateriales.ConsecutivoOrdenDeProduccion"
-   vSql = vSql & "    AND OdP_DetArticulo.Consecutivo = OdP_DetMateriales.ConsecutivoOrdenDeProduccionDetalleArticulo"
-   vSql = vSql & "    INNER JOIN ArticuloInventario AS AI_Material"
-   vSql = vSql & "    ON OdP_DetMateriales.ConsecutivoCompania = AI_Material.ConsecutivoCompania"
-   vSql = vSql & "    AND OdP_DetMateriales.CodigoArticulo = AI_Material.Codigo"
-   vSql = vSql & "    INNER JOIN ArticuloInventario AS AI_Articulo"
-   vSql = vSql & "    ON OdP_DetArticulo.CodigoArticulo = AI_Articulo.Codigo"
-   vSql = vSql & "    AND OdP_DetArticulo.ConsecutivoCompania = AI_Articulo.ConsecutivoCompania"
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, " ROUND(SUM(OdP_DetArticulo.MontoSubTotal * " & vSqlCambio & " ),2 ) ", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
+      
+   vSql = vSql & " FROM Adm.OrdenDeProduccion AS OdP"
+   vSql = vSql & " INNER JOIN "
+   vSql = vSql & " Adm.OrdenDeProduccionDetalleArticulo AS OdP_DetArticulo ON"
+   vSql = vSql & " OdP.ConsecutivoCompania = OdP_DetArticulo.ConsecutivoCompania"
+   vSql = vSql & " AND OdP.Consecutivo = OdP_DetArticulo.ConsecutivoOrdenDeProduccion"
+   vSql = vSql & " INNER JOIN "
+   vSql = vSql & " ArticuloInventario AS AI_Articulo ON OdP_DetArticulo.CodigoArticulo = AI_Articulo.Codigo"
+   vSql = vSql & " AND OdP_DetArticulo.ConsecutivoCompania = AI_Articulo.ConsecutivoCompania"
    
    vSql = vSql & " WHERE OdP.ConsecutivoCompania = " & valConsecutivoCompania
    vSql = vSql & " AND " & vSqlStatusConsecutivo & " IN (" & valConjuntoSinContabilizar & ")"
    vSql = vSql & " AND " & gUtilSQL.DfSQLDateValueBetween(vSqlFecha, valFechaDesde, valFechaHasta)
    
-   vSql = vSql & " GROUP BY OdP.Consecutivo, AI_Articulo.CuentaInventario, AI_Articulo.CuentaInventario "
+   vSql = vSql & " GROUP BY OdP.Consecutivo, AI_Articulo.CuentaInventario "
+    
+   vSql = vSql & " UNION "
+   vSql = vSql & " SELECT OdP.Consecutivo, "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, " ROUND(SUM(OdP_DetMateriales.MontoSubtotal * " & vSqlCambio & " ),2 ) ", vCCMateriales, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
+   
+   vSql = vSql & " FROM ArticuloInventario AS AI_Material"
+   vSql = vSql & " INNER JOIN "
+   vSql = vSql & " Adm.OrdenDeProduccionDetalleMateriales AS OdP_DetMateriales ON AI_Material.ConsecutivoCompania = OdP_DetMateriales.ConsecutivoCompania"
+   vSql = vSql & " AND AI_Material.Codigo = OdP_DetMateriales.CodigoArticulo"
+   vSql = vSql & " INNER JOIN "
+   vSql = vSql & " Adm.OrdenDeProduccion AS OdP ON OdP_DetMateriales.ConsecutivoCompania = OdP.ConsecutivoCompania"
+   vSql = vSql & " AND OdP_DetMateriales.ConsecutivoOrdenDeProduccion = OdP.Consecutivo"
+   
+   vSql = vSql & " WHERE OdP.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND " & vSqlStatusConsecutivo & " IN (" & valConjuntoSinContabilizar & ")"
+   vSql = vSql & " AND " & gUtilSQL.DfSQLDateValueBetween(vSqlFecha, valFechaDesde, valFechaHasta)
+   
+   vSql = vSql & " GROUP BY OdP.Consecutivo, AI_Material.CuentaInventario "
+   
 
 h_EXIT:
    fSQLOrdenDeProduccionEntreFechas = vSql
