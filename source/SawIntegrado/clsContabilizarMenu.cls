@@ -563,9 +563,15 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
 
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo>"
       vParametros = vParametros & "<FechaAperturaDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaAperturaDelPeriodo) & "</FechaAperturaDelPeriodo>"
-      vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo>"
-      vParametros = vParametros & "<Parametros>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaMonedaExtranjera) & "</Parametros>"
-      vParametros = vParametros & "</DatosDocumento></GpData>"
+      vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo></DatosDocumento>"
+      vParametros = vParametros & "<Parametros><UsaMonedaExtranjera>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaMonedaExtranjera) & "</UsaMonedaExtranjera>"
+      vParametros = vParametros & "<CodigoMonedaExtranjera>" & gConvert.fConvierteAString(gProyParametrosCompania.GetCodigoMonedaExtranjera) & "</CodigoMonedaExtranjera>"
+      vParametros = vParametros & "<CantidadDeDecimales>" & gConvert.ConvierteAInteger(gProyParametrosCompania.GetCantidadDeDecimalesStr) & "</CantidadDeDecimales>"
+      vParametros = vParametros & "<UsaDivisaComoMonedaPrincipalDeIngresoDeDatos>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaDivisaComoMonedaPrincipalDeIngresoDeDatos) & "</UsaDivisaComoMonedaPrincipalDeIngresoDeDatos>"
+      vParametros = vParametros & "<CostoTerminadoCalculadoAPartirDe>" & gConvert.fConvierteAString(gProyParametrosCompania.GetCostoTerminadoCalculadoAPartirDeStr) & "</CostoTerminadoCalculadoAPartirDe>"
+      vParametros = vParametros & "<PermitirSobregiro>" & gConvert.ConvertStringToBoolean(gProyParametrosCompania.GetPermitirSobregiroStr) & "</PermitirSobregiro>"
+      vParametros = vParametros & "<UsaAlmacen>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaAlmacen) & "</UsaAlmacen></Parametros>"
+      vParametros = vParametros & "</GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       If (vDatos = "") Then
          gMessage.InformationMessage "Acción cancelada por el usuario. ", "Contabilización de Orden de Producción"

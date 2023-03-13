@@ -1266,7 +1266,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 
                 if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
                     vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.Consecutivo", valNumero);
-                    vModuleName = "ContabilizarOrdenDeProduccion";
+                    vModuleName = "Orden De Producción a Contabilizar";
                 }
                 ConexionCodigoOrdenProduccion = ChooseRecord<FkOrdenDeProduccionViewModel>(vModuleName, vSearchcriteria, vFixedCriteria5, string.Empty);
                 if (ConexionCodigoOrdenProduccion == null) {
