@@ -485,7 +485,7 @@ namespace Galac.Adm.Dal.GestionProduccion {
             StringBuilder vSqlComprobantePeriodo = new StringBuilder();
             string vSqlStdSeparator = InsSql.ToSqlValue(LibGalac.Aos.Base.LibText.StandardSeparator());
 
-            vSqlComprobantePeriodo.AppendLine("      (SELECT ISNULL(Comprobante.NoDocumentoOrigen, 0) AS NoDocumentoOrigen, ISNULL(COMPROBANTE.GeneradoPor, " + InsSql.ToSqlValue("") + ") AS GeneradoPor, ISNULL(COMPROBANTE.ConsecutivoDocOrigen, " + InsSql.ToSqlValue("") + ") AS ConsecutivoDocOrigen, ");
+            vSqlComprobantePeriodo.AppendLine("      (SELECT ISNULL(Comprobante.NoDocumentoOrigen, 0) AS NoDocumentoOrigen, ISNULL(COMPROBANTE.GeneradoPor, '''') AS GeneradoPor, ISNULL(COMPROBANTE.ConsecutivoDocOrigen, '''') AS ConsecutivoDocOrigen, ");
             vSqlComprobantePeriodo.AppendLine("      Periodo.ConsecutivoCompania ");
             vSqlComprobantePeriodo.AppendLine("      FROM COMPROBANTE RIGHT JOIN PERIODO ");
             vSqlComprobantePeriodo.AppendLine("          ON  PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo ) ");
