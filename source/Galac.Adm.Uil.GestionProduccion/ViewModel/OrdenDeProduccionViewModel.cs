@@ -438,7 +438,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
         }
 
-        [LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
+        //[LibDetailRequired(ErrorMessage = "Orden De Produccion Detalle Articulo es requerido.")]
+        [LibCustomValidation("ValidateDetalleDeOrdenDeProduccion")]
         public OrdenDeProduccionDetalleArticuloMngViewModel DetailOrdenDeProduccionDetalleArticulo {
             get;
             set;
@@ -952,6 +953,19 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             }
             return vResult;
         }
+
+        private ValidationResult ValidateDetalleDeOrdenDeProduccion() {
+            ValidationResult vResult = ValidationResult.Success;
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Contabilizar)) {
+                return ValidationResult.Success;
+            } else {
+                if (DetailOrdenDeProduccionDetalleArticulo == null || !DetailOrdenDeProduccionDetalleArticulo.IsValid || !DetailOrdenDeProduccionDetalleArticulo.HasItems) {
+                    return new ValidationResult("Orden De Producción Detalle Artículo es requerido.");
+                }
+                
+            }
+            return vResult;
+        }
         #endregion //Validation
 
         #region Metodos Generados
@@ -1052,13 +1066,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void ExecuteProcessBeforeAction() {
-            if (Action == eAccionSR.Custom) {
-                DetailOrdenDeProduccionDetalleArticulo.Items[0].BuscaExistencia();
-                if (DetailOrdenDeProduccionDetalleArticulo.Items
-                    .Where(p => p.DetailOrdenDeProduccionDetalleMateriales.Items
-                    .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0).Count() > 0) {
-                    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
-                        throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+            if (Action != eAccionSR.Contabilizar) {
+                if (Action == eAccionSR.Custom) {
+                    DetailOrdenDeProduccionDetalleArticulo.Items[0].BuscaExistencia();
+                    if (DetailOrdenDeProduccionDetalleArticulo.Items
+                        .Where(p => p.DetailOrdenDeProduccionDetalleMateriales.Items
+                        .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0).Count() > 0) {
+                        if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
+                            throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+                        }
                     }
                 }
             }
@@ -1229,14 +1245,36 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 if (valNumero == null) {
                     valNumero = string.Empty;
                 }
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eTipoStatusOrdenProduccion.Cerrada);
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eTipoStatusOrdenProduccion.Anulada), eLogicOperatorType.Or);
-                LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+
+                LibSearchCriteria vFixedCriteria1 = new LibSearchCriteria();
+                LibSearchCriteria vFixedCriteria2 = new LibSearchCriteria();
+                LibSearchCriteria vFixedCriteria3 = new LibSearchCriteria();
+                LibSearchCriteria vFixedCriteria4 = new LibSearchCriteria();
+                LibSearchCriteria vFixedCriteria5 = new LibSearchCriteria();
+
+                vFixedCriteria2.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", eBooleanOperatorType.IdentityEquality, LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
+                vFixedCriteria2.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eBooleanOperatorType.IdentityEquality, eTipoStatusOrdenProduccion.Cerrada));
+                vFixedCriteria2.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaFinalizacion", eBooleanOperatorType.GreaterThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaAperturaDelPeriodo"))));
+                vFixedCriteria2.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaFinalizacion", eBooleanOperatorType.LessThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaCierreDelPeriodo"))));
+
+                vFixedCriteria3.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", eBooleanOperatorType.IdentityEquality, LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
+                vFixedCriteria3.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eBooleanOperatorType.IdentityEquality, eTipoStatusOrdenProduccion.Anulada));
+                vFixedCriteria3.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaAnulacion", eBooleanOperatorType.GreaterThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaAperturaDelPeriodo"))));
+                vFixedCriteria3.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaAnulacion", eBooleanOperatorType.LessThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaCierreDelPeriodo"))));
+
+                vFixedCriteria1.Add(vFixedCriteria2, eLogicOperatorType.Or);
+                vFixedCriteria4.Add(vFixedCriteria3, eLogicOperatorType.Or);
+
+                vFixedCriteria5.Add(vFixedCriteria1, eLogicOperatorType.Or);
+                vFixedCriteria5.Add(vFixedCriteria4, eLogicOperatorType.Or);
+
+                LibSearchCriteria vSearchcriteria = null;
+                
                 if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-                    vSearchcriteria.Add(LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.Consecutivo", valNumero), eLogicOperatorType.And);
-                    vModuleName = "ContabilizarOrdenDeProduccion";
+                    vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.Consecutivo", valNumero);
+                    vModuleName = "Orden de Producción a Contabilizar";
                 }
-                ConexionCodigoOrdenProduccion = ChooseRecord<FkOrdenDeProduccionViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
+                ConexionCodigoOrdenProduccion = ChooseRecord<FkOrdenDeProduccionViewModel>(vModuleName, vSearchcriteria, vFixedCriteria5, string.Empty);
                 if (ConexionCodigoOrdenProduccion == null) {
                     Codigo = "";
                 } else {

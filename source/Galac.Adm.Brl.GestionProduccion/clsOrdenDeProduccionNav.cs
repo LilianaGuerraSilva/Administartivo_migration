@@ -87,7 +87,7 @@ namespace Galac.Adm.Brl.GestionProduccion {
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
                     vResult = vPdnModule.GetDataForList("Orden de Producción", ref refXmlDocument, valXmlParamsExpression);
                     break;
-                case "ContabilizarOrdenDeProduccion":
+                case "Orden de Producción a Contabilizar":
                     vResult = ContabGetDataForList(ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();

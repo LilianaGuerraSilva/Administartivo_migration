@@ -561,7 +561,16 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       'TODO:MAYEL ajustar nombre de valComponentName, valClassName según aplique
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpOrdenDeProduccion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
 
-      vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
+      vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo>"
+      vParametros = vParametros & "<FechaAperturaDelPeriodo>" & gConvert.dateToString(gContPeriodoActual.GetFechaAperturaDelPeriodo) & "</FechaAperturaDelPeriodo>"
+      vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.dateToString(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo></DatosDocumento>"
+      vParametros = vParametros & "<Parametros><UsaMonedaExtranjera>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaMonedaExtranjera) & "</UsaMonedaExtranjera>"
+      vParametros = vParametros & "<CodigoMonedaExtranjera>" & gProyParametrosCompania.GetCodigoMonedaExtranjera & "</CodigoMonedaExtranjera>"
+      vParametros = vParametros & "<CantidadDeDecimales>" & gProyParametrosCompania.GetCantidadDeDecimalesStr & "</CantidadDeDecimales>"
+      vParametros = vParametros & "<UsaDivisaComoMonedaPrincipalDeIngresoDeDatos>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaDivisaComoMonedaPrincipalDeIngresoDeDatos) & "</UsaDivisaComoMonedaPrincipalDeIngresoDeDatos>"
+      vParametros = vParametros & "<CostoTerminadoCalculadoAPartirDe>" & gConvert.enumerativoAChar(gProyParametrosCompania.GetCostoTerminadoCalculadoAPartirDeAsEnum) & "</CostoTerminadoCalculadoAPartirDe>"
+      vParametros = vParametros & "<UsaAlmacen>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaAlmacen) & "</UsaAlmacen></Parametros>"
+      vParametros = vParametros & "</GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       If (vDatos = "") Then
          gMessage.InformationMessage "Acción cancelada por el usuario. ", "Contabilización de Orden de Producción"
