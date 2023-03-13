@@ -956,11 +956,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
 
         private ValidationResult ValidateDetalleDeOrdenDeProduccion() {
             ValidationResult vResult = ValidationResult.Success;
-            if (Action == eAccionSR.Contabilizar) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Contabilizar)) {
                 return ValidationResult.Success;
             } else {
-                return new ValidationResult("Orden De Produccion Detalle Articulo es requerido.");
+                if (LibString.IsNullOrEmpty(Codigo)) {
+                    return new ValidationResult("Orden De Produccion Detalle Articulo es requerido.");
+                }
+                
             }
+            return vResult;
         }
         #endregion //Validation
 
