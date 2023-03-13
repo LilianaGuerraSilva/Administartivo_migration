@@ -959,8 +959,8 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Contabilizar)) {
                 return ValidationResult.Success;
             } else {
-                if (LibString.IsNullOrEmpty(Codigo)) {
-                    return new ValidationResult("Orden De Produccion Detalle Articulo es requerido.");
+                if (DetailOrdenDeProduccionDetalleArticulo == null || !DetailOrdenDeProduccionDetalleArticulo.IsValid || !DetailOrdenDeProduccionDetalleArticulo.HasItems) {
+                    return new ValidationResult("Orden De Producción Detalle Artículo es requerido.");
                 }
                 
             }
@@ -1066,13 +1066,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         protected override void ExecuteProcessBeforeAction() {
-            if (Action == eAccionSR.Custom) {
-                DetailOrdenDeProduccionDetalleArticulo.Items[0].BuscaExistencia();
-                if (DetailOrdenDeProduccionDetalleArticulo.Items
-                    .Where(p => p.DetailOrdenDeProduccionDetalleMateriales.Items
-                    .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0).Count() > 0) {
-                    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
-                        throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+            if (Action != eAccionSR.Contabilizar) {
+                if (Action == eAccionSR.Custom) {
+                    DetailOrdenDeProduccionDetalleArticulo.Items[0].BuscaExistencia();
+                    if (DetailOrdenDeProduccionDetalleArticulo.Items
+                        .Where(p => p.DetailOrdenDeProduccionDetalleMateriales.Items
+                        .Where(q => q.TipoDeArticulo == Saw.Ccl.Inventario.eTipoDeArticulo.Mercancia && q.Existencia < q.CantidadReservadaInventario).Count() > 0).Count() > 0) {
+                        if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PermitirSobregiro")) {
+                            throw new GalacValidationException("No hay suficiente existencia de algunos materiales para producir este inventario.");
+                        }
                     }
                 }
             }

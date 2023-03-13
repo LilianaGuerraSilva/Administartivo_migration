@@ -561,15 +561,14 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       'TODO:MAYEL ajustar nombre de valComponentName, valClassName según aplique
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpOrdenDeProduccion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
 
-      vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo>"
+      vParametros = "<GpData><DatosDocumento><Consecutivo>" & gConvert.fConvierteAString(-1) & "</Consecutivo>"
       vParametros = vParametros & "<FechaAperturaDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaAperturaDelPeriodo) & "</FechaAperturaDelPeriodo>"
       vParametros = vParametros & "<FechaCierreDelPeriodo>" & gConvert.fConvertStringToDate(gContPeriodoActual.GetFechaCierreDelPeriodo) & "</FechaCierreDelPeriodo></DatosDocumento>"
       vParametros = vParametros & "<Parametros><UsaMonedaExtranjera>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaMonedaExtranjera) & "</UsaMonedaExtranjera>"
-      vParametros = vParametros & "<CodigoMonedaExtranjera>" & gConvert.fConvierteAString(gProyParametrosCompania.GetCodigoMonedaExtranjera) & "</CodigoMonedaExtranjera>"
-      vParametros = vParametros & "<CantidadDeDecimales>" & gConvert.ConvierteAInteger(gProyParametrosCompania.GetCantidadDeDecimalesStr) & "</CantidadDeDecimales>"
+      vParametros = vParametros & "<CodigoMonedaExtranjera>" & gProyParametrosCompania.GetCodigoMonedaExtranjera & "</CodigoMonedaExtranjera>"
+      vParametros = vParametros & "<CantidadDeDecimales>" & gProyParametrosCompania.GetCantidadDeDecimalesStr & "</CantidadDeDecimales>"
       vParametros = vParametros & "<UsaDivisaComoMonedaPrincipalDeIngresoDeDatos>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaDivisaComoMonedaPrincipalDeIngresoDeDatos) & "</UsaDivisaComoMonedaPrincipalDeIngresoDeDatos>"
-      vParametros = vParametros & "<CostoTerminadoCalculadoAPartirDe>" & gConvert.fConvierteAString(gProyParametrosCompania.GetCostoTerminadoCalculadoAPartirDeStr) & "</CostoTerminadoCalculadoAPartirDe>"
-      vParametros = vParametros & "<PermitirSobregiro>" & gConvert.ConvertStringToBoolean(gProyParametrosCompania.GetPermitirSobregiroStr) & "</PermitirSobregiro>"
+      vParametros = vParametros & "<CostoTerminadoCalculadoAPartirDe>" & gConvert.enumerativoAChar(gProyParametrosCompania.GetCostoTerminadoCalculadoAPartirDeAsEnum) & "</CostoTerminadoCalculadoAPartirDe>"
       vParametros = vParametros & "<UsaAlmacen>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaAlmacen) & "</UsaAlmacen></Parametros>"
       vParametros = vParametros & "</GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
