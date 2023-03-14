@@ -485,9 +485,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             StringBuilder vSqlComprobantePeriodo = new StringBuilder();
             string vSqlStdSeparator = InsSql.ToSqlValue(LibGalac.Aos.Base.LibText.StandardSeparator());
 
-            vSqlComprobantePeriodo.AppendLine("      (SELECT ISNULL(Comprobante.NoDocumentoOrigen, 0) AS NoDocumentoOrigen, ISNULL(COMPROBANTE.GeneradoPor, '''') AS GeneradoPor, ISNULL(COMPROBANTE.ConsecutivoDocOrigen, '''') AS ConsecutivoDocOrigen, ");
+            vSqlComprobantePeriodo.AppendLine("      (SELECT Comprobante.NoDocumentoOrigen, COMPROBANTE.GeneradoPor, COMPROBANTE.ConsecutivoDocOrigen, ");
             vSqlComprobantePeriodo.AppendLine("      Periodo.ConsecutivoCompania ");
-            vSqlComprobantePeriodo.AppendLine("      FROM COMPROBANTE RIGHT JOIN PERIODO ");
+            vSqlComprobantePeriodo.AppendLine("      FROM COMPROBANTE INNER JOIN PERIODO ");
             vSqlComprobantePeriodo.AppendLine("          ON  PERIODO.ConsecutivoPeriodo  = COMPROBANTE.ConsecutivoPeriodo ) ");
 
             vSQL.AppendLine("BEGIN");
@@ -533,10 +533,9 @@ namespace Galac.Adm.Dal.GestionProduccion {
             vSQL.AppendLine("      + ' = ComprobantePeriodo.NoDocumentoOrigen ");
             vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoCompania = " + DbSchema + ".Gv_OrdenDeProduccion_B1.ConsecutivoCompania");
             vSQL.AppendLine("      AND ComprobantePeriodo.GeneradoPor = ' + QUOTENAME('P','''') + '");
-            vSQL.AppendLine("      AND ComprobantePeriodo.ConsecutivoDocOrigen IS NULL ");
 
             vSQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
-            vSQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere ");
+            vSQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere + ' AND ComprobantePeriodo.ConsecutivoDocOrigen IS NULL '  ");
             vSQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
             vSQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
             vSQL.AppendLine("   EXEC(@strSQL)");
