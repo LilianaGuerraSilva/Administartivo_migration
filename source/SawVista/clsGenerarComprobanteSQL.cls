@@ -311,7 +311,7 @@ h_EXIT:
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fSQLTransferenciaEntreCuentasEntreFechas", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As Integer, ByVal valConjuntoSinContabilizar As String, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valDescripcionDelAsiento As String, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNoDocumentoOrigen As String, _
+Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As Integer, ByVal valConjuntoSinContabilizar As String, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valDescripcionDelAsiento As String, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNoDocumentoOrigen As String, _
       ByVal valCuentaOrdenDeProduccionProductoTerminado As String, ByVal valCuentaOrdenDeProduccionMateriales As String) As String
    Dim vSql As String
    Dim vCCProductoTerminado As String
@@ -332,7 +332,7 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    vSqlFecha = "OdP.FechaFinalizacion"
    
    vSql = "SELECT OdP.Consecutivo, "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", False, " ROUND(SUM(OdP_DetArticulo.MontoSubTotal * " & vSqlCambio & " ),2 ) ", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, " ROUND(SUM(OdP_DetArticulo.MontoSubTotal * " & vSqlCambio & " ),2 ) ", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
       
    vSql = vSql & " FROM Adm.OrdenDeProduccion AS OdP"
    vSql = vSql & " INNER JOIN "
@@ -351,7 +351,7 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
     
    vSql = vSql & " UNION "
    vSql = vSql & " SELECT OdP.Consecutivo, "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", False, " ROUND(SUM(OdP_DetMateriales.MontoSubtotal * " & vSqlCambio & " ),2 ) ", vCCMateriales, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
+   vSql = vSql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, " ROUND(SUM(OdP_DetMateriales.MontoSubtotal * " & vSqlCambio & " ),2 ) ", vCCMateriales, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
    
    vSql = vSql & " FROM ArticuloInventario AS AI_Material"
    vSql = vSql & " INNER JOIN "
