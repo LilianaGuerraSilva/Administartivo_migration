@@ -71,9 +71,9 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class FkOrdenDeProduccionViewModel : IFkOrdenDeProduccionViewModel {
         public int ConsecutivoCompania { get; set; }
         public int Consecutivo { get; set; }
-        [LibGridColum("Codigo", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Codigo")]
+        [LibGridColum("Código", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Codigo")]
         public string Codigo { get; set; }
-        [LibGridColum("Descripcion", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Descripcion", Width = 250)]
+        [LibGridColum("Descripción", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.Descripcion", Width = 250)]
         public string Descripcion { get; set; }
         [LibGridColum("Estado", eGridColumType.Enum, PrintingMemberPath = "StatusOpStr", DbMemberPath = "Adm.Gv_OrdenDeProduccion_B1.StatusOp", Width = 80)]
         public eTipoStatusOrdenProduccion StatusOp { get; set; }
