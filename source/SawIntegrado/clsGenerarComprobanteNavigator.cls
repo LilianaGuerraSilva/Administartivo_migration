@@ -4548,7 +4548,6 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    Dim vCuentaContableDebeComisionEgreso As String
    Dim vCuentaContableHaberComisionEgreso As String
    Dim vCuentaContableDebeIGTFEgreso As String
-   Dim vCuentaContableHaberIGTFEgreso As String
    Dim vCuentaContableDebeComisionIngreso As String
    Dim vCuentaContableHaberComisionIngreso As String
    Dim vPorcentajeIGTF As Currency
@@ -4558,7 +4557,6 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    On Error GoTo h_ERROR
    Set insLibSaW = New clsLibSAW
    CodigoCuentaIVA = ""
-   Sql = ""
    Set insTransferenciaEntreCuentasBancarias = New clsTransferenciaEntreCuentasNav
    Set insMovimiento = New clsMovimientoBancarioNavigator
    Set insCuentaBancaria = New clsCuentaBancariaNavigator
@@ -4572,9 +4570,9 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    vSqlStatusNumero = vSqlStatusNumero & gUtilSQL.fCast("Adm.TransferenciaEntreCuentasBancarias.Consecutivo", eTDSS_VARCHAR, "")
    
    codigoDelAuxiliar = ""  'No tiene auxiliares
-   '  EL MOVIMIENTO BANCARIO ES UN INGRESO
+   'MB DE INGRESO
    SqlTasaDeCambioIngreso = insTransferenciaEntreCuentasBancarias.GetTableName & ".CambioABolivaresIngreso"
-   vMontoAsientoIngreso = "SUM( " & gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoTransferenciaIngreso * " & SqlTasaDeCambioIngreso) & ")"
+   vMontoAsientoIngreso = "SUM(" & gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoTransferenciaIngreso * " & SqlTasaDeCambioIngreso) & ")"
    vCuentaContableDebeIngreso = gUtilSQL.getIIF("cuenta.Codigo IS NULL ", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino), "cuenta.Codigo")
    Sql = "SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoIngreso, "
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoIngreso, vCuentaContableDebeIngreso, False, codigoDelAuxiliar, valNoDocumentoOrigen, valDescripcionDelAsiento, "", "") & " "
@@ -4597,10 +4595,10 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoIngreso, cuenta.Codigo"
    
-   '  ESTAS INSTRUCCIONES SON PARA LA COMISION DE EGRESO
+   'GASTO POR COMISION DE EGRESO
    SqlTasaDeCambioEgreso = insTransferenciaEntreCuentasBancarias.GetTableName & ".CambioABolivaresEgreso"
    vMontoAsientoComisionEgreso = "SUM( " & gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoComisionEgreso * " & SqlTasaDeCambioEgreso) & ")"
-   vCuentaContableDebeComisionEgreso = gUtilSQL.getIIF("cuenta.Codigo IS NULL ", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComOrigen), "cuenta.Codigo")
+   vCuentaContableDebeComisionEgreso = gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComOrigen
    Sql = Sql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, "
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoComisionEgreso, vCuentaContableDebeComisionEgreso, False, codigoDelAuxiliar, valNoDocumentoOrigen, valDescripcionDelAsiento, "", "") & " "
    Sql = Sql & " FROM Adm.TransferenciaEntreCuentasBancarias INNER JOIN cuentaBancaria ON "
@@ -4629,11 +4627,10 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
       vPorcentajeIGTF = insMovimiento.fBuscaAlicuotaImpTranscBancarias(valFechaDesde, True)
    End If
    
-   '  ESTAS INSTRUCCIONES SON PARA IGTF DE LA COMISION DE EGRESO
+   'GASTO POR IGTF DE LA COMISION DE EGRESO
    SqlTasaDeCambioEgreso = insTransferenciaEntreCuentasBancarias.GetTableName & ".CambioABolivaresEgreso"
    vMontoAsientoIGTFComisionEgreso = "SUM((((Adm.TransferenciaEntreCuentasBancarias.MontoComisionEgreso) * " & SqlTasaDeCambioEgreso & ") * " & vPorcentajeIGTF & " )/100)"
-   vCuentaContableDebeIGTFEgreso = gUtilSQL.getIIF("cuenta.Codigo IS NULL ", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto), "cuenta.Codigo")
-   vCuentaContableHaberIGTFEgreso = gUtilSQL.getIIF(gUtilSQL.fFirst("cuentaBancaria.CuentaContable", "NONE") & " = ''", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoOrigen), gUtilSQL.fFirst("cuentaBancaria.CuentaContable", "NONE"), True)
+   vCuentaContableDebeIGTFEgreso = gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto
    Sql = Sql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, "
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoIGTFComisionEgreso, vCuentaContableDebeIGTFEgreso, False, codigoDelAuxiliar, valNoDocumentoOrigen, valDescripcionDelAsiento, "", "") & " "
    Sql = Sql & " FROM Adm.TransferenciaEntreCuentasBancarias INNER JOIN cuentaBancaria ON "
@@ -4656,10 +4653,10 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionEgreso, cuenta.Codigo"
 
-   '  ESTAS INSTRUCCIONES SON PARA LA COMISION DE INGRESO
+   'GASTO POR COMISION DE INGRESO
    SqlTasaDeCambioIngreso = insTransferenciaEntreCuentasBancarias.GetTableName & ".CambioABolivaresIngreso"
    vMontoAsientoComisionIngreso = "SUM( " & gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoComisionIngreso * " & SqlTasaDeCambioIngreso) & ")"
-   vCuentaContableDebeComisionIngreso = gUtilSQL.getIIF("cuenta.Codigo IS NULL ", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComDestino), "cuenta.Codigo")
+   vCuentaContableDebeComisionIngreso = gProyReglasDeContabilizacion.GetCuentaTransfCtasGastoComDestino
    Sql = Sql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, "
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoComisionIngreso, vCuentaContableDebeComisionIngreso, False, codigoDelAuxiliar, valNoDocumentoOrigen, valDescripcionDelAsiento, "", "")
    Sql = Sql & " FROM Adm.TransferenciaEntreCuentasBancarias INNER JOIN cuentaBancaria ON "
@@ -4682,10 +4679,10 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, cuenta.Codigo"
    
-   '  ESTAS INSTRUCCIONES SON PARA IGTF DE LA COMISION DE INGRESO
+   'GASTO POR IGTF DE LA COMISION DE INGRESO
    SqlTasaDeCambioIngreso = insTransferenciaEntreCuentasBancarias.GetTableName & ".CambioABolivaresIngreso"
    vMontoAsientoIGTFComisionIngreso = "SUM((((Adm.TransferenciaEntreCuentasBancarias.MontoComisionIngreso) * " & SqlTasaDeCambioIngreso & ") * " & vPorcentajeIGTF & " )/100)"
-   vCuentaContableDebeIGTFIngreso = gUtilSQL.getIIF("cuenta.Codigo IS NULL ", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto), "cuenta.Codigo")
+   vCuentaContableDebeIGTFIngreso = gProyReglasDeContabilizacion.GetCuentaCreditoBancarioGasto
    Sql = Sql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, "
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoIGTFComisionIngreso, vCuentaContableDebeIGTFIngreso, False, codigoDelAuxiliar, valNoDocumentoOrigen, valDescripcionDelAsiento, "", "")
    Sql = Sql & " FROM Adm.TransferenciaEntreCuentasBancarias INNER JOIN cuentaBancaria ON "
@@ -4708,7 +4705,7 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoComisionIngreso, cuenta.Codigo"
 
-   '  EL MOVIMIENTO BANCARIO ES UN EGRESO
+   'MB DE EGRESO + MB POR COMISION DE EGRESO + MB POR IGTF DE COMISION DE EGRESO
    SqlTasaDeCambioEgreso = insTransferenciaEntreCuentasBancarias.GetTableName & ".CambioABolivaresEgreso"
    vMontoAsientoEgreso = "SUM( " & gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoTransferenciaEgreso * " & SqlTasaDeCambioEgreso) & ") + " & gUtilSQL.getIIF("Adm.TransferenciaEntreCuentasBancarias.GeneraIGTFComisionEgreso = " & gUtilSQL.fBooleanToStrSQL(True), vMontoAsientoIGTFComisionEgreso, "0") & " + " & gUtilSQL.getIIF("Adm.TransferenciaEntreCuentasBancarias.GeneraComisionEgreso = " & gUtilSQL.fBooleanToStrSQL(True), vMontoAsientoComisionEgreso, "0")
    vCuentaContableHaberEgreso = gUtilSQL.getIIF("cuenta.Codigo IS NULL ", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoOrigen), "cuenta.Codigo")
@@ -4733,7 +4730,7 @@ Private Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valFechaDesde As
    End If
    Sql = Sql & " GROUP BY Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoEgreso, Adm.TransferenciaEntreCuentasBancarias.GeneraIGTFComisionEgreso, Adm.TransferenciaEntreCuentasBancarias.GeneraComisionEgreso, cuenta.Codigo"
    
-   '  EL MOVIMIENTO BANCARIO ES UN COMISION DE INGRESO + IGTF INGRESO
+   'MB POR COMISION DE INGRESO + MB POR IGTF INGRESO
    vMontoAsientoIngreso = gUtilSQL.getIIF("Adm.TransferenciaEntreCuentasBancarias.GeneraIGTFComisionIngreso = " & gUtilSQL.fBooleanToStrSQL(True), vMontoAsientoIGTFComisionIngreso, "0") & " + " & gUtilSQL.getIIF("Adm.TransferenciaEntreCuentasBancarias.GeneraComisionIngreso = " & gUtilSQL.fBooleanToStrSQL(True), vMontoAsientoComisionIngreso, "0")
    vCuentaContableHaberIngreso = gUtilSQL.getIIF("cuenta.Codigo IS NULL ", gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaTransfCtasBancoDestino), "cuenta.Codigo")
    Sql = Sql & " UNION SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoIngreso, "
