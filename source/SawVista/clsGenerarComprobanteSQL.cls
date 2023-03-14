@@ -328,12 +328,8 @@ Public Function fSQLOrdenDeProduccionEntreFechas(ByVal valConsecutivoCompania As
    vSqlStatusConsecutivo = gUtilSQL.fCast("OdP.StatusOp", eTDSS_VARCHAR, "")
    vSqlStatusConsecutivo = vSqlStatusConsecutivo & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.fSeparadorStandardDeElementosString) & gUtilSQL.CharConcat
    vSqlStatusConsecutivo = vSqlStatusConsecutivo & gUtilSQL.fCast("OdP.Consecutivo", eTDSS_VARCHAR, "")
-   
-   If valEsUnReverso Then
-      vSqlFecha = "OdP.FechaFinalizacion"
-   Else
-      vSqlFecha = "OdP.FechaAnulacion"
-   End If
+      
+   vSqlFecha = "OdP.FechaFinalizacion"
    
    vSql = "SELECT OdP.Consecutivo, "
    vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, " ROUND(SUM(OdP_DetArticulo.MontoSubTotal * " & vSqlCambio & " ),2 ) ", vCCProductoTerminado, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1)
