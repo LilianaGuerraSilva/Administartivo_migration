@@ -1246,12 +1246,10 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                     valNumero = string.Empty;
                 }
 
-                LibSearchCriteria vFixedCriteria = new LibSearchCriteria();
-
-                vFixedCriteria.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", eBooleanOperatorType.IdentityEquality, LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")));
-                vFixedCriteria.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.StatusOp", eBooleanOperatorType.IdentityEquality, eTipoStatusOrdenProduccion.Cerrada));
-                vFixedCriteria.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaFinalizacion", eBooleanOperatorType.GreaterThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaAperturaDelPeriodo"))));
-                vFixedCriteria.Add(new LibBinaryOperatorExpression("Adm.Gv_OrdenDeProduccion_B1.FechaFinalizacion", eBooleanOperatorType.LessThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaCierreDelPeriodo"))));
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_OrdenDeProduccion_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+                vFixedCriteria.Add("Adm.Gv_OrdenDeProduccion_B1.StatusOp", LibConvert.EnumToDbValue((int)eTipoStatusOrdenProduccion.Cerrada));
+                vFixedCriteria.Add("Adm.Gv_OrdenDeProduccion_B1.FechaFinalizacion", eBooleanOperatorType.GreaterThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaAperturaDelPeriodo")));
+                vFixedCriteria.Add("Adm.Gv_OrdenDeProduccion_B1.FechaFinalizacion", eBooleanOperatorType.LessThanOrEqual, LibConvert.DateToDbValue(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("DatosDocumento", "FechaCierreDelPeriodo")));
 
                 LibSearchCriteria vSearchcriteria = null;
                 
