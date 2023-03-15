@@ -191,7 +191,7 @@ Public Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef refT
                   refTotalHaber = refTotalHaber + varMontoHaber
                   refNumeroDeAsiento = refNumeroDeAsiento + 1
                Else
-                  gMessage.Advertencia "Advertencia para el programador = Incompatibilidad de N˙mero de Columnas en el RecordSet. " & vbCr & vbCr & "Si no es programador, por favor comunÌquese con " & gDefgen.fNombreInformaticaGalac
+                  gMessage.Advertencia "Advertencia para el programador = Incompatibilidad de N√∫mero de Columnas en el RecordSet. " & vbCr & vbCr & "Si no es programador, por favor comun√≠quese con " & gDefgen.fNombreInformaticaGalac
                End If
             End If
             nCount = nCount + 7
@@ -423,12 +423,12 @@ Public Function fGeneraElComprobanteParaUnoOVariosDocumentos(ByVal valFechaDesde
          fEjecutaProcesoPostContabilizacion valModuloAContabilizar, valFechaDesde, valFechaHasta, conjuntoDeDocumentoAContabilizar
       End If
       If Not valContabilizarSolo1Documento Then
-         gMessage.exito "El Comprobante " & DescripcionComprobante & " fuÈ generado exitosamente"
+         gMessage.exito "El Comprobante " & DescripcionComprobante & " fu√© generado exitosamente"
       ElseIf (valModuloAContabilizar = eCG_PAGO_SUELDOS) Then
           If (gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(valModuloAContabilizar)) Then
             sEditaComprobanteGenerado numeroDecomprobante
           Else
-            gMessage.exito "El Comprobante " & DescripcionComprobante & " fuÈ generado exitosamente"
+            gMessage.exito "El Comprobante " & DescripcionComprobante & " fu√© generado exitosamente"
           End If
       ElseIf (valModuloAContabilizar <> eCG_PAGO_SUELDOS And gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(valModuloAContabilizar)) Then
          If gProyUsuarioActual.GetModificarComprobante Then
@@ -474,7 +474,7 @@ Private Sub sMensajeDeErrorAlGenerar(ByVal valConExito As Boolean, ByVal valGene
       varStrErrorMessage = "No hay " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & _
                " para contabilizar "
       If fTipoContabilizacionPorLote(valModuloAContabilizar) = eCP_DIARIA Then
-         varStrErrorMessage = varStrErrorMessage & "en el dÌa " & gConvert.dateToString(valFechaHasta)
+         varStrErrorMessage = varStrErrorMessage & "en el d√≠a " & gConvert.dateToString(valFechaHasta)
       Else
          varStrErrorMessage = varStrErrorMessage & "en el mes de " & gConvert.MesString(valFechaHasta)
       End If
@@ -494,7 +494,7 @@ Private Function fDescripcionComprobanteResumen(ByVal valFechaDesde As Date, ByV
      varDescripcion = "Resumen de " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar)
    End If
    If valFechaDesde = valFechaHasta Then
-      varDescripcion = varDescripcion & " del dÌa " & gConvert.dateToString(valFechaDesde)
+      varDescripcion = varDescripcion & " del d√≠a " & gConvert.dateToString(valFechaDesde)
    Else
       varDescripcion = varDescripcion & " del " & gConvert.dateToString(valFechaDesde) & " al " & gConvert.dateToString(valFechaHasta)
    End If
@@ -509,7 +509,7 @@ Public Function fConstruyeNumeroDocumentoDeOrigen(ByVal valFechaDesde As Date, B
    Dim varDocOrigen As String
    On Error GoTo h_ERROR
 '*****************************************
-'La convenciÛn para el No. Doc. Origen es:
+'La convenci√≥n para el No. Doc. Origen es:
 '*****************************************
    varDocOrigen = gConvert.fDateToKeyOrder(valFechaHasta)
    If valFechaDesde <> valFechaHasta Then
@@ -604,7 +604,7 @@ Private Function fDescripcionComprobanteUnoPorUno(ByVal valNumeroDocumento As St
          If CXP.fSearchFromLibSearch("ConsecutivoCxp = " & valNumeroDocumento, "") Then
             valNumeroDocumento = CXP.GetNumero
          End If
-         varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N∫ " & _
+         varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N¬∫ " & _
                gTexto.DfMid(valNumeroDocumento, gTexto.DfInStr(valNumeroDocumento, gTexto.fSeparadorStandardDeElementosString) + 1) & _
                " Proveedor " & CXP.GetCodigoProveedor & " " & CXP.GetNombreProveedor
       Case eCG_PAGOS: varDescripcion = fBuscaDescripcionDelComprobanteContableDePago(valNumeroDocumento)
@@ -615,13 +615,13 @@ Private Function fDescripcionComprobanteUnoPorUno(ByVal valNumeroDocumento As St
       Case eCG_FACTURA:
          numeroFactura = gTexto.DfMid(valNumeroDocumento, gTexto.DfInStr(valNumeroDocumento, gTexto.fSeparadorStandardDeElementosString) + 1)
          varDescripcion = fBuscaDescripcionDelComprobanteContableDeFactura(numeroFactura, valTipoDocumento)
-      Case eCG_RESUMEN_DIARIO_VENTAS: varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N∞ " & valNumeroDocumento
+      Case eCG_RESUMEN_DIARIO_VENTAS: varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N¬∞ " & valNumeroDocumento
       Case eCG_ANTICIPO: varDescripcion = varDescripcion & fBuscaDescripcionDelComprobanteContableDeAnticipo(valNumeroDocumento, valTipoDocumento)
       Case eCG_MOVIMIENTO_BANCARIO: varDescripcion = varDescripcion & fBuscaDescripcionDelComprobanteContableDeMovBancario(valNumeroDocumento)
       Case eCG_PAGO_SUELDOS: varDescripcion = varDescripcion & fBuscaDescripcionDelComprobanteContableDePagoDeSueldos(valConsecutivoDocOrigen)
-      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N∫ " & gTexto.DfMid(valNumeroDocumento, gTexto.DfInStr(valNumeroDocumento, gTexto.fSeparadorStandardDeElementosString) + 1)
-      Case eCG_ORDEN_DE_PRODUCCION: varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N∫ " & gTexto.DfMid(valNumeroDocumento, gTexto.DfInStr(valNumeroDocumento, gTexto.fSeparadorStandardDeElementosString) + 1)
-      Case Else: varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N∫ " & valNumeroDocumento
+      Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N¬∫ " & gTexto.DfMid(valNumeroDocumento, gTexto.DfInStr(valNumeroDocumento, gTexto.fSeparadorStandardDeElementosString) + 1)
+      Case eCG_ORDEN_DE_PRODUCCION: varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N¬∫ " & gTexto.DfMid(valNumeroDocumento, gTexto.DfInStr(valNumeroDocumento, gTexto.fSeparadorStandardDeElementosString) + 1)
+      Case Else: varDescripcion = varDescripcion & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & " N¬∫ " & valNumeroDocumento
    End Select
    Set CXP = Nothing
 h_EXIT:
@@ -718,9 +718,9 @@ Public Sub sContabilizaDocumento(ByVal valConMensaje As Boolean, ByVal valAction
          If insComprobanteContable.fElComprobanteDeContabilizacionAutomaticaYaExiste(valModulo, valFecha, valNumero, False, 0, True) Then 'para revision(ConsecutivoDocumento para Comprobante -> 0,True)
             ElComprobanteYaExiste = True
             If insComprobanteContable.GetFueModificado And gProyUsuarioActual.GetUsaContabilidad Then
-               gMessage.Advertencia "El Comprobante que corresponde al documento n˙mero " & valNumero & " del mÛdulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
-                  " ha sido modificado usando el MÛdulo de Comprobantes Contables. " & vbCr & vbCr & "Los asientos del documento de  " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
-                  " modificado ser·n generados de nuevo por lo que los cambios realizados al comprobante se perder·n y, si lo desea, los debe volver a realizar."
+               gMessage.Advertencia "El Comprobante que corresponde al documento n√∫mero " & valNumero & " del m√≥dulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
+                  " ha sido modificado usando el M√≥dulo de Comprobantes Contables. " & vbCr & vbCr & "Los asientos del documento de  " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
+                  " modificado ser√°n generados de nuevo por lo que los cambios realizados al comprobante se perder√°n y, si lo desea, los debe volver a realizar."
             End If
          End If
       ElseIf (valAction = Modificar) And (TipoContabilizacionIndividual = eCI_POSPUESTA) Then
@@ -741,7 +741,7 @@ Public Sub sContabilizaDocumento(ByVal valConMensaje As Boolean, ByVal valAction
       End If
       If generarComprobanteNavigator.fGeneraElComprobanteParaUnoOVariosDocumentos(valFecha, valFecha, valModulo, True, valNumero, valEsNotaDeCredito, ElComprobanteYaExiste, valGeneraElMovimientoBancario, valTipoDocumento, valConsecutivoDoc, valTipoAlicPorContIGTF) Then
          If (valConMensaje And Not gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(valModulo)) And gProyUsuarioActual.GetUsaContabilidad Then
-            gMessage.exito "ContabilizaciÛn del Documento No. " & valNumero & " del MÛdulo de " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & " ha sido realizada con Èxito."
+            gMessage.exito "Contabilizaci√≥n del Documento No. " & valNumero & " del M√≥dulo de " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & " ha sido realizada con √©xito."
          End If
       End If
    End If
@@ -799,9 +799,9 @@ Public Function fValidaDocumento(ByVal valConMensaje As Boolean, ByVal valAction
             ElComprobanteYaExiste = True
             If insComprobanteContable.GetFueModificado And gProyUsuarioActual.GetUsaContabilidad Then
                gMessage.Advertencia "El Comprobante que corresponde al " & _
-                  "documento n˙mero " & valNumero & " del mÛdulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
-                  " ha sido modificado usando el MÛdulo de Comprobantes Contables. " & vbCr & vbCr & "Los asientos del documento de  " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
-                  " modificado ser·n generados de nuevo por lo que los cambios realizados al comprobante se perder·n y, si lo desea, los debe volver a realizar."
+                  "documento n√∫mero " & valNumero & " del m√≥dulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
+                  " ha sido modificado usando el M√≥dulo de Comprobantes Contables. " & vbCr & vbCr & "Los asientos del documento de  " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & _
+                  " modificado ser√°n generados de nuevo por lo que los cambios realizados al comprobante se perder√°n y, si lo desea, los debe volver a realizar."
             End If
          End If
       ElseIf (valAction = Modificar) And (TipoContabilizacionIndividual = eCI_POSPUESTA) Then
@@ -817,7 +817,7 @@ Public Function fValidaDocumento(ByVal valConMensaje As Boolean, ByVal valAction
       End If
       If gContPeriodoActual.fLaFechaPerteneceAunMesCerrado(valFecha, False) Then
           result = False
-         gMessage.Advertencia "No se puede ejecutar la acciÛn " & gDefgen.AccionSobreRecordStr(valAction) & ". La Fecha corresponde a un Mes Cerrado."
+         gMessage.Advertencia "No se puede ejecutar la acci√≥n " & gDefgen.AccionSobreRecordStr(valAction) & ". La Fecha corresponde a un Mes Cerrado."
       End If
       If Not gProyReglasDeContabilizacion.fLasCuentasDeReglasDeContabilizacionEstanCompletas(valModulo, gProyUsuarioActual.GetUsaContabilidad, valTipoDocumento) Then
          result = False
@@ -1243,7 +1243,7 @@ Private Function fSQLCobranzasEntreFechas(ByVal valFechaDesde As Date, ByVal val
    Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, sqlVuelto, gProyReglasDeContabilizacion.GetCuentaCobranzaCobradoEnEfectivo, gProyReglasDeContabilizacion.getCuentaCobranzaCobradoEnEfectivoUsaAuxiliares, codigoDelAuxiliar, valNoDocumentoOrigen, "Vuelto en efectivo /" & valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
    If gProyReglasDeContabilizacion.GetManejarDiferenciaCambiariaEnCobranza Then
      vDifCambiariaEnCobranza = fGetDiferenciaCambiariaEnCobranza(valNoDocumentoOrigen)
-     vDescripcionAsientoDifCambiaria = "Ganancia/PÈrdida Cambiaria Doc No." & valNoDocumentoOrigen
+     vDescripcionAsientoDifCambiaria = "Ganancia/P√©rdida Cambiaria Doc No." & valNoDocumentoOrigen
      If vDifCambiariaEnCobranza = 0 Then
      ElseIf vDifCambiariaEnCobranza > 0 Then
        Sql = Sql & "," & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, gUtilSQL.fNumToStrSQL(vDifCambiariaEnCobranza), varSQLCuentaContableCliente, varAuxiliarCxC, codigoDelAuxiliar, valNoDocumentoOrigen, vDescripcionAsientoDifCambiaria, CondicionDeStatusAnulado, "") & ","
@@ -1357,7 +1357,7 @@ Private Function fSQLCxPEntreFechas(ByVal valFechaDesde As Date, valFechaHasta A
    varcodigoProveedor = fBuscaCodProveedorSegunModulo(valNoDocumentoOrigen, eCG_CXP)
    varAuxiliarCxP = fElProveedorManejaAuxiliar(varcodigoProveedor, eCG_CXP, gProyReglasDeContabilizacion.eTC_ReglaProvCxP, valTipoDocumento)
    varAuxiliarGasto = fElProveedorManejaAuxiliar(varcodigoProveedor, eCG_CXP, gProyReglasDeContabilizacion.eTC_ReglaProvGasto, valTipoDocumento)
-'********* OJO AYRG LINEAS MES/ANO APLICACION ******* 'Ahora el campo fecha es una condicion de SQL pues depende del mes/aÒo aplicacion 'varSQLFNFecha = "(" & gUtilSQL.getIIF(gUtilSQL.DfSQLMonthOfDate(insCxP.GetTableName & "." & insCxP.getFN_FECHA) & " = " & insCxP.GetTableName & "." & insCxP.getFN_MES_DE_APLICACION & " AND " & (gUtilSQL.DfSQLYearOfDate(insCxP.GetTableName & "." & insCxP.getFN_FECHA) & " = " & insCxP.GetTableName & "." & insCxP.getFN_ANO_DE_APLICACION), insCxP.GetTableName & "." & insCxP.getFN_FECHA, gUtilSQL.DfCDateSQL(gUtilSQL.fSimpleSqlValue("01/") & gUtilSQL.CharConcat & insCxP.GetTableName & "." & insCxP.getFN_MES_DE_APLICACION & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue("/") & gUtilSQL.CharConcat & insCxP.GetTableName & "." & insCxP.getFN_ANO_DE_APLICACION)) & ") " '********* OJO AYRG FIN LINEAS MES/ANO APLICACION *******
+'********* OJO AYRG LINEAS MES/ANO APLICACION ******* 'Ahora el campo fecha es una condicion de SQL pues depende del mes/a√±o aplicacion 'varSQLFNFecha = "(" & gUtilSQL.getIIF(gUtilSQL.DfSQLMonthOfDate(insCxP.GetTableName & "." & insCxP.getFN_FECHA) & " = " & insCxP.GetTableName & "." & insCxP.getFN_MES_DE_APLICACION & " AND " & (gUtilSQL.DfSQLYearOfDate(insCxP.GetTableName & "." & insCxP.getFN_FECHA) & " = " & insCxP.GetTableName & "." & insCxP.getFN_ANO_DE_APLICACION), insCxP.GetTableName & "." & insCxP.getFN_FECHA, gUtilSQL.DfCDateSQL(gUtilSQL.fSimpleSqlValue("01/") & gUtilSQL.CharConcat & insCxP.GetTableName & "." & insCxP.getFN_MES_DE_APLICACION & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue("/") & gUtilSQL.CharConcat & insCxP.GetTableName & "." & insCxP.getFN_ANO_DE_APLICACION)) & ") " '********* OJO AYRG FIN LINEAS MES/ANO APLICACION *******
    CondicionDeStatusAnulado = gUtilSQL.fFirst(insCxP.GetTableName() & ".Status", "NONE") & " = '" & gConvert.enumerativoAChar(enum_StatusDocumento.eSD_ANULADO) & "'"
    SqlTasaDeCambio = insCxP.GetTableName & ".CambioABolivares"
    numeroReferencia = valNoDocumentoOrigen
@@ -1583,7 +1583,7 @@ Private Function fSQLPagosEntreFechas(ByVal valFechaDesde As Date, valFechaHasta
    
    If gProyReglasDeContabilizacion.GetManejarDiferenciaCambiariaEnPagos Then
      vDifCambiariaEnPago = fGetDiferenciaCambiariaEnPago(valNoDocumentoOrigen)
-     vDescripcionAsientoDifCambiaria = "Ganancia/PÈrdida Cambiaria Doc No." & valNoDocumentoOrigen
+     vDescripcionAsientoDifCambiaria = "Ganancia/P√©rdida Cambiaria Doc No." & valNoDocumentoOrigen
      If vDifCambiariaEnPago = 0 Then
      ElseIf vDifCambiariaEnPago > 0 Then
        vDifCambiariaEnPago = Abs(vDifCambiariaEnPago)
@@ -1636,8 +1636,8 @@ Private Function fSQLPagosEntreFechas(ByVal valFechaDesde As Date, valFechaHasta
    Sql = Sql & " GROUP BY " & insMovBancario.GetTableName & ".CodigoConcepto"
    
    If gProyCompaniaActual.fPuedoUsarOpcionesDeContribuyenteEspecial Then
-      sqlMtonIvaRetenido = "SUM(" & insCxP.GetTableName & ".MontoRetenido)" 'el monto de la retenciÛn es guardado en MONEDA LOCAL
-      descripAsiento = "RetenciÛn IVA - " & valDescripcionDelAsiento
+      sqlMtonIvaRetenido = "SUM(" & insCxP.GetTableName & ".MontoRetenido)" 'el monto de la retenci√≥n es guardado en MONEDA LOCAL
+      descripAsiento = "Retenci√≥n IVA - " & valDescripcionDelAsiento
       sqlCondicionDeStatusAnulado = gUtilSQL.fFirst(insPago.GetTableName & ".StatusOrdenDePago", "NONE") & " = '" & gConvert.enumerativoAChar(enum_StatusPago.eSP_ANULADA) & "'"
       
       Sql = Sql & " UNION SELECT " & insPago.GetTableName & ".CodigoProveedor, "
@@ -1971,7 +1971,7 @@ Public Sub sMuestraElComprobanteAsociadoAlDocumento(ByVal valGeneradoPor As enum
    Set insComprobanteNavigator = New clsComprobanteNavigator
    NumeroBuscado = ""
    If Not insComprobanteNavigator.fSearchByNoDocumentoOrigenYGeneradoPor(valGeneradoPor, valNoDocumentoOrigen, True, False, 0, True) Then  'para revision(ConsecutivoDocumento para Comprobante -> 0,True)
-      gMessage.Advertencia "No existe Comprobante Contable asociado al documento " & valNoDocumentoOrigen & " del mÛdulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
+      gMessage.Advertencia "No existe Comprobante Contable asociado al documento " & valNoDocumentoOrigen & " del m√≥dulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
    Else
       Set insFrmComprobanteInput = New frmComprobanteInput
       insFrmComprobanteInput.sInitLookAndFeelAndSetValues consultar, Nothing, False, False, insComprobanteNavigator
@@ -2110,7 +2110,7 @@ Private Function fBuscaDescripcionDelComprobanteContableDeCxC(ByVal valNumeroDoc
    Set insCXCNavigator = New clsCxCNavigator
    insCXCNavigator.sBuscaDatosDeLaCxCParaDescripcionComprobante valNumeroDocumento, valTipoDeCxC, NombreClienteDeLaCxC, DescripcionDeLaCxC
    Set insCXCNavigator = Nothing
-   DescripcionBuscada = "CxC N∞" & valNumeroDocumento & "/" & gTexto.DfMid(NombreClienteDeLaCxC, 1, 20)
+   DescripcionBuscada = "CxC N¬∞" & valNumeroDocumento & "/" & gTexto.DfMid(NombreClienteDeLaCxC, 1, 20)
    If DescripcionDeLaCxC <> "" Then
       DescripcionBuscada = DescripcionBuscada & "/" & DescripcionDeLaCxC
    End If
@@ -2132,7 +2132,7 @@ Private Function fBuscaDescripcionDelComprobanteContableDeCobranza(ByVal valNume
    Set insCobranzaNavigator = New clsCobranzaNavigator
    insCobranzaNavigator.sBuscaDatosDeLaCobranzaParaDescripcionComprobante valNumeroDocumento, NombreClienteDeLaCobranza, DescripcionDeLaCobranza
    Set insCobranzaNavigator = Nothing
-   DescripcionBuscada = "Cob.N∞" & valNumeroDocumento & "/" & gTexto.DfMid(NombreClienteDeLaCobranza, 1, 20)
+   DescripcionBuscada = "Cob.N¬∞" & valNumeroDocumento & "/" & gTexto.DfMid(NombreClienteDeLaCobranza, 1, 20)
    If DescripcionDeLaCobranza <> "" Then
       DescripcionBuscada = DescripcionBuscada & "/" & DescripcionDeLaCobranza
    End If
@@ -2153,7 +2153,7 @@ Private Function fBuscaDescripcionDelComprobanteContableDeFactura(ByVal valNumer
    Set insFacturaNavigator = New clsFacturaNavigator
    insFacturaNavigator.sBuscaDatosDeLaFacturaParaDescripcionComprobante valNumeroDocumento, valTipoDocumento, NombreClienteDeLaFactura
    Set insFacturaNavigator = Nothing
-   DescripcionBuscada = gTexto.DfMid("Fac.N∞" & valNumeroDocumento & "/" & gTexto.DfMid(NombreClienteDeLaFactura, 1, 20), 1, 40)
+   DescripcionBuscada = gTexto.DfMid("Fac.N¬∞" & valNumeroDocumento & "/" & gTexto.DfMid(NombreClienteDeLaFactura, 1, 20), 1, 40)
 h_EXIT:
    fBuscaDescripcionDelComprobanteContableDeFactura = DescripcionBuscada
    On Error GoTo 0
@@ -2405,7 +2405,7 @@ Private Function fSQLFacturasEntreFechasPorArticulo(ByVal valFechaDesde As Date,
    If insFactura.fSearchByNumeroTipoDocumento(numeroFactura, valTipoDocumento, False, True, False, True) Then
       CodigoCuentaIVA = fEscogeCuentaDeIVASiEsDebitoOcredito(fCambiaDebeHaberSiEsUnReverso("HABER", valEsUnReverso), eTD_ALICUOTAGENERAL, eCG_FACTURA, CodigoCuentaIVAUsaAuxiliar, insFactura.GetEsOriginalmenteDiferida)
    End If
-   '  ESTAS INSTRUCCIONES SON PARA CONTABLIZAR EL TOTAL FACTURA POR ARTÕCULO
+   '  ESTAS INSTRUCCIONES SON PARA CONTABLIZAR EL TOTAL FACTURA POR ART√çCULO
    sqlMtoRenglon = "(renglonFactura.PrecioSinIVA * renglonFactura.Cantidad) "
    sqlMtoRenglon = "(" & sqlMtoRenglon & " * ( 1 - (renglonFactura.PorcentajeDescuento / 100)))"
    sqlMtoRenglon = "(" & sqlMtoRenglon & " * ( 1 - (factura.PorcentajeDescuento / 100)))"
@@ -2671,7 +2671,7 @@ Private Function fSQLResumenVentasEntreFechasPorArticulo(ByVal valFechaDesde As 
    varSQLCuentaContableCliente = gUtilSQL.getIIF(gUtilSQL.fFirst("Cliente.CuentaContableCxC", "NONE") & " <> ''", gUtilSQL.fFirst("Cliente.CuentaContableCxC", "NONE"), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaFacturacionCxCClientes))
    codigoDelAuxiliar = "factura.CodigoCliente"
    CodigoCuentaIVA = fEscogeCuentaDeIVASiEsDebitoOcredito(fCambiaDebeHaberSiEsUnReverso("HABER", valEsUnReverso), eTD_ALICUOTAGENERAL, eCG_FACTURA, CodigoCuentaIVAUsaAuxiliar)
-   '  ESTAS INSTRUCCIONES SON PARA CONTABLIZAR EL TOTAL FACTURA POR ARTÕCULO
+   '  ESTAS INSTRUCCIONES SON PARA CONTABLIZAR EL TOTAL FACTURA POR ART√çCULO
    sqlMtoRenglon = "(RenglonFactura.PrecioSinIva * RenglonFactura.Cantidad) "
    sqlMtoRenglon = "(" & sqlMtoRenglon & " * ( 1 - RenglonFactura.PorcentajeDescuento / 100))"
    sqlMtoRenglon = "(" & sqlMtoRenglon & " * ( 1 - factura.PorcentajeDescuento / 100))"
@@ -3357,7 +3357,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeCobranzaOPago(ByVal valGeneradoPor A
    On Error GoTo h_ERROR
    Set insComprobanteNavigator = New clsComprobanteNavigator
    If Not insComprobanteNavigator.fSearchByNoDocumentoOrigenYGeneradoPor(valGeneradoPor, valNoDocumentoOrigen, True, True, valConsecutivoDocumento, valStringField) Then
-      gMessage.Advertencia "No existe Comprobante Contable asociado al documento " & valNoDocumentoOrigen & " del mÛdulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
+      gMessage.Advertencia "No existe Comprobante Contable asociado al documento " & valNoDocumentoOrigen & " del m√≥dulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
    Else
       refNumeroComprobante = insComprobanteNavigator.GetNumero
       Set insFrmComprobanteInput = New frmComprobanteInput
@@ -3371,7 +3371,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeCobranzaOPago(ByVal valGeneradoPor A
                   insComprobanteNavigator.SetConsecutivoPeriodo gContPeriodoActual.GetConsecutivoPeriodo
                   insComprobanteNavigator.SetNumero insComprobanteNavigator.fGenerarNuevoNumeroCompletoDeComprobante
                Else
-                  gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe perÌodo v·lido."
+                  gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe per√≠odo v√°lido."
                   GoTo h_EXIT
                End If
             insComprobanteNavigator.SetNoDocumentoOrigen valNoDocumentoOrigen
@@ -3500,7 +3500,7 @@ Public Sub sGenerarComprobanteDeAnulacionDeMovBancario(ByVal valGeneradoPor As e
    On Error GoTo h_ERROR
    Set insComprobanteNavigator = New clsComprobanteNavigator
    If Not insComprobanteNavigator.fSearchByNoDocumentoOrigenYGeneradoPor(valGeneradoPor, valNoDocumentoOrigen, True, True, valConsecutivoDocumento, valStringField) Then
-      gMessage.Advertencia "No existe Comprobante Contable asociado al documento " & valNoDocumentoOrigen & " del mÛdulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
+      gMessage.Advertencia "No existe Comprobante Contable asociado al documento " & valNoDocumentoOrigen & " del m√≥dulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
    Else
       refNumeroComprobante = insComprobanteNavigator.GetNumero
       Set insFrmComprobanteInput = New frmComprobanteInput
@@ -3514,7 +3514,7 @@ Public Sub sGenerarComprobanteDeAnulacionDeMovBancario(ByVal valGeneradoPor As e
                   insComprobanteNavigator.SetConsecutivoPeriodo gContPeriodoActual.GetConsecutivoPeriodo
                   insComprobanteNavigator.SetNumero insComprobanteNavigator.fGenerarNuevoNumeroCompletoDeComprobante
                Else
-                  gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe perÌodo v·lido."
+                  gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe per√≠odo v√°lido."
                   GoTo h_EXIT
                End If
             insComprobanteNavigator.SetNoDocumentoOrigen valNoDocumentoOrigen
@@ -3610,7 +3610,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeRendicion(ByVal valGeneradoPor As en
    Set insComprobanteNavigator = New clsComprobanteNavigator
    If Not insComprobanteNavigator.fSearchByNoDocumentoOrigenYGeneradoPor(valGeneradoPor, valNoDocumentoOrigen, True, True, valConsecutivoDocumento, valStringField) Then
       gMessage.Advertencia "No existe Comprobante Contable asociado al documento " & _
-      valNoDocumentoOrigen & " del mÛdulo " & _
+      valNoDocumentoOrigen & " del m√≥dulo " & _
       gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
    Else
       refNumeroComprobante = insComprobanteNavigator.GetNumero
@@ -3625,7 +3625,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeRendicion(ByVal valGeneradoPor As en
                insComprobanteNavigator.SetConsecutivoPeriodo gContPeriodoActual.GetConsecutivoPeriodo
                insComprobanteNavigator.SetNumero insComprobanteNavigator.fGenerarNuevoNumeroCompletoDeComprobante
             Else
-               gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe perÌodo v·lido."
+               gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe per√≠odo v√°lido."
                GoTo h_EXIT
             End If
             insComprobanteNavigator.SetNoDocumentoOrigen valNoDocumentoOrigen
@@ -3635,7 +3635,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeRendicion(ByVal valGeneradoPor As en
                     If (gProyReglasDeContabilizacion.fEditaComprobanteDespuesDeInsertar(eCG_REPOSICION)) Then
                         insFrmComprobanteInput.sInitLookAndFeelAndSetValues Modificar, Nothing, False, False, insComprobanteNavigator
                     Else
-                        gMessage.exito "El Comprobante fuÈ generado exitosamente"
+                        gMessage.exito "El Comprobante fu√© generado exitosamente"
                     End If
                End If
             End If
@@ -3657,7 +3657,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeCajaChica(ByVal valGeneradoPor As en
    Set insComprobanteNavigator = New clsComprobanteNavigator
    If Not insComprobanteNavigator.fSearchByNoDocumentoOrigenYGeneradoPor(valGeneradoPor, valNoDocumentoOrigen, True, True, valConsecutivoDocumento, valStringField) Then
       gMessage.Advertencia "No existe Comprobante Contable asociado al documento " & _
-      valNoDocumentoOrigen & " del mÛdulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
+      valNoDocumentoOrigen & " del m√≥dulo " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor)
    Else
       refNumeroComprobante = insComprobanteNavigator.GetNumero
       Set insFrmComprobanteInput = New frmComprobanteInput
@@ -3671,7 +3671,7 @@ Private Sub sGenerarComprobanteDeAnulacionDeCajaChica(ByVal valGeneradoPor As en
                   insComprobanteNavigator.SetConsecutivoPeriodo gContPeriodoActual.GetConsecutivoPeriodo
                   insComprobanteNavigator.SetNumero insComprobanteNavigator.fGenerarNuevoNumeroCompletoDeComprobante
                Else
-                  gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe perÌodo v·lido."
+                  gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe per√≠odo v√°lido."
                   GoTo h_EXIT
                End If
             insComprobanteNavigator.SetNoDocumentoOrigen valNoDocumentoOrigen
@@ -3733,18 +3733,18 @@ Private Function fSQLCajaChicaEntreFechasSinDesglozar(ByVal valFechaDesde As Dat
       GoTo h_EXIT
    End If
    Sql = "SELECT Adm.Rendicion.ConsecutivoBeneficiario, "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.getIIF("Adm.DetalleDeRendicion.GeneradaPor = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_GeneradoPor.eGP_RENDICION)), "((Adm.DetalleDeRendicion.MontoExento + Adm.DetalleDeRendicion.MontoGravable - Adm.DetalleDeRendicion.MontoRetencion) * " & SqlTasaDeCambio & ")", "0", True) & ")", gUtilSQL.getIIF(gUtilSQL.fFirst("Adm.DetalleDeRendicion.GeneradaPor", "") & " = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_GeneradoPor.eGP_RENDICION)), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaCajaChicaGasto), "'0'"), False, "", numeroReferencia, "Proveedores Caja Chica N∞ " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.getIIF("Adm.DetalleDeRendicion.GeneradaPor = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_GeneradoPor.eGP_USUARIO)), "((Adm.DetalleDeRendicion.MontoExento + Adm.DetalleDeRendicion.MontoGravable - Adm.DetalleDeRendicion.MontoRetencion) * " & SqlTasaDeCambio & ")", "0", True) & ")", gUtilSQL.getIIF(gUtilSQL.fMax("Adm.DetalleDeRendicion.GeneradaPor", "") & " = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_GeneradoPor.eGP_USUARIO)), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaPagosCxPProveedores), "'0'"), False, "", numeroReferencia, "Proveedores de CxP por Caja Chica N∞ " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "((Adm.Rendicion.TotalIva) * " & SqlTasaDeCambio & ")", gProyReglasDeContabilizacion.GetCuentaIva1Debito, False, "", numeroReferencia, "Iva Caja Chica N∞ " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
+   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.getIIF("Adm.DetalleDeRendicion.GeneradaPor = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_GeneradoPor.eGP_RENDICION)), "((Adm.DetalleDeRendicion.MontoExento + Adm.DetalleDeRendicion.MontoGravable - Adm.DetalleDeRendicion.MontoRetencion) * " & SqlTasaDeCambio & ")", "0", True) & ")", gUtilSQL.getIIF(gUtilSQL.fFirst("Adm.DetalleDeRendicion.GeneradaPor", "") & " = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_GeneradoPor.eGP_RENDICION)), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaCajaChicaGasto), "'0'"), False, "", numeroReferencia, "Proveedores Caja Chica N¬∞ " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
+   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM(" & gUtilSQL.getIIF("Adm.DetalleDeRendicion.GeneradaPor = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_GeneradoPor.eGP_USUARIO)), "((Adm.DetalleDeRendicion.MontoExento + Adm.DetalleDeRendicion.MontoGravable - Adm.DetalleDeRendicion.MontoRetencion) * " & SqlTasaDeCambio & ")", "0", True) & ")", gUtilSQL.getIIF(gUtilSQL.fMax("Adm.DetalleDeRendicion.GeneradaPor", "") & " = " & gUtilSQL.fSimpleSqlValue(gConvert.enumerativoAChar(enum_GeneradoPor.eGP_USUARIO)), gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaPagosCxPProveedores), "'0'"), False, "", numeroReferencia, "Proveedores de CxP por Caja Chica N¬∞ " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
+   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "((Adm.Rendicion.TotalIva) * " & SqlTasaDeCambio & ")", gProyReglasDeContabilizacion.GetCuentaIva1Debito, False, "", numeroReferencia, "Iva Caja Chica N¬∞ " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
    sqlCuentaContableCajaChica = gUtilSQL.getIIF(gUtilSQL.fFirst(gUtilSQL.getIIF("CrossCuentaContableCajaChica.CuentaContableCajaChica Is Null", gUtilSQL.fSimpleSqlValue(""), "CrossCuentaContableCajaChica.CuentaContableCajaChica"), "NONE") & " <> ''", "CrossCuentaContableCajaChica.CuentaContableCajaChica", "'" & gProyReglasDeContabilizacion.GetCuentaCajaChicaBancoHaber & "'")
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "((Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableCajaChica, False, "", numeroReferencia, "Total Caja Chica N∞ " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
+   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "((Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableCajaChica, False, "", numeroReferencia, "Total Caja Chica N¬∞ " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
    sqlCuentaContableCajaChica = gUtilSQL.getIIF(gUtilSQL.fFirst(gUtilSQL.getIIF("CrossCuentaContableCajaChica.CuentaContableCajaChica Is Null", gUtilSQL.fSimpleSqlValue(""), "CrossCuentaContableCajaChica.CuentaContableCajaChica"), "NONE") & " <> ''", "CrossCuentaContableCajaChica.CuentaContableCajaChica", "'" & gProyReglasDeContabilizacion.GetCuentaCajaChicaBancoDebe & "'")
    Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "((Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableCajaChica, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
    sqlCuentaContableReposicion = gUtilSQL.getIIF(gUtilSQL.fFirst(gUtilSQL.getIIF("CrossCuentaContableRendicion.CuentaContableRendicion Is Null", gUtilSQL.fSimpleSqlValue(""), "CrossCuentaContableRendicion.CuentaContableRendicion"), "NONE") & " <> ''", "CrossCuentaContableRendicion.CuentaContableRendicion", "'" & gProyReglasDeContabilizacion.GetCuentaCajaChicaBanco & "'")
    Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "((Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableReposicion, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
    
    If varGeneraITF Then
-      descripcionMovBancario = insLibSaW.fTituloITFEnCtaBancaria & " / ReposiciÛn " & numeroReferencia
+      descripcionMovBancario = insLibSaW.fTituloITFEnCtaBancaria & " / Reposici√≥n " & numeroReferencia
       If insMovimiento.fAplicaReformaIGTFGO6687(valFechaDesde) Then
          porcentajeITF = insMovimiento.fBuscaAlicuotaImpTranscBancariasReformaIGTFGO6687(valTipoAlicPorContIGTF, valFechaDesde)
       Else
@@ -3855,11 +3855,11 @@ Private Function fSQLCajaChicaEntreFechasDesglozado(ByVal valFechaDesde As Date,
    sqlCuentaContableCajaChica = gUtilSQL.getIIF(gUtilSQL.fFirst(gUtilSQL.getIIF("CrossCuentaContableCajaChica.CuentaContableCajaChica Is Null", gUtilSQL.fSimpleSqlValue(""), "CrossCuentaContableCajaChica.CuentaContableCajaChica"), "NONE") & " <> ''", "CrossCuentaContableCajaChica.CuentaContableCajaChica", "'" & gProyReglasDeContabilizacion.GetCuentaCajaChicaBancoHaber & "'")
    Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "(Sum(Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableCajaChica, False, "", numeroReferencia, "Total Caja Chica " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
    sqlCuentaContableCajaChica = gUtilSQL.getIIF(gUtilSQL.fFirst(gUtilSQL.getIIF("CrossCuentaContableCajaChica.CuentaContableCajaChica Is Null", gUtilSQL.fSimpleSqlValue(""), "CrossCuentaContableCajaChica.CuentaContableCajaChica"), "NONE") & " <> ''", "CrossCuentaContableCajaChica.CuentaContableCajaChica", "'" & gProyReglasDeContabilizacion.GetCuentaCajaChicaBancoDebe & "'")
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "(Sum(Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableCajaChica, False, "", numeroReferencia, "ReposiciÛn " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
+   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "(Sum(Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableCajaChica, False, "", numeroReferencia, "Reposici√≥n " & numeroReferencia, CondicionDeStatusAnulado, "") & ", "
    sqlCuentaContableReposicion = gUtilSQL.getIIF(gUtilSQL.fFirst(gUtilSQL.getIIF("CrossCuentaContableRendicion.CuentaContableRendicion Is Null", gUtilSQL.fSimpleSqlValue(""), "CrossCuentaContableRendicion.CuentaContableRendicion"), "NONE") & " <> ''", "CrossCuentaContableRendicion.CuentaContableRendicion", "'" & gProyReglasDeContabilizacion.GetCuentaCajaChicaBanco & "'")
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "(Sum(Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableReposicion, False, "", numeroReferencia, "ReposiciÛn " & numeroReferencia, CondicionDeStatusAnulado, "")
+   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "(Sum(Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", sqlCuentaContableReposicion, False, "", numeroReferencia, "Reposici√≥n " & numeroReferencia, CondicionDeStatusAnulado, "")
    If varGeneraITF Then
-      descripcionMovBancario = insLibSaW.fTituloITFEnCtaBancaria & " / ReposiciÛn " & numeroReferencia
+      descripcionMovBancario = insLibSaW.fTituloITFEnCtaBancaria & " / Reposici√≥n " & numeroReferencia
       If insMovimiento.fAplicaReformaIGTFGO6687(valFechaDesde) Then
          porcentajeITF = insMovimiento.fBuscaAlicuotaImpTranscBancariasReformaIGTFGO6687(valTipoAlicPorContIGTF, valFechaDesde)
       Else
@@ -3950,7 +3950,7 @@ Public Function fCuentasContablesDeCuentaBancariaSonValidas(ByVal valCuentaConta
       If fCuentaContableExisteParaElPeriodo(valCuentaContableAsignadaEnCuenta, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnCtaBancaria = True
       Else
-         vSufijo = "el mÛdulo de Cuenta Bancaria no existe para el perÌodo seg˙n la fecha del movimiento."
+         vSufijo = "el m√≥dulo de Cuenta Bancaria no existe para el per√≠odo seg√∫n la fecha del movimiento."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       sBuscaCuentaContableDeCtaBancatriaAsignadasEnReglas vCuentaMovBancarioBancosHaber, vCuentaMovBancarioBancosDebe, vCuentaMovBancarioBancosIngresos, vCuentaMovBancarioBancosGasto, vCuentaDebitoBancarioGasto, vCuentaDebitoBancarioBancos, vCuentaCreditoBancarioGasto, vCuentaCreditoBancarioBancos
@@ -3958,42 +3958,42 @@ Public Function fCuentasContablesDeCuentaBancariaSonValidas(ByVal valCuentaConta
       If fCuentaContableExisteParaElPeriodo(vCuentaMovBancarioBancosHaber, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnHaber = True
       Else
-         vSufijo = "Reglas Contables para el HABER no existe para el perÌodo seg˙n la fecha del movimiento. Se cancelar· el proceso de generaciÛn del Comprobante Contable."
+         vSufijo = "Reglas Contables para el HABER no existe para el per√≠odo seg√∫n la fecha del movimiento. Se cancelar√° el proceso de generaci√≥n del Comprobante Contable."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       ' Valida Cuenta Contable Asignada por el Debe
       If fCuentaContableExisteParaElPeriodo(vCuentaMovBancarioBancosDebe, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnDebe = True
       Else
-         vSufijo = "Reglas Contables para el DEBE no existe para el perÌodo seg˙n la fecha del movimiento. Se cancelar· el proceso de generaciÛn del Comprobante Contable."
+         vSufijo = "Reglas Contables para el DEBE no existe para el per√≠odo seg√∫n la fecha del movimiento. Se cancelar√° el proceso de generaci√≥n del Comprobante Contable."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       ' Valida Cuenta Contable Asignada por el Ingresos
       If fCuentaContableExisteParaElPeriodo(vCuentaMovBancarioBancosIngresos, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnIngresos = True
       Else
-         vSufijo = "Reglas Contables para INGRESOS no existe para el perÌodo seg˙n la fecha del movimiento. Se cancelar· el proceso de generaciÛn del Comprobante Contable."
+         vSufijo = "Reglas Contables para INGRESOS no existe para el per√≠odo seg√∫n la fecha del movimiento. Se cancelar√° el proceso de generaci√≥n del Comprobante Contable."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
       ' Valida Cuenta Contable Asignada por el Gasto
       If fCuentaContableExisteParaElPeriodo(vCuentaMovBancarioBancosGasto, vConsecutivoPeriodo) Then
          vEsValidaCtaContableAsignadaEnGasto = True
       Else
-         vSufijo = "Reglas Contables para GASTOS no existe para el perÌodo seg˙n la fecha del movimiento. Se cancelar· el proceso de generaciÛn del Comprobante Contable."
+         vSufijo = "Reglas Contables para GASTOS no existe para el per√≠odo seg√∫n la fecha del movimiento. Se cancelar√° el proceso de generaci√≥n del Comprobante Contable."
          gMessage.Advertencia (vPrefijo & vSufijo)
       End If
-      ' Valida Cuenta Contable Asignada por el DÈbito Bancario
+      ' Valida Cuenta Contable Asignada por el D√©bito Bancario
       If valManejaDebitoBancario Then
          If fCuentaContableExisteParaElPeriodo(vCuentaDebitoBancarioGasto, vConsecutivoPeriodo) Then
             vEsValidaCtaContableAsignadaEnDebitoFiscalGasto = True
          Else
-           vSufijo = "Reglas Contables para ITF en la Cuenta de DÈbito para GASTOS no existe para el perÌodo seg˙n la fecha del movimiento. Se cancelar· el proceso de generaciÛn del Comprobante Contable."
+           vSufijo = "Reglas Contables para ITF en la Cuenta de D√©bito para GASTOS no existe para el per√≠odo seg√∫n la fecha del movimiento. Se cancelar√° el proceso de generaci√≥n del Comprobante Contable."
             gMessage.Advertencia (vPrefijo & vSufijo)
          End If
          If fCuentaContableExisteParaElPeriodo(vCuentaDebitoBancarioBancos, vConsecutivoPeriodo) Then
             vEsValidaCtaContableAsignadaEnDebitoFiscalBanco = True
          Else
-           vSufijo = "Reglas Contables para ITF en la Cuenta de DÈbito para BANCO no existe para el perÌodo seg˙n la fecha del movimiento. Se cancelar· el proceso de generaciÛn del Comprobante Contable."
+           vSufijo = "Reglas Contables para ITF en la Cuenta de D√©bito para BANCO no existe para el per√≠odo seg√∫n la fecha del movimiento. Se cancelar√° el proceso de generaci√≥n del Comprobante Contable."
             gMessage.Advertencia (vPrefijo & vSufijo)
          End If
          vResult = vEsValidaCtaContableAsignadaEnDebe And vEsValidaCtaContableAsignadaEnGasto And vEsValidaCtaContableAsignadaEnHaber And vEsValidaCtaContableAsignadaEnIngresos And vEsValidaCtaContableAsignadaEnDebitoFiscalGasto And vEsValidaCtaContableAsignadaEnDebitoFiscalBanco
@@ -4280,4 +4280,3 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fEsNotaCreditoDeFacturaConDiferimiento", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
