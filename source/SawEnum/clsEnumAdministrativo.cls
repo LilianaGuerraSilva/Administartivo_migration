@@ -57,182 +57,182 @@ End Enum
 
 Public Enum enum_SystemModules
    eSM_MenuG = 0
-   eSM_AlicuotaIVA
+   eSM_AlicuotaIVA '1
    eSM_Almacen
    eSM_Anticipo
    eSM_AnticipoCobrado
-   eSM_AnticipoPagado
+   eSM_AnticipoPagado '5
    eSM_ArticuloInventario
    eSM_Autorizacion
    eSM_Banco
    eSM_Caja
-   eSM_CajaApertura
+   eSM_CajaApertura '10
    eSM_CambiarDireccionDeDespacho
    eSM_CamposDefCotizacion
    eSM_CamposDefFactura
    eSM_CambioaMonedaLocal
-   eSM_CamposMonedaExtranjera
+   eSM_CamposMonedaExtranjera '15
    eSM_Categoria
    eSM_CategoriaCliente
    eSM_CategoriaProveedor
    eSM_ChequeDeMovBancario
-   eSM_CIIU
+   eSM_CIIU '20
    eSM_Ciudad
    eSM_ClaveSuperUtilitario
    eSM_Cliente
    eSM_Cobranza
-   eSM_Color
+   eSM_Color '25
    eSM_ComisionCobranzaXVcto
    eSM_Compania
    eSM_Compra
    eSM_ConceptoBancario
-   eSM_Conciliacion
+   eSM_Conciliacion '30
    eSM_ConteoFisico
    eSM_Contrato
    eSM_CorreccionDeFechas
    eSM_Cotizacion
-   eSM_CuentaBancaria
+   eSM_CuentaBancaria '35
    eSM_Curso
    eSM_CxC
    eSM_CxP
    eSM_Despacho
-   eSM_DiaDeDeclaracionDelIVA
-   eSM_DireccionDeDespacho
+   eSM_DiaDeDeclaracionDelIVA '40
+   eSM_DireccionDeDespacho '41
    eSM_DocumentoCobrado
    eSM_DocumentoPagado
    eSM_ExistenciaPorAlmacen
-   eSM_ExistenciaPorGrupo
+   eSM_ExistenciaPorGrupo '45
    eSM_Factura
    eSM_FacturasVendedor
    eSM_FaxMasivo
    eSM_FormaDelCobro
-   eSM_GeneracionDeContratos
+   eSM_GeneracionDeContratos '50
    eSM_GrupoTallaColor
    eSM_LineaDeProducto
    eSM_Llamada
    eSM_LoteAdm
-   eSM_MailFax
+   eSM_MailFax '55
    eSM_MaquinaFiscal
    eSM_MarcaVehiculo
    eSM_ModeloVehiculo
    eSM_Moneda
-   eSM_MonedaLocal
+   eSM_MonedaLocal '60
    eSM_MovimientoBancario
    eSM_NotaDeEntradaSalida
    eSM_NotaFinal
    eSM_OPFalsoRetencion
-   eSM_OrdenDeCompra
+   eSM_OrdenDeCompra '65
    eSM_OrdenDeServicio
    eSM_OtrosCargosDeFactura
    eSM_Pago
    eSM_Pais
-   eSM_Parametros
+   eSM_Parametros '70
    eSM_ParametrosCompania
    eSM_Participante
    eSM_PlanillaForma00030
    eSM_PreguntasMasComunes
-   eSM_ProductoCompuesto
+   eSM_ProductoCompuesto '75
    eSM_PropAnalisisVenc
    eSM_Proveedor
    eSM_ReglasDeContabilizacion
    eSM_RenglonArtCompuestoCot
-   eSM_RenglonArtCompuestoFac
+   eSM_RenglonArtCompuestoFac '80
    eSM_RenglonCobroDeFactura
    eSM_RenglonComisionesDeVendedor
    eSM_RenglonCompra
    eSM_RenglonCompraXSerial
-   eSM_RenglonConteoFisico
+   eSM_RenglonConteoFisico '85
    eSM_RenglonContrato
    eSM_RenglonCotizacion
    eSM_RenglonExistenciaAlmacen
    eSM_RenglonFactura
-   eSM_RenglonGrupoColor
+   eSM_RenglonGrupoColor '90
    eSM_RenglonGrupoTalla
    eSM_RenglonNotaES
    eSM_RenglonOtrosCargosDeCotizacion
    eSM_RenglonOtrosCargosDeFactura
-   eSM_RenglonTransferencia
+   eSM_RenglonTransferencia '95
    eSM_RespaldarRestaurar
    eSM_ResumenDiarioVentas
    eSM_RetDocumentoPagado
    eSM_RetirosACuenta
-   eSM_RetPago
+   eSM_RetPago '100
    eSM_RevisionDeData
    eSM_SectorDeNegocio
    eSM_TablaRetencion
    eSM_Talla
-   eSM_Talonario
+   eSM_Talonario '105
    eSM_TipoDeCurso
    eSM_TipoProveedor
    eSM_Transferencia
    eSM_UnidadDeVenta
-   eSM_UrbanizacionZP
+   eSM_UrbanizacionZP '110
    eSM_Usuario
    eSM_Vendedor
    eSM_VersionPrograma
    eSM_Visita
-   eSM_ZonaCobranza
+   eSM_ZonaCobranza '115
    eSM_GestionDeCobranza
    eSM_ComprobanteRetencionIVA
    eSM_DebitoBancario
    eSM_ServiciosAlRealizarVisita
-   eSM_PlanillaForma00030Nueva
+   eSM_PlanillaForma00030Nueva '120
    eSM_PDT
    esM_AnticipoAdelanto
    eSM_Rendicion
    eSM_DetalleDeRendicion
-   eSM_CajaChica
+   eSM_CajaChica '125
    eSM_Adelanto
    eSM_Detracciones
    eSM_TipoDeDocumentoLey
    eSM_Vehiculo
-   eSM_ControlDespacho
+   eSM_ControlDespacho '130
    eSM_DetalleDeControlDespacho
    'modulos de winret
-   eSM_PlanillaDec
+   eSM_PlanillaDec '132
    eSM_PlantillaRET
    eSM_ValorUT
-   eSM_TarifaN2
+   eSM_TarifaN2 '135
    eSM_ARCV
    eSM_RelacionAnual
    eSM_RenglonARCV
    eSM_ConversionContabilidad
-   eSM_Contabilizar
+   eSM_Contabilizar '140
    eSM_Balances
    eSM_Informes
    eSM_ImportarExportar
    eSM_CerrarPeriodo
-   eSM_CierreCostoPeriodo
+   eSM_CierreCostoPeriodo '145
    esM_DetalleDeConciliacion
    esM_InteligenciaDeNegocio
    esM_InformesVendedores
    eSM_Beneficiario
-   eSM_SolicitudesDePago
+   eSM_SolicitudesDePago '150
    eSM_RenglonSolicitudesDePago
    eSM_Integracion
    eSM_Municipio
    eSM_MunicipioCiudad
-   eSM_ClasificadorActividadEconomica
+   eSM_ClasificadorActividadEconomica '155
    eSM_ImpuestoMunicipalRetNavigator
    eSM_RenglonImpuestoMunicipalRetNav
    eSM_NotaDeEntrega
    eSM_GuiaDeRemision
-   eSM_Ubigeo
+   eSM_Ubigeo '160
    eSM_Provincia
    eSM_Departamento
    eSM_MotivoTraslado
    eSM_Conductor
-   eSM_DetalleGuiaDeRemision
+   eSM_DetalleGuiaDeRemision '165
    eSM_CompraDetalleGasto
    eSM_CargaInicial
    eSM_ExC
    eSM_DetalleExC
-   eSM_OrdenDeCompraDetalleArticuloInventario
+   eSM_OrdenDeCompraDetalleArticuloInventario '170
    eSM_CondicionesDePago
    eSM_ListaDeMateriales
    eSM_ListaDeMaterialesDetalleArticulo
    eSM_OrdenDeProduccion
-   eSM_OrdenDeProduccionDetalleArticulo
+   eSM_OrdenDeProduccionDetalleArticulo '180
    eSM_OrdenDeProduccionDetalleMateriales
    eSM_TransferenciaEntreCuentasBancarias
 End Enum
@@ -1564,11 +1564,6 @@ Public Enum enum_StatusRendicion
    eSRd_ANULADA
 End Enum
 
-Public Enum enum_StatusTransferenciaEntreCuentas
-   eSTEC_VIGENTE = 0
-   eSTEC_ANULADA
-End Enum
-
 Public Enum enum_OrigenRendicion
    eOR_Manual = 0
    eOR_Sistema10
@@ -1577,12 +1572,6 @@ Public Enum enum_TipoDeDocumentoRendicion
    eTDDR_Rendicion = 0
    eTDDR_Reposicion
 End Enum
-
-'Public Enum enum_TipoDeCompraEspecial
-'   eTDCE_NoEs = 0
-'   eTDCE_Informativa
-'   eTDCE_SueldosySalarios
-'End Enum
 
 Public Enum enum_StatusControlDespacho
    eSCD_PorProcesar = 0
@@ -13877,28 +13866,6 @@ h_EXIT:
    Exit Function
 End Function
 
-Public Sub FillComboBoxWithTipoNotaProduccion(ByRef varComboBox As Object, Optional action As AccionSobreRecord = Abrir)
-   Dim nCount As Integer
-   varComboBox.Clear
-   nCount = 0
-   If action = Buscar Then
-      varComboBox.Text = gDefGen.getSearchAllComboBox()
-      varComboBox.List(nCount) = gDefGen.getSearchAllComboBox()
-      nCount = nCount + 1
-   Else
-      varComboBox.Text = enumTipoNotaProduccionToString(enum_TipoNotaProduccion.eTNP_NoAplica)
-   End If
-   varComboBox.List(nCount) = enumTipoNotaProduccionToString(enum_TipoNotaProduccion.eTNP_NoAplica)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoNotaProduccionToString(enum_TipoNotaProduccion.eTNP_Abrir)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoNotaProduccionToString(enum_TipoNotaProduccion.eTNP_Cerrar)
-   nCount = nCount + 1
-   varComboBox.List(nCount) = enumTipoNotaProduccionToString(enum_TipoNotaProduccion.eTNP_Ajuste)
-   varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
-   varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
-End Sub
-
 Public Function enumFormaDeCalculoDePrecioRenglonFacturaToString(FormaDeCalculoDePrecioRenglonFactura As enum_FormaDeCalculoDePrecioRenglonFactura) As String
    Select Case FormaDeCalculoDePrecioRenglonFactura
       Case eFDCDPRF_APartirDelPrecioSinIVA: enumFormaDeCalculoDePrecioRenglonFacturaToString = "A Partir del Precio Sin IVA"
@@ -14056,70 +14023,4 @@ Public Function strFacturaGeneradaPorToNum(ByVal FacturaGeneradaPor As String, O
 h_EXIT:
    Exit Function
 End Function
-Public Function enumStatusTransferenciaEntreCuentasToString(ByVal StatusTransferenciaEntreCuentas As enum_StatusTransferenciaEntreCuentas) As String
-   Select Case StatusTransferenciaEntreCuentas
-      Case eSTEC_VIGENTE: enumStatusTransferenciaEntreCuentasToString = "Vigente"
-      Case eSTEC_ANULADA: enumStatusTransferenciaEntreCuentasToString = "Anulada"
-      Case Else: enumStatusTransferenciaEntreCuentasToString = enumStatusTransferenciaEntreCuentasToString(0)
-   End Select
-End Function
 
-Public Function strStatusTransferenciaEntreCuentasToNum(ByVal StatusTransferenciaEntreCuentas As String, Optional ByVal showMessage As Boolean = True) As Integer
-   Dim mEnum As enum_StatusTransferenciaEntreCuentas
-   Dim nCount As Integer
-   nCount = 0
-   For mEnum = eSTEC_VIGENTE To eSTEC_ANULADA
-      If UCase(StatusTransferenciaEntreCuentas) = UCase(enumStatusTransferenciaEntreCuentasToString(mEnum)) Then
-         strStatusTransferenciaEntreCuentasToNum = nCount
-         GoTo h_EXIT
-      End If
-      nCount = nCount + 1
-   Next
-   strStatusTransferenciaEntreCuentasToNum = 0
-   If showMessage Then
-      gMessage.ProgrammerMessage "Valor " & StatusTransferenciaEntreCuentas & " no existe en tipo enumerativo Status Transferencia Entre Cuentas"
-   End If
-h_EXIT:
-   Exit Function
-End Function
-
-Public Sub FillComboBoxWithStatusTransferenciaEntreCuentas(ByRef varComboBox As Object, Optional action As AccionSobreRecord = Abrir)
-   Dim nCount As Integer
-   If TypeOf varComboBox Is ComboBox Then
-      nCount = 0
-      If action = Buscar Then
-         varComboBox.Text = gDefGen.getSearchAllComboBox()
-         varComboBox.List(nCount) = gDefGen.getSearchAllComboBox()
-         nCount = nCount + 1
-      Else
-         varComboBox.Text = enumStatusTransferenciaEntreCuentasToString(enum_StatusTransferenciaEntreCuentas.eSTEC_VIGENTE)
-      End If
-      varComboBox.List(nCount) = enumStatusTransferenciaEntreCuentasToString(enum_StatusTransferenciaEntreCuentas.eSTEC_VIGENTE)
-      nCount = nCount + 1
-      varComboBox.List(nCount) = enumStatusTransferenciaEntreCuentasToString(enum_StatusTransferenciaEntreCuentas.eSTEC_ANULADA)
-      varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
-      varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
-   End If
-End Sub
-
-Public Function fenumStatusTransferenciaEntreCuentasToStringInArray(Optional ByVal valPrepararParaSql As Boolean = False) As Variant
-   Dim varEnum As enum_StatusTransferenciaEntreCuentas
-   Dim varArray() As String
-   Dim varLimiteSuperior As Integer
-   Dim nCount As Integer
-   Dim varCaracterDelimitador As String
-   On Error Resume Next
-   varCaracterDelimitador = ""
-   If valPrepararParaSql Then
-      varCaracterDelimitador = "'"
-   End If
-   varLimiteSuperior = enum_StatusTransferenciaEntreCuentas.eSTEC_ANULADA - enum_StatusTransferenciaEntreCuentas.eSTEC_VIGENTE
-   nCount = 0
-   ReDim varArray(0 To varLimiteSuperior)
-   For varEnum = eSTEC_VIGENTE To eSTEC_ANULADA
-      varArray(nCount) = varCaracterDelimitador & enumStatusTransferenciaEntreCuentasToString(varEnum) & varCaracterDelimitador
-      nCount = nCount + 1
-   Next
-   fenumStatusTransferenciaEntreCuentasToStringInArray = varArray
-   On Error GoTo 0
-End Function

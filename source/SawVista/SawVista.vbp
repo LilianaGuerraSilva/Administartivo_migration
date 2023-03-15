@@ -57,6 +57,7 @@ Class=clsProcesosDeInventarioSql; ..\AdministrativoVb\SAW_ADME\clsProcesosDeInve
 Class=clsRendicionSQL; clsRendicionSQL.cls
 Class=clsControlDespachoVista; clsControlDespachoVista.cls
 Class=clsControlDespachoSQL; clsControlDespachoSQL.cls
+Class=clsGenerarComprobanteSQL; clsGenerarComprobanteSQL.cls
 Startup="(None)"
 HelpFile=""
 Title="SawVista"
