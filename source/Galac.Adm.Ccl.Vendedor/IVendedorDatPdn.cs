@@ -8,7 +8,7 @@ using LibGalac.Aos.Base;
 namespace Galac.Adm.Ccl.Vendedor {
     public interface IVendedorDatPdn {
         #region Metodos Generados
-        LibResponse InsertarListaDeVendedorMaster(IList<Vendedor> valListOfRecords);
+        LibResponse InsertarListaDeVendedores(IList<Vendedor> valListOfRecords);
         #endregion //Metodos Generados
     } //End of class IOrdenDeCompraPdn
 

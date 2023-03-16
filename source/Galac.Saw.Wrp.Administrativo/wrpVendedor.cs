@@ -11,6 +11,7 @@ using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 using System.Runtime.InteropServices;
+using Galac.Adm.Ccl.Vendedor;
 
 namespace Galac.Saw.Wrp.Vendedor {
     [ClassInterface(ClassInterfaceType.None)]
@@ -112,8 +113,21 @@ namespace Galac.Saw.Wrp.Vendedor {
                 throw new GalacWrapperException(Title + " - Inicialización", vEx);
             }
         }
-        #endregion //Metodos Generados
 
+        public void InsertarElPrimerVendedor(int vfwConsecutivoCompania) {
+            try {
+                IVendedorPdn insVendedorPdn = new Adm.Brl.Vendedor.clsVendedorNav();
+                insVendedorPdn.InsertarElPrimerVendedor(vfwConsecutivoCompania);
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + "Insertar el Primer Vendedor");
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+            }
+        }
+        #endregion //Metodos Generados
 
     } //End of class wrpVendedor
 

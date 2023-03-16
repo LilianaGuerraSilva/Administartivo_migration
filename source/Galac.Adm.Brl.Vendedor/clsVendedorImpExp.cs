@@ -134,7 +134,7 @@ namespace Galac.Adm.Brl.Vendedor {
             int vIndex = 1;
             foreach (var item in vVendedorList) {
                 try {
-                    vResultOperacion = insVendedorDatPdn.InsertarListaDeVendedorMaster(vVendedorList);
+                    vResultOperacion = insVendedorDatPdn.InsertarListaDeVendedores(vVendedorList);
                     vResult.Success = vResult.Success && vResultOperacion.Success;
                     if (!vResultOperacion.Success) {
                         vResult.AddInformation(vResultOperacion.GetInformation());

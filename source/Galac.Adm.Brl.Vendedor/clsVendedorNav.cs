@@ -11,6 +11,9 @@ using System.Xml.Linq;
 using System.Linq;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Saw.Brl.Tablas;
+using Galac.Adm.Ccl.Vendedor;
+using Galac.Adm.Dal.Vendedor;
+using System.Threading;
 
 namespace Galac.Adm.Brl.Vendedor {
     public partial class clsVendedorNav : LibBaseNavMaster<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibPdn, Entity.IVendedorPdn {
@@ -82,11 +85,18 @@ namespace Galac.Adm.Brl.Vendedor {
             return vXElement;
         }
 
+        protected LibResponse InsertRecord(IList<Entity.Vendedor> refRecord) {
+            return new LibResponse();
+            //return vResult;
+        }
 
         Entity.Vendedor VendedorPorDefecto(int valConsecutivoCompania) {
             Entity.Vendedor insVendedor = new Entity.Vendedor();
-            insVendedor.Codigo = "00001";
             insVendedor.ConsecutivoCompania = valConsecutivoCompania;
+            insVendedor.Codigo = "00001";
+            insVendedor.Nombre = "OFICINA";
+            insVendedor.RIF = "00001";
+            insVendedor.Ciudad = "CARACAS";
             return insVendedor;
         }
  
@@ -95,15 +105,13 @@ namespace Galac.Adm.Brl.Vendedor {
         }
 
         string Entity.IVendedorPdn.BuscarNombreVendedor(int valConsecutivoCompania, string valCodigo) {
-
-            string sql = "";
             string vResult = "";
             LibGpParams vParams = new LibGpParams();
             vParams.AddInString("Codigo", valCodigo, 5);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             RegisterClient();
-            sql = "SELECT Nombre FROM Vendedor WHERE Codigo = @Codigo AND ConsecutivoCompania = @ConsecutivoCompania";
-            XElement vData = _Db.QueryInfo(eProcessMessageType.Query, sql, vParams.Get());
+            string vSql = "SELECT Nombre FROM Vendedor WHERE Codigo = @Codigo AND ConsecutivoCompania = @ConsecutivoCompania";
+            XElement vData = _Db.QueryInfo(eProcessMessageType.Query, vSql, vParams.Get());
             if (vData != null) {
                 vResult = LibConvert.ToStr(LibXml.GetPropertyString(vData, "Nombre"));
             }
@@ -149,8 +157,6 @@ namespace Galac.Adm.Brl.Vendedor {
             refPorcentajeComision = ObtenerPorcentajeSegunNivelDeComisionPorCobranza(vendedorConNivelesDeComision, nivelDeComisionCobranza);
             refMontoComision = CalculoComisionSegunNivelDeComisionPorCobranza(vendedorConNivelesDeComision, nivelDeComisionCobranza, valMontoComisionable);
         }
-
-        
 
         private Entity.Vendedor AsignacionDatosDeComisionVendedor (XElement valVendedor) {
             Entity.Vendedor insVendedor = new Entity.Vendedor();
@@ -238,6 +244,14 @@ namespace Galac.Adm.Brl.Vendedor {
                     break;
             }
             return vResult;
+        }
+
+        void IVendedorPdn.InsertarElPrimerVendedor(int valConsecutivoCompania) {
+            List<Entity.Vendedor> vVendedores = new List<Entity.Vendedor> {
+                VendedorPorDefecto(valConsecutivoCompania)
+            };
+            IVendedorDatPdn insVendedorDatPdn = new clsVendedorDat();
+            insVendedorDatPdn.InsertarListaDeVendedores(vVendedores);
         }
         #endregion
 

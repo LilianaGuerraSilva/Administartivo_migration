@@ -83,7 +83,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vParams.AddInString("CodigoLote", valRecord.CodigoLote, 10);
             vParams.AddInEnum("TipoDocumentoIdentificacion", valRecord.TipoDocumentoIdentificacionAsDB);
             vParams.AddInEnum("RutaDeComercializacion", valRecord.RutaDeComercializacionAsDB);
-            vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
@@ -446,7 +446,6 @@ namespace Galac.Adm.Dal.Vendedor {
         private bool KeyExists(Entity.Vendedor valRecordBusqueda) {
             bool vResult = false;
             LibDatabase insDb = new LibDatabase();
-            //Programador ajuste el codigo necesario para busqueda de claves unicas;
             vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
@@ -678,7 +677,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        public LibResponse InsertarListaDeVendedorMaster(IList<Entity.Vendedor> valListOfRecords) {
+        public LibResponse InsertarListaDeVendedores(IList<Entity.Vendedor> valListOfRecords) {
             return InsertRecord(valListOfRecords);
         }
         private LibResponse InsertRecord(IList<Entity.Vendedor> refRecord) {

@@ -232,6 +232,10 @@
       <Project>{ccdf88d8-37dd-4e46-aead-350bd211bd75}</Project>
       <Name>Galac.Adm.Brl.DispositivosExternos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.Vendedor\Galac.Adm.Brl.Vendedor.csproj">
+      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
+      <Name>Galac.Adm.Brl.Vendedor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">
       <Project>{ae95f4aa-3119-4d39-96fb-95a53b7abb65}</Project>
       <Name>Galac.Adm.Brl.Venta</Name>
@@ -247,6 +251,10 @@
     <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
       <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>
       <Name>Galac.Adm.Ccl.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
+      <Project>{57734928-DFDD-4E96-AF01-A818BCD85E4E}</Project>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
       <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
