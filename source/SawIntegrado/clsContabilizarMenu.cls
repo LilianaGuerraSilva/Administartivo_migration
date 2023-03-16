@@ -109,7 +109,7 @@ Public Sub sEjecutaAccionEscogidaMenuContabilizar(ByVal valCaptionMenuEscogido A
       Case "Pago de Sueldos": sEjecutaContabilizar eCG_PAGO_SUELDOS, -1
       Case "Costos Inventario": sEjecutaContabilizar eCG_INVENTARIO, -1
       Case "Borrar comprobante de  Costos Inventario":   sEjecutaBorrarComprobantesDeCostosDeInventario eCG_INVENTARIO, -1
-      Case "Reposici贸n de Caja Chica": sEjecutaProcesoDeContabilizacionDeReposicion
+      Case "Reposici髇 de Caja Chica": sEjecutaProcesoDeContabilizacionDeReposicion
       Case "Reparar Inconsistencias": sEjecutaRepararInconsistenciasAuxiliar
    End Select
 h_EXIT: On Error GoTo 0
@@ -510,9 +510,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       vEsReverso = False
-      If (vDatos = "") Then
-         gMessage.InformationMessage "Acci贸n cancelada por el usuario. ", "Contabilizaci贸n de Transferencia entre Cuentas Bancarias"
-      Else
+      If vDatos <> "" Then
          gLibGalacDataParse.Initialize vDatos
          gLibGalacDataParse.SetRootName "Datos"
          gLibGalacDataParse.SetResultName "Documento"
@@ -520,7 +518,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
          vNumero = gLibGalacDataParse.GetString(0, "NumeroDocumento", "")
          vConsecutivo = gConvert.fConvertStringToLong(gLibGalacDataParse.GetString(0, "Consecutivo", ""))
          If vConsecutivo = 0 Then
-            gMessage.InformationMessage "No fue escogido ning煤n registro para contabilizar", "Contabilizaci贸n de Transferencia entre Cuentas Bancarias"
+            gMessage.InformationMessage "No fue escogido ning鷑 registro para contabilizar", "Contabilizaci髇 de Transferencia entre Cuentas Bancarias"
          Else
             vCodigoCuentaBancaria = gLibGalacDataParse.GetString(0, "CodigoCuentaBancariaOrigen")
             vFechaAnulacion = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaDeAnulacion"))
@@ -558,7 +556,7 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
    On Error GoTo h_ERROR
    If fSePuedeEjecutarContabilizacion(gEnumProyectoWincont.enumComprobanteGeneradoPorToString(eCG_ORDEN_DE_PRODUCCION)) Then
       Set insGenerarComprobanteNavigator = New clsGenerarComprobanteNavigator
-      'TODO:MAYEL ajustar nombre de valComponentName, valClassName seg煤n aplique
+      'TODO:MAYEL ajustar nombre de valComponentName, valClassName seg鷑 aplique
       Set objWrapper = gUtilWrp.fCreateWrpForModule(gUtilWrp.fWrpClassName("Inventario", "wrpOrdenDeProduccion"), gProyUsuarioActual.GetNombreDelUsuario, gProyUsuarioActual.GetPassword)
 
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo>"
@@ -572,15 +570,14 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       vParametros = vParametros & "<UsaAlmacen>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaAlmacen) & "</UsaAlmacen></Parametros>"
       vParametros = vParametros & "</GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
-      If (vDatos = "") Then
-         gMessage.InformationMessage "Acci贸n cancelada por el usuario. ", "Contabilizaci贸n de Orden de Producci贸n"
-      Else
+               
+      If vDatos <> "" Then
          gLibGalacDataParse.Initialize vDatos
          gLibGalacDataParse.SetRootName "Datos"
          gLibGalacDataParse.SetResultName "Documento"
          vConsecutivo = gConvert.fConvertStringToLong(gLibGalacDataParse.GetString(0, "Consecutivo"))
          If vConsecutivo = 0 Then
-            gMessage.InformationMessage "No fue escogido ning煤n registro para contabilizar", "Contabilizaci贸n de Orden de Producci贸n"
+            gMessage.InformationMessage "No fue escogido ning鷑 registro para contabilizar", "Contabilizaci髇 de Orden de Producci髇"
          Else
             Dim vStatusOp As String
             Dim vFecha As Date
@@ -592,12 +589,11 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             vStatusOp = gLibGalacDataParse.GetString(0, "StatusOp")
             vStatusOpInt = gConvert.ConvierteAInteger(vStatusOp)
             vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaFinalizacion"))
-            If Not gTexto.fS1EsIgualAS2(vStatusOp, "2") Then 'Si no est谩 Cerrada > no se contabiliza
-               GoTo h_EXIT
-            End If
-            vNroDocContabiliacion = gConvert.enumerativoAChar(vStatusOpInt) & gTexto.fSeparadorStandardDeElementosString & gConvert.fConvierteAString(vConsecutivo)
-            If insGenerarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNumero, False, False, eCG_ORDEN_DE_PRODUCCION, vConsecutivo) Then
-               insGenerarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNroDocContabiliacion, vEsReverso, False, -1, vConsecutivo, -1
+            If gTexto.fS1EsIgualAS2(vStatusOp, "2") Then 'Solo las OP Cerradas
+               vNroDocContabiliacion = gConvert.enumerativoAChar(vStatusOpInt) & gTexto.fSeparadorStandardDeElementosString & gConvert.fConvierteAString(vConsecutivo)
+               If insGenerarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNumero, False, False, eCG_ORDEN_DE_PRODUCCION, vConsecutivo) Then
+                  insGenerarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNroDocContabiliacion, vEsReverso, False, -1, vConsecutivo, -1
+               End If
             End If
          End If
       End If
