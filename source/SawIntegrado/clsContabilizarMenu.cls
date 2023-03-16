@@ -510,9 +510,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
       vParametros = "<GpData><DatosDocumento><Consecutivo>-1</Consecutivo></DatosDocumento></GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       vEsReverso = False
-      If (vDatos = "") Then
-         GoTo h_EXIT
-      Else
+      If vDatos <> "" Then
          gLibGalacDataParse.Initialize vDatos
          gLibGalacDataParse.SetRootName "Datos"
          gLibGalacDataParse.SetResultName "Documento"
@@ -572,9 +570,8 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       vParametros = vParametros & "<UsaAlmacen>" & gConvert.ConvertBooleanToString(gProyParametrosCompania.GetUsaAlmacen) & "</UsaAlmacen></Parametros>"
       vParametros = vParametros & "</GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
-      If (vDatos = "") Then
-         GoTo h_EXIT
-      Else
+               
+      If vDatos <> "" Then
          gLibGalacDataParse.Initialize vDatos
          gLibGalacDataParse.SetRootName "Datos"
          gLibGalacDataParse.SetResultName "Documento"
@@ -592,12 +589,11 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
             vStatusOp = gLibGalacDataParse.GetString(0, "StatusOp")
             vStatusOpInt = gConvert.ConvierteAInteger(vStatusOp)
             vFecha = gConvert.fConvertStringToDate(gLibGalacDataParse.GetString(0, "FechaFinalizacion"))
-            If Not gTexto.fS1EsIgualAS2(vStatusOp, "2") Then 'Si no está Cerrada > no se contabiliza
-               GoTo h_EXIT
-            End If
-            vNroDocContabiliacion = gConvert.enumerativoAChar(vStatusOpInt) & gTexto.fSeparadorStandardDeElementosString & gConvert.fConvierteAString(vConsecutivo)
-            If insGenerarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNumero, False, False, eCG_ORDEN_DE_PRODUCCION, vConsecutivo) Then
-               insGenerarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNroDocContabiliacion, vEsReverso, False, -1, vConsecutivo, -1
+            If gTexto.fS1EsIgualAS2(vStatusOp, "2") Then 'Solo las OP Cerradas
+               vNroDocContabiliacion = gConvert.enumerativoAChar(vStatusOpInt) & gTexto.fSeparadorStandardDeElementosString & gConvert.fConvierteAString(vConsecutivo)
+               If insGenerarComprobanteNavigator.fValidaDocumento(True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNumero, False, False, eCG_ORDEN_DE_PRODUCCION, vConsecutivo) Then
+                  insGenerarComprobanteNavigator.sContabilizaDocumento True, Contabilizar, eCG_ORDEN_DE_PRODUCCION, vFecha, vNroDocContabiliacion, vEsReverso, False, -1, vConsecutivo, -1
+               End If
             End If
          End If
       End If
