@@ -511,7 +511,7 @@ Private Sub sEjecutaProcesoDeContabilizacionDeTransferenciaEntreCuentas()
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       vEsReverso = False
       If (vDatos = "") Then
-         gMessage.InformationMessage "Acción cancelada por el usuario. ", "Contabilización de Transferencia entre Cuentas Bancarias"
+         GoTo h_EXIT
       Else
          gLibGalacDataParse.Initialize vDatos
          gLibGalacDataParse.SetRootName "Datos"
