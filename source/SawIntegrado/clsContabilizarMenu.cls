@@ -573,7 +573,7 @@ Private Sub sEjecutacontabilizarOrdenDeProduccion()
       vParametros = vParametros & "</GpData>"
       vDatos = objWrapper.ExecuteAndReturnValue(gDefgen.AccionSobreRecordStr(AccionSobreRecord.Contabilizar), gConvert.fConvierteAString(gProyCompaniaActual.GetConsecutivoCompania), vParametros)
       If (vDatos = "") Then
-         gMessage.InformationMessage "Acción cancelada por el usuario. ", "Contabilización de Orden de Producción"
+         GoTo h_EXIT
       Else
          gLibGalacDataParse.Initialize vDatos
          gLibGalacDataParse.SetRootName "Datos"
