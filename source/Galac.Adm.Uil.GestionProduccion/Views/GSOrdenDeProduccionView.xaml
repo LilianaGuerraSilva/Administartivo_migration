@@ -464,7 +464,7 @@
                     Grid.Column="2"
                     Content="Cantidad Producida"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisbleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtCantidadProducida"
                     Grid.Row="3"
@@ -476,7 +476,7 @@
                     IsEnabled="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].IsEnabledFechaFinalizacion}"
                     MaxLength="34"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Visibility="{Binding Path=IsVisbleCantidadProducida, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=DetailOrdenDeProduccionDetalleArticulo.Items[0].CantidadProducida, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
 
 
