@@ -635,6 +635,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsEnabledCodigoOP {
             get { return IsVisibleEscogerCodigoOrdenProduccion; }
         }
+
+        public bool IsVisbleCantidadProducida {
+            get {
+                if (Action == eAccionSR.Contabilizar) {
+                    return (Model.Consecutivo != 0);
+                } else {
+                    return DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion;
+                }  
+            }
+        }
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
