@@ -639,11 +639,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public bool IsVisbleCantidadProducida {
             get {
                 if (Action == eAccionSR.Contabilizar) {
-                    if (Model.Consecutivo == 0) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return (Model.Consecutivo != 0);
                 } else {
                     return DetailOrdenDeProduccionDetalleArticulo.Items[0].IsVisibleFechaFinalizacion;
                 }  
