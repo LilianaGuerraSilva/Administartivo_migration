@@ -127,7 +127,7 @@ Public Function fSQLTransferenciaEntreCuentasEntreFechas(ByVal valConsecutivoCom
    vMontoAsientoIngreso = "SUM( " & gUtilSQL.fRoundNDecimales("Adm.TransferenciaEntreCuentasBancarias.MontoTransferenciaIngreso * " & vSqlTasaDeCambioIngreso) & ")"
    vCuentaContableDebeIngreso = gUtilSQL.getIIF("(cuenta.Codigo IS NULL OR cuenta.Codigo = '')", gUtilSQL.fSimpleSqlValue(valCuentaTransfCtasBancoDestino), "cuenta.Codigo")
    vSql = "SELECT Adm.TransferenciaEntreCuentasBancarias.CodigoConceptoIngreso, "
-   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoIngreso, vCuentaContableDebeIngreso, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", "", "", -1) & " "
+   vSql = vSql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, vMontoAsientoIngreso, vCuentaContableDebeIngreso, False, "", valNoDocumentoOrigen, valDescripcionDelAsiento, "", False, "", -1) & " "
    vSql = vSql & " FROM Adm.TransferenciaEntreCuentasBancarias INNER JOIN cuentaBancaria ON "
    vSql = vSql & " Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania AND "
    vSql = vSql & " Adm.TransferenciaEntreCuentasBancarias.CodigoCuentaBancariaDestino = cuentaBancaria.Codigo"
