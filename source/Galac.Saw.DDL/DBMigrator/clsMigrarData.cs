@@ -1697,8 +1697,8 @@ namespace Galac.Saw.DbMigrator {
             vSQL.AppendLine("CodigoLote, ");
             vSQL.AppendLine("TipoDocumentoIdentificacion, ");
             vSQL.AppendLine("NombreOperador, ");
-            vSQL.AppendLine("FechaUltimaModificacion, ");
-            vSQL.AppendLine("RutaDeComercializacion ");
+            vSQL.AppendLine("FechaUltimaModificacion ");
+            //vSQL.AppendLine("RutaDeComercializacion ");
             vSQL.AppendLine("FROM dbo.Vendedor ");
             vSQL.AppendLine("ORDER BY ConsecutivoCompania, Codigo ");
             vDb.ExecuteWithScope(vSQL.ToString());
