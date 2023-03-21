@@ -689,7 +689,7 @@ Begin VB.Form frmInformesDeCobranza
          _ExtentY        =   476
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   95551491
+         Format          =   89522179
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -702,7 +702,7 @@ Begin VB.Form frmInformesDeCobranza
          _ExtentY        =   476
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   95551491
+         Format          =   89522179
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -1394,19 +1394,21 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtCodigoDeVendedor_Validate(Cancel As Boolean)
+   Dim refCodigoCobrador As String
+   Dim refNombreCobrador As String
    On Error GoTo h_ERROR
    If LenB(txtCodigoDeVendedor) = 0 Then
       txtCodigoDeVendedor = "*"
    End If
    insVendedor.sClrRecord
    insVendedor.SetCodigo txtCodigoDeVendedor
-   insVendedor.SetStatusVendedorStr gEnumProyecto.enumStatusVendedorToString(enum_StatusVendedor.eSV_ACTIVO)
-   If insVendedor.fSearchSelectConnection() Then
-      sSelectAndSetValuesOfVendedor
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, refCodigoCobrador, refNombreCobrador, txtCodigoDeVendedor.Text, "", "StatusVendedor", "0") Then
+      sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
       GoTo h_EXIT
    End If
+   Set insCnxAos = Nothing
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1742,40 +1744,25 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtNombreDeVendedor_Validate(Cancel As Boolean)
+   Dim refCodigoCobrador As String
+   Dim refNombreCobrador As String
    On Error GoTo h_ERROR
    If LenB(txtNombreDeVendedor) = 0 Then
       txtNombreDeVendedor = "*"
    End If
    insVendedor.sClrRecord
    insVendedor.SetNombre txtNombreDeVendedor
-   insVendedor.SetStatusVendedorStr gEnumProyecto.enumStatusVendedorToString(enum_StatusVendedor.eSV_ACTIVO)
-   If insVendedor.fSearchSelectConnection() Then
-      sSelectAndSetValuesOfVendedor
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, refCodigoCobrador, refNombreCobrador, txtNombreDeVendedor.Text, "", "StatusVendedor", "0") Then
+     sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
       GoTo h_EXIT
    End If
+   Set insCnxAos = Nothing
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, " txtNombreDeVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sSelectAndSetValuesOfVendedor()
-   On Error GoTo h_ERROR
-   If insVendedor.fRsRecordCount(False) = 1 Then
-      sAssignFieldsFromConnectionVendedor
-   ElseIf insVendedor.fRsRecordCount(False) > 1 Then
-      If gProyParametros.GetUsaCodigoVendedorEnPantalla Then
-         insVendedor.sShowListSelect "Codigo", txtCodigoDeVendedor.Text, "vendedor.StatusVendedor = " & gUtilSQL.fSimpleSqlValue(enum_StatusVendedor.eSV_ACTIVO)
-      Else
-         insVendedor.sShowListSelect "Nombre", txtNombreDeVendedor.Text, "vendedor.StatusVendedor = " & gUtilSQL.fSimpleSqlValue(enum_StatusVendedor.eSV_ACTIVO)
-      End If
-      sAssignFieldsFromConnectionVendedor
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAssignFieldsFromConnectionVendedor()
@@ -1965,11 +1952,11 @@ Private Sub sActivarCamposDeComisionDeVendedores()
    frameClaseDeInforme.Visible = True
    If optDetalladoResumido(CM_OPT_RESUMIDO).Value Then
       CmbCantidadAImprimir.Visible = False
-      lblCantidadAimprimir.Visible = False
+      lblCantidadAImprimir.Visible = False
       frameTipoDeComision.Visible = False
    Else 'If optDetalladoResumido(CM_OPT_DETALLADO).Value Then
       CmbCantidadAImprimir.Visible = True
-      lblCantidadAimprimir.Visible = True
+      lblCantidadAImprimir.Visible = True
       frameTipoDeComision.Visible = True
       If cmbOpcionesComisionesSobreCobranza.Text = gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_MONTO) Or cmbOpcionesComisionesSobreCobranza.Text = gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_DIASVENCIDOS) Then
             chkComisionDetalladoResumido.Visible = True
