@@ -308,8 +308,8 @@ BeneficiarioGenerico;Bancos;7;7.4.- Movimiento Bancario;4;;int;;N
 ConceptoBancarioReversoSolicitudDePago;Bancos;7;7.4.- Movimiento Bancario;4;;String;;N
 NombrePlantillaComprobanteDePagoSueldo;Bancos;7;7.4.- Movimiento Bancario;4;;String;;N
 GenerarMovReversoSiAnulaPago;Bancos;7;7.4.- Movimiento Bancario;4;;Bool;;N
-ConceptoBancarioReversoTransfIngreso;Bancos;7;7.5.- Movimiento Bancario;4;;String;;N
-ConceptoBancarioReversoTransfEgreso;Bancos;7;7.5.- Movimiento Bancario;4;;String;;N
+ConceptoBancarioReversoTransfIngreso;Bancos;7;7.5.- Transferencia Bancaria;4;;String;;N
+ConceptoBancarioReversoTransfEgreso;Bancos;7;7.5.- Transferencia Bancaria;4;;String;;N
 ModeloNotaEntrega;NotasDeEntrega;8;8.1-Notas de entrega;1;;Enumerativo;;N
 NotaEntregaPreNumerada;NotasDeEntrega;8;8.1-Notas de entrega;1;;Bool;;N
 PrimeraNotaEntrega;NotasDeEntrega;8;8.1-Notas de entrega;1;;String;;N

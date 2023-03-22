@@ -12,6 +12,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             AgregaColumnasReglasDeContabilizacionOrdenDeProduccion();
+            CorrecionCampoSettDefinition();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -40,6 +41,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                     AddNotNullConstraint("Saw.ReglasDeContabilizacion", "EditarComprobanteAfterInsertOrdenDeProduccion", InsSql.CharTypeForDb(1));
                 }
             }
+        }
+    
+        private void CorrecionCampoSettDefinition() {
+            QAdvSql InsSql = new QAdvSql("");;
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("UPDATE Comun.SettDefinition SET GroupName = '7.5.- Transferencias Bancarias' WHERE (Name = 'ConceptoBancarioReversoTransfEgreso' AND ");
+            vSql.AppendLine(" GroupName = '7.5.- Movimiento Bancario') OR (Name = 'ConceptoBancarioReversoTransfIngreso' AND GroupName = '7.5.- Movimiento Bancario')");
+            Execute(vSql.ToString(), 0);
         }
     }
 }
