@@ -46,8 +46,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void CorrecionCampoSettDefinition() {
             QAdvSql InsSql = new QAdvSql("");;
             StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("UPDATE Comun.SettDefinition SET GroupName = '7.5.- Transferencias Bancarias' WHERE (Name = 'ConceptoBancarioReversoTransfEgreso' AND ");
-            vSql.AppendLine(" GroupName = '7.5.- Movimiento Bancario') OR (Name = 'ConceptoBancarioReversoTransfIngreso' AND GroupName = '7.5.- Movimiento Bancario')");
+            vSql.AppendLine("UPDATE Comun.SettDefinition SET GroupName = '7.5.- Transferencias Bancarias' WHERE GroupName = '7.5.- Movimiento Bancario'");
+            vSql.AppendLine(" AND (Name = 'ConceptoBancarioReversoTransfEgreso' OR Name = 'ConceptoBancarioReversoTransfIngreso')");
             Execute(vSql.ToString(), 0);
         }
     }
