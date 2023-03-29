@@ -396,7 +396,7 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
 
         internal void InicializarRibbon() {
-            if(Action == eAccionSR.Consultar || Action == eAccionSR.Eliminar) {
+            if(Action == eAccionSR.Consultar || Action == eAccionSR.Eliminar || Action == eAccionSR.Contabilizar) {
                 RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].Command = null;
                 RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection[0].IsVisible = false;
             } else {

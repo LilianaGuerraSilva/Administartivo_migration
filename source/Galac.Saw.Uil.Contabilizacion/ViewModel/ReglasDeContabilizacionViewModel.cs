@@ -164,6 +164,13 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string CuentaTransfCtasBancoOrigenPropertyName = "CuentaTransfCtasBancoOrigen";
         public const string TransfCtasSigasTipoComprobantePropertyName = "TransfCtasSigasTipoComprobante";
         public const string EditarComprobanteAfterInsertTransfCtasPropertyName = "EditarComprobanteAfterInsertTransfCtas";
+        public const string TipoContabilizacionOrdenDeProduccionPropertyName = "TipoContabilizacionOrdenDeProduccion";
+        public const string ContabIndividualOrdenDeProduccionPropertyName = "ContabIndividualOrdenDeProduccion";
+        public const string ContabPorLoteOrdenDeProduccionPropertyName = "ContabPorLoteOrdenDeProduccion";
+        public const string CuentaOrdenDeProduccionProductoTerminadoPropertyName = "CuentaOrdenDeProduccionProductoTerminado";
+        public const string CuentaOrdenDeProduccionMateriaPrimaPropertyName = "CuentaOrdenDeProduccionMateriaPrima";
+        public const string OrdenDeProduccionTipoComprobantePropertyName = "OrdenDeProduccionTipoComprobante";
+        public const string EditarComprobanteAfterInsertOrdenDeProduccionPropertyName = "EditarComprobanteAfterInsertOrdenDeProduccion";
         public const string NombreOperadorPropertyName = "NombreOperador";
         public const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         public const string IsEnabledAgruparPorCuentaDeArticuloPropertyName = "IsEnabledAgruparPorCuentaDeArticulo";
@@ -246,6 +253,9 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         private FkCuentaViewModel _ConexionCuentaTransfCtasGastoComDestino = null;
         private FkCuentaViewModel _ConexionCuentaTransfCtasBancoOrigen = null;
         private FkTipoDeComprobanteViewModel _ConexionTransfCtasSigasTipoComprobante = null;
+        private FkCuentaViewModel _ConexionCuentaOrdenDeProduccionProductoTerminado = null;
+        private FkCuentaViewModel _ConexionCuentaOrdenDeProduccionMateriaPrima = null;
+        private FkTipoDeComprobanteViewModel _ConexionOrdenDeProduccionTipoComprobante = null;
         #endregion //Variables
         #region Propiedades
 
@@ -2150,7 +2160,108 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 }
             }
         }
-        public string NombreOperador {
+
+        public eTipoDeContabilizacion  TipoContabilizacionOrdenDeProduccion {
+            get {
+                return Model.TipoContabilizacionOrdenDeProduccionAsEnum;
+            }
+            set {
+                if (Model.TipoContabilizacionOrdenDeProduccionAsEnum != value) {
+                    Model.TipoContabilizacionOrdenDeProduccionAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(TipoContabilizacionOrdenDeProduccionPropertyName);
+                }
+            }
+        }
+
+        public eContabilizacionIndividual  ContabIndividualOrdenDeProduccion {
+            get {
+                return Model.ContabIndividualOrdenDeProduccionAsEnum;
+            }
+            set {
+                if (Model.ContabIndividualOrdenDeProduccionAsEnum != value) {
+                    Model.ContabIndividualOrdenDeProduccionAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ContabIndividualOrdenDeProduccionPropertyName);
+                }
+            }
+        }
+
+        public eContabilizacionPorLote  ContabPorLoteOrdenDeProduccion {
+            get {
+                return Model.ContabPorLoteOrdenDeProduccionAsEnum;
+            }
+            set {
+                if (Model.ContabPorLoteOrdenDeProduccionAsEnum != value) {
+                    Model.ContabPorLoteOrdenDeProduccionAsEnum = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ContabPorLoteOrdenDeProduccionPropertyName);
+                }
+            }
+        }
+
+        public string  CuentaOrdenDeProduccionProductoTerminado {
+            get {
+                return Model.CuentaOrdenDeProduccionProductoTerminado;
+            }
+            set {
+                if (Model.CuentaOrdenDeProduccionProductoTerminado != value) {
+                    Model.CuentaOrdenDeProduccionProductoTerminado = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CuentaOrdenDeProduccionProductoTerminadoPropertyName);
+                    if (LibString.IsNullOrEmpty(CuentaOrdenDeProduccionProductoTerminado, true)) {
+                        ConexionCuentaOrdenDeProduccionProductoTerminado = null;
+                    }
+                }
+            }
+        }
+
+        public string  CuentaOrdenDeProduccionMateriaPrima {
+            get {
+                return Model.CuentaOrdenDeProduccionMateriaPrima;
+            }
+            set {
+                if (Model.CuentaOrdenDeProduccionMateriaPrima != value) {
+                    Model.CuentaOrdenDeProduccionMateriaPrima = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CuentaOrdenDeProduccionMateriaPrimaPropertyName);
+                    if (LibString.IsNullOrEmpty(CuentaOrdenDeProduccionMateriaPrima, true)) {
+                        ConexionCuentaOrdenDeProduccionMateriaPrima = null;
+                    }
+                }
+            }
+        }
+
+        public string OrdenDeProduccionTipoComprobante {
+            get {
+                return Model.OrdenDeProduccionTipoComprobante;
+            }
+            set {
+                if (Model.OrdenDeProduccionTipoComprobante != value) {
+                    Model.OrdenDeProduccionTipoComprobante = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(OrdenDeProduccionTipoComprobantePropertyName);
+                    if (LibString.IsNullOrEmpty(OrdenDeProduccionTipoComprobante, true)) {
+                        ConexionOrdenDeProduccionTipoComprobante = null;
+                    }
+                }
+            }
+        }
+
+        public bool  EditarComprobanteAfterInsertOrdenDeProduccion {
+            get {
+                return Model.EditarComprobanteAfterInsertOrdenDeProduccionAsBool;
+            }
+            set {
+                if (Model.EditarComprobanteAfterInsertOrdenDeProduccionAsBool != value) {
+                    Model.EditarComprobanteAfterInsertOrdenDeProduccionAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(EditarComprobanteAfterInsertOrdenDeProduccionPropertyName);
+                }
+            }
+        }
+
+        public string  NombreOperador {
             get {
                 return Model.NombreOperador;
             }
@@ -3724,6 +3835,68 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
+        public FkCuentaViewModel ConexionCuentaOrdenDeProduccionProductoTerminado {
+            get {
+                return _ConexionCuentaOrdenDeProduccionProductoTerminado;
+            }
+            set {
+                if (_ConexionCuentaOrdenDeProduccionProductoTerminado != value) {
+                    _ConexionCuentaOrdenDeProduccionProductoTerminado = value;
+                    if (ConexionCuentaOrdenDeProduccionProductoTerminado != null) {
+                        CuentaOrdenDeProduccionProductoTerminado = ConexionCuentaOrdenDeProduccionProductoTerminado.Codigo;
+                        CuentaOrdenDeProduccionProductoTerminadoDescripcion = ConexionCuentaOrdenDeProduccionProductoTerminado.Descripcion;
+                    }
+                    RaisePropertyChanged(CuentaOrdenDeProduccionProductoTerminadoPropertyName);
+                    RaisePropertyChanged(CuentaOrdenDeProduccionProductoTerminadoDescripcionPropertyName);
+                }
+                if (_ConexionCuentaOrdenDeProduccionProductoTerminado == null) {
+                    CuentaOrdenDeProduccionProductoTerminado = string.Empty;
+                    CuentaOrdenDeProduccionProductoTerminadoDescripcion = string.Empty;
+                    RaisePropertyChanged(CuentaOrdenDeProduccionProductoTerminadoDescripcionPropertyName);
+                }
+            }
+        }
+
+        public FkCuentaViewModel ConexionCuentaOrdenDeProduccionMateriaPrima {
+            get {
+                return _ConexionCuentaOrdenDeProduccionMateriaPrima;
+            }
+            set {
+                if (_ConexionCuentaOrdenDeProduccionMateriaPrima != value) {
+                    _ConexionCuentaOrdenDeProduccionMateriaPrima = value;
+                    if (ConexionCuentaOrdenDeProduccionMateriaPrima != null) {
+                        CuentaOrdenDeProduccionMateriaPrima = ConexionCuentaOrdenDeProduccionMateriaPrima.Codigo;
+                        CuentaOrdenDeProduccionMateriaPrimaDescripcion = ConexionCuentaOrdenDeProduccionMateriaPrima.Descripcion;
+                    }
+                    RaisePropertyChanged(CuentaOrdenDeProduccionMateriaPrimaPropertyName);
+                    RaisePropertyChanged(CuentaOrdenDeProduccionMateriaPrimaDescripcionPropertyName);
+                }
+                if (_ConexionCuentaOrdenDeProduccionMateriaPrima == null) {
+                    CuentaOrdenDeProduccionMateriaPrima = string.Empty;
+                    CuentaOrdenDeProduccionMateriaPrimaDescripcion = string.Empty;
+                    RaisePropertyChanged(CuentaOrdenDeProduccionMateriaPrimaDescripcionPropertyName);
+                }
+            }
+        }
+
+        public FkTipoDeComprobanteViewModel ConexionOrdenDeProduccionTipoComprobante {
+            get {
+                return _ConexionOrdenDeProduccionTipoComprobante;
+            }
+            set {
+                if (_ConexionOrdenDeProduccionTipoComprobante != value) {
+                    _ConexionOrdenDeProduccionTipoComprobante = value;
+                    RaisePropertyChanged(OrdenDeProduccionTipoComprobantePropertyName);
+                    if (ConexionOrdenDeProduccionTipoComprobante != null) {
+                        OrdenDeProduccionTipoComprobante = ConexionOrdenDeProduccionTipoComprobante.Codigo;
+                    }
+                }
+                if (ConexionOrdenDeProduccionTipoComprobante == null) {
+                    OrdenDeProduccionTipoComprobante = string.Empty;
+                }
+            }
+        }
+
         public RelayCommand<string> ChooseCuentaIva1CreditoCommand {
             get;
             private set;
@@ -4080,6 +4253,21 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             get;
             private set;
         }
+
+        public RelayCommand<string> ChooseCuentaOrdenDeProduccionProductoTerminadoCommand {
+            get;
+            private set;
+        }
+
+        public RelayCommand<string> ChooseCuentaOrdenDeProduccionMateriaPrimaCommand {
+            get;
+            private set;
+        }
+
+        public RelayCommand<string> ChooseOrdenDeProduccionTipoComprobanteCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
         #region Constructores
         public ReglasDeContabilizacionViewModel()
@@ -4194,77 +4382,10 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             ChooseCuentaTransfCtasGastoComDestinoCommand = new RelayCommand<string>(ExecuteChooseCuentaTransfCtasGastoComDestinoCommand);
             ChooseCuentaTransfCtasBancoOrigenCommand = new RelayCommand<string>(ExecuteChooseCuentaTransfCtasBancoOrigenCommand);
             ChooseTransfCtasSigasTipoComprobanteCommand = new RelayCommand<string>(ExecuteChooseTransfCtasSigasTipoComprobanteCommand);
-        }
-        private void ExecuteChooseTransfCtasSigasTipoComprobanteCommand(string valCodigo) {
-            try {
-                if (valCodigo == null) {
-                    valCodigo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-                LibSearchCriteria vFixedCriteria = null;
-                ConexionTransfCtasSigasTipoComprobante = ChooseRecord<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-        private void ExecuteChooseCuentaTransfCtasBancoOrigenCommand(string valCodigo) {
-            try {
-                if (valCodigo == null) {
-                    valCodigo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
-                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
-                ConexionCuentaTransfCtasBancoOrigen = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-        private void ExecuteChooseCuentaTransfCtasGastoComDestinoCommand(string valCodigo) {
-            try {
-                if (valCodigo == null) {
-                    valCodigo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
-                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
-                ConexionCuentaTransfCtasGastoComDestino = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-        private void ExecuteChooseCuentaTransfCtasGastoComOrigenCommand(string valCodigo) {
-            try {
-                if (valCodigo == null) {
-                    valCodigo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
-                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
-                ConexionCuentaTransfCtasGastoComOrigen = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-        private void ExecuteChooseCuentaTransfCtasBancoDestinoCommand(string valCodigo) {
-            try {
-                if (valCodigo == null) {
-                    valCodigo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
-                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
-                ConexionCuentaTransfCtasBancoDestino = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
+            ChooseCuentaOrdenDeProduccionProductoTerminadoCommand = new RelayCommand<string>(ExecuteChooseCuentaOrdenDeProduccionProductoTerminadoCommand);
+            ChooseCuentaOrdenDeProduccionMateriaPrimaCommand = new RelayCommand<string>(ExecuteChooseCuentaOrdenDeProduccionMateriaPrimaCommand);
+        	ChooseOrdenDeProduccionTipoComprobanteCommand = new RelayCommand<string>(ExecuteChooseOrdenDeProduccionTipoComprobanteCommand);
+		}
 
         private void ReloadRelatedConnectionsGeneral() {
             if(!LibString.IsNullOrEmpty(CuentaIva1Credito))
@@ -4465,7 +4586,14 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             if(!LibString.IsNullOrEmpty(TransfCtasSigasTipoComprobante))
 			    ConexionTransfCtasSigasTipoComprobante = FirstConnectionRecordOrDefault<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", LibSearchCriteria.CreateCriteria("Codigo", TransfCtasSigasTipoComprobante));
         }
-
+		private void ReloadRelatedConnectionsProduccion() {
+            if(!LibString.IsNullOrEmpty(CuentaOrdenDeProduccionProductoTerminado))
+				ConexionCuentaOrdenDeProduccionProductoTerminado = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", LibSearchCriteria.CreateCriteria("Codigo", CuentaOrdenDeProduccionProductoTerminado));
+            if(!LibString.IsNullOrEmpty(CuentaOrdenDeProduccionMateriaPrima))
+                ConexionCuentaOrdenDeProduccionMateriaPrima = FirstConnectionRecordOrDefault<FkCuentaViewModel>("Cuenta", LibSearchCriteria.CreateCriteria("Codigo", CuentaOrdenDeProduccionMateriaPrima));
+            if(!LibString.IsNullOrEmpty(OrdenDeProduccionTipoComprobante))
+                ConexionOrdenDeProduccionTipoComprobante = FirstConnectionRecordOrDefault<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", LibSearchCriteria.CreateCriteria("Codigo", OrdenDeProduccionTipoComprobante));				
+        }
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             ReloadRelatedConnectionsGeneral();
@@ -4483,6 +4611,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             ReloadRelatedConnectionsCajaChica();
             ReloadRelatedConnectionsRendiciones();
 			ReloadRelatedConnectionsTransfCtas();
+            ReloadRelatedConnectionsProduccion();
         }
 
         private void ExecuteChooseCuentaIva1CreditoCommand(string valCodigo) {
@@ -5551,6 +5680,119 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx,ModuleName);
             }
         }
+
+        private void ExecuteChooseTransfCtasSigasTipoComprobanteCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = null;
+                ConexionTransfCtasSigasTipoComprobante = ChooseRecord<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaTransfCtasBancoOrigenCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaTransfCtasBancoOrigen = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaTransfCtasGastoComDestinoCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaTransfCtasGastoComDestino = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaTransfCtasGastoComOrigenCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaTransfCtasGastoComOrigen = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaTransfCtasBancoDestinoCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", AjustaCodigoCuenta(valCodigo));
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaTransfCtasBancoDestino = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseOrdenDeProduccionTipoComprobanteCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = null;
+                ConexionOrdenDeProduccionTipoComprobante = ChooseRecord<FkTipoDeComprobanteViewModel>("Tipo de Comprobante", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaOrdenDeProduccionMateriaPrimaCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaOrdenDeProduccionMateriaPrima = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        private void ExecuteChooseCuentaOrdenDeProduccionProductoTerminadoCommand(string valCodigo) {
+            try {
+                if (valCodigo == null) {
+                    valCodigo = string.Empty;
+                }
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
+                LibSearchCriteria vFixedCriteria = SearchCriteriaConexionCuenta();
+                ConexionCuentaOrdenDeProduccionProductoTerminado = ChooseRecord<FkCuentaViewModel>("Cuenta", vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
         #endregion //Metodos Generados
 
         public string CuentaInventarioDescripcion { get; set; }
@@ -5611,6 +5853,8 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public string CuentaTransfCtasBancoOrigenDescripcion { get; set; }
         public string CuentaTransfCtasGastoComDestinoDescripcion { get; set; }
         public string CuentaTransfCtasGastoComOrigenDescripcion { get; set; }
+        public string CuentaOrdenDeProduccionProductoTerminadoDescripcion { get; set; }
+        public string CuentaOrdenDeProduccionMateriaPrimaDescripcion { get; set; }
 
         public const string CuentaIva1DebitoDescripcionPropertyName = "CuentaIva1DebitoDescripcion";
         public const string CuentaIva1CreditoDescripcionPropertyName = "CuentaIva1CreditoDescripcion";
@@ -5669,6 +5913,8 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
         public const string CuentaTransfCtasBancoOrigenDescripcionPropertyName = "CuentaTransfCtasBancoOrigenDescripcion";
         public const string CuentaTransfCtasGastoComDestinoDescripcionPropertyName = "CuentaTransfCtasGastoComDestinoDescripcion";
         public const string CuentaTransfCtasGastoComOrigenDescripcionPropertyName = "CuentaTransfCtasGastoComOrigenDescripcion";
+        public const string CuentaOrdenDeProduccionProductoTerminadoDescripcionPropertyName = "CuentaOrdenDeProduccionProductoTerminadoDescripcion";
+        public const string CuentaOrdenDeProduccionMateriaPrimaDescripcionPropertyName = "CuentaOrdenDeProduccionMateriaPrimaDescripcion";
 
         private LibSearchCriteria SearchCriteriaConexionCuenta(string codigo) {
             LibSearchCriteria vSearchcriteria;
@@ -5722,6 +5968,12 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
         }
 
+        public bool TabProduccionVisible {
+            get {
+                return EsModuloProduccion();
+            }
+        }
+
         public bool LeyendaFacturaVisible {
             get {
                 return ContabilizarPorArticulo;
@@ -5751,7 +6003,7 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaInventario);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaIva1Credito);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaIva1Debito);
-            if(TipoContribuyenteEspecial) {
+            if (TipoContribuyenteEspecial) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaRetencionIva);
             }
             vResult = vResult || LibString.IsNullOrEmpty(DiferenciaEnCambioyCalculo);
@@ -5763,16 +6015,16 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaCostoDeVenta);
             vResult = vResult || LibString.IsNullOrEmpty(CtaDePagosSueldos);
             vResult = vResult || LibString.IsNullOrEmpty(CtaDePagosSueldosBanco);
-            if(TabResumenDiarioDeVentasVisible) {
+            if (TabResumenDiarioDeVentasVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaRDVtasCaja);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaRDVtasMontoTotal);
             }
-            if(TabImpuestosALasTransaccionesFinancierasVisible) {
+            if (TabImpuestosALasTransaccionesFinancierasVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaDebitoBancarioGasto);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaDebitoBancarioBancos);
                 //vResult = vResult || LibString.IsNullOrEmpty(CuentaCreditoBancarioBancos);
             }
-            if(TabCajaChicaVisible) {
+            if (TabCajaChicaVisible) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCajaChicaGasto);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCajaChicaBancoHaber);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCajaChicaBancoDebe);
@@ -5810,13 +6062,16 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasBancoOrigen);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasGastoComDestino);
             vResult = vResult || LibString.IsNullOrEmpty(CuentaTransfCtasGastoComOrigen);
-            if((LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion","UsarVentasConIvaDiferido"))) {
+            if (TabProduccionVisible) {
+                vResult = vResult || LibString.IsNullOrEmpty(CuentaOrdenDeProduccionProductoTerminado);
+                vResult = vResult || LibString.IsNullOrEmpty(CuentaOrdenDeProduccionMateriaPrima);
+            }
+            if (UsaVentasConIvaDiferido()) {
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaFacturacionIvaDiferido);
                 vResult = vResult || LibString.IsNullOrEmpty(CuentaCobranzaIvaDiferido);
             }
             return vResult;
         }
-
 
         protected override bool UpdateRecord() {
             ValidationResult vResult = ValidationResult.Success;
@@ -5920,6 +6175,19 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
                 return IsEnabled && LibString.IsNullOrEmpty(TransfCtasSigasTipoComprobante);
             }
         }
+
+        // Los elementos de Reglas de Contabilización que estén condicionados
+        // por esta propiedad no serán visibles para el usuario provisionalmente.
+        public bool IsVisibleContabilizacionOrdenDeProduccion {
+            get {
+                return false;
+            }
+        }
+
+        private bool UsaVentasConIvaDiferido() {
+            return (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("ReglasDeContabilizacion", "UsarVentasConIvaDiferido"));
+        }
+        
         private ValidationResult CuentaDiferenciaCambiariaValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
@@ -5931,6 +6199,9 @@ namespace Galac.Saw.Uil.Contabilizacion.ViewModel {
             }
             return vResult;
         }
+
+        private bool EsModuloProduccion() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("ReglasDeContabilizacion", "EsModuloDeProduccion"));
+        }
     } //End of class ReglasDeContabilizacionViewModel
 } //End of namespace Galac.Saw.Uil.Contabilizacion
-

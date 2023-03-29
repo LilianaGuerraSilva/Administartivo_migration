@@ -33,8 +33,7 @@ Private Function fSubQuerySaldoInicial(ByVal valConsecutivoCompania As Long, ByV
    fSubQuerySaldoInicial = sqlSI
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSubQuerySaldoInicial", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSubQuerySaldoInicial", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLTransaccionesPorCuenta(ByVal valConsecutivoCompania As Long, _
@@ -46,7 +45,7 @@ Public Function fSQLTransaccionesPorCuenta(ByVal valConsecutivoCompania As Long,
                         ByVal valNumeroDeCuenta As String, _
                         ByVal valAgruparPorBeneficiario, ByVal valIsSQLDataBase As Boolean, _
                         ByRef gGlobalization As Object) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim insgEnumProyecto As clsEnumAdministrativo
    Dim insgEnumReport As clsEnumReport
    Dim insMovBancSQl As clsMovimientoBancarioSQL
@@ -54,241 +53,238 @@ Public Function fSQLTransaccionesPorCuenta(ByVal valConsecutivoCompania As Long,
    Set insgEnumProyecto = New clsEnumAdministrativo
    Set insgEnumReport = New clsEnumReport
    Set insMovBancSQl = New clsMovimientoBancarioSQL
-   SQL = "SELECT "
-   SQL = SQL & "cuentaBancaria.Codigo, "
-   SQL = SQL & "cuentaBancaria.NombreCuenta, "
-   SQL = SQL & "cuentaBancaria.NumeroCuenta, "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "(" & fSubQuerySaldoInicial(valConsecutivoCompania, valFechaInicial) & ") AS SaldoInicial, "
-   SQL = SQL & "movimientoBancario.Fecha, "
-   SQL = SQL & "movimientoBancario.NumeroDocumento, "
-   SQL = SQL & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
+   Sql = "SELECT "
+   Sql = Sql & "cuentaBancaria.Codigo, "
+   Sql = Sql & "cuentaBancaria.NombreCuenta, "
+   Sql = Sql & "cuentaBancaria.NumeroCuenta, "
+   Sql = Sql & "cuentaBancaria.NombreDeLaMoneda, "
+   Sql = Sql & "(" & fSubQuerySaldoInicial(valConsecutivoCompania, valFechaInicial) & ") AS SaldoInicial, "
+   Sql = Sql & "movimientoBancario.Fecha, "
+   Sql = Sql & "movimientoBancario.NumeroDocumento, "
+   Sql = Sql & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
                   gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_INGRESO)), _
                   gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_EGRESO)), True) & _
                " AS Concepto, "
-   SQL = SQL & "movimientoBancario.ConsecutivoMovimiento, "
-   SQL = SQL & "movimientoBancario.Descripcion, "
-   SQL = SQL & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
+   Sql = Sql & "movimientoBancario.ConsecutivoMovimiento, "
+   Sql = Sql & "movimientoBancario.Descripcion, "
+   Sql = Sql & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
                   "movimientoBancario.Monto", "0", True) & _
                " AS MontoIngreso, "
-   SQL = SQL & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
+   Sql = Sql & gUtilSQL.getIIF("movimientoBancario.TipoConcepto" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_EGRESO), _
                   "movimientoBancario.Monto", "0", True) & _
                " AS MontoEgreso, "
-   SQL = SQL & "movimientoBancario.NombreOperador"
+   Sql = Sql & "movimientoBancario.NombreOperador"
    
    If gGlobalization.fEsCodigoPeru Then
       Dim insBancoVista As clsBancoVista
       Set insBancoVista = New clsBancoVista
       
-      SQL = SQL & ", (SELECT  RazonSocial"
-      SQL = SQL & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXAnticipoCobrado
-      SQL = SQL & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
-      SQL = SQL & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
-      SQL = SQL & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
-      SQL = SQL & " UNION "
+      Sql = Sql & ", (SELECT  RazonSocial"
+      Sql = Sql & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXAnticipoCobrado
+      Sql = Sql & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
+      Sql = Sql & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
+      Sql = Sql & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
+      Sql = Sql & " UNION "
       
-      SQL = SQL & " SELECT  RazonSocial"
-      SQL = SQL & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXAnticipoPagado
-      SQL = SQL & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
-      SQL = SQL & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
-      SQL = SQL & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
-      SQL = SQL & " UNION "
+      Sql = Sql & " SELECT  RazonSocial"
+      Sql = Sql & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXAnticipoPagado
+      Sql = Sql & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
+      Sql = Sql & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
+      Sql = Sql & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
+      Sql = Sql & " UNION "
       
-      SQL = SQL & " SELECT  RazonSocial"
-      SQL = SQL & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXCobranza
-      SQL = SQL & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
-      SQL = SQL & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
-      SQL = SQL & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
-      SQL = SQL & " UNION "
+      Sql = Sql & " SELECT  RazonSocial"
+      Sql = Sql & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXCobranza
+      Sql = Sql & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
+      Sql = Sql & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
+      Sql = Sql & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
+      Sql = Sql & " UNION "
       
-      SQL = SQL & " SELECT  RazonSocial"
-      SQL = SQL & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXDebitoBancario
-      SQL = SQL & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
-      SQL = SQL & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
-      SQL = SQL & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
-      SQL = SQL & " UNION "
+      Sql = Sql & " SELECT  RazonSocial"
+      Sql = Sql & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXDebitoBancario
+      Sql = Sql & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
+      Sql = Sql & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
+      Sql = Sql & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
+      Sql = Sql & " UNION "
       
-      SQL = SQL & " SELECT  RazonSocial"
-      SQL = SQL & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXPago
-      SQL = SQL & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
-      SQL = SQL & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
-      SQL = SQL & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
-      SQL = SQL & " UNION "
+      Sql = Sql & " SELECT  RazonSocial"
+      Sql = Sql & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXPago
+      Sql = Sql & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
+      Sql = Sql & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
+      Sql = Sql & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
+      Sql = Sql & " UNION "
       
-      SQL = SQL & " SELECT  RazonSocial"
-      SQL = SQL & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXRestantes
-      SQL = SQL & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
-      SQL = SQL & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
-      SQL = SQL & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
-      SQL = SQL & " UNION "
+      Sql = Sql & " SELECT  RazonSocial"
+      Sql = Sql & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXRestantes
+      Sql = Sql & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
+      Sql = Sql & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
+      Sql = Sql & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
+      Sql = Sql & " UNION "
       
-      SQL = SQL & " SELECT  RazonSocial"
-      SQL = SQL & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXUsuario
-      SQL = SQL & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
-      SQL = SQL & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
-      SQL = SQL & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
-      SQL = SQL & " UNION "
+      Sql = Sql & " SELECT  RazonSocial"
+      Sql = Sql & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXUsuario
+      Sql = Sql & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
+      Sql = Sql & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
+      Sql = Sql & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
+      Sql = Sql & " UNION "
       
-      SQL = SQL & " SELECT  RazonSocial"
-      SQL = SQL & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXUsuarioSinCheque
-      SQL = SQL & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
-      SQL = SQL & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
-      SQL = SQL & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
-      SQL = SQL & ") AS RazonSocial, "
+      Sql = Sql & " SELECT  RazonSocial"
+      Sql = Sql & " From " & insBancoVista.GetViewNameMovBCtaBGeneradaXUsuarioSinCheque
+      Sql = Sql & " Where (ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(valConsecutivoCompania) & ")"
+      Sql = Sql & " AND (ConsecutivoMovimiento = movimientoBancario.ConsecutivoMovimiento)"
+      Sql = Sql & " AND (CodigoCtaBancaria = cuentaBancaria.Codigo)"
+      Sql = Sql & ") AS RazonSocial, "
         
-      SQL = SQL & "(SELECT Banco.Nombre FROM Banco WHERE  banco.Codigo = cuentaBancaria.CodigoBanco) AS Banco, "
-      SQL = SQL & "(SELECT ConceptoBancario.Descripcion FROM ConceptoBancario WHERE conceptoBancario.Codigo = movimientoBancario.CodigoConcepto) AS DescripcionConcepto "
+      Sql = Sql & "(SELECT Banco.Nombre FROM Banco WHERE  banco.Codigo = cuentaBancaria.CodigoBanco) AS Banco, "
+      Sql = Sql & "(SELECT ConceptoBancario.Descripcion FROM ConceptoBancario WHERE conceptoBancario.Codigo = movimientoBancario.CodigoConcepto) AS DescripcionConcepto "
       
       Set insBancoVista = Nothing
    End If
    
    
    If valEsElInformeDeTrasaccionesPorBeneficiario Then
-      SQL = SQL & ", " & insMovBancSQl.fSubQueryTransaccionesConBeneficiario(valEsSistemaAdmInfotax, valConsecutivoCompania)
+      Sql = Sql & ", " & insMovBancSQl.fSubQueryTransaccionesConBeneficiario(valEsSistemaAdmInfotax, valConsecutivoCompania)
    End If
-   SQL = SQL & " FROM cuentaBancaria"
-   SQL = SQL & " INNER JOIN movimientoBancario ON "
-   SQL = SQL & "(cuentaBancaria.Codigo = movimientoBancario.CodigoCtaBancaria)"
-   SQL = SQL & " AND (cuentaBancaria.ConsecutivoCompania = movimientoBancario.ConsecutivoCompania)"
-   SQL = SQL & " WHERE cuentaBancaria.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", _
+   Sql = Sql & " FROM cuentaBancaria"
+   Sql = Sql & " INNER JOIN movimientoBancario ON "
+   Sql = Sql & "(cuentaBancaria.Codigo = movimientoBancario.CodigoCtaBancaria)"
+   Sql = Sql & " AND (cuentaBancaria.ConsecutivoCompania = movimientoBancario.ConsecutivoCompania)"
+   Sql = Sql & " WHERE cuentaBancaria.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", _
                 valFechaInicial, valFechaFinal)
    If valImprimirSoloCuentasActivas Then
-      SQL = SQL & " AND cuentaBancaria.Status" & _
+      Sql = Sql & " AND cuentaBancaria.Status" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir = insgEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      SQL = SQL & " AND cuentaBancaria.Codigo" & _
+      Sql = Sql & " AND cuentaBancaria.Codigo" & _
                   " = " & gUtilSQL.fSimpleSqlValue(Trim(valNumeroDeCuenta))
    End If
-   SQL = SQL & " ORDER BY "
+   Sql = Sql & " ORDER BY "
    If valEsElInformeDeTrasaccionesPorBeneficiario Then
       If valAgruparPorBeneficiario And valIsSQLDataBase Then
-        SQL = SQL & "beneficiario, "
+        Sql = Sql & "beneficiario, "
       End If
    End If
-   SQL = SQL & "cuentaBancaria.Codigo, "
-   SQL = SQL & "movimientoBancario.Fecha, "
-   SQL = SQL & "movimientoBancario.ConsecutivoMovimiento, "
-   SQL = SQL & "movimientoBancario.NumeroDocumento, "
-   SQL = SQL & "movimientoBancario.TipoConcepto"
+   Sql = Sql & "cuentaBancaria.Codigo, "
+   Sql = Sql & "movimientoBancario.Fecha, "
+   Sql = Sql & "movimientoBancario.ConsecutivoMovimiento, "
+   Sql = Sql & "movimientoBancario.NumeroDocumento, "
+   Sql = Sql & "movimientoBancario.TipoConcepto"
    Set insMovBancSQl = Nothing
    Set insgEnumProyecto = Nothing
    Set insgEnumReport = Nothing
-   fSQLTransaccionesPorCuenta = SQL
+   fSQLTransaccionesPorCuenta = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLTransaccionesPorCuenta", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLTransaccionesPorCuenta", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLTransaccionesPorConcepto(ByVal valConsecutivoCompania As Long, _
                         ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
                         ByVal valCantidadAImprimir As String, ByVal valConcepto As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim insgEnumProyecto As clsEnumAdministrativo
    Dim insgEnumReport As clsEnumReport
    On Error GoTo h_ERROR
    Set insgEnumProyecto = New clsEnumAdministrativo
    Set insgEnumReport = New clsEnumReport
-   SQL = "SELECT "
-   SQL = SQL & "conceptoBancario.Codigo AS CodigoConcepto, "
-   SQL = SQL & "conceptoBancario.Descripcion AS DescripcionConcepto,"
-   SQL = SQL & gUtilSQL.getIIF("conceptoBancario.Tipo" & _
+   Sql = "SELECT "
+   Sql = Sql & "conceptoBancario.Codigo AS CodigoConcepto, "
+   Sql = Sql & "conceptoBancario.Descripcion AS DescripcionConcepto,"
+   Sql = Sql & gUtilSQL.getIIF("conceptoBancario.Tipo" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
                   gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_INGRESO)), _
                   gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_EGRESO)), True) & _
                   " AS TipoConcepto, "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "cuentaBancaria.Codigo AS CodigoCuenta, "
-   SQL = SQL & "cuentaBancaria.NombreCuenta, "
-   SQL = SQL & "cuentaBancaria.NumeroCuenta, "
-   SQL = SQL & "movimientoBancario.Fecha, "
-   SQL = SQL & "movimientoBancario.ConsecutivoMovimiento, "
-   SQL = SQL & "movimientoBancario.NumeroDocumento, "
-   SQL = SQL & "movimientoBancario.Descripcion AS DescripcionMovimiento, "
-   SQL = SQL & "movimientoBancario.Monto"
-   SQL = SQL & " FROM conceptoBancario INNER JOIN ("
-   SQL = SQL & "cuentaBancaria INNER JOIN movimientoBancario ON ("
-   SQL = SQL & "cuentaBancaria.Codigo = movimientoBancario.CodigoCtaBancaria"
-   SQL = SQL & ") AND (cuentaBancaria.ConsecutivoCompania" & _
+   Sql = Sql & "cuentaBancaria.NombreDeLaMoneda, "
+   Sql = Sql & "cuentaBancaria.Codigo AS CodigoCuenta, "
+   Sql = Sql & "cuentaBancaria.NombreCuenta, "
+   Sql = Sql & "cuentaBancaria.NumeroCuenta, "
+   Sql = Sql & "movimientoBancario.Fecha, "
+   Sql = Sql & "movimientoBancario.ConsecutivoMovimiento, "
+   Sql = Sql & "movimientoBancario.NumeroDocumento, "
+   Sql = Sql & "movimientoBancario.Descripcion AS DescripcionMovimiento, "
+   Sql = Sql & "movimientoBancario.Monto"
+   Sql = Sql & " FROM conceptoBancario INNER JOIN ("
+   Sql = Sql & "cuentaBancaria INNER JOIN movimientoBancario ON ("
+   Sql = Sql & "cuentaBancaria.Codigo = movimientoBancario.CodigoCtaBancaria"
+   Sql = Sql & ") AND (cuentaBancaria.ConsecutivoCompania" & _
                " = movimientoBancario.ConsecutivoCompania"
-   SQL = SQL & ")) ON (conceptoBancario.Codigo" & _
+   Sql = Sql & ")) ON (conceptoBancario.Codigo" & _
                " = movimientoBancario.CodigoConcepto)"
-   SQL = SQL & " WHERE movimientoBancario.ConsecutivoCompania" & _
+   Sql = Sql & " WHERE movimientoBancario.ConsecutivoCompania" & _
                " = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", _
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", _
                valFechaInicial, valFechaFinal)
    If valCantidadAImprimir = insgEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      SQL = SQL & " AND conceptoBancario.Codigo = " & gUtilSQL.fSimpleSqlValue(valConcepto)
+      Sql = Sql & " AND conceptoBancario.Codigo = " & gUtilSQL.fSimpleSqlValue(valConcepto)
    End If
-   SQL = SQL & " ORDER BY "
-   SQL = SQL & "conceptoBancario.Codigo, cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "movimientoBancario.Fecha, movimientoBancario.NumeroDocumento"
-   fSQLTransaccionesPorConcepto = SQL
+   Sql = Sql & " ORDER BY "
+   Sql = Sql & "conceptoBancario.Codigo, cuentaBancaria.NombreDeLaMoneda, "
+   Sql = Sql & "movimientoBancario.Fecha, movimientoBancario.NumeroDocumento"
+   fSQLTransaccionesPorConcepto = Sql
    Set insgEnumProyecto = Nothing
    Set insgEnumReport = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLTransaccionesPorConcepto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLTransaccionesPorConcepto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 
 Public Function fSQLTransaccionesPorDia(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, _
                                        ByVal valSQLMontoConvertido As String) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "cuentaBancaria.Codigo AS CodigoCuenta, "
-   SQL = SQL & "cuentaBancaria.NombreCuenta, "
-   SQL = SQL & "cuentaBancaria.NumeroCuenta, "
-   SQL = SQL & "conceptoBancario.Codigo AS CodigoConcepto, "
-   SQL = SQL & "movimientoBancario.Descripcion AS DescripcionMovimiento, "
-   SQL = SQL & gUtilSQL.getIIF("conceptoBancario.Tipo" & _
+   Sql = "SELECT "
+   Sql = Sql & "cuentaBancaria.NombreDeLaMoneda, "
+   Sql = Sql & "cuentaBancaria.Codigo AS CodigoCuenta, "
+   Sql = Sql & "cuentaBancaria.NombreCuenta, "
+   Sql = Sql & "cuentaBancaria.NumeroCuenta, "
+   Sql = Sql & "conceptoBancario.Codigo AS CodigoConcepto, "
+   Sql = Sql & "movimientoBancario.Descripcion AS DescripcionMovimiento, "
+   Sql = Sql & gUtilSQL.getIIF("conceptoBancario.Tipo" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
                   "movimientoBancario.Monto", "0", True) & _
                " AS MontoIngreso, "
-   SQL = SQL & gUtilSQL.getIIF("conceptoBancario.Tipo" & _
+   Sql = Sql & gUtilSQL.getIIF("conceptoBancario.Tipo" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_EGRESO), _
                   valSQLMontoConvertido, "0", True) & _
                " AS MontoEgreso, "
-   SQL = SQL & "movimientoBancario.NombreOperador"
-   SQL = SQL & " FROM cuentaBancaria"
-   SQL = SQL & " INNER JOIN (conceptoBancario"
-   SQL = SQL & " INNER JOIN movimientoBancario ON "
-   SQL = SQL & "conceptoBancario.Codigo" & _
+   Sql = Sql & "movimientoBancario.NombreOperador"
+   Sql = Sql & " FROM cuentaBancaria"
+   Sql = Sql & " INNER JOIN (conceptoBancario"
+   Sql = Sql & " INNER JOIN movimientoBancario ON "
+   Sql = Sql & "conceptoBancario.Codigo" & _
                " = movimientoBancario.CodigoConcepto"
-   SQL = SQL & " ) ON ("
-   SQL = SQL & "cuentaBancaria.Codigo" & _
+   Sql = Sql & " ) ON ("
+   Sql = Sql & "cuentaBancaria.Codigo" & _
                " = movimientoBancario.CodigoCtaBancaria"
-   SQL = SQL & ") AND ("
-   SQL = SQL & "cuentaBancaria.ConsecutivoCompania" & _
+   Sql = Sql & ") AND ("
+   Sql = Sql & "cuentaBancaria.ConsecutivoCompania" & _
                " = movimientoBancario.ConsecutivoCompania)"
-   SQL = SQL & " WHERE movimientoBancario.ConsecutivoCompania" & _
+   Sql = Sql & " WHERE movimientoBancario.ConsecutivoCompania" & _
                " = " & valConsecutivoCompania
-   SQL = SQL & " AND movimientoBancario.Fecha" & _
+   Sql = Sql & " AND movimientoBancario.Fecha" & _
                " = " & gUtilSQL.fDateToSQLValue(valFechaInicial)
-   SQL = SQL & " ORDER BY "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "cuentaBancaria.Codigo, "
-   SQL = SQL & "movimientoBancario.ConsecutivoMovimiento"
-   fSQLTransaccionesPorDia = SQL
+   Sql = Sql & " ORDER BY "
+   Sql = Sql & "cuentaBancaria.NombreDeLaMoneda, "
+   Sql = Sql & "cuentaBancaria.Codigo, "
+   Sql = Sql & "movimientoBancario.ConsecutivoMovimiento"
+   fSQLTransaccionesPorDia = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLTransaccionesPorDia", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLTransaccionesPorDia", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLFlujoDeCajaHistorico(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, _
                                        ByVal valFechaFinal As Date, ByVal valSQLMontoConvertido As String) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = "SELECT MovimientoBancario.CodigoCtaBancaria as CodigoCuenta,  " _
+   Sql = "SELECT MovimientoBancario.CodigoCtaBancaria as CodigoCuenta,  " _
                & valSQLMontoConvertido & " AS MontoIE,  " _
                & " MovimientoBancario.ConsecutivoMovimiento as ConsecutivoMov, " _
                & " MovimientoBancario.Fecha as FechaMovimiento,  " _
@@ -304,99 +300,98 @@ Public Function fSQLFlujoDeCajaHistorico(ByVal valConsecutivoCompania As Long, B
                & " Moneda.Simbolo,  " _
                & " ConceptoBancario.Codigo as CodigoConcepto, " _
                & " ConceptoBancario.Descripcion as DescripcionDeConcepto "
-   SQL = SQL & " FROM MovimientoBancario, CuentaBancaria, ConceptoBancario, Moneda "
-   SQL = SQL & " WHERE MovimientoBancario.CodigoCtaBancaria = CuentaBancaria.Codigo " _
+   Sql = Sql & " FROM MovimientoBancario, CuentaBancaria, ConceptoBancario, Moneda "
+   Sql = Sql & " WHERE MovimientoBancario.CodigoCtaBancaria = CuentaBancaria.Codigo " _
                & " AND MovimientoBancario.CodigoConcepto = ConceptoBancario.Codigo " _
                & " AND CuentaBancaria.NombreDeLaMoneda = Moneda.Nombre " _
                & " AND MovimientoBancario.Fecha BETWEEN " & gUtilSQL.fDateToSQLValue(valFechaInicial) & " AND " & gUtilSQL.fDateToSQLValue(valFechaFinal) _
                & " AND CuentaBancaria.ConsecutivoCompania = " & valConsecutivoCompania _
                & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania _
                & " ORDER BY CuentaBancaria.NombreDeLaMoneda, MovimientoBancario.TipoConcepto,ConceptoBancario.Codigo"
-   fSQLFlujoDeCajaHistorico = SQL
+   fSQLFlujoDeCajaHistorico = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLFlujoDeCajaHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLFlujoDeCajaHistorico", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLDeclaracionITF(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal CodigoCuenta As String, ByVal ConsecutivoCompania As String, ByVal ImprimirSoloCuentasActivas As Boolean, _
                                     ByVal valCantidadAImprimir As Boolean) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim ComparativoFecha As String
    Dim insViews As clsBancoVista
    On Error GoTo h_ERROR
    Set insViews = New clsBancoVista
    ComparativoFecha = gUtilSQL.fSQLValueBetween("FECHA", valFechaInicial, valFechaFinal)
-   SQL = ""
-   SQL = "SELECT " & gUtilSQL.fSimpleSqlValue("Efectivo") & " as Concepto, "
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "Monto", "0") & ") as MontoEfectivo, "
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("generadoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "Monto", "0") & ") as MontoITF, "
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") as DocumentosEfectivo, "
-   SQL = SQL & "NombreCuenta "
-   SQL = SQL & "FROM " & insViews.GetViewNameUnionMovBCtaB
-   SQL = SQL & " WHERE " & insViews.GetViewNameUnionMovBCtaB & ".ConsecutivoCompania" & _
+   Sql = ""
+   Sql = "SELECT " & gUtilSQL.fSimpleSqlValue("Efectivo") & " as Concepto, "
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "Monto", "0") & ") as MontoEfectivo, "
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("generadoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "Monto", "0") & ") as MontoITF, "
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") as DocumentosEfectivo, "
+   Sql = Sql & "NombreCuenta "
+   Sql = Sql & "FROM " & insViews.GetViewNameUnionMovBCtaB
+   Sql = Sql & " WHERE " & insViews.GetViewNameUnionMovBCtaB & ".ConsecutivoCompania" & _
                      " = " & ConsecutivoCompania & " AND " & ComparativoFecha & " and monto > 0 "
    If valCantidadAImprimir Then
-      SQL = SQL & "AND CodigoCtaBancaria = " & gUtilSQL.fSimpleSqlValue(CodigoCuenta)
+      Sql = Sql & "AND CodigoCtaBancaria = " & gUtilSQL.fSimpleSqlValue(CodigoCuenta)
    End If
       If ImprimirSoloCuentasActivas Then
-      SQL = SQL & " AND Status" & _
+      Sql = Sql & " AND Status" & _
                   " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
-   SQL = SQL & " GROUP BY NombreCuenta"
-   fSQLDeclaracionITF = SQL
+   Sql = Sql & " GROUP BY NombreCuenta"
+   fSQLDeclaracionITF = Sql
    Set insViews = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLDeclaracionITF", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeclaracionITF", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Public Function fSQLTransaccionesPorConceptoYCuentaBancaria(ByVal valConsecutivoCompania As Long, _
                         ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
                         ByVal valCantidadAImprimirConcepto As String, ByVal valConcepto As String, _
                         ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimirCuenta As String, _
                         ByVal valNumeroDeCuenta As String) As String
-   Dim SQL As String
+   Dim Sql As String
    Dim insgEnumProyecto As clsEnumAdministrativo
    Dim insgEnumReport As clsEnumReport
    On Error GoTo h_ERROR
    Set insgEnumProyecto = New clsEnumAdministrativo
    Set insgEnumReport = New clsEnumReport
-   SQL = "SELECT "
-   SQL = SQL & "conceptoBancario.Codigo AS CodigoConcepto, "
-   SQL = SQL & "conceptoBancario.Descripcion AS DescripcionConcepto,"
-   SQL = SQL & gUtilSQL.getIIF("conceptoBancario.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
+   Sql = "SELECT "
+   Sql = Sql & "conceptoBancario.Codigo AS CodigoConcepto, "
+   Sql = Sql & "conceptoBancario.Descripcion AS DescripcionConcepto,"
+   Sql = Sql & gUtilSQL.getIIF("conceptoBancario.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_IngresoEgreso.eIE_INGRESO), _
                   gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_INGRESO)), _
                   gUtilSQL.fSimpleSqlValue(insgEnumProyecto.enumIngresoEgresoToString(eIE_EGRESO)), True) & " AS TipoConcepto, "
-   SQL = SQL & "cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "cuentaBancaria.Codigo AS CodigoCuenta, "
-   SQL = SQL & "cuentaBancaria.NombreCuenta, "
-   SQL = SQL & "cuentaBancaria.NumeroCuenta, "
-   SQL = SQL & "movimientoBancario.Fecha, "
-   SQL = SQL & "movimientoBancario.ConsecutivoMovimiento, "
-   SQL = SQL & "movimientoBancario.NumeroDocumento, "
-   SQL = SQL & "movimientoBancario.Descripcion AS DescripcionMovimiento, "
-   SQL = SQL & "movimientoBancario.Monto"
-   SQL = SQL & " FROM conceptoBancario INNER JOIN "
-   SQL = SQL & "(cuentaBancaria INNER JOIN movimientoBancario "
-   SQL = SQL & " ON (cuentaBancaria.Codigo = movimientoBancario.CodigoCtaBancaria)"
-   SQL = SQL & " AND (cuentaBancaria.ConsecutivoCompania = movimientoBancario.ConsecutivoCompania))"
-   SQL = SQL & " ON conceptoBancario.Codigo = movimientoBancario.CodigoConcepto"
-   SQL = SQL & " WHERE movimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & "cuentaBancaria.NombreDeLaMoneda, "
+   Sql = Sql & "cuentaBancaria.Codigo AS CodigoCuenta, "
+   Sql = Sql & "cuentaBancaria.NombreCuenta, "
+   Sql = Sql & "cuentaBancaria.NumeroCuenta, "
+   Sql = Sql & "movimientoBancario.Fecha, "
+   Sql = Sql & "movimientoBancario.ConsecutivoMovimiento, "
+   Sql = Sql & "movimientoBancario.NumeroDocumento, "
+   Sql = Sql & "movimientoBancario.Descripcion AS DescripcionMovimiento, "
+   Sql = Sql & "movimientoBancario.Monto"
+   Sql = Sql & " FROM conceptoBancario INNER JOIN "
+   Sql = Sql & "(cuentaBancaria INNER JOIN movimientoBancario "
+   Sql = Sql & " ON (cuentaBancaria.Codigo = movimientoBancario.CodigoCtaBancaria)"
+   Sql = Sql & " AND (cuentaBancaria.ConsecutivoCompania = movimientoBancario.ConsecutivoCompania))"
+   Sql = Sql & " ON conceptoBancario.Codigo = movimientoBancario.CodigoConcepto"
+   Sql = Sql & " WHERE movimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("movimientoBancario.Fecha", valFechaInicial, valFechaFinal)
    If valCantidadAImprimirConcepto = insgEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      SQL = SQL & " AND conceptoBancario.Codigo = " & gUtilSQL.fSimpleSqlValue(valConcepto)
+      Sql = Sql & " AND conceptoBancario.Codigo = " & gUtilSQL.fSimpleSqlValue(valConcepto)
    End If
    If valCantidadAImprimirCuenta = insgEnumReport.enumCantidadAImprimirToString(eCI_uno) Then
-      SQL = SQL & " AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(Trim(valNumeroDeCuenta))
+      Sql = Sql & " AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(Trim(valNumeroDeCuenta))
    End If
    If valImprimirSoloCuentasActivas Then
-      SQL = SQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      Sql = Sql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
-   SQL = SQL & " ORDER BY "
-   SQL = SQL & "conceptoBancario.Codigo, cuentaBancaria.Codigo, cuentaBancaria.NombreDeLaMoneda, "
-   SQL = SQL & "movimientoBancario.Fecha, movimientoBancario.NumeroDocumento"
-   fSQLTransaccionesPorConceptoYCuentaBancaria = SQL
+   Sql = Sql & " ORDER BY "
+   Sql = Sql & "conceptoBancario.Codigo, cuentaBancaria.Codigo, cuentaBancaria.NombreDeLaMoneda, "
+   Sql = Sql & "movimientoBancario.Fecha, movimientoBancario.NumeroDocumento"
+   fSQLTransaccionesPorConceptoYCuentaBancaria = Sql
    Set insgEnumProyecto = Nothing
    Set insgEnumReport = Nothing
 h_EXIT: On Error GoTo 0
@@ -404,453 +399,499 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLTransaccionesPorConceptoYCuentaBancaria", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Public Function fSQLDeclaracionITFGO6687(ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCodigoCuenta As String, ByVal valConsecutivoCompania As String, ByVal valImprimirSoloCuentasActivas As Boolean, _
-                                    ByVal valCantidadAImprimir As Boolean, ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valCodigoConceptoDebitoBancario As String, ByVal valConceptoBancarioReversoDePago As String) As String
-   Dim SQL As String
+                                    ByVal valCantidadAImprimir As Boolean, ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valCodigoConceptoDebitoBancario As String, ByVal valConceptoBancarioReversoDePago As String, ByVal valConceptoBancarioReversoDeTransferencia As String) As String
+   Dim Sql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   SQL = fSqlCTEDeclaracionIGTFGeneraMovBan(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valCodigoConceptoDebitoBancario, valConceptoBancarioReversoDePago)
-   SQL = SQL & fSqlDeclaracionIGTFGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
-   SQL = SQL & " UNION "
-   SQL = SQL & fSqlDeclaracionIGTFNoGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
-   SQL = SQL & " UNION "
-   SQL = SQL & fSqlDeclaracionIGTFFactura_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
-   SQL = SQL & " UNION "
-   SQL = SQL & fSqlDeclaracionIGTF_RDV_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
-   SQL = SQL & " UNION "
-   SQL = SQL & fSqlDeclaracionIGTF_RDV_CierreZ_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
-   SQL = SQL & " UNION "
-   SQL = SQL & fSqlDeclaracionIGTFFactura_NC_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
-   SQL = SQL & " UNION "
-   SQL = SQL & fSqlDeclaracionIGTFFactura_ND_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
-   SQL = SQL & " ORDER BY TipoDeAlicuotaPorContribuyenteStr, AlicuotaImpBancario, NombreCuenta, CodigoMoneda, Fecha "
-   fSQLDeclaracionITFGO6687 = SQL
+   Sql = fSqlCTEDeclaracionIGTFGeneraMovBan(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valCodigoConceptoDebitoBancario, valConceptoBancarioReversoDePago, valConceptoBancarioReversoDeTransferencia)
+   Sql = Sql & fSqlDeclaracionIGTFGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
+   Sql = Sql & " UNION "
+   Sql = Sql & fSqlDeclaracionIGTFNoGeneraMovBan_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania)
+   Sql = Sql & " UNION "
+   Sql = Sql & fSqlDeclaracionIGTFFactura_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
+   Sql = Sql & " UNION "
+   Sql = Sql & fSqlDeclaracionIGTF_RDV_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
+   Sql = Sql & " UNION "
+   Sql = Sql & fSqlDeclaracionIGTF_RDV_CierreZ_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
+   Sql = Sql & " UNION "
+   Sql = Sql & fSqlDeclaracionIGTFFactura_NC_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
+   Sql = Sql & " UNION "
+   Sql = Sql & fSqlDeclaracionIGTFFactura_ND_SQL(valRedondeaMontoDebitoBancario, valConsecutivoCompania, valFechaInicial, valFechaFinal)
+   Sql = Sql & " ORDER BY TipoDeAlicuotaPorContribuyenteStr, AlicuotaImpBancario, NombreCuenta, CodigoMoneda, Fecha "
+   fSQLDeclaracionITFGO6687 = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLDeclaracionITFGO6687", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Private Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String, ByVal valCodigoConceptoDebitoBancario As String, ByVal valConceptoBancarioReversoDePago As String) As String
-   Dim vSQL As String
+
+Private Function fSqlCTEDeclaracionIGTFGeneraMovBan(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String, ByVal valCodigoConceptoDebitoBancario As String, ByVal valConceptoBancarioReversoDePago As String, ByVal valConceptoBancarioReversoDeTransferencia As String) As String
+   Dim vSql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = ";WITH CTE_DeclaracionIGTFGeneraMovBan AS ( "
-   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanMB(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
-   vSQL = vSQL & " UNION "
-   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valConceptoBancarioReversoDePago)
-   vSQL = vSQL & " UNION "
-   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanPago(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
-   vSQL = vSQL & " UNION "
-   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanCobranza(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
-   vSQL = vSQL & " UNION "
-   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
-   vSQL = vSQL & " UNION "
-   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanRendicion(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valCodigoConceptoDebitoBancario)
-   vSQL = vSQL & " UNION "
-   vSQL = vSQL & fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
-   vSQL = vSQL & " ) "
-   fSqlCTEDeclaracionIGTFGeneraMovBan = vSQL
+   vSql = ";WITH CTE_DeclaracionIGTFGeneraMovBan AS ( "
+   vSql = vSql & fSqlCTEDeclaracionIGTFGeneraMovBanMB(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
+   vSql = vSql & " UNION "
+   vSql = vSql & fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valConceptoBancarioReversoDePago, valConceptoBancarioReversoDeTransferencia)
+   vSql = vSql & " UNION "
+   vSql = vSql & fSqlCTEDeclaracionIGTFGeneraMovBanPago(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
+   vSql = vSql & " UNION "
+   vSql = vSql & fSqlCTEDeclaracionIGTFGeneraMovBanCobranza(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
+   vSql = vSql & " UNION "
+   vSql = vSql & fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
+   vSql = vSql & " UNION "
+   vSql = vSql & fSqlCTEDeclaracionIGTFGeneraMovBanRendicion(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta, valCodigoConceptoDebitoBancario)
+   vSql = vSql & " UNION "
+   vSql = vSql & fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
+   vSql = vSql & " UNION "
+   vSql = vSql & fSqlCTEDeclaracionIGTFGeneraMovBanTransferenciaBancaria(valConsecutivoCompania, valFechaInicial, valFechaFinal, valImprimirSoloCuentasActivas, valCantidadAImprimir, valCodigoCuenta)
+   vSql = vSql & " ) "
+   fSqlCTEDeclaracionIGTFGeneraMovBan = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBan", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlCTEDeclaracionIGTFGeneraMovBanMB(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
-   vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
-   vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
-   vSQL = vSQL & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
-   vSQL = vSQL & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
-   vSQL = vSQL & "FROM MovimientoBancario "
-   vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
-   vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
+   vSql = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSql = vSql & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
+   vSql = vSql & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
+   vSql = vSql & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSql = vSql & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
+   vSql = vSql & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
+   vSql = vSql & "FROM MovimientoBancario "
+   vSql = vSql & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+   vSql = vSql & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSql = vSql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
-      vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+      vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
-   vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_USUARIO)
-   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   fSqlCTEDeclaracionIGTFGeneraMovBanMB = vSQL
+   vSql = vSql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_USUARIO)
+   vSql = vSql & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   fSqlCTEDeclaracionIGTFGeneraMovBanMB = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanMB", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String, ByVal valConceptoBancarioReversoDePago As String) As String
-   Dim vSQL As String
+
+Private Function fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String, ByVal valConceptoBancarioReversoDePago As String, ByVal valConceptoBancarioReversoDeTransferencia As String) As String
+   Dim vSql As String
    Dim vSqlSubSelect As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
    
-   vSqlSubSelect = " SELECT MB.NumeroDocumento "
+   vSqlSubSelect = " SELECT MB.ConsecutivoMovimiento "
    vSqlSubSelect = vSqlSubSelect & " FROM MovimientoBancario AS MB "
    vSqlSubSelect = vSqlSubSelect & " WHERE " & gUtilSQL.fSQLValueBetween("MB.Fecha", valFechaInicial, valFechaFinal)
    vSqlSubSelect = vSqlSubSelect & " AND MB.ConsecutivoCompania = MovimientoBancario.ConsecutivoCompania AND MB.CodigoCtaBancaria = MovimientoBancario.CodigoCtaBancaria "
-   vSqlSubSelect = vSqlSubSelect & " AND MB.CodigoConcepto = " & gUtilSQL.fSimpleSqlValue(valConceptoBancarioReversoDePago)
+   vSqlSubSelect = vSqlSubSelect & " AND (MB.CodigoConcepto = " & gUtilSQL.fSimpleSqlValue(valConceptoBancarioReversoDePago) & " OR MB.CodigoConcepto = " & gUtilSQL.fSimpleSqlValue(valConceptoBancarioReversoDeTransferencia) & " )"
    
-   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
-   vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
-   vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
-   vSQL = vSQL & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
-   vSQL = vSQL & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
-   vSQL = vSQL & "FROM MovimientoBancario "
-   vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
-   vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
+   vSql = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSql = vSql & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
+   vSql = vSql & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
+   vSql = vSql & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSql = vSql & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
+   vSql = vSql & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
+   vSql = vSql & "FROM MovimientoBancario "
+   vSql = vSql & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+   vSql = vSql & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSql = vSql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
-      vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+      vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
    vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO)
    vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
    vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   vSQL = vSQL & " AND MovimientoBancario.NumeroDocumento NOT IN (" & vSqlSubSelect & ") "
+   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoMovimiento NOT IN (" & vSqlSubSelect & ") "
    fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario = vSQL
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanDebitoBancario", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlCTEDeclaracionIGTFGeneraMovBanPago(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
-   vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
-   vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
-   vSQL = vSQL & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
-   vSQL = vSQL & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
-   vSQL = vSQL & "FROM MovimientoBancario "
-   vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
-   vSQL = vSQL & "INNER JOIN Pago ON MovimientoBancario.ConsecutivoCompania = Pago.ConsecutivoCompania "
-   vSQL = vSQL & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Pago.NumeroComprobante AS varchar) AND MovimientoBancario.Fecha = Pago.Fecha "
-   vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
+   vSql = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSql = vSql & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
+   vSql = vSql & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
+   vSql = vSql & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSql = vSql & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
+   vSql = vSql & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
+   vSql = vSql & "FROM MovimientoBancario "
+   vSql = vSql & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+   vSql = vSql & "INNER JOIN Pago ON MovimientoBancario.ConsecutivoCompania = Pago.ConsecutivoCompania "
+   vSql = vSql & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Pago.NumeroComprobante AS varchar) AND MovimientoBancario.Fecha = Pago.Fecha "
+   vSql = vSql & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSql = vSql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
-      vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+      vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
-   vSQL = vSQL & " AND Pago.StatusOrdenDePago = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusPago.eSP_VIGENTE)
-   vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ORDEN_DE_PAGO)
-   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   fSqlCTEDeclaracionIGTFGeneraMovBanPago = vSQL
+   vSql = vSql & " AND Pago.StatusOrdenDePago = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusPago.eSP_VIGENTE)
+   vSql = vSql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ORDEN_DE_PAGO)
+   vSql = vSql & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   fSqlCTEDeclaracionIGTFGeneraMovBanPago = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanPago", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlCTEDeclaracionIGTFGeneraMovBanCobranza(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
-   vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
-   vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
-   vSQL = vSQL & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
-   vSQL = vSQL & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
-   vSQL = vSQL & "FROM MovimientoBancario "
-   vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
-   vSQL = vSQL & "INNER JOIN Cobranza ON MovimientoBancario.ConsecutivoCompania = Cobranza.ConsecutivoCompania "
-   vSQL = vSQL & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Cobranza.Numero AS varchar) AND MovimientoBancario.Fecha = Cobranza.Fecha "
-   vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
+   vSql = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSql = vSql & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
+   vSql = vSql & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
+   vSql = vSql & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSql = vSql & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
+   vSql = vSql & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
+   vSql = vSql & "FROM MovimientoBancario "
+   vSql = vSql & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+   vSql = vSql & "INNER JOIN Cobranza ON MovimientoBancario.ConsecutivoCompania = Cobranza.ConsecutivoCompania "
+   vSql = vSql & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Cobranza.Numero AS varchar) AND MovimientoBancario.Fecha = Cobranza.Fecha "
+   vSql = vSql & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSql = vSql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
-      vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+      vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
-   vSQL = vSQL & " AND Cobranza.StatusCobranza = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCobranza.eSC_VIGENTE)
-   vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_COBRANZA)
-   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   fSqlCTEDeclaracionIGTFGeneraMovBanCobranza = vSQL
+   vSql = vSql & " AND Cobranza.StatusCobranza = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCobranza.eSC_VIGENTE)
+   vSql = vSql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_COBRANZA)
+   vSql = vSql & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   fSqlCTEDeclaracionIGTFGeneraMovBanCobranza = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanCobranza", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
-   vSQL = vSQL & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
-   vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
-   vSQL = vSQL & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
-   vSQL = vSQL & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
-   vSQL = vSQL & "FROM MovimientoBancario "
-   vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
-   vSQL = vSQL & "INNER JOIN anticipo ON MovimientoBancario.ConsecutivoCompania = anticipo.ConsecutivoCompania "
-   vSQL = vSQL & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(anticipo.ConsecutivoAnticipo AS varchar) AND MovimientoBancario.Fecha = anticipo.Fecha "
-   vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
+   vSql = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSql = vSql & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
+   vSql = vSql & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
+   vSql = vSql & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSql = vSql & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
+   vSql = vSql & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
+   vSql = vSql & "FROM MovimientoBancario "
+   vSql = vSql & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+   vSql = vSql & "INNER JOIN anticipo ON MovimientoBancario.ConsecutivoCompania = anticipo.ConsecutivoCompania "
+   vSql = vSql & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(anticipo.ConsecutivoAnticipo AS varchar) AND MovimientoBancario.Fecha = anticipo.Fecha "
+   vSql = vSql & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSql = vSql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
-      vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+      vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
-   vSQL = vSQL & " AND anticipo.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCobranza.eSC_VIGENTE)
-   vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ANTICIPO)
-   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP = vSQL
+   vSql = vSql & " AND anticipo.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCobranza.eSC_VIGENTE)
+   vSql = vSql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_ANTICIPO)
+   vSql = vSql & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanAnticipoP", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlCTEDeclaracionIGTFGeneraMovBanRendicion(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String, ByVal valCodigoConceptoDebitoBancario As String) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
-   vSQL = vSQL & gUtilSQL.getIIF("MovimientoBancario.CodigoConcepto = " & gUtilSQL.fSimpleSqlValue(valCodigoConceptoDebitoBancario), gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO), "MovimientoBancario.GeneradoPor", True) & " AS GeneradoPor, "
-   vSQL = vSQL & " MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
-   vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
-   vSQL = vSQL & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
-   vSQL = vSQL & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
-   vSQL = vSQL & "FROM MovimientoBancario "
-   vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
-   vSQL = vSQL & "INNER JOIN Adm.Rendicion ON MovimientoBancario.ConsecutivoCompania = Adm.Rendicion.ConsecutivoCompania "
-   vSQL = vSQL & "AND CAST(MovimientoBancario.NumeroDocumento AS varchar) = CAST(Adm.Rendicion.NumeroDocumento AS varchar) AND MovimientoBancario.Fecha = Adm.Rendicion.FechaCierre "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria = Adm.Rendicion.CodigoCuentaBancaria "
-   vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
+   vSql = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSql = vSql & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
+   vSql = vSql & gUtilSQL.getIIF("MovimientoBancario.CodigoConcepto = " & gUtilSQL.fSimpleSqlValue(valCodigoConceptoDebitoBancario), gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO), "MovimientoBancario.GeneradoPor", True) & " AS GeneradoPor, "
+   vSql = vSql & " MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
+   vSql = vSql & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSql = vSql & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
+   vSql = vSql & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
+   vSql = vSql & "FROM MovimientoBancario "
+   vSql = vSql & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+   vSql = vSql & "INNER JOIN Adm.Rendicion ON MovimientoBancario.ConsecutivoCompania = Adm.Rendicion.ConsecutivoCompania "
+   vSql = vSql & "AND CAST(MovimientoBancario.NumeroDocumento AS varchar) = CAST(Adm.Rendicion.NumeroDocumento AS varchar) AND MovimientoBancario.Fecha = Adm.Rendicion.FechaCierre "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria = Adm.Rendicion.CodigoCuentaBancaria "
+   vSql = vSql & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSql = vSql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
-      vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+      vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
-   vSQL = vSQL & " AND Adm.Rendicion.StatusRendicion = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusRendicion.eSRd_CERRADA)
-   vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_REPOSICION_DE_CAJACHICA)
-   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   fSqlCTEDeclaracionIGTFGeneraMovBanRendicion = vSQL
+   vSql = vSql & " AND Adm.Rendicion.StatusRendicion = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusRendicion.eSRd_CERRADA)
+   vSql = vSql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_REPOSICION_DE_CAJACHICA)
+   vSql = vSql & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   fSqlCTEDeclaracionIGTFGeneraMovBanRendicion = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanRendicion", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
-   Dim vSQL As String
+   Dim vSql As String
    Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
    Set gEnumProyecto = New clsEnumAdministrativo
-   vSQL = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
-   vSQL = vSQL & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, MovimientoBancario.GeneradoPor, "
-   vSQL = vSQL & " MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
-   vSQL = vSQL & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
-   vSQL = vSQL & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
-   vSQL = vSQL & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
-   vSQL = vSQL & "FROM MovimientoBancario "
-   vSQL = vSQL & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
-   vSQL = vSQL & "INNER JOIN Saw.SolicitudesDePago ON MovimientoBancario.ConsecutivoCompania = Saw.SolicitudesDePago.ConsecutivoCompania "
-   vSQL = vSQL & "INNER JOIN Saw.RenglonSolicitudesDePago ON Saw.SolicitudesDePago.ConsecutivoCompania = Saw.RenglonSolicitudesDePago.ConsecutivoCompania "
-   vSQL = vSQL & "AND Saw.SolicitudesDePago.ConsecutivoSolicitud = Saw.RenglonSolicitudesDePago.ConsecutivoSolicitud  "
-   vSQL = vSQL & "AND MovimientoBancario.CodigoCtaBancaria = Saw.RenglonSolicitudesDePago.CuentaBancaria "
-   vSQL = vSQL & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Saw.RenglonSolicitudesDePago.ConsecutivoSolicitud AS varchar) + CAST(Saw.RenglonSolicitudesDePago.ConsecutivoRenglon AS varchar) "
-   vSQL = vSQL & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND MovimientoBancario.Monto > 0 "
+   vSql = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSql = vSql & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, MovimientoBancario.GeneradoPor, "
+   vSql = vSql & " MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
+   vSql = vSql & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSql = vSql & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
+   vSql = vSql & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
+   vSql = vSql & "FROM MovimientoBancario "
+   vSql = vSql & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+   vSql = vSql & "INNER JOIN Saw.SolicitudesDePago ON MovimientoBancario.ConsecutivoCompania = Saw.SolicitudesDePago.ConsecutivoCompania "
+   vSql = vSql & "INNER JOIN Saw.RenglonSolicitudesDePago ON Saw.SolicitudesDePago.ConsecutivoCompania = Saw.RenglonSolicitudesDePago.ConsecutivoCompania "
+   vSql = vSql & "AND Saw.SolicitudesDePago.ConsecutivoSolicitud = Saw.RenglonSolicitudesDePago.ConsecutivoSolicitud  "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria = Saw.RenglonSolicitudesDePago.CuentaBancaria "
+   vSql = vSql & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Saw.RenglonSolicitudesDePago.ConsecutivoSolicitud AS varchar) + CAST(Saw.RenglonSolicitudesDePago.ConsecutivoRenglon AS varchar) "
+   vSql = vSql & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND MovimientoBancario.Monto > 0 "
    If valImprimirSoloCuentasActivas Then
-      vSQL = vSQL & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
+      vSql = vSql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
    If valCantidadAImprimir Then
-      vSQL = vSQL & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+      vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
    End If
-   vSQL = vSQL & " AND (Saw.SolicitudesDePago.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusSolicitud.eSS_ParcialmenteProcesada)
-   vSQL = vSQL & " OR Saw.SolicitudesDePago.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusSolicitud.eSS_Procesada) & " ) "
-   vSQL = vSQL & " AND Saw.RenglonSolicitudesDePago.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusSolicitudRenglon.eSSR_Procesada)
-   vSQL = vSQL & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_SOLICITUD_DE_PAGO)
-   vSQL = vSQL & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
-   vSQL = vSQL & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
-   fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago = vSQL
+   vSql = vSql & " AND (Saw.SolicitudesDePago.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusSolicitud.eSS_ParcialmenteProcesada)
+   vSql = vSql & " OR Saw.SolicitudesDePago.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusSolicitud.eSS_Procesada) & " ) "
+   vSql = vSql & " AND Saw.RenglonSolicitudesDePago.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusSolicitudRenglon.eSSR_Procesada)
+   vSql = vSql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_SOLICITUD_DE_PAGO)
+   vSql = vSql & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago = vSql
 h_EXIT:     On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanSolicitudPago", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Private Function fSqlDeclaracionIGTFGeneraMovBan_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
-   Dim SQL As String
+
+Private Function fSqlCTEDeclaracionIGTFGeneraMovBanTransferenciaBancaria(ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valImprimirSoloCuentasActivas As Boolean, ByVal valCantidadAImprimir As Boolean, ByVal valCodigoCuenta As String) As String
+   Dim vSql As String
+   Dim gEnumProyecto As clsEnumAdministrativo
    On Error GoTo h_ERROR
-   SQL = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
-   If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(False) & " OR GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2)) & ") AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") AS MontoITF, "
-   Else
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), gUtilSQL.fSQLTruncaA2Decimales("Monto * CambioAbolivares"), "0") & ") AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), gUtilSQL.fSQLTruncaA2Decimales("Monto * CambioAbolivares"), "0") & ") AS MontoITF, "
+   Set gEnumProyecto = New clsEnumAdministrativo
+   vSql = "SELECT MovimientoBancario.ConsecutivoMovimiento, MovimientoBancario.Fecha, MovimientoBancario.TipoConcepto, "
+   vSql = vSql & "MovimientoBancario.CodigoConcepto, MovimientoBancario.GeneraImpuestoBancario, MovimientoBancario.Monto, "
+   vSql = vSql & "MovimientoBancario.GeneradoPor, MovimientoBancario.CambioAbolivares, MovimientoBancario.CodigoCtaBancaria, "
+   vSql = vSql & "cuentaBancaria.NombreCuenta, cuentaBancaria.CodigoMoneda, MovimientoBancario.AlicuotaImpBancario, "
+   vSql = vSql & "( " & gUtilSQL.DfSQLCaseIfForEnum("cuentaBancaria.TipoDeAlicuotaPorContribuyente", enum_TipoAlicPorContIGTF.eTAPCIGTF_NoAsignado, gEnumProyecto.fEnumTipoAlicPorContIGTFToStringInArray(True), "") & " ) AS TipoDeAlicuotaPorContribuyenteStr, "
+   vSql = vSql & "(" & gUtilSQL.getIIF("cuentaBancaria.GeneraMovBancarioPorIGTF = " & gUtilSQL.fBooleanToSqlValue(True), "'Genera IGTF'", "'No Genera IGTF'") & ") AS GeneraMovBancarioPorIGTFStr "
+   vSql = vSql & "FROM MovimientoBancario "
+   vSql = vSql & "INNER JOIN saw.CuentaBancaria ON MovimientoBancario.ConsecutivoCompania = cuentaBancaria.ConsecutivoCompania "
+   vSql = vSql & "AND MovimientoBancario.CodigoCtaBancaria  = cuentaBancaria.Codigo "
+   vSql = vSql & "INNER JOIN Adm.TransferenciaEntreCuentasBancarias ON MovimientoBancario.ConsecutivoCompania = Adm.TransferenciaEntreCuentasBancarias.ConsecutivoCompania "
+   vSql = vSql & "AND CAST(MovimientoBancario.NroMovimientoRelacionado AS varchar) = CAST(Adm.TransferenciaEntreCuentasBancarias.Consecutivo AS varchar) AND MovimientoBancario.Fecha = Adm.TransferenciaEntreCuentasBancarias.Fecha "
+   vSql = vSql & "WHERE " & gUtilSQL.fSQLValueBetween("MovimientoBancario.Fecha", valFechaInicial, valFechaFinal) & " AND monto > 0 "
+   If valImprimirSoloCuentasActivas Then
+      vSql = vSql & " AND cuentaBancaria.Status = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusCtaBancaria.eSC_ACTIVA)
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") AS ParaContar, "
-   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr "
-   SQL = SQL & " FROM CTE_DeclaracionIGTFGeneraMovBan "
-   SQL = SQL & "WHERE GeneraMovBancarioPorIGTFStr = 'Genera IGTF'"
-   SQL = SQL & " GROUP BY TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
-   SQL = SQL & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") > 0 "
+   If valCantidadAImprimir Then
+      vSql = vSql & "AND cuentaBancaria.Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoCuenta)
+   End If
+   vSql = vSql & " AND Adm.TransferenciaEntreCuentasBancarias.Status = " & gUtilSQL.fSQLSimpleValueForEnum(0) 'enum_StatusTransferenciaEntreCuentas.eSTEC_VIGENTE
+   vSql = vSql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_TRANSFERENCIA_BANCARIA)
+   vSql = vSql & " AND MovimientoBancario.ConsecutivoCompania = " & valConsecutivoCompania
+   vSql = vSql & " AND Saw.CuentaBancaria.ExcluirDelInformeDeDeclaracionIGTF = " & gUtilSQL.fBooleanToSqlValue(False)
+   fSqlCTEDeclaracionIGTFGeneraMovBanTransferenciaBancaria = vSql
+h_EXIT:     On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlCTEDeclaracionIGTFGeneraMovBanTransferenciaBancaria", CM_MESSAGE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fSqlDeclaracionIGTFGeneraMovBan_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
+   Dim Sql As String
+   On Error GoTo h_ERROR
+   Sql = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
+   If valRedondeaMontoDebitoBancario Then
+      Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(False) & " OR GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2)) & ") AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2), "0") & ") AS MontoITF, "
+   Else
+      Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), gUtilSQL.fSQLTruncaA2Decimales("Monto * CambioAbolivares"), "0") & ") AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), gUtilSQL.fSQLTruncaA2Decimales("Monto * CambioAbolivares"), "0") & ") AS MontoITF, "
+   End If
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") AS ParaContar, "
+   Sql = Sql & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr "
+   Sql = Sql & " FROM CTE_DeclaracionIGTFGeneraMovBan "
+   Sql = Sql & "WHERE GeneraMovBancarioPorIGTFStr = 'Genera IGTF'"
+   Sql = Sql & " GROUP BY TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
+   Sql = Sql & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") > 0 "
   
-   fSqlDeclaracionIGTFGeneraMovBan_SQL = SQL
+   fSqlDeclaracionIGTFGeneraMovBan_SQL = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFGeneraMovBan_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSqlDeclaracionIGTFNoGeneraMovBan_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
+   Sql = " SELECT TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(False) & " OR GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2)) & ") AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fRoundNDecimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ", 2)) & ") AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(False) & " OR GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fRoundNDecimales(" Monto * CambioAbolivares ", 2)) & ") AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fRoundNDecimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ", 2)) & ") AS MontoITF, "
    Else
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), gUtilSQL.fSQLTruncaA2Decimales(" Monto * CambioAbolivares "), "0") & ") AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fSQLTruncaA2Decimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ")) & ") AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), gUtilSQL.fSQLTruncaA2Decimales(" Monto * CambioAbolivares "), "0") & ") AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(eGP_DEBITO_BANCARIO), "0", gUtilSQL.fSQLTruncaA2Decimales(" ((Monto * AlicuotaImpBancario)/100) * CambioAbolivares ")) & ") AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") AS ParaContar, "
-   SQL = SQL & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
-   SQL = SQL & " FROM CTE_DeclaracionIGTFGeneraMovBan "
-   SQL = SQL & "WHERE GeneraMovBancarioPorIGTFStr = 'No Genera IGTF'"
-   SQL = SQL & " GROUP BY TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, fecha, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
-   SQL = SQL & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") > 0 "
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") AS ParaContar, "
+   Sql = Sql & "AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
+   Sql = Sql & " FROM CTE_DeclaracionIGTFGeneraMovBan "
+   Sql = Sql & "WHERE GeneraMovBancarioPorIGTFStr = 'No Genera IGTF'"
+   Sql = Sql & " GROUP BY TipoDeAlicuotaPorContribuyenteStr, NombreCuenta, CodigoMoneda, fecha, AlicuotaImpBancario, GeneraMovBancarioPorIGTFStr"
+   Sql = Sql & " HAVING SUM(" & gUtilSQL.getIIF("GeneraImpuestoBancario = " & gUtilSQL.fBooleanToSqlValue(True), "1", "0") & ") > 0 "
    
-   fSqlDeclaracionIGTFNoGeneraMovBan_SQL = SQL
+   fSqlDeclaracionIGTFNoGeneraMovBan_SQL = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFNoGeneraMovBan_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSqlDeclaracionIGTFFactura_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Facturas Cobradas en Divisas' AS NombreCuenta, CodigoMoneda, Fecha, "
+   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Facturas Cobradas en Divisas' AS NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
    Else
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
-   SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
-   SQL = SQL & " FROM factura "
-   SQL = SQL & " WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA)
-   SQL = SQL & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
-   fSqlDeclaracionIGTFFactura_SQL = SQL
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
+   Sql = Sql & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
+   Sql = Sql & " FROM factura "
+   Sql = Sql & " WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA)
+   Sql = Sql & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
+   fSqlDeclaracionIGTFFactura_SQL = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFFactura_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlDeclaracionIGTF_RDV_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Resumen Diario de Ventas (manual)' AS NombreCuenta, CodigoMoneda, Fecha, "
+   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Resumen Diario de Ventas (manual)' AS NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
    Else
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
-   SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
-   SQL = SQL & " FROM factura "
-   SQL = SQL & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & "  AND factura.RealizoCierreZ = " & gUtilSQL.fBooleanToSqlValue(False) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
-   SQL = SQL & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
-   fSqlDeclaracionIGTF_RDV_SQL = SQL
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
+   Sql = Sql & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
+   Sql = Sql & " FROM factura "
+   Sql = Sql & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & "  AND factura.RealizoCierreZ = " & gUtilSQL.fBooleanToSqlValue(False) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   Sql = Sql & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
+   fSqlDeclaracionIGTF_RDV_SQL = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTF_RDV_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fSqlDeclaracionIGTFFactura_NC_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Ajuste por IGTF (Notas de Crédito)' AS NombreCuenta, CodigoMoneda, Fecha, "
+   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Ajuste por IGTF (Notas de CrÃ©dito)' AS NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
    Else
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
-   SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
-   SQL = SQL & " FROM factura "
-   SQL = SQL & " WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITO)
-   SQL = SQL & " AND factura.BaseImponibleIGTF <> 0 AND factura.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneradaPor.eFGP_AjusteIGTF) & " "
-   SQL = SQL & " AND factura.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
-   fSqlDeclaracionIGTFFactura_NC_SQL = SQL
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
+   Sql = Sql & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
+   Sql = Sql & " FROM factura "
+   Sql = Sql & " WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITO)
+   Sql = Sql & " AND factura.BaseImponibleIGTF <> 0 AND factura.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneradaPor.eFGP_AjusteIGTF) & " "
+   Sql = Sql & " AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
+   fSqlDeclaracionIGTFFactura_NC_SQL = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFFactura_NC_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSqlDeclaracionIGTFFactura_ND_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Ajuste por IGTF (Notas de Débito)' AS NombreCuenta, CodigoMoneda, Fecha, "
+   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Ajuste por IGTF (Notas de DÃ©bito)' AS NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
    Else
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
-   SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
-   SQL = SQL & " FROM factura "
-   SQL = SQL & " WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITO)
-   SQL = SQL & " AND factura.BaseImponibleIGTF <> 0 AND factura.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneradaPor.eFGP_AjusteIGTF) & ""
-   SQL = SQL & " AND factura.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
-   fSqlDeclaracionIGTFFactura_ND_SQL = SQL
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
+   Sql = Sql & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
+   Sql = Sql & " FROM factura "
+   Sql = Sql & " WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_EMITIDA) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADEDEBITO)
+   Sql = Sql & " AND factura.BaseImponibleIGTF <> 0 AND factura.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneradaPor.eFGP_AjusteIGTF) & ""
+   Sql = Sql & " AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
+   fSqlDeclaracionIGTFFactura_ND_SQL = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTFFactura_ND_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSqlDeclaracionIGTF_RDV_CierreZ_SQL(ByVal valRedondeaMontoDebitoBancario As Boolean, ByVal valConsecutivoCompania As Long, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
-   Dim SQL As String
+   Dim Sql As String
    On Error GoTo h_ERROR
-   SQL = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Resumen Diario de Ventas (Cierre Z)' AS NombreCuenta, CodigoMoneda, Fecha, "
+   Sql = " SELECT 'Contribuyente 6' AS TipoDeAlicuotaPorContribuyenteStr, 'Resumen Diario de Ventas (Cierre Z)' AS NombreCuenta, CodigoMoneda, Fecha, "
    If valRedondeaMontoDebitoBancario Then
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.BaseImponibleIGTF * CambioAbolivares ", 2) & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fRoundNDecimales(" factura.IGTFML ", 2) & " ) AS MontoITF, "
    Else
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
-      SQL = SQL & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.BaseImponibleIGTF * CambioAbolivares ") & " ) AS BaseImponible, "
+      Sql = Sql & "SUM(" & gUtilSQL.fSQLTruncaA2Decimales(" factura.IGTFML ") & " ) AS MontoITF, "
    End If
-   SQL = SQL & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
-   SQL = SQL & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
-   SQL = SQL & " FROM factura "
-   SQL = SQL & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & "  AND factura.RealizoCierreZ = " & gUtilSQL.fBooleanToSqlValue(True) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
-   SQL = SQL & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
-   SQL = SQL & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
-   SQL = SQL & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
-   fSqlDeclaracionIGTF_RDV_CierreZ_SQL = SQL
+   Sql = Sql & "SUM(" & gUtilSQL.getIIF("factura.IGTFML = 0", "0", "1") & ") AS ParaContar, "
+   Sql = Sql & "factura.AlicuotaIGTF AS AlicuotaImpBancario, 'No Genera IGTF' AS GeneraMovBancarioPorIGTFStr"
+   Sql = Sql & " FROM factura "
+   Sql = Sql & "WHERE factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & "  AND factura.RealizoCierreZ = " & gUtilSQL.fBooleanToSqlValue(True) & " AND factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_RESUMENDIARIODEVENTAS)
+   Sql = Sql & " AND factura.BaseImponibleIGTF <> 0 AND factura.ConsecutivoCompania = " & valConsecutivoCompania
+   Sql = Sql & " AND " & gUtilSQL.fSQLValueBetween("factura.fecha", valFechaInicial, valFechaFinal)
+   Sql = Sql & " GROUP BY CodigoMoneda, fecha, factura.AlicuotaIGTF"
+   fSqlDeclaracionIGTF_RDV_CierreZ_SQL = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlDeclaracionIGTF_RDV_CierreZ_SQL", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)

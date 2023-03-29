@@ -10,17 +10,21 @@ using System.Xml.Linq;
 using System.Linq;
 using Galac.Adm.Ccl.Banco;
 using LibGalac.Aos.DefGen;
+using Galac.Comun.Brl.TablasGen;
+using LibGalac.Aos.Dal;
+using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Adm.Brl.Banco {
 	public partial class clsCuentaBancariaNav : LibBaseNav<IList<CuentaBancaria>, IList<CuentaBancaria>>, ICuentaBancariaPdn {
-		#region Variables
-		#endregion //Variables
+        private clsMonedaLocalActual vMonedaLocal;
+        #region Variables
+        #endregion //Variables
 
-		#region Propiedades
-		#endregion //Propiedades
+        #region Propiedades
+        #endregion //Propiedades
 
-		#region Constructores
-		public clsCuentaBancariaNav() {
+        #region Constructores
+        public clsCuentaBancariaNav() {
 		}
 		#endregion //Constructores
 
@@ -369,7 +373,29 @@ namespace Galac.Adm.Brl.Banco {
 		bool ICuentaBancariaPdn.GeneraMovimientoDeITF(int valConsecutivoCompania, string valCodigoCuentaBancaria) {
 			return new Dal.Banco.clsCuentaBancariaDat().AplicaGenerarMovimientoDeIGTF(valConsecutivoCompania, valCodigoCuentaBancaria);
 		}
-		#endregion //Código Programador
-	} //End of class clsCuentaBancariaNav
+
+        bool ICuentaBancariaPdn.MonedaDeLaCuentaEsMonedaLocal(int valConsecutivoCompania, string valCodigoCuentaBancaria) {
+			LibDatabase insDB = new LibDatabase();
+			LibGpParams vParam = new LibGpParams();
+			StringBuilder vSql = new StringBuilder();
+			string vCodigoMoneda = string.Empty; 
+
+			vParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+			vParam.AddInString("CodigoCuenta", valCodigoCuentaBancaria, 5);
+			vSql.AppendLine("SELECT CodigoMoneda ");
+			vSql.AppendLine("FROM Saw.CuentaBancaria ");
+			vSql.AppendLine("WHERE ConsecutivoCompania = @ConsecutivoCompania");
+			vSql.AppendLine("AND Codigo= @CodigoCuenta");
+			XElement vReq = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0);
+			if (vReq != null && vReq.HasElements) {
+				vCodigoMoneda = LibConvert.ToStr(vReq.Element("GpResult").Element("CodigoMoneda"));
+			}
+			vMonedaLocal = new clsMonedaLocalActual();
+			bool vResult = vMonedaLocal.EsMonedaLocalDelPais(vCodigoMoneda);
+			insDB.Dispose();
+			return vResult;
+        }
+        #endregion //Código Programador
+    } //End of class clsCuentaBancariaNav
 } //End of namespace Galac.Adm.Brl.Banco
 

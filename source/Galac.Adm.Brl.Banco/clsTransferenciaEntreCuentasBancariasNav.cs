@@ -113,20 +113,19 @@ namespace Galac.Adm.Brl.Banco {
 			foreach (TransferenciaEntreCuentasBancarias item in refRecord) {
 				vAlicuota = vCuentaBancariaPdn.ObtieneAlicuotaIGTF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen, item.Fecha);
 				vList.Add(GenerarMovimientoBancarioEgreso(item, vAlicuota));
-				if (item.GeneraIGTFComisionEgresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) && vAlicuota > 0.0m) {
-					vList.Add(GenerarMovimientoBancarioImpuestoEgreso(item, vAlicuota / 100.0m));
-				}
 				if (item.GeneraComisionEgresoAsBool) {
-					vList.Add(GenerarMovimientoBancarioComisionEgreso(item));
+					vList.Add(GenerarMovimientoBancarioComisionEgreso(item, vAlicuota));
+					if (item.GeneraIGTFComisionEgresoAsBool && (vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) || vCuentaBancariaPdn.MonedaDeLaCuentaEsMonedaLocal(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen)) && vAlicuota > 0.0m) {
+						vList.Add(GenerarMovimientoBancarioImpuestoEgreso(item, vAlicuota));
+					}
 				}
-
 				vAlicuota = vCuentaBancariaPdn.ObtieneAlicuotaIGTF(item.ConsecutivoCompania, item.CodigoCuentaBancariaDestino, item.Fecha);
 				vList.Add(GenerarMovimientoBancarioIngreso(item, vAlicuota));
-				if (item.GeneraIGTFComisionIngresoAsBool && vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) && vAlicuota > 0.0m) {
-					vList.Add(GenerarMovimientoBancarioImpuestoIngreso(item, vAlicuota / 100.0m));
-				}
 				if (item.GeneraComisionIngresoAsBool) {
 					vList.Add(GenerarMovimientoBancarioComisionIngreso(item));
+					if (item.GeneraIGTFComisionIngresoAsBool && (vCuentaBancariaPdn.GeneraMovimientoDeITF(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen) || vCuentaBancariaPdn.MonedaDeLaCuentaEsMonedaLocal(item.ConsecutivoCompania, item.CodigoCuentaBancariaOrigen)) && vAlicuota > 0.0m) {
+						vList.Add(GenerarMovimientoBancarioImpuestoIngreso(item, vAlicuota));
+					}
 				}
 			}
 			if (vResult.Success = vMovimientoBancarioPdn.Insert(vList)) {
@@ -145,8 +144,9 @@ namespace Galac.Adm.Brl.Banco {
 				Monto = item.MontoTransferenciaEgreso,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = item.Descripcion,
-				GeneraImpuestoBancarioAsBool = item.GeneraIGTFComisionEgresoAsBool,
+				GeneraImpuestoBancarioAsBool = false,
 				AlicuotaImpBancario = item.GeneraIGTFComisionEgresoAsBool ? valAlicuota : 0.0m,
+				NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresEgreso,
 				ImprimirChequeAsBool = false,
@@ -168,8 +168,9 @@ namespace Galac.Adm.Brl.Banco {
 				Monto = item.MontoTransferenciaIngreso,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = item.Descripcion,
-				GeneraImpuestoBancarioAsBool = item.GeneraIGTFComisionIngresoAsBool,
+				GeneraImpuestoBancarioAsBool = false,
 				AlicuotaImpBancario = item.GeneraIGTFComisionIngresoAsBool ? valAlicuota : 0.0m,
+				NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresIngreso,
 				ImprimirChequeAsBool = false,
@@ -188,12 +189,13 @@ namespace Galac.Adm.Brl.Banco {
 				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoDebitoBancario"),
 				Fecha = item.Fecha,
 				TipoConceptoAsEnum = eIngresoEgreso.Egreso,
-				Monto = LibMath.RoundToNDecimals(item.MontoComisionEgreso * valAlicuota, 2),
+				Monto = LibMath.RoundToNDecimals(item.MontoComisionEgreso * valAlicuota/100, 2),
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = string.Format("Impuesto por egreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
 				GeneraImpuestoBancarioAsBool = false,
-				AlicuotaImpBancario = 0,
-				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
+				AlicuotaImpBancario = item.GeneraIGTFComisionEgresoAsBool ? valAlicuota : 0.0m,
+				NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
+				GeneradoPorAsEnum = eGeneradoPor.DebitoBancario,
 				CambioABolivares = item.CambioABolivaresEgreso,
 				ImprimirChequeAsBool = false,
 				ConciliadoSNAsBool = false,
@@ -201,33 +203,35 @@ namespace Galac.Adm.Brl.Banco {
 				GenerarAsientoDeRetiroEnCuentaAsBool = false,
 				NombreOperador = item.NombreOperador,
 				FechaUltimaModificacion = LibDate.Today(),
-			};
+			};			
 		}
 
 		private MovimientoBancario GenerarMovimientoBancarioImpuestoIngreso(TransferenciaEntreCuentasBancarias item, decimal valAlicuota) {
-			return new MovimientoBancario() {
-				ConsecutivoCompania = item.ConsecutivoCompania,
-				CodigoCtaBancaria = item.CodigoCuentaBancariaDestino,
-				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"),
-				Fecha = item.Fecha,
-				TipoConceptoAsEnum = eIngresoEgreso.Egreso,
-				Monto = LibMath.RoundToNDecimals(item.MontoComisionIngreso * valAlicuota,2),
-				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
-				Descripcion = string.Format("Impuesto por ingreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
-				GeneraImpuestoBancarioAsBool = false,
-				AlicuotaImpBancario = 0,
-				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
-				CambioABolivares = item.CambioABolivaresIngreso,
-				ImprimirChequeAsBool = false,
-				ConciliadoSNAsBool = false,
-				NroConciliacion = string.Empty,
-				GenerarAsientoDeRetiroEnCuentaAsBool = false,
-				NombreOperador = item.NombreOperador,
-				FechaUltimaModificacion = LibDate.Today(),
-			};
+			return null;
+			//return new MovimientoBancario() {
+			//	ConsecutivoCompania = item.ConsecutivoCompania,
+			//	CodigoCtaBancaria = item.CodigoCuentaBancariaDestino,
+			//	CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoCreditoBancario"),
+			//	Fecha = item.Fecha,
+			//	TipoConceptoAsEnum = eIngresoEgreso.Egreso,
+			//	Monto = LibMath.RoundToNDecimals(item.MontoComisionIngreso * valAlicuota/100,2),
+			//	NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
+			//	Descripcion = string.Format("Impuesto por ingreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
+			//	GeneraImpuestoBancarioAsBool = false,
+			//	AlicuotaImpBancario = item.GeneraIGTFComisionIngresoAsBool ? valAlicuota : 0.0m,
+			//  NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
+			//	GeneradoPorAsEnum = eGeneradoPor.DebitoBancario,
+			//	CambioABolivares = item.CambioABolivaresIngreso,
+			//	ImprimirChequeAsBool = false,
+			//	ConciliadoSNAsBool = false,
+			//	NroConciliacion = string.Empty,
+			//	GenerarAsientoDeRetiroEnCuentaAsBool = false,
+			//	NombreOperador = item.NombreOperador,
+			//	FechaUltimaModificacion = LibDate.Today(),
+			//};
 		}
 
-		private MovimientoBancario GenerarMovimientoBancarioComisionEgreso(TransferenciaEntreCuentasBancarias item) {
+		private MovimientoBancario GenerarMovimientoBancarioComisionEgreso(TransferenciaEntreCuentasBancarias item, decimal valAlicuota) {
 			return new MovimientoBancario() {
 				ConsecutivoCompania = item.ConsecutivoCompania,
 				CodigoCtaBancaria = item.CodigoCuentaBancariaOrigen,
@@ -237,8 +241,9 @@ namespace Galac.Adm.Brl.Banco {
 				Monto = item.MontoComisionEgreso,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = string.Format("Comisión por egreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
-				GeneraImpuestoBancarioAsBool = false,
-				AlicuotaImpBancario = 0,
+				GeneraImpuestoBancarioAsBool = item.GeneraIGTFComisionEgresoAsBool,
+				AlicuotaImpBancario = item.GeneraIGTFComisionEgresoAsBool ? valAlicuota : 0.0m,
+				NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresEgreso,
 				ImprimirChequeAsBool = false,
@@ -262,6 +267,7 @@ namespace Galac.Adm.Brl.Banco {
 				Descripcion = string.Format("Comisión por ingreso transferencia - {0}", LibConvert.ToStr(item.Consecutivo)),
 				GeneraImpuestoBancarioAsBool = false,
 				AlicuotaImpBancario = 0,
+				NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresIngreso,
 				ImprimirChequeAsBool = false,
@@ -339,13 +345,14 @@ namespace Galac.Adm.Brl.Banco {
 				ConsecutivoCompania = item.ConsecutivoCompania,
 				CodigoCtaBancaria = item.CodigoCuentaBancariaOrigen,
 				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoBancarioReversoTransfIngreso"),
-				Fecha = LibDate.Today(),
+				Fecha = item.FechaDeAnulacion,
 				TipoConceptoAsEnum = eIngresoEgreso.Ingreso,
 				Monto = vMonto,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = vDescripcion,
-				GeneraImpuestoBancarioAsBool = item.GeneraIGTFComisionEgresoAsBool,
+				GeneraImpuestoBancarioAsBool = false,
 				AlicuotaImpBancario = item.GeneraIGTFComisionEgresoAsBool ? valAlicuota : 0.0m,
+				NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresEgreso,
 				ImprimirChequeAsBool = false,
@@ -377,13 +384,14 @@ namespace Galac.Adm.Brl.Banco {
 				ConsecutivoCompania = item.ConsecutivoCompania,
 				CodigoCtaBancaria = item.CodigoCuentaBancariaDestino,
 				CodigoConcepto = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ConceptoBancarioReversoTransfEgreso"),
-				Fecha = LibDate.Today(),
+				Fecha = item.FechaDeAnulacion,
 				TipoConceptoAsEnum = eIngresoEgreso.Egreso,
 				Monto = vMonto,
 				NumeroDocumento = LibConvert.ToStr(item.Consecutivo),
 				Descripcion = vDescripcion,
-				GeneraImpuestoBancarioAsBool = item.GeneraIGTFComisionIngresoAsBool,
+				GeneraImpuestoBancarioAsBool = false,
 				AlicuotaImpBancario = item.GeneraIGTFComisionIngresoAsBool ? valAlicuota : 0.0m,
+				NroMovimientoRelacionado = LibConvert.ToStr(item.Consecutivo),
 				GeneradoPorAsEnum = eGeneradoPor.TransferenciaBancaria,
 				CambioABolivares = item.CambioABolivaresIngreso,
 				ImprimirChequeAsBool = false,
@@ -399,7 +407,48 @@ namespace Galac.Adm.Brl.Banco {
 			ILibDataFKSearch instanciaDal = new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasDat();
 			return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "Adm.Gp_TransferenciaEntreCuentasBancariasContaSCH", valXmlParamsExpression);
 		}
-		#endregion //Codigo Ejemplo
+
+        bool ITransferenciaEntreCuentasBancariasPdn.PerteneceAUnMesCerrado(DateTime valFecha) {
+			bool vResult = false;
+			if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Periodo", "UsaCierreDeMes")) {
+				return vResult;
+			}
+			string vSQL = "SELECT Mes1Cerrado, Mes2Cerrado, Mes3Cerrado, Mes4Cerrado, Mes5Cerrado, Mes6Cerrado, Mes7Cerrado, Mes8Cerrado, Mes9Cerrado, Mes10Cerrado, Mes11Cerrado, Mes12Cerrado FROM PERIODO WHERE ConsecutivoPeriodo = @ConsecutivoPeriodo";
+			XElement vDataPeriodo = LibBusiness.ExecuteSelect(vSQL, LibGlobalValues.Instance.GetMfcInfo().GetIntAsParam("Periodo"), "", 0);
+			vResult = FechaPerteneceAUnMesCerrado(valFecha, vDataPeriodo);
+			return vResult;
+        }
+
+		private bool FechaPerteneceAUnMesCerrado(DateTime vFecha, XElement vDataPeriodo) {
+			bool vResult = false;
+			if (LibDate.F1IsGreaterOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaAperturaDelPeriodo")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre1")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes1Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre1")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre2")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes2Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre2")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre3")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes3Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre3")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre4")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes4Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre4")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre5")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes5Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre5")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre6")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes6Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre6")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre7")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes7Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre7")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre8")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes8Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre8")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre9")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes9Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre9")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre10")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes10Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre10")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre11")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes11Cerrado"))) {
+				vResult = true;
+			} else if (LibDate.F1IsGreaterThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaDeCierre11")) && LibDate.F1IsLessOrEqualThanF2(vFecha, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaCierreDelPeriodo")) && LibConvert.SNToBool(LibXml.GetPropertyString(vDataPeriodo, "Mes12Cerrado"))) {
+				vResult = true;
+			}
+			return vResult;
+		}
+		#endregion //Código Programador
 
 	} //End of class clsTransferenciaEntreCuentasBancariasNav
 

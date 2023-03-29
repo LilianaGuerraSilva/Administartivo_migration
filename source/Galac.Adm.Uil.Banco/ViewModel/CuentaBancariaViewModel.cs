@@ -44,7 +44,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		private const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
 		private const string IsEnabledTipoDeAlicuotaPorContribuyentePropertyName = "IsEnabledTipoDeAlicuotaPorContribuyente";
 		private const string IsEnabledExcluirDelInformeDeDeclaracionIGTFPropertyName = "IsEnabledExcluirDelInformeDeDeclaracionIGTF";
-		private const string IsVisibleGeneraMovBancarioPorIGTFPropertyName = "IsVisibleGeneraMovBancarioPorIGTF";
+		private const string IsEnabledGeneraMovBancarioPorIGTFPropertyName = "IsEnabledGeneraMovBancarioPorIGTF";
 		#endregion
 
 		#region Variables
@@ -208,12 +208,17 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					IsDirty = true;
 					if (!Model.ManejaDebitoBancarioAsBool) {
 						TipoDeAlicuotaPorContribuyente = eTipoAlicPorContIGTF.NoAsignado;
-						GeneraMovBancarioPorIGTF = false;
+						if ((LibString.S1IsEqualToS2(CodigoMoneda, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "CodigoMonedaLocal")))) { 
+							GeneraMovBancarioPorIGTF = true; 
+						} else { 
+							GeneraMovBancarioPorIGTF = false; 
+						}
 						ExcluirDelInformeDeDeclaracionIGTF = false;
 					}
 					RaisePropertyChanged(ManejaDebitoBancarioPropertyName);
 					RaisePropertyChanged(IsEnabledTipoDeAlicuotaPorContribuyentePropertyName);
 					RaisePropertyChanged(IsEnabledExcluirDelInformeDeDeclaracionIGTFPropertyName);
+					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
 		}
@@ -256,7 +261,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.NombreDeLaMoneda = value;
 					IsDirty = true;
 					RaisePropertyChanged(NombreDeLaMonedaPropertyName);
-					RaisePropertyChanged(IsVisibleGeneraMovBancarioPorIGTFPropertyName);
+					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
 		}
@@ -299,10 +304,10 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					IsDirty = true;
 					if (LibString.S1IsEqualToS2(CodigoMoneda, LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("RecordName", "CodigoMonedaLocal"))) {
 						GeneraMovBancarioPorIGTF = true;
-						RaisePropertyChanged(GeneraMovBancarioPorIGTFPropertyName);
+						RaisePropertyChanged(GeneraMovBancarioPorIGTFPropertyName); 
 					}
 					RaisePropertyChanged(CodigoMonedaPropertyName);
-					RaisePropertyChanged(IsVisibleGeneraMovBancarioPorIGTFPropertyName);
+					RaisePropertyChanged(IsEnabledGeneraMovBancarioPorIGTFPropertyName);
 				}
 			}
 		}
@@ -554,11 +559,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsEnabledITFDebitoBancario {
 			get {
-				if (Action == eAccionSR.Insertar) {
-					return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
-				} else {
-					return IsEnabled && !EsEcuador() && !ManejaDebitoBancario;
-				}
+				return IsEnabled && LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("RecordName", "ManejaDebitoBancario") && !EsEcuador();
 			}
 		}
 
@@ -570,27 +571,23 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public bool IsEnabledTipoDeAlicuotaPorContribuyente {
 			get {
-				if (Action == eAccionSR.Insertar) {
-					return IsEnabled && ManejaDebitoBancario;
-				} else {
-					return IsEnabled && ManejaDebitoBancario && !EsEcuador();
-				}
+				return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 			}
 		}
 
 		public bool IsEnabledExcluirDelInformeDeDeclaracionIGTF {
 			get {
-				if (Action == eAccionSR.Insertar) {
-					return IsEnabled && ManejaDebitoBancario;
-				} else {
-					return IsEnabled && ManejaDebitoBancario && !EsEcuador();
-				}
+				return IsEnabled && ManejaDebitoBancario && !EsEcuador();
 			}
 		}
 		
-		public bool IsVisibleGeneraMovBancarioPorIGTF {
+		public bool IsEnabledGeneraMovBancarioPorIGTF {
 			get {
-				return !_MonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda);
+				if (_MonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda)) {
+					return IsEnabled && !_MonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda);
+				} else {
+					return IsEnabled && ManejaDebitoBancario ;
+				}
 			}
 		}
 
