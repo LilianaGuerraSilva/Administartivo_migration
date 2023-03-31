@@ -1,0 +1,9 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSV="clr-namespace:Galac.Adm.Uil.ImprentaDigital.Views"
+    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.ImprentaDigital.ViewModel">
+    <DataTemplate DataType="{x:Type nsCSVM:EnviarDocumentoViewModel}">
+        <nsCSV:GSEnviarDocumentoView />
+    </DataTemplate>
+</ResourceDictionary>

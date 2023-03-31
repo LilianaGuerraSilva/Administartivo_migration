@@ -1,0 +1,83 @@
+﻿using System;
+using System.Text;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using Galac.Adm.Ccl.ImprentaDigital;
+using LibGalac.Aos.Base;
+
+namespace Galac.Saw.LibWebConnector {
+    public class clsConectorJson {
+        ILoginUser _LoginUser;
+        string _Token;
+        public string Token {
+            get {
+                return _Token;
+            }
+        }
+
+        public clsConectorJson(ILoginUser valloginUser) {
+            _LoginUser = valloginUser;
+            _Token = string.Empty;
+        }
+
+        public static string SerializeJSON(object valElemento) {
+            try {
+                return JsonConvert.SerializeObject(valElemento, Formatting.Indented);
+            } catch (JsonException) {
+                throw;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private string FormatingJSON(ILoginUser valloginUser) {
+            string vResult = "";
+            stUserLoginCnn vUsrLgn = new stUserLoginCnn();
+            vUsrLgn.usuario = valloginUser.User;
+            vUsrLgn.clave = valloginUser.Password;
+            vResult = vResult.Replace(nameof(vUsrLgn.usuario), valloginUser.UserKey);
+            vResult = vResult.Replace(nameof(vUsrLgn.clave), valloginUser.PasswordKey);
+            vResult = SerializeJSON(vUsrLgn);
+            return vResult;
+        }
+
+        public async Task<string> CheckConnection() {
+            try {
+                string vJsonStr = FormatingJSON(_LoginUser);
+                stLoginResq vRequest = await SendPostJson(vJsonStr, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion), "");
+                _Token = vRequest.token;
+                _LoginUser.MessageResult = vRequest.mensaje;
+                return vRequest.mensaje;
+            } catch (Exception) {
+                throw;
+            }
+        }
+        public async Task<stLoginResq> SendPostJson(string valJsonStr, string valComandoApi, string valToken) {
+            string vResultMessage = "";
+            try {
+                HttpClient vHttpClient = new HttpClient();
+                vHttpClient.BaseAddress = new Uri(_LoginUser.URL);
+                if (!LibString.IsNullOrEmpty(valToken)) {
+                    vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
+                }
+                HttpContent vContent = new StringContent(valJsonStr, Encoding.UTF8, "application/json");
+                HttpResponseMessage vHttpRespMsg = await vHttpClient.PostAsync(valComandoApi, vContent);
+                vResultMessage = vHttpRespMsg.RequestMessage.ToString();
+                vHttpRespMsg.EnsureSuccessStatusCode();
+                if (vHttpRespMsg.Content is null || vHttpRespMsg.Content.Headers.ContentType?.MediaType != "application/json") {
+                    return new stLoginResq() { mensaje = "Error de conexión al Host", token = "", codigo = "402", expiracion = "" };
+                } else {
+                    string HttpResq = await vHttpRespMsg.Content.ReadAsStringAsync();                    
+                    stLoginResq infoReqs = JsonConvert.DeserializeObject<stLoginResq>(HttpResq);
+                    return infoReqs;
+                }
+            } catch (Exception vEx) {
+                string vErrMensaje = vEx.Message + "\r\n" + vResultMessage;
+                string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Error.log";
+                LibFile.WriteLineInFile(vPath, vErrMensaje, false);
+                throw new LibGalac.Aos.Catching.GalacException(vErrMensaje, LibGalac.Aos.Catching.eExceptionManagementType.Controlled);
+            }
+        }
+    }
+}
