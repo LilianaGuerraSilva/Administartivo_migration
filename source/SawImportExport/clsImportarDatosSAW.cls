@@ -1316,6 +1316,9 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       vEditarMontoCuota = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetEditarMontoCuota vEditarMontoCuota
       vNumeroControl = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If gProyParametrosCompania.GetUsaImprentaDigital Then
+         vNumeroControl = ""
+      End If
       .SetNumeroControl vNumeroControl
       vTipoDeTransaccionStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       If vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A01_REGISTRO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A02_COMPLEMENTO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A03_ANULACION) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A04_AJUSTE) Then
