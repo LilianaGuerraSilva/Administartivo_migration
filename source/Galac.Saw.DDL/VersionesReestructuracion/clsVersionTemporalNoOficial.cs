@@ -9,12 +9,12 @@ using System;
 using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-	class clsVersionTemporalNoOficial : clsVersionARestructurar {
-		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
-		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();
-			DisposeConnectionNoTransaction();
-			return true;
-		}
-	}
+    class clsVersionTemporalNoOficial: clsVersionARestructurar {
+        public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
+        public override bool UpdateToVersion() {
+            StartConnectionNoTransaction();
+            DisposeConnectionNoTransaction();
+            return true;
+        }
+    }
 }
