@@ -1545,18 +1545,14 @@ namespace Galac.Saw.Brl.SttDef {
         #region  ProcesosStt
         ProcesosStt ProcesosSttPorDefecto(int valConsecutivoCompania) {
             ProcesosStt insEntidad = new ProcesosStt();
-            insEntidad.InsertandoPorPrimeraVezAsBool = true;
-            insEntidad.PuedeUsarS10AsBool = false;
-            insEntidad.S10DBName = "";
+            insEntidad.InsertandoPorPrimeraVezAsBool = true;            
             return insEntidad;
         }
 
         private void LlenaListado(ProcesosStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.SeResincronizaronLosSupervisoresAsBool), "SeResincronizaronLosSupervisores", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.InsertandoPorPrimeraVezAsBool), "InsertandoPorPrimeraVez", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.CodigoEmpresaIntegrada, "CodigoEmpresaIntegrada", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.PuedeUsarS10AsBool), "PuedeUsarS10", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.S10DBName, "S10DBName", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.CodigoEmpresaIntegrada, "CodigoEmpresaIntegrada", valConsecutivoCompania));           
         }
         ProcesosStt GetProcesosStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             ProcesosStt vResult = new ProcesosStt();
@@ -1564,9 +1560,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "SeResincronizaronLosSupervisores");
             vResult.SeResincronizaronLosSupervisoresAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "SeResincronizaronLosSupervisores"));
             vResult.InsertandoPorPrimeraVezAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "InsertandoPorPrimeraVez"));
-            vResult.CodigoEmpresaIntegrada = ValorSegunColumna(valListGetSettValueByCompany, "CodigoEmpresaIntegrada");
-            vResult.PuedeUsarS10AsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "PuedeUsarS10"));
-            vResult.S10DBName = ValorSegunColumna(valListGetSettValueByCompany, "S10DBName");
+            vResult.CodigoEmpresaIntegrada = ValorSegunColumna(valListGetSettValueByCompany, "CodigoEmpresaIntegrada");            
             return vResult;
         }
         #endregion //  ProcesosStt

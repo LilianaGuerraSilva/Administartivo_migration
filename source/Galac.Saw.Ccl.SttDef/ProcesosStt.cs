@@ -26,9 +26,7 @@ namespace Galac.Saw.Ccl.SttDef {
         #region Variables
         private bool _SeResincronizaronLosSupervisores;
         private bool _InsertandoPorPrimeraVez;
-        private string _CodigoEmpresaIntegrada;
-        private bool _PuedeUsarS10;
-        private string _S10DBName;
+        private string _CodigoEmpresaIntegrada;        
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -57,22 +55,7 @@ namespace Galac.Saw.Ccl.SttDef {
         public string CodigoEmpresaIntegrada {
             get { return _CodigoEmpresaIntegrada; }
             set { _CodigoEmpresaIntegrada = LibString.Mid(value, 0, 50); }
-        }
-
-
-        public bool PuedeUsarS10AsBool {
-            get { return _PuedeUsarS10; }
-            set { _PuedeUsarS10 = value; }
-        }
-
-        public string PuedeUsarS10 {
-            set { _PuedeUsarS10 = LibConvert.SNToBool(value); }
-        }
-
-        public string S10DBName {
-            get { return _S10DBName; }
-            set { _S10DBName  = LibString.Mid(value, 0, 128); }
-        }
+        }      
 
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
@@ -99,9 +82,7 @@ namespace Galac.Saw.Ccl.SttDef {
         public void Clear() {
             SeResincronizaronLosSupervisoresAsBool = false;
             InsertandoPorPrimeraVezAsBool = false;
-            CodigoEmpresaIntegrada = "";
-            PuedeUsarS10AsBool = false;
-            S10DBName = "";
+            CodigoEmpresaIntegrada = "";           
             fldTimeStamp = 0;
         }
 
@@ -109,9 +90,7 @@ namespace Galac.Saw.Ccl.SttDef {
             ProcesosStt vResult = new ProcesosStt();
             vResult.SeResincronizaronLosSupervisoresAsBool = _SeResincronizaronLosSupervisores;
             vResult.InsertandoPorPrimeraVezAsBool = _InsertandoPorPrimeraVez;
-            vResult.CodigoEmpresaIntegrada = _CodigoEmpresaIntegrada;
-            vResult.PuedeUsarS10AsBool = _PuedeUsarS10;
-            vResult.S10DBName = _S10DBName;
+            vResult.CodigoEmpresaIntegrada = _CodigoEmpresaIntegrada;            
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
@@ -119,13 +98,9 @@ namespace Galac.Saw.Ccl.SttDef {
         public override string ToString() {
             return "Se Resincronizaron Los Supervisores = " + _SeResincronizaronLosSupervisores +
                 "\nInsertando Por Primera Vez = " + _InsertandoPorPrimeraVez +
-                "\nCodigoEmpresaIntegrada = " + _CodigoEmpresaIntegrada +
-                "\nPuedeUsarS10 = " + _PuedeUsarS10 +
-                "\nS10DBName = " + _S10DBName;
+                "\nCodigoEmpresaIntegrada = " + _CodigoEmpresaIntegrada;
         }
         #endregion //Metodos Generados
-
-
     } //End of class ProcesosStt
 
 } //End of namespace Galac.Saw.Ccl.SttDef

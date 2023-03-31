@@ -1,0 +1,173 @@
+﻿<Window
+    x:Class="Galac.Saw.UtiliarioImprentaDigital.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customcontrols="clr-namespace:Galac.Saw.UtiliarioImprentaDigital.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Galac.Saw.UtiliarioImprentaDigital.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="clr-namespace:Galac.Saw.UtiliarioImprentaDigital.ViewModels"
+    Title="Probar Conexión"
+    Width="350"
+    Height="460"
+    AllowsTransparency="False"
+    Background="White"
+    Icon=" /Images/LogoG.png"
+    MouseDown="Window_MouseDown"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="SingleBorderWindow"
+    mc:Ignorable="d">
+
+    <Window.DataContext>
+        <viewModel:LoginViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </Window.Resources>
+    <Window.Visibility>
+        <Binding
+            Converter="{StaticResource BooleanToVisibility}"
+            Mode="TwoWay"
+            Path="IsViewVisible" />
+    </Window.Visibility>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="1"
+            Width="280"
+            Margin="0,5,0,0"
+            Orientation="Vertical">
+            <TextBlock
+                Margin="0,35,0,0"
+                HorizontalAlignment="Left"
+                FontFamily="Montserrat"
+                FontSize="16"
+                FontWeight="Medium"
+                Foreground="DarkGray"
+                Text="url"
+                TextDecorations="Underline" />
+            <TextBox
+                x:Name="txtURL"
+                Height="28"
+                Margin="0,5,0,0"
+                Padding="20,0,0,0"
+                VerticalContentAlignment="Center"
+                BorderBrush="DarkGray"
+                BorderThickness="0,0,0,2"
+                CaretBrush="LightGray"
+                FontFamily="Montserrat"
+                FontSize="13"
+                FontWeight="Medium"
+                Foreground="Black"
+                Text="{Binding Path=URL, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Background>
+                    <ImageBrush
+                        AlignmentX="Left"
+                        ImageSource="/Images/URL_Img.png"
+                        Stretch="None" />
+                </TextBox.Background>
+            </TextBox>
+            <TextBox
+                Margin="0,20,0,0"
+                HorizontalAlignment="Left"
+                BorderThickness="0,0,0,1"
+                FontFamily="Montserrat"
+                FontSize="16"
+                FontWeight="Medium"
+                Foreground="DarkGray"
+                Text="{Binding Path=UserKey, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox
+                x:Name="txtUser"
+                Height="28"
+                Margin="0,5,0,0"
+                Padding="20,0,0,0"
+                VerticalContentAlignment="Center"
+                BorderBrush="DarkGray"
+                BorderThickness="0,0,0,2"
+                CaretBrush="LightGray"
+                FontFamily="Montserrat"
+                FontSize="13"
+                FontWeight="Medium"
+                Foreground="Black"
+                Text="{Binding Path=User, UpdateSourceTrigger=PropertyChanged}">
+                <TextBox.Background>
+                    <ImageBrush
+                        AlignmentX="Left"
+                        ImageSource="/Images/user-icon.png"
+                        Stretch="None" />
+                </TextBox.Background>
+            </TextBox>
+            <TextBox
+                Margin="0,15,0,0"
+                HorizontalAlignment="Left"
+                BorderThickness="0,0,0,1"
+                FontFamily="Montserrat"
+                FontSize="16"
+                FontWeight="Medium"
+                Foreground="DarkGray"
+                Text="{Binding Path=PasswordKey, UpdateSourceTrigger=PropertyChanged}" />
+            <customcontrols:BindablePasswordBox
+                Height="28"
+                Margin="0,5,0,0"
+                Password="{Binding Path=PasswordSec, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button
+                x:Name="btnLogin"
+                Margin="0,20,0,0"
+                BorderThickness="0"
+                Command="{Binding Path=LoginCommand}"
+                Content="Conectar"
+                Cursor="Hand"
+                FontFamily="Montserrat"
+                FontSize="12"
+                Foreground="White">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Blue" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            Width="100"
+                            Height="25"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <TextBlock
+                Margin="0,20,0,0"
+                FontFamily="Montserrat"
+                FontSize="12"
+                FontWeight="Medium"
+                Foreground="DarkGray"
+                Text="Resultado" />
+            <TextBox
+                x:Name="txtResult"
+                Height="82"
+                Margin="0,5,0,0"
+                Padding="20,0,0,0"
+                BorderBrush="DarkGray"
+                BorderThickness="1,1,1,1"
+                FontFamily="Montserrat"
+                FontSize="13"
+                FontWeight="Medium"
+                Foreground="Black"
+                Text="{Binding Path=MessageResult, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Visible" />
+        </StackPanel>
+    </Grid>
+</Window>

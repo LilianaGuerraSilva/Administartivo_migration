@@ -32,9 +32,7 @@ namespace Galac.Adm.Ccl.Banco {
 		[LibEnumDescription("Anticipo")]
 		Anticipo,
 		[LibEnumDescription("Reconversión Monetaria")]
-		ReconversionMonetaria,
-		[LibEnumDescription("S10")]
-		S10,
+		ReconversionMonetaria,		
 		[LibEnumDescription("Rendición")]
 		Rendicion,
 		[LibEnumDescription("Solicitud de Pago")]

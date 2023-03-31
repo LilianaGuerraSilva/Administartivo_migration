@@ -1,8 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.GestionCompras.ViewModel"
     xmlns:nsCSV="clr-namespace:Galac.Adm.Uil.GestionCompras.Views"
+    xmlns:nsCSVM="clr-namespace:Galac.Adm.Uil.GestionCompras.ViewModel"
     xmlns:nsReportesView="clr-namespace:Galac.Adm.Uil.GestionCompras.Reportes">
     <DataTemplate DataType="{x:Type nsCSVM:ProveedorViewModel}">
         <nsCSV:GSProveedorView />
@@ -11,16 +11,10 @@
         <nsCSV:GSCompraView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:CompraDetalleArticuloInventarioViewModel}">
-        <nsCSV:GSCompraDetalleArticuloInventarioView  />
+        <nsCSV:GSCompraDetalleArticuloInventarioView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:CompraDetalleGastoViewModel}">
         <nsCSV:GSCompraDetalleGastoView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:TasaDelDiaViewModel}">
-        <nsCSV:GSTasaDelDiaView  />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:LibroDeComprasViewModel}">
-        <nsCSV:GSLibroDeComprasView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:CompraCambiarStatusViewModel}">
         <nsCSV:GSCompraCambiarStatusView />
@@ -28,46 +22,46 @@
     <DataTemplate DataType="{x:Type nsCSVM:CompraDetalleDistribucionViewModel}">
         <nsCSV:GSCompraDetalleDistribucion />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:CompraSerialRolloViewModel }">
-        <nsCSV:GSCompraSerialRollo  />
+    <DataTemplate DataType="{x:Type nsCSVM:CompraSerialRolloViewModel}">
+        <nsCSV:GSCompraSerialRollo />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:CompraDetalleSerialRolloViewModel }">
-        <nsCSV:GSCompraDetalleSerialRolloView  />
+    <DataTemplate DataType="{x:Type nsCSVM:CompraDetalleSerialRolloViewModel}">
+        <nsCSV:GSCompraDetalleSerialRolloView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:AjusteDePrecioPorCostosViewModel }">
-        <nsCSV:GSAjusteDePreciosPorCostos  />
+    <DataTemplate DataType="{x:Type nsCSVM:AjusteDePrecioPorCostosViewModel}">
+        <nsCSV:GSAjusteDePreciosPorCostos />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:OrdenDeCompraViewModel}">
         <nsCSV:GSOrdenDeCompraView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:OrdenDeCompraDetalleArticuloInventarioViewModel}">
-        <nsCSV:GSOrdenDeCompraDetalleArticuloInventarioView  />
+        <nsCSV:GSOrdenDeCompraDetalleArticuloInventarioView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:CargaInicialViewModel}">
-        <nsCSV:GSCargaInicialView/>
+        <nsCSV:GSCargaInicialView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsImprimirCostoDeCompraEntreFechasViewModel}">
-        <nsReportesView:GSImprimirCostoDeCompraEntreFechasView/>
+        <nsReportesView:GSImprimirCostoDeCompraEntreFechasView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsImprimirComprasEntreFechasViewModel}">
-        <nsReportesView:GSImprimirComprasEntreFechas/>
+        <nsReportesView:GSImprimirComprasEntreFechas />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsImprimirHistoricoDeComprasViewModel}">
-        <nsReportesView:GSImprimirHistoricoDeComprasView/>
+        <nsReportesView:GSImprimirHistoricoDeComprasView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsImprimirMargenSobreCostoPromedioDeCompraViewModel}">
-        <nsReportesView:GSImprimirMargenSobreCostoPromedioDeCompraView/>
+        <nsReportesView:GSImprimirMargenSobreCostoPromedioDeCompraView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsImprimirOrdenesDeComprasViewModel}">
-        <nsReportesView:GSImprimirOrdenesDeComprasView/>
+        <nsReportesView:GSImprimirOrdenesDeComprasView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsImpresionDeEtiquetasPorComprasViewModel}">
-        <nsReportesView:GSImpresionDeEtiquetasPorComprasView/>
+        <nsReportesView:GSImpresionDeEtiquetasPorComprasView />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsReportesView:clsImprimirCotizacionOrdenDeCompraViewModel}">
-        <nsReportesView:GSImprimirCotizacionOrdenDeCompra/>
+        <nsReportesView:GSImprimirCotizacionOrdenDeCompra />
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:OrdenDeCompraImportarViewModel}">
-        <nsCSV:GSOrdenDeCompraImportarView/>
+        <nsCSV:GSOrdenDeCompraImportarView />
     </DataTemplate>
 </ResourceDictionary>

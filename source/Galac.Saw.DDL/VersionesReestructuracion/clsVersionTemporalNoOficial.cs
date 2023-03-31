@@ -16,6 +16,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregaColumnasReglasDeContabilizacionOrdenDeProduccion();
             CrearParametrosImprentaDigital();
             CrearCampoCompania_EstaIntegradaG360();
+			CrearCampoFacturaMotivoAnulacion();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -55,5 +56,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void CrearCampoCompania_EstaIntegradaG360() {
             AddColumnBoolean("dbo.Compania", "ConectadaConG360", "CONSTRAINT ConecConG360 NOT NULL", false);
         }
+		
+		private void CrearCampoFacturaMotivoAnulacion() {
+            AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");                    
+        }          		
     }
 }
