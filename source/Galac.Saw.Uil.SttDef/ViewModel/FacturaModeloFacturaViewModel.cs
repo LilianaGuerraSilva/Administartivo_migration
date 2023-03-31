@@ -46,16 +46,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsVisibleModeloOtorsCargosyDescuentosPropertyName = "IsVisibleUsarOtrosCargoDeFactura";
         public const string NombrePlantillaSubFacturaConOtrosCargosPropertyName = "NombrePlantillaSubFacturaConOtrosCargos";
         public const string IsEnabledPlantillaFacturaOyDPropertyName = "IsEnabledPlantillaFacturaOyD";
-
-
+        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         #endregion
+        #region Variables
+        private bool _IsEnabledUsaImprentaDigital;
+        
+        #endregion //Variables
         #region Propiedades
 
         public override string ModuleName {
             get { return "2.4.- Modelo de Factura"; }
         }
 
-        public bool  UsarDosTalonarios {
+        public bool UsarDosTalonarios {
             get {
                 return Model.UsarDosTalonariosAsBool;
             }
@@ -68,7 +71,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool  FacturaPreNumerada {
+        public bool FacturaPreNumerada {
             get {
                 return Model.FacturaPreNumeradaAsBool;
             }
@@ -83,7 +86,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijo  TipoDePrefijo {
+        public eTipoDePrefijo TipoDePrefijo {
             get {
                 return Model.TipoDePrefijoAsEnum;
             }
@@ -97,7 +100,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eTipoDePrefijo  TipoDePrefijo2 {
+        public eTipoDePrefijo TipoDePrefijo2 {
             get {
                 return Model.TipoDePrefijo2AsEnum;
             }
@@ -112,7 +115,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         [LibCustomValidation("NombrePlantillaFacturaValidating")]
-        public string  NombrePlantillaFactura {
+        public string NombrePlantillaFactura {
             get {
                 return Model.NombrePlantillaFactura;
             }
@@ -126,7 +129,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         [LibCustomValidation("NombrePlantillaFactura2Validating")]
-        public string  NombrePlantillaFactura2 {
+        public string NombrePlantillaFactura2 {
             get {
                 return Model.NombrePlantillaFactura2;
             }
@@ -139,12 +142,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
         [LibCustomValidation("NombrePlantillaFacturaOyDValidating")]
-        public string NombrePlantillaSubFacturaConOtrosCargos{
-            get{
+        public string NombrePlantillaSubFacturaConOtrosCargos {
+            get {
                 return Model.NombrePlantillaSubFacturaConOtrosCargos;
             }
-            set{
-                if (Model.NombrePlantillaSubFacturaConOtrosCargos != value){
+            set {
+                if (Model.NombrePlantillaSubFacturaConOtrosCargos != value) {
                     Model.NombrePlantillaSubFacturaConOtrosCargos = value;
                     IsDirty = true;
                     RaisePropertyChanged(NombrePlantillaSubFacturaConOtrosCargosPropertyName);
@@ -153,7 +156,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public string  Prefijo {
+        public string Prefijo {
             get {
                 return Model.Prefijo;
             }
@@ -166,7 +169,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public string  Prefijo2 {
+        public string Prefijo2 {
             get {
                 return Model.Prefijo2;
             }
@@ -179,7 +182,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public string  PrimeraFactura {
+        public string PrimeraFactura {
             get {
                 return Model.PrimeraFactura;
             }
@@ -192,7 +195,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public string  PrimeraFactura2 {
+        public string PrimeraFactura2 {
             get {
                 return Model.PrimeraFactura2;
             }
@@ -205,7 +208,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eModeloDeFactura  ModeloDeFactura {
+        public eModeloDeFactura ModeloDeFactura {
             get {
                 return Model.ModeloDeFacturaAsEnum;
             }
@@ -220,7 +223,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public eModeloDeFactura  ModeloDeFactura2 {
+        public eModeloDeFactura ModeloDeFactura2 {
             get {
                 return Model.ModeloDeFactura2AsEnum;
             }
@@ -235,7 +238,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public string  ModeloFacturaModoTexto {
+        public string ModeloFacturaModoTexto {
             get {
                 return Model.ModeloFacturaModoTexto;
             }
@@ -248,7 +251,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public string  ModeloFacturaModoTexto2 {
+        public string ModeloFacturaModoTexto2 {
             get {
                 return Model.ModeloFacturaModoTexto2;
             }
@@ -261,7 +264,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
-        public bool  FacturaPreNumerada2 {
+        public bool FacturaPreNumerada2 {
             get {
                 return Model.FacturaPreNumerada2AsBool;
             }
@@ -293,7 +296,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return LibEnumHelper<eModeloDeFactura>.GetValuesInArray();
             }
         }
-         
+
         public eModeloDeFactura[] ArrayModeloDeFactura2 {
             get {
                 return LibEnumHelper<eModeloDeFactura>.GetValuesInArray();
@@ -310,37 +313,37 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             private set;
         }
 
-        public RelayCommand ChooseTemplateCommandOyD{
+        public RelayCommand ChooseTemplateCommandOyD {
             get;
             private set;
         }
 
         public bool IsEnabledTalonario2 {
             get {
-                return (IsEnabled && UsarDosTalonarios?true:false);
+                return (IsEnabled && UsarDosTalonarios);
             }
         }
 
         public bool IsEnabledPlantillaFactura {
             get {
-                return (ModeloDeFactura == eModeloDeFactura.eMD_OTRO && IsEnabled ? true : false);
-            }
-        }
-        
-        public bool IsEnabledPlantillaFactura2 {
-            get {
-                return (ModeloDeFactura2 == eModeloDeFactura.eMD_OTRO && IsEnabled ? true : false);
+                return (ModeloDeFactura == eModeloDeFactura.eMD_OTRO && IsEnabled);
             }
         }
 
-        public bool IsEnabledPlantillaFacturaOyD{
-            get{
-                return (Action == eAccionSR.Consultar ? false: true);
+        public bool IsEnabledPlantillaFactura2 {
+            get {
+                return (ModeloDeFactura2 == eModeloDeFactura.eMD_OTRO && IsEnabled);
+            }
+        }
+
+        public bool IsEnabledPlantillaFacturaOyD {
+            get {
+                return (Action != eAccionSR.Consultar);
             }
         }
         public bool IsEnabledTipoPrefijo {
             get {
-                return IsEnabled && !FacturaPreNumerada;
+                return IsEnabled && !FacturaPreNumerada && IsNotEnabledUsaImprentaDigital;
             }
         }
 
@@ -361,43 +364,63 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return ModeloDeFactura2 == eModeloDeFactura.eMD_IMPRESION_MODO_TEXTO;
             }
         }
-        
+
         public bool IsEnabledPrimeraFactura {
             get {
-                return IsEnabled && !FacturaPreNumerada;
+                return IsEnabled && !FacturaPreNumerada && IsNotEnabledUsaImprentaDigital;
             }
         }
 
         public bool IsEnabledPrimeraFactura2 {
             get {
-                return IsEnabled && !FacturaPreNumerada2 && UsarDosTalonarios;
+                return IsEnabled && !FacturaPreNumerada2 && UsarDosTalonarios && IsNotEnabledUsaImprentaDigital;
             }
         }
 
         public bool IsEnabledTipoPrefijo2 {
             get {
-                return IsEnabled && !FacturaPreNumerada2 && UsarDosTalonarios;
+                return IsEnabled && !FacturaPreNumerada2 && UsarDosTalonarios && IsNotEnabledUsaImprentaDigital;
             }
         }
 
         public bool IsEnabledPrefijo {
             get {
-                return IsEnabled && TipoDePrefijo == eTipoDePrefijo.Indicar && !FacturaPreNumerada;
+                return IsEnabled && TipoDePrefijo == eTipoDePrefijo.Indicar && !FacturaPreNumerada && IsNotEnabledUsaImprentaDigital;
             }
         }
 
         public bool IsEnabledPrefijo2 {
             get {
-                return IsEnabled && TipoDePrefijo2 == eTipoDePrefijo.Indicar && !FacturaPreNumerada2;
+                return IsEnabled && TipoDePrefijo2 == eTipoDePrefijo.Indicar && !FacturaPreNumerada2 && IsNotEnabledUsaImprentaDigital;
             }
         }
-        public bool IsVisibleUsarOtrosCargoDeFactura{
-            get{
+        public bool IsEnabledUsaDosTalonarios {
+            get {
+                return IsEnabled && UsarDosTalonarios;
+            }
+        }
+
+        public bool IsEnabledUsaImprentaDigital {
+            get { return IsEnabled && (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
+            set {
+                if (_IsEnabledUsaImprentaDigital != value) {
+                    _IsEnabledUsaImprentaDigital = value;
+                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
+                }
+            }
+        }
+
+        public bool IsNotEnabledUsaImprentaDigital {
+            get { return !IsEnabledUsaImprentaDigital; }
+        }
+		
+        public bool IsVisibleUsarOtrosCargoDeFactura {
+            get {
                 return UsaOtrosCyD;
             }
         }
-        public bool UsaOtrosCyD{
-            get{
+        public bool UsaOtrosCyD {
+            get {
                 return true;
             }
         }
@@ -410,7 +433,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public FacturaModeloFacturaViewModel(ModeloDeFacturaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = UsarDosTalonariosPropertyName;
-           //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
+            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
+            //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -443,9 +467,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private void ExecuteBuscarPlantillaCommandTalonario1() {
             try {
                 NombrePlantillaFactura = new clsUtilParameters().BuscarNombrePlantilla("rpx de Plantilla Factura (*.rpx)|*Factura*.rpx");
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -453,18 +477,18 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private void ExecuteBuscarPlantillaCommandTalonario2() {
             try {
                 NombrePlantillaFactura2 = new clsUtilParameters().BuscarNombrePlantilla("rpx de Plantilla Factura (*.rpx)|*Factura*.rpx");
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
-        private void ExecuteBuscarPlantillaCommandOyD(){
-            try{
+        private void ExecuteBuscarPlantillaCommandOyD() {
+            try {
                 NombrePlantillaSubFacturaConOtrosCargos = new clsUtilParameters().BuscarNombrePlantilla("rpx de Plantilla Factura (*.rpx)|*SubFactura*.rpx");
-            }catch (System.AccessViolationException){
+            } catch (System.AccessViolationException) {
                 throw;
-            }catch (System.Exception vEx){
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
@@ -476,61 +500,74 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             string[] vModelosPlanillasArray;
             string vModelosPlanillas = insDataParse.GetString("Parametros", 0, "ModelosPlanillas", "");
             vModelosPlanillasArray = LibString.Split(vModelosPlanillas, ',');
-            for(int i = 0; i < vModelosPlanillasArray.Length; i += 1) {
+            for (int i = 0; i < vModelosPlanillasArray.Length; i += 1) {
                 vListModelosPlantillas.Add(vModelosPlanillasArray[i]);
             }
             vResult = vListModelosPlantillas;
             return vResult;
         }
-            
+
         private ValidationResult NombrePlantillaFacturaValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-                if(!LibString.IsNullOrEmpty(NombrePlantillaFactura) && !clsUtilParameters.EsValidoNombrePlantilla(NombrePlantillaFactura)) {
+                if (!LibString.IsNullOrEmpty(NombrePlantillaFactura) && !clsUtilParameters.EsValidoNombrePlantilla(NombrePlantillaFactura)) {
                     vResult = new ValidationResult("El RPX " + NombrePlantillaFactura + ", en " + this.ModuleName + ", no EXISTE.");
-                } else if(LibString.IsNullOrEmpty(NombrePlantillaFactura) && ModeloDeFactura == eModeloDeFactura.eMD_OTRO) {
+                } else if (LibString.IsNullOrEmpty(NombrePlantillaFactura) && ModeloDeFactura == eModeloDeFactura.eMD_OTRO) {
                     vResult = new ValidationResult(this.ModuleName + "-> Nombre Plantilla Factura es requerido.");
                 }
             }
             return vResult;
         }
 
-            
+
         private ValidationResult NombrePlantillaFactura2Validating() {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
             } else {
-               if(UsarDosTalonarios && ModeloDeFactura2 == eModeloDeFactura.eMD_OTRO) {
-                  if(!LibString.IsNullOrEmpty(NombrePlantillaFactura2) && !clsUtilParameters.EsValidoNombrePlantilla(NombrePlantillaFactura2)) {
-                     vResult = new ValidationResult("El RPX " + NombrePlantillaFactura2 + ", en " + this.ModuleName + ", no EXISTE.");
-                  } else if(LibString.IsNullOrEmpty(NombrePlantillaFactura2) && ModeloDeFactura2 == eModeloDeFactura.eMD_OTRO) {
-                     vResult = new ValidationResult(this.ModuleName + "-> Nombre Plantilla Factura2 es requerido.");
-                  }
-               }
+                if (UsarDosTalonarios && ModeloDeFactura2 == eModeloDeFactura.eMD_OTRO) {
+                    if (!LibString.IsNullOrEmpty(NombrePlantillaFactura2) && !clsUtilParameters.EsValidoNombrePlantilla(NombrePlantillaFactura2)) {
+                        vResult = new ValidationResult("El RPX " + NombrePlantillaFactura2 + ", en " + this.ModuleName + ", no EXISTE.");
+                    } else if (LibString.IsNullOrEmpty(NombrePlantillaFactura2) && ModeloDeFactura2 == eModeloDeFactura.eMD_OTRO) {
+                        vResult = new ValidationResult(this.ModuleName + "-> Nombre Plantilla Factura2 es requerido.");
+                    }
+                }
             }
             return vResult;
         }
-        private ValidationResult NombrePlantillaFacturaOyDValidating(){
+        private ValidationResult NombrePlantillaFacturaOyDValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)){
+            if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
                 return ValidationResult.Success;
-            } else{
-                 if (!LibString.IsNullOrEmpty(NombrePlantillaSubFacturaConOtrosCargos) && !clsUtilParameters.EsValidoNombrePlantilla(NombrePlantillaSubFacturaConOtrosCargos)){
-                        vResult = new ValidationResult("El RPX " + NombrePlantillaSubFacturaConOtrosCargos + ", en " + this.ModuleName + ", no EXISTE.");
-                 } else if (LibString.IsNullOrEmpty(NombrePlantillaSubFacturaConOtrosCargos)){
-                        NombrePlantillaSubFacturaConOtrosCargos = "rpxSubFacturaConOtrosCargos";
-                        vResult = ValidationResult.Success;
-                 }
+            } else {
+                if (!LibString.IsNullOrEmpty(NombrePlantillaSubFacturaConOtrosCargos) && !clsUtilParameters.EsValidoNombrePlantilla(NombrePlantillaSubFacturaConOtrosCargos)) {
+                    vResult = new ValidationResult("El RPX " + NombrePlantillaSubFacturaConOtrosCargos + ", en " + this.ModuleName + ", no EXISTE.");
+                } else if (LibString.IsNullOrEmpty(NombrePlantillaSubFacturaConOtrosCargos)) {
+                    NombrePlantillaSubFacturaConOtrosCargos = "rpxSubFacturaConOtrosCargos";
+                    vResult = ValidationResult.Success;
+                }
             }
             return vResult;
+        }
+
+        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
+            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
+                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
+                if (IsEnabledUsaImprentaDigital) {
+                    ModeloDeFactura = eModeloDeFactura.eMD_OTRO;
+                    ModeloDeFactura2 = eModeloDeFactura.eMD_OTRO;
+                    RaisePropertyChanged(ModeloDeFacturaPropertyName);
+                    RaisePropertyChanged(ModeloDeFactura2PropertyName);
+                }
+            }
+        }
+
+        private bool UsaImprentaDigital() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
         }
         #endregion //Metodos Generados
-
-
     } //End of class FacturaModeloFacturaViewModel
-
 } //End of namespace Galac.Saw.Uil.SttDef
 

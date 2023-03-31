@@ -32,10 +32,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string UsaClienteGenericoAlFacturarPropertyName = "UsaClienteGenericoAlFacturar";
         public const string UsarBalanzaPropertyName = "UsarBalanza";
         public const string UsaBusquedaDinamicaEnPuntoDeVentaPropertyName = "UsaBusquedaDinamicaEnPuntoDeVenta";
+        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         #endregion
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroDirecto = null;
         private FkCuentaBancariaViewModel _ConexionCuentaBancariaCobroDirecto = null;
+        private bool _IsEnabledUsaImprentaDigital;
         #endregion //Variables
         #region Propiedades
         public bool InitFirstTime { get; set; }        
@@ -245,6 +247,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnabledUsaImprentaDigital {
+            get { return IsEnabled && (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
+            set {
+                if (_IsEnabledUsaImprentaDigital != value) {
+                    _IsEnabledUsaImprentaDigital = value;
+                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
+                }
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         public FacturaPuntoDeVentaViewModel()
@@ -252,10 +263,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
         public FacturaPuntoDeVentaViewModel(FacturaPuntoDeVentaStt initModel, eAccionSR initAction, bool firstTime)
            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
-                InitFirstTime = firstTime;
-                LibMessages.Notification.Register<bool>(this, OnBooleanParametrosComunesChanged);
-                LibMessages.Notification.Register<eTipoDeNivelDePrecios>(this, OnTipoDeNivelDePreciosChanged);
-                LibMessages.Notification.Register<string>(this, OnStringParametrosComunesChanged);
+            InitFirstTime = firstTime;
+            LibMessages.Notification.Register<bool>(this, OnBooleanParametrosComunesChanged);
+            LibMessages.Notification.Register<eTipoDeNivelDePrecios>(this, OnTipoDeNivelDePreciosChanged);
+            LibMessages.Notification.Register<string>(this, OnStringParametrosComunesChanged);
+            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -411,6 +423,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
         }
 
+        public bool IsNotEnabledUsaImprentaDigital {
+            get {
+                return IsEnabled && !IsEnabledUsaImprentaDigital;
+            }
+        }
+
         private void OnBooleanParametrosComunesChanged(NotificationMessage<bool> valMessage) {
             try {
                 if (LibString.S1IsEqualToS2(LibConvert.ToStr(valMessage.Notification), ImprimeDireccionAlFinalDelComprobanteFiscalPropertyName)) {
@@ -454,6 +472,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
+            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
+                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
+            }
+        }
+
+        private bool UsaImprentaDigital() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
+        }
         #endregion //Metodos Generados
 
 

@@ -20,6 +20,7 @@ namespace Galac.Saw.Ccl.SttDef {
         CxPProveedorPagosStt _ParametrosCxPProveedorPagosStt;
         FacturacionContinuacionStt _ParametrosFacturacionContinuacionStt;
         FacturacionStt _ParametrosFacturacionStt;
+        FacturaImprentaDigitalStt _ParametrosFacturaImprentaDigitalStt;
         GeneralStt _ParametrosGeneralStt;
         ImpresiondeFacturaStt _ParametrosImpresiondeFacturaStt;
         InventarioStt _ParametrosInventarioStt;
@@ -192,6 +193,11 @@ namespace Galac.Saw.Ccl.SttDef {
         public ProduccionStt ParametrosProduccionStt {
             get { return _ParametrosInventarioProduccionStt; }
             set { _ParametrosInventarioProduccionStt = value; }
+        }
+
+        public FacturaImprentaDigitalStt ParametrosFacturaImprentaDigitalStt {
+            get { return _ParametrosFacturaImprentaDigitalStt; } 
+            set { _ParametrosFacturaImprentaDigitalStt = value; } 
         }
     }
 
