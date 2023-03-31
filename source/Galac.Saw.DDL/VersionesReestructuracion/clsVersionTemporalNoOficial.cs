@@ -9,14 +9,14 @@ using System;
 using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-    class clsVersionTemporalNoOficial : clsVersionARestructurar {
+    class clsVersionTemporalNoOficial: clsVersionARestructurar {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
             AgregaColumnasReglasDeContabilizacionOrdenDeProduccion();
             CrearParametrosImprentaDigital();
             CrearCampoCompania_EstaIntegradaG360();
-			CrearCampoFacturaMotivoAnulacion();
+            CrearCampoFacturaMotivoAnulacion();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -56,9 +56,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void CrearCampoCompania_EstaIntegradaG360() {
             AddColumnBoolean("dbo.Compania", "ConectadaConG360", "CONSTRAINT ConecConG360 NOT NULL", false);
         }
-		
-		private void CrearCampoFacturaMotivoAnulacion() {
-            AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");                    
-        }          		
+
+        private void CrearCampoFacturaMotivoAnulacion() {
+            AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");
+        }
     }
 }
