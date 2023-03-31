@@ -12,7 +12,41 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
-Private Const FOLDER_NAME_IMPORTACION_EXPORTACION As String = "ImpExp"
+'============================================>>>PROVEEDORES<<<====================================================================================
+Private Const CM_COD_DE_RET_USUAL_PREDEF_PARA_IMP As String = "NORET"
+Private Const CM_TIPO_DE_PROVEEDOR_PREDEF_PARA_IMP As String = "NACIONAL"
+Private Const CM_INDEX_CODIGO_PROVEEDOR = 0
+Private Const CM_INDEX_DESCRIPCION_PROVEEDOR As Long = 1
+Private Const CM_MESSAGE_NAME_PROVEEDOR As String = "Importar Proveedores"
+'============================================>>>CLIENTES<<<=======================================================================================
+Private Const CM_INDEX_CODIGO_CLIENTE As Long = 0
+Private Const CM_INDEX_NOMBRE_CLIENTE As Long = 1
+Private Const CM_INDEX_RIF_CLIENTE As Long = 2
+Private Const CM_MESSAGE_NAME_CLIENTE As String = "Importar Datos Cliente"
+'============================================>>>VENDEDORES<<<<=======================================================================================
+Private Const CM_MESSAGE_NAME_VENDEDOR As String = "Importar Vendedores"
+Private Const CM_INDEX_NUMERO_VENDEDOR As Long = 1
+Private Const CM_INDEX_VALOR_IMPORTA_VENDEDOR As Integer = 2
+Private Const CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR As Integer = 3
+'=======================================>>FACTURAS<<<======================================================================================
+Private Const CM_MESSAGE_NAME_FACTURA As String = "Importar Factura"
+Private Const CM_INDEX_NUMERO_FACTURA As Long = 1
+Private Const CM_INDEX_CONSECUTIVO_COMPANIA_DETALLE_FACTURA As Integer = 0
+Private Const CM_INDEX_NUMERO_FACTURA_DETALLE As Integer = 1
+Private Const CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE As Integer = 2
+'============================================== Importacion de CxC =================================================================================
+Private Const CM_INDEX_NUMERO_Y_TIPO_DE_CXC As Long = 0
+Private Const CM_MESSAGE_NAME_CXC As String = "Importar CxC"
+'============================================== Importacion de CxP =================================================================================
+Private Const CM_MESSAGE_NAME_CXP As String = "Importar CxP"
+Private Const CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR As Long = 0
+'============================================>>>ARTICULOS DE INVENTARIO<<<<=======================================================================================
+Private Const CM_MESSAGE_NAME_ARTICULOS As String = "Importar Articulos de Inventario"
+Private Const CM_INDEX_CODIGO_ARTICULO As Long = 1
+Private Const CM_INDEX_CONSECUTIVO_COMPANIA_DETALLE_ARTICULO As Integer = 0
+Private Const CM_INDEX_CODIGO_ARTICULO_DETALLE As Integer = 3
+Private Const CM_INDEX_VALOR_IMPORTA_ARTICULO_DETALLE As Integer = 2
+
 Private LineaDeErrores As String
 Private NumerodeLinea As Integer
 Private ErrorDeTraduccion As Boolean
@@ -27,7 +61,7 @@ Private mNumeroDeLote As String
 Private mRealizarBusquedaEnArchivo As Boolean
 Private mProgressBar As ProgressBar
 Private mYaIngresoUnoMas As Boolean
-Private mVectorDeVerificaciones() As Variant
+Private mVectorDeVerificaciones As Variant
 Private mConsecutivoRenglon As Long
 Private mValorDelCampoDeId As String
 Private mImportoRegistros As Boolean
@@ -147,7 +181,7 @@ Private vMontoIvaRetenido As Currency
 Private vFechaAplicacionRetIVA As Date
 Private vNumeroComprobanteRetIVA As Long
 Private vFechaComprobanteRetIVA As Date
-Private vSeRetuvoIVA As Boolean
+Private vSeRetuvoIva As Boolean
 Private vFacturaConPreciosSinIva As Boolean
 Private vGeneraCobroDirecto As Boolean
 Private vFechaDeFacturaAfectada As Date
@@ -186,7 +220,7 @@ Private valSeparador As String
 Private tipoDeSeparacion As String
 Private CrearComprobanteApertura As Boolean
 Private FileNumberdeCreado As Integer
-Private mLineaDeProducto() As Variant
+Private mLineaDeProducto As Variant
 Private NombreArchivodeErrores As String
 Private mLabelPorcentaje As Label
 Private mMensajePrecioConIva As Boolean
@@ -195,7 +229,7 @@ Private mCambiarAUsaMultiplesAlicuotas As Long
 Private mArchivoCreado As String
 Private mCallingWindow As Form
 Private mNregistroExistenBd As Long
-Private valDatosDeInventario() As Variant
+Private valDatosDeInventario As Variant
 
 Private valCodigoAlmacenExtra As String
 Private valNombreAlmacenExtra As String
@@ -224,42 +258,16 @@ Const CONSECUTIVO_ALMACEN = 7
 Const NUMERO_FACTURA = 0
 Const MONTOMAXIMODECRETO2602 = 200000
 
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
 Private Function getPathDelFileDeErrores() As String
-   getPathDelFileDeErrores = gDefDatabase.getPathActualDeLaBaseDeDatos & "\" & FOLDER_NAME_IMPORTACION_EXPORTACION
+   getPathDelFileDeErrores = gDefDatabase.getPathActualDeLaBaseDeDatos & "\ImpExp"
 End Function
+
 Private Sub SetCodigoLote(ByVal valNewValue As String)
    mCodigoLote = gTexto.DfMid(valNewValue, 1, 10)
 End Sub
-Private Function CM_FILE_NAME() As String
-   CM_FILE_NAME = "clsImportarDatosSAW"
-End Function
-Private Function CM_MESSAGE_NAME_SAW() As String
-   CM_MESSAGE_NAME_SAW = "Importar modulos Administrativo"
-End Function
 
 Private Function getNombreFileDeErrores() As String
    getNombreFileDeErrores = getPathDelFileDeErrores & "\Errores.txt"
-End Function
-
-
-'============================================>>>PROVEEDORES<<<====================================================================================
-Private Function CM_COD_DE_RET_USUAL_PREDEF_PARA_IMP() As String
-   CM_COD_DE_RET_USUAL_PREDEF_PARA_IMP = "NORET"
-End Function
-Private Function CM_TIPO_DE_PROVEEDOR_PREDEF_PARA_IMP() As String
-   CM_TIPO_DE_PROVEEDOR_PREDEF_PARA_IMP = "NACIONAL"
-End Function
-Private Function CM_INDEX_CODIGO_PROVEEDOR() As Long
-   CM_INDEX_CODIGO_PROVEEDOR = 0
-End Function
-Private Function CM_INDEX_DESCRIPCION_PROVEEDOR() As Long
-   CM_INDEX_DESCRIPCION_PROVEEDOR = 1
-End Function
-Private Function CM_MESSAGE_NAME_PROVEEDOR()
-CM_MESSAGE_NAME_PROVEEDOR = "Importar Proveedores"
 End Function
 
 Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String, ByVal valVerificarSiEstaRepetido As Boolean) As Boolean
@@ -275,6 +283,10 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
    Dim vArrayEmail As Variant
    Dim j As Integer
    Dim vItem As String
+   Dim CodigoPaisResidencia As String
+   Dim tipoDocumentoIdentificacion As String
+   Dim TipoPersonaLibrosElectronicos As String
+   Dim CodigoConveniosSunat As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -300,7 +312,6 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
    insProveedor.SetCuentaContableAnticipo gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insProveedor.SetBeneficiario gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insProveedor.SetUsarBeneficiarioImpCheq gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-   Dim tipoDocumentoIdentificacion As String
    tipoDocumentoIdentificacion = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    If (tipoDocumentoIdentificacion = "") Then
       insProveedor.SetTipoDocumentoIdentificacionStr "0"
@@ -308,42 +319,33 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
       insProveedor.SetTipoDocumentoIdentificacionStr tipoDocumentoIdentificacion
    End If
    insProveedor.SetNumeroCuentaBancaria gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   
    insProveedor.SetNombre gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insProveedor.SetApellidoPaterno gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insProveedor.SetApellidoMaterno gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   
-   Dim TipoPersonaLibrosElectronicos As String
    TipoPersonaLibrosElectronicos = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    If (TipoPersonaLibrosElectronicos = "") Then
       insProveedor.SetTipoDePersonaLibrosElectronicosStr gConvert.enumerativoAChar(enum_TipoDePersonaLibrosElectronicos.eTDPLE_JuridicoDomiciliado)
    ElseIf insProveedor.fEsInvalidoTipoDePersonaLibElectonico(TipoPersonaLibrosElectronicos) Then
-         LineaDeErrores = LineaDeErrores & " ::. ADVERTENCIA El Tipo de Persona para libros electrónicos ==>" & TipoPersonaLibrosElectronicos & "<==  No es válido, se colocará por defecto " & gEnumProyecto.enumTipoDePersonaLibrosElectronicosToString(enum_TipoDePersonaLibrosElectronicos.eTDPLE_JuridicoDomiciliado) & " .:: "
+      LineaDeErrores = LineaDeErrores & " ::. ADVERTENCIA El Tipo de Persona para libros electrónicos ==>" & TipoPersonaLibrosElectronicos & "<==  No es válido, se colocará por defecto " & gEnumProyecto.enumTipoDePersonaLibrosElectronicosToString(enum_TipoDePersonaLibrosElectronicos.eTDPLE_JuridicoDomiciliado) & " .:: "
    Else
       insProveedor.SetTipoDePersonaLibrosElectronicosStr gEnumProyecto.enumTipoDePersonaLibrosElectronicosToString(gConvert.charAEnumerativoInt(TipoPersonaLibrosElectronicos))
    End If
-   
-   Dim CodigoPaisResidencia As String
    CodigoPaisResidencia = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    If (CodigoPaisResidencia = Null) Then
       insProveedor.SetCodigoPaisResidencia ""
    Else
       insProveedor.SetCodigoPaisResidencia CodigoPaisResidencia
    End If
-   
-   Dim CodigoConveniosSunat As String
    CodigoConveniosSunat = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    If (CodigoConveniosSunat = Null) Then
       insProveedor.SetCodigoConveniosSunat ""
    Else
       insProveedor.SetCodigoConveniosSunat CodigoConveniosSunat
    End If
-   
-   If (gProyParametrosCompania.GetRetieneImpuestoMunicipal()) Then
+   If (gProyParametrosCompania.GetRetieneImpuestoMunicipal) Then
       insProveedor.SetCodigoContribuyente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       insProveedor.SetNumeroRUC gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    End If
-   
    LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getCodigoProveedor), " ")
    LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
    If valVerificarSiEstaRepetido Then
@@ -402,7 +404,7 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
       Select Case gEnumProyecto.strTipoDeProveedorDeLibrosFiscalesToNum(insProveedor.GetTipoDeProveedorDeLibrosFiscalesStr)
          Case enum_TipoDeProveedorDeLibrosFiscales.eTD_CON_RIF, enum_TipoDeProveedorDeLibrosFiscales.eTD_NO_DOMICILIADO, enum_TipoDeProveedorDeLibrosFiscales.eTD_NO_RESIDENCIADO, enum_TipoDeProveedorDeLibrosFiscales.eTD_SIN_RIF
             LineaDeErrores = LineaDeErrores & String(Len(insProveedor.GetTipoDeProveedorDeLibrosFiscalesStr), " ")
-         Case Else:   LineaDeErrores = LineaDeErrores & " ERROR en el Campo PROVEEDOR DE LIBROS FISCALES ==> " & insProveedor.GetTipoDeProveedorDeLibrosFiscalesStr & " no es un valor válido para éste."
+         Case Else: LineaDeErrores = LineaDeErrores & " ERROR en el Campo PROVEEDOR DE LIBROS FISCALES ==> " & insProveedor.GetTipoDeProveedorDeLibrosFiscalesStr & " no es un valor válido para éste."
       End Select
    ElseIf gTexto.DfLen(insProveedor.GetTipoDeProveedorDeLibrosFiscalesStr) = 0 Then
       insProveedor.SetTipoDeProveedorDeLibrosFiscalesStr gEnumProyecto.enumTipoDeProveedorDeLibrosFiscalesToString(eTD_CON_RIF)
@@ -448,10 +450,9 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
       sVerificaSiElTipoDeProveedorExisteSiNoLoCrea
       insProveedor.SetTipodeProveedor CM_TIPO_DE_PROVEEDOR_PREDEF_PARA_IMP
    Else
-     sVerificaSiElTipoDeProveedorExisteSiNoLoCrea
-        
+      sVerificaSiElTipoDeProveedorExisteSiNoLoCrea
       If Not insTipoProveedor.fSearchByField("Nombre", insProveedor.getTipodeProveedor) Then
-          insTipoProveedor.sInsertaValorPorDefecto mConsecutivoCompaniaActual, insProveedor.getTipodeProveedor
+         insTipoProveedor.sInsertaValorPorDefecto mConsecutivoCompaniaActual, insProveedor.getTipodeProveedor
       End If
       LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getTipodeProveedor), " ")
    End If
@@ -461,7 +462,7 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
      If gTexto.DfLen(TipoPersona) = 0 Then
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & " ERROR en el Campo TIPO DE PERSONA FISCAL  contiene una valor inválido para proveedores, será sustituido por >> " & gEnumTablaRetencion.enumTipodePersonaRetencionToString4(eTP_PJ_DOMICILIADA) & " <<."
-          insProveedor.SetTipoDePersonaStr gEnumProyecto.enumTipodePersonaRetencionToString(eTP_PJ_DOMICILIADA)
+         insProveedor.SetTipoDePersonaStr gEnumProyecto.enumTipodePersonaRetencionToString(eTP_PJ_DOMICILIADA)
      Else
          LineaDeErrores = LineaDeErrores & String(Len(TipoPersona), " ")
          insProveedor.SetTipoDePersonaStr TipoPersona
@@ -482,21 +483,19 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
    End If
    If valVerificarSiEstaRepetido Then
       If gTexto.DfLen(insProveedor.GetCodigoRetencionUsual) = 0 Then
-         LineaDeErrores = LineaDeErrores & " ::. Advertencia  El Código de Retención Usuaal del Proveedor ==> " & insProveedor.getCodigoProveedor & " - " & " esta en blanco. Este valor no es aceptado por la tanto se reemplazará por >> " & CM_COD_DE_RET_USUAL_PREDEF_PARA_IMP & " << .::"
+         LineaDeErrores = LineaDeErrores & " ::. Advertencia  El Código de Retención Usuaal del Proveedor ==> " & insProveedor.getCodigoProveedor & " -  esta en blanco. Este valor no es aceptado por la tanto se reemplazará por >> " & CM_COD_DE_RET_USUAL_PREDEF_PARA_IMP & " << .::"
       ElseIf Not insTablaRetencionNavigator.fSearchByCodigoRetencionAndTipoPersona(insProveedor.GetCodigoRetencionUsual, insProveedor.GetTipoDePersonaChar, False, False) Then
-         LineaDeErrores = LineaDeErrores & " ::. Error  El Código de Retención Usual (" & insProveedor.GetCodigoRetencionUsual & ") asignado al Proveedor ==> " & insProveedor.getCodigoProveedor & " - " & " contiene un valor no contemplado en la Tabla de Retención de esta compañía o su combinación con el Tipo de Persona de Retención de I.S.R.L. no existe. Este valor no es aceptado por la tanto se reemplazará por >> " & CM_COD_DE_RET_USUAL_PREDEF_PARA_IMP & " <<  y Tipo de Persona >> " & insProveedor.getTipoDePersonaStr & " << .::"
+         LineaDeErrores = LineaDeErrores & " ::. Error  El Código de Retención Usual (" & insProveedor.GetCodigoRetencionUsual & ") asignado al Proveedor ==> " & insProveedor.getCodigoProveedor & " -  contiene un valor no contemplado en la Tabla de Retención de esta compañía o su combinación con el Tipo de Persona de Retención de I.S.R.L. no existe. Este valor no es aceptado por la tanto se reemplazará por >> " & CM_COD_DE_RET_USUAL_PREDEF_PARA_IMP & " <<  y Tipo de Persona >> " & insProveedor.getTipoDePersonaStr & " << .::"
          ErrorAlTraducirLaLinea = True
       Else
          LineaDeErrores = LineaDeErrores & String(Len(insProveedor.GetCodigoRetencionUsual), " ")
       End If
    End If
-   
    LineaDeErrores = LineaDeErrores & String(Len(insProveedor.GetCodigoRetencionUsual), " ")
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaDeProveedor = Not ErrorAlTraducirLaLinea
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeProveedor", CM_MESSAGE_NAME_PROVEEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeProveedor", CM_MESSAGE_NAME_PROVEEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fVerificaSiNoExisteElProveedorYLoAgrega() As Boolean
@@ -514,8 +513,7 @@ Private Function fVerificaSiNoExisteElProveedorYLoAgrega() As Boolean
 h_EXIT: On Error GoTo 0
    fVerificaSiNoExisteElProveedorYLoAgrega = Continuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fVerificaSiNoExisteElProveedorYLoAgrega", CM_MESSAGE_NAME_PROVEEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fVerificaSiNoExisteElProveedorYLoAgrega", CM_MESSAGE_NAME_PROVEEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sVerificaSiElCodigoRetUsualPredefinidoExisteSiNoLoCrea(ByVal valGetTipoDePersonaChar As String, ByVal valGetTipoDePersonaStr As String)
@@ -531,54 +529,36 @@ Private Sub sVerificaSiElCodigoRetUsualPredefinidoExisteSiNoLoCrea(ByVal valGetT
       insTablaRetencionNavigator.SetParaPagosMayoresDe 25000
       insTablaRetencionNavigator.SetSustraendo 0
       insTablaRetencionNavigator.SetSecuencialDePlantilla "13002"
-      insTablaRetencionNavigator.SetTipoDePersonaStr valGetTipoDePersonaStr  'gEnumProyecto.enumTipodePersonaRetencionToString(eTP_PJ_DOMICILIADA)
-      If insTablaRetencionNavigator.fInsert() Then
+      insTablaRetencionNavigator.SetTipoDePersonaStr valGetTipoDePersonaStr
+      If insTablaRetencionNavigator.fInsert Then
       End If
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sVerificaSiElCodigoRetUsualPredefinidoExisteSiNoLoCrea()", CM_MESSAGE_NAME_PROVEEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiElCodigoRetUsualPredefinidoExisteSiNoLoCrea", CM_MESSAGE_NAME_PROVEEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sVerificaSiElTipoDeProveedorExisteSiNoLoCrea()
    On Error GoTo h_ERROR
    If Not insTipoProveedor.fSearchByField("Nombre", CM_TIPO_DE_PROVEEDOR_PREDEF_PARA_IMP) Then
-        insTipoProveedor.sInsertaValorPorDefecto mConsecutivoCompaniaActual, CM_TIPO_DE_PROVEEDOR_PREDEF_PARA_IMP
+      insTipoProveedor.sInsertaValorPorDefecto mConsecutivoCompaniaActual, CM_TIPO_DE_PROVEEDOR_PREDEF_PARA_IMP
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sVerificaSiElTipoDeProveedorExisteSiNoLoCrea()", CM_MESSAGE_NAME_PROVEEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiElTipoDeProveedorExisteSiNoLoCrea", CM_MESSAGE_NAME_PROVEEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
-'============================================>>>CLIENTES<<<=======================================================================================
-Private Function CM_INDEX_CODIGO_CLIENTE() As Long
-   CM_INDEX_CODIGO_CLIENTE = 0
-End Function
-
-Private Function CM_INDEX_NOMBRE_CLIENTE() As Long
-   CM_INDEX_NOMBRE_CLIENTE = 1
-End Function
-
-Private Function CM_INDEX_RIF_CLIENTE() As Long
-   CM_INDEX_RIF_CLIENTE = 2
-End Function
-
-Private Function CM_MESSAGE_NAME_CLIENTE()
-CM_MESSAGE_NAME_CLIENTE = "Importar Datos Cliente"
-End Function
 
 Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String, ByVal valVerificarSiEstaRepetido As Boolean) As Boolean
    Dim linea As String
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
-   Dim valProveedorArray() As Variant
+   Dim valProveedorArray As Variant
    Dim TextoAuxiliar As String
    Dim mrsZona As ADODB.Recordset
    Dim SQL As String
    Dim existeZona As Boolean
    Dim clienteDesdeFecha As String
+   Dim vTipoDeContribuyente As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -609,7 +589,6 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    insCliente.SetNivelDePrecioStr gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCliente.SetOrigenStr gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    clienteDesdeFecha = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   Dim vTipoDeContribuyente As String
    vTipoDeContribuyente = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCliente.SetTipoDeContribuyenteStr gEnumProyecto.enumTipoDeContribuyenteToString(gConvert.charAEnumerativoInt(vTipoDeContribuyente))
    If gUtilDate.fElStringContieneUnaFechaValida(clienteDesdeFecha, False) Then
@@ -646,8 +625,8 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  aparece más de una vez en el archivo de importación .:::"
       Else
-        mVectorDeVerificaciones(CM_INDEX_NOMBRE_CLIENTE, valLineaActual) = insCliente.getNombre
-        LineaDeErrores = LineaDeErrores & String(Len(insCliente.getNombre), " ")
+         mVectorDeVerificaciones(CM_INDEX_NOMBRE_CLIENTE, valLineaActual) = insCliente.getNombre
+         LineaDeErrores = LineaDeErrores & String(Len(insCliente.getNombre), " ")
       End If
       If gTexto.DfLen(insCliente.getNumeroRIF) = 0 Then
          ErrorAlTraducirLaLinea = True
@@ -719,7 +698,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
          If gDbUtil.fOpenRecordSetAllParameters(mrsZona, SQL, gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
             If mrsZona.RecordCount <= 0 Then
                ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó la Zona de Cobranza '" & insCliente.GetZonaDeCobranza & "' para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenada en la Tabla de Zonas de Cobranza. Se reemplazará por >> " & fPrimerZonaCobranza() & " << .:::"
+               LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó la Zona de Cobranza '" & insCliente.GetZonaDeCobranza & "' para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenada en la Tabla de Zonas de Cobranza. Se reemplazará por >> " & fPrimerZonaCobranza & " << .:::"
                existeZona = False
             Else
                LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetStatusStr), " ")
@@ -728,17 +707,17 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
          End If
          Set mrsZona = Nothing
       Else
-         LineaDeErrores = LineaDeErrores & ":::. ERROR La Zona de Cobranza del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por >> " & fPrimerZonaCobranza() & " << .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR La Zona de Cobranza del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por >> " & fPrimerZonaCobranza & " << .:::"
       End If
       If gTexto.DfLen(insCliente.GetSectorDeNegocio) > 0 Then
          If Not insSectorNegocio.fSearchByField("Descripcion", insCliente.GetSectorDeNegocio, False, False) Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Sector de Negocios para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenado en la Tabla de Sector de Negocio. Se reemplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio() & " << .:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Sector de Negocios para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenado en la Tabla de Sector de Negocio. Se reemplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio & " << .:::"
          Else
             LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetStatusStr), " ")
          End If
       Else
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Sector de Negocios del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio() & " << .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Sector de Negocios del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio & " << .:::"
       End If
       If gTexto.DfLen(insCliente.getCodigoVendedor) > 0 Then
          If Not insVendedor.fSearchByField("Codigo", insCliente.getCodigoVendedor, False, False) Then
@@ -764,10 +743,10 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
       insCliente.SetCiudad mCiudadCompaniaActual
    End If
    If gTexto.DfLen(insCliente.GetZonaDeCobranza) = 0 Or Not existeZona Then
-      insCliente.SetZonaDeCobranza fPrimerZonaCobranza()
+      insCliente.SetZonaDeCobranza fPrimerZonaCobranza
    End If
    If gTexto.DfLen(insCliente.GetSectorDeNegocio) = 0 Or Not insSectorNegocio.fSearchByField("Descripcion", insCliente.GetSectorDeNegocio, False, False) Then
-      insCliente.SetSectorDeNegocio insSectorNegocio.fPrimerSectorDeNegocio()
+      insCliente.SetSectorDeNegocio insSectorNegocio.fPrimerSectorDeNegocio
    End If
    If gTexto.DfLen(insCliente.getCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCliente.getCodigoVendedor, False, False) Then
       insCliente.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
@@ -784,29 +763,25 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaDeCliente = Not ErrorAlTraducirLaLinea
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "fDistribuyeLaLineaDeCliente", CM_MESSAGE_NAME_CLIENTE, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeCliente", CM_MESSAGE_NAME_CLIENTE, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fVerificaSiNoExisteElClienteYLoAgrega() As Boolean
    Dim Continuar As Boolean
    On Error GoTo h_ERROR
    Continuar = False
-   If Not insCliente.fSearchByField("Codigo", insCliente.GetCodigo, False, False, False) _
-      And Not insCliente.fSearchByField("NumeroRif", insCliente.getNumeroRIF, False, False, False) Then
-         If insCliente.fInsert(insertar, False, False) Then
-            Continuar = True
-         End If
+   If Not insCliente.fSearchByField("Codigo", insCliente.GetCodigo, False, False, False) And Not insCliente.fSearchByField("NumeroRif", insCliente.getNumeroRIF, False, False, False) Then
+      If insCliente.fInsert(insertar, False, False) Then
+         Continuar = True
+      End If
    Else
       RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
    End If
 h_EXIT: On Error GoTo 0
    fVerificaSiNoExisteElClienteYLoAgrega = Continuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fVerificaSiNoExisteElClienteYLoAgrega", CM_MESSAGE_NAME_CLIENTE, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fVerificaSiNoExisteElClienteYLoAgrega", CM_MESSAGE_NAME_CLIENTE, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
 
 Private Function fPrimerZonaCobranza() As String
    Dim rsZonaCobranza As ADODB.Recordset
@@ -814,10 +789,7 @@ Private Function fPrimerZonaCobranza() As String
    Dim PrimeraZona As String
    On Error GoTo h_ERROR
    PrimeraZona = ""
-   SQL = " SELECT zonaCobranza.Nombre"
-   SQL = SQL & " FROM zonaCobranza"
-   SQL = SQL & " WHERE zonaCobranza.ConsecutivoCompania"
-   SQL = SQL & " = " & mConsecutivoCompaniaActual
+   SQL = " SELECT zonaCobranza.Nombre FROM zonaCobranza  WHERE zonaCobranza.ConsecutivoCompania = " & mConsecutivoCompaniaActual
    Set rsZonaCobranza = New ADODB.Recordset
    If gDbUtil.fOpenRecordset(rsZonaCobranza, SQL, Conexion) Then
       If gDbUtil.fRecordCount(rsZonaCobranza) Then
@@ -829,46 +801,7 @@ Private Function fPrimerZonaCobranza() As String
 h_EXIT: On Error GoTo 0
    fPrimerZonaCobranza = PrimeraZona
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fPrimerZonaCobranza", CM_MESSAGE_NAME_CLIENTE, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-'   Dim rsSectorDeNegocio As ADODB.Recordset
-'   Dim SQL As String
-'   Dim PrimerSector As String
-'   On Error GoTo h_ERROR
-'   PrimerSector = ""
-'   SQL = " SELECT sectorDeNegocio.Descripcion"
-'   SQL = SQL & " FROM sectorDeNegocio"
-'   Set rsSectorDeNegocio = New ADODB.Recordset
-'   If gDbUtil.fOpenRecordset(rsSectorDeNegocio, SQL, Conexion) Then
-'      If gDbUtil.fRecordCount(rsSectorDeNegocio) Then
-'         rsSectorDeNegocio.MoveFirst
-'         PrimerSector = rsSectorDeNegocio.Fields("Descripcion").Value
-'      End If
-'   End If
-'   gDbUtil.sDestroyRecordSet rsSectorDeNegocio
-'h_EXIT: On Error GoTo 0
-'   fPrimerSectorDeNegocio = PrimerSector
-'   Exit Function
-'h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-
-'============================================>>>VENDEDORES<<<<=======================================================================================
-
-Private Function CM_MESSAGE_NAME_VENDEDOR() As String
-   CM_MESSAGE_NAME_VENDEDOR = "Importar Vendedores"
-End Function
-Private Function CM_INDEX_NUMERO_VENDEDOR() As Long
-   CM_INDEX_NUMERO_VENDEDOR = 1
-End Function
-Private Function CM_INDEX_VALOR_IMPORTA_VENDEDOR() As Integer
-   CM_INDEX_VALOR_IMPORTA_VENDEDOR = 2
-End Function
-Private Function CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR() As Integer
-   CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR = 3
-End Function
-Private Function getNombreFileDeNuevo_VEDEDORES() As String
-   getNombreFileDeNuevo_VEDEDORES = getPathDelFileDeErrores & "\AdmidVendedor.txt"
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fPrimerZonaCobranza", CM_MESSAGE_NAME_CLIENTE, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVal valSeparador As String) As Boolean
@@ -876,7 +809,6 @@ Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVa
    On Error GoTo h_ERROR
    linea = refLineaActual
    fDistribuyeLaLineaVendedor = False
-   'Distribuye renglones master tabla Vendedor
    vConsecutivoCompania = mConsecutivoCompaniaActual
    vNombre = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    vRIF = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -915,7 +847,6 @@ Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVa
    vUsaComisionPorVenta = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    vUsaComisionPorCobranza = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreRenglones Or gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFacturayRenglones Then
-      'Distribuye renglones de detail Tabla Comiciones de Vendedor
       mNombreDeLineaDeProducto = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       mConsecutivoRenglon = gConvert.fConvertStringToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mTipoDeComision = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -925,8 +856,7 @@ Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVa
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaVendedor = True
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaVendedor", CM_MESSAGE_NAME_VENDEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaVendedor", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fInsertarVendedor(ByVal NumeroDeLineaActual As Long) As Boolean
@@ -936,85 +866,77 @@ Private Function fInsertarVendedor(ByVal NumeroDeLineaActual As Long) As Boolean
    If Not gTexto.DfLen(insVendedor.GetCodigo) = 0 Then
       If Not insVendedor.fSearchByField("Codigo", insVendedor.GetCodigo, False, False) Then
          If insVendedor.fInsert(insertar, True, False) Then
-'            If insImportar.fVerificaValorImportarEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, vCodigoVendedor, True, CM_INDEX_NUMERO_VENDEDOR, CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR) Then
-               If fInsertarComisionesDelVendedor Then
-                  Continuar = True
-               End If
- '           Else
-   '            Continuar = True
-    '        End If
+            If fInsertarComisionesDelVendedor Then
+               Continuar = True
+            End If
           End If
       End If
    End If
-   
 h_EXIT: On Error GoTo 0
    fInsertarVendedor = Continuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fInsertarVendedor", CM_MESSAGE_NAME_VENDEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fInsertarVendedor", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sSeteaValoresDeLaLineaDelArchivo_VENDEDOR()
    On Error GoTo h_ERROR
    With insVendedor
-   .SetConsecutivoCompania vConsecutivoCompania
-   .SetCodigo mValorDelCampoDeId
-   .SetNombre vNombre
-   .SetRIF vRIF
-   .SetStatusVendedorStr gEnumProyecto.enumStatusVendedorToString(gEnumProyecto.fSiglasStatusVendedorToEnum(vStatusVendedor))
-   .SetDireccion vDireccion
-   .SetCiudad vCiudad
-   .SetZonaPostal vZonaPostal
-   .SetTelefono vTelefono
-   .SetFax vFax
-   .SetEmail vEmail
-   .SetNotas vNotas
-   .SetComisionPorVenta vComisionPorVenta
-   .SetComisionPorCobro vComisionPorCobro
-   .SetTopeInicialVenta1 vTopeInicialVenta1
-   .SetTopeFinalVenta1 vTopeFinalVenta1
-   .SetPorcentajeVentas1 vPorcentajeVentas1
-   .SetTopeFinalVenta2 vTopeFinalVenta2
-   .SetPorcentajeVentas2 vPorcentajeVentas2
-   .SetTopeFinalVenta3 vTopeFinalVenta3
-   .SetPorcentajeVentas3 vPorcentajeVentas3
-   .SetTopeFinalVenta4 vTopeFinalVenta4
-   .SetPorcentajeVentas4 vPorcentajeVentas4
-   .SetTopeFinalVenta5 vTopeFinalVenta5
-   .SetPorcentajeVentas5 vPorcentajeVentas5
-   .SetTopeInicialCobranza1 vTopeInicialCobranza1
-   .SetTopeFinalCobranza1 vTopeFinalCobranza1
-   .SetPorcentajeCobranza1 vPorcentajeCobranza1
-   .SetTopeFinalCobranza2 vTopeFinalCobranza2
-   .SetPorcentajeCobranza2 vPorcentajeCobranza2
-   .SetTopeFinalCobranza3 vTopeFinalCobranza3
-   .SetPorcentajeCobranza3 vPorcentajeCobranza3
-   .SetTopeFinalCobranza4 vTopeFinalCobranza4
-   .SetPorcentajeCobranza4 vPorcentajeCobranza4
-   .SetTopeFinalCobranza5 vTopeFinalCobranza5
-   .SetPorcentajeCobranza5 vPorcentajeCobranza5
-   .SetUsaComisionPorVenta vUsaComisionPorVenta
-   .SetUsaComisionPorCobranza vUsaComisionPorCobranza
-   .SetNombreOperador mNombreDelUsuario
-   .SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
-   .SetCodigoLote mCodigoLote
+      .SetConsecutivoCompania vConsecutivoCompania
+      .SetCodigo mValorDelCampoDeId
+      .SetNombre vNombre
+      .SetRIF vRIF
+      .SetStatusVendedorStr gEnumProyecto.enumStatusVendedorToString(gEnumProyecto.fSiglasStatusVendedorToEnum(vStatusVendedor))
+      .SetDireccion vDireccion
+      .SetCiudad vCiudad
+      .SetZonaPostal vZonaPostal
+      .SetTelefono vTelefono
+      .SetFax vFax
+      .SetEmail vEmail
+      .SetNotas vNotas
+      .SetComisionPorVenta vComisionPorVenta
+      .SetComisionPorCobro vComisionPorCobro
+      .SetTopeInicialVenta1 vTopeInicialVenta1
+      .SetTopeFinalVenta1 vTopeFinalVenta1
+      .SetPorcentajeVentas1 vPorcentajeVentas1
+      .SetTopeFinalVenta2 vTopeFinalVenta2
+      .SetPorcentajeVentas2 vPorcentajeVentas2
+      .SetTopeFinalVenta3 vTopeFinalVenta3
+      .SetPorcentajeVentas3 vPorcentajeVentas3
+      .SetTopeFinalVenta4 vTopeFinalVenta4
+      .SetPorcentajeVentas4 vPorcentajeVentas4
+      .SetTopeFinalVenta5 vTopeFinalVenta5
+      .SetPorcentajeVentas5 vPorcentajeVentas5
+      .SetTopeInicialCobranza1 vTopeInicialCobranza1
+      .SetTopeFinalCobranza1 vTopeFinalCobranza1
+      .SetPorcentajeCobranza1 vPorcentajeCobranza1
+      .SetTopeFinalCobranza2 vTopeFinalCobranza2
+      .SetPorcentajeCobranza2 vPorcentajeCobranza2
+      .SetTopeFinalCobranza3 vTopeFinalCobranza3
+      .SetPorcentajeCobranza3 vPorcentajeCobranza3
+      .SetTopeFinalCobranza4 vTopeFinalCobranza4
+      .SetPorcentajeCobranza4 vPorcentajeCobranza4
+      .SetTopeFinalCobranza5 vTopeFinalCobranza5
+      .SetPorcentajeCobranza5 vPorcentajeCobranza5
+      .SetUsaComisionPorVenta vUsaComisionPorVenta
+      .SetUsaComisionPorCobranza vUsaComisionPorCobranza
+      .SetNombreOperador mNombreDelUsuario
+      .SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
+      .SetCodigoLote mCodigoLote
    End With
-    If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreRenglones Or gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFacturayRenglones Then
-       With insRenglonComisionesDeVendedor
-       'Distribuye renglones de detail Tabla Comiciones de Vendedor
-       .SetConsecutivoCompania mConsecutivoCompaniaActual
-       .SetCodigoVendedor mValorDelCampoDeId
-       .SetConsecutivoRenglon mConsecutivoRenglon
-       .SetNombreDeLineaDeProducto mNombreDeLineaDeProducto
-       .SetTipoDeComisionStr gEnumProyecto.enumTipoComisionToString(gEnumProyecto.fSiglasTipoComisionToEnum(mTipoDeComision))
-       .SetMonto vMonto
-       .SetPorcentaje mPorcentaje
-       End With
-    End If
+   If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreRenglones Or gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFacturayRenglones Then
+      With insRenglonComisionesDeVendedor
+         .SetConsecutivoCompania mConsecutivoCompaniaActual
+         .SetCodigoVendedor mValorDelCampoDeId
+         .SetConsecutivoRenglon mConsecutivoRenglon
+         .SetNombreDeLineaDeProducto mNombreDeLineaDeProducto
+         .SetTipoDeComisionStr gEnumProyecto.enumTipoComisionToString(gEnumProyecto.fSiglasTipoComisionToEnum(mTipoDeComision))
+         .SetMonto vMonto
+         .SetPorcentaje mPorcentaje
+      End With
+   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "sSeteaValoresDeLaLineaDelArchivo_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sSeteaValoresDeLaLineaDelArchivo_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fImportaLineasVendedoryComision(ByVal NumeroDeLineaActual As Long) As Boolean
@@ -1035,8 +957,7 @@ Private Function fImportaLineasVendedoryComision(ByVal NumeroDeLineaActual As Lo
 h_EXIT:  On Error GoTo 0
    fImportaLineasVendedoryComision = exito
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fImportaLineasVendedoryComision", CM_MESSAGE_NAME_VENDEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fImportaLineasVendedoryComision", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fInsertarComisionesDelVendedor() As Boolean
@@ -1051,49 +972,46 @@ Private Function fInsertarComisionesDelVendedor() As Boolean
 h_EXIT: On Error GoTo 0
    fInsertarComisionesDelVendedor = Continuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fInsertarComisionesDelVendedor", CM_MESSAGE_NAME_VENDEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fInsertarComisionesDelVendedor", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sVerificaSiHayErrorEnLaLinea_VENDEDOR(ByVal NumeroDeLineaActual As Long, ByRef ErrorAlTraducirLaLinea As Boolean, ByRef DebeModificarArray As Boolean)
    On Error GoTo h_ERROR
-   'valores de la tabla vendedor
-      If gTexto.DfLen(mValorDelCampoDeId) = 0 Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
-      ElseIf insVendedor.fSearchByField("Codigo", mValorDelCampoDeId, False) Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  ya se encuentra registrado en el sistema .:::"
-         RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
-      ElseIf insRenglonComisionesDeVendedor.fSearchByField("CodigoVendedor", mValorDelCampoDeId) Then
-            ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR El Vendedor ==>" & vNombre & "<== de código ==>" & mValorDelCampoDeId & "<==  posee datos de Comisiones registradas en el sistema, para poder importar los datos de este vendedor, asegúrese de que el vendedor no se encuentre ya registrado en el sistema y de no ser este el caso, contacte a su administrador de bases de datos y notifíquele que la data está errada y deberá eliminar las comisiones asociadas a este vendedor inexistente, para poder llevar acabo la importación  .:::"
-      ElseIf Not insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, mValorDelCampoDeId, CM_INDEX_NUMERO_VENDEDOR) Then
-         mVectorDeVerificaciones(CM_INDEX_NUMERO_VENDEDOR, NumeroDeLineaActual) = mValorDelCampoDeId
-         mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_VENDEDOR, NumeroDeLineaActual) = True
-         If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFactura Then
-            mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR, NumeroDeLineaActual) = False
-         Else
-            mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR, NumeroDeLineaActual) = True
-         End If
+   If gTexto.DfLen(mValorDelCampoDeId) = 0 Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
+   ElseIf insVendedor.fSearchByField("Codigo", mValorDelCampoDeId, False) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  ya se encuentra registrado en el sistema .:::"
+      RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
+   ElseIf insRenglonComisionesDeVendedor.fSearchByField("CodigoVendedor", mValorDelCampoDeId) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Vendedor ==>" & vNombre & "<== de código ==>" & mValorDelCampoDeId & "<==  posee datos de Comisiones registradas en el sistema, para poder importar los datos de este vendedor, asegúrese de que el vendedor no se encuentre ya registrado en el sistema y de no ser este el caso, contacte a su administrador de bases de datos y notifíquele que la data está errada y deberá eliminar las comisiones asociadas a este vendedor inexistente, para poder llevar acabo la importación  .:::"
+   ElseIf Not insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, mValorDelCampoDeId, CM_INDEX_NUMERO_VENDEDOR) Then
+      mVectorDeVerificaciones(CM_INDEX_NUMERO_VENDEDOR, NumeroDeLineaActual) = mValorDelCampoDeId
+      mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_VENDEDOR, NumeroDeLineaActual) = True
+      If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFactura Then
+         mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR, NumeroDeLineaActual) = False
+      Else
+         mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR, NumeroDeLineaActual) = True
       End If
-      If gTexto.DfLen(vNombre) = 0 Then
+   End If
+   If gTexto.DfLen(vNombre) = 0 Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==  no puede estar en blanco .:::"
+   ElseIf insVendedor.fSearchByField("Nombre", vNombre, False) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==  ya esta registrado en el sistema .:::"
+   End If
+   If gTexto.DfLen(vStatusVendedor) = 0 Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR el status de vendedor código  ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
+   ElseIf Not vStatusVendedor = gEnumProyecto.enumStatusVendedorToStringSiglas(eSV_ACTIVO) And Not vStatusVendedor = gEnumProyecto.enumStatusVendedorToStringSiglas(eSV_INACTIVO) _
+         And Not vStatusVendedor = gEnumProyecto.enumStatusVendedorToStringSiglas(eSV_RESTRINGIDO) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==  no puede estar en blanco .:::"
-      ElseIf insVendedor.fSearchByField("Nombre", vNombre, False) Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==  ya esta registrado en el sistema .:::"
-      End If
-      If gTexto.DfLen(vStatusVendedor) = 0 Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR el status de vendedor código  ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
-      ElseIf Not vStatusVendedor = gEnumProyecto.enumStatusVendedorToStringSiglas(eSV_ACTIVO) And Not vStatusVendedor = gEnumProyecto.enumStatusVendedorToStringSiglas(eSV_INACTIVO) _
-            And Not vStatusVendedor = gEnumProyecto.enumStatusVendedorToStringSiglas(eSV_RESTRINGIDO) Then
-            ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR El Tipo de Status de Vendedor  ==>" & vStatusVendedor & "<==   que colocó no es válido.:::"
-      End If
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Tipo de Status de Vendedor  ==>" & vStatusVendedor & "<==   que colocó no es válido.:::"
+   End If
    If Not gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFactura Then
-   'valores de la tabla comision de vendedores
       If gTexto.DfLen(mTipoDeComision) = 0 Then
          If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreRenglones Then
             ErrorAlTraducirLaLinea = True
@@ -1122,68 +1040,43 @@ Private Sub sVerificaSiHayErrorEnLaLinea_VENDEDOR(ByVal NumeroDeLineaActual As L
 h_EXIT: On Error GoTo 0
    DebeModificarArray = ErrorAlTraducirLaLinea
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "sVerificaSiHayErrorEnLaLinea_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLinea_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR(ByRef ErrorAlTraducirLaLinea As Boolean, Optional ByRef DebeImportar As Boolean = False, Optional ByRef DebeModificarArray As Boolean)
    On Error GoTo h_ERROR
-      If gTexto.DfLen(vCiudad) > 0 Then
-         If Not insCiudad.fSearchByField("NombreCiudad", vCiudad, False) Then
-            If DebeImportar Then
-               vCiudad = mCiudadCompaniaActual
-            Else
-               ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó una Ciudad para el Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==   que no esta Almacenada en la Tabla de Ciudades. Se reemplazará por >> " & mCiudadCompaniaActual & " << .:::"
-            End If
-         End If
-      Else
+   If gTexto.DfLen(vCiudad) > 0 Then
+      If Not insCiudad.fSearchByField("NombreCiudad", vCiudad, False) Then
          If DebeImportar Then
             vCiudad = mCiudadCompaniaActual
          Else
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR El campo ciudad del Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==  esta en blanco. Se remplazará por >>" & mCiudadCompaniaActual & " << .:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó una Ciudad para el Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==   que no esta Almacenada en la Tabla de Ciudades. Se reemplazará por >> " & mCiudadCompaniaActual & " << .:::"
          End If
       End If
-      If gTexto.fLimpiaStringdeBlancosAAmbosLados(vEmail) <> "" Then
-         If Not gTexto.fDireccionDeMailCorrecta(vEmail, _
-            gEnumProyecto.enum_EnviadorODestinatarioToString(eEM_DESTINATARIO), vNombre) Then
-            If DebeImportar Then
-               vEmail = ""
-            Else
-               ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó una Direccion de Correo Electrónica ==>" & vEmail & "<== Inválida. Si elige continuar con la importación será eliminada .:::"
-            End If
+   Else
+      If DebeImportar Then
+         vCiudad = mCiudadCompaniaActual
+      Else
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El campo ciudad del Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==  esta en blanco. Se remplazará por >>" & mCiudadCompaniaActual & " << .:::"
+      End If
+   End If
+   If gTexto.fLimpiaStringdeBlancosAAmbosLados(vEmail) <> "" Then
+      If Not gTexto.fDireccionDeMailCorrecta(vEmail, _
+         gEnumProyecto.enum_EnviadorODestinatarioToString(eEM_DESTINATARIO), vNombre) Then
+         If DebeImportar Then
+            vEmail = ""
+         Else
+            ErrorAlTraducirLaLinea = True
+            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó una Direccion de Correo Electrónica ==>" & vEmail & "<== Inválida. Si elige continuar con la importación será eliminada .:::"
          End If
       End If
+   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
-'=======================================>>FACTURAS<<<======================================================================================
-Private Function CM_MESSAGE_NAME_FACTURA() As String
-   CM_MESSAGE_NAME_FACTURA = "Importar Factura"
-End Function
-Private Function CM_INDEX_NUMERO_FACTURA() As Long
-   CM_INDEX_NUMERO_FACTURA = 1
-End Function
-Private Function CM_INDEX_CONSECUTIVO_COMPANIA_DETALLE_FACTURA() As Integer
-   CM_INDEX_CONSECUTIVO_COMPANIA_DETALLE_FACTURA = 0
-End Function
-Private Function CM_INDEX_NUMERO_FACTURA_DETALLE() As Integer
-   CM_INDEX_NUMERO_FACTURA_DETALLE = 1
-End Function
-Private Function CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE() As Integer
-   CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE = 2
-End Function
-Private Function getNombreFileDeNuevo_FACTURA() As String
-   getNombreFileDeNuevo_FACTURA = getPathDelFileDeErrores & "\AdmidFactura.txt"
-End Function
-Private Function getClaseDeTrabajo_FACTURA() As enum_ClaseDeTrabajoFacturaCotizacion
-   getClaseDeTrabajo_FACTURA = mEnumClaseDeTrabajoFactura
-End Function
 
 Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String) As Boolean
    Dim linea As String
@@ -1347,8 +1240,8 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       .SetNumeroComprobanteRetIVA vNumeroComprobanteRetIVA
       vFechaComprobanteRetIVA = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetFechaComprobanteRetIVA vFechaComprobanteRetIVA
-      vSeRetuvoIVA = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-      .SetSeRetuvoIVA vSeRetuvoIVA
+      vSeRetuvoIva = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetSeRetuvoIVA vSeRetuvoIva
       vFacturaConPreciosSinIva = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetFacturaConPreciosSinIva vFacturaConPreciosSinIva
       vConsecutivoCaja = gConvert.enumerativoAChar(insCaja.CM_CONSECUTIVO_INICIAL_DE_CAJA)
@@ -1365,28 +1258,24 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       .SetPorcentajeDescuento2 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetMontoDescuento1 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetMontoDescuento2 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    
       mPorcentajeAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mPorcentajeAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mPorcentajeAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetPorcentajeAlicuota1 mPorcentajeAlicuota1
       .SetPorcentajeAlicuota2 mPorcentajeAlicuota2
       .SetPorcentajeAlicuota3 mPorcentajeAlicuota3
-      
       mMontoIVAAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mMontoIVAAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mMontoIVAAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetMontoIvaAlicuota1 mMontoIVAAlicuota1
       .SetMontoIVAAlicuota2 mMontoIVAAlicuota2
       .SetMontoIVAAlicuota3 mMontoIVAAlicuota3
-      
       mMontoGravableAlicuota1 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mMontoGravableAlicuota2 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mMontoGravableAlicuota3 = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetMontoGravableAlicuota1 mMontoGravableAlicuota1
       .SetMontoGravableAlicuota2 mMontoGravableAlicuota2
       .SetMontoGravableAlicuota3 mMontoGravableAlicuota3
-      
       .SetMoneda fDevuelveElNombreDeLaMonedaIfExist(vMoneda)
       vFechaDeFacturaAfectada = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetFechaDeFacturaAfectada vFechaDeFacturaAfectada
@@ -1405,7 +1294,7 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
    End With
    With insRenglonFactura
       .SetConsecutivoCompania vConsecutivoCompania
-      .setNumeroFactura mValorDelCampoDeId
+      .SetNumeroFactura mValorDelCampoDeId
       If vConsecutivoRenglon = 0 Then
          vConsecutivoRenglon = vConsecutivoRenglon + 1
       End If
@@ -1455,10 +1344,8 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
 h_EXIT: On Error GoTo 0
     fDistribuyeLaLineaDeFactura = True
     Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeFactura", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeFactura", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
 
 Private Function fInsertarLaFactura() As Boolean
    Dim Continuar As Boolean
@@ -1470,20 +1357,13 @@ Private Function fInsertarLaFactura() As Boolean
             If fInsertarElDetalleDeLaFactura Then
                Continuar = True
             End If
-            'OJO PINEDA
-'            If insFactura.GetStatusFacturaAsEnum = enum_StatusFactura.eSF_EMITIDA Then
-'               If mGenerarCxC Then
-'                  insFactura.sGeneraCXC False
-'               End If
-'            End If
          End If
       End If
    End If
 h_EXIT: On Error GoTo 0
    fInsertarLaFactura = Continuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fInsertarLaFactura", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fInsertarLaFactura", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA(ByRef ErrorAlTraducirLaLinea As Boolean, Optional ByVal DebeImportar As Boolean = False, Optional ByRef DebeModificarArray As Boolean = False, Optional ByVal valEsCotizacion As Boolean)
@@ -1509,7 +1389,6 @@ Private Sub sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA(ByRef ErrorAlT
          End If
           vCodigoVendedor = gProyParametrosCompania.getCodigoGenericoVendedor
       End If
-      
       If (Not valEsCotizacion) Then
          If Not fSelectAndSetValuesOfAlmacenFromAOS(refCodigo, refNombreAlmacen, vCodigoAlmacen) Then
             If DebeImportar Then
@@ -1532,7 +1411,6 @@ Private Sub sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA(ByRef ErrorAlT
                   End If
                End If
                Set Rs = Nothing
-               
                vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Codigo", 5, vCodigoAlmacen)
                vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreAlmacen", 40, vCodigoAlmacen)
                vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDeAlmacen", 1, gConvert.enumerativoAChar(enum_TipoDeAlmacen.eTD_PRINCIPAL))
@@ -1593,8 +1471,7 @@ Private Sub sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA(ByRef ErrorAlT
        End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fImportaLineasFacturayDetalle() As Boolean
@@ -1615,227 +1492,211 @@ Private Function fImportaLineasFacturayDetalle() As Boolean
 h_EXIT: On Error GoTo 0
    fImportaLineasFacturayDetalle = exito
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fImportaLineasFacturayDetalle", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fImportaLineasFacturayDetalle", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fInsertarElDetalleDeLaFactura() As Boolean
    Dim Continuar As Boolean
    On Error GoTo h_ERROR
    Continuar = False
-    If Not gTexto.DfLen(insRenglonFactura.getNumeroFactura) = 0 Then
-       If insRenglonFactura.fInsert Then
-          Continuar = True
-       End If
-    End If
+   If Not gTexto.DfLen(insRenglonFactura.GetNumeroFactura) = 0 Then
+      If insRenglonFactura.fInsert Then
+         Continuar = True
+      End If
+   End If
 h_EXIT: On Error GoTo 0
    fInsertarElDetalleDeLaFactura = Continuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fInsertarElDetalleDeLaFactura", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fInsertarElDetalleDeLaFactura", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sVerificaSiHayErrorEnLaLinea_FACTURA(ByVal valLineaActual As Long, ByRef ErrorAlTraducirLaLinea As Boolean, ByRef DebeModificarArray As Boolean, ByVal valEsFacturaBorradores As Boolean, ByVal valEsCotizacion)
    Dim vCampoAVerificar As String
    On Error GoTo h_ERROR
-      vCampoAVerificar = "Factura"
-      If valEsCotizacion Then
-         insFactura.setClaseDeTrabajo eCTFC_Cotizacion
-         insRenglonFactura.setClaseDeTrabajo eCTFC_Cotizacion
-         vCampoAVerificar = "Cotizacion"
-      End If
-      If gTexto.DfLen(mValorDelCampoDeId) = 0 Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de " & vCampoAVerificar & " ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
-         GoTo h_EXIT
-      ElseIf insFactura.fSearchByField("Numero", mValorDelCampoDeId, False, False) Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de " & vCampoAVerificar & " ==>" & mValorDelCampoDeId & "<==  ya esta registrado en el sistema .:::"
-         RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
-         GoTo h_EXIT
-      ElseIf insRenglonFactura.fSearchByField("Numero" & vCampoAVerificar, mValorDelCampoDeId) Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de " & vCampoAVerificar & " ==>" & mValorDelCampoDeId & "<==  posee datos de Detalle de la Factura registrados en el sistema .:::"
-         GoTo h_EXIT
-      ElseIf gUtilDate.fF1IsGreaterThanF2(gProyParametrosCompania.GetFechaMinimaIngresarDatos, vFecha) Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR La fecha de " & vCampoAVerificar & " ==>" & gConvert.dateToString(vFecha) & " <==  es menor a la fecha mínima permitida por el sistema para ingresar documentos en esta compañía .:::"
-         GoTo h_EXIT
-      ElseIf Not insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, valLineaActual, mValorDelCampoDeId, CM_INDEX_NUMERO_FACTURA) Then
-         mVectorDeVerificaciones(CM_INDEX_NUMERO_FACTURA, valLineaActual) = mValorDelCampoDeId
-         mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE, valLineaActual) = True
-      End If
-      If gTexto.DfLen(vCodigoCliente) = 0 Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & vCodigoCliente & "<==  no puede estar en blanco .:::"
-         GoTo h_EXIT
-      ElseIf Not insCliente.fSearchByField("Codigo", vCodigoCliente, False, False) Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Código de Cliente  ==>" & vCodigoCliente & "<==   que no esta Almacenado en el Sistema.:::"
-         GoTo h_EXIT
-      End If
-      If Not vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_1) And Not vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_2) _
-         And Not vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_3) And Not vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_4) Then
-            ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR El Nivel de precio que escogió  ==>" & vNivelPrecio & "<==   no es válido.:::"
-            GoTo h_EXIT
-      End If
-      If (Not valEsCotizacion) Then
-         Select Case vStatusFactura
+   vCampoAVerificar = "Factura"
+   If valEsCotizacion Then
+      insFactura.setClaseDeTrabajo eCTFC_Cotizacion
+      insRenglonFactura.setClaseDeTrabajo eCTFC_Cotizacion
+      vCampoAVerificar = "Cotizacion"
+   End If
+   If gTexto.DfLen(mValorDelCampoDeId) = 0 Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de " & vCampoAVerificar & " ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
+      GoTo h_EXIT
+   ElseIf insFactura.fSearchByField("Numero", mValorDelCampoDeId, False, False) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de " & vCampoAVerificar & " ==>" & mValorDelCampoDeId & "<==  ya esta registrado en el sistema .:::"
+      RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
+      GoTo h_EXIT
+   ElseIf insRenglonFactura.fSearchByField("Numero" & vCampoAVerificar, mValorDelCampoDeId) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de " & vCampoAVerificar & " ==>" & mValorDelCampoDeId & "<==  posee datos de Detalle de la Factura registrados en el sistema .:::"
+      GoTo h_EXIT
+   ElseIf gUtilDate.fF1IsGreaterThanF2(gProyParametrosCompania.GetFechaMinimaIngresarDatos, vFecha) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR La fecha de " & vCampoAVerificar & " ==>" & gConvert.dateToString(vFecha) & " <==  es menor a la fecha mínima permitida por el sistema para ingresar documentos en esta compañía .:::"
+      GoTo h_EXIT
+   ElseIf Not insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, valLineaActual, mValorDelCampoDeId, CM_INDEX_NUMERO_FACTURA) Then
+      mVectorDeVerificaciones(CM_INDEX_NUMERO_FACTURA, valLineaActual) = mValorDelCampoDeId
+      mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE, valLineaActual) = True
+   End If
+   If gTexto.DfLen(vCodigoCliente) = 0 Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & vCodigoCliente & "<==  no puede estar en blanco .:::"
+      GoTo h_EXIT
+   ElseIf Not insCliente.fSearchByField("Codigo", vCodigoCliente, False, False) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Código de Cliente  ==>" & vCodigoCliente & "<==   que no esta Almacenado en el Sistema.:::"
+      GoTo h_EXIT
+   End If
+   If Not vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_1) And Not vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_2) And Not vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_3) And Not vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_4) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Nivel de precio que escogió  ==>" & vNivelPrecio & "<==   no es válido.:::"
+      GoTo h_EXIT
+   End If
+   If (Not valEsCotizacion) Then
+      Select Case vStatusFactura
          Case gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_EMITIDA):
-               If valEsFacturaBorradores Then
+            If valEsFacturaBorradores Then
                ErrorAlTraducirLaLinea = True
                LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_EMITIDA) & "<==   no es válido para la importación de Borradores de Facturas. Para importar facturas emitidas deberá hacerlo a través del modulo para importar Facturas Historicas.:::"
                GoTo h_EXIT
-               End If
+            End If
          Case gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_ANULADA):
-               If valEsFacturaBorradores Then
+            If valEsFacturaBorradores Then
                ErrorAlTraducirLaLinea = True
                LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_ANULADA) & "<==   no es válido para la importación de Borradores de Facturas. Para importar facturas anuladas deberá hacerlo a través del modulo para importar Facturas Historicas.:::"
                GoTo h_EXIT
-               End If
+            End If
          Case gEnumProyecto.enumStatusFacturaToStringSiglas(eSF_BORRADOR):
-               If Not valEsFacturaBorradores Then
+            If Not valEsFacturaBorradores Then
                ErrorAlTraducirLaLinea = True
                LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & gEnumProyecto.enumStatusFacturaToString(eSF_BORRADOR) & "<==   no es válido para la importación de Facturas Historicas. Para importar borradores de facturas deberá hacerlo a través del modulo para importar Borradores de Facturas.:::"
                GoTo h_EXIT
-               End If
+            End If
          Case Else:
-               ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & vStatusFactura & "<==   no es válido.:::"
-               GoTo h_EXIT
-         End Select
-         If Not vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO1) And Not vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO2) Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR El talonario  ==>" & vTalonario & "<==   no es válido.:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR El Status de la Factura  ==>" & vStatusFactura & "<==   no es válido.:::"
             GoTo h_EXIT
-         End If
-         If Not vFormaDeLaInicialStr = gEnumProyecto.enumFormaDeLaInicialToStringSiglas(eFD_POR_MONTO) And Not vFormaDeLaInicialStr = gEnumProyecto.enumFormaDeLaInicialToStringSiglas(eFD_POR_PORCENTAJE) Then
-            ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR La forma de inicial  ==>" & vFormaDeLaInicialStr & "<==   no es válida.:::"
-            GoTo h_EXIT
-         End If
-         If Not vFormaDePagoStr = gEnumProyecto.enumFormadePagoToStringSiglas(eFP_CONTADO) And Not vFormaDePagoStr = gEnumProyecto.enumFormadePagoToStringSiglas(eFP_CREDITO) Then
-            ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR La forma de pago que escogió  ==>" & vFormaDePagoStr & "<==   no es válido.:::"
-            GoTo h_EXIT
-         End If
-         If Not vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A01_REGISTRO) And Not vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A02_COMPLEMENTO) _
-         And Not vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A03_ANULACION) And Not vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A04_AJUSTE) Then
-            ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR El Tipo de transacción  ==>" & vTipoDeTransaccionStr & "<==   no es válido.:::"
-            GoTo h_EXIT
-         End If
-         If vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_EXPORTACION) Then
-            If gTexto.DfLen(vNumeroPlanillaExportacion) = 0 Then
-               ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR El numero de planilla de exportación  ==>" & vNumeroPlanillaExportacion & "<==  no puede estar en blanco .:::"
-               GoTo h_EXIT
-            ElseIf insFactura.fSearchByField("NumeroPlanillaExportacion", vNumeroPlanillaExportacion, False, False) Then
-               ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un numero de planilla de exportación  ==>" & vNumeroPlanillaExportacion & "<== que ya existe.:::"
-               GoTo h_EXIT
-            End If
-         Else
-            If Not vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_A_CONTRIBUYENTE) _
-             And Not vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_A_NO_CONTRIBUYENTE) And Not vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_INTERNA) And Not vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_SIN_DERECHO_A_CREDITO_FISCAL) Then
-               ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR El Tipo de venta  ==>" & vTipoDeVentaStr & "<==   no es válido.:::"
-               GoTo h_EXIT
-            End If
-         End If
-         If gProyParametrosCompania.GetAplicacionAlicuotaEspecialAsEnum = gEnumProyecto.strAplicacionAlicuotaToNum(gEnumProyecto.enumAplicacionAlicuotaToString(eAA_NoAplica)) Then
-            If mPorcentajeAlicuota1 = 10 Or mPorcentajeAlicuota1 = 9 Or mPorcentajeAlicuota1 = 7 Then
-                ErrorAlTraducirLaLinea = True
-                LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa No Aplica el decreto especial del IVA. La Factura retiene porcentaje al 10 %, lo cuál generará inconsistencia en la data. La Factura no será Importada.:::"
-                GoTo h_EXIT
-            End If
-         End If
-
-         '**** Decreto Especial Iva
-         If mAplicaDecretoIvaEspecial = gConvert.ConvertBooleanToString(True) Then
-           'reducida
-            If gProyParametrosCompania.GetAplicacionAlicuotaEspecialAsEnum = gEnumProyecto.strAplicacionAlicuotaToNum(gEnumProyecto.enumAplicacionAlicuotaToString(eAA_SustituirAlicuotaReducida)) Then
-                If gEnumProyecto.strTipoDeAlicuotaToNum(vAlicuotaIVAStr) = enum_TipoDeAlicuota.eTD_ALICUOTA2 Then
-                   ErrorAlTraducirLaLinea = True
-                   LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa Aplica el decreto especial del IVA: ==> Sustituir Alícuota Reducida <==. El Renglón de la Factura retiene Alícuota Reducida, lo cuál generará inconsistencia en la data. La Factura no será Importada.:::"
-                   GoTo h_EXIT
-                End If
-            End If
-            'Adicional
-            If gProyParametrosCompania.GetAplicacionAlicuotaEspecialAsEnum = gEnumProyecto.strAplicacionAlicuotaToNum(gEnumProyecto.enumAplicacionAlicuotaToString(eAA_SustituirAlicuotaAdicional)) Then
-                If gEnumProyecto.strTipoDeAlicuotaToNum(vAlicuotaIVAStr) = enum_TipoDeAlicuota.eTD_ALICUOTA3 Then
-                    ErrorAlTraducirLaLinea = True
-                    LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa Aplica el decreto especial del IVA: ==> Sustituir Alícuota Adicional <==. El Renglón de la Factura retiene Alícuota Adicional, lo cuál generará inconsistencia en la data. La Factura no será Importada.:::"
-                    GoTo h_EXIT
-                End If
-            End If
-            'fTotalFacturaEsValidoParaDecreto2602(ByVal valBaseImponibleDespuesDescuento, ByVal valFecha, ByVal valMontoExentoDespuesDeDescuento)
-            If fTotalFacturaEsValidoParaDecreto2602(vBaseImponibleDespuesDescuento, vFecha, vMontoExentoDespuesDeDescuento) = False Then
-                ErrorAlTraducirLaLinea = True
-                LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa Aplica el decreto especial del IVA. El Monto de la Factura a la Tasa del " & gAdmAlicuotaIvaActual.GetAlicuotaIVA(vFecha, eTD_ALICUOTAGENERAL) & " % es de: " & gConvert.fNumeroStringToStringConSeparadorDeMiles(mValorDelCampoDeId, False, 2) & ". El cual supera el Monto Máximo para este tipo de venta que es de Bs. " & gConvert.fNumberWithCommasAndDot(MONTOMAXIMODECRETO2602, 12, 2, False) & vbCrLf & " La factura no será importada.:::"
-                GoTo h_EXIT
-            End If
-            If gTexto.DfLen(mTipoDeContribuyenteClienteFactura) > 0 Then
-               If mPorcentajeAlicuota1 = 10 Then
-                  If mTipoDeContribuyenteClienteFactura = gEnumProyecto.strTipoDeContribuyenteToNum(gEnumProyecto.enumTipoDeContribuyenteToString(eTD_CONTRIBUYENTE)) Or (mTipoDePersonaClienteFactura = "J" Or mTipoDePersonaClienteFactura = "G") Then
-                     ErrorAlTraducirLaLinea = True
-                     LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa Aplica el decreto especial del IVA. La factura que está importando, tiene cliente contribuyente, lo cuál generará inconsistencia en la data. La Factura no será Importada.:::"
-                     GoTo h_EXIT
-                  End If
-               End If
-            Else
-                ErrorAlTraducirLaLinea = True
-                LineaDeErrores = LineaDeErrores & ":::. Debe definir el Tipo De Contribuyente del o los clientes a importar.:::"
-                GoTo h_EXIT
-            End If
-         End If
-
+      End Select
+      If Not vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO1) And Not vTalonario = gEnumProyecto.enumTalonarioToStringSiglas(eTa_TALONARIO2) Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El talonario  ==>" & vTalonario & "<==   no es válido.:::"
+         GoTo h_EXIT
       End If
-      If gProyParametrosCompania.GetUsaMonedaExtranjera Then
-         If Not insMoneda.fSearchByField("Codigo", vMoneda, False, False) Then
+      If Not vFormaDeLaInicialStr = gEnumProyecto.enumFormaDeLaInicialToStringSiglas(eFD_POR_MONTO) And Not vFormaDeLaInicialStr = gEnumProyecto.enumFormaDeLaInicialToStringSiglas(eFD_POR_PORCENTAJE) Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & ":::. ERROR La forma de inicial  ==>" & vFormaDeLaInicialStr & "<==   no es válida.:::"
+         GoTo h_EXIT
+      End If
+      If Not vFormaDePagoStr = gEnumProyecto.enumFormadePagoToStringSiglas(eFP_CONTADO) And Not vFormaDePagoStr = gEnumProyecto.enumFormadePagoToStringSiglas(eFP_CREDITO) Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & ":::. ERROR La forma de pago que escogió  ==>" & vFormaDePagoStr & "<==   no es válido.:::"
+         GoTo h_EXIT
+      End If
+      If Not vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A01_REGISTRO) And Not vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A02_COMPLEMENTO) And Not vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A03_ANULACION) And Not vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A04_AJUSTE) Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Tipo de transacción  ==>" & vTipoDeTransaccionStr & "<==   no es válido.:::"
+         GoTo h_EXIT
+      End If
+      If vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_EXPORTACION) Then
+         If gTexto.DfLen(vNumeroPlanillaExportacion) = 0 Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó una Moneda  ==>" & vMoneda & "<==   No válida. No podrá importar este dato.:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR El numero de planilla de exportación  ==>" & vNumeroPlanillaExportacion & "<==  no puede estar en blanco .:::"
+            GoTo h_EXIT
+         ElseIf insFactura.fSearchByField("NumeroPlanillaExportacion", vNumeroPlanillaExportacion, False, False) Then
+            ErrorAlTraducirLaLinea = True
+            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un numero de planilla de exportación  ==>" & vNumeroPlanillaExportacion & "<== que ya existe.:::"
+            GoTo h_EXIT
          End If
       Else
-         If Not mCodigoMonedaLocal = vMoneda Then
+         If Not vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_A_CONTRIBUYENTE) And Not vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_A_NO_CONTRIBUYENTE) And Not vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_INTERNA) And Not vTipoDeVentaStr = gEnumProyecto.enumTipoDeVentaToStringSiglas(eTD_SIN_DERECHO_A_CREDITO_FISCAL) Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR La compañía actual no utiliza moneda extranjera. Indicó una moneda  ==>" & vMoneda & "<== distinta a la moneda local.:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR El Tipo de venta  ==>" & vTipoDeVentaStr & "<==   no es válido.:::"
             GoTo h_EXIT
          End If
       End If
-'valores de la tabla de detalle
-      If gTexto.DfLen(vArticulo) = 0 Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Artículo del detalle de la factura  ==>" & vArticulo & "<==  no puede estar en blanco .:::"
-         GoTo h_EXIT
-      ElseIf Not insArticuloInventario.fSearchByField("Codigo", vArticulo, False) Then
-         ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Código de Articulo  ==>" & vArticulo & "<==   que no esta Almacenado en el Sistema.:::"
-         GoTo h_EXIT
-      End If
-      If (Not valEsCotizacion) Then
-         If gTexto.DfLen(vAlicuotaIVAStr) = 0 Then
-            ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR La Alicuota del IVA para el detalle de la factura  ==>" & vAlicuotaIVAStr & "<==  no puede estar en blanco .:::"
-            GoTo h_EXIT
-         ElseIf Not vAlicuotaIVAStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO) And Not vAlicuotaIVAStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTAGENERAL) _
-            And Not vAlicuotaIVAStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3) And Not vAlicuotaIVAStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA2) Then
-            ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR El Tipo de Alicuota IVA  ==>" & vAlicuotaIVAStr & "<==   que colocó en el detalle no es válido.:::"
-            GoTo h_EXIT
+      If gProyParametrosCompania.GetAplicacionAlicuotaEspecialAsEnum = gEnumProyecto.strAplicacionAlicuotaToNum(gEnumProyecto.enumAplicacionAlicuotaToString(eAA_NoAplica)) Then
+         If mPorcentajeAlicuota1 = 10 Or mPorcentajeAlicuota1 = 9 Or mPorcentajeAlicuota1 = 7 Then
+             ErrorAlTraducirLaLinea = True
+             LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa No Aplica el decreto especial del IVA. La Factura retiene porcentaje al 10 %, lo cuál generará inconsistencia en la data. La Factura no será Importada.:::"
+             GoTo h_EXIT
          End If
       End If
-      If Not (gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False) = (enum_TipoDocumentoFactura.eTF_FACTURA) Or gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False) = (enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)) And Not gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False) = (enum_TipoDocumentoFactura.eTF_NOTADECREDITO) And Not gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False) = (enum_TipoDocumentoFactura.eTF_NOTADEDEBITO) Then
+      If mAplicaDecretoIvaEspecial = gConvert.ConvertBooleanToString(True) Then '**** Decreto Especial Iva
+        'reducida
+         If gProyParametrosCompania.GetAplicacionAlicuotaEspecialAsEnum = gEnumProyecto.strAplicacionAlicuotaToNum(gEnumProyecto.enumAplicacionAlicuotaToString(eAA_SustituirAlicuotaReducida)) Then
+             If gEnumProyecto.strTipoDeAlicuotaToNum(vAlicuotaIVAStr) = enum_TipoDeAlicuota.eTD_ALICUOTA2 Then
+                ErrorAlTraducirLaLinea = True
+                LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa Aplica el decreto especial del IVA: ==> Sustituir Alícuota Reducida <==. El Renglón de la Factura retiene Alícuota Reducida, lo cuál generará inconsistencia en la data. La Factura no será Importada.:::"
+                GoTo h_EXIT
+             End If
+         End If
+         'Adicional
+         If gProyParametrosCompania.GetAplicacionAlicuotaEspecialAsEnum = gEnumProyecto.strAplicacionAlicuotaToNum(gEnumProyecto.enumAplicacionAlicuotaToString(eAA_SustituirAlicuotaAdicional)) Then
+             If gEnumProyecto.strTipoDeAlicuotaToNum(vAlicuotaIVAStr) = enum_TipoDeAlicuota.eTD_ALICUOTA3 Then
+                 ErrorAlTraducirLaLinea = True
+                 LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa Aplica el decreto especial del IVA: ==> Sustituir Alícuota Adicional <==. El Renglón de la Factura retiene Alícuota Adicional, lo cuál generará inconsistencia en la data. La Factura no será Importada.:::"
+                 GoTo h_EXIT
+             End If
+         End If
+         If gTexto.DfLen(mTipoDeContribuyenteClienteFactura) > 0 Then
+            If mPorcentajeAlicuota1 = 10 Then
+               If mTipoDeContribuyenteClienteFactura = gEnumProyecto.strTipoDeContribuyenteToNum(gEnumProyecto.enumTipoDeContribuyenteToString(eTD_CONTRIBUYENTE)) Or (mTipoDePersonaClienteFactura = "J" Or mTipoDePersonaClienteFactura = "G") Then
+                  ErrorAlTraducirLaLinea = True
+                  LineaDeErrores = LineaDeErrores & ":::. ERROR La empresa Aplica el decreto especial del IVA. La factura que está importando, tiene cliente contribuyente, lo cuál generará inconsistencia en la data. La Factura no será Importada.:::"
+                  GoTo h_EXIT
+               End If
+            End If
+         Else
+             ErrorAlTraducirLaLinea = True
+             LineaDeErrores = LineaDeErrores & ":::. Debe definir el Tipo De Contribuyente del o los clientes a importar.:::"
+             GoTo h_EXIT
+         End If
+      End If
+   End If
+   If gProyParametrosCompania.GetUsaMonedaExtranjera Then
+      If Not insMoneda.fSearchByField("Codigo", vMoneda, False, False) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El tipo de documento que escogió  ==>" & gEnumProyecto.enumTipodocumentoFacturaToString(gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False)) & "<==   no es válido.:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó una Moneda  ==>" & vMoneda & "<==   No válida. No podrá importar este dato.:::"
+      End If
+   Else
+      If Not mCodigoMonedaLocal = vMoneda Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & ":::. ERROR La compañía actual no utiliza moneda extranjera. Indicó una moneda  ==>" & vMoneda & "<== distinta a la moneda local.:::"
          GoTo h_EXIT
       End If
+   End If
+   If gTexto.DfLen(vArticulo) = 0 Then 'valores de la tabla de detalle
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Artículo del detalle de la factura  ==>" & vArticulo & "<==  no puede estar en blanco .:::"
+      GoTo h_EXIT
+   ElseIf Not insArticuloInventario.fSearchByField("Codigo", vArticulo, False) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Código de Articulo  ==>" & vArticulo & "<==   que no esta Almacenado en el Sistema.:::"
+      GoTo h_EXIT
+   End If
+   If (Not valEsCotizacion) Then
+      If gTexto.DfLen(vAlicuotaIVAStr) = 0 Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & ":::. ERROR La Alicuota del IVA para el detalle de la factura  ==>" & vAlicuotaIVAStr & "<==  no puede estar en blanco .:::"
+         GoTo h_EXIT
+      ElseIf Not vAlicuotaIVAStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO) And Not vAlicuotaIVAStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTAGENERAL) _
+         And Not vAlicuotaIVAStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3) And Not vAlicuotaIVAStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA2) Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Tipo de Alicuota IVA  ==>" & vAlicuotaIVAStr & "<==   que colocó en el detalle no es válido.:::"
+         GoTo h_EXIT
+      End If
+   End If
+   If Not (gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False) = (enum_TipoDocumentoFactura.eTF_FACTURA) Or gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False) = (enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)) And Not gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False) = (enum_TipoDocumentoFactura.eTF_NOTADECREDITO) And Not gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False) = (enum_TipoDocumentoFactura.eTF_NOTADEDEBITO) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & ":::. ERROR El tipo de documento que escogió  ==>" & gEnumProyecto.enumTipodocumentoFacturaToString(gEnumProyecto.fSiglasTipoDocumentoFacturaToEnum(vTipoDeDocumentoStr, False)) & "<==   no es válido.:::"
+      GoTo h_EXIT
+   End If
 h_EXIT: On Error GoTo 0
    DebeModificarArray = ErrorAlTraducirLaLinea
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "sVerificaSiHayErrorEnLaLinea_FACTURA", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLinea_FACTURA", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fDistribuyeLaLineaDeRenglonCobroDeFactura(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String) As Boolean
@@ -1846,7 +1707,7 @@ Private Function fDistribuyeLaLineaDeRenglonCobroDeFactura(ByRef refLineaActual 
    With insRenglonCobroDeFactura
       .SetConsecutivoCompania mConsecutivoCompaniaActual
       vNumeroFactura = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-      .setNumeroFactura vNumeroFactura
+      .SetNumeroFactura vNumeroFactura
       vConsecutivoRenglon = .fGenerateNextConsecutivoRenglonCobroFactura(vNumeroFactura)
       .SetConsecutivoRenglon vConsecutivoRenglon
       vTipoDeDocumentoStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -1862,15 +1723,14 @@ Private Function fDistribuyeLaLineaDeRenglonCobroDeFactura(ByRef refLineaActual 
 h_EXIT: On Error GoTo 0
     fDistribuyeLaLineaDeRenglonCobroDeFactura = existe
     Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeRenglonCobroDeFactura", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeRenglonCobroDeFactura", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fImportaLineasDetalleCobroDeFactura() As Boolean
    Dim exito As Boolean
    On Error GoTo h_ERROR
-   If Not gTexto.DfLen(insRenglonCobroDeFactura.getNumeroFactura) = 0 Then
-      If Not insFactura.fSearchByField("Numero", insRenglonCobroDeFactura.getNumeroFactura, False, False) Then
+   If Not gTexto.DfLen(insRenglonCobroDeFactura.GetNumeroFactura) = 0 Then
+      If Not insFactura.fSearchByField("Numero", insRenglonCobroDeFactura.GetNumeroFactura, False, False) Then
          If insRenglonCobroDeFactura.fInsert Then
             exito = True
          End If
@@ -1879,20 +1739,10 @@ Private Function fImportaLineasDetalleCobroDeFactura() As Boolean
 h_EXIT: On Error GoTo 0
    fImportaLineasDetalleCobroDeFactura = exito
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fImportaLineasDetalleCobroDeFactura", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fImportaLineasDetalleCobroDeFactura", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-'============================================== Importacion de CxC =================================================================================
-Private Function CM_INDEX_NUMERO_Y_TIPO_DE_CXC() As Long
-   CM_INDEX_NUMERO_Y_TIPO_DE_CXC = 0
-End Function
-Private Function CM_MESSAGE_NAME_CXC() As String
-   CM_MESSAGE_NAME_CXC = "Importar CxC"
-End Function
-
-Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal valregistroActual As Long, ByVal valSeparador As String, _
-                                            ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean) As Boolean
+Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal valregistroActual As Long, ByVal valSeparador As String, ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean) As Boolean
    Dim linea As String
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
@@ -1926,11 +1776,10 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
    insCxC.SetSeRetuvoIVA gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetNumeroDocumentoOrigen gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNoAplicaParaLibroDeVentas gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-   insCxC.SetMoneda fDevuelveElNombreDeLaMonedaIfExist(insCxC.getCodigoMoneda)
+   insCxC.SetMoneda fDevuelveElNombreDeLaMonedaIfExist(insCxC.GetCodigoMoneda)
    insCxC.SetCodigoLote insLoteDeAdm.getCodigoLote
    insCxC.SetNumeroControl gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNumeroComprobanteFiscal gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   
    If valVerificarSiEstaRepetido Then
       If gTexto.DfLen(insCxC.GetNumero) = 0 Then
          ErrorAlTraducirLaLinea = True
@@ -2020,15 +1869,15 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
          LineaDeErrores = LineaDeErrores & String(gTexto.DfLen(gConvert.fConvierteAString(insCxC.GetMontoGravado)), " ")
          LineaDeErrores = LineaDeErrores & String(gTexto.DfLen(gConvert.fConvierteAString(insCxC.GetMontoIva)), " ")
       End If
-      If gTexto.DfLen(insCxC.getCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxC.getCodigoMoneda, False, False) Then
+      If gTexto.DfLen(insCxC.GetCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxC.GetCodigoMoneda, False, False) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR La Moneda " & insCxC.getCodigoMoneda & " No existe. Debe incluirla antes de ejecutar la importacion .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR La Moneda " & insCxC.GetCodigoMoneda & " No existe. Debe incluirla antes de ejecutar la importacion .:::"
       Else
-         If Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxC.getCodigoMoneda <> mCodigoMonedaLocal Then
+         If Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxC.GetCodigoMoneda <> mCodigoMonedaLocal Then
             ErrorAlTraducirLaLinea = True
             LineaDeErrores = LineaDeErrores & ":::. ERROR La Compañia NO usa moneda Extrajera .:::"
          Else
-            LineaDeErrores = LineaDeErrores & String(Len(insCxC.getCodigoMoneda), " ")
+            LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetCodigoMoneda), " ")
          End If
       End If
       LineaDeErrores = LineaDeErrores & String(Len(CStr(insCxC.GetCambioABolivares)), " ")
@@ -2065,9 +1914,9 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
          refEsteRegistroSeIncluye = False
       ElseIf insCxC.GetMontoGravado = 0 And insCxC.GetMontoIva > 0 Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxC.getCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxC.getCodigoMoneda, False, False) Then
+      ElseIf gTexto.DfLen(insCxC.GetCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxC.GetCodigoMoneda, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxC.getCodigoMoneda <> mCodigoMonedaLocal Then
+      ElseIf Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxC.GetCodigoMoneda <> mCodigoMonedaLocal Then
          refEsteRegistroSeIncluye = False
       Else
          If gTexto.DfLen(insCxC.GetTipoCxCStr) = 0 Or Not fEsUnTpoDeCuentaPorCobrarPagar(insCxC.GetTipoCxCStr) Then
@@ -2082,12 +1931,10 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaDeLaCxC = Not ErrorAlTraducirLaLinea
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeLaCxC", CM_MESSAGE_NAME_CXC, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeLaCxC", CM_MESSAGE_NAME_CXC, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As String, ByVal valregistroActual As Long, ByVal valSeparador As String, _
-                                            ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean) As Boolean
+Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As String, ByVal valregistroActual As Long, ByVal valSeparador As String, ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean) As Boolean
    Dim linea As String
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
@@ -2121,11 +1968,10 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
    insCxC.SetSeRetuvoIVA gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetNumeroDocumentoOrigen gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNoAplicaParaLibroDeVentas gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-   insCxC.SetMoneda fDevuelveElNombreDeLaMonedaIfExist(insCxC.getCodigoMoneda)
+   insCxC.SetMoneda fDevuelveElNombreDeLaMonedaIfExist(insCxC.GetCodigoMoneda)
    insCxC.SetCodigoLote insLoteDeAdm.getCodigoLote
    insCxC.SetNumeroControl gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNumeroComprobanteFiscal gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   
    If valVerificarSiEstaRepetido Then
       If gTexto.DfLen(insCxC.GetNumero) = 0 Then
          ErrorAlTraducirLaLinea = True
@@ -2201,7 +2047,6 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
       Else
          LineaDeErrores = LineaDeErrores & String(Len(gConvert.fechaAString(insCxC.GetFechaVencimiento)), " ")
       End If
-      
       If insCxC.GetTipoCxCStr = gEnumProyecto.enumTipoDeCxCToString(eTD_NOTADECREDITO) Then
          If insCxC.GetMontoExento > 0 Or insCxC.GetMontoGravado > 0 Or insCxC.GetMontoIva > 0 Then
             ErrorAlTraducirLaLinea = True
@@ -2233,16 +2078,15 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
             LineaDeErrores = LineaDeErrores & String(gTexto.DfLen(gConvert.fConvierteAString(insCxC.GetMontoIva)), " ")
          End If
       End If
-      
-      If gTexto.DfLen(insCxC.getCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxC.getCodigoMoneda, False, False) Then
+      If gTexto.DfLen(insCxC.GetCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxC.GetCodigoMoneda, False, False) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR La Moneda " & insCxC.getCodigoMoneda & " No existe. Debe incluirla antes de ejecutar la importacion .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR La Moneda " & insCxC.GetCodigoMoneda & " No existe. Debe incluirla antes de ejecutar la importacion .:::"
       Else
-         If Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxC.getCodigoMoneda <> mCodigoMonedaLocal Then
+         If Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxC.GetCodigoMoneda <> mCodigoMonedaLocal Then
             ErrorAlTraducirLaLinea = True
             LineaDeErrores = LineaDeErrores & ":::. ERROR La Compañia NO usa moneda Extrajera .:::"
          Else
-            LineaDeErrores = LineaDeErrores & String(Len(insCxC.getCodigoMoneda), " ")
+            LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetCodigoMoneda), " ")
          End If
       End If
       LineaDeErrores = LineaDeErrores & String(Len(CStr(insCxC.GetCambioABolivares)), " ")
@@ -2255,8 +2099,7 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
    If valVerificarParaImportacion Then
       If gTexto.DfLen(insCxC.GetNumero) = 0 Then
          refEsteRegistroSeIncluye = False
-      ElseIf gEnumProyecto.strStatusDocumentoToNum(insCxC.GetStatusStr) <> enum_StatusDocumento.eSD_PORCANCELAR _
-               And gEnumProyecto.strStatusDocumentoToNum(insCxC.GetStatusStr) <> enum_StatusDocumento.eSD_CANCELADO Then
+      ElseIf gEnumProyecto.strStatusDocumentoToNum(insCxC.GetStatusStr) <> enum_StatusDocumento.eSD_PORCANCELAR And gEnumProyecto.strStatusDocumentoToNum(insCxC.GetStatusStr) <> enum_StatusDocumento.eSD_CANCELADO Then
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(insCxC.GetTipoCxCStr) = 0 Or Not fEsUnTpoDeCuentaPorCobrarPagar(insCxC.GetTipoCxCStr) Then
          refEsteRegistroSeIncluye = False
@@ -2286,9 +2129,9 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
          refEsteRegistroSeIncluye = False
       ElseIf (insCxC.GetTipoCxCStr <> gEnumProyecto.enumTipoDeCxCToString(eTD_NOTADECREDITO)) And (insCxC.GetMontoGravado = 0 And insCxC.GetMontoIva > 0) Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxC.getCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxC.getCodigoMoneda, False, False) Then
+      ElseIf gTexto.DfLen(insCxC.GetCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxC.GetCodigoMoneda, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxC.getCodigoMoneda <> mCodigoMonedaLocal Then
+      ElseIf Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxC.GetCodigoMoneda <> mCodigoMonedaLocal Then
          refEsteRegistroSeIncluye = False
       Else
          If gTexto.DfLen(insCxC.GetTipoCxCStr) = 0 Or Not fEsUnTpoDeCuentaPorCobrarPagar(insCxC.GetTipoCxCStr) Then
@@ -2303,27 +2146,25 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaDeLaCxCEspecial = Not ErrorAlTraducirLaLinea
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeLaCxCEspecial", CM_MESSAGE_NAME_CXC, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeLaCxCEspecial", CM_MESSAGE_NAME_CXC, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fVerificaSiNoExisteLaCxCYLoAgrega(ByRef refRegistrosImportados As Long) As Boolean
    Dim Continuar As Boolean
    On Error GoTo h_ERROR
    Continuar = False
    If Not (insCxC.fSearchByNumeroTipoDeCxC(insCxC.GetNumero, gEnumProyecto.strTipoDeCxCToNum(insCxC.GetTipoCxCStr), False, False)) Then
-        If insCxC.fInsert(False) Then
-           Continuar = True
-           refRegistrosImportados = refRegistrosImportados + 1
-        End If
-    Else
-       RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
-    End If
-        
+      If insCxC.fInsert(False) Then
+         Continuar = True
+         refRegistrosImportados = refRegistrosImportados + 1
+      End If
+   Else
+      RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
+   End If
 h_EXIT: On Error GoTo 0
    fVerificaSiNoExisteLaCxCYLoAgrega = Continuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fVerificaSiNoExisteLaCxCYLoAgrega", CM_MESSAGE_NAME_CXC, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fVerificaSiNoExisteLaCxCYLoAgrega", CM_MESSAGE_NAME_CXC, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fConstruirSQLDeComprobanteCxC(ByRef refNumero As String) As String
@@ -2350,30 +2191,24 @@ Public Function fConstruirSQLDeComprobanteCxC(ByRef refNumero As String) As Stri
    SQL = SQL & "cxC.MontoIVA AS MontoIVA,"
    SQL = SQL & "cxC.Numero AS NumeroDocumento, "
    SQL = SQL & "cxC.NumeroControl AS NumeroControl, "
-   sqlTotal = "(cxC.MontoExento + " _
-   & "cxC.MontoGravado + cxC.MontoIVA)"
+   sqlTotal = "(cxC.MontoExento + cxC.MontoGravado + cxC.MontoIVA)"
    SQL = SQL & sqlTotal & " AS MontoTotal, "
    SQL = SQL & "cxC.MontoAbonado AS MontoAbonado,"
    sqlMontoRestante = sqlTotal & " - cxC.MontoAbonado"
    SQL = SQL & sqlMontoRestante & " AS RestaPorPagar"
-   SQL = SQL & " FROM vendedor INNER JOIN (cliente" & _
-   " INNER JOIN cxC ON (cliente.Codigo = cxC.CodigoCliente)" & _
-   " AND (cliente.ConsecutivoCompania = cxC.ConsecutivoCompania)) " & _
-   " ON (vendedor.Codigo = cxC.CodigoVendedor) " & _
-   " AND (vendedor.ConsecutivoCompania = cxC.ConsecutivoCompania) " & _
-   " AND (vendedor.Codigo = " & "cliente.CodigoVendedor) " & _
-   " AND (vendedor.ConsecutivoCompania = cliente.ConsecutivoCompania) "
-   SQL = SQL & "WHERE cxC.ConsecutivoCompania = " & mConsecutivoCompaniaActual & _
-   " AND Numero = " & gUtilSQL.fSimpleSqlValue(refNumero)
+   SQL = SQL & " FROM vendedor INNER JOIN cliente INNER JOIN cxC ON cliente.Codigo = cxC.CodigoCliente"
+   SQL = SQL & " AND cliente.ConsecutivoCompania = cxC.ConsecutivoCompania  ON vendedor.Codigo = cxC.CodigoVendedor "
+   SQL = SQL & " AND vendedor.ConsecutivoCompania = cxC.ConsecutivoCompania  AND vendedor.Codigo = cliente.CodigoVendedor "
+   SQL = SQL & " AND vendedor.ConsecutivoCompania = cliente.ConsecutivoCompania "
+   SQL = SQL & "WHERE cxC.ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND Numero = " & gUtilSQL.fSimpleSqlValue(refNumero)
 h_EXIT: On Error GoTo 0
    fConstruirSQLDeComprobanteCxC = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConstruirSQLDeComprobanteCxC", CM_MESSAGE_NAME_CXC, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fConstruirSQLDeComprobanteCxC", CM_MESSAGE_NAME_CXC, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fEsUnTpoDeCuentaPorCobrarPagar(ByVal valTipoDeCXCobrarPagar As String) As Boolean
-On Error GoTo h_ERROR
+   On Error GoTo h_ERROR
    If gEnumProyecto.strTipoDeCxCToNumBoolean(valTipoDeCXCobrarPagar) Then
       fEsUnTpoDeCuentaPorCobrarPagar = True
    Else
@@ -2381,31 +2216,19 @@ On Error GoTo h_ERROR
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "fEsUnTpoDeCuentaPorCobrarPagar", CM_MESSAGE_NAME_CXC, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fEsUnTpoDeCuentaPorCobrarPagar", CM_MESSAGE_NAME_CXC, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-'============================================== Importacion de CxP =================================================================================
-
-Private Function CM_MESSAGE_NAME_CXP() As String
-   CM_MESSAGE_NAME_CXP = "Importar CxP"
-End Function
-
-Private Function CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR() As Long
-   CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR = 0
-End Function
-
-Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String, _
-                                             ByRef refLineaDeError As String, ByVal valVerificarSiEstaRepetido As Boolean, _
-                                               ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean, ByRef mCxPArray() As Variant) As Boolean
+Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String, ByRef refLineaDeError As String, ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean, ByRef mCxPArray As Variant) As Boolean
    Dim linea As String
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
    Dim insImportar As clsImportar
    Dim Fecha As String
-'   Dim SumatoriasDeMontosGrabados As Currency
    Dim SumatoriasDeMontoIva As Currency
-'   Dim FechaAnulacionCancelacion As Date
+   Dim vEsUnaCuentaATerceros As String
+   Dim vSeHizoLaDetraccion As String
+   Dim vAplicaIvaAlicuotaEspecial As String
    On Error GoTo h_ERROR
    Set insImportar = New clsImportar
    ErrorAlTraducirLaLinea = False
@@ -2432,7 +2255,6 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
    insCxP.SetFechaCancelacion gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetFechaVencimiento gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetFechaAnulacion gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-'   FechaAnulacionCancelacion = insCxP.GetFecha
    insCxP.SetCodigoMoneda fValidaLamoneda(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetCambioABolivares gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetAplicaParaLibrodeCompras gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -2450,11 +2272,9 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
    insCxP.SetMontoGravableAlicuotaGeneral gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetMontoGravableAlicuota2 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetMontoGravableAlicuota3 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-'   SumatoriasDeMontosGrabados = insCxP.GetMontoGravableAlicuotaGeneral + insCxP.GetMontoGravableAlicuota2 + insCxP.GetMontoGravableAlicuota3
    insCxP.SetMontoIVAAlicuotaGeneral gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetMontoIVAAlicuota2 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetMontoIVAAlicuota3 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-'   SumatoriasDeMontoIva = insCxP.GetMontoIVAAlicuotaGeneral + insCxP.GetMontoIVAAlicuota2 + insCxP.GetMontoIVAAlicuota3
    insCxP.SetNumeroPlanillaDeImportacion gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxP.SetNumeroExpedienteDeImportacion gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxP.SetTipoDeTransaccionStr gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -2475,7 +2295,7 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
    insCxP.SetGenerarAsientoDeRetiroEnCuenta gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetSeContabilRetIva gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetDondeContabilRetIVAStr gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxP.SetMoneda fDevuelveElNombreDeLaMonedaIfExist(insCxP.getCodigoMoneda)
+   insCxP.SetMoneda fDevuelveElNombreDeLaMonedaIfExist(insCxP.GetCodigoMoneda)
    insCxP.SetFechaAplicacionImpuestoMunicipal gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetNumeroDeclaracionAduana gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    Dim FechaDeclaracionAduana As String
@@ -2492,8 +2312,6 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
    Else
       insCxP.setUsaPrefijoSerie gConvert.ConvertStringToBoolean("N")
    End If
-   
-   Dim vEsUnaCuentaATerceros As String
    vEsUnaCuentaATerceros = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    If gTexto.DfLen(CStr(vEsUnaCuentaATerceros)) > 0 And (gConvert.ConvertBooleanToString(True) = gConvert.ConvertBooleanToString(vEsUnaCuentaATerceros) Or gConvert.ConvertBooleanToString(False) = gConvert.ConvertBooleanToString(vEsUnaCuentaATerceros)) Then
       insCxP.SetEsUnaCuentaATerceros gConvert.ConvertStringToBoolean(gConvert.ConvertBooleanToString(vEsUnaCuentaATerceros))
@@ -2501,23 +2319,18 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
       insCxP.SetEsUnaCuentaATerceros gConvert.ConvertStringToBoolean("N")
    End If
    insCxP.SetCodigoProveedorOriginalServicio gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   
-   Dim vSeHizoLaDetraccion As String
    vSeHizoLaDetraccion = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    If gTexto.DfLen(CStr(vSeHizoLaDetraccion)) > 0 And (gConvert.ConvertBooleanToString(True) = gConvert.ConvertBooleanToString(vSeHizoLaDetraccion) Or gConvert.ConvertBooleanToString(False) = gConvert.ConvertBooleanToString(vSeHizoLaDetraccion)) Then
       insCxP.SetSeHizoLaDetraccion gConvert.ConvertStringToBoolean(gConvert.ConvertBooleanToString(vSeHizoLaDetraccion))
    Else
       insCxP.SetSeHizoLaDetraccion gConvert.ConvertStringToBoolean("N")
    End If
-   
-   Dim vAplicaIvaAlicuotaEspecial As String
    vAplicaIvaAlicuotaEspecial = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    If gTexto.DfLen(CStr(vAplicaIvaAlicuotaEspecial)) > 0 And (gConvert.ConvertBooleanToString(True) = gConvert.ConvertBooleanToString(vAplicaIvaAlicuotaEspecial) Or gConvert.ConvertBooleanToString(False) = gConvert.ConvertBooleanToString(vAplicaIvaAlicuotaEspecial)) Then
       insCxP.SetAplicaIvaAlicuotaEspecial gConvert.ConvertStringToBoolean(gConvert.ConvertBooleanToString(vAplicaIvaAlicuotaEspecial))
    Else
       insCxP.SetAplicaIvaAlicuotaEspecial gConvert.ConvertStringToBoolean("N")
    End If
-   
    insCxP.SetMontoGravableAlicuotaEspecial1 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetMontoIVAAlicuotaEspecial1 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetPorcentajeIvaAlicuotaEspecial1 gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -2527,7 +2340,6 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
    insCxP.SetDiaDeAplicacion gUtilImport.fToInt(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxP.SetNumeroSerieDocAfectado gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxP.SetNumeroDeDocumentoAfectado gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   
    If Not (fFechaAplicacionEnCxPEsValida(refLineaDeError)) Then
       ErrorAlTraducirLaLinea = True
    End If
@@ -2603,15 +2415,15 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
       Else
          refLineaDeError = refLineaDeError & String(Len(CStr(insCxP.GetFechaVencimiento)), " ")
       End If
-      If gTexto.DfLen(insCxP.getCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxP.getCodigoMoneda, False, False) Then
+      If gTexto.DfLen(insCxP.GetCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxP.GetCodigoMoneda, False, False) Then
          ErrorAlTraducirLaLinea = True
-         refLineaDeError = refLineaDeError & ":::. ERROR La Moneda " & insCxP.getCodigoMoneda & " No existe. Debe incluirla antes de ejecutar la importacion .:::"
+         refLineaDeError = refLineaDeError & ":::. ERROR La Moneda " & insCxP.GetCodigoMoneda & " No existe. Debe incluirla antes de ejecutar la importacion .:::"
       Else
-         If Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxP.getCodigoMoneda <> mCodigoMonedaLocal Then
+         If Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxP.GetCodigoMoneda <> mCodigoMonedaLocal Then
             ErrorAlTraducirLaLinea = True
             refLineaDeError = refLineaDeError & ":::. ERROR La Compañia NO usa moneda Extrajera y usted a indicado una moneda extranjera.:::"
          Else
-            refLineaDeError = refLineaDeError & String(Len(insCxP.getCodigoMoneda), " ")
+            refLineaDeError = refLineaDeError & String(Len(insCxP.GetCodigoMoneda), " ")
          End If
       End If
       refLineaDeError = refLineaDeError & String(Len(CStr(insCxP.GetCambioABolivares)), " ")
@@ -2656,7 +2468,6 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
          refLineaDeError = refLineaDeError & String(gTexto.DfLen(insCxP.GetNumeroExpedienteDeImportacion), " ")
          refLineaDeError = refLineaDeError & String(gTexto.DfLen(insCxP.GetNumeroPlanillaDeImportacion), " ")
       End If
-      
       refLineaDeError = refLineaDeError & String(gTexto.DfLen(CStr(insCxP.GetSeHizoLaRetencion)), " ")
       If insCxP.GetMontoGravableAlicuotaGeneral > 0 And Not insCxP.GetMontoIVAAlicuotaGeneral > 0 Then
          ErrorAlTraducirLaLinea = True
@@ -2680,23 +2491,18 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
       refLineaDeError = refLineaDeError & String(gTexto.DfLen(CStr(insCxP.GetMontoIVAAlicuota2)), " ")
       refLineaDeError = refLineaDeError & String(gTexto.DfLen(CStr(insCxP.GetMontoIVAAlicuota3)), " ")
       refLineaDeError = refLineaDeError & String(gTexto.DfLen(insCxP.GetTipoDeTransaccionStr), " ")
-      If gTexto.DfLen(insCxP.GetNumeroDeFacturaAfectada) > 0 _
-         And (gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) <> enum_TipoDeTransaccion.eTD_NOTADECREDITO _
-          Or gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) <> enum_TipoDeTransaccion.eTD_NOTADEDEBITO) Then
-            ErrorAlTraducirLaLinea = True
-            refLineaDeError = refLineaDeError & ":::. ERROR El número de Factura Afectada de la CxP Nro " & insCxP.GetNumero & " No es valida para " & insCxP.GetTipoDeCxPStr & " .:::"
-      ElseIf gTexto.DfLen(insCxP.GetNumeroDeFacturaAfectada) = 0 _
-         And (gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) = enum_TipoDeTransaccion.eTD_NOTADECREDITO _
-          Or gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) = enum_TipoDeTransaccion.eTD_NOTADEDEBITO) Then
-            ErrorAlTraducirLaLinea = True
-            refLineaDeError = refLineaDeError & ":::. ERROR El número de Factura Afectada de la CxP Nro " & insCxP.GetNumero & " No debe estar en blanco  .:::"
+      If gTexto.DfLen(insCxP.GetNumeroDeFacturaAfectada) > 0 And (gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) <> enum_TipoDeTransaccion.eTD_NOTADECREDITO Or gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) <> enum_TipoDeTransaccion.eTD_NOTADEDEBITO) Then
+         ErrorAlTraducirLaLinea = True
+         refLineaDeError = refLineaDeError & ":::. ERROR El número de Factura Afectada de la CxP Nro " & insCxP.GetNumero & " No es valida para " & insCxP.GetTipoDeCxPStr & " .:::"
+      ElseIf gTexto.DfLen(insCxP.GetNumeroDeFacturaAfectada) = 0 And (gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) = enum_TipoDeTransaccion.eTD_NOTADECREDITO Or gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) = enum_TipoDeTransaccion.eTD_NOTADEDEBITO) Then
+         ErrorAlTraducirLaLinea = True
+         refLineaDeError = refLineaDeError & ":::. ERROR El número de Factura Afectada de la CxP Nro " & insCxP.GetNumero & " No debe estar en blanco  .:::"
       Else
          refLineaDeError = refLineaDeError & String(Len(insCxP.GetNumeroDeFacturaAfectada), " ")
       End If
-      If gGlobalization.fEsCodigoPeru And ((gTexto.DfLen(insCxP.GetNumeroSerieDocAfectado) = 0 Or gTexto.DfLen(insCxP.GetNumeroDeDocumentoAfectado) = 0) _
-         And (insCxP.GetTipoDeCxPAsEnum <> enum_TipoDeTransaccion.eTD_NOTADEDEBITO And insCxP.GetTipoDeCxPAsEnum <> enum_TipoDeTransaccion.eTD_NOTADECREDITO)) Then
-            ErrorAlTraducirLaLinea = True
-            refLineaDeError = refLineaDeError & ":::. ERROR El número de serie y documento del Documento Afectado de la CxP Nro " & insCxP.GetNumero & " No deben estar en blanco  .:::"
+      If gGlobalization.fEsCodigoPeru And ((gTexto.DfLen(insCxP.GetNumeroSerieDocAfectado) = 0 Or gTexto.DfLen(insCxP.GetNumeroDeDocumentoAfectado) = 0) And (insCxP.GetTipoDeCxPAsEnum <> enum_TipoDeTransaccion.eTD_NOTADEDEBITO And insCxP.GetTipoDeCxPAsEnum <> enum_TipoDeTransaccion.eTD_NOTADECREDITO)) Then
+         ErrorAlTraducirLaLinea = True
+         refLineaDeError = refLineaDeError & ":::. ERROR El número de serie y documento del Documento Afectado de la CxP Nro " & insCxP.GetNumero & " No deben estar en blanco  .:::"
       End If
       If gTexto.DfLen(insCxP.GetNumeroControl) = 0 Then
          ErrorAlTraducirLaLinea = True
@@ -2724,26 +2530,23 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
          refEsteRegistroSeIncluye = False
       ElseIf Not fMesYAñoDeAplicacionValido Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxP.GetNumeroDeFacturaAfectada) > 0 And (gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) <> enum_TipoDeTransaccion.eTD_NOTADECREDITO _
-         Or gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) <> enum_TipoDeTransaccion.eTD_NOTADEDEBITO) Then
+      ElseIf gTexto.DfLen(insCxP.GetNumeroDeFacturaAfectada) > 0 And (gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) <> enum_TipoDeTransaccion.eTD_NOTADECREDITO Or gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) <> enum_TipoDeTransaccion.eTD_NOTADEDEBITO) Then
             refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxP.GetNumeroDeFacturaAfectada) = 0 And (gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) = enum_TipoDeTransaccion.eTD_NOTADECREDITO _
-          Or gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) = enum_TipoDeTransaccion.eTD_NOTADEDEBITO) Then
+      ElseIf gTexto.DfLen(insCxP.GetNumeroDeFacturaAfectada) = 0 And (gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) = enum_TipoDeTransaccion.eTD_NOTADECREDITO Or gEnumProyecto.strTipoDeCxCToNumToSiglas(insCxP.GetTipoDeCxPStr) = enum_TipoDeTransaccion.eTD_NOTADEDEBITO) Then
           refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxP.getCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxP.getCodigoMoneda, False, False) Then
+      ElseIf gTexto.DfLen(insCxP.GetCodigoMoneda) > 0 And Not insMoneda.fSearchByField("Codigo", insCxP.GetCodigoMoneda, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxP.getCodigoMoneda <> mCodigoMonedaLocal Then
+      ElseIf Not gProyParametrosCompania.GetUsaMonedaExtranjera And insCxP.GetCodigoMoneda <> mCodigoMonedaLocal Then
          refEsteRegistroSeIncluye = False
       ElseIf gGlobalization.fEsCodigoPeru And (insCxP.GetTipoDeCxPAsEnum = enum_TipoDeTransaccion.eTD_NOTADEDEBITO Or insCxP.GetTipoDeCxPAsEnum = enum_TipoDeTransaccion.eTD_NOTADECREDITO) And _
       (gTexto.DfLen(insCxP.GetNumeroSerieDocAfectado) = 0 Or gTexto.DfLen(insCxP.GetNumeroDeDocumentoAfectado) = 0) Then
          refEsteRegistroSeIncluye = False
       Else
          If gTexto.DfLen(insCxP.GetTipoDeCxPStr) = 0 Or Not fEsUnTpoDeCuentaPorCobrarPagar(insCxP.GetTipoDeCxPStr) Then
-          insCxP.SetTipoDeCxPStr gEnumProyecto.enumTipoDeCxCToString(eTD_FACTURA)
+            insCxP.SetTipoDeCxPStr gEnumProyecto.enumTipoDeCxCToString(eTD_FACTURA)
          End If
-         If fTipoDeComprasParaCreditofiscal(insCxP.GetMontoExento) _
-            And gEnumProyecto.strCreditoFiscalToNum(insCxP.GetCreditoFiscalStr) <> enum_CreditoFiscal.eCF_DEDUCIBLE Then
-               insCxP.SetCreditoFiscalStr gEnumProyecto.enumCreditoFiscalToString(eCF_DEDUCIBLE)
+         If fTipoDeComprasParaCreditofiscal(insCxP.GetMontoExento) And gEnumProyecto.strCreditoFiscalToNum(insCxP.GetCreditoFiscalStr) <> enum_CreditoFiscal.eCF_DEDUCIBLE Then
+            insCxP.SetCreditoFiscalStr gEnumProyecto.enumCreditoFiscalToString(eCF_DEDUCIBLE)
          End If
          If ((insCxP.GetTipoDeCxPAsEnum <> enum_TipoDeTransaccion.eTD_NOTADEDEBITO And insCxP.GetTipoDeCxPAsEnum <> enum_TipoDeTransaccion.eTD_NOTADECREDITO)) Then
             insCxP.SetNumeroSerieDocAfectado ""
@@ -2757,8 +2560,7 @@ Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaDeLaCxP = Not ErrorAlTraducirLaLinea
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeLaCxP", CM_MESSAGE_NAME_CXP, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeLaCxP", CM_MESSAGE_NAME_CXP, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fVerificaSiNoExisteLaCxPYLoAgrega(ByRef refRegistrosImportados As Long) As Boolean
@@ -2777,11 +2579,10 @@ Private Function fVerificaSiNoExisteLaCxPYLoAgrega(ByRef refRegistrosImportados 
 h_EXIT: On Error GoTo 0
    fVerificaSiNoExisteLaCxPYLoAgrega = Continuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fVerificaSiNoExisteLaCxPYLoAgrega", CM_MESSAGE_NAME_CXP, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fVerificaSiNoExisteLaCxPYLoAgrega", CM_MESSAGE_NAME_CXP, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fTipoDeComprasParaCreditofiscal(ByVal valTipoDeCompra As String) As Boolean
+Private Function fTipoDeComprasParaCreditofiscal(ByVal valTipoDeCompra As String) As Boolean
    On Error GoTo h_ERROR
    If gEnumProyecto.strTipoDeCompraToNum(valTipoDeCompra, False) = enum_TipoDeCompra.eTD_COMPRASEXENTAS Then
       fTipoDeComprasParaCreditofiscal = True
@@ -2796,12 +2597,12 @@ Public Function fTipoDeComprasParaCreditofiscal(ByVal valTipoDeCompra As String)
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fTipoDeComprasParaCreditofiscal", CM_MESSAGE_NAME_CXP, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fTipoDeComprasParaCreditofiscal", CM_MESSAGE_NAME_CXP, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Function fMesYAñoDeAplicacionValido() As Boolean
    Dim fechaDeAplicacionValida As Boolean
-On Error GoTo h_ERROR
+   On Error GoTo h_ERROR
    fechaDeAplicacionValida = False
    If CStr(insCxP.GetMesDeAplicacion) > 0 And CStr(insCxP.GetMesDeAplicacion) < 13 Then
       If gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(CStr(insCxP.GetMesDeAplicacion), CStr(insCxP.GetAnoDeAplicacion), False) >= insCxP.GetFecha Then
@@ -2811,33 +2612,13 @@ On Error GoTo h_ERROR
 h_EXIT: On Error GoTo 0
    fMesYAñoDeAplicacionValido = fechaDeAplicacionValida
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "fMesYAñoDeAplicacionValido", CM_MESSAGE_NAME_CXP, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fMesYAñoDeAplicacionValido", CM_MESSAGE_NAME_CXP, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-'============================================>>>ARTICULOS DE INVENTARIO<<<<=======================================================================================
-
-Private Function CM_MESSAGE_NAME_ARTICULOS() As String
-   CM_MESSAGE_NAME_ARTICULOS = "Importar Articulos de Inventario"
-End Function
-Private Function CM_INDEX_CODIGO_ARTICULO() As Long
-   CM_INDEX_CODIGO_ARTICULO = 1
-End Function
-Private Function CM_INDEX_CONSECUTIVO_COMPANIA_DETALLE_ARTICULO() As Integer
-   CM_INDEX_CONSECUTIVO_COMPANIA_DETALLE_ARTICULO = 0
-End Function
-Private Function CM_INDEX_CODIGO_ARTICULO_DETALLE() As Integer
-   CM_INDEX_CODIGO_ARTICULO_DETALLE = 3
-End Function
-Private Function CM_INDEX_VALOR_IMPORTA_ARTICULO_DETALLE() As Integer
-   CM_INDEX_VALOR_IMPORTA_ARTICULO_DETALLE = 2
-End Function
-Private Function getNombreFileDeNuevo_ARTICULO() As String
-   getNombreFileDeNuevo_ARTICULO = getPathDelFileDeErrores & "\AdmidInventario.txt"
-End Function
 Private Function getRealizarBusquedaEnArchivo() As Boolean
    getRealizarBusquedaEnArchivo = mRealizarBusquedaEnArchivo
 End Function
+
 Private Sub SetRealizarBusquedaEnArchivo(ByVal valNewValue As Long)
    mRealizarBusquedaEnArchivo = valNewValue
 End Sub
@@ -2848,15 +2629,13 @@ Private Function fAgregaElArticulo() As Boolean
    Continuar = False
    If Not insArticuloInventario.fSearchByCodigoArticulo(insArticuloInventario.GetCodigo, True, False, False, True, True) Then
       If fAgregaAlmacen Then
-         If insArticuloInventario.fInsert(insertar, False, False) Then
-            'se inserta el renglon de la nota de entrada si es mercancia y variable boolean true
+         If insArticuloInventario.fInsert(insertar, False, False) Then           'se inserta el renglon de la nota de entrada si es mercancia y variable boolean true
             mNregistroExistenBd = mNregistroExistenBd + 1
-            
-               If Not insCamposMonedaExtranjera.fSearchByField("Codigo", insArticuloInventario.GetCodigo, False, False) Then
-                  If insCamposMonedaExtranjera.fInsert Then
-                     insCamposMonedaExtranjera.sClrRecord
-                  End If
+            If Not insCamposMonedaExtranjera.fSearchByField("Codigo", insArticuloInventario.GetCodigo, False, False) Then
+               If insCamposMonedaExtranjera.fInsert Then
+                  insCamposMonedaExtranjera.sClrRecord
                End If
+            End If
             insArticuloInventario.sInsertNewEmptyMasterDetailArticuloInventario
             Continuar = True
             If fAgregaTallasyColores Then
@@ -2874,8 +2653,7 @@ Private Function fAgregaElArticulo() As Boolean
 h_EXIT: fAgregaElArticulo = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fAgregaElArticulo", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fAgregaElArticulo", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, ByVal valLineaActual As Long) As Boolean
@@ -2932,18 +2710,15 @@ Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, By
          If Not ExisteLineaDeProducto And texto <> "" Then
             Dim vConsecutivoLinea As Integer
             vConsecutivoLinea = insLineaDeProducto.getNextConsecutivo(mConsecutivoCompaniaActual)
-            insLineaDeProducto.sInsertaLineaDeProductoDesdeExportarImportar mConsecutivoCompaniaActual, vConsecutivoLinea, _
-                                                         texto, 0, "", mNombreDelUsuario, gUtilDate.getFechaDeHoy()
-               sLlenarArregloConLineaDeProducto mLineaDeProducto
+            insLineaDeProducto.sInsertaLineaDeProductoDesdeExportarImportar mConsecutivoCompaniaActual, vConsecutivoLinea, texto, 0, "", mNombreDelUsuario, gUtilDate.getFechaDeHoy
+            sLlenarArregloConLineaDeProducto mLineaDeProducto
          End If
          .SetLineaDeProducto gTexto.DfMid(texto, 1, 20)
          LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-
          texto = ""
          texto = gUtilImport.fReadValueUntilDelimiterAndCut(linea, tipoDeSeparacion)
          .SetStatusdelArticuloStr texto
          LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-         
          texto = ""
          texto = gUtilImport.fReadValueUntilDelimiterAndCut(linea, tipoDeSeparacion)
          Select Case UCase(texto)
@@ -2982,7 +2757,7 @@ Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, By
                LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
             Case UCase(gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3))
                If Not gProyParametrosCompania.GetUsaMultiplesAlicuotas Then
-                    mCambiarAUsaMultiplesAlicuotas = True
+                  mCambiarAUsaMultiplesAlicuotas = True
                End If
                .SetAlicuotaIVAStr gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3)
                valAlicuota = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3)
@@ -2994,58 +2769,50 @@ Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, By
                texto = " ERROR Alícuota de IVA :* " & texto & "*"
                LineaDeErrores = LineaDeErrores & texto
          End Select
-         texto = ""
          texto = fValidaLamoneda(gUtilImport.fReadValueUntilDelimiterAndCut(linea, tipoDeSeparacion))
          valMoneda = UCase(fSustituirSiEsNecesario(texto))
-         
-         
-    'POR AQUI SE ARREGLA LA PARTE DE IMPORTACION QUE NO SE  TRAE LOS PRECIOS EN MONEDA EXTRAJERA
-         
-         
          If mCodigoMonedaLocal = valMoneda Then
-         texto = ""
-               insCamposMonedaExtranjera.SetCodigo valCodigo
-               sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioSinIVA, "Precio Sin IVA"
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-               texto = ""
-               sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioConIVA, "Precio Con IVA"
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-               valPrecioSinIVA = fDevolveElPrecioSinIVA(valPrecioConIVA, valAlicuota, valPrecioSinIVA)
-               valPrecioConIVA = fDevolveElPrecioConIVA(valPrecioSinIVA, valAlicuota, valPrecioConIVA)
-               .SetPrecioSinIVA valPrecioSinIVA
-               .SetPrecioConIVA valPrecioConIVA
-               texto = ""
-               sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioSinIva2, "Precio Sin IVA2"
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-               texto = ""
-               sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioConIva2, "Precio Con IVA2"
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-               valPrecioSinIva2 = fDevolveElPrecioSinIVA(valPrecioConIva2, valAlicuota, valPrecioSinIva2)
-               valPrecioConIva2 = fDevolveElPrecioConIVA(valPrecioSinIva2, valAlicuota, valPrecioConIva2)
-               .SetPrecioSinIVA2 valPrecioSinIva2
-               .SetPrecioConIVA2 valPrecioConIva2
-               texto = ""
-               sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioSinIva3, "Precio Sin IVA3"
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-               texto = ""
-               sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioConIva3, "Precio Con IVA3"
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-               valPrecioSinIva3 = fDevolveElPrecioSinIVA(valPrecioConIva3, valAlicuota, valPrecioSinIva3)
-               valPrecioConIva3 = fDevolveElPrecioConIVA(valPrecioSinIva3, valAlicuota, valPrecioConIva3)
-               .SetPrecioSinIVA3 valPrecioSinIva3
-               .SetPrecioConIVA3 valPrecioConIva3
-               texto = ""
-               sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioSinIva4, "Precio Sin IVA4"
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-               texto = ""
-               sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioConIva4, "Precio Con IVA4"
-               LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-               valPrecioSinIva4 = fDevolveElPrecioSinIVA(valPrecioConIva4, valAlicuota, valPrecioSinIva4)
-               valPrecioConIva4 = fDevolveElPrecioConIVA(valPrecioSinIva4, valAlicuota, valPrecioConIva4)
-               .SetPrecioSinIVA4 valPrecioSinIva4
-               .SetPrecioConIVA4 valPrecioConIva4
-
-
+            texto = ""
+            insCamposMonedaExtranjera.SetCodigo valCodigo
+            sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioSinIVA, "Precio Sin IVA"
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            texto = ""
+            sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioConIVA, "Precio Con IVA"
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            valPrecioSinIVA = fDevolveElPrecioSinIVA(valPrecioConIVA, valAlicuota, valPrecioSinIVA)
+            valPrecioConIVA = fDevolveElPrecioConIVA(valPrecioSinIVA, valAlicuota, valPrecioConIVA)
+            .SetPrecioSinIVA valPrecioSinIVA
+            .SetPrecioConIVA valPrecioConIVA
+            texto = ""
+            sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioSinIva2, "Precio Sin IVA2"
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            texto = ""
+            sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioConIva2, "Precio Con IVA2"
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            valPrecioSinIva2 = fDevolveElPrecioSinIVA(valPrecioConIva2, valAlicuota, valPrecioSinIva2)
+            valPrecioConIva2 = fDevolveElPrecioConIVA(valPrecioSinIva2, valAlicuota, valPrecioConIva2)
+            .SetPrecioSinIVA2 valPrecioSinIva2
+            .SetPrecioConIVA2 valPrecioConIva2
+            texto = ""
+            sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioSinIva3, "Precio Sin IVA3"
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            texto = ""
+            sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioConIva3, "Precio Con IVA3"
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            valPrecioSinIva3 = fDevolveElPrecioSinIVA(valPrecioConIva3, valAlicuota, valPrecioSinIva3)
+            valPrecioConIva3 = fDevolveElPrecioConIVA(valPrecioSinIva3, valAlicuota, valPrecioConIva3)
+            .SetPrecioSinIVA3 valPrecioSinIva3
+            .SetPrecioConIVA3 valPrecioConIva3
+            texto = ""
+            sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioSinIva4, "Precio Sin IVA4"
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            texto = ""
+            sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valPrecioConIva4, "Precio Con IVA4"
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+            valPrecioSinIva4 = fDevolveElPrecioSinIVA(valPrecioConIva4, valAlicuota, valPrecioSinIva4)
+            valPrecioConIva4 = fDevolveElPrecioConIVA(valPrecioSinIva4, valAlicuota, valPrecioConIva4)
+            .SetPrecioSinIVA4 valPrecioSinIva4
+            .SetPrecioConIVA4 valPrecioConIva4
             texto = ""
             sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, linea, valMontoBlanco, ""
             texto = ""
@@ -3226,7 +2993,7 @@ Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, By
             SQL = "SELECT Nombre FROM Saw.UnidadDeVenta WHERE Nombre = " & gUtilSQL.fSimpleSqlValue(texto)
             If gDbUtil.fOpenRecordSetAllParameters(mrsUnidad, SQL, gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
                If mrsUnidad.RecordCount <= 0 Then
-                  SQL = "INSERT INTO Saw.UnidadDeVenta (Nombre, NombreOperador, FechaUltimaModificacion) VALUES " & "(" & gUtilSQL.fSimpleSqlValue(gTexto.DfMid(texto, 1, 20)) & ", '" & mNombreDelUsuario & "', " & gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy) & ")"
+                  SQL = "INSERT INTO Saw.UnidadDeVenta (Nombre, NombreOperador, FechaUltimaModificacion) VALUES (" & gUtilSQL.fSimpleSqlValue(gTexto.DfMid(texto, 1, 20)) & ", '" & mNombreDelUsuario & "', " & gUtilSQL.fDateToSQLValue(gUtilDate.getFechaDeHoy) & ")"
                   gDbUtil.Execute gDefDatabase.Conexion, SQL
                   .SetUnidadDeVenta gTexto.DfMid(texto, 1, 20)
                Else
@@ -3275,16 +3042,16 @@ Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, By
         .SetNombreOperador mNombreDelUsuario
         .SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
       End If
-         If Not fDistribuyeLaLineaDeTallasyColores(linea, valLineaActual) Then
-            ErrorAlTraducirLaLinea = True
-            texto = " ERROR AL IMPORTAR ARTICULO DE TALLAS Y COLORES CON CODIGO" & .GetCodigo & "*"
-            LineaDeErrores = LineaDeErrores & texto
-         End If
-         If Not fDistribuyeLaLineaDeAlmacen(linea, valLineaActual) Then
-            ErrorAlTraducirLaLinea = True
-            texto = " NO EXISTE CLIENTE GENERICO, ERROR INTENTAR CREAR ALMACEN del ARTICULO " & .GetCodigo & "*"
-            LineaDeErrores = LineaDeErrores & texto
-         End If
+      If Not fDistribuyeLaLineaDeTallasyColores(linea, valLineaActual) Then
+         ErrorAlTraducirLaLinea = True
+         texto = " ERROR AL IMPORTAR ARTICULO DE TALLAS Y COLORES CON CODIGO" & .GetCodigo & "*"
+         LineaDeErrores = LineaDeErrores & texto
+      End If
+      If Not fDistribuyeLaLineaDeAlmacen(linea, valLineaActual) Then
+         ErrorAlTraducirLaLinea = True
+         texto = " NO EXISTE CLIENTE GENERICO, ERROR INTENTAR CREAR ALMACEN del ARTICULO " & .GetCodigo & "*"
+         LineaDeErrores = LineaDeErrores & texto
+      End If
       If Not (vEsResumenDiario) Then
          texto = gUtilImport.fReadValueUntilDelimiterAndCut(linea, tipoDeSeparacion)
          If gTexto.DfLen(texto) = 0 Then
@@ -3322,39 +3089,36 @@ Private Function fDistribuyeLaLineaDeArticulo(ByRef refLineaActual As String, By
          End If
       End If
       texto = gUtilImport.fReadValueUntilDelimiterAndCut(linea, tipoDeSeparacion)
-        Select Case (texto)
-           Case gConvert.enumerativoAChar(eTDM_NoAplica)
-              .SetTipoDeMercanciaProduccionStr gEnumProyecto.enumTipoDeMercanciaToString(eTDM_NoAplica)
-              LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-           Case gConvert.enumerativoAChar(eTDM_MateriaPrima)
-              .SetTipoDeMercanciaProduccionStr gEnumProyecto.enumTipoDeMercanciaToString(eTDM_MateriaPrima)
-              LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-           Case gConvert.enumerativoAChar(eTDM_ProductoTerminado)
-              .SetTipoDeMercanciaProduccionStr gEnumProyecto.enumTipoDeMercanciaToString(eTDM_ProductoTerminado)
-              LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
-           Case Else
-              ErrorAlTraducirLaLinea = True
-              texto = " ERROR Tipo de Mercancia Producción:* " & texto & "*"
-              LineaDeErrores = LineaDeErrores & texto
-        End Select
+      Select Case (texto)
+         Case gConvert.enumerativoAChar(eTDM_NoAplica)
+            .SetTipoDeMercanciaProduccionStr gEnumProyecto.enumTipoDeMercanciaToString(eTDM_NoAplica)
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+         Case gConvert.enumerativoAChar(eTDM_MateriaPrima)
+            .SetTipoDeMercanciaProduccionStr gEnumProyecto.enumTipoDeMercanciaToString(eTDM_MateriaPrima)
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+         Case gConvert.enumerativoAChar(eTDM_ProductoTerminado)
+            .SetTipoDeMercanciaProduccionStr gEnumProyecto.enumTipoDeMercanciaToString(eTDM_ProductoTerminado)
+            LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
+         Case Else
+            ErrorAlTraducirLaLinea = True
+            texto = " ERROR Tipo de Mercancia Producción:* " & texto & "*"
+            LineaDeErrores = LineaDeErrores & texto
+      End Select
    End With
    refLineaActual = linea
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaDeArticulo = Not ErrorAlTraducirLaLinea
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeArticulo", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeArticulo", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Sub sDesglosaNumeroDouble(ByRef texto As String, ByRef ErrorAlTraducirLinea As Boolean, ByRef Lin As String, _
-            ByRef Numero As Currency, ByVal valNombreDeCol As String)
+Private Sub sDesglosaNumeroDouble(ByRef texto As String, ByRef ErrorAlTraducirLinea As Boolean, ByRef Lin As String, ByRef Numero As Currency, ByVal valNombreDeCol As String)
    On Error GoTo h_ERROR
    Numero = 0
    If Lin = "" Then
       LineaDeErrores = LineaDeErrores & "* -Falta Monto-" & valNombreDeCol
       ErrorAlTraducirLinea = True
    Else
-      texto = ""
       texto = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(Lin, tipoDeSeparacion))
       If gTexto.fHayCaracteresEnNumeroTexto(texto) Then
         ErrorAlTraducirLinea = True
@@ -3363,8 +3127,7 @@ Private Sub sDesglosaNumeroDouble(ByRef texto As String, ByRef ErrorAlTraducirLi
       Else
         If gTexto.DfInStr(texto, ".") <> 0 And gTexto.DfInStr(texto, ",") <> 0 Then
             ErrorAlTraducirLinea = True
-            LineaDeErrores = LineaDeErrores & "*-Monto Inválido Formato-Tiene coma y punto a las vez-* " & valNombreDeCol _
-            & ":" & texto
+            LineaDeErrores = LineaDeErrores & "*-Monto Inválido Formato-Tiene coma y punto a las vez-* " & valNombreDeCol & ":" & texto
         Else
             LineaDeErrores = LineaDeErrores & String(Len(texto), " ")
         End If
@@ -3373,40 +3136,34 @@ Private Sub sDesglosaNumeroDouble(ByRef texto As String, ByRef ErrorAlTraducirLi
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sDesglosaNumeroDouble", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sDesglosaNumeroDouble", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fDevolveElPrecioSinIVA(ByVal valPrecioConIVA As Currency, ByVal valAlicuota As String, ByVal valPrecioSinIVA As Currency) As Currency
    Dim valPrecio As Currency
    On Error GoTo h_ERROR
    valPrecio = valPrecioSinIVA
-   If valAlicuota <> gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO) And _
-      Not gProyParametrosCompania.GetUsaPrecioSinIvaSegunTipoDocumento(eTF_FACTURA) Then
-        If valPrecioSinIVA > 0 Then
-            mMensajePrecioSinIva = True
-        End If
-         valPrecio = insArticuloInventario.fCalculaElPrecioSinIVAAPartirDelPrecioConIVA(valPrecioConIVA, _
-               100, gDefGen.fGetValorDeFechaParaInicializarCampo, gEnumProyecto.strTipoDeAlicuotaToNum(valAlicuota))
+   If valAlicuota <> gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO) And Not gProyParametrosCompania.GetUsaPrecioSinIvaSegunTipoDocumento(eTF_FACTURA) Then
+      If valPrecioSinIVA > 0 Then
+         mMensajePrecioSinIva = True
+      End If
+      valPrecio = insArticuloInventario.fCalculaElPrecioSinIVAAPartirDelPrecioConIVA(valPrecioConIVA, 100, gDefGen.fGetValorDeFechaParaInicializarCampo, gEnumProyecto.strTipoDeAlicuotaToNum(valAlicuota))
    End If
 h_EXIT: fDevolveElPrecioSinIVA = valPrecio
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDevolveElPrecioSinIVA", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDevolveElPrecioSinIVA", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fDevolveElPrecioConIVA(ByVal valPrecioSinIVA As Currency, ByVal valAlicuota As String, ByVal valPrecioConIVA As Currency) As Currency
    Dim valPrecio As Currency
    On Error GoTo h_ERROR
    valPrecio = valPrecioConIVA
-   If valAlicuota <> gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO) And _
-      gProyParametrosCompania.GetUsaPrecioSinIvaSegunTipoDocumento(eTF_FACTURA) Then
-       If valPrecioConIVA > 0 Then
-            mMensajePrecioConIva = True
+   If valAlicuota <> gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO) And gProyParametrosCompania.GetUsaPrecioSinIvaSegunTipoDocumento(eTF_FACTURA) Then
+      If valPrecioConIVA > 0 Then
+         mMensajePrecioConIva = True
        End If
-         valPrecio = insArticuloInventario.fCalculaElPrecioConIVAAPartirDelPrecioSinIVA(valPrecioSinIVA, _
-               100, gDefGen.fGetValorDeFechaParaInicializarCampo, gEnumProyecto.strTipoDeAlicuotaToNum(valAlicuota))
+      valPrecio = insArticuloInventario.fCalculaElPrecioConIVAAPartirDelPrecioSinIVA(valPrecioSinIVA, 100, gDefGen.fGetValorDeFechaParaInicializarCampo, gEnumProyecto.strTipoDeAlicuotaToNum(valAlicuota))
    Else
       If valAlicuota = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO) Then
          valPrecio = valPrecioSinIVA
@@ -3415,8 +3172,7 @@ Private Function fDevolveElPrecioConIVA(ByVal valPrecioSinIVA As Currency, ByVal
 h_EXIT: fDevolveElPrecioConIVA = valPrecio
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDevolveElPrecioConIVA", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDevolveElPrecioConIVA", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fMensajeDeConfirmacion(ByVal valMensajePrecioConIva As Boolean, ByVal valMensajePrecioSinIva As Boolean) As Boolean
@@ -3424,35 +3180,33 @@ Private Function fMensajeDeConfirmacion(ByVal valMensajePrecioConIva As Boolean,
    Dim valMensaje As String
    On Error GoTo h_ERROR
    If mModuloAImportar = eEAEI_ARTICULO_INVENTARIO Then
-        valMensaje = ""
-        Continuar = True
-        If valMensajePrecioConIva Then
-           valMensaje = "La compañia usa el precio sin Iva y el Archivo "
-           valMensaje = valMensaje & " tiene información en la columna precio con Iva este es " & vbCrLf
-           valMensaje = valMensaje & " Cálculado por el sistema ¿Desea continuar con el proceso?"
-           Continuar = gMessage.Confirm(valMensaje)
-        End If
-        If valMensajePrecioSinIva Then
-           valMensaje = "La compañia usa el precio con Iva y el Archivo "
-           valMensaje = valMensaje & " tiene información en la columna precio sin Iva este es " & vbCrLf
-           valMensaje = valMensaje & " Cálculado por el sistema ¿Desea continuar con el proceso?"
-           Continuar = gMessage.Confirm(valMensaje)
-         End If
+      valMensaje = ""
+      Continuar = True
+      If valMensajePrecioConIva Then
+         valMensaje = "La compañia usa el precio sin Iva y el Archivo "
+         valMensaje = valMensaje & " tiene información en la columna precio con Iva este es " & vbCrLf
+         valMensaje = valMensaje & " Cálculado por el sistema ¿Desea continuar con el proceso?"
+         Continuar = gMessage.Confirm(valMensaje)
+      End If
+      If valMensajePrecioSinIva Then
+         valMensaje = "La compañia usa el precio con Iva y el Archivo "
+         valMensaje = valMensaje & " tiene información en la columna precio sin Iva este es " & vbCrLf
+         valMensaje = valMensaje & " Cálculado por el sistema ¿Desea continuar con el proceso?"
+         Continuar = gMessage.Confirm(valMensaje)
+       End If
    Else
-        Continuar = True
+      Continuar = True
    End If
 h_EXIT: fMensajeDeConfirmacion = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fMensajeDeConfirmacion", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fMensajeDeConfirmacion", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSearchParamByCompany() As Boolean
    Dim vRs As ADODB.Recordset
    Dim vSql  As String
    Dim vSN As Boolean
-   
    On Error GoTo h_ERROR
    Set vRs = New ADODB.Recordset
    vSql = "SELECT Value FROM comun.SettValueByCompany WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND NameSettDefinition = " & gUtilSQL.fSimpleSqlValue("UsaMultiplesAlicuotas")
@@ -3466,18 +3220,13 @@ Private Function fSearchParamByCompany() As Boolean
 h_EXIT: fSearchParamByCompany = vSN
    On Error GoTo 0
    Exit Function
-fSearchParamByCompany = False
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fSearchParamByCompany", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fSearchParamByCompany", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fContinuarConAlicuotasDelArchivo() As Boolean
    Dim valMensaje As String
    Dim Continuar As Boolean
-   Dim Rs As ADODB.Recordset
    Dim vSql  As String
-   Dim vSN As Boolean
-      
    On Error GoTo h_ERROR
    If mModuloAImportar = eEAEI_ARTICULO_INVENTARIO Then
       Continuar = True
@@ -3488,10 +3237,8 @@ Private Function fContinuarConAlicuotasDelArchivo() As Boolean
          valMensaje = valMensaje & "¿Desea continuar con el proceso?"
          Continuar = gMessage.Confirm(valMensaje)
          If fSearchParamByCompany And Continuar Then
-            Set Rs = New ADODB.Recordset
             vSql = "UPDATE comun.SettValueByCompany SET Value = " & gUtilSQL.fBooleanToStrSQL(True) & " WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND NameSettDefinition  = " & gUtilSQL.fSimpleSqlValue("UsaMultiplesAlicuotas")
             gDbUtil.Execute gDefDatabase.Conexion, vSql
-            gDbUtil.sDestroyRecordSet Rs
             Continuar = True
          End If
       End If
@@ -3501,8 +3248,7 @@ Private Function fContinuarConAlicuotasDelArchivo() As Boolean
 h_EXIT: fContinuarConAlicuotasDelArchivo = Continuar
   On Error GoTo 0
   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fContinuarConAlicuotasDelArchivo", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fContinuarConAlicuotasDelArchivo", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sLlenarArregloConLineaDeProducto(ByRef RefLineaDeProducto As Variant)
@@ -3511,23 +3257,19 @@ Private Sub sLlenarArregloConLineaDeProducto(ByRef RefLineaDeProducto As Variant
    On Error GoTo h_ERROR
    Set rsLineaDeProducto = New ADODB.Recordset
    SQL = "SELECT lineaDeProducto.Nombre, lineaDeProducto.ConsecutivoCompania"
-   SQL = SQL & " FROM lineaDeProducto"
-   SQL = SQL & " WHERE lineaDeProducto.ConsecutivoCompania" _
-         & " = " & mConsecutivoCompaniaActual
+   SQL = SQL & " FROM lineaDeProducto WHERE lineaDeProducto.ConsecutivoCompania = " & mConsecutivoCompaniaActual
    If gDbUtil.fOpenRecordset(rsLineaDeProducto, SQL, Conexion) Then
       If Not rsLineaDeProducto.EOF Then
-         RefLineaDeProducto = rsLineaDeProducto.GetRows()
+         RefLineaDeProducto = rsLineaDeProducto.GetRows
       End If
    End If
    gDbUtil.sDestroyRecordSet rsLineaDeProducto
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sLlenarArregloConLineaDeProducto", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sLlenarArregloConLineaDeProducto", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Function fEncontraLineaDeProductoEnArreglo(ByVal valLineaDeProducto As Variant, _
-            ByVal valRegistro As String, ByVal valConsecutivoCompania As Long) As Boolean
+Private Function fEncontraLineaDeProductoEnArreglo(ByVal valLineaDeProducto As Variant, ByVal valRegistro As String, ByVal valConsecutivoCompania As Long) As Boolean
    Dim valregistroActual As Long
    Dim ValNumeroDeRegistro As Long
    Dim Encontro As Boolean
@@ -3535,22 +3277,19 @@ Private Function fEncontraLineaDeProductoEnArreglo(ByVal valLineaDeProducto As V
    ValNumeroDeRegistro = UBound(valLineaDeProducto, 2) + 1
    Encontro = False
    For valregistroActual = 0 To ValNumeroDeRegistro - 1
-      If UCase(valLineaDeProducto(REGISTRO_LINEA_PRODUCTO, valregistroActual)) = UCase(valRegistro) And _
-          valLineaDeProducto(CONSECUTIVO_COMPANIA, valregistroActual) = valConsecutivoCompania Then
-          Encontro = True
+      If UCase(valLineaDeProducto(REGISTRO_LINEA_PRODUCTO, valregistroActual)) = UCase(valRegistro) And valLineaDeProducto(CONSECUTIVO_COMPANIA, valregistroActual) = valConsecutivoCompania Then
+         Encontro = True
          Exit For
       End If
    Next valregistroActual
 h_EXIT:
-  fEncontraLineaDeProductoEnArreglo = Encontro
-  On Error GoTo 0
-  Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fEncontraLineaDeProductoEnArreglo", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   fEncontraLineaDeProductoEnArreglo = Encontro
+   On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fEncontraLineaDeProductoEnArreglo", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fEncontrarArticuloEnArchivo(ByRef refArticulosEnElArchivo As Variant, _
-            ByVal valCantidadActual As Long, ByVal valRegistro As String) As Boolean
+Private Function fEncontrarArticuloEnArchivo(ByRef refArticulosEnElArchivo As Variant, ByVal valCantidadActual As Long, ByVal valRegistro As String) As Boolean
    Dim valregistroActual As Long
    Dim ValNumeroDeRegistro As Long
    Dim Encontro As Boolean
@@ -3567,8 +3306,7 @@ h_EXIT:
   fEncontrarArticuloEnArchivo = Encontro
   On Error GoTo 0
   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fEncontrarArticuloEnArchivo", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fEncontrarArticuloEnArchivo", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fDistribuyeLaLineaDeTallasyColores(ByRef refLineaActual As String, ByVal valLineaActual As Long) As Boolean
@@ -3576,16 +3314,10 @@ Private Function fDistribuyeLaLineaDeTallasyColores(ByRef refLineaActual As Stri
    fDistribuyeLaLineaDeTallasyColores = False
    Dim Continuar As Boolean
    Continuar = True
-   
    'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA COLOR'
-      
-     insColor.sInicializarValores mConsecutivoCompaniaActual, gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion), gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion), mCodigoLote
-   
+   insColor.sInicializarValores mConsecutivoCompaniaActual, gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion), gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion), mCodigoLote
    'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA TALLA'
-   
-     insTalla.sInicializarValores mConsecutivoCompaniaActual, gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion), gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion), mCodigoLote
-
-   
+   insTalla.sInicializarValores mConsecutivoCompaniaActual, gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion), gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion), mCodigoLote
    With insGrupoTallaColor  'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA GRUPOTALLACOLOR
       .SetConsecutivoCompania mConsecutivoCompaniaActual
       .SetCodigoGrupo gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
@@ -3596,19 +3328,16 @@ Private Function fDistribuyeLaLineaDeTallasyColores(ByRef refLineaActual As Stri
       .SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
       .SetCodigoLote mCodigoLote
    End With
-   
-    With insRenglonGrupoColor  'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA RENGLONGRUPOCOLOR
+   With insRenglonGrupoColor  'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA RENGLONGRUPOCOLOR
       .SetConsecutivoCompania mConsecutivoCompaniaActual
       .SetCodigoGrupo gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
       .SetCodigoColor gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
    End With
-   
-    With insRenglonGrupoTalla  'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA RENGLONGRUPOTALLA
+   With insRenglonGrupoTalla  'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA RENGLONGRUPOTALLA
       .SetConsecutivoCompania mConsecutivoCompaniaActual
       .SetCodigoGrupo gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
       .SetCodigoTalla gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
    End With
-   
    With insExistenciaPorGrupo 'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA EXISTENCIAPORGRUPO
       .SetConsecutivoCompania mConsecutivoCompaniaActual
       .SetCodigoArticulo gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
@@ -3622,17 +3351,15 @@ Private Function fDistribuyeLaLineaDeTallasyColores(ByRef refLineaActual As Stri
       .SetFecha gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion))
       .SetUbicacion gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
       .SetCodigoLote mCodigoLote
-  End With
-     
-         If Not Continuar Then
-            fDistribuyeLaLineaDeTallasyColores = False
-            Exit Function
-         End If
+   End With
+   If Not Continuar Then
+      fDistribuyeLaLineaDeTallasyColores = False
+      Exit Function
+   End If
 h_EXIT: On Error GoTo 0
-    fDistribuyeLaLineaDeTallasyColores = True
-    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeTallasyColores", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   fDistribuyeLaLineaDeTallasyColores = True
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeTallasyColores", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fDistribuyeLaLineaDeAlmacen(ByRef refLineaActual As String, ByVal valLineaActual As Long) As Boolean
@@ -3646,17 +3373,16 @@ Private Function fDistribuyeLaLineaDeAlmacen(ByRef refLineaActual As String, ByV
    Continuar = True
    ErrorAlTraducirLaLinea = False
    'SE DISTRIBUYEN LOS CAMPOS DE LA TABLA ALMACEN
-      texto = ""
-      valCodigoAlmacenExtra = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
-      sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, refLineaActual, valExistenciaAlmacenExtra, "ExistenciaAlmacen"
-      valCodigoArticulo = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
-      valNombreAlmacenExtra = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
-      TipoDeAlmacen = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
-      valTipoDeAlmacenExtra = gConvert.fConvierteAString(TipoDeAlmacen)
-      valCodigoDelClienteExtra = gProyParametrosCompania.getCodigoGenericoCliente
-      valCodigoCcExtra = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
-      valDescripcionExtra = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
-      'valConsecutivoAlmacen = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion))
+   texto = ""
+   valCodigoAlmacenExtra = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
+   sDesglosaNumeroDouble texto, ErrorAlTraducirLaLinea, refLineaActual, valExistenciaAlmacenExtra, "ExistenciaAlmacen"
+   valCodigoArticulo = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
+   valNombreAlmacenExtra = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
+   TipoDeAlmacen = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
+   valTipoDeAlmacenExtra = gConvert.fConvierteAString(TipoDeAlmacen)
+   valCodigoDelClienteExtra = gProyParametrosCompania.getCodigoGenericoCliente
+   valCodigoCcExtra = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
+   valDescripcionExtra = gUtilImport.fReadValueUntilDelimiterAndCut(refLineaActual, tipoDeSeparacion)
    If ErrorAlTraducirLaLinea Then
       Continuar = False
       Exit Function
@@ -3664,52 +3390,44 @@ Private Function fDistribuyeLaLineaDeAlmacen(ByRef refLineaActual As String, ByV
 h_EXIT: On Error GoTo 0
     fDistribuyeLaLineaDeAlmacen = Continuar
     Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeAlmacen", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeAlmacen", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fAgregaTallasyColores() As Boolean
    Dim Continuar As Boolean
    On Error GoTo h_ERROR
    Continuar = False
-   
-   'AGREGA TALLA
-   If insTalla.GetCodigoTalla <> "" Then
-        If Not insTalla.fSearchByField("CodigoTalla", insTalla.GetCodigoTalla) Then
-              insTalla.sInsertarValoresDesdeImportacion mCodigoLote
-              Continuar = True
-            
-        End If
+   If insTalla.GetCodigoTalla <> "" Then 'AGREGA TALLA
+      If Not insTalla.fSearchByField("CodigoTalla", insTalla.GetCodigoTalla) Then
+         insTalla.sInsertarValoresDesdeImportacion mCodigoLote
+         Continuar = True
+      End If
    End If
-    'AGREGA COLOR
-   If insColor.GetCodigoColor <> "" Then
-        If Not insColor.fSearchByField("CodigoColor", insColor.GetCodigoColor) Then
-           insColor.sInsertarValoresDesdeImportacion mCodigoLote
-           Continuar = True
-           
-        End If
+   If insColor.GetCodigoColor <> "" Then 'AGREGA COLOR
+      If Not insColor.fSearchByField("CodigoColor", insColor.GetCodigoColor) Then
+         insColor.sInsertarValoresDesdeImportacion mCodigoLote
+         Continuar = True
+      End If
    End If
-   'AGREGA GRUPO TALLA Y COLOR
-      If insGrupoTallaColor.getCodigoGrupo <> "" Then
-         If Not insRenglonGrupoTalla.fSearchByFieldGrupoYTalla(insRenglonGrupoTalla.getCodigoGrupo, insRenglonGrupoTalla.GetCodigoTalla, False) _
-            Or Not insRenglonGrupoColor.fSearchByFieldGrupoYColor(insRenglonGrupoColor.getCodigoGrupo, insRenglonGrupoColor.GetCodigoColor, False) _
-            Then
-            If ContinuaDespuesDeVerificarExistenciaTallaColor Then
-               If insGrupoTallaColor.fInsert(insertar, True, False) Then
-                   If fAgregaElDetalleTallaColor Then
-                      Continuar = True
-                   End If
-               End If
-            Else
-               If fAgregaElDetalleTallaColor Then
+   If insGrupoTallaColor.getCodigoGrupo <> "" Then 'AGREGA GRUPO TALLA Y COLOR
+      If Not insRenglonGrupoTalla.fSearchByFieldGrupoYTalla(insRenglonGrupoTalla.getCodigoGrupo, insRenglonGrupoTalla.GetCodigoTalla, False) _
+         Or Not insRenglonGrupoColor.fSearchByFieldGrupoYColor(insRenglonGrupoColor.getCodigoGrupo, insRenglonGrupoColor.GetCodigoColor, False) _
+         Then
+         If ContinuaDespuesDeVerificarExistenciaTallaColor Then
+            If insGrupoTallaColor.fInsert(insertar, True, False) Then
+                If fAgregaElDetalleTallaColor Then
                    Continuar = True
-               End If
+                End If
+            End If
+         Else
+            If fAgregaElDetalleTallaColor Then
+                Continuar = True
             End If
          End If
-      Continuar = True
       End If
-'   AGREGA existencia * GRUPO
-   If insExistenciaPorGrupo.getCodigoArticulo <> "" Then
+      Continuar = True
+   End If
+   If insExistenciaPorGrupo.getCodigoArticulo <> "" Then 'AGREGA existencia * GRUPO
      If ContinuaDespuesDeVerificarExistenciaEnExistenciaxGrupo Then
         If insExistenciaPorGrupo.fInsert Then
            Continuar = True
@@ -3719,8 +3437,7 @@ Private Function fAgregaTallasyColores() As Boolean
 h_EXIT: fAgregaTallasyColores = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fAgregaTallasyColores", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fAgregaTallasyColores", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fAgregaAlmacen() As Boolean
@@ -3734,58 +3451,54 @@ Private Function fAgregaAlmacen() As Boolean
    Dim vConsecutivoCliente As Long
    Dim Continuar As Boolean
    On Error GoTo h_ERROR
-   'AGREGA ALMACEN
    Continuar = True
-   If valCodigoAlmacenExtra <> "" Then
-        If Not fSelectAndSetValuesOfAlmacenFromAOS(refCodigo, refNombreAlmacen, valCodigoAlmacenExtra, "", xConsecutivoAlmacen) Then
+   If valCodigoAlmacenExtra <> "" Then   'AGREGA ALMACEN
+      If Not fSelectAndSetValuesOfAlmacenFromAOS(refCodigo, refNombreAlmacen, valCodigoAlmacenExtra, "", xConsecutivoAlmacen) Then
+         Set Rs = New ADODB.Recordset
+         vSql = "SELECT Consecutivo FROM Cliente WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND Codigo =" & gUtilSQL.fSimpleSqlValue(valCodigoDelClienteExtra)
+         If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
+            If Rs.RecordCount > 0 Then
+               vConsecutivoCliente = Rs("Consecutivo").Value
+            Else
+               Continuar = False
+            End If
+         End If
+         gDbUtil.sDestroyRecordSet Rs
+         If Continuar Then
+            Set insUtAdoCmd = New clsUtilAdoCmd
+            Set vCmd = insUtAdoCmd.fCreateCmd("Saw.Gp_AlmacenINS", gDefDatabase.Conexion)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", mConsecutivoCompaniaActual)
             Set Rs = New ADODB.Recordset
-            vSql = "SELECT Consecutivo FROM Cliente WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND Codigo =" & gUtilSQL.fSimpleSqlValue(valCodigoDelClienteExtra)
+            vSql = "SELECT (CASE WHEN MAX(Consecutivo) IS NULL THEN 1 ELSE MAX(Consecutivo) + 1 END) AS Consecutivo FROM Saw.Almacen WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
             If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
                If Rs.RecordCount > 0 Then
-                  vConsecutivoCliente = Rs("Consecutivo").Value
+                  valConsecutivoAlmacen = Rs("Consecutivo").Value
                Else
-                  Continuar = False
+                  valConsecutivoAlmacen = 1
                End If
             End If
             gDbUtil.sDestroyRecordSet Rs
-            
-            If Continuar Then
-               Set insUtAdoCmd = New clsUtilAdoCmd
-               Set vCmd = insUtAdoCmd.fCreateCmd("Saw.Gp_AlmacenINS", gDefDatabase.Conexion)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", mConsecutivoCompaniaActual)
-               Set Rs = New ADODB.Recordset
-               vSql = "SELECT (CASE WHEN MAX(Consecutivo) IS NULL THEN 1 ELSE MAX(Consecutivo) + 1 END) AS Consecutivo FROM Saw.Almacen WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
-               If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-                  If Rs.RecordCount > 0 Then
-                     valConsecutivoAlmacen = Rs("Consecutivo").Value
-                  Else
-                     valConsecutivoAlmacen = 1
-                  End If
-               End If
-               gDbUtil.sDestroyRecordSet Rs
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", valConsecutivoAlmacen)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Codigo", 5, valCodigoAlmacenExtra)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreAlmacen", 40, valNombreAlmacenExtra)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDeAlmacen", 1, valTipoDeAlmacenExtra)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCliente", vConsecutivoCliente)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoCc", 5, valCodigoCcExtra)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Descripcion", 40, valDescripcionExtra)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, mNombreDelUsuario)
-               vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", gUtilDate.getFechaDeHoy)
-               insUtAdoCmd.fExecCmd vCmd
-               Set vCmd = Nothing
-            End If
-        Else
-            valConsecutivoAlmacen = xConsecutivoAlmacen
-        End If
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", valConsecutivoAlmacen)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Codigo", 5, valCodigoAlmacenExtra)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreAlmacen", 40, valNombreAlmacenExtra)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDeAlmacen", 1, valTipoDeAlmacenExtra)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCliente", vConsecutivoCliente)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoCc", 5, valCodigoCcExtra)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Descripcion", 40, valDescripcionExtra)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, mNombreDelUsuario)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", gUtilDate.getFechaDeHoy)
+            insUtAdoCmd.fExecCmd vCmd
+            Set vCmd = Nothing
+         End If
+      Else
+         valConsecutivoAlmacen = xConsecutivoAlmacen
+      End If
    End If
 h_EXIT: fAgregaAlmacen = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fAgregaAlmacen", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fAgregaAlmacen", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-
 
 Private Function ContinuaDespuesDeVerificarExistenciaTallaColor() As Boolean
    Dim Continuar As Boolean
@@ -3801,8 +3514,7 @@ Private Function ContinuaDespuesDeVerificarExistenciaTallaColor() As Boolean
 h_EXIT: ContinuaDespuesDeVerificarExistenciaTallaColor = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "ContinuaDespuesDeVerificarExistenciaTallaColor", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "ContinuaDespuesDeVerificarExistenciaTallaColor", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fAgregaElDetalleTallaColor() As Boolean
@@ -3810,36 +3522,34 @@ Private Function fAgregaElDetalleTallaColor() As Boolean
    On Error GoTo h_ERROR
    Continuar = False
    If insGrupoTallaColor.fSearchByField("CodigoGrupo", insGrupoTallaColor.getCodigoGrupo, True) Then
-        If fAgregaElDetalleTalla Then
-            Continuar = True
-        End If
-        If fAgregaElDetalleColor Then
-            Continuar = True
-        End If
+      If fAgregaElDetalleTalla Then
+         Continuar = True
+      End If
+      If fAgregaElDetalleColor Then
+         Continuar = True
+      End If
    End If
 h_EXIT: fAgregaElDetalleTallaColor = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fAgregaElDetalleTallaColor", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fAgregaElDetalleTallaColor", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fAgregaElDetalleTalla() As Boolean
    Dim Continuar As Boolean
    On Error GoTo h_ERROR
    Continuar = False
-        vConsecutivoRenglon = insRenglonGrupoTalla.fGenerateNextConsecutivoRenglon(insGrupoTallaColor.getCodigoGrupo)
-        insRenglonGrupoTalla.SetConsecutivoRenglon vConsecutivoRenglon
-        If Not insRenglonGrupoTalla.fSearchByFieldGrupoYTalla(insRenglonGrupoTalla.getCodigoGrupo, insRenglonGrupoTalla.GetCodigoTalla, False) Then
-            If insRenglonGrupoTalla.fInsert Then
-               Continuar = True
-            End If
-         End If
+   vConsecutivoRenglon = insRenglonGrupoTalla.fGenerateNextConsecutivoRenglon(insGrupoTallaColor.getCodigoGrupo)
+   insRenglonGrupoTalla.SetConsecutivoRenglon vConsecutivoRenglon
+   If Not insRenglonGrupoTalla.fSearchByFieldGrupoYTalla(insRenglonGrupoTalla.getCodigoGrupo, insRenglonGrupoTalla.GetCodigoTalla, False) Then
+      If insRenglonGrupoTalla.fInsert Then
+          Continuar = True
+      End If
+    End If
 h_EXIT: fAgregaElDetalleTalla = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fAgregaElDetalleTalla", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fAgregaElDetalleTalla", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fAgregaElDetalleColor() As Boolean
@@ -3850,53 +3560,43 @@ Private Function fAgregaElDetalleColor() As Boolean
    insRenglonGrupoColor.SetConsecutivoRenglon vConsecutivoRenglon
    If Not insRenglonGrupoColor.fSearchByFieldGrupoYColor(insRenglonGrupoColor.getCodigoGrupo, insRenglonGrupoColor.GetCodigoColor, False) Then
       If insRenglonGrupoColor.fInsert Then
-          Continuar = True
+         Continuar = True
       End If
    End If
 h_EXIT: fAgregaElDetalleColor = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fAgregaElDetalleColor", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fAgregaElDetalleColor", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fContinuaConProcesosDeInsercionDeArticulos(ByVal valTotalRegistro As Long) As Boolean
     Dim Continuar As Boolean
     Dim valNumeroNotaEntrada As String
     On Error GoTo h_ERROR
-    Continuar = insNotaDeEntrada.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, _
-          gProyParametrosCompania.getCodigoGenericoCliente, gProyParametrosCompania.GetCodigoAlmacenGenerico, _
-          valDatosDeInventario, valTotalRegistro, mCodigoLote)
+    Continuar = insNotaDeEntrada.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, gProyParametrosCompania.getCodigoGenericoCliente, gProyParametrosCompania.GetCodigoAlmacenGenerico, valDatosDeInventario, valTotalRegistro, mCodigoLote)
     If Continuar Then
-       Continuar = insExistenciaNavigator.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, _
-          valDatosDeInventario, valTotalRegistro)
+       Continuar = insExistenciaNavigator.fInsertDesdeImportacionInventario(mConsecutivoCompaniaActual, valDatosDeInventario, valTotalRegistro)
     End If
 h_EXIT: fContinuaConProcesosDeInsercionDeArticulos = Continuar
     On Error GoTo 0
     Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-    "fContinuaConProcesosDeInsercionDeArticulos", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fContinuaConProcesosDeInsercionDeArticulos", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function ContinuaDespuesDeVerificarExistenciaEnExistenciaxGrupo() As Boolean
    Dim Continuar As Boolean
    On Error GoTo h_ERROR
    Continuar = True
-      If insExistenciaPorGrupo.fSearchByFieldExistenciaGrupo(insExistenciaPorGrupo.getCodigoArticulo, _
-         insExistenciaPorGrupo.GetCodigoColor, insExistenciaPorGrupo.GetCodigoTalla, False) And _
-         insExistenciaPorGrupo.fSearchByFieldExistenciaGrupoSerialRollo(insExistenciaPorGrupo.getCodigoArticulo, _
-         insExistenciaPorGrupo.getSerial, insExistenciaPorGrupo.getRollo, False) Then
-            Continuar = False
-      End If
-     
+   If insExistenciaPorGrupo.fSearchByFieldExistenciaGrupo(insExistenciaPorGrupo.getCodigoArticulo, insExistenciaPorGrupo.GetCodigoColor, insExistenciaPorGrupo.GetCodigoTalla, False) And insExistenciaPorGrupo.fSearchByFieldExistenciaGrupoSerialRollo(insExistenciaPorGrupo.getCodigoArticulo, insExistenciaPorGrupo.GetSerial, insExistenciaPorGrupo.GetRollo, False) Then
+      Continuar = False
+   End If
 h_EXIT: ContinuaDespuesDeVerificarExistenciaEnExistenciaxGrupo = Continuar
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "ContinuaDespuesDeVerificarExistenciaEnExistenciaxGrupo", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "ContinuaDespuesDeVerificarExistenciaEnExistenciaxGrupo", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-'==================******************************<<<<<<<<<<<<<<< PROCESOS COMUNES >>>>>>>>>>>>>>>*****************************************************========================
+'= *** <<< <<< PROCESOS COMUNES >>> >>> *** =
 Public Sub sImportarModulosSaw(ByVal valNombreDelArchivo As String, ByVal valExtension As String, ByRef refProgressBar As ProgressBar, ByRef exito As Boolean, ByVal valEntidad As enum_EntidadAExportarOImportar, ByVal NumFilasVector As Integer, ByRef valLabelPorcentaje As Label, ByRef refCallingWindow As Form, Optional ByVal valEsFacturaBorradores As Boolean = False, Optional ByVal generarCxC As Boolean = False, Optional ByRef reftxtProgreso As TextBox)
    Dim Separador As String
    Dim FileErrorNumber As Integer
@@ -3951,11 +3651,6 @@ Public Sub sImportarModulosSaw(ByVal valNombreDelArchivo As String, ByVal valExt
              If Continuar Then
                 reftxtProgreso.Text = "Importando archivos...."
                 sEjecutaLaImportacionDeModulosSaw FileNumberdeLectura, valNombreDelArchivo, Separador, refProgressBar, valEsFacturaBorradores
-'                If valEntidad = eEAEI_FACTURA Then
-'                  If Not valEsFacturaBorradores Then
-'                     sEjecutaLaImportacionDeRenglonCobroDeFactura valNombreDelArchivo, Separador, valExtension
-'                  End If
-'                End If
              End If
          Else
              Continuar = False
@@ -3975,7 +3670,7 @@ Public Sub sImportarModulosSaw(ByVal valNombreDelArchivo As String, ByVal valExt
 h_EXIT: On Error GoTo 0
     Exit Sub
 h_ERROR: refProgressBar.Visible = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sImportarModulosSaw", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sImportarModulosSaw", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sChequeaLaIntegridadDeLosDatosSawSinDetail(ByVal FileErrorNumber As Integer, ByVal valSeparador As String, ByRef refErrorDeTraduccion As Boolean)
@@ -3985,26 +3680,25 @@ Private Sub sChequeaLaIntegridadDeLosDatosSawSinDetail(ByVal FileErrorNumber As 
    On Error GoTo h_ERROR
    refErrorDeTraduccion = False
    NumerodeLinea = 0
-      Do Until EOF(FileNumberdeLectura)
-         Line Input #FileNumberdeLectura, lineaActual
-         If lineaActual <> "" Then
-            NumeroDeLineaActual = NumeroDeLineaActual + 1
-            If Not fDistribuyeLaLineaModulosSaw(lineaActual, NumeroDeLineaActual, valSeparador) Then
-               refErrorDeTraduccion = True
-               NumerodeLinea = NumerodeLinea + 1
-               Write #FileErrorNumber, "-----" & gConvert.fConvierteAString(NumerodeLinea) & "-----"
-               Write #FileErrorNumber, lineaActual
-               Write #FileErrorNumber, LineaDeErrores
-            Else
-               mNregistroAInsertar = mNregistroAInsertar + 1
-            End If
-            sMuestraProgreso True, mNumerodeRegistros, NumeroDeLineaActual
+   Do Until EOF(FileNumberdeLectura)
+      Line Input #FileNumberdeLectura, lineaActual
+      If lineaActual <> "" Then
+         NumeroDeLineaActual = NumeroDeLineaActual + 1
+         If Not fDistribuyeLaLineaModulosSaw(lineaActual, NumeroDeLineaActual, valSeparador) Then
+            refErrorDeTraduccion = True
+            NumerodeLinea = NumerodeLinea + 1
+            Write #FileErrorNumber, "-----" & gConvert.fConvierteAString(NumerodeLinea) & "-----"
+            Write #FileErrorNumber, lineaActual
+            Write #FileErrorNumber, LineaDeErrores
+         Else
+            mNregistroAInsertar = mNregistroAInsertar + 1
          End If
-      Loop
+         sMuestraProgreso True, mNumerodeRegistros, NumeroDeLineaActual
+      End If
+   Loop
 h_EXIT: On Error GoTo 0
-        Exit Sub
-h_ERROR:
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sChequeaLaIntegridadDeLosDatosSawSinDetail", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sChequeaLaIntegridadDeLosDatosSawSinDetail", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sChequeaLaIntegridadDeLosDatosConDetail(ByVal valSeparador As String, ByRef refProgressBar As ProgressBar, ByVal FileErrorNumber As Integer, Optional ByVal valEsFacturaBorradores As Boolean = False, Optional ByRef DebeImportar As Boolean = False)
@@ -4040,11 +3734,10 @@ Private Sub sChequeaLaIntegridadDeLosDatosConDetail(ByVal valSeparador As String
             If fPreparaLosDatosConDetalleEImporta(valSeparador, NumeroDeLineaActual, lineaActual, valIndex1, valIndex2, valEsFacturaBorradores) Then
                sMuestraProgreso True, mNumerodeRegistros, NumeroDeLineaActual
                mImportoRegistros = True
-               ' OJO
-               If ((valordelIdAnterior <> "")) Then
-                   If Not insCxC.fSearchByField("Numero", valordelIdAnterior, False, False) Then
+               If (valordelIdAnterior <> "") Then
+                  If Not insCxC.fSearchByField("Numero", valordelIdAnterior, False, False) Then
                      If insFactura.fSearchByField("Numero", valordelIdAnterior, False, True, False, True) Then
-                       If insFactura.GetStatusFacturaAsEnum = enum_StatusFactura.eSF_EMITIDA Then
+                        If insFactura.GetStatusFacturaAsEnum = enum_StatusFactura.eSF_EMITIDA Then
                            If mGenerarCxC Then
                               insFactura.sGeneraCXC False
                            End If
@@ -4052,7 +3745,6 @@ Private Sub sChequeaLaIntegridadDeLosDatosConDetail(ByVal valSeparador As String
                      End If
                    End If
                End If
-               ' ****************
             End If
          Else
             refErrorDeTraduccion = False
@@ -4074,8 +3766,7 @@ Private Sub sChequeaLaIntegridadDeLosDatosConDetail(ByVal valSeparador As String
       End If
       NumeroDeLineaActual = NumeroDeLineaActual + 1
    Loop
-   'OJO
-    If mGenerarCxC Then
+   If mGenerarCxC Then
       If Not insCxC.fSearchByField("Numero", valorDelIdMaster, False, False) Then
          If insFactura.fSearchByField("Numero", valorDelIdMaster, False, True, False, True) Then
             If insFactura.GetStatusFacturaAsEnum = enum_StatusFactura.eSF_EMITIDA Then
@@ -4083,78 +3774,75 @@ Private Sub sChequeaLaIntegridadDeLosDatosConDetail(ByVal valSeparador As String
             End If
          End If
       End If
-    End If
-   '**************
+   End If
    mNumerodeRegistros = Contador
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR:
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sChequeaLaIntegridadDeLosDatosConDetail", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sChequeaLaIntegridadDeLosDatosConDetail", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sChequeaLaIntegridadDeLosDatosSaw(ByVal FileErrorNumber As Integer, ByVal valSeparador As String, ByRef refErrorDeTraduccion As Boolean, ByRef refProgressBar As ProgressBar, ByVal valNombreArchivoImportacion As String, Optional ByVal valEsFacturaBorradores As Boolean = False, Optional ByRef DebeImportar As Boolean = False)
    On Error GoTo h_ERROR
-    Select Case mModuloAImportar
-       Case eEAEI_PROVEEDOR: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
-       Case eEAEI_CLIENTE: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
-       Case eEAEI_ARTICULO_INVENTARIO: mMensajePrecioConIva = False
-                                       mMensajePrecioSinIva = False
-                                       mCambiarAUsaMultiplesAlicuotas = False
-                                       SetRealizarBusquedaEnArchivo True
-                                       sLlenarArregloConLineaDeProducto mLineaDeProducto
-                                       sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
-                                       SetRealizarBusquedaEnArchivo False
-       Case eEAEI_CxC: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
-       Case eEAEI_CxC_ESPECIAL: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
-       Case eEAEI_CxP: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
-       Case eEAEI_FACTURA: sChequeaLaIntegridadDeLosDatosConDetail valSeparador, refProgressBar, FileErrorNumber, valEsFacturaBorradores, DebeImportar
-       Case eEAEI_VENDEDOR: sChequeaLaIntegridadDeLosDatosConDetail valSeparador, refProgressBar, FileErrorNumber, False, DebeImportar
-       Case eEAEI_COTIZACION: sChequeaLaIntegridadDeLosDatosConDetail valSeparador, refProgressBar, FileErrorNumber, valEsFacturaBorradores, DebeImportar
-    End Select
+   Select Case mModuloAImportar
+      Case eEAEI_PROVEEDOR: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
+      Case eEAEI_CLIENTE: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
+      Case eEAEI_ARTICULO_INVENTARIO:
+         mMensajePrecioConIva = False
+         mMensajePrecioSinIva = False
+         mCambiarAUsaMultiplesAlicuotas = False
+         SetRealizarBusquedaEnArchivo True
+         sLlenarArregloConLineaDeProducto mLineaDeProducto
+         sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
+         SetRealizarBusquedaEnArchivo False
+      Case eEAEI_CxC: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
+      Case eEAEI_CxC_ESPECIAL: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
+      Case eEAEI_CxP: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
+      Case eEAEI_FACTURA: sChequeaLaIntegridadDeLosDatosConDetail valSeparador, refProgressBar, FileErrorNumber, valEsFacturaBorradores, DebeImportar
+      Case eEAEI_VENDEDOR: sChequeaLaIntegridadDeLosDatosConDetail valSeparador, refProgressBar, FileErrorNumber, False, DebeImportar
+      Case eEAEI_COTIZACION: sChequeaLaIntegridadDeLosDatosConDetail valSeparador, refProgressBar, FileErrorNumber, valEsFacturaBorradores, DebeImportar
+      Case eEAEI_RDV: sChequeaLaIntegridadDeLosDatosSawSinDetail FileErrorNumber, valSeparador, refErrorDeTraduccion
+   End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR:
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sChequeaLaIntegridadDeLosDatos", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sChequeaLaIntegridadDeLosDatos", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Function fDistribuyeLaLineaModulosSaw(ByRef refLineaActual As String, ByVal NumeroDeLineaActual As Long, ByVal valSeparador As String, _
-                                                Optional ByVal valVerificarSiEstaRepetido As Boolean = True, Optional ByRef refEsteRegistroSeIncluye As Boolean = False, Optional ByVal valVerificarParaImportacion As Boolean = False) As Boolean
-     On Error GoTo h_ERROR
-     Select Case mModuloAImportar
-        Case eEAEI_PROVEEDOR: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeProveedor(refLineaActual, NumeroDeLineaActual, valSeparador, valVerificarSiEstaRepetido)
-        Case eEAEI_CLIENTE: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeCliente(refLineaActual, NumeroDeLineaActual, valSeparador, valVerificarSiEstaRepetido)
-        Case eEAEI_ARTICULO_INVENTARIO: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeArticulo(refLineaActual, NumeroDeLineaActual)
-        Case eEAEI_CxC: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeLaCxC(refLineaActual, NumeroDeLineaActual, valSeparador, valVerificarSiEstaRepetido, refEsteRegistroSeIncluye, valVerificarParaImportacion)
-        Case eEAEI_CxC_ESPECIAL: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeLaCxCEspecial(refLineaActual, NumeroDeLineaActual, valSeparador, valVerificarSiEstaRepetido, refEsteRegistroSeIncluye, valVerificarParaImportacion)
-        Case eEAEI_CxP: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeLaCxP(refLineaActual, NumeroDeLineaActual, valSeparador, LineaDeErrores, valVerificarSiEstaRepetido, refEsteRegistroSeIncluye, valVerificarParaImportacion, mVectorDeVerificaciones)
-        Case eEAEI_FACTURA: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeFactura(refLineaActual, NumeroDeLineaActual, valSeparador)
-        Case eEAEI_VENDEDOR: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaVendedor(refLineaActual, valSeparador)
-       Case eEAEI_COTIZACION: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeCotizacion(refLineaActual, NumeroDeLineaActual, valSeparador)
-    End Select
+Private Function fDistribuyeLaLineaModulosSaw(ByRef refLineaActual As String, ByVal NumeroDeLineaActual As Long, ByVal valSeparador As String, Optional ByVal valVerificarSiEstaRepetido As Boolean = True, Optional ByRef refEsteRegistroSeIncluye As Boolean = False, Optional ByVal valVerificarParaImportacion As Boolean = False) As Boolean
+   On Error GoTo h_ERROR
+   Select Case mModuloAImportar
+      Case eEAEI_PROVEEDOR: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeProveedor(refLineaActual, NumeroDeLineaActual, valSeparador, valVerificarSiEstaRepetido)
+      Case eEAEI_CLIENTE: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeCliente(refLineaActual, NumeroDeLineaActual, valSeparador, valVerificarSiEstaRepetido)
+      Case eEAEI_ARTICULO_INVENTARIO: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeArticulo(refLineaActual, NumeroDeLineaActual)
+      Case eEAEI_CxC: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeLaCxC(refLineaActual, NumeroDeLineaActual, valSeparador, valVerificarSiEstaRepetido, refEsteRegistroSeIncluye, valVerificarParaImportacion)
+      Case eEAEI_CxC_ESPECIAL: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeLaCxCEspecial(refLineaActual, NumeroDeLineaActual, valSeparador, valVerificarSiEstaRepetido, refEsteRegistroSeIncluye, valVerificarParaImportacion)
+      Case eEAEI_CxP: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeLaCxP(refLineaActual, NumeroDeLineaActual, valSeparador, LineaDeErrores, valVerificarSiEstaRepetido, refEsteRegistroSeIncluye, valVerificarParaImportacion, mVectorDeVerificaciones)
+      Case eEAEI_FACTURA: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeFactura(refLineaActual, NumeroDeLineaActual, valSeparador)
+      Case eEAEI_VENDEDOR: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaVendedor(refLineaActual, valSeparador)
+      Case eEAEI_COTIZACION: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeCotizacion(refLineaActual, NumeroDeLineaActual, valSeparador)
+      Case eEAEI_RDV: fDistribuyeLaLineaModulosSaw = fDistribuyeLaLineaDeRDV(refLineaActual, NumerodeLinea, valSeparador)
+   End Select
 h_EXIT: On Error GoTo 0
-        Exit Function
-h_ERROR:
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fDistribuyeLaLineaModulosSaw", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaModulosSaw", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Private Sub sEjecutaLaImportacionDeModulosSaw(ByRef FileNumber As Integer, ByVal valNombreArchivoImportacion As String, ByVal valSeparador As String, ByRef refProgressBar As ProgressBar, Optional ByVal valEsFacturaBorradores As Boolean = False)
-     On Error GoTo h_ERROR
-     Select Case mModuloAImportar
-        Case eEAEI_PROVEEDOR: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
-        Case eEAEI_CLIENTE: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
-        Case eEAEI_ARTICULO_INVENTARIO: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
-        Case eEAEI_CxC: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
-        Case eEAEI_CxC_ESPECIAL: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
-        Case eEAEI_CxP: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
-        Case eEAEI_FACTURA: sEjecutaLaImportacionDeLModuloConDetalle FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar, valEsFacturaBorradores
-        Case eEAEI_VENDEDOR: sEjecutaLaImportacionDeLModuloConDetalle FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
-       Case eEAEI_COTIZACION: sEjecutaLaImportacionDeLModuloConDetalle FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
-        End Select
+   On Error GoTo h_ERROR
+   Select Case mModuloAImportar
+      Case eEAEI_PROVEEDOR: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+      Case eEAEI_CLIENTE: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+      Case eEAEI_ARTICULO_INVENTARIO: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+      Case eEAEI_CxC: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+      Case eEAEI_CxC_ESPECIAL: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+      Case eEAEI_CxP: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+      Case eEAEI_FACTURA: sEjecutaLaImportacionDeLModuloConDetalle FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar, valEsFacturaBorradores
+      Case eEAEI_VENDEDOR: sEjecutaLaImportacionDeLModuloConDetalle FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+      Case eEAEI_COTIZACION: sEjecutaLaImportacionDeLModuloConDetalle FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+      Case eEAEI_RDV: sEjecutaLaImportacionModulosSinDetail FileNumber, valNombreArchivoImportacion, valSeparador, refProgressBar
+   End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEjecutaLaImportacionDeModulosSaw", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sEjecutaLaImportacionDeModulosSaw", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fEntidadToEnumSystemModules() As enum_SystemModules
@@ -4172,144 +3860,153 @@ Private Function fEntidadToEnumSystemModules() As enum_SystemModules
    End Select
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fEntidadToEnumSystemModules", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fEntidadToEnumSystemModules", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sVerificaSiHayErrorEnLaLinea(ByVal NumeroDeLineaActual As Long, ByRef ErrorAlTraducirLaLinea As Boolean, ByRef DebeModificarArray As Boolean, Optional ByVal valEsFacturaBorradores As Boolean = False, Optional ByVal DebeImportar As Boolean = False)
-     On Error GoTo h_ERROR
-     Select Case mModuloAImportar
-        Case eEAEI_FACTURA, eEAEI_COTIZACION: sVerificaSiHayErrorEnLaLinea_FACTURA NumeroDeLineaActual, ErrorAlTraducirLaLinea, DebeModificarArray, valEsFacturaBorradores, mModuloAImportar = eEAEI_COTIZACION
-                            sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA ErrorAlTraducirLaLinea, DebeImportar, DebeModificarArray, mModuloAImportar = eEAEI_COTIZACION
-        Case eEAEI_VENDEDOR: sVerificaSiHayErrorEnLaLinea_VENDEDOR NumeroDeLineaActual, ErrorAlTraducirLaLinea, DebeModificarArray
-                             sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR ErrorAlTraducirLaLinea, DebeImportar, DebeModificarArray
-    End Select
+   On Error GoTo h_ERROR
+   Select Case mModuloAImportar
+      Case eEAEI_FACTURA, eEAEI_COTIZACION:
+         sVerificaSiHayErrorEnLaLinea_FACTURA NumeroDeLineaActual, ErrorAlTraducirLaLinea, DebeModificarArray, valEsFacturaBorradores, mModuloAImportar = eEAEI_COTIZACION
+         sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA ErrorAlTraducirLaLinea, DebeImportar, DebeModificarArray, mModuloAImportar = eEAEI_COTIZACION
+      Case eEAEI_VENDEDOR:
+         sVerificaSiHayErrorEnLaLinea_VENDEDOR NumeroDeLineaActual, ErrorAlTraducirLaLinea, DebeModificarArray
+         sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR ErrorAlTraducirLaLinea, DebeImportar, DebeModificarArray
+   End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sVerificaSiHayErrorEnLaLinea", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLinea", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sVerificaSiHayErrorEnLaLineaConValoresAjustables(ByRef ErrorAlTraducirLaLinea As Boolean, Optional ByVal DebeImportar As Boolean = False, Optional ByRef DebeModificarArray As Boolean = False)
-     On Error GoTo h_ERROR
-     Select Case mModuloAImportar
-        Case eEAEI_FACTURA: sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA ErrorAlTraducirLaLinea, DebeImportar, DebeModificarArray
-        Case eEAEI_VENDEDOR: sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR ErrorAlTraducirLaLinea, DebeImportar, DebeModificarArray
-    End Select
+   On Error GoTo h_ERROR
+   Select Case mModuloAImportar
+      Case eEAEI_FACTURA: sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA ErrorAlTraducirLaLinea, DebeImportar, DebeModificarArray
+      Case eEAEI_VENDEDOR: sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR ErrorAlTraducirLaLinea, DebeImportar, DebeModificarArray
+   End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sVerificaSiHayErrorEnLaLineaConValoresAjustables", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLineaConValoresAjustables", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sDevuelveLosIndexDeCadaModulo(ByRef valIndex1 As Integer, ByRef valIndex2 As Integer, Optional ByRef valIndex3 As Integer)
-     On Error GoTo h_ERROR
-     Select Case mModuloAImportar
-        Case eEAEI_PROVEEDOR: valIndex1 = CM_INDEX_CODIGO_PROVEEDOR
-                              valIndex2 = CM_INDEX_DESCRIPCION_PROVEEDOR
-        Case eEAEI_CLIENTE: valIndex1 = CM_INDEX_CODIGO_CLIENTE
-                            valIndex2 = CM_INDEX_NOMBRE_CLIENTE
-                            valIndex3 = CM_INDEX_RIF_CLIENTE
-        Case eEAEI_ARTICULO_INVENTARIO: valIndex1 = CM_INDEX_CODIGO_ARTICULO
-                                        valIndex2 = CM_INDEX_VALOR_IMPORTA_ARTICULO_DETALLE
-        Case eEAEI_CxC: valIndex1 = CM_INDEX_NUMERO_Y_TIPO_DE_CXC
-                        valIndex2 = CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR
-        Case eEAEI_CxC_ESPECIAL: valIndex1 = CM_INDEX_NUMERO_Y_TIPO_DE_CXC
-                        valIndex2 = CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR
-        Case eEAEI_CxP: valIndex1 = CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR
-'                       valIndex2 = no tiene
-        Case eEAEI_FACTURA, eEAEI_COTIZACION: valIndex1 = CM_INDEX_NUMERO_FACTURA
-                            valIndex2 = CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE
-        Case eEAEI_VENDEDOR: valIndex1 = CM_INDEX_NUMERO_VENDEDOR
-                             valIndex2 = CM_INDEX_VALOR_IMPORTA_VENDEDOR
-                             valIndex3 = CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR
-    End Select
+   On Error GoTo h_ERROR
+   Select Case mModuloAImportar
+      Case eEAEI_PROVEEDOR:
+         valIndex1 = CM_INDEX_CODIGO_PROVEEDOR
+         valIndex2 = CM_INDEX_DESCRIPCION_PROVEEDOR
+      Case eEAEI_CLIENTE:
+         valIndex1 = CM_INDEX_CODIGO_CLIENTE
+         valIndex2 = CM_INDEX_NOMBRE_CLIENTE
+         valIndex3 = CM_INDEX_RIF_CLIENTE
+      Case eEAEI_ARTICULO_INVENTARIO:
+         valIndex1 = CM_INDEX_CODIGO_ARTICULO
+         valIndex2 = CM_INDEX_VALOR_IMPORTA_ARTICULO_DETALLE
+      Case eEAEI_CxC:
+         valIndex1 = CM_INDEX_NUMERO_Y_TIPO_DE_CXC
+         valIndex2 = CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR
+      Case eEAEI_CxC_ESPECIAL:
+         valIndex1 = CM_INDEX_NUMERO_Y_TIPO_DE_CXC
+         valIndex2 = CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR
+      Case eEAEI_CxP:
+         valIndex1 = CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR
+      Case eEAEI_FACTURA, eEAEI_COTIZACION:
+         valIndex1 = CM_INDEX_NUMERO_FACTURA
+         valIndex2 = CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE
+      Case eEAEI_VENDEDOR:
+         valIndex1 = CM_INDEX_NUMERO_VENDEDOR
+         valIndex2 = CM_INDEX_VALOR_IMPORTA_VENDEDOR
+         valIndex3 = CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR
+   End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "sDevuelveLosIndexDeCadaModulo", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sDevuelveLosIndexDeCadaModulo", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fImportaLasLineas(Optional ByVal NumeroDeLineaActual As Long, Optional ByRef numeroDeRegistrosImportados As Long) As Boolean
   On Error GoTo h_ERROR
    Select Case mModuloAImportar
-      Case eEAEI_PROVEEDOR: insProveedor.SetCodigoLote mCodigoLote
-                            fImportaLasLineas = fVerificaSiNoExisteElProveedorYLoAgrega
-      Case eEAEI_CLIENTE: insCliente.SetCodigoLote mCodigoLote
-                          fImportaLasLineas = fVerificaSiNoExisteElClienteYLoAgrega
-      Case eEAEI_ARTICULO_INVENTARIO: Dim valCantidad As Currency
-                                      Dim valTipoDeArticulo As String
-                                      Dim valTipoDeArticuloInv As String
-                                      Dim valCodigoInventario As String
-                                      Dim valAlmacen As String
-                                      Dim valSerial As String
-                                      Dim valRollo As String
-                                      Dim vConsecutivoAlmacen As Long
-                                      valCodigoInventario = valCodigoArticulo
-                                      Debug.Print valCodigoInventario
-                                      valCantidad = valExistenciaAlmacenExtra
-                                      valTipoDeArticulo = insArticuloInventario.GetTipoDeArticuloStr
-                                      valAlmacen = valCodigoAlmacenExtra
-                                      valSerial = insExistenciaPorGrupo.getSerial
-                                      valRollo = insExistenciaPorGrupo.getRollo
-                                      valTipoDeArticuloInv = insArticuloInventario.GetTipoArticuloInvStr
-                                      insArticuloInventario.SetCodigoLote mCodigoLote
-                                      vConsecutivoAlmacen = valConsecutivoAlmacen
-                                      ReDim Preserve valDatosDeInventario(7, NumeroDeLineaActual)
-                                      fImportaLasLineas = fAgregaElArticulo
-                                      If fImportaLasLineas Then
-                                        valDatosDeInventario(CODIGO_ARTICULO, NumeroDeLineaActual) = valCodigoInventario
-                                        valDatosDeInventario(CANTIDAD_DE_ARTICULO, NumeroDeLineaActual) = valCantidad
-                                        valDatosDeInventario(TIPO_DE_ARTICULO, NumeroDeLineaActual) = valTipoDeArticulo
-                                        valDatosDeInventario(CODIGO_ALMACEN, NumeroDeLineaActual) = valAlmacen
-                                        valDatosDeInventario(SERIAL, NumeroDeLineaActual) = valSerial
-                                        valDatosDeInventario(ROLLO, NumeroDeLineaActual) = valRollo
-                                        valDatosDeInventario(TIPO_ARTICULO_INV, NumeroDeLineaActual) = valTipoDeArticuloInv
-                                        valDatosDeInventario(CONSECUTIVO_ALMACEN, NumeroDeLineaActual) = vConsecutivoAlmacen
-                                        Debug.Print "art: " & valCodigoInventario & " alm: " & vConsecutivoAlmacen
-                                      End If
-      Case eEAEI_CxC: insCxC.SetCodigoLote mCodigoLote
-                      fImportaLasLineas = fVerificaSiNoExisteLaCxCYLoAgrega(numeroDeRegistrosImportados)
-      Case eEAEI_CxC_ESPECIAL: insCxC.SetCodigoLote mCodigoLote
-                      fImportaLasLineas = fVerificaSiNoExisteLaCxCYLoAgrega(numeroDeRegistrosImportados)
-      Case eEAEI_CxP: insCxP.SetCodigoLote mCodigoLote
-                      fImportaLasLineas = fVerificaSiNoExisteLaCxPYLoAgrega(numeroDeRegistrosImportados)
-      Case eEAEI_FACTURA, eEAEI_COTIZACION: insFactura.SetCodigoLote mCodigoLote
-                     If (mModuloAImportar = eEAEI_COTIZACION) Then
-                        insFactura.setClaseDeTrabajo eCTFC_Cotizacion
-                        insRenglonFactura.setClaseDeTrabajo eCTFC_Cotizacion
-                        insRenglonFactura.SetRsRenglonFactura Nothing
-                     End If
-                                                 fImportaLasLineas = fImportaLineasFacturayDetalle
-      Case eEAEI_VENDEDOR: sSeteaValoresDeLaLineaDelArchivo_VENDEDOR
-                           fImportaLasLineas = fImportaLineasVendedoryComision(NumeroDeLineaActual)
+      Case eEAEI_PROVEEDOR:
+         insProveedor.SetCodigoLote mCodigoLote
+         fImportaLasLineas = fVerificaSiNoExisteElProveedorYLoAgrega
+      Case eEAEI_CLIENTE:
+         insCliente.SetCodigoLote mCodigoLote
+         fImportaLasLineas = fVerificaSiNoExisteElClienteYLoAgrega
+      Case eEAEI_ARTICULO_INVENTARIO:
+         Dim valCantidad As Currency
+         Dim valTipoDeArticulo As String
+         Dim valTipoDeArticuloInv As String
+         Dim valCodigoInventario As String
+         Dim valAlmacen As String
+         Dim valSerial As String
+         Dim valRollo As String
+         Dim vConsecutivoAlmacen As Long
+         valCodigoInventario = valCodigoArticulo
+         valCantidad = valExistenciaAlmacenExtra
+         valTipoDeArticulo = insArticuloInventario.GetTipoDeArticuloStr
+         valAlmacen = valCodigoAlmacenExtra
+         valSerial = insExistenciaPorGrupo.GetSerial
+         valRollo = insExistenciaPorGrupo.GetRollo
+         valTipoDeArticuloInv = insArticuloInventario.GetTipoArticuloInvStr
+         insArticuloInventario.SetCodigoLote mCodigoLote
+         vConsecutivoAlmacen = valConsecutivoAlmacen
+         ReDim Preserve valDatosDeInventario(7, NumeroDeLineaActual)
+         fImportaLasLineas = fAgregaElArticulo
+         If fImportaLasLineas Then
+            valDatosDeInventario(CODIGO_ARTICULO, NumeroDeLineaActual) = valCodigoInventario
+            valDatosDeInventario(CANTIDAD_DE_ARTICULO, NumeroDeLineaActual) = valCantidad
+            valDatosDeInventario(TIPO_DE_ARTICULO, NumeroDeLineaActual) = valTipoDeArticulo
+            valDatosDeInventario(CODIGO_ALMACEN, NumeroDeLineaActual) = valAlmacen
+            valDatosDeInventario(SERIAL, NumeroDeLineaActual) = valSerial
+            valDatosDeInventario(ROLLO, NumeroDeLineaActual) = valRollo
+            valDatosDeInventario(TIPO_ARTICULO_INV, NumeroDeLineaActual) = valTipoDeArticuloInv
+            valDatosDeInventario(CONSECUTIVO_ALMACEN, NumeroDeLineaActual) = vConsecutivoAlmacen
+         End If
+      Case eEAEI_CxC:
+         insCxC.SetCodigoLote mCodigoLote
+         fImportaLasLineas = fVerificaSiNoExisteLaCxCYLoAgrega(numeroDeRegistrosImportados)
+      Case eEAEI_CxC_ESPECIAL:
+         insCxC.SetCodigoLote mCodigoLote
+         fImportaLasLineas = fVerificaSiNoExisteLaCxCYLoAgrega(numeroDeRegistrosImportados)
+      Case eEAEI_CxP:
+         insCxP.SetCodigoLote mCodigoLote
+         fImportaLasLineas = fVerificaSiNoExisteLaCxPYLoAgrega(numeroDeRegistrosImportados)
+      Case eEAEI_FACTURA, eEAEI_COTIZACION:
+         insFactura.SetCodigoLote mCodigoLote
+         If (mModuloAImportar = eEAEI_COTIZACION) Then
+            insFactura.setClaseDeTrabajo eCTFC_Cotizacion
+            insRenglonFactura.setClaseDeTrabajo eCTFC_Cotizacion
+            insRenglonFactura.SetRsRenglonFactura Nothing
+         End If
+         fImportaLasLineas = fImportaLineasFacturayDetalle
+      Case eEAEI_VENDEDOR:
+         sSeteaValoresDeLaLineaDelArchivo_VENDEDOR
+         fImportaLasLineas = fImportaLineasVendedoryComision(NumeroDeLineaActual)
+      Case eEAEI_RDV: fImportaLasLineas = fImportaRDV
    End Select
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "fImportaLasLineas", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fImportaLasLineas", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fgetCodigoSegunModulo() As String
-Dim valCodigo As String
-On Error GoTo h_ERROR
-    Select Case mModuloAImportar
-        Case eEAEI_PROVEEDOR: valCodigo = insProveedor.getCodigoProveedor
-        Case eEAEI_CLIENTE:  valCodigo = insCliente.GetCodigo
-        Case eEAEI_ARTICULO_INVENTARIO: valCodigo = insArticuloInventario.GetCodigo
-        Case eEAEI_CxC: valCodigo = insCxC.GetNumero
-        Case eEAEI_CxC_ESPECIAL: valCodigo = insCxC.GetNumero
-        Case eEAEI_CxP: valCodigo = insCxP.GetNumero
-    End Select
+   Dim valCodigo As String
+   On Error GoTo h_ERROR
+   Select Case mModuloAImportar
+      Case eEAEI_PROVEEDOR: valCodigo = insProveedor.getCodigoProveedor
+      Case eEAEI_CLIENTE:  valCodigo = insCliente.GetCodigo
+      Case eEAEI_ARTICULO_INVENTARIO: valCodigo = insArticuloInventario.GetCodigo
+      Case eEAEI_CxC: valCodigo = insCxC.GetNumero
+      Case eEAEI_CxC_ESPECIAL: valCodigo = insCxC.GetNumero
+      Case eEAEI_CxP: valCodigo = insCxP.GetNumero
+   End Select
 h_EXIT: On Error GoTo 0
-        fgetCodigoSegunModulo = valCodigo
-        Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fgetCodigoSegunModulo ", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   fgetCodigoSegunModulo = valCodigo
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fgetCodigoSegunModulo ", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Sub sCambiaAFalseElRegistroDelArraySiExiste(ByRef valItemsArray As Variant, _
-            ByVal valIndiceActual As Long, ByVal valValorItem As String, ByVal valIndex1 As Long, ByVal valIndex2 As Long)
+Private Sub sCambiaAFalseElRegistroDelArraySiExiste(ByRef valItemsArray As Variant, ByVal valIndiceActual As Long, ByVal valValorItem As String, ByVal valIndex1 As Long, ByVal valIndex2 As Long)
    Dim valor As Boolean
    Dim valregistroActual As Long
    On Error GoTo h_ERROR
@@ -4322,8 +4019,7 @@ Private Sub sCambiaAFalseElRegistroDelArraySiExiste(ByRef valItemsArray As Varia
    Next valregistroActual
 h_EXIT: On Error GoTo 0
   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sCambiaAFalseElRegistroDelArraySiExiste", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sCambiaAFalseElRegistroDelArraySiExiste", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fPreparaLosDatosConDetalleEImporta(ByVal valSeparador As String, ByVal NumeroDeLineaActual As Long, ByVal lineaActual As String, ByVal valIndex1 As Long, ByVal valIndex2 As Long, Optional ByVal valEsFacturaBorradores As Boolean = False) As Boolean
@@ -4341,30 +4037,29 @@ Private Function fPreparaLosDatosConDetalleEImporta(ByVal valSeparador As String
    If insImportar.fVerificaValorImportarEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, mValorDelCampoDeId, True, valIndex1, valIndex2) Then
       If fDistribuyeLaLineaModulosSaw(lineaActual, NumeroDeLineaActual, valSeparador) Then
          sVerificaSiHayErrorEnLaLineaConValoresAjustables refErrorDeTraduccion, True
-        If Not refErrorDeTraduccion Then
-           If Not mYaIngresoUnoMas Then
-              EnumSystemModules = fEntidadToEnumSystemModules
-              valLoteAdm = insLoteDeAdm.EnumSystemModulesToModuloDelLoteAdm(EnumSystemModules)
-              sAsignaValoresDelLoteAImportar valLoteAdm, "Lote de " & borrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " Generado desde un Archivo de Impotación."
-              If insLoteDeAdm.fInsert Then
-                 mYaIngresoUnoMas = True
-              End If
-           End If
-           If fImportaLasLineas(NumeroDeLineaActual) Then
-              exito = True
-           End If
-        End If
+         If Not refErrorDeTraduccion Then
+            If Not mYaIngresoUnoMas Then
+               EnumSystemModules = fEntidadToEnumSystemModules
+               valLoteAdm = insLoteDeAdm.EnumSystemModulesToModuloDelLoteAdm(EnumSystemModules)
+               sAsignaValoresDelLoteAImportar valLoteAdm, "Lote de " & borrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " Generado desde un Archivo de Impotación."
+               If insLoteDeAdm.fInsert Then
+                  mYaIngresoUnoMas = True
+               End If
+            End If
+            If fImportaLasLineas(NumeroDeLineaActual) Then
+               exito = True
+            End If
+         End If
       End If
    End If
 h_EXIT: On Error GoTo 0
    fPreparaLosDatosConDetalleEImporta = exito
    Exit Function
 h_ERROR:
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fPreparaLosDatosYDetalleEImporta", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fPreparaLosDatosYDetalleEImporta", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fVerificaValorImportarEnElArray(ByVal valItemsArray As Variant, _
-            ByVal valIndiceActual As Long, ByVal valValorItem1 As String, ByVal valValorItem2 As Boolean, ByVal valIndex1 As Long, ByVal valIndex2 As Long) As Boolean
+Private Function fVerificaValorImportarEnElArray(ByVal valItemsArray As Variant, ByVal valIndiceActual As Long, ByVal valValorItem1 As String, ByVal valValorItem2 As Boolean, ByVal valIndex1 As Long, ByVal valIndex2 As Long) As Boolean
    Dim valregistroActual As Long
    Dim Importa As Boolean
    On Error GoTo h_ERROR
@@ -4382,8 +4077,7 @@ h_EXIT:
   fVerificaValorImportarEnElArray = Importa
   On Error GoTo 0
   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fVerificaValorImportarEnElArray", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fVerificaValorImportarEnElArray", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sAsignaValoresDelLoteAImportar(ByVal modulo As Integer, ByVal Descripción As String)
@@ -4398,8 +4092,7 @@ Private Sub sAsignaValoresDelLoteAImportar(ByVal modulo As Integer, ByVal Descri
    SetCodigoLote insLoteDeAdm.getCodigoLote
 h_EXIT: On Error GoTo 0
   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sAsignaValoresDelLoteAImportar", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sAsignaValoresDelLoteAImportar", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sEjecutaLaImportacionDeLModuloConDetalle(ByRef refFileNumberdeLectura As Integer, ByVal valNombreArchivoImportacion As String, ByVal valSeparador As String, ByRef refProgressBar As ProgressBar, Optional ByVal valEsFacturaBorradores As Boolean = False)
@@ -4414,12 +4107,10 @@ Private Sub sEjecutaLaImportacionDeLModuloConDetalle(ByRef refFileNumberdeLectur
    sManejoDeMensajes mNumerodeRegistros, mNregistroAInsertar, mNregistroExistenBd, valEsFacturaBorradores
 h_EXIT: On Error GoTo 0
   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sEjecutaLaImportacionDeLModuloConDetalle", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sEjecutaLaImportacionDeLModuloConDetalle", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Sub sEjecutaLaImportacionModulosSinDetail(ByRef refFileNumberdeLectura As Integer, ByVal valNombreArchivoImportacion As String, _
-                                                             ByVal valSeparador As String, ByRef refProgressBar As ProgressBar)
+Private Sub sEjecutaLaImportacionModulosSinDetail(ByRef refFileNumberdeLectura As Integer, ByVal valNombreArchivoImportacion As String, ByVal valSeparador As String, ByRef refProgressBar As ProgressBar)
    Dim lineaActual As String
    Dim valTotalRegistro As Long
    Dim numeroDeRegistrosImportados As Long
@@ -4437,24 +4128,24 @@ Private Sub sEjecutaLaImportacionModulosSinDetail(ByRef refFileNumberdeLectura A
       Do Until EOF(refFileNumberdeLectura)
          Line Input #refFileNumberdeLectura, lineaActual
          If lineaActual <> "" Then
-         valTotalRegistro = valTotalRegistro + 1
-         If fDistribuyeLaLineaModulosSaw(lineaActual, valTotalRegistro, valSeparador, False, True, True) Then
-            If Not YaInsertoUnoOMas Then
-               EnumSystemModules = fEntidadToEnumSystemModules
-               valLoteAdm = insLoteDeAdm.EnumSystemModulesToModuloDelLoteAdm(EnumSystemModules)
-               sAsignaValoresDelLoteAImportar valLoteAdm, "Lote de " & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " Generado desde un Archivo de Importación."
-               If insLoteDeAdm.fInsert Then
-                  YaInsertoUnoOMas = True
+            valTotalRegistro = valTotalRegistro + 1
+            If fDistribuyeLaLineaModulosSaw(lineaActual, valTotalRegistro, valSeparador, False, True, True) Then
+               If Not YaInsertoUnoOMas Then
+                  EnumSystemModules = fEntidadToEnumSystemModules
+                  valLoteAdm = insLoteDeAdm.EnumSystemModulesToModuloDelLoteAdm(EnumSystemModules)
+                  sAsignaValoresDelLoteAImportar valLoteAdm, "Lote de " & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " Generado desde un Archivo de Importación."
+                  If insLoteDeAdm.fInsert Then
+                     YaInsertoUnoOMas = True
+                  End If
                End If
+               If fImportaLasLineas(mNregistroAInsertar, numeroDeRegistrosImportados) Then
+                  mNregistroAInsertar = mNregistroAInsertar + 1
+                  mImportoRegistros = True
+                  sMuestraProgreso True, mNumerodeRegistros, mNregistroAInsertar
+               End If
+            Else
+               RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
             End If
-            If fImportaLasLineas(mNregistroAInsertar, numeroDeRegistrosImportados) Then
-               mNregistroAInsertar = mNregistroAInsertar + 1
-               mImportoRegistros = True
-               sMuestraProgreso True, mNumerodeRegistros, mNregistroAInsertar
-            End If
-         Else
-            RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
-         End If
          End If
       Loop
       If mImportoRegistros Then
@@ -4475,16 +4166,13 @@ Private Sub sEjecutaLaImportacionModulosSinDetail(ByRef refFileNumberdeLectura A
 h_EXIT: On Error GoTo 0
    Set insImportar = Nothing
    Exit Sub
-h_ERROR:
-Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sEjecutaLaImportacionModulosSinDetail", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sEjecutaLaImportacionModulosSinDetail", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Sub sManejoDeMensajes(ByVal valTotalRegistro As Long, ByVal valNumeroRegistro As Long, _
-            ByVal mNregistroExistenBd As Long, Optional ByVal valEsFacturaBorradores As Boolean = False)
-   Dim valMensaje As String
+Private Sub sManejoDeMensajes(ByVal valTotalRegistro As Long, ByVal valNumeroRegistro As Long, ByVal mNregistroExistenBd As Long, Optional ByVal valEsFacturaBorradores As Boolean = False)
    Dim valporcentaje As Currency
    Dim msgFacturaBorrador As String
+   Dim vMsg As String
    On Error GoTo h_ERROR
    If valEsFacturaBorradores Then
       msgFacturaBorrador = "Borradores de "
@@ -4493,45 +4181,41 @@ Private Sub sManejoDeMensajes(ByVal valTotalRegistro As Long, ByVal valNumeroReg
    End If
    If mImportoRegistros Then
       valporcentaje = fPorcentaje(valTotalRegistro, valNumeroRegistro, False)
-      gMessage.Success "El proceso de importación de " & msgFacturaBorrador & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules) & " ha concluido. " _
-                        & vbCr & "El número de " & msgFacturaBorrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " Importados es : " & valNumeroRegistro _
-                        & " De: " & valTotalRegistro & " Se realizó el : " & valporcentaje & " % " _
-                        & "de los datos." & valMensaje
+      vMsg = "El proceso de importación de " & msgFacturaBorrador & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules) & " ha concluido. " & vbCr
+      vMsg = vMsg & "El número de " & msgFacturaBorrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " importados es : " & valNumeroRegistro & vbCr
+      vMsg = vMsg & " De: " & valTotalRegistro & " Se realizó el : " & valporcentaje & " % de los datos."
+      gMessage.Success vMsg
       If valTotalRegistro > valNumeroRegistro Then
          gMessage.InformationMessage "No se importó la totalidad de los registros en el módulo de " & msgFacturaBorrador & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules) & " debido a que la data ya se encontraba existente en el sistema ó a que se encontraron posibles inconsistencias.", "Importación de " & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules)
       End If
    Else
       If mNregistroExistenBd = valTotalRegistro And valTotalRegistro <> 0 Then
-            gMessage.InformationMessage "Todos Los registros a importar en el módulo " & msgFacturaBorrador & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules) & ", ya se encontraban existentes en el sistema. " _
-            & vbCr & "No se efectuó la Importación del módulo " & msgFacturaBorrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar), "Importación de " & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules)
+         vMsg = "Todos Los registros a importar en el módulo " & msgFacturaBorrador & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules) & ", ya se encontraban existentes en el sistema. " & vbCr
+         vMsg = vMsg & "No se efectuó la Importación del módulo " & msgFacturaBorrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar)
+         gMessage.InformationMessage vMsg, "Importación de " & gEnumProyecto.enum_SystemModulesToStr(EnumSystemModules)
       ElseIf mNregistroExistenBd > 0 Then
-            gMessage.Advertencia "No se importaron un total de " & RegistrosYaExistentesEnBD & vbCrLf & " registros en el módulo de " & msgFacturaBorrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " debido a que ya se encontraban existentes en el sistema."
+         gMessage.Advertencia "No se importaron un total de " & RegistrosYaExistentesEnBD & vbCrLf & " registros en el módulo de " & msgFacturaBorrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " debido a que ya se encontraban existentes en el sistema."
       ElseIf mNregistroAInsertar = 0 Then
-            gMessage.Advertencia "No se importó ningun registro en el módulo de " & msgFacturaBorrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & ", debido a que todos los datos ya se encontraban existentes en el sistema ó a que se encontraron posibles inconsitencias en la data."
+         gMessage.Advertencia "No se importó ningun registro en el módulo de " & msgFacturaBorrador & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & ", debido a que todos los datos ya se encontraban existentes en el sistema ó a que se encontraron posibles inconsitencias en la data."
       End If
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sManejoDeMensajes", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sManejoDeMensajes", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sGenerarAuxiliaresParaProveedoresYClientes()
    Dim ModuloACargarAuxiliares As enum_GrupoAuxiliar
    On Error GoTo h_ERROR
    Select Case mModuloAImportar
-    Case enum_EntidadAExportarOImportar.eEAEI_PROVEEDOR
-      ModuloACargarAuxiliares = eGA_PROVEEDORES
-    Case enum_EntidadAExportarOImportar.eEAEI_CLIENTE
-      ModuloACargarAuxiliares = eGA_CLIENTES
-   Case Else
-      ModuloACargarAuxiliares = eGA_SINGRUPO
+      Case enum_EntidadAExportarOImportar.eEAEI_PROVEEDOR: ModuloACargarAuxiliares = eGA_PROVEEDORES
+      Case enum_EntidadAExportarOImportar.eEAEI_CLIENTE: ModuloACargarAuxiliares = eGA_CLIENTES
+      Case Else: ModuloACargarAuxiliares = eGA_SINGRUPO
    End Select
-      varNoComunWincont.sEjecutaAuxiliarGenerar (ModuloACargarAuxiliares)
+   varNoComunWincont.sEjecutaAuxiliarGenerar (ModuloACargarAuxiliares)
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sGenerarAuxiliaresParaProveedoresYClientes", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sGenerarAuxiliaresParaProveedoresYClientes", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fPorcentaje(ByVal va1TotalRegistros As Long, ByVal valNumerodelRegistro As Long, valRedondear As Boolean) As Currency
@@ -4549,8 +4233,7 @@ Private Function fPorcentaje(ByVal va1TotalRegistros As Long, ByVal valNumerodel
 h_EXIT: fPorcentaje = valporcentaje
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fPorcentaje", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fPorcentaje", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sMuestraProgreso(ByVal valMuestraProgreso As Boolean, ByVal valNumerodeRegistros As Long, ByVal valNumeroRegistro As Long)
@@ -4562,8 +4245,7 @@ Private Sub sMuestraProgreso(ByVal valMuestraProgreso As Boolean, ByVal valNumer
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sMuestraProgreso", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sMuestraProgreso", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fDevuelveElNombreDeLaMonedaIfExist(ByVal valMonedaCodigo As String, Optional ByVal valShowMessageIfNotFound As Boolean = False) As String
@@ -4576,9 +4258,9 @@ Private Function fDevuelveElNombreDeLaMonedaIfExist(ByVal valMonedaCodigo As Str
    SQL = "SELECT Moneda.Nombre FROM Moneda WHERE Moneda.Codigo = '" & varMonedaCodigo & "'"
    gDbUtil.sInitRS mrsMoneda, "Moneda", False
    If gDbUtil.fOpenRecordSetAllParameters(mrsMoneda, SQL, Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
-      If mrsMoneda.RecordCount = 0 Then
+      If gDbUtil.fRecordCount(mrsMoneda) = 0 Then
          If valShowMessageIfNotFound Then
-            gMessage.sNoExistenRegistrosConEstasCaracteristicas CM_MESSAGE_NAME_SAW, GetGender
+            gMessage.sNoExistenRegistrosConEstasCaracteristicas "Importar modulos Administrativo", eg_Male
          End If
          fDevuelveElNombreDeLaMonedaIfExist = varMonedaCodigo
       Else
@@ -4587,33 +4269,31 @@ Private Function fDevuelveElNombreDeLaMonedaIfExist(ByVal valMonedaCodigo As Str
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDevuelveElNombreDeLaMonedaIfExist", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDevuelveElNombreDeLaMonedaIfExist", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSustituirSiEsNecesario(ByVal valMoneda As String) As String
    Dim strValor As String
    On Error GoTo h_ERROR
-      If UCase(valMoneda) = "BOLIVARES" Or UCase(valMoneda) = "BS" Then
-            strValor = "VEB"
-      ElseIf UCase(valMoneda) = "DOLARES" Or UCase(valMoneda) = "DS" Then
-            strValor = "USD"
-      ElseIf UCase(valMoneda) = "EURO" Then
-            strValor = "EUR"
-      ElseIf UCase(valMoneda) = "ML" Then
-            strValor = mCodigoMonedaLocal
-      ElseIf UCase(valMoneda) = "ME" Then
-            strValor = mCodigoMonedaExtranjera
-      Else
-            strValor = valMoneda
-      End If
-      fSustituirSiEsNecesario = strValor
+   If UCase(valMoneda) = "BOLIVARES" Or UCase(valMoneda) = "BS" Then
+      strValor = "VEB"
+   ElseIf UCase(valMoneda) = "DOLARES" Or UCase(valMoneda) = "DS" Then
+      strValor = "USD"
+   ElseIf UCase(valMoneda) = "EURO" Then
+      strValor = "EUR"
+   ElseIf UCase(valMoneda) = "ML" Then
+      strValor = mCodigoMonedaLocal
+   ElseIf UCase(valMoneda) = "ME" Then
+      strValor = mCodigoMonedaExtranjera
+   Else
+      strValor = valMoneda
+   End If
+   fSustituirSiEsNecesario = strValor
 h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR: fSustituirSiEsNecesario = valMoneda
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSustituirSiEsNecesario", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fSustituirSiEsNecesario", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub Class_Initialize()
@@ -4621,8 +4301,7 @@ Private Sub Class_Initialize()
    Set gUtilImport = New clsUtilImport
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "Class_Initialize", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "Class_Initialize", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Class_Terminate()
@@ -4630,29 +4309,23 @@ Private Sub Class_Terminate()
    Set gUtilImport = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "Class_Terminate", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "Class_Terminate", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
+
 Private Function fValidaLamoneda(Optional ByVal valMoneda As String) As String
    Dim strValor As String
    On Error GoTo h_ERROR
    Select Case UCase(valMoneda)
-      Case "BOLIVAR", "BOLÍVAR", "BOLIVARES":
-         strValor = "VED"
-      Case "DOLARES", "DOLAR", "DOLAR EEUU", "DÓLAR", "DÓLARES":
-         strValor = "USD"
-      Case "EURO", "EUROS":
-         strValor = "EUR"
-      Case Else
-         strValor = valMoneda
-      End Select
-h_EXIT:
-   On Error GoTo 0
+      Case "BOLIVAR", "BOLÍVAR", "BOLIVARES": strValor = "VED"
+      Case "DOLARES", "DOLAR", "DOLAR EEUU", "DÓLAR", "DÓLARES": strValor = "USD"
+      Case "EURO", "EUROS": strValor = "EUR"
+      Case Else: strValor = valMoneda
+   End Select
+h_EXIT: On Error GoTo 0
    fValidaLamoneda = strValor
    Exit Function
 h_ERROR: fValidaLamoneda = valMoneda
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fValidaLamoneda", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fValidaLamoneda", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sEjecutaLaImportacionDeRenglonCobroDeFactura(ByVal valNombreDelArchivo As String, ByVal valSeparador As String, ByVal valExtension As String)
@@ -4681,8 +4354,7 @@ Private Sub sEjecutaLaImportacionDeRenglonCobroDeFactura(ByVal valNombreDelArchi
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEjecutaLaImportacionDeRenglonCobroDeFactura", CM_MESSAGE_NAME_SAW, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sEjecutaLaImportacionDeRenglonCobroDeFactura", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fSelectAndSetValuesOfAlmacenFromAOS(ByRef refCodigo As String, ByRef refNombreAlmacen As String, ByVal valDescripcionBusqueda As String, Optional ByVal valCampo As String, Optional ByRef refConsecutivoAlmacen As Long) As Boolean
@@ -4707,7 +4379,7 @@ Public Function fSelectAndSetValuesOfAlmacenFromAOS(ByRef refCodigo As String, B
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSelectAndSetValuesOfAlmacenFromAOS = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSelectAndSetValuesOfAlmacenFromAOS", "fSelectAndSetValuesOfAlmacenFromAOS", Enum_Gender.eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fSelectAndSetValuesOfAlmacenFromAOS", "fSelectAndSetValuesOfAlmacenFromAOS", Enum_Gender.eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fInsertarProveedor() As Boolean
@@ -4719,7 +4391,6 @@ Private Function fInsertarProveedor() As Boolean
    On Error GoTo h_ERROR
    vResult = False
    Set insUtAdoCmd = New clsUtilAdoCmd
-   
    Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_ProveedorINS", gDefDatabase.Conexion)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", gProyParametrosCompania.GetConsecutivoCompania)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoProveedor", 10, insProveedor.getCodigoProveedor)
@@ -4737,7 +4408,6 @@ Private Function fInsertarProveedor() As Boolean
       End If
    End If
    Set Rs = Nothing
-   
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreProveedor", 60, insProveedor.getNombreProveedor)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Contacto", 35, insProveedor.getContacto)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NumeroRIF", 20, insProveedor.getNumeroRIF)
@@ -4777,7 +4447,7 @@ Private Function fInsertarProveedor() As Boolean
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fInsertarProveedor = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fInsertarProveedor", "fInsertarProveedor", Enum_Gender.eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fInsertarProveedor", "fInsertarProveedor", Enum_Gender.eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fDistribuyeLaLineaDeCotizacion(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String) As Boolean
@@ -4789,86 +4459,74 @@ Private Function fDistribuyeLaLineaDeCotizacion(ByRef refLineaActual As String, 
    fDistribuyeLaLineaDeCotizacion = False
    linea = refLineaActual
    With insFactura
-    vConsecutivoCompania = mConsecutivoCompaniaActual
-    .SetConsecutivoCompania vConsecutivoCompania
-    .SetNumero mValorDelCampoDeId
-    vFecha = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFecha vFecha
-       '============================================
-       'Seteo Temporal para la version para Quintero
-       .SetFechaDeEntrega vFecha
-       '********************************************
-    vCodigoCliente = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCodigoCliente vCodigoCliente
-    vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetCodigoVendedor vCodigoVendedor
-    vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetObservaciones vObservaciones
-    vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetMontoExentoDespuesDeDescuento vMontoExentoDespuesDeDescuento
-    vBaseImponibleDespuesDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetBaseImponibleDespuesDescuento vBaseImponibleDespuesDescuento
-    vTotalRenglones = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetTotalRenglones vTotalRenglones
-    vTotalIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetTotalIVA vTotalIVA
-    vTotalFactura = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetTotalFactura vTotalFactura
-    vPorcentajeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeDescuento vPorcentajeDescuento
-    
-    vMoneda = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-'************VALIDA MONEDA**********
-    vMoneda = fValidaLamoneda(vMoneda)
-    .SetCodigoMoneda fValidaLamoneda(vMoneda)
-    vNivelPrecio = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    If vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_1) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_2) _
-    Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_3) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_4) Then
-       .SetNivelDePrecioStr gEnumProyecto.enumNivelDePrecioToString(gEnumProyecto.fSiglasNivelDePrecioToEnum(vNivelPrecio, False))
-    End If
-    
-    vUsarDireccionFiscal = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetUsarDireccionFiscal vUsarDireccionFiscal
-    vNoDirDespachoAimprimir = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetNoDirDespachoAimprimir vNoDirDespachoAimprimir
-    
-    vFechaUltimaModificacion = gUtilDate.getFechaDeHoy
-    .SetFechaUltimaModificacion vFechaUltimaModificacion
-    
-    .SetReservarMercancia gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetFechaDeRetiro gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    
-    .SetNoDirDespachoAimprimir gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-
-    .SetMoneda fDevuelveElNombreDeLaMonedaIfExist(vMoneda)
-    
+      vConsecutivoCompania = mConsecutivoCompaniaActual
+      .SetConsecutivoCompania vConsecutivoCompania
+      .SetNumero mValorDelCampoDeId
+      vFecha = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFecha vFecha
+      .SetFechaDeEntrega vFecha
+      vCodigoCliente = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCodigoCliente vCodigoCliente
+      vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetCodigoVendedor vCodigoVendedor
+      vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetObservaciones vObservaciones
+      vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMontoExentoDespuesDeDescuento vMontoExentoDespuesDeDescuento
+      vBaseImponibleDespuesDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetBaseImponibleDespuesDescuento vBaseImponibleDespuesDescuento
+      vTotalRenglones = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetTotalRenglones vTotalRenglones
+      vTotalIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetTotalIVA vTotalIVA
+      vTotalFactura = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetTotalFactura vTotalFactura
+      vPorcentajeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeDescuento vPorcentajeDescuento
+      vMoneda = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      vMoneda = fValidaLamoneda(vMoneda)
+      .SetCodigoMoneda fValidaLamoneda(vMoneda)
+      vNivelPrecio = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_1) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_2) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_3) Or vNivelPrecio = gEnumProyecto.enumNivelDePrecioToStringSiglas(eND_PRECIO_4) Then
+         .SetNivelDePrecioStr gEnumProyecto.enumNivelDePrecioToString(gEnumProyecto.fSiglasNivelDePrecioToEnum(vNivelPrecio, False))
+      End If
+      vUsarDireccionFiscal = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetUsarDireccionFiscal vUsarDireccionFiscal
+      vNoDirDespachoAimprimir = gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetNoDirDespachoAimprimir vNoDirDespachoAimprimir
+      vFechaUltimaModificacion = gUtilDate.getFechaDeHoy
+      .SetFechaUltimaModificacion vFechaUltimaModificacion
+      .SetReservarMercancia gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetFechaDeRetiro gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetNoDirDespachoAimprimir gUtilImport.fToLong(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetMoneda fDevuelveElNombreDeLaMonedaIfExist(vMoneda)
    End With
    With insRenglonFactura
-    .SetConsecutivoCompania vConsecutivoCompania
-    .setNumeroFactura mValorDelCampoDeId
-    If vConsecutivoRenglon = 0 Then
-      vConsecutivoRenglon = vConsecutivoRenglon + 1
-    End If
-    .SetConsecutivoRenglon vConsecutivoRenglon
-    vDescripcion = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetDescripcion vDescripcion
-    vCantidad = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetCantidad vCantidad
-    vPrecioSinIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPrecioSinIVA vPrecioSinIVA
-    vPrecioConIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPrecioConIVA vPrecioConIVA
-    vDescuentoRenglon = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeDescuento vDescuentoRenglon
-    vTotalRenglon = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetTotalRenglon vTotalRenglon
-    vPorcentajeBaseImponible = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-    .SetPorcentajeBaseImponible vPorcentajeBaseImponible
-    vArticulo = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    .SetArticulo vArticulo
-    vAlicuotaIVA = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-    vAlicuotaIvaEnum = gEnumProyecto.fSiglasTipoDeAlicuotaToEnum(vAlicuotaIVA, False)
-    .SetAlicuotaIVAStr gEnumProyecto.enumTipoDeAlicuotaToString(vAlicuotaIvaEnum)
+      .SetConsecutivoCompania vConsecutivoCompania
+      .SetNumeroFactura mValorDelCampoDeId
+      If vConsecutivoRenglon = 0 Then
+         vConsecutivoRenglon = vConsecutivoRenglon + 1
+      End If
+      .SetConsecutivoRenglon vConsecutivoRenglon
+      vDescripcion = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetDescripcion vDescripcion
+      vCantidad = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetCantidad vCantidad
+      vPrecioSinIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPrecioSinIVA vPrecioSinIVA
+      vPrecioConIVA = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPrecioConIVA vPrecioConIVA
+      vDescuentoRenglon = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeDescuento vDescuentoRenglon
+      vTotalRenglon = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetTotalRenglon vTotalRenglon
+      vPorcentajeBaseImponible = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetPorcentajeBaseImponible vPorcentajeBaseImponible
+      vArticulo = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      .SetArticulo vArticulo
+      vAlicuotaIVA = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      vAlicuotaIvaEnum = gEnumProyecto.fSiglasTipoDeAlicuotaToEnum(vAlicuotaIVA, False)
+      .SetAlicuotaIVAStr gEnumProyecto.enumTipoDeAlicuotaToString(vAlicuotaIvaEnum)
    End With
    With insFactura
       vCambioABolivaresEnCotizacion = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -4895,31 +4553,7 @@ Private Function fDistribuyeLaLineaDeCotizacion(ByRef refLineaActual As String, 
 h_EXIT: On Error GoTo 0
     fDistribuyeLaLineaDeCotizacion = True
     Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fDistribuyeLaLineaDeCotizacion", CM_MESSAGE_NAME_FACTURA, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Private Function fTotalFacturaEsValidoParaDecreto2602(ByVal valBaseImponibleDespuesDescuento As Currency, ByVal valFecha, ByVal valMontoExentoDespuesDeDescuento) As Boolean
-   Dim vMensaje As String
-   Dim vResult As Boolean
-   Dim vIVAGeneral As Currency
-   Dim vTotalFacturaAValidar As Currency
-   On Error GoTo h_ERROR
-   vResult = True
-'   If (vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_FACTURA) Or vTipoDeDocumentoStr = gEnumProyecto.enumTipoDocumentoFacturaToSiglas(eTF_COMPROBANTEFISCAL)) Then
-'      If mAplicaDecretoIvaEspecial = gConvert.ConvertBooleanToString(True) Then
-'         vIVAGeneral = valBaseImponibleDespuesDescuento * (gAdmAlicuotaIvaActual.GetAlicuotaIVA(valFecha, eTD_ALICUOTAGENERAL) / 100)
-'         vTotalFacturaAValidar = valMontoExentoDespuesDeDescuento + mMontoGravableAlicuota1 + mMontoGravableAlicuota2 + mMontoGravableAlicuota3 _
-'                           + vIVAGeneral + mMontoIVAAlicuota2 + mMontoIVAAlicuota3
-'         If vTotalFacturaAValidar > MONTOMAXIMODECRETO2602 Then
-'            vResult = False
-'         End If
-'      End If
-'   End If
-h_EXIT:    On Error GoTo 0
-   fTotalFacturaEsValidoParaDecreto2602 = vResult
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fTotalFacturaEsValidoParaDecreto2602", "", GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeCotizacion", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fFechaAplicacionEnCxPEsValida(ByRef refMensajeError As String) As Boolean
@@ -4947,10 +4581,10 @@ Private Function fFechaAplicacionEnCxPEsValida(ByRef refMensajeError As String) 
          refMensajeError = refMensajeError & ":::. ERROR Fecha de Aplicación de la CxP " & insCxP.GetNumero & " contiene una fecha INVÁLIDA, " & insCxP.GetDiaDeAplicacion & "/" & insCxP.GetMesDeAplicacion & "/" & insCxP.GetAnoDeAplicacion & " .:::"
       End If
    End If
-h_EXIT:    On Error GoTo 0
+h_EXIT: On Error GoTo 0
    fFechaAplicacionEnCxPEsValida = vResult
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fFechaAplicacionEnCxPEsValida", CM_MESSAGE_NAME_CXP, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fFechaAplicacionEnCxPEsValida", CM_MESSAGE_NAME_CXP, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fValidaMonedaDeCobro(ByVal valMoneda As String) As String
@@ -4961,25 +4595,456 @@ Private Function fValidaMonedaDeCobro(ByVal valMoneda As String) As String
    vCodigoMoneda = "VED"
    If gTexto.DfLen(vMoneda) > 0 Then
       Select Case vMoneda
-         Case "BOLIVAR", "BOLÍVAR", "BOLIVARES", "VED", "BS":
-            vCodigoMoneda = "VED"
-         Case "DOLARES", "DOLAR", "DOLAR EEUU", "DÓLAR", "DÓLARES", "USD", "DOLARES AMERICANOS", "DÓLARES AMERICANOS", "DÓLAR AMERICANO":
-            vCodigoMoneda = "USD"
-         Case "EURO", "EUROS", "€", "EUR":
-            vCodigoMoneda = "EUR"
-         Case "PESOS", "PESO COLIMBIANO", "PESO", "PESOS COLIMBIANOS", "PESOS COLIMBIANO", "PESO COLIMBIANOS", "COP"
-            vCodigoMoneda = "COP"
-         Case "SOL", "SOLES", "NUEVOS SOLES", "NUEVO SOL", "NUEVO SOLES", "NUEVO SOLES", "PEN"
-            vCodigoMoneda = "PEN"
+         Case "BOLIVAR", "BOLÍVAR", "BOLIVARES", "VED", "BS": vCodigoMoneda = "VED"
+         Case "DOLARES", "DOLAR", "DOLAR EEUU", "DÓLAR", "DÓLARES", "USD", "DOLARES AMERICANOS", "DÓLARES AMERICANOS", "DÓLAR AMERICANO": vCodigoMoneda = "USD"
+         Case "EURO", "EUROS", "€", "EUR": vCodigoMoneda = "EUR"
+         Case "PESOS", "PESO COLIMBIANO", "PESO", "PESOS COLIMBIANOS", "PESOS COLIMBIANO", "PESO COLIMBIANOS", "COP": vCodigoMoneda = "COP"
+         Case "SOL", "SOLES", "NUEVOS SOLES", "NUEVO SOL", "NUEVO SOLES", "NUEVO SOLES", "PEN": vCodigoMoneda = "PEN"
       End Select
    End If
-h_EXIT:
-   On Error GoTo 0
+h_EXIT: On Error GoTo 0
    fValidaMonedaDeCobro = vCodigoMoneda
    Exit Function
-h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fValidaMonedaDeCobro", CM_MESSAGE_NAME_ARTICULOS, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fValidaMonedaDeCobro", CM_MESSAGE_NAME_ARTICULOS, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
+Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String) As Boolean
+   Dim linea As String
+   Dim ErrorAlTraducirLaLinea As Boolean
+   Dim vNumeroComprobanteFiscalDesde As String
+   Dim vNumeroComprobanteFiscalHasta As String
+   Dim vFechaRDV As Date
+   Dim vNumeroReporteZ As String
+   
+   Dim vStrMontoExento As String
+   Dim vStrMontoBIAlicuotaGeneral As String
+   Dim vStrMontoBIAlicuotaReducida As String
+   Dim vStrMontoBIAlicuotaExtendida As String
+   Dim vStrMontoNCExento As String
+   Dim vStrMontoNCBIAlicuotaGeneral As String
+   Dim vStrMontoNCBIAlicuotaReducida As String
+   Dim vStrMontoNCBIAlicuotaExtendida As String
+   
+   Dim vBIIGTF As Currency
+   Dim vIGTFML As Currency
+   Dim vAlicuotaIGTF As Currency
+   Dim vUsaMF As Boolean
+   Dim vCodigoMF As String
+   Dim vNroCtrlDesde As String
+   Dim vNroCtrlHasta As String
+   Dim vSeRetIva As Boolean
+   Dim vNroCompRetIva As String
+   Dim vFechaCompRetIva As Date
+   Dim vFechaAplRetIva As Date
+   Dim vMtoIvaRetenido As Currency
+   On Error GoTo h_ERROR
+   ErrorAlTraducirLaLinea = False
+   LineaDeErrores = ""
+   linea = refLineaActual
+   fDistribuyeLaLineaDeRDV = False
+   
+   vConsecutivoCompania = mConsecutivoCompaniaActual
+   vNumeroComprobanteFiscalDesde = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vNumeroComprobanteFiscalHasta = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vFechaRDV = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vNumeroReporteZ = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   
+   vStrMontoExento = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vStrMontoBIAlicuotaGeneral = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vStrMontoBIAlicuotaReducida = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vStrMontoBIAlicuotaExtendida = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vStrMontoNCExento = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vStrMontoNCBIAlicuotaGeneral = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vStrMontoNCBIAlicuotaReducida = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vStrMontoNCBIAlicuotaExtendida = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   
+   vBIIGTF = gConvert.fConvertStringToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vIGTFML = gConvert.fConvertStringToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vAlicuotaIGTF = gConvert.fConvertStringToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vUsaMF = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vCodigoMF = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vNroCtrlDesde = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vNroCtrlHasta = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vSeRetIva = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vNroCompRetIva = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vFechaCompRetIva = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vFechaAplRetIva = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vMtoIvaRetenido = gConvert.fConvertStringToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   
+   If gTexto.DfLen(vNumeroComprobanteFiscalDesde) = 0 Or gTexto.DfLen(vNumeroComprobanteFiscalHasta) = 0 Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = " Los valores Número Comprobante Desde y Hasta son obligatorios."
+   End If
+   If gDefGen.LaFechaEsMayorQueElLimiteDeIngresoDeDatos(vFechaRDV, False, insertar) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & " El valor de la Fecha del documento no es válido."
+   End If
+   If gTexto.DfLen(vNumeroReporteZ) = 0 Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & " El valor de Número de Reporte Z es obligatorio."
+   End If
+   If (vStrMontoExento = "" Or vStrMontoExento = "NA") And (vStrMontoBIAlicuotaGeneral = "" Or vStrMontoBIAlicuotaGeneral = "NA") And (vStrMontoBIAlicuotaReducida = "" Or vStrMontoBIAlicuotaReducida = "NA") And (vStrMontoBIAlicuotaExtendida = "" Or vStrMontoBIAlicuotaExtendida = "NA") And (vStrMontoNCExento = "" Or vStrMontoNCExento = "NA") And (vStrMontoNCBIAlicuotaGeneral = "" Or vStrMontoNCBIAlicuotaGeneral = "NA") And (vStrMontoNCBIAlicuotaReducida = "" Or vStrMontoNCBIAlicuotaReducida = "NA") And (vStrMontoNCBIAlicuotaExtendida = "" Or vStrMontoNCBIAlicuotaExtendida = "NA") Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & " Debe proporcionar un valor válido para el detalle del documento."
+   End If
+   If gConvert.fConvertStringToCurrency(vStrMontoExento) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaGeneral) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaReducida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaExtendida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCExento) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaGeneral) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaReducida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaExtendida) < 0 Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & " Los montos ingresados deben ser mayor o igual a 0."
+   End If
+   If (vBIIGTF <> 0 And vIGTFML = 0) Or (vBIIGTF = 0 And vIGTFML <> 0) Or (vAlicuotaIGTF = 0 And (vBIIGTF <> 0 Or vIGTFML <> 0)) Or (vBIIGTF < 0) Or (vIGTFML < 0) Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & " Hay inconsistencia en la información de IGTF suministrada."
+   End If
+   If vUsaMF Then
+      vCodigoMF = fConsecutivoStringMaquinaFiscal(vCodigoMF)
+      If gTexto.DfLen(vCodigoMF) = 0 Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & " El Código de la Máquina Fiscal debe ser válido."
+      End If
+   Else
+      If gTexto.DfLen(vNroCtrlDesde) = 0 Or gTexto.DfLen(vNroCtrlHasta) = 0 Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & " Hay inconsistencia en la información de Número de Control Desde y Hasta."
+      End If
+   End If
+   If Not vSeRetIva Then
+      vNroCompRetIva = ""
+      vFechaCompRetIva = gUtilDate.getFechaDeHoy
+      vFechaAplicacionRetIVA = gUtilDate.fColocaDiaEnFecha(1, gUtilDate.getFechaDeHoy)
+      vMtoIvaRetenido = 0
+   End If
+   If Not ErrorAlTraducirLaLinea Then
+      sConstruyeRDV vNumeroComprobanteFiscalDesde, vNumeroComprobanteFiscalHasta, vFechaRDV, vNumeroReporteZ, vBIIGTF, vIGTFML, vAlicuotaIGTF, vUsaMF, vCodigoMF, vNroCtrlDesde, vNroCtrlHasta, vSeRetIva, vNroCompRetIva, vFechaCompRetIva, vFechaAplRetIva, vMtoIvaRetenido
+      sConstruyeDetalleRDV vStrMontoExento, vStrMontoBIAlicuotaGeneral, vStrMontoBIAlicuotaReducida, vStrMontoBIAlicuotaExtendida, vStrMontoNCExento, vStrMontoNCBIAlicuotaGeneral, vStrMontoNCBIAlicuotaReducida, vStrMontoNCBIAlicuotaExtendida
+   End If
+h_EXIT: On Error GoTo 0
+    fDistribuyeLaLineaDeRDV = Not ErrorAlTraducirLaLinea
+    Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeRDV", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
 
+Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal valNumeroComprobanteFiscalHasta As String, ByVal valFechaRDV As Date, ByVal valNumeroReporteZ As String, ByVal valBIIGTF As Currency, ByVal valIGTFML As Currency, ByVal valAlicuotaIGTF As Currency, ByVal valUsaMF As Boolean, ByVal valCodigoMF As String, ByVal valNroCtrlDesde As String, ByVal valNroCtrlHasta As String, ByVal valSeRetIva As Boolean, ByVal valNroCompRetIva As String, ByVal valFechaCompRetIva As Date, ByVal valFechaAplRetIva As Date, ByVal valMtoIvaRetenido As Currency)
+   Dim vAlicGeneral As Currency
+   Dim vAlicReducida As Currency
+   Dim vAlicExtendida As Currency
+   On Error GoTo h_ERROR
+   vAlicGeneral = gAdmAlicuotaIvaActual.GetAlicuotaIVA(gConvert.fConvertStringToDate(valFechaRDV), enum_TipoDeAlicuota.eTD_ALICUOTAGENERAL)
+   vAlicReducida = gAdmAlicuotaIvaActual.GetAlicuotaIVA(gConvert.fConvertStringToDate(valFechaRDV), enum_TipoDeAlicuota.eTD_ALICUOTA2)
+   vAlicExtendida = gAdmAlicuotaIvaActual.GetAlicuotaIVA(gConvert.fConvertStringToDate(valFechaRDV), enum_TipoDeAlicuota.eTD_ALICUOTA3)
+   With insFactura
+      .SetConsecutivoCompania vConsecutivoCompania
+      .SetNumero .fGenerateNextNumeroBorrador(gEnumProyecto.enumTipodocumentoFacturaToString(eTF_RESUMENDIARIODEVENTAS))
+      .SetTipoDeDocumentoStr gEnumProyecto.enumTipodocumentoFacturaToString(eTF_RESUMENDIARIODEVENTAS)
+      .SetStatusFacturaStr gEnumProyecto.enumStatusFacturaToString(eSF_BORRADOR)
+      .SetFecha valFechaRDV
+      .SetFechaDeEntrega valFechaRDV
+      .SetCodigoCliente "RD_Cliente"
+      .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      .SetObservaciones ""
+      .SetCodigoNota1 ""
+      .SetCodigoNota2 ""
+      .SetCodigoMoneda gProyCompaniaActual.GetCodigoMoneda
+      .SetNivelDePrecioStr gEnumProyecto.enumNivelDePrecioToString(eND_PRECIO_1)
+      .SetCodigoAlmacen gProyParametrosCompania.GetCodigoAlmacenGenerico
+      .SetConsecutivoAlmacen fConsecutivoAlmacen(gProyParametrosCompania.GetCodigoAlmacenGenerico)
+      .SetInsertadaManualmente False
+      .SetCancelada False
+      .SetUsarDireccionFiscal True
+      .SetNoDirDespachoAimprimir 0
+      .SetCambioABolivares 1
+      .SetMontoDelAbono 0
+      .SetFechaDeVencimiento valFechaRDV
+      .SetCondicionesDePago ""
+      .SetFacturaHistorica False
+      .SetTalonarioStr gEnumProyecto.enumTalonarioToString(eTa_TALONARIO1)
+      .SetFormaDeLaInicialStr gEnumProyecto.enumFormaDeLaInicialToString(eFD_POR_MONTO)
+      .SetPorcentajeDeLaInicial 0
+      .SetNumeroDeCuotas 1
+      .SetFormaDePagoStr gEnumProyecto.enumFormadePagoToString(eFP_CONTADO)
+      .SetNumDiasDeVencimiento1aCuota 30
+      .SetEditarMontoCuota False
+      .SetTipoDeTransaccionStr gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToString(eTD_A01_REGISTRO)
+      .SetNumeroPlanillaExportacion ""
+      .SetNumeroFacturaAfectada ""
+      .SetTipoDeVentaStr gEnumProyecto.enumTipoDeVentaToString(eTD_A_CONTRIBUYENTE)
+      .SetUsaMaquinaFiscal valUsaMF
+      .SetCodigoMaquinaRegistradora valCodigoMF
+      .SetNumeroDesde valNumeroComprobanteFiscalDesde
+      .SetNumeroHasta valNumeroComprobanteFiscalHasta
+      .SetNumeroControl valNroCtrlDesde
+      .SetNumeroControlHasta valNroCtrlHasta
+      .SetSeRetuvoIVA valSeRetIva
+      If valSeRetIva Then
+         .SetMontoIvaRetenido valMtoIvaRetenido
+         .SetFechaAplicacionRetIVA valFechaAplRetIva
+         .SetNumeroComprobanteRetIVA valNroCompRetIva
+         .SetFechaComprobanteRetIVA valFechaCompRetIva
+      End If
+      .SetFacturaConPreciosSinIva False
+      .SetConsecutivoCaja 0
+      .SetGeneraCobroDirecto False
+      .SetCodigoLote mCodigoLote
+      .SetReservarMercancia False
+      .SetFechaDeRetiro valFechaRDV
+      .SetNoDirDespachoAimprimir 0
+      .SetVueltoDelCobroDirecto 0
+      .SetPorcentajeDescuento1 0
+      .SetPorcentajeDescuento2 0
+      .SetMontoDescuento1 0
+      .SetMontoDescuento2 0
+      .SetPorcentajeAlicuota1 vAlicGeneral
+      .SetPorcentajeAlicuota2 vAlicReducida
+      .SetPorcentajeAlicuota3 vAlicExtendida
+      .SetMoneda gProyCompaniaActual.GetCodigoMoneda
+      .SetFechaDeFacturaAfectada valFechaRDV
+      .SetAplicaDecretoIvaEspecial False
+      .SetBaseImponibleIGTF valBIIGTF
+      .SetIGTFML valIGTFML
+      .SetIGTFME valIGTFML
+      .SetAlicuotaIGTF valAlicuotaIGTF
+      .SetEsGeneradaPorPuntoDeVenta False
+      .SetCodigoMonedaDeCobro gProyCompaniaActual.GetCodigoMoneda
+      .SetFechaLimiteCambioAMonedaLocal valFechaRDV
+      .SetNombreOperador mNombreDelUsuario
+      .SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
+   End With
+   
+h_EXIT: On Error GoTo 0
+    Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sConstruyeRDV", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Private Function fConsecutivoAlmacen(ByVal valCodigoAlmacen) As Long
+   Dim vResult As Long
+   Dim vRs As ADODB.Recordset
+   Dim vSql As String
+   On Error GoTo h_ERROR
+   vResult = 1
+   Set vRs = New ADODB.Recordset
+   vSql = "SELECT Consecutivo FROM Saw.Almacen WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigoAlmacen)
+   If gDbUtil.fOpenRecordset(vRs, vSql, Conexion) Then
+      If gDbUtil.fRecordCount(vRs) > 0 Then
+         vResult = gConvert.fConvertStringToLong(vRs.Fields("Consecutivo").Value)
+      End If
+   End If
+   gDbUtil.sDestroyRecordSet vRs
+h_EXIT: On Error GoTo 0
+    fConsecutivoAlmacen = vResult
+    Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fConsecutivoAlmacen", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fConsecutivoStringMaquinaFiscal(ByVal valCodigoMaquinaFiscal) As String
+   Dim vResult As String
+   Dim vRs As ADODB.Recordset
+   Dim vSql As String
+   On Error GoTo h_ERROR
+   vResult = ""
+   Set vRs = New ADODB.Recordset
+   vSql = "SELECT ConsecutivoMaquinaFiscal FROM Saw.MaquinaFiscal WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual & " AND ConsecutivoMaquinaFiscal = " & gUtilSQL.fSimpleSqlValue(valCodigoMaquinaFiscal)
+   If gDbUtil.fOpenRecordset(vRs, vSql, Conexion) Then
+      If gDbUtil.fRecordCount(vRs) > 0 Then
+         vResult = gConvert.fConvierteAString(vRs.Fields("ConsecutivoMaquinaFiscal").Value)
+      End If
+   End If
+   gDbUtil.sDestroyRecordSet vRs
+h_EXIT: On Error GoTo 0
+    fConsecutivoStringMaquinaFiscal = vResult
+    Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fConsecutivoStringMaquinaFiscal", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Sub sConstruyeDetalleRDV(ByVal valStrMontoExento As String, ByVal valStrMontoBIAlicuotaGeneral As String, ByVal valStrMontoBIAlicuotaReducida As String, ByVal valStrMontoBIAlicuotaExtendida As String, ByVal valStrMontoNCExento As String, ByVal valStrMontoNCBIAlicuotaGeneral As String, ByVal valStrMontoNCBIAlicuotaReducida As String, ByVal valStrMontoNCBIAlicuotaExtendida As String)
+   Dim vCodigoArticuloRDV As String
+   Dim vDescripcionArticuloRDV As String
+   Dim vPorcentajeAlicuota As Currency
+   Dim vTipoDeAlicuotaStr As String
+   Dim vPSI As Currency
+   Dim vPCI As Currency
+   Dim vUno As Integer
+   Dim vConsecRenglon As Long
+   Dim i As Integer
+   Dim vRs As ADODB.Recordset
+   On Error GoTo h_ERROR
+   Set vRs = New ADODB.Recordset
+   vRs.Fields.Append "Articulo", adVarChar, 30
+   vRs.Fields.Append "Descripcion", adVarChar, 7000
+   vRs.Fields.Append "AlicuotaIVA", adChar, 1
+   vRs.Fields.Append "PorcentajeAlicuota", adCurrency
+   vRs.Fields.Append "Cantidad", adCurrency
+   vRs.Fields.Append "PorcentajeDescuento", adCurrency
+   vRs.Fields.Append "PorcentajeBaseImponible", adCurrency
+   vRs.Fields.Append "PrecioSinIVA", adCurrency
+   vRs.Fields.Append "PrecioConIVA", adCurrency
+   vRs.Fields.Append "TotalRenglon", adCurrency
+   vRs.Fields.Append "Serial", adVarChar, 50
+   vRs.Fields.Append "Rollo", adVarChar, 20
+   vRs.Open
+   For i = enum_TipoDeAlicuota.eTD_EXENTO To enum_TipoDeAlicuota.eTD_ALICUOTA3NC
+      vPSI = 0
+      Select Case i
+         Case eTD_EXENTO:
+            If gTexto.DfLen(valStrMontoExento) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoExento, "NA") Then
+               GoTo Next_For
+            End If
+            vPSI = gConvert.fConvertStringToCurrency(valStrMontoExento)
+            vPorcentajeAlicuota = 0
+            vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO)
+         Case eTD_ALICUOTAGENERAL:
+            If gTexto.DfLen(valStrMontoBIAlicuotaGeneral) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoBIAlicuotaGeneral, "NA") Then
+               GoTo Next_For
+            End If
+            vPSI = gConvert.fConvertStringToCurrency(valStrMontoBIAlicuotaGeneral)
+         Case eTD_ALICUOTA2:
+            If gTexto.DfLen(valStrMontoBIAlicuotaReducida) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoBIAlicuotaReducida, "NA") Then
+               GoTo Next_For
+            End If
+            vPSI = gConvert.fConvertStringToCurrency(valStrMontoBIAlicuotaReducida)
+         Case eTD_ALICUOTA3:
+            If gTexto.DfLen(valStrMontoBIAlicuotaExtendida) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoBIAlicuotaExtendida, "NA") Then
+               GoTo Next_For
+            End If
+            vPSI = gConvert.fConvertStringToCurrency(valStrMontoBIAlicuotaExtendida)
+         Case eTD_EXENTONC:
+            If gTexto.DfLen(valStrMontoNCExento) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoNCExento, "NA") Then
+               GoTo Next_For
+            End If
+            vPSI = gConvert.fConvertStringToCurrency(valStrMontoNCExento)
+            vPorcentajeAlicuota = 0
+            vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO)
+         Case eTD_ALICUOTAGENERALNC:
+            If gTexto.DfLen(valStrMontoNCBIAlicuotaGeneral) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoNCBIAlicuotaGeneral, "NA") Then
+               GoTo Next_For
+            End If
+            vPSI = gConvert.fConvertStringToCurrency(valStrMontoNCBIAlicuotaGeneral)
+         Case eTD_ALICUOTA2NC:
+            If gTexto.DfLen(valStrMontoNCBIAlicuotaReducida) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoNCBIAlicuotaReducida, "NA") Then
+               GoTo Next_For
+            End If
+            vPSI = gConvert.fConvertStringToCurrency(valStrMontoNCBIAlicuotaReducida)
+         Case eTD_ALICUOTA3NC:
+            If gTexto.DfLen(valStrMontoNCBIAlicuotaExtendida) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoNCBIAlicuotaExtendida, "NA") Then
+               GoTo Next_For
+            End If
+            vPSI = gConvert.fConvertStringToCurrency(valStrMontoNCBIAlicuotaExtendida)
+      End Select
+      
+      vConsecRenglon = i + 1
+      vUno = 1
+      If i > enum_TipoDeAlicuota.eTD_ALICUOTA3 Then
+         vUno = -1
+      End If
+      vCodigoArticuloRDV = insArticuloInventario.getCodigoArticuloResumenDiario(i)
+      vDescripcionArticuloRDV = insArticuloInventario.getDescripcionArticuloResumenDiario(i)
+      ElseIf i = enum_TipoDeAlicuota.eTD_ALICUOTAGENERALNC Then
+         vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTAGENERAL)
+         vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTAGENERAL)
+      ElseIf i = enum_TipoDeAlicuota.eTD_ALICUOTA2NC Then
+         vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTA2)
+         vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA2)
+      ElseIf i = enum_TipoDeAlicuota.eTD_ALICUOTA3NC Then
+         vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTA3)
+         vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3)
+      Else
+         vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, i)
+         vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(i)
+      End If
+      
+      vPSI = Math.Abs(vPSI)
+      vPCI = gUtilMathOperations.fRedondeaANDecimales(vPSI * (1 + (vPorcentajeAlicuota / 100)), 2)
+      
+      insRenglonFactura.SetArticulo vCodigoArticuloRDV
+      insRenglonFactura.SetDescripcion vDescripcionArticuloRDV
+      insRenglonFactura.SetAlicuotaIVAStr vTipoDeAlicuotaStr
+      insRenglonFactura.SetPorcentajeAlicuota vPorcentajeAlicuota
+      insRenglonFactura.SetCantidad vUno
+      insRenglonFactura.SetPorcentajeDescuento 0
+      insRenglonFactura.SetPorcentajeBaseImponible 100
+      insRenglonFactura.SetPrecioSinIVA vPSI
+      insRenglonFactura.SetPrecioConIVA vPCI
+      insRenglonFactura.SetTotalRenglon vPSI * vUno
+      insRenglonFactura.SetSerial ""
+      insRenglonFactura.SetRollo ""
+   
+      vRs.AddNew
+      vRs("Articulo").Value = insRenglonFactura.GetArticulo
+      vRs("Descripcion").Value = insRenglonFactura.GetDescripcion
+      vRs("AlicuotaIVA").Value = insRenglonFactura.GetAlicuotaIVAChar
+      vRs("PorcentajeAlicuota").Value = insRenglonFactura.GetPorcentajeAlicuota
+      vRs("Cantidad").Value = insRenglonFactura.GetCantidad
+      vRs("PorcentajeDescuento").Value = insRenglonFactura.GetPorcentajeDescuento
+      vRs("PorcentajeBaseImponible").Value = insRenglonFactura.GetPorcentajeBaseImponible
+      vRs("PrecioSinIVA").Value = insRenglonFactura.GetPrecioSinIVA
+      vRs("PrecioConIVA").Value = insRenglonFactura.GetPrecioConIVA
+      vRs("TotalRenglon").Value = insRenglonFactura.GetTotalRenglon
+      vRs("Serial").Value = insRenglonFactura.GetSerial
+      vRs("Rollo").Value = insRenglonFactura.GetRollo
+      vRs.Update
+Next_For: 'llega hasta acá para saltar el loop del for
+   Next
+   insRenglonFactura.SetRsRenglonFactura vRs
+h_EXIT: On Error GoTo 0
+    Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sConstruyeDetalleRDV", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Private Function fImportaRDV() As Boolean
+   Dim vResult As Boolean
+   Dim i As Long
+   Dim vRs As ADODB.Recordset
+   Dim vPSI As Currency
+   Dim vPCI As Currency
+   On Error GoTo h_ERROR
+   vResult = False
+   If Not gTexto.DfLen(insFactura.GetNumero = 0) Then
+      If Not insFactura.fSearchByField("Numero", insFactura.GetNumero, False, False) Then
+         If insFactura.fInsert(insertar, True, False) Then
+            i = 1
+            Set vRs = insRenglonFactura.GetRsRenglonFactura
+            If gDbUtil.fRecordCount(vRs) > 0 Then
+               vRs.MoveFirst
+               While Not vRs.EOF
+                  vPSI = gConvert.fConvierteACurrency(vRs("PrecioSinIVA").Value)
+                  vPCI = gConvert.fConvierteACurrency(vRs("PrecioConIVA").Value)
+                  insRenglonFactura.SetRsRenglonFactura Nothing
+                  insRenglonFactura.SetConsecutivoCompania insFactura.GetConsecutivoCompania
+                  insRenglonFactura.SetTipoDeDocumentoStr insFactura.GetTipoDeDocumentoStr
+                  insRenglonFactura.SetNumeroFactura insFactura.GetNumero
+                  insRenglonFactura.SetConsecutivoRenglon i
+                  insRenglonFactura.SetArticulo gConvert.fConvierteAString(vRs("Articulo").Value)
+                  insRenglonFactura.SetDescripcion gConvert.fConvierteAString(vRs("Descripcion").Value)
+                  insRenglonFactura.SetAlicuotaIVAStr gEnumProyecto.enumTipoDeAlicuotaToString(gConvert.charAEnumerativoInt(gConvert.fConvierteAString(vRs("AlicuotaIVA").Value)))
+                  insRenglonFactura.SetPorcentajeAlicuota gConvert.fConvierteACurrency(vRs("PorcentajeAlicuota").Value)
+                  insRenglonFactura.SetCantidad gConvert.fConvierteACurrency(vRs("Cantidad").Value)
+                  insRenglonFactura.SetPorcentajeDescuento 0
+                  insRenglonFactura.SetPorcentajeBaseImponible 100
+                  insRenglonFactura.SetPrecioSinIVA vPSI
+                  insRenglonFactura.SetPrecioConIVA vPCI
+                  insRenglonFactura.SetTotalRenglon vPSI
+                  insRenglonFactura.SetSerial ""
+                  insRenglonFactura.SetRollo ""
+                  insRenglonFactura.SetCodigoVendedor1 ""
+                  insRenglonFactura.SetCodigoVendedor2 ""
+                  insRenglonFactura.SetCodigoVendedor3 ""
+                  insRenglonFactura.SetRsRenglonFactura Nothing
+                  insRenglonFactura.fInsert
+                  i = i + 1
+                  vRs.MoveNext
+               Wend
+            End If
+            vResult = True
+            If insFactura.fSearchByField("Numero", insFactura.GetNumero, True, False) Then
+               insFactura.sCalculaTotalesFactura False
+               insFactura.SetMontoDeLasCuotas insFactura.GetTotalFactura
+               insFactura.SetMontoUltimaCuota insFactura.GetTotalFactura
+               insFactura.fUpdateRecord False, False, Modificar, False, Nothing, insFactura.GetNumero, eTF_RESUMENDIARIODEVENTAS, ""
+            End If
+         
+         End If
+      End If
+   End If
+h_EXIT: On Error GoTo 0
+   fImportaRDV = vResult
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fImportaRDV", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
