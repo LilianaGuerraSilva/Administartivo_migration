@@ -14,17 +14,17 @@ using System.Windows.Shapes;
 
 namespace Galac.Saw.Uil.SttDef.Views {
     /// <summary>
-    /// Interaction logic for GSFacturaFacturacionView.xaml
+    /// Interaction logic for GSFacturaCamposDefiniblesView.xaml
     /// </summary>
-    public partial class GSFacturaFacturacionView: UserControl {
+    public partial class GSFacturaImprentaDigitalView: UserControl {
         #region Constructores
 
-        public GSFacturaFacturacionView() {
+        public GSFacturaImprentaDigitalView() {
             InitializeComponent();
         }
-
         #endregion //Constructores
-    } //End of class GSFacturaFacturacionView.xaml
+
+    } //End of class GSFacturaCamposDefiniblesView.xaml
 
 } //End of namespace Galac.Saw.Uil.SttDef
 

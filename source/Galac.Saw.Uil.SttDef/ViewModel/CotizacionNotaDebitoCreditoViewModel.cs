@@ -34,8 +34,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string IsEnabledNDPreNumeradaPropertyName = "IsEnabledNDPreNumerada";
         public const string IsEnabledPrefijoNCPropertyName = "IsEnabledPrefijoNC";
         public const string IsEnabledPrefijoNDPropertyName = "IsEnabledPrefijoND";
-
+        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         #endregion
+        #region Variables
+        private bool _IsEnabledUsaImprentaDigital;
+        #endregion //Variables
         #region Propiedades
       
         public override string ModuleName {
@@ -266,6 +269,21 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnabledUsaImprentaDigital {
+            get { return (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
+            set {
+                if (_IsEnabledUsaImprentaDigital != value) {
+                    _IsEnabledUsaImprentaDigital = value;
+                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
+                }
+            }
+        }
+
+        public bool IsNotEnabledUsaImprentaDigital {
+            get {
+                return IsEnabled && !IsEnabledUsaImprentaDigital;
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         public CotizacionNotaDebitoCreditoViewModel()
@@ -274,6 +292,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public CotizacionNotaDebitoCreditoViewModel(NotasDebitoCreditoEntregaStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombrePlantillaBoletaPropertyName;
+            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -451,8 +470,17 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
            }
            return vResult;
         }
-        #endregion //Metodos Generados
 
+        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
+            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
+                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
+            }
+        }
+
+        private bool UsaImprentaDigital() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
+        }
+        #endregion //Metodos Generados
 
     } //End of class CotizacionNotaDebitoCreditoViewModel
 

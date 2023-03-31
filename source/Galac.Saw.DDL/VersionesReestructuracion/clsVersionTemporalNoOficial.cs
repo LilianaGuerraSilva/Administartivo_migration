@@ -9,14 +9,21 @@ using System;
 using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
-    class clsVersionTemporalNoOficial: clsVersionARestructurar {
+    class clsVersionTemporalNoOficial : clsVersionARestructurar {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
-			AgregaColumnasReglasDeContabilizacionOrdenDeProduccion();
-			CrearCampoCompania_EstaIntegradaG360();
+            AgregaColumnasReglasDeContabilizacionOrdenDeProduccion();
+            CrearParametrosImprentaDigital();
+            CrearCampoCompania_EstaIntegradaG360();
             DisposeConnectionNoTransaction();
             return true;
+        }
+
+        private void CrearParametrosImprentaDigital() {
+            AgregarNuevoParametro("UsaImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.String, "", 'N', "N");
+            AgregarNuevoParametro("FechaInicioImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.String, "", 'N', LibConvert.ToStr(LibDate.MinDateForDB()));
+            AgregarNuevoParametro("ProveedorImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
         }
 
         private void AgregaColumnasReglasDeContabilizacionOrdenDeProduccion() {
@@ -44,9 +51,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
                 }
             }
         }
-		
-		private void CrearCampoCompania_EstaIntegradaG360() {
-			AddColumnBoolean("dbo.Compania", "ConectadaConG360", "CONSTRAINT ConecConG360 NOT NULL", false);
-		}
+
+        private void CrearCampoCompania_EstaIntegradaG360() {
+            AddColumnBoolean("dbo.Compania", "ConectadaConG360", "CONSTRAINT ConecConG360 NOT NULL", false);
+        }
     }
 }

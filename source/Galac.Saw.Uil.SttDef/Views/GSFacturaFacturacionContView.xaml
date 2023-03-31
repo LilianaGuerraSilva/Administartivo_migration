@@ -118,6 +118,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Content="Ultima Fecha de Facturación Histórica........."
+                    IsEnabled="{Binding Path=IsEnabledUltimaFechaDeFacturacionHistorica}"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=IsChecked, ElementName=chkPermitirIncluirFacturacionHistorica}" />
                 <nsWpfControls:GSDatePickerWpf
@@ -239,7 +240,7 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsarOtrosCargoDeFactura}"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}"/>
+                    Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblUsaCamposExtrasEnRenglonFactura"
                     Grid.Row="1"
@@ -541,11 +542,11 @@
                     Grid.Column="0"
                     Content="Usar Lista de Precios en Moneda Extranjera..................."
                     Style="{StaticResource LabelPrompt}" />
-                <CheckBox 
+                <CheckBox
                     Name="chkUsaListaDePrecioEnMonedaExtranjera"
                     Grid.Row="0"
                     Grid.Column="1"
-                    HorizontalAlignment="Left" 
+                    HorizontalAlignment="Left"
                     IsChecked="{Binding Path=UsaListaDePrecioEnMonedaExtranjera}"
                     IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource CheckBoxStyle}" />
@@ -572,28 +573,28 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     HorizontalAlignment="Left"
-                    IsChecked="{Binding SeMuestraTotalEnDivisas}" 
-                    IsEnabled="{Binding Path= IsEnabled}" 
+                    IsChecked="{Binding SeMuestraTotalEnDivisas}"
+                    IsEnabled="{Binding Path=IsEnabled}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Grid.Row="3"
                     Grid.Column="0"
                     Content="Número Días A Mantener Tasa De Cambio ........................"
                     Style="{StaticResource LabelPrompt}" />
-                     <nsWpfControls:GSNumericBoxWpf
-                        Name="txtNroDiasMantenerTasaCambio"
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        HorizontalAlignment="Stretch"
-                        BorderThickness="1"
-                        DecimalDigits="2"
-                        InputDataType="UInteger"
-                        IsEnabled="{Binding Path=IsEnabled}"
-                        MaxLength="3"
-                        Style="{StaticResource TextBoxInputStyle}"
-                        UnitDigits="0"
-                        Value="{Binding Path=NroDiasMantenerTasaCambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtNroDiasMantenerTasaCambio"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    HorizontalAlignment="Stretch"
+                    BorderThickness="1"
+                    DecimalDigits="2"
+                    InputDataType="UInteger"
+                    IsEnabled="{Binding Path=IsEnabled}"
+                    MaxLength="3"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    UnitDigits="0"
+                    Value="{Binding Path=NroDiasMantenerTasaCambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+
             </Grid>
         </GroupBox>
     </Grid>

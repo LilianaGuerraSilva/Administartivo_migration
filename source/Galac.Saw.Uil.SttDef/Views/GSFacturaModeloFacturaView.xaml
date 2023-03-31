@@ -18,8 +18,8 @@
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=cmbModeloDeFactura}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="410" />
-            <ColumnDefinition Width="410" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,6 +29,7 @@
 
         <GroupBox
             Grid.Row="0"
+            Width="420"
             Margin="0,0,0,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -54,14 +55,15 @@
                     Name="lblModeloDeFactura"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Content="Modelo De Factura............"
+                    Content="Modelo De Factura................."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbModeloDeFactura"
                     Grid.Row="0"
                     Grid.Column="1"
-                    Width="180"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    Width="200"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayModeloDeFactura}"
                     SelectedItem="{Binding Path=ModeloDeFactura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -70,7 +72,7 @@
                     Name="lblNombrePlantillaFactura"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Content="Nombre Plantilla Factura..."
+                    Content="Nombre Plantilla Factura........"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtNombrePlantillaFactura"
@@ -89,7 +91,7 @@
                     Grid.Column="1"
                     Width="30"
                     Height="23"
-                    Margin="203,0,0,0"
+                    Margin="203,0,5,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Command="{Binding Path=ChooseTemplateCommandTalonario1}"
@@ -100,7 +102,8 @@
                     Name="lblFacturaPreNumerada"
                     Grid.Row="2"
                     Grid.Column="0"
-                    Content="Factura Pre Numerada......"
+                    Content="Factura Pre Numerada..........."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkFacturaPreNumerada"
@@ -108,19 +111,20 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=FacturaPreNumerada}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraFactura"
                     Grid.Row="3"
                     Grid.Column="0"
-                    Content="Primera Factura................."
+                    Content="Primera Factura......................"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtPrimeraFactura"
                     Grid.Row="3"
                     Grid.Column="1"
-                    Width="180"
+                    Width="200"
                     BorderThickness="1"
                     InputDataType="Digit"
                     IsEnabled="{Binding Path=IsEnabledPrimeraFactura}"
@@ -131,13 +135,14 @@
                     Name="lblTipoDePrefijo"
                     Grid.Row="4"
                     Grid.Column="0"
-                    Content="Tipo de Prefijo...................."
+                    Content="Tipo de Prefijo........................."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbTipoDePrefijo"
                     Grid.Row="4"
                     Grid.Column="1"
-                    Width="180"
+                    Width="200"
                     IsEnabled="{Binding Path=IsEnabledTipoPrefijo}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayTipoDePrefijo}"
@@ -148,13 +153,14 @@
                     Grid.Row="5"
                     Grid.RowSpan="2"
                     Margin="3,3,0,0"
-                    Content="Prefijo................................."
+                    Content="Prefijo........................................"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtPrefijo"
                     Grid.Row="5"
                     Grid.Column="1"
-                    Width="180"
+                    Width="200"
                     Margin="3,3,0,0"
                     BorderThickness="1"
                     InputDataType="Alfanumeric"
@@ -166,7 +172,8 @@
                     Name="lblModeloFacturaModoTexto"
                     Grid.Row="6"
                     Margin="0,4,0,0"
-                    Content="Modelo Factura Modo Texto"
+                    Content="Modelo Factura Modo Texto....."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=IsVisibleModeloFacturaModoTexto, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSComboBoxWpf
@@ -174,8 +181,8 @@
                     Grid.Row="6"
                     Grid.Column="1"
                     Width="200"
-                    Margin="0,4,0,0"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    Margin="3,4,0,0"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayModeloFacturaModoTexto}"
                     SelectedItem="{Binding Path=ModeloFacturaModoTexto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -186,10 +193,11 @@
         <GroupBox
             Grid.Row="0"
             Grid.Column="1"
-            Margin="2,0,0,0"
+            Margin="3,0,0,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Header="Formato Otros Cargos y Descuentos"
+            IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
             Style="{StaticResource GroupBoxStyle}"
             Visibility="{Binding Path=IsVisibleUsarOtrosCargoDeFactura, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid>
@@ -204,17 +212,17 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="27*" />
                 </Grid.ColumnDefinitions>
-
                 <Label
                     Name="lblNombrePlantillaFacturaOyD"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Content="Nombre Plantilla ..."
+                    Content="Nombre Plantilla......................."
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtNombrePlantillaFacturaOyD"
                     Grid.Row="1"
                     Grid.Column="1"
+                    Width="200"
                     Height="23"
                     Margin="3,0,30,0"
                     HorizontalAlignment="Stretch"
@@ -231,7 +239,7 @@
                     Grid.Column="1"
                     Width="30"
                     Height="23"
-                    Margin="203,0,0,0"
+                    Margin="203,0,3,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Command="{Binding Path=ChooseTemplateCommandOyD}"
@@ -295,13 +303,14 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="Modelo De Factura 2.............."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbModeloDeFactura2"
                     Grid.Row="0"
                     Grid.Column="1"
-                    Width="180"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    Width="200"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayModeloDeFactura}"
                     SelectedItem="{Binding Path=ModeloDeFactura2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -329,7 +338,7 @@
                     Grid.Column="1"
                     Width="30"
                     Height="23"
-                    Margin="203,0,0,0"
+                    Margin="203,0,3,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Command="{Binding Path=ChooseTemplateCommandTalonario2}"
@@ -341,6 +350,7 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Content="Factura Pre Numerada 2........"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <CheckBox
                     Name="chkFacturaPreNumerada2"
@@ -348,68 +358,67 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=FacturaPreNumerada2}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource CheckBoxStyle}" />
                 <Label
                     Name="lblPrimeraFactura2"
                     Grid.Row="3"
                     Grid.Column="0"
                     Content="Primera Factura 2..................."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtPrimeraFactura2"
                     Grid.Row="3"
                     Grid.Column="1"
-                    Width="180"
+                    Width="200"
                     BorderThickness="1"
                     InputDataType="Digit"
                     IsEnabled="{Binding Path=IsEnabledPrimeraFactura2}"
                     MaxLength="11"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=PrimeraFactura2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
                 <Label
                     Name="lblTipoDePrefijo2"
                     Grid.Row="4"
                     Grid.Column="0"
                     Content="Tipo de Prefijo 2....................."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSComboBoxWpf
                     Name="cmbTipoDePrefijo2"
                     Grid.Row="4"
                     Grid.Column="1"
-                    Width="180"
+                    Width="200"
                     IsEnabled="{Binding Path=IsEnabledTipoPrefijo2}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayTipoDePrefijo}"
                     SelectedItem="{Binding Path=TipoDePrefijo2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}" />
-
-
                 <Label
                     Name="lblPrefijo2"
                     Grid.Row="5"
                     Grid.Column="0"
-                    Content="Prefijo 2.................................."
+                    Content="Prefijo 2...................................."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}" />
                 <nsWpfControls:GSTextBoxWpf
                     Name="txtPrefijo2"
                     Grid.Row="5"
                     Grid.Column="1"
-                    Width="180"
+                    Width="200"
                     BorderThickness="1"
                     InputDataType="Alfanumeric"
                     IsEnabled="{Binding Path=IsEnabledPrefijo2}"
                     MaxLength="5"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=Prefijo2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
-
                 <Label
                     Name="lblModeloFacturaModoTexto2"
                     Grid.Row="6"
                     Grid.Column="0"
                     Content="Modelo Factura Modo Texto 2"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=IsVisibleModeloFacturaModoTexto2, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSComboBoxWpf
@@ -417,7 +426,7 @@
                     Grid.Row="6"
                     Grid.Column="1"
                     Width="200"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding Path=ArrayModeloFacturaModoTexto}"
                     SelectedItem="{Binding Path=ModeloFacturaModoTexto2, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
