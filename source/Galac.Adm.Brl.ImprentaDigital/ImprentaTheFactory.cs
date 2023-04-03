@@ -59,16 +59,20 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public override async Task<bool> EstadoDocumento() {
+        public override async Task<stLoginResq> EstadoDocumento() {
             try {
-                bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
+                stSolicitudDeAccion vConsultaDeEstado = new stSolicitudDeAccion();
+                vConsultaDeEstado.Serie = "";
+                vConsultaDeEstado.TipoDocumento = GetTipoDocumento(eTipoDocumentoFactura.NotaDeDebito);
+                vConsultaDeEstado.NumeroDocumento = "00000001";
                 string vRepuesta = await vConectorJson.CheckConnection();
+                stLoginResq vReq;
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
+                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vConsultaDeEstado); //Construir XML o JSON Con datos 
+                    vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);                   
                 }
-                return vResult;
+                return vReq;
             } catch (Exception) {
                 throw;
             }
@@ -78,9 +82,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
+                stSolicitudDeAccion vDocumento = new stSolicitudDeAccion();
+                vDocumento.Serie = "";
+                vDocumento.TipoDocumento = GetTipoDocumento(eTipoDocumentoFactura.NotaDeDebito);
+                vDocumento.NumeroDocumento = "00009999";
+                vDocumento.MotivoAnulacion = "Prueba";
                 string vRepuesta = await vConectorJson.CheckConnection();
-                if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
+                stLoginResq vEstaAnulado = await EstadoDocumento();
+                if (vEstaAnulado.estado.estadoDocumento == "Enviada" && !LibString.IsNullOrEmpty(vConectorJson.Token)) {
+                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumento); //Construir XML o JSON Con datos 
                     var vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                 }
                 return vResult;
@@ -105,9 +115,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 throw;
             }
         }
-        #endregion Metdos Basicos
+        #endregion Metodos Basicos
         #region Construcccion de Documento
-        #region Armar  Documento Digital
+        #region Armar Documento Digital
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
             XElement vIdentificacionDocumento = GetIdentificacionDocumento();

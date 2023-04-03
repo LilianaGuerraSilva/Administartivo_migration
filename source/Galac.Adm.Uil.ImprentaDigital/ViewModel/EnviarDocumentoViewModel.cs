@@ -164,9 +164,16 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
 
         public async void EjecutarProcesos() {
             try {
-                //switch (Accion) {
-                //  Proceso Automaticos   
-                //}                
+                switch (_Action) {
+                    case eAccionSR.Emitir:
+                        DocumentoEnviado = await _insImprentaDigital.EnviarDocumento();
+                        NumeroControl = _insImprentaDigital.NumeroControl;
+                        break;
+                    case eAccionSR.Anular:
+                        DocumentoEnviado = await _insImprentaDigital.AnularDocumento();
+                        //NumeroControl = _insImprentaDigital.NumeroControl;
+                        break;
+                }
             } catch (Exception vEx) {
                 LibMessages.MessageBox.Error(this, vEx.Message, ModuleName);
             } finally {

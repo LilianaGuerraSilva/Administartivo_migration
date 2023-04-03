@@ -327,7 +327,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
         public abstract Task<bool> EnviarDocumento();
         public abstract Task<bool> AnularDocumento();
-        public abstract Task<bool> EstadoDocumento();
+        public abstract Task<stLoginResq> EstadoDocumento();
         public abstract Task<bool> EstadoLoteDocumentos();
         public abstract Task<bool> SincronizarDocumentos();
 
