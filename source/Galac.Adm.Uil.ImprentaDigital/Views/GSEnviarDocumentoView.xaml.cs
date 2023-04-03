@@ -26,7 +26,9 @@ namespace Galac.Adm.Uil.ImprentaDigital.Views {
         }
 
         private void GSEnviarDocumentoView_Loaded(object sender, RoutedEventArgs e) {
-            ((EnviarDocumentoViewModel)DataContext).EjecutarProcesos();
+            if (((EnviarDocumentoViewModel)DataContext).Accion != LibGalac.Aos.Base.eAccionSR.Emitir) {
+                ((EnviarDocumentoViewModel)DataContext).EjecutarProcesos();
+            }
         }
         #endregion //Constructores
     } //End of class GSEnviarDocumentoView.xaml

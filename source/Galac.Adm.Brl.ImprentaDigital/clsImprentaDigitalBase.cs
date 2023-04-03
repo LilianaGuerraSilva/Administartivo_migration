@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
+using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Vendedor;
@@ -20,7 +21,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #region Variables
         string _NumeroFactura;
         string _NumeroControl;
-        eTipoDocumentoFactura _TipoDeDocumento;               
+        eTipoDocumentoFactura _TipoDeDocumento;
         int _ConsecutivoCompania;
         clsLoginUser _LoginUser;
 
@@ -44,13 +45,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public virtual eTipoDocumentoFactura TipoDeDocumento {
             get { return _TipoDeDocumento; }
             set { _TipoDeDocumento = value; }
-        }        
+        }
 
         internal virtual clsLoginUser LoginUser {
             get { return _LoginUser; }
             set { _LoginUser = value; }
         }
-        
+
         internal virtual Cliente ClienteImprentaDigital { get; set; }
         internal virtual Vendedor VendedorImprentaDigital { get; set; }
         internal virtual FacturaRapida FacturaImprentaDigital { get; set; }
@@ -60,19 +61,28 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #endregion Propiedades
 
         public clsImprentaDigitalBase() {
-            
+
         }
-        
+
         public clsImprentaDigitalBase(eTipoDocumentoFactura initTipoDocumento, string initNumeroFactura) {
             LoginUser = new clsLoginUser();
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDocumento;
             _ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            LoginUser.URL = LibGalac.Aos.Cnf.LibAppSettings.ReadAppSettingsKey("URLImpDigital");
-            LoginUser.User = LibGalac.Aos.Cnf.LibAppSettings.ReadAppSettingsKey("UsuarioImpDigital");
-            LoginUser.UserKey = LibGalac.Aos.Cnf.LibAppSettings.ReadAppSettingsKey("KeyUsuarioImpDigit");
-            LoginUser.Password= LibGalac.Aos.Cnf.LibAppSettings.ReadAppSettingsKey("ClaveImpDigital");
-            LoginUser.PasswordKey = LibGalac.Aos.Cnf.LibAppSettings.ReadAppSettingsKey("KeyClaveImpDigital");            
+            eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+            clsImprentaDigitalSettings vImprentaDigitalSettings = new clsImprentaDigitalSettings();
+            switch (vProveedorImprentaDigital) {
+                case eProveedorImprentaDigital.TheFactoryHKA:
+                    LoginUser.URL = vImprentaDigitalSettings.DireccionURL;
+                    LoginUser.User = vImprentaDigitalSettings.Usuario;
+                    LoginUser.UserKey = vImprentaDigitalSettings.CampoClave;
+                    LoginUser.Password = vImprentaDigitalSettings.Clave;
+                    LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;
+                    break;
+                case eProveedorImprentaDigital.NoAplica:
+                default:
+                    break;
+            }
         }
 
         private void BuscarDatosDeFactura() {
@@ -173,6 +183,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.AlicuotaIGTF = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "AlicuotaIGTF"));
                     FacturaImprentaDigital.IGTFML = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "IGTFML"));
                     FacturaImprentaDigital.BaseImponibleIGTF = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "BaseImponibleIGTF"));
+                } else {
+                    throw new System.Exception("No existen datos para el documento a enviar");
                 }
             } catch (System.Exception) {
                 throw;
@@ -227,6 +239,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     iFacturaRapidaDetalle.CampoExtraEnRenglonFactura2 = LibXml.GetElementValueOrEmpty(xRow, "CampoExtraEnRenglonFactura2");
                     DetalleFacturaImprentaDigital.Add(iFacturaRapidaDetalle);
                 }
+            } else {
+                throw new System.Exception("No existen datos para el detalle del documento a enviar");
             }
         }
 
@@ -237,7 +251,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private void BuscarDatosDeCliente() {            
+        private void BuscarDatosDeCliente() {
             QAdvSql vSqlUtil = new QAdvSql("");
             LibGpParams vParam = new LibGpParams();
             vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
@@ -266,6 +280,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 ClienteImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");
                 ClienteImprentaDigital.Telefono = LibXml.GetPropertyString(vResult, "Telefono");
                 ClienteImprentaDigital.Email = LibXml.GetPropertyString(vResult, "Email");
+            } else {
+                throw new System.Exception("No existen datos para el cliente del documento a enviar");
             }
         }
 
@@ -278,7 +294,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine("SELECT ");
             vSql.AppendLine(" Codigo");
             vSql.AppendLine(" ,Nombre");
-            vSql.AppendLine(" ,Rif " );
+            vSql.AppendLine(" ,Rif ");
             vSql.AppendLine(" ,Direccion");
             vSql.AppendLine(" ,Ciudad");
             vSql.AppendLine(" ,ZonaPostal");
@@ -298,6 +314,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 VendedorImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");
                 VendedorImprentaDigital.Telefono = LibXml.GetPropertyString(vResult, "Telefono");
                 VendedorImprentaDigital.email = LibXml.GetPropertyString(vResult, "Email");
+            } else {
+                throw new System.Exception("No existen datos para el vendedor del documento a enviar");
             }
         }
 

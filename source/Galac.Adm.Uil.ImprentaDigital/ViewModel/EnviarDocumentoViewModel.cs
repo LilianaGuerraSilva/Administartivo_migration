@@ -20,15 +20,19 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
         #region Constantes
         public const string NumeroFacturaPropertyName = "NumeroFactura";
         public const string TipoDocumentoPropertyName = "TipoDocumento";
+        public const string TextoBtnEnviarPropertyName = "TextoBtnEnviar";
+        public const string BtnIsEnablePropertyName = "BtnIsEnable";
         #endregion
         #region Variables
         string _NumeroFactura;
         string _NumeroControl;
         string _TipoDocumento;
         bool _DocumentoEnviado;
+        string _TextoBtnEnviar;
+        bool _BtnIsEnable;
         eTipoDocumentoFactura _TipoDeDocumento;
         clsImprentaDigitalBase _insImprentaDigital;
-        eAccionSR _Action;
+        eAccionSR _Accion;
         #endregion Variables
         #region Propiedades
 
@@ -54,7 +58,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
             }
             set {
                 if (_NumeroControl != value) {
-                    _NumeroControl = value;                  
+                    _NumeroControl = value;
                 }
             }
         }
@@ -82,16 +86,65 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
             }
         }
 
+        public string TextoBtnEnviar {
+            get {
+                return _TextoBtnEnviar;
+            }
+            set {
+                if (_TextoBtnEnviar != value) { }
+                _TextoBtnEnviar = value;
+            }
+        }
+
+        public eAccionSR Accion {
+            get {
+                return _Accion;
+            }
+            set {
+                if (_Accion != value) {
+                    _Accion = value;
+                }
+            }
+        }
+
+        public RelayCommand EnviarCommand {
+            get;
+            private set;
+        }
+
+        public RelayCommand SalirCommand {
+            get;
+            private set;
+        }
+
+        public bool IsVisibleButton {
+            get {
+                return Accion == eAccionSR.Emitir;
+            }
+        }
+
+        public bool BtnIsEnable {
+            get {
+                return _BtnIsEnable;
+            }
+            set {
+                if (_BtnIsEnable != value) {
+                    _BtnIsEnable = value;
+                    RaisePropertyChanged(BtnIsEnablePropertyName);
+                }
+            }
+        }
+
         #endregion //Propiedades
         #region Constructores
         public EnviarDocumentoViewModel(eTipoDocumentoFactura initTipoDocumento, string intiNumeroFactura, eAccionSR initAction) {
             _TipoDeDocumento = initTipoDocumento;
             _NumeroFactura = intiNumeroFactura;
-            _Action = initAction;
+            Accion = initAction;
             eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
             _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, _TipoDeDocumento, _NumeroFactura);
         }
-    
+
         #endregion //Constructores
         #region Metodos Generados
 
@@ -99,21 +152,42 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
             base.InitializeLookAndFeel();
             RibbonData.HideAllControls();
             TipoDocumento = "Enviando " + LibEnumHelper.GetDescription(_TipoDeDocumento) + " No";
+            TextoBtnEnviar = "Enviar";
+            BtnIsEnable = true;
+        }
+
+        protected override void InitializeCommands() {
+            base.InitializeCommands();
+            EnviarCommand = new RelayCommand(ExecuteEnviarCommand);
+            SalirCommand = new RelayCommand(ExecuteSalirCommand);
         }
 
         public async void EjecutarProcesos() {
             try {
-                switch (_Action) {
-                    case eAccionSR.Emitir:
-                        DocumentoEnviado = await _insImprentaDigital.EnviarDocumento();
-                        NumeroControl = _insImprentaDigital.NumeroControl;
-                        break;
-                }                
+                //switch (Accion) {
+                //  Proceso Automaticos   
+                //}                
             } catch (Exception vEx) {
-                LibMessages.MessageBox.Error(this, vEx.Message, ModuleName);            
+                LibMessages.MessageBox.Error(this, vEx.Message, ModuleName);
             } finally {
                 RaiseRequestCloseEvent();
-            }    
+            }
+        }
+
+        private async void ExecuteEnviarCommand() {
+            DocumentoEnviado = await _insImprentaDigital.EnviarDocumento();
+            NumeroControl = _insImprentaDigital.NumeroControl;
+            BtnIsEnable = false;
+            if (!DocumentoEnviado) {
+                BtnIsEnable = LibMessages.MessageBox.YesNo(this, "El documento no pudo ser enviado, desea reintentar?", ModuleName);
+                TextoBtnEnviar = "Re-intentar";
+                RaiseMoveFocus(TextoBtnEnviarPropertyName);
+            }
+            RaisePropertyChanged(BtnIsEnablePropertyName);
+        }
+
+        private void ExecuteSalirCommand() {
+            RaiseRequestCloseEvent();
         }
         #endregion //Metodos Generados
     } //End of class EnviarDocumentoViewModel

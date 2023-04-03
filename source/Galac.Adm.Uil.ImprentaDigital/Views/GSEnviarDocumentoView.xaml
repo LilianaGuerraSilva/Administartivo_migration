@@ -12,6 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid FocusManager.FocusedElement="{Binding ElementName=txtNumeroFactura}">
@@ -20,6 +21,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -45,10 +47,33 @@
             Grid.ColumnSpan="2"
             Width="325"
             Height="23"
-            Margin="10,5,5,5"
+            Margin="10,10,10,10"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             IsIndeterminate="True"
             Value="{Binding Path=ProgressBarValue}" />
+        <Button
+            Name="btSalir"
+            Grid.Row="2"
+            Grid.Column="0"
+            Width="85"
+            Margin="10,10,10,10"
+            Command="{Binding Path=SalirCommand}"
+            Visibility="{Binding Path=IsVisibleButton, Converter={StaticResource booleanToVisibilityConverter}}">
+            <TextBlock
+                Text="Finalizó Correctamente"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Button>
+        <Button
+            Name="btEnviar"
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="85"
+            Margin="10,10,10,10"
+            Command="{Binding Path=EnviarCommand}"
+            Content="{Binding Path=TextoBtnEnviar}"
+            IsEnabled="{Binding Path=BtnIsEnable}"
+            Visibility="{Binding Path=IsVisibleButton, Converter={StaticResource booleanToVisibilityConverter}}" />
     </Grid>
 </UserControl>
