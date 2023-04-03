@@ -82,7 +82,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 case eProveedorImprentaDigital.NoAplica:
                 default:
                     break;
-            }            
+            }
         }
 
         private void BuscarDatosDeFactura() {

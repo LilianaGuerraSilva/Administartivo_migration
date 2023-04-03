@@ -16,7 +16,7 @@ using Galac.Adm.Brl.ImprentaDigital;
 using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
-    public class EnviarDocumentoViewModel : LibGenericViewModel {
+    public class EnviarDocumentoViewModel: LibGenericViewModel {
         #region Constantes
         public const string NumeroFacturaPropertyName = "NumeroFactura";
         public const string TipoDocumentoPropertyName = "TipoDocumento";

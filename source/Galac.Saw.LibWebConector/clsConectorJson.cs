@@ -23,7 +23,7 @@ namespace Galac.Saw.LibWebConnector {
 
         public static string SerializeJSON(object valElemento) {
             try {
-                string vResult = JsonConvert.SerializeObject(valElemento, Formatting.Indented);               
+                string vResult = JsonConvert.SerializeObject(valElemento, Formatting.Indented);
                 return vResult;
             } catch (JsonException) {
                 throw;
@@ -69,7 +69,7 @@ namespace Galac.Saw.LibWebConnector {
                 if (vHttpRespMsg.Content is null || vHttpRespMsg.Content.Headers.ContentType?.MediaType != "application/json") {
                     return new stLoginResq() { mensaje = "Error de conexión al Host", token = "", codigo = "402", expiracion = "" };
                 } else {
-                    string HttpResq = await vHttpRespMsg.Content.ReadAsStringAsync();                    
+                    string HttpResq = await vHttpRespMsg.Content.ReadAsStringAsync();
                     stLoginResq infoReqs = JsonConvert.DeserializeObject<stLoginResq>(HttpResq);
                     return infoReqs;
                 }
