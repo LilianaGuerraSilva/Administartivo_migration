@@ -93,6 +93,10 @@
       <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
       <Name>Galac.Adm.Ccl.Venta</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.SttDef\Galac.Saw.Brl.SttDef.csproj">
+      <Project>{d018cc29-3ff6-445d-9672-e12bddd873ac}</Project>
+      <Name>Galac.Saw.Brl.SttDef</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
       <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
       <Name>Galac.Saw.Ccl.Cliente</Name>

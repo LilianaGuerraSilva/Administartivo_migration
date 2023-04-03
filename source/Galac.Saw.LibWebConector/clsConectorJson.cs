@@ -23,7 +23,8 @@ namespace Galac.Saw.LibWebConnector {
 
         public static string SerializeJSON(object valElemento) {
             try {
-                return JsonConvert.SerializeObject(valElemento, Formatting.Indented);
+                string vResult = JsonConvert.SerializeObject(valElemento, Formatting.Indented);               
+                return vResult;
             } catch (JsonException) {
                 throw;
             } catch (Exception) {
