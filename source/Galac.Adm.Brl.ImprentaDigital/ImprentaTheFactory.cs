@@ -30,15 +30,16 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
         }
 
+
         #region Métodos Basicos
-        public override async Task<bool> SincronizarDocumentos() {
+        public override  bool SincronizarDocumentos() {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                string vRepuesta = await vConectorJson.CheckConnection();
+                string vRepuesta =  vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
+                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 }
                 return vResult;
             } catch (Exception) {
@@ -46,14 +47,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public override async Task<bool> EstadoLoteDocumentos() {
+        public override bool EstadoLoteDocumentos() {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                string vRepuesta = await vConectorJson.CheckConnection();
+                string vRepuesta =  vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoLote), vConectorJson.Token);
+                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoLote), vConectorJson.Token);
                 }
                 return vResult;
             } catch (Exception) {
@@ -61,18 +62,18 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public override async Task<stLoginResq> EstadoDocumento() {
+        public override bool EstadoDocumento() {
             try {
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 stSolicitudDeAccion vConsultaDeEstado = new stSolicitudDeAccion();
                 vConsultaDeEstado.Serie = "";
                 vConsultaDeEstado.TipoDocumento = GetTipoDocumento(eTipoDocumentoFactura.NotaDeDebito);
                 vConsultaDeEstado.NumeroDocumento = "00000001";
-                string vRepuesta = await vConectorJson.CheckConnection();
+                string vRepuesta = vConectorJson.CheckConnection();
                 stLoginResq vReq;
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vConsultaDeEstado); //Construir XML o JSON Con datos 
-                    vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);                   
+                    string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
+                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 }
                 return vReq;
             } catch (Exception) {
@@ -80,7 +81,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public override async Task<bool> AnularDocumento() {
+        public override bool AnularDocumento() {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
@@ -90,11 +91,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 new XElement("tipoDocumento", GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum)),
                 new XElement("numeroDocumento", FacturaImprentaDigital.NumeroControl),
                 new XElement("motivoAnulacion", FacturaImprentaDigital.MotivoDeAnulacion));
-
-                string vRepuesta = await vConectorJson.CheckConnection();
+                string vRepuesta =  vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumento); //Construir XML o JSON Con datos 
-                    var vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
+                    string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
+                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                 }
                 return vResult;
             } catch (Exception) {
@@ -102,16 +102,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public override async Task<bool> EnviarDocumento() {
+        public override bool EnviarDocumento() {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                string vRepuesta = await vConectorJson.CheckConnection();
+                string vRepuesta =  vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumentoDigital);
-                    var vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token);
+                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token);
                     NumeroControl = vReq.resultados.numeroControl;
+                    vResult = !LibString.IsNullOrEmpty(vReq.resultados.numeroDocumento);
                 }
                 return vResult;
             } catch (Exception) {

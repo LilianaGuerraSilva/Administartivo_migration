@@ -11,12 +11,9 @@ using LibGalac.Aos.Catching;
 namespace Galac.Adm.Uil.ImprentaDigital {
     public class clsDocumentoDigitalMenu: ILibMenu {
         #region Metodos Generados
-
-        public bool EjecutarAccion(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, eAccionSR valAction, ref string refNumeroControl) {
+        public bool EjecutarAccion(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, eAccionSR valAction, bool valEsPorLote, ref string refNumeroControl) {
             try {
-                eTipoDocumentoFactura _TipoDeDocumento = valTipoDocumento;
-                eAccionSR _Action = valAction;
-                EnviarDocumentoViewModel vViewModel = new EnviarDocumentoViewModel(_TipoDeDocumento, valNumeroFactura, _Action);
+                EnviarDocumentoViewModel vViewModel = new EnviarDocumentoViewModel(valTipoDocumento, valNumeroFactura, valEsPorLote, valAction);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
                 refNumeroControl = vViewModel.NumeroControl;
                 return vViewModel.DocumentoEnviado;

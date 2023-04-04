@@ -14,6 +14,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.ImprentaDigital;
 using Galac.Saw.Ccl.SttDef;
+using System.Threading.Tasks;
 
 namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
     public class EnviarDocumentoViewModel: LibGenericViewModel {
@@ -107,19 +108,9 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
             }
         }
 
-        public RelayCommand EnviarCommand {
-            get;
-            private set;
-        }
-
-        public RelayCommand SalirCommand {
-            get;
-            private set;
-        }
-
         public bool IsVisibleButton {
             get {
-                return Accion == eAccionSR.Emitir;
+                return false;
             }
         }
 
@@ -137,7 +128,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
 
         #endregion //Propiedades
         #region Constructores
-        public EnviarDocumentoViewModel(eTipoDocumentoFactura initTipoDocumento, string intiNumeroFactura, eAccionSR initAction) {
+        public EnviarDocumentoViewModel(eTipoDocumentoFactura initTipoDocumento, string intiNumeroFactura, bool initEsPorLote, eAccionSR initAction) {
             _TipoDeDocumento = initTipoDocumento;
             _NumeroFactura = intiNumeroFactura;
             Accion = initAction;
@@ -156,22 +147,14 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
             BtnIsEnable = true;
         }
 
-        protected override void InitializeCommands() {
-            base.InitializeCommands();
-            EnviarCommand = new RelayCommand(ExecuteEnviarCommand);
-            SalirCommand = new RelayCommand(ExecuteSalirCommand);
-        }
-
-        public async void EjecutarProcesos() {
+        public void EjecutarProcesos() {
             try {
                 switch (Accion) {
                     case eAccionSR.Emitir:
-                        DocumentoEnviado = await _insImprentaDigital.EnviarDocumento();
-                        NumeroControl = _insImprentaDigital.NumeroControl;
+                        EnviarDocumento();
                         break;
                     case eAccionSR.Anular:
                         DocumentoEnviado = await _insImprentaDigital.AnularDocumento();
-                        //NumeroControl = _insImprentaDigital.NumeroControl;
                         break;
                 }
             } catch (Exception vEx) {
@@ -179,22 +162,32 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
             } finally {
                 RaiseRequestCloseEvent();
             }
+
         }
 
-        private async void ExecuteEnviarCommand() {
-            DocumentoEnviado = await _insImprentaDigital.EnviarDocumento();
-            NumeroControl = _insImprentaDigital.NumeroControl;
-            BtnIsEnable = false;
-            if (!DocumentoEnviado) {
-                BtnIsEnable = LibMessages.MessageBox.YesNo(this, "El documento no pudo ser enviado, desea reintentar?", ModuleName);
-                TextoBtnEnviar = "Re-intentar";
-                RaiseMoveFocus(TextoBtnEnviarPropertyName);
+        private bool DoEnviarDocumento(ref string refNumeroControl) {
+            try {
+                bool vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
+                refNumeroControl = _insImprentaDigital.NumeroControl;
+                return vDocumentoEnviado;
+            } catch (Exception) {
+                throw;
             }
-            RaisePropertyChanged(BtnIsEnablePropertyName);
         }
 
-        private void ExecuteSalirCommand() {
-            RaiseRequestCloseEvent();
+        private void EnviarDocumento() {
+            try {
+                string vMensaje = string.Empty;
+                var taskTestConnection = Task.Factory.StartNew(() => DoEnviarDocumento(ref vMensaje));
+                Task.WaitAll(taskTestConnection);
+                NumeroControl = vMensaje;
+                DocumentoEnviado = taskTestConnection.Result;
+                if (!DocumentoEnviado) {
+                    DocumentoEnviado = LibMessages.MessageBox.YesNo(this, "El documento no pudo ser enviado, desea reintentar?", ModuleName);
+                }
+            } catch (Exception) {
+                throw;
+            }
         }
         #endregion //Metodos Generados
     } //End of class EnviarDocumentoViewModel

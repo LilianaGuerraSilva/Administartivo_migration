@@ -39,11 +39,16 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         #region Miembros de IWrpMfVb
 
         bool IWrpImprentaDigitalVb.Execute(eTipoDocumentoFactura vfwTipoDocumento, string vfwNumeroFactura, eAccionSR vfwAction, string vfwCurrentParameters, ref string vfwNumeroControl) {
+        bool IWrpImprentaDigitalVb.Execute(int vfwTipoDocumento, string vfwNumeroFactura, int vfwAction, string vfwCurrentParameters, bool vfwEsPorLote, ref string vfwNumeroControl) {
             try {
                 bool vResult = false;
+                eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
+                eAccionSR vAction = (eAccionSR)vfwAction;
                 CreateGlobalValues(vfwCurrentParameters);
                 clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();
                 vResult = insMenu.EjecutarAccion(vfwTipoDocumento, vfwNumeroFactura, vfwAction, ref vfwNumeroControl);
+                clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();                
+                vResult = insMenu.EjecutarAccion(vTipoDeDocumento, vfwNumeroFactura, vAction, vfwEsPorLote, ref vfwNumeroControl);
                 return vResult;
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);

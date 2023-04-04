@@ -11,6 +11,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using Galac.Adm.Uil.ImprentaDigital.ViewModel;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.UI.Mvvm.Messaging;
+using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.ImprentaDigital {
     [LibMefUilComponentMetadata(typeof(UIMefImprentaDigitalDocumentoDigital), "Adm")]
@@ -84,10 +85,12 @@ namespace Galac.Adm.Uil.ImprentaDigital {
             try {
                 InitializeIfNecessary();                
                 string vRefNumControl = "";
+                eTipoDocumentoFactura _TipoDeDocumento = (eTipoDocumentoFactura)0;
+                eAccionSR _Action = (eAccionSR)12;
                 //Ejemplo del Llamado desde el wraper, no es funcional para el programa solo para depuración
                 //bool vReq = _DocumentoDigitalMenu.EjecutarAccion(0, "0000002601", 2, ref vRefNumControl);
                 LibMessages.MessageBox.Information(this, $"Numero de Control {vRefNumControl}", Name);
-                bool vReq = _DocumentoDigitalMenu.EjecutarAccion(eTipoDocumentoFactura.NotaDeDebito, "NC-00000001", eAccionSR.Anular, ref vRefNumControl);               
+                bool vReq = _DocumentoDigitalMenu.EjecutarAccion(_TipoDeDocumento, "0000002779", _Action, false, ref vRefNumControl);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {
@@ -95,9 +98,6 @@ namespace Galac.Adm.Uil.ImprentaDigital {
             }
         }
         #endregion //Metodos Generados
-
-
     } //End of class UIMefImprentaDigitalDocumentoDigital
-
 } //End of namespace Galac.Adm.Uil.ImprentaDigital
 
