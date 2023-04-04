@@ -43,10 +43,10 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
-        public async Task<string> CheckConnection() {
+        public string CheckConnection() {
             try {
                 string vJsonStr = FormatingJSON(_LoginUser);
-                stLoginResq vRequest = await SendPostJson(vJsonStr, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion), "");
+                var vRequest = SendPostJson(vJsonStr, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion), "");
                 _Token = vRequest.token;
                 _LoginUser.MessageResult = vRequest.mensaje;
                 return vRequest.mensaje;
@@ -54,7 +54,7 @@ namespace Galac.Saw.LibWebConnector {
                 throw;
             }
         }
-        public async Task<stLoginResq> SendPostJson(string valJsonStr, string valComandoApi, string valToken) {
+        public stLoginResq SendPostJson(string valJsonStr, string valComandoApi, string valToken) {
             string vResultMessage = "";
             try {
                 HttpClient vHttpClient = new HttpClient();
@@ -63,14 +63,16 @@ namespace Galac.Saw.LibWebConnector {
                     vHttpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer", valToken);
                 }
                 HttpContent vContent = new StringContent(valJsonStr, Encoding.UTF8, "application/json");
-                HttpResponseMessage vHttpRespMsg = await vHttpClient.PostAsync(valComandoApi, vContent);
-                vResultMessage = vHttpRespMsg.RequestMessage.ToString();
-                vHttpRespMsg.EnsureSuccessStatusCode();
-                if (vHttpRespMsg.Content is null || vHttpRespMsg.Content.Headers.ContentType?.MediaType != "application/json") {
+                Task<HttpResponseMessage> vHttpRespMsg = vHttpClient.PostAsync(valComandoApi, vContent);
+                vHttpRespMsg.Wait();
+                vResultMessage = vHttpRespMsg.Result.RequestMessage.ToString();
+                vHttpRespMsg.Result.EnsureSuccessStatusCode();
+                if (vHttpRespMsg.Result.Content is null || vHttpRespMsg.Result.Content.Headers.ContentType?.MediaType != "application/json") {
                     return new stLoginResq() { mensaje = "Error de conexión al Host", token = "", codigo = "402", expiracion = "" };
                 } else {
-                    string HttpResq = await vHttpRespMsg.Content.ReadAsStringAsync();
-                    stLoginResq infoReqs = JsonConvert.DeserializeObject<stLoginResq>(HttpResq);
+                    Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
+                    HttpResq.Wait();
+                    stLoginResq infoReqs = JsonConvert.DeserializeObject<stLoginResq>(HttpResq.Result);
                     return infoReqs;
                 }
             } catch (Exception vEx) {

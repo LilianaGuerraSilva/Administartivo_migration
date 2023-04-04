@@ -325,11 +325,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             BuscarDatosDeCliente();
             BuscarDatosDelVendedor();
         }
-        public abstract Task<bool> EnviarDocumento();
-        public abstract Task<bool> AnularDocumento();
-        public abstract Task<bool> EstadoDocumento();
-        public abstract Task<bool> EstadoLoteDocumentos();
-        public abstract Task<bool> SincronizarDocumentos();
+        public abstract bool EnviarDocumento();
+        public abstract bool AnularDocumento();
+        public abstract bool EstadoDocumento();
+        public abstract bool EstadoLoteDocumentos();
+        public abstract bool SincronizarDocumentos();
 
     }
 }

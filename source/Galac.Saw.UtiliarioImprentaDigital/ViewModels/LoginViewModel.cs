@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using Galac.Saw.UtiliarioImprentaDigital.Connector;
 using Galac.Saw.LibWebConnector;
+using System.Threading.Tasks;
 
 namespace Galac.Saw.UtiliarioImprentaDigital.ViewModels {
     public class LoginViewModel: ViewModelBase, ILoginUser {
@@ -133,19 +134,30 @@ namespace Galac.Saw.UtiliarioImprentaDigital.ViewModels {
             return vResult;
         }
 
-        private async void ExecuteLoginCommand(object obj) {
-            string vMensaje = string.Empty;
+        private void ExecuteLoginCommand(object obj) {
             try {
-                clsConnector _Connector = new clsConnector(_LoginUser);
-                MessageResult = string.Empty;
-                if (ValidatingField(ref vMensaje)) {
-                    MessageResult = await _Connector.TestConnection();                 
-                } else {
-                    MessageResult = vMensaje;
-                }
+                var taskTestConnection = Task.Factory.StartNew(() => DoGetLogin());
+                Task.WaitAll(taskTestConnection);
+                MessageResult = taskTestConnection.Result;
             } catch (Exception vEx) {
                 MessageBox.Show(vEx.Message);
-            }            
-        }       
+            }
+        }
+
+        private string DoGetLogin() {          
+            try {
+                string vMensaje = string.Empty;
+                clsConnector _Connector = new clsConnector(_LoginUser);
+                string vMessageResult = string.Empty;
+                if (ValidatingField(ref vMensaje)) {
+                    vMessageResult = _Connector.TestConnection();
+                } else {
+                    vMessageResult = vMensaje;
+                }
+                return vMessageResult;
+            } catch (Exception vEx) {
+                throw vEx;
+            }
+        }
     }
 }
