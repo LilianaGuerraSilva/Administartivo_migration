@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Xml.Schema;
 using Galac.Saw.Ccl.Cliente;
 using System.Linq;
+using System.Text;
+using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory: clsImprentaDigitalBase {
@@ -25,10 +27,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public ImprentaTheFactory(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
-            _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout                         
+            _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
         }
 
-        #region Metdos Basicos
+        #region Métodos Basicos
         public override async Task<bool> SincronizarDocumentos() {
             try {
                 bool vResult = false;
@@ -82,14 +84,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                stSolicitudDeAccion vDocumento = new stSolicitudDeAccion();
-                vDocumento.Serie = "";
-                vDocumento.TipoDocumento = GetTipoDocumento(eTipoDocumentoFactura.NotaDeDebito);
-                vDocumento.NumeroDocumento = "00009999";
-                vDocumento.MotivoAnulacion = "Prueba";
+                BuscarDatosParaAnulacion();
+                XElement vDocumento = new XElement("",
+                new XElement("serie", ""), //FacturaImprentaDigital.TalonarioAsString
+                new XElement("tipoDocumento", GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum)),
+                new XElement("numeroDocumento", FacturaImprentaDigital.NumeroControl),
+                new XElement("motivoAnulacion", FacturaImprentaDigital.MotivoDeAnulacion));
+
                 string vRepuesta = await vConectorJson.CheckConnection();
-                stLoginResq vEstaAnulado = await EstadoDocumento();
-                if (vEstaAnulado.estado.estadoDocumento == "Enviada" && !LibString.IsNullOrEmpty(vConectorJson.Token)) {
+                if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumento); //Construir XML o JSON Con datos 
                     var vReq = await vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                 }
@@ -115,8 +118,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 throw;
             }
         }
-        #endregion Metodos Basicos
-        #region Construcccion de Documento
+        #endregion Métodos Básicos
+        #region Construccion de Documento
         #region Armar Documento Digital
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
@@ -347,6 +350,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
         #endregion Detalle RenglonFactura      
+
+        
         #endregion
         #region Conversion de Tipos
 

@@ -9,6 +9,7 @@ using LibGalac.Aos.UI.Contracts;
 using LibGalac.Aos.UI.WpfControls;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
 using Galac.Adm.Uil.ImprentaDigital.ViewModel;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Adm.Uil.ImprentaDigital {
@@ -86,7 +87,7 @@ namespace Galac.Adm.Uil.ImprentaDigital {
                 //Ejemplo del Llamado desde el wraper, no es funcional para el programa solo para depuración
                 //bool vReq = _DocumentoDigitalMenu.EjecutarAccion(0, "0000002601", 2, ref vRefNumControl);
                 LibMessages.MessageBox.Information(this, $"Numero de Control {vRefNumControl}", Name);
-                bool vReq = _DocumentoDigitalMenu.EjecutarAccion(2, "NC-00000001", 12, ref vRefNumControl);               
+                bool vReq = _DocumentoDigitalMenu.EjecutarAccion(eTipoDocumentoFactura.NotaDeDebito, "NC-00000001", eAccionSR.Anular, ref vRefNumControl);               
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {

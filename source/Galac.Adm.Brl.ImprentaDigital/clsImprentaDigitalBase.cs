@@ -319,6 +319,38 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
+        public void BuscarDatosParaAnulacion() {
+            try {
+                XElement vResult;
+                QAdvSql vSqlUtil = new QAdvSql("");
+                LibGpParams vParam = new LibGpParams();
+                vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+                vParam.AddInString("Numero", NumeroFactura, 11);
+                StringBuilder vSql = new StringBuilder();
+                vSql.AppendLine(" SELECT");
+                vSql.AppendLine(" factura.Talonario,");
+                vSql.AppendLine(" factura.TipoDeDocumento,");
+                vSql.AppendLine(" factura.NumeroControl,");
+                vSql.AppendLine(" factura.MotivoDeAnulacion");
+                vSql.AppendLine(" FROM factura");
+                vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
+                vSql.AppendLine(" AND factura.Numero = @Numero ");
+                vSql.AppendLine($" AND TipoDeDocumento IN({vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.Factura)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaEntrega)})");
+                vResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0);
+                if (vResult != null && vResult.HasElements) {
+                    FacturaImprentaDigital = new FacturaRapida();
+                    FacturaImprentaDigital.Talonario = LibXml.GetPropertyString(vResult, "Numero");
+                    FacturaImprentaDigital.TipoDeDocumento = LibXml.GetPropertyString(vResult, "TipoDeDocumento");
+                    FacturaImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControl");
+                    FacturaImprentaDigital.MotivoDeAnulacion = LibXml.GetPropertyString(vResult, "MotivoDeAnulacion");
+                } else {
+                    throw new System.Exception("No existen datos para el documento a anular");
+                }
+            } catch (System.Exception) {
+                throw;
+            }
+        }
+
         public virtual void ConfigurarDocumento() {
             BuscarDatosDeFactura();
             BuscarDatosDeDetalleFactura();

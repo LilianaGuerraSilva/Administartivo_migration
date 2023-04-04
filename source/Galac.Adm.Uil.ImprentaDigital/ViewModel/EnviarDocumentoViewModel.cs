@@ -164,7 +164,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
 
         public async void EjecutarProcesos() {
             try {
-                switch (_Action) {
+                switch (Accion) {
                     case eAccionSR.Emitir:
                         DocumentoEnviado = await _insImprentaDigital.EnviarDocumento();
                         NumeroControl = _insImprentaDigital.NumeroControl;

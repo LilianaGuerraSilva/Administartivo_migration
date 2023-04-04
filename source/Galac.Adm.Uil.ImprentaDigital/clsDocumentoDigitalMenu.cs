@@ -12,10 +12,10 @@ namespace Galac.Adm.Uil.ImprentaDigital {
     public class clsDocumentoDigitalMenu: ILibMenu {
         #region Metodos Generados
 
-        public bool EjecutarAccion(int valTipoDocumento, string valNumeroFactura, int valAction, ref string refNumeroControl) {
+        public bool EjecutarAccion(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, eAccionSR valAction, ref string refNumeroControl) {
             try {
-                eTipoDocumentoFactura _TipoDeDocumento = (eTipoDocumentoFactura)valTipoDocumento;
-                eAccionSR _Action = (eAccionSR)valAction;
+                eTipoDocumentoFactura _TipoDeDocumento = valTipoDocumento;
+                eAccionSR _Action = valAction;
                 EnviarDocumentoViewModel vViewModel = new EnviarDocumentoViewModel(_TipoDeDocumento, valNumeroFactura, _Action);
                 LibMessages.EditViewModel.ShowEditor(vViewModel, true);
                 refNumeroControl = vViewModel.NumeroControl;

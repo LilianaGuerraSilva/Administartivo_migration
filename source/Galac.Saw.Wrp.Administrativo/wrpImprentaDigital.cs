@@ -13,6 +13,7 @@ using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
 using Galac.Adm.Uil.ImprentaDigital;
+using Galac.Saw.Ccl.SttDef;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.ImprentaDigital {
@@ -37,12 +38,12 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        bool IWrpImprentaDigitalVb.Execute(int vfwTipoDocumento, string vfwNumeroFactura, int vfwAction, string vfwCurrentParameters, ref string vfwNumeroControl) {
+        bool IWrpImprentaDigitalVb.Execute(eTipoDocumentoFactura vfwTipoDocumento, string vfwNumeroFactura, eAccionSR vfwAction, string vfwCurrentParameters, ref string vfwNumeroControl) {
             try {
                 bool vResult = false;
                 CreateGlobalValues(vfwCurrentParameters);
                 clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();
-                vResult = insMenu.EjecutarAccion(vfwAction, vfwNumeroFactura, vfwAction, ref vfwNumeroControl);
+                vResult = insMenu.EjecutarAccion(vfwTipoDocumento, vfwNumeroFactura, vfwAction, ref vfwNumeroControl);
                 return vResult;
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
