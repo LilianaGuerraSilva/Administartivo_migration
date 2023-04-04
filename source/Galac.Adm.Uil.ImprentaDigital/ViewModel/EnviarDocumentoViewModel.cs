@@ -106,11 +106,11 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                     _Accion = value;
                 }
             }
-        }    
+        }
 
         public bool IsVisibleButton {
             get {
-                return Accion == eAccionSR.Exportar;
+                return false;
             }
         }
 
@@ -128,7 +128,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
 
         #endregion //Propiedades
         #region Constructores
-        public EnviarDocumentoViewModel(eTipoDocumentoFactura initTipoDocumento, string intiNumeroFactura, bool initEsPorLote,eAccionSR initAction) {
+        public EnviarDocumentoViewModel(eTipoDocumentoFactura initTipoDocumento, string intiNumeroFactura, bool initEsPorLote, eAccionSR initAction) {
             _TipoDeDocumento = initTipoDocumento;
             _NumeroFactura = intiNumeroFactura;
             Accion = initAction;
@@ -145,7 +145,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
             TipoDocumento = "Enviando " + LibEnumHelper.GetDescription(_TipoDeDocumento) + " No";
             TextoBtnEnviar = "Enviar";
             BtnIsEnable = true;
-        }      
+        }
 
         public void EjecutarProcesos() {
             try {
@@ -153,7 +153,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                     case eAccionSR.Emitir:
                         EnviarDocumento();
                         break;
-                }                
+                }
             } catch (Exception vEx) {
                 LibMessages.MessageBox.Error(this, vEx.Message, ModuleName);
             } finally {
@@ -184,8 +184,8 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                 }
             } catch (Exception) {
                 throw;
-            }            
-        }              
+            }
+        }
         #endregion //Metodos Generados
     } //End of class EnviarDocumentoViewModel
 } //End of namespace Galac.Adm.Uil.ImprentaDigital
