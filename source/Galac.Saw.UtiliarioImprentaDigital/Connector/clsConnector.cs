@@ -19,12 +19,13 @@ namespace Galac.Saw.UtiliarioImprentaDigital.Connector {
         public clsConnector(ILoginUser valLoginUser) {
             _LoginUser = valLoginUser;
         }
-
-        public async Task< string> TestConnection() {
-            try {
+        
+        public string TestConnection() {
+            try {              
                 clsConectorJson _LibConectorJson = new clsConectorJson(_LoginUser);
-                string vReq = await _LibConectorJson.CheckConnection();                
+                string vReq = _LibConectorJson.CheckConnection();
                 return vReq;
+
             } catch (Exception) {
                 throw;
             }
