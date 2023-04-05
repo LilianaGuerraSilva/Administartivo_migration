@@ -16,15 +16,18 @@ namespace Galac.Adm.Uil.ImprentaDigital {
         public bool EjecutarAccion(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, eAccionSR valAction, bool valEsPorLote, ref string refNumeroControl) {
             try {
                 bool vDocumentoEnviado = false;
-                if (valEsPorLote) {
-                    EnviarDocumento(valTipoDocumento, valNumeroFactura, ref refNumeroControl, ref vDocumentoEnviado);
-                    return vDocumentoEnviado;
-                } else {
-                    EnviarDocumentoViewModel vViewModel = new EnviarDocumentoViewModel(valTipoDocumento, valNumeroFactura, false, valAction);
-                    LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                    refNumeroControl = vViewModel.NumeroControl;
-                    return vViewModel.DocumentoEnviado;
+                //if (valEsPorLote) {
+                EnviarDocumento(valTipoDocumento, valNumeroFactura, ref refNumeroControl, ref vDocumentoEnviado);
+                if (vDocumentoEnviado && !valEsPorLote) {
+                    LibMessages.MessageBox.Information(this, LibEnumHelper.GetDescription(valTipoDocumento) + " enviada con éxito.", "Imprenta Digital");
                 }
+                return vDocumentoEnviado;
+                //} else {
+                //    EnviarDocumentoViewModel vViewModel = new EnviarDocumentoViewModel(valTipoDocumento, valNumeroFactura, false, valAction);
+                //    LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                //    refNumeroControl = vViewModel.NumeroControl;
+                //    return vViewModel.DocumentoEnviado;
+                //}
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
