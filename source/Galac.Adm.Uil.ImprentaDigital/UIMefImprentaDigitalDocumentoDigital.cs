@@ -9,6 +9,7 @@ using LibGalac.Aos.UI.Contracts;
 using LibGalac.Aos.UI.WpfControls;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
 using Galac.Adm.Uil.ImprentaDigital.ViewModel;
+using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using Galac.Saw.Ccl.SttDef;
 
@@ -84,14 +85,14 @@ namespace Galac.Adm.Uil.ImprentaDigital {
             try {
                 InitializeIfNecessary();                
                 string vRefNumControl = "";
-                eTipoDocumentoFactura _TipoDeDocumento = (eTipoDocumentoFactura)0;
-                eAccionSR _Action = (eAccionSR)12;
-                //Ejemplo del Llamado desde el wraper, no es funcional para el programa solo para depuración
-                bool vReq = _DocumentoDigitalMenu.EjecutarAccion(_TipoDeDocumento, "0000002779", _Action, false, ref vRefNumControl);               
-            } catch (System.AccessViolationException) {
+                eTipoDocumentoFactura _TipoDeDocumento = 0;
+                eAccionSR _Action = (eAccionSR)2;
+                LibMessages.MessageBox.Information(this, $"Numero de Control {vRefNumControl}", Name);
+                bool vReq = _DocumentoDigitalMenu.EjecutarAccion(_TipoDeDocumento, "0000007777", _Action, false, ref vRefNumControl);
+            } catch (AccessViolationException) {
                 throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, Name);
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, Name);
             }
         }
         #endregion //Metodos Generados
