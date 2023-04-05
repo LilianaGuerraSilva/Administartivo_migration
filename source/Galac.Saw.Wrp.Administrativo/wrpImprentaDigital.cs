@@ -38,11 +38,11 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        bool IWrpImprentaDigitalVb.Execute(int vfwTipoDocumento, string vfwNumeroFactura, int vfwAction, string vfwCurrentParameters, bool vfwEsPorLote, ref string vfwNumeroControl) {
-            try {
+        bool IWrpImprentaDigitalVb.Execute(int vfwTipoDocumento, string vfwNumeroFactura, string vfwAction, string vfwCurrentParameters, bool vfwEsPorLote, ref string vfwNumeroControl) {
+            try {                
                 bool vResult = false;
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
-                eAccionSR vAction = (eAccionSR)vfwAction;
+                eAccionSR vAction = (eAccionSR)new LibEAccionSR().ToInt(vfwAction);                
                 CreateGlobalValues(vfwCurrentParameters);
                 clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();                
                 vResult = insMenu.EjecutarAccion(vTipoDeDocumento, vfwNumeroFactura, vAction, vfwEsPorLote, ref vfwNumeroControl);
