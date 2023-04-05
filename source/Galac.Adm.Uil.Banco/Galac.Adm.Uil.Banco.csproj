@@ -37,7 +37,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Rpt.Banco, Version=2.60.6.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Adm.Rpt.Banco">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\Galac.Adm.Rpt.Banco.dll</HintPath>
     </Reference>
