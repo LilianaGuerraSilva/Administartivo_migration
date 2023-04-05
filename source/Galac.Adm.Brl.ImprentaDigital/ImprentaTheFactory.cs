@@ -131,6 +131,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             XElement vVendedor = GetDatosVendedor();
             XElement vComprador = GetDatosComprador();
             XElement vTotales = GetTotales();
+            var vObservaciones = GetDatosInfoAdicional().Descendants("InfoAdicional");            ;
             var vDetalleFactura = GetDetalleFactura().Descendants("detallesItems");
             vDocumentoDigital = new XElement("documentoElectronico", new XElement("encabezado"));
             vDocumentoDigital.Element("encabezado").Add(vIdentificacionDocumento);
@@ -138,6 +139,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vDocumentoDigital.Element("encabezado").Add(vComprador);
             vDocumentoDigital.Element("encabezado").Add(vTotales);
             vDocumentoDigital.Add(vDetalleFactura);
+            if (_TipoDeDocumento == eTipoDocumentoFactura.Factura) {
+                vDocumentoDigital.Add(vObservaciones);
+            }
         }
         #endregion Construye  Documento
         #region Identificacion de Documento
@@ -160,7 +164,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("moneda", FacturaImprentaDigital.CodigoMoneda));
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add(new XElement("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada)));
-                vResult.Add(new XElement("numeroFacturaAfectada", FacturaImprentaDigital.NumeroFacturaAfectada));
+                vResult.Add(new XElement("numeroFacturaAfectada", LibString.Right(FacturaImprentaDigital.NumeroFacturaAfectada, 8)));
                 vResult.Add(new XElement("serieFacturaAfectada", ""));
                 vResult.Add(new XElement("montoFacturaAfectada", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalFactura))));
                 vResult.Add(new XElement("comentarioFacturaAfectada", FacturaImprentaDigital.Observaciones));
@@ -192,6 +196,24 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
         #endregion clientes
+
+
+        #region InfoAdicional
+        private XElement GetDatosInfoAdicional() {
+            XElement vResult = new XElement("InfoAdicional",
+                new XElement("InfoAdicional",
+                    new XElement("Posicion", "1,1"),
+                    new XElement("Campo", "Observaciones"),
+                    new XElement("Valor", FacturaImprentaDigital.Observaciones)),
+                new XElement("InfoAdicional",
+                    new XElement("Posicion", "2,1"),
+                    new XElement("Campo", "Información Adicional"),
+                    new XElement("Valor", "")));
+            return vResult;
+        }
+        #endregion InfoAdicional
+
+
         #region Impuestos
         private XElement GetTotalImpuestos() {
             XElement vResult = new XElement("impuestosSubtotal",
