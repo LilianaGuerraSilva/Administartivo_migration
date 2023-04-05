@@ -23,7 +23,7 @@ namespace Galac.SawBsS.Wrp.ImprentaDigital {
 namespace Galac.Saw.Wrp.ImprentaDigital {
 #endif
     [ClassInterface(ClassInterfaceType.None)]
-    public class wrpImprentaDigital: System.EnterpriseServices.ServicedComponent, IWrpImprentaDigitalVb {
+    public class wrpImprentaDigital : System.EnterpriseServices.ServicedComponent, IWrpImprentaDigitalVb {
         #region Variables
         string _Title = "Imprenta Dí­gital";
         #endregion //Variables
@@ -57,7 +57,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 LibExceptionDisplay.Show(vEx);
                 return false;
             }
-        }   
+        }
 
         string IWrpImprentaDigitalVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
@@ -125,9 +125,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"));
             LibGlobalValues.Instance.GetMfcInfo().Add("Periodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Periodo", "ConsecutivoPeriodo"));
         }
-
-        
         #endregion //Metodos Generados
-    } //End of class wrpImprentaDigital
-} //End of namespace Galac.Saw.Wrp.ImprentaDigital
+    }  //End of class wrpImprentaDigital
+}//End of namespace Galac.Saw.Wrp.ImprentaDigital
 

@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 namespace Galac.Adm.Uil.ImprentaDigital {
     public class clsDocumentoDigitalMenu: ILibMenu {
         #region Metodos Generados
-
         public bool EjecutarAccion(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, eAccionSR valAction, bool valEsPorLote, ref string refNumeroControl) {
             try {
                 bool vDocumentoEnviado = false;

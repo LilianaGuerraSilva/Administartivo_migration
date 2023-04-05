@@ -65,8 +65,11 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         [JsonProperty("resultado")]
-        public stRespuesta resultados { get; set; }        
+        public stRespuesta resultados { get; set; }
         
+        [JsonProperty("estado")]
+        public stEstado estado { get; set; }
+
     }
     public struct stRespuesta {             
         [JsonProperty("tipoDocumento")]
@@ -93,6 +96,62 @@ namespace Galac.Saw.LibWebConnector {
         public string horaAsignacion {
             get; set;
         }
+
+        [JsonProperty("estado")]
+        public string Estado { 
+            get; set; 
+        }
     }
 
+    public struct stEstado {
+        [JsonProperty("estadoDocumento")]
+        public string estadoDocumento {
+            get; set;
+        }
+
+        [JsonProperty("tipoDocumento")]
+        public string tipoDocumento {
+            get; set;
+        }
+
+        [JsonProperty("numeroDocumento")]
+        public string numeroDocumento {
+            get; set;
+        }
+
+        [JsonProperty("numeroControl")]
+        public string numeroControl {
+            get; set;
+        }
+
+        [JsonProperty("fechaAsignacion")]
+        public string fechaAsignacion {
+            get; set;
+        }
+
+        [JsonProperty("horaAsignacion")]
+        public string horaAsignacion {
+            get; set;
+        }
+
+    }
+
+    public struct stSolicitudDeAccion {
+        [JsonProperty("serie")]
+        public string Serie {
+            get; set;
+        }
+        [JsonProperty("tipoDocumento")]
+        public string TipoDocumento {
+            get; set;
+        }
+        [JsonProperty("numeroDocumento")]
+        public string NumeroDocumento {
+            get; set;
+        }
+        [JsonProperty("motivoAnulacion")]
+        public string MotivoAnulacion {
+            get; set;
+        }
+    }
 }

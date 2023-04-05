@@ -123,6 +123,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _NombreMonedaDeCobro;
         private DateTime _FechaLimiteCambioAMonedaLocal;
         private int _NumeroDiasMantenerCambioAMonedaLocal;
+        private string _MotivoDeAnulacion;
         private long _fldTimeStamp;
         private decimal _TotalAPagar;
 		private ObservableCollection<FacturaRapidaDetalle> _DetailFacturaRapidaDetalle;
@@ -913,6 +914,10 @@ namespace Galac.Adm.Ccl.Venta {
             set { _NumeroDiasMantenerCambioAMonedaLocal = value; }
         }
 
+        public string MotivoDeAnulacion {
+            get { return _MotivoDeAnulacion; }
+            set { _MotivoDeAnulacion = LibString.Mid(value, 0, 150); }
+        }
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
             set { _fldTimeStamp = value; }
@@ -1073,6 +1078,7 @@ namespace Galac.Adm.Ccl.Venta {
             FechaLimiteCambioAMonedaLocal = LibDate.Today();
             NumeroDiasMantenerCambioAMonedaLocal = 0;
             TotalAPagar = 0;
+            MotivoDeAnulacion = string.Empty;
             fldTimeStamp = 0;
             DetailFacturaRapidaDetalle = new ObservableCollection<FacturaRapidaDetalle>();
             DetailRenglonCobroDeFactura = new ObservableCollection<RenglonCobroDeFactura>();
@@ -1196,6 +1202,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.FechaLimiteCambioAMonedaLocal = _FechaLimiteCambioAMonedaLocal;
             vResult.TotalAPagar = _TotalAPagar;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
+            vResult.MotivoDeAnulacion = _MotivoDeAnulacion;
             vResult.fldTimeStamp = _fldTimeStamp;
             if (DetailFacturaRapidaDetalle != null) {
                 vResult.DetailFacturaRapidaDetalle = new ObservableCollection<FacturaRapidaDetalle>();
@@ -1317,7 +1324,8 @@ namespace Galac.Adm.Ccl.Venta {
                 "\nNombre Operador = " + _NombreOperador +
                 "\nNúmero días a mantener cambio a moneda local = " + _NumeroDiasMantenerCambioAMonedaLocal +
                 "\nFecha límite cambio a moneda local = " + _FechaLimiteCambioAMonedaLocal.ToShortDateString() +
-                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
+                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString() +
+                "\nMotivo De Anulación = " + _MotivoDeAnulacion;
         }
         #endregion //Metodos Generados
 
