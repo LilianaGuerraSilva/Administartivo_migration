@@ -29,14 +29,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         #region Metdos Basicos
-        public override  bool SincronizarDocumentos() {
+        public override bool SincronizarDocumentos() {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                string vRepuesta =  vConectorJson.CheckConnection();
+                string vRepuesta = vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
+                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 }
                 return vResult;
             } catch (Exception) {
@@ -48,10 +48,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                string vRepuesta =  vConectorJson.CheckConnection();
+                string vRepuesta = vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoLote), vConectorJson.Token);
+                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoLote), vConectorJson.Token);
                 }
                 return vResult;
             } catch (Exception) {
@@ -63,10 +63,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                string vRepuesta =  vConectorJson.CheckConnection();
+                string vRepuesta = vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
+                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 }
                 return vResult;
             } catch (Exception) {
@@ -78,10 +78,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                string vRepuesta =  vConectorJson.CheckConnection();
+                string vRepuesta = vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
+                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                 }
                 return vResult;
             } catch (Exception) {
@@ -93,11 +93,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                string vRepuesta =  vConectorJson.CheckConnection();
+                string vRepuesta = vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumentoDigital);
-                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token);
+                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token);
                     NumeroControl = vReq.resultados.numeroControl;
                     vResult = !LibString.IsNullOrEmpty(vReq.resultados.numeroDocumento);
                 }
@@ -115,7 +115,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             XElement vVendedor = GetDatosVendedor();
             XElement vComprador = GetDatosComprador();
             XElement vTotales = GetTotales();
-            var vObservaciones = GetDatosInfoAdicional().Descendants("InfoAdicional");            ;
+            var vObservaciones = GetDatosInfoAdicional().Descendants("InfoAdicional");
             var vDetalleFactura = GetDetalleFactura().Descendants("detallesItems");
             vDocumentoDigital = new XElement("documentoElectronico", new XElement("encabezado"));
             vDocumentoDigital.Element("encabezado").Add(vIdentificacionDocumento);
@@ -138,7 +138,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("numeroDocumento", LibText.Right(_NumeroFactura, 8)),
                     new XElement("tipoproveedor", _TipoDeProveedor),
                     new XElement("tipoTransaccion", GetTipoTransaccion(FacturaImprentaDigital.TipoDeTransaccionAsEnum)),
-                    new XElement("fechaEmision", LibConvert.ToStr(FacturaImprentaDigital.Fecha)),                   
+                    new XElement("fechaEmision", LibConvert.ToStr(FacturaImprentaDigital.Fecha)),
                     new XElement("horaEmision", vHoraEmision),
                     //new XElement("anulado", false),
                     new XElement("tipoDePago", GetTipoDePago(FacturaImprentaDigital.FormaDePagoAsEnum)),
@@ -150,7 +150,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult.Add(new XElement("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada)));
                 vResult.Add(new XElement("numeroFacturaAfectada", LibString.Right(FacturaImprentaDigital.NumeroFacturaAfectada, 8)));
                 vResult.Add(new XElement("serieFacturaAfectada", ""));
-                vResult.Add(new XElement("montoFacturaAfectada", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalFactura))));
+                vResult.Add(new XElement("montoFacturaAfectada", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))));
                 vResult.Add(new XElement("comentarioFacturaAfectada", FacturaImprentaDigital.Observaciones));
             }
             return vResult;
@@ -204,23 +204,23 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Exento)),
                     new XElement("AlicuotaImp", 0m),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalMontoExento))),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento, 2))),
                     new XElement("ValorTotalImp", 0m)),
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.AlicuotaGeneral)),
-                    new XElement("AlicuotaImp", LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.PorcentajeAlicuota1)),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.MontoGravableAlicuota1))),
-                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.MontoIvaAlicuota1)))),
+                    new XElement("AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota1, 2)),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota1, 2))),
+                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota1, 2)))),
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Alicuota2)),
-                    new XElement("AlicuotaImp", LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.PorcentajeAlicuota2)),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.MontoGravableAlicuota2))),
-                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.MontoIvaAlicuota2)))),
+                    new XElement("AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota2, 2)),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota2, 2))),
+                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota2, 2)))),
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Alicuota3)),
-                    new XElement("AlicuotaImp", LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.PorcentajeAlicuota3)),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.MontoGravableAlicuota3))),
-                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.MontoIvaAlicuota3)))),
+                    new XElement("AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota3, 2)),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota3, 2))),
+                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota3, 2)))),
                   new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", "P"), // Percibido -> SAW No lo maneja pero JSON lo requiere
                     new XElement("AlicuotaImp", 0m),
@@ -228,9 +228,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("ValorTotalImp", 0m)),
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", "IGTF"),
-                    new XElement("AlicuotaImp", LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.AlicuotaIGTF)),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.BaseImponibleIGTF))),
-                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.IGTFML)))));
+                    new XElement("AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.AlicuotaIGTF, 2)),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.BaseImponibleIGTF, 2))),
+                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.IGTFML, 2)))));
             return vResult;
         }
         #endregion Impuestos
@@ -245,10 +245,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vFormaDeCobro;
             if (FacturaImprentaDigital.BaseImponibleIGTF > 0) {
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "09" : "99";
-                vCambioBs = LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.CambioABolivares);
+                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioABolivares, 2);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMonedaDeCobro;
-                vMonto = LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.BaseImponibleIGTF));
-                vMontoML = LibMath.Abs(LibMath.TruncTo2DecAndRoudCents((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) - vMonto));
+                vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.BaseImponibleIGTF, 2));
+                vMontoML = LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) - vMonto, 2));
                 vResult.Add(
                     new XElement("formasPago",
                     new XElement("descripcion", LibEnumHelper.GetDescription(FacturaImprentaDigital.FormaDeCobroAsEnum) + " Divisas"),
@@ -268,9 +268,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
             if (FacturaImprentaDigital.BaseImponibleIGTF == 0) {
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "08" : "99";
-                vCambioBs = LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.CambioABolivares);
+                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioABolivares, 2);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMoneda;
-                vMonto = LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalFactura));
+                vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));
                 vResult.Add(new XElement("forma", GetFormaDeCobro(FacturaImprentaDigital.FormaDeCobroAsEnum)),
                  new XElement("formasPago",
                     new XElement("forma", vFormaDeCobro),
@@ -285,7 +285,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         new XElement("forma", "99"),
                         new XElement("descripcion", ""),
                         new XElement("monto", "0"),
-                        new XElement("moneda", "BSD"),
+                        new XElement("moneda", "VED"),
                         new XElement("tipoCambio", "1.00")));
             }
             return vResult;
@@ -296,14 +296,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             // listaDescBonificacion -> otros cargos y descuentos se debe revisar. 
             XElement vResult = new XElement("totales",
                new XElement("nroItems", DetalleFacturaImprentaDigital.Count),
-               new XElement("montoGravadoTotal", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalBaseImponible))),
-               new XElement("montoExentoTotal", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalMontoExento))),
-               new XElement("subtotal", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento))),
-               new XElement("totalAPagar", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalFactura))),
-               new XElement("totalIVA", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalIVA))),
-               new XElement("montoTotalConIVA", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.TotalFactura))),
+               new XElement("montoGravadoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible, 2))),
+               new XElement("montoExentoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento, 2))),
+               new XElement("subtotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento, 2))),
+               new XElement("totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))),
+               new XElement("totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA, 2))),
+               new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))),
                new XElement("montoEnLetras", LibConvert.ToNumberInLetters(FacturaImprentaDigital.TotalFactura, false, "")),
-               new XElement("totalDescuento", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(FacturaImprentaDigital.MontoDescuento1))));
+               new XElement("totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1, 2))));
             vResult.Add(GetTotalImpuestos().Descendants("impuestosSubtotal"));
             vResult.Add(GetFormasPago().Descendants("formasPago"));
             return vResult;
@@ -330,14 +330,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                             new XElement("codigoPLU", ""),
                             new XElement("indicadorBienoServicio", vDetalle.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio ? "2" : "1"),
                             new XElement("descripcion", vDetalle.Descripcion),
-                            new XElement("cantidad", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(vDetalle.Cantidad))),
+                            new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.Cantidad, 2))),
                             new XElement("unidadMedida", "NIU"),
-                            new XElement("precioUnitario", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(vDetalle.PrecioSinIVA))),
-                            new XElement("precioItem", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(vDetalle.PrecioSinIVA * vDetalle.Cantidad))),
+                            new XElement("precioUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA, 2))),
+                            new XElement("precioItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA * vDetalle.Cantidad, 2))),
                             new XElement("codigoImpuesto", GetAlicuota(vDetalle.AlicuotaIvaAsEnum)),
-                            new XElement("tasaIVA", LibMath.TruncTo2DecAndRoudCents(vDetalle.PorcentajeAlicuota)),
-                            new XElement("valorIVA", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2)))),
-                            new XElement("valorTotalItem", LibMath.Abs(LibMath.TruncTo2DecAndRoudCents(vDetalle.TotalRenglon))),
+                            new XElement("tasaIVA", LibMath.RoundToNDecimals(vDetalle.PorcentajeAlicuota, 2)),
+                            new XElement("valorIVA", LibMath.Abs(LibMath.RoundToNDecimals(LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2), 2))),
+                            new XElement("valorTotalItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.TotalRenglon, 2))),
                             vResultInfoAdicional.Descendants("infoAdicionalItem")));
                 }
             }
