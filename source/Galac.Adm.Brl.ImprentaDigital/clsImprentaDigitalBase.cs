@@ -23,6 +23,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         string _NumeroControl;
         eTipoDocumentoFactura _TipoDeDocumento;
         int _ConsecutivoCompania;
+        string _CodigoRespuesta;
+        string _MensajeRespuesta;
         clsLoginUser _LoginUser;
 
         #endregion Variables
@@ -45,6 +47,16 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public virtual eTipoDocumentoFactura TipoDeDocumento {
             get { return _TipoDeDocumento; }
             set { _TipoDeDocumento = value; }
+        }
+
+        public virtual string CodigoRespuesta {
+            get { return _CodigoRespuesta; }
+            set { _CodigoRespuesta = value; }
+        }
+
+        public virtual string MensajeRespuesta {
+            get { return _MensajeRespuesta; }
+            set { _MensajeRespuesta = value; }
         }
 
         internal virtual clsLoginUser LoginUser {
@@ -75,7 +87,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                     LoginUser.URL = vImprentaDigitalSettings.DireccionURL;
                     LoginUser.User = vImprentaDigitalSettings.Usuario;
-                    LoginUser.UserKey = vImprentaDigitalSettings.CampoClave;
+                    LoginUser.UserKey = vImprentaDigitalSettings.CampoUsuario;
                     LoginUser.Password = vImprentaDigitalSettings.Clave;
                     LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;
                     break;
@@ -319,7 +331,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public void BuscarDatosParaAnulacion() {
+        public void ObtenerDatosDocumento() {
             try {
                 XElement vResult;
                 QAdvSql vSqlUtil = new QAdvSql("");
@@ -331,6 +343,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vSql.AppendLine(" factura.Talonario,");
                 vSql.AppendLine(" factura.TipoDeDocumento,");
                 vSql.AppendLine(" factura.NumeroControl,");
+                vSql.AppendLine(" factura.Numero,");
                 vSql.AppendLine(" factura.MotivoDeAnulacion");
                 vSql.AppendLine(" FROM factura");
                 vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
@@ -339,10 +352,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0);
                 if (vResult != null && vResult.HasElements) {
                     FacturaImprentaDigital = new FacturaRapida();
-                    FacturaImprentaDigital.Talonario = LibXml.GetPropertyString(vResult, "Numero");
+                    FacturaImprentaDigital.Talonario = ""; //LibXml.GetPropertyString(vResult, "Talonario");
                     FacturaImprentaDigital.TipoDeDocumento = LibXml.GetPropertyString(vResult, "TipoDeDocumento");
                     FacturaImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControl");
+                    FacturaImprentaDigital.Numero = LibXml.GetPropertyString(vResult, "Numero");
                     FacturaImprentaDigital.MotivoDeAnulacion = LibXml.GetPropertyString(vResult, "MotivoDeAnulacion");
+                    
                 } else {
                     throw new System.Exception("No existen datos para el documento a anular");
                 }

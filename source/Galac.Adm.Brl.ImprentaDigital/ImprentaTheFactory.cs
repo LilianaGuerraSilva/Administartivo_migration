@@ -14,7 +14,6 @@ using System.Xml.Schema;
 using Galac.Saw.Ccl.Cliente;
 using System.Linq;
 using System.Text;
-using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory: clsImprentaDigitalBase {
@@ -29,8 +28,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             _TipoDeDocumento = initTipoDeDocumento;
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
         }
-
-
         #region Métodos Basicos
         public override  bool SincronizarDocumentos() {
             try {
@@ -63,40 +60,46 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public override bool EstadoDocumento() {
+                stLoginResq vRespuesta;
             try {
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                stSolicitudDeAccion vConsultaDeEstado = new stSolicitudDeAccion();
-                vConsultaDeEstado.Serie = "";
-                vConsultaDeEstado.TipoDocumento = GetTipoDocumento(eTipoDocumentoFactura.NotaDeDebito);
-                vConsultaDeEstado.NumeroDocumento = "00000001";
+                ObtenerDatosDocumento();
+                stSolicitudDeAccion vJsonDeConsulta = new stSolicitudDeAccion() {
+                    Serie = "",
+                    TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
+                    NumeroDocumento = LibString.Right(NumeroFactura, 8)
+                };
                 string vRepuesta = vConectorJson.CheckConnection();
-                stLoginResq vReq;
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
+                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta); //Construir XML o JSON Con datos 
+                    vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 }
-                return vReq;
+                return true;
             } catch (Exception) {
                 throw;
+            } finally {
+                CodigoRespuesta = vRespuesta.codigo ?? string.Empty;
+                MensajeRespuesta = vRespuesta.mensaje ?? string.Empty;
             }
         }
 
         public override bool AnularDocumento() {
             try {
-                bool vResult = false;
+                stLoginResq vRespuesta;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                BuscarDatosParaAnulacion();
-                XElement vDocumento = new XElement("",
-                new XElement("serie", ""), //FacturaImprentaDigital.TalonarioAsString
-                new XElement("tipoDocumento", GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum)),
-                new XElement("numeroDocumento", FacturaImprentaDigital.NumeroControl),
-                new XElement("motivoAnulacion", FacturaImprentaDigital.MotivoDeAnulacion));
+                ObtenerDatosDocumento();
+                stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
+                    Serie = "",
+                    TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
+                    NumeroDocumento = LibString.Right(NumeroFactura, 8),
+                    MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
+                };
                 string vRepuesta =  vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
-                    var vReq =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
+                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos 
+                    vRespuesta =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                 }
-                return vResult;
+                return (vRespuesta.codigo == "200");
             } catch (Exception) {
                 throw;
             }
@@ -120,7 +123,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
         #endregion Métodos Básicos
-        #region Construccion de Documento
+        #region Construcción de Documento
         #region Armar Documento Digital
         public override void ConfigurarDocumento() {
             base.ConfigurarDocumento();
@@ -351,8 +354,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
         #endregion Detalle RenglonFactura      
-
-        
         #endregion
         #region Conversion de Tipos
 

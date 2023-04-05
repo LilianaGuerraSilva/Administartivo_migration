@@ -23,7 +23,7 @@ namespace Galac.SawBsS.Wrp.ImprentaDigital {
 namespace Galac.Saw.Wrp.ImprentaDigital {
 #endif
     [ClassInterface(ClassInterfaceType.None)]
-    public class wrpImprentaDigital: System.EnterpriseServices.ServicedComponent, IWrpImprentaDigitalVb {
+    public class wrpImprentaDigital : System.EnterpriseServices.ServicedComponent, IWrpImprentaDigitalVb {
         #region Variables
         string _Title = "Imprenta Dí­gital";
         #endregion //Variables
@@ -38,17 +38,12 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        bool IWrpImprentaDigitalVb.Execute(eTipoDocumentoFactura vfwTipoDocumento, string vfwNumeroFactura, eAccionSR vfwAction, string vfwCurrentParameters, ref string vfwNumeroControl) {
+
         bool IWrpImprentaDigitalVb.Execute(int vfwTipoDocumento, string vfwNumeroFactura, int vfwAction, string vfwCurrentParameters, bool vfwEsPorLote, ref string vfwNumeroControl) {
             try {
                 bool vResult = false;
-                eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
-                eAccionSR vAction = (eAccionSR)vfwAction;
-                CreateGlobalValues(vfwCurrentParameters);
                 clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();
-                vResult = insMenu.EjecutarAccion(vfwTipoDocumento, vfwNumeroFactura, vfwAction, ref vfwNumeroControl);
-                clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();                
-                vResult = insMenu.EjecutarAccion(vTipoDeDocumento, vfwNumeroFactura, vAction, vfwEsPorLote, ref vfwNumeroControl);
+                vResult = insMenu.EjecutarAccion((eTipoDocumentoFactura)vfwTipoDocumento, vfwNumeroFactura, (eAccionSR)vfwAction, vfwEsPorLote, ref vfwNumeroControl);
                 return vResult;
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
@@ -60,7 +55,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 LibExceptionDisplay.Show(vEx);
                 return false;
             }
-        }   
+        }
 
         string IWrpImprentaDigitalVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
@@ -128,9 +123,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             LibGlobalValues.Instance.GetMfcInfo().Add("Compania", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Compania", "ConsecutivoCompania"));
             LibGlobalValues.Instance.GetMfcInfo().Add("Periodo", LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Periodo", "ConsecutivoPeriodo"));
         }
-
-        
         #endregion //Metodos Generados
-    } //End of class wrpImprentaDigital
-} //End of namespace Galac.Saw.Wrp.ImprentaDigital
+    }  //End of class wrpImprentaDigital
+}//End of namespace Galac.Saw.Wrp.ImprentaDigital
 

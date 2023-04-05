@@ -154,7 +154,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                         EnviarDocumento();
                         break;
                     case eAccionSR.Anular:
-                        DocumentoEnviado = await _insImprentaDigital.AnularDocumento();
+                        AnularDocumento();
                         break;
                 }
             } catch (Exception vEx) {
@@ -189,7 +189,55 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                 throw;
             }
         }
-        #endregion //Metodos Generados
+
+        private bool DoConsultarEstadoDocumento() {
+            try {
+                _insImprentaDigital.EstadoDocumento();
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }
+
+        private bool ConsultarEstadoDocumento() {
+            try {
+                var taskTestConnection = Task.Factory.StartNew(() => DoConsultarEstadoDocumento());
+                Task.WaitAll(taskTestConnection);
+                bool vExiste = _insImprentaDigital.CodigoRespuesta == "200";
+                if (!vExiste) {
+                    LibMessages.MessageBox.Alert(this, "Este documento no existe en la Imprenta Digital.", ModuleName);
+                    return vExiste;
+                }
+                return vExiste;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
+        private bool DoAnularDocumento() {
+            try {
+                return _insImprentaDigital.AnularDocumento();
+            } catch (Exception) {
+                return false;
+            }
+        }
+
+        private bool AnularDocumento() {
+            try {
+                if (ConsultarEstadoDocumento()) {
+                    Task<bool> taskTestConnection = Task.Factory.StartNew(() => DoAnularDocumento());
+                    Task.WaitAll(taskTestConnection);
+                    if (!taskTestConnection.Result) {
+                        LibMessages.MessageBox.Alert(this, "No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.", ModuleName);
+                        return taskTestConnection.Result;
+                    }
+                }
+                return true;
+            } catch (Exception) {
+                throw;
+            }
+        }
+        #endregion //Métodos Generados
     } //End of class EnviarDocumentoViewModel
 } //End of namespace Galac.Adm.Uil.ImprentaDigital
 
