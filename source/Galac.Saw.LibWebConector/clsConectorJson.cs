@@ -76,9 +76,7 @@ namespace Galac.Saw.LibWebConnector {
                     return infoReqs;
                 }
             } catch (Exception vEx) {
-                string vErrMensaje = vEx.Message + "\r\n" + vResultMessage+"\r\n"+ valJsonStr;
-                string vPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Error.log";
-                LibFile.WriteLineInFile(vPath, vErrMensaje, false);
+                string vErrMensaje = vEx.Message + "\r\n" + vResultMessage+"\r\n"+ valJsonStr;                                
                 throw new LibGalac.Aos.Catching.GalacException(vErrMensaje, LibGalac.Aos.Catching.eExceptionManagementType.Controlled);
             }
         }
