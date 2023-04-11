@@ -1763,17 +1763,25 @@ Private Sub sEjecutaLibroDeComprasEnXLS()
    Dim AlicSeparadas As Boolean
    Dim varRepetirTitulos As Boolean
    Dim varSepararRetenciones As Boolean
+   Dim vScale As Integer
+   Dim mAplicaContribuyenteEspecial As Boolean
+   Dim vFechaDateHasta As Date
+   Dim vFechaDateDesde As Date
    On Error GoTo h_ERROR
    nombreXLS = fNombreDelArchivo("Libro de Compras XLS")
+   vScale = gConvert.ConvierteAInteger("40")
    If txtMes.Text = "" Or txtAno.Text = "" Then
       sShowMessageForRequiredFields "Mes", txtMes
       GoTo h_EXIT
    Else
+      vFechaDateDesde = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(txtMes.Text, txtAno.Text, True)
+      vFechaDateHasta = gUtilDate.fObtenLaFechaAPartirDelMesYAnoAplicacion(txtMes.Text, txtAno.Text, False)
       AlicSeparadas = True
       varRepetirTitulos = False 'chkRepetirTitulos.value = Checked
       varSepararRetenciones = ChkSepararRetenciones.Value = Checked
+      mAplicaContribuyenteEspecial = (gProyCompaniaActual.GetTipoDeContribuyenteIVAStr = gEnumProyecto.enumTipoDeContribuyenteIvaToString(eTD_ESPECIAL))
       SeCreoElArchivo = fCreaElArchivoDeExportacion(nombreXLS)
-      insComunSawIvaSqls.sEjecutaLibroDeComprasEnXLS txtMes.Text, txtAno.Text, txtMes.Text, txtAno, nombreXLS, nombreXLS, Me.hWnd, SeCreoElArchivo, AlicSeparadas, varRepetirTitulos, varSepararRetenciones, False
+      insComunSawIvaSqls.sEjecutaLibroDeComprasEnXLS txtMes.Text, txtAno.Text, txtMes.Text, txtAno, nombreXLS, nombreXLS, Me.hWnd, SeCreoElArchivo, varSepararRetenciones, True, vFechaDateDesde, vFechaDateHasta, mAplicaContribuyenteEspecial, False, vScale
   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
