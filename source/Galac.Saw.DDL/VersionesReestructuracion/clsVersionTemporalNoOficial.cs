@@ -16,12 +16,13 @@ using LibGalac.Aos.Catching;
 using Galac.Adm.Dal.Vendedor;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
+<<<<<<< HEAD
 	class clsVersionTemporalNoOficial : clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
 			CrearTablaAdmVendedor();
-			AgregaColumnasReglasDeContabilizacionOrdenDeProduccion();
+			CrearCampoCompania_EstaIntegradaG360();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -99,31 +100,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				}
 			}
 		}
-
-		private void AgregaColumnasReglasDeContabilizacionOrdenDeProduccion() {
-			if (!ColumnExists("Saw.ReglasDeContabilizacion", "TipoContabilizacionOrdenDeProduccion")) {
-				if (AddColumnEnumerative("Saw.ReglasDeContabilizacion", "TipoContabilizacionOrdenDeProduccion", "", LibConvert.EnumToDbValue(0))) {
-					AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConTiCoOrDePr", "'0'", "TipoContabilizacionOrdenDeProduccion");
-				}
-				if (AddColumnEnumerative("Saw.ReglasDeContabilizacion", "ContabIndividualOrdenDeProduccion", "", LibConvert.EnumToDbValue(1))) {
-					AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCoInOrDePr", "'1'", "ContabIndividualOrdenDeProduccion");
-				}
-				if (AddColumnEnumerative("Saw.ReglasDeContabilizacion", "ContabPorLoteOrdenDeProduccion", "", LibConvert.EnumToDbValue(0))) {
-					AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCoPoLoOrDePr", "'0'", "ContabPorLoteOrdenDeProduccion");
-				}
-				if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaOrdenDeProduccionProductoTerminado", 30, "", "")) {
-					AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuOrDePrPrTe", _insSql.ToSqlValue(""), "CuentaOrdenDeProduccionProductoTerminado");
-				}
-				if (AddColumnString("Saw.ReglasDeContabilizacion", "CuentaOrdenDeProduccionMateriaPrima", 30, "", "")) {
-					AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConCuOrDePrMaPr", _insSql.ToSqlValue(""), "CuentaOrdenDeProduccionMateriaPrima");
-				}
-				if (AddColumnString("Saw.ReglasDeContabilizacion", "OrdenDeProduccionTipoComprobante", 2, "", "")) {
-					AddDefaultConstraint("Saw.ReglasDeContabilizacion", "d_RegDeConOrDePrTiCo", _insSql.ToSqlValue(""), "OrdenDeProduccionTipoComprobante");
-				}
-				if (AddColumnBoolean("Saw.ReglasDeContabilizacion", "EditarComprobanteAfterInsertOrdenDeProduccion", "", false)) {
-					AddNotNullConstraint("Saw.ReglasDeContabilizacion", "EditarComprobanteAfterInsertOrdenDeProduccion", InsSql.CharTypeForDb(1));
-				}
-			}
+		private void CrearCampoCompania_EstaIntegradaG360() {
+			AddColumnBoolean("dbo.Compania", "ConectadaConG360", "CONSTRAINT ConecConG360 NOT NULL", false);
 		}
 	}
 }

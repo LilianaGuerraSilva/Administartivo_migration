@@ -3,9 +3,9 @@ Proyecto=SAW
 PatronPresentacion=MVVM
 
 $GENERATE$
-//#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
+#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
 #INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
-#INCLUDE=ExternalSttdef,"C:\Git\Administrativo\DefParametrosAdministrativos.txt"
+//#INCLUDE=ExternalSttdef,"C:\Git\Administrativo\DefParametrosAdministrativos.txt"
 //#INCLUDE=ExternarWincont,"C:\cvs\documentos\vba\Def\DefContabilidad-V1.txt"
 
 //Tipos Enumerativos
@@ -210,7 +210,7 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
 //}
 
 
-{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania,Componente=Compania,Esquema=Saw,EsquemaBd=Dbo,interop
+{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania,Componente=Compania,Esquema=Saw,EsquemaBd=Dbo,interop, GENERATE
    ConsecutivoCompania      : LongInt;//o,HIDE,sugestConsecutive
    Codigo                   : Str4;  //u,g,o,"Código",sugestConsecutive,SEARCH
    Nombre                   : Str50; //u,g,o,SEARCH
@@ -1747,7 +1747,7 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
     @PrimaryKey=Consecutivo
 }
 
-{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,
+{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
     ConsecutivoCompania	: Longint; //HIDE
     Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g
@@ -2151,7 +2151,7 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
 //  La definicion de periodo, se hace solo para que el narrador no se queje porque falta el record
 
 
-{@S}ReglasDeContabilizacion = Record//Multiarchivo=Compania,Componente=Contabilizacion,Esquema=Saw,interop,UNICO,"Reglas de Contabilización"
+{@S}ReglasDeContabilizacion = Record//Multiarchivo=Compania,Componente=Contabilizacion,Esquema=Saw,interop,UNICO,"Reglas de Contabilización", GENERATE
     ConsecutivoCompania                         : LongInt;//o,v,HIDE
     Numero                                      : Str11;//u,o,g,sugestconsecutive,"Número",HIDE
           
@@ -2316,6 +2316,28 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
         SiglasTipoComprobanteRendiciones        : Str2;//"Siglas del Tipo de Comprobante",=TipoDeComprobante.Codigo
     {EndSeccion}
     
+    TransferenciasEntreCuentasBancarias : seccion;//"TransferenciasEntreCuentasBancarias"
+        TipoContabilizacionTransfCtas       		: UnTipoDeContabilizacion;//"Tipo Contabilización Transferencias entre cuentas bancarias"
+		ContabIndividualTransfCtas             		: UnContabilizacionIndividual;//"Cómo Contabilizar"
+        ContabPorLoteTransfCtas                   	: UnContabilizacionPorLote;//"Contabilizar Por Lote Transferencias entre cuentas bancarias"
+        CuentaTransfCtasBancoDestino                : Str30;//"Cuenta Gasto",=Cuenta.Codigo
+        CuentaTransfCtasGastoComOrigen              : Str30;//"Cuenta Banco",=Cuenta.Codigo
+        CuentaTransfCtasGastoComDestino             : Str30;//"Anticipos",=Cuenta.Codigo
+		CuentaTransfCtasBancoOrigen             	: Str30;//"Anticipos",=Cuenta.Codigo
+        TransfCtasSigasTipoComprobante        		: Str2;//"Siglas del Tipo de Comprobante",=TipoDeComprobante.Codigo
+		EditarComprobanteAfterInsertTransfCtas   : Boolean;//"Editar Inmediatamente el Comprobante Generado"
+    {EndSeccion}
+    
+    GestionProduccion : seccion;//"Producción"
+        TipoContabilizacionOrdenDeProduccion          : UnTipoDeContabilizacion;//"Tipo Contabilización Orden De Producción"
+        ContabIndividualOrdenDeProduccion             : UnContabilizacionIndividual;//"Cómo Contabilizar"
+        ContabPorLoteOrdenDeProduccion                : UnContabilizacionPorLote;//"Contabilizar Por Lote Orden De Producción"
+        CuentaOrdenDeProduccionProductoTerminado      : Str30;//"Cuenta Producto Terminado",=Cuenta.Codigo
+        CuentaOrdenDeProduccionMateriaPrima           : Str30;//"Cuenta Materia Prima",=Cuenta.Codigo
+        OrdenDeProduccionTipoComprobante              : Str2;//"Siglas del Tipo de Comprobante",=TipoDeComprobante.Codigo
+        EditarComprobanteAfterInsertOrdenDeProduccion : Boolean;//"Editar Inmediatamente el Comprobante Generado"
+    {EndSeccion}
+
     NombreOperador                              : Str10;//a
     FechaUltimaModificacion                     : Date;//a
     
@@ -4460,7 +4482,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	FechaUltimaModificacion	            : date;//a
 	@PrimaryKey=ConsecutivoCompania,ConsecutivoOrdenDeProduccion,ConsecutivoOrdenDeProduccionDetalleArticulo,Consecutivo
 }
-{@S}TransferenciaEntreCuentasBancarias = record //Multiarchivo=Compania,"Transferencia Entre Cuentas Bancarias",Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
+{@S}TransferenciaEntreCuentasBancarias = record //Multiarchivo=Compania,"Transferencia Entre Cuentas Bancarias",Componente=Banco,Esquema=Adm,interop,GenerateRptConfigurar,GenerateFrmInforme
 	ConsecutivoCompania				: LongInt;	//Hide	
 	Consecutivo						: LongInt; 	//Hide,"Consecutivo Transferencia",sugestConsecutive
 	Status							: unStatusTransferenciaBancaria;//o,g,search,"Status "

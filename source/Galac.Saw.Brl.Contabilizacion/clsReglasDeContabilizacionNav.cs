@@ -255,6 +255,9 @@ namespace Galac.Saw.Brl.Contabilizacion {
                 case "TransferenciaEntreCuentas":
                 vEstancompletas = fLasCuentasDeTransferenciasEstanCompletas(insReglasDeContabilizacion);
                 break;
+                case "OrdenDeProduccion":
+                vEstancompletas = fLasCuentasDeOrdenDeProduccionEstanCompletas(insReglasDeContabilizacion);
+                break;
                 default: throw new NotImplementedException();
                 }
             }
@@ -497,6 +500,14 @@ namespace Galac.Saw.Brl.Contabilizacion {
             return vResult;
         }
 
+        bool fLasCuentasDeOrdenDeProduccionEstanCompletas(ReglasDeContabilizacion insReglasDeContabilizacion) {
+            bool vResult = false;
+            bool vEstancompletas;
+            vEstancompletas = (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaOrdenDeProduccionProductoTerminado)))
+                              && (!LibString.IsNullOrEmpty(LibString.Trim(insReglasDeContabilizacion.CuentaOrdenDeProduccionMateriaPrima)));
+            vResult = vEstancompletas;
+            return vResult;
+        }
         public int valTipoDocumento { get; set; }
     } //End of class clsReglasDeContabilizacionNav
 

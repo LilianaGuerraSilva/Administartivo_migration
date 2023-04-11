@@ -152,6 +152,7 @@
     <Compile Include="IWrpInformesVb.cs" />
     <Compile Include="IWrpImpuestoBancarioVb.cs" />
     <Compile Include="IWrpLibros.cs" />
+    <Compile Include="IWrpOrdenDeProduccionVb.cs" />
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
     <Compile Include="IWrpVendedorVb.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
