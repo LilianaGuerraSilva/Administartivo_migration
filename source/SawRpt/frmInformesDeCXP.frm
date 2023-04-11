@@ -1769,7 +1769,7 @@ Private Sub sEjecutaLibroDeComprasEnXLS()
    Dim vFechaDateDesde As Date
    On Error GoTo h_ERROR
    nombreXLS = fNombreDelArchivo("Libro de Compras XLS")
-   vScale = gConvert.ConvierteAInteger("40")
+   vScale = 40
    If txtMes.Text = "" Or txtAno.Text = "" Then
       sShowMessageForRequiredFields "Mes", txtMes
       GoTo h_EXIT
