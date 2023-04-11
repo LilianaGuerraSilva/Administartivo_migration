@@ -378,7 +378,7 @@ namespace Galac.Adm.Brl.Banco {
 			LibDatabase insDB = new LibDatabase();
 			LibGpParams vParam = new LibGpParams();
 			StringBuilder vSql = new StringBuilder();
-			string vCodigoMoneda = "";
+			string vCodigoMoneda = string.Empty; 
 
 			vParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
 			vParam.AddInString("CodigoCuenta", valCodigoCuentaBancaria, 5);

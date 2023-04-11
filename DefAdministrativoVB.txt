@@ -1025,7 +1025,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=Secuencial
 }
 
-{@S}ParametrosCompania = Record, GENERATE
+{@S}ParametrosCompania = Record 
     ConsecutivoCompania    : Longint;
     usaMonedaExtranjera    : boolean;//o,g,SEARCH
     UsaPrecioSinIva        : Boolean;//o
@@ -2833,7 +2833,7 @@ MenuDeInformes : boolean;
 }
 
 
-{@S}ReglasDeContabilizacion = Record //Female,Multiarchivo=Compania
+{@S}ReglasDeContabilizacion = Record //Female,Multiarchivo=Compania, GENERATE
     ConsecutivoCompania : LongInt;//o,v
     Numero              : Str11;//u,o,g,sugestconsecutive,"Número",HIDE
     EditarComprobanteAfterInsert       : Boolean; 
@@ -2950,7 +2950,23 @@ MenuDeInformes : boolean;
     CuentaRendicionesAnticipos         : Str30; //=cuenta.codigo
     MostrarDesglosadoRendiciones       : Boolean;
 
+// Transferencias entre Cuentas Bancarias
+    TipoContabilizacionTransfCtas        : UnTipoDeContabilizacion;
+    ContabIndividualTransfCtas           : UnContabilizacionIndividual;
+    ContabPorLoteTransfCtas              : UnContabilizacionPorLote;
+    CuentaTransfCtasBancoDestino         : Str30; //=cuenta.codigo
+    CuentaTransfCtasGastoComOrigen       : Str30; //=cuenta.codigo
+    CuentaTransfCtasGastoComDestino      : Str30; //=cuenta.codigo
+    CuentaTransfCtasBancoOrigen          : Str30; //=cuenta.codigo
+    TransfCtasSigasTipoComprobante       : str2:
 
+// Orden de Produccion
+    TipoContabilizacionOrdenDeProduccion        : UnTipoDeContabilizacion;
+    ContabIndividualOrdenDeProduccion           : UnContabilizacionIndividual;
+    ContabPorLoteOrdenDeProduccion              : UnContabilizacionPorLote;
+    CuentaOrdenDeProduccionProductoTerminado    : Str30; //=cuenta.codigo
+    CuentaOrdenDeProduccionMateriaPrima         : Str30; //=cuenta.codigo
+    OrdenDeProduccionTipoComprobante            : str2:
 
 //Final
     NombreOperador: Str10; //a

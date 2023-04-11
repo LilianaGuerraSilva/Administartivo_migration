@@ -159,7 +159,7 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub cmdGrabar_Click()
-   Dim sql As String
+   Dim Sql As String
    Dim rsTemp As ADODB.Recordset
    Dim varSalir As Boolean
    Dim vVersionBDDWincont As String
@@ -176,8 +176,8 @@ Private Sub cmdGrabar_Click()
          & vbCr & "El proceso será cancelado."
       GoTo h_EXIT
    End If
-   sql = "SELECT fldVersionBDD From VersionContabil "
-   If gDbUtil.fOpenRecordSetAllParameters(rsTemp, sql, mCnWincont, adLockOptimistic, adUseClient, adOpenForwardOnly) Then
+   Sql = "SELECT fldVersionBDD From VersionContabil "
+   If gDbUtil.fOpenRecordSetAllParameters(rsTemp, Sql, mCnWincont, adLockOptimistic, adUseClient, adOpenForwardOnly) Then
       If gDbUtil.fRecordCount(rsTemp) > 0 Then
          gDefProg.GetVersionBaseDeDatos
          vVersionBDDWincont = rsTemp.Fields("fldVersionBDD").value
@@ -291,7 +291,7 @@ Private Sub sCheckForSpecialKeys(ByVal valKeyCode As Integer, ByVal valShift As 
       gAPI.ssSetFocus cmdGrabar
       cmdGrabar_Click
    ElseIf valKeyCode = vbKeyEscape Then
-      gAPI.ssSetFocus CmdSalir
+      gAPI.ssSetFocus cmdSalir
       cmdSalir_Click
    End If
 h_EXIT: On Error GoTo 0
@@ -377,11 +377,11 @@ End Function
 
 Private Sub sSetConsecutivoCompaniaAImportar()
    On Error GoTo h_ERROR
-   mrsCompania.Filter = "Codigo = " & fCodigoCompaniaAImportar
+   mrsCompania.filter = "Codigo = " & fCodigoCompaniaAImportar
    If mrsCompania.RecordCount > 0 Then
       mConsecutivoCompaniaWincont = mrsCompania("ConsecutivoCompania").value
    End If
-   mrsCompania.Filter = adFilterNone
+   mrsCompania.filter = adFilterNone
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -455,7 +455,7 @@ Private Sub sEliminaLaInformacionContableAsociadaALaCompaniaActual(ByVal valRais
    varSQL = "DELETE FROM " & varParametrosActivo.GetTableName & " WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    gDbUtil.Execute gDefDatabase.Conexion, varSQL
    Set varParametrosActivo = Nothing
-   varSQL = "DELETE FROM " & gProyReglasDeContabilizacion.GetTableName & " WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
+   varSQL = "DELETE FROM Saw.ReglasDeContabilizacion WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    gDbUtil.Execute gDefDatabase.Conexion, varSQL
    gProyReglasDeContabilizacion.sClrRecord
    gProyReglasDeContabilizacion.SetConsecutivoCompania gProyCompaniaActual.GetConsecutivoCompania
@@ -875,7 +875,7 @@ End Sub
 Private Sub sModificaLosParametrosContablesDeCompania()
    Dim varOtherUserUpdateFirst As Boolean
    On Error GoTo h_ERROR
-   mrsCompania.Filter = "Codigo = " & fCodigoCompaniaAImportar
+   mrsCompania.filter = "Codigo = " & fCodigoCompaniaAImportar
    If mrsCompania.RecordCount > 0 Then
       gProyCompaniaActual.SetUsaAuxiliares gConvert.ConvertStringToBoolean(mrsCompania("UsaAuxiliares").value)
       gProyCompaniaActual.SetUsaCentroDeCostos gConvert.ConvertStringToBoolean(mrsCompania("UsaCentroDeCostos").value)
@@ -889,7 +889,7 @@ Private Sub sModificaLosParametrosContablesDeCompania()
       If gProyParametrosCompania.fResetFechaDeInicioContabilizacion(gDefgen.fGetValorDeFechaParaInicializarCampo) Then
       End If
    End If
-   mrsCompania.Filter = adFilterNone
+   mrsCompania.filter = adFilterNone
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _

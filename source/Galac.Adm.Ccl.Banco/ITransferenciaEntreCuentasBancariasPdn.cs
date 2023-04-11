@@ -13,6 +13,8 @@ namespace Galac.Adm.Ccl.Banco {
 
 		#region Código Programador
 		bool CambiarStatusTransferencia(TransferenciaEntreCuentasBancarias valCompra, eAccionSR valAction);
+
+		bool PerteneceAUnMesCerrado(DateTime valFecha);
 		#endregion
 	} //End of class ITransferenciaEntreCuentasBancariasPdn
 

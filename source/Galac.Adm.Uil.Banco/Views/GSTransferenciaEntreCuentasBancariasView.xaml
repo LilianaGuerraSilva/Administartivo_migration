@@ -21,7 +21,8 @@
     <Grid FocusManager.FocusedElement="{Binding ElementName=dtpFecha}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="231.042" />
+            <ColumnDefinition Width="211.795" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -29,15 +30,15 @@
         </Grid.RowDefinitions>
 
         <GroupBox
-            Grid.Row="0"
-            Grid.ColumnSpan="2"
-            Margin="10,3"
-            VerticalAlignment="Top"
+            Grid.ColumnSpan="3"
+            Margin="10,0,10,0"
+            VerticalAlignment="Center"
             Header="Datos Generales">
 
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
@@ -60,6 +61,25 @@
                     IsEnabled="{Binding Path=IsInsertar}"
                     SelectedDate="{Binding Path=Fecha, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource DatePickerStyle}" />
+                <Label
+                    Grid.Column="2"
+                    Margin="60,-1,433,7"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Content="Fecha de Anulación"
+                    RenderTransformOrigin="1.235,0.435"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleFechaAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <nsWpfControls:GSDatePickerWpf
+                    Name="dtpFechaAnulacion"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Width="105"
+                    Margin="181,0,0,7"
+                    IsEnabled="{Binding Path=IsEnabledFechaAnulacion}"
+                    SelectedDate="{Binding Path=FechaDeAnulacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource DatePickerStyle}"
+                    Visibility="{Binding Path=IsVisibleFechaAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Label
                     Name="lblConsecutivo"
                     Grid.Row="0"
@@ -103,9 +123,11 @@
                 <Label
                     Name="lblStatus"
                     Grid.Row="1"
+                    Grid.RowSpan="2"
                     Grid.Column="2"
-                    Width="300"
-                    HorizontalAlignment="Right"
+                    Width="222"
+                    Margin="359,0,0,56"
+                    HorizontalAlignment="Left"
                     HorizontalContentAlignment="Right"
                     Content="{Binding Path=StatusYFechaDeAnulacion}"
                     Style="{StaticResource LabelStatusBlue}"
@@ -119,9 +141,10 @@
                     Name="txtDescripcion"
                     Grid.Row="2"
                     Grid.Column="1"
-                    Grid.ColumnSpan="2"
-                    Width="650"
+                    Grid.ColumnSpan="3"
+                    Width="704"
                     Height="50"
+                    Margin="3,3,0,3"
                     BorderThickness="1"
                     InputDataType="String"
                     IsEnabled="{Binding Path=IsInsertar}"
@@ -135,10 +158,11 @@
         <GroupBox
             Grid.Row="1"
             Grid.Column="0"
+            Height="381"
             Margin="10,0,10,0"
             VerticalAlignment="Center"
             Header="Cuenta de Origen"
-            Visibility="{Binding Path=IsVisibleAlContabilizar, Converter={StaticResource booleanToVisibilityConverter}}" Height="381">
+            Visibility="{Binding Path=IsVisibleAlContabilizar, Converter={StaticResource booleanToVisibilityConverter}}">
 
 
             <Grid>
@@ -393,10 +417,12 @@
         <GroupBox
             Grid.Row="1"
             Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Height="378"
             Margin="10,3,10,0"
             VerticalAlignment="Top"
             Header="Cuenta de Destino"
-            Visibility="{Binding Path=IsVisibleAlContabilizar, Converter={StaticResource booleanToVisibilityConverter}}" Height="378">
+            Visibility="{Binding Path=IsVisibleAlContabilizar, Converter={StaticResource booleanToVisibilityConverter}}">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -546,8 +572,9 @@
                     Grid.Row="8"
                     Grid.ColumnSpan="3"
                     Width="290"
+                    Height="130"
                     Margin="49,3,49,0"
-                    VerticalAlignment="Top" Height="130">
+                    VerticalAlignment="Top">
 
                     <GroupBox.Header>
                         <CheckBox
@@ -621,7 +648,8 @@
                             Grid.Row="3"
                             Grid.Column="0"
                             Content="Generar I.G.T.F."
-                            Style="{StaticResource LabelPrompt}" Visibility="Hidden"/>
+                            Style="{StaticResource LabelPrompt}"
+                            Visibility="Hidden" />
                         <CheckBox
                             Name="chkGeneraIGTFComisionIngreso"
                             Grid.Row="3"
@@ -631,7 +659,8 @@
                             Content="{Binding Path=AlicuotaImpuestoBancarioIngreso}"
                             IsChecked="{Binding Path=GeneraIGTFComisionIngreso}"
                             IsEnabled="{Binding Path=IsEnabledGeneraIGTFComisionIngreso}"
-                            Style="{StaticResource CheckBoxStyle}" Visibility="Hidden" />
+                            Style="{StaticResource CheckBoxStyle}"
+                            Visibility="Hidden" />
                     </Grid>
                 </GroupBox>
 

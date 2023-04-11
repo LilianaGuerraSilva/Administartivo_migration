@@ -127,7 +127,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public string StatusYFechaDeAnulacion {//Label de Status
 			get {
-				return Status.GetDescription() + (Status == eStatusTransferenciaBancaria.Anulada ? (" - " + FechaDeAnulacion.ToShortDateString()) : string.Empty);
+				return Status.GetDescription();
 			}
 		}
 
@@ -178,6 +178,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
+		[LibCustomValidation("FechaDeAnulacionValidating")]
 		public DateTime FechaDeAnulacion {
 			get {
 				return Model.FechaDeAnulacion;
@@ -185,6 +186,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			set {
 				if (Model.FechaDeAnulacion != value) {
 					Model.FechaDeAnulacion = value;
+					IsDirty = true;
 					RaisePropertyChanged(FechaDeAnulacionPropertyName);
 				}
 			}
@@ -868,7 +870,6 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			}
 		}
 
-
 		public bool IsEnabledCambioABolivaresEgreso {
 			get { return IsInsertar && !vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen); }
 		}
@@ -882,16 +883,30 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		public bool IsEnabledGeneraIGTFComisionEgreso {
-            get {
+			get {
 				return IsInsertar && GeneraComisionEgreso &&
-				  (ConexionCodigoCuentaBancariaOrigen != null && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario); }
-        }
+				  (ConexionCodigoCuentaBancariaOrigen != null && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario);
+			}
+		}
 
 		public bool IsEnabledGeneraIGTFComisionIngreso {
-            get {
+			get {
 				return IsInsertar && GeneraComisionIngreso &&
-				  (ConexionCodigoCuentaBancariaDestino != null && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario); }
-        }
+				  (ConexionCodigoCuentaBancariaDestino != null && ConexionCodigoCuentaBancariaDestino.ManejaCreditoBancario);
+			}
+		}
+
+		public bool IsVisibleFechaAnulacion {
+			get {
+				return Action == eAccionSR.Anular || (Action == eAccionSR.Consultar && Status == eStatusTransferenciaBancaria.Anulada) || (Action == eAccionSR.Contabilizar && Status == eStatusTransferenciaBancaria.Anulada);
+			}
+		}
+
+		public bool IsEnabledFechaAnulacion {
+			get {
+				return Action == eAccionSR.Anular;
+			}
+		}
 
 		#endregion //Propiedades
 
@@ -959,16 +974,17 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			LibSearchCriteria vDefaultCriteriaOrigen = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaOrigen);
 			vDefaultCriteriaOrigen.Add("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
 			ConexionCodigoCuentaBancariaOrigen = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteriaOrigen);
-
-			ConexionCodigoConceptoEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoEgreso));
-			ConexionCodigoConceptoComisionEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionEgreso));
-
+			if (Action != eAccionSR.Contabilizar) {
+				ConexionCodigoConceptoEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoEgreso));
+				ConexionCodigoConceptoComisionEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionEgreso));
+			}
 			LibSearchCriteria vDefaultCriteriaDestino = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaDestino);
 			vDefaultCriteriaDestino.Add("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
 			ConexionCodigoCuentaBancariaDestino = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteriaDestino);
-
-			ConexionCodigoConceptoIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoIngreso));
-			ConexionCodigoConceptoComisionIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionIngreso));
+			if (Action != eAccionSR.Contabilizar) {
+				ConexionCodigoConceptoIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoIngreso));
+				ConexionCodigoConceptoComisionIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionIngreso));
+			}
 		}
 
 		private void ExecuteChooseCodigoCuentaBancariaOrigenCommand(string valCodigo) {
@@ -1003,7 +1019,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Egreso);
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Egreso));
 				ConexionCodigoConceptoEgreso = null;
 				ConexionCodigoConceptoEgreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
 			} catch (AccessViolationException) {
@@ -1019,7 +1035,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Egreso);
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Egreso));
 				ConexionCodigoConceptoComisionEgreso = null;
 				ConexionCodigoConceptoComisionEgreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria);
 			} catch (AccessViolationException) {
@@ -1062,7 +1078,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Ingreso);
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Ingreso));
 				ConexionCodigoConceptoIngreso = null;
 				ConexionCodigoConceptoIngreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
 			} catch (AccessViolationException) {
@@ -1078,7 +1094,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					valCodigo = string.Empty;
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", eIngresoEgreso.Egreso);
+				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Tipo", LibConvert.EnumToDbValue((int)eIngresoEgreso.Egreso));
 				ConexionCodigoConceptoComisionIngreso = null;
 				ConexionCodigoConceptoComisionIngreso = ChooseRecord<FkConceptoBancarioViewModel>("Concepto Bancario", vDefaultCriteria, vFixedCriteria, string.Empty);
 			} catch (AccessViolationException) {
@@ -1089,36 +1105,55 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult FechaValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else {
-				if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
-					vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
-				} else if (LibDate.DateIsGreaterThanToday(Fecha, false, string.Empty)) {
-					vResult = new ValidationResult("La fecha de la transferencia no puede ser mayor a la fecha de hoy.");
-				//} else if (true) { //si la compañía usa contabilidad y la fecha >= fecha de inicio contabilizacion (parámetros)
-				//	if (true) { //la fecha no pertenece al período actual (parámetros)
-				//		vResult = new ValidationResult("la fecha no pertenece al período actual.");
-				//	} else if (true) {//el período actual está cerrado (parámetros)
-				//		vResult = new ValidationResult("el período actual está cerrado.");
-				//	}else if (true) {//el mes de la fecha está cerrado.
-				//		vResult = new ValidationResult("el mes está cerrado.");
-    //                }					
-				}
+			}
+			bool PertenerceAUnMesCerrado = ((ITransferenciaEntreCuentasBancariasPdn)BusinessComponent).PerteneceAUnMesCerrado(Fecha);
+			ValidationResult vResult = ValidationResult.Success;
+			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(Fecha, false, Action)) {
+				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
+			} else if (LibDate.DateIsGreaterThanToday(Fecha, false, string.Empty)) {
+				vResult = new ValidationResult("La fecha de la transferencia no puede ser mayor a la fecha de hoy.");
+			} else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")
+				&&  (Fecha > LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaCierre") || Fecha < LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaApertura")) ) {
+					vResult = new ValidationResult("La Fecha de la Transferencia debe pertenecer al Período Actual.");
+			} else if (PertenerceAUnMesCerrado) {
+				vResult = new ValidationResult("La fecha de la transferencia pertenece a un Mes Cerrado.");				
 			}
 			return vResult;
 		}
+
+		private ValidationResult FechaDeAnulacionValidating() {
+			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Contabilizar) || (Action == eAccionSR.Insertar)) {
+				return ValidationResult.Success;
+			}
+			bool PertenerceAUnMesCerrado = ((ITransferenciaEntreCuentasBancariasPdn)BusinessComponent).PerteneceAUnMesCerrado(FechaDeAnulacion);
+			ValidationResult vResult = ValidationResult.Success;
+			if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeAnulacion, false, Action)) {
+				vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha"));
+			} else if (LibDate.DateIsGreaterThanToday(FechaDeAnulacion, false, string.Empty)) {
+				vResult = new ValidationResult("La Fecha de Anulación de la transferencia no puede ser mayor a la fecha de hoy.");
+			} else if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "UsaModuloDeContabilidad")
+				&& (FechaDeAnulacion > LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaCierre") || FechaDeAnulacion < LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Periodo", "FechaApertura"))) {
+				vResult = new ValidationResult("La Fecha de Anulación de la Transferencia debe pertenecer al Período Actual.");
+			} else if (PertenerceAUnMesCerrado) {
+				vResult = new ValidationResult("La Fecha de Anulación de la transferencia pertenece a un Mes Cerrado.");
+			} else if (FechaDeAnulacion < Fecha) {
+				vResult = new ValidationResult("La Fecha de Anulación no puede ser menor a la de la transferencia.");
+			}
+			return vResult;
+		}
+
 		#endregion //Metodos Generados
 
 		#region Código Programador
 		private ValidationResult CambioABolivaresEgresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
-			bool vEsMonedaLocal = vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen);
-
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (!vEsMonedaLocal && (CambioABolivaresEgreso == 1 || CambioABolivaresEgreso <= 0)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			bool vEsMonedaLocal = vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen);
+			if (!vEsMonedaLocal && (CambioABolivaresEgreso == 1 || CambioABolivaresEgreso <= 0)) {
 				vResult = new ValidationResult("El campo Cambio de Egreso debe ser distinto de 1 y mayor que 0.");
 			} else if (vEsMonedaLocal && CambioABolivaresEgreso != 1) {
 				vResult = new ValidationResult("El campo Cambio de Egreso debe ser igual a 1.");
@@ -1127,10 +1162,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult MontoTransferenciaEgresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (MontoTransferenciaEgreso <= 0) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (MontoTransferenciaEgreso <= 0) {
 				vResult = new ValidationResult("El campo Monto de Egreso debe ser mayor que 0.");
 			} else if (!LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaOrigen, true) && LibString.S1IsEqualToS2(CodigoMonedaCuentaBancariaOrigen, CodigoMonedaCuentaBancariaDestino) && MontoTransferenciaEgreso < MontoTransferenciaIngreso) {
 				vResult = new ValidationResult(MensajeValidacionMontos);
@@ -1139,21 +1175,23 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult MontoComisionEgresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (GeneraComisionEgreso && MontoComisionEgreso <= 0) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (GeneraComisionEgreso && MontoComisionEgreso <= 0) {
 				vResult = new ValidationResult("El campo Monto Comisión de Egreso debe ser mayor que 0.");
 			}
 			return vResult;
 		}
 
-		private ValidationResult CambioABolivaresIngresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
-			bool vEsMonedaLocal = vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino);
+		private ValidationResult CambioABolivaresIngresoValidating() {			
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (!vEsMonedaLocal && (CambioABolivaresIngreso == 1 || CambioABolivaresIngreso <= 0)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			bool vEsMonedaLocal = vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino);
+			if (!vEsMonedaLocal && (CambioABolivaresIngreso == 1 || CambioABolivaresIngreso <= 0)) {
 				vResult = new ValidationResult("El campo Cambio de Ingreso debe ser distinto de 1 y mayor que 0.");
 			} else if (vEsMonedaLocal && CambioABolivaresIngreso != 1) {
 				vResult = new ValidationResult("El campo Cambio de Ingreso debe ser igual a 1.");
@@ -1162,10 +1200,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult MontoTransferenciaIngresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (MontoTransferenciaIngreso <= 0) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (MontoTransferenciaIngreso <= 0) {
 				vResult = new ValidationResult("El campo Monto de Ingreso debe ser mayor que 0.");
 			} else if (!LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaDestino, true) && LibString.S1IsEqualToS2(CodigoMonedaCuentaBancariaOrigen, CodigoMonedaCuentaBancariaDestino) && MontoTransferenciaEgreso < MontoTransferenciaIngreso) {
 				vResult = new ValidationResult(MensajeValidacionMontos);
@@ -1174,40 +1213,44 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 
 		private ValidationResult MontoComisionIngresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (GeneraComisionIngreso && MontoComisionIngreso <= 0) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (GeneraComisionIngreso && MontoComisionIngreso <= 0) {
 				vResult = new ValidationResult("El campo Monto Comisión de Ingreso debe ser mayor que 0.");
 			}
 			return vResult;
 		}
 
 		private ValidationResult CodigoConceptoComisionEgresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (GeneraComisionEgreso && LibString.IsNullOrEmpty(CodigoConceptoComisionEgreso)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (GeneraComisionEgreso && LibString.IsNullOrEmpty(CodigoConceptoComisionEgreso)) {
 				vResult = new ValidationResult("El campo Concepto Comisión de Egreso es requerido.");
 			}
 			return vResult;
 		}
 
 		private ValidationResult CodigoConceptoComisionIngresoValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (GeneraComisionIngreso && LibString.IsNullOrEmpty(CodigoConceptoComisionIngreso)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (GeneraComisionIngreso && LibString.IsNullOrEmpty(CodigoConceptoComisionIngreso)) {
 				vResult = new ValidationResult("El campo Concepto Comisión de Ingreso es requerido.");
 			}
 			return vResult;
 		}
 
 		private ValidationResult CodigoCuentasBancariasValidating() {
-			ValidationResult vResult = ValidationResult.Success;
 			if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar) || (Action == eAccionSR.Anular) || (Action == eAccionSR.Contabilizar)) {
 				return ValidationResult.Success;
-			} else if (LibString.S1IsEqualToS2(CodigoCuentaBancariaDestino, CodigoCuentaBancariaOrigen)) {
+			}
+			ValidationResult vResult = ValidationResult.Success;
+			if (LibString.S1IsEqualToS2(CodigoCuentaBancariaDestino, CodigoCuentaBancariaOrigen)) {
 				vResult = new ValidationResult("Los campos Cuenta Bancaria (Origen y Destino) no deben coincidir.");
 			}
 			return vResult;
@@ -1288,14 +1331,14 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		void AnulaTransferencia() {
 			Model.StatusAsEnum = eStatusTransferenciaBancaria.Anulada;
-			Model.FechaDeAnulacion = LibDate.Today();
+			Model.FechaDeAnulacion = FechaDeAnulacion;
 		}
 
 		public void AsignaTasaDelDiaEgreso() {
 			if (LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaOrigen)) {
 				return;
 			}
-			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) { 
+			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) {
 				decimal vTasa = 1;
 				ConexionCodigoMonedaEgreso = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMonedaCuentaBancariaOrigen));
 				if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCuentaBancariaOrigen, Fecha, out vTasa)) {
@@ -1326,7 +1369,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			if (LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaDestino)) {
 				return;
 			}
-			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) { 
+			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) {
 				decimal vTasa = 1;
 				ConexionCodigoMonedaIngreso = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMonedaCuentaBancariaDestino));
 				if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaCuentaBancariaDestino, Fecha, out vTasa)) {
@@ -1362,6 +1405,10 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 		public override void InitializeViewModel(eAccionSR valAction) {
 			base.InitializeViewModel(valAction);
+			if (valAction == eAccionSR.Anular) {
+				ReloadRelatedConnections();
+				Model.FechaDeAnulacion = Model.Fecha;
+            }
 			Model.ConsecutivoCompania = Mfc.GetInt("Compania");
 		}
 
@@ -1373,23 +1420,20 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				}
 				LibSearchCriteria vSearchcriteria = null;
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-				if (Action == LibGalac.Aos.Base.eAccionSR.Anular) {
-					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
-					vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Status", eStatusTransferenciaBancaria.Vigente), eLogicOperatorType.And);
-				} else if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
-					//LibSearchCriteria vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.StatusStr", valNumero);
-					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento", valNumero);
+				if (Action == LibGalac.Aos.Base.eAccionSR.Contabilizar) {
+					vSearchcriteria = LibSearchCriteria.CreateCriteria("Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo", valNumero);
 					vModuleName = "ContabilizarTransferenciaEntreCuentasBancarias";
 				}
-				ConexionNumeroTransferencia = null;
-				LibSearchCriteria vSearchcriteria1 = vSearchcriteria;
-				ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria1, vFixedCriteria, string.Empty);
+				ConexionNumeroTransferencia = ChooseRecord<FkTransferenciaEntreCuentasBancariasViewModel>(vModuleName, vSearchcriteria, vFixedCriteria, string.Empty);
 				if (ConexionNumeroTransferencia == null) {
 					NumeroDocumento = "";
 				} else {
 					Model.ConsecutivoCompania = ConexionNumeroTransferencia.ConsecutivoCompania;
 					Model.Consecutivo = ConexionNumeroTransferencia.Consecutivo;
 					InitializeViewModel(Action);
+					if (Action == eAccionSR.Contabilizar) {
+						ReloadRelatedConnections();
+					}
 					GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.DeclaredOnly)
 					  .ToList().ForEach(p => RaisePropertyChanged(p.Name));
 				}

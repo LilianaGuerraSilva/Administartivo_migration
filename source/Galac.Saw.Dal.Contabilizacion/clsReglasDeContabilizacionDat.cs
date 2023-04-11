@@ -167,10 +167,17 @@ namespace Galac.Saw.Dal.Contabilizacion {
             vParams.AddInString("CuentaTransfCtasBancoOrigen", valRecord.CuentaTransfCtasBancoOrigen, 30);
             vParams.AddInString("TransfCtasSigasTipoComprobante", valRecord.TransfCtasSigasTipoComprobante, 2);
             vParams.AddInBoolean("EditarComprobanteAfterInsertTransfCtas", valRecord.EditarComprobanteAfterInsertTransfCtasAsBool);
-            vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
-            vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
-            if(valAction == eAccionSR.Modificar) {
-                vParams.AddInTimestamp("TimeStampAsInt",valRecord.fldTimeStamp);
+            vParams.AddInEnum("TipoContabilizacionOrdenDeProduccion", valRecord.TipoContabilizacionOrdenDeProduccionAsDB);
+            vParams.AddInEnum("ContabIndividualOrdenDeProduccion", valRecord.ContabIndividualOrdenDeProduccionAsDB);
+            vParams.AddInEnum("ContabPorLoteOrdenDeProduccion", valRecord.ContabPorLoteOrdenDeProduccionAsDB);
+            vParams.AddInString("CuentaOrdenDeProduccionProductoTerminado", valRecord.CuentaOrdenDeProduccionProductoTerminado, 30);
+            vParams.AddInString("CuentaOrdenDeProduccionMateriaPrima", valRecord.CuentaOrdenDeProduccionMateriaPrima, 30);
+            vParams.AddInString("OrdenDeProduccionTipoComprobante", valRecord.OrdenDeProduccionTipoComprobante, 2);
+            vParams.AddInBoolean("EditarComprobanteAfterInsertOrdenDeProduccion", valRecord.EditarComprobanteAfterInsertOrdenDeProduccionAsBool);
+            vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
+            if (valAction == eAccionSR.Modificar) {
+                vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
             vResult = vParams.Get();
             return vResult;
@@ -1712,7 +1719,65 @@ namespace Galac.Saw.Dal.Contabilizacion {
             }
             return vResult;
         }
-        private bool KeyExists(int valConsecutivoCompania,string valNumero) {
+
+        private bool IsValidCuentaOrdenDeProduccionProductoTerminado(eAccionSR valAction, string valCuentaOrdenDeProduccionProductoTerminado){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCuentaOrdenDeProduccionProductoTerminado = LibString.Trim(valCuentaOrdenDeProduccionProductoTerminado);
+            if (LibString.IsNullOrEmpty(valCuentaOrdenDeProduccionProductoTerminado , true)) {
+                BuildValidationInfo(MsgRequiredField("Cuenta Producto Terminado"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaOrdenDeProduccionProductoTerminado), true)) {
+                    BuildValidationInfo("El valor asignado al campo Cuenta Producto Terminado no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool IsValidCuentaOrdenDeProduccionMateriaPrima(eAccionSR valAction, string valCuentaOrdenDeProduccionMateriaPrima){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCuentaOrdenDeProduccionMateriaPrima = LibString.Trim(valCuentaOrdenDeProduccionMateriaPrima);
+            if (LibString.IsNullOrEmpty(valCuentaOrdenDeProduccionMateriaPrima , true)) {
+                BuildValidationInfo(MsgRequiredField("Cuenta Materia Prima"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Cuenta", "Codigo", insDb.InsSql.ToSqlValue(valCuentaOrdenDeProduccionMateriaPrima), true)) {
+                    BuildValidationInfo("El valor asignado al campo Cuenta Materia Prima no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool IsValidOrdenDeProduccionTipoComprobante(eAccionSR valAction, string valOrdenDeProduccionTipoComprobante){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valOrdenDeProduccionTipoComprobante = LibString.Trim(valOrdenDeProduccionTipoComprobante);
+            if (LibString.IsNullOrEmpty(valOrdenDeProduccionTipoComprobante , true)) {
+                BuildValidationInfo(MsgRequiredField("Siglas del Tipo de Comprobante"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("Contab.TipoDeComprobante", "Codigo", insDb.InsSql.ToSqlValue(valOrdenDeProduccionTipoComprobante), true)) {
+                    BuildValidationInfo("El valor asignado al campo Siglas del Tipo de Comprobante no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool KeyExists(int valConsecutivoCompania, string valNumero) {
             bool vResult = false;
             ReglasDeContabilizacion vRecordBusqueda = new ReglasDeContabilizacion();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;

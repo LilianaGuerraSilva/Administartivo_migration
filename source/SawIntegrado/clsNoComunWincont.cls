@@ -548,30 +548,22 @@ End Function
 Public Function fSePuedeEscogerTipoDeComprobante(ByVal valAction As AccionSobreRecord, ByVal valCodigoTipoComprobante As String) As Boolean
    Dim varSePuede As Boolean
    Dim varSQL As String
-   Dim varReglasDeContabilizacionNavigator As clsReglasDeContabilizacionNavigator
-   Dim varRecordset As ADODB.Recordset
    On Error GoTo h_ERROR
    varSePuede = True
-   Set varReglasDeContabilizacionNavigator = New clsReglasDeContabilizacionNavigator
-   varSQL = "SELECT * FROM " & varReglasDeContabilizacionNavigator.GetTableName _
-         & " WHERE (FacturaTipoComprobante = '" & valCodigoTipoComprobante & "')" _
-         & " OR (CxCTipoComprobante = '" & valCodigoTipoComprobante & "')" _
-         & " OR (CxPTipoComprobante = '" & valCodigoTipoComprobante & "')" _
-         & " OR (CobranzaTipoComprobante = '" & valCodigoTipoComprobante & "')" _
-         & " OR (PagoTipoComprobante = '" & valCodigoTipoComprobante & "')" _
-         & " OR (MovimientoBancarioTipoComprobante = '" & valCodigoTipoComprobante & "')" _
-         & " OR (AnticipoTipoComprobante = '" & valCodigoTipoComprobante & "')"
    If valAction = Modificar Or valAction = Eliminar Then
-      Set varRecordset = New ADODB.Recordset
-      If gDbUtil.fOpenRecordSetAllParameters(varRecordset, varSQL, gDefDatabase.Conexion, adLockReadOnly, adUseClient, adOpenStatic) Then
-         If varRecordset.RecordCount > 0 Then
-            varSePuede = False
-            gMessage.sForeingKeyCanNotBeDeleted "Tipo de Comprobante", "Reglas de Contabilización", GetGender
-         End If
+      varSQL = "SELECT * FROM Saw.ReglasDeContabilizacion" _
+            & " WHERE (FacturaTipoComprobante = '" & valCodigoTipoComprobante & "')" _
+            & " OR (CxCTipoComprobante = '" & valCodigoTipoComprobante & "')" _
+            & " OR (CxPTipoComprobante = '" & valCodigoTipoComprobante & "')" _
+            & " OR (CobranzaTipoComprobante = '" & valCodigoTipoComprobante & "')" _
+            & " OR (PagoTipoComprobante = '" & valCodigoTipoComprobante & "')" _
+            & " OR (MovimientoBancarioTipoComprobante = '" & valCodigoTipoComprobante & "')" _
+            & " OR (AnticipoTipoComprobante = '" & valCodigoTipoComprobante & "')"
+      varSePuede = (gDbUtil.fRecordCountOfSql(varSQL) <= 0)
+      If Not varSePuede Then
+         gMessage.sForeingKeyCanNotBeDeleted "Tipo de Comprobante", "Reglas de Contabilización", GetGender
       End If
-      gDbUtil.sDestroyRecordSet varRecordset
    End If
-   Set varReglasDeContabilizacionNavigator = Nothing
 h_EXIT: On Error GoTo 0
    fSePuedeEscogerTipoDeComprobante = varSePuede
    Exit Function

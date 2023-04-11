@@ -352,8 +352,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "PuedoUsarOpcionesDeContribuyenteEspecial")) {
                     if (EnDondeRetenerIVA == eDondeSeEfectuaLaRetencionIVA.NoRetenida) {
                         vResult = new ValidationResult(ModuleName + "-> Debe seleccionar dónde efectuar la Retención del " + LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "PromptIVA"));
-                    } 
-                }       
+                    }
+                } else {
+                    EnDondeRetenerIVA = eDondeSeEfectuaLaRetencionIVA.NoRetenida;
+                    return ValidationResult.Success;
+                }
             }
             return vResult;
         }

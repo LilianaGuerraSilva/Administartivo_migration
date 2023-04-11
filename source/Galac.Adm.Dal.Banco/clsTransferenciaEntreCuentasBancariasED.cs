@@ -596,7 +596,7 @@ namespace Galac.Adm.Dal.Banco {
 			vSQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
 			vSQL.AppendLine("   DECLARE @SqlStatusNumero AS " + InsSql.VarCharTypeForDb(500));
 
-			vSQL.AppendLine("   SET @SqlStatusNumero = 'CAST(Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Status AS varchar) + ' + '''' + " + vSqlStdSeparator + " +  '''' +  ' + CAST(Adm.Gv_TransferenciaEntreCuentasBancarias_B1.NumeroDocumento AS varchar) '");
+			vSQL.AppendLine("   SET @SqlStatusNumero = 'CAST(Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Status AS varchar) + ' + '''' + " + vSqlStdSeparator + " +  '''' +  ' + CAST(Adm.Gv_TransferenciaEntreCuentasBancarias_B1.Consecutivo AS varchar) '");
 
 			vSQL.AppendLine("   IF(@UseTopClausule = 'S') ");
 			vSQL.AppendLine("    SET @TopClausule = 'TOP 500'");
