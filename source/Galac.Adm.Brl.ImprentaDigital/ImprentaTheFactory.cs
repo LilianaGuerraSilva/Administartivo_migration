@@ -148,6 +148,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private XElement GetIdentificacionDocumento() {
             string vHoraEmision = LibConvert.ToStrOnlyForHour(LibConvert.ToDate(FacturaImprentaDigital.HoraModificacion), "hh:mm:ss tt");
             vHoraEmision = LibString.Replace(vHoraEmision, ". ", "");
+            vHoraEmision = LibString.Replace(vHoraEmision, "\u00A0", ""); // Caracter No imprimible que agrega el formato de hora de Windows para alguna config regional
             vHoraEmision = LibString.Replace(vHoraEmision, ".", "");
             XElement vResult = new XElement("identificacionDocumento",
                     new XElement("TipoDocumento", GetTipoDocumento(_TipoDeDocumento)),
@@ -183,9 +184,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #endregion vendedor
         #region clientes
         private XElement GetDatosComprador() {
+            string vNumeroRif=string.Empty;
+            string vPrefijo= DarFormatoYObtenerPrefijoRif(ClienteImprentaDigital, ref vNumeroRif);           
             XElement vResult = new XElement("comprador",
-               new XElement("tipoIdentificacion", "V"),
-               new XElement("numeroIdentificacion", ClienteImprentaDigital.NumeroRIF),
+               new XElement("tipoIdentificacion", vPrefijo),
+               new XElement("numeroIdentificacion", vNumeroRif),
                new XElement("razonSocial", ClienteImprentaDigital.Nombre),
                new XElement("direccion", ClienteImprentaDigital.Direccion),
                new XElement("pais", "VE"),
@@ -194,6 +197,22 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                new XElement("correo", ClienteImprentaDigital.Email),
                new XElement("correo", ""));
             return vResult;
+        }
+
+        private string DarFormatoYObtenerPrefijoRif(Cliente valCliente, ref string refNumeroRif) {
+            string vPrefijo = LibString.Left(valCliente.NumeroRIF, 1);
+            if (LibString.S1IsInS2(vPrefijo, "VJEPG")) {
+                refNumeroRif = LibString.Right(valCliente.NumeroRIF, LibString.Len(valCliente.NumeroRIF) - 1);
+                refNumeroRif = LibString.Replace(refNumeroRif, "-", "");
+            } else {
+                refNumeroRif = valCliente.NumeroRIF;
+                if (valCliente.EsExtranjeroAsBool) {
+                    vPrefijo = "E";
+                } else {
+                    vPrefijo = "V";
+                }
+            }
+            return vPrefijo;
         }
         #endregion clientes
 
