@@ -157,12 +157,11 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                         AnularDocumento();
                         break;
                 }
-            } catch (GalacException vEx) {
-                throw vEx;
+            } catch (GalacException) {
+                throw;
             } finally {
                 RaiseRequestCloseEvent();
             }
-
         }
 
         private bool DoEnviarDocumento(ref string refNumeroControl) {
