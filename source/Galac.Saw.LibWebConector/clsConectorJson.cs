@@ -5,9 +5,13 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Galac.Adm.Ccl.ImprentaDigital;
 using LibGalac.Aos.Base;
+using LibGalac.Aos.Catching;
+using System.Security.Cryptography;
+using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.LibWebConnector {
     public class clsConectorJson {
+        string strTipoDocumento;
         ILoginUser _LoginUser;
         string _Token;
         public string Token {
@@ -50,13 +54,16 @@ namespace Galac.Saw.LibWebConnector {
                 _Token = vRequest.token;
                 _LoginUser.MessageResult = vRequest.mensaje;
                 return vRequest.mensaje;
-            } catch (Exception) {
-                throw;
+            } catch (GalacException vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
-        public stLoginResq SendPostJson(string valJsonStr, string valComandoApi, string valToken) {
+
+        public stLoginResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
             string vResultMessage = "";
             try {
+                strTipoDocumento =  (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
+                strTipoDocumento = "La " + strTipoDocumento + " No " + valNumeroDocumento;
                 HttpClient vHttpClient = new HttpClient();
                 vHttpClient.BaseAddress = new Uri(_LoginUser.URL);
                 if (!LibString.IsNullOrEmpty(valToken)) {
@@ -68,16 +75,32 @@ namespace Galac.Saw.LibWebConnector {
                 vResultMessage = vHttpRespMsg.Result.RequestMessage.ToString();
                 vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 if (vHttpRespMsg.Result.Content is null || vHttpRespMsg.Result.Content.Headers.ContentType?.MediaType != "application/json") {
-                    return new stLoginResq() { mensaje = "Error de conexión al Host", token = "", codigo = "402", expiracion = "" };
+                    throw new GalacException("No se obtuvo conexión con la Imprenta Digital, por favor verifique la configuración de acceso.", eExceptionManagementType.Controlled);
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
                     stLoginResq infoReqs = JsonConvert.DeserializeObject<stLoginResq>(HttpResq.Result);
+                    if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
+                        throw new GalacException("No se obtuvo conexión con la Imprenta Digital usuario o clave incorrectos, por favor verifique la configuración de acceso.", eExceptionManagementType.Controlled);
+                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
+                        throw new GalacException(strTipoDocumento + " ya existe en la Imprenta Digital", eExceptionManagementType.Controlled);
+                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
+                        throw new GalacException(infoReqs.mensaje, eExceptionManagementType.Controlled);
+                    }
                     return infoReqs;
                 }
+            } catch (AggregateException) {
+                throw new GalacException("No se obtuvo conexión con la Imprenta Digital, por favor verifique su conexión a Internet o la configuración del servicio.", eExceptionManagementType.Controlled);
+            } catch (GalacException gEx) {
+                throw new GalacException(gEx.Message, eExceptionManagementType.Controlled);
             } catch (Exception vEx) {
-                string vErrMensaje = vEx.Message + "\r\n" + vResultMessage+"\r\n"+ valJsonStr;                                
-                throw new LibGalac.Aos.Catching.GalacException(vErrMensaje, LibGalac.Aos.Catching.eExceptionManagementType.Controlled);
+                string vPath = LibDirectory.GetProgramFilesGalacDir() + @"\" + LibDefGen.ProgramInfo.ProgramInitials + @"\ImprentaDigital";
+                if (!LibDirectory.DirExists(vPath)) {
+                    LibDirectory.CreateDir(vPath);
+                }
+                vPath = vPath + @"\ImprentaDigitalResult.txt";
+                LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
+                throw new GalacException(strTipoDocumento + " tiene datos faltantes para ser enviados a la Imprenta Digital.", eExceptionManagementType.Controlled);
             }
         }
     }

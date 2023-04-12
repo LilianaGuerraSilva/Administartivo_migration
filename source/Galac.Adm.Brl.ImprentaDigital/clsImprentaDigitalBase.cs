@@ -14,6 +14,7 @@ using Galac.Saw.LibWebConnector;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Brl;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public abstract class clsImprentaDigitalBase {
@@ -196,9 +197,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.IGTFML = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "IGTFML"));
                     FacturaImprentaDigital.BaseImponibleIGTF = LibConvert.ToDec(LibXml.GetPropertyString(vResult, "BaseImponibleIGTF"));
                 } else {
-                    throw new System.Exception("No existen datos para el documento a enviar");
+                    throw new GalacException($"No existe un documento para enviar con el número {NumeroFactura} ", eExceptionManagementType.Controlled);
                 }
-            } catch (System.Exception) {
+            } catch (GalacException) {
                 throw;
             }
         }
@@ -252,7 +253,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     DetalleFacturaImprentaDigital.Add(iFacturaRapidaDetalle);
                 }
             } else {
-                throw new System.Exception("No existen datos para el detalle del documento a enviar");
+                throw new GalacException("No existen datos para el detalle del documento a enviar", eExceptionManagementType.Controlled);
             }
         }
 
@@ -293,7 +294,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 ClienteImprentaDigital.Telefono = LibXml.GetPropertyString(vResult, "Telefono");
                 ClienteImprentaDigital.Email = LibXml.GetPropertyString(vResult, "Email");
             } else {
-                throw new System.Exception("No existen datos para el cliente del documento a enviar");
+                throw new GalacException("No existen datos para el cliente del documento a enviar", eExceptionManagementType.Controlled);
             }
         }
 
@@ -327,7 +328,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 VendedorImprentaDigital.Telefono = LibXml.GetPropertyString(vResult, "Telefono");
                 VendedorImprentaDigital.email = LibXml.GetPropertyString(vResult, "Email");
             } else {
-                throw new System.Exception("No existen datos para el vendedor del documento a enviar");
+                throw new GalacException("No existen datos para el vendedor del documento a enviar", eExceptionManagementType.Controlled);
             }
         }
 
@@ -357,11 +358,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControl");
                     FacturaImprentaDigital.Numero = LibXml.GetPropertyString(vResult, "Numero");
                     FacturaImprentaDigital.MotivoDeAnulacion = LibXml.GetPropertyString(vResult, "MotivoDeAnulacion");
-                    
+
                 } else {
-                    throw new System.Exception("No existen datos para el documento a anular");
+                    throw new GalacException("No existen datos para el documento a anular", eExceptionManagementType.Controlled);
                 }
-            } catch (System.Exception) {
+            } catch (GalacException) {
                 throw;
             }
         }

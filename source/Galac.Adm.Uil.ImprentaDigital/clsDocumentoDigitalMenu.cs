@@ -28,7 +28,7 @@ namespace Galac.Adm.Uil.ImprentaDigital {
                 //    refNumeroControl = vViewModel.NumeroControl;
                 //    return vViewModel.DocumentoEnviado;
                 //}
-            } catch (Exception vEx) {
+            } catch (GalacException vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
@@ -41,14 +41,16 @@ namespace Galac.Adm.Uil.ImprentaDigital {
             return false; // LibFKRetrievalHelper.ChooseRecord<FkDocumentoDigitalViewModel>("Imprenta Digital", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsDocumentoDigitalNav());
         }
 
-        private void EnviarDocumento(eTipoDocumentoFactura valTipoDocumento,string valNumeroFactura, ref string refNumeroControl, ref bool refDocumentoEnviado) {
+        private void EnviarDocumento(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, ref string refNumeroControl, ref bool refDocumentoEnviado) {
             try {
                 string vMensaje = string.Empty;
                 var taskTestConnection = Task.Factory.StartNew(() => DoEnviarDocumento(valTipoDocumento, valNumeroFactura, ref vMensaje));
                 Task.WaitAll(taskTestConnection);
                 refNumeroControl = vMensaje;
                 refDocumentoEnviado = taskTestConnection.Result;
-            } catch (Exception) {
+            } catch (AggregateException gEx) {
+                throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
+            } catch (GalacException) {
                 throw;
             }
         }
@@ -60,8 +62,8 @@ namespace Galac.Adm.Uil.ImprentaDigital {
                 bool vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
                 refNumeroControl = _insImprentaDigital.NumeroControl;
                 return vDocumentoEnviado;
-            } catch (Exception) {
-                throw;
+            } catch (GalacException gEx) {
+                throw gEx;
             }
         }
         #endregion //Metodos Generados

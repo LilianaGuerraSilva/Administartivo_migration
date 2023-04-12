@@ -157,8 +157,8 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                         AnularDocumento();
                         break;
                 }
-            } catch (Exception vEx) {
-                LibMessages.MessageBox.Error(this, vEx.Message, ModuleName);
+            } catch (GalacException vEx) {
+                throw vEx;
             } finally {
                 RaiseRequestCloseEvent();
             }
@@ -170,7 +170,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                 bool vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
                 refNumeroControl = _insImprentaDigital.NumeroControl;
                 return vDocumentoEnviado;
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
             }
         }
@@ -185,8 +185,8 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                 if (!DocumentoEnviado) {
                     DocumentoEnviado = LibMessages.MessageBox.YesNo(this, "El documento no pudo ser enviado, desea reintentar?", ModuleName);
                 }
-            } catch (Exception) {
-                throw;
+            } catch (GalacException) {
+                throw;            
             }
         }
 
@@ -194,7 +194,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
             try {
                 _insImprentaDigital.EstadoDocumento();
                 return true;
-            } catch (Exception) {
+            } catch (GalacException) {
                 return false;
             }
         }
@@ -209,7 +209,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                     return vExiste;
                 }
                 return vExiste;
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
             }
         }
@@ -217,7 +217,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
         private bool DoAnularDocumento() {
             try {
                 return _insImprentaDigital.AnularDocumento();
-            } catch (Exception) {
+            } catch (GalacException) {
                 return false;
             }
         }
@@ -233,7 +233,7 @@ namespace Galac.Adm.Uil.ImprentaDigital.ViewModel {
                     }
                 }
                 return true;
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
             }
         }
