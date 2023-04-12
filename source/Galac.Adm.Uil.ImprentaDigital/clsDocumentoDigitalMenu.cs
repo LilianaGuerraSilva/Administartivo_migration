@@ -15,21 +15,14 @@ namespace Galac.Adm.Uil.ImprentaDigital {
         #region Metodos Generados
         public bool EjecutarAccion(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, eAccionSR valAction, bool valEsPorLote, ref string refNumeroControl) {
             try {
-                bool vDocumentoEnviado = false;
-                //if (valEsPorLote) {
+                bool vDocumentoEnviado = false;               
                 EnviarDocumento(valTipoDocumento, valNumeroFactura, ref refNumeroControl, ref vDocumentoEnviado);
                 if (vDocumentoEnviado && !valEsPorLote) {
                     LibMessages.MessageBox.Information(this, LibEnumHelper.GetDescription(valTipoDocumento) + " enviada con éxito.", "Imprenta Digital");
                 }
-                return vDocumentoEnviado;
-                //} else {
-                //    EnviarDocumentoViewModel vViewModel = new EnviarDocumentoViewModel(valTipoDocumento, valNumeroFactura, false, valAction);
-                //    LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                //    refNumeroControl = vViewModel.NumeroControl;
-                //    return vViewModel.DocumentoEnviado;
-                //}
-            } catch (Exception vEx) {
-                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+                return vDocumentoEnviado;               
+            } catch (GalacException) {
+                throw;
             }
         }
 
@@ -41,14 +34,16 @@ namespace Galac.Adm.Uil.ImprentaDigital {
             return false; // LibFKRetrievalHelper.ChooseRecord<FkDocumentoDigitalViewModel>("Imprenta Digital", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsDocumentoDigitalNav());
         }
 
-        private void EnviarDocumento(eTipoDocumentoFactura valTipoDocumento,string valNumeroFactura, ref string refNumeroControl, ref bool refDocumentoEnviado) {
+        private void EnviarDocumento(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, ref string refNumeroControl, ref bool refDocumentoEnviado) {
             try {
                 string vMensaje = string.Empty;
                 var taskTestConnection = Task.Factory.StartNew(() => DoEnviarDocumento(valTipoDocumento, valNumeroFactura, ref vMensaje));
                 Task.WaitAll(taskTestConnection);
                 refNumeroControl = vMensaje;
                 refDocumentoEnviado = taskTestConnection.Result;
-            } catch (Exception) {
+            } catch (AggregateException gEx) {
+                throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
+            } catch (GalacException) {
                 throw;
             }
         }
@@ -60,7 +55,7 @@ namespace Galac.Adm.Uil.ImprentaDigital {
                 bool vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
                 refNumeroControl = _insImprentaDigital.NumeroControl;
                 return vDocumentoEnviado;
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
             }
         }

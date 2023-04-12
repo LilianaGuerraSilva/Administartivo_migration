@@ -219,6 +219,11 @@
     <Galac.Adm.Brl.Venta>2.60.12.0</Galac.Adm.Brl.Venta> 
     <Galac.Adm.Rpt.Venta>2.60.12.0</Galac.Adm.Rpt.Venta>		
     <Galac.Adm.Uil.Venta>2.60.12.0</Galac.Adm.Uil.Venta>	
+	
+    <Galac.Adm.Ccl.ImprentaDigital>2.60.0.9999</Galac.Adm.Ccl.ImprentaDigital>
+    <Galac.Adm.Brl.ImprentaDigital>2.60.0.9999</Galac.Adm.Brl.ImprentaDigital>
+    <Galac.Adm.Uil.ImprentaDigital>2.60.0.9999</Galac.Adm.Uil.ImprentaDigital> 
+    <Galac.Saw.LibWebConnector>2.60.0.9999</Galac.Saw.LibWebConnector>		    
     	
     <Galac.Adm.Ccl.CAnticipo>2.60.0.0</Galac.Adm.Ccl.CAnticipo>
     <Galac.Adm.Dal.CAnticipo>2.60.0.0</Galac.Adm.Dal.CAnticipo>
@@ -245,6 +250,9 @@
     <TfhkaNet>1.7.6.2</TfhkaNet>
     <pnpdll>10.2.1.22</pnpdll>
     <FpCtrl>2.3.1.5</FpCtrl>	
+    <Newtonsoft.Json>9.0.1.19813</Newtonsoft.Json>
+    <System.Net.Http>1.0.0.0</System.Net.Http>
+    <System.Net.Http.WebRequest>1.0.0.0</System.Net.Http.WebRequest>	
     <RibbonControlsLibrary>4.0.0.11019</RibbonControlsLibrary>
     <Microsoft.Windows.Shell>3.5.41019.1</Microsoft.Windows.Shell>    
   </ComponentesAOS>

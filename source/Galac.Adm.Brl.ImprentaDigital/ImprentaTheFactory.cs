@@ -14,6 +14,7 @@ using System.Xml.Schema;
 using Galac.Saw.Ccl.Cliente;
 using System.Linq;
 using System.Text;
+using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory: clsImprentaDigitalBase {
@@ -39,8 +40,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 }
                 return vResult;
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
@@ -54,13 +57,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoLote), vConectorJson.Token);
                 }
                 return vResult;
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
         public override bool EstadoDocumento() {
-                stLoginResq vRespuesta;
+            stPostResq vRespuesta;
             try {
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 ObtenerDatosDocumento();
@@ -75,8 +80,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 }
                 return true;
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
                 CodigoRespuesta = vRespuesta.codigo ?? string.Empty;
                 MensajeRespuesta = vRespuesta.mensaje ?? string.Empty;
@@ -85,7 +92,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public override bool AnularDocumento() {
             try {
-                stLoginResq vRespuesta;
+                stPostResq vRespuesta;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 ObtenerDatosDocumento();
                 stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
@@ -100,8 +107,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vRespuesta =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                 }
                 return (vRespuesta.codigo == "200");
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
@@ -113,13 +122,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumentoDigital);
-                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token);
+                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
                     NumeroControl = vReq.resultados.numeroControl;
                     vResult = !LibString.IsNullOrEmpty(vReq.resultados.numeroDocumento);
+                } else {
+                    throw new GalacException("No se pudo autenticar con el proveedor, " + vRepuesta + "\r\nPor favor verificar sus credenciales.", eExceptionManagementType.Validation);
                 }
                 return vResult;
-            } catch (Exception) {
+            } catch (GalacException) {
                 throw;
+            } catch (Exception vEx) {
+                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
         #endregion Métodos Básicos
@@ -362,7 +375,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vResult.Add(
                         new XElement("detallesItems",
                             new XElement("numeroLinea", vDetalle.ConsecutivoRenglon),
-                            new XElement("codigoPLU", ""),
+                            new XElement("codigoPLU", vDetalle.Articulo),
                             new XElement("indicadorBienoServicio", vDetalle.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio ? "2" : "1"),
                             new XElement("descripcion", vDetalle.Descripcion),
                             new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.Cantidad, 2))),
@@ -380,7 +393,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult.Add(
                             new XElement("detallesItems",
                                 new XElement("numeroLinea", "0"),
-                                new XElement("codigoCIIU", ""),
+                                new XElement("codigoPLU", ""),
                                 new XElement("indicadorBienoServicio", ""),
                                 new XElement("descripcion", ""),
                                 new XElement("cantidad", "1.00"),
