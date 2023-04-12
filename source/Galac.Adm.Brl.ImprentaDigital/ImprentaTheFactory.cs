@@ -65,7 +65,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public override bool EstadoDocumento() {
-            stLoginResq vRespuesta;
+            stPostResq vRespuesta;
             try {
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 ObtenerDatosDocumento();
@@ -92,7 +92,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public override bool AnularDocumento() {
             try {
-                stLoginResq vRespuesta;
+                stPostResq vRespuesta;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 ObtenerDatosDocumento();
                 stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
@@ -129,8 +129,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     throw new GalacException("No se pudo autenticar con el proveedor, " + vRepuesta + "\r\nPor favor verificar sus credenciales.", eExceptionManagementType.Validation);
                 }
                 return vResult;
-            } catch (GalacException gEx) {
-                throw gEx;
+            } catch (GalacException) {
+                throw;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }

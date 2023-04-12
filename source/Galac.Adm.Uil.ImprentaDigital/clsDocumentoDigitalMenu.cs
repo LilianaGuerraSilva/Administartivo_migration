@@ -15,21 +15,14 @@ namespace Galac.Adm.Uil.ImprentaDigital {
         #region Metodos Generados
         public bool EjecutarAccion(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, eAccionSR valAction, bool valEsPorLote, ref string refNumeroControl) {
             try {
-                bool vDocumentoEnviado = false;
-                //if (valEsPorLote) {
+                bool vDocumentoEnviado = false;               
                 EnviarDocumento(valTipoDocumento, valNumeroFactura, ref refNumeroControl, ref vDocumentoEnviado);
                 if (vDocumentoEnviado && !valEsPorLote) {
                     LibMessages.MessageBox.Information(this, LibEnumHelper.GetDescription(valTipoDocumento) + " enviada con éxito.", "Imprenta Digital");
                 }
-                return vDocumentoEnviado;
-                //} else {
-                //    EnviarDocumentoViewModel vViewModel = new EnviarDocumentoViewModel(valTipoDocumento, valNumeroFactura, false, valAction);
-                //    LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                //    refNumeroControl = vViewModel.NumeroControl;
-                //    return vViewModel.DocumentoEnviado;
-                //}
-            } catch (GalacException vEx) {
-                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+                return vDocumentoEnviado;               
+            } catch (GalacException) {
+                throw;
             }
         }
 
@@ -62,8 +55,8 @@ namespace Galac.Adm.Uil.ImprentaDigital {
                 bool vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
                 refNumeroControl = _insImprentaDigital.NumeroControl;
                 return vDocumentoEnviado;
-            } catch (GalacException gEx) {
-                throw gEx;
+            } catch (GalacException) {
+                throw;
             }
         }
         #endregion //Metodos Generados

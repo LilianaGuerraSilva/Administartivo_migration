@@ -43,7 +43,7 @@ namespace Galac.Saw.LibWebConnector {
         }
     }
    
-    public struct stLoginResq {
+    public struct stPostResq {
         [JsonProperty("token")]
         public string token {
             get; set;

@@ -54,15 +54,17 @@ namespace Galac.Saw.LibWebConnector {
                 _Token = vRequest.token;
                 _LoginUser.MessageResult = vRequest.mensaje;
                 return vRequest.mensaje;
-            } catch (GalacException vEx) {
+            } catch (GalacException) {
+                throw;
+            } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
         }
 
-        public stLoginResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
+        public stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
             string vResultMessage = "";
             try {
-                strTipoDocumento =  (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
+                strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
                 strTipoDocumento = "La " + strTipoDocumento + " No " + valNumeroDocumento;
                 HttpClient vHttpClient = new HttpClient();
                 vHttpClient.BaseAddress = new Uri(_LoginUser.URL);
@@ -79,7 +81,7 @@ namespace Galac.Saw.LibWebConnector {
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
-                    stLoginResq infoReqs = JsonConvert.DeserializeObject<stLoginResq>(HttpResq.Result);
+                    stPostResq infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
                     if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
                         throw new GalacException("No se obtuvo conexión con la Imprenta Digital usuario o clave incorrectos, por favor verifique la configuración de acceso.", eExceptionManagementType.Controlled);
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
@@ -91,8 +93,8 @@ namespace Galac.Saw.LibWebConnector {
                 }
             } catch (AggregateException) {
                 throw new GalacException("No se obtuvo conexión con la Imprenta Digital, por favor verifique su conexión a Internet o la configuración del servicio.", eExceptionManagementType.Controlled);
-            } catch (GalacException gEx) {
-                throw new GalacException(gEx.Message, eExceptionManagementType.Controlled);
+            } catch (GalacException) {
+                throw;
             } catch (Exception vEx) {
                 string vPath = LibDirectory.GetProgramFilesGalacDir() + @"\" + LibDefGen.ProgramInfo.ProgramInitials + @"\ImprentaDigital";
                 if (!LibDirectory.DirExists(vPath)) {
