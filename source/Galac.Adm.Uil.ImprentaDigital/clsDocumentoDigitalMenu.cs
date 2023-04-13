@@ -9,6 +9,8 @@ using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Brl.ImprentaDigital;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Markup;
 
 namespace Galac.Adm.Uil.ImprentaDigital {
     public class clsDocumentoDigitalMenu: ILibMenu {
@@ -16,10 +18,7 @@ namespace Galac.Adm.Uil.ImprentaDigital {
         public bool EjecutarAccion(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, eAccionSR valAction, bool valEsPorLote, ref string refNumeroControl) {
             try {
                 bool vDocumentoEnviado = false;               
-                EnviarDocumento(valTipoDocumento, valNumeroFactura, ref refNumeroControl, ref vDocumentoEnviado);
-                if (vDocumentoEnviado && !valEsPorLote) {
-                    LibMessages.MessageBox.Information(this, LibEnumHelper.GetDescription(valTipoDocumento) + " enviada con éxito.", "Imprenta Digital");
-                }
+                EnviarDocumento(valTipoDocumento, valNumeroFactura, ref refNumeroControl, ref vDocumentoEnviado);                
                 return vDocumentoEnviado;               
             } catch (GalacException) {
                 throw;
@@ -34,31 +33,26 @@ namespace Galac.Adm.Uil.ImprentaDigital {
             return false; // LibFKRetrievalHelper.ChooseRecord<FkDocumentoDigitalViewModel>("Imprenta Digital", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsDocumentoDigitalNav());
         }
 
-        private void EnviarDocumento(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, ref string refNumeroControl, ref bool refDocumentoEnviado) {
+        public void EnviarDocumento(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, ref string refNumeroControl, ref bool refDocumentoEnviado) {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+            string vNumeroControl = "";
+            bool vDocumentoEnviado = false;
             try {
-                string vMensaje = string.Empty;
-                var taskTestConnection = Task.Factory.StartNew(() => DoEnviarDocumento(valTipoDocumento, valNumeroFactura, ref vMensaje));
-                Task.WaitAll(taskTestConnection);
-                refNumeroControl = vMensaje;
-                refDocumentoEnviado = taskTestConnection.Result;
+                Task vTask = Task.Factory.StartNew(() => {
+                    eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+                    var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, valTipoDocumento, valNumeroFactura);
+                    vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
+                    vNumeroControl = _insImprentaDigital.NumeroControl;
+                });
+                vTask.Wait();
+                refNumeroControl = vNumeroControl;
+                refDocumentoEnviado = vDocumentoEnviado;
             } catch (AggregateException gEx) {
                 throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
             } catch (GalacException) {
                 throw;
             }
-        }
-
-        private bool DoEnviarDocumento(eTipoDocumentoFactura valTipoDocumento, string valNumeroFactura, ref string refNumeroControl) {
-            try {
-                eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
-                var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, valTipoDocumento, valNumeroFactura);
-                bool vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
-                refNumeroControl = _insImprentaDigital.NumeroControl;
-                return vDocumentoEnviado;
-            } catch (GalacException) {
-                throw;
-            }
-        }
+        }       
         #endregion //Metodos Generados
     } //End of class clsDocumentoDigitalMenu
 } //End of namespace Galac.Adm.Uil.ImprentaDigital
