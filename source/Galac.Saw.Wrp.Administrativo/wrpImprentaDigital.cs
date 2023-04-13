@@ -25,7 +25,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
     [ClassInterface(ClassInterfaceType.None)]
     public class wrpImprentaDigital : System.EnterpriseServices.ServicedComponent, IWrpImprentaDigitalVb {
         #region Variables
-        string _Title = "Imprenta Dí­gital";
+        string _Title = "Imprenta Di­gital";
         #endregion //Variables
         #region Propiedades
 
@@ -38,14 +38,14 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        bool IWrpImprentaDigitalVb.Execute(int vfwTipoDocumento, string vfwNumeroFactura, string vfwAction, string vfwCurrentParameters, bool vfwEsPorLote, ref string vfwNumeroControl) {
-            try {                
+        bool IWrpImprentaDigitalVb.Execute(int vfwTipoDocumento, string vfwNumeroFactura, string vfwAction, string vfwCurrentParameters, ref string vfwNumeroControl) {
+            try {
                 bool vResult = false;
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
-                eAccionSR vAction = (eAccionSR)new LibEAccionSR().ToInt(vfwAction);                
+                eAccionSR vAction = (eAccionSR)new LibEAccionSR().ToInt(vfwAction);
                 CreateGlobalValues(vfwCurrentParameters);
-                clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();                
-                vResult = insMenu.EjecutarAccion(vTipoDeDocumento, vfwNumeroFactura, vAction, vfwEsPorLote, ref vfwNumeroControl);
+                clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();
+                vResult = insMenu.EnviarAImprentaDigital(vTipoDeDocumento, vfwNumeroFactura, vAction, ref vfwNumeroControl);
                 return vResult;
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
@@ -66,8 +66,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             List<LibSearchDefaultValues> vFixedValues = new List<LibSearchDefaultValues>();
             try {
                 vSearchValues = insLibSearch.CreateListOfParameter(vfwParamInitializationList);
-                vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);
-                System.Xml.XmlDocument vXmlDocument = null;
+                vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);               
                 //if (Galac.Adm.Uil.ImprentaDigital.clsFacturaDigitalMenu.ChooseFromInterop(ref vXmlDocument, vSearchValues, vFixedValues)) {
                 //    vResult = vXmlDocument.InnerXml;
                 //}
