@@ -234,6 +234,10 @@
       <Project>{ccdf88d8-37dd-4e46-aead-350bd211bd75}</Project>
       <Name>Galac.Adm.Brl.DispositivosExternos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.ImprentaDigital\Galac.Adm.Brl.ImprentaDigital.csproj">
+      <Project>{115BD8B4-4D9B-4B9F-9E29-9F1BBDF20B2F}</Project>
+      <Name>Galac.Adm.Brl.ImprentaDigital</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">
       <Project>{ae95f4aa-3119-4d39-96fb-95a53b7abb65}</Project>
       <Name>Galac.Adm.Brl.Venta</Name>
@@ -269,10 +273,6 @@
     <ProjectReference Include="..\Galac.Adm.Uil.GestionProduccion\Galac.Adm.Uil.GestionProduccion.csproj">
       <Project>{9901afda-4f43-4d66-8773-343946f12e0d}</Project>
       <Name>Galac.Adm.Uil.GestionProduccion</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Galac.Adm.Uil.ImprentaDigital\Galac.Adm.Uil.ImprentaDigital.csproj">
-      <Project>{3a412c7f-7c53-4339-9bfc-0a9c71a50003}</Project>
-      <Name>Galac.Adm.Uil.ImprentaDigital</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.Rendicion\Galac.Adm.Uil.CajaChica.csproj">
       <Project>{be671f9e-6c42-4d7a-a932-e2fa823e3a20}</Project>
