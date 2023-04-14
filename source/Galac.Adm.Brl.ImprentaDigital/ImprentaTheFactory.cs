@@ -126,7 +126,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     NumeroControl = vReq.resultados.numeroControl;
                     vResult = !LibString.IsNullOrEmpty(vReq.resultados.numeroDocumento);
                 } else {
-                    throw new GalacException("No se pudo autenticar con el proveedor, " + vRepuesta + "\r\nPor favor verificar sus credenciales.", eExceptionManagementType.Validation);
+                    throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Controlled);
                 }
                 return vResult;
             } catch (GalacException) {

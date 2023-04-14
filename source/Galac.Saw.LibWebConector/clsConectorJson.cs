@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Galac.Adm.Ccl.ImprentaDigital;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
-using System.Security.Cryptography;
 using LibGalac.Aos.DefGen;
 
 namespace Galac.Saw.LibWebConnector {
