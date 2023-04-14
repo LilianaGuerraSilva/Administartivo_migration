@@ -1,19 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows.Controls ;
-using System.Windows.Controls.Primitives ;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.UI.WpfControls;
 using LibGalac.Aos.UI.Wpf;
-using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Uil;
-using Galac.Adm.Uil.ImprentaDigital;
 using Galac.Saw.Ccl.SttDef;
+using System.Threading.Tasks;
+using Galac.Adm.Brl.ImprentaDigital;
+using LibGalac.Aos.UI.Mvvm.Messaging;
 
 #if IsExeBsF
 namespace Galac.SawBsF.Wrp.ImprentaDigital {
@@ -23,7 +19,7 @@ namespace Galac.SawBsS.Wrp.ImprentaDigital {
 namespace Galac.Saw.Wrp.ImprentaDigital {
 #endif
     [ClassInterface(ClassInterfaceType.None)]
-    public class wrpImprentaDigital : System.EnterpriseServices.ServicedComponent, IWrpImprentaDigitalVb {
+    public class wrpImprentaDigital: System.EnterpriseServices.ServicedComponent, IWrpImprentaDigitalVb {
         #region Variables
         string _Title = "Imprenta Digital";
         #endregion //Variables
@@ -38,17 +34,58 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        bool IWrpImprentaDigitalVb.Execute(int vfwTipoDocumento, string vfwNumeroFactura, string vfwAction, string vfwCurrentParameters, ref string vfwNumeroControl) {
+        bool IWrpImprentaDigitalVb.EnviarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl) {
             try {
-                bool vResult = false;
+                string vNumeroControl = "";
+                bool vDocumentoEnviado = false;
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
-                eAccionSR vAction = (eAccionSR)new LibEAccionSR().ToInt(vfwAction);
                 CreateGlobalValues(vfwCurrentParameters);
-                clsDocumentoDigitalMenu insMenu = new clsDocumentoDigitalMenu();
-                vResult = insMenu.EnviarAImprentaDigital(vTipoDeDocumento, vfwNumeroFactura, vAction, ref vfwNumeroControl);
-                return vResult;
+                Task vTask = Task.Factory.StartNew(() => {
+                    eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+                    var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
+                    vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
+                    vNumeroControl = _insImprentaDigital.NumeroControl;
+                });
+                vTask.Wait();
+                vfwNumeroControl = vNumeroControl;
+                return vDocumentoEnviado;
+            } catch (AggregateException vEx) {
+                LibExceptionDisplay.Show(vEx.InnerException, null, Title + " - Enviar Documento");
+                return false;
             } catch (GalacException gEx) {
-                LibExceptionDisplay.Show(gEx, null, Title + " - " + vfwAction);
+                LibExceptionDisplay.Show(gEx, null, Title + " - Enviar Documento");
+                return false;
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+                return false;
+            }
+        }
+
+        bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters) {
+            try {
+                bool vDocumentoAnulado = false;
+                eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
+                CreateGlobalValues(vfwCurrentParameters);
+                eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+                var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
+                Task vTask = Task.Factory.StartNew(() => {
+                    if (_insImprentaDigital.EstadoDocumento()) {
+                        vDocumentoAnulado = _insImprentaDigital.AnularDocumento();
+                        if (!vDocumentoAnulado) {
+                            LibMessages.MessageBox.Alert(this, "No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.", "Imprenta Digital");
+                        }
+                    }
+                });
+                vTask.Wait();
+                return vDocumentoAnulado;
+            } catch (AggregateException vEx) {
+                LibExceptionDisplay.Show(vEx, null, Title + " - Anular Documento");
+                return false;
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - Anular Documento");
                 return false;
             } catch (Exception vEx) {
                 if (vEx is AccessViolationException) {
@@ -66,10 +103,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             List<LibSearchDefaultValues> vFixedValues = new List<LibSearchDefaultValues>();
             try {
                 vSearchValues = insLibSearch.CreateListOfParameter(vfwParamInitializationList);
-                vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);               
-                //if (Galac.Adm.Uil.ImprentaDigital.clsFacturaDigitalMenu.ChooseFromInterop(ref vXmlDocument, vSearchValues, vFixedValues)) {
-                //    vResult = vXmlDocument.InnerXml;
-                //}
+                vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);
                 return vResult;
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - Escoger");

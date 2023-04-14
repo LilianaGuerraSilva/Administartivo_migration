@@ -236,7 +236,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 foreach (XElement xRow in ListDetaill) {
                     FacturaRapidaDetalle iFacturaRapidaDetalle = new FacturaRapidaDetalle();
                     iFacturaRapidaDetalle.ConsecutivoRenglon = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(xRow, "ConsecutivoRenglon"));
-                    iFacturaRapidaDetalle.Articulo = LibXml.GetElementValueOrEmpty(xRow, "ConsecutivoRenglon");
+                    iFacturaRapidaDetalle.Articulo = LibXml.GetElementValueOrEmpty(xRow, "Articulo");
                     iFacturaRapidaDetalle.Descripcion = LibXml.GetElementValueOrEmpty(xRow, "Descripcion");
                     iFacturaRapidaDetalle.Cantidad = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "Cantidad"));
                     iFacturaRapidaDetalle.PrecioSinIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "PrecioSinIVA"));

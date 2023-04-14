@@ -7,7 +7,8 @@ using System.Text;
 
 namespace Galac.Saw.Wrp.ImprentaDigital {
     public interface IWrpImprentaDigitalVb {
-        bool Execute(int vfwTipoDocumento, string vfwNumeroFactura, string vfwAction, string vfwCurrentParameters, ref string vfwNumeroControl);
+        bool EnviarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl);
+        bool AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters);
         string Choose(string vfwParamInitializationList, string vfwParamFixedList);
         void InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath);
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);

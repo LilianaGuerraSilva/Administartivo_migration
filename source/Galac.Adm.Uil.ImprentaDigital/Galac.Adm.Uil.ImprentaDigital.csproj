@@ -86,7 +86,6 @@
       <SubType>Code</SubType>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <Compile Include="UIMefImprentaDigitalDocumentoDigital.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Galac.Adm.Brl.ImprentaDigital\Galac.Adm.Brl.ImprentaDigital.csproj">
