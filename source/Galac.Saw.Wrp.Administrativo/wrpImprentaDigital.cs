@@ -49,8 +49,9 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 vTask.Wait();
                 vfwNumeroControl = vNumeroControl;
                 return vDocumentoEnviado;
-            } catch (AggregateException gEx) {
-                throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
+            } catch (AggregateException vEx) {
+                LibExceptionDisplay.Show(vEx.InnerException, null, Title + " - Enviar Documento");
+                return false;
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - Enviar Documento");
                 return false;
@@ -80,8 +81,9 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 });
                 vTask.Wait();
                 return vDocumentoAnulado;
-            } catch (AggregateException gEx) {
-                throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
+            } catch (AggregateException vEx) {
+                LibExceptionDisplay.Show(vEx, null, Title + " - Anular Documento");
+                return false;
             } catch (GalacException gEx) {
                 LibExceptionDisplay.Show(gEx, null, Title + " - Anular Documento");
                 return false;

@@ -129,6 +129,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Controlled);
                 }
                 return vResult;
+            } catch (AggregateException gEx) {
+                throw new GalacException(gEx.InnerException.Message, eExceptionManagementType.Controlled);
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
