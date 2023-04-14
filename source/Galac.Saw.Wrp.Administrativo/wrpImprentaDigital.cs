@@ -25,7 +25,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
     [ClassInterface(ClassInterfaceType.None)]
     public class wrpImprentaDigital : System.EnterpriseServices.ServicedComponent, IWrpImprentaDigitalVb {
         #region Variables
-        string _Title = "Imprenta Di­gital";
+        string _Title = "Imprenta Digital";
         #endregion //Variables
         #region Propiedades
 

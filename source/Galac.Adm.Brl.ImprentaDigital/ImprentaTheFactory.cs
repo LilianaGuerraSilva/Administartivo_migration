@@ -30,7 +30,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             _TipoDeProveedor = "";//NORMAL Según catalogo No 2 del layout
         }
         #region Métodos Basicos
-        public override  bool SincronizarDocumentos() {
+        public override bool SincronizarDocumentos() {
             try {
                 bool vResult = false;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
@@ -101,10 +101,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     NumeroDocumento = LibString.Right(NumeroFactura, 8),
                     MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
                 };
-                string vRepuesta =  vConectorJson.CheckConnection();
+                string vRepuesta = vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos 
-                    vRespuesta =  vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
+                    vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                 }
                 return (vRespuesta.codigo == "200");
             } catch (GalacException) {
@@ -197,8 +197,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #endregion vendedor
         #region clientes
         private XElement GetDatosComprador() {
-            string vNumeroRif=string.Empty;
-            string vPrefijo= DarFormatoYObtenerPrefijoRif(ClienteImprentaDigital, ref vNumeroRif);           
+            string vNumeroRif = string.Empty;
+            string vPrefijo = DarFormatoYObtenerPrefijoRif(ClienteImprentaDigital, ref vNumeroRif);
             XElement vResult = new XElement("comprador",
                new XElement("tipoIdentificacion", vPrefijo),
                new XElement("numeroIdentificacion", vNumeroRif),
