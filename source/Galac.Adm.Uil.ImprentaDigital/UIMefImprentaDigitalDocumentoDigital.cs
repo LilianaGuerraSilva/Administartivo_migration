@@ -8,10 +8,8 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Contracts;
 using LibGalac.Aos.UI.WpfControls;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
-using Galac.Adm.Uil.ImprentaDigital.ViewModel;
 using Galac.Saw.Ccl.SttDef;
 using LibGalac.Aos.UI.Mvvm.Messaging;
-using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Uil.ImprentaDigital {
     [LibMefUilComponentMetadata(typeof(UIMefImprentaDigitalDocumentoDigital), "Adm")]
@@ -83,12 +81,12 @@ namespace Galac.Adm.Uil.ImprentaDigital {
 
         public void Reload() {
             try {
-                InitializeIfNecessary();                
+                InitializeIfNecessary();
                 string vRefNumControl = "";
                 eTipoDocumentoFactura _TipoDeDocumento = 0;
                 eAccionSR _Action = (eAccionSR)2;
                 LibMessages.MessageBox.Information(this, $"Numero de Control {vRefNumControl}", Name);
-                bool vReq = _DocumentoDigitalMenu.EjecutarAccion(_TipoDeDocumento, "0000007777", _Action, false, ref vRefNumControl);
+                bool vReq = _DocumentoDigitalMenu.EnviarAImprentaDigital(_TipoDeDocumento, "0000002581", _Action, ref vRefNumControl);
             } catch (AccessViolationException) {
                 throw;
             } catch (Exception vEx) {

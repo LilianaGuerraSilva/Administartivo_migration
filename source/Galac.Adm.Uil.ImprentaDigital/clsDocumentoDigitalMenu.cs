@@ -48,9 +48,13 @@ namespace Galac.Adm.Uil.ImprentaDigital {
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, valTipoDocumento, valNumeroFactura);
                 Task vTask = Task.Factory.StartNew(() => {
                     if (_insImprentaDigital.EstadoDocumento()) {
-                        vDocumentoAnulado = _insImprentaDigital.AnularDocumento();
-                        if (!vDocumentoAnulado) {
-                            LibMessages.MessageBox.Alert(this, "No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.", "Imprenta Digital");
+                        if (_insImprentaDigital.CodigoRespuesta == "200") {
+                            vDocumentoAnulado = _insImprentaDigital.AnularDocumento();
+                            if (!vDocumentoAnulado) {
+                                LibMessages.MessageBox.Alert(this, "No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.", "Imprenta Digital");
+                            }
+                        } else {
+                            LibMessages.MessageBox.Alert(this, "No se pudo anular el documento en la Imprenta Digital porque no existe en su proveedor.\r\nSincronice sus documentos para continuar con el proceso.", "Imprenta Digital");
                         }
                     }
                 });

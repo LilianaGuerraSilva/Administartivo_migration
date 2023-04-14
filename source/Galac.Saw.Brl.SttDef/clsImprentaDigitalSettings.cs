@@ -64,6 +64,7 @@ namespace Galac.Saw.Brl.SttDef {
             Clave = string.Empty;
         }
         public string ObtenerClaveEncriptada() {
+            LibAppConfig.UseExternalConfig = false;
             if (LaClaveEstaEncriptada()) {
                 return LibAppSettings.ReadAppSettingsKey("CLAVE-E");
             } else {
@@ -71,13 +72,15 @@ namespace Galac.Saw.Brl.SttDef {
             }
         }
         private static bool LaClaveEstaEncriptada() {
-            return LibString.S1IsEqualToS2(LibAppSettings.ReadAppSettingsKey("CLAVE"), "") && !LibString.S1IsEqualToS2(LibAppSettings.ReadAppSettingsKey("CLAVE-E"), "");
+            bool vKeyClaveEstaVacio = LibString.S1IsEqualToS2(LibAppSettings.ReadAppSettingsKey("CLAVE"), "");
+            bool vKeyClaveEncriptadaTieneValor = !LibString.S1IsEqualToS2(LibAppSettings.ReadAppSettingsKey("CLAVE-E"), "");
+            return vKeyClaveEstaVacio && vKeyClaveEncriptadaTieneValor;
         }
         private string EncriptarClave() {
             string vClaveEncriptada = LibCryptography.SymEncryptDES(LibAppSettings.ReadAppSettingsKey("CLAVE"));
             LibAppConfig vAppConfig = new LibAppConfig();
             ConfigHelper.AddKeyToAppSettings("CLAVE", string.Empty);
-            vAppConfig.AddKeyToAppSettings("CLAVE-E", vClaveEncriptada, true);
+            ConfigHelper.AddKeyToAppSettings("CLAVE-E", vClaveEncriptada);
             return vClaveEncriptada;
         }
         #endregion //Metodos Generados
