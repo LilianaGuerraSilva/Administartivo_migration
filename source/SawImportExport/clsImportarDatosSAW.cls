@@ -3938,7 +3938,11 @@ Public Sub sImportarModulosSaw(ByVal valNombreDelArchivo As String, ByVal valExt
          If insImportar.fAbrirFileForOuputAndCreatePath(FileErrorNumber, insImportar.getPathDelFileDeErrores, insImportar.getFileDeErrores) Then
             mSeImportaComoHistorica = False
             If valEntidad = eEAEI_FACTURA And valEsFacturaBorradores Then
-               mSeImportaComoHistorica = gMessage.YesNoMessage("¿Desea Importar los Borradores de Factura como Históricos?", "Importar Borradores Factura")
+                If gProyParametrosCompania.GetUsaImprentaDigital Then
+                    mSeImportaComoHistorica = False
+                Else
+                    mSeImportaComoHistorica = gMessage.YesNoMessage("¿Desea Importar los Borradores de Factura como Históricos?", "Importar Borradores Factura")
+                End If
             End If
             sChequeaLaIntegridadDeLosDatosSaw FileErrorNumber, Separador, ErrorDeTraduccion, refProgressBar, valNombreDelArchivo, valEsFacturaBorradores
             insImportar.sCierraElFile FileErrorNumber
