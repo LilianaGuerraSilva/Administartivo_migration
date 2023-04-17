@@ -154,4 +154,19 @@ namespace Galac.Saw.LibWebConnector {
             get; set;
         }
     }
+
+    public struct stSolicitudDeConsulta {
+        [JsonProperty("serie")]
+        public string Serie {
+            get; set;
+        }
+        [JsonProperty("tipoDocumento")]
+        public string TipoDocumento {
+            get; set;
+        }
+        [JsonProperty("numeroDocumento")]
+        public string NumeroDocumento {
+            get; set;
+        }
+    }
 }

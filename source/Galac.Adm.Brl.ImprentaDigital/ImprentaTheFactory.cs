@@ -69,24 +69,24 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 ObtenerDatosDocumento();
-                stSolicitudDeAccion vJsonDeConsulta = new stSolicitudDeAccion() {
+                stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {
                     Serie = "",
                     TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                     NumeroDocumento = LibString.Right(NumeroFactura, 8)
                 };
                 string vRepuesta = vConectorJson.CheckConnection();
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta); //Construir XML o JSON Con datos 
+                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos 
                     vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 }
                 return true;
             } catch (GalacException) {
-                throw;
+                return false; //throw new GalacException("El documento que desea anular no pudo ser encontrado en la Imprenta Digital.\r\nSincronice sus documentos antes de volver a intentar.", eExceptionManagementType.Controlled);
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
                 CodigoRespuesta = vRespuesta.codigo ?? string.Empty;
-                MensajeRespuesta = vRespuesta.mensaje ?? string.Empty;
+                EstadoDocumentoRespuesta = vRespuesta.estado.estadoDocumento ?? string.Empty;
             }
         }
 
@@ -94,21 +94,25 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 stPostResq vRespuesta;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                ObtenerDatosDocumento();
-                stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
-                    Serie = "",
-                    TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
-                    NumeroDocumento = LibString.Right(NumeroFactura, 8),
-                    MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
-                };
-                string vRepuesta = vConectorJson.CheckConnection();
-                if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
-                    string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos 
-                    vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
+                if (EstadoDocumentoRespuesta != "Anulada") {
+                    ObtenerDatosDocumento();
+                    stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
+                        Serie = "",
+                        TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
+                        NumeroDocumento = LibString.Right(NumeroFactura, 8),
+                        MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
+                    };
+                    string vRepuesta = vConectorJson.CheckConnection();
+                    if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
+                        string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos 
+                        vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
+                    }
+                } else {
+                    throw new GalacException("No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.", eExceptionManagementType.Controlled);
                 }
                 return (vRespuesta.codigo == "200");
-            } catch (GalacException) {
-                throw;
+            } catch (GalacException vEx) {
+                return false;//throw vEx;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }

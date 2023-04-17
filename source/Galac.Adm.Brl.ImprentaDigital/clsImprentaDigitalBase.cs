@@ -25,7 +25,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         eTipoDocumentoFactura _TipoDeDocumento;
         int _ConsecutivoCompania;
         string _CodigoRespuesta;
-        string _MensajeRespuesta;
+        string _EstadoDocumentoRespuesta;
         clsLoginUser _LoginUser;
 
         #endregion Variables
@@ -55,9 +55,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             set { _CodigoRespuesta = value; }
         }
 
-        public virtual string MensajeRespuesta {
-            get { return _MensajeRespuesta; }
-            set { _MensajeRespuesta = value; }
+        public virtual string EstadoDocumentoRespuesta {
+            get { return _EstadoDocumentoRespuesta; }
+            set { _EstadoDocumentoRespuesta = value; }
         }
 
         internal virtual clsLoginUser LoginUser {
@@ -360,7 +360,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.MotivoDeAnulacion = LibXml.GetPropertyString(vResult, "MotivoDeAnulacion");
 
                 } else {
-                    throw new GalacException("No existen datos para el documento a anular", eExceptionManagementType.Controlled);
+                    throw new GalacException("El Documento N° " + LibConvert.ToStr(NumeroFactura) + " no existe.", eExceptionManagementType.Controlled);
                 }
             } catch (GalacException) {
                 throw;

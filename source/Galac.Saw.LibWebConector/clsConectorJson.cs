@@ -56,7 +56,7 @@ namespace Galac.Saw.LibWebConnector {
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
-                throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
+                throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
             }
         }
 
@@ -76,22 +76,22 @@ namespace Galac.Saw.LibWebConnector {
                 vResultMessage = vHttpRespMsg.Result.RequestMessage.ToString();
                 vHttpRespMsg.Result.EnsureSuccessStatusCode();
                 if (vHttpRespMsg.Result.Content is null || vHttpRespMsg.Result.Content.Headers.ContentType?.MediaType != "application/json") {
-                    throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Controlled);
+                    throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
                     stPostResq infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
                     if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
-                        throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Controlled);
+                        throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
-                        throw new GalacException(strTipoDocumento + " ya existe en la Imprenta Digital.", eExceptionManagementType.Controlled);
+                        throw new GalacException(strTipoDocumento + " ya existe en la Imprenta Digital.", eExceptionManagementType.Alert);
                     } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        throw new GalacException(infoReqs.mensaje, eExceptionManagementType.Controlled);
+                        throw new GalacException(infoReqs.mensaje, eExceptionManagementType.Alert);
                     }
                     return infoReqs;
                 }
             } catch (AggregateException) {
-                throw new GalacException("Falla de conexión con su Imprenta Digital.\r\nPor favor verifique los datos de conexión o servicio de internet.", eExceptionManagementType.Controlled);
+                throw new GalacException("Falla de conexión con su Imprenta Digital.\r\nPor favor verifique los datos de conexión o servicio de internet.", eExceptionManagementType.Alert);
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
@@ -101,7 +101,7 @@ namespace Galac.Saw.LibWebConnector {
                 }
                 vPath = vPath + @"\ImprentaDigitalResult.txt";
                 LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
-                throw new GalacException(strTipoDocumento + " tiene datos faltantes para ser enviados a la Imprenta Digital.", eExceptionManagementType.Controlled);
+                throw new GalacException(strTipoDocumento + " tiene datos faltantes para ser enviados a la Imprenta Digital.", eExceptionManagementType.Alert);
             }
         }
     }
