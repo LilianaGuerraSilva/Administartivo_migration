@@ -105,6 +105,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 LibGpParams vParam = new LibGpParams();
                 vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
                 vParam.AddInString("Numero", NumeroFactura, 11);
+                vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
                 StringBuilder vSql = new StringBuilder();
                 vSql.AppendLine(" SELECT");
                 vSql.AppendLine(" factura.Numero");
@@ -151,7 +152,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vSql.AppendLine(" FROM factura");
                 vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
                 vSql.AppendLine(" AND factura.Numero = @Numero ");
-                vSql.AppendLine($" AND TipoDeDocumento IN({vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.Factura)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaEntrega)})");
+                vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");
                 vResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0);
                 if (vResult != null && vResult.HasElements) {
                     FacturaImprentaDigital = new FacturaRapida();
@@ -209,6 +210,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             LibGpParams vParam = new LibGpParams();
             vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParam.AddInString("NumeroFactura", NumeroFactura, 11);
+            vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT ");
             vSql.AppendLine(" ConsecutivoRenglon");
@@ -229,6 +231,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" FROM renglonFactura ");
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND NumeroFactura = @NumeroFactura ");
+            vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");
             XElement vResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0);
             if (vResult != null && vResult.HasElements) {
                 List<XElement> ListDetaill = vResult.Descendants("GpResult").ToList();
@@ -339,6 +342,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 LibGpParams vParam = new LibGpParams();
                 vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
                 vParam.AddInString("Numero", NumeroFactura, 11);
+                vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
                 StringBuilder vSql = new StringBuilder();
                 vSql.AppendLine(" SELECT");
                 vSql.AppendLine(" factura.Talonario,");
@@ -349,7 +353,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vSql.AppendLine(" FROM factura");
                 vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
                 vSql.AppendLine(" AND factura.Numero = @Numero ");
-                vSql.AppendLine($" AND TipoDeDocumento IN({vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.Factura)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeDebito)},{vSqlUtil.EnumToSqlValue((int)eTipoDocumentoFactura.NotaEntrega)})");
+                vSql.AppendLine($" AND TipoDeDocumento = @TipoDeDocumento");
                 vResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0);
                 if (vResult != null && vResult.HasElements) {
                     FacturaImprentaDigital = new FacturaRapida();
@@ -373,6 +377,23 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             BuscarDatosDeCliente();
             BuscarDatosDelVendedor();
         }
+
+        public virtual bool ActualizaNumeroDeControl(string valNumeroDeControl) {
+            bool vResult = false;
+            LibGpParams vParams = new LibGpParams();
+            vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+            vParams.AddInString("NumeroFactura", NumeroFactura, 11);
+            vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("UPDATE factura ");
+            vSql.AppendLine("SET NumeroControl = " + new QAdvSql("").ToSqlValue(valNumeroDeControl));            
+            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania AND ");
+            vSql.AppendLine("Numero = @NumeroFactura AND ");
+            vSql.AppendLine("TipoDeDocumento = @TipoDeDocumento ");
+            vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
+            return vResult;
+        }
+
         public abstract bool EnviarDocumento();
         public abstract bool AnularDocumento();
         public abstract bool EstadoDocumento();

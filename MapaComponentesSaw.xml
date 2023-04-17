@@ -9,14 +9,14 @@
     <LibGalacXtmCI>2104</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>2302</SawEnum>
-    <SawImportExport>2302</SawImportExport>
-    <SawMaquinaFiscal>2302</SawMaquinaFiscal>
-    <SawNav>2302</SawNav>
-    <SawRpt>2302</SawRpt>
-    <SawSP>2302</SawSP>
-    <SawTbls>2302</SawTbls>
-    <SawVista>2302</SawVista>    
+    <SawEnum>ND</SawEnum>
+    <SawImportExport>ND</SawImportExport>
+    <SawMaquinaFiscal>ND</SawMaquinaFiscal>
+    <SawNav>ND</SawNav>
+    <SawRpt>ND</SawRpt>
+    <SawSP>ND</SawSP>
+    <SawTbls>ND</SawTbls>
+    <SawVista>ND</SawVista>    
     <ContabRpt>2202</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -221,8 +221,7 @@
     <Galac.Adm.Uil.Venta>2.60.12.0</Galac.Adm.Uil.Venta>	
 	
     <Galac.Adm.Ccl.ImprentaDigital>2.60.0.9999</Galac.Adm.Ccl.ImprentaDigital>
-    <Galac.Adm.Brl.ImprentaDigital>2.60.0.9999</Galac.Adm.Brl.ImprentaDigital>
-    <Galac.Adm.Uil.ImprentaDigital>2.60.0.9999</Galac.Adm.Uil.ImprentaDigital> 
+    <Galac.Adm.Brl.ImprentaDigital>2.60.0.9999</Galac.Adm.Brl.ImprentaDigital>    
     <Galac.Saw.LibWebConnector>2.60.0.9999</Galac.Saw.LibWebConnector>		    
     	
     <Galac.Adm.Ccl.CAnticipo>2.60.0.0</Galac.Adm.Ccl.CAnticipo>
