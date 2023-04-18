@@ -46,7 +46,8 @@ unAplicacionAlicuota = (No_Aplica, Sustituir_Alicuota_Reducida, Sustituir_Alicuo
 unFechaSugeridaRetencionesCxP = (FechaFacturaCxP, FechaRegistroCxP); //e,Componente=SttDef
 unOperativoFinanciero = (Operativo, Finaciero); //e
 unFormaDeAsociarCentroDeCosto = (NoAsociar, PorAlmacen, PorLineaDeProducto); //e,Componente=SttDef 
-unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Componente=SttDef, GENERATE
+unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Componente=SttDef
+unProveedorImprentaDigital = (TheFactoryHKA); //e,Componente=Sttdef, GENERATE
 
 {@F}DatosGeneralesCompania =Record//"1.1.- Compa�ia",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 				: Longint; //HIDE
@@ -225,13 +226,16 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
         PrecioIncluyeIva                                        : boolean;//"El Precio en el Codigo Incluye Iva"
 }
 
-{@F}FacturaGuiaDeRemision =Record//"2.8.- Gu�a de Remisi�n",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
-	ConsecutivoCompania 		: Longint; //HIDE
-	UsaEmisionElectronicaGuiaDeRemision	: boolean;//"Usa Emisi�n Electr�nica de Gu�a de Remisi�n"
-	NumeroSerieGuiaDeRemision	: str4;//"Numero de Serie para Gu�a de Remisi�n"
-	NombrePlantillaGuiaDeRemision	: str50;//"Nombre Plantilla de Gu�a de Remisi�n"
-	PrimeraGuiaDeRemision		: Str11;//	
-	ModeloDeGuiaDeRemision		: UnModeloDeFactura;//
+{@F}FacturaImprentaDigital =Record//"2.8.- Imprenta Digital",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef, GENERATE
+	ConsecutivoCompania 				: Longint; //HIDE
+	UsaImprentaDigital					: boolean;//"Usa Imprenta Digital"
+	FechaInicioImprentaDigital			: date;//"Fecha de inicio del uso de Imprenta Digital"
+	ProveedorServicioImprentaDigital	: unProveedorImprentaDigital;//"Proveedor de Imprenta Digital"
+	DireccionURL						: str50;//"Dirección URL"
+	CampoUsuario						: str50;//"Campo Usuario"
+	Usuario								: str50;//"Usuario"
+	CampoClave							: str50;//"Campo Clave"
+	Clave								: str50;//"Clave"
 }
 
 {@F}CotizacionCotizacion =Record//"3.1.- Cotizaci�n",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
@@ -350,7 +354,7 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	CalculoAutomaticoDeCosto		: boolean;//"Actualizar Costos y Ajustar Precio de Articulos en Cada Operacion"
 }
 
-{@F}InventarioProduccion =Record//"5.5.- Producción",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef, GENERATE
+{@F}InventarioProduccion =Record//"5.5.- Producción",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 			: Longint; //HIDE
 	CalcularCostoDelArticuloTerminadoAPartirDe 	: unCostoTerminadoCalculadoAPartirDe;//"Calcular el costo del artículo terminado a partir de"
 }
@@ -480,7 +484,7 @@ unCostoTerminadoCalculadoAPartirDe = (MonedaLocal, MonedaExtranjera); //e,Compon
 	UsaCodigoConceptoBancarioEnPantalla			: boolean;//"Usa C�digo Concepto Bancario en Pantalla"
 }
 
-{@F}BancosTransferencia =Record//"7.5.- Transferencia Bancaria",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef,GENERATE
+{@F}BancosTransferencia =Record//"7.5.- Transferencia Bancaria",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 								: Longint; //HIDE
 	ConceptoBancarioReversoTransferenciaIngreso			: str10;//=conceptoBancario.codigo, "Concepto Bancario Reverso Transferencia Ingreso"
 	ConceptoBancarioReversoTransferenciaEgreso			: str10;//=conceptoBancario.codigo, "Concepto Bancario Reverso Transferencia Egreso"
