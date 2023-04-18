@@ -3856,7 +3856,8 @@ Private Function fEntidadToEnumSystemModules() As enum_SystemModules
       Case eEAEI_CxP: fEntidadToEnumSystemModules = eSM_CxP
       Case eEAEI_FACTURA: fEntidadToEnumSystemModules = eSM_Factura
       Case eEAEI_VENDEDOR: fEntidadToEnumSystemModules = eSM_Vendedor
-       Case eEAEI_COTIZACION: fEntidadToEnumSystemModules = eSM_Cotizacion
+      Case eEAEI_COTIZACION: fEntidadToEnumSystemModules = eSM_Cotizacion
+      Case eEAEI_RDV: fEntidadToEnumSystemModules = eSM_ResumenDiarioVentas
    End Select
 h_EXIT: On Error GoTo 0
    Exit Function
@@ -3910,7 +3911,7 @@ Private Sub sDevuelveLosIndexDeCadaModulo(ByRef valIndex1 As Integer, ByRef valI
          valIndex2 = CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR
       Case eEAEI_CxP:
          valIndex1 = CM_INDEX_NUMERO_CXC_Y_CODIGO_PROVEEDOR
-      Case eEAEI_FACTURA, eEAEI_COTIZACION:
+      Case eEAEI_FACTURA, eEAEI_COTIZACION, eEAEI_RDV:
          valIndex1 = CM_INDEX_NUMERO_FACTURA
          valIndex2 = CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE
       Case eEAEI_VENDEDOR:
@@ -4686,8 +4687,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    If (vStrMontoExento = "" Or vStrMontoExento = "NA") And (vStrMontoBIAlicuotaGeneral = "" Or vStrMontoBIAlicuotaGeneral = "NA") And (vStrMontoBIAlicuotaReducida = "" Or vStrMontoBIAlicuotaReducida = "NA") And (vStrMontoBIAlicuotaExtendida = "" Or vStrMontoBIAlicuotaExtendida = "NA") And (vStrMontoNCExento = "" Or vStrMontoNCExento = "NA") And (vStrMontoNCBIAlicuotaGeneral = "" Or vStrMontoNCBIAlicuotaGeneral = "NA") And (vStrMontoNCBIAlicuotaReducida = "" Or vStrMontoNCBIAlicuotaReducida = "NA") And (vStrMontoNCBIAlicuotaExtendida = "" Or vStrMontoNCBIAlicuotaExtendida = "NA") Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & " Debe proporcionar un valor válido para el detalle del documento."
-   End If
-   If gConvert.fConvertStringToCurrency(vStrMontoExento) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaGeneral) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaReducida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaExtendida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCExento) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaGeneral) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaReducida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaExtendida) < 0 Then
+   ElseIf gConvert.fConvertStringToCurrency(vStrMontoExento) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaGeneral) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaReducida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaExtendida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCExento) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaGeneral) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaReducida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaExtendida) < 0 Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & " Los montos ingresados deben ser mayor o igual a 0."
    End If
@@ -4707,7 +4707,20 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
          LineaDeErrores = LineaDeErrores & " Hay inconsistencia en la información de Número de Control Desde y Hasta."
       End If
    End If
-   If Not vSeRetIva Then
+   If vSeRetIva Then
+      If gDefGen.LaFechaEsMayorQueElLimiteDeIngresoDeDatos(vFechaCompRetIva, False, insertar) Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & " El valor de la Fecha del Comprobante de Retención de IVA no es válido."
+      End If
+      If gDefGen.LaFechaEsMayorQueElLimiteDeIngresoDeDatos(vFechaAplicacionRetIVA, False, insertar) Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & " El valor de la Fecha de Aplicación de la Retención de IVA no es válido."
+      End If
+      If vMtoIvaRetenido < 0 Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & " El valor del Monto IVA Retenido no es válido."
+      End If
+   Else
       vNroCompRetIva = ""
       vFechaCompRetIva = gUtilDate.getFechaDeHoy
       vFechaAplicacionRetIVA = gUtilDate.fColocaDiaEnFecha(1, gUtilDate.getFechaDeHoy)
@@ -4885,48 +4898,61 @@ Private Sub sConstruyeDetalleRDV(ByVal valStrMontoExento As String, ByVal valStr
       Select Case i
          Case eTD_EXENTO:
             If gTexto.DfLen(valStrMontoExento) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoExento, "NA") Then
-               GoTo Next_For
+               GoTo Exit_For
             End If
             vPSI = gConvert.fConvertStringToCurrency(valStrMontoExento)
             vPorcentajeAlicuota = 0
             vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO)
          Case eTD_ALICUOTAGENERAL:
             If gTexto.DfLen(valStrMontoBIAlicuotaGeneral) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoBIAlicuotaGeneral, "NA") Then
-               GoTo Next_For
+               GoTo Exit_For
             End If
             vPSI = gConvert.fConvertStringToCurrency(valStrMontoBIAlicuotaGeneral)
+            vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTAGENERAL)
+            vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTAGENERAL)
          Case eTD_ALICUOTA2:
             If gTexto.DfLen(valStrMontoBIAlicuotaReducida) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoBIAlicuotaReducida, "NA") Then
-               GoTo Next_For
+               GoTo Exit_For
             End If
             vPSI = gConvert.fConvertStringToCurrency(valStrMontoBIAlicuotaReducida)
+            vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTA2)
+            vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA2)
          Case eTD_ALICUOTA3:
             If gTexto.DfLen(valStrMontoBIAlicuotaExtendida) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoBIAlicuotaExtendida, "NA") Then
-               GoTo Next_For
+               GoTo Exit_For
             End If
             vPSI = gConvert.fConvertStringToCurrency(valStrMontoBIAlicuotaExtendida)
+            vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTA3)
+            vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3)
          Case eTD_EXENTONC:
             If gTexto.DfLen(valStrMontoNCExento) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoNCExento, "NA") Then
-               GoTo Next_For
+               GoTo Exit_For
             End If
             vPSI = gConvert.fConvertStringToCurrency(valStrMontoNCExento)
             vPorcentajeAlicuota = 0
             vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_EXENTO)
          Case eTD_ALICUOTAGENERALNC:
             If gTexto.DfLen(valStrMontoNCBIAlicuotaGeneral) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoNCBIAlicuotaGeneral, "NA") Then
-               GoTo Next_For
+               GoTo Exit_For
             End If
             vPSI = gConvert.fConvertStringToCurrency(valStrMontoNCBIAlicuotaGeneral)
+            vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTAGENERAL)
+            vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTAGENERAL)
          Case eTD_ALICUOTA2NC:
             If gTexto.DfLen(valStrMontoNCBIAlicuotaReducida) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoNCBIAlicuotaReducida, "NA") Then
-               GoTo Next_For
+               GoTo Exit_For
             End If
             vPSI = gConvert.fConvertStringToCurrency(valStrMontoNCBIAlicuotaReducida)
+            vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTA2)
+            vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA2)
          Case eTD_ALICUOTA3NC:
             If gTexto.DfLen(valStrMontoNCBIAlicuotaExtendida) = 0 Or gTexto.fS1EsIgualAS2(valStrMontoNCBIAlicuotaExtendida, "NA") Then
-               GoTo Next_For
+               GoTo Exit_For
             End If
             vPSI = gConvert.fConvertStringToCurrency(valStrMontoNCBIAlicuotaExtendida)
+            vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTA3)
+            vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3)
+         Case Else: GoTo Exit_For
       End Select
       
       vConsecRenglon = i + 1
@@ -4936,19 +4962,6 @@ Private Sub sConstruyeDetalleRDV(ByVal valStrMontoExento As String, ByVal valStr
       End If
       vCodigoArticuloRDV = insArticuloInventario.getCodigoArticuloResumenDiario(i)
       vDescripcionArticuloRDV = insArticuloInventario.getDescripcionArticuloResumenDiario(i)
-      ElseIf i = enum_TipoDeAlicuota.eTD_ALICUOTAGENERALNC Then
-         vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTAGENERAL)
-         vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTAGENERAL)
-      ElseIf i = enum_TipoDeAlicuota.eTD_ALICUOTA2NC Then
-         vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTA2)
-         vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA2)
-      ElseIf i = enum_TipoDeAlicuota.eTD_ALICUOTA3NC Then
-         vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, eTD_ALICUOTA3)
-         vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(eTD_ALICUOTA3)
-      Else
-         vPorcentajeAlicuota = gAdmAlicuotaIvaActual.GetAlicuotaIVA(insFactura.GetFecha, i)
-         vTipoDeAlicuotaStr = gEnumProyecto.enumTipoDeAlicuotaToString(i)
-      End If
       
       vPSI = Math.Abs(vPSI)
       vPCI = gUtilMathOperations.fRedondeaANDecimales(vPSI * (1 + (vPorcentajeAlicuota / 100)), 2)
@@ -4980,7 +4993,7 @@ Private Sub sConstruyeDetalleRDV(ByVal valStrMontoExento As String, ByVal valStr
       vRs("Serial").Value = insRenglonFactura.GetSerial
       vRs("Rollo").Value = insRenglonFactura.GetRollo
       vRs.Update
-Next_For: 'llega hasta acá para saltar el loop del for
+Exit_For: 'llega hasta acá para saltar el loop del for
    Next
    insRenglonFactura.SetRsRenglonFactura vRs
 h_EXIT: On Error GoTo 0
@@ -4998,6 +5011,7 @@ Private Function fImportaRDV() As Boolean
    vResult = False
    If Not gTexto.DfLen(insFactura.GetNumero = 0) Then
       If Not insFactura.fSearchByField("Numero", insFactura.GetNumero, False, False) Then
+         insFactura.SetCodigoLote mCodigoLote
          If insFactura.fInsert(insertar, True, False) Then
             i = 1
             Set vRs = insRenglonFactura.GetRsRenglonFactura
