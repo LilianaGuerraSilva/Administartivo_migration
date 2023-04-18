@@ -83,7 +83,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
                 return true;
             } catch (GalacException) {
-                return false; //throw new GalacException("El documento que desea anular no pudo ser encontrado en la Imprenta Digital.\r\nSincronice sus documentos antes de volver a intentar.", eExceptionManagementType.Controlled);
+                return false;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
@@ -113,8 +113,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     throw new GalacException("No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.", eExceptionManagementType.Controlled);
                 }
                 return (vRespuesta.codigo == "200");
-            } catch (GalacException vEx) {
-                return false;//throw vEx;
+            } catch (GalacException) {
+                return false;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
