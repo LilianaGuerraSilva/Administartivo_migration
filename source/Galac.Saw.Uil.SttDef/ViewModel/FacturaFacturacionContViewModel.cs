@@ -761,14 +761,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             } else {
                 if (PermitirIncluirFacturacionHistorica) {
                     if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(UltimaFechaDeFacturacionHistorica, false, Action)) {
-                        vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "-> Ultima Fecha de Facturación Histórica"));
+                        vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram(this.ModuleName + "-> Última Fecha de Facturación Histórica."));
                     } else if (LibDate.DateIsGreaterThanToday(UltimaFechaDeFacturacionHistorica, false, string.Empty)) {
-                        vResult = new ValidationResult(this.ModuleName + "-> Ultima Fecha de Facturación Histórica debe ser menor a la fecha actual");
+                        vResult = new ValidationResult(this.ModuleName + "-> Última Fecha de Facturación Histórica debe ser menor a la fecha actual.");
                     } else if (IsEnabledUsaImprentaDigital) {
                         FechaInicioImprentaDigital = UsaImprentaDigital() ? FechaInicioServicioImprentaDigital() : FechaInicioImprentaDigital;
                         RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);
                         vResult = (UltimaFechaDeFacturacionHistorica >= FechaInicioImprentaDigital) ?
-                            new ValidationResult(this.ModuleName + "-> Ultima Fecha de Facturación Histórica debe ser menor a la fecha de inicio de uso de Imprenta Digital")
+                            new ValidationResult(this.ModuleName + "-> Última Fecha de Facturación Histórica debe ser menor a la fecha de inicio de uso de Imprenta Digital.")
                             : vResult;
                     }
                 }

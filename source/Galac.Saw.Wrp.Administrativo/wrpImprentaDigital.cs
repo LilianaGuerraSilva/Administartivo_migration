@@ -65,34 +65,39 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             }
         }
 
-        bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters) {
+        bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwMensaje) {
             try {
-                bool vDocumentoAnulado = false;
+                bool vDocumentoFueAnulado = false;
+                bool vDocumentoExiste = false;
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
                 CreateGlobalValues(vfwCurrentParameters);
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
                 Task vTask = Task.Factory.StartNew(() => {
-                    if (_insImprentaDigital.EstadoDocumento()) {
-                        vDocumentoAnulado = _insImprentaDigital.AnularDocumento();
-                        if (!vDocumentoAnulado) {
-                            LibMessages.MessageBox.Alert(this, "No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.", "Imprenta Digital");
+                    vDocumentoExiste = _insImprentaDigital.EstadoDocumento();
+                    if (vDocumentoExiste) {
+                        if (_insImprentaDigital.EstadoDocumentoRespuesta != "Anulada") {
+                            vDocumentoFueAnulado = _insImprentaDigital.AnularDocumento();
                         }
                     }
                 });
+                if (vDocumentoExiste) {
+                    if (!vDocumentoFueAnulado) {
+                        vfwMensaje = "No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.";
+                    }
+                } else {
+                    vfwMensaje = "El documento que desea anular no pudo ser encontrado en la Imprenta Digital.\r\nSincronice sus documentos antes de volver a intentar.";
+                }
                 vTask.Wait();
-                return vDocumentoAnulado;
+                return vDocumentoFueAnulado;
             } catch (AggregateException vEx) {
-                LibExceptionDisplay.Show(vEx, null, Title + " - Anular Documento");
+                vfwMensaje = vEx.InnerException.Message;
                 return false;
             } catch (GalacException gEx) {
-                LibExceptionDisplay.Show(gEx, null, Title + " - Anular Documento");
+                vfwMensaje = gEx.Message;
                 return false;
             } catch (Exception vEx) {
-                if (vEx is AccessViolationException) {
-                    throw;
-                }
-                LibExceptionDisplay.Show(vEx);
+                vfwMensaje = vEx.Message;
                 return false;
             }
         }
