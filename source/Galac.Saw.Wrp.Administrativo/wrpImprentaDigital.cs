@@ -34,7 +34,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         #region Metodos Generados
         #region Miembros de IWrpMfVb
 
-        bool IWrpImprentaDigitalVb.EnviarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl) {
+        bool IWrpImprentaDigitalVb.EnviarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl, ref string vfwMensaje) {
             try {
                 string vNumeroControl = "";
                 bool vDocumentoEnviado = false;
@@ -44,22 +44,23 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                     eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                     var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
                     vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
-                    vNumeroControl = _insImprentaDigital.NumeroControl;
+                    vNumeroControl = _insImprentaDigital.NumeroControl;                    
                 });
                 vTask.Wait();
                 vfwNumeroControl = vNumeroControl;
+                vfwMensaje = "";
                 return vDocumentoEnviado;
             } catch (AggregateException vEx) {
-                LibExceptionDisplay.Show(vEx.InnerException, null, Title + " - Enviar Documento");
+                vfwMensaje = vEx.InnerException.Message;
                 return false;
             } catch (GalacException gEx) {
-                LibExceptionDisplay.Show(gEx, null, Title + " - Enviar Documento");
+                vfwMensaje = gEx.Message;
                 return false;
             } catch (Exception vEx) {
                 if (vEx is AccessViolationException) {
                     throw;
                 }
-                LibExceptionDisplay.Show(vEx);
+                vfwMensaje = vEx.Message;
                 return false;
             }
         }

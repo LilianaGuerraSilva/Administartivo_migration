@@ -64,7 +64,7 @@ namespace Galac.Saw.LibWebConnector {
             string vResultMessage = "";
             try {
                 strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
-                strTipoDocumento = "La " + strTipoDocumento + " No " + valNumeroDocumento;
+                strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
                 HttpClient vHttpClient = new HttpClient();
                 vHttpClient.BaseAddress = new Uri(_LoginUser.URL);
                 if (!LibString.IsNullOrEmpty(valToken)) {

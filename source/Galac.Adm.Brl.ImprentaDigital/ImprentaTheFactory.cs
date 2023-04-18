@@ -15,6 +15,8 @@ using Galac.Saw.Ccl.Cliente;
 using System.Linq;
 using System.Text;
 using LibGalac.Aos.Catching;
+using LibGalac.Aos.Brl;
+using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory: clsImprentaDigitalBase {
@@ -128,7 +130,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumentoDigital);
                     var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
                     NumeroControl = vReq.resultados.numeroControl;
-                    vResult = !LibString.IsNullOrEmpty(vReq.resultados.numeroDocumento);
+                    vResult = !LibString.IsNullOrEmpty(NumeroControl);
+                    if (vResult) {
+                        ActualizaNumeroDeControl(NumeroControl);
+                    }
                 } else {
                     throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Controlled);
                 }
@@ -203,8 +208,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #endregion vendedor
         #region clientes
         private XElement GetDatosComprador() {
-            string vNumeroRif = string.Empty;
-            string vPrefijo = DarFormatoYObtenerPrefijoRif(ClienteImprentaDigital, ref vNumeroRif);
+            string vPrefijo = string.Empty;
+            string vNumeroRif = DarFormatoYObtenerPrefijoRif(ClienteImprentaDigital, ref vPrefijo);
             XElement vResult = new XElement("comprador",
                new XElement("tipoIdentificacion", vPrefijo),
                new XElement("numeroIdentificacion", vNumeroRif),
@@ -218,20 +223,22 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private string DarFormatoYObtenerPrefijoRif(Cliente valCliente, ref string refNumeroRif) {
+        private string DarFormatoYObtenerPrefijoRif(Cliente valCliente, ref string refPrefijoRif) {
+            string vNumeroRif = "";
             string vPrefijo = LibString.Left(valCliente.NumeroRIF, 1);
             if (LibString.S1IsInS2(vPrefijo, "VJEPG")) {
-                refNumeroRif = LibString.Right(valCliente.NumeroRIF, LibString.Len(valCliente.NumeroRIF) - 1);
-                refNumeroRif = LibString.Replace(refNumeroRif, "-", "");
+                vNumeroRif = LibString.Right(valCliente.NumeroRIF, LibString.Len(valCliente.NumeroRIF) - 1);
+                vNumeroRif = LibString.Replace(vNumeroRif, "-", "");
             } else {
-                refNumeroRif = valCliente.NumeroRIF;
+                vNumeroRif = valCliente.NumeroRIF;
                 if (valCliente.EsExtranjeroAsBool) {
                     vPrefijo = "E";
                 } else {
                     vPrefijo = "V";
                 }
             }
-            return vPrefijo;
+            refPrefijoRif = vPrefijo;
+            return vNumeroRif;
         }
         #endregion clientes
 
@@ -319,8 +326,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         new XElement("moneda", FacturaImprentaDigital.CodigoMoneda),
                         new XElement("tipoCambio", "1.00")));
                 }
-            }
-            if (FacturaImprentaDigital.BaseImponibleIGTF == 0) {
+            } else if (FacturaImprentaDigital.BaseImponibleIGTF == 0) {
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "08" : "99";
                 vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioABolivares, 2);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMoneda;
@@ -369,47 +375,49 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             // Revisar otros cargos y descuentos, revisar y Serial Rollo  
             XElement vResult = new XElement("detallesItems");
             XElement vResultInfoAdicional = new XElement("InfoAdicional");
-            if (DetalleFacturaImprentaDigital != null && DetalleFacturaImprentaDigital.Count > 0) {
-                foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
-                    string vSerial = vDetalle.Serial == "0" ? "" : vDetalle.Serial;
-                    string vRollo = vDetalle.Rollo == "0" ? "" : vDetalle.Rollo;
-                    vResultInfoAdicional = new XElement("infoAdicionalItem",
-                        new XElement("infoAdicionalItem", new XElement("Serial", vSerial)),
-                        new XElement("infoAdicionalItem", new XElement("Rollo", vRollo)),
-                        new XElement("infoAdicionalItem", new XElement("CampoExtraEnRenglonFactura1", vDetalle.CampoExtraEnRenglonFactura1)),
-                        new XElement("infoAdicionalItem", new XElement("CampoExtraEnRenglonFactura2", vDetalle.CampoExtraEnRenglonFactura2)));
-                    vResult.Add(
-                        new XElement("detallesItems",
-                            new XElement("numeroLinea", vDetalle.ConsecutivoRenglon),
-                            new XElement("codigoPLU", vDetalle.Articulo),
-                            new XElement("indicadorBienoServicio", vDetalle.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio ? "2" : "1"),
-                            new XElement("descripcion", vDetalle.Descripcion),
-                            new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.Cantidad, 2))),
-                            new XElement("unidadMedida", "NIU"),
-                            new XElement("precioUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA, 2))),
-                            new XElement("precioItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA * vDetalle.Cantidad, 2))),
-                            new XElement("codigoImpuesto", GetAlicuota(vDetalle.AlicuotaIvaAsEnum)),
-                            new XElement("tasaIVA", LibMath.RoundToNDecimals(vDetalle.PorcentajeAlicuota, 2)),
-                            new XElement("valorIVA", LibMath.Abs(LibMath.RoundToNDecimals(LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2), 2))),
-                            new XElement("valorTotalItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.TotalRenglon, 2))),
-                            vResultInfoAdicional.Descendants("infoAdicionalItem")));
-                }
-            }
-            if (DetalleFacturaImprentaDigital.Count == 1) {
-                vResult.Add(
+            if (DetalleFacturaImprentaDigital != null) {
+                if (DetalleFacturaImprentaDigital.Count > 0) {
+                    foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
+                        string vSerial = vDetalle.Serial == "0" ? "" : vDetalle.Serial;
+                        string vRollo = vDetalle.Rollo == "0" ? "" : vDetalle.Rollo;
+                        vResultInfoAdicional = new XElement("infoAdicionalItem",
+                            new XElement("infoAdicionalItem", new XElement("Serial", vSerial)),
+                            new XElement("infoAdicionalItem", new XElement("Rollo", vRollo)),
+                            new XElement("infoAdicionalItem", new XElement("CampoExtraEnRenglonFactura1", vDetalle.CampoExtraEnRenglonFactura1)),
+                            new XElement("infoAdicionalItem", new XElement("CampoExtraEnRenglonFactura2", vDetalle.CampoExtraEnRenglonFactura2)));
+                        vResult.Add(
                             new XElement("detallesItems",
-                                new XElement("numeroLinea", "0"),
-                                new XElement("codigoPLU", ""),
-                                new XElement("indicadorBienoServicio", ""),
-                                new XElement("descripcion", ""),
-                                new XElement("cantidad", "1.00"),
-                                new XElement("unidadMedida", ""),
-                                new XElement("precioUnitario", "0"),
-                                new XElement("precioItem", "0"),
-                                new XElement("codigoImpuesto", ""),
-                                new XElement("tasaIVA", "0"),
-                                new XElement("valorIVA", "0"),
-                                new XElement("valorTotalItem", "0")));
+                                new XElement("numeroLinea", vDetalle.ConsecutivoRenglon),
+                                new XElement("codigoPLU", vDetalle.Articulo),
+                                new XElement("indicadorBienoServicio", vDetalle.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio ? "2" : "1"),
+                                new XElement("descripcion", vDetalle.Descripcion),
+                                new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.Cantidad, 2))),
+                                new XElement("unidadMedida", "NIU"),
+                                new XElement("precioUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA, 2))),
+                                new XElement("precioItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA * vDetalle.Cantidad, 2))),
+                                new XElement("codigoImpuesto", GetAlicuota(vDetalle.AlicuotaIvaAsEnum)),
+                                new XElement("tasaIVA", LibMath.RoundToNDecimals(vDetalle.PorcentajeAlicuota, 2)),
+                                new XElement("valorIVA", LibMath.Abs(LibMath.RoundToNDecimals(LibMath.RoundToNDecimals((vDetalle.PorcentajeAlicuota * vDetalle.PrecioSinIVA * vDetalle.Cantidad) / 100, 2), 2))),
+                                new XElement("valorTotalItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.TotalRenglon, 2))),
+                                vResultInfoAdicional.Descendants("infoAdicionalItem")));
+                    }
+                }
+                if (DetalleFacturaImprentaDigital.Count == 1) { //Se Agrega una fila temporal para que al serializar el XML a JSON, se reconozca el detalle como elementos de un array (lista)
+                    vResult.Add(
+                                new XElement("detallesItems",
+                                    new XElement("numeroLinea", "0"),
+                                    new XElement("codigoPLU", ""),
+                                    new XElement("indicadorBienoServicio", ""),
+                                    new XElement("descripcion", ""),
+                                    new XElement("cantidad", "1.00"),
+                                    new XElement("unidadMedida", ""),
+                                    new XElement("precioUnitario", "0"),
+                                    new XElement("precioItem", "0"),
+                                    new XElement("codigoImpuesto", ""),
+                                    new XElement("tasaIVA", "0"),
+                                    new XElement("valorIVA", "0"),
+                                    new XElement("valorTotalItem", "0")));
+                }
             }
             return vResult;
         }
