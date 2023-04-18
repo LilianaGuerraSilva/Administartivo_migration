@@ -21,7 +21,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         }
 		
 		private void CrearCampoCompania_EstaIntegradaG360() {
-            AddColumnBoolean("dbo.Compania", "ConectadaConG360", "CONSTRAINT ConecConG360 NOT NULL", false);
+            if (AddColumnBoolean("dbo.Compania", "ConectadaConG360", "", false)) {
+                AddDefaultConstraint("dbo.Compania", "ConecConG360", InsSql.ToSqlValue(false), "ConectadaConG360");
+            }
         }
 
         private void CrearParametrosImprentaDigital() {
