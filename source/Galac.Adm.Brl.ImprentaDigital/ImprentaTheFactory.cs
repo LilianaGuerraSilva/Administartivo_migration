@@ -128,6 +128,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumentoDigital);
+                    vDocumentoJSON = clsConectorJson.LimpiaRegistrosTempralesEnJSON(vDocumentoJSON);
                     var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
                     NumeroControl = vReq.resultados.numeroControl;
                     vResult = !LibString.IsNullOrEmpty(NumeroControl);
@@ -343,7 +344,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult.Add(new XElement("forma", GetFormaDeCobro(FacturaImprentaDigital.FormaDeCobroAsEnum)),
                      new XElement("formasPago",
                         new XElement("forma", "99"),
-                        new XElement("descripcion", ""),
+                        new XElement("descripcion", "formaDePagoTemp"),
                         new XElement("monto", "0"),
                         new XElement("moneda", "VED"),
                         new XElement("tipoCambio", "1.00")));
@@ -408,7 +409,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                                     new XElement("numeroLinea", "0"),
                                     new XElement("codigoPLU", ""),
                                     new XElement("indicadorBienoServicio", ""),
-                                    new XElement("descripcion", ""),
+                                    new XElement("descripcion", "DetalleFacturaTemp"),
                                     new XElement("cantidad", "1.00"),
                                     new XElement("unidadMedida", ""),
                                     new XElement("precioUnitario", "0"),
