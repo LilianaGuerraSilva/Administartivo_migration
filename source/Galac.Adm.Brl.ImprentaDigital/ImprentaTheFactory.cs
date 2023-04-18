@@ -446,7 +446,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 case eTipoDeFormaDeCobro.TarjetaCredito:
                 case eTipoDeFormaDeCobro.Cheque:
                 case eTipoDeFormaDeCobro.Otros:
-                    vResult = "05";
+                    vResult = "08";
                     break;
             }
             return vResult;
@@ -492,6 +492,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vResult = "05";
                     break;
                 default:
+                    vResult = "01";
                     break;
             }
             return vResult;

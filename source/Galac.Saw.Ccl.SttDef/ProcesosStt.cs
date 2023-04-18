@@ -10,7 +10,7 @@ using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Saw.Ccl.SttDef {
     [Serializable]
-    public class ProcesosStt : ISettDefinition {
+    public class ProcesosStt: ISettDefinition {
         private string _GroupName = null;
         private string _Module = null;
 
@@ -26,7 +26,6 @@ namespace Galac.Saw.Ccl.SttDef {
         #region Variables
         private bool _SeResincronizaronLosSupervisores;
         private bool _InsertandoPorPrimeraVez;
-        private string _CodigoEmpresaIntegrada;        
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -50,12 +49,6 @@ namespace Galac.Saw.Ccl.SttDef {
         public string InsertandoPorPrimeraVez {
             set { _InsertandoPorPrimeraVez = LibConvert.SNToBool(value); }
         }
-
-
-        public string CodigoEmpresaIntegrada {
-            get { return _CodigoEmpresaIntegrada; }
-            set { _CodigoEmpresaIntegrada = LibString.Mid(value, 0, 50); }
-        }      
 
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
@@ -82,7 +75,6 @@ namespace Galac.Saw.Ccl.SttDef {
         public void Clear() {
             SeResincronizaronLosSupervisoresAsBool = false;
             InsertandoPorPrimeraVezAsBool = false;
-            CodigoEmpresaIntegrada = "";           
             fldTimeStamp = 0;
         }
 
@@ -90,18 +82,15 @@ namespace Galac.Saw.Ccl.SttDef {
             ProcesosStt vResult = new ProcesosStt();
             vResult.SeResincronizaronLosSupervisoresAsBool = _SeResincronizaronLosSupervisores;
             vResult.InsertandoPorPrimeraVezAsBool = _InsertandoPorPrimeraVez;
-            vResult.CodigoEmpresaIntegrada = _CodigoEmpresaIntegrada;            
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
 
         public override string ToString() {
             return "Se Resincronizaron Los Supervisores = " + _SeResincronizaronLosSupervisores +
-                "\nInsertando Por Primera Vez = " + _InsertandoPorPrimeraVez +
-                "\nCodigoEmpresaIntegrada = " + _CodigoEmpresaIntegrada;
+                "\nInsertando Por Primera Vez = " + _InsertandoPorPrimeraVez;
         }
         #endregion //Metodos Generados
     } //End of class ProcesosStt
-
 } //End of namespace Galac.Saw.Ccl.SttDef
 
