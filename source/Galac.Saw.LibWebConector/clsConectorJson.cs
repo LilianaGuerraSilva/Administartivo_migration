@@ -35,6 +35,25 @@ namespace Galac.Saw.LibWebConnector {
             }
         }
 
+        public static string LimpiaRegistrosTempralesEnJSON(string valDocJSon) {
+            string vResult = "";
+            vResult = LimpiarRenglonFacturaTemporal(valDocJSon);
+            vResult = LimpiarFormaDePagoTemporal(vResult);
+            return vResult;
+        }
+
+        private static string LimpiarRenglonFacturaTemporal(string valDocJSon) {
+            string vResult = "";
+            vResult = LibString.Replace(valDocJSon, ",\r\n      {\r\n        \"numeroLinea\": \"0\",\r\n        \"codigoPLU\": \"\",\r\n        \"indicadorBienoServicio\": \"\",\r\n        \"descripcion\": \"DetalleFacturaTemp\",\r\n        \"cantidad\": \"1.00\",\r\n        \"unidadMedida\": \"\",\r\n        \"precioUnitario\": \"0\",\r\n        \"precioItem\": \"0\",\r\n        \"codigoImpuesto\": \"\",\r\n        \"tasaIVA\": \"0\",\r\n        \"valorIVA\": \"0\",\r\n        \"valorTotalItem\": \"0\"\r\n      }", "");
+            return vResult;
+        }
+
+        private static string LimpiarFormaDePagoTemporal(string valDocJSon) {
+            string vResult = "";
+            vResult = LibString.Replace(valDocJSon, ",\r\n          {\r\n            \"forma\": \"99\",\r\n            \"descripcion\": \"formaDePagoTemp\",\r\n            \"monto\": \"0\",\r\n            \"moneda\": \"VED\",\r\n            \"tipoCambio\": \"1.00\"\r\n          }", "");
+            return vResult;
+        }
+
         private string FormatingJSON(ILoginUser valloginUser) {
             string vResult = "";
             stUserLoginCnn vUsrLgn = new stUserLoginCnn();
