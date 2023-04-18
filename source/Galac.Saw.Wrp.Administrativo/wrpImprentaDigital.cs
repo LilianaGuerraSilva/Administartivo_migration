@@ -81,6 +81,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                         }
                     }
                 });
+                vTask.Wait();
                 if (vDocumentoExiste) {
                     if (!vDocumentoFueAnulado) {
                         vfwMensaje = "No se pudo anular el documento en la Imprenta Digital, por favor diríjase a la página web del proveedor del servicio y anule el documento manualmente.";
@@ -88,7 +89,6 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 } else {
                     vfwMensaje = "El documento que desea anular no pudo ser encontrado en la Imprenta Digital.\r\nSincronice sus documentos antes de volver a intentar.";
                 }
-                vTask.Wait();
                 return vDocumentoFueAnulado;
             } catch (AggregateException vEx) {
                 vfwMensaje = vEx.InnerException.Message;
