@@ -506,7 +506,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     break;
             }
             return vResult;
-        }       
+        }
         #endregion Conversion de Tipos
     }
 }
