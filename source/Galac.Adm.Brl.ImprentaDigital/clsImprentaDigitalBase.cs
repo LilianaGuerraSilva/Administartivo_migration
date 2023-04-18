@@ -353,7 +353,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vSql.AppendLine(" FROM factura");
                 vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania ");
                 vSql.AppendLine(" AND factura.Numero = @Numero ");
-                vSql.AppendLine($" AND TipoDeDocumento = @TipoDeDocumento");
+                vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento");
                 vResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParam.Get(), "", 0);
                 if (vResult != null && vResult.HasElements) {
                     FacturaImprentaDigital = new FacturaRapida();
@@ -362,7 +362,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.NumeroControl = LibXml.GetPropertyString(vResult, "NumeroControl");
                     FacturaImprentaDigital.Numero = LibXml.GetPropertyString(vResult, "Numero");
                     FacturaImprentaDigital.MotivoDeAnulacion = LibXml.GetPropertyString(vResult, "MotivoDeAnulacion");
-
                 } else {
                     throw new GalacException("No existen datos para el documento a anular", eExceptionManagementType.Controlled);
                 }
