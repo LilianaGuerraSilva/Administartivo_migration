@@ -385,12 +385,50 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("UPDATE factura ");
-            vSql.AppendLine("SET NumeroControl = " + new QAdvSql("").ToSqlValue(valNumeroDeControl));            
+            vSql.AppendLine("SET NumeroControl = " + new QAdvSql("").ToSqlValue(valNumeroDeControl));
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania AND ");
             vSql.AppendLine("Numero = @NumeroFactura AND ");
             vSql.AppendLine("TipoDeDocumento = @TipoDeDocumento ");
             vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
+            vSql.Clear();
+            // Actualiza Nro Control en CxC
+            vParams = new LibGpParams();
+            eTipoDeTransaccion vTipoCxC = TipoDocumentoFacturaToTipoCxCConverter(TipoDeDocumento);
+            vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+            vParams.AddInString("NumeroFactura", NumeroFactura, 11);
+            vParams.AddInEnum("TipoCxc", (int)vTipoCxC);
+            vSql.AppendLine("UPDATE cxc ");
+            vSql.AppendLine("SET NumeroControl = " + new QAdvSql("").ToSqlValue(valNumeroDeControl));
+            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania AND ");
+            vSql.AppendLine("NumeroDocumentoOrigen = @NumeroFactura AND ");
+            vSql.AppendLine("TipoCxc = @TipoCxc ");
+            vResult = vResult & LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
             return vResult;
+        }
+
+        private eTipoDeTransaccion TipoDocumentoFacturaToTipoCxCConverter(eTipoDocumentoFactura valTipoDocumentoFactura) {
+            eTipoDeTransaccion vTipoCxc = eTipoDeTransaccion.FACTURA;
+            switch (valTipoDocumentoFactura) {
+                case eTipoDocumentoFactura.Factura:
+                    vTipoCxc = eTipoDeTransaccion.FACTURA;
+                    break;
+                case eTipoDocumentoFactura.NotaDeCredito:
+                    vTipoCxc = eTipoDeTransaccion.NOTADECREDITO;
+                    break;
+                case eTipoDocumentoFactura.NotaDeDebito:
+                    vTipoCxc = eTipoDeTransaccion.NOTADEDEBITO;
+                    break;
+                case eTipoDocumentoFactura.ComprobanteFiscal:
+                    vTipoCxc = eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA;
+                    break;
+                case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
+                    vTipoCxc = eTipoDeTransaccion.NOTADECREDITOCOMPROBANTEFISCAL;
+                    break;
+                default:
+                    vTipoCxc = eTipoDeTransaccion.NOASIGNADO;
+                    break;
+            }
+            return vTipoCxc;
         }
 
         public abstract bool EnviarDocumento();
