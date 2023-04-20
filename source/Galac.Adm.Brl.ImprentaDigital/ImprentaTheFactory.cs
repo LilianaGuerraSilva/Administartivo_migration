@@ -389,9 +389,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         vResult.Add(
                             new XElement("detallesItems",
                                 new XElement("numeroLinea", vDetalle.ConsecutivoRenglon),
-                                new XElement("codigoPLU", vDetalle.Articulo),
+                                new XElement("codigoPLU", LibString.Right(vDetalle.Articulo,20)),
                                 new XElement("indicadorBienoServicio", vDetalle.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio ? "2" : "1"),
-                                new XElement("descripcion", vDetalle.Descripcion),
+                                new XElement("descripcion", LibString.Left(vDetalle.Descripcion,255)),
                                 new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.Cantidad, 2))),
                                 new XElement("unidadMedida", "NIU"),
                                 new XElement("precioUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA, 2))),
