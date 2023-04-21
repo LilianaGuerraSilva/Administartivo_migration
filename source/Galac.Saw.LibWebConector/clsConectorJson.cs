@@ -120,7 +120,7 @@ namespace Galac.Saw.LibWebConnector {
                 }
                 vPath = vPath + @"\ImprentaDigitalResult.txt";
                 LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
-                throw new GalacException(strTipoDocumento + " No pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.", eExceptionManagementType.Alert);
+                throw new GalacException(strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.", eExceptionManagementType.Alert);
             }
         }
     }
