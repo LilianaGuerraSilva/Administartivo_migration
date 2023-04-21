@@ -182,6 +182,9 @@ Public Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef refT
                      vAsientosEnCeroEnPago = vAsientosEnCeroEnPago Or varTodosLosAsientosVienenEnCero
                      gProyParametrosWinCont.SetPermitirAsientosEnCero vAsientosEnCeroEnPago
                   End If
+                    If (valGeneradoPor = eCG_COBRANZA And gProyParametrosWinCont.GetPermitirAsientosEnCero) Then
+                        varTodosLosAsientosVienenEnCero = (vTotalHaber = 0 And vTotalHaber = 0)
+                    End If
                   If (varMontoDebe <> 0 Or varMontoHaber <> 0) Or (varMontoDebe = 0 And varMontoHaber = 0 And gTexto.DfInStr(varDescripcionAsiento, "ANULACION") = 1) Or varTodosLosAsientosVienenEnCero Then
                      Continuar = asientoNavigator.fGeneraUnNuevoRecordDeAsiento(valNumeroDeComprobante, valFechaComprobante, varCuentaContable, varMontoDebe, varMontoHaber, varDescripcionAsiento, refNumeroDeAsiento, varCodigoAuxiliar, varCentroDeCostos, _
                            (gTexto.DfInStr(varDescripcionAsiento, "ANULACION") = 1) Or varTodosLosAsientosVienenEnCero, True, False, varNumeroDeReferencia, fFechaReferenciaSegunModulo(valGeneradoPor, valFechaComprobante, mRecordSet), eTDA_NORMAL, False, _
