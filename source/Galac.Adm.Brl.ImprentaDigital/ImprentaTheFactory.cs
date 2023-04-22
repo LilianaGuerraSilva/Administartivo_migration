@@ -128,7 +128,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (!LibString.IsNullOrEmpty(vConectorJson.Token)) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumentoDigital);
-                    vDocumentoJSON = clsConectorJson.LimpiaRegistrosTempralesEnJSON(vDocumentoJSON);
+                    vDocumentoJSON = clsConectorJson.LimpiaRegistrosTempralesEnJSON2(vDocumentoJSON);
                     var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
                     NumeroControl = vReq.resultados.numeroControl;
                     vResult = !LibString.IsNullOrEmpty(NumeroControl);
@@ -217,10 +217,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                new XElement("razonSocial", ClienteImprentaDigital.Nombre),
                new XElement("direccion", ClienteImprentaDigital.Direccion),
                new XElement("pais", "VE"),
-               new XElement("telefono", ClienteImprentaDigital.Telefono),
                new XElement("telefono", ""),
-               new XElement("correo", ClienteImprentaDigital.Email),
-               new XElement("correo", ""));
+               new XElement("telefono", ClienteImprentaDigital.Telefono),
+               new XElement("correo", ""),
+               new XElement("correo", "ClienteImprentaDigital.Email"));
             return vResult;
         }
 
@@ -248,13 +248,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private XElement GetDatosInfoAdicional() {
             XElement vResult = new XElement("InfoAdicional",
                 new XElement("InfoAdicional",
+                    new XElement("Posicion", "1,2"),
+                    new XElement("Campo", "Información Adicional"),
+                    new XElement("Valor", "Temporal")),
+                new XElement("InfoAdicional",
                     new XElement("Posicion", "1,1"),
                     new XElement("Campo", "Observaciones"),
-                    new XElement("Valor", FacturaImprentaDigital.Observaciones)),
-                new XElement("InfoAdicional",
-                    new XElement("Posicion", "2,1"),
-                    new XElement("Campo", "Información Adicional"),
-                    new XElement("Valor", "")));
+                    new XElement("Valor", FacturaImprentaDigital.Observaciones)));
             return vResult;
         }
         #endregion InfoAdicional
@@ -340,15 +340,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("moneda", vCodigoMoneda),
                     new XElement("tipoCambio", vCambioBs)));
             }
-            if (vResult.Descendants("formasPago").Count() == 1) {
-                vResult.Add(new XElement("forma", GetFormaDeCobro(FacturaImprentaDigital.FormaDeCobroAsEnum)),
-                     new XElement("formasPago",
-                        new XElement("forma", "99"),
-                        new XElement("descripcion", "formaDePagoTemp"),
-                        new XElement("monto", "0"),
-                        new XElement("moneda", "VED"),
-                        new XElement("tipoCambio", "1.00")));
-            }
+            //if (vResult.Descendants("formasPago").Count() == 1) {
+            vResult.AddFirst(new XElement("forma", GetFormaDeCobro(FacturaImprentaDigital.FormaDeCobroAsEnum)),
+                 new XElement("formasPago",
+                    new XElement("forma", "99"),
+                    new XElement("descripcion", "formaDePagoTemp"),
+                    new XElement("monto", "0"),
+                    new XElement("moneda", "VED"),
+                    new XElement("tipoCambio", "1.00")));
+            //}
             return vResult;
         }
         #endregion formas de pago
@@ -397,7 +397,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                                 new XElement("descuentoMonto", LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.Cantidad * vDetalle.PrecioSinIVA * vDetalle.PorcentajeDescuento) / 100, 2))),
                                 new XElement("unidadMedida", "NIU"),
                                 new XElement("precioUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA, 2))),
-                                new XElement("precioUnitarioDescuento", LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA - LibMath.RoundToNDecimals((vDetalle.PrecioSinIVA * vDetalle.PorcentajeDescuento) / 100, 2),2)),
+                                new XElement("precioUnitarioDescuento", LibMath.RoundToNDecimals(vDetalle.PrecioSinIVA - LibMath.RoundToNDecimals((vDetalle.PrecioSinIVA * vDetalle.PorcentajeDescuento) / 100, 2), 2)),
                                 new XElement("precioItem", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.TotalRenglon, 2))),
                                 new XElement("codigoImpuesto", GetAlicuota(vDetalle.AlicuotaIvaAsEnum)),
                                 new XElement("tasaIVA", LibMath.RoundToNDecimals(vDetalle.PorcentajeAlicuota, 2)),
@@ -406,23 +406,23 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                                 vResultInfoAdicional.Descendants("infoAdicionalItem")));
                     }
                 }
-                if (DetalleFacturaImprentaDigital.Count == 1) { //Se Agrega una fila temporal para que al serializar el XML a JSON, se reconozca el detalle como elementos de un array (lista)
-                    vResult.Add(
-                                new XElement("detallesItems",
-                                    new XElement("numeroLinea", "0"),
-                                    new XElement("codigoPLU", ""),
-                                    new XElement("indicadorBienoServicio", ""),
-                                    new XElement("descripcion", "DetalleFacturaTemp"),
-                                    new XElement("cantidad", "1.00"),
-                                    new XElement("unidadMedida", ""),
-                                    new XElement("precioUnitario", "0"),
-                                    new XElement("precioItem", "0"),
-                                    new XElement("codigoImpuesto", ""),
-                                    new XElement("tasaIVA", "0"),
-                                    new XElement("valorIVA", "0"),
-                                    new XElement("valorTotalItem", "0")));
-                }
+                //if (DetalleFacturaImprentaDigital.Count == 1) { //Se Agrega una fila temporal para que al serializar el XML a JSON, se reconozca el detalle como elementos de un array (lista)
+                vResult.AddFirst(
+                            new XElement("detallesItems",
+                                new XElement("numeroLinea", "0"),
+                                new XElement("codigoPLU", ""),
+                                new XElement("indicadorBienoServicio", ""),
+                                new XElement("descripcion", "DetalleFacturaTemp"),
+                                new XElement("cantidad", "1.00"),
+                                new XElement("unidadMedida", ""),
+                                new XElement("precioUnitario", "0"),
+                                new XElement("precioItem", "0"),
+                                new XElement("codigoImpuesto", ""),
+                                new XElement("tasaIVA", "0"),
+                                new XElement("valorIVA", "0"),
+                                new XElement("valorTotalItem", "0")));
             }
+            //}
             return vResult;
         }
         #endregion Detalle RenglonFactura      
