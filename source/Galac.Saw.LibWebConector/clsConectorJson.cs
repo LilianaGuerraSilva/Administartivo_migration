@@ -45,7 +45,7 @@ namespace Galac.Saw.LibWebConnector {
             RemoveItemArray(vResponse.SelectToken("documentoElectronico.encabezado.comprador.telefono"));
             RemoveItemArray(vResponse.SelectToken("documentoElectronico.detallesItems"));
             RemoveItemArray(vResponse.SelectToken("documentoElectronico.InfoAdicional"));
-            vResult = vResponse.ToString(Newtonsoft.Json.Formatting.None);
+            vResult = vResponse.ToString(Formatting.Indented);
             return vResult;
         }
 
