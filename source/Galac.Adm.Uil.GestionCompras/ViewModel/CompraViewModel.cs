@@ -1025,6 +1025,12 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             get; set;
         }
 
+        public string LabelColumnaSeguroPagado {
+            get {
+                return "* Seguro Pagado: montos referenciales, no afectan el monto distribuido.";
+            }
+        }
+
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
@@ -1676,12 +1682,12 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 return vResult;
             } else {
                 if (TipoDeDistribucion == eTipoDeDistribucion.ManualPorMonto) {
-                    decimal vTotalMontoDistribucionYSeguroPagado = DetailCompraDetalleArticuloInventario.Items.Sum(p => p.MontoDistribucion) + DetailCompraDetalleArticuloInventario.Items.Sum(p => p.SeguroPagado);
+                    decimal vTotalMontoDistribucion = DetailCompraDetalleArticuloInventario.Items.Sum(p => p.MontoDistribucion);
                     decimal vTotalGastos = DetailCompraDetalleGasto.Items.Sum(p => p.Monto);
-                    if (vTotalMontoDistribucionYSeguroPagado != vTotalGastos) {
+                    if (vTotalMontoDistribucion != vTotalGastos) {
                         vResult = new ValidationResult("El Monto Distribuido (" + 
-                            LibConvert.NumToString(vTotalMontoDistribucionYSeguroPagado, 2) + CodigoMoneda + ") debe ser igual al Monto Total de los Gastos(" +
-                            LibConvert.NumToString(vTotalGastos, 2) + CodigoMoneda + ").");
+                            LibConvert.NumToString(vTotalMontoDistribucion, 2) + DeterminarSimboloDeLaMoneda() + ") debe ser igual al Monto Total de los Gastos(" +
+                            LibConvert.NumToString(vTotalGastos, 2) + DeterminarSimboloDeLaMoneda() + ").");
                     }
                 }
             }
@@ -2094,6 +2100,18 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public bool IsVisibleMonedaParaCostos {
             get {
                 return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
+            }
+        }
+        public string DeterminarSimboloDeLaMoneda() {
+            switch (CodigoMoneda) {
+                case "VED":
+                    return "Bs.";
+                case "USD":
+                    return "$";
+                case "EUR":
+                    return "€";
+                default:
+                    return CodigoMoneda;
             }
         }
         #endregion

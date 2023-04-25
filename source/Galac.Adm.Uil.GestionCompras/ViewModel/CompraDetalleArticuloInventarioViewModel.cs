@@ -381,7 +381,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        [LibGridColum("Seguro Pagado", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Seguro Pagado *", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal SeguroPagado {
             get {
                 return (SubTotal * (ValorSeguro / 100)) + TotalGastosSeguro;
