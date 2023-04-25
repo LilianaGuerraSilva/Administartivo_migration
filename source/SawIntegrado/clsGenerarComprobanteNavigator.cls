@@ -3369,14 +3369,14 @@ Private Sub sGenerarComprobanteDeAnulacionDeCobranzaOPago(ByVal valGeneradoPor A
             gMessage.Advertencia "No se puede reversar un comprobante descuadrado.  "
          Else
             insComprobanteNavigator.sCreaCopia reversar
-               insComprobanteNavigator.SetFecha valFechaDeAnulacion
-               If gContPeriodoActual.fBuscaElPeriodoDeFechaYsiExisteLoColocaComoPeriodoActual(insComprobanteNavigator.GetFecha, True) Then
-                  insComprobanteNavigator.SetConsecutivoPeriodo gContPeriodoActual.GetConsecutivoPeriodo
-                  insComprobanteNavigator.SetNumero insComprobanteNavigator.fGenerarNuevoNumeroCompletoDeComprobante
-               Else
-                  gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe período válido."
-                  GoTo h_EXIT
-               End If
+            insComprobanteNavigator.SetFecha valFechaDeAnulacion
+            If gContPeriodoActual.fBuscaElPeriodoDeFechaYsiExisteLoColocaComoPeriodoActual(insComprobanteNavigator.GetFecha, True) Then
+               insComprobanteNavigator.SetConsecutivoPeriodo gContPeriodoActual.GetConsecutivoPeriodo
+               insComprobanteNavigator.SetNumero insComprobanteNavigator.fGenerarNuevoNumeroCompletoDeComprobante
+            Else
+               gMessage.Advertencia "No se puede crear el comprobante de reverso. No existe período válido."
+               GoTo h_EXIT
+            End If
             insComprobanteNavigator.SetNoDocumentoOrigen valNoDocumentoOrigen
             If valGeneradoPor = eCG_COBRANZA Then
                insComprobanteNavigator.SetGeneradoPorStr gEnumProyectoWincont.enumComprobanteGeneradoPorToString(eCG_ANULACION_COBRANZA)
