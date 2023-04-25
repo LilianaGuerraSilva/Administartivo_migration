@@ -123,6 +123,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vSql.AppendLine(" ,factura.Talonario");
                 vSql.AppendLine(" ,ROUND(factura.PorcentajeDescuento,2) AS PorcentajeDescuento");
                 vSql.AppendLine(" ,ROUND(factura.CambioABolivares,2) AS CambioABolivares");
+                vSql.AppendLine(" ,ROUND(factura.CambioMostrarTotalEnDivisas,2) AS CambioMostrarTotalEnDivisas");
                 vSql.AppendLine(" ,ROUND(factura.TotalRenglones,2) AS TotalRenglones");
                 vSql.AppendLine(" ,ROUND(factura.TotalMontoExento,2) AS TotalMontoExento");
                 vSql.AppendLine(" ,ROUND(factura.TotalBaseImponible,2) AS TotalBaseImponible");
@@ -171,6 +172,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.Talonario = LibXml.GetPropertyString(vResult, "Talonario");
                     FacturaImprentaDigital.PorcentajeDescuento = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "PorcentajeDescuento"));
                     FacturaImprentaDigital.CambioABolivares = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "CambioABolivares"));
+                    FacturaImprentaDigital.CambioMostrarTotalEnDivisas = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "CambioMostrarTotalEnDivisas"));
                     FacturaImprentaDigital.TotalRenglones = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalRenglones"));
                     FacturaImprentaDigital.TotalMontoExento = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalMontoExento"));
                     FacturaImprentaDigital.TotalBaseImponible = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "TotalBaseImponible"));
