@@ -4638,6 +4638,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    Dim vFechaCompRetIva As Date
    Dim vFechaAplRetIva As Date
    Dim vMtoIvaRetenido As Currency
+   Dim vFechaStr As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -4668,8 +4669,20 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    vNroCtrlHasta = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    vSeRetIva = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    vNroCompRetIva = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   vFechaCompRetIva = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-   vFechaAplRetIva = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   
+   vFechaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   If gUtilDate.fElStringContieneUnaFechaValida(vFechaStr) Then
+      vFechaCompRetIva = gConvert.fConvertStringToDate(vFechaStr)
+   Else
+      vFechaCompRetIva = gConvert.fConvertStringToDate("01/01/1900")
+   End If
+   vFechaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   If gUtilDate.fElStringContieneUnaFechaValida(vFechaStr) Then
+      vFechaAplRetIva = gConvert.fConvertStringToDate(vFechaStr)
+   Else
+      vFechaAplRetIva = gConvert.fConvertStringToDate("01/01/1900")
+   End If
+   
    vMtoIvaRetenido = gConvert.fConvertStringToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    
    If gTexto.DfLen(vNumeroComprobanteFiscalDesde) = 0 Or gTexto.DfLen(vNumeroComprobanteFiscalHasta) = 0 Then
@@ -4712,7 +4725,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & " El valor de la Fecha del Comprobante de Retención de IVA no es válido."
       End If
-      If gDefGen.LaFechaEsMayorQueElLimiteDeIngresoDeDatos(vFechaAplicacionRetIVA, False, insertar) Then
+      If gDefGen.LaFechaEsMayorQueElLimiteDeIngresoDeDatos(vFechaAplRetIva, False, insertar) Then
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & " El valor de la Fecha de Aplicación de la Retención de IVA no es válido."
       End If
@@ -4723,7 +4736,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    Else
       vNroCompRetIva = ""
       vFechaCompRetIva = gUtilDate.getFechaDeHoy
-      vFechaAplicacionRetIVA = gUtilDate.fColocaDiaEnFecha(1, gUtilDate.getFechaDeHoy)
+      vFechaAplRetIva = gUtilDate.fColocaDiaEnFecha(1, gUtilDate.getFechaDeHoy)
       vMtoIvaRetenido = 0
    End If
    If Not ErrorAlTraducirLaLinea Then
