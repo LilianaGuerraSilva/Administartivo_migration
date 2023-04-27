@@ -15,7 +15,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StartConnectionNoTransaction();            
             CrearCampoCompania_EstaIntegradaG360();
             CrearParametrosImprentaDigital();
-            CrearCampoFacturaMotivoAnulacion();
+            CrearCamposParaImprentaDigitalEnFactura();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -32,8 +32,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregarNuevoParametro("ProveedorImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
         }  
 
-        private void CrearCampoFacturaMotivoAnulacion() {
+        private void CrearCamposParaImprentaDigitalEnFactura() {
             AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");
+            if (AddColumnEnumerative("factura", "ProveedorImprentaDigital", "", 0)) {
+                AddDefaultConstraint("factura", "d_RegDeConCoPoLoOrDePr", "'0'", "ProveedorImprentaDigital");
+            }
         }
     }
 }
