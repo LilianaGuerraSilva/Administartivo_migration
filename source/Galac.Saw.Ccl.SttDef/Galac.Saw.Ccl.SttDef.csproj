@@ -47,7 +47,7 @@
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Cnf, Version=5.14.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Cnf">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Cnf.dll</HintPath>
     </Reference>
