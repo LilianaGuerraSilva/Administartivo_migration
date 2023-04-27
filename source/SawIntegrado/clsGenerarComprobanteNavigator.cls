@@ -127,8 +127,8 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "sDesglosaLosValoresDelRecordsetyColocaEnLasVariables", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef refTotalDebe As Currency, ByRef refTotalHaber As Currency, ByVal valNumeroDeComprobante As String, ByVal valNoDocumentoOrigen As String, ByVal valGeneradoPor As enum_ComprobanteGeneradoPor, ByRef refNumeroDeAsiento As Integer, ByVal valFechaComprobante As Date, Optional ByVal valTipoDocumento As String, Optional ByVal valRegla As String) As Boolean
-   Dim varContadorAsiento As Integer
+Private Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef refTotalDebe As Currency, ByRef refTotalHaber As Currency, ByVal valNumeroDeComprobante As String, ByVal valNoDocumentoOrigen As String, ByVal valGeneradoPor As enum_ComprobanteGeneradoPor, ByVal valFechaComprobante As Date, Optional ByVal valTipoDocumento As String, Optional ByVal valRegla As String) As Boolean
+   Dim vConsecutivoAsiento As Integer
    Dim varMontoDebe As Currency
    Dim varMontoHaber As Currency
    Dim varCuentaContable As String
@@ -145,54 +145,50 @@ Public Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef refT
    Dim vAsientosEnCeroEnPago As Boolean
    Dim vTotalDebe As Currency
    Dim vTotalHaber As Currency
+   Dim vSeGeneroAlMenosUnAsiento As Boolean
    On Error GoTo h_ERROR
-   Set asientoNavigator = New clsAsientoNavigator
    Set mRecordSet = New ADODB.Recordset
-   Continuar = True
    If Not gDbUtil.fOpenRecordSetAllParametersCommandTO(mRecordSet, Sql, gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic, , , 32000) Then
+      Continuar = False
       GoTo h_EXIT
    End If
    If gDbUtil.fRecordCount(mRecordSet) > 0 Then
-      If refNumeroDeAsiento = 0 Then
-         refNumeroDeAsiento = 1
-      End If
-      If valGeneradoPor = eCG_MOVIMIENTO_BANCARIO Then
-         varTodosLosAsientosVienenEnCero = Not fHayAlMenosUnMontoDistintoDeCero(mRecordSet)
-      End If
+      Set asientoNavigator = New clsAsientoNavigator
+      Continuar = True
+      vSeGeneroAlMenosUnAsiento = False
+      vConsecutivoAsiento = 1
       If valGeneradoPor = eCG_INVENTARIO Then
-        varTodosLosAsientosVienenEnCero = True
+         varTodosLosAsientosVienenEnCero = True
+      ElseIf valGeneradoPor = eCG_MOVIMIENTO_BANCARIO Or valGeneradoPor = eCG_COBRANZA Or valGeneradoPor = eCG_PAGOS Then
+         varTodosLosAsientosVienenEnCero = Not fHayAlMenosUnMontoDistintoDeCero(mRecordSet)
+      Else
+         varTodosLosAsientosVienenEnCero = False
       End If
       mRecordSet.MoveFirst
       While Not mRecordSet.EOF And Continuar
          nCount = 1
          While nCount < mRecordSet.Fields.Count - 1
             If mRecordSet.Fields(nCount).value <> "" Then
-               If (mRecordSet.Fields(nCount).value = "DEBE" Or _
-                  mRecordSet.Fields(nCount).value = "HABER") And _
-                  (mRecordSet.Fields.Count - 1 >= fCondicion(valGeneradoPor, nCount)) Then
+               If (mRecordSet.Fields(nCount).value = "DEBE" Or mRecordSet.Fields(nCount).value = "HABER") And (mRecordSet.Fields.Count - 1 >= fCondicion(valGeneradoPor, nCount)) Then
                   sDesglosaLosValoresDelRecordsetyColocaEnLasVariables mRecordSet, nCount, varMontoDebe, varMontoHaber, varCuentaContable, varCodigoAuxiliar, varCentroDeCostos, varNumeroDeReferencia, varDescripcionAsiento
                   If Not fElAuxiliarExisteEnElPeriodo(varCuentaContable) Then
                      varCuentaContable = valRegla
                   End If
-                  vAsientosEnCeroEnPago = (varMontoDebe = 0 And varMontoHaber = 0 And valGeneradoPor = eCG_PAGOS)
                   vTotalDebe = vTotalDebe + varMontoDebe
                   vTotalHaber = vTotalHaber + varMontoHaber
-                  If vAsientosEnCeroEnPago Then
-                     varTodosLosAsientosVienenEnCero = fCuentaEsDeProveeodrOBanco(varCuentaContable) And vTotalDebe = 0 And vTotalHaber = 0
-                     vAsientosEnCeroEnPago = vAsientosEnCeroEnPago Or varTodosLosAsientosVienenEnCero
-                     gProyParametrosWinCont.SetPermitirAsientosEnCero vAsientosEnCeroEnPago
-                  End If
-                    If (valGeneradoPor = eCG_COBRANZA And gProyParametrosWinCont.GetPermitirAsientosEnCero) Then
-                        varTodosLosAsientosVienenEnCero = (vTotalHaber = 0 And vTotalHaber = 0)
-                    End If
-                  If (varMontoDebe <> 0 Or varMontoHaber <> 0) Or (varMontoDebe = 0 And varMontoHaber = 0 And gTexto.DfInStr(varDescripcionAsiento, "ANULACION") = 1) Or varTodosLosAsientosVienenEnCero Then
-                     Continuar = asientoNavigator.fGeneraUnNuevoRecordDeAsiento(valNumeroDeComprobante, valFechaComprobante, varCuentaContable, varMontoDebe, varMontoHaber, varDescripcionAsiento, refNumeroDeAsiento, varCodigoAuxiliar, varCentroDeCostos, _
-                           (gTexto.DfInStr(varDescripcionAsiento, "ANULACION") = 1) Or varTodosLosAsientosVienenEnCero, True, False, varNumeroDeReferencia, fFechaReferenciaSegunModulo(valGeneradoPor, valFechaComprobante, mRecordSet), eTDA_NORMAL, False, _
+                  If (varMontoDebe <> 0 Or varMontoHaber <> 0) _
+                     Or (varMontoDebe = 0 And varMontoHaber = 0 And gTexto.DfInStr(varDescripcionAsiento, "ANULACION") = 1) _
+                     Or varTodosLosAsientosVienenEnCero Then
+                     Continuar = asientoNavigator.fGeneraUnNuevoRecordDeAsiento(valNumeroDeComprobante, valFechaComprobante, varCuentaContable, varMontoDebe, varMontoHaber, varDescripcionAsiento, vConsecutivoAsiento, varCodigoAuxiliar, varCentroDeCostos, _
+                           (gTexto.DfInStr(varDescripcionAsiento, "ANULACION") = 1) Or gProyParametrosWinCont.GetPermitirAsientosEnCero, True, False, varNumeroDeReferencia, fFechaReferenciaSegunModulo(valGeneradoPor, valFechaComprobante, mRecordSet), eTDA_NORMAL, False, _
                            gDbUtil.getMinValueForDateType, "")
                   End If
                   refTotalDebe = refTotalDebe + varMontoDebe
                   refTotalHaber = refTotalHaber + varMontoHaber
-                  refNumeroDeAsiento = refNumeroDeAsiento + 1
+                  vConsecutivoAsiento = vConsecutivoAsiento + 1
+                  If Continuar Then
+                     vSeGeneroAlMenosUnAsiento = True
+                  End If
                Else
                   gMessage.Advertencia "Advertencia para el programador = Incompatibilidad de Número de Columnas en el RecordSet. " & vbCr & vbCr & "Si no es programador, por favor comuníquese con " & gDefgen.fNombreInformaticaGalac
                End If
@@ -218,11 +214,14 @@ Public Function fGeneraLosAsientosDelComprobante(ByVal Sql As String, ByRef refT
          End If
          varDescripcionAsiento = gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valGeneradoPor) & " No. " & valNoDocumentoOrigen
          Continuar = asientoNavigator.fGeneraUnNuevoRecordDeAsiento(valNumeroDeComprobante, valFechaComprobante, gProyReglasDeContabilizacion.GetDiferenciaEnCambioyCalculo, varMontoDebe, varMontoHaber, _
-                           varDescripcionAsiento, refNumeroDeAsiento, "", "", False, True, False, "", valFechaComprobante, eTDA_NORMAL, False, gDbUtil.getMinValueForDateType, "")
+                           varDescripcionAsiento, vConsecutivoAsiento, "", "", False, True, False, "", valFechaComprobante, eTDA_NORMAL, False, gDbUtil.getMinValueForDateType, "")
+         If Continuar Then
+            vSeGeneroAlMenosUnAsiento = True
+         End If
       End If
    End If
 h_EXIT:
-   fGeneraLosAsientosDelComprobante = Continuar
+   fGeneraLosAsientosDelComprobante = vSeGeneroAlMenosUnAsiento
    Set asientoNavigator = Nothing
    gDbUtil.sDestroyRecordSet mRecordSet
    On Error GoTo 0
@@ -360,15 +359,12 @@ Public Function fGeneraElComprobanteParaUnoOVariosDocumentos(ByVal valFechaDesde
    Dim TotalDebe As Currency
    Dim TotalHaber As Currency
    Dim Sql As String
-   Dim ContadorAsiento As Integer
    Dim NoDocumentoOrigen As String
-   Dim GeneradoAlMenosUnAsiento As Boolean
    Dim ElComprobanteExiste As Boolean
    Dim conjuntoDeDocumentoAContabilizar As String
    Dim mRecordSet As ADODB.Recordset
    Dim valRegla As String
    On Error GoTo h_ERROR
-   GeneradoAlMenosUnAsiento = False
    TotalDebe = 0
    TotalHaber = 0
    If valContabilizarSolo1Documento Then
@@ -406,22 +402,13 @@ Public Function fGeneraElComprobanteParaUnoOVariosDocumentos(ByVal valFechaDesde
          Set mRecordSet = Nothing
       End If
       If Sql <> "" Then
-         ConExito = fGeneraLosAsientosDelComprobante(Sql, TotalDebe, TotalHaber, numeroDecomprobante, NoDocumentoOrigen, valModuloAContabilizar, ContadorAsiento, valFechaHasta, valTipoDocumento, valRegla)
+         ConExito = fGeneraLosAsientosDelComprobante(Sql, TotalDebe, TotalHaber, numeroDecomprobante, NoDocumentoOrigen, valModuloAContabilizar, valFechaHasta, valTipoDocumento, valRegla)
          If ConExito Then
-            GeneradoAlMenosUnAsiento = True
+            ConExito = fActualizaLosTotalesDelComprobante(TotalDebe, TotalHaber, numeroDecomprobante, False)
          End If
       End If
    End If
    If ConExito Then
-      ConExito = fActualizaLosTotalesDelComprobante(TotalDebe, TotalHaber, numeroDecomprobante, False)
-   End If
-   If Not ConExito Or Not GeneradoAlMenosUnAsiento Then
-      sMensajeDeErrorAlGenerar ConExito, GeneradoAlMenosUnAsiento, valFechaDesde, valFechaHasta, valModuloAContabilizar, valContabilizarSolo1Documento, valNumeroDocumento, valTipoDocumento, valConsecutivoDocumentoOrigen
-      If (numeroDecomprobante <> "") Then
-         If gContPeriodoActual.BorraElComprobanteGenerado(numeroDecomprobante) Then
-         End If
-      End If
-   Else
       If conjuntoDeDocumentoAContabilizar <> "" Then
          fEjecutaProcesoPostContabilizacion valModuloAContabilizar, valFechaDesde, valFechaHasta, conjuntoDeDocumentoAContabilizar
       End If
@@ -438,9 +425,14 @@ Public Function fGeneraElComprobanteParaUnoOVariosDocumentos(ByVal valFechaDesde
             sEditaComprobanteGenerado numeroDecomprobante
          End If
       End If
-      fGeneraElComprobanteParaUnoOVariosDocumentos = True
+   Else
+      If (numeroDecomprobante <> "") Then
+         If gContPeriodoActual.BorraElComprobanteGenerado(numeroDecomprobante) Then
+         End If
+      End If
    End If
 h_EXIT: On Error GoTo 0
+   fGeneraElComprobanteParaUnoOVariosDocumentos = ConExito
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fGeneraElComprobanteParaUnoOVariosDocumentos", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
@@ -463,30 +455,6 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fTipoContabilizacionPorLote", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-   
-Private Sub sMensajeDeErrorAlGenerar(ByVal valConExito As Boolean, ByVal valGeneradoAlMenosUnAsiento As Boolean, ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valModuloAContabilizar As enum_ComprobanteGeneradoPor, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNumeroDocumento As String, ByVal valTipoDocumento As Integer, ByVal valConsecutivoDocumentoOrigen As Long)
-   Dim varStrErrorMessage As String
-   On Error GoTo h_ERROR
-   If Not valConExito Then
-      If valContabilizarSolo1Documento Then
-         gMessage.Advertencia "No se pudo generar el comprobante del (la) " & fDescripcionComprobanteUnoPorUno(valNumeroDocumento, valTipoDocumento, valModuloAContabilizar, valConsecutivoDocumentoOrigen)
-      Else
-         gMessage.Advertencia "No se pudo generar el comprobante " & fDescripcionComprobanteResumen(valFechaDesde, valFechaHasta, valModuloAContabilizar)
-      End If
-   ElseIf Not valGeneradoAlMenosUnAsiento Then
-      varStrErrorMessage = "No hay " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModuloAContabilizar) & _
-               " para contabilizar "
-      If fTipoContabilizacionPorLote(valModuloAContabilizar) = eCP_DIARIA Then
-         varStrErrorMessage = varStrErrorMessage & "en el día " & gConvert.dateToString(valFechaHasta)
-      Else
-         varStrErrorMessage = varStrErrorMessage & "en el mes de " & gConvert.MesString(valFechaHasta)
-      End If
-      gMessage.Advertencia varStrErrorMessage
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "sMensajeDeErrorAlGenerar", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
 
 Private Function fDescripcionComprobanteResumen(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valModuloAContabilizar As enum_ComprobanteGeneradoPor) As String
    Dim varDescripcion As String
