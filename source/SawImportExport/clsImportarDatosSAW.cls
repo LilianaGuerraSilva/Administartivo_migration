@@ -4648,7 +4648,14 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    vConsecutivoCompania = mConsecutivoCompaniaActual
    vNumeroComprobanteFiscalDesde = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    vNumeroComprobanteFiscalHasta = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   vFechaRDV = gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vFechaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   If Trim(vFechaStr) <> "" And gUtilDate.fElStringContieneUnaFechaValida(vFechaStr, False) Then
+      vFechaRDV = gConvert.fConvertStringToDate(vFechaStr)
+   Else
+      vFechaRDV = gConvert.fConvertStringToDate("01/01/1900")
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = " Fecha de documento: Valor/formato inválido para fecha."
+   End If
    vNumeroReporteZ = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    
    vStrMontoExento = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -4671,13 +4678,13 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    vNroCompRetIva = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    
    vFechaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   If gUtilDate.fElStringContieneUnaFechaValida(vFechaStr) Then
+   If Trim(vFechaStr) <> "" And gUtilDate.fElStringContieneUnaFechaValida(vFechaStr, False) Then
       vFechaCompRetIva = gConvert.fConvertStringToDate(vFechaStr)
    Else
       vFechaCompRetIva = gConvert.fConvertStringToDate("01/01/1900")
    End If
    vFechaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   If gUtilDate.fElStringContieneUnaFechaValida(vFechaStr) Then
+   If Trim(vFechaStr) <> "" And gUtilDate.fElStringContieneUnaFechaValida(vFechaStr, False) Then
       vFechaAplRetIva = gConvert.fConvertStringToDate(vFechaStr)
    Else
       vFechaAplRetIva = gConvert.fConvertStringToDate("01/01/1900")
@@ -4687,7 +4694,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    
    If gTexto.DfLen(vNumeroComprobanteFiscalDesde) = 0 Or gTexto.DfLen(vNumeroComprobanteFiscalHasta) = 0 Then
       ErrorAlTraducirLaLinea = True
-      LineaDeErrores = " Los valores Número Comprobante Desde y Hasta son obligatorios."
+      LineaDeErrores = LineaDeErrores & " Los valores Número Comprobante Desde y Hasta son obligatorios."
    End If
    If gDefGen.LaFechaEsMayorQueElLimiteDeIngresoDeDatos(vFechaRDV, False, insertar) Then
       ErrorAlTraducirLaLinea = True
@@ -4698,6 +4705,9 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
       LineaDeErrores = LineaDeErrores & " El valor de Número de Reporte Z es obligatorio."
    End If
    If (vStrMontoExento = "" Or vStrMontoExento = "NA") And (vStrMontoBIAlicuotaGeneral = "" Or vStrMontoBIAlicuotaGeneral = "NA") And (vStrMontoBIAlicuotaReducida = "" Or vStrMontoBIAlicuotaReducida = "NA") And (vStrMontoBIAlicuotaExtendida = "" Or vStrMontoBIAlicuotaExtendida = "NA") And (vStrMontoNCExento = "" Or vStrMontoNCExento = "NA") And (vStrMontoNCBIAlicuotaGeneral = "" Or vStrMontoNCBIAlicuotaGeneral = "NA") And (vStrMontoNCBIAlicuotaReducida = "" Or vStrMontoNCBIAlicuotaReducida = "NA") And (vStrMontoNCBIAlicuotaExtendida = "" Or vStrMontoNCBIAlicuotaExtendida = "NA") Then
+      ErrorAlTraducirLaLinea = True
+      LineaDeErrores = LineaDeErrores & " Debe proporcionar un valor válido para el detalle del documento."
+   ElseIf Not (IsNumeric(vStrMontoExento) Or IsNumeric(vStrMontoBIAlicuotaGeneral) Or IsNumeric(vStrMontoBIAlicuotaReducida) Or IsNumeric(vStrMontoBIAlicuotaExtendida) Or IsNumeric(vStrMontoNCExento) Or IsNumeric(vStrMontoNCBIAlicuotaGeneral) Or IsNumeric(vStrMontoNCBIAlicuotaReducida) Or IsNumeric(vStrMontoNCBIAlicuotaExtendida)) Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & " Debe proporcionar un valor válido para el detalle del documento."
    ElseIf gConvert.fConvertStringToCurrency(vStrMontoExento) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaGeneral) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaReducida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoBIAlicuotaExtendida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCExento) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaGeneral) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaReducida) < 0 Or gConvert.fConvertStringToCurrency(vStrMontoNCBIAlicuotaExtendida) < 0 Then
