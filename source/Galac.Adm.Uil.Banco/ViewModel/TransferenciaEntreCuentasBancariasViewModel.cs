@@ -261,7 +261,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.NombreMonedaCuentaBancariaOrigen = value;
 					IsDirty = true;
 					RaisePropertyChanged(NombreMonedaCuentaBancariaOrigenPropertyName);
-					if (vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) {
+					if (vMonedaLocal != null && vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) {
 						CambioABolivaresEgreso = 1;
 					}
 					RaisePropertyChanged(IsEnabledCambioABolivaresEgresoPropertyName);
@@ -482,7 +482,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					Model.NombreMonedaCuentaBancariaDestino = value;
 					IsDirty = true;
 					RaisePropertyChanged(NombreMonedaCuentaBancariaDestinoPropertyName);
-					if (vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) {
+					if (vMonedaLocal != null && vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) {
 						CambioABolivaresIngreso = 1;
 					}
 					RaisePropertyChanged(IsEnabledCambioABolivaresIngresoPropertyName);
@@ -671,23 +671,20 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				return _ConexionCodigoCuentaBancariaOrigen;
 			}
 			set {
-				if (_ConexionCodigoCuentaBancariaOrigen != value) {
+				if (_ConexionCodigoCuentaBancariaOrigen != null && _ConexionCodigoCuentaBancariaOrigen != value) {
 					_ConexionCodigoCuentaBancariaOrigen = value;
 					RaisePropertyChanged(CodigoCuentaBancariaOrigenPropertyName);
-				}
-				if (_ConexionCodigoCuentaBancariaOrigen == null) {
-					CodigoCuentaBancariaOrigen = string.Empty;
-					NombreCuentaBancariaOrigen = string.Empty;
-					SaldoCuentaBancariaOrigen = 0;
-					CodigoMonedaCuentaBancariaOrigen = string.Empty;
-					NombreMonedaCuentaBancariaOrigen = string.Empty;
-				} else {
+
 					CodigoCuentaBancariaOrigen = value.Codigo;
 					NombreCuentaBancariaOrigen = value.NombreCuenta;
 					SaldoCuentaBancariaOrigen = value.SaldoDisponible;
 					CodigoMonedaCuentaBancariaOrigen = value.CodigoMoneda;
 					NombreMonedaCuentaBancariaOrigen = value.NombreDeLaMoneda;
-
+					RaisePropertyChanged(CodigoCuentaBancariaOrigenPropertyName);
+					RaisePropertyChanged(NombreCuentaBancariaOrigenPropertyName);
+					RaisePropertyChanged(SaldoCuentaBancariaOrigenPropertyName);
+					RaisePropertyChanged(CodigoMonedaCuentaBancariaOrigen);
+					RaisePropertyChanged(NombreMonedaCuentaBancariaOrigen);
 				}
 			}
 		}
@@ -735,22 +732,19 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				return _ConexionCodigoCuentaBancariaDestino;
 			}
 			set {
-				if (_ConexionCodigoCuentaBancariaDestino != value) {
+				if (_ConexionCodigoCuentaBancariaDestino != null && _ConexionCodigoCuentaBancariaDestino != value) {
 					_ConexionCodigoCuentaBancariaDestino = value;
 					RaisePropertyChanged(CodigoCuentaBancariaDestinoPropertyName);
-				}
-				if (_ConexionCodigoCuentaBancariaDestino == null) {
-					CodigoCuentaBancariaDestino = string.Empty;
-					NombreCuentaBancariaDestino = string.Empty;
-					SaldoCuentaBancariaDestino = 0;
-					CodigoMonedaCuentaBancariaDestino = string.Empty;
-					NombreMonedaCuentaBancariaDestino = string.Empty;
-				} else {
 					CodigoCuentaBancariaDestino = value.Codigo;
 					NombreCuentaBancariaDestino = value.NombreCuenta;
 					SaldoCuentaBancariaDestino = value.SaldoDisponible;
 					CodigoMonedaCuentaBancariaDestino = value.CodigoMoneda;
 					NombreMonedaCuentaBancariaDestino = value.NombreDeLaMoneda;
+					RaisePropertyChanged(CodigoCuentaBancariaDestinoPropertyName);
+					RaisePropertyChanged(NombreCuentaBancariaDestinoPropertyName);
+					RaisePropertyChanged(SaldoCuentaBancariaDestinoPropertyName);
+					RaisePropertyChanged(CodigoMonedaCuentaBancariaDestinoPropertyName);
+					RaisePropertyChanged(NombreMonedaCuentaBancariaDestinoPropertyName);
 				}
 			}
 		}
@@ -974,15 +968,15 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			LibSearchCriteria vDefaultCriteriaOrigen = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaOrigen);
 			vDefaultCriteriaOrigen.Add("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
 			ConexionCodigoCuentaBancariaOrigen = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteriaOrigen);
-			if (Action != eAccionSR.Contabilizar) {
-				ConexionCodigoConceptoEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoEgreso));
+			ConexionCodigoConceptoEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoEgreso));
+			if (GeneraComisionEgreso) {
 				ConexionCodigoConceptoComisionEgreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionEgreso));
 			}
 			LibSearchCriteria vDefaultCriteriaDestino = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", CodigoCuentaBancariaDestino);
 			vDefaultCriteriaDestino.Add("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
 			ConexionCodigoCuentaBancariaDestino = FirstConnectionRecordOrDefault<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteriaDestino);
-			if (Action != eAccionSR.Contabilizar) {
-				ConexionCodigoConceptoIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoIngreso));
+			ConexionCodigoConceptoIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoIngreso));
+			if (GeneraComisionIngreso) {
 				ConexionCodigoConceptoComisionIngreso = FirstConnectionRecordOrDefault<FkConceptoBancarioViewModel>("Concepto Bancario", LibSearchCriteria.CreateCriteria("Codigo", CodigoConceptoComisionIngreso));
 			}
 		}
@@ -1338,6 +1332,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 			if (LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaOrigen)) {
 				return;
 			}
+			if (Action == eAccionSR.Contabilizar || Action == eAccionSR.Anular || Action == eAccionSR.Consultar) {
+				return;
+			}
 			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaOrigen)) {
 				decimal vTasa = 1;
 				ConexionCodigoMonedaEgreso = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMonedaCuentaBancariaOrigen));
@@ -1367,6 +1364,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 
 		public void AsignaTasaDelDiaIngreso() {
 			if (LibString.IsNullOrEmpty(CodigoMonedaCuentaBancariaDestino)) {
+				return;
+			}
+			if (Action == eAccionSR.Contabilizar || Action == eAccionSR.Anular || Action == eAccionSR.Consultar) {
 				return;
 			}
 			if (!vMonedaLocal.EsMonedaLocalDelPais(CodigoMonedaCuentaBancariaDestino)) {
@@ -1405,7 +1405,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 		}
 		public override void InitializeViewModel(eAccionSR valAction) {
 			base.InitializeViewModel(valAction);
-			if (valAction == eAccionSR.Anular) {
+			if (valAction == eAccionSR.Anular || valAction == eAccionSR.Consultar) {
 				ReloadRelatedConnections();
 				Model.FechaDeAnulacion = Model.Fecha;
             }
