@@ -1088,6 +1088,7 @@ Public Enum enum_EntidadAExportarOImportar
    eEAEI_CxC_ESPECIAL
    eEAEI_COTIZACION
    eEAEI_BANESCO
+   eEAEI_RDV
 End Enum
 
 Public Enum enum_FormaDeOrdenarDetalleFactura
@@ -2586,10 +2587,10 @@ Public Function strTipoDeAlicuotaToNum(ByVal tipoDeAlicuota As String, Optional 
    Dim nCount As Integer
    nCount = 0
    For mEnum = eTD_EXENTO To eTD_ALICUOTA3NC
-   If UCase(tipoDeAlicuota) = UCase(enumTipoDeAlicuotaToString(mEnum)) Then
-      strTipoDeAlicuotaToNum = nCount
-      GoTo h_EXIT
-   End If
+      If UCase(tipoDeAlicuota) = UCase(enumTipoDeAlicuotaToString(mEnum)) Then
+         strTipoDeAlicuotaToNum = nCount
+         GoTo h_EXIT
+      End If
    nCount = nCount + 1
    Next
    strTipoDeAlicuotaToNum = 0
@@ -8896,6 +8897,7 @@ Public Function enumEntidadAExportarOImportarToString(ByVal EntidadAExportarOImp
       Case eEAEI_BOD: enumEntidadAExportarOImportarToString = "BOD"
       Case eEAEI_COTIZACION: enumEntidadAExportarOImportarToString = "Cotizacion"
       Case eEAEI_BANESCO: enumEntidadAExportarOImportarToString = "Banesco"
+      Case eEAEI_RDV: enumEntidadAExportarOImportarToString = "Resumen Diario de Ventas"
       Case Else: enumEntidadAExportarOImportarToString = enumEntidadAExportarOImportarToString(0)
    End Select
 End Function
@@ -8904,7 +8906,7 @@ Public Function strEntidadAExportarOImportarToNum(ByVal EntidadAExportarOImporta
    Dim mEnum As enum_EntidadAExportarOImportar
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eEAEI_PROVEEDOR To eEAEI_COTIZACION
+   For mEnum = eEAEI_PROVEEDOR To eEAEI_RDV
    If UCase(EntidadAExportarOImportar) = UCase(enumEntidadAExportarOImportarToString(mEnum)) Then
       strEntidadAExportarOImportarToNum = nCount
       GoTo h_EXIT
