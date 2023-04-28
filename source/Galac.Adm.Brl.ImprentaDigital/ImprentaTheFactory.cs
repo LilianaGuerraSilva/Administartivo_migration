@@ -133,7 +133,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     NumeroControl = vReq.resultados.numeroControl;
                     vResult = !LibString.IsNullOrEmpty(NumeroControl);
                     if (vResult) {
-                        ActualizaNumeroDeControl(NumeroControl);
+                        ActualizaNroControlYProveedorImprentaDigital(NumeroControl);
                     }
                 } else {
                     throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Controlled);
