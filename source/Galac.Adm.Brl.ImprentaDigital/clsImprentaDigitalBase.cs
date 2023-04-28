@@ -82,7 +82,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDocumento;
             _ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-            eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+            eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)ProveedorImprentaDigital();
             clsImprentaDigitalSettings vImprentaDigitalSettings = new clsImprentaDigitalSettings();
             switch (vProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
@@ -93,6 +93,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     LoginUser.PasswordKey = vImprentaDigitalSettings.CampoClave;
                     break;
                 case eProveedorImprentaDigital.NoAplica:
+                    break;
                 default:
                     break;
             }
@@ -379,7 +380,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             BuscarDatosDelVendedor();
         }
 
-        public virtual bool ActualizaNumeroDeControl(string valNumeroDeControl) {
+        public virtual bool ActualizaNroControlYProveedorImprentaDigital(string valNumeroDeControl) {
             bool vResult = false;
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
@@ -387,7 +388,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("UPDATE factura ");
-            vSql.AppendLine("SET NumeroControl = " + new QAdvSql("").ToSqlValue(valNumeroDeControl));
+            vSql.AppendLine("SET NumeroControl = " + new QAdvSql("").ToSqlValue(valNumeroDeControl) + ",");
+            vSql.AppendLine("ProveedorImprentaDigital = " + new QAdvSql("").EnumToSqlValue(ProveedorImprentaDigital()));
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania AND ");
             vSql.AppendLine("Numero = @NumeroFactura AND ");
             vSql.AppendLine("TipoDeDocumento = @TipoDeDocumento ");
@@ -438,6 +440,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public abstract bool EstadoDocumento();
         public abstract bool EstadoLoteDocumentos();
         public abstract bool SincronizarDocumentos();
-
+        private int ProveedorImprentaDigital() {
+            return LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+        }
     }
 }
