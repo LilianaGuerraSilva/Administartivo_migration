@@ -35,7 +35,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void CrearCamposParaImprentaDigitalEnFactura() {
             AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");
             if (AddColumnEnumerative("factura", "ProveedorImprentaDigital", "", 0)) {
-                AddDefaultConstraint("factura", "d_RegDeConCoPoLoOrDePr", "'0'", "ProveedorImprentaDigital");
+                AddDefaultConstraint("factura", "nnFacturaProveedorImpDig", "'0'", "ProveedorImprentaDigital");
             }
         }
     }
