@@ -4824,6 +4824,11 @@ Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal
          .SetFechaAplicacionRetIVA valFechaAplRetIva
          .SetNumeroComprobanteRetIVA valNroCompRetIva
          .SetFechaComprobanteRetIVA valFechaCompRetIva
+      Else
+         .SetMontoIvaRetenido 0
+         .SetFechaAplicacionRetIVA vFecha
+         .SetNumeroComprobanteRetIVA 0
+         .SetFechaComprobanteRetIVA vFecha
       End If
       .SetFacturaConPreciosSinIva False
       .SetConsecutivoCaja 0
