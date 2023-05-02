@@ -4815,6 +4815,7 @@ Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal
       .SetCodigoMaquinaRegistradora valCodigoMF
       .SetNumeroDesde valNumeroComprobanteFiscalDesde
       .SetNumeroHasta valNumeroComprobanteFiscalHasta
+      .SetNumeroResumenDiario valNumeroReporteZ
       .SetNumeroControl valNroCtrlDesde
       .SetNumeroControlHasta valNroCtrlHasta
       .SetSeRetuvoIVA valSeRetIva
