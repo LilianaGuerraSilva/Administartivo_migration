@@ -4634,7 +4634,8 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    Dim vNroCtrlDesde As String
    Dim vNroCtrlHasta As String
    Dim vSeRetIva As Boolean
-   Dim vNroCompRetIva As String
+   Dim vNroCompRetIvaStr As String
+   Dim vNroCompRetIva As Long
    Dim vFechaCompRetIva As Date
    Dim vFechaAplRetIva As Date
    Dim vMtoIvaRetenido As Currency
@@ -4675,7 +4676,7 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    vNroCtrlDesde = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    vNroCtrlHasta = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    vSeRetIva = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-   vNroCompRetIva = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vNroCompRetIvaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    
    vFechaStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    If Trim(vFechaStr) <> "" And gUtilDate.fElStringContieneUnaFechaValida(vFechaStr, False) Then
@@ -4691,6 +4692,9 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
    End If
    
    vMtoIvaRetenido = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   If vSeRetIva Then
+      vNroCompRetIva = gUtilImport.fToLong(vNroCompRetIvaStr)
+   End If
    
    If gTexto.DfLen(vNumeroComprobanteFiscalDesde) = 0 Or gTexto.DfLen(vNumeroComprobanteFiscalHasta) = 0 Then
       ErrorAlTraducirLaLinea = True
@@ -4743,8 +4747,12 @@ Private Function fDistribuyeLaLineaDeRDV(ByRef refLineaActual As String, ByVal v
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & " El valor del Monto IVA Retenido no es válido."
       End If
+      If vNroCompRetIvaStr = "" Then
+         ErrorAlTraducirLaLinea = True
+         LineaDeErrores = LineaDeErrores & " El valor del Número de Comprobante de Retención de IVA no es válido."
+      End If
    Else
-      vNroCompRetIva = ""
+      vNroCompRetIva = 0
       vFechaCompRetIva = gUtilDate.getFechaDeHoy
       vFechaAplRetIva = gUtilDate.fColocaDiaEnFecha(1, gUtilDate.getFechaDeHoy)
       vMtoIvaRetenido = 0
@@ -4759,7 +4767,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaDeRDV", CM_MESSAGE_NAME_FACTURA, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal valNumeroComprobanteFiscalHasta As String, ByVal valFechaRDV As Date, ByVal valNumeroReporteZ As String, ByVal valBIIGTF As Currency, ByVal valIGTFML As Currency, ByVal valAlicuotaIGTF As Currency, ByVal valUsaMF As Boolean, ByVal valCodigoMF As String, ByVal valNroCtrlDesde As String, ByVal valNroCtrlHasta As String, ByVal valSeRetIva As Boolean, ByVal valNroCompRetIva As String, ByVal valFechaCompRetIva As Date, ByVal valFechaAplRetIva As Date, ByVal valMtoIvaRetenido As Currency)
+Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal valNumeroComprobanteFiscalHasta As String, ByVal valFechaRDV As Date, ByVal valNumeroReporteZ As String, ByVal valBIIGTF As Currency, ByVal valIGTFML As Currency, ByVal valAlicuotaIGTF As Currency, ByVal valUsaMF As Boolean, ByVal valCodigoMF As String, ByVal valNroCtrlDesde As String, ByVal valNroCtrlHasta As String, ByVal valSeRetIva As Boolean, ByVal valNroCompRetIva As Long, ByVal valFechaCompRetIva As Date, ByVal valFechaAplRetIva As Date, ByVal valMtoIvaRetenido As Currency)
    Dim vAlicGeneral As Currency
    Dim vAlicReducida As Currency
    Dim vAlicExtendida As Currency
