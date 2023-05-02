@@ -671,9 +671,11 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				return _ConexionCodigoCuentaBancariaOrigen;
 			}
 			set {
-				if (_ConexionCodigoCuentaBancariaOrigen != null && _ConexionCodigoCuentaBancariaOrigen != value) {
+				if (_ConexionCodigoCuentaBancariaOrigen != value) {
 					_ConexionCodigoCuentaBancariaOrigen = value;
-					RaisePropertyChanged(CodigoCuentaBancariaOrigenPropertyName);
+				}
+				if (_ConexionCodigoCuentaBancariaOrigen != null) {
+					_ConexionCodigoCuentaBancariaOrigen = value;
 
 					CodigoCuentaBancariaOrigen = value.Codigo;
 					NombreCuentaBancariaOrigen = value.NombreCuenta;
@@ -683,9 +685,9 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 					RaisePropertyChanged(CodigoCuentaBancariaOrigenPropertyName);
 					RaisePropertyChanged(NombreCuentaBancariaOrigenPropertyName);
 					RaisePropertyChanged(SaldoCuentaBancariaOrigenPropertyName);
-					RaisePropertyChanged(CodigoMonedaCuentaBancariaOrigen);
-					RaisePropertyChanged(NombreMonedaCuentaBancariaOrigen);
-				}
+					RaisePropertyChanged(CodigoMonedaCuentaBancariaOrigenPropertyName);
+					RaisePropertyChanged(NombreMonedaCuentaBancariaOrigenPropertyName);
+                }
 			}
 		}
 
@@ -732,9 +734,12 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				return _ConexionCodigoCuentaBancariaDestino;
 			}
 			set {
-				if (_ConexionCodigoCuentaBancariaDestino != null && _ConexionCodigoCuentaBancariaDestino != value) {
+				if (_ConexionCodigoCuentaBancariaDestino != value) {
 					_ConexionCodigoCuentaBancariaDestino = value;
-					RaisePropertyChanged(CodigoCuentaBancariaDestinoPropertyName);
+				}
+				if (_ConexionCodigoCuentaBancariaDestino != null) {
+					_ConexionCodigoCuentaBancariaDestino = value;					
+
 					CodigoCuentaBancariaDestino = value.Codigo;
 					NombreCuentaBancariaDestino = value.NombreCuenta;
 					SaldoCuentaBancariaDestino = value.SaldoDisponible;
@@ -988,8 +993,8 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", valCodigo);
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
-				vFixedCriteria.Add("Saw.Gv_CuentaBancaria_B1.Status", eStatusCtaBancaria.Activo);
-				ConexionCodigoCuentaBancariaOrigen = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria, string.Empty);
+				vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Saw.Gv_CuentaBancaria_B1.Status", LibConvert.EnumToDbValue((int)eStatusCtaBancaria.Activo)), eLogicOperatorType.And);
+				ConexionCodigoCuentaBancariaOrigen = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria);
 				if (ConexionCodigoCuentaBancariaOrigen != null) {
 					if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ManejaDebitoBancario") && ConexionCodigoCuentaBancariaOrigen.ManejaDebitoBancario && ConexionCodigoCuentaBancariaOrigen.TipoDeAlicuotaPorContribuyente == eTipoAlicPorContIGTF.NoAsignado) {
 						string vErrorMsg = string.Format("La cuenta bancaria de Origen que ha seleccionado ({0}) genera I.G.T.F., pero no tiene un Tipo de Alícuota por Contribuyente asignado. Debe modificar esta cuenta bancaria antes de continuar.", ConexionCodigoCuentaBancariaOrigen.NombreCuenta);
@@ -1046,7 +1051,7 @@ namespace Galac.Adm.Uil.Banco.ViewModel {
 				}
 				LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Saw.Gv_CuentaBancaria_B1.Codigo", valCodigo);
 				LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Saw.Gv_CuentaBancaria_B1.ConsecutivoCompania", Mfc.GetInt("Compania"));
-				vFixedCriteria.Add("Saw.Gv_CuentaBancaria_B1.Status", eStatusCtaBancaria.Activo);
+				vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Saw.Gv_CuentaBancaria_B1.Status", LibConvert.EnumToDbValue((int)eStatusCtaBancaria.Activo)), eLogicOperatorType.And);
 				ConexionCodigoCuentaBancariaDestino = null;
 				ConexionCodigoCuentaBancariaDestino = ChooseRecord<FkCuentaBancariaViewModel>("Cuenta Bancaria", vDefaultCriteria, vFixedCriteria);
 				if (ConexionCodigoCuentaBancariaDestino != null) {
