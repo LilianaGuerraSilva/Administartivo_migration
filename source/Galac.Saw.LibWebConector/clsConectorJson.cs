@@ -64,18 +64,26 @@ namespace Galac.Saw.LibWebConnector {
             return vResult;
         }
 
-        public string CheckConnection() {
+        public bool CheckConnection(ref string refMensaje) {
+            stPostResq vRequest=new stPostResq();
             try {
+                bool vResult = false;
                 string vJsonStr = FormatingJSON(_LoginUser);
-                var vRequest = SendPostJson(vJsonStr, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion), "");
-                _Token = vRequest.token;
-                _LoginUser.MessageResult = vRequest.mensaje;
-                return vRequest.mensaje;
+                vRequest = SendPostJson(vJsonStr, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion), "");
+                refMensaje = vRequest.mensaje;
+                if (vRequest.ResultadoAprobado) {
+                    _Token = vRequest.token;
+                    _LoginUser.MessageResult = vRequest.mensaje;
+                    vResult = !LibString.IsNullOrEmpty(_Token);
+                } else {
+                    vResult = false;
+                }                
+                return vResult;
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
-            }
+            } 
         }
 
         public stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
@@ -99,10 +107,17 @@ namespace Galac.Saw.LibWebConnector {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
                     stPostResq infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
-                    if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
-                        throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Alert);
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
-                        throw new GalacException(strTipoDocumento + " ya existe en la Imprenta Digital.", eExceptionManagementType.Alert);
+                    if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
+                        infoReqs.ResultadoAprobado = true;
+                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
+                        infoReqs.mensaje = "\"Usuario o clave inválida.\\r\\nPor favor verifique los datos de conexión con su Imprenta Digital.\"";
+                        infoReqs.ResultadoAprobado = false;                        
+                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {                        
+                        infoReqs.ResultadoAprobado = false;
+                        infoReqs.mensaje = "strTipoDocumento + \" ya existe en la Imprenta Digital.\"";
+                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
+                        infoReqs.ResultadoAprobado = false;
+                        infoReqs.mensaje = "strTipoDocumento + \" se debe enviar a la Imprenta Digital.\"";
                     } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
                         throw new GalacException(infoReqs.mensaje, eExceptionManagementType.Alert);
                     }
