@@ -23,22 +23,22 @@ using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public abstract class clsImprentaDigitalBase {
-                
+
         #region Propiedades   
 
-        public  int ConsecutivoCompania { get; set; }   
-        public  string NumeroFactura { get; set; }      
-        public  string NumeroControl { get; set; }               
-        public  eTipoDocumentoFactura TipoDeDocumento { get; set; }
-        public  string CodigoRespuesta { get; set; }   
-        public  string EstadoDocumentoRespuesta { get; set; }
-        public  clsLoginUser LoginUser { get; set; }      
-        public  string HoraAsignacion { get; set; }     
-        public  DateTime FechaAsignacion { get; set; }            
-        public  Cliente ClienteImprentaDigital { get; set; }
-        public  Vendedor VendedorImprentaDigital { get; set; }
-        public  FacturaRapida FacturaImprentaDigital { get; set; }
-        public  List<FacturaRapidaDetalle> DetalleFacturaImprentaDigital { get; set; }
+        public int ConsecutivoCompania { get; set; }
+        public string NumeroFactura { get; set; }
+        public string NumeroControl { get; set; }
+        public eTipoDocumentoFactura TipoDeDocumento { get; set; }
+        public string CodigoRespuesta { get; set; }
+        public string EstadoDocumentoRespuesta { get; set; }
+        public clsLoginUser LoginUser { get; set; }
+        public string HoraAsignacion { get; set; }
+        public DateTime FechaAsignacion { get; set; }
+        public Cliente ClienteImprentaDigital { get; set; }
+        public Vendedor VendedorImprentaDigital { get; set; }
+        public FacturaRapida FacturaImprentaDigital { get; set; }
+        public List<FacturaRapidaDetalle> DetalleFacturaImprentaDigital { get; set; }
         #endregion Propiedades
 
         public clsImprentaDigitalBase() {
@@ -386,18 +386,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vResult = vResult & LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
             return vResult;
         }
-        
 
-        public bool AnularFacturasYCxC() { 
+
+        public bool AnularFacturasYCxC() {
             bool vResult = false;
-            string vListaCxC = string.Empty;            
+            string vListaCxC = string.Empty;
             vResult = ObtenerEstatusCxC(ref vListaCxC);
-            RecalcularExistenciaDeInventarioPorAnulacionDeFactura();
             if (vResult) {
                 if (AnularCxCOrigenFactura()) {
-                    vResult &= AnularFactura();
+                    vResult = vResult & AnularFactura();
                     if (vResult) {
-                        //RecalcularExistenciaDeInventarioPorAnulacionDeFactura();
+                        vResult = vResult & RecalcularExistenciaDeInventarioPorAnulacionDeFactura();
                     }
                 }
             }
@@ -418,12 +417,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,EsDiferida = " + insUtilSql.ToSqlValue(false));
             vSql.AppendLine(" ,NombreOperador = " + insUtilSql.ToSqlValue(((CustomIdentity)Thread.CurrentPrincipal.Identity).Login));
             vSql.AppendLine(" ,FechaAnulacion = " + insUtilSql.ToSqlValue(FechaAsignacion));
-            vSql.AppendLine(" ,FechaUltimaModificacion = " + insUtilSql.ToSqlValue(LibDate.Today()));            
+            vSql.AppendLine(" ,FechaUltimaModificacion = " + insUtilSql.ToSqlValue(LibDate.Today()));
             vSql.AppendLine(" WHERE ");
             vSql.AppendLine(" Numero = @NumeroFactura ");
             vSql.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND StatusFactura =  @StatusFactura");
-            vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento");            
+            vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento");
             vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
             return vResult;
         }
@@ -459,7 +458,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             bool vResult = false;
             IArticuloInventarioPdn vArticuloInventario = new clsArticuloInventarioNav();
             List<XElement> vListaDeArticulos = ListaDeArticulos();
-            vArticuloInventario.RecalcularExistencia(ConsecutivoCompania, FacturaImprentaDigital.CodigoAlmacen, vListaDeArticulos);
+            vResult = vArticuloInventario.RecalcularExistencia(ConsecutivoCompania, FacturaImprentaDigital.CodigoAlmacen, vListaDeArticulos);
             return vResult;
         }
 
@@ -534,7 +533,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 CxCPorFacturaEmitidas = LibConvert.ToInt(LibXml.GetPropertyString(xResult, "CXCPorCancelar"));
             }
             vResult = (CxCPorFacturaEmitidas - CxCPorFacturaPorCancelar) == 0;
-            if (!vResult) {
+            if (CxCPorFacturaPorCancelar > 0) {
                 vSql.Clear();
                 vParams = new LibGpParams();
                 vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
@@ -556,7 +555,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 }
             }
             return vResult;
-        }     
+        }
 
         private eTipoDeTransaccion TipoDocumentoFacturaToTipoTransaccionCxC(eTipoDocumentoFactura valTipoDocumentoFactura) {
             eTipoDeTransaccion vTipoCxc = eTipoDeTransaccion.FACTURA;

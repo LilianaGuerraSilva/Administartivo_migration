@@ -1662,7 +1662,6 @@ namespace Galac.Saw.Brl.Inventario {
             decimal vSQLCompra = 0;
             decimal vSQLConteoFisico = 0;
             eTipoArticuloInv vTipoArticuloInv;
-            eTipoDeArticulo vTipoArticulo;
             string vCodigoCompuesto;
             string vSerial;
             string vRollo;
@@ -1671,14 +1670,10 @@ namespace Galac.Saw.Brl.Inventario {
                 foreach (XElement xArticulo in valListaDeArticulos) {
                     vCodigoArticulo = LibXml.GetElementValueOrEmpty(xArticulo, "Codigo");
                     vTipoArticuloInv = (eTipoArticuloInv)LibConvert.DbValueToEnum(LibXml.GetElementValueOrEmpty(xArticulo, "TipoArticuloInv"));
-                    vTipoArticulo = (eTipoDeArticulo)LibConvert.DbValueToEnum(LibXml.GetElementValueOrEmpty(xArticulo, "TipoDeArticulo"));
                     vSerial = LibXml.GetElementValueOrEmpty(xArticulo, "Serial");
                     vRollo = LibXml.GetElementValueOrEmpty(xArticulo, "Rollo");
-                    if (vTipoArticulo == eTipoDeArticulo.ProductoCompuesto) {
-                        vCodigoCompuesto = vCodigoArticulo;
-                    } else {
-                        vCodigoCompuesto = String.Empty;
-                    }
+                    var xGrupoArticulo = BuscarArticuloXGrupo(valConsecutivoCompania, vCodigoArticulo, true);
+                    vCodigoCompuesto = LibXml.GetElementValueOrEmpty(xGrupoArticulo, "CodigoCompuesto");
                     vSQLNotaESEntrada = CantidadXlNotaES(valConsecutivoCompania, vCodigoArticulo, valCodigoAlmacen, eTipodeOperacion.EntradadeInventario, vTipoArticuloInv, vCodigoCompuesto, vSerial, vRollo);
                     vSQLNotaESSalida = CantidadXlNotaES(valConsecutivoCompania, vCodigoArticulo, valCodigoAlmacen, eTipodeOperacion.SalidadeInventario, vTipoArticuloInv, vCodigoCompuesto, vSerial, vRollo);
                     vSQLNotaESReitro = CantidadXlNotaES(valConsecutivoCompania, vCodigoArticulo, valCodigoAlmacen, eTipodeOperacion.Retiro, vTipoArticuloInv, vCodigoCompuesto, vSerial, vRollo);
@@ -1690,7 +1685,7 @@ namespace Galac.Saw.Brl.Inventario {
                     vSQLCompra = CantidadXCompras(valConsecutivoCompania, vCodigoArticulo, vConsecutivoAlmacen, vTipoArticuloInv, vCodigoCompuesto, vSerial, vRollo);
                     vSQLConteoFisico = CantidadXConteoFisico(valConsecutivoCompania, vCodigoArticulo, valCodigoAlmacen, vTipoArticuloInv, vCodigoCompuesto, vSerial, vRollo);
                     vNuevaCantidad = vNuevaCantidad + vSQLNotaESEntrada - vSQLNotaESSalida - vSQLNotaESReitro - vSQLNotaESAutoconsumo + vSQLTransferenciaEntrada - vSQLTransferenciaSalida - vSQLFactura - vSQLFacturaPC + vSQLCompra + vSQLConteoFisico;
-                    if (ArticuloExisteEnAlmacen(valConsecutivoCompania, vCodigoArticulo, valCodigoAlmacen) && vNuevaCantidad != 0) {
+                    if (!ArticuloExisteEnAlmacen(valConsecutivoCompania, vCodigoArticulo, valCodigoAlmacen) && vNuevaCantidad != 0) {
                         vSql = new StringBuilder();
                         vParams = new LibGpParams();
                         vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
@@ -1699,9 +1694,9 @@ namespace Galac.Saw.Brl.Inventario {
                         vParams.AddInInteger("ConsecutivoAlmacen", vConsecutivoAlmacen);
                         vSql.AppendLine("INSERT INTO ExistenciaPorAlmacen (ConsecutivoCompania, CodigoAlmacen, CodigoArticulo, Cantidad, Ubicacion, ConsecutivoAlmacen) ");
                         vSql.AppendLine($"VALUES (@ConsecutivoCompania, @CodigoAlmacen, @CodigoArticulo, {insUtilSql.ToSqlValue(0m)}, {insUtilSql.ToSqlValue("")}, @ConsecutivoAlmacen) ");
-                        vResult = vResult || LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
+                        vResult = vResult | LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
                     }
-                    vResult = vResult || ActualizaCantidades(valConsecutivoCompania, valCodigoAlmacen, vNuevaCantidad, vCodigoArticulo, vSerial, vRollo, vCodigoCompuesto, vTipoArticuloInv);
+                    vResult = vResult | ActualizaCantidades(valConsecutivoCompania, valCodigoAlmacen, vNuevaCantidad, vCodigoArticulo, vSerial, vRollo, vCodigoCompuesto, vTipoArticuloInv);
                     vNuevaCantidad = 0;
                 }
                 return vResult;
@@ -1716,18 +1711,82 @@ namespace Galac.Saw.Brl.Inventario {
             int vResult = 0;
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
-            vSql.AppendLine("SELECT Consecutivo");
-            vSql.AppendLine(" FROM ALMACEN");
-            vSql.AppendLine(" WHERE");
-            vSql.AppendLine(" ConsecutivoCompania= @ConsecutivoCompania AND");
-            vSql.AppendLine(" Codigo = @CodigoAlmacen");
-            XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
-            if (xResult != null && xResult.HasElements) {
-                vResult = LibConvert.ToInt(LibXml.GetPropertyString(xResult, "Consecutivo"));
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
+                vSql.AppendLine("SELECT Consecutivo");
+                vSql.AppendLine(" FROM ALMACEN");
+                vSql.AppendLine(" WHERE");
+                vSql.AppendLine(" ConsecutivoCompania= @ConsecutivoCompania AND");
+                vSql.AppendLine(" Codigo = @CodigoAlmacen");
+                XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                if (xResult != null && xResult.HasElements) {
+                    vResult = LibConvert.ToInt(LibXml.GetPropertyString(xResult, "Consecutivo"));
+                }
+                return vResult;
+            } catch (GalacException) {
+                throw;
             }
-            return vResult;
+        }
+
+        private XElement BuscarArticuloXGrupo(int valConsecutivoCompania, string valCodigoArticulo, bool valBuscarArticulosColoryTalla) {
+            XElement xResult = new XElement("GpData");
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insUtilSql = new QAdvSql("");
+            LibGpParams vParams = new LibGpParams();
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+                vSql.AppendLine("SELECT ArticuloInventario.TipoArticuloInv,");
+                vSql.AppendLine(" ArticuloInventario.Codigo,");
+                vSql.AppendLine(" (ISNULL(ExistenciaporGrupo.CodigoArticulo, '') + ISNULL(ExistenciaPorGrupo.CodigoColor, '') + ISNULL(ExistenciaporGRupo.CodigoTalla, '')) AS CodigoCompuesto");
+                vSql.AppendLine(" FROM articuloInventario");
+                vSql.AppendLine(" LEFT JOIN ExistenciaPorGrupo  ON articuloinventario.consecutivocompania = ExistenciaPorGrupo.consecutivoCompania  AND");
+                vSql.AppendLine(" ArticuloInventario.Codigo = ExistenciaPorGrupo.CodigoArticulo");
+                vSql.AppendLine(" WHERE ArticuloInventario.TipoDeArticulo = " + insUtilSql.EnumToSqlValue((int)eTipoDeArticulo.Mercancia));
+                vSql.AppendLine(" AND ArticuloInventario.ConsecutivoCompania = @ConsecutivoCompania AND");
+                if (valBuscarArticulosColoryTalla) {
+                    vSql.AppendLine(" ArticuloInventario.Codigo = @CodigoArticulo");
+                }
+                vSql.AppendLine(" GROUP BY (ISNULL(ExistenciaporGrupo.CodigoArticulo, '') + ISNULL(ExistenciaPorGrupo.CodigoColor, '') + ISNULL(ExistenciaporGRupo.CodigoTalla, '')),");
+                vSql.AppendLine(" ArticuloInventario.Codigo,  ArticuloInventario.TipoArticuloInv");
+                xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                xResult = xResult.Element("GpResult");
+                return xResult;
+            } catch (GalacException) {
+                throw;
+            }
+        }
+
+        private XElement BuscarExistenciaArticuloSerialRollo(int valConsecutivoCompania, string valCodigoArticulo) {
+            XElement xResult = new XElement("GpData");
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insUtilSql = new QAdvSql("");
+            LibGpParams vParams = new LibGpParams();
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
+                vSql.AppendLine("SELECT");
+                vSql.AppendLine(" Saw.Almacen.ConsecutivoCompania,");
+                vSql.AppendLine(" Saw.Almacen.Codigo AS CodigoAlmacen,");
+                vSql.AppendLine(" Saw.Almacen.Consecutivo AS ConsecutivoAlmacen,");
+                vSql.AppendLine(" ExistenciaPorGrupo.CodigoArticulo + ExistenciaPorGrupo.CodigoColor + ExistenciaPorGrupo.CodigoTalla AS CodigoArticulo,");
+                vSql.AppendLine(" ExistenciaPorGrupo.Serial AS CodigoSerial,");
+                vSql.AppendLine(" ExistenciaPorGrupo.Rollo AS CodigoRollo");
+                vSql.AppendLine(" FROM Saw.Almacen");
+                vSql.AppendLine(" INNER JOIN ExistenciaPorGrupo ON  Saw.Almacen.ConsecutivoCompania = ExistenciaPorGrupo.ConsecutivoCompania");
+                vSql.AppendLine(" WHERE Saw.Almacen.ConsecutivoCompania = @ConsecutivoCompania");
+                vSql.AppendLine(" AND ExistenciaPorGrupo.CodigoArticulo + ExistenciaPorGrupo.CodigoColor + ExistenciaPorGrupo.CodigoTalla = @CodigoArticulo");
+                vSql.AppendLine(" GROUP BY Saw.Almacen.ConsecutivoCompania, Saw.Almacen.Codigo,");
+                vSql.AppendLine(" Saw.Almacen.Consecutivo,");
+                vSql.AppendLine(" ExistenciaPorGrupo.CodigoArticulo + CodigoColor + CodigoTalla,");
+                vSql.AppendLine(" Serial,");
+                vSql.AppendLine(" Rollo");
+                xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                return xResult;
+            } catch (GalacException) {
+                throw;
+            }
         }
 
         private decimal CantidadXlNotaES(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoAlmacen, eTipodeOperacion valTipodeOperacion, eTipoArticuloInv valTipoArticuloInv, string valCodigoCompuesto, string valSerial, string valRollo) {
@@ -1735,48 +1794,52 @@ namespace Galac.Saw.Brl.Inventario {
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             QAdvSql insUtilSql = new QAdvSql("");
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
-            vParams.AddInEnum("TipodeOperacion", (int)valTipodeOperacion);
-            vParams.AddInEnum("StatusNotaEntradaSalida", (int)eStatusArticulo.Vigente);
-            vSql.AppendLine("SELECT ISNULL(SUM(RenglonNotaES.Cantidad), 0) AS SumCantidad ");
-            vSql.AppendLine(" FROM notaDeEntradaSalida ");
-            vSql.AppendLine(" INNER JOIN renglonNotaES  ON notaDeEntradaSalida.NumeroDocumento = renglonNotaES.NumeroDocumento AND ");
-            vSql.AppendLine(" notaDeEntradaSalida.ConsecutivoCompania = renglonNotaES.ConsecutivoCompania ");
-            vSql.AppendLine(" WHERE notaDeEntradaSalida.ConsecutivoCompania = @ConsecutivoCompania AND ");
-            vSql.AppendLine(" notaDeEntradaSalida.StatusNotaEntradaSalida = @StatusNotaEntradaSalida AND ");
-            vSql.AppendLine(" notaDeEntradaSalida.CodigoAlmacen = @CodigoAlmacen AND ");
-            vSql.AppendLine(" notaDeEntradaSalida.TipodeOperacion = @TipodeOperacion AND ");
-            if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                vSql.AppendLine(" AND renglonNotaES.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonNotaES.Serial = " + insUtilSql.ToSqlValue(valSerial));
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
+                vParams.AddInEnum("TipodeOperacion", (int)valTipodeOperacion);
+                vParams.AddInEnum("StatusNotaEntradaSalida", (int)eStatusArticulo.Vigente);
+                vSql.AppendLine("SELECT ISNULL(SUM(RenglonNotaES.Cantidad), 0) AS SumCantidad ");
+                vSql.AppendLine(" FROM notaDeEntradaSalida ");
+                vSql.AppendLine(" INNER JOIN renglonNotaES  ON notaDeEntradaSalida.NumeroDocumento = renglonNotaES.NumeroDocumento AND ");
+                vSql.AppendLine(" notaDeEntradaSalida.ConsecutivoCompania = renglonNotaES.ConsecutivoCompania ");
+                vSql.AppendLine(" WHERE notaDeEntradaSalida.ConsecutivoCompania = @ConsecutivoCompania AND ");
+                vSql.AppendLine(" notaDeEntradaSalida.StatusNotaEntradaSalida = @StatusNotaEntradaSalida AND ");
+                vSql.AppendLine(" notaDeEntradaSalida.CodigoAlmacen = @CodigoAlmacen AND ");
+                vSql.AppendLine(" notaDeEntradaSalida.TipodeOperacion = @TipodeOperacion ");
+                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                    vSql.AppendLine(" AND renglonNotaES.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonNotaES.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND renglonNotaES.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND renglonNotaES.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                } else {
+                    vSql.AppendLine(" AND renglonNotaES.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonNotaES.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                    } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonNotaES.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND renglonNotaES.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
                 }
-            } else {
-                vSql.AppendLine(" AND renglonNotaES.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonNotaES.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonNotaES.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND renglonNotaES.Rollo = " + insUtilSql.ToSqlValue(valRollo));
-                    }
+                XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                if (xResult != null && xResult.HasElements) {
+                    vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
                 }
+                return vResult;
+            } catch (GalacException) {
+                throw;
             }
-            XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
-            if (xResult != null && xResult.HasElements) {
-                vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
-            }
-            return vResult;
         }
 
         private decimal CantidadXTransferenciaAlmacenes(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoAlmacen, eTipodeOperacion valTipodeOperacion, eTipoArticuloInv valTipoArticuloInv, string valCodigoCompuesto, string valSerial, string valRollo) {
@@ -1784,48 +1847,52 @@ namespace Galac.Saw.Brl.Inventario {
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
-            vSql.AppendLine("SELECT ISNULL(SUM(RenglonTransferencia.Cantidad), 0) AS SumCantidad ");
-            vSql.AppendLine(" FROM Transferencia ");
-            vSql.AppendLine(" INNER JOIN RenglonTransferencia  ON Transferencia.NumeroDocumento = RenglonTransferencia.NumeroDocumento AND ");
-            vSql.AppendLine(" Transferencia.ConsecutivoCompania = RenglonTransferencia.ConsecutivoCompania ");
-            vSql.AppendLine(" WHERE Transferencia.ConsecutivoCompania = @ConsecutivoCompania AND ");
-            if (valTipodeOperacion == eTipodeOperacion.EntradadeInventario) {
-                vSql.AppendLine(" Transferencia.CodigoAlmacenEntrada = @CodigoAlmacen ");
-            } else if (valTipodeOperacion == eTipodeOperacion.SalidadeInventario) {
-                vSql.AppendLine(" Transferencia.CodigoAlmacenSalida = @CodigoAlmacen ");
-            }
-            if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                vSql.AppendLine(" AND RenglonTransferencia.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonTransferencia.Serial = " + insUtilSql.ToSqlValue(valSerial));
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
+                vSql.AppendLine("SELECT ISNULL(SUM(RenglonTransferencia.Cantidad), 0) AS SumCantidad ");
+                vSql.AppendLine(" FROM Transferencia ");
+                vSql.AppendLine(" INNER JOIN RenglonTransferencia  ON Transferencia.NumeroDocumento = RenglonTransferencia.NumeroDocumento AND ");
+                vSql.AppendLine(" Transferencia.ConsecutivoCompania = RenglonTransferencia.ConsecutivoCompania ");
+                vSql.AppendLine(" WHERE Transferencia.ConsecutivoCompania = @ConsecutivoCompania AND ");
+                if (valTipodeOperacion == eTipodeOperacion.EntradadeInventario) {
+                    vSql.AppendLine(" Transferencia.CodigoAlmacenEntrada = @CodigoAlmacen ");
+                } else if (valTipodeOperacion == eTipodeOperacion.SalidadeInventario) {
+                    vSql.AppendLine(" Transferencia.CodigoAlmacenSalida = @CodigoAlmacen ");
+                }
+                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                    vSql.AppendLine(" AND RenglonTransferencia.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonTransferencia.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND RenglonTransferencia.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND RenglonTransferencia.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                } else {
+                    vSql.AppendLine(" AND RenglonTransferencia.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonTransferencia.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                    } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonTransferencia.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND RenglonTransferencia.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
                 }
-            } else {
-                vSql.AppendLine(" AND RenglonTransferencia.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonTransferencia.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonTransferencia.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND RenglonTransferencia.Rollo = " + insUtilSql.ToSqlValue(valRollo));
-                    }
+                XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                if (xResult != null && xResult.HasElements) {
+                    vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
                 }
+                return vResult;
+            } catch (GalacException) {
+                throw;
             }
-            XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
-            if (xResult != null && xResult.HasElements) {
-                vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
-            }
-            return vResult;
         }
 
         private decimal CantidadXFacturas(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoAlmacen, eTipoArticuloInv valTipoArticuloInv, string valCodigoCompuesto, string valSerial, string valRollo) {
@@ -1833,48 +1900,52 @@ namespace Galac.Saw.Brl.Inventario {
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
-            vSql.AppendLine("SELECT ISNULL(SUM(Renglonfactura.Cantidad), 0) AS SumCantidad ");
-            vSql.AppendLine(" FROM factura ");
-            vSql.AppendLine(" INNER JOIN renglonFactura  ON ");
-            vSql.AppendLine(" factura.Numero = renglonFactura.NumeroFactura  AND ");
-            vSql.AppendLine(" factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania  AND ");
-            vSql.AppendLine(" factura.TipoDeDocumento = renglonFactura.TipoDeDocumento ");
-            vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania AND");
-            vSql.AppendLine(" factura.CodigoAlmacen = @CodigoAlmacen AND");
-            vSql.AppendLine(" factura.StatusFactura = '0' AND ");
-            vSql.AppendLine(" factura.GeneradaPorNotaEntrega = '0' AND ");
-            if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                vSql.AppendLine(" AND renglonFactura.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
+                vSql.AppendLine("SELECT ISNULL(SUM(Renglonfactura.Cantidad), 0) AS SumCantidad ");
+                vSql.AppendLine(" FROM factura ");
+                vSql.AppendLine(" INNER JOIN renglonFactura  ON ");
+                vSql.AppendLine(" factura.Numero = renglonFactura.NumeroFactura  AND ");
+                vSql.AppendLine(" factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania  AND ");
+                vSql.AppendLine(" factura.TipoDeDocumento = renglonFactura.TipoDeDocumento ");
+                vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania AND");
+                vSql.AppendLine(" factura.CodigoAlmacen = @CodigoAlmacen AND");
+                vSql.AppendLine(" factura.StatusFactura = '0' AND ");
+                vSql.AppendLine(" factura.GeneradaPorNotaEntrega = '0' ");
+                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                    vSql.AppendLine(" AND renglonFactura.Articulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                } else {
+                    vSql.AppendLine(" AND renglonFactura.Articulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                    } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
                 }
-            } else {
-                vSql.AppendLine(" AND renglonFactura.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Rollo = " + insUtilSql.ToSqlValue(valRollo));
-                    }
+                XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                if (xResult != null && xResult.HasElements) {
+                    vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
                 }
+                return vResult;
+            } catch (GalacException) {
+                throw;
             }
-            XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
-            if (xResult != null && xResult.HasElements) {
-                vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
-            }
-            return vResult;
         }
 
         private decimal CantidadXFacturasPC(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoAlmacen, eTipoArticuloInv valTipoArticuloInv, string valCodigoCompuesto, string valSerial, string valRollo) {
@@ -1882,51 +1953,55 @@ namespace Galac.Saw.Brl.Inventario {
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
-            vSql.AppendLine("SELECT ISNULL(SUM(Renglonfactura.Cantidad*productoCompuesto.cantidad), 0) AS SumCantidad ");
-            vSql.AppendLine(" FROM ProductoCompuesto ");
-            vSql.AppendLine(" INNER JOIN ArticuloInventario   ON ProductoCompuesto.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND ");
-            vSql.AppendLine(" ProductoCompuesto.CodigoConexionConElMaster = ArticuloInventario.Codigo ");
-            vSql.AppendLine(" INNER JOIN factura ");
-            vSql.AppendLine(" INNER JOIN renglonFactura ON factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND ");
-            vSql.AppendLine(" factura.Numero = renglonFactura.NumeroFactura AND ");
-            vSql.AppendLine(" factura.TipoDeDocumento = renglonFactura.TipoDeDocumento ON ");
-            vSql.AppendLine(" ArticuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND ");
-            vSql.AppendLine(" ArticuloInventario.Codigo = renglonFactura.Articulo ");
-            vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania AND ");
-            vSql.AppendLine(" factura.CodigoAlmacen = @CodigoAlmacen AND ");
-            vSql.AppendLine(" factura.StatusFactura = '0' AND ");
-            if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                vSql.AppendLine(" AND productoCompuesto.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
+                vSql.AppendLine("SELECT ISNULL(SUM(Renglonfactura.Cantidad*productoCompuesto.cantidad), 0) AS SumCantidad ");
+                vSql.AppendLine(" FROM ProductoCompuesto ");
+                vSql.AppendLine(" INNER JOIN ArticuloInventario   ON ProductoCompuesto.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania AND ");
+                vSql.AppendLine(" ProductoCompuesto.CodigoConexionConElMaster = ArticuloInventario.Codigo ");
+                vSql.AppendLine(" INNER JOIN factura ");
+                vSql.AppendLine(" INNER JOIN renglonFactura ON factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND ");
+                vSql.AppendLine(" factura.Numero = renglonFactura.NumeroFactura AND ");
+                vSql.AppendLine(" factura.TipoDeDocumento = renglonFactura.TipoDeDocumento ON ");
+                vSql.AppendLine(" ArticuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania AND ");
+                vSql.AppendLine(" ArticuloInventario.Codigo = renglonFactura.Articulo ");
+                vSql.AppendLine(" WHERE factura.ConsecutivoCompania = @ConsecutivoCompania AND ");
+                vSql.AppendLine(" factura.CodigoAlmacen = @CodigoAlmacen AND ");
+                vSql.AppendLine(" factura.StatusFactura = '0' ");
+                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                    vSql.AppendLine(" AND productoCompuesto.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                } else {
+                    vSql.AppendLine(" AND productoCompuesto.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                    } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND renglonFactura.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
                 }
-            } else {
-                vSql.AppendLine(" AND productoCompuesto.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND renglonFactura.Rollo = " + insUtilSql.ToSqlValue(valRollo));
-                    }
+                XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                if (xResult != null && xResult.HasElements) {
+                    vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
                 }
+                return vResult;
+            } catch (GalacException) {
+                throw;
             }
-            XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
-            if (xResult != null && xResult.HasElements) {
-                vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
-            }
-            return vResult;
         }
 
         private decimal CantidadXCompras(int valConsecutivoCompania, string valCodigoArticulo, int valConsecutivoAlmacen, eTipoArticuloInv valTipoArticuloInv, string valCodigoCompuesto, string valSerial, string valRollo) {
@@ -1934,35 +2009,39 @@ namespace Galac.Saw.Brl.Inventario {
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInInteger("ConsecutivoAlmacen", valConsecutivoAlmacen);
-            if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                vSql.AppendLine("SELECT ISNULL(SUM(CompraDetalleArticuloInventario.Cantidad) , 0) AS SumCantidad ");
-                vSql.AppendLine(" FROM Adm.Compra ");
-                vSql.AppendLine(" INNER JOIN Adm.CompraDetalleArticuloInventario ON Compra.Consecutivo = CompraDetalleArticuloInventario.ConsecutivoCompra AND ");
-                vSql.AppendLine(" Compra.ConsecutivoCompania = CompraDetalleArticuloInventario.ConsecutivoCompania ");
-                vSql.AppendLine(" WHERE CompraDetalleArticuloInventario.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
-            } else {
-                vSql.AppendLine("SELECT ISNULL(SUM(CompraDetalleSerialRollo.Cantidad) , 0) AS SumCantidad");
-                vSql.AppendLine(" FROM Adm.compra INNER JOIN Adm.CompraDetalleSerialRollo ");
-                vSql.AppendLine(" ON compra.Consecutivo = CompraDetalleSerialRollo.ConsecutivoCompra ");
-                vSql.AppendLine(" AND compra.ConsecutivoCompania = CompraDetalleSerialRollo.ConsecutivoCompania");
-                vSql.AppendLine(" WHERE CompraDetalleSerialRollo.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
-                if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                    vSql.AppendLine(" AND CompraDetalleSerialRollo.Serial = " + insUtilSql.ToSqlValue(valSerial));
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInInteger("ConsecutivoAlmacen", valConsecutivoAlmacen);
+                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                    vSql.AppendLine("SELECT ISNULL(SUM(CompraDetalleArticuloInventario.Cantidad) , 0) AS SumCantidad ");
+                    vSql.AppendLine(" FROM Adm.Compra ");
+                    vSql.AppendLine(" INNER JOIN Adm.CompraDetalleArticuloInventario ON Compra.Consecutivo = CompraDetalleArticuloInventario.ConsecutivoCompra AND ");
+                    vSql.AppendLine(" Compra.ConsecutivoCompania = CompraDetalleArticuloInventario.ConsecutivoCompania ");
+                    vSql.AppendLine(" WHERE CompraDetalleArticuloInventario.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
+                } else {
+                    vSql.AppendLine("SELECT ISNULL(SUM(CompraDetalleSerialRollo.Cantidad) , 0) AS SumCantidad");
+                    vSql.AppendLine(" FROM Adm.compra INNER JOIN Adm.CompraDetalleSerialRollo ");
+                    vSql.AppendLine(" ON compra.Consecutivo = CompraDetalleSerialRollo.ConsecutivoCompra ");
+                    vSql.AppendLine(" AND compra.ConsecutivoCompania = CompraDetalleSerialRollo.ConsecutivoCompania");
+                    vSql.AppendLine(" WHERE CompraDetalleSerialRollo.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
+                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                        vSql.AppendLine(" AND CompraDetalleSerialRollo.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                    }
+                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                        vSql.AppendLine(" AND CompraDetalleSerialRollo.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                    }
+                    vSql.AppendLine(" AND compra.ConsecutivoCompania = @ConsecutivoCompania");
+                    vSql.AppendLine(" AND compra.ConsecutivoAlmacen = @ConsecutivoAlmacen");
+                    vSql.AppendLine(" AND compra.StatusCompra = " + insUtilSql.ToSqlValue("0")); //Vigente
                 }
-                if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                    vSql.AppendLine(" AND CompraDetalleSerialRollo.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                if (xResult != null && xResult.HasElements) {
+                    vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
                 }
-                vSql.AppendLine(" AND compra.ConsecutivoCompania = @ConsecutivoCompania");
-                vSql.AppendLine(" AND compra.ConsecutivoAlmacen = @ConsecutivoAlmacen");
-                vSql.AppendLine(" AND compra.StatusCompra = " + insUtilSql.ToSqlValue("0")); //Vigente
+                return vResult;
+            } catch (GalacException) {
+                throw;
             }
-            XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
-            if (xResult != null && xResult.HasElements) {
-                vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
-            }
-            return vResult;
         }
 
         private decimal CantidadXConteoFisico(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoAlmacen, eTipoArticuloInv valTipoArticuloInv, string valCodigoCompuesto, string valSerial, string valRollo) {
@@ -1970,84 +2049,99 @@ namespace Galac.Saw.Brl.Inventario {
             QAdvSql insUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
-            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 11);
-            vSql.AppendLine("SELECT ISNULL(SUM(Diferencia) ,0) AS SumCantidad");
-            vSql.AppendLine(" FROM ConteoFisico");
-            vSql.AppendLine(" INNER JOIN RenglonConteoFisico  ON ConteoFisico.ConsecutivoConteo = RenglonConteoFisico.ConsecutivoConteo AND");
-            vSql.AppendLine(" ConteoFisico.ConsecutivoCompania = RenglonConteoFisico.ConsecutivoCompania");
-            vSql.AppendLine(" WHERE ConteoFisico.ConsecutivoCompania = @ConsecutivoCompania AND");
-            vSql.AppendLine(" ConteoFisico.CodigoAlmacen = @CodigoAlmacen AND");
-            vSql.AppendLine(" ConteoFisico.Status = '0' AND");
-            vSql.AppendLine(" RenglonConteoFisico.CodigoArticulo = @CodigoArticulo");
-            if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                vSql.AppendLine(" AND RenglonConteoFisico.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonConteoFisico.Serial = " + insUtilSql.ToSqlValue(valSerial));
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
+                vParams.AddInString("CodigoArticulo", valCodigoArticulo, 11);
+                vSql.AppendLine("SELECT ISNULL(SUM(Diferencia) ,0) AS SumCantidad");
+                vSql.AppendLine(" FROM ConteoFisico");
+                vSql.AppendLine(" INNER JOIN RenglonConteoFisico  ON ConteoFisico.ConsecutivoConteo = RenglonConteoFisico.ConsecutivoConteo AND");
+                vSql.AppendLine(" ConteoFisico.ConsecutivoCompania = RenglonConteoFisico.ConsecutivoCompania");
+                vSql.AppendLine(" WHERE ConteoFisico.ConsecutivoCompania = @ConsecutivoCompania AND");
+                vSql.AppendLine(" ConteoFisico.CodigoAlmacen = @CodigoAlmacen AND");
+                vSql.AppendLine(" ConteoFisico.Status = '0' AND");
+                vSql.AppendLine(" RenglonConteoFisico.CodigoArticulo = @CodigoArticulo");
+                if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColor || valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                    vSql.AppendLine(" AND RenglonConteoFisico.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoCompuesto));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaTallaColorySerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonConteoFisico.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND RenglonConteoFisico.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND RenglonConteoFisico.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                } else {
+                    vSql.AppendLine(" AND RenglonConteoFisico.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
+                    if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonConteoFisico.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                    } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
+                        if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
+                            vSql.AppendLine(" AND RenglonConteoFisico.Serial = " + insUtilSql.ToSqlValue(valSerial));
+                        }
+                        if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
+                            vSql.AppendLine(" AND RenglonConteoFisico.Rollo = " + insUtilSql.ToSqlValue(valRollo));
+                        }
                     }
                 }
-            } else {
-                vSql.AppendLine(" AND RenglonConteoFisico.CodigoArticulo = " + insUtilSql.ToSqlValue(valCodigoArticulo));
-                if (valTipoArticuloInv == eTipoArticuloInv.UsaSerial) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonConteoFisico.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                } else if (valTipoArticuloInv == eTipoArticuloInv.UsaSerialRollo) {
-                    if (!LibString.IsNullOrEmpty(valSerial) && !LibString.S1IsEqualToS2(valSerial, "0")) {
-                        vSql.AppendLine(" AND RenglonConteoFisico.Serial = " + insUtilSql.ToSqlValue(valSerial));
-                    }
-                    if (!LibString.IsNullOrEmpty(valRollo) && !LibString.S1IsEqualToS2(valRollo, "0")) {
-                        vSql.AppendLine(" AND RenglonConteoFisico.Rollo = " + insUtilSql.ToSqlValue(valRollo));
-                    }
+                XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                if (xResult != null && xResult.HasElements) {
+                    vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
                 }
+                return vResult;
+            } catch (GalacException) {
+                throw;
             }
-            XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
-            if (xResult != null && xResult.HasElements) {
-                vResult = LibConvert.ToDec(LibXml.GetPropertyString(xResult, "SumCantidad"));
-            }
-            return vResult;
         }
 
         private bool ArticuloExisteEnAlmacen(int valConsecutivoCompania, string valCodigoArticulo, string valCodigoAlmacen) {
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
-            XElement xResult = new XElement("");
-            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
-            vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
-            vParams.AddInString("CodigoArticulo", valCodigoArticulo, 11);
-            vSql.AppendLine(" SELECT ExistenciaPorAlmacen.CodigoAlmacen,");
-            vSql.AppendLine(" ExistenciaPorAlmacen.CodigoArticulo,");
-            vSql.AppendLine(" ExistenciaPorAlmacen.ConsecutivoAlmacen");
-            vSql.AppendLine(" FROM ExistenciaPorAlmacen");
-            vSql.AppendLine(" WHERE ExistenciaPorAlmacen.ConsecutivoCompania = @ConsecutivoCompania");
-            vSql.AppendLine(" AND CodigoAlmacen = @CodigoAlmacen");
-            vSql.AppendLine(" AND CodigoArticulo = @CodigoArticulo");
-            vSql.AppendLine(" GROUP BY CodigoAlmacen, CodigoArticulo, ConsecutivoAlmacen");
-            xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
-            if (xResult != null && xResult.HasElements) {
-                return xResult.Elements().Count() > 0;
-            } else {
-                return false;
+            XElement xResult = new XElement("GpData");
+            try {
+                vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+                vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
+                vParams.AddInString("CodigoArticulo", valCodigoArticulo, 11);
+                vSql.AppendLine(" SELECT ExistenciaPorAlmacen.CodigoAlmacen,");
+                vSql.AppendLine(" ExistenciaPorAlmacen.CodigoArticulo,");
+                vSql.AppendLine(" ExistenciaPorAlmacen.ConsecutivoAlmacen");
+                vSql.AppendLine(" FROM ExistenciaPorAlmacen");
+                vSql.AppendLine(" WHERE ExistenciaPorAlmacen.ConsecutivoCompania = @ConsecutivoCompania");
+                vSql.AppendLine(" AND CodigoAlmacen = @CodigoAlmacen");
+                vSql.AppendLine(" AND CodigoArticulo = @CodigoArticulo");
+                vSql.AppendLine(" GROUP BY CodigoAlmacen, CodigoArticulo, ConsecutivoAlmacen");
+                xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
+                if (xResult != null && xResult.HasElements) {
+                    return (xResult.Descendants("GpResult").ToList().Count() > 0);
+                } else {
+                    return false;
+                }
+            } catch (GalacException) {
+                throw;
             }
         }
 
         private bool ActualizaCantidades(int valConsecutivoCompania, string valCodigoAlmacen, decimal valCantidad, string valCodigoArticulo, string valSerial, string valRollo, string valCodigoCompuesto, eTipoArticuloInv valTipoArticuloInvAsEnum) {
             bool vResult = false;
             string vSql = "";
-            vSql = sqlActualizarCantidad(valConsecutivoCompania, valCodigoAlmacen, valCantidad, valCodigoArticulo, valSerial, valRollo, valCodigoCompuesto, valTipoArticuloInvAsEnum, 1);
-            vResult = LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0) > 0;
-            vSql = sqlActualizarCantidad(valConsecutivoCompania, valCodigoAlmacen, valCantidad, valCodigoArticulo, valSerial, valRollo, valCodigoCompuesto, valTipoArticuloInvAsEnum, 2);
-            vResult = vResult || LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0) > 0;
-            vSql = sqlActualizarCantidad(valConsecutivoCompania, valCodigoAlmacen, valCantidad, valCodigoArticulo, valSerial, valRollo, valCodigoCompuesto, valTipoArticuloInvAsEnum, 3);
-            vResult = vResult || LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0) > 0;
-            vSql = sqlActualizarCantidad(valConsecutivoCompania, valCodigoAlmacen, valCantidad, valCodigoArticulo, valSerial, valRollo, valCodigoCompuesto, valTipoArticuloInvAsEnum, 4);
-            vResult = vResult || LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0) > 0;
-            return vResult;
+            try {
+                if (valTipoArticuloInvAsEnum == eTipoArticuloInv.Simple) {
+                    vSql = sqlActualizarCantidad(valConsecutivoCompania, valCodigoAlmacen, valCantidad, valCodigoArticulo, valSerial, valRollo, valCodigoCompuesto, valTipoArticuloInvAsEnum, 1);
+                    vResult = LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0) > 0;
+                    vSql = sqlActualizarCantidad(valConsecutivoCompania, valCodigoAlmacen, valCantidad, valCodigoArticulo, valSerial, valRollo, valCodigoCompuesto, valTipoArticuloInvAsEnum, 2);
+                    vResult = vResult | LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0) > 0;
+                } else {
+                    vSql = sqlActualizarCantidad(valConsecutivoCompania, valCodigoAlmacen, valCantidad, valCodigoArticulo, valSerial, valRollo, valCodigoCompuesto, valTipoArticuloInvAsEnum, 3);
+                    vResult = vResult | LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0) > 0;
+                    vSql = sqlActualizarCantidad(valConsecutivoCompania, valCodigoAlmacen, valCantidad, valCodigoArticulo, valSerial, valRollo, valCodigoCompuesto, valTipoArticuloInvAsEnum, 4);
+                    vResult = vResult | LibBusiness.ExecuteUpdateOrDelete(vSql, null, "", 0) > 0;
+                }
+                return vResult;
+            } catch (GalacException) {
+                throw;
+            }
         }
 
         private string sqlActualizarCantidad(int valConsecutivoCompania, string valCodigoAlmacen, decimal valCantidad, string valCodigo, string valSerial, string valRollo, string valCodigoCompuesto, eTipoArticuloInv valTipoArticuloInvAsEnum, int valNsql) {
