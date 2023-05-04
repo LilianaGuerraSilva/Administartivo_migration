@@ -75,6 +75,10 @@
       <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
       <Name>Galac.Adm.Ccl.Venta</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Inventario\Galac.Saw.Brl.Inventario.csproj">
+      <Project>{bbb05009-adca-47a1-9a3f-49421928f380}</Project>
+      <Name>Galac.Saw.Brl.Inventario</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Brl.SttDef\Galac.Saw.Brl.SttDef.csproj">
       <Project>{d018cc29-3ff6-445d-9672-e12bddd873ac}</Project>
       <Name>Galac.Saw.Brl.SttDef</Name>
@@ -98,6 +102,10 @@
     <ProjectReference Include="..\Galac.Saw.LibWebConector\Galac.Saw.LibWebConnector.csproj">
       <Project>{08f52bb0-7708-4326-b74c-ac49629c8647}</Project>
       <Name>Galac.Saw.LibWebConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
+      <Project>{B04E6942-E0B8-4BA2-90E7-FBF8A95DDC86}</Project>
+      <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

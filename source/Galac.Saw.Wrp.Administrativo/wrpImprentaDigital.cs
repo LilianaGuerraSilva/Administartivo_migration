@@ -39,12 +39,12 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 string vNumeroControl = "";
                 bool vDocumentoEnviado = false;
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
+                eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+                var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
                 CreateGlobalValues(vfwCurrentParameters);
                 Task vTask = Task.Factory.StartNew(() => {
-                    eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
-                    var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
                     vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
-                    vNumeroControl = _insImprentaDigital.NumeroControl;                    
+                    vNumeroControl = _insImprentaDigital.NumeroControl;
                 });
                 vTask.Wait();
                 vfwNumeroControl = vNumeroControl;
@@ -98,6 +98,42 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             }
         }
 
+        bool IWrpImprentaDigitalVb.SincronizarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl, ref string vfwMensaje) {
+            try {
+                string vNumeroControl = "";
+                bool vDocumentoEnviado = false;                
+                bool vDocumentoExiste = false;
+                eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
+                eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+                var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
+                CreateGlobalValues(vfwCurrentParameters);
+                Task vTask = Task.Factory.StartNew(() => {
+                    vDocumentoExiste = _insImprentaDigital.EstadoDocumento();
+                    if (vDocumentoExiste) {
+                        if (_insImprentaDigital.EstadoDocumentoRespuesta != "Anulada") {
+                            vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
+                            vNumeroControl = _insImprentaDigital.NumeroControl;
+                        }
+                    }
+                });
+                vTask.Wait();
+                vfwNumeroControl = vNumeroControl;
+                vfwMensaje = "";
+                return vDocumentoEnviado;
+            } catch (AggregateException vEx) {
+                vfwMensaje = vEx.InnerException.Message;
+                return false;
+            } catch (GalacException gEx) {
+                vfwMensaje = gEx.Message;
+                return false;
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                vfwMensaje = vEx.Message;
+                return false;
+            }
+        }
         string IWrpImprentaDigitalVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
             string vResult = "";
             LibSearch insLibSearch = new LibSearch();
