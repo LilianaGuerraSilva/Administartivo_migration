@@ -65,7 +65,7 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         public bool CheckConnection(ref string refMensaje) {
-            stPostResq vRequest=new stPostResq();
+            stPostResq vRequest = new stPostResq();
             try {
                 bool vResult = false;
                 string vJsonStr = FormatingJSON(_LoginUser);
@@ -77,13 +77,13 @@ namespace Galac.Saw.LibWebConnector {
                     vResult = !LibString.IsNullOrEmpty(_Token);
                 } else {
                     vResult = false;
-                }                
+                }
                 return vResult;
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Alert);
-            } 
+            }
         }
 
         public stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
@@ -110,14 +110,14 @@ namespace Galac.Saw.LibWebConnector {
                     if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
                         infoReqs.ResultadoAprobado = true;
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
-                        infoReqs.mensaje = "\"Usuario o clave inválida.\\r\\nPor favor verifique los datos de conexión con su Imprenta Digital.\"";
-                        infoReqs.ResultadoAprobado = false;                        
-                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {                        
+                        infoReqs.mensaje = "Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
                         infoReqs.ResultadoAprobado = false;
-                        infoReqs.mensaje = "strTipoDocumento + \" ya existe en la Imprenta Digital.\"";
+                    } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
+                        infoReqs.ResultadoAprobado = false;
+                        infoReqs.mensaje = strTipoDocumento + " ya existe en la Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
                         infoReqs.ResultadoAprobado = false;
-                        infoReqs.mensaje = "strTipoDocumento + \" se debe enviar a la Imprenta Digital.\"";
+                        infoReqs.mensaje = strTipoDocumento + " se debe enviar a la Imprenta Digital.";
                     } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
                         throw new GalacException(infoReqs.mensaje, eExceptionManagementType.Alert);
                     }
@@ -128,7 +128,7 @@ namespace Galac.Saw.LibWebConnector {
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
-                string vPath = LibDirectory.GetProgramFilesGalacDir() + @"\" + LibDefGen.ProgramInfo.ProgramInitials + @"\ImprentaDigital";
+                string vPath = LibDirectory.GetProgramFilesGalacDir() + "\\" + LibDefGen.ProgramInfo.ProgramInitials + "\\ImprentaDigital";
                 if (!LibDirectory.DirExists(vPath)) {
                     LibDirectory.CreateDir(vPath);
                 }
