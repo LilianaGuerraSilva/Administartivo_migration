@@ -60,6 +60,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Factura", "Reactivar Factura Anulada", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Emisión sin Impresión Fiscal", "Principal", 1));
             vPermisos.Add(new CustomRole("Factura", "Emitir y Cobrar sin Impresión Fiscal", "Principal", 1));
+            vPermisos.Add(new CustomRole("Factura", "Sincronizar con Imprenta Digital", "Principal", 1));
             #endregion
 
             #region Nota de Entrega
