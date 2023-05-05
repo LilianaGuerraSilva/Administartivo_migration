@@ -36,15 +36,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vEstadoDocumento = EstadoDocumento();
                 if (vEstadoDocumento) {
-                    if (!LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl)) {
-                        vEstadoDocumento = ActualizaNroControlYProveedorImprentaDigital();
-                    } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) {
-                        vEstadoDocumento &= AnularDocumento();
-                    } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) {
-                        vEstadoDocumento &= AnularFacturasYCxC();
-                    } else {
-                        vEstadoDocumento = true;
-                    }
+                    SincronizarDocumentosBase();
                 } else {  //No Existe el Documento en La Imprenta Digital
                     vEstadoDocumento = EnviarDocumento();
                 }
