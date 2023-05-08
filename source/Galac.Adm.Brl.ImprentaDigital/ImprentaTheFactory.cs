@@ -34,13 +34,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #region Métodos Basicos
         public override bool SincronizarDocumentos() {
             try {
-                bool vEstadoDocumento = EstadoDocumento();
-                if (vEstadoDocumento) {
-                    SincronizarDocumentosBase();
-                } else {  //No Existe el Documento en La Imprenta Digital
-                    vEstadoDocumento = EnviarDocumento();
+                bool vResult = false;
+                if (EstadoDocumento()) { // Documento Existe en ID
+                    vResult = SincronizarDocumentosBase();
+                } else {
+                    vResult = EnviarDocumento();
                 }
-                return vEstadoDocumento;
+                return vResult;
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {

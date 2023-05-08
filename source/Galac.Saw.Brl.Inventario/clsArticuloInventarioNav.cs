@@ -1693,7 +1693,7 @@ namespace Galac.Saw.Brl.Inventario {
                         vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
                         vParams.AddInString("CodigoArticulo", vCodigoArticulo, 30);
                         vParams.AddInInteger("ConsecutivoAlmacen", vConsecutivoAlmacen);
-                        vSql.AppendLine("INSERT INTO ExistenciaPorAlmacen (ConsecutivoCompania, CodigoAlmacen, CodigoArticulo, Cantidad, Ubicacion, ConsecutivoAlmacen) ");
+                        vSql.AppendLine("INSERT INTO ExistenciaPorAlmacen (ConsecutivoCompania, CodigoAlmacen, ConsecutivoAlmacen,CodigoArticulo, Cantidad, Ubicacion) ");
                         vSql.AppendLine($"VALUES (@ConsecutivoCompania, @CodigoAlmacen, @CodigoArticulo,@ConsecutivoAlmacen, {insUtilSql.ToSqlValue(0m)}, {insUtilSql.ToSqlValue("")}) ");
                         vResult = vResult | LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) > 0;
                     }
@@ -1712,8 +1712,8 @@ namespace Galac.Saw.Brl.Inventario {
             decimal vResult = 0;
             try {
                 XElement vData = LibBusiness.ExecuteSelect(valSql, valParams.Get(), "", 0);
-                if (vData != null && vData.HasElements) {
-                    vResult = LibConvert.ToInt(LibXml.GetPropertyString(vData, "SumCantidad"));
+                if (vData != null && vData.HasElements) {                    
+                    vResult = LibConvert.ToDec(LibXml.GetPropertyString(vData, "SumCantidad"));
                 }
                 return vResult;
             } catch (GalacException) {
@@ -2060,7 +2060,7 @@ namespace Galac.Saw.Brl.Inventario {
             try {
                 vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
                 vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
-                vParams.AddInString("CodigoArticulo", valCodigoArticulo, 11);
+                vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
                 vSql.AppendLine(" SELECT ExistenciaPorAlmacen.CodigoAlmacen,");
                 vSql.AppendLine(" ExistenciaPorAlmacen.CodigoArticulo,");
                 vSql.AppendLine(" ExistenciaPorAlmacen.ConsecutivoAlmacen");

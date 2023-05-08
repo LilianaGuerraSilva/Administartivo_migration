@@ -355,36 +355,32 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public bool SincronizarDocumentosBase() {
             bool vResult = false;
-            if (!LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl)) {
+            string vCxCCanceladas = "";
+            if (!LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl)) { //Emitida en ID, Emitida en SAW Sin Nro. Control
                 vResult = ActualizaNroControlYProveedorImprentaDigital();
-            } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) {
-                vResult &= AnularDocumento();
-            } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) {
-                vResult &= AnularFacturasYCxC();
+            } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
+                vResult = AnularDocumento();
+            } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
+                vResult = AnularFacturasYCxC(ref vCxCCanceladas);               
             } else {
-                vResult = true;
+                vResult = true; // Todo al día
             }
             return vResult;
         }
 
         public bool ActualizaNroControlYProveedorImprentaDigital() {
             bool vResult = false;
+            vResult = ActualizaNroControlEnCxC();
+            vResult = vResult & ActualizaNroControlEnFactura();
+            return vResult;
+
+        }
+
+        private bool ActualizaNroControlEnCxC() {
+            bool vResult = false;
             LibGpParams vParams = new LibGpParams();
             QAdvSql insUtilSql = new QAdvSql("");
-            vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
-            vParams.AddInString("NumeroFactura", NumeroFactura, 11);
-            vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("UPDATE factura ");
-            vSql.AppendLine("SET NumeroControl = " + insUtilSql.ToSqlValue(NumeroControl) + ",");
-            vSql.AppendLine("ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));
-            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania AND ");
-            vSql.AppendLine("Numero = @NumeroFactura AND ");
-            vSql.AppendLine("TipoDeDocumento = @TipoDeDocumento ");
-            vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
-            vSql.Clear();
-            // Actualiza Nro Control en CxC
-            vParams = new LibGpParams();
+            StringBuilder vSql = new StringBuilder();                        
             eTipoDeTransaccion vTipoCxC = TipoDocumentoFacturaToTipoTransaccionCxC(TipoDeDocumento);
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", NumeroFactura, 11);
@@ -398,14 +394,31 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private bool AnularFacturasYCxC() {
+        private bool ActualizaNroControlEnFactura() {
             bool vResult = false;
-            int vCxCPorCancelar = 0;
-            string vListaCxCPorCancelar = string.Empty;
-            vResult = ExistenCxCPorCancelar(ref vCxCPorCancelar);
-            if (vResult) {
-                if (vCxCPorCancelar > 0) {
-                    vListaCxCPorCancelar = ListaDeCxCPorCancelar();
+            LibGpParams vParams = new LibGpParams();
+            QAdvSql insUtilSql = new QAdvSql("");
+            StringBuilder vSql = new StringBuilder();
+            vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+            vParams.AddInString("NumeroFactura", NumeroFactura, 11);
+            vParams.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);           
+            vSql.AppendLine("UPDATE factura ");
+            vSql.AppendLine("SET NumeroControl = " + insUtilSql.ToSqlValue(NumeroControl) + ",");
+            vSql.AppendLine("ProveedorImprentaDigital = " + insUtilSql.EnumToSqlValue((int)ProveedorImprentaDigital));
+            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania AND ");
+            vSql.AppendLine("Numero = @NumeroFactura AND ");
+            vSql.AppendLine("TipoDeDocumento = @TipoDeDocumento ");
+            vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
+            return vResult;
+        }
+
+        private bool AnularFacturasYCxC(ref string refCxCCanceladas) {
+            bool vResult = false;
+            int vCxCCanceladas = 0;
+            string vListaCxCCanceladas = string.Empty;
+            if (ExistenCxCCanceladas(ref vCxCCanceladas)) {
+                if (vCxCCanceladas > 0) {
+                    vListaCxCCanceladas = ListaDeCxCCanceladas();
                     vResult = false;
                 } else {
                     vResult = true;
@@ -425,6 +438,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     }
                 }
             }
+            refCxCCanceladas = vListaCxCCanceladas;
             return vResult;
         }
 
@@ -503,8 +517,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vSql.AppendLine(" UPDATE factura ");
                 vSql.AppendLine(" Set StatusFactura = " + insUtilSql.EnumToSqlValue((int)eStatusFactura.Anulada));
                 vSql.AppendLine(" ,EsDiferida = " + insUtilSql.ToSqlValue(false));
-                vSql.AppendLine(" ,NombreOperador = " + insUtilSql.ToSqlValue(((CustomIdentity)Thread.CurrentPrincipal.Identity).Login));
-                vSql.AppendLine(" ,FechaAnulacion = " + insUtilSql.ToSqlValue(FechaAsignacion));
+                vSql.AppendLine(" ,NombreOperador = " + insUtilSql.ToSqlValue(((CustomIdentity)Thread.CurrentPrincipal.Identity).Login));                
                 vSql.AppendLine(" ,FechaUltimaModificacion = " + insUtilSql.ToSqlValue(LibDate.Today()));
                 vSql.AppendLine(" WHERE ");
                 vSql.AppendLine(" Numero = @NumeroFactura ");
@@ -582,15 +595,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vParam.AddInString("Numero", NumeroFactura, 11);
                 vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
                 vSql.AppendLine("SELECT");
-                vSql.AppendLine(" ArticuloInventario.Codigo, ");                                
-                vSql.AppendLine(" ArticuloInventario.TipoArticuloInv, ");
+                vSql.AppendLine(" articuloInventario.Codigo, ");                                
+                vSql.AppendLine(" articuloInventario.TipoArticuloInv, ");
                 vSql.AppendLine(" renglonFactura.Rollo, ");
                 vSql.AppendLine(" renglonFactura.Serial, ");
                 vSql.AppendLine(" factura.CodigoAlmacen ");
                 vSql.AppendLine(" FROM ArticuloInventario");
                 vSql.AppendLine(" INNER JOIN renglonFactura ON ");
-                vSql.AppendLine(" ArticuloInventario.Codigo = renglonFactura.Articulo AND ");
-                vSql.AppendLine(" ArticuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania ");
+                vSql.AppendLine(" articuloInventario.Codigo = renglonFactura.Articulo AND ");
+                vSql.AppendLine(" articuloInventario.ConsecutivoCompania = renglonFactura.ConsecutivoCompania ");
                 vSql.AppendLine(" INNER JOIN factura ON ");
                 vSql.AppendLine(" factura.Numero = renglonFactura.NumeroFactura  AND ");
                 vSql.AppendLine(" factura.ConsecutivoCompania =renglonFactura.ConsecutivoCompania AND ");
@@ -609,18 +622,18 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        private bool ExistenCxCPorCancelar(ref int refCxCPorDocumentosPorCancelar) {
+        private bool ExistenCxCCanceladas(ref int refCantidadDeCxCCanceladas) {
             bool vResult = false;
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             QAdvSql insUtilSql = new QAdvSql("");
-            int vCxCPorDocumentosPorCancelar = 0;
-            int vCxCPorDocumentosEmitidos = 0;
+            int vCxCCanceladas = 0;
+            int vCxCEmitidas = 0;
             string vListaCxC = string.Empty;
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", NumeroFactura, 11);            
             vSql.AppendLine(" SELECT");
-            vSql.AppendLine(" COUNT(Numero) AS CXCPorCancelar ");
+            vSql.AppendLine(" COUNT(Numero) AS CXCCanceladas ");
             vSql.AppendLine(" FROM CXC ");
             vSql.AppendLine(" WHERE NumeroDocumentoOrigen = @NumeroFactura ");
             vSql.AppendLine(" AND  ConsecutivoCompania = @ConsecutivoCompania ");
@@ -628,28 +641,28 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" AND NumeroControl <> " + insUtilSql.ToSqlValue(""));
             XElement xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
             if (xResult != null && xResult.HasElements) {
-                vCxCPorDocumentosPorCancelar = LibConvert.ToInt(LibXml.GetPropertyString(xResult, "CXCPorCancelar"));
+                vCxCCanceladas = LibConvert.ToInt(LibXml.GetPropertyString(xResult, "CXCCanceladas"));
             }
             vSql.Clear();
             vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", NumeroFactura, 11);
             vSql.AppendLine(" SELECT");
-            vSql.AppendLine(" COUNT(Numero) AS CXCPorCancelar ");
+            vSql.AppendLine(" COUNT(Numero) AS CXCEmitidas ");
             vSql.AppendLine(" FROM CXC ");
             vSql.AppendLine(" WHERE NumeroDocumentoOrigen = @NumeroFactura ");
             vSql.AppendLine(" AND  ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND NumeroControl <> " + insUtilSql.ToSqlValue(""));
             xResult = LibBusiness.ExecuteSelect(vSql.ToString(), vParams.Get(), "", 0);
             if (xResult != null && xResult.HasElements) {
-                vCxCPorDocumentosEmitidos = LibConvert.ToInt(LibXml.GetPropertyString(xResult, "CXCPorCancelar"));
+                vCxCEmitidas = LibConvert.ToInt(LibXml.GetPropertyString(xResult, "CXCEmitidas"));
             }
-            refCxCPorDocumentosPorCancelar = vCxCPorDocumentosPorCancelar;
-            vResult = (vCxCPorDocumentosEmitidos == vCxCPorDocumentosPorCancelar);           
+            refCantidadDeCxCCanceladas = vCxCCanceladas;
+            vResult = (vCxCEmitidas == vCxCCanceladas);           
             return vResult;
         }
 
-        private string ListaDeCxCPorCancelar() {
+        private string ListaDeCxCCanceladas() {
             string vListaCxC = "";
             StringBuilder vSql = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
