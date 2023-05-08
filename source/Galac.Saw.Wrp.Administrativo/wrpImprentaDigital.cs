@@ -133,26 +133,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 vfwMensaje = vEx.Message;
                 return false;
             }
-        }
-        string IWrpImprentaDigitalVb.Choose(string vfwParamInitializationList, string vfwParamFixedList) {
-            string vResult = "";
-            LibSearch insLibSearch = new LibSearch();
-            List<LibSearchDefaultValues> vSearchValues = new List<LibSearchDefaultValues>();
-            List<LibSearchDefaultValues> vFixedValues = new List<LibSearchDefaultValues>();
-            try {
-                vSearchValues = insLibSearch.CreateListOfParameter(vfwParamInitializationList);
-                vFixedValues = insLibSearch.CreateListOfParameter(vfwParamFixedList);
-                return vResult;
-            } catch (GalacException gEx) {
-                LibExceptionDisplay.Show(gEx, null, Title + " - Escoger");
-            } catch (Exception vEx) {
-                if (vEx is AccessViolationException) {
-                    throw;
-                }
-                LibExceptionDisplay.Show(vEx);
-            }
-            return "";
-        }
+        }       
 
         void IWrpImprentaDigitalVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {

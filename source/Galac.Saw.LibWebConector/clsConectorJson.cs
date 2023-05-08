@@ -50,7 +50,9 @@ namespace Galac.Saw.LibWebConnector {
         }
 
         private static void RemoveItemArray(JToken valProperty) {
-            valProperty.First().Remove();
+            if (valProperty != null) {
+                valProperty.First().Remove();
+            }
         }
 
         private string FormatingJSON(ILoginUser valloginUser) {
