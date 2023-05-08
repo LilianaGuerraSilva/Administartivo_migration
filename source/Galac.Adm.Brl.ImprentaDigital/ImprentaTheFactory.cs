@@ -25,7 +25,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         eTipoDocumentoFactura _TipoDeDocumento;
         XElement vDocumentoDigital;
         string _TipoDeProveedor;
-        
+
         public ImprentaTheFactory(eTipoDocumentoFactura initTipoDeDocumento, string initNumeroFactura) : base(initTipoDeDocumento, initNumeroFactura) {
             _NumeroFactura = initNumeroFactura;
             _TipoDeDocumento = initTipoDeDocumento;
@@ -51,7 +51,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public override bool EstadoLoteDocumentos() {
-            try {                
+            try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
@@ -86,7 +86,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos 
                     vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 } else {
-                    throw new GalacException(vMensaje, eExceptionManagementType.Controlled);
+                    Mensaje = vMensaje;
                 }
                 return vRespuesta.ResultadoAprobado;
             } catch (GalacException) {
@@ -105,7 +105,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override bool AnularDocumento() {
             try {
                 string vMensaje = string.Empty;
-                stPostResq vRespuesta=new stPostResq();
+                stPostResq vRespuesta = new stPostResq();
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 if (EstadoDocumentoRespuesta != "Anulada") {
                     ObtenerDatosDocumentoEmitido();
@@ -121,7 +121,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                     }
                 } else {
-                    throw new GalacException($"No se pudo anular la {FacturaImprentaDigital.TipoDeDocumentoAsString} en la Imprenta Digital, debe sincronizar el documento.", eExceptionManagementType.Controlled);
+                    Mensaje = $"No se pudo anular la {FacturaImprentaDigital.TipoDeDocumentoAsString} en la Imprenta Digital, debe sincronizar el documento.";
                 }
                 return (vRespuesta.ResultadoAprobado);
             } catch (GalacException) {
@@ -141,14 +141,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ConfigurarDocumento();
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumentoDigital);
                     vDocumentoJSON = clsConectorJson.LimpiaRegistrosTempralesEnJSON(vDocumentoJSON);
-                    var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
+                    stPostResq vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
                     NumeroControl = vReq.resultados.numeroControl;
                     vResult = !LibString.IsNullOrEmpty(NumeroControl);
                     if (vResult) {
                         ActualizaNroControlYProveedorImprentaDigital();
                     }
                 } else {
-                    throw new GalacException("Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.", eExceptionManagementType.Controlled);
+                    Mensaje = "Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
                 }
                 return vResult;
             } catch (AggregateException gEx) {
