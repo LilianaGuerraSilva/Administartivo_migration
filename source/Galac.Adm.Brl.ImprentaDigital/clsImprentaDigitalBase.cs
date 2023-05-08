@@ -38,7 +38,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public Vendedor VendedorImprentaDigital { get; set; }
         public FacturaRapida FacturaImprentaDigital { get; set; }
         public List<FacturaRapidaDetalle> DetalleFacturaImprentaDigital { get; set; }       
-        public eProveedorImprentaDigital ProveedorImprentaDigital { get; set; }       
+        public eProveedorImprentaDigital ProveedorImprentaDigital { get; set; }
+        public string Mensaje { get; set; }
         #endregion Propiedades
         public clsImprentaDigitalBase() {
            
@@ -353,7 +354,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             BuscarDatosDelVendedor();
         }
 
-        public bool SincronizarDocumentosBase() {
+        public bool SincronizarDocumentosBase(ref string refMensaje) {
             bool vResult = false;
             string vCxCCanceladas = "";
             if (!LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl)) { //Emitida en ID, Emitida en SAW Sin Nro. Control
@@ -361,7 +362,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
                 vResult = AnularDocumento();
             } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
-                vResult = AnularFacturasYCxC(ref vCxCCanceladas);               
+                vResult = AnularFacturasYCxC(ref vCxCCanceladas);
+                if (!vResult) {
+                    refMensaje = "No se puede anular una Cuenta por Cobrar con Estatus Cancelado.";
+                }
             } else {
                 vResult = true; // Todo al día
             }
@@ -373,7 +377,6 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vResult = ActualizaNroControlEnCxC();
             vResult = vResult & ActualizaNroControlEnFactura();
             return vResult;
-
         }
 
         private bool ActualizaNroControlEnCxC() {
@@ -390,7 +393,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania AND ");
             vSql.AppendLine("NumeroDocumentoOrigen = @NumeroFactura AND ");
             vSql.AppendLine("TipoCxc = @TipoCxc ");
-            vResult = vResult & LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
+            vResult = LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), vParams.Get(), "", 0) >= 0;
             return vResult;
         }
 

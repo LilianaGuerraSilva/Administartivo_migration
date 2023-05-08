@@ -35,11 +35,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override bool SincronizarDocumentos() {
             try {
                 bool vResult = false;
+                string vMensaje = "";
                 if (EstadoDocumento()) { // Documento Existe en ID
-                    vResult = SincronizarDocumentosBase();
+                    vResult = SincronizarDocumentosBase(ref vMensaje);
                 } else {
                     vResult = EnviarDocumento();
                 }
+                Mensaje = vMensaje;
                 return vResult;
             } catch (GalacException) {
                 throw;

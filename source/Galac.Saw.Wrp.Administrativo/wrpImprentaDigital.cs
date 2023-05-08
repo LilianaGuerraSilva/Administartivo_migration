@@ -48,7 +48,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 });
                 vTask.Wait();
                 vfwNumeroControl = vNumeroControl;
-                vfwMensaje = "";
+                vfwMensaje = _insImprentaDigital.Mensaje;
                 return vDocumentoEnviado;
             } catch (AggregateException vEx) {
                 vfwMensaje = vEx.InnerException.Message;
