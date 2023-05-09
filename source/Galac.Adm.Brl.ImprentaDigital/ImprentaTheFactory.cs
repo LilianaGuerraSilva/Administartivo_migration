@@ -9,14 +9,8 @@ using LibGalac.Aos.Base;
 using Galac.Saw.Ccl.Inventario;
 using System.Collections.Generic;
 using Galac.Saw.LibWebConnector;
-using System.Threading.Tasks;
-using System.Xml.Schema;
 using Galac.Saw.Ccl.Cliente;
-using System.Linq;
-using System.Text;
 using LibGalac.Aos.Catching;
-using LibGalac.Aos.Brl;
-using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory: clsImprentaDigitalBase {
@@ -35,13 +29,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override bool SincronizarDocumentos() {
             try {
                 bool vResult = false;
-                string vMensaje = "";
                 if (EstadoDocumento()) { // Documento Existe en ID
-                    vResult = SincronizarDocumentosBase(ref vMensaje);
-                } else {
+                    vResult = SincronizarDocumentosBase();
+                } else if (LibString.IsNullOrEmpty(Mensaje)) {
                     vResult = EnviarDocumento();
                 }
-                Mensaje = vMensaje;
                 return vResult;
             } catch (GalacException) {
                 throw;
@@ -55,8 +47,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 bool vResult = false;
                 string vMensaje = string.Empty;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                bool vRepuesta = vConectorJson.CheckConnection(ref vMensaje);
-                if (vRepuesta) {
+                bool vRepuestaConector = vConectorJson.CheckConnection(ref vMensaje);
+                if (vRepuestaConector) {
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(""); //Construir XML o JSON Con datos 
                     var vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoLote), vConectorJson.Token);
                 }
@@ -69,9 +61,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         public override bool EstadoDocumento() {
-            stPostResq vRespuesta = new stPostResq();
+            stPostResq vRespuestaConector = new stPostResq();
             string vMensaje = string.Empty;
-            bool vObtenerConexion;
+            bool vChekConeccion;
             string vDocumentoJSON;
             try {
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
@@ -81,33 +73,33 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                     NumeroDocumento = LibString.Right(NumeroFactura, 8)
                 };
-                vObtenerConexion = vConectorJson.CheckConnection(ref vMensaje);
-                if (vObtenerConexion) {
+                vChekConeccion = vConectorJson.CheckConnection(ref vMensaje);
+                if (vChekConeccion) {
                     vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos 
-                    vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
+                    vRespuestaConector = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token);
                 } else {
                     Mensaje = vMensaje;
                 }
-                return vRespuesta.ResultadoAprobado;
+                return vRespuestaConector.Aprobado;
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             } finally {
-                CodigoRespuesta = vRespuesta.codigo ?? string.Empty;
-                EstadoDocumentoRespuesta = vRespuesta.estado.estadoDocumento ?? string.Empty;
-                NumeroControl = vRespuesta.estado.numeroControl ?? string.Empty;
-                FechaAsignacion = LibString.IsNullOrEmpty(vRespuesta.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuesta.estado.fechaAsignacion);
-                HoraAsignacion = vRespuesta.estado.horaAsignacion ?? string.Empty;
+                CodigoRespuesta = vRespuestaConector.codigo ?? string.Empty;
+                EstatusDocumento = vRespuestaConector.estado.estadoDocumento ?? string.Empty;
+                NumeroControl = vRespuestaConector.estado.numeroControl ?? string.Empty;
+                FechaAsignacion = LibString.IsNullOrEmpty(vRespuestaConector.estado.fechaAsignacion) ? LibDate.MinDateForDB() : LibConvert.ToDate(vRespuestaConector.estado.fechaAsignacion);
+                HoraAsignacion = vRespuestaConector.estado.horaAsignacion ?? string.Empty;
             }
         }
 
         public override bool AnularDocumento() {
             try {
                 string vMensaje = string.Empty;
-                stPostResq vRespuesta = new stPostResq();
+                stPostResq vRespuestaConector = new stPostResq();
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                if (EstadoDocumentoRespuesta != "Anulada") {
+                if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
                     ObtenerDatosDocumentoEmitido();
                     stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
                         Serie = "",
@@ -115,15 +107,18 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         NumeroDocumento = LibString.Right(NumeroFactura, 8),
                         MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
                     };
-                    bool vRespuestaConexion = vConectorJson.CheckConnection(ref vMensaje);
-                    if (vRespuestaConexion) {
+                    bool vChekConeccion = vConectorJson.CheckConnection(ref vMensaje);
+                    if (vChekConeccion) {
                         string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos 
-                        vRespuesta = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
+                        vRespuestaConector = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
+                        Mensaje = vRespuestaConector.mensaje;
+                    } else {
+                        Mensaje = vMensaje;
                     }
                 } else {
                     Mensaje = $"No se pudo anular la {FacturaImprentaDigital.TipoDeDocumentoAsString} en la Imprenta Digital, debe sincronizar el documento.";
                 }
-                return (vRespuesta.ResultadoAprobado);
+                return (vRespuestaConector.Aprobado);
             } catch (GalacException) {
                 return false;
             } catch (Exception vEx) {
@@ -135,20 +130,23 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 string vMensaje = string.Empty;
+                stPostResq vRespuestaConector;
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
-                bool vRespuestaConexion = vConectorJson.CheckConnection(ref vMensaje);
-                if (vRespuestaConexion) {
+                bool vChekConeccion = vConectorJson.CheckConnection(ref vMensaje);
+                if (vChekConeccion) {
                     ConfigurarDocumento();
                     string vDocumentoJSON = clsConectorJson.SerializeJSON(vDocumentoDigital);
                     vDocumentoJSON = clsConectorJson.LimpiaRegistrosTempralesEnJSON(vDocumentoJSON);
-                    stPostResq vReq = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
-                    NumeroControl = vReq.resultados.numeroControl;
-                    vResult = !LibString.IsNullOrEmpty(NumeroControl);
+                    vRespuestaConector = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Emision), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
+                    NumeroControl = vRespuestaConector.resultados.numeroControl;
+                    vResult = vRespuestaConector.Aprobado;
                     if (vResult) {
                         ActualizaNroControlYProveedorImprentaDigital();
+                    } else {
+                        Mensaje = vRespuestaConector.mensaje;
                     }
                 } else {
-                    Mensaje = "Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
+                    Mensaje = vMensaje;
                 }
                 return vResult;
             } catch (AggregateException gEx) {

@@ -30,7 +30,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public string NumeroControl { get; set; }
         public eTipoDocumentoFactura TipoDeDocumento { get; set; }
         public string CodigoRespuesta { get; set; }
-        public string EstadoDocumentoRespuesta { get; set; }
+        public string EstatusDocumento { get; set; }
         public clsLoginUser LoginUser { get; set; }
         public string HoraAsignacion { get; set; }
         public DateTime FechaAsignacion { get; set; }
@@ -52,6 +52,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));            
             clsImprentaDigitalSettings vImprentaDigitalSettings = new clsImprentaDigitalSettings();
+            Mensaje = string.Empty;
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                     LoginUser.URL = vImprentaDigitalSettings.DireccionURL;
@@ -354,17 +355,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             BuscarDatosDelVendedor();
         }
 
-        public bool SincronizarDocumentosBase(ref string refMensaje) {
+        public bool SincronizarDocumentosBase() {
             bool vResult = false;
             string vCxCCanceladas = "";
             if (!LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl)) { //Emitida en ID, Emitida en SAW Sin Nro. Control
                 vResult = ActualizaNroControlYProveedorImprentaDigital();
-            } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
+            } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
                 vResult = AnularDocumento();
-            } else if (LibString.S1IsEqualToS2(EstadoDocumentoRespuesta, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
+            } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
                 vResult = AnularFacturasYCxC(ref vCxCCanceladas);
                 if (!vResult) {
-                    refMensaje = "No se puede anular una Cuenta por Cobrar con Estatus Cancelado.";
+                    Mensaje = "No se puede anular una Cuenta por Cobrar con Estatus Cancelado.";
                 }
             } else {
                 vResult = true; // Todo al día
