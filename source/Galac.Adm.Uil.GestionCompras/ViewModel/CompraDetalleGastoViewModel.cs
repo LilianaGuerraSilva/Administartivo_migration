@@ -262,7 +262,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     Monto = ConexionCxpNumero.Monto;
                     CodigoMoneda = ConexionCxpNumero.CodigoMoneda;
                     if(vMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda) &&  !vMonedaLocalActual.EsMonedaLocalDelPais(Master.CodigoMoneda)) {
-                        Monto /= Master.CambioAMonedaLocal;
+                        Monto = LibMath.RoundToNDecimals(Monto / Master.CambioAMonedaLocal, 2);
                     } else if(!vMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda) && vMonedaLocalActual.EsMonedaLocalDelPais(Master.CodigoMoneda)) {
                         decimal vCambio;
                         bool vExisteCambioDelDía = ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Master.Fecha, out  vCambio);
@@ -280,7 +280,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                                 ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Master.Fecha, out vCambio);
                             }
                         }
-                        Monto *= vCambio;
+                        Monto = LibMath.RoundToNDecimals(Monto * vCambio, 2);
                     }
                 } else {
                     ConsecutivoCxP = 0;
