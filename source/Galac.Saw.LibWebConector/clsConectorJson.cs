@@ -73,12 +73,12 @@ namespace Galac.Saw.LibWebConnector {
                 string vJsonStr = FormatingJSON(_LoginUser);
                 vRequest = SendPostJson(vJsonStr, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Autenticacion), "");
                 refMensaje = vRequest.mensaje;
-                if (vRequest.ResultadoAprobado) {
+                if (vRequest.Aprobado) {
                     _Token = vRequest.token;
                     _LoginUser.MessageResult = vRequest.mensaje;
                     vResult = !LibString.IsNullOrEmpty(_Token);
                 } else {
-                    vResult = false;
+                    vResult = false;                    
                 }
                 return vResult;
             } catch (GalacException) {
@@ -90,6 +90,7 @@ namespace Galac.Saw.LibWebConnector {
 
         public stPostResq SendPostJson(string valJsonStr, string valComandoApi, string valToken, string valNumeroDocumento = "", int valTipoDocumento = 0) {
             string vResultMessage = "";
+            stPostResq infoReqs = new stPostResq();
             try {
                 strTipoDocumento = (valTipoDocumento == 8 ? "Nota de Entrega" : valTipoDocumento == 1 ? "Nota de Crédito" : valTipoDocumento == 2 ? "Nota de Débito" : "Factura");
                 strTipoDocumento = "La " + strTipoDocumento + " No. " + valNumeroDocumento;
@@ -108,25 +109,25 @@ namespace Galac.Saw.LibWebConnector {
                 } else {
                     Task<string> HttpResq = vHttpRespMsg.Result.Content.ReadAsStringAsync();
                     HttpResq.Wait();
-                    stPostResq infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
+                    infoReqs = JsonConvert.DeserializeObject<stPostResq>(HttpResq.Result);
                     if (LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        infoReqs.ResultadoAprobado = true;
+                        infoReqs.Aprobado = true;
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "403")) {
                         infoReqs.mensaje = "Usuario o clave inválida.\r\nPor favor verifique los datos de conexión con su Imprenta Digital.";
-                        infoReqs.ResultadoAprobado = false;
+                        infoReqs.Aprobado = false;
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "201")) {
-                        infoReqs.ResultadoAprobado = false;
+                        infoReqs.Aprobado = false;
                         infoReqs.mensaje = strTipoDocumento + " ya existe en la Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
-                        infoReqs.ResultadoAprobado = false;
+                        infoReqs.Aprobado = false;
                         infoReqs.mensaje = strTipoDocumento + " se debe enviar a la Imprenta Digital.";
-                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
-                        throw new GalacException(infoReqs.mensaje, eExceptionManagementType.Alert);
-                    }
-                    return infoReqs;
+                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {                        
+                        throw new Exception();
+                    }                    
                 }
             } catch (AggregateException) {
-                throw new GalacException("Falla de conexión con su Imprenta Digital.\r\nPor favor verifique los datos de conexión o servicio de internet.", eExceptionManagementType.Alert);
+                infoReqs.Aprobado = false;
+                infoReqs.mensaje = "Falla de conexión con su Imprenta Digital.\r\nPor favor verifique los datos de conexión o servicio de internet.";
             } catch (GalacException) {
                 throw;
             } catch (Exception vEx) {
@@ -136,8 +137,10 @@ namespace Galac.Saw.LibWebConnector {
                 }
                 vPath = vPath + @"\ImprentaDigitalResult.txt";
                 LibFile.WriteLineInFile(vPath, vEx.Message + "\r\n" + vResultMessage + "\r\n" + valJsonStr, false);
-                throw new GalacException(strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.", eExceptionManagementType.Alert);
+                infoReqs.Aprobado = false;
+                infoReqs.mensaje = strTipoDocumento + " no pudo ser enviada a la Imprenta Digital, debe sincronizar el documento.";
             }
+            return infoReqs;
         }
     }
 }

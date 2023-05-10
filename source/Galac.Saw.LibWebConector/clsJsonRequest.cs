@@ -36,7 +36,7 @@ namespace Galac.Saw.LibWebConnector {
         [JsonProperty("estado")]
         public stEstado estado { get; set; }
 
-        public bool ResultadoAprobado { get; set; }
+        public bool Aprobado { get; set; }
 
     }
     public struct stRespuesta {

@@ -37,19 +37,19 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         bool IWrpImprentaDigitalVb.EnviarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl, ref string vfwMensaje) {
             try {
                 string vNumeroControl = "";
-                bool vDocumentoEnviado = false;
+                bool vResult = false;
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
                 CreateGlobalValues(vfwCurrentParameters);
                 Task vTask = Task.Factory.StartNew(() => {
-                    vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
+                    vResult = _insImprentaDigital.EnviarDocumento();
                     vNumeroControl = _insImprentaDigital.NumeroControl;
                 });
                 vTask.Wait();
                 vfwNumeroControl = vNumeroControl;
-                vfwMensaje = "";
-                return vDocumentoEnviado;
+                vfwMensaje = _insImprentaDigital.Mensaje;
+                return vResult;
             } catch (AggregateException vEx) {
                 vfwMensaje = vEx.InnerException.Message;
                 return false;
@@ -66,26 +66,26 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         }
 
         bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwMensaje) {
-            try {
-                bool vDocumentoFueAnulado = false;
-                bool vDocumentoExiste = false;
+            try {               
+                bool vResult = false;
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
                 CreateGlobalValues(vfwCurrentParameters);
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
                 Task vTask = Task.Factory.StartNew(() => {
-                    vDocumentoExiste = _insImprentaDigital.EstadoDocumento();
-                    if (vDocumentoExiste) {
-                        if (_insImprentaDigital.EstadoDocumentoRespuesta != "Anulada") {
-                            vDocumentoFueAnulado = _insImprentaDigital.AnularDocumento();
+                    vResult = _insImprentaDigital.EstadoDocumento();
+                    if (vResult) {
+                        if (_insImprentaDigital.EstatusDocumento != "Anulada") {
+                            vResult = _insImprentaDigital.AnularDocumento();
                         }
                     }
                 });
                 vTask.Wait();
-                if (!vDocumentoExiste) {
+                vfwMensaje = _insImprentaDigital.Mensaje;
+                if (!vResult) {
                     vfwMensaje = "El documento que desea anular no pudo ser encontrado en la Imprenta Digital.\r\nSincronice sus documentos antes de volver a intentar."; 
-                }
-                return vDocumentoFueAnulado;
+                }                
+                return vResult;
             } catch (AggregateException vEx) {
                 vfwMensaje = vEx.InnerException.Message;
                 return false;
@@ -101,25 +101,24 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         bool IWrpImprentaDigitalVb.SincronizarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl, ref string vfwMensaje) {
             try {
                 string vNumeroControl = "";
-                bool vDocumentoEnviado = false;                
-                bool vDocumentoExiste = false;
+                bool vResult = false;                               
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
                 CreateGlobalValues(vfwCurrentParameters);
                 Task vTask = Task.Factory.StartNew(() => {
-                    vDocumentoExiste = _insImprentaDigital.EstadoDocumento();
-                    if (vDocumentoExiste) {
-                        if (_insImprentaDigital.EstadoDocumentoRespuesta != "Anulada") {
-                            vDocumentoEnviado = _insImprentaDigital.EnviarDocumento();
+                    vResult = _insImprentaDigital.EstadoDocumento();
+                    if (vResult) {
+                        if (_insImprentaDigital.EstatusDocumento != "Anulada") {
+                            vResult = _insImprentaDigital.EnviarDocumento();
                             vNumeroControl = _insImprentaDigital.NumeroControl;
                         }
                     }
                 });
                 vTask.Wait();
                 vfwNumeroControl = vNumeroControl;
-                vfwMensaje = "";
-                return vDocumentoEnviado;
+                vfwMensaje = _insImprentaDigital.Mensaje;
+                return vResult;
             } catch (AggregateException vEx) {
                 vfwMensaje = vEx.InnerException.Message;
                 return false;
