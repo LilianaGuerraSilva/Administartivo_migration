@@ -21,12 +21,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
+			CrearColumnaRutaDeComercializacion();
 			CrearTablaAdmVendedor();
 			CrearCampoCompania_EstaIntegradaG360();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
 
+		private void CrearColumnaRutaDeComercializacion() {
+			QAdvSql InsSql = new QAdvSql("");
+			if (AddColumnEnumerative("dbo.Vendedor", "RutaDeComercializacion", "", (int)eRutaDeComercializacion.Ninguna)) {
+				AddDefaultConstraint("dbo.Vendedor", "d_VenRuDeCo", InsSql.ToSqlValue((int)eRutaDeComercializacion.Ninguna), "RutaDeComercializacion");
+			}
+		}
 
 		private void CrearColumnaConsecutivoVendedor(string valTabla, string valNombreColumna, string valConstraint) {
 			QAdvSql InsSql = new QAdvSql("");
