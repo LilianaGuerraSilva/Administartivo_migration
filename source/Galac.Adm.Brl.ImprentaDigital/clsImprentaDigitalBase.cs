@@ -359,7 +359,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public void ObtenerDatosDocumentoEmitido() {
             try {
                 StringBuilder vParam = new StringBuilder();
-                string vSql = SqlDatosDelVendedor(ref vParam);
+                string vSql = SqlDatosDocumentoEmitido(ref vParam);
                 XElement vResult = LibBusiness.ExecuteSelect(vSql, vParam, "", 0);
                 if (vResult != null && vResult.HasElements) {
                     FacturaImprentaDigital = new FacturaRapida();
