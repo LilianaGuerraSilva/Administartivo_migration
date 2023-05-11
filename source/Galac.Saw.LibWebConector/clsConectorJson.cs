@@ -120,7 +120,7 @@ namespace Galac.Saw.LibWebConnector {
                         infoReqs.mensaje = strTipoDocumento + " ya existe en la Imprenta Digital.";
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
                         infoReqs.Aprobado = false;
-                        infoReqs.mensaje = strTipoDocumento + " se debe enviar a la Imprenta Digital.";
+                        infoReqs.mensaje = strTipoDocumento + " no se encontró en la Imprenta Digital, debe sincronizar el documento.";
                     } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {                        
                         throw new Exception();
                     }                    
