@@ -83,7 +83,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 vTask.Wait();
                 vfwMensaje = _insImprentaDigital.Mensaje;
                 if (!vResult) {
-                    vfwMensaje = "El documento que desea anular no pudo ser encontrado en la Imprenta Digital.\r\nSincronice sus documentos antes de volver a intentar."; 
+                    vfwMensaje = "El documento seleccionado no pudo ser anulado en la Imprenta Digital.\r\nSincronice sus documentos antes de volver a intentar."; 
                 }                
                 return vResult;
             } catch (AggregateException vEx) {
