@@ -182,7 +182,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             LibGpParams vParam = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
             vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
-            vParam.AddInString("Numero", NumeroFactura, 11);
+            vParam.AddInString("NumeroFactura", NumeroFactura, 11);
             vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
             refParametros = vParam.Get();
             vSql.AppendLine("SELECT ");
