@@ -42,6 +42,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
+            vParams.AddInInteger("CodigoVendedor", valRecord.CodigoVendedor);
             vParams.AddInString("NombreDeLineaDeProducto", valRecord.NombreDeLineaDeProducto, 20);
             vParams.AddInEnum("TipoDeComision", valRecord.TipoDeComisionAsDB);
             vParams.AddInDecimal("Monto", valRecord.Monto, 2);
@@ -111,6 +112,7 @@ namespace Galac.Adm.Dal.Vendedor {
                     new XElement("ConsecutivoCompania", valMaster.ConsecutivoCompania),
                     new XElement("ConsecutivoVendedor", valMaster.Consecutivo),
                     new XElement("ConsecutivoRenglon", vEntity.ConsecutivoRenglon),
+                    new XElement("CodigoVendedor", vEntity.CodigoVendedor),
                     new XElement("NombreDeLineaDeProducto", vEntity.NombreDeLineaDeProducto),
                     new XElement("TipoDeComision", vEntity.TipoDeComisionAsDB),
                     new XElement("Monto", vEntity.Monto),

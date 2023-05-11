@@ -45,6 +45,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vSQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenDetComConsecutiv NOT NULL, ");
             vSQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenDetComConsecutiv NOT NULL, ");
             vSQL.AppendLine("ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenDetComConsecutiv NOT NULL, ");
+            vSQL.AppendLine("CodigoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenDetComCodigo NOT NULL, ");
             vSQL.AppendLine("NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT nnVenDetComNombreDeLi NOT NULL, ");
             vSQL.AppendLine("TipoDeComision" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnVenDetComTipoDeComi NOT NULL, ");
             vSQL.AppendLine("Monto" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT nnVenDetComMonto NOT NULL, ");
@@ -62,7 +63,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT ConsecutivoCompania, ConsecutivoVendedor, ConsecutivoRenglon, NombreDeLineaDeProducto");
+            SQL.AppendLine("SELECT ConsecutivoCompania, ConsecutivoVendedor, CodigoVendedor, ConsecutivoRenglon, NombreDeLineaDeProducto");
             SQL.AppendLine(", TipoDeComision, " + DbSchema + ".Gv_EnumTipoComision.StrValue AS TipoDeComisionStr, Monto, Porcentaje");
             SQL.AppendLine(", VendedorDetalleComisiones.fldTimeStamp, CAST(VendedorDetalleComisiones.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".VendedorDetalleComisiones");
@@ -123,6 +124,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ConsecutivoRenglon" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@CodigoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@NombreDeLineaDeProducto" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@TipoDeComision" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -152,6 +154,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".VendedorDetalleComisiones");
             SQL.AppendLine("            SET NombreDeLineaDeProducto = @NombreDeLineaDeProducto,");
+            SQL.AppendLine("               CodigoVendedor = @CodigoVendedor,");
             SQL.AppendLine("               TipoDeComision = @TipoDeComision,");
             SQL.AppendLine("               Monto = @Monto,");
             SQL.AppendLine("               Porcentaje = @Porcentaje");
@@ -264,6 +267,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("         ConsecutivoCompania,");
             SQL.AppendLine("         ConsecutivoVendedor,");
             SQL.AppendLine("         ConsecutivoRenglon,");
+            SQL.AppendLine("         CodigoVendedor,");
             SQL.AppendLine("         NombreDeLineaDeProducto,");
             SQL.AppendLine("         TipoDeComision,");
             SQL.AppendLine("         Monto,");
@@ -293,6 +297,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("        ConsecutivoCompania,");
             SQL.AppendLine("        ConsecutivoVendedor,");
             SQL.AppendLine("        ConsecutivoRenglon,");
+            SQL.AppendLine("        CodigoVendedor,");
             SQL.AppendLine("        NombreDeLineaDeProducto,");
             SQL.AppendLine("        TipoDeComision,");
             SQL.AppendLine("        Monto,");
@@ -316,7 +321,7 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpDelDetail() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
-            SQL.AppendLine("	DELETE FROM VendedorDetalleComisiones");
+            SQL.AppendLine("	DELETE FROM Adm.VendedorDetalleComisiones");
             SQL.AppendLine(" 	WHERE ConsecutivoVendedor = @ConsecutivoVendedor");
             SQL.AppendLine(" 	AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("    RETURN @@ROWCOUNT");
@@ -346,6 +351,7 @@ namespace Galac.Adm.Dal.Vendedor {
 			SQL.AppendLine("	        ConsecutivoCompania,");
 			SQL.AppendLine("	        ConsecutivoVendedor,");
 			SQL.AppendLine("	        ConsecutivoRenglon,");
+			SQL.AppendLine("	        CodigoVendedor,");
 			SQL.AppendLine("	        NombreDeLineaDeProducto,");
 			SQL.AppendLine("	        TipoDeComision,");
 			SQL.AppendLine("	        Monto,");
@@ -353,6 +359,7 @@ namespace Galac.Adm.Dal.Vendedor {
 		    SQL.AppendLine("	    SELECT ");
 			SQL.AppendLine("	        @ConsecutivoCompania,");
 			SQL.AppendLine("	        @ConsecutivoVendedor,");
+			SQL.AppendLine("	        CodigoVendedor,");
 			SQL.AppendLine("	        ConsecutivoRenglon,");
 			SQL.AppendLine("	        NombreDeLineaDeProducto,");
 			SQL.AppendLine("	        TipoDeComision,");
@@ -360,6 +367,7 @@ namespace Galac.Adm.Dal.Vendedor {
 			SQL.AppendLine("	        Porcentaje");
 		    SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult/GpDataVendedorDetalleComisiones/GpDetailVendedorDetalleComisiones',2) ");
             SQL.AppendLine("	    WITH (");
+            SQL.AppendLine("	        CodigoVendedor " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        ConsecutivoRenglon " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        NombreDeLineaDeProducto " + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("	        TipoDeComision " + InsSql.CharTypeForDb(1) + ",");

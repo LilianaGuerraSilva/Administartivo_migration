@@ -7,6 +7,7 @@ namespace Galac.Adm.Ccl.Vendedor{
     public interface IFkVendedorDetalleComisionesViewModel {
         #region Propiedades
           int ConsecutivoCompania { get; set; }
+          int ConsecutivoVendedor { get; set; }
           int ConsecutivoRenglon { get; set; }
         #endregion //Propiedades
 

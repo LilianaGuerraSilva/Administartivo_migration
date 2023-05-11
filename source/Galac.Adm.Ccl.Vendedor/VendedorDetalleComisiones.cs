@@ -14,6 +14,7 @@ namespace Galac.Adm.Ccl.Vendedor{
         private int _ConsecutivoCompania;
         private int _ConsecutivoVendedor;
         private int _ConsecutivoRenglon;
+        private int _CodigoVendedor;
         private string _NombreDeLineaDeProducto;
         private eTipoComision _TipoDeComision;
         private decimal _Monto;
@@ -35,7 +36,10 @@ namespace Galac.Adm.Ccl.Vendedor{
             get { return _ConsecutivoRenglon; }
             set { _ConsecutivoRenglon = value; }
         }
-
+        public int CodigoVendedor {
+            get { return _CodigoVendedor; }
+            set { _CodigoVendedor = value; }
+        }
         public string NombreDeLineaDeProducto {
             get { return _NombreDeLineaDeProducto; }
             set { 
@@ -96,6 +100,7 @@ namespace Galac.Adm.Ccl.Vendedor{
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ConsecutivoVendedor = 0;
             ConsecutivoRenglon = 0;
+            CodigoVendedor = 0;
             NombreDeLineaDeProducto = string.Empty;
             TipoDeComisionAsEnum = eTipoComision.PorPorcentaje;
             Monto = 0;
@@ -107,6 +112,7 @@ namespace Galac.Adm.Ccl.Vendedor{
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.ConsecutivoRenglon = _ConsecutivoRenglon;
+            vResult.CodigoVendedor = _CodigoVendedor;
             vResult.NombreDeLineaDeProducto = _NombreDeLineaDeProducto;
             vResult.TipoDeComisionAsEnum = _TipoDeComision;
             vResult.Monto = _Monto;
@@ -118,6 +124,7 @@ namespace Galac.Adm.Ccl.Vendedor{
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
                "\nConsecutivo Vendedor = " + _ConsecutivoVendedor.ToString() +
                "\nConsecutivo Renglon = " + _ConsecutivoRenglon.ToString() +
+               "\nCodigo Vendedor = " + _CodigoVendedor.ToString() +
                "\nNombre De Linea De Producto = " + _NombreDeLineaDeProducto +
                "\nTipo De Comision = " + _TipoDeComision.ToString() +
                "\nMonto = " + _Monto.ToString() +
