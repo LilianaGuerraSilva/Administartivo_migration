@@ -649,14 +649,6 @@ namespace Galac.Adm.Dal.Vendedor {
                 clsVendedorDetalleComisionesED insDetailVenDetalleComisiones = new clsVendedorDetalleComisionesED();
                 vResult = insDetailVenDetalleComisiones.InstalarTabla();
             }
-            //if (insDbo.Exists(DbSchema + ".Vendedor", eDboType.Tabla)) {
-            //    clsVendedorDetalleComisionesED insDetailRenComDeVen = new clsVendedorDetalleComisionesED();
-            //    vResult = insDetailRenComDeVen.InstalarTabla();
-            //    //clsVendedorXLienaDeProductoED insDetailVenXLiDePro = new clsVendedorXLienaDeProductoED();
-            //    //vResult = vResult && insDetailVenXLiDePro.InstalarTabla();
-            //    //clsListadoDeVendedoresED insDetailLisDeVen = new clsListadoDeVendedoresED();
-            //    //vResult = vResult && insDetailLisDeVen.InstalarTabla();
-            //}
             return vResult;
         }
 
@@ -665,10 +657,7 @@ namespace Galac.Adm.Dal.Vendedor {
             if (insDbo.Exists(DbSchema + ".Vendedor", eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
-                vResult = true;
                 vResult = new clsVendedorDetalleComisionesED().InstalarVistasYSps();
-                //vResult = vResult && new clsVendedorXLienaDeProductoED().InstalarVistasYSps();
-                //vResult = vResult && new clsListadoDeVendedoresED().InstalarVistasYSps();
             }
             return vResult;
         }
@@ -693,7 +682,6 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
         #endregion //Metodos Generados
-
 
     } //End of class clsVendedorED
 

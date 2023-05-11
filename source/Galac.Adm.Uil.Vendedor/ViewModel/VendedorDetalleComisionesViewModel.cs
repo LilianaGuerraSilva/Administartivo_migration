@@ -17,6 +17,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #region Constantes
         public const string ConsecutivoVendedorPropertyName = "ConsecutivoVendedor";
         public const string ConsecutivoRenglonPropertyName = "ConsecutivoRenglon";
+        public const string CodigoVendedorPropertyName = "CodigoVendedor";
         public const string NombreDeLineaDeProductoPropertyName = "NombreDeLineaDeProducto";
         public const string TipoDeComisionPropertyName = "TipoDeComision";
         public const string MontoPropertyName = "Monto";
@@ -68,6 +69,19 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.ConsecutivoRenglon = value;
                     IsDirty = true;
                     RaisePropertyChanged(ConsecutivoRenglonPropertyName);
+                }
+            }
+        }
+
+        public int CodigoVendedor {
+            get {
+                return Model.CodigoVendedor;
+            }
+            set {
+                if (Model.CodigoVendedor != value) {
+                    Model.CodigoVendedor = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(CodigoVendedorPropertyName);
                 }
             }
         }

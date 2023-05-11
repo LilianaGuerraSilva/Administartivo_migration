@@ -1606,6 +1606,10 @@ namespace Galac.Saw.DbMigrator {
         #endregion
 
         #region Migrar Vendedor
+        public void MigrarVendedorYDetalleComisiones() {
+            MigrarVendedor();
+            MigrarVendedorDetalleComisiones();
+        }
         public void MigrarVendedor() {
             QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSQL = new StringBuilder();
@@ -1701,6 +1705,34 @@ namespace Galac.Saw.DbMigrator {
             vSQL.AppendLine("RutaDeComercializacion ");
             vSQL.AppendLine("FROM dbo.Vendedor ");
             vSQL.AppendLine("ORDER BY ConsecutivoCompania, Codigo ");
+            vDb.ExecuteWithScope(vSQL.ToString());
+        }
+        public void MigrarVendedorDetalleComisiones() {
+            QAdvSql vUtilSql = new QAdvSql("");
+            StringBuilder vSQL = new StringBuilder();
+            LibDataScope vDb = new LibDataScope();
+            vSQL.AppendLine("INSERT INTO Adm.VendedorDetalleComisiones (");
+            vSQL.AppendLine("ConsecutivoCompania, ");
+            vSQL.AppendLine("ConsecutivoVendedor, ");
+            vSQL.AppendLine("CodigoVendedor, ");
+            vSQL.AppendLine("ConsecutivoRenglon, ");
+            vSQL.AppendLine("NombreDeLineaDeProducto, ");
+            vSQL.AppendLine("TipoDeComision, ");
+            vSQL.AppendLine("Monto, ");
+            vSQL.AppendLine("Porcentaje ) ");
+            vSQL.AppendLine("SELECT dbo.RenglonComisionesDeVendedor.ConsecutivoCompania, ");
+            vSQL.AppendLine("Adm.Vendedor.Consecutivo AS ConsecutivoVendedor, ");
+            vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.CodigoVendedor, ");
+            vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.ConsecutivoRenglon, ");
+            vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.NombreDeLineaDeProducto, ");
+            vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.TipoDeComision, ");
+            vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.Monto, ");
+            vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.Porcentaje ");
+            vSQL.AppendLine("FROM dbo.RenglonComisionesDeVendedor ");
+            vSQL.AppendLine("INNER JOIN Adm.Vendedor ");
+            vSQL.AppendLine("ON dbo.RenglonComisionesDeVendedor.ConsecutivoCompania = Adm.Vendedor.ConsecutivoCompania AND ");
+            vSQL.AppendLine(" dbo.RenglonComisionesDeVendedor.CodigoVendedor = Adm.Vendedor.Codigo ");
+            vSQL.AppendLine("ORDER BY dbo.RenglonComisionesDeVendedor.ConsecutivoCompania, dbo.RenglonComisionesDeVendedor.CodigoVendedor, dbo.RenglonComisionesDeVendedor.ConsecutivoRenglon ");
             vDb.ExecuteWithScope(vSQL.ToString());
         }
         #endregion
@@ -1814,7 +1846,7 @@ namespace Galac.Saw.DbMigrator {
                 MigrarCambio();
             }
             if (LibGalac.Aos.Base.LibArray.Contains(_ModulesArray, "Vendedor")) {
-                MigrarVendedor();
+                MigrarVendedorYDetalleComisiones();
             }
             return vResult;
         }

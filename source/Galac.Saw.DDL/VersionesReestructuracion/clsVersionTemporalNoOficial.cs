@@ -30,8 +30,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 		private void CrearColumnaRutaDeComercializacion() {
 			QAdvSql InsSql = new QAdvSql("");
-			if (AddColumnEnumerative("dbo.Vendedor", "RutaDeComercializacion", "", (int)eRutaDeComercializacion.Ninguna)) {
-				AddDefaultConstraint("dbo.Vendedor", "d_VenRuDeCo", InsSql.ToSqlValue((int)eRutaDeComercializacion.Ninguna), "RutaDeComercializacion");
+			if (TableExists("dbo.Vendedor")) {
+				if (AddColumnEnumerative("dbo.Vendedor", "RutaDeComercializacion", "", (int)eRutaDeComercializacion.Ninguna)) {
+					AddDefaultConstraint("dbo.Vendedor", "d_VenRuDeCo", InsSql.ToSqlValue((int)eRutaDeComercializacion.Ninguna), "RutaDeComercializacion");
+				}
 			}
 		}
 
@@ -98,8 +100,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 						CrearColumnaConsecutivoVendedor("dbo.Cliente", "ConsecutivoVendedor", " CONSTRAINT nnConCliVe NOT NULL");
 						LlenarColumnaConsecutivoVendedor("dbo.Cliente", "ConsecutivoVendedor", "CodigoVendedor");
 					}
-					ExecuteDropTable("dbo.Vendedor");
-					ExecuteDropTable("dbo.RenglonComisionesDeVendedor");
+					if (TableExists("dbo.Vendedor")) {
+						ExecuteDropTable("dbo.Vendedor");
+					}
+					if (TableExists("dbo.RenglonComisionesDeVendedor")) {
+						ExecuteDropTable("dbo.RenglonComisionesDeVendedor");
+					}
 					clsCompatViews.CrearVistaDboVendedor();
 					clsCompatViews.CrearVistaDboRenglonComisionesDeVendedor();
 				} catch (GalacException vEx) {
