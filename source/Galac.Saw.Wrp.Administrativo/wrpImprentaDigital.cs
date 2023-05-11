@@ -38,10 +38,10 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
             try {
                 string vNumeroControl = "";
                 bool vResult = false;
+                CreateGlobalValues(vfwCurrentParameters);
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
-                var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
-                CreateGlobalValues(vfwCurrentParameters);
+                var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);                
                 Task vTask = Task.Factory.StartNew(() => {
                     vResult = _insImprentaDigital.EnviarDocumento();
                     vNumeroControl = _insImprentaDigital.NumeroControl;
@@ -68,8 +68,8 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         bool IWrpImprentaDigitalVb.AnularDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwMensaje) {
             try {               
                 bool vResult = false;
-                eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
                 CreateGlobalValues(vfwCurrentParameters);
+                eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;                
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
                 Task vTask = Task.Factory.StartNew(() => {
@@ -101,19 +101,14 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
         bool IWrpImprentaDigitalVb.SincronizarDocumento(int vfwTipoDocumento, string vfwNumeroFactura, string vfwCurrentParameters, ref string vfwNumeroControl, ref string vfwMensaje) {
             try {
                 string vNumeroControl = "";
-                bool vResult = false;                               
+                bool vResult = false;
+                CreateGlobalValues(vfwCurrentParameters);
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
-                CreateGlobalValues(vfwCurrentParameters);
                 Task vTask = Task.Factory.StartNew(() => {
-                    vResult = _insImprentaDigital.EstadoDocumento();
-                    if (vResult) {
-                        if (_insImprentaDigital.EstatusDocumento != "Anulada") {
-                            vResult = _insImprentaDigital.EnviarDocumento();
-                            vNumeroControl = _insImprentaDigital.NumeroControl;
-                        }
-                    }
+                    vResult = _insImprentaDigital.SincronizarDocumentos();
+                    vNumeroControl = _insImprentaDigital.NumeroControl;
                 });
                 vTask.Wait();
                 vfwNumeroControl = vNumeroControl;
