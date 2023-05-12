@@ -78,8 +78,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vChekConeccion = vConectorJson.CheckConnection(ref vMensaje);
                 if (vChekConeccion) {
                     vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos 
-                    vRespuestaConector = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token,NumeroFactura,(int)TipoDeDocumento);
-                    Mensaje = vRespuestaConector.mensaje;                    
+                    vRespuestaConector = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.EstadoDocumento), vConectorJson.Token, NumeroFactura, (int)TipoDeDocumento);
+                    Mensaje = vRespuestaConector.mensaje;
                 } else {
                     Mensaje = vMensaje;
                 }
@@ -99,7 +99,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public override bool AnularDocumento() {
             try {
-                bool vResult = false;                
+                bool vResult = false;
                 stPostResq vRespuestaConector = new stPostResq();
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 if (EstadoDocumento()) { // Documento Existe en ID
@@ -109,11 +109,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                             TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                             NumeroDocumento = LibString.Right(NumeroFactura, 8),
                             MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
-                        };                        
+                        };
                         string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos 
                         vRespuestaConector = vConectorJson.SendPostJson(vDocumentoJSON, LibEnumHelper.GetDescription(eComandosPostTheFactoryHKA.Anular), vConectorJson.Token);
                         vResult = vRespuestaConector.Aprobado;
-                        Mensaje = vRespuestaConector.mensaje;                        
+                        Mensaje = vRespuestaConector.mensaje;
                     } else {
                         Mensaje = $"No se pudo anular la {FacturaImprentaDigital.TipoDeDocumentoAsString} en la Imprenta Digital, debe sincronizar el documento.";
                     }
@@ -126,7 +126,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             } catch (Exception vEx) {
                 throw new GalacException(vEx.Message, eExceptionManagementType.Controlled);
             }
-        }        
+        }
 
         public override bool EnviarDocumento() {
             try {

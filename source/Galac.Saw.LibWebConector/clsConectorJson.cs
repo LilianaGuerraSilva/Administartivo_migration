@@ -78,7 +78,7 @@ namespace Galac.Saw.LibWebConnector {
                     _LoginUser.MessageResult = vRequest.mensaje;
                     vResult = !LibString.IsNullOrEmpty(_Token);
                 } else {
-                    vResult = false;                    
+                    vResult = false;
                 }
                 return vResult;
             } catch (GalacException) {
@@ -121,9 +121,9 @@ namespace Galac.Saw.LibWebConnector {
                     } else if (LibString.S1IsEqualToS2(infoReqs.codigo, "203")) {
                         infoReqs.Aprobado = false;
                         infoReqs.mensaje = strTipoDocumento + " no se encontró en la Imprenta Digital, debe sincronizar el documento.";
-                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {                        
+                    } else if (!LibString.S1IsEqualToS2(infoReqs.codigo, "200")) {
                         throw new Exception();
-                    }                    
+                    }
                 }
             } catch (AggregateException) {
                 infoReqs.Aprobado = false;
