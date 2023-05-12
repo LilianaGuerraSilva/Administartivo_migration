@@ -400,7 +400,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             if (!LibString.S1IsEqualToS2(NumeroControl, FacturaImprentaDigital.NumeroControl)) { //Emitida en ID, Emitida en SAW Sin Nro. Control
                 vResult = ActualizaNroControlYProveedorImprentaDigital();
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
-                vResult = AnularDocumento();
+                if (ExistenCxCPorCancelar()) {
+                    vResult = AnularDocumento();
+                } else {
+                    Mensaje = "No se puede anular una Cuenta por Cobrar con Estatus Cancelado.";
+                }
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
                 vResult = AnularFacturasYCxC();
                 if (!vResult) {
