@@ -99,8 +99,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public override bool AnularDocumento() {
             try {
-                bool vResult = false;
-                string vMensaje = string.Empty;
+                bool vResult = false;                
                 stPostResq vRespuestaConector = new stPostResq();
                 clsConectorJson vConectorJson = new clsConectorJson(LoginUser);
                 if (EstadoDocumento()) { // Documento Existe en ID
