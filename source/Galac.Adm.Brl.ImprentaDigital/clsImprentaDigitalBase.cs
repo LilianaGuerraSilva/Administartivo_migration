@@ -456,7 +456,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         private bool AnularFacturasYCxC() {
-            bool vResult = false;                       
+            bool vResult = false;
             if (ExistenCxCPorCancelar()) {
                 if (AnularCxCOrigenDeFactura()) {
                     vResult = AnularFactura();
@@ -545,7 +545,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private bool ActualizaReservaMercanciaAlAnularFactura() {
             bool vResult = false;
             StringBuilder vParams = new StringBuilder();
-            string vSql=vSqlActualizaReservaMercanciaAlAnularFactura(ref vParams);            
+            string vSql = vSqlActualizaReservaMercanciaAlAnularFactura(ref vParams);
             try {
                 vResult = LibBusiness.ExecuteUpdateOrDelete(vSql, vParams, "", 0) > 0;
                 return vResult;
@@ -708,7 +708,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private bool ExistenCxCPorCancelar() {
             bool vResult = false;
             int vCxCPorCancelar = BuscarCxC(true);
-            int vCxCEmitidas = BuscarCxC(false);            
+            int vCxCEmitidas = BuscarCxC(false);
             vResult = (vCxCEmitidas == vCxCPorCancelar);
             return vResult;
         }
@@ -741,7 +741,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public abstract bool EnviarDocumento();
         public abstract bool AnularDocumento();
         public abstract bool EstadoDocumento();
-        public abstract bool EstadoLoteDocumentos();        
+        public abstract bool EstadoLoteDocumentos();
     }
 }
 
