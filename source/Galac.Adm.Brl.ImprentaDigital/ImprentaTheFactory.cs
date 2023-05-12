@@ -31,7 +31,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 bool vResult = false;
                 if (EstadoDocumento()) { // Documento Existe en ID
                     vResult = base.SincronizarDocumento();
-                } else if (LibString.IsNullOrEmpty(Mensaje)) {
+                } else if (LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
                     vResult = EnviarDocumento();
                 }
                 return vResult;
