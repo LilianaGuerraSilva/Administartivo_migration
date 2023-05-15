@@ -48,7 +48,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
             clsImprentaDigitalSettings vImprentaDigitalSettings = new clsImprentaDigitalSettings();
+            NumeroControl = string.Empty;
             Mensaje = string.Empty;
+            EstatusDocumento = string.Empty;
+            CodigoRespuesta = string.Empty;
+            FechaAsignacion = LibDate.MinDateForDB();
+            HoraAsignacion = string.Empty;
             switch (ProveedorImprentaDigital) {
                 case eProveedorImprentaDigital.TheFactoryHKA:
                     LoginUser.URL = vImprentaDigitalSettings.DireccionURL;
