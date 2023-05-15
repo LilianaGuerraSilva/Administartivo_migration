@@ -61,7 +61,7 @@ Private mNumeroDeLote As String
 Private mRealizarBusquedaEnArchivo As Boolean
 Private mProgressBar As ProgressBar
 Private mYaIngresoUnoMas As Boolean
-Private mVectorDeVerificaciones As Variant
+Private mVectorDeVerificaciones() As Variant
 Private mConsecutivoRenglon As Long
 Private mValorDelCampoDeId As String
 Private mImportoRegistros As Boolean
@@ -220,7 +220,7 @@ Private valSeparador As String
 Private tipoDeSeparacion As String
 Private CrearComprobanteApertura As Boolean
 Private FileNumberdeCreado As Integer
-Private mLineaDeProducto As Variant
+Private mLineaDeProducto() As Variant
 Private NombreArchivodeErrores As String
 Private mLabelPorcentaje As Label
 Private mMensajePrecioConIva As Boolean
@@ -229,7 +229,7 @@ Private mCambiarAUsaMultiplesAlicuotas As Long
 Private mArchivoCreado As String
 Private mCallingWindow As Form
 Private mNregistroExistenBd As Long
-Private valDatosDeInventario As Variant
+Private valDatosDeInventario() As Variant
 
 Private valCodigoAlmacenExtra As String
 Private valNombreAlmacenExtra As String
@@ -552,7 +552,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    Dim linea As String
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
-   Dim valProveedorArray As Variant
+   Dim valProveedorArray() As Variant
    Dim TextoAuxiliar As String
    Dim mrsZona As ADODB.Recordset
    Dim SQL As String
@@ -2219,7 +2219,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fEsUnTpoDeCuentaPorCobrarPagar", CM_MESSAGE_NAME_CXC, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String, ByRef refLineaDeError As String, ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean, ByRef mCxPArray As Variant) As Boolean
+Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String, ByRef refLineaDeError As String, ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean, ByRef mCxPArray() As Variant) As Boolean
    Dim linea As String
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
