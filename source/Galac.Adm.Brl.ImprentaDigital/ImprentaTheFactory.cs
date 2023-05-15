@@ -31,6 +31,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public override bool SincronizarDocumento() {
             try {
                 bool vResult = false;
+                bool vDocumentoExiste;
+                if (LibString.IsNullOrEmpty(EstatusDocumento)) {
+                    vDocumentoExiste = EstadoDocumento();
+                }
                 if (EstadoDocumento()) { // Documento Existe en ID
                     vResult = base.SincronizarDocumento();
                 } else if (LibString.S1IsEqualToS2(CodigoRespuesta, "203")) { // Documento No Existe en ID
@@ -106,7 +110,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             try {
                 bool vResult = false;
                 stPostResq vRespuestaConector = new stPostResq();
-                if (EstadoDocumento()) { // Documento Existe en ID
+                bool vDocumentoExiste = EstadoDocumento();
+                if (LibString.IsNullOrEmpty(EstatusDocumento)){
+                    vDocumentoExiste = EstadoDocumento();                 
+                }
+                if (vDocumentoExiste) { 
                     if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
                         stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
                             Serie = "",

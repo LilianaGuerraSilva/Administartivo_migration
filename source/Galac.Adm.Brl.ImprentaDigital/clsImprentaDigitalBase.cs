@@ -216,24 +216,24 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vResult != null && vResult.HasElements) {
                     List<XElement> ListDetaill = vResult.Descendants("GpResult").ToList();
                     DetalleFacturaImprentaDigital = new List<FacturaRapidaDetalle>();
-                    foreach (XElement xRow in ListDetaill) {
-                        FacturaRapidaDetalle iFacturaRapidaDetalle = new FacturaRapidaDetalle();
-                        iFacturaRapidaDetalle.ConsecutivoRenglon = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(xRow, "ConsecutivoRenglon"));
-                        iFacturaRapidaDetalle.Articulo = LibXml.GetElementValueOrEmpty(xRow, "Articulo");
-                        iFacturaRapidaDetalle.Descripcion = LibXml.GetElementValueOrEmpty(xRow, "Descripcion");
-                        iFacturaRapidaDetalle.Cantidad = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "Cantidad"));
-                        iFacturaRapidaDetalle.PrecioSinIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "PrecioSinIVA"));
-                        iFacturaRapidaDetalle.PrecioConIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "PrecioConIVA"));
-                        iFacturaRapidaDetalle.PorcentajeDescuento = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "PorcentajeDescuento"));
-                        iFacturaRapidaDetalle.TotalRenglon = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "TotalRenglon"));
-                        iFacturaRapidaDetalle.PorcentajeBaseImponible = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "PorcentajeBaseImponible"));
-                        iFacturaRapidaDetalle.PorcentajeAlicuota = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(xRow, "PorcentajeAlicuota"));
-                        iFacturaRapidaDetalle.AlicuotaIva = LibXml.GetElementValueOrEmpty(xRow, "AlicuotaIVA");
-                        iFacturaRapidaDetalle.Serial = LibXml.GetElementValueOrEmpty(xRow, "Serial");
-                        iFacturaRapidaDetalle.Rollo = LibXml.GetElementValueOrEmpty(xRow, "Rollo");
-                        iFacturaRapidaDetalle.CampoExtraEnRenglonFactura1 = LibXml.GetElementValueOrEmpty(xRow, "CampoExtraEnRenglonFactura1");
-                        iFacturaRapidaDetalle.CampoExtraEnRenglonFactura2 = LibXml.GetElementValueOrEmpty(xRow, "CampoExtraEnRenglonFactura2");
-                        DetalleFacturaImprentaDigital.Add(iFacturaRapidaDetalle);
+                    foreach (XElement vRowDetaill in ListDetaill) {
+                        FacturaRapidaDetalle insFacturaRapidaDetalle = new FacturaRapidaDetalle();
+                        insFacturaRapidaDetalle.ConsecutivoRenglon = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(vRowDetaill, "ConsecutivoRenglon"));
+                        insFacturaRapidaDetalle.Articulo = LibXml.GetElementValueOrEmpty(vRowDetaill, "Articulo");
+                        insFacturaRapidaDetalle.Descripcion = LibXml.GetElementValueOrEmpty(vRowDetaill, "Descripcion");
+                        insFacturaRapidaDetalle.Cantidad = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "Cantidad"));
+                        insFacturaRapidaDetalle.PrecioSinIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PrecioSinIVA"));
+                        insFacturaRapidaDetalle.PrecioConIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PrecioConIVA"));
+                        insFacturaRapidaDetalle.PorcentajeDescuento = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PorcentajeDescuento"));
+                        insFacturaRapidaDetalle.TotalRenglon = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "TotalRenglon"));
+                        insFacturaRapidaDetalle.PorcentajeBaseImponible = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PorcentajeBaseImponible"));
+                        insFacturaRapidaDetalle.PorcentajeAlicuota = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PorcentajeAlicuota"));
+                        insFacturaRapidaDetalle.AlicuotaIva = LibXml.GetElementValueOrEmpty(vRowDetaill, "AlicuotaIVA");
+                        insFacturaRapidaDetalle.Serial = LibXml.GetElementValueOrEmpty(vRowDetaill, "Serial");
+                        insFacturaRapidaDetalle.Rollo = LibXml.GetElementValueOrEmpty(vRowDetaill, "Rollo");
+                        insFacturaRapidaDetalle.CampoExtraEnRenglonFactura1 = LibXml.GetElementValueOrEmpty(vRowDetaill, "CampoExtraEnRenglonFactura1");
+                        insFacturaRapidaDetalle.CampoExtraEnRenglonFactura2 = LibXml.GetElementValueOrEmpty(vRowDetaill, "CampoExtraEnRenglonFactura2");
+                        DetalleFacturaImprentaDigital.Add(insFacturaRapidaDetalle);
                     }
                 } else {
                     throw new GalacException("No existen datos para el detalle del documento a enviar", eExceptionManagementType.Controlled);
