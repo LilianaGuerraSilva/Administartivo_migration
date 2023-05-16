@@ -29,7 +29,6 @@ namespace Galac.Adm.Dal.Vendedor {
         }
         #endregion //Propiedades
         #region Constructores
-
         public clsVendedorDat() {
             DbSchema = "Adm";
             insTrn = new LibDataScope();
@@ -38,7 +37,6 @@ namespace Galac.Adm.Dal.Vendedor {
         #region Metodos Generados
 
         private StringBuilder ParametrosActualizacion(Entity.Vendedor valRecord, eAccionSR valAction) {
-            StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
@@ -88,11 +86,10 @@ namespace Galac.Adm.Dal.Vendedor {
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
-            vResult = vParams.Get();
-            return vResult;
+            return vParams.Get();
         }
 
-        private StringBuilder ParametrosClave(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+        private StringBuilder ParametrosClavePrimaria(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             if (valAddReturnParameter) {
@@ -107,6 +104,21 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
+        private StringBuilder ParametrosClaveUnica(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            if (valAddReturnParameter) {
+                vParams.AddReturn();
+            }
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
+            vParams.AddInString("Codigo", valRecord.Codigo, 5);
+            if (valIncludeTimestamp) {
+                vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
+            }
+            vResult = vParams.Get();
+            return vResult;
+        }
+
         private StringBuilder ParametrosProximoConsecutivo(Entity.Vendedor valRecord) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -114,6 +126,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vResult = vParams.Get();
             return vResult;
         }
+
         #region Miembros de ILibDataMasterComponent<IList<Vendedor>, IList<Vendedor>>
 
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.CanBeChoosen(IList<Entity.Vendedor> refRecord, eAccionSR valAction) {
@@ -196,7 +209,7 @@ namespace Galac.Adm.Dal.Vendedor {
             CurrentRecord = refRecord[0];
             if (Validate(eAccionSR.Eliminar, out vErrMsg)) {
                 LibDatabase insDb = new LibDatabase();
-                vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorDEL"), ParametrosClave(CurrentRecord, true, true));
+                vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorDEL"), ParametrosClavePrimaria(CurrentRecord, true, true));
                 insDb.Dispose();
             } else {
                 throw new GalacValidationException(vErrMsg);
@@ -297,7 +310,6 @@ namespace Galac.Adm.Dal.Vendedor {
                     }
                 }
                 return vResult;
-
             } finally {
 
             }
@@ -360,12 +372,15 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             return true;
         }
+
         #region Validaciones
+
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             ClearValidationInfo();
             vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
-            //vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
+            vResult &= IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
+            vResult &= IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo);
             vResult &= IsValidNombre(valAction, CurrentRecord.Nombre);
             vResult &= IsValidRIF(valAction, CurrentRecord.RIF);
             outErrorMessage = Information.ToString();
@@ -373,37 +388,42 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
             if (valConsecutivoCompania <= 0) {
                 BuildValidationInfo(MsgRequiredField("Consecutivo Compania"));
-                vResult = false;
-            } else if (valAction == eAccionSR.Insertar) {
-                if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
-                    BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo Compania", valConsecutivoCompania));
-                    vResult = false;
-                }
+                return false;
             }
-            return vResult;
+            return true;
         }
 
-        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){ //al parece este código no se usa, si genera muchos problemas se comenta
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {
+            if (valAction == eAccionSR.Eliminar) {
                 return true;
             }
-            if (valConsecutivo == 0) {
-                BuildValidationInfo(MsgRequiredField("Consecutivo"));
-                vResult = false;
-            } else if (valAction == eAccionSR.Insertar) {
+            if (valAction == eAccionSR.Insertar) {
                 if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
                     BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo", valConsecutivo));
-                    vResult = false;
+                    return false;
+                }
+            } else {
+                if (valConsecutivo == 0) {
+                    BuildValidationInfo(MsgRequiredField("Consecutivo"));
+                    return false;
                 }
             }
-            return vResult;
+            return true;
+        }
+
+        private bool IsValidCodigo(eAccionSR valAction, int valConsecutivoCompania, string valCodigo) {
+            if (LibString.IsNullOrEmpty(valCodigo, true)) {
+                BuildValidationInfo(MsgRequiredField("Código"));
+                return false;
+            } else if (valAction == eAccionSR.Insertar) {
+                if (UniqueKeyExists(valConsecutivoCompania, valCodigo)) {
+                    BuildValidationInfo(MsgFieldValueAlreadyExist("Código", valCodigo));
+                    return false;
+                }
+            }
+            return true;
         }
 
         private bool IsValidNombre(eAccionSR valAction, string valNombre){
@@ -420,54 +440,54 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool IsValidRIF(eAccionSR valAction, string valRIF){
-            bool vResult = true;
-            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
-                return true;
-            }
             valRIF = LibString.Trim(valRIF);
             if (LibString.IsNullOrEmpty(valRIF, true)) {
-                BuildValidationInfo(MsgRequiredField("N° R.I.F."));
-                vResult = false;
+                string vNombreCampo = EsVenezuela() ? "N° R.I.F." : "N° R.U.C.";
+                BuildValidationInfo(MsgRequiredField(vNombreCampo));
+                return false;
             }
-            return vResult;
+            return true;
         }
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
-            bool vResult = false;
             Entity.Vendedor vRecordBusqueda = new Entity.Vendedor();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.Consecutivo = valConsecutivo;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
+            bool vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClavePrimaria(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
 
         private bool KeyExists(Entity.Vendedor valRecordBusqueda) {
-            bool vResult = false;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
+            bool vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClavePrimaria(valRecordBusqueda, false, false));
+            insDb.Dispose();
+            return vResult;
+        }
+
+        private bool UniqueKeyExists(int valConsecutivoCompania, string valCodigo) {
+            Entity.Vendedor vRecordBusqueda = new Entity.Vendedor();
+            vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
+            vRecordBusqueda.Codigo = valCodigo;
+            LibDatabase insDb = new LibDatabase();
+            bool vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClaveUnica(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
 
         private bool ValidateMasterDetail(eAccionSR valAction,Entity.Vendedor valRecordMaster, bool valUseDetail) {
-            bool vResult = false;
             string vErrMsg;
             if (Validate(valAction, out vErrMsg)) {
                 if (valUseDetail) {
-                    if (ValidateDetail(valRecordMaster, eAccionSR.Insertar, out vErrMsg)) {
-                        vResult = true;
-                    } else {
+                    if (!ValidateDetail(valRecordMaster, eAccionSR.Insertar, out vErrMsg)) {
                         throw new GalacValidationException("Vendedor (detalle)\n" + vErrMsg);
                     }
-                } else {
-                    vResult = true;
                 }
             } else {
                 throw new GalacValidationException(vErrMsg);
             }
-            return vResult;
+            return true;
         }
 
         private bool ValidateDetail(Entity.Vendedor valRecord, eAccionSR valAction, out string outErrorMessage) {
@@ -500,8 +520,10 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             return vResult;
         }
+
         #endregion //Validaciones
         #region Miembros de ILibDataFKSearch
+
         bool ILibDataFKSearch.ConnectFk(ref XmlDocument refResulset, eProcessMessageType valType, string valProcessMessage, StringBuilder valXmlParamsExpression) {
             bool vResult = false;
             LibDatabase insDb = new LibDatabase(clsCkn.ConfigKeyForDbServiceAdministrativoVendedor);
@@ -511,7 +533,9 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             return vResult;
         }
+        
         #endregion //Miembros de ILibDataFKSearch
+        
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Insertar")]
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Importar")]
         public LibXmlResult Import(XmlReader refRecord, LibProgressManager valManager, bool valShowMessage) {
@@ -680,10 +704,10 @@ namespace Galac.Adm.Dal.Vendedor {
         public LibResponse InsertarListaDeVendedores(IList<Entity.Vendedor> valListOfRecords) {
             return InsertRecord(valListOfRecords);
         }
+
         private LibResponse InsertRecord(IList<Entity.Vendedor> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg;
-            //try {
             foreach (var item in refRecord) {
                 CurrentRecord = item;
                 if (ExecuteProcessBeforeInsert()) {
@@ -698,13 +722,14 @@ namespace Galac.Adm.Dal.Vendedor {
                 }
             }
             return vResult;
-            //} finally {
-            //    if (!vResult.Success) {
-            //    }
-            //}
         }
+
+        private static bool EsVenezuela() {
+            return LibDefGen.ProgramInfo.IsCountryVenezuela();
+        }
+
         #endregion //Metodos Generados
     } //End of class clsVendedorDat
 
-} //End of namespace Galac.Saw.Dal.Vendedor
+} //End of namespace Galac.Adm.Dal.Vendedor
 

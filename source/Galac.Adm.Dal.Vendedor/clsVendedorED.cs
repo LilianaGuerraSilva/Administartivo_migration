@@ -346,7 +346,8 @@ namespace Galac.Adm.Dal.Vendedor {
             //SQL.AppendLine("--BEGIN");
             SQL.AppendLine("         BEGIN TRAN");
             SQL.AppendLine("         UPDATE " + DbSchema + ".Vendedor");
-            SQL.AppendLine("            SET Nombre = @Nombre,");
+            SQL.AppendLine("            SET Codigo = @Codigo,");
+            SQL.AppendLine("               Nombre = @Nombre,");
             SQL.AppendLine("               RIF = @RIF,");
             SQL.AppendLine("               StatusVendedor = @StatusVendedor,");
             SQL.AppendLine("               Direccion = @Direccion,");
@@ -685,5 +686,5 @@ namespace Galac.Adm.Dal.Vendedor {
 
     } //End of class clsVendedorED
 
-} //End of namespace Galac.Saw.Dal.Vendedor
+} //End of namespace Galac.Adm.Dal.Vendedor
 

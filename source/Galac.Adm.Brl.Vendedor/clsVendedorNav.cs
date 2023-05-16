@@ -93,6 +93,7 @@ namespace Galac.Adm.Brl.Vendedor {
         Entity.Vendedor VendedorPorDefecto(int valConsecutivoCompania) {
             Entity.Vendedor insVendedor = new Entity.Vendedor();
             insVendedor.ConsecutivoCompania = valConsecutivoCompania;
+            insVendedor.Consecutivo = 1;
             insVendedor.Codigo = "00001";
             insVendedor.Nombre = "OFICINA";
             insVendedor.RIF = "00001";

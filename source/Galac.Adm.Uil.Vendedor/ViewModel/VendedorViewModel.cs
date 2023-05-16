@@ -12,6 +12,7 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Ccl.SttDef;
+using System.Xml.Linq;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
     public class VendedorViewModel : LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
@@ -118,7 +119,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
             set {
                 if (Model.Codigo != value) {
-                    Model.Codigo = value;
+                    Model.Codigo = LibText.FillWithCharToLeft(value, "0", 5);
                     RaisePropertyChanged(CodigoPropertyName);
                 }
             }
@@ -895,6 +896,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
         protected override void InitializeLookAndFeel(Ccl.Vendedor.Vendedor valModel) {
             base.InitializeLookAndFeel(valModel);
+            if (LibString.IsNullOrEmpty(Codigo, true)) {
+                Codigo = GenerarProximoCodigo();
+            }
         }
 
         protected override Ccl.Vendedor.Vendedor FindCurrentRecord(Ccl.Vendedor.Vendedor valModel) {
@@ -1019,6 +1023,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza3 ? TopeFinalCobranza3 : vTopeMasAlto;
             vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza4 ? TopeFinalCobranza4 : vTopeMasAlto;
             return vTopeMasAlto;
+        }
+
+        private string GenerarProximoCodigo() {
+            XElement vResulset = GetBusinessComponent().QueryInfo(eProcessMessageType.Message, "ProximoCodigo", Mfc.GetIntAsParam("Compania"), false);
+            return LibXml.GetPropertyString(vResulset, "Codigo");
         }
 
         #region Limpieza de Campos de Comisiones
