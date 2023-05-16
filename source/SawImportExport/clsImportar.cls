@@ -161,6 +161,8 @@ Public Function fVerificaValorImportarEnElArray(ByVal valItemsArray As Variant, 
             Exit For
          End If
       Next valregistroActual
+   ElseIf LBound(valItemsArray) = 0 And UBound(valItemsArray) = 0 Then
+      Importa = True
    End If
 h_EXIT:
   fVerificaValorImportarEnElArray = Importa
