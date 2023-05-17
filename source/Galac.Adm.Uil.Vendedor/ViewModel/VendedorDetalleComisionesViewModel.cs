@@ -8,7 +8,6 @@ using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
-using Galac.Saw.Uil.Tablas.ViewModel;
 using LibGalac.Aos.Uil;
 using Galac.Saw.Brl.Tablas;
 

@@ -1,13 +1,7 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Catching;
 
 namespace Galac.Adm.Ccl.Vendedor {
     [Serializable]

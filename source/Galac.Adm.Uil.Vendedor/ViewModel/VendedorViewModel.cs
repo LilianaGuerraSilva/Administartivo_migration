@@ -154,13 +154,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public string PromptNumeroRif {
             get {
-                string vResult = "";
-                if (EsVenezuela()) {
-                    vResult = "N° R.I.F.";
-                } else if (EsEcuador()) {
-                    vResult = "N° R.U.C.";
-                }
-                return vResult;
+                return EsVenezuela() ? "N° R.I.F." : "N° R.U.C.";
             }
         }
 
@@ -992,10 +986,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             } catch (Exception vEx) {
                 LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
-        }
-
-        private static bool EsEcuador() {
-            return LibDefGen.ProgramInfo.IsCountryEcuador();
         }
 
         private static bool EsVenezuela() {

@@ -58,6 +58,10 @@
       <Name>LibGalac.Aos.Brl</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Dal, Version=5.14.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Administrativo2\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

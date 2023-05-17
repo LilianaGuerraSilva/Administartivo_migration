@@ -1,13 +1,8 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
-using System.Xml;
 using LibGalac.Aos.Base;
-using Galac.Adm.Ccl.Vendedor;
 
-namespace Galac.Adm.Ccl.Vendedor{
+namespace Galac.Adm.Ccl.Vendedor {
     [Serializable]
     public class VendedorDetalleComisiones: IEquatable<VendedorDetalleComisiones>, INotifyPropertyChanged, ICloneable {
         #region Variables

@@ -11,5 +11,6 @@ namespace Galac.Adm.Ccl.Vendedor {
         void CalculaMontoPorcentajeYNivelDeComisionInforme(string valCodigo, decimal valMontoComisionable, decimal valMontoComisionableEnMonedaLocal, ref decimal refMontoComision, ref decimal refPorcentajeComision, ref string refNivelDeComision);
 
         void InsertarElPrimerVendedor(int valConsecutivoCompania);
+        int RecordCount(int valConsecutivoCompania);
     }
 }

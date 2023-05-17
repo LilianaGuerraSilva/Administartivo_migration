@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.UI.Wpf;
-using LibGalac.Aos.Uil.Usal;
 using LibGalac.Aos.Uil;
 using LibGalac.Aos.Vbwa;
 using System.Runtime.InteropServices;
@@ -76,7 +71,6 @@ namespace Galac.Saw.Wrp.Vendedor {
             return LibGlobalValues.Instance;
         }
 
-
         void IWrpVendedorVb.InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath) {
             try {
                 LibWrp.SetAppConfigToCurrentDomain(vfwPath);
@@ -125,6 +119,22 @@ namespace Galac.Saw.Wrp.Vendedor {
                     throw;
                 }
                 LibExceptionDisplay.Show(vEx);
+            }
+        }
+
+        public int RsRecordCount(int vfwConsecutivoCompania) {
+            try {
+                IVendedorPdn insVendedorPdn = new Adm.Brl.Vendedor.clsVendedorNav();
+                return insVendedorPdn.RecordCount(vfwConsecutivoCompania);
+            } catch (GalacException gEx) {
+                LibExceptionDisplay.Show(gEx, null, Title + " - " + "Escoger");
+                return -1;
+            } catch (Exception vEx) {
+                if (vEx is AccessViolationException) {
+                    throw;
+                }
+                LibExceptionDisplay.Show(vEx);
+                return -1;
             }
         }
         #endregion //Metodos Generados

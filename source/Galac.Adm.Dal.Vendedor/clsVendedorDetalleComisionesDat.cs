@@ -1,18 +1,13 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using System.Threading;
-using System.Security;
 using System.Security.Permissions;
 using System.Xml;
 using System.Xml.Linq;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Base.Dal;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Dal;
-using LibGalac.Aos.DefGen;
 using Galac.Adm.Ccl.Vendedor;
 
 namespace Galac.Adm.Dal.Vendedor {
@@ -167,63 +162,58 @@ namespace Galac.Adm.Dal.Vendedor {
             bool vResult = true;
             ClearValidationInfo();
             vResult = IsValidConsecutivoVendedor(valAction, CurrentRecord.ConsecutivoVendedor);
-            vResult = IsValidNombreDeLineaDeProducto(valAction, CurrentRecord.NombreDeLineaDeProducto) && vResult;
-            vResult = IsValidTipoDeComision(valAction, CurrentRecord.TipoDeComisionAsEnum) && vResult;
-            vResult = IsValidMonto(valAction, CurrentRecord.Monto) && vResult;
-            vResult = IsValidPorcentaje(valAction, CurrentRecord.Porcentaje) && vResult;
+            vResult &= IsValidNombreDeLineaDeProducto(valAction, CurrentRecord.NombreDeLineaDeProducto);
+            vResult &= IsValidTipoDeComision(valAction, CurrentRecord.TipoDeComisionAsEnum);
+            vResult &= IsValidMonto(valAction, CurrentRecord.Monto);
+            vResult &= IsValidPorcentaje(valAction, CurrentRecord.Porcentaje);
             outErrorMessage = Information.ToString();
             return vResult;
         }
 
         private bool IsValidConsecutivoVendedor(eAccionSR valAction, int valConsecutivoVendedor){
-            bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             if (valConsecutivoVendedor == 0) {
                 BuildValidationInfo(MsgRequiredField("Consecutivo Vendedor"));
-                vResult = false;
+                return false;
             }
-            return vResult;
+            return true;
         }
 
         private bool IsValidNombreDeLineaDeProducto(eAccionSR valAction, string valNombreDeLineaDeProducto){
-            bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             valNombreDeLineaDeProducto = LibString.Trim(valNombreDeLineaDeProducto);
             if (LibString.IsNullOrEmpty(valNombreDeLineaDeProducto, true)) {
                 BuildValidationInfo(MsgRequiredField("Nombre De Linea De Producto"));
-                vResult = false;
+                return false;
             }
-            return vResult;
+            return true;
         }
 
         private bool IsValidTipoDeComision(eAccionSR valAction, eTipoComision valTipoDeComision){
-            bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            return vResult;
+            return (valTipoDeComision == eTipoComision.PorPorcentaje) || (valTipoDeComision == eTipoComision.PorMonto);
         }
 
-        private bool IsValidMonto(eAccionSR valAction, decimal valMonto){
-            bool vResult = true;
+        private bool IsValidMonto(eAccionSR valAction, decimal valMonto) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
+            } else {
+                return valMonto >= 0;
             }
-            //throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-            return vResult;
         }
 
-        private bool IsValidPorcentaje(eAccionSR valAction, decimal valPorcentaje){
-            bool vResult = true;
+        private bool IsValidPorcentaje(eAccionSR valAction, decimal valPorcentaje) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
+            } else {
+                return valPorcentaje >= 0;
             }
-            //throw new ProgrammerMissingCodeException("Campo Decimal Obligatorio, debe especificar cual es su validacion");
-            return vResult;
         }
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoVendedor, int valConsecutivoRenglon) {

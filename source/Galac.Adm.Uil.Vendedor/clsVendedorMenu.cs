@@ -30,7 +30,6 @@ namespace Galac.Adm.Uil.Vendedor {
         }
         #endregion //Metodos Generados
 
-
     } //End of class clsVendedorMenu
 
 } //End of namespace Galac.Adm.Uil.Vendedor

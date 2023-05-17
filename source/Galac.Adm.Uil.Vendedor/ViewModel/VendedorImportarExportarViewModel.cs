@@ -1,27 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
-using LibGalac.Aos.UI.Mvvm.Helpers;
-using LibGalac.Aos.Brl.Contracts;
-using LibGalac.Aos.UI.Contracts;
-using LibGalac.Aos.UI.Wpf;
 using LibGalac.Aos.Base;
-using LibGalac.Aos.Base.Report;
-using LibGalac.Aos.Catching;
-using LibGalac.Aos.ARRpt.Reports;
 using Galac.Adm.Brl.Vendedor;
-using Galac.Adm.Ccl.Vendedor;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Microsoft.Win32;
 using LibGalac.Aos.UI.Wpf.ViewModel;
 using System.Xml.Linq;
-using System.Xml;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
 

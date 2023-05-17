@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Security;
-using System.Security.Permissions;
 using System.Xml;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
@@ -13,7 +11,8 @@ using Galac.Comun.Brl.TablasGen;
 using Galac.Saw.Brl.Tablas;
 using Galac.Adm.Ccl.Vendedor;
 using Galac.Adm.Dal.Vendedor;
-using System.Threading;
+using LibGalac.Aos.Dal;
+using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Adm.Brl.Vendedor {
     public partial class clsVendedorNav : LibBaseNavMaster<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibPdn, Entity.IVendedorPdn {
@@ -69,7 +68,6 @@ namespace Galac.Adm.Brl.Vendedor {
                 case "Línea de Producto":
                     vPdnModule = new clsLineaDeProductoNav();
                     vResult = vPdnModule.GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
-                    //vResult = ((ILibPdn)this).GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();
             }
@@ -99,6 +97,16 @@ namespace Galac.Adm.Brl.Vendedor {
             insVendedor.RIF = "00001";
             insVendedor.Ciudad = "CARACAS";
             return insVendedor;
+        }
+
+        int TotalVendedores(int valConsecutivoCompania) {
+            StringBuilder vSql = new StringBuilder();
+            LibDatabase insDb = new LibDatabase();
+            QAdvSql vUtilSql = new QAdvSql("");
+            vSql.AppendLine("   SELECT ConsecutivoCompania");
+            vSql.AppendLine("   FROM Vendedor");
+            vSql.AppendLine("   WHERE ConsecutivoCompania = " + vUtilSql.ToSqlValue(valConsecutivoCompania));
+            return insDb.RecordCountOfSql(vSql.ToString());
         }
  
         XElement Entity.IVendedorPdn.VendedorPorDefecto(int valConsecutivoCompania) {
@@ -253,6 +261,10 @@ namespace Galac.Adm.Brl.Vendedor {
             };
             IVendedorDatPdn insVendedorDatPdn = new clsVendedorDat();
             insVendedorDatPdn.InsertarListaDeVendedores(vVendedores);
+        }
+
+        int IVendedorPdn.RecordCount(int valConsecutivoCompania) {
+            return TotalVendedores(valConsecutivoCompania);
         }
         #endregion
 

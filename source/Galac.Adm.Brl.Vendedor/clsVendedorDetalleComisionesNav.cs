@@ -1,14 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security;
-using System.Security.Permissions;
-using System.Xml;
-using System.Xml.Linq;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
-using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.Vendedor;
 
 namespace Galac.Adm.Brl.Vendedor {
