@@ -4036,12 +4036,14 @@ Private Sub sCambiaAFalseElRegistroDelArraySiExiste(ByRef valItemsArray As Varia
    Dim valregistroActual As Long
    On Error GoTo h_ERROR
    valor = False
-   For valregistroActual = 0 To valIndiceActual
-      If UCase(valItemsArray(valIndex1, valregistroActual)) = UCase(valValorItem) Then
-         valItemsArray(valIndex2, valregistroActual) = valor
-         Exit For
-      End If
-   Next valregistroActual
+   If valIndiceActual >= 0 And valIndex1 >= LBound(valItemsArray) And valIndex1 < UBound(valItemsArray) And valIndex2 >= LBound(valItemsArray) And valIndex2 < UBound(valItemsArray) Then
+      For valregistroActual = 0 To valIndiceActual
+         If UCase(valItemsArray(valIndex1, valregistroActual)) = UCase(valValorItem) Then
+            valItemsArray(valIndex2, valregistroActual) = valor
+            Exit For
+         End If
+      Next valregistroActual
+   End If
 h_EXIT: On Error GoTo 0
   Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sCambiaAFalseElRegistroDelArraySiExiste", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
