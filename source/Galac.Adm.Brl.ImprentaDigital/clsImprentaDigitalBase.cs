@@ -408,12 +408,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (ExistenCxCPorCancelar()) {
                     vResult = AnularDocumento();
                 } else {
-                    Mensaje = "No se puede anular una Cuenta por Cobrar con Estatus Cancelado.";
+                    Mensaje = "No se puede anular una CxC que este Cancelada.";
                 }
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
                 vResult = AnularFacturasYCxC();
                 if (!vResult) {
-                    Mensaje = "No se puede anular una Cuenta por Cobrar con Estatus Cancelado.";
+                    Mensaje = "No se puede anular una CxC que este Cancelada.";
                 }
             } else {
                 vResult = true; // Todo al día
