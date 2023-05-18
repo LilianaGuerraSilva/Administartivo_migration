@@ -1225,6 +1225,9 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       vEditarMontoCuota = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetEditarMontoCuota vEditarMontoCuota
       vNumeroControl = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If gProyParametrosCompania.GetUsaImprentaDigital Then
+         vNumeroControl = ""
+      End If
       .SetNumeroControl vNumeroControl
       vTipoDeTransaccionStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       If vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A01_REGISTRO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A02_COMPLEMENTO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A03_ANULACION) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A04_AJUSTE) Then
@@ -3659,7 +3662,11 @@ Public Sub sImportarModulosSaw(ByVal valNombreDelArchivo As String, ByVal valExt
          If insImportar.fAbrirFileForOuputAndCreatePath(FileErrorNumber, insImportar.getPathDelFileDeErrores, insImportar.getFileDeErrores) Then
             mSeImportaComoHistorica = False
             If valEntidad = eEAEI_FACTURA And valEsFacturaBorradores Then
-               mSeImportaComoHistorica = gMessage.YesNoMessage("¿Desea Importar los Borradores de Factura como Históricos?", "Importar Borradores Factura")
+                If gProyParametrosCompania.GetUsaImprentaDigital Then
+                    mSeImportaComoHistorica = False
+                Else
+                    mSeImportaComoHistorica = gMessage.YesNoMessage("¿Desea Importar los Borradores de Factura como Históricos?", "Importar Borradores Factura")
+                End If
             End If
             sChequeaLaIntegridadDeLosDatosSaw FileErrorNumber, Separador, ErrorDeTraduccion, refProgressBar, valNombreDelArchivo, valEsFacturaBorradores
             insImportar.sCierraElFile FileErrorNumber

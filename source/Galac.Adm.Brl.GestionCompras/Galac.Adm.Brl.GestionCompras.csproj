@@ -106,7 +106,6 @@
     <Compile Include="clsCompraDetalleSerialRolloNav.cs" />
     <Compile Include="clsCompraNav.cs" />
     <Compile Include="clsCxPNav.cs" />
-    <Compile Include="clsLibroDeComprasNav.cs" />
     <Compile Include="clsOrdenDeCompraDetalleArticuloInventarioNav.cs" />
     <Compile Include="clsOrdenDeCompraImpExp.cs" />
     <Compile Include="clsOrdenDeCompraNav.cs" />

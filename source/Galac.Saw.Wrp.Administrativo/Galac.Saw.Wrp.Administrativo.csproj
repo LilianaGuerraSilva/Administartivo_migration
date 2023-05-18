@@ -116,6 +116,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -152,11 +153,13 @@
     <Compile Include="IWrpInformesVb.cs" />
     <Compile Include="IWrpImpuestoBancarioVb.cs" />
     <Compile Include="IWrpLibros.cs" />
+    <Compile Include="IWrpImprentaDigitalVb.cs" />
     <Compile Include="IWrpOrdenDeProduccionVb.cs" />
     <Compile Include="IWrpTransferenciaEntreCuentasBancariasVb.cs" />
     <Compile Include="IWrpVerificadorDePrecios.cs" />
     <Compile Include="wrpCaja.cs" />
     <Compile Include="wrpCajaApertura.cs" />
+    <Compile Include="wrpImprentaDigital.cs" />
     <Compile Include="wrpMenuBarCaja.cs" />
     <Compile Include="wrpTransferenciaEntreCuentasBancarias.cs" />
     <Compile Include="wrpVentaInformes.cs" />
@@ -230,6 +233,10 @@
     <ProjectReference Include="..\Galac.Adm.Brl.DispositivosExternos\Galac.Adm.Brl.DispositivosExternos.csproj">
       <Project>{ccdf88d8-37dd-4e46-aead-350bd211bd75}</Project>
       <Name>Galac.Adm.Brl.DispositivosExternos</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.ImprentaDigital\Galac.Adm.Brl.ImprentaDigital.csproj">
+      <Project>{115BD8B4-4D9B-4B9F-9E29-9F1BBDF20B2F}</Project>
+      <Name>Galac.Adm.Brl.ImprentaDigital</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">
       <Project>{ae95f4aa-3119-4d39-96fb-95a53b7abb65}</Project>

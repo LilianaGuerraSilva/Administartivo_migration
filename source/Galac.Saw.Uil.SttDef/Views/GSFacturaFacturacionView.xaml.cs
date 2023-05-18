@@ -22,9 +22,8 @@ namespace Galac.Saw.Uil.SttDef.Views {
         public GSFacturaFacturacionView() {
             InitializeComponent();
         }
+
         #endregion //Constructores
-
-
     } //End of class GSFacturaFacturacionView.xaml
 
 } //End of namespace Galac.Saw.Uil.SttDef

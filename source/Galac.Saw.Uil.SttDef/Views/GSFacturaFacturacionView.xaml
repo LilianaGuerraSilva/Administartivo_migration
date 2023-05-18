@@ -151,6 +151,7 @@
                     Grid.Row="6"
                     Grid.Column="0"
                     Content="Sugerir N° Control de Factura..........................."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <CheckBox
@@ -159,7 +160,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Path=SugerirNumeroControlFactura}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource CheckBoxStyle}"
                     Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Label
@@ -295,6 +296,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Content="Usar Resumen Diario de Ventas..."
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource LabelPrompt}"
                     Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <CheckBox
@@ -305,7 +307,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
                     IsChecked="{Binding Path=UsarResumenDiarioDeVentas}"
-                    IsEnabled="{Binding Path=IsEnabled}"
+                    IsEnabled="{Binding Path=IsNotEnabledUsaImprentaDigital}"
                     Style="{StaticResource CheckBoxStyle}"
                     Visibility="{Binding Path=isVisibleParaPeru, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Label

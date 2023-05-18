@@ -329,3 +329,6 @@ TipoDeConversionParaPrecios;Inventario;5;5.4-. Verificador de Precios;4;;Enumera
 UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;Bancos;7;7.2-Moneda;2;;Bool;;N
 UsarLimiteMaximoParaIngresoDeTasaDeCambio;Bancos;7;7.2-Moneda;2;;Bool;;N
 MaximoLimitePermitidoParaLaTasaDeCambio;Bancos;7;7.2-Moneda;2;;Decimal;;N
+UsaImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Bool;;N
+FechaInicioImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Date;;N
+ProveedorImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Enumerativo;;N

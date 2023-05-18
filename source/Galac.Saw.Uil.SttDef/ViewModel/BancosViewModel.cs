@@ -352,7 +352,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 return ValidationResult.Success;
             } else {
                 if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(FechaDeInicioConciliacion, false, Action)) {
-                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Incio Conciliación"));
+                    vResult = new ValidationResult(LibDefGen.TooltipMessageDateRestrictionDemoProgram("Fecha de Inicio Conciliación"));
                 }
             }
             return vResult;

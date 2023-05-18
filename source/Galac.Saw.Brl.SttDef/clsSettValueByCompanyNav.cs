@@ -705,6 +705,29 @@ namespace Galac.Saw.Brl.SttDef {
             return vResult;
         }
         #endregion // FacturaBalanzaEtiquetas        
+        #region ImprentaDigitalStt
+        private FacturaImprentaDigitalStt FacturaImprentaDigitalSttPorDefecto() {
+            FacturaImprentaDigitalStt insEntidad = new FacturaImprentaDigitalStt();
+            return insEntidad;
+        }
+
+        private void LlenaListado(FacturaImprentaDigitalStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaImprentaDigitalAsBool), "UsaImprentaDigital", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.FechaInicioImprentaDigital.ToString("yyyy-MM-dd HH:mm:ss"), "FechaInicioImprentaDigital", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(valRecord.ProveedorImprentaDigitalAsDB, "ProveedorImprentaDigital", valConsecutivoCompania));
+        }
+        
+        FacturaImprentaDigitalStt GetFacturaImprentaDigitalStt(List<SettValueByCompany> valListGetSettValueByCompany) {
+            FacturaImprentaDigitalStt vResult = new FacturaImprentaDigitalStt();
+            vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "UsaImprentaDigital");
+            vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "UsaImprentaDigital");
+            vResult.UsaImprentaDigitalAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaImprentaDigital"));
+            vResult.FechaInicioImprentaDigital = LibConvert.ToDate(ValorSegunColumna(valListGetSettValueByCompany, "FechaInicioImprentaDigital"));
+            vResult.ProveedorImprentaDigital = ValorSegunColumna(valListGetSettValueByCompany, "ProveedorImprentaDigital");
+            return vResult;
+        }
+
+        #endregion // ImprentaDigitalStt
         #region CotizacionStt
         private CotizacionStt CotizacionSttPorDefecto() {
             CotizacionStt insEntidad = new CotizacionStt();
@@ -1522,28 +1545,20 @@ namespace Galac.Saw.Brl.SttDef {
         #region  ProcesosStt
         ProcesosStt ProcesosSttPorDefecto(int valConsecutivoCompania) {
             ProcesosStt insEntidad = new ProcesosStt();
-            insEntidad.InsertandoPorPrimeraVezAsBool = true;
-            insEntidad.PuedeUsarS10AsBool = false;
-            insEntidad.S10DBName = "";
+            insEntidad.InsertandoPorPrimeraVezAsBool = true;            
             return insEntidad;
         }
 
         private void LlenaListado(ProcesosStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.SeResincronizaronLosSupervisoresAsBool), "SeResincronizaronLosSupervisores", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.InsertandoPorPrimeraVezAsBool), "InsertandoPorPrimeraVez", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.CodigoEmpresaIntegrada, "CodigoEmpresaIntegrada", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.PuedeUsarS10AsBool), "PuedeUsarS10", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.S10DBName, "S10DBName", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.InsertandoPorPrimeraVezAsBool), "InsertandoPorPrimeraVez", valConsecutivoCompania));                       
         }
         ProcesosStt GetProcesosStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             ProcesosStt vResult = new ProcesosStt();
             vResult.Module = GetModuleSegunColumna(valListGetSettValueByCompany, "SeResincronizaronLosSupervisores");
             vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "SeResincronizaronLosSupervisores");
             vResult.SeResincronizaronLosSupervisoresAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "SeResincronizaronLosSupervisores"));
-            vResult.InsertandoPorPrimeraVezAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "InsertandoPorPrimeraVez"));
-            vResult.CodigoEmpresaIntegrada = ValorSegunColumna(valListGetSettValueByCompany, "CodigoEmpresaIntegrada");
-            vResult.PuedeUsarS10AsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "PuedeUsarS10"));
-            vResult.S10DBName = ValorSegunColumna(valListGetSettValueByCompany, "S10DBName");
+            vResult.InsertandoPorPrimeraVezAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "InsertandoPorPrimeraVez"));                   
             return vResult;
         }
         #endregion //  ProcesosStt
@@ -1727,6 +1742,7 @@ namespace Galac.Saw.Brl.SttDef {
             LlenaListado(CamposDefiniblesSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(FacturaPuntoDeVentaSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(FacturaBalanzaEtiquetasSttPorDefecto(), ref vResult, valConsecutivoCompania);
+            LlenaListado(FacturaImprentaDigitalSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(CotizacionSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(NotasDebitoCreditoEntregaSttPorDefecto(), ref vResult, valConsecutivoCompania);
             LlenaListado(VendedorSttPorDefecto(valConsecutivoCompania), ref vResult, valConsecutivoCompania);
@@ -1779,6 +1795,7 @@ namespace Galac.Saw.Brl.SttDef {
             insParametros.ParametrosCxPProveedorPagosStt = GetCxPProveedorPagosStt(vListGetSettValueByCompany);
             insParametros.ParametrosFacturacionContinuacionStt = GetFacturacionContinuacionStt(vListGetSettValueByCompany);
             insParametros.ParametrosFacturacionStt = GetFacturacionStt(vListGetSettValueByCompany);
+            insParametros.ParametrosFacturaImprentaDigitalStt = GetFacturaImprentaDigitalStt(vListGetSettValueByCompany);
             insParametros.ParametrosGeneralStt = GetGeneralStt(vListGetSettValueByCompany);
             insParametros.ParametrosImpresiondeFacturaStt = GetImpresiondeFacturaStt(vListGetSettValueByCompany);
             insParametros.ParametrosInventarioStt = GetInventarioStt(vListGetSettValueByCompany);
@@ -1843,6 +1860,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Add(GetCxPProveedorPagosStt(vListGetSettValueByCompany));
             vResult.Add(GetFacturacionContinuacionStt(vListGetSettValueByCompany));
             vResult.Add(GetFacturacionStt(vListGetSettValueByCompany));
+            vResult.Add(GetFacturaImprentaDigitalStt(vListGetSettValueByCompany));
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsPuntoDeVenta")) {
                 vResult.Add(GetFacturaPuntoDeVentaStt(vListGetSettValueByCompany));
                 vResult.Add(GetFacturaBalanzaEtiquetasStt(vListGetSettValueByCompany));

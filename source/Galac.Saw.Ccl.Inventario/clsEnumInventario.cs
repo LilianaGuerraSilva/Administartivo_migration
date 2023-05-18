@@ -181,8 +181,12 @@ namespace Galac.Saw.Ccl.Inventario {
         [LibEnumDescription("Entrada de  Inventario")]
         EntradadeInventario = 0, 
         [LibEnumDescription("Salida de  Inventario")]
-        SalidadeInventario
-	}
+        SalidadeInventario,
+        [LibEnumDescription("Autoconsumo")]
+        Autoconsumo,
+        [LibEnumDescription("Retiro")]
+        Retiro,
+    }
 	
 	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eTipoGeneradoPorNotaDeEntradaSalida {

@@ -37,7 +37,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             UpdateCommand = new RelayCommand(ExecuteUpdateCommand, CanExecuteUpdateCommand);
-            ReadCommand = new RelayCommand(ExecuteReadCommand, CanExecuteReadCommand);  
+            ReadCommand = new RelayCommand(ExecuteReadCommand, CanExecuteReadCommand);
         }
 
         protected override void InitializeRibbon() {
@@ -67,37 +67,37 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private void ExecuteUpdateCommand() {
             try {
                 SettValueByCompany vParametros = FindCurrentRecord(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-                if(vParametros != null) {
+                if (vParametros != null) {
                     ParametersViewModel vViewModel = new ParametersViewModel(eAccionSR.Modificar, false);
                     vViewModel.InitializeViewModel(eAccionSR.Modificar);
                     LibMessages.EditViewModel.ShowEditor(vViewModel, true, false);
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Error(this, vEx.Message, "Error");
             }
-        } 
+        }
 
         private bool CanExecuteReadCommand() {
             bool vResult = false;
             if (LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania") > 0) {
-                vResult =  LibSecurityManager.CurrentUserHasAccessTo("Parámetros", "Consultar");
+                vResult = LibSecurityManager.CurrentUserHasAccessTo("Parámetros", "Consultar");
             }
-             return vResult;
+            return vResult;
         }
 
         private void ExecuteReadCommand() {
             try {
                 SettValueByCompany vParametros = FindCurrentRecord(LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
-                if(vParametros != null) {
+                if (vParametros != null) {
                     ParametersViewModel vViewModel = new ParametersViewModel(eAccionSR.Consultar);
                     vViewModel.InitializeViewModel(eAccionSR.Consultar);
                     LibMessages.EditViewModel.ShowEditor(vViewModel, true, false);
-                } 
-            } catch(System.AccessViolationException) {
+                }
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
         }
@@ -132,39 +132,34 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
                 XElement vElement = vBusinessComponent.QueryInfo(eProcessMessageType.Query, "SELECT * FROM Comun.Gv_SettValueByCompany_B1 WHERE ConsecutivoCompania = @ConsecutivoCompania ", vParams.Get());
 
-                if(vElement != null && vElement.HasElements) {
+                if (vElement != null && vElement.HasElements) {
                     vResult = LibParserHelper.ParseToItem<SettValueByCompany>(vElement.Elements().FirstOrDefault());
                 }
-                
-                if(vResult == null) {
+                if (vResult == null) {
                     clsUtilMonedaLocal vMonedaLocal = new clsUtilMonedaLocal();
 
-                    if(((ISettValueByCompanyPdn)vBusinessComponent).InsertaValoresPorDefecto(valConsecutivoCompania,
+                    if (((ISettValueByCompanyPdn)vBusinessComponent).InsertaValoresPorDefecto(valConsecutivoCompania,
                                                     vMonedaLocal.InstanceMonedaLocalActual.GetHoyCodigoMoneda(),
                                                     vMonedaLocal.InstanceMonedaLocalActual.GetHoyNombreMoneda(),
                                                     "USD", ((ISettValueByCompanyPdn)vBusinessComponent).BuscaNombreMoneda("USD"),
                                                     LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Compania", "Ciudad"))) {
                         XElement vElementDefault = vBusinessComponent.QueryInfo(eProcessMessageType.Query, "SELECT * FROM Comun.Gv_SettValueByCompany_B1 WHERE ConsecutivoCompania = @ConsecutivoCompania ", vParams.Get());
-                        if(vElementDefault != null && vElementDefault.HasElements) {
+                        if (vElementDefault != null && vElementDefault.HasElements) {
                             vResult = LibParserHelper.ParseToItem<SettValueByCompany>(vElementDefault.Elements().FirstOrDefault());
                         }
                     }
 
-                    if(vResult == null) {
+                    if (vResult == null) {
                         LibMessages.MessageBox.Error(this, "Error al cargar los parámetros del sistema. Comuníquese con  " + LibGalac.Aos.DefGen.LibDefGen.GalacName(), "Error al cargar Parámetros");
                     }
                 }
-            } catch(System.AccessViolationException) {
+            } catch (System.AccessViolationException) {
                 throw;
-            } catch(System.Exception vEx) {
+            } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
             return vResult;
         }
-
-        
         #endregion
-
-
     }
 }

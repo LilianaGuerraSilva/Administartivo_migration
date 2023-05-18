@@ -43,13 +43,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string ArrayPosicionCodArticuloPrecioPropertyName = "ArrayPosicionCodArticuloPrecio";
         public const string CodigoEjemploPesoPropertyName = "CodigoEjemploPeso";
         public const string CodigoEjemploPrecioPropertyName = "CodigoEjemploPrecio";
-        public const string CantidadDecimalesInventarioPropertyName = "CantidadDeDecimales";        
+        public const string CantidadDecimalesInventarioPropertyName = "CantidadDeDecimales";
+        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         public const int MaxCaracteresCodigo = 12;        
         #endregion
         #region Variables        
         private int _NumeroDeCaracteresRestantesCodPeso;
         private int _NumeroDeCaracteresRestantesCodPrecio;
         private eCantidadDeDecimales _CantidadDecimalesPrecioInventario;
+        private bool _IsEnabledUsaImprentaDigital;
         #endregion //Variables
         #region Propiedades
         public bool InitFirstTime { get; set; }
@@ -366,6 +368,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnabledUsaImprentaDigital {
+            get { return _IsEnabledUsaImprentaDigital && UsaImprentaDigital(); }
+            set {
+                if (_IsEnabledUsaImprentaDigital != value) {
+                    _IsEnabledUsaImprentaDigital = value;
+                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
+                }
+            }
+        }
+
+        public bool IsEnabledBalanzaEtiqueta {
+            get { return IsEnabled && !_IsEnabledUsaImprentaDigital; }
+        }
         public string CodigoEjemploPeso {get;set;}
         public string CodigoEjemploPrecio { get; set; }
         
@@ -376,12 +391,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
         public FacturaBalanzaEtiquetasViewModel(FacturaBalanzaEtiquetasStt initModel, eAccionSR initAction, bool firstTime)
            : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
-                InitFirstTime = firstTime;                
-                LibMessages.Notification.Register<eCantidadDeDecimales>(this, OnCantidadDecimalesPrecioInventarioChanged);
-                NumeroDeCaracteresRestantesCodPeso = CalcularCaracteresRestantesPesoPrecio(true);
-                NumeroDeCaracteresRestantesCodPrecio = CalcularCaracteresRestantesPesoPrecio(false);
-                CodigoEjemploPeso = ConstruirCodigoEjemploPeso();
-                CodigoEjemploPrecio = ConstruirCodigoEjemploPrecio();                
+            InitFirstTime = firstTime;
+            LibMessages.Notification.Register<eCantidadDeDecimales>(this, OnCantidadDecimalesPrecioInventarioChanged);
+            NumeroDeCaracteresRestantesCodPeso = CalcularCaracteresRestantesPesoPrecio(true);
+            NumeroDeCaracteresRestantesCodPrecio = CalcularCaracteresRestantesPesoPrecio(false);
+            CodigoEjemploPeso = ConstruirCodigoEjemploPeso();
+            CodigoEjemploPrecio = ConstruirCodigoEjemploPrecio();
+            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -567,6 +583,12 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
+            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
+                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
+            }
+        }
+
         private int GetCantidadDecimalesAsInteger() {
             int vResult = 0;
             switch (_CantidadDecimalesPrecioInventario) {                
@@ -653,6 +675,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return IsEnabledPrecioEnCodigo && LibText.Len(PrefijoCodigoPrecio) > 0 && NumDigitosCodigoArticuloPrecio > 0;
         }
 
+        private bool UsaImprentaDigital() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
+        }
     } //End of class FacturaBalanzaEtiquetasViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef
