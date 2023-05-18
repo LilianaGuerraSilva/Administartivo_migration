@@ -441,7 +441,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        [LibCustomValidation("TotalOtrosGastosvalidating")]
+        [LibCustomValidation("TotalOtrosGastosValidating")]
         public decimal TotalOtrosGastos {
             get {
                 return Model.TotalOtrosGastos;
@@ -1023,6 +1023,12 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         public bool IsEnabledOrdenDeCompra {
             get; set;
+        }
+
+        public string LabelColumnaSeguroPagado {
+            get {
+                return "* Seguro Pagado: montos referenciales, no afectan el monto distribuido.";
+            }
         }
 
         #endregion //Propiedades
@@ -1670,17 +1676,20 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             return vResult;
         }
 
-        private ValidationResult TotalOtrosGastosvalidating() {
+        private ValidationResult TotalOtrosGastosValidating() {
             ValidationResult vResult = ValidationResult.Success;
             if ((Action == eAccionSR.Consultar) || (Action == eAccionSR.Eliminar)) {
-                return ValidationResult.Success;
+                return vResult;
             } else {
                 if (TipoDeDistribucion == eTipoDeDistribucion.ManualPorMonto) {
-                    if (DetailCompraDetalleArticuloInventario.Items.Sum(p => p.MontoDistribucion) != DetailCompraDetalleGasto.Items.Sum(p => p.Monto)) {
-                        vResult = new ValidationResult("El monto Distribuido debe ser igual al Monto Total de los Gastos.");
+                    decimal vTotalMontoDistribucion = DetailCompraDetalleArticuloInventario.Items.Sum(p => p.MontoDistribucion);
+                    decimal vTotalGastos = DetailCompraDetalleGasto.Items.Sum(p => p.Monto);
+                    if (vTotalMontoDistribucion != vTotalGastos) {
+                        vResult = new ValidationResult("El Monto Distribuido (" + 
+                            LibConvert.NumToString(vTotalMontoDistribucion, 2) + DeterminarSimboloDeLaMoneda() + ") debe ser igual al Monto Total de los Gastos(" +
+                            LibConvert.NumToString(vTotalGastos, 2) + DeterminarSimboloDeLaMoneda() + ").");
                     }
                 }
-
             }
             return vResult;
         }
@@ -2091,6 +2100,18 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public bool IsVisibleMonedaParaCostos {
             get {
                 return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
+            }
+        }
+        public string DeterminarSimboloDeLaMoneda() {
+            switch (CodigoMoneda) {
+                case "VED":
+                    return "Bs.";
+                case "USD":
+                    return "$";
+                case "EUR":
+                    return "€";
+                default:
+                    return CodigoMoneda;
             }
         }
         #endregion

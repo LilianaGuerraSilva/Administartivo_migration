@@ -13,17 +13,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();            
-            CrearCampoCompania_EstaIntegradaG360();
             CrearParametrosImprentaDigital();
             CrearCamposParaImprentaDigitalEnFactura();
             DisposeConnectionNoTransaction();
             return true;
-        }
-		
-		private void CrearCampoCompania_EstaIntegradaG360() {
-            if (AddColumnBoolean("dbo.Compania", "ConectadaConG360", "", false)) {
-                AddDefaultConstraint("dbo.Compania", "ConecConG360", InsSql.ToSqlValue(false), "ConectadaConG360");
-            }
         }
 
         private void CrearParametrosImprentaDigital() {

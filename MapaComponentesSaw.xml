@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="23.3" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="23.4" Siglas="Saw">
   <Proteccion>1802</Proteccion>
   <Libreria>
     <LibGalacCI>2104</LibGalacCI>
@@ -9,14 +9,14 @@
     <LibGalacXtmCI>2104</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>ND</SawEnum>
-    <SawImportExport>ND</SawImportExport>
-    <SawMaquinaFiscal>ND</SawMaquinaFiscal>
-    <SawNav>ND</SawNav>
-    <SawRpt>ND</SawRpt>
-    <SawSP>ND</SawSP>
-    <SawTbls>ND</SawTbls>
-    <SawVista>ND</SawVista>    
+    <SawEnum>2303</SawEnum>
+    <SawImportExport>2303</SawImportExport>
+    <SawMaquinaFiscal>2303</SawMaquinaFiscal>
+    <SawNav>2303</SawNav>
+    <SawRpt>2303</SawRpt>
+    <SawSP>2303</SawSP>
+    <SawTbls>2303</SawTbls>
+    <SawVista>2303</SawVista>    
     <ContabRpt>2202</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -151,8 +151,8 @@
     <Galac.Adm.Dal.GestionCompras>2.60.8.0</Galac.Adm.Dal.GestionCompras>
     <Galac.Adm.Rpt.GestionCompras>2.60.8.0</Galac.Adm.Rpt.GestionCompras>
     <Galac.Adm.Rpt.GestionCompras.resources>2.60.8.0</Galac.Adm.Rpt.GestionCompras.resources>
-    <Galac.Adm.Uil.GestionCompras>2.60.8.0</Galac.Adm.Uil.GestionCompras>
-    <Galac.Adm.Uil.GestionCompras.resources>2.60.8.0</Galac.Adm.Uil.GestionCompras.resources>
+    <Galac.Adm.Uil.GestionCompras>2.60.9.0</Galac.Adm.Uil.GestionCompras>
+    <Galac.Adm.Uil.GestionCompras.resources>2.60.9.0</Galac.Adm.Uil.GestionCompras.resources>
 
     <Galac.Saw.Ccl.Cliente>2.60.3.0</Galac.Saw.Ccl.Cliente>
     <Galac.Saw.Brl.Cliente>2.60.3.0</Galac.Saw.Brl.Cliente>
@@ -194,8 +194,8 @@
     <Galac.Adm.Dal.Banco>2.60.6.0</Galac.Adm.Dal.Banco>
     <Galac.Adm.Brl.Banco>2.60.6.0</Galac.Adm.Brl.Banco>
     <Galac.Adm.Rpt.Banco>2.60.6.0</Galac.Adm.Rpt.Banco>
-    <Galac.Adm.Uil.Banco>2.60.6.0</Galac.Adm.Uil.Banco>
-    <Galac.Adm.Uil.Banco.resources>2.60.6.0</Galac.Adm.Uil.Banco.resources>
+    <Galac.Adm.Uil.Banco>2.60.7.0</Galac.Adm.Uil.Banco>
+    <Galac.Adm.Uil.Banco.resources>2.60.7.0</Galac.Adm.Uil.Banco.resources>
 
     <Galac.Adm.Ccl.CajaChica>2.60.2.0</Galac.Adm.Ccl.CajaChica>
     <Galac.Adm.Dal.CajaChica>2.60.2.0</Galac.Adm.Dal.CajaChica>
@@ -236,7 +236,7 @@
     <Galac.Saw.Wrp.Comun>2.60.0.0</Galac.Saw.Wrp.Comun>                      
     <Galac.Saw.Wrp.Crm>2.60.0.0</Galac.Saw.Wrp.Crm>
     <Galac.Saw.Wrp.WinCont>2.60.0.0</Galac.Saw.Wrp.WinCont>
-    <Galac.Saw.DDL>2.60.12.0</Galac.Saw.DDL>
+    <Galac.Saw.DDL>2.60.13.0</Galac.Saw.DDL>
 
     <Microsoft.Practices.Unity>2.0.414.0</Microsoft.Practices.Unity>
     <Microsoft.Practices.EnterpriseLibrary.Data>5.0.414.0</Microsoft.Practices.EnterpriseLibrary.Data>
