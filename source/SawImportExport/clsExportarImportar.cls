@@ -28,10 +28,8 @@ Private Function GetGender() As Enum_Gender
    GetGender = eg_Male
 End Function
 
-Public Sub sEjecutarAccion(ByVal valAction As AccionSobreRecord, ByVal valEntidad As enum_EntidadAExportarOImportar, ByVal valNombreArchivo As String, ByVal valExtension As String, ByRef refProgressBar As ProgressBar, _
-                             ByVal valGenerarCxCalImportar As Boolean, Optional ByRef refExito As Boolean, Optional ByVal valEsFacturaBorradores As Boolean = False, Optional ByVal valEntreFechas As Boolean = False, _
-                                Optional ByVal dtpFechaInicial As Date, Optional ByVal dtpFechaFinal As Date, Optional ByRef lblporcentaje As Label, Optional ByRef refCallingWindow As Form, Optional ByRef reftxtProgreso As TextBox)
-   Dim SQL As String
+Public Sub sEjecutarAccion(ByVal valAction As AccionSobreRecord, ByVal valEntidad As enum_EntidadAExportarOImportar, ByVal valNombreArchivo As String, ByVal valExtension As String, ByRef refProgressBar As ProgressBar, ByVal valGenerarCxCalImportar As Boolean, Optional ByRef refExito As Boolean, Optional ByVal valEsFacturaBorradores As Boolean = False, Optional ByVal valEntreFechas As Boolean = False, Optional ByVal dtpFechaInicial As Date, Optional ByVal dtpFechaFinal As Date, Optional ByRef lblporcentaje As Label, Optional ByRef refCallingWindow As Form, Optional ByRef reftxtProgreso As TextBox)
+   Dim vSql As String
    Dim insExportar As clsExportarDatos
    Dim insImportarDatos As clsImportarDatosSAW
    Dim Borradores As String
@@ -49,47 +47,9 @@ Public Sub sEjecutarAccion(ByVal valAction As AccionSobreRecord, ByVal valEntida
       mFechaInicial = dtpFechaInicial
       mFechaFinal = dtpFechaFinal
    End If
-   
-   Select Case valEntidad
-   Case eEAEI_PROVEEDOR: NumFilasVector = 2
-      If valAction = Exportar Then
-         SQL = fSQLDeProveedores
-      End If
-   Case eEAEI_CLIENTE: NumFilasVector = 3
-      If valAction = Exportar Then
-         SQL = fSQLDeClientes
-      End If
-   Case eEAEI_ARTICULO_INVENTARIO: NumFilasVector = 2
-      If valAction = Exportar Then
-         SQL = fSQLArticulosAExportar
-      End If
-   Case eEAEI_FACTURA: NumFilasVector = 2
-      If valAction = Exportar Then
-          If valEsFacturaBorradores Then
-              SQL = fSQLExportarFacturas(True)
-          Else
-              SQL = fSQLExportarFacturas(False)
-          End If
-      End If
-   Case eEAEI_CxC: NumFilasVector = 3
-      If valAction = Exportar Then
-         SQL = fSQLDeCxC
-      End If
-   Case eEAEI_CxP: NumFilasVector = 3
-      If valAction = Exportar Then
-         SQL = fSQLDeCxP
-      End If
-   Case eEAEI_VENDEDOR: NumFilasVector = 3
-      If valAction = Exportar Then
-         SQL = fSQLExportarVendedor
-      End If
-   Case eEAEI_COTIZACION: NumFilasVector = 3
-      If valAction = Exportar Then
-         SQL = fSQLExportarCotizacion
-      End If
-   End Select
    If valAction = Exportar Then
-      insExportar.sExportarLosDatosAlFile valNombreArchivo, valExtension, SQL, refProgressBar
+      vSql = fSqlExportacionSegunEntidad(valEntidad, valEsFacturaBorradores, NumFilasVector)
+      insExportar.sExportarLosDatosAlFile valNombreArchivo, valExtension, vSql, refProgressBar
       If valEntidad = eEAEI_FACTURA Then
         Dim valNombreArchivoRenglonCobro As String
         Dim PuntoInicial As Long
@@ -102,10 +62,10 @@ Public Sub sEjecutarAccion(ByVal valAction As AccionSobreRecord, ByVal valEntida
    Else
       insImportarDatos.sImportarModulosSaw valNombreArchivo, valExtension, refProgressBar, refExito, valEntidad, NumFilasVector, lblporcentaje, refCallingWindow, valEsFacturaBorradores, valGenerarCxCalImportar, reftxtProgreso
    End If
+   Set insExportar = Nothing
+   Set insImportarDatos = Nothing
 h_EXIT: On Error GoTo 0
-    Set insExportar = Nothing
-    Set insImportarDatos = Nothing
-    Exit Sub
+   Exit Sub
 h_ERROR:
 Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutarAccion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
@@ -124,8 +84,7 @@ Public Function fRespaldaTodosLosArchivosEnUnZip(ByVal valPathOfTheFilesToCompre
     Set newZipClass = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fRespaldaTodosLosArchivosEnUnZip", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fRespaldaTodosLosArchivosEnUnZip", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fDescomprimeLaCarpetaZip(ByRef refMapZip As Object, ByVal valChequearEspacioDisponibleEnDirectorioDestino As Boolean, ByVal valDestinationDir As String, ByVal valTamanoLimite, ByVal valZipFileToUncompress As String) As Boolean
@@ -142,8 +101,7 @@ Public Function fDescomprimeLaCarpetaZip(ByRef refMapZip As Object, ByVal valChe
     Set newZipClass = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fDescomprimeLaCarpetaZip", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fDescomprimeLaCarpetaZip", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSQLExportarFacturas(ByVal valExportarBorradores As Boolean) As String
@@ -232,8 +190,6 @@ Private Function fSQLExportarFacturas(ByVal valExportarBorradores As Boolean) As
    SQL = SQL & "factura.IGTFML, "
    SQL = SQL & "factura.IGTFME, "
    SQL = SQL & "factura.AlicuotaIGTF, "
-'   Sql = Sql & "factura.ConsecutivoTalonario, "
-   'CAMPOS DEL RENGLON DE LA FACTURA
    SQL = SQL & "renglonFactura.Descripcion, "
    SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("renglonFactura.AlicuotaIVA", enum_TipoDeAlicuota.eTD_EXENTO, gEnumProyecto.fEnumTipoDeAlicuotaToStringInArray(True, True), "AlicuotaIVA") & ", "
    SQL = SQL & "renglonFactura.Cantidad, "
@@ -282,17 +238,16 @@ Private Function fSQLExportarFacturas(ByVal valExportarBorradores As Boolean) As
       SQL = SQL & " <> "
    End If
    SQL = SQL & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & ")"
-   SQL = SQL & " AND (factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA) & " or " & _
-                    " factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL) & ")"
+   SQL = SQL & " AND (factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA) & " or "
+   SQL = SQL & " factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL) & ")"
    If mIsEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("factura.fecha", mFechaInicial, mFechaFinal) & ")"
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("factura.fecha", mFechaInicial, mFechaFinal) & ")"
    End If
    SQL = SQL & " ORDER BY " & "factura.Numero"
 h_EXIT: On Error GoTo 0
    fSQLExportarFacturas = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLExportarFacturas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarFacturas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSQLDeCxC() As String
@@ -305,7 +260,6 @@ Private Function fSQLDeCxC() As String
    sqlReplace = fReplace(sqlReplace, gUtilSQL.DfChar(11), gUtilSQL.fSimpleSqlValue(""))
    sqlReplace = fReplace(sqlReplace, gUtilSQL.DfChar(10), gUtilSQL.fSimpleSqlValue(""))
    sqlReplace = fReplace(sqlReplace, gUtilSQL.DfChar(9), gUtilSQL.fSimpleSqlValue(""))
-
 
    SQL = "SELECT cxC.Numero, "
    SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("cxC.Status", enum_StatusDocumento.eSD_PORCANCELAR, gEnumProyecto.fEnumStatusCxCToStringInArray(True, True), "status") & ", "
@@ -341,7 +295,7 @@ Private Function fSQLDeCxC() As String
    SQL = SQL & ") AND ( cxC.ConsecutivoCompania = cliente.ConsecutivoCompania"
    SQL = SQL & " ) WHERE cxC.ConsecutivoCompania = " & mConsecutivoCompaniaActual
    If mIsEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("cxC.Fecha", mFechaInicial, mFechaFinal) & ")"
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("cxC.Fecha", mFechaInicial, mFechaFinal) & ")"
    End If
    SQL = SQL & " ORDER BY cxC.Numero"
 h_EXIT: On Error GoTo 0
@@ -368,7 +322,6 @@ Private Function fSQLDeClientes() As String
    sqlReplaceTextoDelAviso = fReplace(sqlReplaceTextoDelAviso, gUtilSQL.DfChar(11), gUtilSQL.fSimpleSqlValue(""))
    sqlReplaceTextoDelAviso = fReplace(sqlReplaceTextoDelAviso, gUtilSQL.DfChar(10), gUtilSQL.fSimpleSqlValue(""))
    sqlReplaceTextoDelAviso = fReplace(sqlReplaceTextoDelAviso, gUtilSQL.DfChar(9), gUtilSQL.fSimpleSqlValue(""))
-   
    
    SQL = "SELECT cliente.codigo, "
    SQL = SQL & "cliente.nombre, "
@@ -408,7 +361,7 @@ Private Function fSQLDeClientes() As String
       SQL = SQL & " AND " & "cliente.Codigo <> " & gUtilSQL.fSimpleSqlValue(gProyParametrosCompania.getCodigoGenericoCliente)
    End If
    If mIsEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("cliente.FechaUltimaModificacion", mFechaInicial, mFechaFinal) & ")"
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("cliente.FechaUltimaModificacion", mFechaInicial, mFechaFinal) & ")"
    End If
    SQL = SQL & " ORDER BY " & "cliente.Codigo"
 h_EXIT: On Error GoTo 0
@@ -454,7 +407,7 @@ Private Function fSQLDeProveedores() As String
    SQL = SQL & " FROM Adm.proveedor"
    SQL = SQL & " WHERE proveedor.ConsecutivoCompania = " & mConsecutivoCompaniaActual
    If mIsEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("proveedor.FechaUltimaModificacion", mFechaInicial, mFechaFinal) & ")"
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("proveedor.FechaUltimaModificacion", mFechaInicial, mFechaFinal) & ")"
    End If
    SQL = SQL & " ORDER BY proveedor.CodigoProveedor"
 h_EXIT: On Error GoTo 0
@@ -544,7 +497,7 @@ Private Function fSQLDeCxP() As String
    SQL = SQL & " )  AND ( proveedor.ConsecutivoCompania = cxP.ConsecutivoCompania"
    SQL = SQL & " ) WHERE cxP.ConsecutivoCompania = " & mConsecutivoCompaniaActual
    If mIsEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("cxP.Fecha", mFechaInicial, mFechaFinal) & ")"
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("cxP.Fecha", mFechaInicial, mFechaFinal) & ")"
    End If
    SQL = SQL & " ORDER BY cxP.Numero"
    fSQLDeCxP = SQL
@@ -556,17 +509,13 @@ End Function
 Private Function fSQLExportarVendedor() As String
     On Error GoTo h_ERROR
     Select Case gProyParametrosCompania.GetComisionesEnFacturaAsEnum
-      Case eCEF_SobreTotalFactura:
-            fSQLExportarVendedor = fSQLExportarVendedorSobreFactura(mIsEntreFechas, mFechaInicial, mFechaFinal)
-      Case eCEF_SobreRenglones:
-            fSQLExportarVendedor = fSQLExportarVendedorSobreRenglon(mIsEntreFechas, mFechaInicial, mFechaFinal)
-      Case eCEF_SobreTotalFacturayRenglones
-            fSQLExportarVendedor = fSQLExportarVendedorSobreRenglon(mIsEntreFechas, mFechaInicial, mFechaFinal, True)
+      Case eCEF_SobreTotalFactura: fSQLExportarVendedor = fSQLExportarVendedorSobreFactura(mIsEntreFechas, mFechaInicial, mFechaFinal)
+      Case eCEF_SobreRenglones: fSQLExportarVendedor = fSQLExportarVendedorSobreRenglon(mIsEntreFechas, mFechaInicial, mFechaFinal)
+      Case eCEF_SobreTotalFacturayRenglones: fSQLExportarVendedor = fSQLExportarVendedorSobreRenglon(mIsEntreFechas, mFechaInicial, mFechaFinal, True)
     End Select
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLExportarVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLArticulosAExportar() As String
@@ -624,7 +573,6 @@ Public Function fSQLArticulosAExportar() As String
    SQL = SQL & "articuloInventario.CodigoGrupo, "
    SQL = SQL & "articuloInventario.TipoArticuloInv, "
    SQL = SQL & "articuloInventario.UsaBalanza, "
-'  NUEVOS CAMPOS PARA TALLAS Y COLORES
    SQL = SQL & "Color.CodigoColor, "
    SQL = SQL & "Color.DescripcionColor, "
    SQL = SQL & "Talla.CodigoTalla, "
@@ -683,8 +631,6 @@ Public Function fSQLArticulosAExportar() As String
    SQL = SQL & gUtilSQL.CharConcat
    SQL = SQL & gUtilSQL.fIfResultIsNullReplace("Talla.CodigoTalla", gUtilSQL.fSimpleSqlValue(""))
    SQL = SQL & " = IGV_ExistenciaPorAlmacenArticulosDeInven_pIB1.CodigoArticulo)"
-   'SQL = SQL & " AND ExistenciaPorGrupo.Serial = IGV_ExistenciaPorAlmacenArticulosDeInven_pIB1.Serial "
-   'SQL = SQL & " AND ExistenciaPorGrupo.Rollo = IGV_ExistenciaPorAlmacenArticulosDeInven_pIB1.Rollo) "
    SQL = SQL & " AND " & gUtilSQL.fIfResultIsNullReplace("ExistenciaPorGrupo.Serial", "0") & " = IGV_ExistenciaPorAlmacenArticulosDeInven_pIB1.Serial "
    SQL = SQL & " AND " & gUtilSQL.fIfResultIsNullReplace("ExistenciaPorGrupo.Rollo", "0") & " = IGV_ExistenciaPorAlmacenArticulosDeInven_pIB1.Rollo) "
    SQL = SQL & " LEFT OUTER JOIN Almacen "
@@ -704,7 +650,7 @@ Public Function fSQLArticulosAExportar() As String
    SQL = SQL & " AND articuloInventario.Codigo <> " & gUtilSQL.fSimpleSqlValue("ND-NC IGTF @")
       
    If mIsEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("articuloInventario.FechaUltimaModificacion", mFechaInicial, mFechaFinal) & ")"
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("articuloInventario.FechaUltimaModificacion", mFechaInicial, mFechaFinal) & ")"
    End If
    SQL = SQL & " ORDER BY "
    SQL = SQL & gUtilSQL.fIfResultIsNullReplace("IGV_ExistenciaPorAlmacenArticulosDeInven_pIB1.CodigoAlmacen", gUtilSQL.fSimpleSqlValue(gProyParametrosCompania.GetCodigoAlmacenGenerico)) & ", "
@@ -712,8 +658,7 @@ Public Function fSQLArticulosAExportar() As String
 h_EXIT: On Error GoTo 0
    fSQLArticulosAExportar = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLArticulosAExportar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLArticulosAExportar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLExportarVendedorSobreFactura(Optional ByVal valEntreFechas As Boolean = False, Optional ByVal dtpFechaInicial As Date, Optional ByVal dtpFechaFinal As Date) As String
@@ -780,12 +725,10 @@ Public Function fSQLExportarVendedorSobreFactura(Optional ByVal valEntreFechas A
    If Not gMessage.Confirm("¿Desea incluir el Vendedor Genérico en el proceso de exportación?") Then
       SQL = SQL & " AND vendedor.Codigo <> " & gUtilSQL.fSimpleSqlValue(gProyParametrosCompania.getCodigoGenericoVendedor)
    End If
-   
 h_EXIT: On Error GoTo 0
    fSQLExportarVendedorSobreFactura = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLExportarVendedorSobreFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarVendedorSobreFactura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLExportarVendedorSobreRenglon(Optional ByVal valEntreFechas As Boolean = False, Optional ByVal dtpFechaInicial As Date, Optional ByVal dtpFechaFinal As Date, Optional ByVal valEsFacturayRenglon As Boolean = False) As String
@@ -846,13 +789,11 @@ Public Function fSQLExportarVendedorSobreRenglon(Optional ByVal valEntreFechas A
    SQL = SQL & "vendedor.PorcentajeCobranza5, "
    SQL = SQL & "vendedor.UsaComisionPorVenta, "
    SQL = SQL & "vendedor.UsaComisionPorCobranza, "
-   'campos detalle de las comiciones del vendedor
    SQL = SQL & "RenglonComisionesDeVendedor.NombreDeLineaDeProducto, "
    SQL = SQL & "RenglonComisionesDeVendedor.ConsecutivoRenglon, "
    SQL = SQL & TipoComision & ", "
    SQL = SQL & "RenglonComisionesDeVendedor.Monto, "
    SQL = SQL & "RenglonComisionesDeVendedor.Porcentaje "
-     
    If valEsFacturayRenglon Then
       SQL = SQL & " FROM vendedor LEFT JOIN RenglonComisionesDeVendedor ON"
       SQL = SQL & " (vendedor.Codigo = RenglonComisionesDeVendedor.CodigoVendedor)"
@@ -877,8 +818,7 @@ Public Function fSQLExportarVendedorSobreRenglon(Optional ByVal valEntreFechas A
 h_EXIT: On Error GoTo 0
    fSQLExportarVendedorSobreRenglon = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLExportarVendedorSobreRenglon", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarVendedorSobreRenglon", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSQLExportarRenglonCobroDeFacturas() As String
@@ -886,7 +826,6 @@ Private Function fSQLExportarRenglonCobroDeFacturas() As String
    On Error GoTo h_ERROR
    SQL = "SELECT factura.Numero, "
    SQL = SQL & gUtilSQL.DfSQLCaseIfForEnum("factura.TipoDeDocumento", enum_TipoDocumentoFactura.eTF_FACTURA, gEnumProyecto.fenumTipoDocumentoFacturaToStringInArray(True, True), "TipoDeDocumento") & ", "
-   'CAMPOS DEL RENGLON COBRO DE LA FACTURA
    SQL = SQL & "renglonCobroDeFactura.CodigoFormaDelCobro, "
    SQL = SQL & "renglonCobroDeFactura.NumeroDelDocumento, "
    SQL = SQL & "renglonCobroDeFactura.CodigoBanco, "
@@ -897,21 +836,19 @@ Private Function fSQLExportarRenglonCobroDeFacturas() As String
    SQL = SQL & " AND factura.TipoDeDocumento = renglonCobroDeFactura.TipoDeDocumento"
    SQL = SQL & " WHERE (factura.ConsecutivoCompania = " & mConsecutivoCompaniaActual & ")"
    SQL = SQL & " AND (factura.StatusFactura <> " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_BORRADOR) & ")"
-   SQL = SQL & " AND (factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA) & " OR " & _
-                    " factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL) & _
-                    "OR factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL) & ")"
+   SQL = SQL & " AND (factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_FACTURA) & " OR "
+   SQL = SQL & " factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_COMPROBANTEFISCAL)
+   SQL = SQL & "OR factura.TipoDeDocumento = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDocumentoFactura.eTF_NOTADECREDITOCOMPROBANTEFISCAL) & ")"
    If mIsEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("factura.fecha", mFechaInicial, mFechaFinal) & ")"
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("factura.fecha", mFechaInicial, mFechaFinal) & ")"
    End If
    SQL = SQL & " ORDER BY " & "factura.Numero"
 h_EXIT: On Error GoTo 0
    fSQLExportarRenglonCobroDeFacturas = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLExportarRenglonCobroDeFacturas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarRenglonCobroDeFacturas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-'Para pasar a libgalac
 Private Function fReplace(ByVal valFieldName As String, ByVal valOriginalValueExpression As String, ByVal valNewValueExpression As String) As String
    Dim vResult As String
    On Error GoTo h_ERROR
@@ -919,13 +856,12 @@ Private Function fReplace(ByVal valFieldName As String, ByVal valOriginalValueEx
    If gTexto.DfLen(valOriginalValueExpression) > 0 And gTexto.DfLen(valNewValueExpression) > 0 Then
       vResult = "REPLACE(" & valFieldName & ", " & valOriginalValueExpression & ", " & valNewValueExpression & ")"
    Else
-      gMessage.ProgrammerMessage ("Valores no válidos en invocación de fReplace")
+      gMessage.ProgrammerMessage "Valores no válidos en invocación de fReplace"
    End If
    fReplace = vResult
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fReplace", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fReplace", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLExportarVendedorSobreRenglon2(Optional ByVal valEntreFechas As Boolean = False, Optional ByVal dtpFechaInicial As Date, Optional ByVal dtpFechaFinal As Date, Optional ByVal valEsFacturayRenglon As Boolean = False) As String
@@ -992,34 +928,30 @@ Public Function fSQLExportarVendedorSobreRenglon2(Optional ByVal valEntreFechas 
    SQL = SQL & "RenglonComisionesDeVendedor.Monto, "
    SQL = SQL & "RenglonComisionesDeVendedor.Porcentaje "
       
-      SQL = SQL & " FROM vendedor"
-      SQL = SQL & " INNER JOIN RenglonComisionesDeVendedor ON"
-      SQL = SQL & " (vendedor.codigo =   RenglonComisionesDeVendedor.CodigoVendedor) AND"
-      SQL = SQL & " (vendedor.ConsecutivoCompania = RenglonComisionesDeVendedor.ConsecutivoCompania)"
-      SQL = SQL & " INNER JOIN renglonFactura ON"
-      SQL = SQL & " (vendedor.codigo = renglonFactura.CodigoVendedor1 OR"
-      SQL = SQL & " vendedor.codigo = renglonFactura.CodigoVendedor2 OR"
-      SQL = SQL & " vendedor.codigo = renglonFactura.CodigoVendedor3) AND"
-      SQL = SQL & " (vendedor.ConsecutivoCompania = renglonFactura.ConsecutivoCompania)"
-      SQL = SQL & " RIGHT JOIN Factura ON"
-      SQL = SQL & " Factura.Numero = renglonFactura.NumeroFactura AND"
-      SQL = SQL & " Factura.TipoDeDocumento = renglonFactura.TipoDeDocumento AND"
-      SQL = SQL & " Factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania"
-
+   SQL = SQL & " FROM vendedor"
+   SQL = SQL & " INNER JOIN RenglonComisionesDeVendedor ON"
+   SQL = SQL & " (vendedor.codigo =   RenglonComisionesDeVendedor.CodigoVendedor) AND"
+   SQL = SQL & " (vendedor.ConsecutivoCompania = RenglonComisionesDeVendedor.ConsecutivoCompania)"
+   SQL = SQL & " INNER JOIN renglonFactura ON"
+   SQL = SQL & " (vendedor.codigo = renglonFactura.CodigoVendedor1 OR"
+   SQL = SQL & " vendedor.codigo = renglonFactura.CodigoVendedor2 OR"
+   SQL = SQL & " vendedor.codigo = renglonFactura.CodigoVendedor3) AND"
+   SQL = SQL & " (vendedor.ConsecutivoCompania = renglonFactura.ConsecutivoCompania)"
+   SQL = SQL & " RIGHT JOIN Factura ON"
+   SQL = SQL & " Factura.Numero = renglonFactura.NumeroFactura AND"
+   SQL = SQL & " Factura.TipoDeDocumento = renglonFactura.TipoDeDocumento AND"
+   SQL = SQL & " Factura.ConsecutivoCompania = renglonFactura.ConsecutivoCompania"
    SQL = SQL & " WHERE (vendedor.ConsecutivoCompania = " & mConsecutivoCompaniaActual & ")"
-    If valEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("Factura.FechaUltimaModificacion", dtpFechaInicial, dtpFechaFinal) & ")"
-    End If
+   If valEntreFechas Then
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("Factura.FechaUltimaModificacion", dtpFechaInicial, dtpFechaFinal) & ")"
+   End If
 h_EXIT: On Error GoTo 0
    fSQLExportarVendedorSobreRenglon2 = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLExportarVendedorSobreRenglon2", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarVendedorSobreRenglon2", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLExportarCabeceraMercantil(ByVal valNumeroCuenta As String, _
-               ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
-                   ByVal valFechaGestion As Date) As String
+Public Function fSQLExportarCabeceraMercantil(ByVal valNumeroCuenta As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFechaGestion As Date) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "SELECT '1' as Cabecera, "
@@ -1061,8 +993,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarCabeceraMercantil", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLExportarPagoMercantil(ByVal valCodigoCuentaBancaria As String, _
-               ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFormaPago As Boolean) As String
+Public Function fSQLExportarPagoMercantil(ByVal valCodigoCuentaBancaria As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFormaPago As Boolean) As String
    Dim SQL As String
    Dim vFormaPago As String
    On Error GoTo h_ERROR
@@ -1071,7 +1002,6 @@ Public Function fSQLExportarPagoMercantil(ByVal valCodigoCuentaBancaria As Strin
    Else
       vFormaPago = "3" 'Transferencia
    End If
-
    SQL = "SELECT '2' AS detalle, "
    SQL = SQL & "TipoId, "
    SQL = SQL & "Rif, "
@@ -1096,16 +1026,13 @@ Public Function fSQLExportarPagoMercantil(ByVal valCodigoCuentaBancaria As Strin
    SQL = SQL & "WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
    SQL = SQL & " AND CuentaBancariaPago = " & gUtilSQL.fSimpleSqlValue(valCodigoCuentaBancaria)
    SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("FechaPago", valFechaInicial, valFechaFinal) & ")"
-   
 h_EXIT: On Error GoTo 0
    fSQLExportarPagoMercantil = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarPagoMercantil", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLExportarOperacionMercantil(ByVal valCodigoCuentaBancaria As String, _
-               ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
-                  ByVal valFormaPago As Boolean, ByVal valNumeroComprobante As String) As String
+Public Function fSQLExportarOperacionMercantil(ByVal valCodigoCuentaBancaria As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFormaPago As Boolean, ByVal valNumeroComprobante As String) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "SELECT '3' AS Operacion, "
@@ -1123,13 +1050,12 @@ Public Function fSQLExportarOperacionMercantil(ByVal valCodigoCuentaBancaria As 
    SQL = SQL & " AND CuentaBancariaPago = " & gUtilSQL.fSimpleSqlValue(valCodigoCuentaBancaria)
    SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("FechaPago", valFechaInicial, valFechaFinal) & ")"
    SQL = SQL & " AND ConsecutivoCompania = " & mConsecutivoCompaniaActual
-   
 h_EXIT: On Error GoTo 0
    fSQLExportarOperacionMercantil = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarOperacionMercantil", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-'BUNIAK - 13803
+
 Private Function fSQLExportarCotizacion() As String
    Dim SQL As String
    Dim sqlReplaceCondicionPago As String
@@ -1166,7 +1092,6 @@ Private Function fSQLExportarCotizacion() As String
    SQL = SQL & "cotizacion.ReservarMercancia, "
    SQL = SQL & "cotizacion.FechaDeRetiro, "
    SQL = SQL & "cotizacion.NoDirDespachoAimprimir, "
-   
    SQL = SQL & "renglonCotizacion.Descripcion, "
    SQL = SQL & "renglonCotizacion.Cantidad, "
    SQL = SQL & "renglonCotizacion.PrecioSinIVA, "
@@ -1188,20 +1113,16 @@ Private Function fSQLExportarCotizacion() As String
    SQL = SQL & "renglonCotizacion.ConsecutivoCompania)"
    SQL = SQL & " WHERE (cotizacion.ConsecutivoCompania = " & mConsecutivoCompaniaActual & ")"
    If mIsEntreFechas Then
-         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("cotizacion.fecha", mFechaInicial, mFechaFinal) & ")"
+      SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("cotizacion.fecha", mFechaInicial, mFechaFinal) & ")"
    End If
    SQL = SQL & " ORDER BY " & "cotizacion.Numero"
 h_EXIT: On Error GoTo 0
    fSQLExportarCotizacion = SQL
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSQLExportarCotizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarCotizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLExportarCabeceraBOD(ByVal valNumeroCuenta As String, _
-               ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
-                   ByVal valFechaGestion As Date, ByVal valFormaPago As Boolean, ByVal valContrato As String) As String
-   
+Public Function fSQLExportarCabeceraBOD(ByVal valNumeroCuenta As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFechaGestion As Date, ByVal valFormaPago As Boolean, ByVal valContrato As String) As String
    Dim SQL As String
    Dim vFormaPago As String
    On Error GoTo h_ERROR
@@ -1210,8 +1131,6 @@ Public Function fSQLExportarCabeceraBOD(ByVal valNumeroCuenta As String, _
    Else
       vFormaPago = "Nómina"
    End If
-
-   SQL = ""
    SQL = "SELECT '01' AS Cabecera"
    SQL = SQL & " ,CAST('" & vFormaPago & "' + REPLICATE(' ', 20 - LEN('" & vFormaPago & "')) AS VARCHAR (20)) AS Descripcion"
    SQL = SQL & " ,TipoId"
@@ -1222,23 +1141,18 @@ Public Function fSQLExportarCabeceraBOD(ByVal valNumeroCuenta As String, _
    SQL = SQL & " ,RIGHT(REPLICATE('0', 6) + CAST(COUNT(Fecha) AS VARCHAR(6)), 6) AS CantidadRegistros"
    SQL = SQL & " ,RIGHT(REPLICATE('0', 17)+ REPLACE(CAST(SUM(TotalDocumentos) AS VARCHAR (17)), '.', ''),17) AS TotalDocumentos"
    SQL = SQL & " ,'VEB' as Moneda"
-
    SQL = SQL & " FROM IGV_BODCabecera"
-
    SQL = SQL & " WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
    SQL = SQL & " AND CodigoCuentaBancaria = " & gUtilSQL.fSimpleSqlValue(valNumeroCuenta)
    SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("Fecha", valFechaInicial, valFechaFinal) & ")"
-
    SQL = SQL & " GROUP BY TipoId, Rif, NumeroLote"
-
 h_EXIT: On Error GoTo 0
    fSQLExportarCabeceraBOD = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarCabeceraBOD", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLExportarPagoBOD(ByVal valCodigoCuentaBancaria As String, _
-               ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFormaPago As Boolean, ByVal valFechaGestion As Date) As String
+Public Function fSQLExportarPagoBOD(ByVal valCodigoCuentaBancaria As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFormaPago As Boolean, ByVal valFechaGestion As Date) As String
    Dim SQL As String
    Dim vFormaPago As String
    On Error GoTo h_ERROR
@@ -1247,7 +1161,6 @@ Public Function fSQLExportarPagoBOD(ByVal valCodigoCuentaBancaria As String, _
    Else
       vFormaPago = "Nómina"
    End If
-
    SQL = "SELECT '02' AS Detalle "
    SQL = SQL & ", TipoId "
    SQL = SQL & ", Rif "
@@ -1278,13 +1191,10 @@ Public Function fSQLExportarPagoBOD(ByVal valCodigoCuentaBancaria As String, _
    SQL = SQL & " CAST(CorreoElectronico + REPLICATE(' ', 40 - LEN(CorreoElectronico)) AS VARCHAR (40))"
    SQL = SQL & " END AS CorreoElectronico "
    SQL = SQL & ",Telefonos "
-   
    SQL = SQL & "FROM IGV_BODPago "
-   
    SQL = SQL & " WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
    SQL = SQL & " AND CuentaBancariaPago = " & gUtilSQL.fSimpleSqlValue(valCodigoCuentaBancaria)
    SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("FechaPago", valFechaInicial, valFechaFinal) & ")"
-   
    SQL = SQL & " GROUP BY NumeroDelComprobante, NumeroComprobante,TipoId , Rif,Proveedor,"
    SQL = SQL & "DescripcionPago,ModalidadPago,CuentaAcreditar,FechaValor,TotalDocumentos,"
    SQL = SQL & "ImpuestoRetenido,CorreoElectronico,Telefonos"
@@ -1294,9 +1204,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarPagoBOD", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLExportarOperacionBOD(ByVal valCodigoCuentaBancaria As String, _
-               ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
-                  ByVal valFormaPago As Boolean, ByVal valNumeroComprobante As String) As String
+Public Function fSQLExportarOperacionBOD(ByVal valCodigoCuentaBancaria As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFormaPago As Boolean, ByVal valNumeroComprobante As String) As String
    Dim SQL As String
    On Error GoTo h_ERROR
    SQL = "SELECT '03' AS Operacion "
@@ -1304,13 +1212,10 @@ Public Function fSQLExportarOperacionBOD(ByVal valCodigoCuentaBancaria As String
    SQL = SQL & ",TotalDocumentos "
    SQL = SQL & ",FechaPago AS FechaValor "
    SQL = SQL & ",ImpuestoRetenido "
-      
    SQL = SQL & "FROM IGV_BODOperaciones "
-   
    SQL = SQL & "WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
    SQL = SQL & " AND CuentaBancariaPago = " & gUtilSQL.fSimpleSqlValue(valCodigoCuentaBancaria)
    SQL = SQL & " AND NumeroComprobante = " & gUtilSQL.fSimpleSqlValue(valNumeroComprobante)
-      
    SQL = SQL & " GROUP BY NumeroComprobante,FacturaAsociado ,TotalDocumentos ,FechaPago ,ImpuestoRetenido"
 h_EXIT: On Error GoTo 0
    fSQLExportarOperacionBOD = SQL
@@ -1318,15 +1223,11 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarOperacionBOD", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLExportarCabeceraBanesco(ByVal valNumeroCuenta As String, _
-               ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, _
-                   ByVal valFechaGestion As Date, ByVal valNumeroReferencia) As String
-   
+Public Function fSQLExportarCabeceraBanesco(ByVal valNumeroCuenta As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFechaGestion As Date, ByVal valNumeroReferencia) As String
    Dim SQL As String
    Dim vNombreCompania As String
    Dim vFechaGestion As String
    On Error GoTo h_ERROR
-   
    vFechaGestion = gUtilDate.fDateFormat(valFechaGestion, "yyyymmdd")
    vNombreCompania = gTexto.fCleanTextOfInvalidChars(mNombreCompaniaActual, "-()+/*;:_#$&'")
    vNombreCompania = gTexto.DfReplace(vNombreCompania, ",", " ")
@@ -1344,52 +1245,85 @@ Public Function fSQLExportarCabeceraBanesco(ByVal valNumeroCuenta As String, _
    vNombreCompania = gTexto.DfReplace(vNombreCompania, "Ò", "O")
    vNombreCompania = gTexto.DfReplace(vNombreCompania, "Ù", "U")
       
-   SQL = ""
-   SQL = SQL & "SELECT " & gUtilSQL.fSimpleSqlValue("02") & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.llenaConCaracterALaIzquierda(valNumeroReferencia, "0", gTexto.DfLen(valNumeroReferencia))) & gUtilSQL.fAlias("Seccion") & ", "
-   SQL = SQL & " " & gUtilSQL.fSQLFillRightWithCaracter("''", 22, " ") & gUtilSQL.fAlias("Blanco1") & ", "
-   SQL = SQL & " " & "TipoId" & gUtilSQL.CharConcat & "Rif" & gUtilSQL.fAlias("NumeroRif") & ", "
-   SQL = SQL & " " & gUtilSQL.fSimpleSqlValue(vNombreCompania) & gUtilSQL.fAlias("Compania") & ", "
-   SQL = SQL & " " & gUtilSQL.DfRightSQL(gUtilSQL.fSQLFillRightWithCaracter("''", "15", "0") & gUtilSQL.CharConcat & gUtilSQL.DfSQLReplace("CAST(SUM(TotalDocumentos) AS VARCHAR (15))", ".", "") & gUtilSQL.CharConcat & "'VEF '", "19") & gUtilSQL.fAlias("MontoTotal") & ", "
-   SQL = SQL & " " & "NumeroCuenta" & gUtilSQL.fAlias("CuentaDebitar") & ", "
-   SQL = SQL & " " & gUtilSQL.fSimpleSqlValue(vFechaGestion) & gUtilSQL.fAlias("FechaDeposito")
+   SQL = "SELECT " & gUtilSQL.fSimpleSqlValue("02") & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.llenaConCaracterALaIzquierda(valNumeroReferencia, "0", gTexto.DfLen(valNumeroReferencia))) & " AS Seccion, "
+   SQL = SQL & gUtilSQL.fSQLFillRightWithCaracter("''", 22, " ") & " AS Blanco1, "
+   SQL = SQL & "TipoId" & gUtilSQL.CharConcat & "Rif" & " AS NumeroRif, "
+   SQL = SQL & gUtilSQL.fSimpleSqlValue(vNombreCompania) & " AS Compania, "
+   SQL = SQL & gUtilSQL.DfRightSQL(gUtilSQL.fSQLFillRightWithCaracter("''", "15", "0") & gUtilSQL.CharConcat & gUtilSQL.DfSQLReplace("CAST(SUM(TotalDocumentos) AS VARCHAR (15))", ".", "") & gUtilSQL.CharConcat & "'VEF '", "19") & " AS MontoTotal, "
+   SQL = SQL & "NumeroCuenta AS CuentaDebitar, "
+   SQL = SQL & gUtilSQL.fSimpleSqlValue(vFechaGestion) & " AS FechaDeposito"
    SQL = SQL & " FROM dbo.IGV_BODCabecera"
    SQL = SQL & " WHERE ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(mConsecutivoCompaniaActual)
    SQL = SQL & " AND CodigoCuentaBancaria = " & gUtilSQL.fSimpleSqlValue(valNumeroCuenta)
    SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("Fecha", valFechaInicial, valFechaFinal) & ")"
    SQL = SQL & " GROUP BY TipoId, Rif, NumeroCuenta"
-
 h_EXIT: On Error GoTo 0
    fSQLExportarCabeceraBanesco = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarCabeceraBanesco", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSQLExportarPagoBanesco(ByVal valCodigoCuentaBancaria As String, _
-               ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFechaGestion As Date) As String
+Public Function fSQLExportarPagoBanesco(ByVal valCodigoCuentaBancaria As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valFechaGestion As Date) As String
    Dim SQL As String
    On Error GoTo h_ERROR
-  
-   SQL = ""
-   SQL = SQL & "SELECT " & gUtilSQL.fSimpleSqlValue("03") & gUtilSQL.fAlias("Seccion1") & ", "
-   SQL = SQL & " " & "NumeroComprobante" & gUtilSQL.fAlias("NumeroComprobante") & ", "
-   SQL = SQL & " " & gUtilSQL.DfSQLReplace("TotalDocumentos", "B", "F") & gUtilSQL.fAlias("MontoAcreditar") & ", "
-   SQL = SQL & " " & "CuentaAcreditar" & gUtilSQL.fAlias("CuentaProveedor") & ", "
-   SQL = SQL & " " & "CodigoBanco" & gUtilSQL.fAlias("PrefijoBanco") & ", "
-   SQL = SQL & " " & "TipoId" & gUtilSQL.CharConcat & "Rif" & gUtilSQL.fAlias("RIF") & ", "
-   SQL = SQL & " " & "Proveedor" & gUtilSQL.fAlias("Beneficiario") & ", "
-   SQL = SQL & " " & gUtilSQL.getIIF("CodigoBanco = '0134'", gUtilSQL.fSimpleSqlValue("42 "), gUtilSQL.fSimpleSqlValue("425")) & gUtilSQL.fAlias("CaracterControl") & ", "
-   SQL = SQL & " " & gUtilSQL.DfSQLReplace("TotalDocumentos", "VEB", "") & gUtilSQL.fAlias("Monto")
+   SQL = "SELECT " & gUtilSQL.fSimpleSqlValue("03") & "AS Seccion1" & ", "
+   SQL = SQL & "NumeroComprobante AS NumeroComprobante, "
+   SQL = SQL & gUtilSQL.DfSQLReplace("TotalDocumentos", "B", "F") & " AS MontoAcreditar, "
+   SQL = SQL & "CuentaAcreditar AS CuentaProveedor, "
+   SQL = SQL & "CodigoBanco AS PrefijoBanco, "
+   SQL = SQL & "TipoId" & gUtilSQL.CharConcat & "Rif AS RIF, "
+   SQL = SQL & "Proveedor AS Beneficiario, "
+   SQL = SQL & gUtilSQL.getIIF("CodigoBanco = '0134'", gUtilSQL.fSimpleSqlValue("42 "), gUtilSQL.fSimpleSqlValue("425")) & " AS CaracterControl, "
+   SQL = SQL & gUtilSQL.DfSQLReplace("TotalDocumentos", "VEB", "") & " AS Monto"
    SQL = SQL & " FROM dbo.IGV_BODPago"
    SQL = SQL & " WHERE ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValue(mConsecutivoCompaniaActual)
    SQL = SQL & " AND CuentaBancariaPago = " & gUtilSQL.fSimpleSqlValue(valCodigoCuentaBancaria)
    SQL = SQL & " AND CuentaAcreditar <> '" & gTexto.nCar("0", 20) & "'"
    SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("FechaPago", valFechaInicial, valFechaFinal) & ")"
-   SQL = SQL & " GROUP BY  NumeroComprobante,TipoId , Rif,Proveedor,"
-   SQL = SQL & "DescripcionPago,ModalidadPago, CodigoBanco ,CuentaAcreditar,FechaValor,TotalDocumentos"
-   
+   SQL = SQL & " GROUP BY  NumeroComprobante,TipoId , Rif,Proveedor, DescripcionPago,ModalidadPago, CodigoBanco ,CuentaAcreditar,FechaValor,TotalDocumentos"
 h_EXIT: On Error GoTo 0
    fSQLExportarPagoBanesco = SQL
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLExportarPagoBanesco", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
+Private Function fSqlExportacionSegunEntidad(ByVal valEntidad As enum_EntidadAExportarOImportar, ByVal valEsFacturaBorradores As Boolean, ByRef refNumFilasVector As Integer) As String
+   Dim vSql As String
+   On Error GoTo h_ERROR
+   Select Case valEntidad
+      Case eEAEI_PROVEEDOR:
+         refNumFilasVector = 2
+         vSql = fSQLDeProveedores
+      Case eEAEI_CLIENTE:
+         refNumFilasVector = 3
+         vSql = fSQLDeClientes
+      Case eEAEI_ARTICULO_INVENTARIO:
+         refNumFilasVector = 2
+         vSql = fSQLArticulosAExportar
+      Case eEAEI_FACTURA:
+         refNumFilasVector = 2
+         If valEsFacturaBorradores Then
+             vSql = fSQLExportarFacturas(True)
+         Else
+             vSql = fSQLExportarFacturas(False)
+         End If
+      Case eEAEI_CxC:
+         refNumFilasVector = 3
+         vSql = fSQLDeCxC
+      Case eEAEI_CxP:
+         refNumFilasVector = 3
+         vSql = fSQLDeCxP
+      Case eEAEI_VENDEDOR:
+         refNumFilasVector = 3
+         vSql = fSQLExportarVendedor
+      Case eEAEI_COTIZACION:
+         refNumFilasVector = 3
+         vSql = fSQLExportarCotizacion
+   End Select
+   fSqlExportacionSegunEntidad = vSql
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlExportacionSegunEntidad", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
 

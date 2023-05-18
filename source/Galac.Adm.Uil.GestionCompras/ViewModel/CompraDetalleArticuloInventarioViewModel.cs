@@ -366,7 +366,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         public decimal TotalGastosSeguro {
             get {
-                return PorcentajDistribucionFOB * Master.DetailCompraDetalleGasto.Items.Where(p => p.TipoDeCosto == eTipoDeCosto.Seguro).Sum(p => p.Monto) / 100;
+                decimal vTotalGastosSeguro = PorcentajDistribucionFOB * Master.DetailCompraDetalleGasto.Items.Where(p => p.TipoDeCosto == eTipoDeCosto.Seguro).Sum(p => p.Monto) / 100;
+                return LibMath.RoundToNDecimals(vTotalGastosSeguro, 2);
             }
         }
 
@@ -380,7 +381,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        [LibGridColum("Seguro Pagado", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
+        [LibGridColum("Seguro Pagado *", eGridColumType.Numeric, Alignment = eTextAlignment.Right, ConditionalPropertyDecimalDigits = "DecimalDigits")]
         public decimal SeguroPagado {
             get {
                 return (SubTotal * (ValorSeguro / 100)) + TotalGastosSeguro;
