@@ -72,18 +72,19 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fNumeroDelineasDelArchivo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
-Public Function fYaFueCargadoElItemEnElArray(ByVal valItemsArray As Variant, _
-            ByVal valIndiceActual As Long, ByVal valValorItem As String, ByVal valIndex As Long) As Boolean
+Public Function fYaFueCargadoElItemEnElArray(ByVal valItemsArray As Variant, ByVal valIndiceActual As Long, ByVal valValorItem As String, ByVal valIndex As Long) As Boolean
    Dim valregistroActual As Long
    Dim existe As Boolean
    On Error GoTo h_ERROR
    existe = False
-   For valregistroActual = 0 To valIndiceActual - 1
-      If UCase(valItemsArray(valIndex, valregistroActual)) = UCase(valValorItem) Then
-         existe = True
-         Exit For
-      End If
-   Next valregistroActual
+   If valIndiceActual > 0 And valIndex >= LBound(valItemsArray) And valIndex < UBound(valItemsArray) Then
+      For valregistroActual = 0 To valIndiceActual - 1
+         If UCase(valItemsArray(valIndex, valregistroActual)) = UCase(valValorItem) Then
+            existe = True
+            Exit For
+         End If
+      Next valregistroActual
+   End If
 h_EXIT:
   fYaFueCargadoElItemEnElArray = existe
   On Error GoTo 0
@@ -150,15 +151,19 @@ Public Function fVerificaValorImportarEnElArray(ByVal valItemsArray As Variant, 
    Dim Importa As Boolean
    On Error GoTo h_ERROR
    Importa = False
-   For valregistroActual = 0 To valIndiceActual
-      If UCase(valItemsArray(valIndex1, valregistroActual)) = UCase(valValorItem1) Then
-         If UCase(valItemsArray(valIndex2, valregistroActual)) = UCase(valValorItem2) Then
-            Importa = True
+   If valIndiceActual >= 0 And valIndex1 >= LBound(valItemsArray) And valIndex1 < UBound(valItemsArray) And valIndex2 >= LBound(valItemsArray) And valIndex2 < UBound(valItemsArray) Then
+      For valregistroActual = 0 To valIndiceActual
+         If UCase(valItemsArray(valIndex1, valregistroActual)) = UCase(valValorItem1) Then
+            If UCase(valItemsArray(valIndex2, valregistroActual)) = UCase(valValorItem2) Then
+               Importa = True
+               Exit For
+            End If
             Exit For
          End If
-         Exit For
-      End If
-   Next valregistroActual
+      Next valregistroActual
+   ElseIf LBound(valItemsArray) = 0 And UBound(valItemsArray) = 0 Then
+      Importa = True
+   End If
 h_EXIT:
   fVerificaValorImportarEnElArray = Importa
   On Error GoTo 0
@@ -171,13 +176,15 @@ Public Sub sCambiaAFalseElRegistroDelArraySiExiste(ByRef valItemsArray As Varian
             ByVal valIndiceActual As Long, ByVal valValorItem As String, ByVal valIndex1 As Long, ByVal valIndex2 As Long, ByVal valIndex3 As Long, ByVal valor1 As Boolean, ByVal valor2 As Boolean)
    Dim valregistroActual As Long
    On Error GoTo h_ERROR
-   For valregistroActual = 0 To valIndiceActual
-      If UCase(valItemsArray(valIndex1, valregistroActual)) = UCase(valValorItem) Then
-         valItemsArray(valIndex2, valregistroActual) = valor1
-         valItemsArray(valIndex3, valregistroActual) = valor2
-         Exit For
-      End If
-   Next valregistroActual
+   If valIndiceActual >= 0 And valIndex1 >= LBound(valItemsArray) And valIndex1 < UBound(valItemsArray) And valIndex2 >= LBound(valItemsArray) And valIndex2 < UBound(valItemsArray) Then
+      For valregistroActual = 0 To valIndiceActual
+         If UCase(valItemsArray(valIndex1, valregistroActual)) = UCase(valValorItem) Then
+            valItemsArray(valIndex2, valregistroActual) = valor1
+            valItemsArray(valIndex3, valregistroActual) = valor2
+            Exit For
+         End If
+      Next valregistroActual
+   End If
 h_EXIT: On Error GoTo 0
   Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _

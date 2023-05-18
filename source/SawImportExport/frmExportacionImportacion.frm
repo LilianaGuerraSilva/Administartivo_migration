@@ -199,8 +199,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sInitDefaultValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitDefaultValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmbTipoDeSeparacion_Validate(Cancel As Boolean)
@@ -210,8 +209,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "cmbTipoDeSeparacion_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmbTipoDeSeparacion_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdBuscar_Click()
@@ -227,8 +225,7 @@ Private Sub cmdBuscar_Click()
    Set gUtilCommonDialog = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-   "cmdBuscar_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdBuscar_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub cmdGrabar_Click()
@@ -248,8 +245,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "cmdGrabar_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdGrabar_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
    gApi.SetMouseNormal Me
 End Sub
 
@@ -260,8 +256,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "cmdSalir_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "cmdSalir_Click", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sInitLookAndFeel(ByVal valAction As AccionSobreRecord, ByVal valEntidad As enum_EntidadAExportarOImportar, Optional ByVal valEsFacturaBorradores As Boolean = False)
@@ -279,12 +274,14 @@ Public Sub sInitLookAndFeel(ByVal valAction As AccionSobreRecord, ByVal valEntid
    lblTitulo(0).Caption = "Datos de para  " & gDefGen.AccionSobreRecordStr(mAction) & vLabelBorrador
    cmdGrabar.Caption = gDefGen.AccionSobreRecordStr(mAction)
    sInitDefaultValues
+   If valAction = Importar And valEntidad = eEAEI_FACTURA And Not valEsFacturaBorradores Then
+      chkGenerarCxCAlImportar.Visible = True
+   End If
 h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sClrRecord()
@@ -304,8 +301,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "Form_Load", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Form_Load", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function getSeparador() As String
@@ -319,8 +315,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "getSeparador", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "getSeparador", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function getFilter() As String
@@ -334,8 +329,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "getFilter", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "getFilter", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fVerificaQueDeseaExportarElArchivoALaRutaEspecificada() As Boolean
@@ -374,8 +368,7 @@ h_EXIT:
    fVerificaQueDeseaExportarElArchivoALaRutaEspecificada = valEsValido
    Exit Function
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fVerificaQueDeseaExportarElArchivoALaRutaEspecificada", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fVerificaQueDeseaExportarElArchivoALaRutaEspecificada", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub txtNombreDelArchivo_Validate(Cancel As Boolean)
@@ -392,6 +385,5 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "txtNombreDelArchivo_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDelArchivo_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub

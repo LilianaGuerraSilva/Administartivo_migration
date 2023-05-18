@@ -354,23 +354,6 @@
                     SelectedItem="{Binding Path=TipoDeDistribucion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=LostFocus}"
                     Style="{StaticResource ComboBoxStyle}" />
                 <Label
-                    Name="lblUsaSeguro"
-                    Grid.Row="4"
-                    Grid.Column="5"
-                    Content="Usa Seguro"
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleUsaSeguro, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <CheckBox
-                    Name="chkUsaSeguro"
-                    Grid.Row="4"
-                    Grid.Column="6"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding Path=UsaSeguro}"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    Style="{StaticResource CheckBoxStyle}"
-                    Visibility="{Binding Path=IsVisibleUsaSeguro, Converter={StaticResource booleanToVisibilityConverter}}" />
-
-                <Label
                     Name="lblTasaAduanera"
                     Grid.Row="5"
                     Grid.Column="0"
@@ -418,7 +401,6 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisibleParaDistribucionAutomatica, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=TasaDolar, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-
                 <Label
                     Name="lblFechaDeAnulacion"
                     Grid.Row="7"
@@ -440,7 +422,6 @@
                     SelectedDate="{Binding Path=FechaDeAnulacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource DatePickerStyle}"
                     Visibility="{Binding Path=IsVisibleFechaAnulacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-
             </Grid>
         </GroupBox>
         <GroupBox
@@ -605,6 +586,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <ContentControl
@@ -654,6 +636,15 @@
                                 SelectedIndex="{Binding Path=DetailCompraDetalleArticuloInventario.SelectedIndex}"
                                 SelectedItem="{Binding Path=DetailCompraDetalleArticuloInventario.SelectedItem, Mode=OneWayToSource}"
                                 Style="{StaticResource GSDataGridStyle}" />
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Width="Auto"
+                                Margin="0"
+                                HorizontalAlignment="Left"
+                                Content="{Binding LabelColumnaSeguroPagado}"
+                                Style="{StaticResource LabelPrompt}" />
                         </Grid>
                     </TabItem>
                     <TabItem Name="tbiSeccionCompraDetalleGasto" Header="Costos">
