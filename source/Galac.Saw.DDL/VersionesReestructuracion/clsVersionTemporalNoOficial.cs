@@ -13,13 +13,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
         public override bool UpdateToVersion() {
             StartConnectionNoTransaction();
-			CrearCampoCompania_EstaIntegradaG360();
             DisposeConnectionNoTransaction();
             return true;
         }
-
-		private void CrearCampoCompania_EstaIntegradaG360() {
-			AddColumnBoolean("dbo.Compania", "ConectadaConG360", "CONSTRAINT ConecConG360 NOT NULL", false);
-		}
     }
 }
