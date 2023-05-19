@@ -1091,9 +1091,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Limpieza de Campos de Comisiones
 
         #region Validaciones de Topes de Comisiones
-        private ValidationResult ValidarTopesDeComisiones(decimal TopeInicial, decimal TopeFinal, bool UsaEsteTipoDeComision) {
+        private ValidationResult ValidarTopesDeComisiones(decimal valTopeInicial, decimal valTopeFinal, bool valUsaEsteTipoDeComision) {
             ValidationResult vResult = ValidationResult.Success;
-            if (UsaEsteTipoDeComision && (TopeFinal < TopeInicial)) {
+            if (valUsaEsteTipoDeComision && (valTopeFinal < valTopeInicial)) {
                 vResult = new ValidationResult(MensajeTopeFinalDeVentaMenorAlTopeInicial);
             }
             return vResult;
@@ -1125,34 +1125,36 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Validaciones de Topes de Comisiones
 
         #region Validaciones de Porcentajes de Comisiones
-        private ValidationResult ValidarPorcentajesDeComisiones(decimal PorcentajeComisionActual, decimal PorcentajeComisionAnterior, decimal PorcentajeComisionSiguiente, decimal TopeFinalDelSiguienteNivel, bool UsaEsteTipoDeComision) {
+        private ValidationResult ValidarPorcentajesDeComisionesNivel1(decimal valPorcentajeComisionActual, decimal valPorcentajeComisionSiguiente, decimal valTopeFinalDelSiguienteNivel, bool valUsaEsteTipoDeComision) {
             ValidationResult vResult = ValidationResult.Success;
-            if (UsaEsteTipoDeComision) {
-                if (PorcentajeComisionActual <= PorcentajeComisionAnterior || (PorcentajeComisionActual > PorcentajeComisionSiguiente && TopeFinalDelSiguienteNivel != 0)) {
+            if (valUsaEsteTipoDeComision) {
+                if (valPorcentajeComisionActual > valPorcentajeComisionSiguiente && valTopeFinalDelSiguienteNivel != 0) {
                     vResult = new ValidationResult(MensajePorcentajeDeComisionConValorNoAceptado);
-                } else if (PorcentajeComisionActual > 100) {
+                } else if (valPorcentajeComisionActual > 100) {
                     vResult = new ValidationResult(MensajePorcentajeDeComisionMayorA100);
                 }
             }
             return vResult;
         }
-        private ValidationResult ValidarPorcentajesDeComisionesNivel1(decimal PorcentajeComisionActual, decimal PorcentajeComisionSiguiente, decimal TopeFinalDelSiguienteNivel, bool UsaEsteTipoDeComision) {
+        private ValidationResult ValidarPorcentajesDeComisiones(decimal valPorcentajeComisionActual, decimal valPorcentajeComisionAnterior, decimal valPorcentajeComisionSiguiente, decimal valTopeFinalNivelActual, decimal valTopeFinalSiguienteNivel, bool valUsaEsteTipoDeComision) {
             ValidationResult vResult = ValidationResult.Success;
-            if (UsaEsteTipoDeComision) {
-                if (PorcentajeComisionActual > PorcentajeComisionSiguiente && TopeFinalDelSiguienteNivel != 0) {
-                    vResult = new ValidationResult(MensajePorcentajeDeComisionConValorNoAceptado);
-                } else if (PorcentajeComisionActual > 100) {
-                    vResult = new ValidationResult(MensajePorcentajeDeComisionMayorA100);
+            if (valUsaEsteTipoDeComision) {
+                if (valTopeFinalNivelActual > 0 || valPorcentajeComisionActual > 0) {
+                    if (valPorcentajeComisionActual <= valPorcentajeComisionAnterior || (valPorcentajeComisionActual > valPorcentajeComisionSiguiente && valTopeFinalSiguienteNivel != 0)) {
+                        vResult = new ValidationResult(MensajePorcentajeDeComisionConValorNoAceptado);
+                    } else if (valPorcentajeComisionActual > 100) {
+                        vResult = new ValidationResult(MensajePorcentajeDeComisionMayorA100);
+                    }
                 }
             }
             return vResult;
         }
-        private ValidationResult ValidarPorcentajesDeComisionesNivel4y5(decimal PorcentajeComisionActual, decimal PorcentajeComisionAnterior, bool UsaEsteTipoDeComision) {
+        private ValidationResult ValidarPorcentajesDeComisionesNivel5(decimal valPorcentajeComisionActual, decimal valPorcentajeComisionAnterior, bool valUsaEsteTipoDeComision) {
             ValidationResult vResult = ValidationResult.Success;
-            if (UsaEsteTipoDeComision) {
-                if (PorcentajeComisionActual <= PorcentajeComisionAnterior) {
+            if (valUsaEsteTipoDeComision) {
+                if (valPorcentajeComisionActual <= valPorcentajeComisionAnterior) {
                     vResult = new ValidationResult(MensajePorcentajeDeComisionConValorNoAceptado);
-                } else if (PorcentajeComisionActual > 100) {
+                } else if (valPorcentajeComisionActual > 100) {
                     vResult = new ValidationResult(MensajePorcentajeDeComisionMayorA100);
                 }
             }
@@ -1162,37 +1164,35 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return ValidarPorcentajesDeComisionesNivel1(PorcentajeVentas1, PorcentajeVentas2, TopeFinalVenta2, UsaComisionPorVenta);
         }
         private ValidationResult PorcentajeVentas2Validating() {
-            return ValidarPorcentajesDeComisiones(PorcentajeVentas2, PorcentajeVentas1, PorcentajeVentas3, TopeFinalVenta3, UsaComisionPorVenta);
+            return ValidarPorcentajesDeComisiones(PorcentajeVentas2, PorcentajeVentas1, PorcentajeVentas3, TopeFinalVenta2, TopeFinalVenta3, UsaComisionPorVenta);
         }
         private ValidationResult PorcentajeVentas3Validating() {
-            return ValidarPorcentajesDeComisiones(PorcentajeVentas3, PorcentajeVentas2, PorcentajeVentas4, TopeFinalVenta4, UsaComisionPorVenta);
+            return ValidarPorcentajesDeComisiones(PorcentajeVentas3, PorcentajeVentas2, PorcentajeVentas4, TopeFinalVenta3, TopeFinalVenta4, UsaComisionPorVenta);
         }
         private ValidationResult PorcentajeVentas4Validating() {
-            return ValidarPorcentajesDeComisionesNivel4y5(PorcentajeVentas4, PorcentajeVentas3, UsaComisionPorVenta);
+            return ValidarPorcentajesDeComisiones(PorcentajeVentas4, PorcentajeVentas3, PorcentajeVentas5, TopeFinalVenta4, TopeFinalVenta5, UsaComisionPorVenta); //Nivel4y5
         }
         private ValidationResult PorcentajeVentas5Validating() {
-            return ValidarPorcentajesDeComisionesNivel4y5(PorcentajeVentas5, PorcentajeVentas4, UsaComisionPorVenta);
+            return ValidarPorcentajesDeComisionesNivel5(PorcentajeVentas5, PorcentajeVentas4, UsaComisionPorVenta);
         }
         private ValidationResult PorcentajeCobranza1Validating() {
             return ValidarPorcentajesDeComisionesNivel1(PorcentajeCobranza1, PorcentajeCobranza2, TopeFinalCobranza2, UsaComisionPorCobranza);
         }
         private ValidationResult PorcentajeCobranza2Validating() {
-            return ValidarPorcentajesDeComisiones(PorcentajeCobranza2, PorcentajeCobranza1, PorcentajeCobranza3, TopeFinalCobranza3, UsaComisionPorCobranza);
+            return ValidarPorcentajesDeComisiones(PorcentajeCobranza2, PorcentajeCobranza1, PorcentajeCobranza3, TopeFinalCobranza2, TopeFinalCobranza3, UsaComisionPorCobranza);
         }
         private ValidationResult PorcentajeCobranza3Validating() {
-            return ValidarPorcentajesDeComisiones(PorcentajeCobranza3, PorcentajeCobranza2, PorcentajeCobranza4, TopeFinalCobranza4, UsaComisionPorCobranza);
+            return ValidarPorcentajesDeComisiones(PorcentajeCobranza3, PorcentajeCobranza2, PorcentajeCobranza4, TopeFinalCobranza3, TopeFinalCobranza4, UsaComisionPorCobranza);
         }
         private ValidationResult PorcentajeCobranza4Validating() {
-            return ValidarPorcentajesDeComisionesNivel4y5(PorcentajeCobranza4, PorcentajeCobranza3, UsaComisionPorCobranza);
+            return ValidarPorcentajesDeComisiones(PorcentajeCobranza4, PorcentajeCobranza3, PorcentajeCobranza5, TopeFinalCobranza4, TopeFinalCobranza5, UsaComisionPorCobranza);
         }
         private ValidationResult PorcentajeCobranza5Validating() {
-            return ValidarPorcentajesDeComisionesNivel4y5(PorcentajeCobranza5, PorcentajeCobranza4, UsaComisionPorCobranza);
+            return ValidarPorcentajesDeComisionesNivel5(PorcentajeCobranza5, PorcentajeCobranza4, UsaComisionPorCobranza);
         }
         #endregion //Validaciones de Porcentajes de Comisiones
 
         #endregion //Metodos Generados
-
     } //End of class VendedorViewModel
-
 } //End of namespace Galac.Adm.Uil.Vendedor
 

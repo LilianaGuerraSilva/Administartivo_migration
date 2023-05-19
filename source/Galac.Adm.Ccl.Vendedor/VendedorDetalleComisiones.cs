@@ -9,7 +9,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         private int _ConsecutivoCompania;
         private int _ConsecutivoVendedor;
         private int _ConsecutivoRenglon;
-        private int _CodigoVendedor;
+        private string _CodigoVendedor;
         private string _NombreDeLineaDeProducto;
         private eTipoComision _TipoDeComision;
         private decimal _Monto;
@@ -31,7 +31,7 @@ namespace Galac.Adm.Ccl.Vendedor {
             get { return _ConsecutivoRenglon; }
             set { _ConsecutivoRenglon = value; }
         }
-        public int CodigoVendedor {
+        public string CodigoVendedor {
             get { return _CodigoVendedor; }
             set { _CodigoVendedor = value; }
         }
@@ -95,7 +95,7 @@ namespace Galac.Adm.Ccl.Vendedor {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ConsecutivoVendedor = 0;
             ConsecutivoRenglon = 0;
-            CodigoVendedor = 0;
+            CodigoVendedor = string.Empty;
             NombreDeLineaDeProducto = string.Empty;
             TipoDeComisionAsEnum = eTipoComision.PorPorcentaje;
             Monto = 0;

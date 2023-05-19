@@ -30,7 +30,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Comisiones de Vendedor por Linea de Producto"; }
+            get { return "Comisiones de Vendedor por Línea de Producto"; }
         }
 
         public int  ConsecutivoCompania {
@@ -44,7 +44,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Consecutivo Vendedor es requerido.")]
         public int  ConsecutivoVendedor {
             get {
                 return Model.ConsecutivoVendedor;
@@ -58,7 +57,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Consecutivo Renglon es requerido.")]
         public int  ConsecutivoRenglon {
             get {
                 return Model.ConsecutivoRenglon;
@@ -72,7 +70,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public int CodigoVendedor {
+        public string CodigoVendedor {
             get {
                 return Model.CodigoVendedor;
             }

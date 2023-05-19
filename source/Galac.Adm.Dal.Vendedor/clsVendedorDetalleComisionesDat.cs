@@ -31,34 +31,29 @@ namespace Galac.Adm.Dal.Vendedor {
         #region Metodos Generados
 
         private StringBuilder ParametrosActualizacion(VendedorDetalleComisiones valRecord, eAccionSR valAction) {
-            StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
-            vParams.AddInInteger("CodigoVendedor", valRecord.CodigoVendedor);
+            vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
             vParams.AddInString("NombreDeLineaDeProducto", valRecord.NombreDeLineaDeProducto, 20);
             vParams.AddInEnum("TipoDeComision", valRecord.TipoDeComisionAsDB);
             vParams.AddInDecimal("Monto", valRecord.Monto, 2);
             vParams.AddInDecimal("Porcentaje", valRecord.Porcentaje, 2);
-            vResult = vParams.Get();
-            return vResult;
+            return vParams.Get();
         }
 
         private StringBuilder ParametrosActualizacionDetail(Ccl.Vendedor.Vendedor valRecord, eAccionSR eAccionSR) {
-            StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.Consecutivo);
             vParams.AddInXml("XmlDataDetail", ParseToXml(valRecord));
-            vResult = vParams.Get();
-            return vResult;
+            return vParams.Get();
         }
 
         private StringBuilder ParametrosClave(VendedorDetalleComisiones valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
-            StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             if (valAddReturnParameter) {
                 vParams.AddReturn();
@@ -66,26 +61,21 @@ namespace Galac.Adm.Dal.Vendedor {
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
-            vResult = vParams.Get();
-            return vResult;
+            return vParams.Get();
         }
 
         private StringBuilder ParametrosProximoConsecutivo(VendedorDetalleComisiones valRecord) {
-            StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
-            vResult = vParams.Get();
-            return vResult;
+            return vParams.Get();
         }
 
         StringBuilder ParametrosDetail(Ccl.Vendedor.Vendedor valMaster) {
-            StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valMaster.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valMaster.Consecutivo);
-            vResult = vParams.Get();
-            return vResult;
+            return vParams.Get();
         }
 
         private XElement ParseToXml(Ccl.Vendedor.Vendedor valEntidad) {
@@ -136,9 +126,9 @@ namespace Galac.Adm.Dal.Vendedor {
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Insertar")]
         LibResponse ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>>.Insert(IList<VendedorDetalleComisiones> refRecord, XmlReader valExtended) {
             LibResponse vResult = new LibResponse();
-            string vErrMsg = "";
             CurrentRecord = refRecord[0];
             if (ExecuteProcessBeforeInsert()) {
+                string vErrMsg;
                 if (Validate(eAccionSR.Insertar, out vErrMsg)) {
                     LibDatabase insDb = new LibDatabase();
                     vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "VendedorDetalleComisionesINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar));
@@ -152,9 +142,7 @@ namespace Galac.Adm.Dal.Vendedor {
         #endregion //ILibDataDetailComponent<IList<VendedorDetalleComisiones>, IList<VendedorDetalleComisiones>>
 
         public bool InsertChild(Ccl.Vendedor.Vendedor valRecord, LibDataScope insTrn) {
-            bool vResult = false;
-            vResult = insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorDetalleComisionesInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
-            return vResult;
+            return insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorDetalleComisionesInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
         }
 
         #region Validaciones
@@ -217,29 +205,26 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivoVendedor, int valConsecutivoRenglon) {
-            bool vResult = false;
             VendedorDetalleComisiones vRecordBusqueda = new VendedorDetalleComisiones();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.ConsecutivoVendedor = valConsecutivoVendedor;
             vRecordBusqueda.ConsecutivoRenglon = valConsecutivoRenglon;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".VendedorDetalleComisiones", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
+            bool vResult = insDb.ExistsRecord(DbSchema + ".VendedorDetalleComisiones", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
         #endregion //Validaciones
 
         public bool GetDetailAndAppendToMaster(ref List<Ccl.Vendedor.Vendedor>  refMaster) {
-            bool vResult = false;
-            IList<VendedorDetalleComisiones> vDetail = null;
             foreach (Ccl.Vendedor.Vendedor vItemMaster in refMaster) {
                 vItemMaster.DetailVendedorDetalleComisiones = new ObservableCollection<VendedorDetalleComisiones>();
-                vDetail = new LibDatabase().LoadFromSp<VendedorDetalleComisiones>("Adm.Gp_VendedorDetalleComisionesSelDet", ParametrosDetail(vItemMaster), CmdTimeOut);
+                IList<VendedorDetalleComisiones> vDetail = new LibDatabase().LoadFromSp<VendedorDetalleComisiones>("Adm.Gp_VendedorDetalleComisionesSelDet", ParametrosDetail(vItemMaster), CmdTimeOut);
                 foreach (VendedorDetalleComisiones vItemDetail in vDetail) {
                     vItemMaster.DetailVendedorDetalleComisiones.Add(vItemDetail);
                 }
             }
-            vResult = true;
+            bool vResult = true;
             return vResult;
         }
 
@@ -248,11 +233,11 @@ namespace Galac.Adm.Dal.Vendedor {
         }
         private LibResponse InsertDetail(IList<VendedorDetalleComisiones> refRecord) {
             LibResponse vResult = new LibResponse();
-            string vErrMsg = "";
             try {
                 foreach (var item in refRecord) {
                     CurrentRecord = item;
                     if (ExecuteProcessBeforeInsert()) {
+                        string vErrMsg;
                         if (Validate(eAccionSR.Insertar, out vErrMsg)) {
                             if (insTrn.ExecSpNonQueryWithScope(insTrn.ToSpName(DbSchema, "VendedorDetalleComisionesINS"), ParametrosActualizacion(CurrentRecord, eAccionSR.Insertar))) {
                                 vResult.Success = true;
