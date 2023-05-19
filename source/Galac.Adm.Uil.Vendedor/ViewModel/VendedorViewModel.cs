@@ -112,7 +112,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
         [LibRequired(ErrorMessage = "Código del Vendedor es requerido.")]
-        [LibGridColum("Código", ColumnOrder = 0)]
+        [LibGridColum("Código", ColumnOrder = 0, Width = 70)]
         public string Codigo {
             get {
                 return Model.Codigo;
@@ -780,15 +780,26 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public bool IsEnabledAsignacionDeComisiones {
             get {
-                eComisionesEnFactura vFormaDeAsignarComisionesDeVendedor = (eComisionesEnFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ComisionesEnFactura");
-                return vFormaDeAsignarComisionesDeVendedor != eComisionesEnFactura.SobreRenglones;
+                return CalculaComisionesSobreRenglones();
             }
         }
 
+
         public bool IsEnabledComisionesPorLineaDeProducto {
             get {
-                eComisionesEnFactura vFormaDeAsignarComisionesDeVendedor = (eComisionesEnFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ComisionesEnFactura");
-                return vFormaDeAsignarComisionesDeVendedor != eComisionesEnFactura.SobreTotalFactura;
+                return CalculaComisionesSobreElTotal();
+            }
+        }
+
+        public bool IsVisibleAsignacionDeComisiones {
+            get {
+                return CalculaComisionesSobreRenglones();
+            }
+        }
+
+        public bool IsVisibleComisionesPorLineaDeProducto {
+            get {
+                return CalculaComisionesSobreElTotal();
             }
         }
 
@@ -1018,6 +1029,16 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private string GenerarProximoCodigo() {
             XElement vResulset = GetBusinessComponent().QueryInfo(eProcessMessageType.Message, "ProximoCodigo", Mfc.GetIntAsParam("Compania"), false);
             return LibXml.GetPropertyString(vResulset, "Codigo");
+        }
+        
+        private static bool CalculaComisionesSobreRenglones() {
+            eComisionesEnFactura vFormaDeAsignarComisionesDeVendedor = (eComisionesEnFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ComisionesEnFactura");
+            return vFormaDeAsignarComisionesDeVendedor != eComisionesEnFactura.SobreRenglones;
+        }
+
+        private static bool CalculaComisionesSobreElTotal() {
+            eComisionesEnFactura vFormaDeAsignarComisionesDeVendedor = (eComisionesEnFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ComisionesEnFactura");
+            return vFormaDeAsignarComisionesDeVendedor != eComisionesEnFactura.SobreTotalFactura;
         }
 
         #region Limpieza de Campos de Comisiones
