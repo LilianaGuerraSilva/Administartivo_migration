@@ -17,40 +17,15 @@ using Galac.Adm.Dal.Vendedor;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
-	class clsVersionTemporalNoOficial : clsVersionARestructurar {
+	class clsVersionTemporalNoOficial: clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-			CrearColumnaRutaDeComercializacion();
 			CrearTablaAdmVendedor();
-			CrearCampoCompania_EstaIntegradaG360();
+			CrearParametrosImprentaDigital();
+			CrearCamposParaImprentaDigitalEnFactura();
 			DisposeConnectionNoTransaction();
 			return true;
-		}
-
-		private void CrearColumnaRutaDeComercializacion() {
-			QAdvSql InsSql = new QAdvSql("");
-			if (TableExists("dbo.Vendedor")) {
-				if (AddColumnEnumerative("dbo.Vendedor", "RutaDeComercializacion", "", (int)eRutaDeComercializacion.Ninguna)) {
-					AddDefaultConstraint("dbo.Vendedor", "d_VenRuDeCo", InsSql.ToSqlValue((int)eRutaDeComercializacion.Ninguna), "RutaDeComercializacion");
-				}
-			}
-		}
-
-		private void CrearColumnaConsecutivoVendedor(string valTabla, string valNombreColumna, string valConstraint) {
-			QAdvSql InsSql = new QAdvSql("");
-			if (AddColumnInteger(valTabla, valNombreColumna, valConstraint)) {
-				AddNotNullConstraint(valTabla, valNombreColumna, InsSql.NumericTypeForDb(10, 0));
-			}
-		}
-		private void LlenarColumnaConsecutivoVendedor(string valTabla, string valColumnaNueva, string valColumnaAnterior) {
-			StringBuilder vSQL = new StringBuilder();
-			LibDataScope vDb = new LibDataScope();
-			vSQL.AppendLine("UPDATE " + valTabla + " SET " + valTabla + "." + valColumnaNueva + " = Adm.Vendedor.Consecutivo ");
-			vSQL.AppendLine("FROM " + valTabla);
-			vSQL.AppendLine("INNER JOIN Adm.Vendedor ON " + valTabla + ".ConsecutivoCompania = Adm.Vendedor.ConsecutivoCompania ");
-			vSQL.AppendLine("AND " + valTabla + "." + valColumnaAnterior + " = Adm.Vendedor.Codigo");
-			vDb.ExecuteWithScope(vSQL.ToString());
 		}
 		private void CrearTablaAdmVendedor() {
 			if (!TableExists("Adm.Vendedor")) {
@@ -113,8 +88,35 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				}
 			}
 		}
-		private void CrearCampoCompania_EstaIntegradaG360() {
-			AddColumnBoolean("dbo.Compania", "ConectadaConG360", "CONSTRAINT ConecConG360 NOT NULL", false);
+
+		private void CrearColumnaConsecutivoVendedor(string valTabla, string valNombreColumna, string valConstraint) {
+			QAdvSql InsSql = new QAdvSql("");
+			if (AddColumnInteger(valTabla, valNombreColumna, valConstraint)) {
+				AddNotNullConstraint(valTabla, valNombreColumna, InsSql.NumericTypeForDb(10, 0));
+			}
+		}
+
+		private void LlenarColumnaConsecutivoVendedor(string valTabla, string valColumnaNueva, string valColumnaAnterior) {
+			StringBuilder vSQL = new StringBuilder();
+			LibDataScope vDb = new LibDataScope();
+			vSQL.AppendLine("UPDATE " + valTabla + " SET " + valTabla + "." + valColumnaNueva + " = Adm.Vendedor.Consecutivo ");
+			vSQL.AppendLine("FROM " + valTabla);
+			vSQL.AppendLine("INNER JOIN Adm.Vendedor ON " + valTabla + ".ConsecutivoCompania = Adm.Vendedor.ConsecutivoCompania ");
+			vSQL.AppendLine("AND " + valTabla + "." + valColumnaAnterior + " = Adm.Vendedor.Codigo");
+			vDb.ExecuteWithScope(vSQL.ToString());
+		}
+
+		private void CrearParametrosImprentaDigital() {
+			AgregarNuevoParametro("UsaImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.String, "", 'N', "N");
+			AgregarNuevoParametro("FechaInicioImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.String, "", 'N', LibConvert.ToStr(LibDate.MinDateForDB()));
+			AgregarNuevoParametro("ProveedorImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
+		}
+
+		private void CrearCamposParaImprentaDigitalEnFactura() {
+			AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");
+			if (AddColumnEnumerative("factura", "ProveedorImprentaDigital", "", 0)) {
+				AddDefaultConstraint("factura", "nnFacturaProveedorImpDig", "'0'", "ProveedorImprentaDigital");
+			}
 		}
 	}
-}
+}   

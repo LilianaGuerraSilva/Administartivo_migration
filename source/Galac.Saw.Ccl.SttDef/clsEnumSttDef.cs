@@ -502,4 +502,12 @@ namespace Galac.Saw.Ccl.SttDef {
         [LibEnumDescription("Costo de los materiales en Moneda Extranjera")]
         APartirDeCostoEnMonedaExtranjera
     }
+
+	[System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eProveedorImprentaDigital {
+        [LibEnumDescription("No Aplica")]
+        NoAplica = 0,
+        [LibEnumDescription("The Factory HKA")]
+        TheFactoryHKA
+	}
 } //End of namespace namespace Galac.Saw.Ccl.SttDef

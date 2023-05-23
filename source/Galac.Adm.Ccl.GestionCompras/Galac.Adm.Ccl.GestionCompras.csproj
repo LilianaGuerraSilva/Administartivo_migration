@@ -68,10 +68,8 @@
     <Compile Include="ICompraPdn.cs" />
     <Compile Include="IFkCargaInicialViewModel.cs" />
     <Compile Include="IFkCompraViewModel.cs" />
-    <Compile Include="IFkLibroDeComprasViewModel.cs" />
     <Compile Include="IFkOrdenDeCompraViewModel.cs" />
     <Compile Include="IFkProveedorViewModel.cs" />
-    <Compile Include="ILibroDeComprasPdn.cs" />
     <Compile Include="IOrdenDeCompraDatPdn.cs" />
     <Compile Include="IOrdenDeCompraPdn.cs" />
     <Compile Include="IProveedorPdn.cs" />

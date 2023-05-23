@@ -155,9 +155,8 @@ namespace Galac.Saw.ViewModel {
         protected override void OnChooseMultiFileControllersSuccess() {
             base.OnChooseMultiFileControllersSuccess();
             try {
-                LibGlobalValues.Instance.LoadMFCInfoFromAppMemInfo("Compania", "Consecutivo");
                 int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
-                if (vConsecutivoCompania > 0) {
+                if(vConsecutivoCompania > 0) {
                     //IPeriodoPdn vPdn = new clsPeriodoNav();
                     //if (vPdn.LaCompaniaTienePeriodos(vConsecutivoCompania)) {
                     //    bool vEsCatalogoGeneral = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Compania", "EsCatalogoGeneral");
@@ -175,7 +174,7 @@ namespace Galac.Saw.ViewModel {
                     //    LibMessages.EditViewModel.ShowEditor(vVieModel, true);
                     //}
                 }
-            } catch (Exception) {
+            } catch(Exception) {
             }
         }
 
@@ -370,7 +369,7 @@ namespace Galac.Saw.ViewModel {
                 new XElement("ConsecutivoMunicipio","160"),
                 new XElement("CodigoMunicipio","VENLAR0003"),
                 new XElement("ModelosPlanillas","0"),
-                new XElement("CantidadDeDecimales","2"),
+                new XElement("CantidadDeDecimales","3"),
                 new XElement("SesionEspecialPrecioSinIva","S"),
                 new XElement("SugerirNumeroDeOrdenDeCompra","N"),
                 new XElement("SesionEspecialModificarNumeroDigitosEnFactura","N"),
@@ -389,21 +388,22 @@ namespace Galac.Saw.ViewModel {
                 new XElement("UsaCobroDirectoEnMultimoneda","N"),
                 new XElement("CuentaBancariaCobroMultimoneda","00004"),
                 new XElement("ConceptoBancarioCobroMultimoneda","60340"),
-                new XElement("CuentaBancariaCobroDirecto", "00001"),
-                new XElement("ConceptoBancarioCobroDirecto", "60340"),
                 new XElement("EsModoAvanzado","N"),
                 new XElement("UsarLimiteMaximoParaIngresoDeTasaDeCambio","S"),
-                new XElement("MaximoLimitePermitidoParaLaTasaDeCambio","30"),
+                new XElement("MaximoLimitePermitidoParaLaTasaDeCambio","30.35"),
                 new XElement("CostoTerminadoCalculadoAPartirDe","1"),
                 new XElement("CodigoGenericoCliente", "000000000A"),
-                new XElement("ComisionesEnFactura", "1"),
+                new XElement("ConceptoBancarioReversoTransfIngreso", ""),
+                new XElement("ConceptoBancarioReversoTransfEgreso", ""),
+                new XElement("UsaImprentaDigital", "S"),
+                new XElement("FechaInicioImprentaDigital", "01/01/2000"),
+                new XElement("ProveedorImprentaDigital", "1"),
                 new XElement("EsUsuarioSupervisor","S")),
             new XElement("ReglasDeContabilizacion",
                 new XElement("MuestraTipoComprobante", "S"),
                 new XElement("EsModuloDeProduccion", "S")),
             new XElement("Compania",
                 new XElement("Nombre","Prueba"),
-                new XElement("Consecutivo","1"),
                 new XElement("NumeroRif","J000001")));
             return base.AddEspecialGlobalValues(valGlobalValuesElement);
         }

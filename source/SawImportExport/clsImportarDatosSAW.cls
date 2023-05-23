@@ -61,7 +61,7 @@ Private mNumeroDeLote As String
 Private mRealizarBusquedaEnArchivo As Boolean
 Private mProgressBar As ProgressBar
 Private mYaIngresoUnoMas As Boolean
-Private mVectorDeVerificaciones As Variant
+Private mVectorDeVerificaciones() As Variant
 Private mConsecutivoRenglon As Long
 Private mValorDelCampoDeId As String
 Private mImportoRegistros As Boolean
@@ -220,7 +220,7 @@ Private valSeparador As String
 Private tipoDeSeparacion As String
 Private CrearComprobanteApertura As Boolean
 Private FileNumberdeCreado As Integer
-Private mLineaDeProducto As Variant
+Private mLineaDeProducto() As Variant
 Private NombreArchivodeErrores As String
 Private mLabelPorcentaje As Label
 Private mMensajePrecioConIva As Boolean
@@ -229,7 +229,7 @@ Private mCambiarAUsaMultiplesAlicuotas As Long
 Private mArchivoCreado As String
 Private mCallingWindow As Form
 Private mNregistroExistenBd As Long
-Private valDatosDeInventario As Variant
+Private valDatosDeInventario() As Variant
 
 Private valCodigoAlmacenExtra As String
 Private valNombreAlmacenExtra As String
@@ -353,7 +353,9 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & " ::. ERROR El Código del proveedor  ==>" & insProveedor.getCodigoProveedor & "-" & insProveedor.getNombreProveedor & "<==  aparece más de una vez en el archivo de importación, este último proveedor no se importará .:: "
       Else
-         mVectorDeVerificaciones(CM_INDEX_CODIGO_PROVEEDOR, valLineaActual) = insProveedor.getCodigoProveedor
+         If CM_INDEX_CODIGO_PROVEEDOR < UBound(mVectorDeVerificaciones) And CM_INDEX_CODIGO_PROVEEDOR >= LBound(mVectorDeVerificaciones) Then
+            mVectorDeVerificaciones(CM_INDEX_CODIGO_PROVEEDOR, valLineaActual) = insProveedor.getCodigoProveedor
+         End If
       End If
       If insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, valLineaActual, insProveedor.getNombreProveedor, CM_INDEX_DESCRIPCION_PROVEEDOR) Then
          ErrorAlTraducirLaLinea = True
@@ -362,7 +364,9 @@ Private Function fDistribuyeLaLineaDeProveedor(ByRef refLineaActual As String, B
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & " ::. ADVERTENCIA El Nombre del proveedor  ==>" & insProveedor.getCodigoProveedor & "-" & insProveedor.getNombreProveedor & "<==  ya se encuentra asignado en el sistema, sin embargo se permitirá su importación, modifique luego este dato .:: "
       Else
-         mVectorDeVerificaciones(CM_INDEX_DESCRIPCION_PROVEEDOR, valLineaActual) = insProveedor.getNombreProveedor
+         If CM_INDEX_DESCRIPCION_PROVEEDOR < UBound(mVectorDeVerificaciones) And CM_INDEX_DESCRIPCION_PROVEEDOR >= LBound(mVectorDeVerificaciones) Then
+            mVectorDeVerificaciones(CM_INDEX_DESCRIPCION_PROVEEDOR, valLineaActual) = insProveedor.getNombreProveedor
+         End If
       End If
    End If
    LineaDeErrores = LineaDeErrores & String(Len(insProveedor.getContacto), " ")
@@ -552,7 +556,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    Dim linea As String
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
-   Dim valProveedorArray As Variant
+   Dim valProveedorArray() As Variant
    Dim TextoAuxiliar As String
    Dim mrsZona As ADODB.Recordset
    Dim SQL As String
@@ -612,7 +616,9 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  aparece más de una vez en el archivo de importación .:::"
       Else
-         mVectorDeVerificaciones(CM_INDEX_CODIGO_CLIENTE, valLineaActual) = insCliente.GetCodigo
+         If CM_INDEX_CODIGO_CLIENTE < UBound(mVectorDeVerificaciones) And CM_INDEX_CODIGO_CLIENTE >= LBound(mVectorDeVerificaciones) Then
+            mVectorDeVerificaciones(CM_INDEX_CODIGO_CLIENTE, valLineaActual) = insCliente.GetCodigo
+         End If
          LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetCodigo), " ")
       End If
       If gTexto.DfLen(insCliente.getNombre) = 0 Then
@@ -625,7 +631,9 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  aparece más de una vez en el archivo de importación .:::"
       Else
-         mVectorDeVerificaciones(CM_INDEX_NOMBRE_CLIENTE, valLineaActual) = insCliente.getNombre
+         If CM_INDEX_NOMBRE_CLIENTE < UBound(mVectorDeVerificaciones) And CM_INDEX_NOMBRE_CLIENTE >= LBound(mVectorDeVerificaciones) Then
+            mVectorDeVerificaciones(CM_INDEX_NOMBRE_CLIENTE, valLineaActual) = insCliente.getNombre
+         End If
          LineaDeErrores = LineaDeErrores & String(Len(insCliente.getNombre), " ")
       End If
       If gTexto.DfLen(insCliente.getNumeroRIF) = 0 Then
@@ -988,12 +996,20 @@ Private Sub sVerificaSiHayErrorEnLaLinea_VENDEDOR(ByVal NumeroDeLineaActual As L
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Vendedor ==>" & vNombre & "<== de código ==>" & mValorDelCampoDeId & "<==  posee datos de Comisiones registradas en el sistema, para poder importar los datos de este vendedor, asegúrese de que el vendedor no se encuentre ya registrado en el sistema y de no ser este el caso, contacte a su administrador de bases de datos y notifíquele que la data está errada y deberá eliminar las comisiones asociadas a este vendedor inexistente, para poder llevar acabo la importación  .:::"
    ElseIf Not insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, mValorDelCampoDeId, CM_INDEX_NUMERO_VENDEDOR) Then
-      mVectorDeVerificaciones(CM_INDEX_NUMERO_VENDEDOR, NumeroDeLineaActual) = mValorDelCampoDeId
-      mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_VENDEDOR, NumeroDeLineaActual) = True
+      If CM_INDEX_NUMERO_VENDEDOR < UBound(mVectorDeVerificaciones) And CM_INDEX_NUMERO_VENDEDOR >= LBound(mVectorDeVerificaciones) Then
+         mVectorDeVerificaciones(CM_INDEX_NUMERO_VENDEDOR, NumeroDeLineaActual) = mValorDelCampoDeId
+      End If
+      If CM_INDEX_VALOR_IMPORTA_VENDEDOR < UBound(mVectorDeVerificaciones) And CM_INDEX_VALOR_IMPORTA_VENDEDOR >= LBound(mVectorDeVerificaciones) Then
+         mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_VENDEDOR, NumeroDeLineaActual) = True
+      End If
       If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFactura Then
-         mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR, NumeroDeLineaActual) = False
+         If CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR < UBound(mVectorDeVerificaciones) And CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR >= LBound(mVectorDeVerificaciones) Then
+            mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR, NumeroDeLineaActual) = False
+         End If
       Else
-         mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR, NumeroDeLineaActual) = True
+         If CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR < UBound(mVectorDeVerificaciones) And CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR >= LBound(mVectorDeVerificaciones) Then
+            mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_COMISION_VENDEDOR, NumeroDeLineaActual) = True
+         End If
       End If
    End If
    If gTexto.DfLen(vNombre) = 0 Then
@@ -1209,6 +1225,9 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       vEditarMontoCuota = gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       .SetEditarMontoCuota vEditarMontoCuota
       vNumeroControl = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+      If gProyParametrosCompania.GetUsaImprentaDigital Then
+         vNumeroControl = ""
+      End If
       .SetNumeroControl vNumeroControl
       vTipoDeTransaccionStr = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       If vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A01_REGISTRO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A02_COMPLEMENTO) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A03_ANULACION) Or vTipoDeTransaccionStr = gEnumProyecto.enumTipoDeTransaccionDeLibrosFiscalesToSiglas(eTD_A04_AJUSTE) Then
@@ -1537,8 +1556,12 @@ Private Sub sVerificaSiHayErrorEnLaLinea_FACTURA(ByVal valLineaActual As Long, B
       LineaDeErrores = LineaDeErrores & ":::. ERROR La fecha de " & vCampoAVerificar & " ==>" & gConvert.dateToString(vFecha) & " <==  es menor a la fecha mínima permitida por el sistema para ingresar documentos en esta compañía .:::"
       GoTo h_EXIT
    ElseIf Not insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, valLineaActual, mValorDelCampoDeId, CM_INDEX_NUMERO_FACTURA) Then
-      mVectorDeVerificaciones(CM_INDEX_NUMERO_FACTURA, valLineaActual) = mValorDelCampoDeId
-      mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE, valLineaActual) = True
+      If CM_INDEX_NUMERO_FACTURA < UBound(mVectorDeVerificaciones) And CM_INDEX_NUMERO_FACTURA >= LBound(mVectorDeVerificaciones) Then
+         mVectorDeVerificaciones(CM_INDEX_NUMERO_FACTURA, valLineaActual) = mValorDelCampoDeId
+      End If
+      If CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE < UBound(mVectorDeVerificaciones) And CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE >= LBound(mVectorDeVerificaciones) Then
+         mVectorDeVerificaciones(CM_INDEX_VALOR_IMPORTA_FACTURA_DETALLE, valLineaActual) = True
+      End If
    End If
    If gTexto.DfLen(vCodigoCliente) = 0 Then
       ErrorAlTraducirLaLinea = True
@@ -1801,7 +1824,9 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
          LineaDeErrores = LineaDeErrores & ":::. ERROR la CxC Nro " & insCxC.GetNumero & " del Tipo " & insCxC.GetTipoCxCStr & " Aparece más de una vez en el archivo de importación .:::"
          GoTo h_EXIT
       Else
-         mVectorDeVerificaciones(CM_INDEX_NUMERO_Y_TIPO_DE_CXC, valregistroActual) = mNumeroYTipoDeCxC
+         If CM_INDEX_NUMERO_Y_TIPO_DE_CXC < UBound(mVectorDeVerificaciones) And CM_INDEX_NUMERO_Y_TIPO_DE_CXC >= LBound(mVectorDeVerificaciones) Then
+            mVectorDeVerificaciones(CM_INDEX_NUMERO_Y_TIPO_DE_CXC, valregistroActual) = mNumeroYTipoDeCxC
+         End If
          LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetTipoCxCStr), " ")
       End If
       If gTexto.DfLen(insCxC.GetStatusStr) > 0 And gEnumProyecto.strStatusDocumentoToNum(insCxC.GetStatusStr) <> enum_StatusDocumento.eSD_PORCANCELAR Then
@@ -1993,7 +2018,9 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
          LineaDeErrores = LineaDeErrores & ":::. ERROR la CxC Nro " & insCxC.GetNumero & " del Tipo " & insCxC.GetTipoCxCStr & " Aparece más de una vez en el archivo de importación .:::"
          GoTo h_EXIT
       Else
-         mVectorDeVerificaciones(CM_INDEX_NUMERO_Y_TIPO_DE_CXC, valregistroActual) = mNumeroYTipoDeCxC
+         If CM_INDEX_NUMERO_Y_TIPO_DE_CXC < UBound(mVectorDeVerificaciones) And CM_INDEX_NUMERO_Y_TIPO_DE_CXC >= LBound(mVectorDeVerificaciones) Then
+            mVectorDeVerificaciones(CM_INDEX_NUMERO_Y_TIPO_DE_CXC, valregistroActual) = mNumeroYTipoDeCxC
+         End If
          LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetTipoCxCStr), " ")
       End If
       If gTexto.DfLen(insCxC.GetStatusStr) > 0 And (gEnumProyecto.strStatusDocumentoToNum(insCxC.GetStatusStr) <> enum_StatusDocumento.eSD_PORCANCELAR And gEnumProyecto.strStatusDocumentoToNum(insCxC.GetStatusStr) <> enum_StatusDocumento.eSD_CANCELADO) Then
@@ -2219,7 +2246,7 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fEsUnTpoDeCuentaPorCobrarPagar", CM_MESSAGE_NAME_CXC, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String, ByRef refLineaDeError As String, ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean, ByRef mCxPArray As Variant) As Boolean
+Private Function fDistribuyeLaLineaDeLaCxP(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String, ByRef refLineaDeError As String, ByVal valVerificarSiEstaRepetido As Boolean, ByRef refEsteRegistroSeIncluye As Boolean, ByVal valVerificarParaImportacion As Boolean, ByRef mCxPArray() As Variant) As Boolean
    Dim linea As String
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
@@ -3635,7 +3662,11 @@ Public Sub sImportarModulosSaw(ByVal valNombreDelArchivo As String, ByVal valExt
          If insImportar.fAbrirFileForOuputAndCreatePath(FileErrorNumber, insImportar.getPathDelFileDeErrores, insImportar.getFileDeErrores) Then
             mSeImportaComoHistorica = False
             If valEntidad = eEAEI_FACTURA And valEsFacturaBorradores Then
-               mSeImportaComoHistorica = gMessage.YesNoMessage("¿Desea Importar los Borradores de Factura como Históricos?", "Importar Borradores Factura")
+                If gProyParametrosCompania.GetUsaImprentaDigital Then
+                    mSeImportaComoHistorica = False
+                Else
+                    mSeImportaComoHistorica = gMessage.YesNoMessage("¿Desea Importar los Borradores de Factura como Históricos?", "Importar Borradores Factura")
+                End If
             End If
             sChequeaLaIntegridadDeLosDatosSaw FileErrorNumber, Separador, ErrorDeTraduccion, refProgressBar, valNombreDelArchivo, valEsFacturaBorradores
             insImportar.sCierraElFile FileErrorNumber
@@ -4012,12 +4043,14 @@ Private Sub sCambiaAFalseElRegistroDelArraySiExiste(ByRef valItemsArray As Varia
    Dim valregistroActual As Long
    On Error GoTo h_ERROR
    valor = False
-   For valregistroActual = 0 To valIndiceActual
-      If UCase(valItemsArray(valIndex1, valregistroActual)) = UCase(valValorItem) Then
-         valItemsArray(valIndex2, valregistroActual) = valor
-         Exit For
-      End If
-   Next valregistroActual
+   If valIndiceActual >= 0 And valIndex1 >= LBound(valItemsArray) And valIndex1 < UBound(valItemsArray) And valIndex2 >= LBound(valItemsArray) And valIndex2 < UBound(valItemsArray) Then
+      For valregistroActual = 0 To valIndiceActual
+         If UCase(valItemsArray(valIndex1, valregistroActual)) = UCase(valValorItem) Then
+            valItemsArray(valIndex2, valregistroActual) = valor
+            Exit For
+         End If
+      Next valregistroActual
+   End If
 h_EXIT: On Error GoTo 0
   Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sCambiaAFalseElRegistroDelArraySiExiste", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4028,6 +4061,7 @@ Private Function fPreparaLosDatosConDetalleEImporta(ByVal valSeparador As String
    Dim exito As Boolean
    Dim borrador As String
    Dim valLoteAdm As Integer
+   Dim vContinuar As Boolean
    On Error GoTo h_ERROR
    exito = False
    borrador = ""
@@ -4035,7 +4069,11 @@ Private Function fPreparaLosDatosConDetalleEImporta(ByVal valSeparador As String
    If valEsFacturaBorradores Then
       borrador = "Borradores de "
    End If
-   If insImportar.fVerificaValorImportarEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, mValorDelCampoDeId, True, valIndex1, valIndex2) Then
+   vContinuar = True
+   If NumeroDeLineaActual > 0 Then
+      vContinuar = insImportar.fVerificaValorImportarEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, mValorDelCampoDeId, True, valIndex1, valIndex2)
+   End If
+   If vContinuar Then
       If fDistribuyeLaLineaModulosSaw(lineaActual, NumeroDeLineaActual, valSeparador) Then
          sVerificaSiHayErrorEnLaLineaConValoresAjustables refErrorDeTraduccion, True
          If Not refErrorDeTraduccion Then

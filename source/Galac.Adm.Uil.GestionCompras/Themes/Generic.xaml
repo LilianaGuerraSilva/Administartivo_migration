@@ -16,12 +16,6 @@
     <DataTemplate DataType="{x:Type nsCSVM:CompraDetalleGastoViewModel}">
         <nsCSV:GSCompraDetalleGastoView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:TasaDelDiaViewModel}">
-        <nsCSV:GSTasaDelDiaView />
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:LibroDeComprasViewModel}">
-        <nsCSV:GSLibroDeComprasView />
-    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:CompraCambiarStatusViewModel}">
         <nsCSV:GSCompraCambiarStatusView />
     </DataTemplate>

@@ -155,7 +155,6 @@ Public Enum enum_SystemModules
    eSM_RespaldarRestaurar
    eSM_ResumenDiarioVentas
    eSM_RetDocumentoPagado
-   eSM_RetirosACuenta
    eSM_RetPago '100
    eSM_RevisionDeData
    eSM_SectorDeNegocio
@@ -1592,10 +1591,10 @@ Public Enum enum_TipoDeDocumentoCobranza
    eTDDC_CobranzaPorRefinanciamiento
 End Enum
 
- Public Enum enum_AplicacionAlicuota
-        eAA_NoAplica = 0
-        eAA_SustituirAlicuotaReducida
-        eAA_SustituirAlicuotaAdicional
+Public Enum enum_AplicacionAlicuota
+   eAA_NoAplica = 0
+   eAA_SustituirAlicuotaReducida
+   eAA_SustituirAlicuotaAdicional
 End Enum
 
 Public Enum enum_FechaSugeridaRetencionCxP
@@ -1695,6 +1694,11 @@ End Enum
 Public Enum enum_FormaDeCalcularCostoTerminado
    eFDCCT_APartirDeMonedaLocal = 0
    eFDCCT_APartirDeMonedaExtranjera
+End Enum
+
+Public Enum enum_ProveedorImprentaDigital
+   ePID_NoAplica = 0
+   ePID_TheFactoryHKA
 End Enum
 
 Public Function me_saw() As Long
@@ -1807,7 +1811,6 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_RespaldarRestaurar: enum_SystemModulesToStr = "Respaldar / Restaurar"
       Case eSM_ResumenDiarioVentas: enum_SystemModulesToStr = "Resumen Diario"
       Case eSM_RetDocumentoPagado: enum_SystemModulesToStr = "Ret Documento Pagado"
-      Case eSM_RetirosACuenta: enum_SystemModulesToStr = "Retiros a Cuenta"
       Case eSM_RetPago: enum_SystemModulesToStr = "Ret Pago"
       Case eSM_RevisionDeData: enum_SystemModulesToStr = "Revision De Data"
       Case eSM_SectorDeNegocio: enum_SystemModulesToStr = "Sector de Negocio"
@@ -14026,3 +14029,30 @@ h_EXIT:
    Exit Function
 End Function
 
+Public Function enumProveedorImprentaDigitalToString(ProveedorImprentaDigital As enum_ProveedorImprentaDigital) As String
+   Select Case ProveedorImprentaDigital
+      Case ePID_NoAplica: enumProveedorImprentaDigitalToString = "No Aplica"
+      Case ePID_TheFactoryHKA: enumProveedorImprentaDigitalToString = "The Factory HKA"
+      Case Else
+         enumProveedorImprentaDigitalToString = enumProveedorImprentaDigitalToString(0)
+   End Select
+End Function
+
+Public Function strProveedorImprentaDigitalToNum(ByVal ProveedorImprentaDigital As String, Optional ByVal showMessage As Boolean = True) As Integer
+   Dim mEnum As enum_ProveedorImprentaDigital
+   Dim nCount As Integer
+   nCount = 0
+   For mEnum = ePID_NoAplica To ePID_TheFactoryHKA
+      If UCase(ProveedorImprentaDigital) = UCase(enumProveedorImprentaDigitalToString(mEnum)) Then
+         strProveedorImprentaDigitalToNum = nCount
+         GoTo h_EXIT
+      End If
+      nCount = nCount + 1
+   Next
+   strProveedorImprentaDigitalToNum = 0
+   If showMessage Then
+      gMessage.ProgrammerMessage "Valor " & ProveedorImprentaDigital & " no existe en tipo enumerado ProveedorImprentaDigital"
+   End If
+h_EXIT:
+   Exit Function
+End Function

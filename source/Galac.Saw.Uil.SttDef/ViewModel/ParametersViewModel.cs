@@ -221,6 +221,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     LibInputViewModelBase<FacturaBalanzaEtiquetasStt> vModel = new FacturaBalanzaEtiquetasViewModel(valContent as FacturaBalanzaEtiquetasStt,eAccionSR,InitFirstTime);
                     vModel.InitializeViewModel(eAccionSR);
                     vResult = vModel;
+                } else if(valContent is FacturaImprentaDigitalStt) {
+                    LibInputViewModelBase<FacturaImprentaDigitalStt> vModel = new FacturaImprentaDigitalViewModel(valContent as FacturaImprentaDigitalStt, eAccionSR);
+                    vModel.InitializeViewModel(eAccionSR);
+                    vResult = vModel;
                 } else if(valContent is VerificadorDePreciosStt) {
                     LibInputViewModelBase<VerificadorDePreciosStt> vModel = new VerificadorDePreciosViewModel(valContent as VerificadorDePreciosStt,eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);
