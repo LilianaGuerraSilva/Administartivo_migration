@@ -35,8 +35,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vParams.AddReturn();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
-            vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
-            vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
+            vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             vParams.AddInString("NombreDeLineaDeProducto", valRecord.NombreDeLineaDeProducto, 20);
             vParams.AddInEnum("TipoDeComision", valRecord.TipoDeComisionAsDB);
             vParams.AddInDecimal("Monto", valRecord.Monto, 2);
@@ -60,7 +59,7 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
-            vParams.AddInInteger("ConsecutivoRenglon", valRecord.ConsecutivoRenglon);
+            vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             return vParams.Get();
         }
 
@@ -96,8 +95,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 select new XElement("GpDetailVendedorDetalleComisiones",
                     new XElement("ConsecutivoCompania", valMaster.ConsecutivoCompania),
                     new XElement("ConsecutivoVendedor", valMaster.Consecutivo),
-                    new XElement("ConsecutivoRenglon", vEntity.ConsecutivoRenglon),
-                    new XElement("CodigoVendedor", vEntity.CodigoVendedor),
+                    new XElement("Consecutivo", vEntity.Consecutivo),
                     new XElement("NombreDeLineaDeProducto", vEntity.NombreDeLineaDeProducto),
                     new XElement("TipoDeComision", vEntity.TipoDeComisionAsDB),
                     new XElement("Monto", vEntity.Monto),
@@ -150,10 +148,10 @@ namespace Galac.Adm.Dal.Vendedor {
             bool vResult = true;
             ClearValidationInfo();
             vResult = IsValidConsecutivoVendedor(valAction, CurrentRecord.ConsecutivoVendedor);
-            vResult &= IsValidNombreDeLineaDeProducto(valAction, CurrentRecord.NombreDeLineaDeProducto);
-            vResult &= IsValidTipoDeComision(valAction, CurrentRecord.TipoDeComisionAsEnum);
-            vResult &= IsValidMonto(valAction, CurrentRecord.Monto);
-            vResult &= IsValidPorcentaje(valAction, CurrentRecord.Porcentaje);
+            vResult = IsValidNombreDeLineaDeProducto(valAction, CurrentRecord.NombreDeLineaDeProducto) && vResult;
+            vResult = IsValidTipoDeComision(valAction, CurrentRecord.TipoDeComisionAsEnum)&& vResult;
+            vResult = IsValidMonto(valAction, CurrentRecord.Monto)&& vResult;
+            vResult = IsValidPorcentaje(valAction, CurrentRecord.Porcentaje)&& vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -208,7 +206,7 @@ namespace Galac.Adm.Dal.Vendedor {
             VendedorDetalleComisiones vRecordBusqueda = new VendedorDetalleComisiones();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.ConsecutivoVendedor = valConsecutivoVendedor;
-            vRecordBusqueda.ConsecutivoRenglon = valConsecutivoRenglon;
+            vRecordBusqueda.Consecutivo = valConsecutivoVendedor;
             LibDatabase insDb = new LibDatabase();
             bool vResult = insDb.ExistsRecord(DbSchema + ".VendedorDetalleComisiones", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
             insDb.Dispose();

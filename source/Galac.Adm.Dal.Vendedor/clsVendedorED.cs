@@ -52,6 +52,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("Fax" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_VenFa DEFAULT (''), ");
             SQL.AppendLine("Email" + InsSql.VarCharTypeForDb(40) + " CONSTRAINT d_VenEm DEFAULT (''), ");
             SQL.AppendLine("Notas" + InsSql.VarCharTypeForDb(255) + " CONSTRAINT d_VenNo DEFAULT (''), ");
+            SQL.AppendLine("ConsecutivoRutaDeComercializacion" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_VenCoRuDeCo DEFAULT (0), ");
             SQL.AppendLine("ComisionPorVenta" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_VenCoPoVe DEFAULT (0), ");
             SQL.AppendLine("ComisionPorCobro" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_VenCoPoCo DEFAULT (0), ");
             SQL.AppendLine("TopeInicialVenta1" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_VenToInVe1 DEFAULT (0), ");
@@ -79,8 +80,6 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("UsaComisionPorVenta" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnVenUsaComisio NOT NULL, ");
             SQL.AppendLine("UsaComisionPorCobranza" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnVenUsaComisio NOT NULL, ");
             SQL.AppendLine("CodigoLote" + InsSql.VarCharTypeForDb(10) + " CONSTRAINT d_VenCoLo DEFAULT (''), ");
-            SQL.AppendLine("TipoDocumentoIdentificacion" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_VenTiDoId DEFAULT ('0'), ");
-            SQL.AppendLine("RutaDeComercializacion" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_VenRuDeCo DEFAULT ('0'), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -89,6 +88,9 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine(", CONSTRAINT fk_VendedorCiudad FOREIGN KEY (Ciudad)");
             SQL.AppendLine("REFERENCES Comun.Ciudad(NombreCiudad)");
             SQL.AppendLine("ON UPDATE CASCADE");
+            SQL.AppendLine(", CONSTRAINT fk_VendedorRutaDeComercializacion FOREIGN KEY (ConsecutivoCompania, ConsecutivoRutaDeComercializacion)");
+            SQL.AppendLine("REFERENCES Saw.RutaDeComercializacion(ConsecutivoCompania, Consecutivo)");
+            SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(",CONSTRAINT u_VenCodigo UNIQUE NONCLUSTERED (ConsecutivoCompania, Codigo)");
             SQL.AppendLine(")");
             return SQL.ToString();
@@ -96,29 +98,25 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private string SqlViewB1() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("SELECT Vendedor.ConsecutivoCompania, Vendedor.Consecutivo, Vendedor.Codigo, Vendedor.Nombre, Vendedor.RIF");
-            SQL.AppendLine(", Vendedor.StatusVendedor, " + DbSchema + ".Gv_EnumStatusVendedor.StrValue AS StatusVendedorStr, Vendedor.Direccion, Vendedor.Ciudad, Vendedor.ZonaPostal");
-            SQL.AppendLine(", Vendedor.Telefono, Vendedor.Fax, Vendedor.email, Vendedor.Notas");
-            SQL.AppendLine(", Vendedor.ComisionPorVenta, Vendedor.ComisionPorCobro, Vendedor.TopeInicialVenta1, Vendedor.TopeFinalVenta1");
-            SQL.AppendLine(", Vendedor.PorcentajeVentas1, Vendedor.TopeFinalVenta2, Vendedor.PorcentajeVentas2, Vendedor.TopeFinalVenta3");
-            SQL.AppendLine(", Vendedor.PorcentajeVentas3, Vendedor.TopeFinalVenta4, Vendedor.PorcentajeVentas4, Vendedor.TopeFinalVenta5");
-            SQL.AppendLine(", Vendedor.PorcentajeVentas5, Vendedor.TopeInicialCobranza1, Vendedor.TopeFinalCobranza1, Vendedor.PorcentajeCobranza1");
-            SQL.AppendLine(", Vendedor.TopeFinalCobranza2, Vendedor.PorcentajeCobranza2, Vendedor.TopeFinalCobranza3, Vendedor.PorcentajeCobranza3");
-            SQL.AppendLine(", Vendedor.TopeFinalCobranza4, Vendedor.PorcentajeCobranza4, Vendedor.TopeFinalCobranza5, Vendedor.PorcentajeCobranza5");
-            SQL.AppendLine(", Vendedor.UsaComisionPorVenta, Vendedor.UsaComisionPorCobranza, Vendedor.TipoDocumentoIdentificacion, Vendedor.CodigoLote");
-            SQL.AppendLine(", Vendedor.NombreOperador, Vendedor.FechaUltimaModificacion, Vendedor.RutaDeComercializacion, " + DbSchema + ".Gv_EnumRutaDeComercializacion.StrValue AS RutaDeComercializacionStr");
+            SQL.AppendLine("SELECT Vendedor.ConsecutivoCompania, Vendedor.Consecutivo, Vendedor.Codigo, Vendedor.Nombre");
+            SQL.AppendLine(", Vendedor.RIF, Vendedor.StatusVendedor, " + DbSchema + ".Gv_EnumStatusVendedor.StrValue AS StatusVendedorStr, Vendedor.Direccion, Vendedor.Ciudad");
+            SQL.AppendLine(", Vendedor.ZonaPostal, Vendedor.Telefono, Vendedor.Fax, Vendedor.Email");
+            SQL.AppendLine(", Vendedor.Notas, RutaDeComercializacion.Descripcion AS DescripcionRutaDeComercializacion, Vendedor.ComisionPorVenta, Vendedor.ComisionPorCobro");
+            SQL.AppendLine(", Vendedor.TopeInicialVenta1, Vendedor.TopeFinalVenta1, Vendedor.PorcentajeVentas1, Vendedor.TopeFinalVenta2");
+            SQL.AppendLine(", Vendedor.PorcentajeVentas2, Vendedor.TopeFinalVenta3, Vendedor.PorcentajeVentas3, Vendedor.TopeFinalVenta4");
+            SQL.AppendLine(", Vendedor.PorcentajeVentas4, Vendedor.TopeFinalVenta5, Vendedor.PorcentajeVentas5, Vendedor.TopeInicialCobranza1");
+            SQL.AppendLine(", Vendedor.TopeFinalCobranza1, Vendedor.PorcentajeCobranza1, Vendedor.TopeFinalCobranza2, Vendedor.PorcentajeCobranza2");
+            SQL.AppendLine(", Vendedor.TopeFinalCobranza3, Vendedor.PorcentajeCobranza3, Vendedor.TopeFinalCobranza4, Vendedor.PorcentajeCobranza4");
+            SQL.AppendLine(", Vendedor.TopeFinalCobranza5, Vendedor.PorcentajeCobranza5, Vendedor.UsaComisionPorVenta, Vendedor.UsaComisionPorCobranza");
+            SQL.AppendLine(", Vendedor.CodigoLote, Vendedor.NombreOperador, Vendedor.FechaUltimaModificacion");
             SQL.AppendLine(", Vendedor.fldTimeStamp, CAST(Vendedor.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".Vendedor");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumStatusVendedor");
             SQL.AppendLine("ON " + DbSchema + ".Vendedor.StatusVendedor COLLATE MODERN_SPANISH_CS_AS");
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusVendedor.DbValue");
-            SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumRutaDeComercializacion");
-            SQL.AppendLine("ON " + DbSchema + ".Vendedor.RutaDeComercializacion COLLATE MODERN_SPANISH_CS_AS");
-            SQL.AppendLine(" = " + DbSchema + ".Gv_EnumRutaDeComercializacion.DbValue");
-            //SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoDocumentoIdentificacion");
-            //SQL.AppendLine("ON " + DbSchema + ".Vendedor.TipoDocumentoIdentificacion COLLATE MODERN_SPANISH_CS_AS");
-            //SQL.AppendLine(" = " + DbSchema + ".Gv_EnumTipoDocumentoIdentificacion.DbValue");
             SQL.AppendLine("INNER JOIN Comun.Ciudad ON  " + DbSchema + ".Vendedor.Ciudad = Comun.Ciudad.NombreCiudad");
+            SQL.AppendLine("INNER JOIN Saw.RutaDeComercializacion ON  " + DbSchema + ".Vendedor.ConsecutivoRutaDeComercializacion = Saw.RutaDeComercializacion.Consecutivo");
+            SQL.AppendLine("      AND " + DbSchema + ".Vendedor.ConsecutivoCompania = Saw.RutaDeComercializacion.ConsecutivoCompania");
             return SQL.ToString();
         }
 
@@ -137,6 +135,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@Fax" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + " = '',");
             SQL.AppendLine("@Notas" + InsSql.VarCharTypeForDb(255) + " = '',");
+            SQL.AppendLine("@ConsecutivoRutaDeComercializacion" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ComisionPorVenta" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@ComisionPorCobro" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@TopeInicialVenta1" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
@@ -164,8 +163,6 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@UsaComisionPorVenta" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@UsaComisionPorCobranza" + InsSql.CharTypeForDb(1) + " = 'N',");
             SQL.AppendLine("@CodigoLote" + InsSql.VarCharTypeForDb(10) + " = '',");
-            SQL.AppendLine("@TipoDocumentoIdentificacion" + InsSql.CharTypeForDb(1) + " = '0',");
-            SQL.AppendLine("@RutaDeComercializacion" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -176,6 +173,8 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("   SET NOCOUNT ON;");
             SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
+            SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
+            SQL.AppendLine("	BEGIN");
             SQL.AppendLine("        BEGIN TRAN");
             SQL.AppendLine("            INSERT INTO " + DbSchema + ".Vendedor(");
             SQL.AppendLine("            ConsecutivoCompania,");
@@ -191,6 +190,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("            Fax,");
             SQL.AppendLine("            Email,");
             SQL.AppendLine("            Notas,");
+            SQL.AppendLine("            ConsecutivoRutaDeComercializacion,");
             SQL.AppendLine("            ComisionPorVenta,");
             SQL.AppendLine("            ComisionPorCobro,");
             SQL.AppendLine("            TopeInicialVenta1,");
@@ -218,8 +218,6 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("            UsaComisionPorVenta,");
             SQL.AppendLine("            UsaComisionPorCobranza,");
             SQL.AppendLine("            CodigoLote,");
-            SQL.AppendLine("            TipoDocumentoIdentificacion,");
-            SQL.AppendLine("            RutaDeComercializacion,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -236,6 +234,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("            @Fax,");
             SQL.AppendLine("            @Email,");
             SQL.AppendLine("            @Notas,");
+            SQL.AppendLine("            @ConsecutivoRutaDeComercializacion,");
             SQL.AppendLine("            @ComisionPorVenta,");
             SQL.AppendLine("            @ComisionPorCobro,");
             SQL.AppendLine("            @TopeInicialVenta1,");
@@ -263,13 +262,14 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("            @UsaComisionPorVenta,");
             SQL.AppendLine("            @UsaComisionPorCobranza,");
             SQL.AppendLine("            @CodigoLote,");
-            SQL.AppendLine("            @TipoDocumentoIdentificacion,");
-            SQL.AppendLine("            @RutaDeComercializacion,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
             SQL.AppendLine("        RETURN @ReturnValue ");
+            SQL.AppendLine("	END");
+            SQL.AppendLine("	ELSE");
+            SQL.AppendLine("		RETURN -1");
             SQL.AppendLine("END");
             return SQL.ToString();
         }
@@ -289,6 +289,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@Fax" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(40) + ",");
             SQL.AppendLine("@Notas" + InsSql.VarCharTypeForDb(255) + ",");
+            SQL.AppendLine("@ConsecutivoRutaDeComercializacion" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@ComisionPorVenta" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@ComisionPorCobro" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@TopeInicialVenta1" + InsSql.DecimalTypeForDb(25, 4) + ",");
@@ -316,8 +317,6 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@UsaComisionPorVenta" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@UsaComisionPorCobranza" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CodigoLote" + InsSql.VarCharTypeForDb(10) + ",");
-            SQL.AppendLine("@TipoDocumentoIdentificacion" + InsSql.CharTypeForDb(1) + ",");
-            SQL.AppendLine("@RutaDeComercializacion" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -355,6 +354,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("               Fax = @Fax,");
             SQL.AppendLine("               Email = @Email,");
             SQL.AppendLine("               Notas = @Notas,");
+            SQL.AppendLine("               ConsecutivoRutaDeComercializacion = @ConsecutivoRutaDeComercializacion,");
             SQL.AppendLine("               ComisionPorVenta = @ComisionPorVenta,");
             SQL.AppendLine("               ComisionPorCobro = @ComisionPorCobro,");
             SQL.AppendLine("               TopeInicialVenta1 = @TopeInicialVenta1,");
@@ -382,8 +382,6 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("               UsaComisionPorVenta = @UsaComisionPorVenta,");
             SQL.AppendLine("               UsaComisionPorCobranza = @UsaComisionPorCobranza,");
             SQL.AppendLine("               CodigoLote = @CodigoLote,");
-            SQL.AppendLine("               TipoDocumentoIdentificacion = @TipoDocumentoIdentificacion,");
-            SQL.AppendLine("               RutaDeComercializacion = @RutaDeComercializacion,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -501,6 +499,8 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("         Vendedor.Fax,");
             SQL.AppendLine("         Vendedor.Email,");
             SQL.AppendLine("         Vendedor.Notas,");
+            SQL.AppendLine("         Vendedor.ConsecutivoRutaDeComercializacion,");
+            SQL.AppendLine("         Gv_RutaDeComercializacion_B1.Descripcion AS RutaDeComercializacion,");
             SQL.AppendLine("         Vendedor.ComisionPorVenta,");
             SQL.AppendLine("         Vendedor.ComisionPorCobro,");
             SQL.AppendLine("         Vendedor.TopeInicialVenta1,");
@@ -528,14 +528,13 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("         Vendedor.UsaComisionPorVenta,");
             SQL.AppendLine("         Vendedor.UsaComisionPorCobranza,");
             SQL.AppendLine("         Vendedor.CodigoLote,");
-            SQL.AppendLine("         Vendedor.TipoDocumentoIdentificacion,");
-            SQL.AppendLine("         Vendedor.RutaDeComercializacion,");
             SQL.AppendLine("         Vendedor.NombreOperador,");
             SQL.AppendLine("         Vendedor.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(Vendedor.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         Vendedor.fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".Vendedor");
             SQL.AppendLine("             INNER JOIN Comun.Gv_Ciudad_B1 ON " + DbSchema + ".Vendedor.Ciudad = Comun.Gv_Ciudad_B1.NombreCiudad");
+            SQL.AppendLine("             INNER JOIN Saw.Gv_RutaDeComercializacion_B1 ON " + DbSchema + ".Vendedor.ConsecutivoRutaDeComercializacion = Saw.Gv_RutaDeComercializacion_B1.Consecutivo");
             SQL.AppendLine("      WHERE Vendedor.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND Vendedor.Consecutivo = @Consecutivo");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -548,7 +547,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
             SQL.AppendLine("@SQLOrderBy" + InsSql.VarCharTypeForDb(500) + " = null,");
             SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + " = null,");
-            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'N'");
+            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
             return SQL.ToString();
         }
 
@@ -570,16 +569,14 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RIF,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.StatusVendedorStr,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RutaDeComercializacionStr,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.DescripcionRutaDeComercializacion,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.StatusVendedor,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RutaDeComercializacion,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Ciudad,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.ZonaPostal,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Telefono");
             SQL.AppendLine("      FROM " + DbSchema + ".Gv_Vendedor_B1");
-            SQL.AppendLine("      INNER JOIN Comun.Ciudad ON  " + DbSchema + ".Gv_Vendedor_B1.Ciudad = Comun.Ciudad.NombreCiudad");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
             SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
@@ -598,6 +595,8 @@ namespace Galac.Adm.Dal.Vendedor {
         private string SqlSpGetFK() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
+            SQL.AppendLine(" DECLARE @hdoc int ");
+            SQL.AppendLine(" EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlData ");
             SQL.AppendLine("   SET NOCOUNT ON;");
             SQL.AppendLine("   SELECT ");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.ConsecutivoCompania,");
@@ -609,10 +608,17 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("      " + DbSchema + ".Vendedor.ZonaPostal,");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.Telefono");
             SQL.AppendLine("      FROM " + DbSchema + ".Vendedor");
+            SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("          AND Consecutivo IN (");
+            SQL.AppendLine("            SELECT  Consecutivo ");
+            SQL.AppendLine("            FROM OPENXML( @hdoc, 'GpData/GpResult',2) ");
+            SQL.AppendLine("            WITH (Consecutivo int) AS XmlFKTmp) ");
+            SQL.AppendLine(" EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");
             return SQL.ToString();
         }
+
         #endregion //Queries
         bool CrearTabla() {
             bool vResult = insDbo.Create(DbSchema + ".Vendedor", SqlCreateTable(), false, eDboType.Tabla);
@@ -622,12 +628,11 @@ namespace Galac.Adm.Dal.Vendedor {
             bool vResult = false;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_EnumStatusVendedor", LibTpvCreator.SqlViewStandardEnum(typeof(eStatusVendedor), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTipoDocumentoIdentificacion", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDocumentoIdentificacion), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumRutaDeComercializacion", LibTpvCreator.SqlViewStandardEnum(typeof(eRutaDeComercializacion), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_Vendedor_B1", SqlViewB1(), true);
             insVistas.Dispose();
             return vResult;
         }
+
         bool CrearProcedimientos() {
             bool vResult = false;
             LibStoredProc insSps = new LibStoredProc();
@@ -640,6 +645,7 @@ namespace Galac.Adm.Dal.Vendedor {
             insSps.Dispose();
             return vResult;
         }
+
         public bool InstalarTabla() {
             bool vResult = false;
             if (CrearTabla()) {
@@ -674,8 +680,6 @@ namespace Galac.Adm.Dal.Vendedor {
             vResult = insSp.Drop(DbSchema + ".Gp_VendedorSCH") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_Vendedor_B1") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumStatusVendedor") && vResult;
-            vResult = insVista.Drop(DbSchema + ".Gv_EnumTipoDocumentoIdentificacion") && vResult;
-            vResult = insVista.Drop(DbSchema + ".Gv_EnumRutaDeComercializacion") && vResult;
             insSp.Dispose();
             insVista.Dispose();
             return vResult;

@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using LibGalac.Aos.Base;
+using Galac.Adm.Ccl.Vendedor;
 
 namespace Galac.Adm.Ccl.Vendedor {
     [Serializable]
@@ -8,8 +9,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         #region Variables
         private int _ConsecutivoCompania;
         private int _ConsecutivoVendedor;
-        private int _ConsecutivoRenglon;
-        private string _CodigoVendedor;
+        private int _Consecutivo;
         private string _NombreDeLineaDeProducto;
         private eTipoComision _TipoDeComision;
         private decimal _Monto;
@@ -27,14 +27,11 @@ namespace Galac.Adm.Ccl.Vendedor {
             set { _ConsecutivoVendedor = value; }
         }
 
-        public int ConsecutivoRenglon {
-            get { return _ConsecutivoRenglon; }
-            set { _ConsecutivoRenglon = value; }
+        public int Consecutivo {
+            get { return _Consecutivo; }
+            set { _Consecutivo = value; }
         }
-        public string CodigoVendedor {
-            get { return _CodigoVendedor; }
-            set { _CodigoVendedor = value; }
-        }
+
         public string NombreDeLineaDeProducto {
             get { return _NombreDeLineaDeProducto; }
             set { 
@@ -94,8 +91,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         public void Clear() {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ConsecutivoVendedor = 0;
-            ConsecutivoRenglon = 0;
-            CodigoVendedor = string.Empty;
+            Consecutivo = 0;
             NombreDeLineaDeProducto = string.Empty;
             TipoDeComisionAsEnum = eTipoComision.PorPorcentaje;
             Monto = 0;
@@ -106,8 +102,7 @@ namespace Galac.Adm.Ccl.Vendedor {
             VendedorDetalleComisiones vResult = new VendedorDetalleComisiones();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
-            vResult.ConsecutivoRenglon = _ConsecutivoRenglon;
-            vResult.CodigoVendedor = _CodigoVendedor;
+            vResult.Consecutivo = _Consecutivo;
             vResult.NombreDeLineaDeProducto = _NombreDeLineaDeProducto;
             vResult.TipoDeComisionAsEnum = _TipoDeComision;
             vResult.Monto = _Monto;
@@ -118,8 +113,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         public override string ToString() {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
                "\nConsecutivo Vendedor = " + _ConsecutivoVendedor.ToString() +
-               "\nConsecutivo Renglon = " + _ConsecutivoRenglon.ToString() +
-               "\nCodigo Vendedor = " + _CodigoVendedor.ToString() +
+               "\nConsecutivo = " + _Consecutivo.ToString() +
                "\nNombre De Linea De Producto = " + _NombreDeLineaDeProducto +
                "\nTipo De Comision = " + _TipoDeComision.ToString() +
                "\nMonto = " + _Monto.ToString() +

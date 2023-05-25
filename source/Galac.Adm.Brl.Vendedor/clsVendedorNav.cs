@@ -95,7 +95,8 @@ namespace Galac.Adm.Brl.Vendedor {
             insVendedor.Codigo = "00001";
             insVendedor.Nombre = "OFICINA";
             insVendedor.RIF = "00001";
-            insVendedor.Ciudad = "CARACAS";
+            insVendedor.Ciudad = "CARACAS"; 
+			Falta Ruta
             return insVendedor;
         }
 

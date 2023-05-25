@@ -50,6 +50,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vParams.AddInString("Fax", valRecord.Fax, 20);
             vParams.AddInString("Email", valRecord.Email, 40);
             vParams.AddInString("Notas", valRecord.Notas, 255);
+            vParams.AddInInteger("ConsecutivoRutaDeComercializacion", valRecord.ConsecutivoRutaDeComercializacion);
             vParams.AddInDecimal("ComisionPorVenta", valRecord.ComisionPorVenta, 2);
             vParams.AddInDecimal("ComisionPorCobro", valRecord.ComisionPorCobro, 2);
             vParams.AddInDecimal("TopeInicialVenta1", valRecord.TopeInicialVenta1, 2);
@@ -77,9 +78,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vParams.AddInBoolean("UsaComisionPorVenta", valRecord.UsaComisionPorVentaAsBool);
             vParams.AddInBoolean("UsaComisionPorCobranza", valRecord.UsaComisionPorCobranzaAsBool);
             vParams.AddInString("CodigoLote", valRecord.CodigoLote, 10);
-            vParams.AddInEnum("TipoDocumentoIdentificacion", valRecord.TipoDocumentoIdentificacionAsDB);
-            vParams.AddInEnum("RutaDeComercializacion", valRecord.RutaDeComercializacionAsDB);
-            vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
@@ -161,15 +160,6 @@ namespace Galac.Adm.Dal.Vendedor {
                 if (insDB.ExistsValueOnMultifile("dbo.RenglonFactura", "CodigoVendedor3", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Renglon Factura");
                 }
-                //if (insDB.ExistsValue("dbo.Visita", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Visita");
-                //}
-                //if (insDB.ExistsValue("dbo.OrdenDeServicio", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Orden De Servicio");
-                //}
-                //if (insDB.ExistsValue("dbo.Curso", "Instructor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Curso");
-                //}
                 if (insDB.ExistsValueOnMultifile("dbo.Contrato", "ConsecutivoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Contrato");
                 }
@@ -290,8 +280,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Modificar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.Update(IList<Entity.Vendedor> refRecord, bool valUseDetail, eAccionSR valAction) {
-            LibResponse vResult = new LibResponse();
-            //string vErrMsg = "";
+            LibResponse vResult = new LibResponse();            
             try {
                 CurrentRecord = refRecord[0];
                 if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
@@ -345,18 +334,17 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private bool InsertDetail(Entity.Vendedor valRecord) {
             bool vResult = true;
-            vResult = vResult && SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(valRecord);
+            vResult = vResult && SetPkInDetailVendedorDetalleComisionesAndUpdateDb(valRecord);
             return vResult;
         }
-
-        private bool SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(Entity.Vendedor valRecord) {
+        
+        private bool SetPkInDetailVendedorDetalleComisionesAndUpdateDb(Vendedor valRecord) {
             int vConsecutivo = 1;
             clsVendedorDetalleComisionesDat insVendedorDetalleComisiones = new clsVendedorDetalleComisionesDat();
             foreach (VendedorDetalleComisiones vDetail in valRecord.DetailVendedorDetalleComisiones) {
                 vDetail.ConsecutivoCompania = valRecord.ConsecutivoCompania;
                 vDetail.ConsecutivoVendedor = valRecord.Consecutivo;
-                vDetail.CodigoVendedor = valRecord.Codigo;
-                vDetail.ConsecutivoRenglon = vConsecutivo;
+                vDetail.Consecutivo = vConsecutivo;
                 vConsecutivo++;
             }
             return insVendedorDetalleComisiones.InsertChild(valRecord, insTrn);
@@ -374,15 +362,20 @@ namespace Galac.Adm.Dal.Vendedor {
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             ClearValidationInfo();
             bool vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
-            vResult &= IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
-            vResult &= IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo);
-            vResult &= IsValidNombre(valAction, CurrentRecord.Nombre);
-            vResult &= IsValidCiudad(valAction, CurrentRecord.Ciudad);
-            outErrorMessage = Information.ToString();
+            vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
+            vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;
+            vResult = IsValidNombre(valAction, CurrentRecord.Nombre) && vResult;
+            vResult = IsValidCiudad(valAction, CurrentRecord.Ciudad) && vResult;
+            vResult = IsValidConsecutivoRutaDeComercializacion(valAction, CurrentRecord.ConsecutivoRutaDeComercializacion) && vResult;
+		    outErrorMessage = Information.ToString();
             return vResult;
         }
 
         private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
             if (valConsecutivoCompania <= 0) {
                 BuildValidationInfo(MsgRequiredField("Consecutivo Compania"));
                 return false;
@@ -391,7 +384,8 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {
-            if (valAction == eAccionSR.Eliminar) {
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             if (valAction == eAccionSR.Insertar) {
@@ -409,6 +403,9 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool IsValidCodigo(eAccionSR valAction, int valConsecutivoCompania, string valCodigo) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
             if (LibString.IsNullOrEmpty(valCodigo, true)) {
                 BuildValidationInfo(MsgRequiredField("Código"));
                 return false;
@@ -445,6 +442,24 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             return true;
         }
+		
+        private bool IsValidConsecutivoRutaDeComercializacion(eAccionSR valAction, int valConsecutivoRutaDeComercializacion){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivoRutaDeComercializacion == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo Ruta De Comercializacion"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("Saw.RutaDeComercializacion", "Consecutivo", insDb.InsSql.ToSqlValue(valConsecutivoRutaDeComercializacion), true)) {
+                    BuildValidationInfo("El valor asignado al campo Consecutivo Ruta De Comercializacion no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
             Entity.Vendedor vRecordBusqueda = new Entity.Vendedor();
@@ -474,7 +489,8 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool ValidateMasterDetail(eAccionSR valAction,Entity.Vendedor valRecordMaster, bool valUseDetail) {
-            if (Validate(valAction, out string vErrMsg)) {
+            string vErrMsg;
+            if (Validate(valAction, out vErrMsg)) {
                 if (valUseDetail) {
                     if (!ValidateDetail(valRecordMaster, eAccionSR.Insertar, out vErrMsg)) {
                         throw new GalacValidationException("Vendedor (detalle)\n" + vErrMsg);
@@ -488,7 +504,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private bool ValidateDetail(Entity.Vendedor valRecord, eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
-            vResult &= ValidateDetailVendedorDetalleComisiones(valRecord, valAction, out outErrorMessage);
+            vResult = ValidateDetailVendedorDetalleComisiones(valRecord, valAction, out outErrorMessage);
             if (!LibString.IsNullOrEmpty(outErrorMessage)) {
                 LibMessages.MessageBox.Alert(this, outErrorMessage, "Vendedor");
             }
@@ -511,7 +527,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 vNumeroDeLinea++;
             }
             if (!vResult) {
-                outErrorMessage = "Comisiones De Vendedor"  + Environment.NewLine + vSbErrorInfo.ToString();
+                outErrorMessage = "Comisiones de Vendedor"  + Environment.NewLine + vSbErrorInfo.ToString();
             }
             return vResult;
         }
@@ -533,7 +549,7 @@ namespace Galac.Adm.Dal.Vendedor {
         
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Insertar")]
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Importar")]
-        public LibXmlResult Import(XmlReader refRecord, LibProgressManager valManager, bool valShowMessage) {
+        LibXmlResult ILibDataImport.Import(XmlReader refRecord, LibProgressManager valManager, bool valShowMessage) {
             try {
                 string vMessage = "";
                 int vIndex = 0;
@@ -577,26 +593,32 @@ namespace Galac.Adm.Dal.Vendedor {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoCompania"), null))) {
                     vRecord.ConsecutivoCompania = LibConvert.ToInt(vItem.Element("ConsecutivoCompania"));
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Codigo"), null))) {
-                    vRecord.Codigo = vItem.Element("Codigo").Value;
-                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Consecutivo"), null))) {
                     vRecord.Consecutivo = LibConvert.ToInt(vItem.Element("Consecutivo"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Codigo"), null))) {
+                    vRecord.Codigo = vItem.Element("Codigo").Value;
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Nombre"), null))) {
                     vRecord.Nombre = vItem.Element("Nombre").Value;
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TipoDocumentoIdentificacion"), null))) {
-                    vRecord.TipoDocumentoIdentificacion = vItem.Element("TipoDocumentoIdentificacion").Value;
-                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("RIF"), null))) {
                     vRecord.RIF = vItem.Element("RIF").Value;
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Telefono"), null))) {
-                    vRecord.Telefono = vItem.Element("Telefono").Value;
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("StatusVendedor"), null))) {
+                    vRecord.StatusVendedor = vItem.Element("StatusVendedor").Value;
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Direccion"), null))) {
                     vRecord.Direccion = vItem.Element("Direccion").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Ciudad"), null))) {
+                    vRecord.Ciudad = vItem.Element("Ciudad").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ZonaPostal"), null))) {
+                    vRecord.ZonaPostal = vItem.Element("ZonaPostal").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Telefono"), null))) {
+                    vRecord.Telefono = vItem.Element("Telefono").Value;
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Fax"), null))) {
                     vRecord.Fax = vItem.Element("Fax").Value;
@@ -607,80 +629,80 @@ namespace Galac.Adm.Dal.Vendedor {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Notas"), null))) {
                     vRecord.Notas = vItem.Element("Notas").Value;
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Email"), null))) {
-                    vRecord.ComisionPorVenta = LibConvert.ToDec(vItem.Element("Email"));
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ConsecutivoRutaDeComercializacion"), null))) {
+                    vRecord.ConsecutivoRutaDeComercializacion = LibConvert.ToInt(vItem.Element("ConsecutivoRutaDeComercializacion"));
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("Email"), null))) {
-                    vRecord.ComisionPorCobro = LibConvert.ToDec(vItem.Element("Email"));
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ComisionPorVenta"), null))) {
+                    vRecord.ComisionPorVenta = LibConvert.ToDec(vItem.Element("ComisionPorVenta"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("ComisionPorCobro"), null))) {
+                    vRecord.ComisionPorCobro = LibConvert.ToDec(vItem.Element("ComisionPorCobro"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeInicialVenta1"), null))) {
                     vRecord.TopeInicialVenta1 = LibConvert.ToDec(vItem.Element("TopeInicialVenta1"));
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeInicialCobranza1"), null))) {
-                    vRecord.TopeInicialCobranza1 = LibConvert.ToDec(vItem.Element("TopeInicialCobranza1"));
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalVenta1"), null))) {
+                    vRecord.TopeFinalVenta1 = LibConvert.ToDec(vItem.Element("TopeFinalVenta1"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas1"), null))) {
                     vRecord.PorcentajeVentas1 = LibConvert.ToDec(vItem.Element("PorcentajeVentas1"));
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas2"), null))) {
-                    vRecord.PorcentajeVentas2 = LibConvert.ToDec(vItem.Element("PorcentajeVentas2"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas3"), null))) {
-                    vRecord.PorcentajeVentas3 = LibConvert.ToDec(vItem.Element("PorcentajeVentas3"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas4"), null))) {
-                    vRecord.PorcentajeVentas4 = LibConvert.ToDec(vItem.Element("PorcentajeVentas4"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas5"), null))) {
-                    vRecord.PorcentajeVentas5 = LibConvert.ToDec(vItem.Element("PorcentajeVentas5"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza1"), null))) {
-                    vRecord.PorcentajeCobranza1 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza1"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza2"), null))) {
-                    vRecord.PorcentajeCobranza2 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza2"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza3"), null))) {
-                    vRecord.PorcentajeCobranza3 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza3"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza4"), null))) {
-                    vRecord.PorcentajeCobranza4 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza4"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza5"), null))) {
-                    vRecord.PorcentajeCobranza5 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza5"));
-                }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalVenta1"), null))) {
-                    vRecord.TopeFinalVenta1 = LibConvert.ToDec(vItem.Element("TopeFinalVenta1"));
-                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalVenta2"), null))) {
                     vRecord.TopeFinalVenta2 = LibConvert.ToDec(vItem.Element("TopeFinalVenta2"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas2"), null))) {
+                    vRecord.PorcentajeVentas2 = LibConvert.ToDec(vItem.Element("PorcentajeVentas2"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalVenta3"), null))) {
                     vRecord.TopeFinalVenta3 = LibConvert.ToDec(vItem.Element("TopeFinalVenta3"));
                 }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas3"), null))) {
+                    vRecord.PorcentajeVentas3 = LibConvert.ToDec(vItem.Element("PorcentajeVentas3"));
+                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalVenta4"), null))) {
                     vRecord.TopeFinalVenta4 = LibConvert.ToDec(vItem.Element("TopeFinalVenta4"));
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalVenta5"), null))) {
-                    vRecord.TopeFinalVenta5 = LibConvert.ToDec(vItem.Element("TopeFinalVenta5"));
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas4"), null))) {
+                    vRecord.PorcentajeVentas4 = LibConvert.ToDec(vItem.Element("PorcentajeVentas4"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalVenta5"), null))) {
                     vRecord.TopeFinalVenta5 = LibConvert.ToDec(vItem.Element("TopeFinalVenta5"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeVentas5"), null))) {
+                    vRecord.PorcentajeVentas5 = LibConvert.ToDec(vItem.Element("PorcentajeVentas5"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeInicialCobranza1"), null))) {
+                    vRecord.TopeInicialCobranza1 = LibConvert.ToDec(vItem.Element("TopeInicialCobranza1"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalCobranza1"), null))) {
                     vRecord.TopeFinalCobranza1 = LibConvert.ToDec(vItem.Element("TopeFinalCobranza1"));
                 }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza1"), null))) {
+                    vRecord.PorcentajeCobranza1 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza1"));
+                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalCobranza2"), null))) {
                     vRecord.TopeFinalCobranza2 = LibConvert.ToDec(vItem.Element("TopeFinalCobranza2"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza2"), null))) {
+                    vRecord.PorcentajeCobranza2 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza2"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalCobranza3"), null))) {
                     vRecord.TopeFinalCobranza3 = LibConvert.ToDec(vItem.Element("TopeFinalCobranza3"));
                 }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza3"), null))) {
+                    vRecord.PorcentajeCobranza3 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza3"));
+                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalCobranza4"), null))) {
                     vRecord.TopeFinalCobranza4 = LibConvert.ToDec(vItem.Element("TopeFinalCobranza4"));
                 }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza4"), null))) {
+                    vRecord.PorcentajeCobranza4 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza4"));
+                }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("TopeFinalCobranza5"), null))) {
                     vRecord.TopeFinalCobranza5 = LibConvert.ToDec(vItem.Element("TopeFinalCobranza5"));
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("PorcentajeCobranza5"), null))) {
+                    vRecord.PorcentajeCobranza5 = LibConvert.ToDec(vItem.Element("PorcentajeCobranza5"));
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("UsaComisionPorVenta"), null))) {
                     vRecord.UsaComisionPorVenta = vItem.Element("UsaComisionPorVenta").Value;
@@ -688,8 +710,8 @@ namespace Galac.Adm.Dal.Vendedor {
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("UsaComisionPorCobranza"), null))) {
                     vRecord.UsaComisionPorCobranza = vItem.Element("UsaComisionPorCobranza").Value;
                 }
-                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("RutaDeComercializacion"), null))) {
-                    vRecord.RutaDeComercializacion = vItem.Element("RutaDeComercializacion").Value;
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("CodigoLote"), null))) {
+                    vRecord.CodigoLote = vItem.Element("CodigoLote").Value;
                 }
                 vResult.Add(vRecord);
             }

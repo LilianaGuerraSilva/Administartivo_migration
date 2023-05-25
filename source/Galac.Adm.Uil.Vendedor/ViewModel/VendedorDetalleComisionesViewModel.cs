@@ -16,7 +16,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #region Constantes
         public const string ConsecutivoVendedorPropertyName = "ConsecutivoVendedor";
         public const string ConsecutivoRenglonPropertyName = "ConsecutivoRenglon";
-        public const string CodigoVendedorPropertyName = "CodigoVendedor";
         public const string NombreDeLineaDeProductoPropertyName = "NombreDeLineaDeProducto";
         public const string TipoDeComisionPropertyName = "TipoDeComision";
         public const string MontoPropertyName = "Monto";
@@ -57,28 +56,15 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public int  ConsecutivoRenglon {
+        public int  Consecutivo {
             get {
-                return Model.ConsecutivoRenglon;
+                return Model.Consecutivo;
             }
             set {
-                if (Model.ConsecutivoRenglon != value) {
-                    Model.ConsecutivoRenglon = value;
+                if (Model.Consecutivo != value) {
+                    Model.Consecutivo = value;
                     IsDirty = true;
                     RaisePropertyChanged(ConsecutivoRenglonPropertyName);
-                }
-            }
-        }
-
-        public string CodigoVendedor {
-            get {
-                return Model.CodigoVendedor;
-            }
-            set {
-                if (Model.CodigoVendedor != value) {
-                    Model.CodigoVendedor = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(CodigoVendedorPropertyName);
                 }
             }
         }
@@ -150,16 +136,19 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 return LibEnumHelper<eTipoComision>.GetValuesInArray();
             }
         }
+		
         public bool IsVisibleMonto {
             get {
                 return (TipoDeComision == eTipoComision.PorMonto);
             }
         }
+		
         public bool IsVisiblePorcentaje {
             get {
                 return (TipoDeComision == eTipoComision.PorPorcentaje);
             }
         }
+		
         public VendedorViewModel Master {
             get;
             set;

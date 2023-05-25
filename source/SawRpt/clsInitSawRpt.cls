@@ -232,11 +232,11 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsInitSawRpt", "sLlamarfrmInformesDeCobranza", "clsInitSawRpt", 0, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sLlamarfrmInformesDeVendedor(ByVal valVendedorNavegator As Object, ByVal valProyCompaniaActual As Object)
+Public Sub sLlamarfrmInformesDeVendedor(ByVal valVendedorNavegator As Object, ByVal valProyCompaniaActual As Object, ByVal valConexionesSawAOS As Object)
    Dim insInformesDeVendedor As frmInformesDeVendedor
    On Error GoTo h_ERROR
    Set insInformesDeVendedor = New frmInformesDeVendedor
-   insInformesDeVendedor.sLoadObjectValues valVendedorNavegator, valProyCompaniaActual
+   insInformesDeVendedor.sLoadObjectValues valVendedorNavegator, valProyCompaniaActual, valConexionesSawAOS
    insInformesDeVendedor.Show
    Set insInformesDeVendedor = Nothing
 h_EXIT: On Error GoTo 0

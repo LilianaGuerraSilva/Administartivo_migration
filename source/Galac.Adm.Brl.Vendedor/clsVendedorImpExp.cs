@@ -52,8 +52,8 @@ namespace Galac.Adm.Brl.Vendedor {
             return _Db.Import(refRecord, refManager, valShowMessage);
         }
 
-        public XElement ImportFile(string valPathFile, string valSeparator) {
-            StreamReader vStreamReader = new StreamReader(valPathFile, Encoding.Default);
+        XmlReader ILibImpExp.ImportFile(string valPathFile, string valSeparator) {
+            StreamReader vStreamReader = new StreamReader(valPathFile, System.Text.Encoding.Default);
             XElement xmlTree = new XElement("GpData",
                   from line in vStreamReader.Lines()
                   let items = LibString.Split(line, valSeparator, false)
@@ -71,39 +71,39 @@ namespace Galac.Adm.Brl.Vendedor {
                     new XElement("Fax", items[10]),
                     new XElement("Email", items[11]),
                     new XElement("Notas", items[12]),
-                    new XElement("ComisionPorVenta", items[13]),
-                    new XElement("ComisionPorCobro", items[14]),
-                    new XElement("TopeInicialVenta1", items[15]),
-                    new XElement("TopeFinalVenta1", items[16]),
-                    new XElement("PorcentajeVentas1", items[17]),
-                    new XElement("TopeFinalVenta2", items[18]),
-                    new XElement("PorcentajeVentas2", items[19]),
-                    new XElement("TopeFinalVenta3", items[20]),
-                    new XElement("PorcentajeVentas3", items[21]),
-                    new XElement("TopeFinalVenta4", items[22]),
-                    new XElement("PorcentajeVentas4", items[23]),
-                    new XElement("TopeFinalVenta5", items[24]),
-                    new XElement("PorcentajeVentas5", items[25]),
-                    new XElement("TopeInicialCobranza1", items[26]),
-                    new XElement("TopeFinalCobranza1", items[27]),
-                    new XElement("PorcentajeCobranza1", items[28]),
-                    new XElement("TopeFinalCobranza2", items[29]),
-                    new XElement("PorcentajeCobranza2", items[30]),
-                    new XElement("TopeFinalCobranza3", items[31]),
-                    new XElement("PorcentajeCobranza3", items[32]),
-                    new XElement("TopeFinalCobranza4", items[33]),
-                    new XElement("PorcentajeCobranza4", items[34]),
-                    new XElement("TopeFinalCobranza5", items[35]),
-                    new XElement("PorcentajeCobranza5", items[36]),
-                    new XElement("UsaComisionPorVenta", items[37]),
-                    new XElement("UsaComisionPorCobranza", items[38]),
-                    new XElement("CodigoLote", items[39]),
-                    new XElement("TipoDocumentoIdentificacion", items[40]),
-                    new XElement("RutaDeComercializacion", items[41])));
-            return xmlTree;
+                    new XElement("ConsecutivoRutaDeComercializacion", items[13]),
+                    new XElement("ComisionPorVenta", items[14]),
+                    new XElement("ComisionPorCobro", items[15]),
+                    new XElement("TopeInicialVenta1", items[16]),
+                    new XElement("TopeFinalVenta1", items[17]),
+                    new XElement("PorcentajeVentas1", items[18]),
+                    new XElement("TopeFinalVenta2", items[19]),
+                    new XElement("PorcentajeVentas2", items[20]),
+                    new XElement("TopeFinalVenta3", items[21]),
+                    new XElement("PorcentajeVentas3", items[22]),
+                    new XElement("TopeFinalVenta4", items[23]),
+                    new XElement("PorcentajeVentas4", items[24]),
+                    new XElement("TopeFinalVenta5", items[25]),
+                    new XElement("PorcentajeVentas5", items[26]),
+                    new XElement("TopeInicialCobranza1", items[27]),
+                    new XElement("TopeFinalCobranza1", items[28]),
+                    new XElement("PorcentajeCobranza1", items[29]),
+                    new XElement("TopeFinalCobranza2", items[30]),
+                    new XElement("PorcentajeCobranza2", items[31]),
+                    new XElement("TopeFinalCobranza3", items[32]),
+                    new XElement("PorcentajeCobranza3", items[33]),
+                    new XElement("TopeFinalCobranza4", items[34]),
+                    new XElement("PorcentajeCobranza4", items[35]),
+                    new XElement("TopeFinalCobranza5", items[36]),
+                    new XElement("PorcentajeCobranza5", items[37]),
+                    new XElement("UsaComisionPorVenta", items[38]),
+                    new XElement("UsaComisionPorCobranza", items[39]),
+                    new XElement("CodigoLote", items[40])));
+            return  xmlTree.CreateReader();
         }
 
-        public bool VerifyIntegrityOfRecord(XElement valRecord, StringBuilder refErrorMessage) {
+       
+        bool ILibImpExp.VerifyIntegrityOfRecord(XElement valRecord, StringBuilder refErrorMessage) {
             bool vResult = false;
             XElement vXElement = DistributeLine(valRecord);
             foreach (XElement vVendedor in vXElement.Nodes()) {
@@ -124,7 +124,9 @@ namespace Galac.Adm.Brl.Vendedor {
             //}
             return vResult;
         }
-        public LibResponse Importar(string valPath, eExportDelimiterType valSeparador, BackgroundWorker valBWorker) {
+       
+        
+        Revisar public LibResponse Importar(string valPath, eExportDelimiterType valSeparador, BackgroundWorker valBWorker) {
             LibResponse vResultOperacion = new LibResponse();
             LibResponse vResult = new LibResponse();
             StringBuilder vErrorMessage = new StringBuilder();
@@ -179,6 +181,7 @@ namespace Galac.Adm.Brl.Vendedor {
                         new XElement("Fax", vParser.GetString(0, "Fax", "")),
                         new XElement("Email", vParser.GetString(0, "Email", "")),
                         new XElement("Notas", vParser.GetString(0, "Notas", "")),
+                        new XElement("ConsecutivoRutaDeComercializacion", vParser.GetString(0, "ConsecutivoRutaDeComercializacion", "")),
                         new XElement("ComisionPorVenta", vParser.GetString(0, "ComisionPorVenta", "")),
                         new XElement("ComisionPorCobro", vParser.GetString(0, "ComisionPorCobro", "")),
                         new XElement("TopeInicialVenta1", vParser.GetString(0, "TopeInicialVenta1", "")),
@@ -205,9 +208,7 @@ namespace Galac.Adm.Brl.Vendedor {
                         new XElement("PorcentajeCobranza5", vParser.GetString(0, "PorcentajeCobranza5", "")),
                         new XElement("UsaComisionPorVenta", vParser.GetString(0, "UsaComisionPorVenta", "")),
                         new XElement("UsaComisionPorCobranza", vParser.GetString(0, "UsaComisionPorCobranza", "")),
-                        new XElement("CodigoLote", vParser.GetString(0, "CodigoLote", "")),
-                        new XElement("TipoDocumentoIdentificacion", vParser.GetString(0, "TipoDocumentoIdentificacion", "")),
-                        new XElement("RutaDeComercializacion", vParser.GetString(0, "RutaDeComercializacion", ""))));
+                        new XElement("CodigoLote", vParser.GetString(0, "CodigoLote", ""))));
                 return vXElement;
             } catch (XmlException vEx) {
                 throw new GalacException("Error distribuyendo la línea del archivo.", eExceptionManagementType.Uncontrolled, vEx);
@@ -215,6 +216,7 @@ namespace Galac.Adm.Brl.Vendedor {
                 throw;
             }
         }
+		
         private void CargaListaDetalleImportar(ref IList<VendedorDetalleComisiones> valVendedorDetalleComisionesValido) {
             int vConsecutivo = 1;
             string vConsecutivoVendedor = LibConvert.ToStr(vVendedorDetalleComisionesList[0].ConsecutivoVendedor);
@@ -223,11 +225,11 @@ namespace Galac.Adm.Brl.Vendedor {
                 VendedorDetalleComisiones vVendedorDetalleComisiones = new VendedorDetalleComisiones();
                 vVendedorDetalleComisiones.ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
                 if (vConsecutivoVendedor == LibConvert.ToStr(vItem.ConsecutivoVendedor)) {
-                    vVendedorDetalleComisiones.ConsecutivoRenglon = vConsecutivo;
+                    vVendedorDetalleComisiones.Consecutivo = vConsecutivo;
                     vConsecutivo++;
                 } else {
                     vConsecutivo = 1;
-                    vVendedorDetalleComisiones.ConsecutivoRenglon = vConsecutivo;
+                    vVendedorDetalleComisiones.Consecutivo = vConsecutivo;
                     vConsecutivoVendedor = LibConvert.ToStr(vItem.ConsecutivoVendedor);
                 }
                 vVendedorDetalleComisiones.NombreDeLineaDeProducto = vItem.NombreDeLineaDeProducto;
@@ -280,14 +282,14 @@ namespace Galac.Adm.Brl.Vendedor {
             vVendedor.PorcentajeCobranza5 = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(valVendedor, "PorcentajeCobranza5"));
             vVendedor.UsaComisionPorVenta = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "UsaComisionPorVenta"));
             vVendedor.UsaComisionPorCobranza = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "UsaComisionPorCobranza"));
-            vVendedor.CodigoLote = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "CodigoLote"));
-            vVendedor.TipoDocumentoIdentificacionAsEnum = (eTipoDocumentoIdentificacion)LibConvert.ToInt(LibXml.GetElementValueOrEmpty(valVendedor, "TipoDocumentoIdentificacion"));
-            vVendedor.RutaDeComercializacionAsEnum = (eRutaDeComercializacion)LibConvert.ToInt(LibXml.GetElementValueOrEmpty(valVendedor, "RutaDeComercializacion"));
+            vVendedor.CodigoLote = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "CodigoLote"));            
             vVendedorList.Add(vVendedor);
         }
+		
         public bool VerifyIntegrityOfRecord(XmlReader valRecord, XmlDocument refXmlDocResult, StringBuilder refErrorMessage) {
             throw new NotImplementedException();
         }
+		
         XmlReader ILibImpExp.ImportFile(string valPathFile, string valSeparator) {
             throw new NotImplementedException();
         }

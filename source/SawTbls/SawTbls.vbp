@@ -12,7 +12,6 @@ Class=clsExistenciaPorGrupoTbl; clsExistenciaPorGrupoTbl.cls
 Class=clsParametrosCompaniaTbl; clsParametrosCompaniaTbl.cls
 Class=clsCxPTbl; clsCxPTbl.cls
 Class=clsCxCTbl; clsCxCTbl.cls
-Class=clsVendedorTbl; clsVendedorTbl.cls
 Class=clsRenglonComisionesDeVendTbl; clsRenglonComisionesDeVendTbl.cls
 Class=clsCompraTbl; clsCompraTbl.cls
 Class=clsRenglonCompraTbl; clsRenglonCompraTbl.cls

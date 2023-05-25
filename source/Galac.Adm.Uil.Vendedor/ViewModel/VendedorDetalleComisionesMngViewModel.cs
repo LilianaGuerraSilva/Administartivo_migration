@@ -9,7 +9,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Comisiones de Vendedor por Linea de Producto"; }
+            get { return "Comisiones de Vendedor por Línea de Producto"; }
         }
 
         public VendedorViewModel Master {

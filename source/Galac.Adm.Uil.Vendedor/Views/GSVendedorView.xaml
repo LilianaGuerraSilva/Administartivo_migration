@@ -264,6 +264,12 @@
                                 MaxLength="40"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=ZonaPostal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+			    <Label Grid.Row="6" Grid.Column="0" Name="lblRutaDeComercializacion" Content="Ruta de ComercializaciÃ³n" Style="{StaticResource LabelPrompt}" />
+        		    <nsWpfControls:GSSeekConnection Grid.Row="6" Grid.Column="1" Name="txtRutaDeComercializacion" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=IsEnabled}"
+                                        DisplayMemberPath="Descripcion"
+                                        Model="{Binding Path=ConexionRutaDeComercializacion, Mode=TwoWay}"
+                                        ConnectionValue="{Binding Path=RutaDeComercializacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                        SearchCommand="{Binding Path=ChooseRutaDeComercializacionCommand}" />
                             <Label
                                 Name="lblTelefono"
                                 Grid.Row="0"

@@ -35,4 +35,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         [LibGridColum("Ciudad", Width = 300)]
         public string NombreCiudad { get; set; }
     }
+	
+    public class FkRutaDeComercializacionViewModel : IFkRutaDeComercializacionViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        [LibGridColum("Descripción")]
+        public string Descripcion { get; set; }
+    }	
 }

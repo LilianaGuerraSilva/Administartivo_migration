@@ -118,5 +118,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				AddDefaultConstraint("factura", "nnFacturaProveedorImpDig", "'0'", "ProveedorImprentaDigital");
 			}
 		}
+
+		private void CrearRutaDeComercializacion() {
+			new Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla();
+		}
 	}
 }   

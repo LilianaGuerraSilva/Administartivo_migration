@@ -10,7 +10,7 @@ using Galac.Saw.Brl.SttDef;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Ccl.SttDef;
-using Galac.Saw.Ccl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.LibWebConnector;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Dal;
@@ -327,7 +327,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     VendedorImprentaDigital.Ciudad = LibXml.GetPropertyString(vResult, "Ciudad");
                     VendedorImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");
                     VendedorImprentaDigital.Telefono = LibXml.GetPropertyString(vResult, "Telefono");
-                    VendedorImprentaDigital.email = LibXml.GetPropertyString(vResult, "Email");
+                    VendedorImprentaDigital.Email = LibXml.GetPropertyString(vResult, "Email");
                 } else {
                     throw new GalacException("No existen datos para el vendedor del documento a enviar", eExceptionManagementType.Controlled);
                 }

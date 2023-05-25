@@ -101,6 +101,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 //RibbonData.TabDataCollection[0].AddTabGroupData(CreateInformesRibbonGroup());
             }
         }
+		
         private LibRibbonGroupData CreateImportarRibbonGroup() {
             LibRibbonGroupData vResult = new LibRibbonGroupData("Importar/Exportar");
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
@@ -112,6 +113,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             });
             return vResult;
         }
+		
         private bool CanExecuteImportCommand() {
             bool vResult = false;
             vResult = (LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Insertar") &&
@@ -119,6 +121,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return vResult;
             //return CanCreate && LibSecurityManager.CurrentUserHasAccessTo(ModuleNameOriginal, "Importar") && CurrentItem != null;
         }
+		
         private LibRibbonButtonData CreateReinstallRibbonButtonData() {
             return new LibRibbonButtonData() {
                 Label = "Reinstalar",

@@ -97,6 +97,7 @@
     <Compile Include="clsMaquinaFiscalMenu.cs" />
     <Compile Include="clsNotaFinalMenu.cs" />
     <Compile Include="clsPropAnalisisVencMenu.cs" />
+    <Compile Include="clsRutaDeComercializacionMenu.cs" />
     <Compile Include="clsTipoProveedorMenu.cs" />
     <Compile Include="clsUnidadDeVentaMenu.cs" />
     <Compile Include="clsUrbanizacionZPMenu.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="UIMefTablasMaquinaFiscal.cs" />
     <Compile Include="UIMefTablasNotaFinal.cs" />
     <Compile Include="UIMefTablasPropAnalisisVenc.cs" />
+    <Compile Include="UIMefTablasRutaDeComercializacion.cs" />
     <Compile Include="UIMefTablasTipoProveedor.cs" />
     <Compile Include="UIMefTablasUnidadDeVenta.cs" />
     <Compile Include="UIMefTablasUrbanizacionZP.cs" />
@@ -131,6 +133,8 @@
     <Compile Include="ViewModel\NotaFinalViewModel.cs" />
     <Compile Include="ViewModel\PropAnalisisVencMngViewModel.cs" />
     <Compile Include="ViewModel\PropAnalisisVencViewModel.cs" />
+    <Compile Include="ViewModel\RutaDeComercializacionMngViewModel.cs" />
+    <Compile Include="ViewModel\RutaDeComercializacionViewModel.cs" />
     <Compile Include="ViewModel\TipoProveedorMngViewModel.cs" />
     <Compile Include="ViewModel\TipoProveedorViewModel.cs" />
     <Compile Include="ViewModel\UnidadDeVentaMngViewModel.cs" />
@@ -159,6 +163,9 @@
     </Compile>
     <Compile Include="Views\GSPropAnalisisVencView.xaml.cs">
       <DependentUpon>GSPropAnalisisVencView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSRutaDeComercializacionView.xaml.cs">
+      <DependentUpon>GSRutaDeComercializacionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSTipoProveedorView.xaml.cs">
       <DependentUpon>GSTipoProveedorView.xaml</DependentUpon>
@@ -202,6 +209,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSPropAnalisisVencView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSRutaDeComercializacionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

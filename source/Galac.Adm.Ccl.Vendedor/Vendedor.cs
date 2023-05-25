@@ -20,6 +20,8 @@ namespace Galac.Adm.Ccl.Vendedor {
         private string _Fax;
         private string _Email;
         private string _Notas;
+        private int _ConsecutivoRutaDeComercializacion;
+        private string _RutaDeComercializacion;
         private decimal _ComisionPorVenta;
         private decimal _ComisionPorCobro;
         private decimal _TopeInicialVenta1;
@@ -47,12 +49,10 @@ namespace Galac.Adm.Ccl.Vendedor {
         private bool _UsaComisionPorVenta;
         private bool _UsaComisionPorCobranza;
         private string _CodigoLote;
-        private eTipoDocumentoIdentificacion _TipoDocumentoIdentificacion;
-        private eRutaDeComercializacion _RutaDeComercializacion;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
-		private ObservableCollection<VendedorDetalleComisiones> _DetailRenglonComisionesDeVendedor;
+		private ObservableCollection<VendedorDetalleComisiones> _DetailVendedorDetalleComisiones;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -132,6 +132,16 @@ namespace Galac.Adm.Ccl.Vendedor {
         public string Notas {
             get { return _Notas; }
             set { _Notas = LibString.Mid(value, 0, 255); }
+        }
+
+        public int ConsecutivoRutaDeComercializacion {
+            get { return _ConsecutivoRutaDeComercializacion; }
+            set { _ConsecutivoRutaDeComercializacion = value; }
+        }
+
+        public string RutaDeComercializacion {
+            get { return _RutaDeComercializacion; }
+            set { _RutaDeComercializacion = LibString.Mid(value, 0, 100); }
         }
 
         public decimal ComisionPorVenta {
@@ -279,40 +289,6 @@ namespace Galac.Adm.Ccl.Vendedor {
             set { _CodigoLote = LibString.Mid(value, 0, 10); }
         }
 
-        public eTipoDocumentoIdentificacion TipoDocumentoIdentificacionAsEnum {
-            get { return _TipoDocumentoIdentificacion; }
-            set { _TipoDocumentoIdentificacion = value; }
-        }
-
-        public string TipoDocumentoIdentificacion {
-            set { _TipoDocumentoIdentificacion = (eTipoDocumentoIdentificacion)LibConvert.DbValueToEnum(value); }
-        }
-
-        public string TipoDocumentoIdentificacionAsDB {
-            get { return LibConvert.EnumToDbValue((int) _TipoDocumentoIdentificacion); }
-        }
-
-        public string TipoDocumentoIdentificacionAsString {
-            get { return LibEnumHelper.GetDescription(_TipoDocumentoIdentificacion); }
-        }
-
-        public eRutaDeComercializacion RutaDeComercializacionAsEnum {
-            get { return _RutaDeComercializacion; }
-            set { _RutaDeComercializacion = value; }
-        }
-
-        public string RutaDeComercializacion {
-            set { _RutaDeComercializacion = (eRutaDeComercializacion)LibConvert.DbValueToEnum(value); }
-        }
-
-        public string RutaDeComercializacionAsDB {
-            get { return LibConvert.EnumToDbValue((int) _RutaDeComercializacion); }
-        }
-
-        public string RutaDeComercializacionAsString {
-            get { return LibEnumHelper.GetDescription(_RutaDeComercializacion); }
-        }
-
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -329,8 +305,8 @@ namespace Galac.Adm.Ccl.Vendedor {
         }
 
         public ObservableCollection<VendedorDetalleComisiones> DetailVendedorDetalleComisiones {
-            get { return _DetailRenglonComisionesDeVendedor; }
-            set { _DetailRenglonComisionesDeVendedor = value; }
+            get { return _DetailVendedorDetalleComisiones; }
+            set { _DetailVendedorDetalleComisiones = value; }
         }
 
         public XmlDocument Datos {
@@ -341,7 +317,7 @@ namespace Galac.Adm.Ccl.Vendedor {
         #region Constructores
 
         public Vendedor() {
-            _DetailRenglonComisionesDeVendedor = new ObservableCollection<VendedorDetalleComisiones>();
+            _DetailVendedorDetalleComisiones = new ObservableCollection<VendedorDetalleComisiones>();
             Clear();
         }
         #endregion //Constructores
@@ -354,17 +330,19 @@ namespace Galac.Adm.Ccl.Vendedor {
         public void Clear() {
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             Consecutivo = 0;
-            Codigo = "";
-            Nombre = "";
-            RIF = "";
+            Codigo = string.Empty;
+            Nombre = string.Empty;
+            RIF = string.Empty;
             StatusVendedorAsEnum = eStatusVendedor.Activo;
-            Direccion = "";
-            Ciudad = "";
-            ZonaPostal = "";
-            Telefono = "";
-            Fax = "";
-            Email = "";
-            Notas = "";
+            Direccion = string.Empty;
+            Ciudad = string.Empty;
+            ZonaPostal = string.Empty;
+            Telefono = string.Empty;
+            Fax = string.Empty;
+            Email = string.Empty;
+            Notas = string.Empty;
+            ConsecutivoRutaDeComercializacion = 0;
+            RutaDeComercializacion = string.Empty;
             ComisionPorVenta = 0;
             ComisionPorCobro = 0;
             TopeInicialVenta1 = 0;
@@ -392,9 +370,7 @@ namespace Galac.Adm.Ccl.Vendedor {
             UsaComisionPorVentaAsBool = false;
             UsaComisionPorCobranzaAsBool = false;
             CodigoLote = string.Empty;
-            TipoDocumentoIdentificacionAsEnum = eTipoDocumentoIdentificacion.RUC;
-            RutaDeComercializacionAsEnum = eRutaDeComercializacion.Ninguna;
-            NombreOperador = "";
+            NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
             DetailVendedorDetalleComisiones = new ObservableCollection<VendedorDetalleComisiones>();
@@ -415,6 +391,8 @@ namespace Galac.Adm.Ccl.Vendedor {
             vResult.Fax = _Fax;
             vResult.Email = _Email;
             vResult.Notas = _Notas;
+            vResult.ConsecutivoRutaDeComercializacion = _ConsecutivoRutaDeComercializacion;
+            vResult.RutaDeComercializacion = _RutaDeComercializacion;
             vResult.ComisionPorVenta = _ComisionPorVenta;
             vResult.ComisionPorCobro = _ComisionPorCobro;
             vResult.TopeInicialVenta1 = _TopeInicialVenta1;
@@ -442,8 +420,6 @@ namespace Galac.Adm.Ccl.Vendedor {
             vResult.UsaComisionPorVentaAsBool = _UsaComisionPorVenta;
             vResult.UsaComisionPorCobranzaAsBool = _UsaComisionPorCobranza;
             vResult.CodigoLote = _CodigoLote;
-            vResult.TipoDocumentoIdentificacionAsEnum = _TipoDocumentoIdentificacion;
-            vResult.RutaDeComercializacionAsEnum = _RutaDeComercializacion;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -453,19 +429,20 @@ namespace Galac.Adm.Ccl.Vendedor {
         public override string ToString() {
            return "Consecutivo Compania = " + _ConsecutivoCompania.ToString() +
                "\nConsecutivo = " + _Consecutivo.ToString() +
-               "\nCódigo = " + _Codigo +
+               "\nCodigo = " + _Codigo +
                "\nNombre = " + _Nombre +
-               "\nN° R.I.F. = " + _RIF +
-               "\nStatus = " + _StatusVendedor.ToString() +
+               "\nRIF = " + _RIF +
+               "\nStatus Vendedor = " + _StatusVendedor.ToString() +
                "\nDirección = " + _Direccion +
                "\nCiudad = " + _Ciudad +
                "\nZona Postal = " + _ZonaPostal +
-               "\nTelefono = " + _Telefono +
+               "\nTeléfono = " + _Telefono +
                "\nFax = " + _Fax +
-               "\nEmail = " + _Email +
+               "\ne-mail = " + _Email +
                "\nNotas = " + _Notas +
-               "\nComision Por Venta = " + _ComisionPorVenta.ToString() +
-               "\nComision Por Cobro = " + _ComisionPorCobro.ToString() +
+               "\nConsecutivo Ruta De Comercializacion = " + _ConsecutivoRutaDeComercializacion.ToString() +
+               "\nComisión por Venta = " + _ComisionPorVenta.ToString() +
+               "\nComisión por Cobranza = " + _ComisionPorCobro.ToString() +
                "\nTope Inicial Venta 1 = " + _TopeInicialVenta1.ToString() +
                "\nTope Final Venta 1 = " + _TopeFinalVenta1.ToString() +
                "\nPorcentaje Ventas 1 = " + _PorcentajeVentas1.ToString() +
@@ -491,8 +468,6 @@ namespace Galac.Adm.Ccl.Vendedor {
                "\nUsa Comision Por Venta = " + _UsaComisionPorVenta +
                "\nUsa Comision Por Cobranza = " + _UsaComisionPorCobranza +
                "\nCodigo Lote = " + _CodigoLote +
-               "\nTipo Documento Identificacion = " + _TipoDocumentoIdentificacion.ToString() +
-               "\nRuta De Comercializacion = " + _RutaDeComercializacion.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }
@@ -501,5 +476,5 @@ namespace Galac.Adm.Ccl.Vendedor {
 
     } //End of class Vendedor
 
-} //End of namespace Galac.Saw.Ccl.Vendedor
+} //End of namespace Galac.Adm.Ccl.Vendedor
 
