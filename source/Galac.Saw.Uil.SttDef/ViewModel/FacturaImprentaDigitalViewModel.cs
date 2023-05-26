@@ -76,15 +76,16 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         }
 
         public bool IsEnabledUsaImprentaDigital {
-            get { return IsEnabled && !LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital")); }
+            get { return IsEnabled && !LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital"); }
         }
 
         public bool IsEnabledDatosImprentaDigital {
             get {
-                if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"))) {
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaImprentaDigital")) {
                     return false;
                 }
-                return IsEnabled && UsaImprentaDigital; }
+                return IsEnabled && UsaImprentaDigital;
+            }
         }
 
         public eProveedorImprentaDigital[] ArrayProveedorImprentaDigital {
@@ -142,8 +143,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             return vResult;
         }
         #endregion //Metodos Generados
-
     } //End of class FacturaImprentaDigitalViewModel
-
 } //End of namespace Galac.Comun.Uil.SttDef
 
