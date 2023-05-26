@@ -338,7 +338,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
         
-        private bool SetPkInDetailVendedorDetalleComisionesAndUpdateDb(Vendedor valRecord) {
+        private bool SetPkInDetailVendedorDetalleComisionesAndUpdateDb(Ccl.Vendedor.Vendedor valRecord) {
             int vConsecutivo = 1;
             clsVendedorDetalleComisionesDat insVendedorDetalleComisiones = new clsVendedorDetalleComisionesDat();
             foreach (VendedorDetalleComisiones vDetail in valRecord.DetailVendedorDetalleComisiones) {
@@ -352,7 +352,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private bool UpdateDetail(Entity.Vendedor valRecord) {
             if (valRecord.DetailVendedorDetalleComisiones.Count() > 0) {
-                return SetPkInDetaiVendedorDetalleComisionesAndUpdateDb(valRecord);
+                return SetPkInDetailVendedorDetalleComisionesAndUpdateDb(valRecord);
             }
             return true;
         }

@@ -138,25 +138,6 @@
                     SelectedItem="{Binding Path=StatusVendedor, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ComboBoxStyle}" />
                 <Label
-                    Name="lblRutaDeComercializacion"
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    Content="Ruta de Comercialización"
-                    Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <nsWpfControls:GSComboBoxWpf
-                    Name="cmbRutaDeComercializacion"
-                    Grid.Row="2"
-                    Grid.Column="3"
-                    Width="150"
-                    HorizontalAlignment="Right"
-                    IsEnabled="{Binding Path=IsEnabled}"
-                    IsSynchronizedWithCurrentItem="True"
-                    ItemsSource="{Binding Path=ArrayRutaDeComercializacion}"
-                    SelectedItem="{Binding Path=RutaDeComercializacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource ComboBoxStyle}"
-                    Visibility="{Binding Path=IsVisibleRutaDeComercializacion, Converter={StaticResource booleanToVisibilityConverter}}" />
-                <Label
                     Grid.Row="3"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
@@ -202,6 +183,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -264,12 +246,25 @@
                                 MaxLength="40"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=ZonaPostal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-			    <Label Grid.Row="6" Grid.Column="0" Name="lblRutaDeComercializacion" Content="Ruta de ComercializaciÃ³n" Style="{StaticResource LabelPrompt}" />
-        		    <nsWpfControls:GSSeekConnection Grid.Row="6" Grid.Column="1" Name="txtRutaDeComercializacion" Height="23" Margin="3" HorizontalAlignment="Left" Width="300" IsEnabled="{Binding Path=IsEnabled}"
-                                        DisplayMemberPath="Descripcion"
-                                        Model="{Binding Path=ConexionRutaDeComercializacion, Mode=TwoWay}"
-                                        ConnectionValue="{Binding Path=RutaDeComercializacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-                                        SearchCommand="{Binding Path=ChooseRutaDeComercializacionCommand}" />
+                            <Label
+                                Name="lblRutaDeComercializacion2"
+                                Grid.Row="6"
+                                Grid.Column="0"
+                                Content="Ruta de Comercialización"
+                                Style="{StaticResource LabelPrompt}" />
+                            <nsWpfControls:GSSeekConnection
+                                Name="txtRutaDeComercializa"
+                                Grid.Row="6"
+                                Grid.Column="1"
+                                Width="250"
+                                Height="23"
+                                Margin="3"
+                                HorizontalAlignment="Left"
+                                ConnectionValue="{Binding Path=RutaDeComercializacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
+                                DisplayMemberPath="Descripcion"
+                                IsEnabled="{Binding Path=IsEnabled}"
+                                Model="{Binding Path=ConexionRutaDeComercializacion, Mode=TwoWay}"
+                                SearchCommand="{Binding Path=ChooseRutaDeComercializacionCommand}" />
                             <Label
                                 Name="lblTelefono"
                                 Grid.Row="0"

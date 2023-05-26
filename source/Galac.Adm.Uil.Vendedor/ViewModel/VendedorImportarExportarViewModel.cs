@@ -9,6 +9,7 @@ using System.ComponentModel;
 using Microsoft.Win32;
 using LibGalac.Aos.UI.Wpf.ViewModel;
 using System.Xml.Linq;
+using System.Xml;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
@@ -151,7 +152,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         bool ProcesoDeValidacion = false;
         LibResponse ArchivoValido = new LibResponse();
-        clsVendedorImpExp vVendedorImport = new clsVendedorImpExp();
+        ILibImpExp vVendedorImport = new clsVendedorImpExp();
 
         #endregion //Propiedades
 
@@ -244,8 +245,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         LibResponse ElArchivoEsValido(string valPath, eExportDelimiterType valSeparador, BackgroundWorker valBWorker, ref int vCantidadRegistrosValidos) {
             LibResponse vResult = new LibResponse();
             StringBuilder vErrorMessage = new StringBuilder();
-            XElement vXElement = vVendedorImport.ImportFile(valPath, LibEExportDelimiterType.ToDelimiter(valSeparador));
-            vResult.Success = vVendedorImport.VerifyIntegrityOfRecord(vXElement, vErrorMessage);
+            XmlDocument vXDocument = new XmlDocument();
+            XmlReader vXElement = vVendedorImport.ImportFile(valPath, LibEExportDelimiterType.ToDelimiter(valSeparador));
+            vResult.Success = vVendedorImport.VerifyIntegrityOfRecord(vXElement, vXDocument, vErrorMessage);
             if (!LibString.IsNullOrEmpty(vErrorMessage.ToString())) {
                 vResult.AddError("" + vErrorMessage);
             }
@@ -282,7 +284,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             if (ProcesoDeValidacion) {
                 ArchivoValido = ElArchivoEsValido(NombreDelArchivo, TipoDeSeparacion, _BWorker, ref vCantidadRegistrosValidosValidas);
             } else {
-                vVendedorImport.Importar(NombreDelArchivo, TipoDeSeparacion, _BWorker); //ImportFile(NombreDelArchivo, LibEExportDelimiterType.ToDelimiter(TipoDeSeparacion)); //PROBAR CON IMPORTFILE AQUI
+                //vVendedorImport.Importar(NombreDelArchivo, TipoDeSeparacion, _BWorker); //ImportFile(NombreDelArchivo, LibEExportDelimiterType.ToDelimiter(TipoDeSeparacion)); //PROBAR CON IMPORTFILE AQUI
             }
         }
 

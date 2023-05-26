@@ -100,10 +100,9 @@ namespace Galac.Adm.Brl.Vendedor {
                     new XElement("UsaComisionPorCobranza", items[39]),
                     new XElement("CodigoLote", items[40])));
             return  xmlTree.CreateReader();
-        }
-
-       
-        bool ILibImpExp.VerifyIntegrityOfRecord(XElement valRecord, StringBuilder refErrorMessage) {
+        }      
+        
+        bool ILibImpExp.VerifyIntegrityOfRecord(XmlReader valRecord, XmlDocument refXmlDocResult, StringBuilder refErrorMessage) {
             bool vResult = false;
             XElement vXElement = DistributeLine(valRecord);
             foreach (XElement vVendedor in vXElement.Nodes()) {
@@ -123,10 +122,10 @@ namespace Galac.Adm.Brl.Vendedor {
             //vResult = true;
             //}
             return vResult;
-        }
-       
-        
-        Revisar public LibResponse Importar(string valPath, eExportDelimiterType valSeparador, BackgroundWorker valBWorker) {
+        }       
+
+        //Revisar        
+        public LibResponse Importar(string valPath, eExportDelimiterType valSeparador, BackgroundWorker valBWorker) {
             LibResponse vResultOperacion = new LibResponse();
             LibResponse vResult = new LibResponse();
             StringBuilder vErrorMessage = new StringBuilder();
@@ -163,7 +162,8 @@ namespace Galac.Adm.Brl.Vendedor {
             }
             return vResult;
         }
-        private XElement DistributeLine(XElement valRecord) {
+        
+        private XElement DistributeLine(XmlReader valRecord) {
             try {
                 LibXmlDataParse vParser = new LibXmlDataParse(valRecord);
                 XElement vXElement = new XElement("GpData",
@@ -284,15 +284,7 @@ namespace Galac.Adm.Brl.Vendedor {
             vVendedor.UsaComisionPorCobranza = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "UsaComisionPorCobranza"));
             vVendedor.CodigoLote = LibString.UCase(LibXml.GetElementValueOrEmpty(valVendedor, "CodigoLote"));            
             vVendedorList.Add(vVendedor);
-        }
-		
-        public bool VerifyIntegrityOfRecord(XmlReader valRecord, XmlDocument refXmlDocResult, StringBuilder refErrorMessage) {
-            throw new NotImplementedException();
-        }
-		
-        XmlReader ILibImpExp.ImportFile(string valPathFile, string valSeparator) {
-            throw new NotImplementedException();
-        }
+        }	             
         #endregion //Metodos Generados
 
     } //End of class clsVendedorImpExp

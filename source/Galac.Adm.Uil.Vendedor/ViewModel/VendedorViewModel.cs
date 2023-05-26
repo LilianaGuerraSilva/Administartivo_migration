@@ -1093,8 +1093,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return vMoneda.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today()) + "es.";
         }
 
-        
-        validdar view public decimal TopeFinalDeVentaMasAlto() {
+        private decimal TopeFinalDeVentaMasAlto() {
             decimal vTopeMasAlto = 0;
             vTopeMasAlto = vTopeMasAlto < TopeFinalVenta1 ? TopeFinalVenta1 : vTopeMasAlto;
             vTopeMasAlto = vTopeMasAlto < TopeFinalVenta2 ? TopeFinalVenta2 : vTopeMasAlto;
@@ -1102,9 +1101,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             vTopeMasAlto = vTopeMasAlto < TopeFinalVenta4 ? TopeFinalVenta4 : vTopeMasAlto;
             return vTopeMasAlto;
         }
-
-        
-        validar view public decimal TopeFinalDeCobranzaMasAlto() {
+                       
+        private decimal TopeFinalDeCobranzaMasAlto() {
             decimal vTopeMasAlto = 0;
             vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza1 ? TopeFinalCobranza1 : vTopeMasAlto;
             vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza2 ? TopeFinalCobranza2 : vTopeMasAlto;
