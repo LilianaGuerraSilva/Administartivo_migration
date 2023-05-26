@@ -75,6 +75,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             bool vChekConeccion;
             string vDocumentoJSON;
             try {
+                string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje);
@@ -82,7 +83,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vChekConeccion = true;
                 }
                 stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {
-                    Serie = "",
+                    Serie = vSerie,
                     TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                     NumeroDocumento = LibString.Right(NumeroFactura, 8)
                 };
@@ -109,6 +110,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public override bool AnularDocumento() {
             try {
+                string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
                 bool vResult = false;
                 stPostResq vRespuestaConector = new stPostResq();
                 bool vDocumentoExiste = EstadoDocumento();
@@ -118,7 +120,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vDocumentoExiste) {
                     if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
                         stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
-                            Serie = "",
+                            Serie = vSerie,
                             TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                             NumeroDocumento = LibString.Right(NumeroFactura, 8),
                             MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
