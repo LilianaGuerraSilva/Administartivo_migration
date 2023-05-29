@@ -1084,10 +1084,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        //private static bool EsVenezuela() {
-        //    return LibDefGen.ProgramInfo.IsCountryVenezuela();
-        //}
-
         private string ObtenerMonedaLocal() {
             Saw.Lib.clsNoComunSaw vMoneda = new Saw.Lib.clsNoComunSaw();
             return vMoneda.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today()) + "es.";
