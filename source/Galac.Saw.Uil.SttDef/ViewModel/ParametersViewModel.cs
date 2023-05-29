@@ -222,11 +222,9 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     vModel.InitializeViewModel(eAccionSR);
                     vResult = vModel;
                 } else if (valContent is FacturaImprentaDigitalStt) {
-                    if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "esSawImprentaDigital"))) {
-                        LibInputViewModelBase<FacturaImprentaDigitalStt> vModel = new FacturaImprentaDigitalViewModel(valContent as FacturaImprentaDigitalStt, eAccionSR);
-                        vModel.InitializeViewModel(eAccionSR);
-                        vResult = vModel;
-                    }
+                    LibInputViewModelBase<FacturaImprentaDigitalStt> vModel = new FacturaImprentaDigitalViewModel(valContent as FacturaImprentaDigitalStt, eAccionSR);
+                    vModel.InitializeViewModel(eAccionSR);
+                    vResult = vModel;
                 } else if (valContent is VerificadorDePreciosStt) {
                     LibInputViewModelBase<VerificadorDePreciosStt> vModel = new VerificadorDePreciosViewModel(valContent as VerificadorDePreciosStt, eAccionSR);
                     vModel.InitializeViewModel(eAccionSR);
@@ -375,7 +373,6 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             IsDirty = SeModificoAlgunValor();
             base.ExecuteCancel();
         }
-
         #endregion
     }
 }

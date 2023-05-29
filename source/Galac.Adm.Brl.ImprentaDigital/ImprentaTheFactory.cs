@@ -75,6 +75,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             bool vChekConeccion;
             string vDocumentoJSON;
             try {
+                string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
                 if (LibString.IsNullOrEmpty(_ConectorJson.Token)) {
                     ObtenerDatosDocumentoEmitido();
                     vChekConeccion = _ConectorJson.CheckConnection(ref vMensaje);
@@ -82,7 +83,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     vChekConeccion = true;
                 }
                 stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {
-                    Serie = "",
+                    Serie = vSerie,
                     TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                     NumeroDocumento = LibString.Right(NumeroFactura, 8)
                 };
@@ -109,6 +110,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         public override bool AnularDocumento() {
             try {
+                string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
                 bool vResult = false;
                 stPostResq vRespuestaConector = new stPostResq();
                 bool vDocumentoExiste = EstadoDocumento();
@@ -118,7 +120,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vDocumentoExiste) {
                     if (!LibString.S1IsEqualToS2(EstatusDocumento, "Anulada")) {
                         stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
-                            Serie = "",
+                            Serie = vSerie,
                             TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
                             NumeroDocumento = LibString.Right(NumeroFactura, 8),
                             MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
@@ -340,7 +342,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vFormaDeCobro;
             if (FacturaImprentaDigital.BaseImponibleIGTF > 0) { // Pagos en ML
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "09" : "99";
-                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2);
+                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMonedaDeCobro;
                 vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, 2));
                 vResult.Add(
@@ -352,7 +354,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("tipoCambio", vCambioBs)));
             } else {
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "08" : "99";
-                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioABolivares, 2);
+                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioABolivares, 4);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMoneda;
                 vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));
                 vResult.Add(new XElement("forma", GetFormaDeCobro(FacturaImprentaDigital.FormaDeCobroAsEnum)),
