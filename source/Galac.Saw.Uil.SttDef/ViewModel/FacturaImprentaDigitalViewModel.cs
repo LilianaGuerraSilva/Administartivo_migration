@@ -31,10 +31,10 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 if (Model.UsaImprentaDigitalAsBool != value) {
                     Model.UsaImprentaDigitalAsBool = value;
                     IsDirty = true;
-                    if (value == false) {
+                    if (!value) {
                         FechaInicioImprentaDigital = LibDate.MinDateForDB();
                         ProveedorServicioImprentaDigital = eProveedorImprentaDigital.NoAplica;
-                        RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);                        
+                        RaisePropertyChanged(FechaInicioImprentaDigitalPropertyName);
                     }
                     RaisePropertyChanged(UsaImprentaDigitalPropertyName);
                     RaisePropertyChanged(ProveedorServicioImprentaDigitalPropertyName);
