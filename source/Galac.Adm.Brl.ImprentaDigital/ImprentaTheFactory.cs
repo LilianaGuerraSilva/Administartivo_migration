@@ -342,7 +342,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             string vFormaDeCobro;
             if (FacturaImprentaDigital.BaseImponibleIGTF > 0) { // Pagos en ML
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "09" : "99";
-                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2);
+                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMonedaDeCobro;
                 vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, 2));
                 vResult.Add(
@@ -354,7 +354,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("tipoCambio", vCambioBs)));
             } else {
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "08" : "99";
-                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioABolivares, 2);
+                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioABolivares, 4);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMoneda;
                 vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));
                 vResult.Add(new XElement("forma", GetFormaDeCobro(FacturaImprentaDigital.FormaDeCobroAsEnum)),
