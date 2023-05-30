@@ -406,14 +406,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult = ActualizaNroControlYProveedorImprentaDigital();
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
                 if (ExistenCxCPorCancelar()) {
-                    vResult = AnularDocumento();
+                    Mensaje = "No se puede anular una CxC que esté Cancelada.";
                 } else {
-                    Mensaje = "No se puede anular una CxC que este Cancelada.";
+                    vResult = AnularDocumento();
                 }
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
                 vResult = AnularFacturasYCxC();
                 if (!vResult) {
-                    Mensaje = "No se puede anular una CxC que este Cancelada.";
+                    Mensaje = "No se puede anular una CxC que esté Cancelada.";
                 }
             } else {
                 vResult = true; // Todo al día
