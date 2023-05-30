@@ -903,7 +903,7 @@ Private Function fTipoDeComprobante(ByVal valModuloAContabilizar As enum_Comprob
          Case eCG_ANTICIPO: varTipo = gProyReglasDeContabilizacion.GetAnticipoTipoComprobante
          Case eCG_INVENTARIO:  varTipo = gProyReglasDeContabilizacion.GetInventarioTipoComprobante
          Case eCG_REPOSICION:  varTipo = gProyReglasDeContabilizacion.GetSiglasTipoComprobanteCajaChica
-         Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: varTipo = gProyReglasDeContabilizacion.GetSiglasTipoComprobanteTransferenciaEntreCuenta
+         Case eCG_TRANSFERENCIA_ENTRE_CUENTAS_BANCARIA: varTipo = gProyReglasDeContabilizacion.GetTransfCtasSigasTipoComprobante
          Case eCG_ORDEN_DE_PRODUCCION: varTipo = gProyReglasDeContabilizacion.GetOrdenDeProduccionTipoComprobante
       End Select
    End If
@@ -3506,72 +3506,6 @@ h_EXIT: On Error GoTo 0
       Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "sGenerarComprobanteDeAnulacionDeMovBancario", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
-Private Function fSQLRendicionEntreFechas(ByVal valFechaDesde As Date, ByVal valFechaHasta As Date, ByVal valEsUnReverso As Boolean, ByVal valDescripcionDelAsiento As String, ByVal valContabilizarSolo1Documento As Boolean, ByVal valNoDocumentoOrigen As String, ByVal valTipoDocumento As Integer, ByVal valConsecutivoDoc As String) As String
-   Dim ConjuntoDeRendicionsinContabilizar As String
-   Dim Sql As String
-   Dim SqlTasaDeCambio As String
-   Dim CondicionDeStatusAnulado As String
-   Dim numeroReferencia As String
-   Dim sqlMontoMovimientoBancario As String
-   Dim sqlCuentaBancariaIDB As String
-   Dim sqlBancoCuentaContable As String
-   Dim descripcionMovBancIDB As String
-   Dim insLibSaW As clsLibSAW
-   On Error GoTo h_ERROR
-   Set insLibSaW = New clsLibSAW
-   SqlTasaDeCambio = 1
-   CondicionDeStatusAnulado = gUtilSQL.fFirst("Adm.Rendicion.StatusRendicion", "NONE") & " = '" & gConvert.enumerativoAChar(enum_StatusRendicion.eSRd_ANULADA) & "'"
-   numeroReferencia = valNoDocumentoOrigen
-   If valContabilizarSolo1Documento Then
-      gTexto.ReemplazaCaracteresEnElString numeroReferencia, vbTab, "-"
-   End If
-   ConjuntoDeRendicionsinContabilizar = fSQLConjuntoRecordsDeContabilizacion1oMasDocumentos(eCG_REPOSICION, valContabilizarSolo1Documento, valConsecutivoDoc, valFechaDesde, valFechaHasta, valTipoDocumento)
-   If ConjuntoDeRendicionsinContabilizar = "" Then
-      GoTo h_EXIT
-   End If
-   sqlBancoCuentaContable = "Saw.CuentaBancaria.CuentaContable"
-   sqlMontoMovimientoBancario = "(SUM(Movimientobancario.Monto * " & SqlTasaDeCambio & "))"
-   sqlCuentaBancariaIDB = gUtilSQL.fFirst(gUtilSQL.getIIF(sqlBancoCuentaContable & " <> ''", sqlBancoCuentaContable, gUtilSQL.fSimpleSqlValue(gProyReglasDeContabilizacion.GetCuentaDebitoBancarioBancos), True), "NONE")
-   descripcionMovBancIDB = insLibSaW.fTituloITFEnCtaBancaria & " / " & valDescripcionDelAsiento
-
-   Sql = "SELECT Adm.Rendicion.ConsecutivoBeneficiario, "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM((Adm.DetalleDeRendicion.MontoExento + Adm.DetalleDeRendicion.MontoGravable + Adm.DetalleDeRendicion.MontoGravableAlicuotaEspecial1 + Adm.DetalleDeRendicion.MontoGravableAlicuotaEspecial2 ) * " & SqlTasaDeCambio & ")", gProyReglasDeContabilizacion.GetCuentaRendicionesGasto, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "SUM((Adm.DetalleDeRendicion.MontoIva + Adm.DetalleDeRendicion.MontoIVAAlicuotaEspecial1 + Adm.DetalleDeRendicion.MontoIVAAlicuotaEspecial2) * " & SqlTasaDeCambio & ")", gProyReglasDeContabilizacion.GetCuentaRendicionesIva, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "((Adm.Rendicion.TotalAdelantos - Adm.Rendicion.TotalGastos) * " & SqlTasaDeCambio & ")", gProyReglasDeContabilizacion.GetCuentaRendicionesBanco, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "((Adm.Rendicion.TotalAdelantos)  * " & SqlTasaDeCambio & ")", gProyReglasDeContabilizacion.GetCuentaRendicionesAnticipos, False, "", numeroReferencia, valDescripcionDelAsiento, CondicionDeStatusAnulado, "")
-   Sql = Sql & " FROM Saw.Beneficiario INNER JOIN "
-   Sql = Sql & " Adm.Rendicion ON (Saw.Beneficiario.ConsecutivoCompania =  Adm.Rendicion.ConsecutivoCompania "
-   Sql = Sql & " AND Saw.Beneficiario.Consecutivo =  Adm.Rendicion.ConsecutivoBeneficiario)"
-   Sql = Sql & " INNER JOIN Adm.DetalleDeRendicion ON (Adm.Rendicion.ConsecutivoCompania =  Adm.DetalleDeRendicion.ConsecutivoCompania"
-   Sql = Sql & " AND Adm.Rendicion.Consecutivo = Adm.DetalleDeRendicion.ConsecutivoRendicion)"
-   Sql = Sql & " WHERE Adm.Rendicion.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND Adm.Rendicion.Consecutivo IN (" & ConjuntoDeRendicionsinContabilizar & ")"
-   Sql = Sql & " AND Adm.Rendicion.TipoDeDocumento = " & gUtilSQL.fSimpleSqlValue(enum_TipoDeDocumentoRendicion.eTDDR_Rendicion)
-   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("Adm.Rendicion.FechaApertura", valFechaDesde, valFechaHasta)
-   Sql = Sql & " GROUP BY Adm.Rendicion.ConsecutivoBeneficiario, Adm.Rendicion.TotalAdelantos, Adm.Rendicion.TotalGastos"
-   CondicionDeStatusAnulado = ""
-   Sql = Sql & " UNION "
-   Sql = Sql & " SELECT MovimientoBancario.CodigoConcepto, "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, sqlMontoMovimientoBancario, gProyReglasDeContabilizacion.GetCuentaDebitoBancarioGasto, False, "", numeroReferencia, descripcionMovBancIDB, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, sqlMontoMovimientoBancario, sqlCuentaBancariaIDB, False, "", numeroReferencia, descripcionMovBancIDB, CondicionDeStatusAnulado, "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("DEBE", valEsUnReverso, "0", "NA", False, "", "", "", "", "") & ", "
-   Sql = Sql & fAgregaUnaCuentaAlSQL("HABER", valEsUnReverso, "0", "NA", False, "", "", "", "", "")
-   Sql = Sql & " FROM MovimientoBancario INNER JOIN Saw.CuentaBancaria ON "
-   Sql = Sql & " MovimientoBancario.ConsecutivoCompania = Saw.CuentaBancaria.ConsecutivoCompania"
-   Sql = Sql & " AND MovimientoBancario.CodigoCtaBancaria = Saw.CuentaBancaria.Codigo"
-   Sql = Sql & " WHERE MovimientoBancario.ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   Sql = Sql & " AND MovimientoBancario.NroMovimientoRelacionado IN(" & ConjuntoDeRendicionsinContabilizar & ")"
-   Sql = Sql & " AND MovimientoBancario.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_GeneradoPor.eGP_DEBITO_BANCARIO)
-   Sql = Sql & " AND " & gUtilSQL.DfSQLDateValueBetween("MovimientoBancario.Fecha", valFechaDesde, valFechaHasta)
-   Sql = Sql & " GROUP BY MovimientoBancario.CodigoConcepto"
-   Set insLibSaW = Nothing
-h_EXIT:
-   fSQLRendicionEntreFechas = Sql
-   On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsGenerarComprobanteNavigator", "fSQLRendicionEntreFechas", "Generar Comprobante", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
 
 Private Sub sGenerarComprobanteDeAnulacionDeRendicion(ByVal valGeneradoPor As enum_ComprobanteGeneradoPor, ByVal valNoDocumentoOrigen As String, ByVal valConsecutivoDocumento As Long, ByVal valStringField As Boolean, ByVal valFechaDeAnulacion As Date, ByVal valAccionAnulacionModulo As enum_ComprobanteGeneradoPor)
    Dim insComprobanteNavigator As clsComprobanteNavigator

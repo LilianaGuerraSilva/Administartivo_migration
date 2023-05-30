@@ -458,7 +458,6 @@ Private Sub sEliminaLaInformacionContableAsociadaALaCompaniaActual(ByVal valRais
    varSQL = "DELETE FROM Saw.ReglasDeContabilizacion WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
    gDbUtil.Execute gDefDatabase.Conexion, varSQL
    gProyReglasDeContabilizacion.sClrRecord
-   gProyReglasDeContabilizacion.SetConsecutivoCompania gProyCompaniaActual.GetConsecutivoCompania
    If gProyParametrosCompania.fResetFechaDeInicioContabilizacion(gDbUtil.getMinValueForDateType) Then
    End If
 h_EXIT: On Error GoTo 0
