@@ -1860,7 +1860,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.Add(GetCxPProveedorPagosStt(vListGetSettValueByCompany));
             vResult.Add(GetFacturacionContinuacionStt(vListGetSettValueByCompany));
             vResult.Add(GetFacturacionStt(vListGetSettValueByCompany));
-            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "esSawImprentaDigital")) {
+            if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsSawImprentaDigital")) {
                 vResult.Add(GetFacturaImprentaDigitalStt(vListGetSettValueByCompany));
             }
             if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsPuntoDeVenta")) {
