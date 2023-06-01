@@ -386,7 +386,40 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public virtual void ConfigurarDocumento() {
+        private string SqlLimpiarNroControl(ref StringBuilder refParametros) {
+            DateTime vFechaInicioImprentaDigital = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Parametros", "FechaInicioImprentaDigital");
+            LibGpParams vParam = new LibGpParams();
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql vUtilSql = new QAdvSql("");
+            vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+            vParam.AddInString("Numero", NumeroFactura, 11);
+            vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
+            refParametros = vParam.Get();
+            vSql.AppendLine(" UPDATE");
+            vSql.AppendLine(" factura ");
+            vSql.AppendLine(" SET NumeroControl = ''");
+            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
+            vSql.AppendLine(" AND Numero = @Numero ");
+            vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento");
+            vSql.AppendLine(" AND NumeroControl <> ''");
+            vSql.AppendLine(" AND StatusFactura = " + vUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSql.AppendLine(" AND Fecha >= " + vUtilSql.ToSqlValue(vFechaInicioImprentaDigital));
+            return vSql.ToString();
+        }
+
+        public void LimpiarNroControl() {
+            try {
+                if (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {                    
+                    StringBuilder vParam = new StringBuilder();
+                    string vSql = SqlLimpiarNroControl(ref vParam);
+                    LibBusiness.ExecuteUpdateOrDelete(vSql, vParam, "", 0);
+                }
+            } catch (GalacException) {
+                throw;
+            }
+        }
+
+        public virtual void ConfigurarDocumento() {            
             BuscarDatosDeDocumentoParaEmitir();
             BuscarDatosDeDetalleDocumento();
             BuscarDatosDeCliente();

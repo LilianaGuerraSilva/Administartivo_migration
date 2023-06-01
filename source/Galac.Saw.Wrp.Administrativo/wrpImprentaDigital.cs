@@ -42,6 +42,7 @@ namespace Galac.Saw.Wrp.ImprentaDigital {
                 eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)vfwTipoDocumento;
                 eProveedorImprentaDigital vProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
                 var _insImprentaDigital = ImprentaDigitalCreator.Create(vProveedorImprentaDigital, vTipoDeDocumento, vfwNumeroFactura);
+                _insImprentaDigital.LimpiarNroControl();
                 Task vTask = Task.Factory.StartNew(() => {
                     vResult = _insImprentaDigital.EnviarDocumento();
                     vNumeroControl = _insImprentaDigital.NumeroControl;
