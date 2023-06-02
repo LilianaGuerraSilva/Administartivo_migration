@@ -400,6 +400,11 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             // Revisar otros cargos y descuentos, revisar y Serial Rollo  
             XElement vResult = new XElement("detallesItems");
             XElement vResultInfoAdicional = new XElement("InfoAdicional");
+            if (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradaPorAsEnum == eFacturaGeneradoPor.AjusteIGTF) {
+                if (DetalleFacturaImprentaDigital[0].Cantidad != 0) {
+                    DetalleFacturaImprentaDigital[0].Cantidad = 0;
+                }
+            }
             if (DetalleFacturaImprentaDigital != null) {
                 if (DetalleFacturaImprentaDigital.Count > 0) {
                     foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
