@@ -405,7 +405,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
                         string vSerial = LibString.S1IsEqualToS2(vDetalle.Serial, "0") ? "" : vDetalle.Serial;
                         string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
-                        decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF) ? 1 : vDetalle.Cantidad;
+                        decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : vDetalle.Cantidad;
                         vResultInfoAdicional = new XElement("infoAdicionalItem",
                             new XElement("infoAdicionalItem", new XElement("Serial", vSerial)),
                             new XElement("infoAdicionalItem", new XElement("Rollo", vRollo)),
