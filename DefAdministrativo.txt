@@ -199,6 +199,7 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
 unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
 unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
+unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Componente=Venta,GENERATE
 
 // Record Repetido en archivo Externo
 //{@S}UrbanizacionZP = record //"Urbanización - Zona Postal",Componente=Tablas,Esquema=Saw,interop
@@ -987,7 +988,7 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
     NoDirDespachoAimprimir: Integer; =DireccionDeDespacho.ConsecutivoDireccion
     Moneda                         : str10;//=Moneda.Nombre,"Nombre de la Moneda"
     CambioABolivares: double; //
-    FacturaGeneradaPor: UnGeneradoPor;
+    GeneradoPor: unFacturaGeneradaPor;
     MontoDelAbono 	      : double;
     FechaDeVencimiento	: date; 
     CondicionesDePago	: str30;
@@ -1742,7 +1743,7 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
     @PrimaryKey=Consecutivo
 }
 
-{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme,Generate
+{@S}CuentaBancaria = Record //Male,Multiarchivo=Compania,"Cuenta Bancaria", Componente=Banco,Esquema=Saw,interop,GenerateRptConfigurar,GenerateFrmInforme
     ConsecutivoCompania	: Longint; //HIDE
     Codigo		: Str5;//"Código Cuenta Bancaria",Search,g,o
     Status		: unStatusCtaBancaria;//Search,g
@@ -3396,7 +3397,7 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
 }
 
 
-{@M}FacturaRapida = record //Multiarchivo=Compania, "Facturación Rápida", Componente=Venta, Esquema=dbo,  interop, GenerateRptConfigurar, GenerateFrmInforme
+{@M}FacturaRapida = record //Multiarchivo=Compania, "Facturación Rápida", Componente=Venta, Esquema=dbo,  interop, GenerateRptConfigurar, GenerateFrmInforme,Generate
     ConsecutivoCompania           : Longint; //HIDE
     Numero                        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha                         : unFecha;//O,G,"Fecha",search
@@ -3501,6 +3502,7 @@ unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
     SeContabilizoIvaDiferido      : boolean; //HIDE
     AplicaDecretoIvaEspecial      : boolean; "Aplica IVA 10 %"
     EsGeneradaPorPuntoDeVenta     : boolean;
+    GeneradoPor					  : unFacturaGeneradaPor;
     StatusFacturaElectronica : unStatusFacturaElectronica;
     NombreOperador                : str10; //a
     FechaUltimaModificacion       : date;//a

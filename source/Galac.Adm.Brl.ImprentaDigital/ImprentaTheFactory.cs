@@ -206,7 +206,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #endregion Construye  Documento
         #region Identificacion de Documento
         private XElement GetIdentificacionDocumento() {
-            string vSerie= LibAppSettings.ReadAppSettingsKey("SERIE");
+            string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
             string vHoraEmision = LibConvert.ToStrOnlyForHour(LibConvert.ToDate(FacturaImprentaDigital.HoraModificacion), "hh:mm:ss tt");
             vHoraEmision = LibString.Replace(vHoraEmision, ". ", "");
             vHoraEmision = LibString.Replace(vHoraEmision, "\u00A0", ""); // Caracter No imprimible que agrega el formato de hora de Windows para alguna config regional
@@ -403,8 +403,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             if (DetalleFacturaImprentaDigital != null) {
                 if (DetalleFacturaImprentaDigital.Count > 0) {
                     foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
-                        string vSerial = vDetalle.Serial == "0" ? "" : vDetalle.Serial;
-                        string vRollo = vDetalle.Rollo == "0" ? "" : vDetalle.Rollo;
+                        string vSerial = LibString.S1IsEqualToS2(vDetalle.Serial, "0") ? "" : vDetalle.Serial;
+                        string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
+                        decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF && vDetalle.Cantidad == 0) ? 1 : vDetalle.Cantidad;
                         vResultInfoAdicional = new XElement("infoAdicionalItem",
                             new XElement("infoAdicionalItem", new XElement("Serial", vSerial)),
                             new XElement("infoAdicionalItem", new XElement("Rollo", vRollo)),
@@ -416,7 +417,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                                 new XElement("codigoPLU", LibString.Left(vDetalle.Articulo, 20)),
                                 new XElement("indicadorBienoServicio", vDetalle.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio ? "2" : "1"),
                                 new XElement("descripcion", LibString.Left(vDetalle.Descripcion, 254)),
-                                new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.Cantidad, 2))),
+                                new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vCantidad, 2))),
                                 new XElement("descuentoUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PorcentajeDescuento, 2))),
                                 new XElement("descuentoMonto", LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.Cantidad * vDetalle.PrecioSinIVA * vDetalle.PorcentajeDescuento) / 100, 2))),
                                 new XElement("unidadMedida", "NIU"),
