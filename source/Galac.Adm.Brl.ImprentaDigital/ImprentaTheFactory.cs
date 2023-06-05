@@ -403,13 +403,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             if (DetalleFacturaImprentaDigital != null) {
                 if (DetalleFacturaImprentaDigital.Count > 0) {
                     foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
-                        if (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF) {
-                            if (vDetalle.Cantidad == 0) {
-                                vDetalle.Cantidad = 1;
-                            }
-                        }
-                        string vSerial = vDetalle.Serial == "0" ? "" : vDetalle.Serial;
-                        string vRollo = vDetalle.Rollo == "0" ? "" : vDetalle.Rollo;
+                        string vSerial = LibString.S1IsEqualToS2(vDetalle.Serial, "0") ? "" : vDetalle.Serial;
+                        string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
+                        decimal vCantidad = (vDetalle.Cantidad == 0) ? 1 : vDetalle.Cantidad;
                         vResultInfoAdicional = new XElement("infoAdicionalItem",
                             new XElement("infoAdicionalItem", new XElement("Serial", vSerial)),
                             new XElement("infoAdicionalItem", new XElement("Rollo", vRollo)),
@@ -421,7 +417,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                                 new XElement("codigoPLU", LibString.Left(vDetalle.Articulo, 20)),
                                 new XElement("indicadorBienoServicio", vDetalle.TipoDeArticuloAsEnum == eTipoDeArticulo.Servicio ? "2" : "1"),
                                 new XElement("descripcion", LibString.Left(vDetalle.Descripcion, 254)),
-                                new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.Cantidad, 2))),
+                                new XElement("cantidad", LibMath.Abs(LibMath.RoundToNDecimals(vCantidad, 2))),
                                 new XElement("descuentoUnitario", LibMath.Abs(LibMath.RoundToNDecimals(vDetalle.PorcentajeDescuento, 2))),
                                 new XElement("descuentoMonto", LibMath.Abs(LibMath.RoundToNDecimals((vDetalle.Cantidad * vDetalle.PrecioSinIVA * vDetalle.PorcentajeDescuento) / 100, 2))),
                                 new XElement("unidadMedida", "NIU"),
