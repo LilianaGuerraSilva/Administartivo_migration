@@ -206,7 +206,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #endregion Construye  Documento
         #region Identificacion de Documento
         private XElement GetIdentificacionDocumento() {
-            string vSerie= LibAppSettings.ReadAppSettingsKey("SERIE");
+            string vSerie = LibAppSettings.ReadAppSettingsKey("SERIE");
             string vHoraEmision = LibConvert.ToStrOnlyForHour(LibConvert.ToDate(FacturaImprentaDigital.HoraModificacion), "hh:mm:ss tt");
             vHoraEmision = LibString.Replace(vHoraEmision, ". ", "");
             vHoraEmision = LibString.Replace(vHoraEmision, "\u00A0", ""); // Caracter No imprimible que agrega el formato de hora de Windows para alguna config regional
@@ -399,13 +399,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             // Pendiente : unidades de medida del item
             // Revisar otros cargos y descuentos, revisar y Serial Rollo  
             XElement vResult = new XElement("detallesItems");
-            XElement vResultInfoAdicional = new XElement("InfoAdicional");            
+            XElement vResultInfoAdicional = new XElement("InfoAdicional");
             if (DetalleFacturaImprentaDigital != null) {
                 if (DetalleFacturaImprentaDigital.Count > 0) {
                     foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
                         string vSerial = LibString.S1IsEqualToS2(vDetalle.Serial, "0") ? "" : vDetalle.Serial;
                         string vRollo = LibString.S1IsEqualToS2(vDetalle.Rollo, "0") ? "" : vDetalle.Rollo;
-                        decimal vCantidad = (vDetalle.Cantidad == 0) ? 1 : vDetalle.Cantidad;
+                        decimal vCantidad = (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF) ? 1 : vDetalle.Cantidad;
                         vResultInfoAdicional = new XElement("infoAdicionalItem",
                             new XElement("infoAdicionalItem", new XElement("Serial", vSerial)),
                             new XElement("infoAdicionalItem", new XElement("Rollo", vRollo)),
