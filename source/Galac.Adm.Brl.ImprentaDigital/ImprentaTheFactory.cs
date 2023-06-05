@@ -401,8 +401,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             XElement vResult = new XElement("detallesItems");
             XElement vResultInfoAdicional = new XElement("InfoAdicional");
             if (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradaPorAsEnum == eFacturaGeneradoPor.AjusteIGTF) {
-                if (DetalleFacturaImprentaDigital[0].Cantidad != 0) {
-                    DetalleFacturaImprentaDigital[0].Cantidad = 0;
+                if (DetalleFacturaImprentaDigital.Count >= 1) {
+                    if (DetalleFacturaImprentaDigital[0].Cantidad == 0) {
+                        DetalleFacturaImprentaDigital[0].Cantidad = 1;
+                    }
                 }
             }
             if (DetalleFacturaImprentaDigital != null) {
