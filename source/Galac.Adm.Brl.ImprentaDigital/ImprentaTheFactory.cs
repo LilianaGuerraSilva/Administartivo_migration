@@ -399,17 +399,15 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             // Pendiente : unidades de medida del item
             // Revisar otros cargos y descuentos, revisar y Serial Rollo  
             XElement vResult = new XElement("detallesItems");
-            XElement vResultInfoAdicional = new XElement("InfoAdicional");
-            if (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradaPorAsEnum == eFacturaGeneradoPor.AjusteIGTF) {
-                if (DetalleFacturaImprentaDigital.Count >= 1) {
-                    if (DetalleFacturaImprentaDigital[0].Cantidad == 0) {
-                        DetalleFacturaImprentaDigital[0].Cantidad = 1;
-                    }
-                }
-            }
+            XElement vResultInfoAdicional = new XElement("InfoAdicional");            
             if (DetalleFacturaImprentaDigital != null) {
                 if (DetalleFacturaImprentaDigital.Count > 0) {
                     foreach (FacturaRapidaDetalle vDetalle in DetalleFacturaImprentaDigital) {
+                        if (TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito && FacturaImprentaDigital.GeneradoPorAsEnum == eFacturaGeneradaPor.AjusteIGTF) {
+                            if (vDetalle.Cantidad == 0) {
+                                vDetalle.Cantidad = 1;
+                            }
+                        }
                         string vSerial = vDetalle.Serial == "0" ? "" : vDetalle.Serial;
                         string vRollo = vDetalle.Rollo == "0" ? "" : vDetalle.Rollo;
                         vResultInfoAdicional = new XElement("infoAdicionalItem",

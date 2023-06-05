@@ -300,7 +300,7 @@ namespace Galac.Adm.Ccl.Venta {
     }
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eFacturaGeneradoPor {
+	public enum eFacturaGeneradaPor {
         [LibEnumDescription("Usuario")]
         Usuario = 0,
         [LibEnumDescription("Cotizacion")]

@@ -128,7 +128,7 @@ namespace Galac.Adm.Ccl.Venta {
         private decimal _TotalAPagar;
         private ObservableCollection<FacturaRapidaDetalle> _DetailFacturaRapidaDetalle;
         private ObservableCollection<RenglonCobroDeFactura> _DetailRenglonCobroDeFactura;
-        private eFacturaGeneradoPor _GeneradaPor;
+        private eFacturaGeneradaPor _GeneradoPor;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -863,21 +863,21 @@ namespace Galac.Adm.Ccl.Venta {
             set { _EsGeneradaPorPuntoDeVenta = LibConvert.SNToBool(value); }
         }
 
-        public eFacturaGeneradoPor GeneradaPorAsEnum {
-            get { return _GeneradaPor; }
-            set { _GeneradaPor = value; }
+        public eFacturaGeneradaPor GeneradoPorAsEnum {
+            get { return _GeneradoPor; }
+            set { _GeneradoPor = value; }
         }
 
-        public string GeneradaPor {
-            set { _GeneradaPor = (eFacturaGeneradoPor)LibConvert.DbValueToEnum(value); }
+        public string GeneradoPor {
+            set { _GeneradoPor = (eFacturaGeneradaPor)LibConvert.DbValueToEnum(value); }
         }
 
-        public string GeneradaPorAsDB {
-            get { return LibConvert.EnumToDbValue((int)_GeneradaPor); }
+        public string GeneradoPorAsDB {
+            get { return LibConvert.EnumToDbValue((int) _GeneradoPor); }
         }
 
-        public string GeneradaPorAsString {
-            get { return LibEnumHelper.GetDescription(_GeneradaPor); }
+        public string GeneradoPorAsString {
+            get { return LibEnumHelper.GetDescription(_GeneradoPor); }
         }
 
         public decimal BaseImponibleIGTF {
@@ -1096,7 +1096,7 @@ namespace Galac.Adm.Ccl.Venta {
             NumeroDiasMantenerCambioAMonedaLocal = 0;
             TotalAPagar = 0;
             MotivoDeAnulacion = string.Empty;
-            GeneradaPorAsEnum = eFacturaGeneradoPor.Usuario;
+            GeneradoPorAsEnum = eFacturaGeneradaPor.Usuario;
             fldTimeStamp = 0;
             DetailFacturaRapidaDetalle = new ObservableCollection<FacturaRapidaDetalle>();
             DetailRenglonCobroDeFactura = new ObservableCollection<RenglonCobroDeFactura>();
@@ -1221,7 +1221,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.TotalAPagar = _TotalAPagar;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.MotivoDeAnulacion = _MotivoDeAnulacion;
-            vResult.GeneradaPorAsEnum = _GeneradaPor;
+            vResult.GeneradoPorAsEnum = _GeneradoPor;
             vResult.fldTimeStamp = _fldTimeStamp;
             if (DetailFacturaRapidaDetalle != null) {
                 vResult.DetailFacturaRapidaDetalle = new ObservableCollection<FacturaRapidaDetalle>();
@@ -1345,7 +1345,7 @@ namespace Galac.Adm.Ccl.Venta {
                 "\nFecha límite cambio a moneda local = " + _FechaLimiteCambioAMonedaLocal.ToShortDateString() +
                 "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString() +
                 "\nMotivo De Anulación = " + _MotivoDeAnulacion +
-               "\nGenerada Por = " + _GeneradaPor.ToString();
+               "\nGenerado Por = " + _GeneradoPor.ToString();
         }
         #endregion //Metodos Generados
 
