@@ -23,15 +23,15 @@ namespace Galac.SawBsS.Wrp.DDL {
 namespace Galac.Saw.Wrp.DDL {
 #endif
     [ClassInterface(ClassInterfaceType.None)]
-    public class wrpDbCreator : System.EnterpriseServices.ServicedComponent, IwrpVBDDLSaw {
+    public class wrpDbCreator: System.EnterpriseServices.ServicedComponent, IwrpVBDDLSaw {
         #region Miembros de IwrpDbCreator
 
         void IwrpVBDDLSaw.InitializeComponent(string vfwPath) {
-           /* 17/10/2016 debido a que el proceso de Creacion de BD no usa formularios de interaccion con el usuario
-            * No se requiere agregar la instruccion LibWrpHelper.ConfigureRuntimeContext 
-            */
+            /* 17/10/2016 debido a que el proceso de Creacion de BD no usa formularios de interaccion con el usuario
+             * No se requiere agregar la instruccion LibWrpHelper.ConfigureRuntimeContext 
+             */
             AddConfiguration(vfwPath);
-            clsNivelesDeSeguridad.DefinirPlantilla();            
+            clsNivelesDeSeguridad.DefinirPlantilla();
             LibSessionParameters.PlatformArchitecture = 1;
         }
 
@@ -78,19 +78,19 @@ namespace Galac.Saw.Wrp.DDL {
             string[] vModulesArray = LibString.Split(vfwListOfModulesToCreateDbObjects, ',');
             if (vModulesArray != null) {
                 if (!CreateViewAndSP(vModulesArray)) {
-                        vSuccess = false;
-                    } else {
-                        vSuccess = true;
-                    }
+                    vSuccess = false;
+                } else {
+                    vSuccess = true;
                 }
-                if (!vSuccess) {
-                    throw new ApplicationException("Ocurrió un error creando la Vista o Procedimiento Almacenado  '" + vCurrent + "' o uno de los objetos asociados.");
-                }
+            }
+            if (!vSuccess) {
+                throw new ApplicationException("Ocurrió un error creando la Vista o Procedimiento Almacenado  '" + vCurrent + "' o uno de los objetos asociados.");
+            }
         }
-        
-            //CreateViewAndSP(TransformArray(vfwListOfModulesToCreateDbObjects, ','));
-            
-        
+
+        //CreateViewAndSP(TransformArray(vfwListOfModulesToCreateDbObjects, ','));
+
+
         #endregion
 
         private void AddConfiguration(string valPath) {
@@ -151,21 +151,21 @@ namespace Galac.Saw.Wrp.DDL {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearVehiculo();
             } else if (valTableName.Equals("PrnStt", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new LibGalac.Aos.Dal.DDL.LibCreateDb(null).CreatePrnStt(true);
-            } else if(valTableName.Equals("SendMailStt", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new LibGalac.Aos.Dal.DDL.LibCreateDb(null).CreateSendMailStt(true);
+            } else if (valTableName.Equals("SendMailStt", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new LibGalac.Aos.Dal.DDL.LibCreateDb(null).CreateSendMailStt(true);
             } else if (valTableName.Equals("Auxiliar", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearAuxiliar();
             } else if (valTableName.Equals("ParametrosContables", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearParametrosConciliacion();
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearParametrosGen();
-			} else if (valTableName.Equals("Almacen", StringComparison.CurrentCultureIgnoreCase)) {
-                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearAlmacen(); 
-		    } else if (valTableName.Equals("Municipio", StringComparison.CurrentCultureIgnoreCase)) {
+            } else if (valTableName.Equals("Almacen", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearAlmacen();
+            } else if (valTableName.Equals("Municipio", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearMunicipio();
             } else if (valTableName.Equals("MunicipioCiudad", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearMunicipioCiudad();
-             } else if (valTableName.Equals("ValorUT", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearValorUT();
+            } else if (valTableName.Equals("ValorUT", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearValorUT();
             } else if (valTableName.Equals("Moneda", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearMoneda();
             } else if (valTableName.Equals("CuentaBancaria", StringComparison.CurrentCultureIgnoreCase)) {
@@ -173,12 +173,12 @@ namespace Galac.Saw.Wrp.DDL {
             } else if (valTableName.Equals("ClasificadorActividadEconomica", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearClasificadorActividadEconomica();
             } else if (valTableName.Equals("FormatosImpMunicipales", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearFormatosImpMunicipales();
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearFormatosImpMunicipales();
             } else if (valTableName.Equals("SettDefinition", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearSettDefinition();
             } else if (valTableName.Equals("SettValueByCompany", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearSettValueByCompany();
-		    } else if (valTableName.Equals("Rendicion", StringComparison.CurrentCultureIgnoreCase)) {
+            } else if (valTableName.Equals("Rendicion", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearRendicion();
             } else if (valTableName.Equals("ConceptoBancario", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearConceptoBancario();
@@ -193,25 +193,25 @@ namespace Galac.Saw.Wrp.DDL {
             } else if (valTableName.Equals("Proveedor", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearProveedor();
             } else if (valTableName.Equals("MonedaLocal", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearMonedaLocal();
-            } else if(valTableName.Equals("TipoDeComprobante", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTipoDeComprobante();
-               if(vResult) {
-                  ITipoDeComprobantePdn vTipoDeComprobanteNav = new clsTipoDeComprobanteNav();
-                  vResult = vTipoDeComprobanteNav.InsertDefaultRecords();
-               }
-            } else if(valTableName.Equals("CentroDeCostos", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCentroDeCostos();
-            } else if(valTableName.Equals("Moneda", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearMoneda();
-            } else if(valTableName.Equals("ElementoDelCosto", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearElementoDelCosto();
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearMonedaLocal();
+            } else if (valTableName.Equals("TipoDeComprobante", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTipoDeComprobante();
+                if (vResult) {
+                    ITipoDeComprobantePdn vTipoDeComprobanteNav = new clsTipoDeComprobanteNav();
+                    vResult = vTipoDeComprobanteNav.InsertDefaultRecords();
+                }
+            } else if (valTableName.Equals("CentroDeCostos", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCentroDeCostos();
+            } else if (valTableName.Equals("Moneda", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearMoneda();
+            } else if (valTableName.Equals("ElementoDelCosto", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearElementoDelCosto();
             } else if (valTableName.Equals("ParametersLib", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult =  new LibGalac.Aos.Dal.DDL.LibCreateDb(null).CreateParametersLib(true);
+                vResult = new LibGalac.Aos.Dal.DDL.LibCreateDb(null).CreateParametersLib(true);
             } else if (valTableName.Equals("ContactInformation", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new LibGalac.Aos.Dal.DDL.LibCreateDb(null).CreateContactInformation(true);
             } else if (valTableName.Equals("NotificationPAS", StringComparison.CurrentCultureIgnoreCase)) {
-               vResult = new LibGalac.Aos.Dal.DDL.LibCreateDb(null).CreateNotificationPAS(true);
+                vResult = new LibGalac.Aos.Dal.DDL.LibCreateDb(null).CreateNotificationPAS(true);
             } else if (valTableName.Equals("TablaDetraccion", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTablaDetraccion();
             } else if (valTableName.Equals("AlicuotaImpuestoEspecial", StringComparison.CurrentCultureIgnoreCase)) {
@@ -223,35 +223,35 @@ namespace Galac.Saw.Wrp.DDL {
             } else if (valTableName.Equals("Compra", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCompra();
             } else if (valTableName.Equals("CargaInicial", StringComparison.CurrentCultureIgnoreCase)) {
-                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCargaInicial();           
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCargaInicial();
             } else if (valTableName.Equals("Aranceles", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearAranceles();
-			} else if (valTableName.Equals("LineaDeProducto", StringComparison.CurrentCultureIgnoreCase)) {
-                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearLineaDeProducto();            
+            } else if (valTableName.Equals("LineaDeProducto", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearLineaDeProducto();
             } else if (valTableName.Equals("Balanza", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearBalanza();
-            } else if(valTableName.Equals("ImpuestoBancario",StringComparison.CurrentCultureIgnoreCase)) {
+            } else if (valTableName.Equals("ImpuestoBancario", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearImpuestoBancario();
-            } else if(valTableName.Equals("CondicionesDePago",StringComparison.CurrentCultureIgnoreCase)) {
+            } else if (valTableName.Equals("CondicionesDePago", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCondicionesDePago();
-            } else if(valTableName.Equals("WcontVbTablas",StringComparison.CurrentCultureIgnoreCase)) {
+            } else if (valTableName.Equals("WcontVbTablas", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearWcontVbTablas();
             } else if (valTableName.Equals("Cambio", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCambio();
-            } else if (valTableName.Equals("ListaDeMateriales", StringComparison.CurrentCultureIgnoreCase))  {
+            } else if (valTableName.Equals("ListaDeMateriales", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearListaDeMateriales();
             } else if (valTableName.Equals("OrdenDeProduccion", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearOrdenDeProduccion();
             } else if (valTableName.Equals("NotaDeEntradaSalida", StringComparison.CurrentCultureIgnoreCase)) {
-                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearNotaDeEntregaSalida();            
-            } else if(valTableName.Equals("CajaRegistradora",StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearNotaDeEntregaSalida();
+            } else if (valTableName.Equals("CajaRegistradora", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCajaRegistradora();
-                //} else if (valTableName.Equals("TransferenciaEntreCuentasBancarias", StringComparison.CurrentCultureIgnoreCase)) {
-                //	vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTransferenciaEntreCuentasBancarias();
+            } else if (valTableName.Equals("TransferenciaEntreCuentasBancarias", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTransferenciaEntreCuentasBancarias();
             } else if (valTableName.Equals("Vendedor", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearVendedor();
-			} else if (valTableName.Equals("TransferenciaEntreCuentasBancarias", StringComparison.CurrentCultureIgnoreCase)) {
-				vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTransferenciaEntreCuentasBancarias();
+            } else if (valTableName.Equals("TransferenciaEntreCuentasBancarias", StringComparison.CurrentCultureIgnoreCase)) {
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTransferenciaEntreCuentasBancarias();
             } else if (valTableName.Equals("RutaDeComercializacion", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().RutaDeComercializacion();
             } else {
@@ -260,11 +260,11 @@ namespace Galac.Saw.Wrp.DDL {
             return vResult;
         }
 
-        private bool  CreateViewAndSP(string[] valModulos) {
-            bool result = false; 
+        private bool CreateViewAndSP(string[] valModulos) {
+            bool result = false;
             if (valModulos != null) {
                 Galac.Saw.DDL.clsCrearDatabase insBdd = new Galac.Saw.DDL.clsCrearDatabase();
-                result  = insBdd.CrearVistasYProcedimientos(valModulos );
+                result = insBdd.CrearVistasYProcedimientos(valModulos);
             }
             return result;
         }
