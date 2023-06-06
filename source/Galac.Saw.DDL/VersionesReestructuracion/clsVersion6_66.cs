@@ -16,7 +16,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             DisposeConnectionNoTransaction();
             return true;
         }
-		
+
         private void CrearParametrosImprentaDigital() {
             AgregarNuevoParametro("UsaImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.String, "", 'N', "N");
             AgregarNuevoParametro("FechaInicioImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.String, "", 'N', LibConvert.ToStr(LibDate.MinDateForDB()));
@@ -26,7 +26,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
         private void CrearCamposParaImprentaDigitalEnFactura() {
             AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");
             if (AddColumnEnumerative("factura", "ProveedorImprentaDigital", "", 0)) {
-                AddDefaultConstraint("factura", "nnFacturaProveedorImpDig", "'0'", "ProveedorImprentaDigital");
+                AddNotNullConstraint("factura", "ProveedorImprentaDigital", InsSql.CharTypeForDb(1));
             }
         }
     }
