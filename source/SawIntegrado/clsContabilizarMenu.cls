@@ -108,7 +108,7 @@ Public Sub sEjecutaAccionEscogidaMenuContabilizar(ByVal valCaptionMenuEscogido A
       Case "Documento Por Lote": sEjecutaProcesoDeContabilizacionPorLote
       Case "Pago de Sueldos": sEjecutaContabilizar eCG_PAGO_SUELDOS, -1
       Case "Costos Inventario": sEjecutaContabilizar eCG_INVENTARIO, -1
-      Case "Borrar comprobante de  Costos Inventario":   sEjecutaBorrarComprobantesDeCostosDeInventario eCG_INVENTARIO, -1
+      Case "Borrar Comprobante de Costos Inventario":   sEjecutaBorrarComprobantesDeCostosDeInventario eCG_INVENTARIO, -1
       Case "Reposición de Caja Chica": sEjecutaProcesoDeContabilizacionDeReposicion
       Case "Reparar Inconsistencias": sEjecutaRepararInconsistenciasAuxiliar
    End Select
