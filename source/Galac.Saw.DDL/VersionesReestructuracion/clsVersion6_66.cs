@@ -27,6 +27,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");
             if (AddColumnEnumerative("factura", "ProveedorImprentaDigital", "", 0)) {
                 AddNotNullConstraint("factura", "ProveedorImprentaDigital", InsSql.CharTypeForDb(1));
+                AddDefaultConstraint("factura", "nnFacturaProveedorImpDig", "'0'", "ProveedorImprentaDigital");
             }
         }
     }
