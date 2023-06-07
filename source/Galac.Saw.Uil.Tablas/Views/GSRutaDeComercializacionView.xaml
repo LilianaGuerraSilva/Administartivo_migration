@@ -1,11 +1,12 @@
-﻿<UserControl x:Class="Galac.Saw.Uil.Tablas.Views.GSRutaDeComercializacionView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-             xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Tablas.ViewModel">
+﻿<UserControl
+    x:Class="Galac.Saw.Uil.Tablas.Views.GSRutaDeComercializacionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsVm="clr-namespace:Galac.Saw.Uil.Tablas.ViewModel"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,8 +23,26 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Name="lblDescripcion" Content="DescripciÃ³n" Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSTextBoxWpf Grid.Row="0" Grid.Column="1" Name="txtDescripcion" nsWpf:LibFocusManager.IsFocused="True" nsWpf:LibFocusManager.FocusedPropertyName="Descripcion" Style="{StaticResource TextBoxInputStyle}" InputDataType="Alfanumeric" MaxLength="100" Width="120" Height="45" VerticalScrollBarVisibility="Auto" IsReadOnly="{Binding Path=IsReadOnly}"
-                                    Text="{Binding Path=Descripcion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1"/>
+        <Label
+            Name="lblDescripcion"
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Descripción"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSTextBoxWpf
+            Name="txtDescripcion"
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="300"
+            Height="40"
+            nsWpf:LibFocusManager.FocusedPropertyName="Descripcion"
+            nsWpf:LibFocusManager.IsFocused="True"
+            BorderThickness="1"
+            InputDataType="Alfanumeric"
+            IsReadOnly="{Binding Path=IsReadOnly}"
+            MaxLength="100"
+            Style="{StaticResource TextBoxInputStyle}"
+            Text="{Binding Path=Descripcion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            VerticalScrollBarVisibility="Auto" />
     </Grid>
 </UserControl>

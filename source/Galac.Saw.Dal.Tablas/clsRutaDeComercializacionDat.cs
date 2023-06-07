@@ -98,7 +98,7 @@ namespace Galac.Saw.Dal.Tablas {
             }
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Ruta de Comercialización.Eliminar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Eliminar")]
         LibResponse ILibDataComponent<IList<RutaDeComercializacion>, IList<RutaDeComercializacion>>.Delete(IList<RutaDeComercializacion> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
@@ -130,7 +130,7 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Ruta de Comercialización.Insertar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Insertar")]
         [PrincipalPermission(SecurityAction.Demand, Role = "Compañía.Insertar")]
         LibResponse ILibDataComponent<IList<RutaDeComercializacion>, IList<RutaDeComercializacion>>.Insert(IList<RutaDeComercializacion> refRecord) {
             LibResponse vResult = new LibResponse();
@@ -169,7 +169,7 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        [PrincipalPermission(SecurityAction.Demand, Role = "Ruta de Comercialización.Modificar")]
+        [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Modificar")]
         LibResponse ILibDataComponent<IList<RutaDeComercializacion>, IList<RutaDeComercializacion>>.Update(IList<RutaDeComercializacion> refRecord) {
             LibResponse vResult = new LibResponse();
             string vErrMsg ="";

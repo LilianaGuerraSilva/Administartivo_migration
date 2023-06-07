@@ -22,7 +22,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Ruta de ComercializaciÃ³n"; }
+            get { return "Ruta de Comercialización"; }
         }
         #endregion //Propiedades
         #region Constructores
@@ -65,25 +65,48 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         }
 
         protected override void InitializeCommands() {
-            base.InitializeCommands();
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            SUPROCESOPARTICULARCommand = new RelayCommand(ExecuteSUPROCESOPARTICULARCommand, CanExecuteSUPROCESOPARTICULARCommand);
-        */
-        #endregion //Codigo Ejemplo
+            base.InitializeCommands();       
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
-            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateSUPROCESOPARTICULARRibbonGroup());
-        */
-        #endregion //Codigo Ejemplo
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {       
             }
         }
         #endregion //Metodos Generados
+
+
+        #region CanExecute
+        protected override bool CanExecuteCreateCommand() {
+            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Insertar");
+        }
+
+        protected override bool CanExecuteUpdateCommand() {
+            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Modificar") && CurrentItem != null;
+        }
+
+        protected override bool CanExecuteDeleteCommand() {
+            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Eliminar") && CurrentItem != null;
+        }
+
+        protected override bool CanExecuteReadCommand() {
+            return LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Consultar") && CurrentItem != null;
+        }
+
+        protected override bool CanExecuteSearchCommand() {
+            return HasAccessToModule();
+        }
+
+        protected override bool HasAccessToModule() {
+            bool vResult = false;
+            vResult = (LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Insertar") ||
+                LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Eliminar") ||
+                LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Modificar") ||
+                LibSecurityManager.CurrentUserHasAccessTo("Tablas", "Consultar"));
+            return vResult;
+        }
+        #endregion
+
         #region Codigo Ejemplo
         /* Codigo de Ejemplo
         //para cambiar el mecanismo de activacion de los botones de operaciones CRUD, debes sobreescribirla y ajustarla las necesidades de tu negocio:
