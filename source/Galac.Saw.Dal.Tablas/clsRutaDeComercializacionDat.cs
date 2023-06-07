@@ -80,7 +80,7 @@ namespace Galac.Saw.Dal.Tablas {
             string vErrMsg = "";
             LibDatabase insDB = new LibDatabase();
             if (valAction == eAccionSR.Eliminar) {
-                if (insDB.ExistsValueOnMultifile("Adm.Vendedor", "   ConsecutivoRutaDeComercializacion", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                if (insDB.ExistsValueOnMultifile("Adm.Vendedor", "ConsecutivoRutaDeComercializacion", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Vendedor");
                 }
                 if (vSbInfo.Length == 0) {

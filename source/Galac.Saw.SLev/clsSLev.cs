@@ -632,6 +632,13 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Orden De Producción", "Cerrar", "Producción", 13));
             #endregion
 
+            #region Ruta de Comercializacion
+            vPermisos.Add(new CustomRole("Ruta de Comercialización", "Consultar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Ruta de Comercialización", "Insertar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Ruta de Comercialización", "Modificar", "Producción", 13));
+            vPermisos.Add(new CustomRole("Ruta de Comercialización", "Eliminar", "Producción", 13));            
+            #endregion
+
             return vPermisos;
         }
     }
