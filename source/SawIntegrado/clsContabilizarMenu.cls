@@ -81,7 +81,7 @@ Public Sub sCreaElMenuDeContabilizar(ByRef refForma As Form)
       
       If (gProyParametrosCompania.GetMetodoDeCosteoAsEnum = enum_TipoDeMetodoDeCosteo.eTDMDC_CostoPromedio) Then
          Call gUtilMenus.fAddMenuItem(refForma, "Costos Inventario", numSubMenu, puedoActivar, False, eSC_NoShortcut, True, 16)
-         Call gUtilMenus.fAddMenuItem(refForma, "Borrar Comprobante de Costos Inventario", numSubMenu, puedoActivar, False, eSC_NoShortcut, True, 16)
+         ''Call gUtilMenus.fAddMenuItem(refForma, "Borrar Comprobante de Costos Inventario", numSubMenu, puedoActivar, False, eSC_NoShortcut, True, 16)
       End If
       Call gUtilMenus.fAddSeparador(refForma, numSubMenu)
       Call gUtilMenus.fAddMenuItem(refForma, "Reparar Inconsistencias", numSubMenu, gDefgen.GetElProgramaEstaEnModoAvanzado And puedoActivar, False, eSC_NoShortcut, gDefgen.GetElProgramaEstaEnModoAvanzado)
