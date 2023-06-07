@@ -1606,7 +1606,7 @@ namespace Galac.Saw.DbMigrator {
         #endregion
 
         #region Migrar Vendedor
-        public void MigrarVendedorYDetalleComisiones() {
+        public void MigrarVendedorYDetalleComisiones() {            
             MigrarVendedor();
             MigrarVendedorDetalleComisiones();
         }
@@ -1654,11 +1654,10 @@ namespace Galac.Saw.DbMigrator {
             vSQL.AppendLine("PorcentajeCobranza5, ");
             vSQL.AppendLine("UsaComisionPorVenta, ");
             vSQL.AppendLine("UsaComisionPorCobranza, ");
-            vSQL.AppendLine("CodigoLote, ");
-            vSQL.AppendLine("TipoDocumentoIdentificacion, ");
+            vSQL.AppendLine("CodigoLote, ");           
             vSQL.AppendLine("NombreOperador, ");
             vSQL.AppendLine("FechaUltimaModificacion, ");
-            vSQL.AppendLine("RutaDeComercializacion ) ");
+            vSQL.AppendLine("ConsecutivoRutaDeComercializacion ) ");
             vSQL.AppendLine("SELECT ConsecutivoCompania, ");
             vSQL.AppendLine("ROW_NUMBER() OVER(PARTITION BY ConsecutivoCompania ORDER BY ConsecutivoCompania,Codigo ASC) AS Consecutivo, ");
             vSQL.AppendLine("Codigo, ");
@@ -1698,11 +1697,10 @@ namespace Galac.Saw.DbMigrator {
             vSQL.AppendLine("PorcentajeCobranza5, ");
             vSQL.AppendLine("UsaComisionPorVenta, ");
             vSQL.AppendLine("UsaComisionPorCobranza, ");
-            vSQL.AppendLine("CodigoLote, ");
-            vSQL.AppendLine("TipoDocumentoIdentificacion, ");
+            vSQL.AppendLine("CodigoLote, ");           
             vSQL.AppendLine("NombreOperador, ");
             vSQL.AppendLine("FechaUltimaModificacion, ");
-            vSQL.AppendLine("RutaDeComercializacion ");
+            vSQL.AppendLine("'0' ");
             vSQL.AppendLine("FROM dbo.Vendedor ");
             vSQL.AppendLine("ORDER BY ConsecutivoCompania, Codigo ");
             vDb.ExecuteWithScope(vSQL.ToString());
@@ -1713,16 +1711,14 @@ namespace Galac.Saw.DbMigrator {
             LibDataScope vDb = new LibDataScope();
             vSQL.AppendLine("INSERT INTO Adm.VendedorDetalleComisiones (");
             vSQL.AppendLine("ConsecutivoCompania, ");
-            vSQL.AppendLine("ConsecutivoVendedor, ");
-            vSQL.AppendLine("CodigoVendedor, ");
-            vSQL.AppendLine("ConsecutivoRenglon, ");
+            vSQL.AppendLine("ConsecutivoVendedor, ");           
+            vSQL.AppendLine("Consecutivo, ");
             vSQL.AppendLine("NombreDeLineaDeProducto, ");
             vSQL.AppendLine("TipoDeComision, ");
             vSQL.AppendLine("Monto, ");
             vSQL.AppendLine("Porcentaje ) ");
             vSQL.AppendLine("SELECT dbo.RenglonComisionesDeVendedor.ConsecutivoCompania, ");
-            vSQL.AppendLine("Adm.Vendedor.Consecutivo AS ConsecutivoVendedor, ");
-            vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.CodigoVendedor, ");
+            vSQL.AppendLine("Adm.Vendedor.Consecutivo AS ConsecutivoVendedor, ");            
             vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.ConsecutivoRenglon, ");
             vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.NombreDeLineaDeProducto, ");
             vSQL.AppendLine("dbo.RenglonComisionesDeVendedor.TipoDeComision, ");

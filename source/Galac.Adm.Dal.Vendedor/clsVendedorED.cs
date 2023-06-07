@@ -588,6 +588,7 @@ namespace Galac.Adm.Dal.Vendedor {
 
         private string SqlSpGetFKParameters() {
             StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@XmlData" + InsSql.XmlTypeForDb());
             return SQL.ToString();
         }
@@ -606,7 +607,8 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("      " + DbSchema + ".Vendedor.StatusVendedor,");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.Ciudad,");
             SQL.AppendLine("      " + DbSchema + ".Vendedor.ZonaPostal,");
-            SQL.AppendLine("      " + DbSchema + ".Vendedor.Telefono");
+            SQL.AppendLine("      " + DbSchema + ".Vendedor.Telefono,");
+            SQL.AppendLine("      " + DbSchema + ".Vendedor.ConsecutivoRutaDeComercializacion");
             SQL.AppendLine("      FROM " + DbSchema + ".Vendedor");
             SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("          AND Consecutivo IN (");

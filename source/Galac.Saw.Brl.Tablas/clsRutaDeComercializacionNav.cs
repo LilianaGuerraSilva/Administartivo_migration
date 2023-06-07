@@ -76,23 +76,26 @@ namespace Galac.Saw.Brl.Tablas {
             return LibBusiness.ExecuteSelect(SQL.ToString(), vParams.Get(), "", -1);
         }
         #endregion //Metodos Generados
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
+        #region Codigo Ejemplo        
 
-        bool IRutaDeComercializacionPdn.InsertDefaultRecord(int valConsecutivoCompania) {
-            ILibDataComponent<IList<RutaDeComercializacion>, IList<RutaDeComercializacion>> instanciaDal = new clsRutaDeComercializacionDat();
-            IList<RutaDeComercializacion> vLista = new List<RutaDeComercializacion>();
-            RutaDeComercializacion vCurrentRecord = new Galac.Saw.Dal.TablasRutaDeComercializacion();
-            vCurrentRecord.ConsecutivoCompania = valConsecutivoCompania;
-            vCurrentRecord.ConsecutivoCompania = 0;
-            vCurrentRecord.Consecutivo = 0;
-            vCurrentRecord.Descripcion = "";
-            vCurrentRecord.NombreOperador = "";
-            vCurrentRecord.FechaUltimaModificacion = LibDate.Today();
-            vLista.Add(vCurrentRecord);
-            return instanciaDal.Insert(vLista).Success;
+        bool IRutaDeComercializacionPdn.InsertarRutaDeComercializacionPorDefecto(int valConsecutivoCompania) {
+            try {
+                ILibDataComponent<IList<RutaDeComercializacion>, IList<RutaDeComercializacion>> instanciaDal = new Dal.Tablas.clsRutaDeComercializacionDat();
+                IList<RutaDeComercializacion> vLista = new List<RutaDeComercializacion>();
+                RutaDeComercializacion vCurrentRecord = new Galac.Saw.Ccl.Tablas.RutaDeComercializacion();
+                vCurrentRecord.ConsecutivoCompania = valConsecutivoCompania;
+                vCurrentRecord.Consecutivo = 0;
+                vCurrentRecord.Descripcion = "NO ASIGNADA";
+                vCurrentRecord.NombreOperador = "JEFE";
+                vCurrentRecord.FechaUltimaModificacion = LibDate.Today();
+                vLista.Add(vCurrentRecord);
+                return instanciaDal.Insert(vLista).Success;
+            } catch (Exception) {
+                throw;
+            }            
         }
 
+        /* Codigo de Ejemplo
         private List<RutaDeComercializacion> ParseToListEntity(XElement valXmlEntity) {
             List<RutaDeComercializacion> vResult = new List<RutaDeComercializacion>();
             var vEntity = from vRecord in valXmlEntity.Descendants("GpResult")
@@ -121,8 +124,6 @@ namespace Galac.Saw.Brl.Tablas {
         }
         */
         #endregion //Codigo Ejemplo
-
-
     } //End of class clsRutaDeComercializacionNav
 
 } //End of namespace Galac.Saw.Brl.Tablas

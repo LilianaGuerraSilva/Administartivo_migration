@@ -14,6 +14,8 @@ using System.Linq;
 using Galac.Adm.Ccl.Vendedor;
 using LibGalac.Aos.Catching;
 using Galac.Adm.Dal.Vendedor;
+using Galac.Saw.Ccl.Tablas;
+using Galac.Saw.Brl.Tablas;
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
@@ -21,9 +23,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
+			CrearRutaDeComercializacion();
 			CrearTablaAdmVendedor();
-			CrearParametrosImprentaDigital();
-			CrearCamposParaImprentaDigitalEnFactura();
+			//CrearParametrosImprentaDigital();
+			//CrearCamposParaImprentaDigitalEnFactura();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -120,7 +123,27 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		private void CrearRutaDeComercializacion() {
-			new Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla();
+			if (new Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla()) {
+				LLenarRutaDeComercializacionPorCompania();
+			}
+		}
+
+		private void LLenarRutaDeComercializacionPorCompania() {
+			try {
+				StringBuilder vSql = new StringBuilder();
+				IRutaDeComercializacionPdn _RutaDeComercializacion = new clsRutaDeComercializacionNav();
+				vSql.AppendLine("SELECT ConsecutivoCompania FROM Compania");
+				XElement vXmlResult = LibBusiness.ExecuteSelect(vSql.ToString(), null, "", 0);
+				if (vXmlResult != null && vXmlResult.HasElements) {
+					List<XElement> vListaDeCompanias = vXmlResult.Descendants("GpResult").ToList();
+					foreach (XElement vElement in vListaDeCompanias) {
+						int vConsecutivoCompania = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(vElement, "ConsecutivoCompania"));
+						_RutaDeComercializacion.InsertarRutaDeComercializacionPorDefecto(vConsecutivoCompania);
+					}
+				}
+			} catch (Exception) {
+				throw;
+			}
 		}
 	}
 }   

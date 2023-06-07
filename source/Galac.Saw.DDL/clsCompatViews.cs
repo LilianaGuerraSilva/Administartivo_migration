@@ -89,7 +89,7 @@ namespace Galac.Saw.DDL {
         public static bool CrearVistaDboCierreCostoDelPeriodo() {
             return LibViews.CreateCompatibilityView("CierreCostoDelPeriodo", "SELECT ConsecutivoCompania, CodigoArticulo AS Codigo, Fecha, Existencia, Costo, EsCargaInicial, fldTimeStamp FROM Adm.CargaInicial", true);
         }
-		
+
         public static bool CrearVistaDboReglasDeContabilizacion() {
             StringBuilder vSQL = new StringBuilder();
             vSQL.Append(" SELECT    ");
@@ -239,7 +239,7 @@ namespace Galac.Saw.DDL {
             vSQL.AppendLine("SELECT Adm.Compra.ConsecutivoCompania, ");
             vSQL.AppendLine("Adm.Compra.Consecutivo, ");
             vSQL.AppendLine("'N' + CAST(Adm.Compra.Consecutivo AS VARCHAR(10)) AS NumeroSecuencial,  ");
-            if(LibDefGen.ProgramInfo.IsCountryPeru()) {
+            if (LibDefGen.ProgramInfo.IsCountryPeru()) {
                 vSQL.AppendLine("Adm.Compra.Serie + CASE LEN(Adm.Compra.Serie) WHEN 0 THEN '' ELSE '-' END + Adm.Compra.Numero AS Numero, ");
             } else {
                 vSQL.AppendLine("Adm.Compra.Numero AS Numero, ");
@@ -302,7 +302,7 @@ namespace Galac.Saw.DDL {
             vSQL.AppendLine("Adm.Proveedor ON Adm.Proveedor.ConsecutivoCompania = Adm.OrdenDeCompra.ConsecutivoCompania AND Adm.Proveedor.Consecutivo = Adm.OrdenDeCompra.ConsecutivoProveedor INNER JOIN ");
             vSQL.AppendLine("Adm.OrdenDeCompraDetalleArticuloInventario ON Adm.OrdenDeCompra.ConsecutivoCompania = Adm.OrdenDeCompraDetalleArticuloInventario.ConsecutivoCompania AND ");
             vSQL.AppendLine("Adm.OrdenDeCompra.Consecutivo = Adm.OrdenDeCompraDetalleArticuloInventario.ConsecutivoOrdenDeCompra ");
-            
+
             vSQL.AppendLine("GROUP BY Adm.OrdenDeCompra.ConsecutivoCompania, Adm.OrdenDeCompra.Consecutivo, Adm.OrdenDeCompra.Serie + CASE LEN(Adm.OrdenDeCompra.Serie) WHEN 0 THEN '' ELSE '-' END + Adm.OrdenDeCompra.Numero, Adm.OrdenDeCompra.Fecha,  ");
             vSQL.AppendLine("Adm.Proveedor.CodigoProveedor, Adm.OrdenDeCompra.Moneda, Adm.OrdenDeCompra.CambioABolivares,  Adm.OrdenDeCompra.TotalRenglones, Adm.OrdenDeCompra.TotalCompra, ");
             vSQL.AppendLine("Adm.OrdenDeCompra.Comentarios, Adm.OrdenDeCompra.StatusOrdenDeCompra, Adm.OrdenDeCompra.FechaDeAnulacion, Adm.OrdenDeCompra.TipoDeCompra,  ");
@@ -350,13 +350,13 @@ namespace Galac.Saw.DDL {
             vResult = vResult & LibGalac.Aos.Dal.LibViews.CreateCompatibilityView("RenglonCompraXSerial", vSQL.ToString(), true);
             return vResult;
         }
-	
-	     public static bool CrearVistaDboLineaDeProducto() {
+
+        public static bool CrearVistaDboLineaDeProducto() {
             return LibViews.CreateCompatibilityView("LineaDeProducto", "SELECT ConsecutivoCompania,Nombre,CentroDeCosto,PorcentajeComision FROM Adm.LineaDeProducto", true);
         }
-		
+
         public static bool CrearVistaDboImpTrasnBancarias() {
-            return LibViews.CreateCompatibilityView("ImpTransacBancarias","SELECT FechaDeInicioDeVigencia,AlicuotaAlDebito,AlicuotaAlCredito FROM Adm.ImpTransacBancarias",true);
+            return LibViews.CreateCompatibilityView("ImpTransacBancarias", "SELECT FechaDeInicioDeVigencia,AlicuotaAlDebito,AlicuotaAlCredito FROM Adm.ImpTransacBancarias", true);
         }
 
         public static bool CrearVistaDboCaja() {
@@ -378,7 +378,7 @@ namespace Galac.Saw.DDL {
             vSQL.AppendLine("PuertoMaquinaFiscal,");
             vSQL.AppendLine("AbrirGavetaDeDinero,");
             vSQL.AppendLine("UltimoNumeroCompFiscal AS PrimerNumeroCompFiscal,");
-            vSQL.AppendLine("UltimoNumeroNCFiscal AS NumeroNCFiscal,");          
+            vSQL.AppendLine("UltimoNumeroNCFiscal AS NumeroNCFiscal,");
             vSQL.AppendLine("IpParaConexion,");
             vSQL.AppendLine("MascaraSubred,");
             vSQL.AppendLine("Gateway,");
@@ -390,7 +390,7 @@ namespace Galac.Saw.DDL {
             vSQL.AppendLine("NombreOperador,");
             vSQL.AppendLine("FechaUltimaModificacion ");
             vSQL.AppendLine("FROM Adm.Caja");
-            vResult = LibViews.CreateCompatibilityView("Caja",vSQL.ToString(),true);
+            vResult = LibViews.CreateCompatibilityView("Caja", vSQL.ToString(), true);
             vSQL = new StringBuilder();
             vSQL.AppendLine("SELECT ");
             vSQL.AppendLine("ConsecutivoCompania,");
@@ -409,7 +409,7 @@ namespace Galac.Saw.DDL {
             vSQL.AppendLine("NombreOperador,");
             vSQL.AppendLine("FechaUltimaModificacion ");
             vSQL.AppendLine("FROM  Adm.CajaApertura ");
-            vResult &= LibViews.CreateCompatibilityView("CajaApertura",vSQL.ToString(),true);
+            vResult &= LibViews.CreateCompatibilityView("CajaApertura", vSQL.ToString(), true);
             return vResult;
         }
 
@@ -418,47 +418,54 @@ namespace Galac.Saw.DDL {
         }
 
         public static bool CrearVistaDboVendedor() {
-            return LibViews.CreateCompatibilityView("Vendedor", "SELECT ConsecutivoCompania, " +
-                " Consecutivo, Codigo, Nombre, RIF, " +
-                " StatusVendedor, Direccion, Ciudad, ZonaPostal, Telefono, Fax, Email, Notas, " +
-                " CAST(Adm.Vendedor.ComisionPorVenta AS MONEY) AS ComisionPorVenta, " +
-                " CAST(Adm.Vendedor.ComisionPorCobro AS MONEY) AS ComisionPorCobro, " +
-                " CAST(Adm.Vendedor.TopeInicialVenta1 AS MONEY) AS TopeInicialVenta1, " +
-                " CAST(Adm.Vendedor.TopeFinalVenta1 AS MONEY) AS TopeFinalVenta1, " +
-                " CAST(Adm.Vendedor.PorcentajeVentas1 AS MONEY) AS PorcentajeVentas1, " +
-                " CAST(Adm.Vendedor.TopeFinalVenta2 AS MONEY) AS TopeFinalVenta2, " +
-                " CAST(Adm.Vendedor.PorcentajeVentas2 AS MONEY) AS PorcentajeVentas2, " +
-                " CAST(Adm.Vendedor.TopeFinalVenta3 AS MONEY) AS TopeFinalVenta3, " +
-                " CAST(Adm.Vendedor.PorcentajeVentas3 AS MONEY) AS PorcentajeVentas3, " +
-                " CAST(Adm.Vendedor.TopeFinalVenta4 AS MONEY) AS TopeFinalVenta4, " +
-                " CAST(Adm.Vendedor.PorcentajeVentas4 AS MONEY) AS PorcentajeVentas4, " +
-                " CAST(Adm.Vendedor.TopeFinalVenta5 AS MONEY) AS TopeFinalVenta5, " +
-                " CAST(Adm.Vendedor.PorcentajeVentas5 AS MONEY) AS PorcentajeVentas5, " +
-                " CAST(Adm.Vendedor.TopeInicialCobranza1 AS MONEY) AS TopeInicialCobranza1, " +
-                " CAST(Adm.Vendedor.TopeFinalCobranza1 AS MONEY) AS TopeFinalCobranza1, " +
-                " CAST(Adm.Vendedor.PorcentajeCobranza1 AS MONEY) AS PorcentajeCobranza1, " +
-                " CAST(Adm.Vendedor.TopeFinalCobranza2 AS MONEY) AS TopeFinalCobranza2, " +
-                " CAST(Adm.Vendedor.PorcentajeCobranza2 AS MONEY) AS PorcentajeCobranza2, " +
-                " CAST(Adm.Vendedor.TopeFinalCobranza3 AS MONEY) AS TopeFinalCobranza3, " +
-                " CAST(Adm.Vendedor.PorcentajeCobranza3 AS MONEY) AS PorcentajeCobranza3, " +
-                " CAST(Adm.Vendedor.TopeFinalCobranza4 AS MONEY) AS TopeFinalCobranza4, " +
-                " CAST(Adm.Vendedor.PorcentajeCobranza4 AS MONEY) AS PorcentajeCobranza4, " +
-                " CAST(Adm.Vendedor.TopeFinalCobranza5 AS MONEY) AS TopeFinalCobranza5, " +
-                " CAST(Adm.Vendedor.PorcentajeCobranza5 AS MONEY) AS PorcentajeCobranza5, " +
-                " UsaComisionPorVenta, UsaComisionPorCobranza, CodigoLote, TipoDocumentoIdentificacion," +
-                " NombreOperador, FechaUltimaModificacion, RutaDeComercializacion FROM Adm.Vendedor", true);
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT ");
+            vSql.AppendLine(" ConsecutivoCompania, ");
+            vSql.AppendLine(" Consecutivo, Codigo, Nombre, RIF, ");
+            vSql.AppendLine(" StatusVendedor, Direccion, Ciudad, ZonaPostal, Telefono, Fax, Email, Notas, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.ComisionPorVenta AS MONEY) AS ComisionPorVenta, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.ComisionPorCobro AS MONEY) AS ComisionPorCobro, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeInicialVenta1 AS MONEY) AS TopeInicialVenta1, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalVenta1 AS MONEY) AS TopeFinalVenta1, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeVentas1 AS MONEY) AS PorcentajeVentas1, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalVenta2 AS MONEY) AS TopeFinalVenta2, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeVentas2 AS MONEY) AS PorcentajeVentas2, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalVenta3 AS MONEY) AS TopeFinalVenta3, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeVentas3 AS MONEY) AS PorcentajeVentas3, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalVenta4 AS MONEY) AS TopeFinalVenta4, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeVentas4 AS MONEY) AS PorcentajeVentas4, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalVenta5 AS MONEY) AS TopeFinalVenta5, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeVentas5 AS MONEY) AS PorcentajeVentas5, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeInicialCobranza1 AS MONEY) AS TopeInicialCobranza1, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalCobranza1 AS MONEY) AS TopeFinalCobranza1, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeCobranza1 AS MONEY) AS PorcentajeCobranza1, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalCobranza2 AS MONEY) AS TopeFinalCobranza2, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeCobranza2 AS MONEY) AS PorcentajeCobranza2, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalCobranza3 AS MONEY) AS TopeFinalCobranza3, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeCobranza3 AS MONEY) AS PorcentajeCobranza3, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalCobranza4 AS MONEY) AS TopeFinalCobranza4, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeCobranza4 AS MONEY) AS PorcentajeCobranza4, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalCobranza5 AS MONEY) AS TopeFinalCobranza5, ");
+            vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeCobranza5 AS MONEY) AS PorcentajeCobranza5, ");
+            vSql.AppendLine(" UsaComisionPorVenta, UsaComisionPorCobranza, CodigoLote, '0' as TipoDocumentoIdentificacion, ");
+            vSql.AppendLine(" NombreOperador, FechaUltimaModificacion");
+            vSql.AppendLine(" FROM Adm.Vendedor");
+            return LibViews.CreateCompatibilityView("Vendedor", vSql.ToString(), true);
         }
+
         public static bool CrearVistaDboRenglonComisionesDeVendedor() {
-            return LibViews.CreateCompatibilityView("RenglonComisionesDeVendedor", "SELECT Adm.VendedorDetalleComisiones.ConsecutivoCompania, " +
-                " Adm.Vendedor.Codigo AS CodigoVendedor, ConsecutivoRenglon, NombreDeLineaDeProducto, TipoDeComision, " +
-                " CAST(Adm.VendedorDetalleComisiones.Monto AS MONEY) AS Monto, " +
-                " CAST(Adm.VendedorDetalleComisiones.Porcentaje AS MONEY) AS Porcentaje " +
-                " FROM Adm.VendedorDetalleComisiones " +
-                " INNER JOIN Adm.Vendedor " +
-                " ON Adm.Vendedor.ConsecutivoCompania = Adm.VendedorDetalleComisiones.ConsecutivoCompania " +
-                " AND Adm.Vendedor.Consecutivo = Adm.VendedorDetalleComisiones.ConsecutivoVendedor", true);
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT Adm.VendedorDetalleComisiones.ConsecutivoCompania, ");
+            vSql.AppendLine(" Adm.Vendedor.Codigo AS CodigoVendedor,");
+            vSql.AppendLine(" Adm.VendedorDetalleComisiones.Consecutivo AS ConsecutivoRenglon, NombreDeLineaDeProducto, TipoDeComision, ");
+            vSql.AppendLine(" CAST(Adm.VendedorDetalleComisiones.Monto AS MONEY) AS Monto, ");
+            vSql.AppendLine(" CAST(Adm.VendedorDetalleComisiones.Porcentaje AS MONEY) AS Porcentaje ");
+            vSql.AppendLine(" FROM Adm.VendedorDetalleComisiones ");
+            vSql.AppendLine(" INNER JOIN Adm.Vendedor ");
+            vSql.AppendLine(" ON Adm.Vendedor.ConsecutivoCompania = Adm.VendedorDetalleComisiones.ConsecutivoCompania ");
+            vSql.AppendLine(" AND Adm.Vendedor.Consecutivo = Adm.VendedorDetalleComisiones.ConsecutivoVendedor");
+            return LibViews.CreateCompatibilityView("RenglonComisionesDeVendedor", vSql.ToString(), true);
         }
     }
-
 }
   
