@@ -245,9 +245,7 @@ namespace Galac.Saw.Wrp.DDL {
             } else if (valTableName.Equals("NotaDeEntradaSalida", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearNotaDeEntregaSalida();
             } else if (valTableName.Equals("CajaRegistradora", StringComparison.CurrentCultureIgnoreCase)) {
-                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCajaRegistradora();
-            } else if (valTableName.Equals("TransferenciaEntreCuentasBancarias", StringComparison.CurrentCultureIgnoreCase)) {
-                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearTransferenciaEntreCuentasBancarias();
+                vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearCajaRegistradora();            
             } else if (valTableName.Equals("Vendedor", StringComparison.CurrentCultureIgnoreCase)) {
                 vResult = new Galac.Saw.DDL.clsCrearDatabase().CrearVendedor();
             } else if (valTableName.Equals("TransferenciaEntreCuentasBancarias", StringComparison.CurrentCultureIgnoreCase)) {
