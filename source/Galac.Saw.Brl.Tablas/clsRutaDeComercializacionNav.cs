@@ -85,7 +85,7 @@ namespace Galac.Saw.Brl.Tablas {
                 IList<RutaDeComercializacion> vLista = new List<RutaDeComercializacion>();
                 RutaDeComercializacion vCurrentRecord = new Galac.Saw.Ccl.Tablas.RutaDeComercializacion();
                 vCurrentRecord.ConsecutivoCompania = valConsecutivoCompania;
-                vCurrentRecord.Consecutivo = 0;
+                vCurrentRecord.Consecutivo = 1;
                 vCurrentRecord.Descripcion = "NO ASIGNADA";
                 vCurrentRecord.NombreOperador = "JEFE";
                 vCurrentRecord.FechaUltimaModificacion = LibDate.Today();

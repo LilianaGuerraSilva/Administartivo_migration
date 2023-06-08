@@ -231,7 +231,7 @@ namespace Galac.Saw.Dal.Tablas {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (valConsecutivo < 0) {
+            if (valConsecutivo == 0) {
                 BuildValidationInfo(MsgRequiredField("Consecutivo"));
                 vResult = false;
             } else if (valAction == eAccionSR.Insertar) {

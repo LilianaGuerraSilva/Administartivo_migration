@@ -186,9 +186,10 @@
     <Galac.Saw.Ccl.Integracion>2.60.1.0</Galac.Saw.Ccl.Integracion>
     <Galac.Saw.Uil.Integracion>2.60.1.0</Galac.Saw.Uil.Integracion>
 
-    <Galac.Saw.Ccl.Vendedor>2.60.0.0</Galac.Saw.Ccl.Vendedor>
-    <Galac.Saw.Dal.Vendedor>2.60.0.0</Galac.Saw.Dal.Vendedor>
-    <Galac.Saw.Brl.Vendedor>2.60.0.0</Galac.Saw.Brl.Vendedor>
+    <Galac.Adm.Ccl.Vendedor>2.60.0.0</Galac.Adm.Ccl.Vendedor>
+    <Galac.Adm.Dal.Vendedor>2.60.0.0</Galac.Adm.Dal.Vendedor>
+    <Galac.Adm.Brl.Vendedor>2.60.0.0</Galac.Adm.Brl.Vendedor>
+    <Galac.Adm.Uil.Vendedor>2.60.0.0</Galac.Adm.Uil.Vendedor>
 
     <Galac.Adm.Ccl.Banco>2.60.6.0</Galac.Adm.Ccl.Banco>
     <Galac.Adm.Dal.Banco>2.60.6.0</Galac.Adm.Dal.Banco>
