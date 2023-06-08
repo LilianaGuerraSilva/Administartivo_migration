@@ -50,15 +50,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             : base(LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             Title = "Buscar " + ModuleName;
             OrderByMember = "ConsecutivoCompania, Consecutivo";
-            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(VendedorViewModel));
-            if (LibDefGen.ProgramInfo.IsCountryPeru()) {
-                if (VisibleColumns != null && VisibleColumns.Count > 0) {
-                    VisibleColumns.RemoveAt(3);
-                }
-            }
-            if (!LibDefGen.IsInternalSystem()) {
-                VisibleColumns.RemoveAt(5); //Se oculta Ruta de Comercialización para sistemas distintos al interno
-            }
+            VisibleColumns = LibGridColumModel.GetGridColumsFromType(typeof(VendedorViewModel));            
         }
         #endregion //Constructores
         #region Metodos Generados
