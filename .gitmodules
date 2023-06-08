@@ -50,10 +50,6 @@
 	path = bin/binAdministrativoAos
 	url = https://github.com/Galac-Software/BinAdministrativoAos.git
 	branch = release/V23.5.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://github.com/Galac-Software/vbaComun.git
-	branch = release/SawV23.5.0.0
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
 	url = https://github.com/Galac-Software/RetencionesVb.git
