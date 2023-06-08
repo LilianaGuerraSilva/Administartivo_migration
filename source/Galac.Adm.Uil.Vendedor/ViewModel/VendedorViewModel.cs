@@ -281,6 +281,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Ruta de Comercialización es requerido.")]
+        [LibGridColum("Ruta de Comercialización", ColumnOrder = 4,Width =300)]
         public string  RutaDeComercializacion {
             get {
                 return Model.RutaDeComercializacion;

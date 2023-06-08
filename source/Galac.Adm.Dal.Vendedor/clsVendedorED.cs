@@ -101,7 +101,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("SELECT Vendedor.ConsecutivoCompania, Vendedor.Consecutivo, Vendedor.Codigo, Vendedor.Nombre");
             SQL.AppendLine(", Vendedor.RIF, Vendedor.StatusVendedor, " + DbSchema + ".Gv_EnumStatusVendedor.StrValue AS StatusVendedorStr, Vendedor.Direccion, Vendedor.Ciudad");
             SQL.AppendLine(", Vendedor.ZonaPostal, Vendedor.Telefono, Vendedor.Fax, Vendedor.Email");
-            SQL.AppendLine(", Vendedor.Notas, RutaDeComercializacion.Descripcion AS DescripcionRutaDeComercializacion, Vendedor.ComisionPorVenta, Vendedor.ComisionPorCobro");
+            SQL.AppendLine(", Vendedor.Notas, RutaDeComercializacion.Descripcion AS RutaDeComercializacion, Vendedor.ComisionPorVenta, Vendedor.ComisionPorCobro");
             SQL.AppendLine(", Vendedor.TopeInicialVenta1, Vendedor.TopeFinalVenta1, Vendedor.PorcentajeVentas1, Vendedor.TopeFinalVenta2");
             SQL.AppendLine(", Vendedor.PorcentajeVentas2, Vendedor.TopeFinalVenta3, Vendedor.PorcentajeVentas3, Vendedor.TopeFinalVenta4");
             SQL.AppendLine(", Vendedor.PorcentajeVentas4, Vendedor.TopeFinalVenta5, Vendedor.PorcentajeVentas5, Vendedor.TopeInicialCobranza1");
@@ -569,7 +569,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.Nombre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RIF,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.StatusVendedorStr,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.DescripcionRutaDeComercializacion,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.RutaDeComercializacion,");
             SQL.AppendLine("      ''COLPIVOTE'' AS ColControl,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Vendedor_B1.StatusVendedor,");

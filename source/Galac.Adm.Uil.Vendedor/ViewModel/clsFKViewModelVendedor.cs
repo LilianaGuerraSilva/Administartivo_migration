@@ -19,7 +19,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public string Ciudad { get; set; }
         public string ZonaPostal { get; set; }
         [LibGridColum("Teléfono")]
-        public string Telefono { get; set; }
+        public string Telefono { get; set; }       
+        public string RutaDeComercializacion { get; set; }
     }
 
     public class FkLineaDeProductoViewModel : IFkLineaDeProductoViewModel {
