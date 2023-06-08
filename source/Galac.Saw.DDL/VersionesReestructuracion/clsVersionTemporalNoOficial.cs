@@ -25,8 +25,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			CrearRutaDeComercializacion();
 			CrearTablaAdmVendedor();
-			//CrearParametrosImprentaDigital();
-			//CrearCamposParaImprentaDigitalEnFactura();
+			CrearParametrosImprentaDigital();
+			CrearCamposParaImprentaDigitalEnFactura();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
