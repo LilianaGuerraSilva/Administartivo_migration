@@ -7,8 +7,8 @@
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Vendedor.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-    Width="680"
-    MaxHeight="410">
+    Width="745"
+    MaxHeight="460">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,7 +32,7 @@
     <Grid Width="Auto" FocusManager.FocusedElement="{Binding ElementName=txtCodigoVendedor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -152,7 +152,8 @@
             Name="tbcVendedor"
             Grid.Row="1"
             Grid.Column="1"
-            Width="Auto">
+            Width="Auto"
+            Height="Auto">
             <TabItem
                 Name="tbiSeccionGeneral"
                 Grid.Row="1"
@@ -169,11 +170,10 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-
                     <GroupBox
                         Grid.RowSpan="5"
                         Grid.ColumnSpan="2"
-                        Height="226"
+                        Height="240"
                         Header="Datos de Contacto">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -258,8 +258,9 @@
                                 Grid.Column="1"
                                 Width="250"
                                 Height="23"
-                                Margin="3"
-                                HorizontalAlignment="Left"
+                                Margin="0,3,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
                                 ConnectionValue="{Binding Path=RutaDeComercializacion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                                 DisplayMemberPath="Descripcion"
                                 IsEnabled="{Binding Path=IsEnabled}"

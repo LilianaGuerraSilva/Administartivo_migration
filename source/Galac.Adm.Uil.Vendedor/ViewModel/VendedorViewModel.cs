@@ -1035,7 +1035,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             //ConexionCiudad = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCiudadViewModel>("Ciudad", LibSearchCriteria.CreateCriteria("NombreCiudad", Ciudad), new Saw.Brl.SttDef.clsSettValueByCompanyNav());
-            ConexionRutaDeComercializacion = FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Ruta de Comercialización", LibSearchCriteria.CreateCriteria("Descripcion", RutaDeComercializacion));
+            //ConexionRutaDeComercializacion = FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Ruta de Comercialización", LibSearchCriteria.CreateCriteria("Descripcion", RutaDeComercializacion));
         }
 		
         protected override void ExecuteAction() {

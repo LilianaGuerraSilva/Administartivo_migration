@@ -69,6 +69,10 @@ namespace Galac.Adm.Brl.Vendedor {
                     vPdnModule = new clsLineaDeProductoNav();
                     vResult = vPdnModule.GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
                     break;
+                case "Ruta de Comercialización":
+                    vPdnModule = new clsRutaDeComercializacionNav();
+                    vResult = vPdnModule.GetDataForList("Vendedor", ref refXmlDocument, valXmlParamsExpression);
+                    break;
                 default: throw new NotImplementedException();
             }
             return vResult;

@@ -55,6 +55,7 @@ namespace Galac.Saw.Brl.Tablas {
             bool vResult = false;
             switch (valModule) {
                 case "Ruta de Comercialización":
+                case "Vendedor":
                     vResult = ((ILibPdn)this).GetDataForList(valModule, ref refXmlDocument, valXmlParamsExpression);
                     break;
                 default: throw new NotImplementedException();

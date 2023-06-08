@@ -448,7 +448,7 @@ namespace Galac.Adm.Dal.Vendedor {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (valConsecutivoRutaDeComercializacion == 0) {
+            if (valConsecutivoRutaDeComercializacion < 0) {
                 BuildValidationInfo(MsgRequiredField("Consecutivo Ruta De Comercializacion"));
                 vResult = false;
             } else {
