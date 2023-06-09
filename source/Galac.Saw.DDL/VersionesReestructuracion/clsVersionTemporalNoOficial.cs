@@ -131,16 +131,10 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void LLenarRutaDeComercializacionPorCompania() {
 			try {
 				StringBuilder vSql = new StringBuilder();
-				IRutaDeComercializacionPdn _RutaDeComercializacion = new clsRutaDeComercializacionNav();
-				vSql.AppendLine("SELECT ConsecutivoCompania FROM Compania");
-				XElement vXmlResult = LibBusiness.ExecuteSelect(vSql.ToString(), null, "", 0);
-				if (vXmlResult != null && vXmlResult.HasElements) {
-					List<XElement> vListaDeCompanias = vXmlResult.Descendants("GpResult").ToList();
-					foreach (XElement vElement in vListaDeCompanias) {
-						int vConsecutivoCompania = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(vElement, "ConsecutivoCompania"));
-						_RutaDeComercializacion.InsertarRutaDeComercializacionPorDefecto(vConsecutivoCompania);
-					}
-				}
+                vSql.AppendLine("INSERT INTO Saw.RutaDeComercializacion (ConsecutivoCompania,Consecutivo,Descripcion,NombreOperador,FechaUltimaModificacion)");
+                vSql.AppendLine("SELECT ConsecutivoCompania,1,'NO ASIGNADA','JEFE',GETDATE()");
+                vSql.AppendLine("FROM Compania");
+				LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), null, "", 0);
 			} catch (Exception) {
 				throw;
 			}
