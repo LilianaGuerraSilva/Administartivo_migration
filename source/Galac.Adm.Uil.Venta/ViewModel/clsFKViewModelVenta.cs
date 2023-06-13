@@ -172,6 +172,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public string NombreCliente { get; set; }
         public eTipoDocumentoFactura TipoDeDocumento { get; set; }
     }
+	public class FkBuscarUbicacionDeArticuloViewModel : IFkBuscarUbicacionDeArticuloViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Código Almacén", DbMemberPath = "CodigoAlmacen", IsForList = false)]
+        public string CodigoAlmacen { get; set; }
+        [LibGridColum("Nombre Almacén", DbMemberPath = "NombreAlmacen", Width = 150)]
+        public string NombreAlmacen { get; set; }
+        [LibGridColum("Código Artículo", DbMemberPath = "CodigoArticulo", Width = 150)]
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Descripción Artículo", DbMemberPath = "DescripcionArticulo", Width = 350)]
+        public string DescripcionArticulo { get; set; }
+        [LibGridColum("Ubicación", DbMemberPath = "Ubicacion", Width = 300)]
+        public string Ubicacion { get; set; }
+        [LibGridColum("Existencia", DbMemberPath = "Existencia", Width = 100, IsForSearch = false)]
+        public string Existencia { get; set; }
+    }
 
     public class FkFormaDelCobroViewModel : IFkFormaDelCobroViewModel {
         [LibGridColum("Código")]

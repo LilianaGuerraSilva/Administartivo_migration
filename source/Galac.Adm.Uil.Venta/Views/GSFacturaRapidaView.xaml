@@ -7,206 +7,84 @@
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
     Background="{x:Null}">
     <UserControl.InputBindings>
-        <KeyBinding
-            Command="{Binding Path=BuscarClienteCommand}"
-            Gesture="Alt+F1" />
-        <KeyBinding
-            Key="F1"
-            Command="{Binding Path=BuscarArticuloCommand}" />
-        <KeyBinding
-            Key="F3"
-            Command="{Binding Path=CantidadCommand}" />
-        <KeyBinding
-            Key="F4"
-            Command="{Binding Path=MoverRegistrosGridCommand}" />
-        <KeyBinding
-            Command="{Binding Path=BuscarVendedorCommand}"
-            Gesture="Alt+F5" />
-        <KeyBinding
-            Key="F6"
-            Command="{Binding Path=CobrarCommand}" />
-        <KeyBinding
-            Key="F8"
-            Command="{Binding Path=NuevaFacturaCommand}" />
-        <KeyBinding
-            Key="F9"
-            Command="{Binding Path=FacturaEnEsperaCommand}" />
-        <KeyBinding
-            Key="F10"
-            Command="{Binding Path=BuscarFacturaEnEsperaCommand}" />
-        <KeyBinding
-            Command="{Binding Path=BuscarPrecioDeArticuloCommand}"
-            Gesture="Alt+F11" />
-        <KeyBinding
-            Key="F11"
-            Command="{Binding Path=AplicaDecretoIvaEspecialCommand}" />
-        <KeyBinding
-            Key="F12"
-            Command="{Binding Path=IrADescripcionGridCommand}" />
-        <KeyBinding
-            Command="{Binding Path=AbrirConsultorDePreciosCommand}"
-            Gesture="Alt+F12" />
-        <KeyBinding
-            Command="{Binding Path=BuscarMonedaDeCobroCommand}"
-            Gesture="Alt+F10" />
-        <KeyBinding
-            Command="{Binding Path=AsignarDescuentoCommand}"
-            Gesture="Alt+F9" />
+        <KeyBinding Command="{Binding Path=BuscarClienteCommand}" Gesture="Alt+F1" />
+        <KeyBinding Key="F1" Command="{Binding Path=BuscarArticuloCommand}" />
+        <KeyBinding Key="F3" Command="{Binding Path=CantidadCommand}" />
+        <KeyBinding Key="F4" Command="{Binding Path=MoverRegistrosGridCommand}" />
+        <KeyBinding Command="{Binding Path=BuscarVendedorCommand}" Gesture="Alt+F5" />
+        <KeyBinding Key="F6" Command="{Binding Path=CobrarCommand}" />
+        <KeyBinding Key="F8" Command="{Binding Path=NuevaFacturaCommand}" />
+        <KeyBinding Key="F9" Command="{Binding Path=FacturaEnEsperaCommand}" />
+        <KeyBinding Key="F10" Command="{Binding Path=BuscarFacturaEnEsperaCommand}" />
+        <KeyBinding Command="{Binding Path=BuscarPrecioDeArticuloCommand}" Gesture="Alt+F11" />
+        <KeyBinding Key="F11" Command="{Binding Path=AplicaDecretoIvaEspecialCommand}" />
+        <KeyBinding Key="F12" Command="{Binding Path=IrADescripcionGridCommand}" />
+        <KeyBinding Command="{Binding Path=AbrirConsultorDePreciosCommand}" Gesture="Alt+F12" />
+        <KeyBinding Command="{Binding Path=BuscarMonedaDeCobroCommand}" Gesture="Alt+F10" />
+        <KeyBinding Command="{Binding Path=AsignarDescuentoCommand}" Gesture="Alt+F9" />
 
     </UserControl.InputBindings>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
-                <ResourceDictionary
-                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
-                <ResourceDictionary
-                    Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <BooleanToVisibilityConverter
-                x:Key="booleanToVisibilityConverter" />
-            <Style
-                x:Key="LabelCliente"
-                TargetType="{x:Type Label}">
-                <Setter
-                    Property="FontSize"
-                    Value="16" />
-                <Setter
-                    Property="FontFamily"
-                    Value="Arial" />
-                <Setter
-                    Property="FontWeight"
-                    Value="DemiBold" />
-                <Setter
-                    Property="Foreground"
-                    Value="White" />
-                <Setter
-                    Property="VerticalContentAlignment"
-                    Value="Stretch" />
-                <Setter
-                    Property="Margin"
-                    Value="5" />
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+            <Style x:Key="LabelCliente" TargetType="{x:Type Label}">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontWeight" Value="DemiBold" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="5" />
             </Style>
-            <Style
-                x:Key="pvSeekConnection"
-                TargetType="{x:Type nsWpfControls:GSSeekConnection}">
-                <Setter
-                    Property="Background"
-                    Value="White" />
-                <Setter
-                    Property="FontWeight"
-                    Value="SemiBold" />
-                <Setter
-                    Property="FontFamily"
-                    Value="Arial" />
-                <Setter
-                    Property="FontSize"
-                    Value="22" />
-                <Setter
-                    Property="Foreground"
-                    Value="#FF616165" />
-                <Setter
-                    Property="VerticalContentAlignment"
-                    Value="Center" />
-                <Setter
-                    Property="VerticalAlignment"
-                    Value="Center" />
-                <Setter
-                    Property="Margin"
-                    Value="5" />
+            <Style x:Key="pvSeekConnection" TargetType="{x:Type nsWpfControls:GSSeekConnection}">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="Foreground" Value="#FF616165" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="5" />
             </Style>
-                
-            <Style
-                x:Key="pvNumericBoxWpf"
-                TargetType="{x:Type nsWpfControls:GSNumericBoxWpf}">
-                <Setter
-                    Property="Background"
-                    Value="White" />
-                <Setter
-                    Property="FontWeight"
-                    Value="SemiBold" />
-                <Setter
-                    Property="FontFamily"
-                    Value="Arial" />
-                <Setter
-                    Property="FontSize"
-                    Value="22" />
-                <Setter
-                    Property="Foreground"
-                    Value="#FF616165" />
-                <Setter
-                    Property="VerticalContentAlignment"
-                    Value="Center" />
-                <Setter
-                    Property="VerticalAlignment"
-                    Value="Center" />
-                <Setter
-                    Property="Height"
-                    Value="32" />
-                <Setter
-                    Property="Margin"
-                    Value="5" />
+
+            <Style x:Key="pvNumericBoxWpf" TargetType="{x:Type nsWpfControls:GSNumericBoxWpf}">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="Foreground" Value="#FF616165" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Height" Value="32" />
+                <Setter Property="Margin" Value="5" />
             </Style>
-            <Style
-                x:Key="pvNumericRateBoxWpf"
-                TargetType="{x:Type nsWpfControls:GSNumericBoxWpf}">
-                <Setter
-                    Property="Background"
-                    Value="White" />
-                <Setter
-                    Property="FontWeight"
-                    Value="SemiBold" />
-                <Setter
-                    Property="FontFamily"
-                    Value="Arial" />
-                <Setter
-                    Property="FontSize"
-                    Value="22" />
-                <Setter
-                    Property="Foreground"
-                    Value="#FF00040A" />
-                <Setter
-                    Property="VerticalContentAlignment"
-                    Value="Center" />
-                <Setter
-                    Property="VerticalAlignment"
-                    Value="Center" />
-                <Setter
-                    Property="Margin"
-                    Value="5" />
+            <Style x:Key="pvNumericRateBoxWpf" TargetType="{x:Type nsWpfControls:GSNumericBoxWpf}">
+                <Setter Property="Background" Value="White" />
+                <Setter Property="FontWeight" Value="SemiBold" />
+                <Setter Property="FontFamily" Value="Arial" />
+                <Setter Property="FontSize" Value="22" />
+                <Setter Property="Foreground" Value="#FF00040A" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="5" />
             </Style>
-            <Style
-                x:Key="GsDataGridStylePV"
-                TargetType="{x:Type DataGrid}">
-                <Setter
-                    Property="CellStyle">
+            <Style x:Key="GsDataGridStylePV" TargetType="{x:Type DataGrid}">
+                <Setter Property="CellStyle">
                     <Setter.Value>
-                        <Style
-                            TargetType="DataGridCell">
+                        <Style TargetType="DataGridCell">
                             <Style.Triggers>
-                                <Trigger
-                                    Property="IsSelected"
-                                    Value="True">
-                                    <Setter
-                                        Property="Background"
-                                        Value="{StaticResource DataGridSelectedRowBackground}" />
-                                    <Setter
-                                        Property="Foreground"
-                                        Value="White" />
-                                    <Setter
-                                        Property="BorderThickness"
-                                        Value="0" />
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource DataGridSelectedRowBackground}" />
+                                    <Setter Property="Foreground" Value="White" />
+                                    <Setter Property="BorderThickness" Value="0" />
                                 </Trigger>
-                                <Trigger
-                                    Property="IsFocused"
-                                    Value="True">
-                                    <Setter
-                                        Property="BorderThickness"
-                                        Value="2" />
-                                    <Setter
-                                        Property="BorderBrush"
-                                        Value="Orange" />
+                                <Trigger Property="IsFocused" Value="True">
+                                    <Setter Property="BorderThickness" Value="2" />
+                                    <Setter Property="BorderBrush" Value="Orange" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
@@ -215,17 +93,12 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid
-        FocusManager.FocusedElement="{Binding ElementName=txtNumeroRIF}">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtNumeroRIF}">
         <Grid.RowDefinitions>
-            <RowDefinition
-                Height="Auto" />
-            <RowDefinition
-                Height="*" />
-            <RowDefinition
-                Height="*" />
-            <RowDefinition
-                Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--  Comienza el grid de cliente  -->
@@ -234,41 +107,26 @@
             Grid.Row="0"
             Grid.Column="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <!--  Grid del rif  -->
-            <Grid
-                Grid.Column="0">
+            <Grid Grid.Column="0">
                 <Grid.Resources>
-                    <Style
-                        TargetType="Grid">
+                    <Style TargetType="Grid">
                         <Style.Triggers>
-                            <DataTrigger
-                                Binding="{Binding BuscaClienteXRifAlFacturar}"
-                                Value="true">
-                                <Setter
-                                    Property="Background"
-                                    Value="#FF3375A0" />
+                            <DataTrigger Binding="{Binding BuscaClienteXRifAlFacturar}" Value="true">
+                                <Setter Property="Background" Value="#FF3375A0" />
                             </DataTrigger>
-                            <DataTrigger
-                                Binding="{Binding BuscaClienteXRifAlFacturar}"
-                                Value="false">
-                                <Setter
-                                    Property="Background"
-                                    Value="#823A91AD" />
+                            <DataTrigger Binding="{Binding BuscaClienteXRifAlFacturar}" Value="false">
+                                <Setter Property="Background" Value="#823A91AD" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="Auto"
-                        MinWidth="82" />
-                    <ColumnDefinition
-                        Width="*" />
+                    <ColumnDefinition Width="Auto" MinWidth="82" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Label
@@ -315,29 +173,18 @@
             <!--  termina grid del rif  -->
 
             <!--  comienza grid del nombre  -->
-            <Grid
-                Grid.Column="1">
+            <Grid Grid.Column="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.Resources>
-                    <Style
-                        TargetType="Grid">
+                    <Style TargetType="Grid">
                         <Style.Triggers>
-                            <DataTrigger
-                                Binding="{Binding BuscaClienteXRifAlFacturar}"
-                                Value="false">
-                                <Setter
-                                    Property="Background"
-                                    Value="#FF3375A0" />
+                            <DataTrigger Binding="{Binding BuscaClienteXRifAlFacturar}" Value="false">
+                                <Setter Property="Background" Value="#FF3375A0" />
                             </DataTrigger>
-                            <DataTrigger
-                                Binding="{Binding BuscaClienteXRifAlFacturar}"
-                                Value="true">
-                                <Setter
-                                    Property="Background"
-                                    Value="#823A91AD" />
+                            <DataTrigger Binding="{Binding BuscaClienteXRifAlFacturar}" Value="true">
+                                <Setter Property="Background" Value="#823A91AD" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -384,18 +231,13 @@
             FontWeight="Bold"
             Header="Items"
             Style="{StaticResource GroupBoxStyle}">
-            <Grid
-                Name="tbiSeccionDetalleFacturacionRapida"
-                MinHeight="100">
+            <Grid Name="tbiSeccionDetalleFacturacionRapida" MinHeight="100">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <nsV:GSCuadroDeBusqueda
                     Grid.Column="0"
@@ -412,15 +254,12 @@
                     Visibility="{Binding IsVisibleCuadroDeBusqueda, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Grid
                     Grid.Column="0"
-                    Panel.ZIndex="4"
-                    VerticalAlignment="Top">
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="4">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="80" />
-                        <ColumnDefinition
-                            Width="*" />
-                        <ColumnDefinition
-                            Width="Auto" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <nsWpfControls:GSSeekConnection
                         Name="txtArticulo"
@@ -448,18 +287,12 @@
                         Panel.ZIndex="4"
                         Background="#FF3375A0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto"
-                                MinWidth="80" />
-                            <ColumnDefinition
-                                Width="Auto" />
+                            <ColumnDefinition Width="Auto" MinWidth="80" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Grid
-                            Grid.Column="0"
-                            MaxHeight="40">
+                        <Grid Grid.Column="0" MaxHeight="40">
                             <Grid.RowDefinitions>
-                                <RowDefinition
-                                    Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Label
                                 Grid.Row="0"
@@ -470,9 +303,7 @@
                                 FontWeight="SemiBold"
                                 Foreground="#FFFFF8F8"
                                 Style="{StaticResource LabelCliente}" />
-                            <Grid
-                                Grid.RowSpan="2"
-                                Grid.Column="1" />
+                            <Grid Grid.RowSpan="2" Grid.Column="1" />
                         </Grid>
                     </Grid>
                     <Grid
@@ -484,23 +315,19 @@
                             Height="34"
                             MaxWidth="700"
                             Margin="325,2,0,6"
-                            ToolTip="{Binding Path=Descripcion}"
-                            VerticalAlignment="Center"
                             HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
                             Content="{Binding Path=DescripcionCorta}"
                             FontFamily="Arial"
                             FontSize="22"
                             FontWeight="SemiBold"
-                            Foreground="Black" />
+                            Foreground="Black"
+                            ToolTip="{Binding Path=Descripcion}" />
                     </Grid>
-                    <Grid
-                        Grid.Column="2"
-                        Background="#FF3375A0">
+                    <Grid Grid.Column="2" Background="#FF3375A0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto" />
-                            <ColumnDefinition
-                                Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Label
                             Grid.Column="0"
@@ -533,16 +360,11 @@
                     Margin="0,42,0,0"
                     Panel.ZIndex="8">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="55*" />
-                        <ColumnDefinition
-                            Width="551*" />
-                        <ColumnDefinition
-                            Width="251*" />
-                        <ColumnDefinition
-                            Width="29*" />
-                        <ColumnDefinition
-                            Width="114*" />
+                        <ColumnDefinition Width="55*" />
+                        <ColumnDefinition Width="551*" />
+                        <ColumnDefinition Width="251*" />
+                        <ColumnDefinition Width="29*" />
+                        <ColumnDefinition Width="114*" />
                     </Grid.ColumnDefinitions>
                     <nsV:GSCuadroDeBusqueda
                         Grid.Row="1"
@@ -560,10 +382,12 @@
                         Visibility="{Binding IsVisibleCuadroDeBusqueda, Converter={StaticResource booleanToVisibilityConverter}}" />
                     <nsWpfControls:GSDataGrid
                         Name="dFacturaRapidaDetalle"
+                        Grid.ColumnSpan="3"
                         MinWidth="807"
                         MinHeight="158"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
+                        Panel.ZIndex="4"
                         nsWpf:LibFocusManager.FocusedPropertyName="DetailFacturaRapidaDetalle"
                         nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
                         AlternatingRowBackground="#FFCBE8F6"
@@ -591,9 +415,7 @@
                         UpdateSourceTrigger="PropertyChanged"
                         UseComboBoxYesNoForBooleans="False"
                         VerticalGridLinesBrush="#FF9FC0C7"
-                        VerticalScrollBarVisibility="Auto"
-                        Panel.ZIndex="4"
-                        Grid.ColumnSpan="3" />
+                        VerticalScrollBarVisibility="Auto" />
                 </Grid>
             </Grid>
         </GroupBox>
@@ -607,32 +429,21 @@
             BorderThickness="0,1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="Auto" />
-                    <ColumnDefinition
-                        Width="Auto" />
-                    <ColumnDefinition
-                        Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Grid
-                    Width="250"
-                    Background="{x:Null}">
+                <Grid Width="250" Background="{x:Null}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="Auto" />
-                        <ColumnDefinition
-                            Width="Auto" />
-                        <ColumnDefinition
-                            Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Label
                         Width="99"
@@ -662,22 +473,13 @@
                         VerticalAlignment="Top"
                         Visibility="{Binding Path=IsVisibleAplicaDecretoIvaEspecial, Converter={StaticResource booleanToVisibilityConverter}}">
                         <Grid.Resources>
-                            <Style
-                                TargetType="Grid">
+                            <Style TargetType="Grid">
                                 <Style.Triggers>
-                                    <DataTrigger
-                                        Binding="{Binding BackgroundDecretoIvaEspecial}"
-                                        Value="true">
-                                        <Setter
-                                            Property="Background"
-                                            Value="LightGreen" />
+                                    <DataTrigger Binding="{Binding BackgroundDecretoIvaEspecial}" Value="true">
+                                        <Setter Property="Background" Value="LightGreen" />
                                     </DataTrigger>
-                                    <DataTrigger
-                                        Binding="{Binding BackgroundDecretoIvaEspecial}"
-                                        Value="false">
-                                        <Setter
-                                            Property="Background"
-                                            Value="#823A91AD" />
+                                    <DataTrigger Binding="{Binding BackgroundDecretoIvaEspecial}" Value="false">
+                                        <Setter Property="Background" Value="#823A91AD" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -703,28 +505,21 @@
                     Grid.Column="1"
                     BorderBrush="Transparent"
                     BorderThickness="1">
-                    <Grid
-                        Background="#823A91AD">
+                    <Grid Background="#823A91AD">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto" />
-                            <ColumnDefinition
-                                Width="*"
-                                MinWidth="220" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" MinWidth="220" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <Label
                             Name="lblTotalMontoExento"
+                            Margin="0,0,0,0"
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
                             Content="Exento"
@@ -732,11 +527,11 @@
                             FontSize="14"
                             FontStyle="Normal"
                             FontWeight="Normal"
-                            Style="{StaticResource LabelPrompt}"
-                            Margin="0,0,0,0" />
+                            Style="{StaticResource LabelPrompt}" />
                         <Label
                             Name="lneTotalMontoExento"
                             Grid.Column="1"
+                            Margin="0,0,0,0"
                             HorizontalAlignment="Right"
                             HorizontalContentAlignment="Right"
                             BorderBrush="{x:Null}"
@@ -747,12 +542,12 @@
                             FontSize="16"
                             FontWeight="SemiBold"
                             Foreground="#FF1B468D"
-                            Margin="0,0,0,0"
                             Style="{StaticResource LabelCalculatedField}" />
 
                         <Label
                             Name="lblTotalBaseImponible"
                             Grid.Row="1"
+                            Margin="0,-5,0,0"
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
                             Content="Base Imponible"
@@ -760,12 +555,12 @@
                             FontSize="14"
                             FontStyle="Normal"
                             FontWeight="Normal"
-                            Style="{StaticResource LabelPrompt}"
-                            Margin="0,-5,0,0" />
+                            Style="{StaticResource LabelPrompt}" />
                         <Label
                             Name="lneTotalBaseImponible"
                             Grid.Row="1"
                             Grid.Column="1"
+                            Margin="0,-5,0,0"
                             HorizontalAlignment="Right"
                             HorizontalContentAlignment="Right"
                             BorderBrush="{x:Null}"
@@ -775,11 +570,11 @@
                             FontSize="16"
                             FontWeight="SemiBold"
                             Foreground="#FF1B468D"
-                            Style="{StaticResource LabelCalculatedField}"
-                            Margin="0,-5,0,0" />
+                            Style="{StaticResource LabelCalculatedField}" />
                         <Label
                             Name="lblPorcentajeDescuento"
                             Grid.Row="2"
+                            Margin="0,0,0,0"
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
                             Content="Descuento %"
@@ -787,17 +582,14 @@
                             FontSize="14"
                             FontStyle="Normal"
                             FontWeight="Normal"
-                            Style="{StaticResource LabelPrompt}"
-                            Margin="0,0,0,0" />
+                            Style="{StaticResource LabelPrompt}" />
                         <Grid
                             Grid.Row="2"
                             Grid.Column="1"
                             Margin="0,-5,0,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition
-                                    Width="Auto" />
-                                <ColumnDefinition
-                                    Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
@@ -807,21 +599,21 @@
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 Width="57"
-                                VerticalAlignment="Center"
-                                VerticalContentAlignment="Center"
+                                Height="25"
                                 HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
                                 HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center"
                                 nsWpf:LibFocusManager.FocusedPropertyName="PorcentajeDescuento"
                                 nsWpf:LibKeyboardListener.IgnoreEnterKeyLikeTab="True"
                                 DecimalDigits="2"
+                                FontSize="16"
                                 InputDataType="Decimal"
+                                IsEnabled="{Binding MostrarPorcentajeDescuento}"
                                 MaxLength="5"
                                 Style="{StaticResource pvNumericBoxWpf}"
                                 UnitDigits="2"
-                                Value="{Binding Path=PorcentajeDescuento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                                FontSize="16"
-                                Height="25"
-                                IsEnabled="{Binding MostrarPorcentajeDescuento}" />
+                                Value="{Binding Path=PorcentajeDescuento, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                             <Label
                                 Name="lneDescuento"
                                 Grid.Row="0"
@@ -840,6 +632,7 @@
                         <Label
                             Name="lblTotalIVA"
                             Grid.Row="3"
+                            Margin="0,-5,0,0"
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
                             Content="I.V.A."
@@ -847,12 +640,12 @@
                             FontSize="14"
                             FontStyle="Normal"
                             FontWeight="Normal"
-                            Style="{StaticResource LabelPrompt}"
-                            Margin="0,-5,0,0" />
+                            Style="{StaticResource LabelPrompt}" />
                         <Label
                             Name="lneTotalIVA"
                             Grid.Row="3"
                             Grid.Column="1"
+                            Margin="0,0,0,0"
                             HorizontalAlignment="Right"
                             HorizontalContentAlignment="Right"
                             BorderBrush="{x:Null}"
@@ -862,8 +655,7 @@
                             FontSize="16"
                             FontWeight="SemiBold"
                             Foreground="#FF1B468D"
-                            Style="{StaticResource LabelCalculatedField}"
-                            Margin="0,0,0,0" />
+                            Style="{StaticResource LabelCalculatedField}" />
                     </Grid>
                 </Border>
 
@@ -874,18 +666,13 @@
                     BorderThickness="0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="*" />
-                            <ColumnDefinition
-                                Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="*" />
-                            <RowDefinition
-                                Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <Label
@@ -904,20 +691,18 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            Orientation="Horizontal"
-                            >
-                            <Label 
-                                Content="{Binding Path=SimboloMonedaDeFactura}"
+                            Orientation="Horizontal">
+                            <Label
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 BorderBrush="{x:Null}"
+                                Content="{Binding Path=SimboloMonedaDeFactura}"
                                 ContentStringFormat="N2"
                                 FontFamily="Arial"
                                 FontSize="40"
                                 FontWeight="SemiBold"
                                 Foreground="#FF00040A"
-                                Style="{StaticResource LabelCalculatedField}" 
-                                />
+                                Style="{StaticResource LabelCalculatedField}" />
 
                             <Label
                                 Name="lneTotalFactura"
@@ -991,24 +776,15 @@
             Grid.Column="0"
             Background="#FF3375A0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="223*" />
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="223*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label
                 Name="lblCodigoVendedor"
@@ -1071,13 +847,13 @@
                 Width="130"
                 VerticalAlignment="Center"
                 VerticalContentAlignment="Center"
+                Content="Tasa de cambio:"
                 FontFamily="Arial"
                 FontSize="14"
                 FontWeight="SemiBold"
                 Foreground="#FFFFF8F8"
-                Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}"
-                Content="Tasa de cambio:"
-                Style="{StaticResource LabelCliente}" />
+                Style="{StaticResource LabelCliente}"
+                Visibility="{Binding Path=MostrarTasaDeCambio, Converter={StaticResource booleanToVisibilityConverter}}" />
             <nsWpfControls:GSNumericBoxWpfSch
                 Grid.Row="0"
                 Grid.Column="5"
@@ -1094,7 +870,7 @@
                 FontSize="20"
                 FontStyle="Normal"
                 FontWeight="Bold"
-                Foreground="#FFFFF8F8"   
+                Foreground="#FFFFF8F8"
                 InputDataType="igDec"
                 IsReadOnly="True"
                 Text="{Binding Mode=OneWay, Path=PromptMostrarCambio}"
@@ -1132,17 +908,13 @@
             BorderThickness="1"
             Visibility="Collapsed">
             <!--<Grid Name="gInfoCliente"  Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Background="White" Width="192" Height="579" Visibility="{Binding Path=IsVisibleInfoCliente, Converter={StaticResource booleanToVisibilityConverter}}"  >-->
-            <Grid
-                Background="#FFF2F2F2">
+            <Grid Background="#FFF2F2F2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <GroupBox
@@ -1151,28 +923,18 @@
                     Visibility="{Binding Path=IsVisibleInfoCliente, Converter={StaticResource booleanToVisibilityConverter}}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock
                             Name="lblInfoCliente1"
@@ -1236,20 +998,14 @@
                     Visibility="{Binding Path=IsVisibleInfoArticulo, Converter={StaticResource booleanToVisibilityConverter}}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition
-                                Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock
                             Name="lblInfoArticulo1"
