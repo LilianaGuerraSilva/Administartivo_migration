@@ -6,7 +6,7 @@ using Galac.Saw.Ccl.SttDef;
 
 namespace Galac.Adm.Ccl.Venta {
     [Serializable]
-    public class FacturaRapida  {
+    public class FacturaRapida {
         #region Variables
         private int _ConsecutivoCompania;
         private string _Numero;
@@ -127,8 +127,9 @@ namespace Galac.Adm.Ccl.Venta {
         private string _MotivoDeAnulacion;
         private long _fldTimeStamp;
         private decimal _TotalAPagar;
-		private ObservableCollection<FacturaRapidaDetalle> _DetailFacturaRapidaDetalle;
+        private ObservableCollection<FacturaRapidaDetalle> _DetailFacturaRapidaDetalle;
         private ObservableCollection<RenglonCobroDeFactura> _DetailRenglonCobroDeFactura;
+        private eFacturaGeneradaPor _GeneradoPor;
         XmlDocument _datos;
         #endregion //Variables
         #region Propiedades
@@ -248,7 +249,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string NivelDePrecioAsDB {
-            get { return LibConvert.EnumToDbValue((int) _NivelDePrecio); }
+            get { return LibConvert.EnumToDbValue((int)_NivelDePrecio); }
         }
 
         public string NivelDePrecioAsString {
@@ -285,7 +286,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string StatusFacturaAsDB {
-            get { return LibConvert.EnumToDbValue((int) _StatusFactura); }
+            get { return LibConvert.EnumToDbValue((int)_StatusFactura); }
         }
 
         public string StatusFacturaAsString {
@@ -302,7 +303,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string TipoDeDocumentoAsDB {
-            get { return LibConvert.EnumToDbValue((int) _TipoDeDocumento); }
+            get { return LibConvert.EnumToDbValue((int)_TipoDeDocumento); }
         }
 
         public string TipoDeDocumentoAsString {
@@ -383,7 +384,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string FormaDeLaInicialAsDB {
-            get { return LibConvert.EnumToDbValue((int) _FormaDeLaInicial); }
+            get { return LibConvert.EnumToDbValue((int)_FormaDeLaInicial); }
         }
 
         public string FormaDeLaInicialAsString {
@@ -420,7 +421,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string TalonarioAsDB {
-            get { return LibConvert.EnumToDbValue((int) _Talonario); }
+            get { return LibConvert.EnumToDbValue((int)_Talonario); }
         }
 
         public string TalonarioAsString {
@@ -437,7 +438,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string FormaDePagoAsDB {
-            get { return LibConvert.EnumToDbValue((int) _FormaDePago); }
+            get { return LibConvert.EnumToDbValue((int)_FormaDePago); }
         }
 
         public string FormaDePagoAsString {
@@ -473,7 +474,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string TipoDeTransaccionAsDB {
-            get { return LibConvert.EnumToDbValue((int) _TipoDeTransaccion); }
+            get { return LibConvert.EnumToDbValue((int)_TipoDeTransaccion); }
         }
 
         public string TipoDeTransaccionAsString {
@@ -500,7 +501,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string TipoDeVentaAsDB {
-            get { return LibConvert.EnumToDbValue((int) _TipoDeVenta); }
+            get { return LibConvert.EnumToDbValue((int)_TipoDeVenta); }
         }
 
         public string TipoDeVentaAsString {
@@ -742,7 +743,7 @@ namespace Galac.Adm.Ccl.Venta {
         }
 
         public string FormaDeCobroAsDB {
-            get { return LibConvert.EnumToDbValue((int) _FormaDeCobro); }
+            get { return LibConvert.EnumToDbValue((int)_FormaDeCobro); }
         }
 
         public string FormaDeCobroAsString {
@@ -868,6 +869,22 @@ namespace Galac.Adm.Ccl.Venta {
             set { _EsGeneradaPorPuntoDeVenta = LibConvert.SNToBool(value); }
         }
 
+        public eFacturaGeneradaPor GeneradoPorAsEnum {
+            get { return _GeneradoPor; }
+            set { _GeneradoPor = value; }
+        }
+
+        public string GeneradoPor {
+            set { _GeneradoPor = (eFacturaGeneradaPor)LibConvert.DbValueToEnum(value); }
+        }
+
+        public string GeneradoPorAsDB {
+            get { return LibConvert.EnumToDbValue((int) _GeneradoPor); }
+        }
+
+        public string GeneradoPorAsString {
+            get { return LibEnumHelper.GetDescription(_GeneradoPor); }
+        }
 
         public decimal BaseImponibleIGTF {
             get { return _BaseImponibleIGTF; }
@@ -1073,7 +1090,7 @@ namespace Galac.Adm.Ccl.Venta {
             SeContabilizoIvaDiferidoAsBool = false;
             AplicaDecretoIvaEspecialAsBool = false;
             EsGeneradaPorPuntoDeVentaAsBool = true;
-			BaseImponibleIGTF = 0;
+            BaseImponibleIGTF = 0;
             IGTFML = 0;
             IGTFME = 0;
             AlicuotaIGTF = 0;
@@ -1086,12 +1103,13 @@ namespace Galac.Adm.Ccl.Venta {
             NumeroDiasMantenerCambioAMonedaLocal = 0;
             TotalAPagar = 0;
             MotivoDeAnulacion = string.Empty;
+            GeneradoPorAsEnum = eFacturaGeneradaPor.Usuario;
             fldTimeStamp = 0;
             DetailFacturaRapidaDetalle = new ObservableCollection<FacturaRapidaDetalle>();
             DetailRenglonCobroDeFactura = new ObservableCollection<RenglonCobroDeFactura>();
         }
 
-        public FacturaRapida Clone() {            
+        public FacturaRapida Clone() {
             FacturaRapida vResult = new FacturaRapida();
             vResult.ConsecutivoCompania = _ConsecutivoCompania;
             vResult.Numero = _Numero;
@@ -1201,7 +1219,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.CambioMostrarTotalEnDivisas = _CambioMostrarTotalEnDivisas;
             vResult.CodigoMonedaDeCobro = _CodigoMonedaDeCobro;
             vResult.NombreMonedaDeCobro = _NombreMonedaDeCobro;
-			vResult.BaseImponibleIGTF = _BaseImponibleIGTF;
+            vResult.BaseImponibleIGTF = _BaseImponibleIGTF;
             vResult.IGTFML = _IGTFML;
             vResult.IGTFME = _IGTFME;
             vResult.AlicuotaIGTF = _AlicuotaIGTF;
@@ -1211,6 +1229,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.TotalAPagar = _TotalAPagar;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.MotivoDeAnulacion = _MotivoDeAnulacion;
+            vResult.GeneradoPorAsEnum = _GeneradoPor;
             vResult.fldTimeStamp = _fldTimeStamp;
             if (DetailFacturaRapidaDetalle != null) {
                 vResult.DetailFacturaRapidaDetalle = new ObservableCollection<FacturaRapidaDetalle>();
@@ -1325,16 +1344,17 @@ namespace Galac.Adm.Ccl.Venta {
                 "\nEs Generada Por Punto De Venta = " + _EsGeneradaPorPuntoDeVenta +
                 "\nCambio Mostrar Total en Divisas = " + _CambioMostrarTotalEnDivisas +
                 "\nCodigo Moneda de Cobro = " + _CodigoMonedaDeCobro +
-				"\nBase Imponible IGTF = " + _BaseImponibleIGTF.ToString() +
+                "\nBase Imponible IGTF = " + _BaseImponibleIGTF.ToString() +
                "\nI GTFML = " + _IGTFML.ToString() +
                "\nI GTFME = " + _IGTFME.ToString() +
                "\nAlicuota IGTF = " + _AlicuotaIGTF.ToString() +
-               "\nTotal A Pagar = " + _TotalAPagar.ToString() +               
+               "\nTotal A Pagar = " + _TotalAPagar.ToString() +
                 "\nNombre Operador = " + _NombreOperador +
                 "\nNúmero días a mantener cambio a moneda local = " + _NumeroDiasMantenerCambioAMonedaLocal +
                 "\nFecha límite cambio a moneda local = " + _FechaLimiteCambioAMonedaLocal.ToShortDateString() +
                 "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString() +
-                "\nMotivo De Anulación = " + _MotivoDeAnulacion;
+                "\nMotivo De Anulación = " + _MotivoDeAnulacion +
+               "\nGenerado Por = " + _GeneradoPor.ToString();
         }
         #endregion //Metodos Generados
 

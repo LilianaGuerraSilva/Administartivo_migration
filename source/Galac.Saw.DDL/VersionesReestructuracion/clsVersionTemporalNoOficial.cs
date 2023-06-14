@@ -24,9 +24,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
 			CrearRutaDeComercializacion();
-			CrearTablaAdmVendedor();
-			CrearParametrosImprentaDigital();
-			CrearCamposParaImprentaDigitalEnFactura();
+			CrearTablaAdmVendedor();			
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -109,18 +107,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vDb.ExecuteWithScope(vSQL.ToString());
 		}
 
-		private void CrearParametrosImprentaDigital() {
-			AgregarNuevoParametro("UsaImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.String, "", 'N', "N");
-			AgregarNuevoParametro("FechaInicioImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.String, "", 'N', LibConvert.ToStr(LibDate.MinDateForDB()));
-			AgregarNuevoParametro("ProveedorImprentaDigital", "Factura", 2, "2.8.- Imprenta Digital", 8, "", eTipoDeDatoParametros.Enumerativo, "", 'N', "0");
-		}
-
-		private void CrearCamposParaImprentaDigitalEnFactura() {
-			AddColumnString("factura", "MotivoDeAnulacion", 150, "", "");
-			if (AddColumnEnumerative("factura", "ProveedorImprentaDigital", "", 0)) {
-				AddDefaultConstraint("factura", "nnFacturaProveedorImpDig", "'0'", "ProveedorImprentaDigital");
-			}
-		}
 
 		private void CrearRutaDeComercializacion() {
 			if (new Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla()) {

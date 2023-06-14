@@ -155,6 +155,7 @@ Public Enum enum_SystemModules
    eSM_RespaldarRestaurar
    eSM_ResumenDiarioVentas
    eSM_RetDocumentoPagado
+   eSM_RetirosACuenta
    eSM_RetPago '100
    eSM_RevisionDeData
    eSM_SectorDeNegocio
@@ -1812,6 +1813,7 @@ Public Function enum_SystemModulesToStr(module As enum_SystemModules) As String
       Case eSM_RespaldarRestaurar: enum_SystemModulesToStr = "Respaldar / Restaurar"
       Case eSM_ResumenDiarioVentas: enum_SystemModulesToStr = "Resumen Diario"
       Case eSM_RetDocumentoPagado: enum_SystemModulesToStr = "Ret Documento Pagado"
+      Case eSM_RetirosACuenta: enum_SystemModulesToStr = "Retiros a Cuenta"
       Case eSM_RetPago: enum_SystemModulesToStr = "Ret Pago"
       Case eSM_RevisionDeData: enum_SystemModulesToStr = "Revision De Data"
       Case eSM_SectorDeNegocio: enum_SystemModulesToStr = "Sector de Negocio"
