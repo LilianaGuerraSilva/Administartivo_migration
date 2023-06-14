@@ -14,7 +14,7 @@ namespace Galac.Adm.Ccl.Venta {
         Borrador
     }
 
-	[TypeConverter(typeof(LibEnumTypeConverter))]
+    [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormadePago {
         [LibEnumDescription("Contado")]
         Contado = 0,
@@ -37,7 +37,7 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Talonario 2")]
         Talonario2
     }
-	
+
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeVenta {
         [LibEnumDescription("Interna")]
@@ -66,23 +66,23 @@ namespace Galac.Adm.Ccl.Venta {
         Otros
     }
 
-	[TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eTipoDeCxC {
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eTipoDeCxC {
         [LibEnumDescription("Factura")]
-        Factura = 0, 
+        Factura = 0,
         [LibEnumDescription("Cheque Devuelto")]
-        ChequeDevuelto, 
+        ChequeDevuelto,
         [LibEnumDescription("Nota de Crédito")]
-        NotaDeCredito, 
+        NotaDeCredito,
         [LibEnumDescription("Nota De Débito")]
-        NotaDeDebito, 
+        NotaDeDebito,
         [LibEnumDescription("Nota de Entrega")]
-        NotaEntrega, 
+        NotaEntrega,
         [LibEnumDescription("Giro")]
-        Giro, 
+        Giro,
         [LibEnumDescription("No Asignado")]
         NoAsignado
-	}
+    }
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eTipoDeTransaccionDeLibrosFiscales {
@@ -198,20 +198,20 @@ namespace Galac.Adm.Ccl.Venta {
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eFormaDeCobro {
-        [LibEnumDescription("Efectivo",Index = 0)]
-        [LibEnumDescription("00001",Index = 1)]
+        [LibEnumDescription("Efectivo", Index = 0)]
+        [LibEnumDescription("00001", Index = 1)]
         Efectivo = 0,
-        [LibEnumDescription("Tarjeta",Index = 0)]
-        [LibEnumDescription("00002",Index = 1)]
+        [LibEnumDescription("Tarjeta", Index = 0)]
+        [LibEnumDescription("00002", Index = 1)]
         Tarjeta,
-        [LibEnumDescription("Cheque",Index = 0)]
-        [LibEnumDescription("00003",Index = 1)]
+        [LibEnumDescription("Cheque", Index = 0)]
+        [LibEnumDescription("00003", Index = 1)]
         Cheque,
-        [LibEnumDescription("Depósito",Index = 0)]
-        [LibEnumDescription("00004",Index = 1)]
+        [LibEnumDescription("Depósito", Index = 0)]
+        [LibEnumDescription("00004", Index = 1)]
         Deposito,
-        [LibEnumDescription("Anticipo",Index = 0)]
-        [LibEnumDescription("00005",Index = 1)]
+        [LibEnumDescription("Anticipo", Index = 0)]
+        [LibEnumDescription("00005", Index = 1)]
         Anticipo
     }
 
@@ -244,59 +244,70 @@ namespace Galac.Adm.Ccl.Venta {
     }
 
     [TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eClientesOrdenadosPor {
+    public enum eClientesOrdenadosPor {
         [LibEnumDescription("Por Código")]
-        PorCodigo = 0, 
+        PorCodigo = 0,
         [LibEnumDescription("Por Nombre")]
         PorNombre
-	}
+    }
 
-	[TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eStatusContrato {
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eStatusContrato {
         [LibEnumDescription("Vigente")]
-        Vigente = 0, 
+        Vigente = 0,
         [LibEnumDescription("Desactivado")]
         Desactivado
-	}
-	
-	[TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eDuracionDelContrato {
+    }
+
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eDuracionDelContrato {
         [LibEnumDescription("Duración Fija")]
-        DuracionFija = 0, 
+        DuracionFija = 0,
         [LibEnumDescription("Duración Indefinida")]
         DuracionIndefinida
-	}
-	
-	[TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum ePeriodicidadContratos {
+    }
+
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum ePeriodicidadContratos {
         [LibEnumDescription("Mensual")]
-        Mensual = 0, 
+        Mensual = 0,
         [LibEnumDescription("Bimestral")]
-        Bimestral, 
+        Bimestral,
         [LibEnumDescription("Trimestral")]
-        Trimestral, 
+        Trimestral,
         [LibEnumDescription("Semestral")]
-        Semestral, 
+        Semestral,
         [LibEnumDescription("Anual")]
-        Anual, 
+        Anual,
         [LibEnumDescription("Cuota Única")]
         CuotaUnica
-	}
+    }
 
-	[TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum ePeriodoDeAplicacion {
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum ePeriodoDeAplicacion {
         [LibEnumDescription("El del Contrato")]
-        EldelContrato = 0, 
+        EldelContrato = 0,
         [LibEnumDescription("Especial Indicar")]
         EspecialIndicar
-	}
+    }
 
-	[TypeConverter(typeof(LibEnumTypeConverter))]
-	public enum eValorDelRenglon {
+    [TypeConverter(typeof(LibEnumTypeConverter))]
+    public enum eValorDelRenglon {
         [LibEnumDescription("Valor en Archivo Artículos")]
-        ValorenArchivoArticulos = 0, 
+        ValorenArchivoArticulos = 0,
         [LibEnumDescription("Indicar El Valor")]
         IndicarElValor
-	}
+    }
 
+    [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
+	public enum eFacturaGeneradaPor {
+        [LibEnumDescription("Usuario")]
+        Usuario = 0,
+        [LibEnumDescription("Cotizacion")]
+        Cotizacion,
+        [LibEnumDescription("Galac 360")]
+        Galac360,
+        [LibEnumDescription("Ajuste IGTF")]
+        AjusteIGTF
+    }
 } //End of namespace namespace Galac.Saw.Ccl.Venta

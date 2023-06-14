@@ -5,3 +5,4 @@ bin/*.xml
 obj
 bin/es-PE
 bin/*.*
+source/packages/*.*

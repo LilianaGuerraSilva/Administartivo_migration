@@ -31,7 +31,14 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NombreCampoDefinible8PropertyName = "NombreCampoDefinible8";
         public const string NombreCampoDefinible9PropertyName = "NombreCampoDefinible9";
         public const string UsaCamposDefiniblesPropertyName = "UsaCamposDefinibles";
+        private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
+        private const string ProveedorImprentaDigitalEsTheFactoryPropertyName = "ProveedorImprentaDigitalEsTheFactory";
         #endregion
+        #region Variables
+        private bool _IsEnabledUsaImprentaDigital;
+        private eProveedorImprentaDigital _ProveedorServicioImprentaDigital;
+        private bool _ProveedorImprentaDigitalEsTheFactory;
+        #endregion //Variables
         #region Propiedades
 
         public override string ModuleName {
@@ -207,14 +214,50 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
+        
+        public bool IsEnabledUsaCamposDefinibles {
+            get {
+                return UsaCamposDefinibles && IsEnabledCamposDefinibles;
+            }
+        }
+
+        public bool ProveedorImprentaDigitalEsTheFactory {
+            get { return (_ProveedorImprentaDigitalEsTheFactory || ProveedorServicioImprentaDigitalEsTheFactory()); }
+            set {
+                if (_ProveedorImprentaDigitalEsTheFactory != value) {
+                    _ProveedorImprentaDigitalEsTheFactory = value;
+                    RaisePropertyChanged(ProveedorImprentaDigitalEsTheFactoryPropertyName);
+                }
+            }
+        }
+
+        public bool IsEnabledCamposDefinibles {
+            get {
+                return IsEnabled && (IsEnabledUsaImprentaDigital ? !ProveedorImprentaDigitalEsTheFactory : true);
+            }
+        }
+
+        public bool IsEnabledUsaImprentaDigital {
+            get { return IsEnabled && (_IsEnabledUsaImprentaDigital || UsaImprentaDigital()); }
+            set {
+                if (_IsEnabledUsaImprentaDigital != value) {
+                    _IsEnabledUsaImprentaDigital = value;
+                    RaisePropertyChanged(IsEnabledUsaImprentaDigitalPropertyName);
+                }
+            }
+        }
         #endregion //Propiedades
         #region Constructores
         public FacturaCamposDefiniblesViewModel()
             : this(new CamposDefiniblesStt(), eAccionSR.Insertar) {
         }
+
         public FacturaCamposDefiniblesViewModel(CamposDefiniblesStt initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = NombreCampoDefinible1PropertyName;
+            _ProveedorServicioImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+            LibMessages.Notification.Register<bool>(this, OnUsaImprentaDigitalChanged);
+            LibMessages.Notification.Register<eProveedorImprentaDigital>(this, OnProveedorImprentaDigitalEsTheFactoryChanged);
             //Model.ConsecutivoCompania = Mfc.GetInt("Compania");
         }
         #endregion //Constructores
@@ -249,10 +292,28 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
             return vResult;
         }
+
+        private void OnUsaImprentaDigitalChanged(NotificationMessage<bool> valMessage) {
+            if (LibString.S1IsEqualToS2(valMessage.Notification, "UsaImprentaDigital")) {
+                IsEnabledUsaImprentaDigital = valMessage.Content || UsaImprentaDigital();
+            }
+        }
+
+        private void OnProveedorImprentaDigitalEsTheFactoryChanged(NotificationMessage<eProveedorImprentaDigital> valMessage) {
+            if (LibString.S1IsEqualToS2(valMessage.Notification, "ProveedorServicioImprentaDigital")) {
+                ProveedorImprentaDigitalEsTheFactory = valMessage.Content == eProveedorImprentaDigital.TheFactoryHKA || _ProveedorServicioImprentaDigital == eProveedorImprentaDigital.TheFactoryHKA;
+            }
+        }
+
+        private bool UsaImprentaDigital() {
+            return LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaImprentaDigital"));
+        }
+
+        private bool ProveedorServicioImprentaDigitalEsTheFactory() {
+            return (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"))
+                == eProveedorImprentaDigital.TheFactoryHKA;
+        }
         #endregion //Metodos Generados
-
-
     } //End of class FacturaCamposDefiniblesViewModel
 
 } //End of namespace Galac.Saw.Uil.SttDef
-

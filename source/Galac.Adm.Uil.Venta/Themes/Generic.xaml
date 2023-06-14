@@ -38,9 +38,6 @@
     <DataTemplate DataType="{x:Type nsCSVM:CobroDeFacturaRapidaAnticipoDetalleViewModel}">
         <nsCSV:GSCobroDeFacturaRapidaAnticipoDetalleView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type nsCSVM:TasaDelDiaViewModel}">
-        <nsCSV:GSTasaDelDiaView />
-    </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:CobroRapidoMultimonedaViewModel}">
         <nsCSV:GSCobroRapidoMultimonedaView />
     </DataTemplate>
