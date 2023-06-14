@@ -38,7 +38,7 @@
             nsWpf:LibFocusManager.FocusedPropertyName="Descripcion"
             nsWpf:LibFocusManager.IsFocused="True"
             BorderThickness="1"
-            InputDataType="Alfanumeric"
+            InputDataType="String"
             IsReadOnly="{Binding Path=IsReadOnly}"
             MaxLength="100"
             Style="{StaticResource TextBoxInputStyle}"
