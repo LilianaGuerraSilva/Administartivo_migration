@@ -12,27 +12,79 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
+
 Private mrsReglasDeContabilizacion As ADODB.Recordset
 Private mrsReglasDeContabilizacionQuery As ADODB.Recordset
 Private mConsecutivoCompania As Long
 Private mNumero As String
-Private mDiferenciaEnCambioyCalculo As String
-Private mCuentaDiferenciaCambiaria As String
+'Generales
 Private mCuentaIva1Credito As String
 Private mCuentaIva1Debito As String
-Private mDondeContabilizarRetIva As String
 Private mCuentaRetencionIVA As String
+Private mDondeContabilizarRetIva As String
+Private mDiferenciaEnCambioyCalculo As String
+Private mCuentaDiferenciaCambiaria As String
+'Impuestos a las Transacciones Bancarias
+Private mCuentaDebitoBancarioGasto As String
+Private mCuentaDebitoBancarioBancos As String
+Private mCuentaCreditoBancarioGasto As String
+Private mCuentaCreditoBancarioBancos As String
+'Tipo de Comprobante
+Private mCxCTipoComprobante As String
+Private mCxPTipoComprobante As String
+Private mCobranzaTipoComprobante As String
+Private mPagoTipoComprobante As String
+Private mFacturaTipoComprobante As String
+Private mMovimientoBancarioTipoComprobante As String
+Private mAnticipoTipoComprobante As String
+Private mInventarioTipoComprobante As String
+Private mPagosSueldosTipoComprobante As String
+Private mSiglasTipoComprobanteCajaChica As String
+Private mSiglasTipoComprobanteRendiciones As String
+Private mTransfCtasSigasTipoComprobante As String
+Private mOrdenDeProduccionTipoComprobante As String
+'Tipo de Contabilización
 Private mTipoContabilizacionCxC As String
+Private mTipoContabilizacionCxP As String
+Private mTipoContabilizacionCobranza As String
+Private mTipoContabilizacionPagos As String
+Private mTipoContabilizacionFacturacion As String
+Private mTipoContabilizacionRDVtas As String
+Private mTipoContabilizacionMovBancario As String
+Private mTipoContabilizacionAnticipo As String
+Private mTipoContabilizacionInventario As String
+Private mTipoContabilizacionDePagosSueldos As String
+Private mTipoContabilizacionCajaChica As String
+Private mTipoContabilizacionRendicion As String
+Private mTipoContabilizacionTransferenciaEntreCuenta As String
+Private mTipoContabilizacionOrdenDeProduccion As String
+'Editar Comprobante After Insert
+Private mEditarComprobanteAfterInsertCxC As Boolean
+Private mEditarComprobanteAfterInsertCxP As Boolean
+Private mEditarComprobanteAfterInsertCobranza As Boolean
+Private mEditarComprobanteAfterInsertPagos As Boolean
+Private mEditarComprobanteAfterInsertFactura As Boolean
+Private mEditarComprobanteAfterInsertResDia As Boolean
+Private mEditarComprobanteAfterInsertMovBan As Boolean
+Private mEditarComprobanteAfterInsertAnticipo As Boolean
+Private mEditarComprobanteAfterInsertInventario As Boolean
+Private mEditarComprobanteDePagosSueldos As Boolean
+Private mEditarComprobanteAfterInsertCajaChica As Boolean
+Private mEditarComprobanteAfterInsertTransfCtas As Boolean
+Private mEditarComprobanteAfterInsertImpTraBan As Boolean
+Private mEditarComprobanteAfterInsertOrdenDeProduccion As Boolean
+'CxC
 Private mContabIndividualCxc As String
 Private mContabPorLoteCxC As String
 Private mCuentaCxCClientes As String
 Private mCuentaCxCIngresos As String
-Private mTipoContabilizacionCxP As String
+'CxP
 Private mContabIndividualCxP As String
 Private mContabPorLoteCxP As String
 Private mCuentaCxPGasto As String
 Private mCuentaCxPProveedores As String
-Private mTipoContabilizacionCobranza As String
+Private mCuentaRetencionImpuestoMunicipal As String
+'Cobranza
 Private mContabIndividualCobranza As String
 Private mContabPorLoteCobranza As String
 Private mCuentaCobranzaCobradoEnEfectivo As String
@@ -45,8 +97,7 @@ Private mCuentaCobranzaCxCClientes As String
 Private mCuentaCobranzaCobradoAnticipo As String
 Private mCuentaCobranzaIvaDiferido As String
 Private mManejarDiferenciaCambiariaEnCobranza As Boolean
-Private mManejarDiferenciaCambiariaEnCobranzaIsSet As Boolean
-Private mTipoContabilizacionPagos As String
+'Pagos
 Private mContabIndividualPagos As String
 Private mContabPorLotePagos As String
 Private mCuentaPagosCxPProveedores As String
@@ -55,8 +106,7 @@ Private mCuentaPagosOtros As String
 Private mCuentaPagosBanco As String
 Private mCuentaPagosPagadoAnticipo As String
 Private mManejarDiferenciaCambiariaEnPagos As Boolean
-Private mManejarDiferenciaCambiariaEnPagosIsSet As Boolean
-Private mTipoContabilizacionFacturacion As String
+'Factura
 Private mContabIndividualFacturacion As String
 Private mContabPorLoteFacturacion As String
 Private mCuentaFacturacionCxCClientes As String
@@ -65,32 +115,22 @@ Private mCuentaFacturacionCargos As String
 Private mCuentaFacturacionDescuentos As String
 Private mCuentaFacturacionIvaDiferido As String
 Private mContabilizarPorArticulo As Boolean
-Private mContabilizarPorArticuloIsSet As Boolean
 Private mAgruparPorCuentaDeArticulo As Boolean
-Private mAgruparPorCuentaDeArticuloIsSet As Boolean
 Private mAgruparPorCargosDescuentos As Boolean
-Private mAgruparPorCargosDescuentosIsSet As Boolean
-Private mTipoContabilizacionRDVtas As String
+'Resumen Diario de Ventas
 Private mContabIndividualRDVtas As String
 Private mContabPorLoteRDVtas As String
 Private mCuentaRDVtasCaja As String
 Private mCuentaRDVtasMontoTotal As String
 Private mContabilizarPorArticuloRDVtas As Boolean
-Private mContabilizarPorArticuloRDVtasIsSet As Boolean
 Private mAgruparPorCuentaDeArticuloRDVtas As Boolean
-Private mAgruparPorCuentaDeArticuloRDVtasIsSet As Boolean
-Private mTipoContabilizacionMovBancario As String
 Private mContabIndividualMovBancario As String
 Private mContabPorLoteMovBancario As String
 Private mCuentaMovBancarioGasto As String
 Private mCuentaMovBancarioBancosHaber As String
 Private mCuentaMovBancarioBancosDebe As String
 Private mCuentaMovBancarioIngresos As String
-Private mCuentaDebitoBancarioGasto As String
-Private mCuentaDebitoBancarioBancos As String
-Private mCuentaCreditoBancarioGasto As String
-Private mCuentaCreditoBancarioBancos As String
-Private mTipoContabilizacionAnticipo As String
+'Anticipo
 Private mContabIndividualAnticipo As String
 Private mContabPorLoteAnticipo As String
 Private mCuentaAnticipoCaja As String
@@ -99,36 +139,43 @@ Private mCuentaAnticipoOtrosIngresos As String
 Private mCuentaAnticipoPagado As String
 Private mCuentaAnticipoBanco As String
 Private mCuentaAnticipoOtrosEgresos As String
-Private mFacturaTipoComprobante As String
-Private mCxCTipoComprobante As String
-Private mCxPTipoComprobante As String
-Private mCobranzaTipoComprobante As String
-Private mPagoTipoComprobante As String
-Private mMovimientoBancarioTipoComprobante As String
-Private mAnticipoTipoComprobante As String
+'Inventario
 Private mCuentaCostoDeVenta As String
 Private mCuentaInventario As String
-Private mTipoContabilizacionInventario As String
 Private mAgruparPorCuentaDeArticuloInven As Boolean
-Private mAgruparPorCuentaDeArticuloInvenIsSet As Boolean
-Private mInventarioTipoComprobante As String
+'Solicitud de Pago
+Private mContabIndividualPagosSueldos As String
 Private mCtaDePagosSueldos As String
 Private mCtaDePagosSueldosBanco As String
-Private mCajaChicaTipoComprobante As String
-Private mRendicionTipoComprobante As String
-Private mChicaChicaTipoComprobante As String
-Private mTipoContabilizacionDePagosSueldos As String
-Private mTipoContabilizacionRendicion As String
-Private mTipoContabilizacionCajaChica As String
-Private mTipoContabilizacionTransferenciaEntreCuenta As String
-Private mPagosSueldosTipoComprobante As String
-Private mContabIndividualPagosSueldos As String
-Private mEditarComprobanteDePagosSueldos As Boolean
-Private mEditarComprobanteDePagosSueldosIsSet As Boolean
+'Caja Chica - Rendiciones
+Private mContabIndividualCajaChica As String
+Private mCuentaCajaChicaGasto As String
+Private mCuentaCajaChicaBancoHaber As String
+Private mCuentaCajaChicaBancoDebe As String
+Private mCuentaCajaChicaBanco As String
+Private mMostrarDesglosadoCajaChica As Boolean
+
+Private mContabIndividualRendiciones As String
+Private mCuentaRendicionesGasto As String
+Private mCuentaRendicionesBanco As String
+Private mCuentaRendicionesAnticipos As String
+Private mMostrarDesglosadoRendiciones As Boolean
+'Transferencia entre Cuentas Bancarias
+Private mContabIndividualTransferenciaEntreCuenta As String
+Private mContabPorLoteTransferenciaEntreCuenta As String
+Private mCuentaTransfCtasBancoDestino As String
+Private mCuentaTransfCtasGastoComOrigen As String
+Private mCuentaTransfCtasGastoComDestino As String
+Private mCuentaTransfCtasBancoOrigen As String
+Private mContabIndividualOrdenDeProduccion As String
+Private mContabPorLoteOrdenDeProduccion As String
+Private mCuentaOrdenDeProduccionProductoTerminado As String
+Private mCuentaOrdenDeProduccionMateriaPrima As String
+'Final
 Private mNombreOperador As String
 Private mFechaUltimaModificacion As Date
-Private mFechaUltimaModificacionIsSet As Boolean
 Private mSQLFromAndWhereStatementForList As String
+'Usa Auxiliares
 Private mCuentaIva1DebitoUsaAuxiliares As Boolean
 Private mCuentaIva1CreditoUsaAuxiliares As Boolean
 Private mCuentaRetencionIvaUsaAuxiliares As Boolean
@@ -165,91 +212,182 @@ Private mCuentaAnticipoPagadoUsaAuxiliares As Boolean
 Private mCuentaAnticipoBancoUsaAuxiliares As Boolean
 Private mCuentaAnticipoOtrosIngresosUsaAuxiliares As Boolean
 Private mCuentaAnticipoOtrosEgresosUsaAuxiliares As Boolean
-Private mCuentaRetencionImpuestoMunicipal As String
 Private mCuentaRetencionImpuestoMunicipalUsaAuxiliares   As Boolean
 Private mCuentaCobranzaIvaDiferidoUsaAuxiliares As Boolean
 Private mCuentaFacturacionIvaDiferidoUsaAuxiliares As Boolean
-Private mEditarComprobanteAfterInsertCxC As Boolean
-Private mEditarComprobanteAfterInsertCxCIsSet As Boolean
-Private mEditarComprobanteAfterInsertCxP As Boolean
-Private mEditarComprobanteAfterInsertCxPIsSet As Boolean
-Private mEditarComprobanteAfterInsertCobranza As Boolean
-Private mEditarComprobanteAfterInsertCobranzaIsSet As Boolean
-Private mEditarComprobanteAfterInsertPagos As Boolean
-Private mEditarComprobanteAfterInsertPagosIsSet As Boolean
-Private mEditarComprobanteAfterInsertFactura As Boolean
-Private mEditarComprobanteAfterInsertFacturaIsSet As Boolean
-Private mEditarComprobanteAfterInsertResDia As Boolean
-Private mEditarComprobanteAfterInsertResDiaIsSet As Boolean
-Private mEditarComprobanteAfterInsertMovBan As Boolean
-Private mEditarComprobanteAfterInsertMovBanIsSet As Boolean
-Private mEditarComprobanteAfterInsertImpTraBan As Boolean
-Private mEditarComprobanteAfterInsertImpTraBanIsSet As Boolean
-Private mEditarComprobanteAfterInsertAnticipo As Boolean
-Private mEditarComprobanteAfterInsertAnticipoIsSet As Boolean
-Private mEditarComprobanteAfterInsertInventario As Boolean
-Private mEditarComprobanteAfterInsertInventarioIsSet As Boolean
-Private mEditarComprobanteAfterInsertCajaChica As Boolean
-Private mEditarComprobanteAfterInsertCajaChicaIsSet As Boolean
+'
 
-Private mSiglasTipoComprobanteCajaChica As String
-Private mSiglasTipoComprobanteTransferenciaEntreCuenta As String
-Private mContabIndividualCajaChica As String
-Private mContabIndividualTransferenciaEntreCuenta As String
-Private mCuentaCajaChicaGasto As String
-Private mMostrarDesglosadoCajaChica As Boolean
-Private mMostrarDesglosadoCajaChicaIsSet As Boolean
-Private mCuentaCajaChicaBancoHaber As String
-Private mCuentaCajaChicaBancoDebe As String
-Private mCuentaCajaChicaBanco As String
-Private mSiglasTipoComprobanteRendiciones As String
-Private mContabIndividualRendiciones As String
-Private mCuentaRendicionesGasto As String
-Private mCuentaRendicionesIva As String
-Private mCuentaRendicionesBanco As String
-Private mCuentaRendicionesAnticipos As String
-Private mMostrarDesglosadoRendiciones As Boolean
-Private mMostrarDesglosadoRendicionesIsSet As Boolean
-Private mCuentaTransfCtasBancoDestino As String
-Private mCuentaTransfCtasBancoOrigen As String
-Private mCuentaTransfCtasGastoComDestino As String
-Private mCuentaTransfCtasGastoComOrigen As String
-Private mEditarComprobanteAfterInsertTransfCtas As String
-Private mEditarComprobanteAfterInsertTransfCtasIsSet As String
-Private mTransfCtasSigasTipoComprobante As String
-Private mTipoContabilizacionOrdenDeProduccion As String
-Private mContabIndividualOrdenDeProduccion As String
-Private mContabPorLoteOrdenDeProduccion As String
-Private mCuentaOrdenDeProduccionProductoTerminado As String
-Private mCuentaOrdenDeProduccionMateriaPrima As String
-Private mOrdenDeProduccionTipoComprobante As String
-Private mEditarComprobanteAfterInsertOrdenDeProduccion As String
-Private mEditarComprobanteAfterInsertOrdenDeProduccionIsSet As String
+Private Const CM_FILE_NAME As String = "clsReglasDeContabilizacionNavigator"
+Private Const CM_MESSAGE_NAME As String = "Reglas de Contabilización"
 
-Public Function eTC_ReglaProvCxP() As Integer
-   eTC_ReglaProvCxP = 0
-End Function
+Public Sub sClrRecord()
+   On Error GoTo h_ERROR
+   SetConsecutivoCompania gProyCompaniaActual.GetConsecutivoCompania
+   SetNumero ""
+'General
+   SetCuentaIva1Credito ""
+   SetCuentaIva1Debito ""
+   SetCuentaRetencionIVA ""
+   SetDondeContabilizarRetIvaStr ""
+   SetDiferenciaEnCambioyCalculo ""
+   SetCuentaDiferenciaCambiaria ""
+'Impuesto a las Transacciones Bancarias
+   SetCuentaDebitoBancarioGasto ""
+   SetCuentaDebitoBancarioBancos ""
+   SetCuentaCreditoBancarioGasto ""
+   SetCuentaCreditoBancarioBancos ""
+'Tipo de Comprobante
+   SetCxCTipoComprobante ""
+   SetCxPTipoComprobante ""
+   SetCobranzaTipoComprobante ""
+   SetPagoTipoComprobante ""
+   SetFacturaTipoComprobante ""
+   SetMovimientoBancarioTipoComprobante ""
+   SetAnticipoTipoComprobante ""
+   SetInventarioTipoComprobante ""
+   SetPagosSueldosTipoComprobante ""
+   SetSiglasTipoComprobanteCajaChica ""
+   SetSiglasTipoComprobanteRendiciones ""
+   SetTransfCtasSigasTipoComprobante ""
+   SetOrdenDeProduccionTipoComprobante ""
+'Tipo de Contabilización
+   SetTipoContabilizacionCxCStr ""
+   SetTipoContabilizacionCxPStr ""
+   SetTipoContabilizacionCobranzaStr ""
+   SetTipoContabilizacionPagosStr ""
+   SetTipoContabilizacionFacturacionStr ""
+   SetTipoContabilizacionRDVtasStr ""
+   SetTipoContabilizacionMovBancarioStr ""
+   SetTipoContabilizacionAnticipoStr ""
+   SetTipoContabilizacionInventarioStr ""
+   SetTipoContabilizacionDePagosSueldosStr ""
+   SetTipoContabilizacionCajaChicaStr ""
+   SetTipoContabilizacionRendicionStr ""
+   SetTipoContabilizacionTransferenciaEntreCuentaStr ""
+   SetTipoContabilizacionOrdenDeProduccionStr ""
+'Editar Comprobante After Insert
+   SetEditarComprobanteAfterInsertCxC False
+   SetEditarComprobanteAfterInsertCxP False
+   SetEditarComprobanteAfterInsertCobranza False
+   SetEditarComprobanteAfterInsertPagos False
+   SetEditarComprobanteAfterInsertFactura False
+   SetEditarComprobanteAfterInsertResDia False
+   SetEditarComprobanteAfterInsertMovBan False
+   SetEditarComprobanteAfterInsertAnticipo False
+   SetEditarComprobanteAfterInsertInventario False
+   SetEditarComprobanteDePagosSueldos False
+   SetEditarComprobanteAfterInsertCajaChica False
+   SetEditarComprobanteAfterInsertTransfCtas False
+   SetEditarComprobanteAfterInsertImpTraBan False
+   SetEditarComprobanteAfterInsertOrdenDeProduccion False
+'CxC
+   SetContabIndividualCxcStr ""
+   SetContabPorLoteCxCStr ""
+   SetCuentaCxCClientes ""
+   SetCuentaCxCIngresos ""
+'CxP
+   SetContabIndividualCxPStr ""
+   SetContabPorLoteCxPStr ""
+   SetCuentaCxPGasto ""
+   SetCuentaCxPProveedores ""
+   SetCuentaRetencionImpuestoMunicipal ""
+'Cobranza
+   SetContabIndividualCobranzaStr ""
+   SetContabPorLoteCobranzaStr ""
+   SetCuentaCobranzaCobradoEnEfectivo ""
+   SetCuentaCobranzaCobradoEnCheque ""
+   SetCuentaCobranzaCobradoEnTarjeta ""
+   SetCuentaCobranzaRetencionISLR ""
+   SetCuentaCobranzaRetencionIVA ""
+   SetCuentaCobranzaOtros ""
+   SetCuentaCobranzaCxCClientes ""
+   SetCuentaCobranzaCobradoAnticipo ""
+   SetCuentaCobranzaIvaDiferido ""
+   SetManejarDiferenciaCambiariaEnCobranza False
+'Pagos
+   SetContabIndividualPagosStr ""
+   SetContabPorLotePagosStr ""
+   SetCuentaPagosCxPProveedores ""
+   SetCuentaPagosRetencionISLR ""
+   SetCuentaPagosOtros ""
+   SetCuentaPagosBanco ""
+   SetCuentaPagosPagadoAnticipo ""
+   SetManejarDiferenciaCambiariaEnPagos False
+'Factura
+   SetContabIndividualFacturacionStr ""
+   SetContabPorLoteFacturacionStr ""
+   SetCuentaFacturacionCxCClientes ""
+   SetCuentaFacturacionMontoTotalFactura ""
+   SetCuentaFacturacionCargos ""
+   SetCuentaFacturacionDescuentos ""
+   SetCuentaFacturacionIvaDiferido ""
+   SetContabilizarPorArticulo False
+   SetAgruparPorCuentaDeArticulo False
+   SetAgruparPorCargosDescuentos False
+'RDV
+   SetContabIndividualRDVtasStr ""
+   SetContabPorLoteRDVtasStr ""
+   SetCuentaRDVtasCaja ""
+   SetCuentaRDVtasMontoTotal ""
+   SetContabilizarPorArticuloRDVtas False
+   SetAgruparPorCuentaDeArticuloRDVtas False
+'Movimiento Bancario
+   SetContabIndividualMovBancarioStr ""
+   SetContabPorLoteMovBancarioStr ""
+   SetCuentaMovBancarioGasto ""
+   SetCuentaMovBancarioBancosHaber ""
+   SetCuentaMovBancarioBancosDebe ""
+   SetCuentaMovBancarioIngresos ""
+'Anticipo
+   SetContabIndividualAnticipoStr ""
+   SetContabPorLoteAnticipoStr ""
+   SetCuentaAnticipoCaja ""
+   SetCuentaAnticipoCobrado ""
+   SetCuentaAnticipoOtrosIngresos ""
+   SetCuentaAnticipoPagado ""
+   SetCuentaAnticipoBanco ""
+   SetCuentaAnticipoOtrosEgresos ""
+'Inventario
+   SetCuentaCostoDeVenta ""
+   SetCuentaInventario ""
+   SetAgruparPorCuentaDeArticuloInven False
+'Solicitud de Pago
+   SetContabIndividualPagosSueldosStr ""
+   SetCtaDePagosSueldos ""
+   SetCtaDePagosSueldosBanco ""
+'Caja Chica - Rendiciones
+   SetContabIndividualCajaChicaStr ""
+   SetCuentaCajaChicaGasto ""
+   SetCuentaCajaChicaBancoHaber ""
+   SetCuentaCajaChicaBancoDebe ""
+   SetCuentaCajaChicaBanco ""
+   SetMostrarDesglosadoCajaChica False
+   SetContabIndividualRendicionesStr ""
+   SetCuentaRendicionesGasto ""
+   SetCuentaRendicionesBanco ""
+   SetCuentaRendicionesAnticipos ""
+   SetMostrarDesglosadoRendiciones False
+'Transferencia entre Cuentas Bancarias
+   SetContabIndividualTransferenciaEntreCuentaStr ""
+   SetContabPorLoteTransferenciaEntreCuentaStr ""
+   SetCuentaTransfCtasBancoDestino ""
+   SetCuentaTransfCtasGastoComOrigen ""
+   SetCuentaTransfCtasGastoComDestino ""
+   SetCuentaTransfCtasBancoOrigen ""
+'Orden de Producción
+   SetContabIndividualOrdenDeProduccionStr ""
+   SetContabPorLoteOrdenDeProduccionStr ""
+   SetCuentaOrdenDeProduccionProductoTerminado ""
+   SetCuentaOrdenDeProduccionMateriaPrima ""
+'Final
+   SetNombreOperador gProyUsuarioActual.GetNombreDelUsuario
+   SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sClrRecord", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
 
-Public Function eTC_ReglaProvGasto() As Integer
-   eTC_ReglaProvGasto = 1
-End Function
-   
-Public Function eTC_ReglaCliCxC() As Integer
-   eTC_ReglaCliCxC = 2
-End Function
-   
-Public Function eTC_ReglaCliIngreso() As Integer
-   eTC_ReglaCliIngreso = 3
-End Function
-
-Public Function eTC_ReglaAntCobCliente() As Integer
-   eTC_ReglaAntCobCliente = 4
-End Function
-
-Public Function eTC_ReglaAntPagProveedor() As Integer
-   eTC_ReglaAntPagProveedor = 5
-End Function
-
+'
 Private Sub SetCuentaIva1DebitoUsaAuxiliares(ByVal valNewValue As Boolean)
    mCuentaIva1DebitoUsaAuxiliares = valNewValue
 End Sub
@@ -402,6 +540,7 @@ Private Sub SetCuentaAnticipoOtrosEgresosUsaAuxiliares(ByVal valNewValue As Bool
    mCuentaAnticipoOtrosEgresosUsaAuxiliares = valNewValue
 End Sub
 
+'get
 Public Function GetCuentaIva1DebitoUsaAuxiliares() As Boolean
    GetCuentaIva1DebitoUsaAuxiliares = mCuentaIva1DebitoUsaAuxiliares
 End Function
@@ -498,179 +637,35 @@ Public Function getCuentaFacturacionIvaDiferidoUsaAuxiliares() As Boolean
    getCuentaFacturacionIvaDiferidoUsaAuxiliares = mCuentaFacturacionIvaDiferidoUsaAuxiliares
 End Function
 
-Public Sub sClrRecord()
-   On Error GoTo h_ERROR
-   SetConsecutivoCompania gProyCompaniaActual.GetConsecutivoCompania
-   SetNumero ""
-   SetDiferenciaEnCambioyCalculo ""
-   SetCuentaDiferenciaCambiaria ""
-   SetCuentaIva1Credito ""
-   SetCuentaIva1Debito ""
-   SetDondeContabilizarRetIvaStr ""
-   SetCuentaRetencionIVA ""
-   SetTipoContabilizacionCxCStr ""
-   SetContabIndividualCxcStr ""
-   SetContabPorLoteCxCStr ""
-   SetCuentaCxCClientes ""
-   SetCuentaCxCIngresos ""
-   SetTipoContabilizacionCxPStr ""
-   SetContabIndividualCxPStr ""
-   SetContabPorLoteCxPStr ""
-   SetCuentaCxPGasto ""
-   SetCuentaCxPProveedores ""
-   SetTipoContabilizacionCobranzaStr ""
-   SetContabIndividualCobranzaStr ""
-   SetContabPorLoteCobranzaStr ""
-   SetCuentaCobranzaCobradoEnEfectivo ""
-   SetCuentaCobranzaCobradoEnCheque ""
-   SetCuentaCobranzaCobradoEnTarjeta ""
-   SetCuentaCobranzaRetencionISLR ""
-   SetCuentaCobranzaRetencionIVA ""
-   SetCuentaCobranzaOtros ""
-   SetCuentaCobranzaCxCClientes ""
-   SetCuentaCobranzaCobradoAnticipo ""
-   SetCuentaCobranzaIvaDiferido ""
-   SetManejarDiferenciaCambiariaEnCobranza False
-   mManejarDiferenciaCambiariaEnCobranzaIsSet = False
-   SetTipoContabilizacionPagosStr ""
-   SetContabIndividualPagosStr ""
-   SetContabPorLotePagosStr ""
-   SetCuentaPagosCxPProveedores ""
-   SetCuentaPagosRetencionISLR ""
-   SetCuentaPagosOtros ""
-   SetCuentaPagosBanco ""
-   SetCuentaPagosPagadoAnticipo ""
-   SetManejarDiferenciaCambiariaEnPagos False
-   mManejarDiferenciaCambiariaEnPagosIsSet = False
-   SetTipoContabilizacionFacturacionStr ""
-   SetContabIndividualFacturacionStr ""
-   SetContabPorLoteFacturacionStr ""
-   SetCuentaFacturacionCxCClientes ""
-   SetCuentaFacturacionMontoTotalFactura ""
-   SetCuentaFacturacionCargos ""
-   SetCuentaFacturacionDescuentos ""
-   SetCuentaFacturacionIvaDiferido ""
-   SetContabilizarPorArticulo False
-   mContabilizarPorArticuloIsSet = False
-   SetAgruparPorCuentaDeArticulo False
-   mAgruparPorCuentaDeArticuloIsSet = False
-   SetAgruparPorCargosDescuentos False
-   mAgruparPorCargosDescuentosIsSet = False
-   SetTipoContabilizacionRDVtasStr ""
-   SetContabIndividualRDVtasStr ""
-   SetContabPorLoteRDVtasStr ""
-   SetCuentaRDVtasCaja ""
-   SetCuentaRDVtasMontoTotal ""
-   SetContabilizarPorArticuloRDVtas False
-   mContabilizarPorArticuloRDVtasIsSet = False
-   SetAgruparPorCuentaDeArticuloRDVtas False
-   mAgruparPorCuentaDeArticuloRDVtasIsSet = False
-   SetTipoContabilizacionMovBancarioStr ""
-   SetContabIndividualMovBancarioStr ""
-   SetContabPorLoteMovBancarioStr ""
-   SetCuentaMovBancarioGasto ""
-   SetCuentaMovBancarioBancosHaber ""
-   SetCuentaMovBancarioBancosDebe ""
-   SetCuentaMovBancarioIngresos ""
-   SetCuentaDebitoBancarioGasto ""
-   SetCuentaDebitoBancarioBancos ""
-   SetCuentaCreditoBancarioGasto ""
-   SetCuentaCreditoBancarioBancos ""
-   SetTipoContabilizacionAnticipoStr ""
-   SetContabIndividualAnticipoStr ""
-   SetContabPorLoteAnticipoStr ""
-   SetCuentaAnticipoCaja ""
-   SetCuentaAnticipoCobrado ""
-   SetCuentaAnticipoOtrosIngresos ""
-   SetCuentaAnticipoPagado ""
-   SetCuentaAnticipoBanco ""
-   SetCuentaAnticipoOtrosEgresos ""
-   SetFacturaTipoComprobante ""
-   SetCxCTipoComprobante ""
-   SetCxPTipoComprobante ""
-   SetCobranzaTipoComprobante ""
-   SetPagoTipoComprobante ""
-   SetMovimientoBancarioTipoComprobante ""
-   SetAnticipoTipoComprobante ""
-   SetCuentaCostoDeVenta ""
-   SetCuentaInventario ""
-   SetTipoContabilizacionInventarioStr ""
-   SetAgruparPorCuentaDeArticuloInven False
-   mAgruparPorCuentaDeArticuloInvenIsSet = False
-   SetInventarioTipoComprobante ""
-   SetCtaDePagosSueldos ""
-   SetCtaDePagosSueldosBanco ""
-   SetTipoContabilizacionDePagosSueldosStr ""
-   SetPagosSueldosTipoComprobante ""
-   SetContabIndividualPagosSueldosStr ""
-   SetEditarComprobanteDePagosSueldos False
-   mEditarComprobanteDePagosSueldosIsSet = True
-   
-   SetEditarComprobanteAfterInsertCxC False
-   mEditarComprobanteAfterInsertCxCIsSet = False
-   SetEditarComprobanteAfterInsertCxP False
-   mEditarComprobanteAfterInsertCxPIsSet = False
-   SetEditarComprobanteAfterInsertCobranza False
-   mEditarComprobanteAfterInsertCobranzaIsSet = False
-   SetEditarComprobanteAfterInsertPagos False
-   mEditarComprobanteAfterInsertPagosIsSet = False
-   SetEditarComprobanteAfterInsertFactura False
-   mEditarComprobanteAfterInsertFacturaIsSet = False
-   SetEditarComprobanteAfterInsertResDia False
-   mEditarComprobanteAfterInsertResDiaIsSet = False
-   SetEditarComprobanteAfterInsertMovBan False
-   mEditarComprobanteAfterInsertMovBanIsSet = False
-   SetEditarComprobanteAfterInsertImpTraBan False
-   mEditarComprobanteAfterInsertImpTraBanIsSet = False
-   SetEditarComprobanteAfterInsertAnticipo False
-   mEditarComprobanteAfterInsertAnticipoIsSet = False
-   SetEditarComprobanteAfterInsertInventario False
-   mEditarComprobanteAfterInsertInventarioIsSet = False
-   SetEditarComprobanteAfterInsertCajaChica False
-   mEditarComprobanteAfterInsertCajaChicaIsSet = False
-   
-   SetSiglasTipoComprobanteCajaChica ""
-   SetContabIndividualCajaChicaStr ""
-   SetCuentaCajaChicaGasto ""
-   SetMostrarDesglosadoCajaChica False
-   mMostrarDesglosadoCajaChicaIsSet = False
-   SetCuentaCajaChicaBancoHaber ""
-   SetCuentaCajaChicaBancoDebe ""
-   SetCuentaCajaChicaBanco ""
-   SetSiglasTipoComprobanteRendiciones ""
-   SetContabIndividualRendicionesStr ""
-   SetCuentaRendicionesGasto ""
-   SetCuentaRendicionesIva ""
-   SetCuentaRendicionesBanco ""
-   SetCuentaRendicionesAnticipos ""
-   SetMostrarDesglosadoRendiciones False
-   mMostrarDesglosadoRendicionesIsSet = False
-   
-   SetCuentaTransfCtasBancoDestino ""
-   SetCuentaTransfCtasBancoOrigen ""
-   SetCuentaTransfCtasGastoComDestino ""
-   SetCuentaTransfCtasGastoComOrigen ""
-   SetTipoContabilizacionOrdenDeProduccionStr ""
-   SetContabIndividualOrdenDeProduccionStr ""
-   SetContabPorLoteOrdenDeProduccionStr ""
-   SetCuentaOrdenDeProduccionProductoTerminado ""
-   SetCuentaOrdenDeProduccionMateriaPrima ""
-   SetOrdenDeProduccionTipoComprobante ""
-   SetEditarComprobanteAfterInsertOrdenDeProduccion False
-   mEditarComprobanteAfterInsertOrdenDeProduccionIsSet = False
-   SetNombreOperador gProyUsuarioActual.GetNombreDelUsuario
-   SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
-   mFechaUltimaModificacionIsSet = False
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sClrRecord", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
+Public Function eTC_ReglaProvCxP() As Integer
+   eTC_ReglaProvCxP = 0
+End Function
 
+Public Function eTC_ReglaProvGasto() As Integer
+   eTC_ReglaProvGasto = 1
+End Function
+   
+Public Function eTC_ReglaCliCxC() As Integer
+   eTC_ReglaCliCxC = 2
+End Function
+   
+Public Function eTC_ReglaCliIngreso() As Integer
+   eTC_ReglaCliIngreso = 3
+End Function
+
+Public Function eTC_ReglaAntCobCliente() As Integer
+   eTC_ReglaAntCobCliente = 4
+End Function
+
+Public Function eTC_ReglaAntPagProveedor() As Integer
+   eTC_ReglaAntPagProveedor = 5
+End Function
+'
 Public Function GetConsecutivoCompania() As Long
    GetConsecutivoCompania = mConsecutivoCompania
 End Function
 
-Public Sub SetConsecutivoCompania(ByVal valNewValue As Long)
+Private Sub SetConsecutivoCompania(ByVal valNewValue As Long)
    mConsecutivoCompania = valNewValue
 End Sub
 
@@ -680,6 +675,39 @@ End Function
 
 Private Sub SetNumero(ByVal valNewValue As String)
    mNumero = gTexto.DfMid(valNewValue, 1, 11)
+End Sub
+
+'General
+Public Function GetCuentaIva1Credito() As String
+   GetCuentaIva1Credito = mCuentaIva1Credito
+End Function
+
+Private Sub SetCuentaIva1Credito(ByVal valNewValue As String)
+   mCuentaIva1Credito = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaIva1Debito() As String
+   GetCuentaIva1Debito = mCuentaIva1Debito
+End Function
+
+Private Sub SetCuentaIva1Debito(ByVal valNewValue As String)
+   mCuentaIva1Debito = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetCuentaRetencionIVA() As String
+   GetCuentaRetencionIVA = mCuentaRetencionIVA
+End Function
+
+Private Sub SetCuentaRetencionIVA(ByVal valNewValue As String)
+   mCuentaRetencionIVA = gTexto.DfMid(valNewValue, 1, 30)
+End Sub
+
+Public Function GetDondeContabilizarRetIvaAsEnum() As enum_DondeEfectuoContabilizacionRetIVA
+   GetDondeContabilizarRetIvaAsEnum = gEnumProyecto.strDondeEfectuoContabilizacionRetIVAToNum(mDondeContabilizarRetIva, False)
+End Function
+
+Private Sub SetDondeContabilizarRetIvaStr(ByVal valNewValue As String)
+   mDondeContabilizarRetIva = valNewValue
 End Sub
 
 Public Function GetDiferenciaEnCambioyCalculo() As String
@@ -698,104 +726,381 @@ Private Sub SetCuentaDiferenciaCambiaria(ByVal valNewValue As String)
    mCuentaDiferenciaCambiaria = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetCuentaIva1Credito() As String
-   GetCuentaIva1Credito = mCuentaIva1Credito
+'Impuestos a las Transacciones Bancarias
+Public Function GetCuentaDebitoBancarioGasto() As String
+   GetCuentaDebitoBancarioGasto = mCuentaDebitoBancarioGasto
 End Function
 
-Private Sub SetCuentaIva1Credito(ByVal valNewValue As String)
-   mCuentaIva1Credito = gTexto.DfMid(valNewValue, 1, 30)
+Private Sub SetCuentaDebitoBancarioGasto(ByVal valNewValue As String)
+   mCuentaDebitoBancarioGasto = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetCuentaIva1Debito() As String
-   GetCuentaIva1Debito = mCuentaIva1Debito
+Public Function GetCuentaDebitoBancarioBancos() As String
+   GetCuentaDebitoBancarioBancos = mCuentaDebitoBancarioBancos
 End Function
 
-Private Sub SetCuentaIva1Debito(ByVal valNewValue As String)
-   mCuentaIva1Debito = gTexto.DfMid(valNewValue, 1, 30)
+Private Sub SetCuentaDebitoBancarioBancos(ByVal valNewValue As String)
+   mCuentaDebitoBancarioBancos = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetDondeContabilizarRetIvaStr() As String
-   GetDondeContabilizarRetIvaStr = mDondeContabilizarRetIva
+Public Function GetCuentaCreditoBancarioGasto() As String
+   GetCuentaCreditoBancarioGasto = mCuentaCreditoBancarioGasto
 End Function
 
-Private Function GetDondeContabilizarRetIvaChar() As String
-   If GetDondeContabilizarRetIvaStr = "" Then
-      GetDondeContabilizarRetIvaChar = ""
-   Else
-      GetDondeContabilizarRetIvaChar = gConvert.enumerativoAChar(gEnumProyecto.strDondeEfectuoContabilizacionRetIVAToNum(GetDondeContabilizarRetIvaStr, False))
-   End If
-End Function
-
-Public Function GetDondeContabilizarRetIvaAsEnum() As enum_DondeEfectuoContabilizacionRetIVA
-   GetDondeContabilizarRetIvaAsEnum = gEnumProyecto.strDondeEfectuoContabilizacionRetIVAToNum(GetDondeContabilizarRetIvaStr, False)
-End Function
-
-Private Sub SetDondeContabilizarRetIvaStr(ByVal valNewValue As String)
-   mDondeContabilizarRetIva = valNewValue
+Private Sub SetCuentaCreditoBancarioGasto(ByVal valNewValue As String)
+   mCuentaCreditoBancarioGasto = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetCuentaRetencionIVA() As String
-   GetCuentaRetencionIVA = mCuentaRetencionIVA
+Public Function GetCuentaCreditoBancarioBancos() As String
+   GetCuentaCreditoBancarioBancos = mCuentaCreditoBancarioBancos
 End Function
 
-Private Sub SetCuentaRetencionIVA(ByVal valNewValue As String)
-   mCuentaRetencionIVA = gTexto.DfMid(valNewValue, 1, 30)
+Private Sub SetCuentaCreditoBancarioBancos(ByVal valNewValue As String)
+   mCuentaCreditoBancarioBancos = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetTipoContabilizacionCxCStr() As String
-   GetTipoContabilizacionCxCStr = mTipoContabilizacionCxC
+'Tipo de Comprobante
+Public Function GetCxCTipoComprobante() As String
+   GetCxCTipoComprobante = mCxCTipoComprobante
 End Function
 
-Private Function GetTipoContabilizacionCxCChar() As String
-   If GetTipoContabilizacionCxCStr = "" Then
-      GetTipoContabilizacionCxCChar = ""
-   Else
-      GetTipoContabilizacionCxCChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionCxCStr, False))
-   End If
+Private Sub SetCxCTipoComprobante(ByVal valNewValue As String)
+   mCxCTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetCxPTipoComprobante() As String
+   GetCxPTipoComprobante = mCxPTipoComprobante
 End Function
 
+Private Sub SetCxPTipoComprobante(ByVal valNewValue As String)
+   mCxPTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetCobranzaTipoComprobante() As String
+   GetCobranzaTipoComprobante = mCobranzaTipoComprobante
+End Function
+
+Private Sub SetCobranzaTipoComprobante(ByVal valNewValue As String)
+   mCobranzaTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetPagoTipoComprobante() As String
+   GetPagoTipoComprobante = mPagoTipoComprobante
+End Function
+
+Private Sub SetPagoTipoComprobante(ByVal valNewValue As String)
+   mPagoTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetFacturaTipoComprobante() As String
+   GetFacturaTipoComprobante = mFacturaTipoComprobante
+End Function
+
+Private Sub SetFacturaTipoComprobante(ByVal valNewValue As String)
+   mFacturaTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetMovimientoBancarioTipoComprobante() As String
+   GetMovimientoBancarioTipoComprobante = mMovimientoBancarioTipoComprobante
+End Function
+
+Private Sub SetMovimientoBancarioTipoComprobante(ByVal valNewValue As String)
+   mMovimientoBancarioTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetAnticipoTipoComprobante() As String
+   GetAnticipoTipoComprobante = mAnticipoTipoComprobante
+End Function
+
+Private Sub SetAnticipoTipoComprobante(ByVal valNewValue As String)
+   mAnticipoTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetInventarioTipoComprobante() As String
+   GetInventarioTipoComprobante = mInventarioTipoComprobante
+End Function
+
+Private Sub SetInventarioTipoComprobante(ByVal valNewValue As String)
+   mInventarioTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetPagosSueldosTipoComprobante() As String
+   GetPagosSueldosTipoComprobante = mPagosSueldosTipoComprobante
+End Function
+
+Private Sub SetPagosSueldosTipoComprobante(ByVal valNewValue As String)
+   mPagosSueldosTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetSiglasTipoComprobanteCajaChica() As String
+   GetSiglasTipoComprobanteCajaChica = mSiglasTipoComprobanteCajaChica
+End Function
+
+Private Sub SetSiglasTipoComprobanteCajaChica(ByVal valNewValue As String)
+   mSiglasTipoComprobanteCajaChica = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetSiglasTipoComprobanteRendiciones() As String
+   GetSiglasTipoComprobanteRendiciones = mSiglasTipoComprobanteRendiciones
+End Function
+
+Private Sub SetSiglasTipoComprobanteRendiciones(ByVal valNewValue As String)
+   mSiglasTipoComprobanteRendiciones = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetTransfCtasSigasTipoComprobante() As String
+   GetTransfCtasSigasTipoComprobante = mTransfCtasSigasTipoComprobante
+End Function
+
+Private Sub SetTransfCtasSigasTipoComprobante(ByVal valNewValue As String)
+   mTransfCtasSigasTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+Public Function GetOrdenDeProduccionTipoComprobante() As String
+   GetOrdenDeProduccionTipoComprobante = mOrdenDeProduccionTipoComprobante
+End Function
+
+Private Sub SetOrdenDeProduccionTipoComprobante(ByVal valNewValue As String)
+   mOrdenDeProduccionTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+End Sub
+
+'Tipo de Contabilización
 Public Function GetTipoContabilizacionCxCAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionCxCAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionCxCStr, False)
+   GetTipoContabilizacionCxCAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionCxC, False)
 End Function
 
 Private Sub SetTipoContabilizacionCxCStr(ByVal valNewValue As String)
    mTipoContabilizacionCxC = valNewValue
 End Sub
 
-Public Function GetContabIndividualCxcStr() As String
-   GetContabIndividualCxcStr = mContabIndividualCxc
+Public Function GetTipoContabilizacionCxPAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionCxPAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionCxP, False)
 End Function
 
-Private Function GetContabIndividualCxcChar() As String
-   If GetContabIndividualCxcStr = "" Then
-      GetContabIndividualCxcChar = ""
-   Else
-      GetContabIndividualCxcChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualCxcStr, False))
-   End If
+Private Sub SetTipoContabilizacionCxPStr(ByVal valNewValue As String)
+   mTipoContabilizacionCxP = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionCobranzaAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionCobranzaAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionCobranza, False)
 End Function
 
+Private Sub SetTipoContabilizacionCobranzaStr(ByVal valNewValue As String)
+   mTipoContabilizacionCobranza = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionPagosAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionPagosAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionPagos, False)
+End Function
+
+Private Sub SetTipoContabilizacionPagosStr(ByVal valNewValue As String)
+   mTipoContabilizacionPagos = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionFacturacionAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionFacturacionAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionFacturacion, False)
+End Function
+
+Private Sub SetTipoContabilizacionFacturacionStr(ByVal valNewValue As String)
+   mTipoContabilizacionFacturacion = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionRDVtasAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionRDVtasAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionRDVtas, False)
+End Function
+
+Private Sub SetTipoContabilizacionRDVtasStr(ByVal valNewValue As String)
+   mTipoContabilizacionRDVtas = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionMovBancarioAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionMovBancarioAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionMovBancario, False)
+End Function
+
+Private Sub SetTipoContabilizacionMovBancarioStr(ByVal valNewValue As String)
+   mTipoContabilizacionMovBancario = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionAnticipoAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionAnticipoAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionAnticipo, False)
+End Function
+
+Private Sub SetTipoContabilizacionAnticipoStr(ByVal valNewValue As String)
+   mTipoContabilizacionAnticipo = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionInventarioAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionInventarioAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionInventario, False)
+End Function
+
+Private Sub SetTipoContabilizacionInventarioStr(ByVal valNewValue As String)
+   mTipoContabilizacionInventario = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionDePagosSueldosAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionDePagosSueldosAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionDePagosSueldos, False)
+End Function
+
+Private Sub SetTipoContabilizacionDePagosSueldosStr(ByVal valNewValue As String)
+   mTipoContabilizacionDePagosSueldos = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionCajaChicaAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionCajaChicaAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionCajaChica, False)
+End Function
+
+Private Sub SetTipoContabilizacionCajaChicaStr(ByVal valNewValue As String)
+   mTipoContabilizacionCajaChica = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionRendicionAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionRendicionAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionRendicion, False)
+End Function
+
+Private Sub SetTipoContabilizacionRendicionStr(ByVal valNewValue As String)
+   mTipoContabilizacionRendicion = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionTransferenciaEntreCuentaAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionTransferenciaEntreCuentaAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionTransferenciaEntreCuenta, False)
+End Function
+
+Private Sub SetTipoContabilizacionTransferenciaEntreCuentaStr(ByVal valNewValue As String)
+   mTipoContabilizacionTransferenciaEntreCuenta = valNewValue
+End Sub
+
+Public Function GetTipoContabilizacionOrdenDeProduccionAsEnum() As enum_TipoDeContabilizacion
+   GetTipoContabilizacionOrdenDeProduccionAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(mTipoContabilizacionOrdenDeProduccion, False)
+End Function
+
+Private Sub SetTipoContabilizacionOrdenDeProduccionStr(ByVal valNewValue As String)
+   mTipoContabilizacionOrdenDeProduccion = valNewValue
+End Sub
+
+'Editar Comprobante After Insert
+Public Function GetEditarComprobanteAfterInsertCxC() As Boolean
+   GetEditarComprobanteAfterInsertCxC = mEditarComprobanteAfterInsertCxC
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertCxC(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertCxC = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertCxP() As Boolean
+   GetEditarComprobanteAfterInsertCxP = mEditarComprobanteAfterInsertCxP
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertCxP(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertCxP = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertCobranza() As Boolean
+   GetEditarComprobanteAfterInsertCobranza = mEditarComprobanteAfterInsertCobranza
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertCobranza(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertCobranza = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertPagos() As Boolean
+   GetEditarComprobanteAfterInsertPagos = mEditarComprobanteAfterInsertPagos
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertPagos(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertPagos = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertFactura() As Boolean
+   GetEditarComprobanteAfterInsertFactura = mEditarComprobanteAfterInsertFactura
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertFactura(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertFactura = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertResDia() As Boolean
+   GetEditarComprobanteAfterInsertResDia = mEditarComprobanteAfterInsertResDia
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertResDia(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertResDia = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertMovBan() As Boolean
+   GetEditarComprobanteAfterInsertMovBan = mEditarComprobanteAfterInsertMovBan
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertMovBan(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertMovBan = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertAnticipo() As Boolean
+   GetEditarComprobanteAfterInsertAnticipo = mEditarComprobanteAfterInsertAnticipo
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertAnticipo(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertAnticipo = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertInventario() As Boolean
+   GetEditarComprobanteAfterInsertInventario = mEditarComprobanteAfterInsertInventario
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertInventario(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertInventario = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteDePagosSueldos() As Boolean
+   GetEditarComprobanteDePagosSueldos = mEditarComprobanteDePagosSueldos
+End Function
+
+Public Sub SetEditarComprobanteDePagosSueldos(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteDePagosSueldos = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertCajaChica() As Boolean
+   GetEditarComprobanteAfterInsertCajaChica = mEditarComprobanteAfterInsertCajaChica
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertCajaChica(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertCajaChica = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertTransfCtas() As Boolean
+   GetEditarComprobanteAfterInsertTransfCtas = mEditarComprobanteAfterInsertTransfCtas
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertTransfCtas(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertTransfCtas = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertImpTraBan() As Boolean
+   GetEditarComprobanteAfterInsertImpTraBan = mEditarComprobanteAfterInsertImpTraBan
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertImpTraBan(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertImpTraBan = valNewValue
+End Sub
+
+Public Function GetEditarComprobanteAfterInsertOrdenDeProduccion() As Boolean
+   GetEditarComprobanteAfterInsertOrdenDeProduccion = mEditarComprobanteAfterInsertOrdenDeProduccion
+End Function
+
+Public Sub SetEditarComprobanteAfterInsertOrdenDeProduccion(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mEditarComprobanteAfterInsertOrdenDeProduccion = valNewValue
+End Sub
+
+'CxC
 Public Function GetContabIndividualCxcAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualCxcAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualCxcStr, False)
+   GetContabIndividualCxcAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualCxc, False)
 End Function
 
 Private Sub SetContabIndividualCxcStr(ByVal valNewValue As String)
    mContabIndividualCxc = valNewValue
 End Sub
 
-Public Function GetContabPorLoteCxCStr() As String
-   GetContabPorLoteCxCStr = mContabPorLoteCxC
-End Function
-
-Private Function GetContabPorLoteCxCChar() As String
-   If GetContabPorLoteCxCStr = "" Then
-      GetContabPorLoteCxCChar = ""
-   Else
-      GetContabPorLoteCxCChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteCxCStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLoteCxCAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLoteCxCAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteCxCStr, False)
+   GetContabPorLoteCxCAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteCxC, False)
 End Function
 
 Private Sub SetContabPorLoteCxCStr(ByVal valNewValue As String)
@@ -818,60 +1123,17 @@ Private Sub SetCuentaCxCIngresos(ByVal valNewValue As String)
    mCuentaCxCIngresos = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetTipoContabilizacionCxPStr() As String
-   GetTipoContabilizacionCxPStr = mTipoContabilizacionCxP
-End Function
-
-Private Function GetTipoContabilizacionCxPChar() As String
-   If GetTipoContabilizacionCxPStr = "" Then
-      GetTipoContabilizacionCxPChar = ""
-   Else
-      GetTipoContabilizacionCxPChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionCxPStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionCxPAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionCxPAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionCxPStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionCxPStr(ByVal valNewValue As String)
-   mTipoContabilizacionCxP = valNewValue
-End Sub
-
-Public Function GetContabIndividualCxPStr() As String
-   GetContabIndividualCxPStr = mContabIndividualCxP
-End Function
-
-Private Function GetContabIndividualCxPChar() As String
-   If GetContabIndividualCxPStr = "" Then
-      GetContabIndividualCxPChar = ""
-   Else
-      GetContabIndividualCxPChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualCxPStr, False))
-   End If
-End Function
-
+'CxP
 Public Function GetContabIndividualCxPAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualCxPAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualCxPStr, False)
+   GetContabIndividualCxPAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualCxP, False)
 End Function
 
 Private Sub SetContabIndividualCxPStr(ByVal valNewValue As String)
    mContabIndividualCxP = valNewValue
 End Sub
 
-Public Function GetContabPorLoteCxPStr() As String
-   GetContabPorLoteCxPStr = mContabPorLoteCxP
-End Function
-
-Private Function GetContabPorLoteCxPChar() As String
-   If GetContabPorLoteCxPStr = "" Then
-      GetContabPorLoteCxPChar = ""
-   Else
-      GetContabPorLoteCxPChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteCxPStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLoteCxPAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLoteCxPAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteCxPStr, False)
+   GetContabPorLoteCxPAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteCxP, False)
 End Function
 
 Private Sub SetContabPorLoteCxPStr(ByVal valNewValue As String)
@@ -894,60 +1156,25 @@ Private Sub SetCuentaCxPProveedores(ByVal valNewValue As String)
    mCuentaCxPProveedores = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetTipoContabilizacionCobranzaStr() As String
-   GetTipoContabilizacionCobranzaStr = mTipoContabilizacionCobranza
+Public Function GetCuentaRetencionImpuestoMunicipal() As String
+   GetCuentaRetencionImpuestoMunicipal = mCuentaRetencionImpuestoMunicipal
 End Function
 
-Private Function GetTipoContabilizacionCobranzaChar() As String
-   If GetTipoContabilizacionCobranzaStr = "" Then
-      GetTipoContabilizacionCobranzaChar = ""
-   Else
-      GetTipoContabilizacionCobranzaChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionCobranzaStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionCobranzaAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionCobranzaAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionCobranzaStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionCobranzaStr(ByVal valNewValue As String)
-   mTipoContabilizacionCobranza = valNewValue
+Private Sub SetCuentaRetencionImpuestoMunicipal(ByVal valNewValue As String)
+   mCuentaRetencionImpuestoMunicipal = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetContabIndividualCobranzaStr() As String
-   GetContabIndividualCobranzaStr = mContabIndividualCobranza
-End Function
-
-Private Function GetContabIndividualCobranzaChar() As String
-   If GetContabIndividualCobranzaStr = "" Then
-      GetContabIndividualCobranzaChar = ""
-   Else
-      GetContabIndividualCobranzaChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualCobranzaStr, False))
-   End If
-End Function
-
+'Cobranza
 Public Function GetContabIndividualCobranzaAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualCobranzaAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualCobranzaStr, False)
+   GetContabIndividualCobranzaAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualCobranza, False)
 End Function
 
 Private Sub SetContabIndividualCobranzaStr(ByVal valNewValue As String)
    mContabIndividualCobranza = valNewValue
 End Sub
 
-Public Function GetContabPorLoteCobranzaStr() As String
-   GetContabPorLoteCobranzaStr = mContabPorLoteCobranza
-End Function
-
-Private Function GetContabPorLoteCobranzaChar() As String
-   If GetContabPorLoteCobranzaStr = "" Then
-      GetContabPorLoteCobranzaChar = ""
-   Else
-      GetContabPorLoteCobranzaChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteCobranzaStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLoteCobranzaAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLoteCobranzaAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteCobranzaStr, False)
+   GetContabPorLoteCobranzaAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteCobranza, False)
 End Function
 
 Private Sub SetContabPorLoteCobranzaStr(ByVal valNewValue As String)
@@ -1032,63 +1259,19 @@ End Function
 
 Private Sub SetManejarDiferenciaCambiariaEnCobranza(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mManejarDiferenciaCambiariaEnCobranza = valNewValue
-   mManejarDiferenciaCambiariaEnCobranzaIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
-Public Function GetTipoContabilizacionPagosStr() As String
-   GetTipoContabilizacionPagosStr = mTipoContabilizacionPagos
-End Function
-
-Private Function GetTipoContabilizacionPagosChar() As String
-   If GetTipoContabilizacionPagosStr = "" Then
-      GetTipoContabilizacionPagosChar = ""
-   Else
-      GetTipoContabilizacionPagosChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionPagosStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionPagosAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionPagosAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionPagosStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionPagosStr(ByVal valNewValue As String)
-   mTipoContabilizacionPagos = valNewValue
-End Sub
-
-Public Function GetContabIndividualPagosStr() As String
-   GetContabIndividualPagosStr = mContabIndividualPagos
-End Function
-
-Private Function GetContabIndividualPagosChar() As String
-   If GetContabIndividualPagosStr = "" Then
-      GetContabIndividualPagosChar = ""
-   Else
-      GetContabIndividualPagosChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualPagosStr, False))
-   End If
-End Function
-
+'Pagos
 Public Function GetContabIndividualPagosAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualPagosAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualPagosStr, False)
+   GetContabIndividualPagosAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualPagos, False)
 End Function
 
 Private Sub SetContabIndividualPagosStr(ByVal valNewValue As String)
    mContabIndividualPagos = valNewValue
 End Sub
 
-Public Function GetContabPorLotePagosStr() As String
-   GetContabPorLotePagosStr = mContabPorLotePagos
-End Function
-
-Private Function GetContabPorLotePagosChar() As String
-   If GetContabPorLotePagosStr = "" Then
-      GetContabPorLotePagosChar = ""
-   Else
-      GetContabPorLotePagosChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLotePagosStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLotePagosAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLotePagosAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLotePagosStr, False)
+   GetContabPorLotePagosAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLotePagos, False)
 End Function
 
 Private Sub SetContabPorLotePagosStr(ByVal valNewValue As String)
@@ -1141,63 +1324,19 @@ End Function
 
 Private Sub SetManejarDiferenciaCambiariaEnPagos(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mManejarDiferenciaCambiariaEnPagos = valNewValue
-   mManejarDiferenciaCambiariaEnPagosIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
-Public Function GetTipoContabilizacionFacturacionStr() As String
-   GetTipoContabilizacionFacturacionStr = mTipoContabilizacionFacturacion
-End Function
-
-Private Function GetTipoContabilizacionFacturacionChar() As String
-   If GetTipoContabilizacionFacturacionStr = "" Then
-      GetTipoContabilizacionFacturacionChar = ""
-   Else
-      GetTipoContabilizacionFacturacionChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionFacturacionStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionFacturacionAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionFacturacionAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionFacturacionStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionFacturacionStr(ByVal valNewValue As String)
-   mTipoContabilizacionFacturacion = valNewValue
-End Sub
-
-Public Function GetContabIndividualFacturacionStr() As String
-   GetContabIndividualFacturacionStr = mContabIndividualFacturacion
-End Function
-
-Private Function GetContabIndividualFacturacionChar() As String
-   If GetContabIndividualFacturacionStr = "" Then
-      GetContabIndividualFacturacionChar = ""
-   Else
-      GetContabIndividualFacturacionChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualFacturacionStr, False))
-   End If
-End Function
-
+'Facturación
 Public Function GetContabIndividualFacturacionAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualFacturacionAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualFacturacionStr, False)
+   GetContabIndividualFacturacionAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualFacturacion, False)
 End Function
 
 Private Sub SetContabIndividualFacturacionStr(ByVal valNewValue As String)
    mContabIndividualFacturacion = valNewValue
 End Sub
 
-Public Function GetContabPorLoteFacturacionStr() As String
-   GetContabPorLoteFacturacionStr = mContabPorLoteFacturacion
-End Function
-
-Private Function GetContabPorLoteFacturacionChar() As String
-   If GetContabPorLoteFacturacionStr = "" Then
-      GetContabPorLoteFacturacionChar = ""
-   Else
-      GetContabPorLoteFacturacionChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteFacturacionStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLoteFacturacionAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLoteFacturacionAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteFacturacionStr, False)
+   GetContabPorLoteFacturacionAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteFacturacion, False)
 End Function
 
 Private Sub SetContabPorLoteFacturacionStr(ByVal valNewValue As String)
@@ -1250,7 +1389,6 @@ End Function
 
 Private Sub SetContabilizarPorArticulo(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mContabilizarPorArticulo = valNewValue
-   mContabilizarPorArticuloIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
 Public Function GetAgruparPorCuentaDeArticulo() As Boolean
@@ -1259,7 +1397,6 @@ End Function
 
 Private Sub SetAgruparPorCuentaDeArticulo(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mAgruparPorCuentaDeArticulo = valNewValue
-   mAgruparPorCuentaDeArticuloIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
 Public Function GetAgruparPorCargosDescuentos() As Boolean
@@ -1268,63 +1405,19 @@ End Function
 
 Private Sub SetAgruparPorCargosDescuentos(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mAgruparPorCargosDescuentos = valNewValue
-   mAgruparPorCargosDescuentosIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
-Private Function GetTipoContabilizacionRDVtasStr() As String
-   GetTipoContabilizacionRDVtasStr = mTipoContabilizacionRDVtas
-End Function
-
-Private Function GetTipoContabilizacionRDVtasChar() As String
-   If GetTipoContabilizacionRDVtasStr = "" Then
-      GetTipoContabilizacionRDVtasChar = ""
-   Else
-      GetTipoContabilizacionRDVtasChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionRDVtasStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionRDVtasAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionRDVtasAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionRDVtasStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionRDVtasStr(ByVal valNewValue As String)
-   mTipoContabilizacionRDVtas = valNewValue
-End Sub
-
-Public Function GetContabIndividualRDVtasStr() As String
-   GetContabIndividualRDVtasStr = mContabIndividualRDVtas
-End Function
-
-Private Function GetContabIndividualRDVtasChar() As String
-   If GetContabIndividualRDVtasStr = "" Then
-      GetContabIndividualRDVtasChar = ""
-   Else
-      GetContabIndividualRDVtasChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualRDVtasStr, False))
-   End If
-End Function
-
+'Resumen Diario de Ventas
 Public Function GetContabIndividualRDVtasAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualRDVtasAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualRDVtasStr, False)
+   GetContabIndividualRDVtasAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualRDVtas, False)
 End Function
 
 Private Sub SetContabIndividualRDVtasStr(ByVal valNewValue As String)
    mContabIndividualRDVtas = valNewValue
 End Sub
 
-Public Function GetContabPorLoteRDVtasStr() As String
-   GetContabPorLoteRDVtasStr = mContabPorLoteRDVtas
-End Function
-
-Private Function GetContabPorLoteRDVtasChar() As String
-   If GetContabPorLoteRDVtasStr = "" Then
-      GetContabPorLoteRDVtasChar = ""
-   Else
-      GetContabPorLoteRDVtasChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteRDVtasStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLoteRDVtasAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLoteRDVtasAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteRDVtasStr, False)
+   GetContabPorLoteRDVtasAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteRDVtas, False)
 End Function
 
 Private Sub SetContabPorLoteRDVtasStr(ByVal valNewValue As String)
@@ -1353,7 +1446,6 @@ End Function
 
 Private Sub SetContabilizarPorArticuloRDVtas(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mContabilizarPorArticuloRDVtas = valNewValue
-   mContabilizarPorArticuloRDVtasIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
 Public Function GetAgruparPorCuentaDeArticuloRDVtas() As Boolean
@@ -1362,63 +1454,19 @@ End Function
 
 Private Sub SetAgruparPorCuentaDeArticuloRDVtas(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mAgruparPorCuentaDeArticuloRDVtas = valNewValue
-   mAgruparPorCuentaDeArticuloRDVtasIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
-Public Function GetTipoContabilizacionMovBancarioStr() As String
-   GetTipoContabilizacionMovBancarioStr = mTipoContabilizacionMovBancario
-End Function
-
-Private Function GetTipoContabilizacionMovBancarioChar() As String
-   If GetTipoContabilizacionMovBancarioStr = "" Then
-      GetTipoContabilizacionMovBancarioChar = ""
-   Else
-      GetTipoContabilizacionMovBancarioChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionMovBancarioStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionMovBancarioAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionMovBancarioAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionMovBancarioStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionMovBancarioStr(ByVal valNewValue As String)
-   mTipoContabilizacionMovBancario = valNewValue
-End Sub
-
-Public Function GetContabIndividualMovBancarioStr() As String
-   GetContabIndividualMovBancarioStr = mContabIndividualMovBancario
-End Function
-
-Private Function GetContabIndividualMovBancarioChar() As String
-   If GetContabIndividualMovBancarioStr = "" Then
-      GetContabIndividualMovBancarioChar = ""
-   Else
-      GetContabIndividualMovBancarioChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualMovBancarioStr, False))
-   End If
-End Function
-
+'Movimiento Bancario
 Public Function GetContabIndividualMovBancarioAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualMovBancarioAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualMovBancarioStr, False)
+   GetContabIndividualMovBancarioAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualMovBancario, False)
 End Function
 
 Private Sub SetContabIndividualMovBancarioStr(ByVal valNewValue As String)
    mContabIndividualMovBancario = valNewValue
 End Sub
 
-Public Function GetContabPorLoteMovBancarioStr() As String
-   GetContabPorLoteMovBancarioStr = mContabPorLoteMovBancario
-End Function
-
-Private Function GetContabPorLoteMovBancarioChar() As String
-   If GetContabPorLoteMovBancarioStr = "" Then
-      GetContabPorLoteMovBancarioChar = ""
-   Else
-      GetContabPorLoteMovBancarioChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteMovBancarioStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLoteMovBancarioAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLoteMovBancarioAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteMovBancarioStr, False)
+   GetContabPorLoteMovBancarioAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteMovBancario, False)
 End Function
 
 Private Sub SetContabPorLoteMovBancarioStr(ByVal valNewValue As String)
@@ -1457,92 +1505,17 @@ Private Sub SetCuentaMovBancarioIngresos(ByVal valNewValue As String)
    mCuentaMovBancarioIngresos = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetCuentaDebitoBancarioGasto() As String
-   GetCuentaDebitoBancarioGasto = mCuentaDebitoBancarioGasto
-End Function
-
-Private Sub SetCuentaDebitoBancarioGasto(ByVal valNewValue As String)
-   mCuentaDebitoBancarioGasto = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetCuentaDebitoBancarioBancos() As String
-   GetCuentaDebitoBancarioBancos = mCuentaDebitoBancarioBancos
-End Function
-
-Private Sub SetCuentaDebitoBancarioBancos(ByVal valNewValue As String)
-   mCuentaDebitoBancarioBancos = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetCuentaCreditoBancarioGasto() As String
-   GetCuentaCreditoBancarioGasto = mCuentaCreditoBancarioGasto
-End Function
-
-Private Sub SetCuentaCreditoBancarioGasto(ByVal valNewValue As String)
-   mCuentaCreditoBancarioGasto = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetCuentaCreditoBancarioBancos() As String
-   GetCuentaCreditoBancarioBancos = mCuentaCreditoBancarioBancos
-End Function
-
-Private Sub SetCuentaCreditoBancarioBancos(ByVal valNewValue As String)
-   mCuentaCreditoBancarioBancos = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetTipoContabilizacionAnticipoStr() As String
-   GetTipoContabilizacionAnticipoStr = mTipoContabilizacionAnticipo
-End Function
-
-Private Function GetTipoContabilizacionAnticipoChar() As String
-   If GetTipoContabilizacionAnticipoStr = "" Then
-      GetTipoContabilizacionAnticipoChar = ""
-   Else
-      GetTipoContabilizacionAnticipoChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionAnticipoStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionAnticipoAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionAnticipoAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionAnticipoStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionAnticipoStr(ByVal valNewValue As String)
-   mTipoContabilizacionAnticipo = valNewValue
-End Sub
-
-Public Function GetContabIndividualAnticipoStr() As String
-   GetContabIndividualAnticipoStr = mContabIndividualAnticipo
-End Function
-
-Private Function GetContabIndividualAnticipoChar() As String
-   If GetContabIndividualAnticipoStr = "" Then
-      GetContabIndividualAnticipoChar = ""
-   Else
-      GetContabIndividualAnticipoChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualAnticipoStr, False))
-   End If
-End Function
-
+'Anticipo
 Public Function GetContabIndividualAnticipoAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualAnticipoAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualAnticipoStr, False)
+   GetContabIndividualAnticipoAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualAnticipo, False)
 End Function
 
 Private Sub SetContabIndividualAnticipoStr(ByVal valNewValue As String)
    mContabIndividualAnticipo = valNewValue
 End Sub
 
-Public Function GetContabPorLoteAnticipoStr() As String
-   GetContabPorLoteAnticipoStr = mContabPorLoteAnticipo
-End Function
-
-Private Function GetContabPorLoteAnticipoChar() As String
-   If GetContabPorLoteAnticipoStr = "" Then
-      GetContabPorLoteAnticipoChar = ""
-   Else
-      GetContabPorLoteAnticipoChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteAnticipoStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLoteAnticipoAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLoteAnticipoAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteAnticipoStr, False)
+   GetContabPorLoteAnticipoAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteAnticipo, False)
 End Function
 
 Private Sub SetContabPorLoteAnticipoStr(ByVal valNewValue As String)
@@ -1597,62 +1570,7 @@ Private Sub SetCuentaAnticipoOtrosEgresos(ByVal valNewValue As String)
    mCuentaAnticipoOtrosEgresos = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetFacturaTipoComprobante() As String
-   GetFacturaTipoComprobante = mFacturaTipoComprobante
-End Function
-
-Private Sub SetFacturaTipoComprobante(ByVal valNewValue As String)
-   mFacturaTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetCxCTipoComprobante() As String
-   GetCxCTipoComprobante = mCxCTipoComprobante
-End Function
-
-Private Sub SetCxCTipoComprobante(ByVal valNewValue As String)
-   mCxCTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetCxPTipoComprobante() As String
-   GetCxPTipoComprobante = mCxPTipoComprobante
-End Function
-
-Private Sub SetCxPTipoComprobante(ByVal valNewValue As String)
-   mCxPTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetCobranzaTipoComprobante() As String
-   GetCobranzaTipoComprobante = mCobranzaTipoComprobante
-End Function
-
-Private Sub SetCobranzaTipoComprobante(ByVal valNewValue As String)
-   mCobranzaTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetPagoTipoComprobante() As String
-   GetPagoTipoComprobante = mPagoTipoComprobante
-End Function
-
-Private Sub SetPagoTipoComprobante(ByVal valNewValue As String)
-   mPagoTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetMovimientoBancarioTipoComprobante() As String
-   GetMovimientoBancarioTipoComprobante = mMovimientoBancarioTipoComprobante
-End Function
-
-Private Sub SetMovimientoBancarioTipoComprobante(ByVal valNewValue As String)
-   mMovimientoBancarioTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetAnticipoTipoComprobante() As String
-   GetAnticipoTipoComprobante = mAnticipoTipoComprobante
-End Function
-
-Private Sub SetAnticipoTipoComprobante(ByVal valNewValue As String)
-   mAnticipoTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
+'Inventario
 Public Function GetCuentaCostoDeVenta() As String
    GetCuentaCostoDeVenta = mCuentaCostoDeVenta
 End Function
@@ -1669,42 +1587,21 @@ Private Sub SetCuentaInventario(ByVal valNewValue As String)
    mCuentaInventario = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetTipoContabilizacionInventarioStr() As String
-   GetTipoContabilizacionInventarioStr = mTipoContabilizacionInventario
-End Function
-
-Public Function GetTipoContabilizacionInventarioChar() As String
-   If GetTipoContabilizacionInventarioStr = "" Then
-      GetTipoContabilizacionInventarioChar = ""
-   Else
-      GetTipoContabilizacionInventarioChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionInventarioStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionInventarioAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionInventarioAsEnum = _
-         gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionInventarioStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionInventarioStr(ByVal valNewValue As String)
-   mTipoContabilizacionInventario = valNewValue
-End Sub
-
 Public Function GetAgruparPorCuentaDeArticuloInven() As Boolean
    GetAgruparPorCuentaDeArticuloInven = mAgruparPorCuentaDeArticuloInven
 End Function
 
 Private Sub SetAgruparPorCuentaDeArticuloInven(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mAgruparPorCuentaDeArticuloInven = valNewValue
-   mAgruparPorCuentaDeArticuloInvenIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
-Public Function GetInventarioTipoComprobante() As String
-   GetInventarioTipoComprobante = mInventarioTipoComprobante
+'Solicitud de Pago
+Public Function GetContabIndividualPagosSueldosAsEnum() As enum_ContabilizacionIndividual
+   GetContabIndividualPagosSueldosAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualPagosSueldos, False)
 End Function
 
-Private Sub SetInventarioTipoComprobante(ByVal valNewValue As String)
-   mInventarioTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
+Private Sub SetContabIndividualPagosSueldosStr(ByVal valNewValue As String)
+   mContabIndividualPagosSueldos = valNewValue
 End Sub
 
 Public Function GetCtaDePagosSueldos() As String
@@ -1723,280 +1620,13 @@ Private Sub SetCtaDePagosSueldosBanco(ByVal valNewValue As String)
    mCtaDePagosSueldosBanco = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetRendicionTipoComprobante() As String
-   GetRendicionTipoComprobante = mRendicionTipoComprobante
-End Function
-
-Private Sub SetRendicionTipoComprobante(ByVal valNewValue As String)
-   mRendicionTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetCajaChicaTipoComprobante() As String
-   GetCajaChicaTipoComprobante = mCajaChicaTipoComprobante
-End Function
-
-Private Sub SetCajaChicaTipoComprobante(ByVal valNewValue As String)
-   mCajaChicaTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetTipoContabilizacionDePagosSueldosStr() As String
-   GetTipoContabilizacionDePagosSueldosStr = mTipoContabilizacionDePagosSueldos
-End Function
-
-Public Function GetTipoContabilizacionDePagosSueldosChar() As String
-   If GetTipoContabilizacionDePagosSueldosStr = "" Then
-      GetTipoContabilizacionDePagosSueldosChar = ""
-   Else
-      GetTipoContabilizacionDePagosSueldosChar = gConvert.enumerativoAChar(gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionDePagosSueldosStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionDePagosSueldosAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionDePagosSueldosAsEnum = gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionDePagosSueldosStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionDePagosSueldosStr(ByVal valNewValue As String)
-   mTipoContabilizacionDePagosSueldos = valNewValue
-End Sub
-
-Public Function GetTipoContabilizacionRendicionStr() As String
-   GetTipoContabilizacionRendicionStr = mTipoContabilizacionRendicion
-End Function
-
-Public Function GetTipoContabilizacionRendicionAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionRendicionAsEnum = _
-         gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionRendicionStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionRendicionStr(ByVal valNewValue As String)
-   mTipoContabilizacionRendicion = valNewValue
-End Sub
-
-Public Function GetTipoContabilizacionCajaChicaStr() As String
-   GetTipoContabilizacionCajaChicaStr = mTipoContabilizacionCajaChica
-End Function
-
-Public Function GetTipoContabilizacionCajaChicaAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionCajaChicaAsEnum = _
-         gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionCajaChicaStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionCajaChicaStr(ByVal valNewValue As String)
-   mTipoContabilizacionCajaChica = valNewValue
-End Sub
-
-Public Function GetTipoContabilizacionTransferenciaEntreCuentaStr() As String
-   GetTipoContabilizacionTransferenciaEntreCuentaStr = mTipoContabilizacionTransferenciaEntreCuenta
-End Function
-
-Public Function GetTipoContabilizacionTransferenciaEntreCuentaAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionTransferenciaEntreCuentaAsEnum = _
-         gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionTransferenciaEntreCuentaStr, False)
-End Function
-
-Private Sub SetTipoContabilizacionTransferenciaEntreCuentaStr(ByVal valNewValue As String)
-   mTipoContabilizacionTransferenciaEntreCuenta = valNewValue
-End Sub
-
-Public Function GetPagosSueldosTipoComprobante() As String
-   GetPagosSueldosTipoComprobante = mPagosSueldosTipoComprobante
-End Function
-
-Private Sub SetPagosSueldosTipoComprobante(ByVal valNewValue As String)
-   mPagosSueldosTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetContabIndividualPagosSueldosStr() As String
-   GetContabIndividualPagosSueldosStr = mContabIndividualPagosSueldos
-End Function
-
-Public Function GetContabIndividualPagosSueldosChar() As String
-   If GetContabIndividualPagosSueldosStr = "" Then
-      GetContabIndividualPagosSueldosChar = ""
-   Else
-      GetContabIndividualPagosSueldosChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualPagosSueldosStr, False))
-   End If
-End Function
-
-Public Function GetContabIndividualPagosSueldosAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualPagosSueldosAsEnum = _
-         gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualPagosSueldosStr, False)
-End Function
-
-Private Sub SetContabIndividualPagosSueldosStr(ByVal valNewValue As String)
-   mContabIndividualPagosSueldos = valNewValue
-End Sub
-
-Public Function GetEditarComprobanteDePagosSueldos() As Boolean
-   GetEditarComprobanteDePagosSueldos = mEditarComprobanteDePagosSueldos
-End Function
-
-Public Sub SetEditarComprobanteDePagosSueldos(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteDePagosSueldos = valNewValue
-   mEditarComprobanteDePagosSueldosIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetCuentaRetencionImpuestoMunicipal() As String
-   GetCuentaRetencionImpuestoMunicipal = mCuentaRetencionImpuestoMunicipal
-End Function
-
-Private Sub SetCuentaRetencionImpuestoMunicipal(ByVal valNewValue As String)
-   mCuentaRetencionImpuestoMunicipal = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertCxC() As Boolean
-   GetEditarComprobanteAfterInsertCxC = mEditarComprobanteAfterInsertCxC
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertCxC(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertCxC = valNewValue
-   mEditarComprobanteAfterInsertCxCIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertCxP() As Boolean
-   GetEditarComprobanteAfterInsertCxP = mEditarComprobanteAfterInsertCxP
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertCxP(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertCxP = valNewValue
-   mEditarComprobanteAfterInsertCxPIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertCobranza() As Boolean
-   GetEditarComprobanteAfterInsertCobranza = mEditarComprobanteAfterInsertCobranza
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertCobranza(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertCobranza = valNewValue
-   mEditarComprobanteAfterInsertCobranzaIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertPagos() As Boolean
-   GetEditarComprobanteAfterInsertPagos = mEditarComprobanteAfterInsertPagos
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertPagos(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertPagos = valNewValue
-   mEditarComprobanteAfterInsertPagosIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertFactura() As Boolean
-   GetEditarComprobanteAfterInsertFactura = mEditarComprobanteAfterInsertFactura
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertFactura(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertFactura = valNewValue
-   mEditarComprobanteAfterInsertFacturaIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertResDia() As Boolean
-   GetEditarComprobanteAfterInsertResDia = mEditarComprobanteAfterInsertResDia
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertResDia(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertResDia = valNewValue
-   mEditarComprobanteAfterInsertResDiaIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertMovBan() As Boolean
-   GetEditarComprobanteAfterInsertMovBan = mEditarComprobanteAfterInsertMovBan
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertMovBan(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertMovBan = valNewValue
-   mEditarComprobanteAfterInsertMovBanIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertImpTraBan() As Boolean
-   GetEditarComprobanteAfterInsertImpTraBan = mEditarComprobanteAfterInsertImpTraBan
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertImpTraBan(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertImpTraBan = valNewValue
-   mEditarComprobanteAfterInsertImpTraBanIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertAnticipo() As Boolean
-   GetEditarComprobanteAfterInsertAnticipo = mEditarComprobanteAfterInsertAnticipo
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertAnticipo(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertAnticipo = valNewValue
-   mEditarComprobanteAfterInsertAnticipoIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertInventario() As Boolean
-   GetEditarComprobanteAfterInsertInventario = mEditarComprobanteAfterInsertInventario
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertInventario(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertInventario = valNewValue
-   mEditarComprobanteAfterInsertInventarioIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertCajaChica() As Boolean
-   GetEditarComprobanteAfterInsertCajaChica = mEditarComprobanteAfterInsertCajaChica
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertCajaChica(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertCajaChica = valNewValue
-   mEditarComprobanteAfterInsertCajaChicaIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
-Public Function GetSiglasTipoComprobanteCajaChica() As String
-   GetSiglasTipoComprobanteCajaChica = mSiglasTipoComprobanteCajaChica
-End Function
-
-Private Sub SetSiglasTipoComprobanteCajaChica(ByVal valNewValue As String)
-   mSiglasTipoComprobanteCajaChica = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetContabIndividualCajaChicaStr() As String
-   GetContabIndividualCajaChicaStr = mContabIndividualCajaChica
-End Function
-
-Public Function GetContabIndividualCajaChicaChar() As String
-   If GetContabIndividualCajaChicaStr = "" Then
-      GetContabIndividualCajaChicaChar = ""
-   Else
-      GetContabIndividualCajaChicaChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualCajaChicaStr, False))
-   End If
-End Function
-
+'Caja chica - rendiciones
 Public Function GetContabIndividualCajaChicaAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualCajaChicaAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualCajaChicaStr, False)
+   GetContabIndividualCajaChicaAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualCajaChica, False)
 End Function
 
 Private Sub SetContabIndividualCajaChicaStr(ByVal valNewValue As String)
    mContabIndividualCajaChica = valNewValue
-End Sub
-
-Public Function GetSiglasTipoComprobanteTransferenciaEntreCuenta() As String
-   GetSiglasTipoComprobanteTransferenciaEntreCuenta = mTransfCtasSigasTipoComprobante
-End Function
-
-Private Sub SetSiglasTipoComprobanteTransferenciaEntreCuenta(ByVal valNewValue As String)
-   mTransfCtasSigasTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetContabIndividualTransferenciaEntreCuentaStr() As String
-   GetContabIndividualTransferenciaEntreCuentaStr = mContabIndividualTransferenciaEntreCuenta
-End Function
-
-Public Function GetContabIndividualTransferenciaEntreCuentaChar() As String
-   If GetContabIndividualTransferenciaEntreCuentaStr = "" Then
-      GetContabIndividualTransferenciaEntreCuentaChar = ""
-   Else
-      GetContabIndividualTransferenciaEntreCuentaChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualTransferenciaEntreCuentaStr, False))
-   End If
-End Function
-
-Public Function GetContabIndividualTransferenciaEntreCuentaAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualTransferenciaEntreCuentaAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualTransferenciaEntreCuentaStr, False)
-End Function
-
-Private Sub SetContabIndividualTransferenciaEntreCuentaStr(ByVal valNewValue As String)
-   mContabIndividualTransferenciaEntreCuenta = valNewValue
 End Sub
 
 Public Function GetCuentaCajaChicaGasto() As String
@@ -2005,15 +1635,6 @@ End Function
 
 Private Sub SetCuentaCajaChicaGasto(ByVal valNewValue As String)
    mCuentaCajaChicaGasto = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetMostrarDesglosadoCajaChica() As Boolean
-   GetMostrarDesglosadoCajaChica = mMostrarDesglosadoCajaChica
-End Function
-
-Private Sub SetMostrarDesglosadoCajaChica(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mMostrarDesglosadoCajaChica = valNewValue
-   mMostrarDesglosadoCajaChicaIsSet = valueWasTrueOrFalseInSearch
 End Sub
 
 Public Function GetCuentaCajaChicaBancoHaber() As String
@@ -2040,28 +1661,16 @@ Private Sub SetCuentaCajaChicaBanco(ByVal valNewValue As String)
    mCuentaCajaChicaBanco = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetSiglasTipoComprobanteRendiciones() As String
-   GetSiglasTipoComprobanteRendiciones = mSiglasTipoComprobanteRendiciones
+Public Function GetMostrarDesglosadoCajaChica() As Boolean
+   GetMostrarDesglosadoCajaChica = mMostrarDesglosadoCajaChica
 End Function
 
-Private Sub SetSiglasTipoComprobanteRendiciones(ByVal valNewValue As String)
-   mSiglasTipoComprobanteRendiciones = gTexto.DfMid(valNewValue, 1, 2)
+Private Sub SetMostrarDesglosadoCajaChica(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
+   mMostrarDesglosadoCajaChica = valNewValue
 End Sub
 
-Public Function GetContabIndividualRendicionesStr() As String
-   GetContabIndividualRendicionesStr = mContabIndividualRendiciones
-End Function
-
-Public Function GetContabIndividualRendicionesChar() As String
-   If GetContabIndividualRendicionesStr = "" Then
-      GetContabIndividualRendicionesChar = ""
-   Else
-      GetContabIndividualRendicionesChar = gConvert.enumerativoAChar(gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualRendicionesStr, False))
-   End If
-End Function
-
 Public Function GetContabIndividualRendicionesAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualRendicionesAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualRendicionesStr, False)
+   GetContabIndividualRendicionesAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualRendiciones, False)
 End Function
 
 Private Sub SetContabIndividualRendicionesStr(ByVal valNewValue As String)
@@ -2074,14 +1683,6 @@ End Function
 
 Private Sub SetCuentaRendicionesGasto(ByVal valNewValue As String)
    mCuentaRendicionesGasto = gTexto.DfMid(valNewValue, 1, 30)
-End Sub
-
-Public Function GetCuentaRendicionesIva() As String
-   GetCuentaRendicionesIva = mCuentaRendicionesIva
-End Function
-
-Private Sub SetCuentaRendicionesIva(ByVal valNewValue As String)
-   mCuentaRendicionesIva = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
 Public Function GetCuentaRendicionesBanco() As String
@@ -2106,7 +1707,23 @@ End Function
 
 Private Sub SetMostrarDesglosadoRendiciones(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
    mMostrarDesglosadoRendiciones = valNewValue
-   mMostrarDesglosadoRendicionesIsSet = valueWasTrueOrFalseInSearch
+End Sub
+
+'Transferencias entre Cuentas Bancarias
+Public Function GetContabIndividualTransferenciaEntreCuentaAsEnum() As enum_ContabilizacionIndividual
+   GetContabIndividualTransferenciaEntreCuentaAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualTransferenciaEntreCuenta, False)
+End Function
+
+Private Sub SetContabIndividualTransferenciaEntreCuentaStr(ByVal valNewValue As String)
+   mContabIndividualTransferenciaEntreCuenta = valNewValue
+End Sub
+
+Public Function GetContabPorLoteTransferenciaEntreCuentaAsEnum() As enum_ContabilizacionPorLote
+   GetContabPorLoteTransferenciaEntreCuentaAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteTransferenciaEntreCuenta, False)
+End Function
+
+Private Sub SetContabPorLoteTransferenciaEntreCuentaStr(ByVal valNewValue As String)
+   mContabPorLoteTransferenciaEntreCuenta = valNewValue
 End Sub
 
 Public Function GetCuentaTransfCtasBancoDestino() As String
@@ -2141,77 +1758,20 @@ Private Sub SetCuentaTransfCtasBancoOrigen(ByVal valNewValue As String)
    mCuentaTransfCtasBancoOrigen = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetEditarComprobanteAfterInsertTransfCtas() As Boolean
-   GetEditarComprobanteAfterInsertTransfCtas = mEditarComprobanteAfterInsertTransfCtas
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertTransfCtas(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertTransfCtas = valNewValue
-   mEditarComprobanteAfterInsertTransfCtasIsSet = valueWasTrueOrFalseInSearch
-End Sub
-Public Function GetTipoContabilizacionOrdenDeProduccionStr() As String
-   GetTipoContabilizacionOrdenDeProduccionStr = mTipoContabilizacionOrdenDeProduccion
-End Function
-
-Public Function GetTipoContabilizacionOrdenDeProduccionChar() As String
-   If GetTipoContabilizacionOrdenDeProduccionStr = "" Then
-      GetTipoContabilizacionOrdenDeProduccionChar = ""
-   Else
-      GetTipoContabilizacionOrdenDeProduccionChar = gConvert.enumerativoAChar( _
-            gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionOrdenDeProduccionStr, False))
-   End If
-End Function
-
-Public Function GetTipoContabilizacionOrdenDeProduccionAsEnum() As enum_TipoDeContabilizacion
-   GetTipoContabilizacionOrdenDeProduccionAsEnum = _
-         gEnumProyecto.strTipoDeContabilizacionToNum(GetTipoContabilizacionOrdenDeProduccionStr, False)
-End Function
-
-Public Sub SetTipoContabilizacionOrdenDeProduccionStr(ByVal valNewValue As String)
-   mTipoContabilizacionOrdenDeProduccion = valNewValue
-End Sub
-
-Public Function GetContabIndividualOrdenDeProduccionStr() As String
-   GetContabIndividualOrdenDeProduccionStr = mContabIndividualOrdenDeProduccion
-End Function
-
-Public Function GetContabIndividualOrdenDeProduccionChar() As String
-   If GetContabIndividualOrdenDeProduccionStr = "" Then
-      GetContabIndividualOrdenDeProduccionChar = ""
-   Else
-      GetContabIndividualOrdenDeProduccionChar = gConvert.enumerativoAChar( _
-            gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualOrdenDeProduccionStr, False))
-   End If
-End Function
-
+'Orden de Producción
 Public Function GetContabIndividualOrdenDeProduccionAsEnum() As enum_ContabilizacionIndividual
-   GetContabIndividualOrdenDeProduccionAsEnum = _
-         gEnumProyecto.strContabilizacionIndividualToNum(GetContabIndividualOrdenDeProduccionStr, False)
+   GetContabIndividualOrdenDeProduccionAsEnum = gEnumProyecto.strContabilizacionIndividualToNum(mContabIndividualOrdenDeProduccion, False)
 End Function
 
-Public Sub SetContabIndividualOrdenDeProduccionStr(ByVal valNewValue As String)
+Private Sub SetContabIndividualOrdenDeProduccionStr(ByVal valNewValue As String)
    mContabIndividualOrdenDeProduccion = valNewValue
 End Sub
 
-Public Function GetContabPorLoteOrdenDeProduccionStr() As String
-   GetContabPorLoteOrdenDeProduccionStr = mContabPorLoteOrdenDeProduccion
-End Function
-
-Public Function GetContabPorLoteOrdenDeProduccionChar() As String
-   If GetContabPorLoteOrdenDeProduccionStr = "" Then
-      GetContabPorLoteOrdenDeProduccionChar = ""
-   Else
-      GetContabPorLoteOrdenDeProduccionChar = gConvert.enumerativoAChar( _
-            gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteOrdenDeProduccionStr, False))
-   End If
-End Function
-
 Public Function GetContabPorLoteOrdenDeProduccionAsEnum() As enum_ContabilizacionPorLote
-   GetContabPorLoteOrdenDeProduccionAsEnum = _
-         gEnumProyecto.strContabilizacionPorLoteToNum(GetContabPorLoteOrdenDeProduccionStr, False)
+   GetContabPorLoteOrdenDeProduccionAsEnum = gEnumProyecto.strContabilizacionPorLoteToNum(mContabPorLoteOrdenDeProduccion, False)
 End Function
 
-Public Sub SetContabPorLoteOrdenDeProduccionStr(ByVal valNewValue As String)
+Private Sub SetContabPorLoteOrdenDeProduccionStr(ByVal valNewValue As String)
    mContabPorLoteOrdenDeProduccion = valNewValue
 End Sub
 
@@ -2219,7 +1779,7 @@ Public Function GetCuentaOrdenDeProduccionProductoTerminado() As String
    GetCuentaOrdenDeProduccionProductoTerminado = mCuentaOrdenDeProduccionProductoTerminado
 End Function
 
-Public Sub SetCuentaOrdenDeProduccionProductoTerminado(ByVal valNewValue As String)
+Private Sub SetCuentaOrdenDeProduccionProductoTerminado(ByVal valNewValue As String)
    mCuentaOrdenDeProduccionProductoTerminado = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
@@ -2227,27 +1787,11 @@ Public Function GetCuentaOrdenDeProduccionMateriaPrima() As String
    GetCuentaOrdenDeProduccionMateriaPrima = mCuentaOrdenDeProduccionMateriaPrima
 End Function
 
-Public Sub SetCuentaOrdenDeProduccionMateriaPrima(ByVal valNewValue As String)
+Private Sub SetCuentaOrdenDeProduccionMateriaPrima(ByVal valNewValue As String)
    mCuentaOrdenDeProduccionMateriaPrima = gTexto.DfMid(valNewValue, 1, 30)
 End Sub
 
-Public Function GetOrdenDeProduccionTipoComprobante() As String
-   GetOrdenDeProduccionTipoComprobante = mOrdenDeProduccionTipoComprobante
-End Function
-
-Public Sub SetOrdenDeProduccionTipoComprobante(ByVal valNewValue As String)
-   mOrdenDeProduccionTipoComprobante = gTexto.DfMid(valNewValue, 1, 2)
-End Sub
-
-Public Function GetEditarComprobanteAfterInsertOrdenDeProduccion() As Boolean
-   GetEditarComprobanteAfterInsertOrdenDeProduccion = mEditarComprobanteAfterInsertOrdenDeProduccion
-End Function
-
-Public Sub SetEditarComprobanteAfterInsertOrdenDeProduccion(ByVal valNewValue As Boolean, Optional valueWasTrueOrFalseInSearch As Boolean = True)
-   mEditarComprobanteAfterInsertOrdenDeProduccion = valNewValue
-   mEditarComprobanteAfterInsertOrdenDeProduccionIsSet = valueWasTrueOrFalseInSearch
-End Sub
-
+'Final
 Public Function GetNombreOperador() As String
    GetNombreOperador = mNombreOperador
 End Function
@@ -2262,7 +1806,6 @@ End Function
 
 Private Sub SetFechaUltimaModificacion(ByVal valNewValue As Date)
    mFechaUltimaModificacion = valNewValue
-   mFechaUltimaModificacionIsSet = True
 End Sub
 
 Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Nothing)
@@ -2280,16 +1823,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetNumero valRecordSet("Numero")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "DiferenciaEnCambioyCalculo") Then
-      If Not IsNull(valRecordSet("DiferenciaEnCambioyCalculo")) Then
-         SetDiferenciaEnCambioyCalculo valRecordSet("DiferenciaEnCambioyCalculo")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaDiferenciaCambiaria") Then
-      If Not IsNull(valRecordSet("CuentaDiferenciaCambiaria")) Then
-         SetCuentaDiferenciaCambiaria valRecordSet("CuentaDiferenciaCambiaria")
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaIva1Credito") Then
       If Not IsNull(valRecordSet("CuentaIva1Credito")) Then
          SetCuentaIva1Credito valRecordSet("CuentaIva1Credito")
@@ -2300,19 +1833,249 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaIva1Debito valRecordSet("CuentaIva1Debito")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "DondeContabilizarRetIva") Then
-      If Not IsNull(valRecordSet("DondeContabilizarRetIva")) Then
-         SetDondeContabilizarRetIvaStr gEnumProyecto.enumDondeEfectuoContabilizacionRetIVAToString(gConvert.charAEnumerativoInt(valRecordSet("DondeContabilizarRetIva")))
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaRetencionIva") Then
       If Not IsNull(valRecordSet("CuentaRetencionIva")) Then
          SetCuentaRetencionIVA valRecordSet("CuentaRetencionIva")
       End If
    End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "DondeContabilizarRetIva") Then
+      If Not IsNull(valRecordSet("DondeContabilizarRetIva")) Then
+         SetDondeContabilizarRetIvaStr gEnumProyecto.enumDondeEfectuoContabilizacionRetIVAToString(gConvert.charAEnumerativoInt(valRecordSet("DondeContabilizarRetIva")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "DiferenciaEnCambioyCalculo") Then
+      If Not IsNull(valRecordSet("DiferenciaEnCambioyCalculo")) Then
+         SetDiferenciaEnCambioyCalculo valRecordSet("DiferenciaEnCambioyCalculo")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaDiferenciaCambiaria") Then
+      If Not IsNull(valRecordSet("CuentaDiferenciaCambiaria")) Then
+         SetCuentaDiferenciaCambiaria valRecordSet("CuentaDiferenciaCambiaria")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaDebitoBancarioGasto") Then
+      If Not IsNull(valRecordSet("CuentaDebitoBancarioGasto")) Then
+         SetCuentaDebitoBancarioGasto valRecordSet("CuentaDebitoBancarioGasto")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaDebitoBancarioBancos") Then
+      If Not IsNull(valRecordSet("CuentaDebitoBancarioBancos")) Then
+         SetCuentaDebitoBancarioBancos valRecordSet("CuentaDebitoBancarioBancos")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCreditoBancarioGasto") Then
+      If Not IsNull(valRecordSet("CuentaCreditoBancarioGasto")) Then
+         SetCuentaCreditoBancarioGasto valRecordSet("CuentaCreditoBancarioGasto")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCreditoBancarioBancos") Then
+      If Not IsNull(valRecordSet("CuentaCreditoBancarioBancos")) Then
+         SetCuentaCreditoBancarioBancos valRecordSet("CuentaCreditoBancarioBancos")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CxCtipoComprobante") Then
+      If Not IsNull(valRecordSet("CxCtipoComprobante")) Then
+         SetCxCTipoComprobante valRecordSet("CxCtipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CxPtipoComprobante") Then
+      If Not IsNull(valRecordSet("CxPtipoComprobante")) Then
+         SetCxPTipoComprobante valRecordSet("CxPtipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CobranzaTipoComprobante") Then
+      If Not IsNull(valRecordSet("CobranzaTipoComprobante")) Then
+         SetCobranzaTipoComprobante valRecordSet("CobranzaTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "PagoTipoComprobante") Then
+      If Not IsNull(valRecordSet("PagoTipoComprobante")) Then
+         SetPagoTipoComprobante valRecordSet("PagoTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "FacturaTipoComprobante") Then
+      If Not IsNull(valRecordSet("FacturaTipoComprobante")) Then
+         SetFacturaTipoComprobante valRecordSet("FacturaTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "MovimientoBancarioTipoComprobante") Then
+      If Not IsNull(valRecordSet("MovimientoBancarioTipoComprobante")) Then
+         SetMovimientoBancarioTipoComprobante valRecordSet("MovimientoBancarioTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "AnticipoTipoComprobante") Then
+      If Not IsNull(valRecordSet("AnticipoTipoComprobante")) Then
+         SetAnticipoTipoComprobante valRecordSet("AnticipoTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "InventarioTipoComprobante") Then
+      If Not IsNull(valRecordSet("InventarioTipoComprobante")) Then
+         SetInventarioTipoComprobante valRecordSet("InventarioTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "PagosSueldosTipoComprobante") Then
+      If Not IsNull(valRecordSet("PagosSueldosTipoComprobante")) Then
+         SetPagosSueldosTipoComprobante valRecordSet("PagosSueldosTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "SiglasTipoComprobanteCajaChica") Then
+      If Not IsNull(valRecordSet("SiglasTipoComprobanteCajaChica")) Then
+         SetSiglasTipoComprobanteCajaChica valRecordSet("SiglasTipoComprobanteCajaChica")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "SiglasTipoComprobanteRendiciones") Then
+      If Not IsNull(valRecordSet("SiglasTipoComprobanteRendiciones")) Then
+         SetSiglasTipoComprobanteRendiciones valRecordSet("SiglasTipoComprobanteRendiciones")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TransfCtasSigasTipoComprobante") Then
+      If Not IsNull(valRecordSet("TransfCtasSigasTipoComprobante")) Then
+         SetTransfCtasSigasTipoComprobante valRecordSet("TransfCtasSigasTipoComprobante")
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "OrdenDeProduccionTipoComprobante") Then
+      If Not IsNull(valRecordSet("OrdenDeProduccionTipoComprobante")) Then
+         SetOrdenDeProduccionTipoComprobante valRecordSet("OrdenDeProduccionTipoComprobante")
+      End If
+   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionCxc") Then
       If Not IsNull(valRecordSet("TipoContabilizacionCxc")) Then
          SetTipoContabilizacionCxCStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionCxc")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionCxp") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionCxp")) Then
+         SetTipoContabilizacionCxPStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionCxp")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionCobranza") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionCobranza")) Then
+         SetTipoContabilizacionCobranzaStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionCobranza")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionPagos") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionPagos")) Then
+         SetTipoContabilizacionPagosStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionPagos")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionFacturacion") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionFacturacion")) Then
+         SetTipoContabilizacionFacturacionStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionFacturacion")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionRdvtas") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionRdvtas")) Then
+         SetTipoContabilizacionRDVtasStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionRdvtas")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionMovBancario") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionMovBancario")) Then
+         SetTipoContabilizacionMovBancarioStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionMovBancario")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionAnticipo") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionAnticipo")) Then
+         SetTipoContabilizacionAnticipoStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionAnticipo")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionInventario") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionInventario")) Then
+         SetTipoContabilizacionInventarioStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionInventario")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionDePagosSueldos") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionDePagosSueldos")) Then
+         SetTipoContabilizacionDePagosSueldosStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionDePagosSueldos")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionCajaChica") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionCajaChica")) Then
+         SetTipoContabilizacionCajaChicaStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionCajaChica")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionRendicion") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionRendicion")) Then
+         SetTipoContabilizacionRendicionStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionRendicion")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionTransferenciaEntreCuenta") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionTransferenciaEntreCuenta")) Then
+         SetTipoContabilizacionTransferenciaEntreCuentaStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionTransferenciaEntreCuenta")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionOrdenDeProduccion") Then
+      If Not IsNull(valRecordSet("TipoContabilizacionOrdenDeProduccion")) Then
+         SetTipoContabilizacionOrdenDeProduccionStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionOrdenDeProduccion")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCxC") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCxC")) Then
+         SetEditarComprobanteAfterInsertCxC gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCxC"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCxP") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCxP")) Then
+         SetEditarComprobanteAfterInsertCxP gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCxP"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCobranza") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCobranza")) Then
+         SetEditarComprobanteAfterInsertCobranza gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCobranza"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertPagos") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertPagos")) Then
+         SetEditarComprobanteAfterInsertPagos gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertPagos"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertFactura") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertFactura")) Then
+         SetEditarComprobanteAfterInsertFactura gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertFactura"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertResDia") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertResDia")) Then
+         SetEditarComprobanteAfterInsertResDia gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertResDia"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertMovBan") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertMovBan")) Then
+         SetEditarComprobanteAfterInsertMovBan gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertMovBan"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertAnticipo") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertAnticipo")) Then
+         SetEditarComprobanteAfterInsertAnticipo gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertAnticipo"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertInventario") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertInventario")) Then
+         SetEditarComprobanteAfterInsertInventario gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertInventario"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteDePagosSueldos") Then
+      If Not IsNull(valRecordSet("EditarComprobanteDePagosSueldos")) Then
+         SetEditarComprobanteDePagosSueldos gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteDePagosSueldos"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCajaChica") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCajaChica")) Then
+         SetEditarComprobanteAfterInsertCajaChica gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCajaChica"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertTransfCtas") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertTransfCtas")) Then
+          SetEditarComprobanteAfterInsertTransfCtas gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertTransfCtas"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertImpTraBan") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertImpTraBan")) Then
+         SetEditarComprobanteAfterInsertImpTraBan gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertImpTraBan"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertOrdenDeProduccion") Then
+      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion")) Then
+          SetEditarComprobanteAfterInsertOrdenDeProduccion gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion"))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualCxc") Then
@@ -2322,8 +2085,7 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabPorLoteCxc") Then
       If Not IsNull(valRecordSet("ContabPorLoteCxc")) Then
-         SetContabPorLoteCxCStr gEnumProyecto.enumContabilizacionPorLoteToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("ContabPorLoteCxc")))
+         SetContabPorLoteCxCStr gEnumProyecto.enumContabilizacionPorLoteToString(gConvert.charAEnumerativoInt(valRecordSet("ContabPorLoteCxc")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCxCclientes") Then
@@ -2334,11 +2096,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCxCingresos") Then
       If Not IsNull(valRecordSet("CuentaCxCingresos")) Then
          SetCuentaCxCIngresos valRecordSet("CuentaCxCingresos")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionCxp") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionCxp")) Then
-         SetTipoContabilizacionCxPStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionCxp")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualCxp") Then
@@ -2361,9 +2118,9 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaCxPProveedores valRecordSet("CuentaCxPproveedores")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionCobranza") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionCobranza")) Then
-         SetTipoContabilizacionCobranzaStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionCobranza")))
+   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaRetencionImpuestoMunicipal") Then
+      If Not IsNull(valRecordSet("CuentaRetencionImpuestoMunicipal")) Then
+         SetCuentaRetencionImpuestoMunicipal valRecordSet("CuentaRetencionImpuestoMunicipal")
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualCobranza") Then
@@ -2426,11 +2183,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetManejarDiferenciaCambiariaEnCobranza gConvert.ConvertStringToBoolean(valRecordSet("ManejarDiferenciaCambiariaEnCobranza"))
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionPagos") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionPagos")) Then
-         SetTipoContabilizacionPagosStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionPagos")))
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualPagos") Then
       If Not IsNull(valRecordSet("ContabIndividualPagos")) Then
          SetContabIndividualPagosStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualPagos")))
@@ -2469,11 +2221,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    If gDbUtil.FieldInRecordSet(valRecordSet, "ManejarDiferenciaCambiariaEnPagos") Then
       If Not IsNull(valRecordSet("ManejarDiferenciaCambiariaEnPagos")) Then
          SetManejarDiferenciaCambiariaEnPagos gConvert.ConvertStringToBoolean(valRecordSet("ManejarDiferenciaCambiariaEnPagos"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionFacturacion") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionFacturacion")) Then
-         SetTipoContabilizacionFacturacionStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionFacturacion")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualFacturacion") Then
@@ -2526,11 +2273,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetAgruparPorCargosDescuentos gConvert.ConvertStringToBoolean(valRecordSet("AgruparPorCargosDescuentos"))
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionRdvtas") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionRdvtas")) Then
-         SetTipoContabilizacionRDVtasStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionRdvtas")))
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualRdvtas") Then
       If Not IsNull(valRecordSet("ContabIndividualRdvtas")) Then
          SetContabIndividualRDVtasStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualRdvtas")))
@@ -2559,11 +2301,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    If gDbUtil.FieldInRecordSet(valRecordSet, "AgruparPorCuentaDeArticuloRdvtas") Then
       If Not IsNull(valRecordSet("AgruparPorCuentaDeArticuloRdvtas")) Then
          SetAgruparPorCuentaDeArticuloRDVtas gConvert.ConvertStringToBoolean(valRecordSet("AgruparPorCuentaDeArticuloRdvtas"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionMovBancario") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionMovBancario")) Then
-         SetTipoContabilizacionMovBancarioStr gEnumProyecto.enumTipoDeContabilizacionToString(gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionMovBancario")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualMovBancario") Then
@@ -2596,42 +2333,14 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaMovBancarioIngresos valRecordSet("CuentaMovBancarioIngresos")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaDebitoBancarioGasto") Then
-      If Not IsNull(valRecordSet("CuentaDebitoBancarioGasto")) Then
-         SetCuentaDebitoBancarioGasto valRecordSet("CuentaDebitoBancarioGasto")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaDebitoBancarioBancos") Then
-      If Not IsNull(valRecordSet("CuentaDebitoBancarioBancos")) Then
-         SetCuentaDebitoBancarioBancos valRecordSet("CuentaDebitoBancarioBancos")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCreditoBancarioGasto") Then
-      If Not IsNull(valRecordSet("CuentaCreditoBancarioGasto")) Then
-         SetCuentaCreditoBancarioGasto valRecordSet("CuentaCreditoBancarioGasto")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCreditoBancarioBancos") Then
-      If Not IsNull(valRecordSet("CuentaCreditoBancarioBancos")) Then
-         SetCuentaCreditoBancarioBancos valRecordSet("CuentaCreditoBancarioBancos")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionAnticipo") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionAnticipo")) Then
-         SetTipoContabilizacionAnticipoStr gEnumProyecto.enumTipoDeContabilizacionToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionAnticipo")))
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualAnticipo") Then
       If Not IsNull(valRecordSet("ContabIndividualAnticipo")) Then
-         SetContabIndividualAnticipoStr gEnumProyecto.enumContabilizacionIndividualToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualAnticipo")))
+         SetContabIndividualAnticipoStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualAnticipo")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabPorLoteAnticipo") Then
       If Not IsNull(valRecordSet("ContabPorLoteAnticipo")) Then
-         SetContabPorLoteAnticipoStr gEnumProyecto.enumContabilizacionPorLoteToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("ContabPorLoteAnticipo")))
+         SetContabPorLoteAnticipoStr gEnumProyecto.enumContabilizacionPorLoteToString(gConvert.charAEnumerativoInt(valRecordSet("ContabPorLoteAnticipo")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaAnticipoCaja") Then
@@ -2664,41 +2373,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaAnticipoOtrosEgresos valRecordSet("CuentaAnticipoOtrosEgresos")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "FacturaTipoComprobante") Then
-      If Not IsNull(valRecordSet("FacturaTipoComprobante")) Then
-         SetFacturaTipoComprobante valRecordSet("FacturaTipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CxCtipoComprobante") Then
-      If Not IsNull(valRecordSet("CxCtipoComprobante")) Then
-         SetCxCTipoComprobante valRecordSet("CxCtipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CxPtipoComprobante") Then
-      If Not IsNull(valRecordSet("CxPtipoComprobante")) Then
-         SetCxPTipoComprobante valRecordSet("CxPtipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CobranzaTipoComprobante") Then
-      If Not IsNull(valRecordSet("CobranzaTipoComprobante")) Then
-         SetCobranzaTipoComprobante valRecordSet("CobranzaTipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "PagoTipoComprobante") Then
-      If Not IsNull(valRecordSet("PagoTipoComprobante")) Then
-         SetPagoTipoComprobante valRecordSet("PagoTipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "MovimientoBancarioTipoComprobante") Then
-      If Not IsNull(valRecordSet("MovimientoBancarioTipoComprobante")) Then
-         SetMovimientoBancarioTipoComprobante valRecordSet("MovimientoBancarioTipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "AnticipoTipoComprobante") Then
-      If Not IsNull(valRecordSet("AnticipoTipoComprobante")) Then
-         SetAnticipoTipoComprobante valRecordSet("AnticipoTipoComprobante")
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCostoDeVenta") Then
       If Not IsNull(valRecordSet("CuentaCostoDeVenta")) Then
          SetCuentaCostoDeVenta valRecordSet("CuentaCostoDeVenta")
@@ -2709,20 +2383,14 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaInventario valRecordSet("CuentaInventario")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionInventario") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionInventario")) Then
-         SetTipoContabilizacionInventarioStr gEnumProyecto.enumTipoDeContabilizacionToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionInventario")))
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "AgruparPorCuentaDeArticuloInven") Then
       If Not IsNull(valRecordSet("AgruparPorCuentaDeArticuloInven")) Then
          SetAgruparPorCuentaDeArticuloInven gConvert.ConvertStringToBoolean(valRecordSet("AgruparPorCuentaDeArticuloInven"))
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "InventarioTipoComprobante") Then
-      If Not IsNull(valRecordSet("InventarioTipoComprobante")) Then
-         SetInventarioTipoComprobante valRecordSet("InventarioTipoComprobante")
+   If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualPagosSueldos") Then
+      If Not IsNull(valRecordSet("ContabIndividualPagosSueldos")) Then
+         SetContabIndividualPagosSueldosStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualPagosSueldos")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CtaDePagosSueldos") Then
@@ -2735,107 +2403,14 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCtaDePagosSueldosBanco valRecordSet("CtaDePagosSueldosBanco")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionDePagosSueldos") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionDePagosSueldos")) Then
-         SetTipoContabilizacionDePagosSueldosStr gEnumProyecto.enumTipoDeContabilizacionToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("TipoContabilizacionDePagosSueldos")))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "PagosSueldosTipoComprobante") Then
-      If Not IsNull(valRecordSet("PagosSueldosTipoComprobante")) Then
-         SetPagosSueldosTipoComprobante valRecordSet("PagosSueldosTipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualPagosSueldos") Then
-      If Not IsNull(valRecordSet("ContabIndividualPagosSueldos")) Then
-         SetContabIndividualPagosSueldosStr gEnumProyecto.enumContabilizacionIndividualToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualPagosSueldos")))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteDePagosSueldos") Then
-      If Not IsNull(valRecordSet("EditarComprobanteDePagosSueldos")) Then
-         SetEditarComprobanteDePagosSueldos gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteDePagosSueldos"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaRetencionImpuestoMunicipal") Then
-      If Not IsNull(valRecordSet("CuentaRetencionImpuestoMunicipal")) Then
-         SetCuentaRetencionImpuestoMunicipal valRecordSet("CuentaRetencionImpuestoMunicipal")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCxC") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCxC")) Then
-         SetEditarComprobanteAfterInsertCxC gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCxC"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCxP") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCxP")) Then
-         SetEditarComprobanteAfterInsertCxP gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCxP"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCobranza") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCobranza")) Then
-         SetEditarComprobanteAfterInsertCobranza gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCobranza"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertPagos") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertPagos")) Then
-         SetEditarComprobanteAfterInsertPagos gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertPagos"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertFactura") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertFactura")) Then
-         SetEditarComprobanteAfterInsertFactura gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertFactura"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertResDia") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertResDia")) Then
-         SetEditarComprobanteAfterInsertResDia gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertResDia"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertMovBan") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertMovBan")) Then
-         SetEditarComprobanteAfterInsertMovBan gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertMovBan"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertImpTraBan") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertImpTraBan")) Then
-         SetEditarComprobanteAfterInsertImpTraBan gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertImpTraBan"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertAnticipo") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertAnticipo")) Then
-         SetEditarComprobanteAfterInsertAnticipo gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertAnticipo"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertInventario") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertInventario")) Then
-         SetEditarComprobanteAfterInsertInventario gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertInventario"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertCajaChica") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertCajaChica")) Then
-         SetEditarComprobanteAfterInsertCajaChica gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertCajaChica"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "SiglasTipoComprobanteCajaChica") Then
-      If Not IsNull(valRecordSet("SiglasTipoComprobanteCajaChica")) Then
-         SetSiglasTipoComprobanteCajaChica valRecordSet("SiglasTipoComprobanteCajaChica")
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualCajaChica") Then
       If Not IsNull(valRecordSet("ContabIndividualCajaChica")) Then
-         SetContabIndividualCajaChicaStr gEnumProyecto.enumContabilizacionIndividualToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualCajaChica")))
+         SetContabIndividualCajaChicaStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualCajaChica")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCajaChicaGasto") Then
       If Not IsNull(valRecordSet("CuentaCajaChicaGasto")) Then
          SetCuentaCajaChicaGasto valRecordSet("CuentaCajaChicaGasto")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "MostrarDesglosadoCajaChica") Then
-      If Not IsNull(valRecordSet("MostrarDesglosadoCajaChica")) Then
-         SetMostrarDesglosadoCajaChica gConvert.ConvertStringToBoolean(valRecordSet("MostrarDesglosadoCajaChica"))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaCajaChicaBancoHaber") Then
@@ -2853,26 +2428,19 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaCajaChicaBanco valRecordSet("CuentaCajaChicaBanco")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "SiglasTipoComprobanteRendiciones") Then
-      If Not IsNull(valRecordSet("SiglasTipoComprobanteRendiciones")) Then
-         SetSiglasTipoComprobanteRendiciones valRecordSet("SiglasTipoComprobanteRendiciones")
+   If gDbUtil.FieldInRecordSet(valRecordSet, "MostrarDesglosadoCajaChica") Then
+      If Not IsNull(valRecordSet("MostrarDesglosadoCajaChica")) Then
+         SetMostrarDesglosadoCajaChica gConvert.ConvertStringToBoolean(valRecordSet("MostrarDesglosadoCajaChica"))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualRendiciones") Then
       If Not IsNull(valRecordSet("ContabIndividualRendiciones")) Then
-         SetContabIndividualRendicionesStr gEnumProyecto.enumContabilizacionIndividualToString( _
-               gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualRendiciones")))
+         SetContabIndividualRendicionesStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualRendiciones")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaRendicionesGasto") Then
       If Not IsNull(valRecordSet("CuentaRendicionesGasto")) Then
          SetCuentaRendicionesGasto valRecordSet("CuentaRendicionesGasto")
-      End If
-   End If
-   
-   If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaRendicionesIva") Then
-      If Not IsNull(valRecordSet("CuentaRendicionesIva")) Then
-         SetCuentaRendicionesIva valRecordSet("CuentaRendicionesIva")
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaRendicionesBanco") Then
@@ -2888,6 +2456,16 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    If gDbUtil.FieldInRecordSet(valRecordSet, "MostrarDesglosadoRendiciones") Then
       If Not IsNull(valRecordSet("MostrarDesglosadoRendiciones")) Then
          SetMostrarDesglosadoRendiciones gConvert.ConvertStringToBoolean(valRecordSet("MostrarDesglosadoRendiciones"))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualTransferenciaEntreCuenta") Then
+      If Not IsNull(valRecordSet("ContabIndividualTransferenciaEntreCuenta")) Then
+         SetContabIndividualTransferenciaEntreCuentaStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualTransfCtas")))
+      End If
+   End If
+   If gDbUtil.FieldInRecordSet(valRecordSet, "ContabPorLoteTransferenciaEntreCuenta") Then
+      If Not IsNull(valRecordSet("ContabPorLoteTransferenciaEntreCuenta")) Then
+         SetContabPorLoteTransferenciaEntreCuentaStr gEnumProyecto.enumContabilizacionPorLoteToString(gConvert.charAEnumerativoInt(valRecordSet("ContabPorLoteTransferenciaEntreCuenta")))
       End If
    End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "CuentaTransfCtasBancoDestino") Then
@@ -2910,26 +2488,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaTransfCtasBancoOrigen valRecordSet("CuentaTransfCtasBancoOrigen")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TransfCtasSigasTipoComprobante") Then
-      If Not IsNull(valRecordSet("TransfCtasSigasTipoComprobante")) Then
-         SetSiglasTipoComprobanteTransferenciaEntreCuenta valRecordSet("TransfCtasSigasTipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualTransfCtas") Then
-      If Not IsNull(valRecordSet("ContabIndividualTransfCtas")) Then
-         SetContabIndividualTransferenciaEntreCuentaStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualTransfCtas")))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertTransfCtas") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertTransfCtas")) Then
-          SetEditarComprobanteAfterInsertTransfCtas gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertTransfCtas"))
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "TipoContabilizacionOrdenDeProduccion") Then
-      If Not IsNull(valRecordSet("TipoContabilizacionOrdenDeProduccion")) Then
-         SetTipoContabilizacionOrdenDeProduccionStr valRecordSet("TipoContabilizacionOrdenDeProduccion")
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "ContabIndividualOrdenDeProduccion") Then
       If Not IsNull(valRecordSet("ContabIndividualOrdenDeProduccion")) Then
          SetContabIndividualOrdenDeProduccionStr gEnumProyecto.enumContabilizacionIndividualToString(gConvert.charAEnumerativoInt(valRecordSet("ContabIndividualOrdenDeProduccion")))
@@ -2950,16 +2508,6 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
          SetCuentaOrdenDeProduccionMateriaPrima valRecordSet("CuentaOrdenDeProduccionMateriaPrima")
       End If
    End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "OrdenDeProduccionTipoComprobante") Then
-      If Not IsNull(valRecordSet("OrdenDeProduccionTipoComprobante")) Then
-         SetOrdenDeProduccionTipoComprobante valRecordSet("OrdenDeProduccionTipoComprobante")
-      End If
-   End If
-   If gDbUtil.FieldInRecordSet(valRecordSet, "EditarComprobanteAfterInsertOrdenDeProduccion") Then
-      If Not IsNull(valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion")) Then
-          SetEditarComprobanteAfterInsertOrdenDeProduccion gConvert.ConvertStringToBoolean(valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion"))
-      End If
-   End If
    If gDbUtil.FieldInRecordSet(valRecordSet, "NombreOperador") Then
       If Not IsNull(valRecordSet("NombreOperador")) Then
          SetNombreOperador valRecordSet("NombreOperador")
@@ -2972,9 +2520,9 @@ Private Sub setValuesWithRS(Optional ByVal valRecordSet As ADODB.Recordset = Not
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", _
-         "setValuesWithRS", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "setValuesWithRS", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
+
 Private Sub sInitRS(ByVal valAction As AccionSobreRecord)
    On Error GoTo h_ERROR
    gDbUtil.sCloseIfOpened mrsReglasDeContabilizacion
@@ -2982,14 +2530,12 @@ Private Sub sInitRS(ByVal valAction As AccionSobreRecord)
       Set mrsReglasDeContabilizacion = New ADODB.Recordset
    End If
    If (valAction = insertar) Then
-      If gDbUtil.fOpenRecordSetAllParameters(mrsReglasDeContabilizacion, "SELECT * FROM Saw.ReglasDeContabilizacion WHERE ConsecutivoCompania=-1", _
-            gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
+      If gDbUtil.fOpenRecordSetAllParameters(mrsReglasDeContabilizacion, "SELECT * FROM Saw.ReglasDeContabilizacion WHERE ConsecutivoCompania=-1", gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
       End If
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", _
-         "sInitRS", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitRS", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fRsRecordCount() As Long
@@ -3002,8 +2548,7 @@ Public Function fRsRecordCount() As Long
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fRsRecordCount = 0
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", _
-         "fRsRecordCount", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fRsRecordCount", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub Class_Initialize()
@@ -3011,8 +2556,7 @@ Private Sub Class_Initialize()
    sClrRecord
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", _
-         "Class_Initialize", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Initialize", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub Class_Terminate()
@@ -3027,41 +2571,7 @@ Private Sub Class_Terminate()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", _
-         "Class_Terminate", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-Private Function fGenerateNextNumero(ByVal valFillWithCeros As Boolean) As String
-   Dim rsMaximo As ADODB.Recordset
-   Dim Sql As String
-   Dim ultimoNumero As String
-   On Error GoTo h_ERROR
-   Set rsMaximo = New ADODB.Recordset
-   fGenerateNextNumero = ""
-   ultimoNumero = "0"
-   Sql = "SELECT MAX(Numero) AS maximo FROM Saw.ReglasDeContabilizacion WHERE ConsecutivoCompania = " & gProyCompaniaActual.GetConsecutivoCompania
-   If gDbUtil.fOpenRecordSetAllParameters(rsMaximo, Sql, gDefDatabase.Conexion, adLockReadOnly, adUseClient, adOpenStatic) Then
-      If (rsMaximo.RecordCount > 0) And (Not IsNull(rsMaximo("maximo").value)) Then
-         ultimoNumero = rsMaximo("maximo").value
-      End If
-   End If
-   If valFillWithCeros Then
-      ultimoNumero = gTexto.fIncrementaNumeroString(ultimoNumero, 11)
-   Else
-      ultimoNumero = gTexto.fIncrementaNumeroString(ultimoNumero)
-   End If
-   fGenerateNextNumero = ultimoNumero
-   gDbUtil.sCloseIfOpened rsMaximo
-   Set rsMaximo = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Function
-h_ERROR: fGenerateNextNumero = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", _
-         "fGenerateNextNumero", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Private Sub setFieldsNombreOperadorAndFechaUltimaModificacion()
-   SetNombreOperador gProyUsuarioActual.GetNombreDelUsuario
-   SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "Class_Terminate", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sInsertaElRecordDeReglasDeContabilizacion(ByVal valConsecutivoCompania As Long)
@@ -3072,15 +2582,14 @@ Private Sub sInsertaElRecordDeReglasDeContabilizacion(ByVal valConsecutivoCompan
    Set objWrp = Nothing
 h_ERROR:  On Error GoTo 0
 Exit Sub
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sInsertaElRecordDeReglasDeContabilizacion", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInsertaElRecordDeReglasDeContabilizacion", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Function fSearchReglasDeContabilizacionActual(ByVal valChangeRecordSet As Boolean) As Boolean
+Private Function fSearchReglasDeContabilizacionActual(ByVal valChangeRecordSet As Boolean) As Boolean
    On Error GoTo h_ERROR
    fSearchReglasDeContabilizacionActual = False
    sInitRS Buscar
-   If gDbUtil.fOpenRecordSetAllParameters(mrsReglasDeContabilizacion, SQLSearchByFieldNumericAndConsecutivo("Saw.ReglasDeContabilizacion", gProyCompaniaActual.GetConsecutivoCompania), _
-         gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
+   If gDbUtil.fOpenRecordSetAllParameters(mrsReglasDeContabilizacion, SQLSearchByFieldNumericAndConsecutivo("Saw.ReglasDeContabilizacion", gProyCompaniaActual.GetConsecutivoCompania), gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
       If mrsReglasDeContabilizacion.State = adStateOpen Then
          If mrsReglasDeContabilizacion.RecordCount = 0 Then
             Exit Function
@@ -3096,7 +2605,7 @@ Public Function fSearchReglasDeContabilizacionActual(ByVal valChangeRecordSet As
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fSearchReglasDeContabilizacionActual = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fSearchReglasDeContabilizacionActual", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSearchReglasDeContabilizacionActual", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeDebitoBancarioEstanCompletas() As Boolean
@@ -3110,7 +2619,7 @@ h_EXIT:
    fLasCuentasDeDebitoBancarioEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeDebitoBancarioEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeDebitoBancarioEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeCreditoBancarioEstanCompletas() As Boolean
@@ -3124,7 +2633,7 @@ h_EXIT:
    fLasCuentasDeCreditoBancarioEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeCreditoBancarioEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeCreditoBancarioEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeIvaEstanCompletas() As Boolean
@@ -3140,7 +2649,7 @@ h_EXIT:
    fLasCuentasDeIvaEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeIvaEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeIvaEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeCxCEstanCompletas() As Boolean
@@ -3154,7 +2663,7 @@ h_EXIT:
    fLasCuentasDeCxCEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeCxCEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeCxCEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeCxPEstanCompletas() As Boolean
@@ -3178,7 +2687,7 @@ h_EXIT:
    fLasCuentasDeCxPEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeCxPEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeCxPEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
    
 Private Function fLasCuentasDeCobranzaEstanCompletas() As Boolean
@@ -3202,7 +2711,7 @@ h_EXIT:
    fLasCuentasDeCobranzaEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeCobranzaEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeCobranzaEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDePagosEstanCompletas() As Boolean
@@ -3229,7 +2738,7 @@ h_EXIT:
    fLasCuentasDePagosEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDePagosEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDePagosEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeMovBancarioEstanCompletas() As Boolean
@@ -3246,7 +2755,7 @@ h_EXIT:
    fLasCuentasDeMovBancarioEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeMovBancarioEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeMovBancarioEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeFacturacionEstanCompletas() As Boolean
@@ -3263,7 +2772,7 @@ h_EXIT:
    fLasCuentasDeFacturacionEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeFacturacionEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeFacturacionEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeResumenDeVentasEstanCompletas() As Boolean
@@ -3274,7 +2783,7 @@ h_EXIT:
    fLasCuentasDeResumenDeVentasEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeResumenDeVentasEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeResumenDeVentasEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeAnticipoEstanCompletas(ByVal valTipoDocumento As Integer) As Boolean
@@ -3308,7 +2817,7 @@ h_EXIT:
    fLasCuentasDeAnticipoEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeAnticipoEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeAnticipoEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fLasCuentasDeReglasDeContabilizacionEstanCompletas(ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valConMensaje As Boolean, ByVal valTipoDocumento As Integer) As Boolean
@@ -3343,7 +2852,7 @@ h_EXIT:
    fLasCuentasDeReglasDeContabilizacionEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeReglasDeContabilizacionEstanCompletas ", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeReglasDeContabilizacionEstanCompletas ", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fBuscaLasReglasDeContabilizacion(ByVal valShowMessage As Boolean, ByVal valChangeRecordSet As Boolean) As Boolean
@@ -3361,7 +2870,7 @@ h_EXIT:
    fBuscaLasReglasDeContabilizacion = Encontradas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fBuscaLasReglasDeContabilizacion", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fBuscaLasReglasDeContabilizacion", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sBuscaSiLasCuentasTienenAuxiliares()
@@ -3379,7 +2888,7 @@ Private Sub sBuscaSiLasCuentasTienenAuxiliares()
    Set insCuenta = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sBuscaSiLasCuentasTienenAuxiliares", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sBuscaSiLasCuentasTienenAuxiliares", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fLaFechaEsValidaParaContabilizacion(ByVal valAction As AccionSobreRecord, ByVal valFechaDocumento As Date, ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valShowMessage As Boolean) As Boolean
@@ -3408,7 +2917,7 @@ Private Function fLaFechaEsValidaParaContabilizacion(ByVal valAction As AccionSo
 h_EXIT: On Error GoTo 0
    fLaFechaEsValidaParaContabilizacion = varEsValida
    Exit Function
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLaFechaEsValidaParaContabilizacion", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLaFechaEsValidaParaContabilizacion", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fBuscaElTipoDeContabilizacion(ByVal valModulo As enum_ComprobanteGeneradoPor) As enum_TipoDeContabilizacion
@@ -3430,8 +2939,7 @@ Public Function fBuscaElTipoDeContabilizacion(ByVal valModulo As enum_Comprobant
    End Select
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", _
-         "fBuscaElTipoDeContabilizacion", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fBuscaElTipoDeContabilizacion", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fBuscaElTipoDeContabilizacionIndividual(ByVal valModulo As enum_ComprobanteGeneradoPor) As enum_ContabilizacionIndividual
@@ -3453,7 +2961,7 @@ Public Function fBuscaElTipoDeContabilizacionIndividual(ByVal valModulo As enum_
    End Select
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fBuscaElTipoDeContabilizacionIndividual", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fBuscaElTipoDeContabilizacionIndividual", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sEscogeReglasDeContabilizacionDeLaCiaActualSiNoExisteLoCrea(ByVal valShowMessage As Boolean)
@@ -3465,19 +2973,18 @@ Public Sub sEscogeReglasDeContabilizacionDeLaCiaActualSiNoExisteLoCrea(ByVal val
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sEscogeReglasDeContabilizacionDeLaCiaActualSiNoExisteLoCrea", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEscogeReglasDeContabilizacionDeLaCiaActualSiNoExisteLoCrea", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fSePuedeModificarLaFechaDelDocumentoAdministrativo(ByVal valModulo As enum_ComprobanteGeneradoPor) As Boolean
    On Error GoTo h_ERROR
    fSePuedeModificarLaFechaDelDocumentoAdministrativo = True
-   If fBuscaElTipoDeContabilizacion(valModulo) = eTD_CADA_DOCUMENTO _
-      And fBuscaElTipoDeContabilizacionIndividual(valModulo) = eCI_INMEDIATA Then
+   If fBuscaElTipoDeContabilizacion(valModulo) = eTD_CADA_DOCUMENTO And fBuscaElTipoDeContabilizacionIndividual(valModulo) = eCI_INMEDIATA Then
       fSePuedeModificarLaFechaDelDocumentoAdministrativo = False
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fSePuedeModificarLaFechaDelDocumentoAdministrativo", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSePuedeModificarLaFechaDelDocumentoAdministrativo", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fCumpleConLasCondicionesParaContabilizarSiEsNecesario(ByVal valAction As AccionSobreRecord, ByVal valFechaDocumento As Date, ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valMostrarMensaje As Boolean) As Boolean
@@ -3497,7 +3004,7 @@ Public Function fCumpleConLasCondicionesParaContabilizarSiEsNecesario(ByVal valA
 h_EXIT: On Error GoTo 0
    fCumpleConLasCondicionesParaContabilizarSiEsNecesario = varCumple
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fCumpleConLasCondicionesParaContabilizarSiEsNecesario", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCumpleConLasCondicionesParaContabilizarSiEsNecesario", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLSeparadorDeCamposStandardDelNroDocumentoOrigen() As String
@@ -3512,14 +3019,18 @@ Private Function fLosTiposDeComprobantesEstanCompletos() As Boolean
    If gContPeriodoActual.GetTipoDeNumeracionAsEnum <> eTN_TIPOMESCONSECUTIVO Then
       varEstanCompletos = True
    Else
-      varEstanCompletos = GetFacturaTipoComprobante <> "" And GetCxCTipoComprobante <> "" And _
-            GetCxPTipoComprobante <> "" And GetCobranzaTipoComprobante <> "" And _
-            GetPagoTipoComprobante <> "" And GetMovimientoBancarioTipoComprobante <> ""
+      varEstanCompletos = GetCxCTipoComprobante <> "" And GetCxPTipoComprobante <> "" And _
+                           GetCobranzaTipoComprobante <> "" And GetPagoTipoComprobante <> "" And _
+                           GetFacturaTipoComprobante <> "" And GetMovimientoBancarioTipoComprobante <> "" And _
+                           GetAnticipoTipoComprobante <> "" And GetInventarioTipoComprobante <> "" And _
+                           GetPagosSueldosTipoComprobante <> "" And GetSiglasTipoComprobanteCajaChica <> "" And _
+                           GetSiglasTipoComprobanteRendiciones <> "" And GetTransfCtasSigasTipoComprobante <> "" And _
+                           GetOrdenDeProduccionTipoComprobante <> ""
    End If
 h_EXIT: On Error GoTo 0
    fLosTiposDeComprobantesEstanCompletos = varEstanCompletos
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLosTiposDeComprobantesEstanCompletos", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLosTiposDeComprobantesEstanCompletos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fImprimeReglasDeContabilizacion() As Boolean
@@ -3770,11 +3281,11 @@ Public Function fImprimeReglasDeContabilizacion() As Boolean
       gUtilReports.sMostrarOImprimirReporte rptReporteReglas, 1, eDI_PANTALLA, "Impresión de Reglas de Contabilización"
       fImprimeReglasDeContabilizacion = True
    End If
+'   completar
    Set rptReporteReglas = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", _
-         "fImprimeReglasDeContabilizacion", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fImprimeReglasDeContabilizacion", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fLaReglaGeneralParaEsteModuloUsaAuxiliar(ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valCtaTipoContabilizacion As Integer, ByVal valTipoDocumento As Integer) As Boolean
@@ -3808,7 +3319,7 @@ Public Function fLaReglaGeneralParaEsteModuloUsaAuxiliar(ByVal valModulo As enum
    fLaReglaGeneralParaEsteModuloUsaAuxiliar = varUsaAuxiliar
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLaReglaGeneralParaEsteModuloUsaAuxiliar", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLaReglaGeneralParaEsteModuloUsaAuxiliar", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeInventarioEstanCompletas() As Boolean
@@ -3819,7 +3330,7 @@ h_EXIT:
    fLasCuentasDeInventarioEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeFacturacionEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeFacturacionEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSeContabilizoElUltimoMesDeInv() As Boolean
@@ -3835,7 +3346,7 @@ Private Function fSeContabilizoElUltimoMesDeInv() As Boolean
 h_EXIT:     On Error GoTo 0
    Exit Function
  fSeContabilizoElUltimoMesDeInv = vResult
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fSeContabilizoElUltimoMesDeInv", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSeContabilizoElUltimoMesDeInv", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fPuedoContabilizarInv() As Boolean
@@ -3852,7 +3363,7 @@ Public Function fPuedoContabilizarInv() As Boolean
 h_EXIT:      On Error GoTo 0
    Exit Function
 fPuedoContabilizarInv = vResult
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fPuedoContabilizarInv", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fPuedoContabilizarInv", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fMostrarMensaje(ByVal valMostrarMensaje As Boolean, ByVal valAction As AccionSobreRecord, ByRef refCumple As Boolean, ByVal valModulo As enum_ComprobanteGeneradoPor)
@@ -3877,7 +3388,7 @@ Private Function fMostrarMensaje(ByVal valMostrarMensaje As Boolean, ByVal valAc
    End If
 h_EXIT:      On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fMostrarMensaje", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fMostrarMensaje", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fLaAccionRequiereUnPeriodoYMesAbierto(ByVal valAction As AccionSobreRecord, Optional ByVal valGeneradoPor As enum_ComprobanteGeneradoPor = eCG_USUARIO) As Boolean
@@ -3916,7 +3427,7 @@ h_EXIT:
    fLaAccionRequiereUnPeriodoYMesAbierto = varRequiere
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLaAccionRequiereUnPeriodoYMesAbierto", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLaAccionRequiereUnPeriodoYMesAbierto", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConsecutivoCompaniaOld As Long, ByVal valConsecutivoCompaniaNew As Long)
@@ -4064,7 +3575,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaOrdenDeProduccionMateriaPrima", 30, valRecordSet("CuentaOrdenDeProduccionMateriaPrima").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@OrdenDeProduccionTipoComprobante", 2, valRecordSet("OrdenDeProduccionTipoComprobante").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@EditarComprobanteAfterInsertOrdenDeProduccion", 1, valRecordSet("EditarComprobanteAfterInsertOrdenDeProduccion").value)
-      
+'revisar
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, valRecordSet("NombreOperador").value)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", valRecordSet("FechaUltimaModificacion").value)
       insUtAdoCmd.fExecCmd vCmd
@@ -4076,7 +3587,7 @@ Public Sub sRestaurarDatos(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
    Set insUtAdoCmd = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sRestaurarDatos", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sRestaurarDatos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sInsertarReglas(ByVal valRecordSet As ADODB.Recordset, ByVal valConsecutivoCompania As Long, ByVal valConsecutivoCompaniaDestino As Long)
@@ -4089,7 +3600,7 @@ Public Sub sInsertarReglas(ByVal valRecordSet As ADODB.Recordset, ByVal valConse
    Set objWrp = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sInsertarReglas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInsertarReglas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function SQLSearchByFieldNumericAndConsecutivo(ByVal valTableName As String, ByVal valConsecutivoCompania As Long) As String
@@ -4098,7 +3609,7 @@ Private Function SQLSearchByFieldNumericAndConsecutivo(ByVal valTableName As Str
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: SQLSearchByFieldNumericAndConsecutivo = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "SQLSearchByFieldNumericAndConsecutivo", "clsReglasDeContabilizacionNavigator", eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "SQLSearchByFieldNumericAndConsecutivo", CM_FILE_NAME, eg_Female, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function sCopiarReglasDeContabilizacion(ByVal valConsecutivoCompania As Long, ByVal valConsecutivoCompaniaEscojida As Long) As Boolean
@@ -4115,7 +3626,7 @@ Public Function sCopiarReglasDeContabilizacion(ByVal valConsecutivoCompania As L
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: sCopiarReglasDeContabilizacion = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sCopiarReglasDeContabilizacion", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCopiarReglasDeContabilizacion", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fExistCodigoCuentaInAnyFieldOfReglas(ByVal valCodigoCuentaContable As String) As Boolean
@@ -4141,7 +3652,7 @@ Public Function fExistCodigoCuentaInAnyFieldOfReglas(ByVal valCodigoCuentaContab
 h_EXIT: On Error GoTo 0
    fExistCodigoCuentaInAnyFieldOfReglas = Existe
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fExistCodigoCuentaInAnyFieldOfReglas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fExistCodigoCuentaInAnyFieldOfReglas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fLasCuentasDePagoSueldoEstanCompletas() As Boolean
@@ -4152,7 +3663,7 @@ h_EXIT:
    fLasCuentasDePagoSueldoEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "ffLasCuentasDePagoSueldoEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "ffLasCuentasDePagoSueldoEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fEditaComprobanteDespuesDeInsertar(ByVal valModulo As enum_ComprobanteGeneradoPor) As Boolean
@@ -4178,7 +3689,7 @@ Public Function fEditaComprobanteDespuesDeInsertar(ByVal valModulo As enum_Compr
 h_EXIT:
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fEditaComprobanteDespuesDeInsertar", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEditaComprobanteDespuesDeInsertar", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sSetEditaComprobanteDespuesDeInsertar(ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valEdita As Boolean)
@@ -4198,7 +3709,7 @@ Public Sub sSetEditaComprobanteDespuesDeInsertar(ByVal valModulo As enum_Comprob
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sSetEditaComprobanteDespuesDeInsertar", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSetEditaComprobanteDespuesDeInsertar", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fLasCuentasDeReposicionEstanCompletas() As Boolean
@@ -4209,7 +3720,7 @@ h_EXIT:
    fLasCuentasDeReposicionEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeReposicionEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeReposicionEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fGetListaCuentasAVerificar() As String
@@ -4267,7 +3778,7 @@ h_EXIT:
    fGetListaCuentasAVerificar = vCuentasAVerificar
 On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fGetListaCuentasAVerificar", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fGetListaCuentasAVerificar", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Sub sBuscarCuentaUsaAuxiliar(ByVal valXmlCuentas As String)
@@ -4324,7 +3835,7 @@ Private Sub sBuscarCuentaUsaAuxiliar(ByVal valXmlCuentas As String)
    SetCuentaAnticipoOtrosEgresosUsaAuxiliares insLibWincont.fExisteElValorDelElementoEnElXML(vDOM, "Codigo", GetCuentaAnticipoOtrosEgresos)
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "sBuscarCuentaUsaAuxiliar", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sBuscarCuentaUsaAuxiliar", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fLasCuentasDeTransfCtasEstanCompletas() As Boolean
@@ -4341,7 +3852,7 @@ h_EXIT:
    fLasCuentasDeTransfCtasEstanCompletas = EstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeTransfCtasEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeTransfCtasEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fLasCuentasDeOrdenDeProduccionEstanCompletas() As Boolean
@@ -4353,5 +3864,5 @@ h_EXIT:
    fLasCuentasDeOrdenDeProduccionEstanCompletas = vEstanCompletas
    On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsReglasDeContabilizacionNavigator", "fLasCuentasDeOrdenDeProduccionEstanCompletas", "Reglas De Contabilizacion", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLasCuentasDeOrdenDeProduccionEstanCompletas", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function

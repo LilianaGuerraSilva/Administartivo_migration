@@ -107,6 +107,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,factura.FormaDePago");
             vSql.AppendLine(" ,factura.CodigoVendedor");
             vSql.AppendLine(" ,factura.CodigoCliente");
+            vSql.AppendLine(" ,factura.GeneradoPor");
             vSql.AppendLine(" ,ROUND(factura.MontoGravableAlicuota1,2) AS MontoGravableAlicuota1");
             vSql.AppendLine(" ,ROUND(factura.MontoGravableAlicuota2,2) AS MontoGravableAlicuota2");
             vSql.AppendLine(" ,ROUND(factura.MontoGravableAlicuota3,2) AS MontoGravableAlicuota3");
@@ -175,6 +176,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.AlicuotaIGTF = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "AlicuotaIGTF"));
                     FacturaImprentaDigital.IGTFML = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "IGTFML"));
                     FacturaImprentaDigital.BaseImponibleIGTF = LibImportData.ToDec(LibXml.GetPropertyString(vResult, "BaseImponibleIGTF"));
+                    FacturaImprentaDigital.GeneradoPor = LibXml.GetPropertyString(vResult, "GeneradoPor");
                 } else {
                     throw new GalacException($"No existe un documento para enviar con el número {NumeroFactura} ", eExceptionManagementType.Controlled);
                 }
@@ -386,7 +388,40 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             }
         }
 
-        public virtual void ConfigurarDocumento() {
+        private string SqlLimpiarNroControl(ref StringBuilder refParametros) {
+            DateTime vFechaInicioImprentaDigital = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDateTime("Parametros", "FechaInicioImprentaDigital");
+            LibGpParams vParam = new LibGpParams();
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql vUtilSql = new QAdvSql("");
+            vParam.AddInInteger("ConsecutivoCompania", ConsecutivoCompania);
+            vParam.AddInString("Numero", NumeroFactura, 11);
+            vParam.AddInEnum("TipoDeDocumento", (int)TipoDeDocumento);
+            refParametros = vParam.Get();
+            vSql.AppendLine(" UPDATE");
+            vSql.AppendLine(" factura ");
+            vSql.AppendLine(" SET NumeroControl = ''");
+            vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
+            vSql.AppendLine(" AND Numero = @Numero ");
+            vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento");
+            vSql.AppendLine(" AND NumeroControl <> ''");
+            vSql.AppendLine(" AND StatusFactura = " + vUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSql.AppendLine(" AND Fecha >= " + vUtilSql.ToSqlValue(vFechaInicioImprentaDigital));
+            return vSql.ToString();
+        }
+
+        public void LimpiarNroControl() {
+            try {
+                if (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {                    
+                    StringBuilder vParam = new StringBuilder();
+                    string vSql = SqlLimpiarNroControl(ref vParam);
+                    LibBusiness.ExecuteUpdateOrDelete(vSql, vParam, "", 0);
+                }
+            } catch (GalacException) {
+                throw;
+            }
+        }
+
+        public virtual void ConfigurarDocumento() {            
             BuscarDatosDeDocumentoParaEmitir();
             BuscarDatosDeDetalleDocumento();
             BuscarDatosDeCliente();
@@ -406,14 +441,14 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vResult = ActualizaNroControlYProveedorImprentaDigital();
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Enviada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Anulada) { //Anulada en SAW, Emitida en ID
                 if (ExistenCxCPorCancelar()) {
-                    vResult = AnularDocumento();
+                    Mensaje = "No se puede anular una CxC que esté Cancelada.";
                 } else {
-                    Mensaje = "No se puede anular una CxC que este Cancelada.";
+                    vResult = AnularDocumento();
                 }
             } else if (LibString.S1IsEqualToS2(EstatusDocumento, "Anulada") && FacturaImprentaDigital.StatusFacturaAsEnum == eStatusFactura.Emitida) { //Anulada en ID, Emitida en SAW
                 vResult = AnularFacturasYCxC();
                 if (!vResult) {
-                    Mensaje = "No se puede anular una CxC que este Cancelada.";
+                    Mensaje = "No se puede anular una CxC que esté Cancelada.";
                 }
             } else {
                 vResult = true; // Todo al día
