@@ -1029,7 +1029,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
             SQL.AppendLine("    Saw.Almacen.NombreAlmacen AS NombreAlmacen, ");
             SQL.AppendLine("    dbo.ArticuloInventario.Codigo AS CodigoArticulo, ");
-            SQL.AppendLine("    dbo.ArticuloInventario.Descripcion AS DescripcionArticulo, ");
+            SQL.AppendLine("    dbo.ArticuloInventario.Descripcion AS Descripcion, ");
             SQL.AppendLine("    dbo.ExistenciaPorAlmacen.Ubicacion AS Ubicacion, ");
             SQL.AppendLine("    dbo.ExistenciaPorAlmacen.Cantidad AS Existencia");
             SQL.AppendLine("    FROM dbo.ExistenciaPorAlmacen INNER JOIN dbo.ArticuloInventario ON ");
@@ -1062,7 +1062,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("   SELECT ");
             SQL.AppendLine("    Saw.Almacen.NombreAlmacen AS NombreAlmacen, ");
             SQL.AppendLine("    dbo.ArticuloInventario.Codigo AS CodigoArticulo, ");
-            SQL.AppendLine("    dbo.ArticuloInventario.Descripcion AS DescripcionArticulo, ");
+            SQL.AppendLine("    dbo.ArticuloInventario.Descripcion AS Descripcion, ");
             SQL.AppendLine("    dbo.ExistenciaPorAlmacen.Ubicacion AS Ubicacion, ");
             SQL.AppendLine("    dbo.ExistenciaPorAlmacen.Cantidad AS Existencia");
             SQL.AppendLine("    FROM dbo.ExistenciaPorAlmacen INNER JOIN dbo.ArticuloInventario ON ");

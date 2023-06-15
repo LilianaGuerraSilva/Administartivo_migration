@@ -10,7 +10,7 @@ namespace Galac.Saw.Ccl.Inventario {
         string CodigoAlmacen { get; set; }
         string NombreAlmacen { get; set; }
         string CodigoArticulo { get; set; }
-        string DescripcionArticulo { get; set; }
+        string Descripcion { get; set; }
         string Ubicacion { get; set; }
         string Existencia { get; set; }
         #endregion //Propiedades

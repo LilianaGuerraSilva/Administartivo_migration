@@ -7,6 +7,7 @@ using Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Saw.Ccl.Tablas;
 using Galac.Comun.Ccl.TablasGen;
+using LibGalac.Aos.Base;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
 
@@ -155,7 +156,16 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private void UpdateImpuestoMe() {
             ImpuestoMe = MePrecioConIva - MePrecioSinIva;
         }
-
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        public string CampoDefinible1 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        public string CampoDefinible2 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        public string CampoDefinible3 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        public string CampoDefinible4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        public string CampoDefinible5 { get; set; }
     }
 
     public class FkArticuloInventarioRptViewModel:IFkArticuloInventarioViewModel {
@@ -180,6 +190,16 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string UnidadDeVenta { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        public string CampoDefinible1 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        public string CampoDefinible2 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        public string CampoDefinible3 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        public string CampoDefinible4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        public string CampoDefinible5 { get; set; }
     }
 
     public class FkMonedaViewModel : IFkMonedaViewModel {
@@ -197,5 +217,44 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
     }
 
-
+    public class ArtInvCamposDefiniblesGridColumnAttribue : LibGridColumAttribute {
+        public ArtInvCamposDefiniblesGridColumnAttribue(string initHeader, int initOrdinalEntre1y5) : base(initHeader) {
+            IsForList = false;
+            IsForSearch = false;
+            if (initOrdinalEntre1y5 >= 1 && initOrdinalEntre1y5 <= 5) {
+                string vEncabezado = string.Empty;
+                string vDBPath = string.Empty;
+                switch (initOrdinalEntre1y5) {
+                    case 1:
+                        vEncabezado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCampoDefinibleInventario1");
+                        vDBPath = "CampoDefinible1";
+                        break;
+                    case 2:
+                        vEncabezado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCampoDefinibleInventario2");
+                        vDBPath = "CampoDefinible2";
+                        break;
+                    case 3:
+                        vEncabezado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCampoDefinibleInventario3");
+                        vDBPath = "CampoDefinible3";
+                        break;
+                    case 4:
+                        vEncabezado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCampoDefinibleInventario4");
+                        vDBPath = "CampoDefinible4";
+                        break;
+                    case 5:
+                        vEncabezado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCampoDefinibleInventario5");
+                        vDBPath = "CampoDefinible5";
+                        break;
+                }
+                if (LibString.IsNullOrEmpty(vEncabezado, true) && LibString.IsNullOrEmpty(vDBPath, true)) {
+                    Header = vEncabezado;
+                    DbMemberPath = vDBPath;
+                    Type = eGridColumType.Generic;
+                    Width = 100;
+                    IsForList = true;
+                    IsForSearch = true;
+                }
+            }
+        }
+    }
 }

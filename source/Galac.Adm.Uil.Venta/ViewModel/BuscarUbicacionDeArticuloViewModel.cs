@@ -23,12 +23,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
     public class BuscarUbicacionDeArticuloViewModel : LibGenericViewModel {
         #region Constantes
         public const string ArticuloPropertyName = "Articulo";
-        public const string DescripcionPropertyName = "Descripcion";
-        public const string AlmacenPropertyName = "Almacen";
+        //public const string DescripcionPropertyName = "Descripcion";
+        //public const string AlmacenPropertyName = "Almacen";
         #endregion
         #region Variables
         private FkBuscarUbicacionDeArticuloViewModel _ConexionArticulo = null;
-        private FkBuscarUbicacionDeArticuloViewModel _ConexionDescripcion = null;
+        //private FkBuscarUbicacionDeArticuloViewModel _ConexionDescripcion = null;
         //private FkAlmacenViewModel _ConexionAlmacen = null;
         #endregion //Variables
         #region Propiedades
@@ -64,37 +64,37 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "Descripcion", ConnectionSearchCommandName = "ChooseDescripcionCommand", MaxWidth=120)]
-        public string  Descripcion {
-            get {
-                return Descripcion;
-            }
-            set {
-                if (Descripcion != value) {
-                    Descripcion = value;
-                    RaisePropertyChanged(DescripcionPropertyName);
-                    if (LibString.IsNullOrEmpty(Descripcion, true)) {
-                        ConexionDescripcion = null;
-                    }
-                }
-            }
-        }
+        //[LibGridColum("Descripción", eGridColumType.Connection, ConnectionDisplayMemberPath = "Descripcion", ConnectionModelPropertyName = "Descripcion", ConnectionSearchCommandName = "ChooseDescripcionCommand", MaxWidth=120)]
+        //public string  Descripcion {
+        //    get {
+        //        return Descripcion;
+        //    }
+        //    set {
+        //        if (Descripcion != value) {
+        //            Descripcion = value;
+        //            RaisePropertyChanged(DescripcionPropertyName);
+        //            if (LibString.IsNullOrEmpty(Descripcion, true)) {
+        //                //ConexionDescripcion = null;
+        //            }
+        //        }
+        //    }
+        //}
 
-        [LibGridColum("Codigo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "Almacen", ConnectionSearchCommandName = "ChooseAlmacenCommand", MaxWidth=120)]
-        public string  Almacen {
-            get {
-                return Almacen;
-            }
-            set {
-                if (Almacen != value) {
-                    Almacen = value;
-                    RaisePropertyChanged(AlmacenPropertyName);
-                    if (LibString.IsNullOrEmpty(Almacen, true)) {
-                        //ConexionAlmacen = null;
-                    }
-                }
-            }
-        }
+        //[LibGridColum("Codigo", eGridColumType.Connection, ConnectionDisplayMemberPath = "Codigo", ConnectionModelPropertyName = "Almacen", ConnectionSearchCommandName = "ChooseAlmacenCommand", MaxWidth=120)]
+        //public string  Almacen {
+        //    get {
+        //        return Almacen;
+        //    }
+        //    set {
+        //        if (Almacen != value) {
+        //            Almacen = value;
+        //            RaisePropertyChanged(AlmacenPropertyName);
+        //            if (LibString.IsNullOrEmpty(Almacen, true)) {
+        //                //ConexionAlmacen = null;
+        //            }
+        //        }
+        //    }
+        //}
 
         public FkBuscarUbicacionDeArticuloViewModel ConexionArticulo {
             get {
@@ -111,20 +111,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public FkBuscarUbicacionDeArticuloViewModel ConexionDescripcion {
-            get {
-                return _ConexionDescripcion;
-            }
-            set {
-                if (_ConexionDescripcion != value) {
-                    _ConexionDescripcion = value;
-                    RaisePropertyChanged(DescripcionPropertyName);
-                }
-                if (_ConexionDescripcion == null) {
-                    Descripcion = string.Empty;
-                }
-            }
-        }
+        //public FkBuscarUbicacionDeArticuloViewModel ConexionDescripcion {
+        //    get {
+        //        return _ConexionDescripcion;
+        //    }
+        //    set {
+        //        if (_ConexionDescripcion != value) {
+        //            _ConexionDescripcion = value;
+        //            RaisePropertyChanged(DescripcionPropertyName);
+        //        }
+        //        if (_ConexionDescripcion == null) {
+        //            Descripcion = string.Empty;
+        //        }
+        //    }
+        //}
 
         //public FkAlmacenViewModel ConexionAlmacen {
         //    get {
