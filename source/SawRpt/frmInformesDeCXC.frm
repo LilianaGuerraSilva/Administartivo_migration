@@ -8,8 +8,8 @@ Begin VB.Form frmInformesDeCXC
    ClientTop       =   450
    ClientWidth     =   10995
    LinkTopic       =   "Form1"
-   ScaleHeight     =   10950
-   ScaleWidth      =   20220
+   ScaleHeight     =   6540
+   ScaleWidth      =   10995
    Begin VB.Frame frameFiltroZona 
       BackColor       =   &H00F3F3F3&
       BorderStyle     =   0  'None
@@ -1348,8 +1348,7 @@ On Error GoTo h_ERROR
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Cancel = True
-   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_Validate", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreDeCliente_GotFocus()
