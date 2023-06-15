@@ -13,6 +13,7 @@ using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Ccl.SttDef;
 using System.Xml.Linq;
+using LibGalac.Aos.Uil;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
     public class VendedorViewModel : LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
@@ -112,6 +113,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
+
         [LibRequired(ErrorMessage = "Código del Vendedor es requerido.")]
         [LibGridColum("Código", ColumnOrder = 0, Width = 70)]
         public string Codigo {
@@ -120,7 +122,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
             set {
                 if (Model.Codigo != value) {
-                    Model.Codigo = LibText.FillWithCharToLeft(value, "0", 5);
+                    Model.Codigo = (LibString.IsNullOrEmpty(value) ? String.Empty : LibText.FillWithCharToLeft(value, "0", 5));
                     IsDirty = true;
                     RaisePropertyChanged(CodigoPropertyName);
                 }
@@ -910,6 +912,13 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             set {
                 if (_ConexionRutaDeComercializacion != value) {
                     _ConexionRutaDeComercializacion = value;
+                    if (_ConexionRutaDeComercializacion != null) {
+                        ConsecutivoRutaDeComercializacion = _ConexionRutaDeComercializacion.Consecutivo;
+                        RutaDeComercializacion = _ConexionRutaDeComercializacion.Descripcion;
+                    } else {
+                        ConsecutivoRutaDeComercializacion = 0;
+                        RutaDeComercializacion = string.Empty;
+                    }
                     RaisePropertyChanged(RutaDeComercializacionPropertyName);
                 }
                 if (_ConexionRutaDeComercializacion == null) {
@@ -950,6 +959,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             DefaultFocusedPropertyName = ConsecutivoCompaniaPropertyName;
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
             InitializeDetails();
+            ConsecutivoRutaDeComercializacion = 1;
+            ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", ConsecutivoRutaDeComercializacion), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());          
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -1036,7 +1047,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             //ConexionCiudad = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCiudadViewModel>("Ciudad", LibSearchCriteria.CreateCriteria("NombreCiudad", Ciudad), new Saw.Brl.SttDef.clsSettValueByCompanyNav());
-            //ConexionRutaDeComercializacion = FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Ruta de Comercialización", LibSearchCriteria.CreateCriteria("Descripcion", RutaDeComercializacion));
+            ConexionRutaDeComercializacion = FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Ruta de Comercialización", LibSearchCriteria.CreateCriteria("Descripcion", RutaDeComercializacion));
         }
 		
         protected override void ExecuteAction() {

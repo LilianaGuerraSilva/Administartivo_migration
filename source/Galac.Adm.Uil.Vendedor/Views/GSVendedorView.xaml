@@ -77,7 +77,7 @@
                     nsWpf:LibFocusManager.IsFocused="True"
                     InputDataType="Alfanumeric"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    MaxLength="10"
+                    MaxLength="5"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=Codigo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
@@ -97,7 +97,7 @@
                     Width="540"
                     InputDataType="String"
                     IsEnabled="{Binding Path=IsEnabled}"
-                    MaxLength="160"
+                    MaxLength="35"
                     Style="{StaticResource TextBoxInputStyle}"
                     Text="{Binding Path=Nombre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
@@ -204,6 +204,7 @@
                                 Grid.Column="1"
                                 Width="250"
                                 Height="115"
+                                InputDataType="String"
                                 IsReadOnly="{Binding Path=IsReadOnly}"
                                 MaxLength="255"
                                 Style="{StaticResource TextBoxInputStyle}"
@@ -333,7 +334,7 @@
                                 InputDataType="String"
                                 InvalidCharacters="&quot;|°¬!#$%&amp;/()=?'¡¿¨,:*+~&lt;&gt;^''{}"
                                 IsEnabled="{Binding Path=IsEnabled}"
-                                MaxLength="100"
+                                MaxLength="255"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=Notas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
