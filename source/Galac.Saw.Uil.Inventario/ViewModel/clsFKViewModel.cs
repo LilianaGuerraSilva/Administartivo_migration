@@ -246,7 +246,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                         vDBPath = "CampoDefinible5";
                         break;
                 }
-                if (LibString.IsNullOrEmpty(vEncabezado, true) && LibString.IsNullOrEmpty(vDBPath, true)) {
+                if (!LibString.IsNullOrEmpty(vEncabezado, true) && !LibString.IsNullOrEmpty(vDBPath, true)) {
                     Header = vEncabezado;
                     DbMemberPath = vDBPath;
                     Type = eGridColumType.Generic;

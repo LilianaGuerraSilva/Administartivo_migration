@@ -124,6 +124,12 @@ namespace Galac.Saw.Dal.Inventario {
 
             SQL.AppendLine(", ArticuloInventario.ArancelesCodigo");
             SQL.AppendLine(", ArticuloInventario.TipoDeMercanciaProduccion ");
+
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible1 ");
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible2 ");
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible3 ");
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible4 ");
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible5 ");
             SQL.AppendLine(" FROM ArticuloInventario ");
             SQL.AppendLine(" LEFT JOIN ExistenciaPorAlmacen ON (ExistenciaPorAlmacen.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
             SQL.AppendLine(" AND ExistenciaPorAlmacen.CodigoArticulo = ArticuloInventario.Codigo) 	");
@@ -171,6 +177,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(" , ArticuloInventario.TipoDeArticulo, ArticuloInventario.UsaBalanza");
             SQL.AppendLine(" , ArticuloInventario.Peso, ArticuloInventario.ArancelesCodigo, ArticuloInventario.TipoDeMercanciaProduccion, MePrecioSinIva, MePrecioConIva, MePrecioSinIva2");
             SQL.AppendLine(", MePrecioConIva2, MePrecioSinIva3, MePrecioConIva3, MePrecioSinIva4, MePrecioConIva4");
+            SQL.AppendLine(", CampoDefinible1, CampoDefinible2, CampoDefinible3, CampoDefinible4, CampoDefinible5");
             return SQL.ToString();
 
         }
@@ -501,6 +508,11 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("    Gv_ArticuloInventario_B1.MePrecioConIva2, ");
             SQL.AppendLine("    Gv_ArticuloInventario_B1.MePrecioConIva3, ");
             SQL.AppendLine("    Gv_ArticuloInventario_B1.MePrecioConIva4, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible1, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible2, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible3, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible4, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible5, ");
             SQL.AppendLine("    Comun.Aranceles.AdValorem, ");
             SQL.AppendLine("    Comun.Aranceles.Seguro, ");
             SQL.AppendLine("    Gv_ArticuloInventario_B1.TipoDeMercanciaProduccion ");
@@ -802,7 +814,12 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      Existencia, ");
             SQL.AppendLine("      CantidadMaxima, ");
             SQL.AppendLine("      CantidadMinima, ");
-            SQL.AppendLine("      TipoDeArticulo");
+            SQL.AppendLine("      TipoDeArticulo,");
+            SQL.AppendLine("      CampoDefinible1,");
+            SQL.AppendLine("      CampoDefinible2,");
+            SQL.AppendLine("      CampoDefinible3,");
+            SQL.AppendLine("      CampoDefinible4,");
+            SQL.AppendLine("      CampoDefinible5 ");
             SQL.AppendLine("     FROM Gv_ArticuloInventario_B2");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
