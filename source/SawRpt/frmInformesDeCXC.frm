@@ -8,8 +8,8 @@ Begin VB.Form frmInformesDeCXC
    ClientTop       =   450
    ClientWidth     =   10995
    LinkTopic       =   "Form1"
-   ScaleHeight     =   6540
-   ScaleWidth      =   10995
+   ScaleHeight     =   10950
+   ScaleWidth      =   20220
    Begin VB.Frame frameFiltroZona 
       BackColor       =   &H00F3F3F3&
       BorderStyle     =   0  'None
@@ -705,7 +705,7 @@ Begin VB.Form frmInformesDeCXC
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   76480515
+         Format          =   135987203
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -718,7 +718,7 @@ Begin VB.Form frmInformesDeCXC
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   76480515
+         Format          =   135987203
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -1051,6 +1051,7 @@ Private insCamposDefFactura As Object
 Dim xls As Object
 Dim insFactura As Object
 Dim insConfigurar  As Object
+Private insCnxAos As Object
 
 Private Function GetGender() As Enum_Gender
    GetGender = eg_Male
@@ -1332,14 +1333,14 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtCodigoVendedor_Validate(Cancel As Boolean)
-   On Error GoTo h_ERROR
-   If LenB(txtCodigoVendedor.Text) = 0 Then
-      txtCodigoVendedor = "*"
+On Error GoTo h_ERROR
+   If gTexto.DfLen(txtCodigoVendedor.Text) = 0 Then
+      txtCodigoVendedor.Text = "*"
+   Else
+      txtCodigoVendedor.Text = insVendedor.fFillWithCerosOnLeft(txtCodigoVendedor.Text)
    End If
-   insVendedor.sClrRecord
-   insVendedor.SetCodigo txtCodigoVendedor.Text
-   If insVendedor.fSearchSelectConnection Then
-      sSelectAndSetValuesOfVendedor
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, "", "", txtCodigoVendedor.Text, "", "StatusVendedor", "0") Then
+      sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
       GoTo h_EXIT
@@ -1347,7 +1348,8 @@ Private Sub txtCodigoVendedor_Validate(Cancel As Boolean)
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Cancel = True
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_Validate", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub txtNombreDeCliente_GotFocus()
@@ -1610,14 +1612,12 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtNombreVendedor_Validate(Cancel As Boolean)
-   On Error GoTo h_ERROR
-   If LenB(txtNombreVendedor.Text) = 0 Then
+  On Error GoTo h_ERROR
+   If gTexto.DfLen(txtNombreVendedor.Text) = 0 Then
       txtNombreVendedor.Text = "*"
    End If
-   insVendedor.sClrRecord
-   insVendedor.SetNombre txtNombreVendedor.Text
-   If insVendedor.fSearchSelectConnection() Then
-      sSelectAndSetValuesOfVendedor
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, "", "", txtNombreVendedor.Text, "Nombre", "StatusVendedor", "0") Then
+      sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
       GoTo h_EXIT
@@ -1625,9 +1625,8 @@ Private Sub txtNombreVendedor_Validate(Cancel As Boolean)
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, " txtCodigoVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
 Private Sub sSelectAndSetValuesOfVendedor()
    On Error GoTo h_ERROR
    If insVendedor.fRsRecordCount(False) = 1 Then
@@ -2584,7 +2583,8 @@ Public Sub sLoadObjectValues(ByVal valCompaniaActual As Object, _
                                                             ByVal valCamposDefFacturaNav As Object, _
                                                                ByVal valARExportExcel As Object, _
                                                                   ByVal valFacturaNav As Object, _
-                                                                     ByVal valRptInformesEspecialesConfigurar As Object)
+                                                                     ByVal valRptInformesEspecialesConfigurar As Object, _
+                                                                      ByVal valConexionesSawAOS As Object)
                                                             
 On Error GoTo h_ERROR
    Set gProyCompaniaActual = valCompaniaActual
@@ -2596,6 +2596,7 @@ On Error GoTo h_ERROR
    Set insFactura = valFacturaNav
    Set insConfigurar = valRptInformesEspecialesConfigurar
    Set insAdmPropAnalisisVenc = valPropAnalisisVencNav
+   Set insCnxAos = valConexionesSawAOS
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLoadObjectValues", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)

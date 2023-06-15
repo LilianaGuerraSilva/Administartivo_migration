@@ -184,7 +184,8 @@ Public Sub sLlamarfrmInformesDeCxC(ByVal valCompaniaActual As Object, _
                                     ByVal valCliente As Object, _
                                        ByVal valCamposDefFactura As Object, _
                                           ByVal valARExportExcel As Object, _
-                                             ByVal valFacturaNav As Object)
+                                             ByVal valFacturaNav As Object, _
+                                                ByVal valConexionesSawAOS As Object)
                               
    Dim insInformesDeCxC As frmInformesDeCXC
    On Error GoTo h_ERROR
@@ -192,7 +193,9 @@ Public Sub sLlamarfrmInformesDeCxC(ByVal valCompaniaActual As Object, _
    insInformesDeCxC.sLoadObjectValues valCompaniaActual, valVendedor, valCliente, _
                                           valPropAnalisisVencNav, valCamposDefFactura, _
                                              valARExportExcel, valFacturaNav, _
-                                                valRptInformesEspecialesConfigurar
+                                                valRptInformesEspecialesConfigurar, _
+                                                      valConexionesSawAOS
+                                                
    insInformesDeCxC.sInitLookAndFeel
    insInformesDeCxC.Show
    Set insInformesDeCxC = Nothing
