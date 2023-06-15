@@ -87,11 +87,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private decimal _MePrecioSinIva;
         private decimal _MePrecioConIva;
         public int ConsecutivoCompania { get; set ; }
-        [LibGridColum("Código del Artículo")]
+        [LibGridColum("Código del Artículo", ColumnOrder = 1)]
         public string Codigo { get; set; }
-        [LibGridColum("Descripción")]
+        [LibGridColum("Descripción", ColumnOrder = 2)]
         public string Descripcion { get; set; }
-        [LibGridColum("PrecioSinIVA")]
+        [LibGridColum("PrecioSinIVA", ColumnOrder = 3)]
         public decimal PrecioSinIVA {
             get { return _PrecioSinIVA; }
             set {
@@ -102,7 +102,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal PrecioSinIVA2 { get; set; }
         public decimal PrecioSinIVA3 { get; set; }
         public decimal PrecioSinIVA4 { get; set; }
-        [LibGridColum("PrecioConIVA")]
+        [LibGridColum("PrecioConIVA", ColumnOrder = 4)]
         public decimal PrecioConIVA {
             get { return _PrecioConIVA; }
             set {
@@ -130,7 +130,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             Impuesto = PrecioConIVA - PrecioSinIVA;
         }
 
-        [LibGridColum("MePrecioSinIVA")]
+        [LibGridColum("MePrecioSinIVA", ColumnOrder = 5)]
         public decimal MePrecioSinIva {
             get { return _MePrecioSinIva; }
             set {
@@ -141,7 +141,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal MePrecioSinIva2 { get; set; }
         public decimal MePrecioSinIva3 { get; set; }
         public decimal MePrecioSinIva4 { get; set; }
-        [LibGridColum("MePrecioConIVA")]
+        [LibGridColum("MePrecioConIVA", ColumnOrder = 6)]
         public decimal MePrecioConIva {
             get { return _MePrecioConIva; }
             set {
@@ -156,28 +156,28 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private void UpdateImpuestoMe() {
             ImpuestoMe = MePrecioConIva - MePrecioSinIva;
         }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, 8)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, 9)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, 10)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, 11)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, 12)]
         public string CampoDefinible5 { get; set; }
     }
 
     public class FkArticuloInventarioRptViewModel:IFkArticuloInventarioViewModel {
         public int ConsecutivoCompania { get; set; }        
-        [LibGridColum("Código del Artículo",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo",Width = 150)]
+        [LibGridColum("Código del Artículo",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo",Width = 150, ColumnOrder = 1)]
         public string Codigo { get; set; }
-        [LibGridColum("Descripción",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion",Width = 200)]
+        [LibGridColum("Descripción",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion",Width = 200, ColumnOrder = 2)]
         public string Descripcion { get; set; }
         public decimal CostoUnitario { get; set; }
         public decimal PrecioConIVA { get; set; }
         public decimal PrecioSinIVA { get; set; }
-        [LibGridColum("Linea De Producto")]
+        [LibGridColum("Linea De Producto", ColumnOrder = 3)]
         public string LineaDeProducto { get; set; }
         public string Categoria { get; set; }
         public decimal Existencia { get; set; }
@@ -190,15 +190,15 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string UnidadDeVenta { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, 4)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, 5)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, 6)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, 7)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, 8)]
         public string CampoDefinible5 { get; set; }
     }
 
@@ -218,12 +218,13 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
     }
 
     public class ArtInvCamposDefiniblesGridColumnAttribue : LibGridColumAttribute {
-        public ArtInvCamposDefiniblesGridColumnAttribue(string initHeader, int initOrdinalEntre1y5) : base(initHeader) {
+        public ArtInvCamposDefiniblesGridColumnAttribue(string initHeader, int initOrdinalEntre1y5, int initColumnOrder = 0) : base(initHeader) {
             IsForList = false;
             IsForSearch = false;
             if (initOrdinalEntre1y5 >= 1 && initOrdinalEntre1y5 <= 5) {
                 string vEncabezado = string.Empty;
                 string vDBPath = string.Empty;
+                int vColumnOrder = 0;
                 switch (initOrdinalEntre1y5) {
                     case 1:
                         vEncabezado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "NombreCampoDefinibleInventario1");
@@ -246,6 +247,9 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                         vDBPath = "CampoDefinible5";
                         break;
                 }
+                if (initColumnOrder > 0) {
+                    vColumnOrder = initColumnOrder;
+                }
                 if (!LibString.IsNullOrEmpty(vEncabezado, true) && !LibString.IsNullOrEmpty(vDBPath, true)) {
                     Header = vEncabezado;
                     DbMemberPath = vDBPath;
@@ -253,6 +257,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
                     Width = 100;
                     IsForList = true;
                     IsForSearch = true;
+                    ColumnOrder = vColumnOrder;
                 }
             }
         }

@@ -95,7 +95,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
     public class FkArticuloInventarioViewModel : IFkArticuloInventarioViewModel {
         public int ConsecutivoCompania { get; set; }
-        //[LibGridColum("Código del Artículo")]
         public string CodigoCompuesto { get; set; }
         [LibGridColum("Código Articulo", DbMemberPath = "Codigo", Width = 180, ColumnOrder = 1)]
         public string CodigoArticulo {
@@ -135,15 +134,15 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public decimal CantidadMinima { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, 6)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, 7)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, 8)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, 9)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, 10)]
         public string CampoDefinible5 { get; set; }
     }
 
