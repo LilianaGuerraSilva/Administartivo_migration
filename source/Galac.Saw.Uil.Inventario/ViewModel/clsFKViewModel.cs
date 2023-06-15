@@ -87,11 +87,11 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private decimal _MePrecioSinIva;
         private decimal _MePrecioConIva;
         public int ConsecutivoCompania { get; set ; }
-        [LibGridColum("Código del Artículo", ColumnOrder = 1)]
+        [LibGridColum("Código del Artículo")]
         public string Codigo { get; set; }
-        [LibGridColum("Descripción", ColumnOrder = 2)]
+        [LibGridColum("Descripción")]
         public string Descripcion { get; set; }
-        [LibGridColum("PrecioSinIVA", ColumnOrder = 3)]
+        [LibGridColum("PrecioSinIVA")]
         public decimal PrecioSinIVA {
             get { return _PrecioSinIVA; }
             set {
@@ -102,7 +102,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal PrecioSinIVA2 { get; set; }
         public decimal PrecioSinIVA3 { get; set; }
         public decimal PrecioSinIVA4 { get; set; }
-        [LibGridColum("PrecioConIVA", ColumnOrder = 4)]
+        [LibGridColum("PrecioConIVA")]
         public decimal PrecioConIVA {
             get { return _PrecioConIVA; }
             set {
@@ -130,7 +130,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
             Impuesto = PrecioConIVA - PrecioSinIVA;
         }
 
-        [LibGridColum("MePrecioSinIVA", ColumnOrder = 5)]
+        [LibGridColum("MePrecioSinIVA")]
         public decimal MePrecioSinIva {
             get { return _MePrecioSinIva; }
             set {
@@ -141,7 +141,7 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public decimal MePrecioSinIva2 { get; set; }
         public decimal MePrecioSinIva3 { get; set; }
         public decimal MePrecioSinIva4 { get; set; }
-        [LibGridColum("MePrecioConIVA", ColumnOrder = 6)]
+        [LibGridColum("MePrecioConIVA")]
         public decimal MePrecioConIva {
             get { return _MePrecioConIva; }
             set {
@@ -156,28 +156,28 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         private void UpdateImpuestoMe() {
             ImpuestoMe = MePrecioConIva - MePrecioSinIva;
         }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, 8)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, 9)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, 10)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, 11)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, 12)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
         public string CampoDefinible5 { get; set; }
     }
 
     public class FkArticuloInventarioRptViewModel:IFkArticuloInventarioViewModel {
         public int ConsecutivoCompania { get; set; }        
-        [LibGridColum("Código del Artículo",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo",Width = 150, ColumnOrder = 1)]
+        [LibGridColum("Código del Artículo",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Codigo",Width = 150)]
         public string Codigo { get; set; }
-        [LibGridColum("Descripción",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion",Width = 200, ColumnOrder = 2)]
+        [LibGridColum("Descripción",DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion",Width = 200)]
         public string Descripcion { get; set; }
         public decimal CostoUnitario { get; set; }
         public decimal PrecioConIVA { get; set; }
         public decimal PrecioSinIVA { get; set; }
-        [LibGridColum("Linea De Producto", ColumnOrder = 3)]
+        [LibGridColum("Linea De Producto")]
         public string LineaDeProducto { get; set; }
         public string Categoria { get; set; }
         public decimal Existencia { get; set; }
@@ -190,15 +190,15 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         public string UnidadDeVenta { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, 6)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, 7)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, 8)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
         public string CampoDefinible5 { get; set; }
     }
 
