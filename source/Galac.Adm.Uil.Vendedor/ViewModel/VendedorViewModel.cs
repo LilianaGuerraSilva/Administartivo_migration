@@ -958,9 +958,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ConsecutivoCompaniaPropertyName;
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
-            InitializeDetails();
-            ConsecutivoRutaDeComercializacion = 1;
-            ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", ConsecutivoRutaDeComercializacion), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());          
+            InitializeDetails();            
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -970,6 +968,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             if (LibString.IsNullOrEmpty(Codigo, true)) {
                 Codigo = GenerarProximoCodigo();
             }
+            CargarRutaDeComercializacionPorDefecto();
         }
 
         protected override Ccl.Vendedor.Vendedor FindCurrentRecord(Ccl.Vendedor.Vendedor valModel) {
@@ -1047,9 +1046,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             //ConexionCiudad = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCiudadViewModel>("Ciudad", LibSearchCriteria.CreateCriteria("NombreCiudad", Ciudad), new Saw.Brl.SttDef.clsSettValueByCompanyNav());
-            ConexionRutaDeComercializacion = FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Ruta de Comercialización", LibSearchCriteria.CreateCriteria("Descripcion", RutaDeComercializacion));
+            ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", 1), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());         
         }
-		
+
         protected override void ExecuteAction() {
             if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
                 if (!UsaComisionPorVenta && !UsaComisionPorCobranza) {
@@ -1243,6 +1242,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 		
         private ValidationResult TopeFinalCobranza4Validating() {
             return ValidarTopesDeComisiones(TopeInicialCobranza4, TopeFinalCobranza4, UsaComisionPorCobranza);
+        }
+
+        private void CargarRutaDeComercializacionPorDefecto() {
+            ConsecutivoRutaDeComercializacion = 1;
+            ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", ConsecutivoRutaDeComercializacion), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());
         }
 		
         #endregion //Validaciones de Topes de Comisiones
