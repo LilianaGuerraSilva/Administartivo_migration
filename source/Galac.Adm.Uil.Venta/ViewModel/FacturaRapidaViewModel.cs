@@ -119,9 +119,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion
 
         #region Variables
-        private FkClienteViewModel _ConexionCliente = null;
-        private FkVendedorViewModel _ConexionCodigoVendedor = null;
-        private FkVendedorViewModel _ConexionConsecutivoVendedor = null;
+        private FkClienteViewModel _ConexionCliente = null;       
         private FkVendedorViewModel _ConexionNombreVendedor = null;
         private FkArticuloInventarioViewModel _ConexionArticulo = null;
         private FkArticuloInventarioViewModel _ConexionDescripcion = null;
@@ -294,10 +292,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (Model.CodigoVendedor != value) {
                     Model.CodigoVendedor = value;
                     IsDirty = true;
-                    RaisePropertyChanged(CodigoVendedorPropertyName);
-                    if (LibString.IsNullOrEmpty(CodigoVendedor, true)) {
-                        ConexionCodigoVendedor = null;
-                    }
+                    RaisePropertyChanged(CodigoVendedorPropertyName);                    
                 }
             }
         }
@@ -1239,42 +1234,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public FacturaRapidaDetalleMngViewModel DetailFacturaRapidaDetalle {
             get;
             set;
-        }
-
-        public FkVendedorViewModel ConexionCodigoVendedor {
-            get {
-                return _ConexionCodigoVendedor;
-            }
-            set {
-                if (_ConexionCodigoVendedor != value) {
-                    _ConexionCodigoVendedor = value;
-                    RaisePropertyChanged(CodigoVendedorPropertyName);
-                    if (_ConexionCodigoVendedor != null) {
-                        CodigoVendedor = ConexionCodigoVendedor.Codigo;
-                        NombreVendedor = ConexionCodigoVendedor.Nombre;
-                    }
-                }
-                if (_ConexionCodigoVendedor == null) {
-                    CodigoVendedor = string.Empty;
-                    NombreVendedor = string.Empty;
-                }
-            }
-        }
-
-        public FkVendedorViewModel ConexionConsecutivoVendedor {
-            get {
-                return _ConexionConsecutivoVendedor;
-            }
-            set {
-                if (_ConexionConsecutivoVendedor != value) {
-                    _ConexionConsecutivoVendedor = value;
-                    RaisePropertyChanged(ConsecutivoVendedorPropertyName);
-                }
-                if (_ConexionConsecutivoVendedor == null) {
-                    ConsecutivoVendedor = 0;
-                }
-            }
-        }
+        }       
 		
         public FkVendedorViewModel ConexionNombreVendedor {
             get {
@@ -1286,12 +1246,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     RaisePropertyChanged(NombreVendedorPropertyName);
                     if (_ConexionNombreVendedor != null) {
                         CodigoVendedor = ConexionNombreVendedor.Codigo;
+                        ConsecutivoVendedor = ConexionNombreVendedor.Consecutivo;
                         NombreVendedor = ConexionNombreVendedor.Nombre;
                     }
                 }
                 if (_ConexionNombreVendedor == null) {
                     CodigoVendedor = string.Empty;
                     NombreVendedor = string.Empty;
+                    ConsecutivoVendedor = 0;
                 }
             }
         }
@@ -1441,17 +1403,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public RelayCommand<string> ChooseNombreClienteCommand {
             get;
             private set;
-        }
-
-        public RelayCommand<string> ChooseCodigoVendedorCommand {
-            get;
-            private set;
-        }
-		
-        public RelayCommand<string> ChooseConsecutivoVendedorCommand {
-            get;
-            private set;
-        }
+        }        
 		
         public RelayCommand<string> ChooseNombreVendedorCommand {
             get;
@@ -1615,8 +1567,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-        #endregion //Propiedades
-
+        #endregion //Propiedades        
         #region Constructores
 
         public FacturaRapidaViewModel()
@@ -2056,9 +2007,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             ChooseNumeroRIFCommand = new RelayCommand<string>(ExecuteChooseNumeroRIFCommand);
-            ChooseNombreClienteCommand = new RelayCommand<string>(ExecuteChooseNombreClienteCommand);
-            ChooseCodigoVendedorCommand = new RelayCommand<string>(ExecuteChooseCodigoVendedorCommand);
-            ChooseConsecutivoVendedorCommand = new RelayCommand<string>(ExecuteChooseConsecutivoVendedorCommand);
+            ChooseNombreClienteCommand = new RelayCommand<string>(ExecuteChooseNombreClienteCommand);         
             ChooseNombreVendedorCommand = new RelayCommand<string>(ExecuteChooseNombreVendedorCommand);
             ChooseArticuloCommand = new RelayCommand<string>(ExecuteChooseArticuloCommand);
             InsertaClienteCommand = new RelayCommand(ExecuteInsertaClienteCommand, CanExecuteInsertaClienteCommand);
@@ -2448,44 +2397,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
-        }
-
-        private void ExecuteChooseCodigoVendedorCommand(string valcodigo) {
-            try {
-                if (valcodigo == null) {
-                    valcodigo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valcodigo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                ConexionCodigoVendedor = ChooseRecord<FkVendedorViewModel>("Vendedor", vDefaultCriteria, vFixedCriteria, string.Empty);
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-		
-        private void ExecuteChooseConsecutivoVendedorCommand(string valconsecutivo) {
-            try {
-                if (valconsecutivo == null) {
-                    valconsecutivo = string.Empty;
-                }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("consecutivo", valconsecutivo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                ConexionConsecutivoVendedor = ChooseRecord<FkVendedorViewModel>("Vendedor", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionConsecutivoVendedor != null) {
-                    ConsecutivoVendedor = ConexionConsecutivoVendedor.Consecutivo;
-                    NombreVendedor = ConexionConsecutivoVendedor.Nombre;
-                } else {
-                    ConsecutivoVendedor = 0;
-                    NombreVendedor = string.Empty;
-                }
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
+        }        
 
         private void ExecuteChooseNombreVendedorCommand(string valNombre) {
             try {
@@ -2496,6 +2408,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
                 ConexionNombreVendedor = null;
                 ConexionNombreVendedor = ChooseRecord<FkVendedorViewModel>("Vendedor", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionNombreVendedor != null) {
+                    ConsecutivoVendedor = ConexionNombreVendedor.Consecutivo;
+                    CodigoVendedor = ConexionNombreVendedor.Codigo;
+                    NombreVendedor = ConexionNombreVendedor.Nombre;
+                } else {
+                    ConsecutivoVendedor = 0;
+                    CodigoVendedor = string.Empty;
+                    NombreVendedor = string.Empty;
+                }
 
             } catch (System.AccessViolationException) {
                 throw;
@@ -2687,8 +2608,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ConexionCliente = FirstConnectionRecordOrDefault<FkClienteViewModel>("Cliente", vFixedCriteria);
 
             vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-            vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Nombre", Model.NombreVendedor), eLogicOperatorType.And);
-            //ConexionCodigoVendedor = FirstConnectionRecordOrDefault<FkVendedorViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Codigo", CodigoVendedor));
+            vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("Nombre", Model.NombreVendedor), eLogicOperatorType.And);            
             ConexionNombreVendedor = FirstConnectionRecordOrDefault<FkVendedorViewModel>("Vendedor", vFixedCriteria);
         }
 
@@ -2861,9 +2781,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void CargaVendedorGenerico() {
+            int vConsecutivoVendedor = 0;
             IVendedorPdn insVendedor = new clsVendedorNav();
             CodigoVendedor = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CodigoGenericoVendedor");
-            NombreVendedor = insVendedor.BuscarNombreVendedor(Mfc.GetInt("Compania"), LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CodigoGenericoVendedor"));
+            NombreVendedor = insVendedor.BuscarNombreVendedor(Mfc.GetInt("Compania"), LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("FacturaRapida", "CodigoGenericoVendedor"), ref vConsecutivoVendedor);
+            ConsecutivoVendedor = vConsecutivoVendedor;
         }
 
         private void CargaDeAlicuotasIva() {

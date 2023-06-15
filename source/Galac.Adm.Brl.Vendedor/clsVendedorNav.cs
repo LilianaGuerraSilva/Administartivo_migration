@@ -118,16 +118,18 @@ namespace Galac.Adm.Brl.Vendedor {
             return VendedorToXml(VendedorPorDefecto(valConsecutivoCompania)); 
         }
 
-        string Entity.IVendedorPdn.BuscarNombreVendedor(int valConsecutivoCompania, string valCodigo) {
+        string Entity.IVendedorPdn.BuscarNombreVendedor(int valConsecutivoCompania, string valCodigo, ref int refConsecutivo) {
             string vResult = "";
+            refConsecutivo = 1;
             LibGpParams vParams = new LibGpParams();
             vParams.AddInString("Codigo", valCodigo, 5);
             vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             RegisterClient();
-            string vSql = "SELECT Nombre FROM Vendedor WHERE Codigo = @Codigo AND ConsecutivoCompania = @ConsecutivoCompania";
+            string vSql = "SELECT Consecutivo,Nombre FROM Vendedor WHERE Codigo = @Codigo AND ConsecutivoCompania = @ConsecutivoCompania";
             XElement vData = _Db.QueryInfo(eProcessMessageType.Query, vSql, vParams.Get());
             if (vData != null) {
                 vResult = LibConvert.ToStr(LibXml.GetPropertyString(vData, "Nombre"));
+                refConsecutivo = LibConvert.ToInt(LibXml.GetPropertyString(vData, "Consecutivo"));
             }
             return vResult;
         }
