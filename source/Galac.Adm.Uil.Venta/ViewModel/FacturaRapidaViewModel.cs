@@ -167,6 +167,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
         public ISearchBoxViewModel CuadroDeBusquedaDeArticulosViewModel { get; set; }
         public ISearchBoxViewModel CuadroDeBusquedaDeClientesViewModel { get; set; }
+        public ISearchBoxViewModel CuadraDeBusquedaDeUbicacionArticulosViewModel { get; set; }
 
         public override string ModuleName {
             get {
@@ -1845,7 +1846,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private LibRibbonGroupData CreateBotonesLeyendaRibbonGroup() {
             LibRibbonGroupData vResult = new LibRibbonGroupData("Leyenda");
-            
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Ir a Cliente",
+                Command = BuscarClienteLeyendaCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt1.png", UriKind.Relative),
+                ToolTipDescription = "Clientes a buscar o insertar.",
+                ToolTipTitle = "Ir a Cliente",
+                KeyTip = "Alt+F1"
+            });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Ir al Código del Artículo",
                 Command = BuscarArticuloLeyendaCommand,
@@ -1870,16 +1878,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipTitle = "Ir a los ítems de la factura",
                 KeyTip = "F4"
             });
-
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Consultar Ubicación de Artículo",
-                Command = BuscarUbicacionArticuloCommand,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt8.png", UriKind.Relative),
-                ToolTipDescription = "Consultar Ubicación de Artículo",
-                ToolTipTitle = "Consultar Ubicación de Artículo",
-                KeyTip = "F5"
+                Label = "Ir al Vendedor",
+                Command = BuscarVendedorLeyendaCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt5.png", UriKind.Relative),
+                ToolTipDescription = "Ir al Vendedor",
+                ToolTipTitle = "Ir al Vendedor",
+                KeyTip = "Alt+F5"
             });
-
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Consultar el Precio de Artículo",
+                Command = BuscarPrecioDeArticuloCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt11.png", UriKind.Relative),
+                ToolTipDescription = "Consultar el Precio de Artículo",
+                ToolTipTitle = "Consultar el Precio de Artículo",
+                KeyTip = "Alt + F11"
+            });
             if (EsValidaFacturaParaDecretoIvaEspecial()) {
                 vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                     Label = "Aplica Decreto I.V.A. Especial",
@@ -1898,34 +1912,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipTitle = "Editar Descripción de Artículo",
                 KeyTip = "F12"
             });
-
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Ir a Cliente",
-                Command = BuscarClienteLeyendaCommand,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt1.png", UriKind.Relative),
-                ToolTipDescription = "Clientes a buscar o insertar.",
-                ToolTipTitle = "Ir a Cliente",
-                KeyTip = "Alt+F1"
+                Label = "Abrir Consultor de Precios",
+                Command = AbrirConsultorDePreciosCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt12.png", UriKind.Relative),
+                ToolTipDescription = "Consultar Precios de Artículos",
+                ToolTipTitle = "Consultar Precios de Artículos",
+                KeyTip = "Alt + F12"
             });
-
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Ir al Vendedor",
-                Command = BuscarVendedorLeyendaCommand,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt5.png", UriKind.Relative),
-                ToolTipDescription = "Ir al Vendedor",
-                ToolTipTitle = "Ir al Vendedor",
-                KeyTip = "Alt+F5"
-            });
-
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Asignar descuento",
-                Command = AsignarDescuentoCommand,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt9.png", UriKind.Relative),
-                ToolTipDescription = "Asigne descuentos a esta factura",
-                ToolTipTitle = "Asignar descuento",
-                KeyTip = "Alt + F9"
-            });
-            
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Moneda de Cobro",
                 Command = BuscarMonedaDeCobroLeyendaCommand,
@@ -1936,21 +1930,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             });
 
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Consultar el Precio de Artículo",
-                Command = BuscarPrecioDeArticuloCommand,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt11.png", UriKind.Relative),
-                ToolTipDescription = "Consultar el Precio de Artículo",
-                ToolTipTitle = "Consultar el Precio de Artículo",
-                KeyTip = "Alt + F11"
+                Label = "Asignar Descuento",
+                Command = AsignarDescuentoCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt9.png", UriKind.Relative),
+                ToolTipDescription = "Asigne descuentos a esta factura",
+                ToolTipTitle = "Asignar Descuento",
+                KeyTip = "Alt + F9"
             });
-
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Abrir Consultor de Precios",
-                Command = AbrirConsultorDePreciosCommand,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt12.png", UriKind.Relative),
-                ToolTipDescription = "Consultar Precios de Artículos",
-                ToolTipTitle = "Consultar Precios de Artículos",
-                KeyTip = "Alt + F12"
+			
+			vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Consultar Ubicación de Artículo",
+                Command = BuscarUbicacionArticuloCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt8.png", UriKind.Relative),
+                ToolTipDescription = "Consultar Ubicación de Artículo",
+                ToolTipTitle = "Consultar Ubicación de Artículo",
+                KeyTip = "Alt + F8"
             });
 
             return vResult;
@@ -2644,8 +2638,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("dbo.ExistenciaPorAlmacen.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.TipoArticuloInv", eTipoArticuloInv.Simple), eLogicOperatorType.And);
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.StatusdelArticulo", eStatusArticulo.Vigente), eLogicOperatorType.And);
-                if (HayUnItemSeleccionado) {
-                    vDefaultCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado), eLogicOperatorType.And);
+                CuadraDeBusquedaDeUbicacionArticulosViewModel = new CuadroDeBusquedaDeUbicacionDeArticulosViewModel();
+                CuadraDeBusquedaDeUbicacionArticulosViewModel.ItemSelected = ArticuloSeleccionado;
+                CodigoArticuloSeleccionado = Articulo;
+                if (CodigoArticuloSeleccionado != "") {
+                    vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
                 }
                 var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Articulo Inventario Ubicacion",  vDefaultCriteria, vFixedCriteria, string.Empty);
             } catch (System.AccessViolationException) {
@@ -2781,7 +2778,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             decimal vPrecioSinIva = 0;
             decimal vPrecioConIva = 0;
             decimal vCambio = 0;
-            int vNivelDePrecio = 0;
+            int vNivelDePrecio = 0;            
             eFormaDeCalculoDePrecioRenglonFactura FormaDeCalculoDePrecioRenglon = (eFormaDeCalculoDePrecioRenglonFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "FormaDeCalculoDePrecioRenglon");
             if (ConexionArticulo != null) {
                 bool vYaExiste = DetailFacturaRapidaDetalle.Items.Any(i => i.Articulo == ConexionArticulo.Codigo);
