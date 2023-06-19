@@ -1672,7 +1672,7 @@ namespace Galac.Saw.DbMigrator {
             vSQL.AppendLine("ISNULL(Email, ''), ");
             vSQL.AppendLine("ISNULL(Notas, ''), ");
             vSQL.AppendLine("ISNULL(ComisionPorVenta, '0'), ");
-            vSQL.AppendLine("ISNULL(ComisionPorCobro, '0', ");
+            vSQL.AppendLine("ISNULL(ComisionPorCobro, '0'), ");
             vSQL.AppendLine("ISNULL(TopeInicialVenta1, 0), ");
             vSQL.AppendLine("ISNULL(TopeFinalVenta1, '0'), ");
             vSQL.AppendLine("ISNULL(PorcentajeVentas1, '0'), ");
