@@ -10,9 +10,10 @@ using Galac.Adm.Brl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
 using LibGalac.Aos.Uil;
 using Galac.Saw.Brl.Tablas;
+using System.ComponentModel.DataAnnotations;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
-    public class VendedorDetalleComisionesViewModel : LibInputDetailViewModelMfc<VendedorDetalleComisiones> {
+    public class VendedorDetalleComisionesViewModel: LibInputDetailViewModelMfc<VendedorDetalleComisiones> {
         #region Constantes
         public const string ConsecutivoVendedorPropertyName = "ConsecutivoVendedor";
         public const string ConsecutivoRenglonPropertyName = "ConsecutivoRenglon";
@@ -32,7 +33,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             get { return "Comisiones de Vendedor por Línea de Producto"; }
         }
 
-        public int  ConsecutivoCompania {
+        public int ConsecutivoCompania {
             get {
                 return Model.ConsecutivoCompania;
             }
@@ -43,7 +44,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public int  ConsecutivoVendedor {
+        public int ConsecutivoVendedor {
             get {
                 return Model.ConsecutivoVendedor;
             }
@@ -56,7 +57,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public int  Consecutivo {
+        public int Consecutivo {
             get {
                 return Model.Consecutivo;
             }
@@ -70,8 +71,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Nombre De Línea De Producto es requerido.")]
-        [LibGridColum("Nombre de la Línea de Producto", MaxLength=20, Width =210)]
-        public string  NombreDeLineaDeProducto {
+        [LibGridColum("Nombre de la Línea de Producto", MaxLength = 20, Width = 210)]
+        public string NombreDeLineaDeProducto {
             get {
                 return Model.NombreDeLineaDeProducto;
             }
@@ -86,7 +87,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         [LibRequired(ErrorMessage = "El campo Tipo De Comisión es requerido.")]
         [LibGridColum("Tipo de Comisión", eGridColumType.Enum, PrintingMemberPath = "TipoDeComisionStr", Width = 145)]
-        public eTipoComision  TipoDeComision {
+        public eTipoComision TipoDeComision {
             get {
                 return Model.TipoDeComisionAsEnum;
             }
@@ -103,7 +104,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         [LibRequired(ErrorMessage = "El campo Monto es requerido.")]
         [LibGridColum("Monto", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 145)]
-        public decimal  Monto {
+        public decimal Monto {
             get {
                 return Model.Monto;
             }
@@ -116,9 +117,9 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Porcentaje es requerido.")]
+        [LibCustomValidation("ValidarComisionLineaDeProductoPorPorcentaje")]
         [LibGridColum("Porcentaje", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 145)]
-        public decimal  Porcentaje {
+        public decimal Porcentaje {
             get {
                 return Model.Porcentaje;
             }
@@ -136,19 +137,19 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 return LibEnumHelper<eTipoComision>.GetValuesInArray();
             }
         }
-		
+
         public bool IsVisibleMonto {
             get {
                 return (TipoDeComision == eTipoComision.PorMonto);
             }
         }
-		
+
         public bool IsVisiblePorcentaje {
             get {
                 return (TipoDeComision == eTipoComision.PorPorcentaje);
             }
         }
-		
+
         public VendedorViewModel Master {
             get;
             set;
@@ -224,8 +225,18 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
+        private ValidationResult ValidarComisionLineaDeProductoPorPorcentaje() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (TipoDeComision == eTipoComision.PorPorcentaje) {
+                if (Porcentaje == 0) {
+                    vResult = new ValidationResult("El campo Porcentaje es requerido.");
+                } else if (Porcentaje >= 100) {
+                    vResult = new ValidationResult("El porcentaje de comisión debe ser menor al 100%");
+                }
+            }
+            return vResult;
+        }
         #endregion //Metodos Generados
-
     } //End of class VendedorDetalleComisionesViewModel
 
 } //End of namespace Galac.Adm.Uil.Vendedor
