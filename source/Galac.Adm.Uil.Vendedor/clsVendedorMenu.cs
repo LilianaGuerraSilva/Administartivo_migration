@@ -20,11 +20,12 @@ namespace Galac.Adm.Uil.Vendedor {
             if (valUseInterop == 0) {
                 insFrmSearch.Owner = System.Windows.Application.Current.MainWindow;
                 insFrmSearch.Show();
+            } else if (valUseInterop == 1) {
+                insFrmSearch.Show();
             } else {
                 insFrmSearch.ShowDialog();
             }
         }
-
         public static bool ChooseFromInterop(ref XmlDocument refXmlDocument, List<LibSearchDefaultValues> valSearchCriteria, List<LibSearchDefaultValues> valFixedCriteria) {
             return LibFKRetrievalHelper.ChooseRecord<FkVendedorViewModel>("Vendedor", ref refXmlDocument, valSearchCriteria, valFixedCriteria, new clsVendedorNav());
         }
