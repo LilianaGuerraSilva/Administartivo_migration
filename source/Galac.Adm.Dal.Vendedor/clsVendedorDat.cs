@@ -520,6 +520,8 @@ namespace Galac.Adm.Dal.Vendedor {
                 bool vLineHasError = true;
                 if (LibString.IsNullOrEmpty(vDetail.NombreDeLineaDeProducto)) {
                     vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Nombre de la Línea de Producto.");
+                } else if (vDetail.TipoDeComisionAsEnum == eTipoComision.PorPorcentaje && vDetail.Porcentaje >= 0) {
+                    vSbErrorInfo.AppendLine("El porcentaje debe ser menor al 100%.");
                 } else {
                     vLineHasError = false;
                 }
