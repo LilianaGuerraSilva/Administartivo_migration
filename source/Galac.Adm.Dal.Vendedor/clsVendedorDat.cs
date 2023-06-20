@@ -351,10 +351,7 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool UpdateDetail(Entity.Vendedor valRecord) {
-            if (valRecord.DetailVendedorDetalleComisiones.Count() > 0) {
-                return SetPkInDetailVendedorDetalleComisionesAndUpdateDb(valRecord);
-            }
-            return true;
+            return SetPkInDetailVendedorDetalleComisionesAndUpdateDb(valRecord);
         }
 
         #region Validaciones
@@ -505,9 +502,6 @@ namespace Galac.Adm.Dal.Vendedor {
         private bool ValidateDetail(Entity.Vendedor valRecord, eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             vResult = ValidateDetailVendedorDetalleComisiones(valRecord, valAction, out outErrorMessage);
-            if (!LibString.IsNullOrEmpty(outErrorMessage)) {
-                LibMessages.MessageBox.Alert(this, outErrorMessage, "Vendedor");
-            }
             return vResult;
         }
 
@@ -520,8 +514,10 @@ namespace Galac.Adm.Dal.Vendedor {
                 bool vLineHasError = true;
                 if (LibString.IsNullOrEmpty(vDetail.NombreDeLineaDeProducto)) {
                     vSbErrorInfo.AppendLine("Línea " + vNumeroDeLinea.ToString() + ": No fue asignado el Nombre de la Línea de Producto.");
-                } else if (vDetail.TipoDeComisionAsEnum == eTipoComision.PorPorcentaje && vDetail.Porcentaje >= 0) {
+                } else if (vDetail.TipoDeComisionAsEnum == eTipoComision.PorPorcentaje && vDetail.Porcentaje >= 100) {
                     vSbErrorInfo.AppendLine("El porcentaje debe ser menor al 100%.");
+                } else if (vDetail.TipoDeComisionAsEnum == eTipoComision.PorPorcentaje && vDetail.Porcentaje == 0) {
+                    vSbErrorInfo.AppendLine("El porcentaje requerido.");
                 } else {
                     vLineHasError = false;
                 }
@@ -529,7 +525,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 vNumeroDeLinea++;
             }
             if (!vResult) {
-                outErrorMessage = "Comisiones de Vendedor"  + Environment.NewLine + vSbErrorInfo.ToString();
+                outErrorMessage = "Comisiones de Vendedor" + Environment.NewLine + vSbErrorInfo.ToString();
             }
             return vResult;
         }
