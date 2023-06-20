@@ -66,3 +66,7 @@
 	path = source/VbaComun
 	url = https://github.com/Galac-Software/vbaComun.git
 	branch = release/SawV23.5.0.0
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/Galac-Software/ContabilidadVb.git
+	branch = release/IVA-34.4
