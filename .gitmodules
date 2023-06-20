@@ -62,10 +62,6 @@
 	path = source/ContabIwrp
 	url = https://github.com/Galac-Software/ContabiWrp.git
 	branch = release/SawV23.5.0.0
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://github.com/Galac-Software/ContabilidadVb.git
-	branch = release/SawV23.5.0.0
 [submodule "source/VbaComun"]
 	path = source/VbaComun
 	url = https://github.com/Galac-Software/vbaComun.git
