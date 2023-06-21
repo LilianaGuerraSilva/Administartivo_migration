@@ -705,7 +705,7 @@ Begin VB.Form frmInformesDeCXC
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   135987203
+         Format          =   76480515
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -718,7 +718,7 @@ Begin VB.Form frmInformesDeCXC
          _ExtentY        =   556
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   135987203
+         Format          =   76480515
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -1339,7 +1339,7 @@ On Error GoTo h_ERROR
    Else
       txtCodigoVendedor.Text = insVendedor.fFillWithCerosOnLeft(txtCodigoVendedor.Text)
    End If
-   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, "", "", txtCodigoVendedor.Text, "", "StatusVendedor", "0") Then
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoVendedor.Text, "", "StatusVendedor", "0", "", "") Then
       sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
@@ -1615,7 +1615,7 @@ Private Sub txtNombreVendedor_Validate(Cancel As Boolean)
    If gTexto.DfLen(txtNombreVendedor.Text) = 0 Then
       txtNombreVendedor.Text = "*"
    End If
-   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, "", "", txtNombreVendedor.Text, "Nombre", "StatusVendedor", "0") Then
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreVendedor.Text, "Nombre", "StatusVendedor", "0", "", "") Then
       sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True

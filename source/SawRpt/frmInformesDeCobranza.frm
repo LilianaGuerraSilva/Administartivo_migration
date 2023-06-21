@@ -689,7 +689,7 @@ Begin VB.Form frmInformesDeCobranza
          _ExtentY        =   476
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   89522179
+         Format          =   97976323
          CurrentDate     =   36978
       End
       Begin MSComCtl2.DTPicker dtpFechaInicial 
@@ -702,7 +702,7 @@ Begin VB.Form frmInformesDeCobranza
          _ExtentY        =   476
          _Version        =   393216
          CustomFormat    =   "dd/MM/yyyy"
-         Format          =   89522179
+         Format          =   97976323
          CurrentDate     =   36978
       End
       Begin VB.Label lblFechaFinal 
@@ -1394,15 +1394,13 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtCodigoDeVendedor_Validate(Cancel As Boolean)
-   Dim refCodigoCobrador As String
-   Dim refNombreCobrador As String
    On Error GoTo h_ERROR
    If LenB(txtCodigoDeVendedor) = 0 Then
       txtCodigoDeVendedor = "*"
    End If
    insVendedor.sClrRecord
    insVendedor.SetCodigo txtCodigoDeVendedor
-   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, refCodigoCobrador, refNombreCobrador, txtCodigoDeVendedor.Text, "", "StatusVendedor", "0") Then
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoDeVendedor.Text, "", "StatusVendedor", "0", "", "") Then
       sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
@@ -1744,15 +1742,13 @@ h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Desc
 End Sub
 
 Private Sub txtNombreDeVendedor_Validate(Cancel As Boolean)
-   Dim refCodigoCobrador As String
-   Dim refNombreCobrador As String
    On Error GoTo h_ERROR
    If LenB(txtNombreDeVendedor) = 0 Then
       txtNombreDeVendedor = "*"
    End If
    insVendedor.sClrRecord
    insVendedor.SetNombre txtNombreDeVendedor
-   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, refCodigoCobrador, refNombreCobrador, txtNombreDeVendedor.Text, "", "StatusVendedor", "0") Then
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreDeVendedor.Text, "Nombre", "StatusVendedor", "0", "", "") Then
      sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
@@ -1952,11 +1948,11 @@ Private Sub sActivarCamposDeComisionDeVendedores()
    frameClaseDeInforme.Visible = True
    If optDetalladoResumido(CM_OPT_RESUMIDO).Value Then
       CmbCantidadAImprimir.Visible = False
-      lblCantidadAImprimir.Visible = False
+      lblCantidadAimprimir.Visible = False
       frameTipoDeComision.Visible = False
    Else 'If optDetalladoResumido(CM_OPT_DETALLADO).Value Then
       CmbCantidadAImprimir.Visible = True
-      lblCantidadAImprimir.Visible = True
+      lblCantidadAimprimir.Visible = True
       frameTipoDeComision.Visible = True
       If cmbOpcionesComisionesSobreCobranza.Text = gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_MONTO) Or cmbOpcionesComisionesSobreCobranza.Text = gEnumProyecto.enumCalculoParaComisionesSobreCobranzaEnBaseAToString(eCP_DIASVENCIDOS) Then
             chkComisionDetalladoResumido.Visible = True
