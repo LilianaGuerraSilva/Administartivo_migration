@@ -9,14 +9,14 @@
     <LibGalacXtmCI>2104</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>2304</SawEnum>
-    <SawImportExport>2304</SawImportExport>
-    <SawMaquinaFiscal>2304</SawMaquinaFiscal>
-    <SawNav>2304</SawNav>
-    <SawRpt>2304</SawRpt>
-    <SawSP>2304</SawSP>
-    <SawTbls>2304</SawTbls>
-    <SawVista>2304</SawVista>    
+    <SawEnum>ND</SawEnum>
+    <SawImportExport>ND</SawImportExport>
+    <SawMaquinaFiscal>ND</SawMaquinaFiscal>
+    <SawNav>ND</SawNav>
+    <SawRpt>ND</SawRpt>
+    <SawSP>ND</SawSP>
+    <SawTbls>ND</SawTbls>
+    <SawVista>ND</SawVista>    
     <ContabRpt>2202</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -186,10 +186,10 @@
     <Galac.Saw.Ccl.Integracion>2.60.1.0</Galac.Saw.Ccl.Integracion>
     <Galac.Saw.Uil.Integracion>2.60.1.0</Galac.Saw.Uil.Integracion>
 
-    <Galac.Adm.Ccl.Vendedor>2.60.0.0</Galac.Adm.Ccl.Vendedor>
-    <Galac.Adm.Dal.Vendedor>2.60.0.0</Galac.Adm.Dal.Vendedor>
-    <Galac.Adm.Brl.Vendedor>2.60.0.0</Galac.Adm.Brl.Vendedor>
-    <Galac.Adm.Uil.Vendedor>2.60.0.0</Galac.Adm.Uil.Vendedor>
+    <Galac.Adm.Ccl.Vendedor>2.60.0.*</Galac.Adm.Ccl.Vendedor>
+    <Galac.Adm.Dal.Vendedor>2.60.0.*</Galac.Adm.Dal.Vendedor>
+    <Galac.Adm.Brl.Vendedor>2.60.0.*</Galac.Adm.Brl.Vendedor>
+    <Galac.Adm.Uil.Vendedor>2.60.0.*</Galac.Adm.Uil.Vendedor>
 
     <Galac.Adm.Ccl.Banco>2.60.6.0</Galac.Adm.Ccl.Banco>
     <Galac.Adm.Dal.Banco>2.60.6.0</Galac.Adm.Dal.Banco>

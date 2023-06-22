@@ -18,6 +18,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _Numero;
         private DateTime _Fecha;
         private string _CodigoCliente;
+        private string _CodigoVendedor;
         private int _ConsecutivoVendedor;
         private string _Observaciones;
         private decimal _TotalMontoExento;
@@ -150,6 +151,11 @@ namespace Galac.Adm.Ccl.Venta {
         public string CodigoCliente {
             get { return _CodigoCliente; }
             set { _CodigoCliente = LibString.Mid(value, 0, 10); }
+        }
+				
+        public string CodigoVendedor {
+            get { return _CodigoVendedor; }
+            set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
         }
 
         public int ConsecutivoVendedor {
@@ -852,6 +858,7 @@ namespace Galac.Adm.Ccl.Venta {
             Numero = string.Empty;
             Fecha = LibDate.Today();
             CodigoCliente = string.Empty;
+            CodigoVendedor = string.Empty;
             ConsecutivoVendedor = 0;
             Observaciones = string.Empty;
             TotalMontoExento = 0;
@@ -970,6 +977,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.Numero = _Numero;
             vResult.Fecha = _Fecha;
             vResult.CodigoCliente = _CodigoCliente;
+            vResult.CodigoVendedor = _CodigoVendedor;
             vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.Observaciones = _Observaciones;
             vResult.TotalMontoExento = _TotalMontoExento;
@@ -1085,6 +1093,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nNumero = " + _Numero +
                "\nFecha = " + _Fecha.ToShortDateString() +
                "\nCodigo Cliente = " + _CodigoCliente +
+               "\nCodigo Vendedor = " + _CodigoVendedor +
                "\nConsecutivo del Vendedor = " + _ConsecutivoVendedor.ToString() +
                "\nObservaciones = " + _Observaciones +
                "\nTotal Monto Exento = " + _TotalMontoExento.ToString() +

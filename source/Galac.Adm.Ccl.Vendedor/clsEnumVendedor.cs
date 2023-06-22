@@ -15,15 +15,15 @@ namespace Galac.Adm.Ccl.Vendedor {
 
 	[TypeConverter(typeof(LibEnumTypeConverter))]
 	public enum eTipoDocumentoIdentificacion {
-        [LibEnumDescription("R UC")]
+        [LibEnumDescription("RUC")]
         RUC = 0, 
-        [LibEnumDescription("D NI")]
+        [LibEnumDescription("DNI")]
         DNI, 
-        [LibEnumDescription("Carnet de  Extranjería")]
+        [LibEnumDescription("Carnet de Extranjería")]
         CarnetdeExtranjeria, 
         [LibEnumDescription("Pasaporte")]
         Pasaporte, 
-        [LibEnumDescription("Otros  Tipos de  Documentos")]
+        [LibEnumDescription("Otros Tipos de Documentos")]
         OtrosTiposdeDocumentos
 	}
 
@@ -52,25 +52,4 @@ namespace Galac.Adm.Ccl.Vendedor {
         [LibEnumDescription("Por Monto")]
         PorMonto
     }
-
-    [TypeConverter(typeof(LibEnumTypeConverter))]
-    public enum eRutaDeComercializacion {
-        [LibEnumDescription("No Asignado")]
-        Ninguna = 0,
-        [LibEnumDescription("Aliado")]
-        Aliado,
-        [LibEnumDescription("Asesor")]
-        Asesor,
-        [LibEnumDescription("Consultor")]
-        Consultor,
-        [LibEnumDescription("Gerente")]
-        Gerente,
-        [LibEnumDescription("Incobrable")]
-        Incobrable,
-        [LibEnumDescription("Oficina")]
-        Oficina,
-        [LibEnumDescription("Vendedor")]
-        Vendedor
-    }
-
-} //End of namespace namespace Galac.Saw.Ccl.Vendedor
+} //End of namespace namespace Galac.Adm.Ccl.Vendedor

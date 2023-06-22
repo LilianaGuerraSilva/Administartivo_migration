@@ -18,6 +18,7 @@ namespace Galac.Adm.Ccl.Venta
         private DateTime _FechaFinal;
         private string _Observaciones;
         private string _NombreOperador;
+        private string _CodigoVendedor;
         private int _ConsecutivoVendedor;
         private string _NombreVendedor;
         private string _Moneda;
@@ -101,6 +102,11 @@ namespace Galac.Adm.Ccl.Venta
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
         }
+		
+        public string CodigoVendedor {
+            get { return _CodigoVendedor; }
+            set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
+        }
 
         public int ConsecutivoVendedor {
             get { return _ConsecutivoVendedor; }
@@ -162,6 +168,7 @@ namespace Galac.Adm.Ccl.Venta
             Observaciones = string.Empty;
             NombreOperador = string.Empty;
             ConsecutivoVendedor = 0;
+            CodigoVendedor = string.Empty;
             NombreVendedor = string.Empty;
             Moneda = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
@@ -181,6 +188,7 @@ namespace Galac.Adm.Ccl.Venta
             vResult.FechaFinal = _FechaFinal;
             vResult.Observaciones = _Observaciones;
             vResult.NombreOperador = _NombreOperador;
+            vResult.CodigoVendedor = _CodigoVendedor;
             vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.NombreVendedor = _NombreVendedor;
             vResult.Moneda = _Moneda;
@@ -199,6 +207,7 @@ namespace Galac.Adm.Ccl.Venta
                "\nFecha Final = " + _FechaFinal.ToShortDateString() +
                "\nObservaciones = " + _Observaciones +
                "\nNombre Operador = " + _NombreOperador +
+               "\nCódigo del Vendedor = "  + _CodigoVendedor +
                "\nConsecutivo del Vendedor = " + _ConsecutivoVendedor.ToString() +
                "\nMoneda = " + _Moneda +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();

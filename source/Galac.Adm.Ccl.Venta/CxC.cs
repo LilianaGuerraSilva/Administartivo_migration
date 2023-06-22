@@ -20,6 +20,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _CodigoCliente;
         private string _NombreCliente;
         private int _ConsecutivoVendedor;
+        private string _CodigoVendedor;
         private string _NombreVendedor;
         private eOrigenFacturacionOManual _Origen;
         private DateTime _Fecha;
@@ -108,6 +109,11 @@ namespace Galac.Adm.Ccl.Venta {
         public string NombreCliente {
             get { return _NombreCliente; }
             set { _NombreCliente = LibString.Mid(value, 0, 80); }
+        }
+				
+        public string CodigoVendedor {
+            get { return _CodigoVendedor; }
+            set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
         }
 
         public int ConsecutivoVendedor {
@@ -321,6 +327,7 @@ namespace Galac.Adm.Ccl.Venta {
             TipoCxCAsEnum = eTipoDeCxC.Factura;
             CodigoCliente = string.Empty;
             NombreCliente = string.Empty;
+            CodigoVendedor = string.Empty;
             ConsecutivoVendedor = 0;
             NombreVendedor = string.Empty;
             OrigenAsEnum = eOrigenFacturacionOManual.Factura;
@@ -364,6 +371,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.TipoCxCAsEnum = _TipoCxC;
             vResult.CodigoCliente = _CodigoCliente;
             vResult.NombreCliente = _NombreCliente;
+            vResult.CodigoVendedor = _CodigoVendedor;
             vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.NombreVendedor = _NombreVendedor;
             vResult.OrigenAsEnum = _Origen;
@@ -406,6 +414,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nStatus = " + _Status.ToString() +
                "\nTipo Cx C = " + _TipoCxC.ToString() +
                "\nCódigo del Cliente = " + _CodigoCliente +
+               "\nCódigo del Vendedor = " + _CodigoVendedor +
                "\nConsecutivo del Vendedor = " + _ConsecutivoVendedor.ToString() +
                "\nOrigen = " + _Origen.ToString() +
                "\nFecha = " + _Fecha.ToShortDateString() +

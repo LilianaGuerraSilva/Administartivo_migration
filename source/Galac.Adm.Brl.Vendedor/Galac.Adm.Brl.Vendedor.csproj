@@ -34,15 +34,15 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Comun.Brl.TablasGen, Version=2.60.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Comun.Brl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Comun.Ccl.TablasGen, Version=2.60.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Comun.Ccl.TablasGen">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
     </Reference>
-    <Reference Include="Galac.Saw.Ccl.Tablas, Version=2.60.3.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Galac.Saw.Ccl.Tablas">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\Galac.Saw.Ccl.Tablas.dll</HintPath>
     </Reference>
@@ -58,7 +58,7 @@
       <Name>LibGalac.Aos.Brl</Name>
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
     </Reference>
-    <Reference Include="LibGalac.Aos.Dal, Version=5.14.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="LibGalac.Aos.Dal">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Administrativo2\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
     </Reference>

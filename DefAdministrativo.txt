@@ -400,8 +400,9 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     TipoCxC	              : unTipoDeCxC;//SEARCH
     CodigoCliente             : Str10;//g,SEARCH,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
     NombreCliente             : Str80;//g,search,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
-    ConsecutivoVendedor            : Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
-    NombreVendedor            : LongInt;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    ConsecutivoVendedor       : Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
+    CodigoVendedor            : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
+    NombreVendedor            : Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
     Origen	              : unOrigenFacturacionOManual;
     Fecha	              : unFecha;//g,SEARCH,"Fecha"
     FechaCancelacion          : unFecha;//a,"Fecha de Cancelación"
