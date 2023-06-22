@@ -142,9 +142,9 @@ namespace Galac.Adm.Dal.Vendedor {
                 if (insDB.ExistsValueOnMultifile("dbo.Cotizacion", "ConsecutivoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Cotizacion");
                 }
-                //if (insDB.ExistsValue("dbo.ParametrosCompania", "CodigoGenericoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Parametros Compania");
-                //}
+                if (getParametrosCompania<string>(vRecord.ConsecutivoCompania, "CodigoGenericoVendedor", (ILibDataComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>)this).Equals(vRecord.Codigo)) {
+                    vSbInfo.AppendLine("Parámetros Compañía");
+                }             
                 if (insDB.ExistsValueOnMultifile("dbo.Cobranza", "ConsecutivoCobrador", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Cobranza");
                 }
@@ -165,16 +165,10 @@ namespace Galac.Adm.Dal.Vendedor {
                 }
                 if (insDB.ExistsValueOnMultifile("dbo.Contrato", "NombreVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Nombre), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Contrato");
+                }                             
+                if (insDB.ExistsValueOnMultifile("dbo.RetirosACuenta", "CodigoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
+                    vSbInfo.AppendLine("Retiros A Cuenta");
                 }
-                //if (insDB.ExistsValue("dbo.FacturasVendedor", "CodigoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Facturas Vendedor");
-                //}
-                //if (insDB.ExistsValue("dbo.NotaDeEntrega", "ConsecutivoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Nota De Entrega");
-                //}
-                //if (insDB.ExistsValue("dbo.RetirosACuenta", "ConsecutivoVendedor", insDB.InsSql.ToSqlValue(vRecord.Codigo), true)) {
-                //    vSbInfo.AppendLine("Retiros ACuenta");
-                //}
                 if (vSbInfo.Length == 0) {
                     vResult.Success = true;
                 }
@@ -363,13 +357,12 @@ namespace Galac.Adm.Dal.Vendedor {
             vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;
             vResult = IsValidNombre(valAction, CurrentRecord.Nombre) && vResult;
             vResult = IsValidCiudad(valAction, CurrentRecord.Ciudad) && vResult;
-            vResult = IsValidConsecutivoRutaDeComercializacion(valAction, CurrentRecord.ConsecutivoRutaDeComercializacion) && vResult;
-		    outErrorMessage = Information.ToString();
+            vResult = IsValidConsecutivoRutaDeComercializacion(valAction, CurrentRecord.ConsecutivoRutaDeComercializacion) && vResult;            
+            outErrorMessage = Information.ToString();
             return vResult;
         }
 
-        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
-            bool vResult = true;
+        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){           
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
@@ -380,8 +373,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return true;
         }
 
-        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {
-            bool vResult = true;
+        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {            
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
@@ -429,6 +421,7 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool IsValidCiudad(eAccionSR valAction, string valCiudad){
+            bool vResult = true;
             valCiudad = LibString.Trim(valCiudad);
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -436,8 +429,14 @@ namespace Galac.Adm.Dal.Vendedor {
             if (LibString.IsNullOrEmpty(valCiudad, true)) {
                 BuildValidationInfo(MsgRequiredField("Ciudad"));
                 return false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("Comun.MunicipioCiudad", "NombreCiudad", insDb.InsSql.ToSqlValue(valCiudad), true)) {
+                    BuildValidationInfo("El valor asignado al campo ciudad no existe, escoga nuevamente.");
+                    vResult = false;
+                }
             }
-            return true;
+            return vResult;
         }
 		
         private bool IsValidConsecutivoRutaDeComercializacion(eAccionSR valAction, int valConsecutivoRutaDeComercializacion){
@@ -456,7 +455,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 }
             }
             return vResult;
-        }
+        }     
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
             Entity.Vendedor vRecordBusqueda = new Entity.Vendedor();
@@ -528,6 +527,19 @@ namespace Galac.Adm.Dal.Vendedor {
                 outErrorMessage = "Comisiones de Vendedor" + Environment.NewLine + vSbErrorInfo.ToString();
             }
             return vResult;
+        }
+
+        private T getParametrosCompania<T>(int valConsecutivoCompania, string ValParametro, ILibDataComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>> instanciaDal) {
+            string vDbSchema = "";
+            if (LibDefGen.IsProduct(LibProduct.GetInitialsAdmEcuador())) {
+                vDbSchema = "Adme";
+            } else {
+                vDbSchema = "Comun";
+            }
+            StringBuilder sql = new StringBuilder("SELECT " + vDbSchema + ".SettValueByCompany.Value AS Valor, " + vDbSchema + ".SettValueByCompany.NameSettDefinition FROM " + vDbSchema + ".SettDefinition INNER JOIN " + vDbSchema + ".SettValueByCompany ON " + vDbSchema + ".SettDefinition.Name = " + vDbSchema + ".SettValueByCompany.NameSettDefinition WHERE (" + vDbSchema + ".SettDefinition.Name = '" + ValParametro + "') AND (" + vDbSchema + ".SettValueByCompany.ConsecutivoCompania = " + valConsecutivoCompania + ")", 300);
+            XElement Auxiliar = instanciaDal.QueryInfo(eProcessMessageType.Query, null, sql);
+            Object vValor = LibXml.GetPropertyString(Auxiliar, "Valor");
+            return (T)vValor;
         }
 
         #endregion //Validaciones

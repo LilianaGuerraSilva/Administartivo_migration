@@ -10,6 +10,7 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Saw.Ccl.Tablas;
+using System.Threading;
 
 namespace Galac.Saw.Brl.Tablas {
     public partial class clsRutaDeComercializacionNav: LibBaseNav<IList<RutaDeComercializacion>, IList<RutaDeComercializacion>>, IRutaDeComercializacionPdn {
@@ -87,7 +88,7 @@ namespace Galac.Saw.Brl.Tablas {
                 vCurrentRecord.ConsecutivoCompania = valConsecutivoCompania;
                 vCurrentRecord.Consecutivo = 1;
                 vCurrentRecord.Descripcion = "NO ASIGNADA";
-                vCurrentRecord.NombreOperador = "JEFE";
+                vCurrentRecord.NombreOperador = ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login;
                 vCurrentRecord.FechaUltimaModificacion = LibDate.Today();
                 vLista.Add(vCurrentRecord);
                 return instanciaDal.Insert(vLista).Success;

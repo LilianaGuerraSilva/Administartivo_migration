@@ -197,8 +197,11 @@ namespace Galac.Adm.Dal.Vendedor {
         private bool IsValidPorcentaje(eAccionSR valAction, decimal valPorcentaje) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
+            } else if (valPorcentaje >= 100) {
+                BuildValidationInfo(MsgRequiredField("El porcentaje debe ser menor a 100%"));
+                return false;
             } else {
-                return valPorcentaje >= 0;
+                return true;
             }
         }
 
@@ -229,6 +232,7 @@ namespace Galac.Adm.Dal.Vendedor {
         public LibResponse InsertarListaDeVendedorDetail(IList<VendedorDetalleComisiones> valListOfRecords) {
             return InsertDetail(valListOfRecords);
         }
+		
         private LibResponse InsertDetail(IList<VendedorDetalleComisiones> refRecord) {
             LibResponse vResult = new LibResponse();
             try {
@@ -247,15 +251,11 @@ namespace Galac.Adm.Dal.Vendedor {
                     }
                 }
                 return vResult;
-            } finally {
-                if (!vResult.Success) {
-                }
+            } catch {
+                throw;
             }
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsVendedorDetalleComisionesDat
-
 } //End of namespace Galac..Dal.ComponenteNoEspecificado
 

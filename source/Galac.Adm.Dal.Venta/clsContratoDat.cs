@@ -48,6 +48,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInDateTime("FechaDeInicio", valRecord.FechaDeInicio);
             vParams.AddInDateTime("FechaFinal", valRecord.FechaFinal);
             vParams.AddInString("Observaciones", valRecord.Observaciones, 255);
+            vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInString("Moneda", valRecord.Moneda, 10);
             vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
@@ -287,6 +288,7 @@ namespace Galac.Adm.Dal.Venta {
             vResult = IsValidFechaDeInicio(valAction, CurrentRecord.FechaDeInicio) && vResult;
             vResult = IsValidFechaFinal(valAction, CurrentRecord.FechaFinal) && vResult;
             vResult = IsValidConsecutivoVendedor(valAction, CurrentRecord.ConsecutivoVendedor) && vResult;
+            vResult = IsValidCodigoVendedor(valAction, CurrentRecord.CodigoVendedor) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -364,6 +366,25 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
+        private bool IsValidCodigoVendedor(eAccionSR valAction, string valCodigoVendedor){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCodigoVendedor = LibString.Trim(valCodigoVendedor);
+            if (LibString.IsNullOrEmpty(valCodigoVendedor , true)) {
+                BuildValidationInfo(MsgRequiredField("Código del Vendedor"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Vendedor", "codigo", insDb.InsSql.ToSqlValue(valCodigoVendedor), true)) {
+                    BuildValidationInfo("El valor asignado al campo Código del Vendedor no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+		
         private bool IsValidConsecutivoVendedor(eAccionSR valAction, int valConsecutivoVendedor){
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {

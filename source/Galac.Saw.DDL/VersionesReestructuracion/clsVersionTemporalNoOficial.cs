@@ -91,7 +91,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		private void CrearColumnaConsecutivoVendedor(string valTabla, string valNombreColumna, string valConstraint) {
-			QAdvSql InsSql = new QAdvSql("");
 			if (AddColumnInteger(valTabla, valNombreColumna, valConstraint)) {
 				AddNotNullConstraint(valTabla, valNombreColumna, InsSql.NumericTypeForDb(10, 0));
 			}

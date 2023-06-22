@@ -165,6 +165,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInEnum("Status", valRecord.StatusAsDB);
             vParams.AddInEnum("TipoCxC", valRecord.TipoCxCAsDB);
             vParams.AddInString("CodigoCliente", valRecord.CodigoCliente, 10);
+            vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
             vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInEnum("Origen", valRecord.OrigenAsDB);
             vParams.AddInDateTime("Fecha", valRecord.Fecha);
@@ -445,6 +446,7 @@ namespace Galac.Adm.Dal.Venta {
             vResult = IsValidNumero(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Numero, CurrentRecord.TipoCxCAsEnum) && vResult;
             vResult = IsValidTipoCxC(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.TipoCxCAsEnum) && vResult;
             vResult = IsValidCodigoCliente(valAction, CurrentRecord.CodigoCliente) && vResult;
+            vResult = IsValidCodigoVendedor(valAction, CurrentRecord.CodigoVendedor) && vResult;
             vResult = IsValidConsecutivoVendedor(valAction, CurrentRecord.ConsecutivoVendedor) && vResult;
             vResult = IsValidFecha(valAction, CurrentRecord.Fecha) && vResult;
             vResult = IsValidFechaCancelacion(valAction, CurrentRecord.FechaCancelacion) && vResult;
@@ -509,6 +511,25 @@ namespace Galac.Adm.Dal.Venta {
                 LibDatabase insDb = new LibDatabase();
                 if (!insDb.ExistsValue("Saw.Cliente", "codigo", insDb.InsSql.ToSqlValue(valCodigoCliente), true)) {
                     BuildValidationInfo("El valor asignado al campo Código del Cliente no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
+        private bool IsValidCodigoVendedor(eAccionSR valAction, string valCodigoVendedor){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCodigoVendedor = LibString.Trim(valCodigoVendedor);
+            if (LibString.IsNullOrEmpty(valCodigoVendedor , true)) {
+                BuildValidationInfo(MsgRequiredField("Código del Vendedor"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("dbo.Vendedor", "codigo", insDb.InsSql.ToSqlValue(valCodigoVendedor), true)) {
+                    BuildValidationInfo("El valor asignado al campo Código del Vendedor no existe, escoga nuevamente.");
                     vResult = false;
                 }
             }

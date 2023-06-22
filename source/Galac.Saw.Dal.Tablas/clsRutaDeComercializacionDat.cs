@@ -124,7 +124,8 @@ namespace Galac.Saw.Dal.Tablas {
                 case eProcessMessageType.Query:
                     vResult = insDb.LoadData<RutaDeComercializacion>(valProcessMessage, CmdTimeOut, valParameters);
                     break;
-                default: throw new ProgrammerMissingCodeException();
+                default:
+                    throw new ProgrammerMissingCodeException();
             }
             insDb.Dispose();
             return vResult;
@@ -163,7 +164,8 @@ namespace Galac.Saw.Dal.Tablas {
                 case eProcessMessageType.Query:
                     vResult = LibXml.ToXElement(insDb.LoadData(valProcessMessage, CmdTimeOut, valParameters));
                     break;
-                default: throw new ProgrammerMissingCodeException();
+                default:
+                    throw new ProgrammerMissingCodeException();
             }
             insDb.Dispose();
             return vResult;
@@ -172,7 +174,7 @@ namespace Galac.Saw.Dal.Tablas {
         [PrincipalPermission(SecurityAction.Demand, Role = "Tablas.Modificar")]
         LibResponse ILibDataComponent<IList<RutaDeComercializacion>, IList<RutaDeComercializacion>>.Update(IList<RutaDeComercializacion> refRecord) {
             LibResponse vResult = new LibResponse();
-            string vErrMsg ="";
+            string vErrMsg = "";
             CurrentRecord = refRecord[0];
             if (ExecuteProcessBeforeUpdate()) {
                 if (Validate(eAccionSR.Modificar, out vErrMsg)) {
@@ -209,7 +211,7 @@ namespace Galac.Saw.Dal.Tablas {
             ClearValidationInfo();
             vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
-            vResult = IsValidDescripcion(valAction, CurrentRecord.Descripcion) && vResult;
+            vResult = IsValidDescripcion(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Descripcion) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -243,15 +245,20 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        private bool IsValidDescripcion(eAccionSR valAction, string valDescripcion){
+        private bool IsValidDescripcion(eAccionSR valAction, int valConsecutivoCompania, string valDescripcion) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            valDescripcion = LibString.Trim(valDescripcion);
             if (LibString.IsNullOrEmpty(valDescripcion, true)) {
-                BuildValidationInfo(MsgRequiredField("Descripción"));
-                vResult = false;
+                BuildValidationInfo(MsgRequiredField("Descripcion"));
+                return false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (insDb.ExistsValue("Saw.RutaDeComercializacion", "Descripcion", insDb.InsSql.ToSqlValue(valDescripcion), true)) {
+                    BuildValidationInfo("La Ruta de Comercialización ingresada ya existe, ingrese una distinta.");
+                    vResult = false;
+                }
             }
             return vResult;
         }

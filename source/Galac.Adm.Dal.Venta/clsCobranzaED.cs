@@ -47,6 +47,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("Fecha" + InsSql.DateTypeForDb() + " CONSTRAINT nnCobFecha NOT NULL, ");
             SQL.AppendLine("FechaAnulacion" + InsSql.DateTypeForDb() + " CONSTRAINT d_CobFeAn DEFAULT (''), ");
             SQL.AppendLine("CodigoCliente" + InsSql.VarCharTypeForDb(10) + " CONSTRAINT d_CobCoCl DEFAULT (''), ");
+            SQL.AppendLine("CodigoCobrador" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CobCoCo DEFAULT (''), ");
             SQL.AppendLine("ConsecutivoCobrador" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_CobCoCo DEFAULT (0), ");
             SQL.AppendLine("TotalDocumentos" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CobToDo DEFAULT (0), ");
             SQL.AppendLine("RetencionISLR" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CobReIS DEFAULT (0), ");

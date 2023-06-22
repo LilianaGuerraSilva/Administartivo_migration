@@ -306,7 +306,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 if (ProcesoDeValidacion) {
                     Importar();
                 } else {
-                    LibMessages.MessageBox.Information(this, "El proceso termino satisfactoriamente", "");
+                    LibMessages.MessageBox.Information(this, "El proceso terminó satisfactoriamente", "");
                     CancelCommand.RaiseCanExecuteChanged();
                     RaiseRequestCloseEvent();
                 }

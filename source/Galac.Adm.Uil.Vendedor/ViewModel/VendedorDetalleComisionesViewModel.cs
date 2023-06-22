@@ -70,7 +70,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Nombre De Línea De Producto es requerido.")]
+        [LibRequired(ErrorMessage = "El campo Nombre de Línea de Producto es requerido.")]
         [LibGridColum("Nombre de la Línea de Producto", MaxLength = 20, Width = 210)]
         public string NombreDeLineaDeProducto {
             get {
@@ -85,7 +85,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Tipo De Comisión es requerido.")]
+        [LibRequired(ErrorMessage = "El campo Tipo de Comisión es requerido.")]
         [LibGridColum("Tipo de Comisión", eGridColumType.Enum, PrintingMemberPath = "TipoDeComisionStr", Width = 145)]
         public eTipoComision TipoDeComision {
             get {
@@ -102,7 +102,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Monto es requerido.")]
         [LibGridColum("Monto", eGridColumType.Numeric, Alignment = eTextAlignment.Right, Width = 145)]
         public decimal Monto {
             get {

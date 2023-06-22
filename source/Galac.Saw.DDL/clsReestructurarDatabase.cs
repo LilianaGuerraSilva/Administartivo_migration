@@ -138,6 +138,7 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettDefinitionED().InstalarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarVistasYSps();
+            vResult = vResult && new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Vendedor.clsVendedorED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Vendedor.clsVendedorDetalleComisionesED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsConceptoBancarioED().InstalarVistasYSps();
@@ -172,7 +173,6 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Saw.Dal.Inventario.clsNotaDeEntradaSalidaED().InstalarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Venta.clsContratoED().InstalarVistasYSps();
 			vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
-            vResult = vResult && new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarVistasYSps();
             vResult = vResult && CrearVistasDeCompatibilidad();
             return vResult;
         }
@@ -182,7 +182,6 @@ namespace Galac.Saw.DDL {
             vResult = vResult && BorrarVistasDeCompatibilidad();
             vResult = vResult && BorrarVistasDeContabilidad();
             //ORGANICEN EL ORDEN DE ELIMINACION DE VISTAS Y SPS POR DEPENDENCIAS, ESTA DESORDENADO
-            vResult = vResult && new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Venta.clsContratoED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Venta.clsCajaED().BorrarVistasYSps();
@@ -217,8 +216,9 @@ namespace Galac.Saw.DDL {
             vResult = vResult && new Galac.Adm.Dal.CajaChica.clsRendicionED().BorrarVistasYSps();
             //vResult = vResult && new Galac.Adm.Dal.CajaChica.clsAnticipoED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Banco.clsConceptoBancarioED().BorrarVistasYSps();
-            vResult = vResult && new Galac.Adm.Dal.Vendedor.clsVendedorED().BorrarVistasYSps();
             vResult = vResult && new Galac.Adm.Dal.Vendedor.clsVendedorDetalleComisionesED().BorrarVistasYSps();
+            vResult = vResult && new Galac.Adm.Dal.Vendedor.clsVendedorED().BorrarVistasYSps();
+            vResult = vResult && new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().BorrarVistasYSps();
             vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettDefinitionED().BorrarVistasYSps();
             vResult = vResult && new Galac.Comun.Dal.Impuesto.clsFormatosImpMunicipalesED().BorrarVistasYSps();

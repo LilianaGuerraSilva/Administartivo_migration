@@ -675,7 +675,7 @@ namespace Galac.Saw.DDL {
             return vResult;
         }
 
-        public bool RutaDeComercializacion() {
+        public bool CrearRutaDeComercializacion() {
             bool vResult;
             vResult = new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla();            
             return vResult;
