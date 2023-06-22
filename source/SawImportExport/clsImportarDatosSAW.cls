@@ -730,7 +730,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
          LineaDeErrores = LineaDeErrores & ":::. ERROR El Sector de Negocios del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio & " << .:::"
       End If
       If gTexto.DfLen(insCliente.GetCodigoVendedor) > 0 Then
-         If Not insVendedor.fSearchByField("Codigo", insCliente.GetCodigoVendedor) Then
+         If Not insVendedor.fSearchByField("Codigo", insCliente.GetCodigoVendedor, False, False) Then
             ErrorAlTraducirLaLinea = True
             LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Código de Vendedor para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenado en el Sistema. Se reemplazará por >> " & gProyParametrosCompania.getCodigoGenericoVendedor & " <<, que corresponde al código del vendedor genérico asignado en los parámetros de esta compañía .:::"
          Else
@@ -758,7 +758,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    If gTexto.DfLen(insCliente.GetSectorDeNegocio) = 0 Or Not insSectorNegocio.fSearchByField("Descripcion", insCliente.GetSectorDeNegocio, False, False) Then
       insCliente.SetSectorDeNegocio insSectorNegocio.fPrimerSectorDeNegocio
    End If
-   If gTexto.DfLen(insCliente.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCliente.GetCodigoVendedor) Then
+   If gTexto.DfLen(insCliente.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCliente.GetCodigoVendedor, False, False) Then
       insCliente.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
    End If
    If (insCliente.GetDiaCumpleanos < 1) Or (insCliente.GetDiaCumpleanos > 31) Then
@@ -881,13 +881,12 @@ Private Function fInsertarVendedor() As Boolean
    Set insUtAdoCmd = New clsUtilAdoCmd
    Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorINS", gDefDatabase.Conexion)
    Set Rs = New ADODB.Recordset
-   
    If vConsecutivoVendedor = 0 Then
       vSql = "SELECT " & gUtilSQL.fMax("Consecutivo", "Consecutivo") & " FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
       If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
          If gDbUtil.fRecordCount(Rs) > 0 Then
             If (Rs("Consecutivo").Value <> "NULL") Then
-               vConsecutivoVendedor = gConvert.ConvierteAInteger(Rs("Consecutivo").Value) + 1
+               vConsecutivoVendedor = gConvert.ConvierteAInteger(Rs("Consecutivo").Value)
             Else
                vConsecutivoVendedor = 1
             End If
@@ -899,7 +898,7 @@ Private Function fInsertarVendedor() As Boolean
    Else
       vConsecutivoVendedor = vConsecutivoVendedor + 1
    End If
-   If Not insVendedor.fSearchByField("Codigo", insVendedor.GetCodigo) Then
+   If Not insVendedor.fSearchByField("Consecutivo", vConsecutivoVendedor, False, False) Then
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", gProyParametrosCompania.GetConsecutivoCompania)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", vConsecutivoVendedor)
       vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Codigo", 5, insVendedor.GetCodigo)
@@ -1080,11 +1079,11 @@ Private Sub sVerificaSiHayErrorEnLaLinea_VENDEDOR(ByVal NumeroDeLineaActual As L
    If gTexto.DfLen(mValorDelCampoDeId) = 0 Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
-   ElseIf insVendedor.fSearchByField("Codigo", mValorDelCampoDeId) Then
+   ElseIf insVendedor.fSearchByField("Codigo", mValorDelCampoDeId, False) Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  ya se encuentra registrado en el sistema .:::"
       RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
-   ElseIf insRenglonComisionesDeVendedor.fSearchByField("CodigoVendedor", mValorDelCampoDeId, True) Then
+   ElseIf insRenglonComisionesDeVendedor.fSearchByField("CodigoVendedor", mValorDelCampoDeId, False, True) Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Vendedor ==>" & vNombre & "<== de código ==>" & mValorDelCampoDeId & "<==  posee datos de Comisiones registradas en el sistema, para poder importar los datos de este vendedor, asegúrese de que el vendedor no se encuentre ya registrado en el sistema y de no ser este el caso, contacte a su administrador de bases de datos y notifíquele que la data está errada y deberá eliminar las comisiones asociadas a este vendedor inexistente, para poder llevar acabo la importación  .:::"
    ElseIf Not insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, mValorDelCampoDeId, CM_INDEX_NUMERO_VENDEDOR) Then
@@ -1107,7 +1106,7 @@ Private Sub sVerificaSiHayErrorEnLaLinea_VENDEDOR(ByVal NumeroDeLineaActual As L
    If gTexto.DfLen(vNombre) = 0 Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==  no puede estar en blanco .:::"
-   ElseIf insVendedor.fSearchByField("Nombre", vNombre) Then
+   ElseIf insVendedor.fSearchByField("Nombre", vNombre, False) Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Vendedor  ==>" & mValorDelCampoDeId & "-" & vNombre & "<==  ya esta registrado en el sistema .:::"
    End If
@@ -1482,7 +1481,7 @@ Private Sub sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA(ByRef ErrorAlT
    Dim refNombreAlmacen As String
    On Error GoTo h_ERROR
       If gTexto.DfLen(vCodigoVendedor) > 0 Then
-         If Not insVendedor.fSearchByField("Codigo", vCodigoVendedor) Then
+         If Not insVendedor.fSearchByField("Codigo", vCodigoVendedor, False, False) Then
             If DebeImportar Then
                ErrorAlTraducirLaLinea = False
             Else
@@ -1561,7 +1560,7 @@ Private Sub sVerificaSiHayErrorEnLaLineaValoresAjustables_FACTURA(ByRef ErrorAlT
       End If
       If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreRenglones Or gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFacturayRenglones Then
            If gTexto.DfLen(vVendedor1Renglon) > 0 Then
-              If Not insVendedor.fSearchByField("Codigo", vCodigoVendedor) Then
+              If Not insVendedor.fSearchByField("Codigo", vCodigoVendedor, False, False) Then
                  If DebeImportar Then
                     vVendedor1Renglon = gProyParametrosCompania.getCodigoGenericoVendedor
                     ErrorAlTraducirLaLinea = False
@@ -1938,13 +1937,13 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
       Else
          LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetNombreCliente), " ")
       End If
-      If gTexto.DfLen(insCxC.GetCodigoVendedor) > 0 And Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor) Then
+      If gTexto.DfLen(insCxC.GetCodigoVendedor) > 0 And Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor, False, False) Then
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & ":::. ERROR el vendedor " & insCxC.GetCodigoVendedor & " de la CxC Nro " & insCxC.GetNumero & " No esta registrado en el sistema. Debe incluirlo antes de ejecutar el proceso .:::"
       Else
          LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetCodigoVendedor), " ")
       End If
-      If gTexto.DfLen(insCxC.GetNombreVendedor) > 0 And Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor) Then
+      If gTexto.DfLen(insCxC.GetNombreVendedor) > 0 And Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor, False, False) Then
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & ":::. El Nombre del Vendedor " & insCxC.GetNombreVendedor & "  de la CxC Nro " & insCxC.GetNumero & " No sta registrado en el sistema. Debe incluirlo antes de ejecutar el proceso.:::"
       Else
@@ -2013,9 +2012,9 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(insCxC.GetCodigoCliente) = 0 Or Not insCliente.fSearchByField("Codigo", insCxC.GetCodigoCliente, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxC.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor) Then
+      ElseIf gTexto.DfLen(insCxC.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxC.GetNombreVendedor) = 0 Or Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor) Then
+      ElseIf gTexto.DfLen(insCxC.GetNombreVendedor) = 0 Or Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor, False, False) Then
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(CStr(insCxC.GetFecha)) = 0 Then
          refEsteRegistroSeIncluye = False
@@ -2132,13 +2131,13 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
       Else
          LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetNombreCliente), " ")
       End If
-      If gTexto.DfLen(insCxC.GetCodigoVendedor) > 0 And Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor) Then
+      If gTexto.DfLen(insCxC.GetCodigoVendedor) > 0 And Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor, False, False) Then
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & ":::. ERROR el vendedor " & insCxC.GetCodigoVendedor & " de la CxC Nro " & insCxC.GetNumero & " No esta registrado en el sistema. Debe incluirlo antes de ejecutar el proceso .:::"
       Else
          LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetCodigoVendedor), " ")
       End If
-      If gTexto.DfLen(insCxC.GetNombreVendedor) > 0 And Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor) Then
+      If gTexto.DfLen(insCxC.GetNombreVendedor) > 0 And Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor, False, False) Then
          ErrorAlTraducirLaLinea = True
          LineaDeErrores = LineaDeErrores & ":::. El Nombre del Vendedor " & insCxC.GetNombreVendedor & "  de la CxC Nro " & insCxC.GetNumero & " No sta registrado en el sistema. Debe incluirlo antes de ejecutar el proceso.:::"
       Else
@@ -2224,9 +2223,9 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(insCxC.GetCodigoCliente) = 0 Or Not insCliente.fSearchByField("Codigo", insCxC.GetCodigoCliente, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxC.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor) Then
+      ElseIf gTexto.DfLen(insCxC.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxC.GetNombreVendedor) = 0 Or Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor) Then
+      ElseIf gTexto.DfLen(insCxC.GetNombreVendedor) = 0 Or Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor, False, False) Then
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(CStr(insCxC.GetFecha)) = 0 Then
          refEsteRegistroSeIncluye = False
