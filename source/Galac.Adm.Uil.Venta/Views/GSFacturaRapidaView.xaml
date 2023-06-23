@@ -22,6 +22,7 @@
         <KeyBinding Command="{Binding Path=AbrirConsultorDePreciosCommand}" Gesture="Alt+F12" />
         <KeyBinding Command="{Binding Path=BuscarMonedaDeCobroCommand}" Gesture="Alt+F10" />
         <KeyBinding Command="{Binding Path=AsignarDescuentoCommand}" Gesture="Alt+F9" />
+        <KeyBinding Command="{Binding Path=BuscarUbicacionArticuloCommand}" Gesture="Alt+F8" />
 
     </UserControl.InputBindings>
     <UserControl.Resources>
