@@ -866,9 +866,9 @@ Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVa
    End If
    vConsecutivoRuta = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    If vConsecutivoRuta <> "1" Then
-      vConsecutivoRutaDeComercialzacion = gUtilImport.fToInt(vConsecutivoRuta)
-   Else
       vConsecutivoRutaDeComercialzacion = 1
+   Else
+      vConsecutivoRutaDeComercialzacion = gUtilImport.fToCurrency(vConsecutivoRuta)
    End If
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaVendedor = True
@@ -891,7 +891,7 @@ Private Function fInsertarVendedor() As Boolean
       vSql = "SELECT " & gUtilSQL.fMax("Consecutivo", "Consecutivo") & " FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
       If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
          If gDbUtil.fRecordCount(Rs) > 0 Then
-            vConsecutivoVendedor = gConvert.ConvierteAInteger(Rs("Consecutivo").Value)
+            vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("Consecutivo").Value))
          Else
             vConsecutivoVendedor = 1
          End If
@@ -901,55 +901,57 @@ Private Function fInsertarVendedor() As Boolean
       vConsecutivoVendedor = vConsecutivoVendedor + 1
    End If
    If Not insVendedor.fSearchByField("Consecutivo", vConsecutivoVendedor, False, False) Then
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", gProyParametrosCompania.GetConsecutivoCompania)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", vConsecutivoVendedor)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Codigo", 5, insVendedor.GetCodigo)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Nombre", 35, insVendedor.getNombre)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@RIF", 20, insVendedor.getRIF)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@StatusVendedor", 1, gConvert.enumerativoAChar(gEnumProyecto.strStatusVendedorToNum(insVendedor.GetStatusVendedorStr, False)))
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Direccion", 255, insVendedor.getDireccion)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Ciudad", 100, insVendedor.getCiudad)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@ZonaPostal", 7, insVendedor.getZonaPostal)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Telefono", 40, insVendedor.getTelefono)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Fax", 20, insVendedor.getFax)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Email", 40, insVendedor.getEmail)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Notas", 255, insVendedor.getNotas)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoRutaDeComercializacion", insVendedor.getConsecutivoRutaDeComercializacion)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@ComisionPorVenta", insVendedor.getComisionPorVenta)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@ComisionPorCobro", insVendedor.getComisionPorCobro)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeInicialVenta1", insVendedor.getTopeInicialVenta1)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta1", insVendedor.getTopeFinalVenta1)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas1", insVendedor.getPorcentajeVentas1)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta2", insVendedor.GetTopeFinalVenta2)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas2", insVendedor.getPorcentajeVentas2)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta3", insVendedor.GetTopeFinalVenta3)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas3", insVendedor.GetPorcentajeVentas3)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta4", insVendedor.GetTopeFinalVenta4)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas4", insVendedor.GetPorcentajeVentas4)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta5", insVendedor.GetTopeFinalVenta5)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas5", insVendedor.GetPorcentajeVentas5)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeInicialCobranza1", insVendedor.GetTopeInicialCobranza1)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza1", insVendedor.GetTopeFinalCobranza1)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza1", insVendedor.GetPorcentajeCobranza1)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza2", insVendedor.GetTopeFinalCobranza2)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza2", insVendedor.GetPorcentajeCobranza2)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza3", insVendedor.GetTopeFinalCobranza3)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza3", insVendedor.GetPorcentajeCobranza3)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza4", insVendedor.GetTopeFinalCobranza4)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza4", insVendedor.GetPorcentajeCobranza4)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza5", insVendedor.GetTopeFinalCobranza5)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza5", insVendedor.GetPorcentajeCobranza5)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterBooleanSN("@UsaComisionPorVenta", insVendedor.GetUsaComisionPorVenta)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterBooleanSN("@UsaComisionPorCobranza", insVendedor.GetUsaComisionPorCobranza)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoLote", 10, insVendedor.GetCodigoLote)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, insVendedor.GetNombreOperador)
-      vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", gUtilDate.getFechaDeHoy)
-      insUtAdoCmd.fExecCmd vCmd
-   Else
-      vResult = True
+      If Not insVendedor.fSearchByField("Codigo", insVendedor.GetCodigo, False, False) Then
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", gProyParametrosCompania.GetConsecutivoCompania)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", vConsecutivoVendedor)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Codigo", 5, insVendedor.GetCodigo)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Nombre", 35, insVendedor.getNombre)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@RIF", 20, insVendedor.getRIF)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@StatusVendedor", 1, gConvert.enumerativoAChar(gEnumProyecto.strStatusVendedorToNum(insVendedor.GetStatusVendedorStr, False)))
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Direccion", 255, insVendedor.getDireccion)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Ciudad", 100, insVendedor.getCiudad)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@ZonaPostal", 7, insVendedor.getZonaPostal)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Telefono", 40, insVendedor.getTelefono)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Fax", 20, insVendedor.getFax)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Email", 40, insVendedor.getEmail)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Notas", 255, insVendedor.getNotas)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoRutaDeComercializacion", insVendedor.getConsecutivoRutaDeComercializacion)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@ComisionPorVenta", insVendedor.getComisionPorVenta)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@ComisionPorCobro", insVendedor.getComisionPorCobro)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeInicialVenta1", insVendedor.getTopeInicialVenta1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta1", insVendedor.getTopeFinalVenta1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas1", insVendedor.getPorcentajeVentas1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta2", insVendedor.GetTopeFinalVenta2)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas2", insVendedor.getPorcentajeVentas2)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta3", insVendedor.GetTopeFinalVenta3)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas3", insVendedor.GetPorcentajeVentas3)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta4", insVendedor.GetTopeFinalVenta4)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas4", insVendedor.GetPorcentajeVentas4)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta5", insVendedor.GetTopeFinalVenta5)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas5", insVendedor.GetPorcentajeVentas5)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeInicialCobranza1", insVendedor.GetTopeInicialCobranza1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza1", insVendedor.GetTopeFinalCobranza1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza1", insVendedor.GetPorcentajeCobranza1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza2", insVendedor.GetTopeFinalCobranza2)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza2", insVendedor.GetPorcentajeCobranza2)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza3", insVendedor.GetTopeFinalCobranza3)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza3", insVendedor.GetPorcentajeCobranza3)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza4", insVendedor.GetTopeFinalCobranza4)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza4", insVendedor.GetPorcentajeCobranza4)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza5", insVendedor.GetTopeFinalCobranza5)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza5", insVendedor.GetPorcentajeCobranza5)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterBooleanSN("@UsaComisionPorVenta", insVendedor.GetUsaComisionPorVenta)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterBooleanSN("@UsaComisionPorCobranza", insVendedor.GetUsaComisionPorCobranza)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoLote", 10, insVendedor.GetCodigoLote)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, insVendedor.GetNombreOperador)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", gUtilDate.getFechaDeHoy)
+         insUtAdoCmd.fExecCmd vCmd
+      Else
+         vResult = False
+      End If
+      vResult = False
    End If
    Set vCmd = Nothing
-   vResult = True
 h_EXIT: On Error GoTo 0
    fInsertarVendedor = vResult
    Exit Function
@@ -1031,7 +1033,7 @@ Private Function fImportaLineasVendedoryComision(ByVal NumeroDeLineaActual As Lo
       End If
    Else
       mConsecutivoRenglon = insRenglonComisionesDeVendedor.fGenerateNextConsecutivoRenglon(insVendedor.GetCodigo)
-      insRenglonComisionesDeVendedor.SetConsecutivoRenglon mConsecutivoRenglon
+      insRenglonComisionesDeVendedor.SetConsecutivo mConsecutivoRenglon
       If Not fInsertarComisionesDelVendedor(NumeroDeLineaActual) Then
         gMessage.Advertencia "No se pudo importar algunos de los registros del vendedor " & insVendedor.GetCodigo
       Else
@@ -1055,18 +1057,20 @@ Private Function fInsertarComisionesDelVendedor(ByVal NumeroDeLineaActual As Lon
    Set Rs = New ADODB.Recordset
    If mConsecutivoRenglon > 0 Then
       insRenglonComisionesDeVendedor.SetConsecutivoVendedor vConsecutivoVendedor
-      If Not insRenglonComisionesDeVendedor.fSearchByField("ConsecutivoVendedor", insRenglonComisionesDeVendedor.GetConsecutivoVendedor, False) Then
-         Set insUtAdoCmd = New clsUtilAdoCmd
-         Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorDetalleComisionesINS", gDefDatabase.Conexion)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", insRenglonComisionesDeVendedor.GetConsecutivoCompania)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoVendedor", insRenglonComisionesDeVendedor.GetConsecutivoVendedor)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", mConsecutivoRenglon)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreDeLineaDeProducto", 20, insRenglonComisionesDeVendedor.GetNombreDeLineaDeProducto)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDeComision", 1, gConvert.enumerativoAChar(gEnumProyecto.strTipoComisionToNum(insRenglonComisionesDeVendedor.GetTipoDeComisionStr, False)))
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@Monto", insRenglonComisionesDeVendedor.GetMonto)
-         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@Porcentaje", insRenglonComisionesDeVendedor.GetPorcentaje)
-         insUtAdoCmd.fExecCmd vCmd
-         Set vCmd = Nothing
+      If insVendedor.fSearchByField("Consecutivo", insRenglonComisionesDeVendedor.GetConsecutivoVendedor, False, False) Then
+         If Not insRenglonComisionesDeVendedor.fSearchByField("ConsecutivoVendedor", insRenglonComisionesDeVendedor.GetConsecutivoVendedor, False) Then
+            Set insUtAdoCmd = New clsUtilAdoCmd
+            Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorDetalleComisionesINS", gDefDatabase.Conexion)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", insRenglonComisionesDeVendedor.GetConsecutivoCompania)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoVendedor", insRenglonComisionesDeVendedor.GetConsecutivoVendedor)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", mConsecutivoRenglon)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreDeLineaDeProducto", 20, insRenglonComisionesDeVendedor.GetNombreDeLineaDeProducto)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDeComision", 1, gConvert.enumerativoAChar(gEnumProyecto.strTipoComisionToNum(insRenglonComisionesDeVendedor.GetTipoDeComisionStr, False)))
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@Monto", insRenglonComisionesDeVendedor.GetMonto)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@Porcentaje", insRenglonComisionesDeVendedor.GetPorcentaje)
+            insUtAdoCmd.fExecCmd vCmd
+            Set vCmd = Nothing
+         End If
       End If
    End If
    Continuar = True
