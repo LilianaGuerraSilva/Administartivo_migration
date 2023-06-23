@@ -1,4 +1,4 @@
-LENGUAJE=AOS
+﻿LENGUAJE=AOS
 Proyecto=SAW
 PatronPresentacion=MVVM
 
@@ -273,10 +273,10 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 }
 
 {@M}Vendedor = Record//Multiarchivo=Compania, "Vendedor", Componente=Vendedor, impexp, Esquema=Adm, EsquemaBD=Adm, GENERATE
-	ConsecutivoCompania		: LongInt;//
-	Consecutivo             : Longint;
-    Codigo		            : Str5;//
-    Nombre		            : Str35;//
+     ConsecutivoCompania		: LongInt;//
+     Consecutivo             : Longint;
+     Codigo		            : Str5;//
+     Nombre		            : Str35;//
      RIF                               : Str20;//
      StatusVendedor               : unStatusVendedor;//
      Direccion                     : TextArea;//"Dirección"
@@ -327,6 +327,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
    ConsecutivoCompania  : LongInt; //o,HIDE
    ConsecutivoVendedor       : Longint;//o
    Consecutivo    : LongInt; //o,HIDE
+   CodigoVendedor       : Str5;//o
    NombreDeLineaDeProducto: str20; //g,O
    TipoDeComision       : unTipoComision; //g,o
    Monto                : Double; //g,o
@@ -472,6 +473,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     CodigoCliente       : Str10;//g,"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     NombreCliente       : Str80;//g,logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()"
     ConsecutivoVendedor	: Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
+    CodigoVendedor	: Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
     NombreVendedor	: Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
     CodigoNota1         : str10; //=NotaFinal.CodigoDeLaNota
     DescripcionNota1    : textArea; //logical,a,=NotaFinal.Descripcion
@@ -864,7 +866,8 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 	Fecha		: date;//
 	FechaAnulacion		: date;//
 	CodigoCliente		: Str10;//
-	ConsecutivoCobrador		: longint;//
+	ConsecutivoCobrador	: longint;//
+	CodigoCobrador		: Str5;//
 	TotalDocumentos		: decimal;//
 	RetencionIslr		: decimal;//
 	TotalCobrado		: decimal;//
@@ -965,6 +968,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     CodigoCliente    : Str10;//"Código del Cliente",=cliente.codigo,ci"gProyParametros.GetUsaCodigoClienteEnPantalla()"
     NombreCliente    : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     ConsecutivoVendedor	: Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
+    CodigoVendedor	: Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
     NombreVendedor   : Str35;//Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()",search
     StatusFactura    : unStatusFactura;//g,"Status"
     TipoDeDocumento  : unTipoDocumentoFactura;//"Tipo de Documento"
@@ -1829,6 +1833,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 //PeriodoDeAplicacion : unPeriodoDeAplicacion;//Logical
 //CambioDeValorDelItem: unValorDelRenglon;//Logical
    ConsecutivoVendedor     : Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
+   CodigoVendedor     : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()"
    NombreVendedor     : Str35;//logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarCodigoVendedorEnPantallas()"
    Moneda             : str10;
    FechaUltimaModificacion : date;//a
@@ -2805,6 +2810,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     ConsecutivoCompania: Longint; //HIDE,o
     ConsecutivoRetiro  : Longint; //HIDE,o
     ConsecutivoVendedor     : Longint;//=Vendedor.Consecutivo,"Consecutivo Vendedor"
+    CodigoVendedor     : str5;//=Vendedor.Codigo,"Código Vendedor"
     Fecha 	       : date; 
     Monto              : Currency; 
     @PrimaryKey=ConsecutivoCompania,ConsecutivoRetiro
@@ -3409,8 +3415,8 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     NombreCliente                 : Str80;//g,Logical,=Cliente.nombre,ci"Not gProyParametros.GetUsaCodigoClienteEnPantalla()",search
     DireccionCliente              : TextArea;
     TelefonoCliente               : Str40;
-    CodigoVendedor                : Str10;
     ConsecutivoVendedor	          : Longint;//"Consecutivo del Vendedor",=vendedor.consecutivo,ci"gProyParametros.getUsarConsecutivoVendedorEnPantallas()"
+    CodigoVendedor                : Str5;
     NombreVendedor                : Str35;//Logical,=Vendedor.nombre,ci"Not gProyParametros.getUsarConsecutivoVendedorEnPantallas()",search
     Observaciones                 : TextArea;
     TotalMontoExento              : Double; //
