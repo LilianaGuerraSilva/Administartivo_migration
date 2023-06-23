@@ -33,9 +33,6 @@ Private Sub sAddForeignKeys()
    On Error GoTo h_ERROR
    usarSoloUnElementoEnLaRelacion = True
    deleteOnCascade = True
-'   gDbUtil.AddForeignKeySegunTablaPrimaria "Cliente", GetTableName(), "Codigo", _
-'         "CodigoCliente", Not usarSoloUnElementoEnLaRelacion, _
-'         "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
    gDbUtil.AddForeignKeySegunTablaPrimaria "Adm.Vendedor", GetTableName(), "Consecutivo", _
          "ConsecutivoVendedor", Not usarSoloUnElementoEnLaRelacion, _
          "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade

@@ -300,7 +300,7 @@ Public Function fSqlViewVentasConVendedorCliente() As String
     vSQL = vSQL & "dbo.factura.Fecha,"
     vSQL = vSQL & "dbo.factura.CodigoCliente,"
     vSQL = vSQL & "dbo.Cliente.Nombre,"
-    vSQL = vSQL & "Adm.Vendedor.Codigo AS CodigoVendedor,"
+    vSQL = vSQL & "dbo.factura.CodigoVendedor,"
     vSQL = vSQL & "Adm.Vendedor.Nombre AS NombreVendedor,"
     vSQL = vSQL & "dbo.renglonFactura.Articulo,"
     vSQL = vSQL & "dbo.renglonFactura.Serial,"

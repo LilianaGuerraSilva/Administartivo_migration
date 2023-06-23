@@ -108,7 +108,7 @@ namespace Galac.Saw.Wrp.Vendedor {
             }
         }
 
-        public void InsertarElPrimerVendedor(int vfwConsecutivoCompania) {
+        void IWrpVendedorVb.InsertarElPrimerVendedor(int vfwConsecutivoCompania) {
             try {
                 IVendedorPdn insVendedorPdn = new Adm.Brl.Vendedor.clsVendedorNav();
                 insVendedorPdn.InsertarElPrimerVendedor(vfwConsecutivoCompania);
@@ -119,22 +119,6 @@ namespace Galac.Saw.Wrp.Vendedor {
                     throw;
                 }
                 LibExceptionDisplay.Show(vEx);
-            }
-        }
-
-        public int RsRecordCount(int vfwConsecutivoCompania) {
-            try {
-                IVendedorPdn insVendedorPdn = new Adm.Brl.Vendedor.clsVendedorNav();
-                return insVendedorPdn.RecordCount(vfwConsecutivoCompania);
-            } catch (GalacException gEx) {
-                LibExceptionDisplay.Show(gEx, null, Title + " - " + "Escoger");
-                return -1;
-            } catch (Exception vEx) {
-                if (vEx is AccessViolationException) {
-                    throw;
-                }
-                LibExceptionDisplay.Show(vEx);
-                return -1;
             }
         }
         #endregion //Metodos Generados

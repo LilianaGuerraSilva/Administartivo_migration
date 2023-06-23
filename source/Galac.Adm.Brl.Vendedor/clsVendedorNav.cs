@@ -103,16 +103,6 @@ namespace Galac.Adm.Brl.Vendedor {
             insVendedor.ConsecutivoRutaDeComercializacion = 1;
             return insVendedor;
         }
-
-        int TotalVendedores(int valConsecutivoCompania) {
-            StringBuilder vSql = new StringBuilder();
-            LibDatabase insDb = new LibDatabase();
-            QAdvSql vUtilSql = new QAdvSql("");
-            vSql.AppendLine("   SELECT ConsecutivoCompania");
-            vSql.AppendLine("   FROM Vendedor");
-            vSql.AppendLine("   WHERE ConsecutivoCompania = " + vUtilSql.ToSqlValue(valConsecutivoCompania));
-            return insDb.RecordCountOfSql(vSql.ToString());
-        }
  
         XElement Entity.IVendedorPdn.VendedorPorDefecto(int valConsecutivoCompania) {
             return VendedorToXml(VendedorPorDefecto(valConsecutivoCompania)); 
@@ -270,9 +260,6 @@ namespace Galac.Adm.Brl.Vendedor {
             insVendedorDatPdn.InsertarListaDeVendedores(vVendedores);
         }
 
-        int IVendedorPdn.RecordCount(int valConsecutivoCompania) {
-            return TotalVendedores(valConsecutivoCompania);
-        }
         #endregion
 
     } //End of class clsVendedorNav

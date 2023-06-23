@@ -87,7 +87,7 @@ Public Function fSqlViewMontoComisionXCobranza() As String
    vSQL = vSQL & "documentoCobrado.MontoAbonado - documentoCobrado.MontoAbonado * cxC.MontoIVA / CASE WHEN (cxC.MontoIVA + cxC.MontoExento "
    vSQL = vSQL & "+ cxC.MontoGravado) = 0 THEN 1 ELSE (cxC.MontoIVA + cxC.MontoExento + cxC.MontoGravado) END AS CobroSinIVA, "
    vSQL = vSQL & "documentoCobrado.NumeroDelDocumentoCobrado, cxC.NumeroDocumentoOrigen, cobranza.CodigoCliente, "
-   vSQL = vSQL & "cobranza.ConsecutivoCobrador, cxC.Fecha AS FechaCxC, cobranza.ConsecutivoCompania "
+   vSQL = vSQL & "cobranza.ConsecutivoCobrador, cobranza.CodigoCobrador, cxC.Fecha AS FechaCxC, cobranza.ConsecutivoCompania "
    vSQL = vSQL & "FROM cobranza INNER JOIN "
    vSQL = vSQL & "documentoCobrado ON cobranza.ConsecutivoCompania = documentoCobrado.ConsecutivoCompania AND "
    vSQL = vSQL & "cobranza.Numero = documentoCobrado.NumeroCobranza INNER JOIN "
@@ -106,7 +106,7 @@ End Function
 Public Function fSqlViewComisionDeVendedoresPorCobroDetallado() As String
    Dim vSQL As String
    On Error GoTo h_ERROR
-   vSQL = "SELECT IGV_MontoComisionXCobranza_B1.ConsecutivoCobrador, Adm.Vendedor.Nombre AS NombreVendedor, "
+   vSQL = "SELECT IGV_MontoComisionXCobranza_B1.ConsecutivoCobrador, IGV_MontoComisionXCobranza_B1.CodigoCobrador, Adm.Vendedor.Nombre AS NombreVendedor, "
    vSQL = vSQL & "IGV_MontoComisionXCobranza_B1.FechaCobro, IGV_MontoComisionXCobranza_B1.NumeroCobro, cliente.Nombre AS NombreCliente, "
    vSQL = vSQL & "IGV_MontoComisionXCobranza_B1.MontoAbonadoACxC, "
    vSQL = vSQL & "IGV_MontoComisionXCobranza_B1.CobroSinIVA * (IGV_MontoNoComisibleFactura_B1.TotalFacturaSinIVA - IGV_MontoNoComisibleFactura_B1.MontoNoComisionable) "
@@ -175,7 +175,7 @@ Public Function fSqlViewCobranzaPorZona() As String
    SQL = SQL & "Cobranza.TotalCobrado, "
    SQL = SQL & "Cobranza.CodigoCliente, "
    SQL = SQL & "Cliente.Nombre AS NombreCliente, "
-   SQL = SQL & "Adm.Vendedor.Codigo AS CodigoCobrador, "
+   SQL = SQL & "Cobranza.CodigoCobrador, "
    SQL = SQL & "Vendedor.Nombre AS NombreCobrador "
    SQL = SQL & "FROM zonaCobranza INNER JOIN "
    SQL = SQL & "Cliente ON zonaCobranza.ConsecutivoCompania = Cliente.ConsecutivoCompania AND "

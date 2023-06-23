@@ -6,6 +6,5 @@
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);
         void InitializeContext(string vfwInfo);
         void InsertarElPrimerVendedor(int vfwConsecutivoCompania);
-        int RsRecordCount(int vfwConsecutivoCompania);
     }
 }

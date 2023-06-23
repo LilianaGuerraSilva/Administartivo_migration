@@ -33,9 +33,6 @@ Private Sub sAddForeignKeys()
    gDbUtil.AddForeignKeySegunTablaPrimaria "Cliente", GetTableName(), "Codigo", _
          "CodigoCliente", Not usarSoloUnElementoEnLaRelacion, _
          "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
-'   gDbUtil.AddForeignKeySegunTablaPrimaria "Adm.Vendedor", GetTableName(), "Consecutivo", _
-'         "ConsecutivoCobrador", Not usarSoloUnElementoEnLaRelacion, _
-'         "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
    gDbUtil.Execute gDefDatabase.Conexion, "ALTER TABLE Cobranza ADD CONSTRAINT fk_CobranzaVend FOREIGN KEY (ConsecutivoCompania,ConsecutivoCobrador) REFERENCES Adm.Vendedor (ConsecutivoCompania,Consecutivo) ON UPDATE NO ACTION ON DELETE NO ACTION"
    gDbUtil.AddForeignKeySegunTablaPrimaria "Moneda", GetTableName(), "", "", _
          usarSoloUnElementoEnLaRelacion, "Codigo", "CodigoMoneda", Not deleteOnCascade
