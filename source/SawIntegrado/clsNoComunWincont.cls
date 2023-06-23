@@ -1372,9 +1372,245 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLMovimientosPorCentroDeCostos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Sub sEjecutaElReporteBalanceComprobacionXCentroCosto(ByVal pgbProcess As ProgressBar, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal mDondeImprimir As enum_DondeImprimir, ByVal valCentrodeCosto As String, ByVal varNivelDeDetalle As Integer, ByVal valCedulaContador As String, ByVal valRifRepLegal As String, ByRef refIncluirSaldosPeriodosAntCuentasGanancias As Boolean, ByRef refIncluirSaldoInicial As Boolean, ByRef refIncluirSaldoFinal As Boolean, ByRef refIncluirCodigoDeCuenta As Boolean, ByRef refIncluirCuentasSinMovConSaldoInicial As Boolean, ByRef refSaltarPaginas As Boolean, ByVal valIdentificadorAnterior As String, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, Optional ByVal valCodigoDeLaMoneda As String = "", Optional ByVal valMoneda As String = "")
+Public Sub sEjecutaElReporteBalanceComprobacionXCentroCosto(ByVal pgbProcess As ProgressBar, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal mDondeImprimir As enum_DondeImprimir, ByVal valCentrodeCosto As String, ByVal varNivelDeDetalle As Integer, ByVal valCedulaContador As String, ByVal valRifRepLegal As String, ByVal valsaltarPaginas As Boolean, ByRef refIncluirSaldosPeriodosAntCuentasGanancias As Boolean, ByRef refIncluirSaldoInicial As Boolean, ByRef refIncluirSaldoFinal As Boolean, ByRef refIncluirCodigoDeCuenta As Boolean, ByRef refIncluirCuentasSinMovConSaldoInicial As Boolean, ByRef refIdentificadorDatos As String, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, _
+                                                      Optional ByVal valCodigoMoneda As String, Optional ByVal valNombreMoneda As String)
+   Dim SqlDelReporte As String
+   Dim SqlCentroDeCosto As String
+   Dim maximoNivelDeDetalle As Integer
+   Dim incluirSaldoInicial As Boolean
+   Dim incluirSaldoFinal As Boolean
+   Dim incluirCodigoDeCuenta As Boolean
+   Dim varPuedoContinuar As Boolean
+   Dim incluirCuentasSinMovConSaldoInicial As Boolean
+   Dim varReporte As DDActiveReports2.ActiveReport
+   Dim insConfigurar As clsRptCentroDeCtosConfigurar
+   Dim insNoComunWincontEcVzla As clsNoComunWincontEcVzla
+   Dim insLib As clsLibWincont
+   On Error GoTo h_ERROR
+   Set varReporte = New ActiveReport
+   Set insConfigurar = New clsRptCentroDeCtosConfigurar
+   Set insNoComunWincontEcVzla = New clsNoComunWincontEcVzla
+   Set insLib = New clsLibWincont
+   varPuedoContinuar = True
+   If varPuedoContinuar Then
+      sConstruyeTablaDeBalCompCCYArmaSQLDelInforme pgbProcess, valFechaInicial, valFechaFinal, valCentrodeCosto, varNivelDeDetalle, SqlDelReporte, SqlCentroDeCosto, refIncluirSaldoInicial, refIncluirSaldoFinal, refIncluirCodigoDeCuenta, refIncluirCuentasSinMovConSaldoInicial, maximoNivelDeDetalle, refIncluirSaldosPeriodosAntCuentasGanancias, refIdentificadorDatos, valEsInformeConCodigoDeMoneda, valCodigoMoneda
+      If insConfigurar.fConfigurarDatosDelReporteBalanceDeComprobacionCC(varReporte, SqlDelReporte, refIncluirSaldoInicial, refIncluirSaldoFinal, refIncluirCodigoDeCuenta, gConvert.fechaAString(valFechaInicial), gConvert.fechaAString(valFechaFinal), maximoNivelDeDetalle, valCedulaContador, valRifRepLegal, valsaltarPaginas, insNoComunWincontEcVzla.fUsaDatosParaLaFirmaEnInformes, _
+         gEnumProyectoWincont, gMonedaLocalActual, gContPeriodoActual, gContNiveles, gProyParametrosWinCont, gProyCompaniaActual, gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision, valNombreMoneda, Not valEsInformeConCodigoDeMoneda, insLib) Then
+           gUtilReports.sMostrarOImprimirReporte varReporte, 1, mDondeImprimir, gProyParametrosWinCont.fEnumTipoDeReporteToString(eRPT_BalanceDeComprobacionXCentroDeCostos)
+      End If
+      gAPI.SetMouseNormal Me
+      pgbProcess.Visible = False
+   End If
+   Set insLib = Nothing
+   Set varReporte = Nothing
+   Set insConfigurar = Nothing
+   Set insNoComunWincontEcVzla = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteBalanceComprobacionXCentroCosto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Private Sub sConstruyeTablaDeBalCompCCYArmaSQLDelInforme(ByVal pgbProcess As ProgressBar, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCentrodeCosto As String, ByVal varNivelDeDetalle As Integer, ByRef refSQLDelReporte As String, ByRef refSqlCentroDeCostos As String, ByRef varIncluirSaldoInicial As Boolean, ByRef varIncluirSaldoFinal As Boolean, ByRef varIncluirCodigoDeCuenta As Boolean, ByRef refIncluirCuentasSinMovConSaldoInicial As Boolean, ByRef varMaximoNivelDeDetalle As Integer, ByRef refIncluirSaldosPeriodosAntCuentasGanancias As Boolean, ByRef mTableNameBalComproCC As String, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, _
+                                                      Optional ByVal valCodigoMoneda As String)
+   Dim borrarCuentasConSaldoCero As Boolean
+   Dim fechaInicial As Date
+   Dim FechaFinal As Date
+   Dim esReportePorCentroDeCostos As Boolean
+   Dim maximaLongitudDelCodigo As Integer
+   Dim mCalculaSaldos As clsCalculaTotales
+   On Error GoTo h_ERROR
+   Set mCalculaSaldos = New clsCalculaTotales
+   gAPI.SetMouseClock Me
+   mTableNameBalComproCC = gContPeriodoActual.GenerarNombreParaTablasDeInformes("BalComCC")
+   borrarCuentasConSaldoCero = True
+   esReportePorCentroDeCostos = True
+   If valFechaInicial > gContPeriodoActual.GetFechaAperturaDelPeriodo Then
+      FechaFinal = valFechaInicial - 1
+      fechaInicial = gContPeriodoActual.GetFechaAperturaDelPeriodo
+   Else
+      fechaInicial = valFechaInicial - 1
+      FechaFinal = fechaInicial
+   End If
+   refIncluirSaldosPeriodosAntCuentasGanancias = refIncluirSaldosPeriodosAntCuentasGanancias
+   mCalculaSaldos.ConstruirTablaTemporalConSaldosYAuxiliares pgbProcess, mTableNameBalComproCC, valFechaInicial, valFechaFinal, fechaInicial, FechaFinal, "", "", valCentrodeCosto, "", esReportePorCentroDeCostos, True, refIncluirSaldosPeriodosAntCuentasGanancias, False, True, False, False, valEsInformeConCodigoDeMoneda, valCodigoMoneda
+   mCalculaSaldos.AgregaYLlenaLaColumnaGrupoDeCuentaALaQuePertenece mTableNameBalComproCC, eGC_Todas
+   CompletarTablaDeSaldoyAuxiliares mTableNameBalComproCC, valFechaInicial, valFechaFinal, valEsInformeConCodigoDeMoneda, valCodigoMoneda
+   mCalculaSaldos.ConstruirEstadoFinancieroEnMemoriaPorCentroDeCosto pgbProcess, mTableNameBalComproCC, Not borrarCuentasConSaldoCero
+   mCalculaSaldos.RecalculaSaldosDelEstadoFinanciero mTableNameBalComproCC
+   sCalculaResultadoDelEjercicio valEsInformeConCodigoDeMoneda, mCalculaSaldos, mTableNameBalComproCC
+   mCalculaSaldos.FiltrarRenglonesAImprimirSegunMaximaLongitud mTableNameBalComproCC, maximaLongitudDelCodigo, varMaximoNivelDeDetalle, varNivelDeDetalle
+   mCalculaSaldos.AgregarRenglonesDeTotalesPorNivelFicticios mTableNameBalComproCC, maximaLongitudDelCodigo, varMaximoNivelDeDetalle, , True
+   EliminarCuentasTituloNoValidas mTableNameBalComproCC
+   refSqlCentroDeCostos = fSQLCentroDeCostosEqualOrLike(valCentrodeCosto)
+   refSQLDelReporte = fSQLBalancePorCentroDeCostos(mTableNameBalComproCC, refSqlCentroDeCostos, valFechaInicial, valFechaFinal, refIncluirCuentasSinMovConSaldoInicial)
+   gAPI.sAddProgress pgbProcess
+   varIncluirSaldoInicial = varIncluirSaldoInicial
+   varIncluirSaldoFinal = varIncluirSaldoFinal
+   varIncluirCodigoDeCuenta = varIncluirCodigoDeCuenta
+   gAPI.SetMouseNormal Me
+   pgbProcess.Visible = False
+   Set mCalculaSaldos = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sConstruyeTablaDeBalCompCCYArmaSQLDelInforme", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Private Function fSQLCentroDeCostosEqualOrLike(ByVal valCodigoCentroDeCostos As String) As String
+   Dim sqlCentroDeCostos  As String
+   On Error GoTo h_ERROR
+   fSQLCentroDeCostosEqualOrLike = ""
+   If valCodigoCentroDeCostos <> "" Then
+      sqlCentroDeCostos = " AND " & gUtilSQL.fSQLValue("tblSaldoContableTemp.CodeAux", valCodigoCentroDeCostos, False)
+   Else
+      sqlCentroDeCostos = " AND tblSaldoContableTemp.CodeAux <> ''"
+   End If
+   fSQLCentroDeCostosEqualOrLike = sqlCentroDeCostos
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLCentroDeCostosEqualOrLike", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fSQLBalancePorCentroDeCostos(ByVal valTableName As String, ByVal valSqlCentroDeCostos As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal incluirCuentasSinMovimiento As Boolean) As String
+   Dim Sql As String
+   Dim ConjuntoSQL As String
+   On Error GoTo h_ERROR
+   ConjuntoSQL = "SELECT tblSaldoContableTemp.Codigo FROM tblSaldoContableTemp WHERE tblSaldoContableTemp.TieneSubCuentas = " & gUtilSQL.fBooleanToStrSQL(False)
+   ConjuntoSQL = ConjuntoSQL & " AND tblSaldoContableTemp.ID = " & gUtilSQL.fSimpleSqlValue(valTableName)
+   ConjuntoSQL = ConjuntoSQL & " AND (tblSaldoContableTemp.SaldoInicial = 0 "
+   ConjuntoSQL = ConjuntoSQL & " AND tblSaldoContableTemp.SubTotalDebe = 0 "
+   ConjuntoSQL = ConjuntoSQL & " AND tblSaldoContableTemp.SubTotalHaber = 0)"
+   Sql = ""
+   Sql = "SELECT CentroDeCostos.Codigo,"
+   Sql = Sql & "': ' + CentroDeCostos.Descripcion AS DescripcionCC, "
+   Sql = Sql & "tblSaldoContableTemp.Codigo AS CodigoCuenta, "
+   Sql = Sql & "tblSaldoContableTemp.Descripcion, "
+   Sql = Sql & "tblSaldoContableTemp.TieneSubCuentas AS TieneSubCuentas, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.SaldoInicial) AS SaldoInicial, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.SubTotalDebe) AS SaldoDebe, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.SubTotalHaber) AS SaldoHaber, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.Saldo) AS SaldoActual, "
+   Sql = Sql & "MIN(tblSaldoContableTemp.CodeAux) "
+   Sql = Sql & " FROM tblSaldoContableTemp INNER JOIN CentroDeCostos "
+   Sql = Sql & " ON CentroDeCostos.Codigo = tblSaldoContableTemp.CodeAux "
+   Sql = Sql & " AND CentroDeCostos.ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo
+   Sql = Sql & " WHERE tblSaldoContableTemp.ID = " & gUtilSQL.fSimpleSqlValue(valTableName)
+   Sql = Sql & " AND Grupo >=  " & gUtilSQL.fSimpleSqlValue("A")
+   Sql = Sql & valSqlCentroDeCostos
+   If incluirCuentasSinMovimiento Then
+   Else
+      Sql = Sql & " AND (tblSaldoContableTemp.Codigo NOT IN (" & ConjuntoSQL & "))"
+   End If
+   Sql = Sql & " GROUP BY CentroDeCostos.Codigo, CentroDeCostos.Descripcion, tblSaldoContableTemp.Codigo, tblSaldoContableTemp.Descripcion,tblSaldoContableTemp.TieneSubCuentas"
+   Sql = Sql & " ORDER BY CentroDeCostos.Codigo, CentroDeCostos.Descripcion, tblSaldoContableTemp.Codigo, tblSaldoContableTemp.Descripcion,tblSaldoContableTemp.TieneSubCuentas"
+   fSQLBalancePorCentroDeCostos = Sql
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLBalancePorCentroDeCostos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Public Sub EliminarCuentasTituloNoValidas(ByVal identificadorDatos As String)
+   
+   Dim Sql As String
+   Sql = "DELETE  FROM tblSaldoContableTemp WHERE (tblSaldoContableTemp.TieneSubCuentas = " & gUtilSQL.fSimpleSqlValue("S")
+   Sql = Sql & " OR tblSaldoContableTemp.TieneSubCuentas = " & gUtilSQL.fSimpleSqlValue("T") & ")"
+   Sql = Sql & " AND tblSaldoContableTemp.SaldoInicial = 0"
+   Sql = Sql & " AND tblSaldoContableTemp.SubTotalDebe = 0"
+   Sql = Sql & " AND tblSaldoContableTemp.SubTotalHaber = 0"
+   Sql = Sql & " AND tblSaldoContableTemp.Saldo = 0"
+   Sql = Sql & " AND tblSaldoContableTemp.ID = " & gUtilSQL.fSimpleSqlValue(identificadorDatos)
+   On Error Resume Next
+   gDbUtil.Execute Conexion, Sql
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "EliminarCuentasTituloNoValidas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   
+End Sub
+
+Public Sub CompletarTablaDeSaldoyAuxiliares(ByVal valTableName As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, Optional ByVal valCodigoMoneda As String)
+   Dim Sql As String
+
+   Dim vMontoDebe As String
+   Dim vMontoHaber As String
+
+
+
+   Dim vSaldo As String
+   Dim insWcoViews As clsWcoViews
+   Dim vRecordset As ADODB.Recordset
+   Dim vUpdateSQL As String
+   Dim insCalculaTotales As clsCalculaTotales
+   Dim varNombreTablaAsiento As String
+   Dim CteMovimientosDolar As String
+   Dim NombreTablaCambio As String
+   Dim NombreCampoTablaCambio As String
+   On Error GoTo h_ERROR
+   Set vRecordset = New ADODB.Recordset
+   Set insWcoViews = New clsWcoViews
+   Set insCalculaTotales = New clsCalculaTotales
+   
+   If (gDefProg.GetSiglasDelPrograma = GetSiglasIVA Or gDefProg.GetSiglasDelPrograma = GetSiglasWinCont Or gDefProg.GetSiglasDelPrograma = GetSiglasSAW) Then
+      NombreCampoTablaCambio = "CambioAMonedaLocal"
+      NombreTablaCambio = "Comun.Cambio"
+   Else
+      NombreTablaCambio = "dbo.Cambio"
+      NombreCampoTablaCambio = "cambioABolivares"
+   End If
+   CteMovimientosDolar = ""
+   If valEsInformeConCodigoDeMoneda Then
+      varNombreTablaAsiento = "MovimientosDolar_CTE"
+      CteMovimientosDolar = " set dateformat dmy; WITH MovimientosDolar_CTE (ConsecutivoPeriodo, Codigo, DescripcionCC, TituloCC, CodigoCuenta, Descripcion, FechaComprobante, MontoDebe, MontoHaber) AS "
+      CteMovimientosDolar = CteMovimientosDolar & " (SELECT ConsecutivoPeriodo, Codigo, DescripcionCC, TituloCC, CodigoCuenta, Descripcion, FechaComprobante, ROUND(MontoDebe / " & NombreCampoTablaCambio & ", 2), ROUND(MontoHaber / " & NombreCampoTablaCambio & ", 2)"
+      CteMovimientosDolar = CteMovimientosDolar & " FROM " & insWcoViews.GetViewCuentasPorCentroDeCostos & " INNER JOIN " & NombreTablaCambio & " ON (" & NombreTablaCambio & ".FechaDeVigencia = " & insWcoViews.GetViewCuentasPorCentroDeCostos & ".FechaComprobante And " & NombreTablaCambio & ".CodigoMoneda = '" & valCodigoMoneda & "') "
+      CteMovimientosDolar = CteMovimientosDolar & " WHERE " & insWcoViews.GetViewCuentasPorCentroDeCostos & ".ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo & ")"
+   Else
+      varNombreTablaAsiento = insWcoViews.GetViewCuentasPorCentroDeCostos
+   End If
+   
+   vSaldo = gUtilSQL.getIIF(" tblSaldoContableTemp.Saldo IS NULL ", 0, "tblSaldoContableTemp.Saldo", True)
+   vMontoDebe = gUtilSQL.getIIF(varNombreTablaAsiento & ".MontoDebe IS NULL ", 0, varNombreTablaAsiento & ".MontoDebe", True)
+   vMontoHaber = gUtilSQL.getIIF(varNombreTablaAsiento & ".MontoHaber IS NULL ", 0, varNombreTablaAsiento & ".MontoHaber", True)
+   Sql = ""
+   Sql = CteMovimientosDolar & " SELECT tblSaldoContableTemp.CodeAux AS CodigoCC, "
+   Sql = Sql & "tblSaldoContableTemp.Codigo AS CodigoCuenta, "
+   Sql = Sql & "tblSaldoContableTemp.Descripcion, "
+   Sql = Sql & "MIN " & vSaldo & "   AS SaldoInicial, "
+   Sql = Sql & "SUM" & vMontoDebe & " as SaldoDebe, "
+   Sql = Sql & "SUM" & vMontoHaber & " as SaldoHaber, "
+   Sql = Sql & "SUM(" & vSaldo & "  + (" & vMontoDebe & " - " & vMontoHaber & ")) AS SaldoActual, "
+   Sql = Sql & " AplicaReconversion "
+   Sql = Sql & " FROM tblSaldoContableTemp "
+   Sql = Sql & " LEFT JOIN " & varNombreTablaAsiento
+   Sql = Sql & " ON " & varNombreTablaAsiento & ".Codigo = tblSaldoContableTemp.CodeAux"
+   Sql = Sql & " AND " & varNombreTablaAsiento & ".CodigoCuenta = tblSaldoContableTemp.Codigo"
+   Sql = Sql & " AND " & gUtilSQL.fSQLValueDatesBetween("", varNombreTablaAsiento & ".FechaComprobante ", valFechaInicial, valFechaFinal)
+   Sql = Sql & " AND " & varNombreTablaAsiento & ".ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo
+   Sql = Sql & " WHERE tblSaldoContableTemp.ID = " & gUtilSQL.fSimpleSqlValue(valTableName)
+   Sql = Sql & " AND tblSaldoContableTemp.TieneSubCuentas = " & gUtilSQL.fSimpleSqlValue(gConvert.ConvertBooleanToString(False))
+   Sql = Sql & " GROUP BY tblSaldoContableTemp.CodeAux, tblSaldoContableTemp.Codigo, tblSaldoContableTemp.Descripcion,AplicaReconversion "
+   Sql = Sql & " ORDER BY tblSaldoContableTemp.CodeAux, tblSaldoContableTemp.Codigo, tblSaldoContableTemp.Descripcion,AplicaReconversion "
+
+   If gDbUtil.fOpenRecordset(vRecordset, Sql, Conexion) Then
+      If gDbUtil.fRecordCount(vRecordset) > 0 Then
+         vRecordset.MoveFirst
+         While Not vRecordset.EOF
+         vUpdateSQL = "UPDATE tblSaldoContableTemp SET SaldoInicial = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoInicial").value)
+         vUpdateSQL = vUpdateSQL & ", SubTotalDebe = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoDebe").value) & ", SubTotalHaber = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoHaber").value) & ", Saldo = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoActual").value)
+         vUpdateSQL = vUpdateSQL & " WHERE Codigo = " & gUtilSQL.fSimpleSqlValue(vRecordset("CodigoCuenta").value)
+         vUpdateSQL = vUpdateSQL & " AND CodeAux = " & gUtilSQL.fSimpleSqlValue(vRecordset("CodigoCC").value)
+         vUpdateSQL = vUpdateSQL & " AND ID = " & gUtilSQL.fSimpleSqlValue(valTableName)
+         gDbUtil.Execute Conexion, vUpdateSQL
+         vRecordset.MoveNext
+         Wend
+      End If
+   End If
+   insCalculaTotales.RecalculaSaldosDelEstadoFinanciero valTableName
+   Set vRecordset = Nothing
+   Set insWcoViews = Nothing
+   Set insCalculaTotales = Nothing
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "CalcularMontosBalanceXCentroDeCosto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
 Public Sub sEliminaDatosEsquemasAsociadosAPeriodo(ByVal valConsecutivoPeriodo As Long)
    Dim insEsquemaBalanceMov As clsEsquemaDeBalanceMovNavigator
    Dim insEsquemaBalance As clsEsquemaDeBalanceNavigator
@@ -1505,4 +1741,72 @@ h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fExisteLaTasaDelDia = False
    Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fexisteLaTasaDelDia", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+Private Function sCalculaResultadoDelEjercicio(ByVal valEsInformeConCodigoDeMoneda As Boolean, ByVal valCalculaSaldos As clsCalculaTotales, ByVal valTableName As String)
+   Dim varMontoDebe As Currency
+   Dim varMontoHaber As Currency
+   Dim varResultadoDelEjercicio As Currency
+   Dim varCuentaIngreso As String
+   Dim varCuentaCosto As String
+   Dim varCuentaGasto As String
+   Dim varNombreCampo As String
+   Dim varCodigoCuentaResultado As String
+   Dim inscuentaNavigator As clsCuentaNavigator
+   Dim tableNameAnterior As String
+   Dim Sql As String
+   Dim varSQLWhere As String
+   Dim mrsTemp As ADODB.Recordset
+   On Error GoTo h_ERROR
+   varCodigoCuentaResultado = gContPeriodoActual.GetCierreDelEjercicio
+   If gContPeriodoActual.ExisteElComprobanteDeCierreDeCuentasDeResultado And valEsInformeConCodigoDeMoneda Then
+      Set mrsTemp = New ADODB.Recordset
+      Set inscuentaNavigator = New clsCuentaNavigator
+      Sql = ""
+      varCodigoCuentaResultado = gContPeriodoActual.GetCierreDelEjercicio
+      If inscuentaNavigator.fSearchCuentaByCodigo(gContPeriodoActual.GetCuentaResultadoDelEjercicio, True) Then
+         varNombreCampo = "Codigo"
+         varCuentaIngreso = fConvierteLikeSQL(varCuentaIngreso, varNombreCampo, gContPeriodoActual.getArrayIngreso, "")
+         varCuentaCosto = fConvierteLikeSQL(varCuentaCosto, varNombreCampo, gContPeriodoActual.getArrayCosto, "OR")
+         varCuentaGasto = fConvierteLikeSQL(varCuentaGasto, varNombreCampo, gContPeriodoActual.getArrayGasto, "OR")
+         varSQLWhere = varSQLWhere & "(" & varCuentaIngreso & varCuentaCosto & varCuentaGasto & ") "
+         Sql = ""
+         Sql = "Select SUM(SubTotalDebe) as mTotalDebe, sum(SubTotalHaber) as mTotalHaber FROM " & valCalculaSaldos.getTNSaldoTemp & " WHERE " & varSQLWhere & " AND TieneSubCuentas = 'N' AND " & valCalculaSaldos.SQLIdentificador(valTableName)
+         gDbUtil.OpenRecordset mrsTemp, Sql
+         varMontoDebe = mrsTemp("mTotalDebe")
+         varMontoHaber = mrsTemp("mTotalHaber")
+         varResultadoDelEjercicio = 0
+         varResultadoDelEjercicio = varMontoDebe - varMontoHaber
+         Sql = ""
+         If varResultadoDelEjercicio > 0 Then
+            Sql = "UPDATE tblSaldoContableTemp SET SaldoInicial = 0, SubTotalDebe = " & gUtilSQL.fNumToStrSQL(varResultadoDelEjercicio) & " + SubTotalDebe, Saldo = " & gUtilSQL.fNumToStrSQL(varResultadoDelEjercicio) & " WHERE Codigo = '" & varCodigoCuentaResultado & "' AND ID = '" & valTableName & "'"
+         Else
+            Sql = "UPDATE tblSaldoContableTemp SET SaldoInicial = 0, SubTotalHaber = (" & gUtilSQL.fNumToStrSQL(varResultadoDelEjercicio) & " *-1) + SubTotalHaber, Saldo = " & gUtilSQL.fNumToStrSQL(varResultadoDelEjercicio) & " WHERE Codigo = '" & varCodigoCuentaResultado & "' AND ID = '" & valTableName & "'"
+         End If
+      End If
+      
+      gDbUtil.Execute Conexion, Sql
+      Sql = ""
+      Sql = "UPDATE  tblSaldoContableTemp SET SubTotalDebe = (CASE WHEN SubTotalDebe < SubTotalHaber THEN SubTotalHaber ELSE SubTotalDebe END), SubTotalHaber = (CASE WHEN SubTotalHaber < SubTotalDebe THEN SubTotalDebe ELSE SubTotalHaber END) WHERE " & varSQLWhere & " AND ID = '" & valTableName & "'"
+      gDbUtil.Execute Conexion, Sql
+      Set mrsTemp = Nothing
+      Set inscuentaNavigator = Nothing
+   End If
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCalculaResultadoDelEjercicio", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
+Private Function fConvierteLikeSQL(ByVal Sql As String, ByVal nombreCampo As String, marreglo As Variant, valOperador As String) As String
+   Dim i As Long
+   On Error GoTo h_ERROR
+   For i = LBound(marreglo) To UBound(marreglo)
+      If LenB(marreglo(i)) > 0 Then
+         Sql = Sql & " " & valOperador & " " & nombreCampo & " LIKE '" & marreglo(i) & "%'"
+         valOperador = "OR"
+      End If
+   Next
+   fConvierteLikeSQL = Sql
+h_EXIT: On Error GoTo 0
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConvierteLikeSQL", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
