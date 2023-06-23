@@ -1081,7 +1081,7 @@ Private Sub sVerificaSiHayErrorEnLaLinea_VENDEDOR(ByVal NumeroDeLineaActual As L
    If gTexto.DfLen(mValorDelCampoDeId) = 0 Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
-   ElseIf insVendedor.fSearchByField("Codigo", mValorDelCampoDeId, False) Then
+   ElseIf insVendedor.fSearchByField("Codigo", mValorDelCampoDeId, False, False) Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  ya se encuentra registrado en el sistema .:::"
       RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
