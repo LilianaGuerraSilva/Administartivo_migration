@@ -395,7 +395,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".Contrato.StatusContrato,");
             SQL.AppendLine("      " + DbSchema + ".Contrato.CodigoCliente,");
             SQL.AppendLine("      " + DbSchema + ".Contrato.FechaDeInicio,");
-            SQL.AppendLine("      " + DbSchema + ".Contrato.CodigoVendedor");
+            SQL.AppendLine("      " + DbSchema + ".Contrato.CodigoVendedor,");
             SQL.AppendLine("      " + DbSchema + ".Contrato.ConsecutivoVendedor");
             SQL.AppendLine("      FROM " + DbSchema + ".Contrato");
             SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
