@@ -1655,7 +1655,7 @@ namespace Galac.Saw.DbMigrator {
             vSQL.AppendLine("UsaComisionPorVenta, ");
             vSQL.AppendLine("UsaComisionPorCobranza, ");
             vSQL.AppendLine("CodigoLote, ");
-            vSQL.AppendLine("ConsecutivoRutaDeComercializacion,  ");
+            vSQL.AppendLine("ConsecutivoRutaDeComercializacion, ");
             vSQL.AppendLine("NombreOperador, ");
             vSQL.AppendLine("FechaUltimaModificacion) ");
             vSQL.AppendLine("SELECT ConsecutivoCompania, ");
@@ -1698,7 +1698,7 @@ namespace Galac.Saw.DbMigrator {
             vSQL.AppendLine("ISNULL(UsaComisionPorVenta, 'N'), ");
             vSQL.AppendLine("ISNULL(UsaComisionPorCobranza, 'N'), ");
             vSQL.AppendLine("ISNULL(CodigoLote, ''), ");
-            vSQL.AppendLine("'1', ");
+            vSQL.AppendLine("1, ");
             vSQL.AppendLine("NombreOperador, ");
             vSQL.AppendLine("FechaUltimaModificacion ");
             vSQL.AppendLine("FROM dbo.Vendedor ");
