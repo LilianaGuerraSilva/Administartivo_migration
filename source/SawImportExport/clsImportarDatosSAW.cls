@@ -816,6 +816,7 @@ End Function
 
 Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVal valSeparador As String) As Boolean
    Dim linea As String
+   Dim vConsecutivoRuta As String
    On Error GoTo h_ERROR
    linea = refLineaActual
    fDistribuyeLaLineaVendedor = False
@@ -863,7 +864,12 @@ Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVa
       vMonto = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mPorcentaje = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    End If
-   vConsecutivoRutaDeComercialzacion = gUtilImport.fToInt(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   vConsecutivoRuta = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   If vConsecutivoRuta <> "1" Then
+      vConsecutivoRutaDeComercialzacion = gUtilImport.fToInt(vConsecutivoRuta)
+   Else
+      vConsecutivoRutaDeComercialzacion = 1
+   End If
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaVendedor = True
    Exit Function
@@ -885,11 +891,7 @@ Private Function fInsertarVendedor() As Boolean
       vSql = "SELECT " & gUtilSQL.fMax("Consecutivo", "Consecutivo") & " FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
       If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
          If gDbUtil.fRecordCount(Rs) > 0 Then
-            If (Rs("Consecutivo").Value <> "NULL") Then
-               vConsecutivoVendedor = gConvert.ConvierteAInteger(Rs("Consecutivo").Value)
-            Else
-               vConsecutivoVendedor = 1
-            End If
+            vConsecutivoVendedor = gConvert.ConvierteAInteger(Rs("Consecutivo").Value)
          Else
             vConsecutivoVendedor = 1
          End If
