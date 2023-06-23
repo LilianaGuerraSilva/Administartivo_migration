@@ -15,7 +15,7 @@ using Galac.Adm.Ccl.Vendedor;
 using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Adm.Dal.Vendedor {
-    public class clsVendedorDat : LibData, ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibDataImport, IVendedorDatPdn {
+    public class clsVendedorDat: LibData, ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibDataImport, IVendedorDatPdn {
         #region Variables
         LibDataScope insTrn;
         Entity.Vendedor _CurrentRecord;
@@ -78,7 +78,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vParams.AddInBoolean("UsaComisionPorVenta", valRecord.UsaComisionPorVentaAsBool);
             vParams.AddInBoolean("UsaComisionPorCobranza", valRecord.UsaComisionPorCobranzaAsBool);
             vParams.AddInString("CodigoLote", valRecord.CodigoLote, 10);
-            vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
+            vParams.AddInString("NombreOperador", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
             if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
@@ -142,9 +142,9 @@ namespace Galac.Adm.Dal.Vendedor {
                 if (insDB.ExistsValueOnMultifile("dbo.Cotizacion", "ConsecutivoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Cotizacion");
                 }
-                if (getParametrosCompania<string>(vRecord.ConsecutivoCompania, "CodigoGenericoVendedor", (ILibDataComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>)this).Equals(vRecord.Codigo)) {
+                if (getParametrosCompania<string>("CodigoGenericoVendedor", this).Equals(vRecord.Codigo)) {
                     vSbInfo.AppendLine("Parámetros Compañía");
-                }             
+                }
                 if (insDB.ExistsValueOnMultifile("dbo.Cobranza", "ConsecutivoCobrador", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Consecutivo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Cobranza");
                 }
@@ -165,7 +165,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 }
                 if (insDB.ExistsValueOnMultifile("dbo.Contrato", "NombreVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Nombre), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Contrato");
-                }                             
+                }
                 if (insDB.ExistsValueOnMultifile("dbo.RetirosACuenta", "CodigoVendedor", "ConsecutivoCompania", insDB.InsSql.ToSqlValue(vRecord.Codigo), insDB.InsSql.ToSqlValue(vRecord.ConsecutivoCompania), true)) {
                     vSbInfo.AppendLine("Retiros A Cuenta");
                 }
@@ -210,7 +210,8 @@ namespace Galac.Adm.Dal.Vendedor {
                         new clsVendedorDetalleComisionesDat().GetDetailAndAppendToMaster(ref vResult);
                     }
                     break;
-                default: break;
+                default:
+                    break;
             }
             insDb.Dispose();
             return vResult;
@@ -262,19 +263,20 @@ namespace Galac.Adm.Dal.Vendedor {
                 case eProcessMessageType.Query:
                     vResult = LibXml.ToXElement(insDb.LoadData(valProcessMessage, CmdTimeOut, valParameters));
                     break;
-                default: throw new ProgrammerMissingCodeException();
+                default:
+                    throw new ProgrammerMissingCodeException();
             }
             insDb.Dispose();
             return vResult;
         }
 
-        LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.SpecializedUpdate(IList<Entity.Vendedor> refRecord,  bool valUseDetail, string valSpecializedAction) {
+        LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.SpecializedUpdate(IList<Entity.Vendedor> refRecord, bool valUseDetail, string valSpecializedAction) {
             throw new NotImplementedException();
         }
 
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Modificar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.Update(IList<Entity.Vendedor> refRecord, bool valUseDetail, eAccionSR valAction) {
-            LibResponse vResult = new LibResponse();            
+            LibResponse vResult = new LibResponse();
             try {
                 CurrentRecord = refRecord[0];
                 if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
@@ -318,7 +320,7 @@ namespace Galac.Adm.Dal.Vendedor {
         LibResponse UpdateMasterAndDetail(Entity.Vendedor refRecord, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
             string vErrorMessage = "";
-            if (ValidateDetail(refRecord, eAccionSR.Modificar,out vErrorMessage)) {
+            if (ValidateDetail(refRecord, eAccionSR.Modificar, out vErrorMessage)) {
                 if (UpdateDetail(refRecord)) {
                     vResult = UpdateMaster(refRecord, valAction);
                 }
@@ -331,7 +333,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vResult = vResult && SetPkInDetailVendedorDetalleComisionesAndUpdateDb(valRecord);
             return vResult;
         }
-        
+
         private bool SetPkInDetailVendedorDetalleComisionesAndUpdateDb(Ccl.Vendedor.Vendedor valRecord) {
             int vConsecutivo = 1;
             clsVendedorDetalleComisionesDat insVendedorDetalleComisiones = new clsVendedorDetalleComisionesDat();
@@ -357,12 +359,12 @@ namespace Galac.Adm.Dal.Vendedor {
             vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;
             vResult = IsValidNombre(valAction, CurrentRecord.Nombre) && vResult;
             vResult = IsValidCiudad(valAction, CurrentRecord.Ciudad) && vResult;
-            vResult = IsValidConsecutivoRutaDeComercializacion(valAction, CurrentRecord.ConsecutivoRutaDeComercializacion) && vResult;            
+            vResult = IsValidConsecutivoRutaDeComercializacion(valAction, CurrentRecord.ConsecutivoRutaDeComercializacion) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
 
-        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){           
+        private bool IsValidConsecutivoCompania(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
@@ -373,7 +375,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return true;
         }
 
-        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {            
+        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo) {
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
@@ -407,7 +409,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return true;
         }
 
-        private bool IsValidNombre(eAccionSR valAction, string valNombre){
+        private bool IsValidNombre(eAccionSR valAction, string valNombre) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -420,7 +422,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private bool IsValidCiudad(eAccionSR valAction, string valCiudad){
+        private bool IsValidCiudad(eAccionSR valAction, string valCiudad) {
             bool vResult = true;
             valCiudad = LibString.Trim(valCiudad);
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
@@ -438,8 +440,8 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             return vResult;
         }
-		
-        private bool IsValidConsecutivoRutaDeComercializacion(eAccionSR valAction, int valConsecutivoRutaDeComercializacion){
+
+        private bool IsValidConsecutivoRutaDeComercializacion(eAccionSR valAction, int valConsecutivoRutaDeComercializacion) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -455,7 +457,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 }
             }
             return vResult;
-        }     
+        }
 
         private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
             Entity.Vendedor vRecordBusqueda = new Entity.Vendedor();
@@ -484,7 +486,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private bool ValidateMasterDetail(eAccionSR valAction,Entity.Vendedor valRecordMaster, bool valUseDetail) {
+        private bool ValidateMasterDetail(eAccionSR valAction, Entity.Vendedor valRecordMaster, bool valUseDetail) {
             string vErrMsg;
             if (Validate(valAction, out vErrMsg)) {
                 if (valUseDetail) {
@@ -529,15 +531,15 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private T getParametrosCompania<T>(int valConsecutivoCompania, string ValParametro, ILibDataComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>> instanciaDal) {
+        private T getParametrosCompania<T>(string ValParametro, ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>> instanciaDal) {
             string vDbSchema = "";
             if (LibDefGen.IsProduct(LibProduct.GetInitialsAdmEcuador())) {
                 vDbSchema = "Adme";
             } else {
                 vDbSchema = "Comun";
             }
-            StringBuilder sql = new StringBuilder("SELECT " + vDbSchema + ".SettValueByCompany.Value AS Valor, " + vDbSchema + ".SettValueByCompany.NameSettDefinition FROM " + vDbSchema + ".SettDefinition INNER JOIN " + vDbSchema + ".SettValueByCompany ON " + vDbSchema + ".SettDefinition.Name = " + vDbSchema + ".SettValueByCompany.NameSettDefinition WHERE (" + vDbSchema + ".SettDefinition.Name = '" + ValParametro + "') AND (" + vDbSchema + ".SettValueByCompany.ConsecutivoCompania = " + valConsecutivoCompania + ")", 300);
-            XElement Auxiliar = instanciaDal.QueryInfo(eProcessMessageType.Query, null, sql);
+            StringBuilder sql = new StringBuilder("SELECT " + vDbSchema + ".SettValueByCompany.Value AS Valor FROM " + vDbSchema + ".SettDefinition INNER JOIN " + vDbSchema + ".SettValueByCompany ON " + vDbSchema + ".SettDefinition.Name = " + vDbSchema + ".SettValueByCompany.NameSettDefinition WHERE (" + vDbSchema + ".SettDefinition.Name = '" + ValParametro + "')", 300);
+            XElement Auxiliar = instanciaDal.QueryInfo(eProcessMessageType.Query, sql.ToString(), null);
             Object vValor = LibXml.GetPropertyString(Auxiliar, "Valor");
             return (T)vValor;
         }
@@ -554,9 +556,9 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             return vResult;
         }
-        
+
         #endregion //Miembros de ILibDataFKSearch
-        
+
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Insertar")]
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Importar")]
         LibXmlResult ILibDataImport.Import(XmlReader refRecord, LibProgressManager valManager, bool valShowMessage) {
