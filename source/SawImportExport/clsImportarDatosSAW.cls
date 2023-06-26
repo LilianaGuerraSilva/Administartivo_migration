@@ -884,19 +884,12 @@ Private Function fInsertarVendedor() As Boolean
    Set insUtAdoCmd = New clsUtilAdoCmd
    Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorINS", gDefDatabase.Conexion)
    Set Rs = New ADODB.Recordset
-   vSql = "SELECT " & gUtilSQL.fMax("Consecutivo", "Consecutivo") & " FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
+   vSql = "SELECT ISNULL(" & gUtilSQL.fMax("Consecutivo", "Consecutivo") & ", 0) + 1 FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
    If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-      If gDbUtil.fRecordCount(Rs) > 0 Then
-         If (Rs("Consecutivo").Value <> "NULL") Then
-            vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("Consecutivo").Value) + 1)
-         Else
-            vConsecutivoVendedor = 1
-         End If
-      Else
-         vConsecutivoVendedor = 1
-      End If
-      Set Rs = Nothing
+      vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("Consecutivo").Value))
    End If
+   Set Rs = Nothing
+
    If Not insVendedor.fSearchByField("Consecutivo", vConsecutivoVendedor, False, False) Then
       If Not insVendedor.fSearchByField("Codigo", insVendedor.GetCodigo, False, False) Then
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", gProyParametrosCompania.GetConsecutivoCompania)
