@@ -121,7 +121,6 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(", Gv_EnumTipoDeArticulo.StrValue AS TipoDeArticuloStr");
             SQL.AppendLine(", ArticuloInventario.StatusdelArticulo");
             SQL.AppendLine(", ArticuloInventario.TipoDeArticulo");
-
             SQL.AppendLine(", ArticuloInventario.ArancelesCodigo");
             SQL.AppendLine(", ArticuloInventario.TipoDeMercanciaProduccion ");
 
@@ -1023,6 +1022,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
+
         private string SqlSpUbicacionSearchParameters() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
@@ -1031,6 +1031,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
             return SQL.ToString();
         }
+
         private string SqlSpUbicacionSearch() {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");

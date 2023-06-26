@@ -34,7 +34,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Consultar Ubicacion De Artículo"; }
+            get { return "Consultar Ubicación de Artículo"; }
         }
 
         public int  ConsecutivoCompania {

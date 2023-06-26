@@ -29,15 +29,15 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string UnidadDeVenta { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, 3)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, ColumnOrder = 3)]
         public string CampoDefinible1 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, 4)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, ColumnOrder = 4)]
         public string CampoDefinible2 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, ColumnOrder = 5)]
         public string CampoDefinible3 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, 5)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, ColumnOrder = 6)]
         public string CampoDefinible4 { get; set; }
-        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, 7)]
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, ColumnOrder = 7)]
         public string CampoDefinible5 { get; set; }
     }
     public class FkListaDeMaterialesViewModel : IFkListaDeMaterialesViewModel {
