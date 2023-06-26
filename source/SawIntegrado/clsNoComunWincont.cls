@@ -14,31 +14,19 @@ Attribute VB_Exposed = False
 Option Explicit
 Private Const CM_FILE_NAME As String = "clsNoComunWincont"
 Private Const CM_MESSAGE_NAME As String = "clsNoComunWincont"
-Private Function CM_IMPRIME_COMPROBANTE_DE_PAGO() As Byte
-   CM_IMPRIME_COMPROBANTE_DE_PAGO = 0
-End Function
-
-Private Function CM_IMPRIME_COMPROBANTE_DE_MOV_BANCARIO() As Byte
-   CM_IMPRIME_COMPROBANTE_DE_MOV_BANCARIO = 1
-End Function
-Private Function CM_IMPRIME_COMPROBANTE_DE_PAGO_SUELDOS() As Byte
-   CM_IMPRIME_COMPROBANTE_DE_PAGO_SUELDOS = 2
-End Function
-
-Private Function GetGender() As Enum_Gender
-   GetGender = eg_Male
-End Function
+Private Const CM_IMPRIME_COMPROBANTE_DE_PAGO As Byte = 0
+Private Const CM_IMPRIME_COMPROBANTE_DE_MOV_BANCARIO As Byte = 1
+Private Const CM_IMPRIME_COMPROBANTE_DE_PAGO_SUELDOS As Byte = 2
+Private Const GetGender = Enum_Gender.eg_Male
 
 Public Sub sLLamadoAModificarParametrosDesdePeriodoInput(ByVal valSeEstanDefiniendoCuentasInformes As Boolean)
    On Error GoTo h_ERROR
    If Not valSeEstanDefiniendoCuentasInformes Then
-'      gProyReglasDeContabilizacion.sEscogeReglasDeContabilizacionDeLaCiaActualSiNoExisteLoCrea False
       Call frmCompaniaInput.sInsertaLosValoresDeParametros
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sLLamadoAModificarParametrosDesdePeriodoInput", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLLamadoAModificarParametrosDesdePeriodoInput", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fHasReglasContabilizacionWithCodigoCuenta(ByVal valCodigo As String) As Boolean
@@ -50,8 +38,7 @@ Public Function fHasReglasContabilizacionWithCodigoCuenta(ByVal valCodigo As Str
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fHasReglasContabilizacionWithCodigoCuenta = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fHasReglasContabilizacionWithCodigoCuenta", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fHasReglasContabilizacionWithCodigoCuenta", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fGetStrGeneradoPorOptionsWincont() As String
@@ -66,8 +53,7 @@ Private Function fGetStrGeneradoPorOptionsWincont() As String
    fGetStrGeneradoPorOptionsWincont = strOpciones
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "fGetStrGeneradoPorOptionsWincont", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fGetStrGeneradoPorOptionsWincont", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fEsComprobanteDeContabilizacionAutomatica(ByVal valGeneradoPorChr As String) As Boolean
@@ -78,8 +64,7 @@ Public Function fEsComprobanteDeContabilizacionAutomatica(ByVal valGeneradoPorCh
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fEsComprobanteDeContabilizacionAutomatica", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEsComprobanteDeContabilizacionAutomatica", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSePuedeEscogerElComprobanteParaLaAccion(ByVal valAction As AccionSobreRecord, ByVal valGeneradoPorChr As String, ByVal valNoDocumentoOrigen As String, ByVal valShowMessage As Boolean, ByVal valConsecutivoDocumento As Long) As Boolean
@@ -106,8 +91,7 @@ Public Function fSePuedeEscogerElComprobanteParaLaAccion(ByVal valAction As Acci
       Case Modificar
          If Not gProyUsuarioActual.GetModificarComprobantesAutomaticos Then
             If valShowMessage Then
-               gMessage.Advertencia "El usuario actual no tiene nivel de seguridad para " & gDefgen.AccionSobreRecordStr(valAction) & " " _
-                     & "comprobantes generados automáticamente desde el sistema administrativo."
+               gMessage.Advertencia "El usuario actual no tiene nivel de seguridad para " & gDefgen.AccionSobreRecordStr(valAction) & " comprobantes generados automáticamente desde el sistema administrativo."
             End If
             SePuede = False
          Else
@@ -130,8 +114,7 @@ Public Function fSePuedeEscogerElComprobanteParaLaAccion(ByVal valAction As Acci
 h_EXIT: On Error GoTo 0
    fSePuedeEscogerElComprobanteParaLaAccion = SePuede
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSePuedeEscogerElComprobanteParaLaAccion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSePuedeEscogerElComprobanteParaLaAccion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fElDocumentoDeOrigenDelComprobanteFueAnulado(ByVal valGeneradoPorChr As String, ByVal valNoDocumentoOrigen As String, ByVal valConsecutivoDocumentoOrigen As Long) As Boolean
@@ -185,20 +168,18 @@ Public Function fElDocumentoDeOrigenDelComprobanteFueAnulado(ByVal valGeneradoPo
 h_EXIT: On Error GoTo 0
    fElDocumentoDeOrigenDelComprobanteFueAnulado = varDocumentoAnulado
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fElDocumentoDeOrigenDelComprobanteFueAnulado", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fElDocumentoDeOrigenDelComprobanteFueAnulado", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sCopiaLasReglasDeContabilizacionDelCatalogo(ByVal valConsecutivoCompaniaEscogida As Long)
    Dim varReglasDeContabilizacionNavigator As clsReglasDeContabilizacionNavigator
    On Error GoTo h_ERROR
    Set varReglasDeContabilizacionNavigator = New clsReglasDeContabilizacionNavigator
-      varReglasDeContabilizacionNavigator.sCopiarReglasDeContabilizacion gProyCompaniaActual.GetConsecutivoCompania, valConsecutivoCompaniaEscogida
+   varReglasDeContabilizacionNavigator.sCopiarReglasDeContabilizacion gProyCompaniaActual.GetConsecutivoCompania, valConsecutivoCompaniaEscogida
    Set varReglasDeContabilizacionNavigator = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sCopiaLasReglasDeContabilizacionDelCatalogo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCopiaLasReglasDeContabilizacionDelCatalogo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fSeInicializanDatosParaVerificarExistenciaDelComprobanteDeContabilizacionAutomatica(ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valFechaDocumento As Date, ByRef refFechaDesde As Date, ByRef refFechaHasta As Date, ByRef refNumeroDocumentoOrigen As String) As Boolean
@@ -215,35 +196,29 @@ Public Function fSeInicializanDatosParaVerificarExistenciaDelComprobanteDeContab
       refFechaHasta = gUtilDate.fColocaUltimoDiaDelMes(valFechaDocumento)
    End If
    Set insGenerarComprobante = New clsGenerarComprobanteNavigator
-   refNumeroDocumentoOrigen = insGenerarComprobante.fConstruyeNumeroDocumentoDeOrigen( _
-                                                    refFechaDesde, refFechaHasta)
+   refNumeroDocumentoOrigen = insGenerarComprobante.fConstruyeNumeroDocumentoDeOrigen(refFechaDesde, refFechaHasta)
    Set insGenerarComprobante = Nothing
    puedoContinuar = True
 h_EXIT: On Error GoTo 0
    fSeInicializanDatosParaVerificarExistenciaDelComprobanteDeContabilizacionAutomatica = puedoContinuar
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSeInicializanDatosParaVerificarExistenciaDelComprobanteDeContabilizacionAutomatica", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSeInicializanDatosParaVerificarExistenciaDelComprobanteDeContabilizacionAutomatica", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fMensajeComprobanteResumenYaExiste(ByVal valModulo As enum_ComprobanteGeneradoPor, ByVal valFechaHasta As Date, ByVal valFechaDocumento As Date) As String
    Dim varMensaje As String
    On Error GoTo h_ERROR
-   varMensaje = "Este Comprobante Resumen que corresponde a la Contabilización del módulo de " & _
-                gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo)
+   varMensaje = "Este Comprobante Resumen que corresponde a la Contabilización del módulo de " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo)
    If gProyReglasDeContabilizacion.GetContabPorLoteCxCAsEnum = eCP_DIARIA Then
       varMensaje = varMensaje & " del Día " & gConvert.dateToString(valFechaHasta)
    Else
       varMensaje = varMensaje & " del Mes de " & gConvert.MesString(valFechaHasta)
    End If
-   varMensaje = varMensaje & " ya fue generado. " & vbCr & vbCr & _
-                "No pueden ser realizadas operaciones tales como Insertar, Modifica y Eliminar documentos con fecha " & _
-                gConvert.dateToString(valFechaDocumento)
+   varMensaje = varMensaje & " ya fue generado. " & vbCr & vbCr & "No pueden ser realizadas operaciones tales como Insertar, Modifica y Eliminar documentos con fecha " & gConvert.dateToString(valFechaDocumento)
    fMensajeComprobanteResumenYaExiste = varMensaje
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fMensajeComprobanteResumenYaExiste", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fMensajeComprobanteResumenYaExiste", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sColocaPeriodoInsertadoComoElActual(ByVal VarFechaDeApertura As Date)
@@ -259,8 +234,7 @@ Public Sub sColocaPeriodoInsertadoComoElActual(ByVal VarFechaDeApertura As Date)
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sColocaPeriodoInsertadoComoElActual", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sColocaPeriodoInsertadoComoElActual", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sSiLaCompaniaActualNoTienePeriodosPideElPrimero()
@@ -271,17 +245,13 @@ Public Sub sSiLaCompaniaActualNoTienePeriodosPideElPrimero()
    Set gBarrasDeMenu = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sSiLaCompaniaActualNoTienePeriodosPideElPrimero", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSiLaCompaniaActualNoTienePeriodosPideElPrimero", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sGenerarAuxiliaresDelGrupoEnElPeriodoActual(ByVal valGrupoAuxiliar As enum_GrupoAuxiliar, ByVal valTableName As String, _
-               ByVal valFieldNameCodigo As String, ByVal valFieldNameNombre As String, _
-               ByVal valFieldNameRIF As String, ByVal valFieldNameNIT As String)
+Public Sub sGenerarAuxiliaresDelGrupoEnElPeriodoActual(ByVal valGrupoAuxiliar As enum_GrupoAuxiliar, ByVal valTableName As String, ByVal valFieldNameCodigo As String, ByVal valFieldNameNombre As String, ByVal valFieldNameRIF As String, ByVal valFieldNameNIT As String)
    Dim varAuxiliarNavigator As clsAuxiliarNavigator
    Dim varSQL As String
    On Error GoTo h_ERROR
-   varSQL = ""
    Set varAuxiliarNavigator = New clsAuxiliarNavigator
    varSQL = "INSERT INTO " & varAuxiliarNavigator.GetTableName _
             & "(TipoDeAuxiliar" _
@@ -312,14 +282,12 @@ Public Sub sGenerarAuxiliaresDelGrupoEnElPeriodoActual(ByVal valGrupoAuxiliar As
             & " = '" & gConvert.enumerativoAChar(valGrupoAuxiliar) & "'" _
             & " AND " & varAuxiliarNavigator.GetTableName & ".ConsecutivoPeriodo" _
             & " = " & gContPeriodoActual.GetConsecutivoPeriodo & ")"
-            
    gDbUtil.Execute gDefDatabase.Conexion, varSQL
    gMessage.Success "Se generaron los auxiliares exitosamente"
    Set varAuxiliarNavigator = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "sGenerarAuxiliaresDelGrupoEnElPeriodoActual", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sGenerarAuxiliaresDelGrupoEnElPeriodoActual", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fCopiaClientesYProveedores(ByRef refPrgBarProceso As ProgressBar, ByRef refCompania As clsCompaniaNavigator) As Boolean
@@ -335,8 +303,7 @@ Public Function fCopiaClientesYProveedores(ByRef refPrgBarProceso As ProgressBar
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fCopiaClientesYProveedores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCopiaClientesYProveedores", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fCopiaLosProveedores(ByRef refPrgBarProceso As ProgressBar, ByRef refCompania As clsCompaniaNavigator) As Boolean
@@ -348,8 +315,7 @@ Private Function fCopiaLosProveedores(ByRef refPrgBarProceso As ProgressBar, ByR
    Set insProveedor = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fCopiaLosProveedores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCopiaLosProveedores", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fCopiaLosVendedores(ByRef refPrgBarProceso As ProgressBar, ByRef refCompania As clsCompaniaNavigator) As Boolean
@@ -361,8 +327,7 @@ Private Function fCopiaLosVendedores(ByRef refPrgBarProceso As ProgressBar, ByRe
    Set insVendedor = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fCopiaLosVendedores", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCopiaLosVendedores", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fCopiaLosZonaCobranza(ByRef refPrgBarProceso As ProgressBar, ByRef refCompania As clsCompaniaNavigator) As Boolean
@@ -374,8 +339,7 @@ Private Function fCopiaLosZonaCobranza(ByRef refPrgBarProceso As ProgressBar, By
    Set insZonaCobranza = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fCopiaLosZonaCobranza", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCopiaLosZonaCobranza", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fCopiaLosClientes(ByRef refPrgBarProceso As ProgressBar, ByRef refCompania As clsCompaniaNavigator) As Boolean
@@ -387,33 +351,19 @@ Private Function fCopiaLosClientes(ByRef refPrgBarProceso As ProgressBar, ByRef 
    Set insCliente = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fCopiaLosClientes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCopiaLosClientes", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sAddOtherOptionsMenuAuxiliar(ByRef refForma As Form, ByRef refNumSubMenu As Long, ByVal valPuedoActivar As Boolean)
    On Error GoTo h_ERROR
    Call gUtilMenus.fAddSeparador(refForma, refNumSubMenu)
-   Call gUtilMenus.fAddMenuItem(refForma, "Generar Auxiliares de Clientes", refNumSubMenu, _
-                                gProyUsuarioActual.GetModificarCliente And gProyUsuarioActual.GetInsertarTablas And _
-                                gDefgen.GetElProgramaEstaEnModoAvanzado And valPuedoActivar, False, eSC_NoShortcut, _
-                                gDefgen.GetElProgramaEstaEnModoAvanzado)
-   Call gUtilMenus.fAddMenuItem(refForma, "Generar Auxiliares de Proveedores", refNumSubMenu, _
-                                gProyUsuarioActual.GetModificarProveedor And gProyUsuarioActual.GetInsertarTablas And _
-                                gDefgen.GetElProgramaEstaEnModoAvanzado And valPuedoActivar, False, eSC_NoShortcut, _
-                                gDefgen.GetElProgramaEstaEnModoAvanzado)
-   Call gUtilMenus.fAddMenuItem(refForma, "Listar Auxiliares Sin Saldo (Todos los periodos)", refNumSubMenu, _
-                                gProyUsuarioActual.GetEsSupervisor And gProyUsuarioActual.GetEliminarTablas And _
-                                gDefgen.GetElProgramaEstaEnModoAvanzado And valPuedoActivar, False, eSC_NoShortcut, _
-                                gDefgen.GetElProgramaEstaEnModoAvanzado)
-   Call gUtilMenus.fAddMenuItem(refForma, "Listar Auxiliares Con Saldo (Todos los periodos)", refNumSubMenu, _
-                                gProyUsuarioActual.GetEsSupervisor And gProyUsuarioActual.GetConsultarTablas And _
-                                gDefgen.GetElProgramaEstaEnModoAvanzado And valPuedoActivar, False, eSC_NoShortcut, _
-                                gDefgen.GetElProgramaEstaEnModoAvanzado)
+   Call gUtilMenus.fAddMenuItem(refForma, "Generar Auxiliares de Clientes", refNumSubMenu, gProyUsuarioActual.GetModificarCliente And gProyUsuarioActual.GetInsertarTablas And gDefgen.GetElProgramaEstaEnModoAvanzado And valPuedoActivar, False, eSC_NoShortcut, gDefgen.GetElProgramaEstaEnModoAvanzado)
+   Call gUtilMenus.fAddMenuItem(refForma, "Generar Auxiliares de Proveedores", refNumSubMenu, gProyUsuarioActual.GetModificarProveedor And gProyUsuarioActual.GetInsertarTablas And gDefgen.GetElProgramaEstaEnModoAvanzado And valPuedoActivar, False, eSC_NoShortcut, gDefgen.GetElProgramaEstaEnModoAvanzado)
+   Call gUtilMenus.fAddMenuItem(refForma, "Listar Auxiliares Sin Saldo (Todos los periodos)", refNumSubMenu, gProyUsuarioActual.GetEsSupervisor And gProyUsuarioActual.GetEliminarTablas And gDefgen.GetElProgramaEstaEnModoAvanzado And valPuedoActivar, False, eSC_NoShortcut, gDefgen.GetElProgramaEstaEnModoAvanzado)
+   Call gUtilMenus.fAddMenuItem(refForma, "Listar Auxiliares Con Saldo (Todos los periodos)", refNumSubMenu, gProyUsuarioActual.GetEsSupervisor And gProyUsuarioActual.GetConsultarTablas And gDefgen.GetElProgramaEstaEnModoAvanzado And valPuedoActivar, False, eSC_NoShortcut, gDefgen.GetElProgramaEstaEnModoAvanzado)
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sAddOtherOptionsMenuAuxiliar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAddOtherOptionsMenuAuxiliar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sEjecutaAuxiliarGenerar(ByVal valEnumGrupoAuxiliar As enum_GrupoAuxiliar)
@@ -423,29 +373,23 @@ Public Sub sEjecutaAuxiliarGenerar(ByVal valEnumGrupoAuxiliar As enum_GrupoAuxil
    Select Case valEnumGrupoAuxiliar
       Case enum_GrupoAuxiliar.eGA_CLIENTES
          Set varClienteNavigator = New clsClienteNavigator
-         sGenerarAuxiliaresDelGrupoEnElPeriodoActual valEnumGrupoAuxiliar, varClienteNavigator.GetTableName, _
-               "Codigo", "Nombre", _
-               "NumeroRIF", "NumeroNIT"
+         sGenerarAuxiliaresDelGrupoEnElPeriodoActual valEnumGrupoAuxiliar, varClienteNavigator.GetTableName, "Codigo", "Nombre", "NumeroRIF", "NumeroNIT"
          Set varClienteNavigator = Nothing
       Case enum_GrupoAuxiliar.eGA_PROVEEDORES
          Set varProveedorNavigator = New clsProveedorNavigator
-         sGenerarAuxiliaresDelGrupoEnElPeriodoActual valEnumGrupoAuxiliar, varProveedorNavigator.GetTableName, _
-               "CodigoProveedor", "NombreProveedor", _
-               "NumeroRIF", "NumeroNIT"
+         sGenerarAuxiliaresDelGrupoEnElPeriodoActual valEnumGrupoAuxiliar, varProveedorNavigator.GetTableName, "CodigoProveedor", "NombreProveedor", "NumeroRIF", "NumeroNIT"
          Set varProveedorNavigator = Nothing
    End Select
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEjecutaAuxiliarGenerar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaAuxiliarGenerar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sEjecutaGenerarCXCyCXPaPartirDelComprobanteDeApertura()
    Dim insFrmComprobanteAperturaGenerarCXCyCXP As frmComprobanteAperturaGenerarCXCyCXP
    On Error GoTo h_ERROR
    If gAPI.fExistOpenForm(Forms) Then
-      gMessage.Advertencia "Debe cerrar todas las pantallas " & _
-         "para poder Generar las CXC y CXP a partir Comprobante Apertura"
+      gMessage.Advertencia "Debe cerrar todas las pantallas para poder Generar las CXC y CXP a partir Comprobante Apertura"
    ElseIf Not gContPeriodoActual.ExisteElComprobanteDeApertura Then
       gMessage.Advertencia "Debe crear el comprobante de apertura para poder ejecutar esta opción"
    Else
@@ -455,8 +399,7 @@ Public Sub sEjecutaGenerarCXCyCXPaPartirDelComprobanteDeApertura()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEjecutaGenerarCXCyCXPaPartirDelComprobanteDeApertura", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaGenerarCXCyCXPaPartirDelComprobanteDeApertura", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sEjecutaInformesDeContabilizacionAutomatica()
@@ -470,15 +413,14 @@ Public Sub sEjecutaInformesDeContabilizacionAutomatica()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEjecutaInformesDeContabilizacionAutomatica", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformesDeContabilizacionAutomatica", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub sEjecutaConversionInfo2000(ByVal valInvocadoDesdeGenerarApertura As Boolean)
+'
 End Sub
 
-Public Function fUnificarAuxiliarDeClienteOProveedor(ByVal valCodigoASustituir As String, _
-      ByVal valCodigoNuevo As String, ByVal valTipoDeAuxiliarChar As String) As Boolean
+Public Function fUnificarAuxiliarDeClienteOProveedor(ByVal valCodigoASustituir As String, ByVal valCodigoNuevo As String, ByVal valTipoDeAuxiliarChar As String) As Boolean
    Dim varAuxiliarNavigator As clsAuxiliarNavigator
    Dim varAsientoNavigator As clsAsientoNavigator
    Dim varCuentaNavigator As clsCuentaNavigator
@@ -541,8 +483,7 @@ Public Function fUnificarAuxiliarDeClienteOProveedor(ByVal valCodigoASustituir A
    Set varComprobanteNavigator = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fUnificarAuxiliarDeClienteOProveedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fUnificarAuxiliarDeClienteOProveedor", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSePuedeEscogerTipoDeComprobante(ByVal valAction As AccionSobreRecord, ByVal valCodigoTipoComprobante As String) As Boolean
@@ -567,8 +508,7 @@ Public Function fSePuedeEscogerTipoDeComprobante(ByVal valAction As AccionSobreR
 h_EXIT: On Error GoTo 0
    fSePuedeEscogerTipoDeComprobante = varSePuede
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSePuedeEscogerTipoDeComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSePuedeEscogerTipoDeComprobante", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSePuedeUnificarElAuxiliar(ByVal valTipoDeAuxiliarAsEnum As enum_GrupoAuxiliar, ByVal valCodigoAuxiliar As String) As Boolean
@@ -602,8 +542,7 @@ Public Function fSePuedeUnificarElAuxiliar(ByVal valTipoDeAuxiliarAsEnum As enum
 h_EXIT: On Error GoTo 0
    fSePuedeUnificarElAuxiliar = varSePuede
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSePuedeUnificarElAuxiliar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSePuedeUnificarElAuxiliar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sEliminaComprobantesAnuladosConSaldoDistintoDeCero()
@@ -662,8 +601,7 @@ Public Sub sEliminaComprobantesAnuladosConSaldoDistintoDeCero()
          varConjuntoDocumentosAnulados = gDbUtil.fBuildResultSetAsString(varSQL, True)
          varNroRegistrosEliminados = varComprobanteNavigator.fEliminaSiAplicaComprobantesAutomaticosAnulados(varEnum, varConjuntoDocumentosAnulados)
          If varNroRegistrosEliminados > 0 Then
-            gMessage.Advertencia "Eliminado(s) " & varNroRegistrosEliminados & " comprobante(s) del período actual " _
-               & " cuyo(s) saldo(s) era(n) distinto(s) de cero aún cuando provenía(n) de documento(s) anulado(s)."
+            gMessage.Advertencia "Eliminado(s) " & varNroRegistrosEliminados & " comprobante(s) del período actual cuyo(s) saldo(s) era(n) distinto(s) de cero aún cuando provenía(n) de documento(s) anulado(s)."
             varElimineAlMenosUNo = True
          End If
       End If
@@ -679,8 +617,7 @@ Public Sub sEliminaComprobantesAnuladosConSaldoDistintoDeCero()
    Set varFacturaNavigator = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sEliminaComprobantesAnuladosConSaldoDistintoDeCero", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEliminaComprobantesAnuladosConSaldoDistintoDeCero", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fHasExternalModuleWithCodigoCuentaContable(ByVal valCodigoCuenta As String, ByRef refReplayerRecordUserName As String) As Boolean
@@ -697,8 +634,7 @@ h_EXIT: On Error GoTo 0
    fHasExternalModuleWithCodigoCuentaContable = varHas
    Exit Function
 h_ERROR: fHasExternalModuleWithCodigoCuentaContable = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fHasExternalModuleWithCodigoCuentaContable", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fHasExternalModuleWithCodigoCuentaContable", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fHasCuentaBancariaWithCuentaContable(ByVal valCodigo As String) As Boolean
@@ -713,20 +649,15 @@ Private Function fHasCuentaBancariaWithCuentaContable(ByVal valCodigo As String)
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fHasCuentaBancariaWithCuentaContable = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fHasCuentaBancariaWithCuentaContable", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fHasCuentaBancariaWithCuentaContable", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fCuentaPuedeManejarAuxiliar(ByVal valCodigo As String) As Boolean
-   On Error Resume Next
    fCuentaPuedeManejarAuxiliar = True
-   On Error GoTo 0
 End Function
 
 Public Function fCuentaPuedeManejarActivoFijo(ByVal valCodigo As String) As Boolean
-   On Error Resume Next
    fCuentaPuedeManejarActivoFijo = True
-   On Error GoTo 0
 End Function
 
 Public Function fLaCuentaPerteneceALasReglasDeContabilizacion(ByVal valCodigo As String) As Boolean
@@ -737,46 +668,36 @@ Public Function fLaCuentaPerteneceALasReglasDeContabilizacion(ByVal valCodigo As
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fLaCuentaPerteneceALasReglasDeContabilizacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLaCuentaPerteneceALasReglasDeContabilizacion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fEstoyIntegradoConAdministrativo() As Boolean
-   On Error Resume Next
    fEstoyIntegradoConAdministrativo = True
-   On Error GoTo 0
 End Function
 
-Public Function fImprimirEspecialAlGrabarComprobante(ByVal valImprimirEspecialAlGrabarComprobante As Boolean, _
-                  ByVal valTipoDeComprobanteAImprimir As Byte, ByRef RefPagoProcesoDeImpresionEspecial As clsProcesoDeImpresionEspecial, _
-                  Optional ByVal valNumeroDeMovimientoBancario As Long = 1) As Boolean
+Public Function fImprimirEspecialAlGrabarComprobante(ByVal valImprimirEspecialAlGrabarComprobante As Boolean, ByVal valTipoDeComprobanteAImprimir As Byte, ByRef RefPagoProcesoDeImpresionEspecial As clsProcesoDeImpresionEspecial, Optional ByVal valNumeroDeMovimientoBancario As Long = 1) As Boolean
    Dim insPagoProcesoDeImpresionEspecial As clsProcesoDeImpresionEspecial
    On Error GoTo h_ERROR
    fImprimirEspecialAlGrabarComprobante = False
    If valImprimirEspecialAlGrabarComprobante Then
       Set insPagoProcesoDeImpresionEspecial = New clsProcesoDeImpresionEspecial
       If gProyParametrosCompania.GetImprimirComprobanteContableDePago Then
-         If valTipoDeComprobanteAImprimir = CM_IMPRIME_COMPROBANTE_DE_PAGO And _
-               TypeOf RefPagoProcesoDeImpresionEspecial Is clsProcesoDeImpresionEspecial Then
+         If valTipoDeComprobanteAImprimir = CM_IMPRIME_COMPROBANTE_DE_PAGO And TypeOf RefPagoProcesoDeImpresionEspecial Is clsProcesoDeImpresionEspecial Then
             Set insPagoProcesoDeImpresionEspecial = RefPagoProcesoDeImpresionEspecial
             insPagoProcesoDeImpresionEspecial.sImprimirComprobanteDePago eQI_TODO
             fImprimirEspecialAlGrabarComprobante = True
-         ElseIf valTipoDeComprobanteAImprimir = CM_IMPRIME_COMPROBANTE_DE_MOV_BANCARIO And _
-               TypeOf RefPagoProcesoDeImpresionEspecial Is clsProcesoDeImpresionEspecial Then
+         ElseIf valTipoDeComprobanteAImprimir = CM_IMPRIME_COMPROBANTE_DE_MOV_BANCARIO And TypeOf RefPagoProcesoDeImpresionEspecial Is clsProcesoDeImpresionEspecial Then
             Set insPagoProcesoDeImpresionEspecial = RefPagoProcesoDeImpresionEspecial
             gMessage.Advertencia "Prepare su impresora, se procederá a imprmir el cheque y sus comprobantes."
             insPagoProcesoDeImpresionEspecial.sImprimirComprobanteDeImpresiondeCheque eQI_TODO, valNumeroDeMovimientoBancario, reimprimir
             fImprimirEspecialAlGrabarComprobante = True
-         ElseIf valTipoDeComprobanteAImprimir = CM_IMPRIME_COMPROBANTE_DE_PAGO_SUELDOS() And _
-               TypeOf RefPagoProcesoDeImpresionEspecial Is clsProcesoDeImpresionEspecial Then
-          Set insPagoProcesoDeImpresionEspecial = RefPagoProcesoDeImpresionEspecial
-             
-           RefPagoProcesoDeImpresionEspecial.sImprimirComprobanteDeImpresiondeChequeParaPagos
+         ElseIf valTipoDeComprobanteAImprimir = CM_IMPRIME_COMPROBANTE_DE_PAGO_SUELDOS And TypeOf RefPagoProcesoDeImpresionEspecial Is clsProcesoDeImpresionEspecial Then
+            Set insPagoProcesoDeImpresionEspecial = RefPagoProcesoDeImpresionEspecial
+            RefPagoProcesoDeImpresionEspecial.sImprimirComprobanteDeImpresiondeChequeParaPagos
             fImprimirEspecialAlGrabarComprobante = True
          End If
       ElseIf gProyParametrosCompania.GetImprimirCompContDespuesDeChequeMovBancario Then
-         If valTipoDeComprobanteAImprimir = CM_IMPRIME_COMPROBANTE_DE_MOV_BANCARIO And _
-               TypeOf RefPagoProcesoDeImpresionEspecial Is clsProcesoDeImpresionEspecial Then
+         If valTipoDeComprobanteAImprimir = CM_IMPRIME_COMPROBANTE_DE_MOV_BANCARIO And TypeOf RefPagoProcesoDeImpresionEspecial Is clsProcesoDeImpresionEspecial Then
             Set insPagoProcesoDeImpresionEspecial = RefPagoProcesoDeImpresionEspecial
             gMessage.Advertencia "Prepare su impresora, se procederá a imprmir el cheque y sus comprobantes."
             insPagoProcesoDeImpresionEspecial.sImprimirComprobanteDeImpresiondeCheque eQI_TODO, valNumeroDeMovimientoBancario, reimprimir
@@ -788,8 +709,7 @@ Public Function fImprimirEspecialAlGrabarComprobante(ByVal valImprimirEspecialAl
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fImprimirEspecialAlGrabarComprobante = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fmImprimirEspecialAlGrabarComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fmImprimirEspecialAlGrabarComprobante", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fBuscaYEliminaCodigoAndGrupoAuxiliar(ByVal valCodigo As String, ByVal valTipoDeAuxiliarChar As String) As Boolean
@@ -809,30 +729,27 @@ Public Function fBuscaYEliminaCodigoAndGrupoAuxiliar(ByVal valCodigo As String, 
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fBuscaYEliminaCodigoAndGrupoAuxiliar = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fBuscaYEliminaCodigoAndGrupoAuxiliar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fBuscaYEliminaCodigoAndGrupoAuxiliar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fMostrarOpcionDeConversion() As Boolean
-   On Error Resume Next
    fMostrarOpcionDeConversion = False
-   On Error GoTo 0
 End Function
 
 Public Sub sEjecutaConversionDeInfoCont()
+'
 End Sub
 
 Public Sub sBorraLosDatosDeEstePeriodoDeLaTabla(ByVal valTableName As String, ByVal valFieldNameConsecutivoPeriodo As String, ByVal valConsecutivoPeriodo As Integer)
+'
 End Sub
 
 Public Sub sActivaModuloDeActivosFijosCopiandoCatalogo()
-   On Error Resume Next
-   On Error GoTo 0
+'
 End Sub
 
 Public Sub sActivaModuloDeAuxiliaresCopiandoCatalogo()
-   On Error Resume Next
-   On Error GoTo 0
+'
 End Sub
 
 Public Sub sActualizacionDeNoDocumentoOrigenDeFacturaYCxC(ByVal valUsaConsecutivoPeriodo As Boolean, Optional ByVal valConsecutivoPeriodoNew As Long = -1)
@@ -851,41 +768,20 @@ Public Sub sActualizacionDeNoDocumentoOrigenDeFacturaYCxC(ByVal valUsaConsecutiv
    Set insCxC = New clsCxCNavigator
    Set insComprobante = New clsComprobanteNavigator
    Set insperiodo = New clsPeriodoNavigator
-   sqlComun = gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.fSeparadorStandardDeElementosString) & _
-              gUtilSQL.CharConcat & insComprobante.GetTableName & ".NoDocumentoOrigen"
-   sqlSetClause = " SET " & insComprobante.GetTableName & ".NoDocumentoOrigen = " & _
-                  insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & sqlComun
-   sqlFromClause = insFactura.GetTableName & " INNER JOIN  (" & _
-                     insComprobante.GetTableName & " INNER JOIN " & insperiodo.GetTableName & _
-                     " ON " & insComprobante.GetTableName & ".ConsecutivoPeriodo" & _
-                     " = " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
-                     ") ON " & insperiodo.GetTableName & ".ConsecutivoCompania" & _
-                     " = " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA
-   sqlWhereClause = " WHERE " & insComprobante.GetTableName & ".GeneradoPor" & _
-                     " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComprobanteGeneradoPor.eCG_FACTURA) & _
-                     " AND " & insComprobante.GetTableName & ".NoDocumentoOrigen" & _
-                     " = " & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
+   sqlComun = gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue(gTexto.fSeparadorStandardDeElementosString) & gUtilSQL.CharConcat & insComprobante.GetTableName & ".NoDocumentoOrigen"
+   sqlSetClause = " SET " & insComprobante.GetTableName & ".NoDocumentoOrigen = " & insFactura.GetTableName & "." & insFactura.getFN_TIPO_DE_DOCUMENTO & sqlComun
+   sqlFromClause = insFactura.GetTableName & " INNER JOIN  (" & insComprobante.GetTableName & " INNER JOIN " & insperiodo.GetTableName & " ON " & insComprobante.GetTableName & ".ConsecutivoPeriodo = " & insperiodo.GetTableName & ".ConsecutivoPeriodo) ON " & insperiodo.GetTableName & ".ConsecutivoCompania = " & insFactura.GetTableName & "." & insFactura.getFN_CONSECUTIVO_COMPANIA
+   sqlWhereClause = " WHERE " & insComprobante.GetTableName & ".GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComprobanteGeneradoPor.eCG_FACTURA) & " AND " & insComprobante.GetTableName & ".NoDocumentoOrigen = " & insFactura.GetTableName & "." & insFactura.getFN_NUMERO
    If valUsaConsecutivoPeriodo Then
-      sqlWhereClause = sqlWhereClause & " AND " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
-                     " = " & valConsecutivoPeriodoNew
+      sqlWhereClause = sqlWhereClause & " AND " & insperiodo.GetTableName & ".ConsecutivoPeriodo = " & valConsecutivoPeriodoNew
    End If
    Sql = gUtilSQL.fSQLUpdateWithNJoin(insComprobante.GetTableName, sqlSetClause, sqlFromClause, sqlWhereClause)
    gDbUtil.Execute gDefDatabase.Conexion, Sql
-   sqlSetClause = " SET " & insComprobante.GetTableName & ".NoDocumentoOrigen = " & _
-                  insCxC.GetTableName & ".TipoCxC" & sqlComun
-   sqlFromClause = insCxC.GetTableName & " INNER JOIN (" & _
-                     insComprobante.GetTableName & " INNER JOIN " & insperiodo.GetTableName & _
-                     " ON " & insComprobante.GetTableName & ".ConsecutivoPeriodo" & _
-                     " = " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
-                     ") ON " & insperiodo.GetTableName & ".ConsecutivoCompania" & _
-                     " = " & insCxC.GetTableName & ".ConsecutivoCompania"
-   sqlWhereClause = " WHERE " & insComprobante.GetTableName & ".GeneradoPor" & _
-                     " = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComprobanteGeneradoPor.eCG_CXC) & _
-                     " AND " & insComprobante.GetTableName & ".NoDocumentoOrigen" & _
-                     " = " & insCxC.GetTableName & ".Numero"
+   sqlSetClause = " SET " & insComprobante.GetTableName & ".NoDocumentoOrigen = " & insCxC.GetTableName & ".TipoCxC" & sqlComun
+   sqlFromClause = insCxC.GetTableName & " INNER JOIN (" & insComprobante.GetTableName & " INNER JOIN " & insperiodo.GetTableName & " ON " & insComprobante.GetTableName & ".ConsecutivoPeriodo = " & insperiodo.GetTableName & ".ConsecutivoPeriodo) ON " & insperiodo.GetTableName & ".ConsecutivoCompania = " & insCxC.GetTableName & ".ConsecutivoCompania"
+   sqlWhereClause = " WHERE " & insComprobante.GetTableName & ".GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_ComprobanteGeneradoPor.eCG_CXC) & " AND " & insComprobante.GetTableName & ".NoDocumentoOrigen = " & insCxC.GetTableName & ".Numero"
    If valUsaConsecutivoPeriodo Then
-      sqlWhereClause = sqlWhereClause & " AND " & insperiodo.GetTableName & ".ConsecutivoPeriodo" & _
-                     " = " & valConsecutivoPeriodoNew
+      sqlWhereClause = sqlWhereClause & " AND " & insperiodo.GetTableName & ".ConsecutivoPeriodo = " & valConsecutivoPeriodoNew
    End If
    Sql = gUtilSQL.fSQLUpdateWithNJoin(insComprobante.GetTableName, sqlSetClause, sqlFromClause, sqlWhereClause)
    gDbUtil.Execute gDefDatabase.Conexion, Sql
@@ -895,8 +791,7 @@ Public Sub sActualizacionDeNoDocumentoOrigenDeFacturaYCxC(ByVal valUsaConsecutiv
    Set insperiodo = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "sActualizacionDeNoDocumentoOrigenDeFacturaYCxC", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sActualizacionDeNoDocumentoOrigenDeFacturaYCxC", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fConstruirSQLDelInformesDeDocumentosSinComprobante(ByVal valTipoDeDocumento As enum_ComprobanteGeneradoPor, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date) As String
@@ -938,8 +833,8 @@ Public Function fConstruirSQLDelInformesDeDocumentosSinComprobante(ByVal valTipo
          ConjuntoDeDocumentosSinContabilizar = gDbUtil.fBuildResultSetAsString(Sql)
          Sql = insCxP.fConstruirSQLDeCxPEntreFechas(valFechaInicial, valFechaFinal)
          If ConjuntoDeDocumentosSinContabilizar <> NOHAYDOCUMENTOSCONTABILIZADOS Then
-           Sql = Sql & " AND " & insCxP.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
-           Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
+            Sql = Sql & " AND " & insCxP.getFN_NO_DOC_ORIGEN_CONTABILIZACION_PARA_SQL(True)
+            Sql = Sql & " NOT IN (" & ConjuntoDeDocumentosSinContabilizar & ") "
          End If
          Sql = Sql & " ORDER BY " & insCxP.GetTableName & ".Fecha"
          Set insCxP = Nothing
@@ -1026,8 +921,7 @@ Public Function fConstruirSQLDelInformesDeDocumentosSinComprobante(ByVal valTipo
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fConstruirSQLDelInformesDeDocumentosSinComprobante = ""
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fConstruirSQLDelInformesDeDocumentosSinComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fConstruirSQLDelInformesDeDocumentosSinComprobante", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sInsertarLosRecordsDeTipoDeComprobante(ByVal valTableName As String, ByVal valFN_NombreDelTipo As String, ByVal valFN_CodigoDelTipo As String)
@@ -1055,18 +949,15 @@ Public Function getCampoTipodePlanillaISLR() As String
    On Error GoTo h_ERROR
    Set insCompania = New clsCompaniaNavigator
    getCampoTipodePlanillaISLR = "PersonaFiscal"
-'   getCampoTipodePlanillaISLR = ""
    Set insCompania = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-       "getCampoTipodePlanillaISLR", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "getCampoTipodePlanillaISLR", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fEjecutaProcesoPostEliminacion(ByVal valNumeroDocOrigen As String, ByVal valGeneradoPor As enum_ComprobanteGeneradoPor) As Boolean
    Dim vResultado As Boolean
    On Error GoTo h_ERROR
-   '***** OJO MAYEL: NADA DE ESTO FUNCIONA CON LOTE *****
    Select Case valGeneradoPor
       Case eCG_CXC: vResultado = True
       Case eCG_FACTURA: vResultado = True
@@ -1080,8 +971,7 @@ Public Function fEjecutaProcesoPostEliminacion(ByVal valNumeroDocOrigen As Strin
    fEjecutaProcesoPostEliminacion = vResultado
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-       "fEjecutaProcesoPostEliminacion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaProcesoPostEliminacion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fEjecutaProcesoPostEliminacionCxP(ByVal valNumeroDocOrigen As String) As Boolean
@@ -1112,8 +1002,7 @@ Private Function fEjecutaProcesoPostEliminacionCxP(ByVal valNumeroDocOrigen As S
    fEjecutaProcesoPostEliminacionCxP = vResultado
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-       "fEjecutaProcesoPostEliminacionCxP", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaProcesoPostEliminacionCxP", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fEjecutaProcesoPostEliminacionPago(ByVal valNumeroDocOrigen As String) As Boolean
@@ -1157,8 +1046,7 @@ Private Function fEjecutaProcesoPostEliminacionPago(ByVal valNumeroDocOrigen As 
    fEjecutaProcesoPostEliminacionPago = vResultado
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-       "fEjecutaProcesoPostEliminacionPago", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaProcesoPostEliminacionPago", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSearchExisteConciliacionAnterioraFecha(ByVal valCodigoCuenta As String, ByVal valFechaHasta As Date) As Boolean
@@ -1170,25 +1058,26 @@ Public Function fLaCompaniaActualNoTienePeriodos() As Boolean
 End Function
 
 Public Sub sEliminaReglasdeContabilizacionCiaActual(ByVal valConcecutivoCompania As Long)
+'
 End Sub
 
 Public Sub sLimpiaReglasDeContabilizacionClientesYProveedoresCiaActual()
+'
 End Sub
 
 Public Sub sGenerarAuxiliaresParaProveedoresYClientes(ByVal mModuloAImportar As enum_EntidadAExportarOImportar)
-On Error GoTo h_ERROR
-    If gProyCompaniaActual.GetTieneAccesoACaracteristicaContabilidadActiva And gProyCompaniaActual.GetUsaAuxiliares Then
-       If gMessage.Confirm("¿Desea generar los auxiliares para los " & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " importados?") Then
-          Select Case mModuloAImportar
-                 Case eEAEI_PROVEEDOR: sEjecutaAuxiliarGenerar enum_GrupoAuxiliar.eGA_PROVEEDORES
-                 Case eEAEI_CLIENTE: sEjecutaAuxiliarGenerar enum_GrupoAuxiliar.eGA_CLIENTES
-          End Select
-       End If
-    End If
+   On Error GoTo h_ERROR
+   If gProyCompaniaActual.GetTieneAccesoACaracteristicaContabilidadActiva And gProyCompaniaActual.GetUsaAuxiliares Then
+      If gMessage.Confirm("¿Desea generar los auxiliares para los " & gEnumProyecto.enumEntidadAExportarOImportarToString(mModuloAImportar) & " importados?") Then
+         Select Case mModuloAImportar
+            Case eEAEI_PROVEEDOR: sEjecutaAuxiliarGenerar enum_GrupoAuxiliar.eGA_PROVEEDORES
+            Case eEAEI_CLIENTE: sEjecutaAuxiliarGenerar enum_GrupoAuxiliar.eGA_CLIENTES
+         End Select
+      End If
+   End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-            "sGenerarAuxiliaresParaProveedoresYClientes", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sGenerarAuxiliaresParaProveedoresYClientes", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fSePuedeCrearUKEnComprobante() As Boolean
@@ -1197,7 +1086,7 @@ Public Function fSePuedeCrearUKEnComprobante() As Boolean
    Set insComprobante = New clsComprobanteNavigator
    fSePuedeCrearUKEnComprobante = True
    If insComprobante.fExistenComprobanteConNumerDocOrigenRepetido(True) Then
-         gMessage.Advertencia "Existen comprobantes con Número de documento Origen repetido, lo cual indica inconsistencia en su data, Comuníquese con el personal de Soporte de " & gDefgen.fNombreInformaticaGalac
+      gMessage.Advertencia "Existen comprobantes con Número de documento Origen repetido, lo cual indica inconsistencia en su data, Comuníquese con el personal de Soporte de " & gDefgen.fNombreInformaticaGalac
       fSePuedeCrearUKEnComprobante = False
    End If
    Set insComprobante = Nothing
@@ -1205,11 +1094,9 @@ h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fSePuedeCrearUKEnComprobante", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSePuedeCrearUKEnComprobante", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-'para revision(ConsecutivoDocumento para Comprobante -> 0)
 Public Function fNoConsecutivoDocOrigenCompraVenta()
    fNoConsecutivoDocOrigenCompraVenta = 0
 End Function
@@ -1217,17 +1104,21 @@ End Function
 Public Function fCambiaGeneradoPorEnIntegracion(ByRef refGeneradoPor As enum_ComprobanteGeneradoPor) As Boolean
    fCambiaGeneradoPorEnIntegracion = False
 End Function
+
 Public Sub sEliminaRecordCuentasFlujoEfectivo(ByVal valConsecutivoCompania As String)
 '
 End Sub
+
 Public Sub sInsertaElRecordDeCuentasFlujoEfectivo()
 '
 End Sub
+
 Public Sub sEjecutaDefinirCuentasDeFlujoEfectivo()
 '
 End Sub
+
 Public Function fExisteCuentaEnDefinicionFlujoEfectivo(ByVal valConsecutivoCompania As String, ByVal valCodigoCuenta As String) As Boolean
-        fExisteCuentaEnDefinicionFlujoEfectivo = False
+   fExisteCuentaEnDefinicionFlujoEfectivo = False
 End Function
 
 Public Sub sEjecutaInformesConexionConAxi()
@@ -1240,7 +1131,7 @@ Public Sub sEjecutaInformesConexionConAxi()
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformesConexionConAxi", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformesConexionConAxi", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fEsComprobanteGeneradoPorInventario(ByVal valGeneradoPorChr As String) As Boolean
@@ -1248,34 +1139,28 @@ Private Function fEsComprobanteGeneradoPorInventario(ByVal valGeneradoPorChr As 
    fEsComprobanteGeneradoPorInventario = False
    If (gConvert.enumerativoAChar(enum_ComprobanteGeneradoPor.eCG_INVENTARIO) = valGeneradoPorChr) Then
        fEsComprobanteGeneradoPorInventario = True
-        gMessage.Advertencia "Es un comprobante de costo de venta por lo que no es permitida esta operación, Gracias. "
+       gMessage.Advertencia "Es un comprobante de costo de venta por lo que no es permitida esta operación, Gracias. "
    End If
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-         "fEsComprobanteGeneradoPorInventario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEsComprobanteGeneradoPorInventario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
+
 Public Function fMuestraEstaOpcion() As Boolean
    Dim vResult As Boolean
    On Error GoTo h_ERROR
-    vResult = True
+   vResult = True
    If (gDefProg.GetSiglasDelPrograma = GetSiglasSAW()) Then
       vResult = (gProyParametrosCompania.GetMetodoDeCosteoAsEnum = eTDMDC_UltimoCosto)
    End If
    fMuestraEstaOpcion = vResult
 h_EXIT:  On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, " fMuestraEstaOpcion", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, " fMuestraEstaOpcion", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fExisteEnDefFlujoEfectivo(ByVal valCodigoAEliminar As String) As Boolean
-   Dim Existe As Boolean
-   On Error GoTo h_ERROR
-   Existe = False
-h_EXIT: On Error GoTo 0
-   fExisteEnDefFlujoEfectivo = Existe
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fExisteEnDefFlujoEfectivo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   fExisteEnDefFlujoEfectivo = False
 End Function
 
 Public Sub sEjecutaInformeTotalesCentroDeCostoEntreFechas(pgbProcess As ProgressBar, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal mDondeImprimir As enum_DondeImprimir, ByVal valIncluirSaldosPeriodosAntCuentasGanancias As Boolean, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, Optional ByVal valCodigoMoneda As String, Optional ByVal valNombreMoneda As String)
@@ -1289,14 +1174,11 @@ Public Sub sEjecutaInformeTotalesCentroDeCostoEntreFechas(pgbProcess As Progress
    Dim insConfigurar As clsRptCentroDeCtosConfigurar
    Dim insLib As clsLibWincont
    On Error GoTo h_ERROR
-   
    Set varReporte = New ActiveReport
    Set insConfigurar = New clsRptCentroDeCtosConfigurar
    Set insCalculaSaldos = New clsCalculaTotales
    Set insLib = New clsLibWincont
-   
    mTableNameMovCC = gContPeriodoActual.GenerarNombreParaTablasDeInformes("MovCentCostos")
-   
    If valFechaInicial > gContPeriodoActual.GetFechaAperturaDelPeriodo Then
       FechaFinal = gUtilDate.SumaNdias(valFechaInicial, -1)
       fechaInicial = gContPeriodoActual.GetFechaAperturaDelPeriodo
@@ -1316,7 +1198,7 @@ Public Sub sEjecutaInformeTotalesCentroDeCostoEntreFechas(pgbProcess As Progress
    Set insLib = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeTotalesCentroDeCostoEntreFechas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaInformeTotalesCentroDeCostoEntreFechas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Private Function fSQLMovimientosPorCentroDeCostos(ByVal identificadorDatos As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, Optional ByVal valCodigoMoneda As String) As String
    Dim Sql As String
@@ -1326,8 +1208,7 @@ Private Function fSQLMovimientosPorCentroDeCostos(ByVal identificadorDatos As St
    Dim NombreCampoTablaCambio As String
    On Error GoTo h_ERROR
    fSQLMovimientosPorCentroDeCostos = ""
-   
-      If (gDefProg.GetSiglasDelPrograma = GetSiglasIVA Or gDefProg.GetSiglasDelPrograma = GetSiglasWinCont Or gDefProg.GetSiglasDelPrograma = GetSiglasSAW) Then
+   If (gDefProg.GetSiglasDelPrograma = GetSiglasIVA Or gDefProg.GetSiglasDelPrograma = GetSiglasWinCont Or gDefProg.GetSiglasDelPrograma = GetSiglasSAW) Then
       NombreCampoTablaCambio = "CambioAMonedaLocal"
       NombreTablaCambio = "Comun.Cambio"
    Else
@@ -1344,7 +1225,6 @@ Private Function fSQLMovimientosPorCentroDeCostos(ByVal identificadorDatos As St
    Else
       varNombreTablaAsiento = "IGv_ListadoCentroDeCostos"
    End If
-   
    Sql = CteMovimientosDolar & " SELECT "
    Sql = Sql & "tblSaldoContableTemp.Codigo"
    Sql = Sql & gUtilSQL.CharConcat & gUtilSQL.fSimpleSqlValue("  -  ") & gUtilSQL.CharConcat
@@ -1369,11 +1249,10 @@ Private Function fSQLMovimientosPorCentroDeCostos(ByVal identificadorDatos As St
    fSQLMovimientosPorCentroDeCostos = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLMovimientosPorCentroDeCostos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLMovimientosPorCentroDeCostos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Sub sEjecutaElReporteBalanceComprobacionXCentroCosto(ByVal pgbProcess As ProgressBar, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal mDondeImprimir As enum_DondeImprimir, ByVal valCentrodeCosto As String, ByVal varNivelDeDetalle As Integer, ByVal valCedulaContador As String, ByVal valRifRepLegal As String, ByVal valsaltarPaginas As Boolean, ByRef refIncluirSaldosPeriodosAntCuentasGanancias As Boolean, ByRef refIncluirSaldoInicial As Boolean, ByRef refIncluirSaldoFinal As Boolean, ByRef refIncluirCodigoDeCuenta As Boolean, ByRef refIncluirCuentasSinMovConSaldoInicial As Boolean, ByRef refIdentificadorDatos As String, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, _
-                                                      Optional ByVal valCodigoMoneda As String, Optional ByVal valNombreMoneda As String)
+Public Sub sEjecutaElReporteBalanceComprobacionXCentroCosto(ByVal pgbProcess As ProgressBar, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal mDondeImprimir As enum_DondeImprimir, ByVal valCentrodeCosto As String, ByVal varNivelDeDetalle As Integer, ByVal valCedulaContador As String, ByVal valRifRepLegal As String, ByVal valsaltarPaginas As Boolean, ByRef refIncluirSaldosPeriodosAntCuentasGanancias As Boolean, ByRef refIncluirSaldoInicial As Boolean, ByRef refIncluirSaldoFinal As Boolean, ByRef refIncluirCodigoDeCuenta As Boolean, ByRef refIncluirCuentasSinMovConSaldoInicial As Boolean, ByRef refIdentificadorDatos As String, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, Optional ByVal valCodigoMoneda As String, Optional ByVal valNombreMoneda As String)
    Dim SqlDelReporte As String
    Dim SqlCentroDeCosto As String
    Dim maximoNivelDeDetalle As Integer
@@ -1395,8 +1274,8 @@ Public Sub sEjecutaElReporteBalanceComprobacionXCentroCosto(ByVal pgbProcess As 
    If varPuedoContinuar Then
       sConstruyeTablaDeBalCompCCYArmaSQLDelInforme pgbProcess, valFechaInicial, valFechaFinal, valCentrodeCosto, varNivelDeDetalle, SqlDelReporte, SqlCentroDeCosto, refIncluirSaldoInicial, refIncluirSaldoFinal, refIncluirCodigoDeCuenta, refIncluirCuentasSinMovConSaldoInicial, maximoNivelDeDetalle, refIncluirSaldosPeriodosAntCuentasGanancias, refIdentificadorDatos, valEsInformeConCodigoDeMoneda, valCodigoMoneda
       If insConfigurar.fConfigurarDatosDelReporteBalanceDeComprobacionCC(varReporte, SqlDelReporte, refIncluirSaldoInicial, refIncluirSaldoFinal, refIncluirCodigoDeCuenta, gConvert.fechaAString(valFechaInicial), gConvert.fechaAString(valFechaFinal), maximoNivelDeDetalle, valCedulaContador, valRifRepLegal, valsaltarPaginas, insNoComunWincontEcVzla.fUsaDatosParaLaFirmaEnInformes, _
-         gEnumProyectoWincont, gMonedaLocalActual, gContPeriodoActual, gContNiveles, gProyParametrosWinCont, gProyCompaniaActual, gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision, valNombreMoneda, Not valEsInformeConCodigoDeMoneda, insLib) Then
-           gUtilReports.sMostrarOImprimirReporte varReporte, 1, mDondeImprimir, gProyParametrosWinCont.fEnumTipoDeReporteToString(eRPT_BalanceDeComprobacionXCentroDeCostos)
+               gEnumProyectoWincont, gMonedaLocalActual, gContPeriodoActual, gContNiveles, gProyParametrosWinCont, gProyCompaniaActual, gProyParametros.GetImprimirNoPagina, gProyParametros.GetImprimirFechaDeEmision, valNombreMoneda, Not valEsInformeConCodigoDeMoneda, insLib) Then
+               gUtilReports.sMostrarOImprimirReporte varReporte, 1, mDondeImprimir, gProyParametrosWinCont.fEnumTipoDeReporteToString(eRPT_BalanceDeComprobacionXCentroDeCostos)
       End If
       gAPI.SetMouseNormal Me
       pgbProcess.Visible = False
@@ -1407,11 +1286,10 @@ Public Sub sEjecutaElReporteBalanceComprobacionXCentroCosto(ByVal pgbProcess As 
    Set insNoComunWincontEcVzla = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteBalanceComprobacionXCentroCosto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEjecutaElReporteBalanceComprobacionXCentroCosto", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Sub sConstruyeTablaDeBalCompCCYArmaSQLDelInforme(ByVal pgbProcess As ProgressBar, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCentrodeCosto As String, ByVal varNivelDeDetalle As Integer, ByRef refSQLDelReporte As String, ByRef refSqlCentroDeCostos As String, ByRef varIncluirSaldoInicial As Boolean, ByRef varIncluirSaldoFinal As Boolean, ByRef varIncluirCodigoDeCuenta As Boolean, ByRef refIncluirCuentasSinMovConSaldoInicial As Boolean, ByRef varMaximoNivelDeDetalle As Integer, ByRef refIncluirSaldosPeriodosAntCuentasGanancias As Boolean, ByRef mTableNameBalComproCC As String, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, _
-                                                      Optional ByVal valCodigoMoneda As String)
+Private Sub sConstruyeTablaDeBalCompCCYArmaSQLDelInforme(ByVal pgbProcess As ProgressBar, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal valCentrodeCosto As String, ByVal varNivelDeDetalle As Integer, ByRef refSQLDelReporte As String, ByRef refSqlCentroDeCostos As String, ByRef varIncluirSaldoInicial As Boolean, ByRef varIncluirSaldoFinal As Boolean, ByRef varIncluirCodigoDeCuenta As Boolean, ByRef refIncluirCuentasSinMovConSaldoInicial As Boolean, ByRef varMaximoNivelDeDetalle As Integer, ByRef refIncluirSaldosPeriodosAntCuentasGanancias As Boolean, ByRef mTableNameBalComproCC As String, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, Optional ByVal valCodigoMoneda As String)
    Dim borrarCuentasConSaldoCero As Boolean
    Dim fechaInicial As Date
    Dim FechaFinal As Date
@@ -1452,22 +1330,22 @@ Private Sub sConstruyeTablaDeBalCompCCYArmaSQLDelInforme(ByVal pgbProcess As Pro
    Set mCalculaSaldos = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sConstruyeTablaDeBalCompCCYArmaSQLDelInforme", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sConstruyeTablaDeBalCompCCYArmaSQLDelInforme", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Function fSQLCentroDeCostosEqualOrLike(ByVal valCodigoCentroDeCostos As String) As String
    Dim sqlCentroDeCostos  As String
    On Error GoTo h_ERROR
    fSQLCentroDeCostosEqualOrLike = ""
-   If valCodigoCentroDeCostos <> "" Then
-      sqlCentroDeCostos = " AND " & gUtilSQL.fSQLValue("tblSaldoContableTemp.CodeAux", valCodigoCentroDeCostos, False)
-   Else
+   If valCodigoCentroDeCostos = "" Then
       sqlCentroDeCostos = " AND tblSaldoContableTemp.CodeAux <> ''"
+   Else
+      sqlCentroDeCostos = " AND " & gUtilSQL.fSQLValue("tblSaldoContableTemp.CodeAux", valCodigoCentroDeCostos, False)
    End If
    fSQLCentroDeCostosEqualOrLike = sqlCentroDeCostos
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLCentroDeCostosEqualOrLike", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLCentroDeCostosEqualOrLike", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fSQLBalancePorCentroDeCostos(ByVal valTableName As String, ByVal valSqlCentroDeCostos As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, ByVal incluirCuentasSinMovimiento As Boolean) As String
@@ -1479,25 +1357,17 @@ Private Function fSQLBalancePorCentroDeCostos(ByVal valTableName As String, ByVa
    ConjuntoSQL = ConjuntoSQL & " AND (tblSaldoContableTemp.SaldoInicial = 0 "
    ConjuntoSQL = ConjuntoSQL & " AND tblSaldoContableTemp.SubTotalDebe = 0 "
    ConjuntoSQL = ConjuntoSQL & " AND tblSaldoContableTemp.SubTotalHaber = 0)"
-   Sql = ""
    Sql = "SELECT CentroDeCostos.Codigo,"
-   Sql = Sql & "': ' + CentroDeCostos.Descripcion AS DescripcionCC, "
-   Sql = Sql & "tblSaldoContableTemp.Codigo AS CodigoCuenta, "
-   Sql = Sql & "tblSaldoContableTemp.Descripcion, "
-   Sql = Sql & "tblSaldoContableTemp.TieneSubCuentas AS TieneSubCuentas, "
-   Sql = Sql & "SUM(tblSaldoContableTemp.SaldoInicial) AS SaldoInicial, "
-   Sql = Sql & "SUM(tblSaldoContableTemp.SubTotalDebe) AS SaldoDebe, "
-   Sql = Sql & "SUM(tblSaldoContableTemp.SubTotalHaber) AS SaldoHaber, "
-   Sql = Sql & "SUM(tblSaldoContableTemp.Saldo) AS SaldoActual, "
-   Sql = Sql & "MIN(tblSaldoContableTemp.CodeAux) "
+   Sql = Sql & "': ' + CentroDeCostos.Descripcion AS DescripcionCC, tblSaldoContableTemp.Descripcion, tblSaldoContableTemp.TieneSubCuentas AS TieneSubCuentas, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.SaldoInicial) AS SaldoInicial, SUM(tblSaldoContableTemp.SubTotalDebe) AS SaldoDebe, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.SubTotalHaber) AS SaldoHaber, SUM(tblSaldoContableTemp.Saldo) AS SaldoActual, MIN(tblSaldoContableTemp.CodeAux) "
    Sql = Sql & " FROM tblSaldoContableTemp INNER JOIN CentroDeCostos "
    Sql = Sql & " ON CentroDeCostos.Codigo = tblSaldoContableTemp.CodeAux "
    Sql = Sql & " AND CentroDeCostos.ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo
    Sql = Sql & " WHERE tblSaldoContableTemp.ID = " & gUtilSQL.fSimpleSqlValue(valTableName)
    Sql = Sql & " AND Grupo >=  " & gUtilSQL.fSimpleSqlValue("A")
    Sql = Sql & valSqlCentroDeCostos
-   If incluirCuentasSinMovimiento Then
-   Else
+   If Not incluirCuentasSinMovimiento Then
       Sql = Sql & " AND (tblSaldoContableTemp.Codigo NOT IN (" & ConjuntoSQL & "))"
    End If
    Sql = Sql & " GROUP BY CentroDeCostos.Codigo, CentroDeCostos.Descripcion, tblSaldoContableTemp.Codigo, tblSaldoContableTemp.Descripcion,tblSaldoContableTemp.TieneSubCuentas"
@@ -1505,11 +1375,10 @@ Private Function fSQLBalancePorCentroDeCostos(ByVal valTableName As String, ByVa
    fSQLBalancePorCentroDeCostos = Sql
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLBalancePorCentroDeCostos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSQLBalancePorCentroDeCostos", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub EliminarCuentasTituloNoValidas(ByVal identificadorDatos As String)
-   
    Dim Sql As String
    Sql = "DELETE  FROM tblSaldoContableTemp WHERE (tblSaldoContableTemp.TieneSubCuentas = " & gUtilSQL.fSimpleSqlValue("S")
    Sql = Sql & " OR tblSaldoContableTemp.TieneSubCuentas = " & gUtilSQL.fSimpleSqlValue("T") & ")"
@@ -1522,18 +1391,13 @@ Public Sub EliminarCuentasTituloNoValidas(ByVal identificadorDatos As String)
    gDbUtil.Execute Conexion, Sql
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "EliminarCuentasTituloNoValidas", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-   
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "EliminarCuentasTituloNoValidas", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Sub CompletarTablaDeSaldoyAuxiliares(ByVal valTableName As String, ByVal valFechaInicial As Date, ByVal valFechaFinal As Date, Optional ByVal valEsInformeConCodigoDeMoneda As Boolean = False, Optional ByVal valCodigoMoneda As String)
    Dim Sql As String
-
    Dim vMontoDebe As String
    Dim vMontoHaber As String
-
-
-
    Dim vSaldo As String
    Dim insWcoViews As clsWcoViews
    Dim vRecordset As ADODB.Recordset
@@ -1547,7 +1411,6 @@ Public Sub CompletarTablaDeSaldoyAuxiliares(ByVal valTableName As String, ByVal 
    Set vRecordset = New ADODB.Recordset
    Set insWcoViews = New clsWcoViews
    Set insCalculaTotales = New clsCalculaTotales
-   
    If (gDefProg.GetSiglasDelPrograma = GetSiglasIVA Or gDefProg.GetSiglasDelPrograma = GetSiglasWinCont Or gDefProg.GetSiglasDelPrograma = GetSiglasSAW) Then
       NombreCampoTablaCambio = "CambioAMonedaLocal"
       NombreTablaCambio = "Comun.Cambio"
@@ -1565,19 +1428,14 @@ Public Sub CompletarTablaDeSaldoyAuxiliares(ByVal valTableName As String, ByVal 
    Else
       varNombreTablaAsiento = insWcoViews.GetViewCuentasPorCentroDeCostos
    End If
-   
    vSaldo = gUtilSQL.getIIF(" tblSaldoContableTemp.Saldo IS NULL ", 0, "tblSaldoContableTemp.Saldo", True)
    vMontoDebe = gUtilSQL.getIIF(varNombreTablaAsiento & ".MontoDebe IS NULL ", 0, varNombreTablaAsiento & ".MontoDebe", True)
    vMontoHaber = gUtilSQL.getIIF(varNombreTablaAsiento & ".MontoHaber IS NULL ", 0, varNombreTablaAsiento & ".MontoHaber", True)
-   Sql = ""
    Sql = CteMovimientosDolar & " SELECT tblSaldoContableTemp.CodeAux AS CodigoCC, "
    Sql = Sql & "tblSaldoContableTemp.Codigo AS CodigoCuenta, "
-   Sql = Sql & "tblSaldoContableTemp.Descripcion, "
-   Sql = Sql & "MIN " & vSaldo & "   AS SaldoInicial, "
-   Sql = Sql & "SUM" & vMontoDebe & " as SaldoDebe, "
-   Sql = Sql & "SUM" & vMontoHaber & " as SaldoHaber, "
-   Sql = Sql & "SUM(" & vSaldo & "  + (" & vMontoDebe & " - " & vMontoHaber & ")) AS SaldoActual, "
-   Sql = Sql & " AplicaReconversion "
+   Sql = Sql & "tblSaldoContableTemp.Descripcion, MIN " & vSaldo & "   AS SaldoInicial, "
+   Sql = Sql & "SUM" & vMontoDebe & " as SaldoDebe, SUM" & vMontoHaber & " as SaldoHaber, "
+   Sql = Sql & "SUM(" & vSaldo & "  + (" & vMontoDebe & " - " & vMontoHaber & ")) AS SaldoActual, AplicaReconversion "
    Sql = Sql & " FROM tblSaldoContableTemp "
    Sql = Sql & " LEFT JOIN " & varNombreTablaAsiento
    Sql = Sql & " ON " & varNombreTablaAsiento & ".Codigo = tblSaldoContableTemp.CodeAux"
@@ -1588,18 +1446,17 @@ Public Sub CompletarTablaDeSaldoyAuxiliares(ByVal valTableName As String, ByVal 
    Sql = Sql & " AND tblSaldoContableTemp.TieneSubCuentas = " & gUtilSQL.fSimpleSqlValue(gConvert.ConvertBooleanToString(False))
    Sql = Sql & " GROUP BY tblSaldoContableTemp.CodeAux, tblSaldoContableTemp.Codigo, tblSaldoContableTemp.Descripcion,AplicaReconversion "
    Sql = Sql & " ORDER BY tblSaldoContableTemp.CodeAux, tblSaldoContableTemp.Codigo, tblSaldoContableTemp.Descripcion,AplicaReconversion "
-
    If gDbUtil.fOpenRecordset(vRecordset, Sql, Conexion) Then
       If gDbUtil.fRecordCount(vRecordset) > 0 Then
          vRecordset.MoveFirst
          While Not vRecordset.EOF
-         vUpdateSQL = "UPDATE tblSaldoContableTemp SET SaldoInicial = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoInicial").value)
-         vUpdateSQL = vUpdateSQL & ", SubTotalDebe = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoDebe").value) & ", SubTotalHaber = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoHaber").value) & ", Saldo = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoActual").value)
-         vUpdateSQL = vUpdateSQL & " WHERE Codigo = " & gUtilSQL.fSimpleSqlValue(vRecordset("CodigoCuenta").value)
-         vUpdateSQL = vUpdateSQL & " AND CodeAux = " & gUtilSQL.fSimpleSqlValue(vRecordset("CodigoCC").value)
-         vUpdateSQL = vUpdateSQL & " AND ID = " & gUtilSQL.fSimpleSqlValue(valTableName)
-         gDbUtil.Execute Conexion, vUpdateSQL
-         vRecordset.MoveNext
+            vUpdateSQL = "UPDATE tblSaldoContableTemp SET SaldoInicial = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoInicial").value)
+            vUpdateSQL = vUpdateSQL & ", SubTotalDebe = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoDebe").value) & ", SubTotalHaber = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoHaber").value) & ", Saldo = " & gUtilSQL.fNumToStrSQL(vRecordset("SaldoActual").value)
+            vUpdateSQL = vUpdateSQL & " WHERE Codigo = " & gUtilSQL.fSimpleSqlValue(vRecordset("CodigoCuenta").value)
+            vUpdateSQL = vUpdateSQL & " AND CodeAux = " & gUtilSQL.fSimpleSqlValue(vRecordset("CodigoCC").value)
+            vUpdateSQL = vUpdateSQL & " AND ID = " & gUtilSQL.fSimpleSqlValue(valTableName)
+            gDbUtil.Execute Conexion, vUpdateSQL
+            vRecordset.MoveNext
          Wend
       End If
    End If
@@ -1609,7 +1466,7 @@ Public Sub CompletarTablaDeSaldoyAuxiliares(ByVal valTableName As String, ByVal 
    Set insCalculaTotales = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "CalcularMontosBalanceXCentroDeCosto", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "CalcularMontosBalanceXCentroDeCosto", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Public Sub sEliminaDatosEsquemasAsociadosAPeriodo(ByVal valConsecutivoPeriodo As Long)
    Dim insEsquemaBalanceMov As clsEsquemaDeBalanceMovNavigator
@@ -1628,22 +1485,17 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEliminaDatosEsquemasAsociadosAPeriodo", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sEliminaDatosEsquemasAsociadosAPeriodo", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fPuedoContinuar() As Boolean
-   Dim vContinuar As Boolean
    On Error GoTo h_ERROR
-   vContinuar = True
-   If Not gProyCompaniaActual.GetUsaModuloDeContabilidad Then
-      vContinuar = False
-   End If
-   fPuedoContinuar = vContinuar
+   fPuedoContinuar = gProyCompaniaActual.GetUsaModuloDeContabilidad
 h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fPuedoContinuar", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fPuedoContinuar", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Sub sCambiaLaBarraDeMenuSiEsNecesario()
@@ -1653,7 +1505,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Sub
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCambiaLaBarraDeMenuSiEsNecesario", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sCambiaLaBarraDeMenuSiEsNecesario", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Public Function fGetDatosCompaniaSAWForXML() As String
@@ -1666,7 +1518,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fGetDatosCompaniaSAWForXML", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fGetDatosCompaniaSAWForXML", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fCreateElement(ByVal valNameElement As String, ByVal valValueElement As String, Optional ByVal valElementoAbreYCierraEnUnaLinea As Boolean = False) As String
@@ -1701,7 +1553,7 @@ h_EXIT:
    On Error GoTo 0
    Exit Function
 h_ERROR:
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCompaniaUsaModuloContabilidad", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fCompaniaUsaModuloContabilidad", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fEjecutaProcesoPostEliminacionCobranza(ByVal valNumeroDocOrigen As String) As Boolean
@@ -1720,8 +1572,7 @@ Private Function fEjecutaProcesoPostEliminacionCobranza(ByVal valNumeroDocOrigen
    fEjecutaProcesoPostEliminacionCobranza = vResultado
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-       "fEjecutaProcesoPostEliminacionCobranza", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fEjecutaProcesoPostEliminacionCobranza", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fExisteLaTasaDelDia(ByVal valFechaDeVigencia As Date, ByVal valCodigoMoneda As String, ByRef refCambioAbolivares As String) As Boolean
@@ -1740,7 +1591,7 @@ Public Function fExisteLaTasaDelDia(ByVal valFechaDeVigencia As Date, ByVal valC
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: fExisteLaTasaDelDia = False
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fexisteLaTasaDelDia", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fexisteLaTasaDelDia", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 Private Function sCalculaResultadoDelEjercicio(ByVal valEsInformeConCodigoDeMoneda As Boolean, ByVal valCalculaSaldos As clsCalculaTotales, ByVal valTableName As String)
    Dim varMontoDebe As Currency
@@ -1761,7 +1612,6 @@ Private Function sCalculaResultadoDelEjercicio(ByVal valEsInformeConCodigoDeMone
    If gContPeriodoActual.ExisteElComprobanteDeCierreDeCuentasDeResultado And valEsInformeConCodigoDeMoneda Then
       Set mrsTemp = New ADODB.Recordset
       Set inscuentaNavigator = New clsCuentaNavigator
-      Sql = ""
       varCodigoCuentaResultado = gContPeriodoActual.GetCierreDelEjercicio
       If inscuentaNavigator.fSearchCuentaByCodigo(gContPeriodoActual.GetCuentaResultadoDelEjercicio, True) Then
          varNombreCampo = "Codigo"
@@ -1769,23 +1619,19 @@ Private Function sCalculaResultadoDelEjercicio(ByVal valEsInformeConCodigoDeMone
          varCuentaCosto = fConvierteLikeSQL(varCuentaCosto, varNombreCampo, gContPeriodoActual.getArrayCosto, "OR")
          varCuentaGasto = fConvierteLikeSQL(varCuentaGasto, varNombreCampo, gContPeriodoActual.getArrayGasto, "OR")
          varSQLWhere = varSQLWhere & "(" & varCuentaIngreso & varCuentaCosto & varCuentaGasto & ") "
-         Sql = ""
          Sql = "Select SUM(SubTotalDebe) as mTotalDebe, sum(SubTotalHaber) as mTotalHaber FROM " & valCalculaSaldos.getTNSaldoTemp & " WHERE " & varSQLWhere & " AND TieneSubCuentas = 'N' AND " & valCalculaSaldos.SQLIdentificador(valTableName)
          gDbUtil.OpenRecordset mrsTemp, Sql
          varMontoDebe = mrsTemp("mTotalDebe")
          varMontoHaber = mrsTemp("mTotalHaber")
          varResultadoDelEjercicio = 0
          varResultadoDelEjercicio = varMontoDebe - varMontoHaber
-         Sql = ""
          If varResultadoDelEjercicio > 0 Then
             Sql = "UPDATE tblSaldoContableTemp SET SaldoInicial = 0, SubTotalDebe = " & gUtilSQL.fNumToStrSQL(varResultadoDelEjercicio) & " + SubTotalDebe, Saldo = " & gUtilSQL.fNumToStrSQL(varResultadoDelEjercicio) & " WHERE Codigo = '" & varCodigoCuentaResultado & "' AND ID = '" & valTableName & "'"
          Else
             Sql = "UPDATE tblSaldoContableTemp SET SaldoInicial = 0, SubTotalHaber = (" & gUtilSQL.fNumToStrSQL(varResultadoDelEjercicio) & " *-1) + SubTotalHaber, Saldo = " & gUtilSQL.fNumToStrSQL(varResultadoDelEjercicio) & " WHERE Codigo = '" & varCodigoCuentaResultado & "' AND ID = '" & valTableName & "'"
          End If
       End If
-      
       gDbUtil.Execute Conexion, Sql
-      Sql = ""
       Sql = "UPDATE  tblSaldoContableTemp SET SubTotalDebe = (CASE WHEN SubTotalDebe < SubTotalHaber THEN SubTotalHaber ELSE SubTotalDebe END), SubTotalHaber = (CASE WHEN SubTotalHaber < SubTotalDebe THEN SubTotalDebe ELSE SubTotalHaber END) WHERE " & varSQLWhere & " AND ID = '" & valTableName & "'"
       gDbUtil.Execute Conexion, Sql
       Set mrsTemp = Nothing
