@@ -33,8 +33,8 @@ Private Sub sAddForeignKeys()
    On Error GoTo h_ERROR
    usarSoloUnElementoEnLaRelacion = True
    deleteOnCascade = True
-   gDbUtil.AddForeignKeySegunTablaPrimaria "Vendedor", GetTableName(), "Codigo", _
-         "CodigoVendedor", Not usarSoloUnElementoEnLaRelacion, _
+   gDbUtil.AddForeignKeySegunTablaPrimaria "Vendedor", GetTableName(), "Consecutivo", _
+         "ConsecutivoVendedor", Not usarSoloUnElementoEnLaRelacion, _
          "ConsecutivoCompania", "ConsecutivoCompania", deleteOnCascade
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -69,7 +69,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    On Error GoTo h_ERROR
    SQL = gUtilSQL.fCreateTable(GetTableName()) & " ( "
    SQL = SQL & "ConsecutivoCompania " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "Consecutiv NOT NULL, "
-   SQL = SQL & "CodigoVendedor " & gUtilSQL.getVarCharTypeForDB(5) & " CONSTRAINT nn" & GetTableName() & "CodigoVend NOT NULL, "
+   SQL = SQL & "ConsecutivoVendedor " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "ConsecVend NOT NULL, "
    SQL = SQL & "ConsecutivoRenglon " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "Consecutiv NOT NULL, "
    SQL = SQL & "NombreDeLineaDeProducto " & gUtilSQL.getVarCharTypeForDB(20) & " CONSTRAINT nn" & GetTableName() & "NombreDeLi NOT NULL, "
    SQL = SQL & "TipoDeComision " & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "TipoDeComi NOT NULL, "

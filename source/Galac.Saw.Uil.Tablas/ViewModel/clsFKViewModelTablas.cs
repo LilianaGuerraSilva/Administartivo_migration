@@ -96,6 +96,12 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
 	public class FkImpuestoBancarioViewModel:IFkImpuestoBancarioViewModel {
         public DateTime FechaDeInicioDeVigencia { get; set; }        
     }
+	
+	public class FkRutaDeComercializacionViewModel : IFkRutaDeComercializacionViewModel {
+        public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
+        public string Descripcion { get; set; }
+    }	
 }
 
 

@@ -95,7 +95,7 @@
       <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Ccl.Vendedor\Galac.Saw.Ccl.Vendedor.csproj">
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
       <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
       <Name>Galac.Saw.Ccl.Vendedor</Name>
     </ProjectReference>

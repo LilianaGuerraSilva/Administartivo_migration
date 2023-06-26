@@ -48,6 +48,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("FechaAnulacion" + InsSql.DateTypeForDb() + " CONSTRAINT d_CobFeAn DEFAULT (''), ");
             SQL.AppendLine("CodigoCliente" + InsSql.VarCharTypeForDb(10) + " CONSTRAINT d_CobCoCl DEFAULT (''), ");
             SQL.AppendLine("CodigoCobrador" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CobCoCo DEFAULT (''), ");
+            SQL.AppendLine("ConsecutivoCobrador" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT d_CobCoCo DEFAULT (0), ");
             SQL.AppendLine("TotalDocumentos" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CobToDo DEFAULT (0), ");
             SQL.AppendLine("RetencionISLR" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CobReIS DEFAULT (0), ");
             SQL.AppendLine("TotalCobrado" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CobToCo DEFAULT (0), ");
@@ -82,9 +83,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(", CONSTRAINT fk_CobranzaCliente FOREIGN KEY (ConsecutivoCompania, CodigoCliente)");
             SQL.AppendLine("REFERENCES Saw.Cliente(ConsecutivoCompania, codigo)");
             SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_CobranzaVendedor FOREIGN KEY (ConsecutivoCompania, CodigoCobrador)");
-            SQL.AppendLine("REFERENCES dbo.Vendedor(ConsecutivoCompania, codigo)");
-            SQL.AppendLine("ON UPDATE CASCADE");
+            SQL.AppendLine(", CONSTRAINT fk_CobranzaVende FOREIGN KEY (ConsecutivoCompania, ConsecutivoCobrador)");
+            SQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
+            SQL.AppendLine("ON UPDATE NO ACTION");
             SQL.AppendLine(", CONSTRAINT fk_CobranzaMoneda FOREIGN KEY (Moneda)");
             SQL.AppendLine("REFERENCES Comun.Moneda(Nombre)");
             SQL.AppendLine("ON UPDATE CASCADE");
@@ -121,8 +122,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" = " + DbSchema + ".Gv_EnumStatusRetencionIVACobranza.DbValue");
             SQL.AppendLine("INNER JOIN Saw.Cliente ON  " + DbSchema + ".Cobranza.CodigoCliente = Saw.Cliente.codigo");
             SQL.AppendLine("      AND " + DbSchema + ".Cobranza.ConsecutivoCompania = Saw.Cliente.ConsecutivoCompania");
-            SQL.AppendLine("INNER JOIN dbo.Vendedor ON  " + DbSchema + ".Cobranza.CodigoCobrador = dbo.Vendedor.codigo");
-            SQL.AppendLine("      AND " + DbSchema + ".Cobranza.ConsecutivoCompania = dbo.Vendedor.ConsecutivoCompania");
+            SQL.AppendLine("INNER JOIN Adm.Vendedor ON  " + DbSchema + ".Cobranza.CodigoCobrador = Adm.Vendedor.codigo");
+            SQL.AppendLine("      AND " + DbSchema + ".Cobranza.ConsecutivoCompania = Adm.Vendedor.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Comun.Moneda ON  " + DbSchema + ".Cobranza.Moneda = Comun.Moneda.Nombre");
             return SQL.ToString();
         }
@@ -597,7 +598,7 @@ namespace Galac.Adm.Dal.Venta {
             bool vResult = false;
             LibViews insVistas = new LibViews();
             vResult = insVistas.Create(DbSchema + ".Gv_EnumStatusCobranza", LibTpvCreator.SqlViewStandardEnum(typeof(eStatusCobranza), InsSql), true, true);
-            vResult = insVistas.Create(DbSchema + ".Gv_EnumTarjeta", LibTpvCreator.SqlViewStandardEnum(typeof(eTarjeta), InsSql), true, true);
+            vResult = insVistas.Create(DbSchema + ".Gv_EnumTarjeta", LibTpvCreator.SqlViewStandardEnum(typeof(eTipoDeTarjeta), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_EnumOrigenFacturacionOManual", LibTpvCreator.SqlViewStandardEnum(typeof(eOrigenFacturacionOManual), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_EnumStatusRetencionIVACobranza", LibTpvCreator.SqlViewStandardEnum(typeof(eStatusRetencionIVACobranza), InsSql), true, true);
             vResult = insVistas.Create(DbSchema + ".Gv_Cobranza_B1", SqlViewB1(), true);
@@ -623,10 +624,10 @@ namespace Galac.Adm.Dal.Venta {
             if (CrearTabla()) {
                 CrearVistas();
                 CrearProcedimientos();
-                clsDocumentoCobradoED insDetailDocCob = new clsDocumentoCobradoED();
-                vResult = insDetailDocCob.InstalarTabla();
-                clsDetalleDeCobranzaED insDetailDetDeCob = new clsDetalleDeCobranzaED();
-                vResult = vResult && insDetailDetDeCob.InstalarTabla();
+                //clsDocumentoCobradoED insDetailDocCob = new clsDocumentoCobradoED();
+                //vResult = insDetailDocCob.InstalarTabla();
+                //clsDetalleDeCobranzaED insDetailDetDeCob = new clsDetalleDeCobranzaED();
+                //vResult = vResult && insDetailDetDeCob.InstalarTabla();
             }
             return vResult;
         }
@@ -636,8 +637,8 @@ namespace Galac.Adm.Dal.Venta {
             if (insDbo.Exists(DbSchema + ".Cobranza", eDboType.Tabla)) {
                 CrearVistas();
                 CrearProcedimientos();
-                vResult = new clsDocumentoCobradoED().InstalarVistasYSps();
-                vResult = vResult && new clsDetalleDeCobranzaED().InstalarVistasYSps();
+                //vResult = new clsDocumentoCobradoED().InstalarVistasYSps();
+                //vResult = vResult && new clsDetalleDeCobranzaED().InstalarVistasYSps();
             }
             return vResult;
         }
@@ -646,8 +647,8 @@ namespace Galac.Adm.Dal.Venta {
             bool vResult = false;
             LibStoredProc insSp = new LibStoredProc();
             LibViews insVista = new LibViews();
-            vResult = new clsDocumentoCobradoED().BorrarVistasYSps();
-            vResult = new clsDetalleDeCobranzaED().BorrarVistasYSps() && vResult;
+            //vResult = new clsDocumentoCobradoED().BorrarVistasYSps();
+            //vResult = new clsDetalleDeCobranzaED().BorrarVistasYSps() && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_CobranzaINS") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_CobranzaUPD") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_CobranzaDEL") && vResult;

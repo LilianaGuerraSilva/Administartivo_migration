@@ -14,7 +14,7 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Private Const CM_FILE_NAME As String = "clsDefFacturaCotizacion"
-Private Const CM_MESSAGE_NAME As String = "Def Factura y Cotización"
+Private Const CM_MESSAGE_NAME As String = "Def Factura y Cotizaciï¿½n"
 
 Enum enum_ClaseDeTrabajoFacturaCotizacion
    eCTFC_Factura = 0
@@ -66,6 +66,10 @@ End Function
 
 Public Function getFN_CODIGO_VENDEDOR(ByVal valClaseDeTrabajo As enum_ClaseDeTrabajoFacturaCotizacion) As String
    getFN_CODIGO_VENDEDOR = "CodigoVendedor"
+End Function
+
+Public Function getFN_CONSECUTIVO_VENDEDOR(ByVal valClaseDeTrabajo As enum_ClaseDeTrabajoFacturaCotizacion) As String
+   getFN_CONSECUTIVO_VENDEDOR = "ConsecutivoVendedor"
 End Function
 
 Public Function getFN_NOMBRE_VENDEDOR(ByVal valClaseDeTrabajo As enum_ClaseDeTrabajoFacturaCotizacion) As String

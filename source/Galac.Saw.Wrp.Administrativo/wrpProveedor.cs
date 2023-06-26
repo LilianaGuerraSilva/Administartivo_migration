@@ -39,8 +39,8 @@ namespace Galac.Saw.Wrp.GestionCompras {
         void IWrpProveedorVb.Execute(string vfwAction, string vfwCurrentMfc, string vfwCurrentParameters) {
             try {
                 //CreateGlobalValues(vfwCurrentParameters);
- 
-               LibGlobalValues insGV = CreateGlobalValues(vfwCurrentMfc, vfwCurrentParameters);
+
+                LibGlobalValues insGV = CreateGlobalValues(vfwCurrentMfc, vfwCurrentParameters);
                 ILibMenu insMenu = new Galac.Adm.Uil.GestionCompras.clsProveedorMenu();
                 insMenu.Ejecuta((eAccionSR)new LibEAccionSR().ToInt(vfwAction), 1);
             } catch (GalacException gEx) {

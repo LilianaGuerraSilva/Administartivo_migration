@@ -81,6 +81,8 @@
     <Compile Include="clsNotaFinalED.cs" />
     <Compile Include="clsPropAnalisisVencDat.cs" />
     <Compile Include="clsPropAnalisisVencED.cs" />
+    <Compile Include="clsRutaDeComercializacionDat.cs" />
+    <Compile Include="clsRutaDeComercializacionED.cs" />
     <Compile Include="clsTipoProveedorDat.cs" />
     <Compile Include="clsTipoProveedorED.cs" />
     <Compile Include="clsUnidadDeVentaDat.cs" />
