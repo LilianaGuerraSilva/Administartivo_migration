@@ -51,6 +51,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInDateTime("Fecha", valRecord.Fecha);
             vParams.AddInString("CodigoCliente", valRecord.CodigoCliente, 10);
             vParams.AddInString("CodigoVendedor", valRecord.CodigoVendedor, 5);
+            vParams.AddInInteger("ConsecutivoVendedor", valRecord.ConsecutivoVendedor);
             vParams.AddInString("Observaciones", valRecord.Observaciones, 255);
             vParams.AddInDecimal("TotalMontoExento", valRecord.TotalMontoExento, 2);
             vParams.AddInDecimal("TotalBaseImponible", valRecord.TotalBaseImponible, 2);
@@ -405,7 +406,8 @@ namespace Galac.Adm.Dal.Venta {
             vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Numero, CurrentRecord.TipoDeDocumentoAsEnum);
             //vResult = IsValidNumero(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Numero) && vResult;
             vResult = IsValidFecha(valAction, CurrentRecord.Fecha) && vResult;
-            vResult = IsValidCodigoVendedor(valAction, CurrentRecord.CodigoVendedor) && vResult;
+            vResult = IsValidCodigoVendedor(valAction, CurrentRecord.CodigoVendedor) && vResult;            
+			vResult = IsValidConsecutivoVendedor(valAction, CurrentRecord.ConsecutivoVendedor) && vResult;
             //            vResult = IsValidTipoDeDocumento(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.TipoDeDocumento) && vResult;
             //vResult = IsValidFechaAplicacionRetIVA(valAction, CurrentRecord.FechaAplicacionRetIVA) && vResult;
             //vResult = IsValidConsecutivoCaja(valAction, CurrentRecord.ConsecutivoCaja) && vResult;
@@ -463,14 +465,32 @@ namespace Galac.Adm.Dal.Venta {
                 vResult = false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("dbo.Vendedor", "codigo", insDb.InsSql.ToSqlValue(valCodigoVendedor), true)) {
+                if (!insDb.ExistsValue("Adm.Vendedor", "codigo", insDb.InsSql.ToSqlValue(valCodigoVendedor), true)) {
                     BuildValidationInfo("El valor asignado al campo Código del Vendedor no existe, escoga nuevamente.");
                     vResult = false;
                 }
             }
             return vResult;
         }
-
+		
+        private bool IsValidConsecutivoVendedor(eAccionSR valAction, int valConsecutivoVendedor){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivoVendedor == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo del Vendedor"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("Adm.Vendedor", "consecutivo", insDb.InsSql.ToSqlValue(valConsecutivoVendedor), true)) {
+                    BuildValidationInfo("El valor asignado al campo Consecutivo del Vendedor no existe, escoga nuevamente.");
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+		
         private bool IsValidTipoDeDocumento(eAccionSR valAction, int valConsecutivoCompania, eTipoDocumentoFactura valTipoDeDocumento) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {

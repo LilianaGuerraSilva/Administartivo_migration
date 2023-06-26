@@ -476,6 +476,10 @@
       <Project>{ccdf88d8-37dd-4e46-aead-350bd211bd75}</Project>
       <Name>Galac.Adm.Brl.DispositivosExternos</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Brl.Vendedor\Galac.Adm.Brl.Vendedor.csproj">
+      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
+      <Name>Galac.Adm.Brl.Vendedor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">
       <Project>{ae95f4aa-3119-4d39-96fb-95a53b7abb65}</Project>
       <Name>Galac.Adm.Brl.Venta</Name>
@@ -495,6 +499,10 @@
     <ProjectReference Include="..\Galac.Adm.Ccl.Rendicion\Galac.Adm.Ccl.CajaChica.csproj">
       <Project>{69bb7951-c2ec-45b9-a344-cb91e87d516b}</Project>
       <Name>Galac.Adm.Ccl.CajaChica</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
+      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
       <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
@@ -528,10 +536,6 @@
       <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
       <Name>Galac.Saw.Brl.Tablas</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Brl.Vendedor\Galac.Saw.Brl.Vendedor.csproj">
-      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
-      <Name>Galac.Saw.Brl.Vendedor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
       <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
       <Name>Galac.Saw.Ccl.Cliente</Name>
@@ -548,10 +552,6 @@
       <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
       <Name>Galac.Saw.Ccl.Tablas</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Ccl.Vendedor\Galac.Saw.Ccl.Vendedor.csproj">
-      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
-      <Name>Galac.Saw.Ccl.Vendedor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib.Uil\Galac.Saw.Lib.Uil.csproj">
       <Project>{ae2fdf07-4a14-48bd-ba32-d1701f5514d0}</Project>
       <Name>Galac.Saw.Lib.Uil</Name>
@@ -561,8 +561,8 @@
       <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Reconvert\Galac.Saw.Reconv.csproj">
-      <Project>{A3Ca2726-A600-5eCa-bd9e-1A41C4f1465A}</Project>
-      <Name>Galac.Saw.Reconv.csproj</Name>
+      <Project>{BF877C20-F113-46F1-B3F5-42CBBD123908}</Project>
+      <Name>Galac.Saw.Reconv</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Uil.Inventario\Galac.Saw.Uil.Inventario.csproj">
       <Project>{73fa7756-3070-4e0a-ad4e-1141f4f04696}</Project>

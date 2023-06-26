@@ -716,8 +716,9 @@ Public Function fSQLExportarVendedorSobreFactura(Optional ByVal valEntreFechas A
    SQL = SQL & "vendedor.TopeFinalCobranza5, "
    SQL = SQL & "vendedor.PorcentajeCobranza5, "
    SQL = SQL & "vendedor.UsaComisionPorVenta, "
-   SQL = SQL & "vendedor.UsaComisionPorCobranza"
-   SQL = SQL & " FROM vendedor"
+   SQL = SQL & "vendedor.UsaComisionPorCobranza, "
+   SQL = SQL & "vendedor.ConsecutivoRutaDeComercializacion"
+   SQL = SQL & " FROM Adm.Vendedor"
    SQL = SQL & " WHERE (vendedor.ConsecutivoCompania = " & mConsecutivoCompaniaActual & ")"
    If valEntreFechas Then
         SQL = SQL & " AND (" & gUtilSQL.DfSQLDateValueBetween("vendedor.FechaUltimaModificacion", dtpFechaInicial, dtpFechaFinal) & ")"
@@ -751,7 +752,7 @@ Public Function fSQLExportarVendedorSobreRenglon(Optional ByVal valEntreFechas A
    sqlreplaceNotas = fReplace(sqlreplaceNotas, gUtilSQL.DfChar(10), gUtilSQL.fSimpleSqlValue(""))
    sqlreplaceNotas = fReplace(sqlreplaceNotas, gUtilSQL.DfChar(9), gUtilSQL.fSimpleSqlValue(""))
    
-   TipoComision = gUtilSQL.DfSQLCaseIfForEnum("RenglonComisionesDeVendedor.TipoDeComision", enum_TipoComision.eTC_PorPorcentaje, gEnumProyecto.fEnumTipoComisionToStringInArray(True, True), "TipoDeComision")
+   TipoComision = gUtilSQL.DfSQLCaseIfForEnum("VendedorDetalleComisiones.TipoDeComision", enum_TipoComision.eTC_PorPorcentaje, gEnumProyecto.fEnumTipoComisionToStringInArray(True, True), "TipoDeComision")
    SQL = "SELECT " & "vendedor.Codigo, "
    SQL = SQL & "vendedor.Nombre, "
    SQL = SQL & "vendedor.RIF, "
@@ -789,22 +790,23 @@ Public Function fSQLExportarVendedorSobreRenglon(Optional ByVal valEntreFechas A
    SQL = SQL & "vendedor.PorcentajeCobranza5, "
    SQL = SQL & "vendedor.UsaComisionPorVenta, "
    SQL = SQL & "vendedor.UsaComisionPorCobranza, "
-   SQL = SQL & "RenglonComisionesDeVendedor.NombreDeLineaDeProducto, "
-   SQL = SQL & "RenglonComisionesDeVendedor.ConsecutivoRenglon, "
+   SQL = SQL & "VendedorDetalleComisiones.NombreDeLineaDeProducto, "
+   SQL = SQL & "VendedorDetalleComisiones.Consecutivo, "
    SQL = SQL & TipoComision & ", "
-   SQL = SQL & "RenglonComisionesDeVendedor.Monto, "
-   SQL = SQL & "RenglonComisionesDeVendedor.Porcentaje "
+   SQL = SQL & "VendedorDetalleComisiones.Monto, "
+   SQL = SQL & "VendedorDetalleComisiones.Porcentaje, "
+   SQL = SQL & "vendedor.ConsecutivoRutaDeComercializacion "
    If valEsFacturayRenglon Then
-      SQL = SQL & " FROM vendedor LEFT JOIN RenglonComisionesDeVendedor ON"
-      SQL = SQL & " (vendedor.Codigo = RenglonComisionesDeVendedor.CodigoVendedor)"
-      SQL = SQL & " AND (vendedor.ConsecutivoCompania = RenglonComisionesDeVendedor.ConsecutivoCompania)"
+      SQL = SQL & " FROM Adm.Vendedor LEFT JOIN Adm.VendedorDetalleComisiones ON"
+      SQL = SQL & " (vendedor.Consecutivo = VendedorDetalleComisiones.ConsecutivoVendedor)"
+      SQL = SQL & " AND (vendedor.ConsecutivoCompania = VendedorDetalleComisiones.ConsecutivoCompania)"
    Else
-      SQL = SQL & " FROM vendedor"
-      SQL = SQL & " INNER JOIN RenglonComisionesDeVendedor ON "
+      SQL = SQL & " FROM Adm.vendedor"
+      SQL = SQL & " INNER JOIN Adm.VendedorDetalleComisiones ON "
       SQL = SQL & "(vendedor.ConsecutivoCompania = "
-      SQL = SQL & "RenglonComisionesDeVendedor.ConsecutivoCompania)"
-      SQL = SQL & " AND (vendedor.codigo = "
-      SQL = SQL & "RenglonComisionesDeVendedor.CodigoVendedor)"
+      SQL = SQL & "VendedorDetalleComisiones.ConsecutivoCompania)"
+      SQL = SQL & " AND (vendedor.Consecutivo = "
+      SQL = SQL & "VendedorDetalleComisiones.ConsecutivoVendedor)"
    End If
    SQL = SQL & " WHERE (vendedor.ConsecutivoCompania = " & mConsecutivoCompaniaActual & ")"
     If valEntreFechas Then
@@ -884,7 +886,7 @@ Public Function fSQLExportarVendedorSobreRenglon2(Optional ByVal valEntreFechas 
    sqlreplaceNotas = fReplace(sqlreplaceNotas, gUtilSQL.DfChar(10), gUtilSQL.fSimpleSqlValue(""))
    sqlreplaceNotas = fReplace(sqlreplaceNotas, gUtilSQL.DfChar(9), gUtilSQL.fSimpleSqlValue(""))
    
-   TipoComision = gUtilSQL.DfSQLCaseIfForEnum("RenglonComisionesDeVendedor.TipoDeComision", enum_TipoComision.eTC_PorPorcentaje, gEnumProyecto.fEnumTipoComisionToStringInArray(True, True), "TipoDeComision")
+   TipoComision = gUtilSQL.DfSQLCaseIfForEnum("VendedorDetalleComisiones.TipoDeComision", enum_TipoComision.eTC_PorPorcentaje, gEnumProyecto.fEnumTipoComisionToStringInArray(True, True), "TipoDeComision")
    SQL = "SELECT DISTINCT " & "vendedor.Codigo, "
    SQL = SQL & "vendedor.Nombre, "
    SQL = SQL & "vendedor.RIF, "
@@ -922,16 +924,16 @@ Public Function fSQLExportarVendedorSobreRenglon2(Optional ByVal valEntreFechas 
    SQL = SQL & "vendedor.PorcentajeCobranza5, "
    SQL = SQL & "vendedor.UsaComisionPorVenta, "
    SQL = SQL & "vendedor.UsaComisionPorCobranza, "
-   SQL = SQL & "RenglonComisionesDeVendedor.NombreDeLineaDeProducto, "
-   SQL = SQL & "RenglonComisionesDeVendedor.ConsecutivoRenglon, "
+   SQL = SQL & "VendedorDetalleComisiones.NombreDeLineaDeProducto, "
+   SQL = SQL & "VendedorDetalleComisiones.Consecutivo, "
    SQL = SQL & TipoComision & ", "
-   SQL = SQL & "RenglonComisionesDeVendedor.Monto, "
-   SQL = SQL & "RenglonComisionesDeVendedor.Porcentaje "
-      
-   SQL = SQL & " FROM vendedor"
-   SQL = SQL & " INNER JOIN RenglonComisionesDeVendedor ON"
-   SQL = SQL & " (vendedor.codigo =   RenglonComisionesDeVendedor.CodigoVendedor) AND"
-   SQL = SQL & " (vendedor.ConsecutivoCompania = RenglonComisionesDeVendedor.ConsecutivoCompania)"
+   SQL = SQL & "VendedorDetalleComisiones.Monto, "
+   SQL = SQL & "VendedorDetalleComisiones.Porcentaje, "
+   SQL = SQL & "Vendedor.ConsecutivoRutaDeComercializacion "
+   SQL = SQL & " FROM Adm.Vendedor"
+   SQL = SQL & " INNER JOIN Adm.VendedorDetalleComisiones ON"
+   SQL = SQL & " (vendedor.Consecutivo = VendedorDetalleComisiones.ConsecutivoVendedor) AND"
+   SQL = SQL & " (vendedor.ConsecutivoCompania = VendedorDetalleComisiones.ConsecutivoCompania)"
    SQL = SQL & " INNER JOIN renglonFactura ON"
    SQL = SQL & " (vendedor.codigo = renglonFactura.CodigoVendedor1 OR"
    SQL = SQL & " vendedor.codigo = renglonFactura.CodigoVendedor2 OR"

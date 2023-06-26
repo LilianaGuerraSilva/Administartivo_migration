@@ -53,7 +53,7 @@ namespace Galac.Adm.Brl.Venta {
                     vResult = vPdnModule.GetDataForList("CXC", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Vendedor":
-                    vPdnModule = new Galac.Saw.Brl.Vendedor.clsVendedorNav();
+                    vPdnModule = new Galac.Adm.Brl.Vendedor.clsVendedorNav();
                     vResult = vPdnModule.GetDataForList("CXC", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Moneda":

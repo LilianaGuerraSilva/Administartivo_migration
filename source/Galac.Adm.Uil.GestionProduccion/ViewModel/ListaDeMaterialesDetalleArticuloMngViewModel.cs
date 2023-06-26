@@ -65,7 +65,6 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         }
         #endregion //Metodos Generados
 
-
     } //End of class ListaDeMaterialesDetalleArticuloMngViewModel
 
 } //End of namespace Galac.Saw.Uil.Inventario

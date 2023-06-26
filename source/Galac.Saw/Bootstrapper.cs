@@ -24,10 +24,10 @@ namespace Galac.Saw {
 
         public Bootstrapper()
             : base() {
-            AddPathOfCatalogsForMefFromIDE(@"..\..\..\..\..\bin\Lib\", "LibGalac.Aos*.*");
-            AddPathOfCatalogsForMefFromIDE(@"..\..\..\..\..\bin\Administrativo\", "Galac*.Venta*.dll;Galac*.Inventario*.dll;Galac*.GestionCompras*.dll;Galac*.GestionProduccion*.dll");
-            AddPathOfCatalogsForMefFromIDE(@"..\..\..\..\..\bin\Comun\", "Galac.Comun*.*");
-            AddPathOfCatalogsForMefFromIDE(@"..\..\..\..\..\bin\Empresarial\", "Galac.Ent.*");
+            AddPathOfCatalogsForMefFromIDE(@"binLibAos", "LibGalac.Aos*.*");
+            AddPathOfCatalogsForMefFromIDE(@"binAdministrativoAos", "Galac*.Venta*.dll;Galac*.Inventario*.dll;Galac*.GestionCompras*.dll;Galac*.GestionProduccion*.dll;Galac*.Vendedor*.dll");
+            AddPathOfCatalogsForMefFromIDE(@"\binComunAos", "Galac.Comun*.*");
+            AddPathOfCatalogsForMefFromIDE(@"\..\..\bin\Empresarial\", "Galac.Ent.*");
         }
 
         protected override void ConfigureContainer() {

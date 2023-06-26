@@ -158,6 +158,7 @@ unStatusCompania=(Activa, Inactiva);//e
 unFormaDeCalculoDePrecioRenglonFactura = (APartirDelPrecioSinIVA, APartirDelPrecioConIVA); //e
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
 unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
+unRutaDeComercializacion = (No Asignado, Agentes, Asesores, Consultor, Gerente, Incobrable, Oficina, Vendedores); //e,Componente=Vendedor, GENERATE
 unProveedorImprentaDigital = (NoAplica,TheFactoryHKA); //e, GENERATE
 
 {@S}UrbanizacionZP = record //"Urbanización - Zona Postal",
@@ -707,7 +708,7 @@ MenuDeInformes : boolean;
 //}
 
 
-{@M}Vendedor = Record //Male,Multiarchivo=Compania,GenerateRptConfigurar
+{@M}Vendedor = Record //Male,Multiarchivo=Compania,GenerateRptConfigurar, GENERATE
    ConsecutivoCompania  : LongInt; //o,HIDE
    Codigo		: Str5;//u,g,o,search,"Código",sugestConsecutive
    Nombre		: Str35;//u,g,o,search
@@ -749,6 +750,7 @@ MenuDeInformes : boolean;
    UsaComisionPorCobranza: Boolean;
    TipoDocumentoIdentificacion: unTipoDocumentoIdentificacion;
    SeccionComisionesLinea : seccion //"", Detail=RenglonComisionesDeVendedor
+   RutaDeComercializacion : unRutaDeComercializacion;
    {EndSeccion}
    NombreOperador       : Str10; //a
    FechaUltimaModificacion: date;//a
@@ -1026,7 +1028,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=Secuencial
 }
 
-{@S}ParametrosCompania = Record 
+{@S}ParametrosCompania = Record
     ConsecutivoCompania    : Longint;
     usaMonedaExtranjera    : boolean;//o,g,SEARCH
     UsaPrecioSinIva        : Boolean;//o

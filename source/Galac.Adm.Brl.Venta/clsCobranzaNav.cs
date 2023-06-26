@@ -237,7 +237,7 @@ namespace Galac.Adm.Brl.Venta {
             ILibPdn vPdnModule;
             switch (valModule) {
                 case "Vendedor":
-                    vPdnModule = new Galac.Saw.Brl.Vendedor.clsVendedorNav();
+                    vPdnModule = new Galac.Adm.Brl.Vendedor.clsVendedorNav();
                     vResult = vPdnModule.GetDataForList("Cobranzas", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Cliente":

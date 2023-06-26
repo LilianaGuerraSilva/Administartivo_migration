@@ -50,10 +50,10 @@ Public Function fSqlViewFichaCliente() As String
    vSQL = vSQL & "Cliente.NumeroRIF as NumeroRIF, "
    vSQL = vSQL & "Cliente.NumeroNIT as NumeroNIT, "
    vSQL = vSQL & "Cliente.Email as Email, "
-   vSQL = vSQL & "Vendedor.Nombre as NombreVendedor"
-   vSQL = vSQL & " FROM vendedor INNER JOIN cliente"
-   vSQL = vSQL & " ON (vendedor.Codigo = cliente.CodigoVendedor)"
-   vSQL = vSQL & " AND (vendedor.ConsecutivoCompania = cliente.ConsecutivoCompania)"
+   vSQL = vSQL & "Adm.Vendedor.Nombre as NombreVendedor"
+   vSQL = vSQL & " FROM Adm.Vendedor INNER JOIN Cliente"
+   vSQL = vSQL & " ON (Adm.Vendedor.Consecutivo = Cliente.ConsecutivoVendedor)"
+   vSQL = vSQL & " AND (Adm.Vendedor.ConsecutivoCompania = Cliente.ConsecutivoCompania)"
    vSQL = vSQL & " WHERE cliente.Codigo <> " & gUtilSQL.fSimpleSqlValue(getCodigoClienteResumen)
    fSqlViewFichaCliente = vSQL
    Set gEnumProyecto = Nothing
