@@ -1597,7 +1597,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-<<<<<<< HEAD
 
         public RelayCommand BuscarUbicacionArticuloLeyendaCommand {
             get;
@@ -1610,9 +1609,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
         #endregion //Propiedades
 
-=======
-        #endregion //Propiedades        
->>>>>>> develop
         #region Constructores
 
         public FacturaRapidaViewModel()
