@@ -880,13 +880,14 @@ Private Function fInsertarVendedor() As Boolean
    Dim vSql As String
    Dim Rs As ADODB.Recordset
    On Error GoTo h_ERROR
+   vConsecutivoVendedor = 1
    vResult = False
    Set insUtAdoCmd = New clsUtilAdoCmd
    Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorINS", gDefDatabase.Conexion)
    Set Rs = New ADODB.Recordset
-   vSql = "SELECT ISNULL(" & gUtilSQL.fMax("Consecutivo", "Consecutivo") & ", 0) + 1 FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
+   vSql = "SELECT ISNULL(MAX(Consecutivo), 0) + 1 AS SiguienteConsecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
    If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-      vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("Consecutivo").Value))
+      vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("SiguienteConsecutivo").Value))
    End If
    Set Rs = Nothing
 
