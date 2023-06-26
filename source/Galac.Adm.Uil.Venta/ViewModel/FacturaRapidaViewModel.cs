@@ -168,6 +168,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
         public ISearchBoxViewModel CuadroDeBusquedaDeArticulosViewModel { get; set; }
         public ISearchBoxViewModel CuadroDeBusquedaDeClientesViewModel { get; set; }
+        public ISearchBoxViewModel CuadraDeBusquedaDeUbicacionArticulosViewModel { get; set; }
 
         public override string ModuleName {
             get {
@@ -1596,7 +1597,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-        #endregion //Propiedades        
+
+        public RelayCommand BuscarUbicacionArticuloLeyendaCommand {
+            get;
+            private set;
+        }
+
+        public RelayCommand BuscarUbicacionArticuloCommand {
+            get;
+            private set;
+        }
+        #endregion //Propiedades
+
         #region Constructores
 
         public FacturaRapidaViewModel()
@@ -1891,11 +1903,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 KeyTip = "Alt+F5"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Buscar el precio de un artículo",
+                Label = "Consultar el Precio de Artículo",
                 Command = BuscarPrecioDeArticuloCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt11.png", UriKind.Relative),
-                ToolTipDescription = "Buscar el precio de un artículo",
-                ToolTipTitle = "Buscar el precio de un artículo",
+                ToolTipDescription = "Consultar el Precio de Artículo",
+                ToolTipTitle = "Consultar el Precio de Artículo",
                 KeyTip = "Alt + F11"
             });
             if (EsValidaFacturaParaDecretoIvaEspecial()) {
@@ -1934,12 +1946,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             });
 
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Asignar descuento",
+                Label = "Asignar Descuento",
                 Command = AsignarDescuentoCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt9.png", UriKind.Relative),
                 ToolTipDescription = "Asigne descuentos a esta factura",
-                ToolTipTitle = "Asignar descuento",
+                ToolTipTitle = "Asignar Descuento",
                 KeyTip = "Alt + F9"
+            });
+			
+			vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Consultar Ubicación de Artículo",
+                Command = BuscarUbicacionArticuloCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt8.png", UriKind.Relative),
+                ToolTipDescription = "Consultar Ubicación de Artículo",
+                ToolTipTitle = "Consultar Ubicación de Artículo",
+                KeyTip = "Alt + F8"
             });
 
             return vResult;
@@ -2062,6 +2083,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             BuscarMonedaDeCobroCommand = new RelayCommand(ExecuteBuscarMonedaDeCobroCommand, CanExecuteBuscarMonedaDeCobroCommand);
             BuscarMonedaDeCobroLeyendaCommand = new RelayCommand(ExecuteBuscarMonedaDeCobroCommand, CanExecuteLeyendaCommand);
             AsignarDescuentoCommand = new RelayCommand(ExecuteAsignarDescuentoCommand, CanExecuteAsignarDescuentoCommand);
+            BuscarUbicacionArticuloCommand = new RelayCommand(ExecuteBuscarUbicacionArticuloCommand);
         }
 
         private void ExecuteAbrirConsultorDePreciosCommand() {
@@ -2632,6 +2654,27 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
         }
+
+        private void ExecuteBuscarUbicacionArticuloCommand() {
+            try {
+                string CodigoArticuloSeleccionado = "";
+                LibSearchCriteria vDefaultCriteria = null;
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("dbo.ExistenciaPorAlmacen.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.TipoArticuloInv", eTipoArticuloInv.Simple), eLogicOperatorType.And);
+                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.StatusdelArticulo", eStatusArticulo.Vigente), eLogicOperatorType.And);
+                CuadraDeBusquedaDeUbicacionArticulosViewModel = new CuadroDeBusquedaDeUbicacionDeArticulosViewModel();
+                CuadraDeBusquedaDeUbicacionArticulosViewModel.ItemSelected = ArticuloSeleccionado;
+                CodigoArticuloSeleccionado = Articulo;
+                if (CodigoArticuloSeleccionado != "") {
+                    vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
+                }
+                var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Articulo Inventario Ubicación",  vDefaultCriteria, vFixedCriteria, string.Empty);
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
         #endregion
 
         protected override bool CreateRecord() {
@@ -2758,7 +2801,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             decimal vPrecioSinIva = 0;
             decimal vPrecioConIva = 0;
             decimal vCambio = 0;
-            int vNivelDePrecio = 0;
+            int vNivelDePrecio = 0;            
             eFormaDeCalculoDePrecioRenglonFactura FormaDeCalculoDePrecioRenglon = (eFormaDeCalculoDePrecioRenglonFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "FormaDeCalculoDePrecioRenglon");
             if (ConexionArticulo != null) {
                 bool vYaExiste = DetailFacturaRapidaDetalle.Items.Any(i => i.Articulo == ConexionArticulo.Codigo);

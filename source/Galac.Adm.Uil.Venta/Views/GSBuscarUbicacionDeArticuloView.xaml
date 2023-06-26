@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Galac.Adm.Uil.Venta.Views.GSBuscarPrecioDeArticuloView"
+    x:Class="Galac.Adm.Uil.Venta.Views.GSBuscarUbicacionDeArticuloView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -22,15 +22,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
             Name="lblArticulo"
             Grid.Row="0"
             Grid.Column="0"
-            Content="Código"
+            Content="Código Artículo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtArticulo"
@@ -41,7 +39,7 @@
             Margin="3"
             HorizontalAlignment="Left"
             ConnectionValue="{Binding Path=Articulo, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            DisplayMemberPath="Codigo"
+            DisplayMemberPath="Codigo Artículo"
             IsEnabled="{Binding Path=IsEnabled}"
             Model="{Binding Path=ConexionArticulo, Mode=TwoWay}"
             SearchCommand="{Binding Path=ChooseArticuloCommand}" />
@@ -49,7 +47,7 @@
             Name="lblDescripcion"
             Grid.Row="1"
             Grid.Column="0"
-            Content="Descripción"
+            Content="Descripción Artículo"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtDescripcion"
@@ -60,33 +58,9 @@
             Margin="3"
             HorizontalAlignment="Left"
             ConnectionValue="{Binding Path=Descripcion, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
-            DisplayMemberPath="Descripcion"
+            DisplayMemberPath="Descripción Artículo"
             IsEnabled="{Binding Path=IsEnabled}"
             Model="{Binding Path=ConexionDescripcion, Mode=TwoWay}"
             SearchCommand="{Binding Path=ChooseDescripcionCommand}" />
-        <Label
-            Name="lblPrecioSinIVA"
-            Grid.Row="2"
-            Grid.Column="0"
-            Content="Precio sin IVA"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lnePrecioSinIVA"
-            Grid.Row="2"
-            Grid.Column="1"
-            Content="{Binding Path=PrecioSinIVA}"
-            Style="{StaticResource LabelCalculatedField}" />
-        <Label
-            Name="lblPrecioConIVA"
-            Grid.Row="3"
-            Grid.Column="0"
-            Content="Precio Con IVA"
-            Style="{StaticResource LabelPrompt}" />
-        <Label
-            Name="lnePrecioConIVA"
-            Grid.Row="3"
-            Grid.Column="1"
-            Content="{Binding Path=PrecioConIVA}"
-            Style="{StaticResource LabelCalculatedField}" />
     </Grid>
 </UserControl>

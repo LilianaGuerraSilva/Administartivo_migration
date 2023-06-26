@@ -52,6 +52,8 @@ namespace Galac.Saw.Brl.Inventario {
                 case "Lista de Materiales":
                 case "Orden de Producción":
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraSCH", valXmlParamsExpression);
+                case "Punto de Venta Ubicación":
+                    return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionSCH", valXmlParamsExpression);
                 default:
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioSCH", valXmlParamsExpression);
             }
@@ -65,6 +67,8 @@ namespace Galac.Saw.Brl.Inventario {
                 case "Lista de Materiales":
                 case "Orden de Producción":
                     return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraGetFk", valParameters);
+                case "Punto de Venta Ubicación":
+                    return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionGetFk", valParameters);
                 default:
                     return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioGetFk", valParameters);
             }

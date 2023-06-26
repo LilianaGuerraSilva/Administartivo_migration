@@ -483,6 +483,10 @@
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>
       <Name>Galac.Saw.Lib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Inventario\Galac.Saw.Uil.Inventario.csproj">
+      <Project>{73fa7756-3070-4e0a-ad4e-1141f4f04696}</Project>
+      <Name>Galac.Saw.Uil.Inventario</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Uil.Tablas\Galac.Saw.Uil.Tablas.csproj">
       <Project>{005fabdf-508b-4757-8a54-be3603405283}</Project>
       <Name>Galac.Saw.Uil.Tablas</Name>

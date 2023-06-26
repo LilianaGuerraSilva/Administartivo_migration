@@ -25,6 +25,12 @@ namespace Galac.Saw.Ccl.Inventario {
         string UnidadDeVenta { get; set; }
         decimal MePrecioSinIva { get; set; }
         decimal MePrecioConIva { get; set; }
+        string CampoDefinible1 { get; set; }
+        string CampoDefinible2 { get; set; }
+        string CampoDefinible3 { get; set; }
+        string CampoDefinible4 { get; set; }
+        string CampoDefinible5 { get; set; }
+
         #endregion //Propiedades
 
     } //End of class IFkArticuloInventarioViewModel

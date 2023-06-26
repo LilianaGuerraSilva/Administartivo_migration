@@ -13,8 +13,8 @@ using System.Windows;
 [assembly: ComVisible(false)]
 // El siguiente GUID sirve como identificador de typelib si este proyecto se expone a COM
 [assembly: Guid("204dd095-29e6-4e02-9994-8185f280ace9")]
-[assembly: AssemblyVersion("2.60.8.0")]
-[assembly: AssemblyFileVersion("2.60.8.0")]
+[assembly: AssemblyVersion("2.60.8.*")]
+[assembly: AssemblyFileVersion("2.60.8.9999")]
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.ExternalAssembly, //where theme specific resource dictionaries are located 
     ResourceDictionaryLocation.SourceAssembly //where the generic resource dictionary is located 

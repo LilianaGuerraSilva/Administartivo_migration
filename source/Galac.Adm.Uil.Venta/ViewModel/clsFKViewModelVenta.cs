@@ -15,6 +15,9 @@ using Galac.Adm.Ccl.CAnticipo;
 using Galac.Adm.Ccl.Banco;
 using Galac.Adm.Ccl.DispositivosExternos;
 using LibGalac.Aos.Uil.Usal.ViewModel;
+using LibGalac.Aos.Base;
+using Galac.Saw.Uil.Inventario.ViewModel;
+
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
     public class FkGUserViewModel : ILibFkGUserViewModel {
@@ -107,6 +110,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal MePrecioConIva3 { get; set; }
         public decimal MePrecioSinIva4 { get; set; }
         public decimal MePrecioConIva4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        public string CampoDefinible1 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        public string CampoDefinible2 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        public string CampoDefinible3 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        public string CampoDefinible4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        public string CampoDefinible5 { get; set; }
+
     }
 
     public class FkArticuloInventarioBuscarViewModel : IFkArticuloInventarioViewModel {
@@ -159,6 +173,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal MePrecioConIva3 { get; set; }
         [LibGridColum("Me Precio Con IVA4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva4", Width = 100, IsForSearch = false)]
         public decimal MePrecioConIva4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        public string CampoDefinible1 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        public string CampoDefinible2 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        public string CampoDefinible3 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        public string CampoDefinible4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        public string CampoDefinible5 { get; set; }
+
+
     }
 
     public class FkFacturaRapidaViewModel : IFkFacturaRapidaViewModel {
@@ -172,6 +198,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         [LibGridColum("Cliente")]
         public string NombreCliente { get; set; }
         public eTipoDocumentoFactura TipoDeDocumento { get; set; }
+    }
+	public class FkBuscarUbicacionDeArticuloViewModel : IFkBuscarUbicacionDeArticuloViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Código Almacén", DbMemberPath = "CodigoAlmacen", IsForList = false)]
+        public string CodigoAlmacen { get; set; }
+        [LibGridColum("Nombre Almacén", DbMemberPath = "NombreAlmacen", Width = 150)]
+        public string NombreAlmacen { get; set; }
+        [LibGridColum("Código Artículo", DbMemberPath = "CodigoArticulo", Width = 150)]
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Descripción Artículo", DbMemberPath = "dbo.ArticuloInventario.Descripcion", Width = 350)]
+        public string Descripcion { get; set; }
+        [LibGridColum("Ubicación", DbMemberPath = "Ubicacion", Width = 300)]
+        public string Ubicacion { get; set; }
+        [LibGridColum("Existencia", DbMemberPath = "Existencia", Width = 100, IsForSearch = false)]
+        public string Existencia { get; set; }
     }
 
     public class FkFormaDelCobroViewModel : IFkFormaDelCobroViewModel {

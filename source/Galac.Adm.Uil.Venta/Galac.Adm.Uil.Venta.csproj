@@ -137,6 +137,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModel\BuscarUbicacionDeArticuloViewModel.cs" />
     <Compile Include="clsCajaAperturaMenu.cs" />
     <Compile Include="clsCajaMenu.cs" />
     <Compile Include="clsClienteInsercionRapidaMenu.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="ViewModel\CobroRapidoMultimonedaViewModel.cs" />
     <Compile Include="ViewModel\CobroRapidoViewModelBase.cs" />
     <Compile Include="ViewModel\CobroRapidoVzlaViewModelBase.cs" />
+    <Compile Include="ViewModel\CuadroDeBusquedaDeUbicacionDeArticulosViewModel.cs" />
     <Compile Include="ViewModel\CuadroDeBusquedaDeArticulosViewModel.cs" />
     <Compile Include="ViewModel\CuadroDeBusquedaDeClientesViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaDetalleMngViewModel.cs" />
@@ -253,6 +255,9 @@
     <Compile Include="ViewModel\FacturaRapidaViewModel.cs" />
     <Compile Include="Views\GSBuscarPrecioDeArticuloView.xaml.cs">
       <DependentUpon>GSBuscarPrecioDeArticuloView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSBuscarUbicacionDeArticuloView.xaml.cs">
+      <DependentUpon>GSBuscarUbicacionDeArticuloView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSCajaAperturaView.xaml.cs">
       <DependentUpon>GSCajaAperturaView.xaml</DependentUpon>
@@ -375,6 +380,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSBuscarPrecioDeArticuloView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSBuscarUbicacionDeArticuloView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
