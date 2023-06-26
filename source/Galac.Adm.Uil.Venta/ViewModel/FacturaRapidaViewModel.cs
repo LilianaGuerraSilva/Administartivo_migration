@@ -2661,7 +2661,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteBuscarUbicacionArticuloCommand() {
             try {
-                bool HayUnItemSeleccionado = false;
                 string CodigoArticuloSeleccionado = "";
                 LibSearchCriteria vDefaultCriteria = null;
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("dbo.ExistenciaPorAlmacen.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
@@ -2673,7 +2672,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (CodigoArticuloSeleccionado != "") {
                     vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
                 }
-                var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Articulo Inventario Ubicacion",  vDefaultCriteria, vFixedCriteria, string.Empty);
+                var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Articulo Inventario Ubicación",  vDefaultCriteria, vFixedCriteria, string.Empty);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {

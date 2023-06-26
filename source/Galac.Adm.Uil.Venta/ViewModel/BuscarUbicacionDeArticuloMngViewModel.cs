@@ -22,7 +22,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
 
         public override string ModuleName {
-            get { return "Buscar Ubicación De Artículo"; }
+            get { return "Buscar Ubicación de Artículo"; }
         }
         #endregion //Propiedades
         #region Constructores
