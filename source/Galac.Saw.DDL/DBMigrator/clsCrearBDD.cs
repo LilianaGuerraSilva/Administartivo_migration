@@ -145,6 +145,12 @@ namespace Galac.Saw.DbMigrator {
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Proveedor")) {
                 vResult = vResult && CrearProveedor();
             }
+            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Vendedor")) {
+                vResult = vResult && CrearVendedor();
+            }
+            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "RutaDeComercializacion")) {
+                vResult = vResult && CrearRutaDeComercializacion();
+            }
             return vResult;
         }
 

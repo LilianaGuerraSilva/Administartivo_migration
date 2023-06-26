@@ -476,10 +476,10 @@ Begin VB.Form frmInformesDeCobranza
       Begin VB.OptionButton optInformesDeCobranzas 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
-         Caption         =   "Cobranzas por &vendedor .................."
+         Caption         =   "Cobranzas por &Vendedor ................."
          CausesValidation=   0   'False
          ForeColor       =   &H00A84439&
-         Height          =   195
+         Height          =   255
          Index           =   0
          Left            =   120
          TabIndex        =   0
@@ -1400,13 +1400,13 @@ Private Sub txtCodigoDeVendedor_Validate(Cancel As Boolean)
    End If
    insVendedor.sClrRecord
    insVendedor.SetCodigo txtCodigoDeVendedor
-   insVendedor.SetStatusVendedorStr gEnumProyecto.enumStatusVendedorToString(enum_StatusVendedor.eSV_ACTIVO)
-   If insVendedor.fSearchSelectConnection() Then
-      sSelectAndSetValuesOfVendedor
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoDeVendedor.Text, "", "StatusVendedor", "0", "", "") Then
+      sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
       GoTo h_EXIT
    End If
+   Set insCnxAos = Nothing
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -1748,34 +1748,17 @@ Private Sub txtNombreDeVendedor_Validate(Cancel As Boolean)
    End If
    insVendedor.sClrRecord
    insVendedor.SetNombre txtNombreDeVendedor
-   insVendedor.SetStatusVendedorStr gEnumProyecto.enumStatusVendedorToString(enum_StatusVendedor.eSV_ACTIVO)
-   If insVendedor.fSearchSelectConnection() Then
-      sSelectAndSetValuesOfVendedor
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreDeVendedor.Text, "Nombre", "StatusVendedor", "0", "", "") Then
+     sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
       GoTo h_EXIT
    End If
+   Set insCnxAos = Nothing
    Cancel = False
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, " txtNombreDeVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
-Private Sub sSelectAndSetValuesOfVendedor()
-   On Error GoTo h_ERROR
-   If insVendedor.fRsRecordCount(False) = 1 Then
-      sAssignFieldsFromConnectionVendedor
-   ElseIf insVendedor.fRsRecordCount(False) > 1 Then
-      If gProyParametros.GetUsaCodigoVendedorEnPantalla Then
-         insVendedor.sShowListSelect "Codigo", txtCodigoDeVendedor.Text, "vendedor.StatusVendedor = " & gUtilSQL.fSimpleSqlValue(enum_StatusVendedor.eSV_ACTIVO)
-      Else
-         insVendedor.sShowListSelect "Nombre", txtNombreDeVendedor.Text, "vendedor.StatusVendedor = " & gUtilSQL.fSimpleSqlValue(enum_StatusVendedor.eSV_ACTIVO)
-      End If
-      sAssignFieldsFromConnectionVendedor
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
 Private Sub sAssignFieldsFromConnectionVendedor()
@@ -2204,7 +2187,7 @@ Private Function fEjecutaElReportedetalladoPorCobro(ByVal OpcionesComisionesSobr
             sql = sql & insVendedor.GetTableName & ".Codigo, "
          Else
             sql = sql & insCobranza.GetTableName & ".Moneda, "
-            sql = sql & insVendedor.GetTableName & ".Codigo, "
+            sql = sql & "vendedor.Codigo, "
          End If
          sql = sql & insCobranza.GetTableName & ".Fecha, "
          sql = sql & insCobranza.GetTableName & ".Numero"

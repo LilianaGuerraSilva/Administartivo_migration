@@ -6,7 +6,7 @@ using LibGalac.Aos.Ccl.Usal;
 using LibGalac.Aos.UI.Mvvm.Helpers;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Adm.Ccl.Venta;
-using Galac.Saw.Ccl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.Tablas;
@@ -37,6 +37,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
     public class FkVendedorViewModel : IFkVendedorViewModel {
         public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
         [LibGridColum("Código")]
         public string Codigo { get; set; }
         [LibGridColum("Cédula")]

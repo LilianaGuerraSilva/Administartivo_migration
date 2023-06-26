@@ -6,7 +6,7 @@ using LibGalac.Aos.UI.Mvvm.Helpers;
 using Galac.Adm.Ccl.Banco;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Comun.Ccl.TablasGen;
-using Galac.Saw.Ccl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Ccl.Cliente;
 
 namespace Galac.Saw.Uil.SttDef.ViewModel {

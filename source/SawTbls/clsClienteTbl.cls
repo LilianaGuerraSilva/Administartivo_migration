@@ -113,6 +113,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean, ByVal valEsSistema
    SQL = SQL & "Contacto" & gUtilSQL.getVarCharTypeForDB(35) & ", "
    SQL = SQL & "ZonaDeCobranza" & gUtilSQL.getVarCharTypeForDB(100) & ", "
    SQL = SQL & "CodigoVendedor" & gUtilSQL.getVarCharTypeForDB(5) & ", "
+   SQL = SQL & "ConsecutivoVendedor" & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "ConVen NOT NULL, "
    SQL = SQL & "RazonInactividad" & gUtilSQL.getVarCharTypeForDB(35) & ", "
    SQL = SQL & "Email" & gUtilSQL.getVarCharTypeForDB(100) & ", "
    SQL = SQL & "ActivarAvisoAlEscoger" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "ActivarAvi NOT NULL, "

@@ -630,8 +630,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Orden De Producción", "Iniciar", "Producción", 13));
             vPermisos.Add(new CustomRole("Orden De Producción", "Anular", "Producción", 13));
             vPermisos.Add(new CustomRole("Orden De Producción", "Cerrar", "Producción", 13));
-            #endregion
-
+            #endregion          
             return vPermisos;
         }
     }

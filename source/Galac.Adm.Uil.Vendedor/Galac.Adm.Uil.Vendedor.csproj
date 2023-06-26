@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F5813CA0-D3FF-4637-9C71-BD9B3D68BC9C}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Galac.Adm.Uil.Vendedor</RootNamespace>
+    <AssemblyName>Galac.Adm.Uil.Vendedor</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\bin\adm\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Comun.Ccl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Uil.TablasGen">
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Uil.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Galac.Saw.Ccl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Lib">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Galac.Saw.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.ARRpt">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.ARRpt.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <Name>LibGalac.Aos.Catching</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.DefGen">
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Mvvm">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.Wpf">
+      <Name>LibGalac.Aos.UI.Wpf</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfControls">
+      <Name>LibGalac.Aos.UI.WpfControls</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfControls.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.UI.WpfRD">
+      <Name>LibGalac.Aos.UI.WpfRD</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Uil">
+      <Name>LibGalac.Aos.Uil</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Uil.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsVendedorMenu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="UIMefVendedor.cs" />
+    <Compile Include="ViewModel\clsFKViewModelVendedor.cs" />
+    <Compile Include="ViewModel\VendedorDetalleComisionesMngViewModel.cs" />
+    <Compile Include="ViewModel\VendedorDetalleComisionesViewModel.cs" />
+    <Compile Include="ViewModel\VendedorImportarExportarViewModel.cs" />
+    <Compile Include="ViewModel\VendedorMngViewModel.cs" />
+    <Compile Include="ViewModel\VendedorViewModel.cs" />
+    <Compile Include="Views\GSVendedorDetalleComisionesView.xaml.cs">
+      <DependentUpon>GSVendedorDetalleComisionesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSVendedorImportarView.xaml.cs">
+      <DependentUpon>GSVendedorImportarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSVendedorView.xaml.cs">
+      <DependentUpon>GSVendedorView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.Vendedor\Galac.Adm.Brl.Vendedor.csproj">
+      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
+      <Name>Galac.Adm.Brl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
+      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Uil.GestionCompras\Galac.Adm.Uil.GestionCompras.csproj">
+      <Project>{706F412D-F9E1-4E0B-A740-9CA195272AB8}</Project>
+      <Name>Galac.Adm.Uil.GestionCompras</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120CF-ED36-4227-BBFC-EF9E534B7F50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
+      <Project>{82C458B1-C93B-46A9-B58C-63ECD3633861}</Project>
+      <Name>Galac.Saw.Ccl.SttDef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Uil.Tablas\Galac.Saw.Uil.Tablas.csproj">
+      <Project>{005FABDF-508B-4757-8A54-BE3603405283}</Project>
+      <Name>Galac.Saw.Uil.Tablas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\GSVendedorDetalleComisionesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSVendedorImportarView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSVendedorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

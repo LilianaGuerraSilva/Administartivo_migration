@@ -118,6 +118,7 @@ namespace Galac.Saw.Wrp.MenuBar {
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasNotaFinal"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasGenPais"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasPropAnalisisVenc"), new XAttribute("Module", "Tablas"))
+                      , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasRutaDeComercializacion"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasGenSectorDeNegocio"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasLeyTarifaN2"), new XAttribute("Module", "Tablas"))
                       , new XElement("UilComponent", new XAttribute("Name", "UIMefTablasTipoProveedor"), new XAttribute("Module", "Tablas"))

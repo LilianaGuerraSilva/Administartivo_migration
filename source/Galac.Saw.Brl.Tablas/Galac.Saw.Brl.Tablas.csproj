@@ -72,6 +72,7 @@
     <Compile Include="clsMaquinaFiscalNav.cs" />
     <Compile Include="clsNotaFinalNav.cs" />
     <Compile Include="clsPropAnalisisVencNav.cs" />
+    <Compile Include="clsRutaDeComercializacionNav.cs" />
     <Compile Include="clsTipoProveedorNav.cs" />
     <Compile Include="clsUnidadDeVentaNav.cs" />
     <Compile Include="clsUrbanizacionZPNav.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Reportes\clsMaquinaFiscalRpt.cs" />
     <Compile Include="Reportes\clsNotaFinalRpt.cs" />
     <Compile Include="Reportes\clsPropAnalisisVencRpt.cs" />
+    <Compile Include="Reportes\clsRutaDeComercializacionRpt.cs" />
     <Compile Include="Reportes\clsTipoProveedorRpt.cs" />
     <Compile Include="Reportes\clsUnidadDeVentaRpt.cs" />
     <Compile Include="Reportes\clsUrbanizacionZPRpt.cs" />
