@@ -816,7 +816,6 @@ End Function
 
 Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVal valSeparador As String) As Boolean
    Dim linea As String
-   Dim vConsecutivoRuta As String
    On Error GoTo h_ERROR
    linea = refLineaActual
    fDistribuyeLaLineaVendedor = False
@@ -864,11 +863,9 @@ Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVa
       vMonto = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mPorcentaje = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    End If
-   vConsecutivoRuta = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   If vConsecutivoRuta <> "1" Then
+   vConsecutivoRutaDeComercialzacion = gUtilImport.fToInt(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   If Not gDbUtil.fRecordCountOfSql("SELECT Consecutivo FROM Saw.RutaDeComercializacion WHERE ConsecutivoCompania = " & vConsecutivoCompania & " AND Consecutivo = " & vConsecutivoRutaDeComercialzacion) > 0 Then
       vConsecutivoRutaDeComercialzacion = 1
-   Else
-      vConsecutivoRutaDeComercialzacion = gUtilImport.fToCurrency(vConsecutivoRuta)
    End If
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaVendedor = True
@@ -887,18 +884,18 @@ Private Function fInsertarVendedor() As Boolean
    Set insUtAdoCmd = New clsUtilAdoCmd
    Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorINS", gDefDatabase.Conexion)
    Set Rs = New ADODB.Recordset
-   If vConsecutivoVendedor = 0 Then
-      vSql = "SELECT " & gUtilSQL.fMax("Consecutivo", "Consecutivo") & " FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
-      If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-         If gDbUtil.fRecordCount(Rs) > 0 Then
-            vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("Consecutivo").Value))
+   vSql = "SELECT " & gUtilSQL.fMax("Consecutivo", "Consecutivo") & " FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
+   If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
+      If gDbUtil.fRecordCount(Rs) > 0 Then
+         If (Rs("Consecutivo").Value <> "NULL") Then
+            vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("Consecutivo").Value) + 1)
          Else
             vConsecutivoVendedor = 1
          End If
-         Set Rs = Nothing
+      Else
+         vConsecutivoVendedor = 1
       End If
-   Else
-      vConsecutivoVendedor = vConsecutivoVendedor + 1
+      Set Rs = Nothing
    End If
    If Not insVendedor.fSearchByField("Consecutivo", vConsecutivoVendedor, False, False) Then
       If Not insVendedor.fSearchByField("Codigo", insVendedor.GetCodigo, False, False) Then
@@ -946,10 +943,8 @@ Private Function fInsertarVendedor() As Boolean
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, insVendedor.GetNombreOperador)
          vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", gUtilDate.getFechaDeHoy)
          insUtAdoCmd.fExecCmd vCmd
-      Else
-         vResult = False
+         vResult = True
       End If
-      vResult = False
    End If
    Set vCmd = Nothing
 h_EXIT: On Error GoTo 0
@@ -974,7 +969,7 @@ Private Sub sSeteaValoresDeLaLineaDelArchivo_VENDEDOR()
       .SetFax vFax
       .SetEmail vEmail
       .SetNotas vNotas
-      .SetConsecutivoRutaDeComercializacion .fExiteRutaDeComercializacion(vConsecutivoRutaDeComercialzacion)
+      .SetConsecutivoRutaDeComercializacion vConsecutivoRutaDeComercialzacion
       .SetComisionPorVenta vComisionPorVenta
       .SetComisionPorCobro vComisionPorCobro
       .SetTopeInicialVenta1 vTopeInicialVenta1
