@@ -64,6 +64,21 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
+        private StringBuilder ParametrosDescripcion(RutaDeComercializacion valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+            StringBuilder vResult = new StringBuilder();
+            LibGpParams vParams = new LibGpParams();
+            if (valAddReturnParameter) {
+                vParams.AddReturn();
+            }
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);            
+            vParams.AddInString("Descripcion", valRecord.Descripcion, 100);
+            if (valIncludeTimestamp) {
+                vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
+            }
+            vResult = vParams.Get();
+            return vResult;
+        }
+
         private StringBuilder ParametrosProximoConsecutivo(RutaDeComercializacion valRecord) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
@@ -211,7 +226,7 @@ namespace Galac.Saw.Dal.Tablas {
             ClearValidationInfo();
             vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
-            vResult = IsValidDescripcion(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Descripcion) && vResult;
+            vResult = IsValidDescripcion(valAction, CurrentRecord) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -245,17 +260,17 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        private bool IsValidDescripcion(eAccionSR valAction, int valConsecutivoCompania, string valDescripcion) {
+        private bool IsValidDescripcion(eAccionSR valAction, RutaDeComercializacion valCurrentRecord) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (LibString.IsNullOrEmpty(valDescripcion, true)) {
+            if (LibString.IsNullOrEmpty(valCurrentRecord.Descripcion, true)) {
                 BuildValidationInfo(MsgRequiredField("Descripcion"));
                 return false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (insDb.ExistsValue("Saw.RutaDeComercializacion", "Descripcion", insDb.InsSql.ToSqlValue(valDescripcion), true)) {
+                if (KeyDescripcionExists( valCurrentRecord)) {
                     BuildValidationInfo("La Ruta de Comercialización ingresada ya existe, ingrese una distinta.");
                     vResult = false;
                 }
@@ -272,14 +287,12 @@ namespace Galac.Saw.Dal.Tablas {
             vResult = insDb.ExistsRecord(DbSchema + ".RutaDeComercializacion", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
-        }
+        }        
 
-        private bool KeyExists(int valConsecutivoCompania, RutaDeComercializacion valRecordBusqueda) {
-            bool vResult = false;
-            valRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
-            LibDatabase insDb = new LibDatabase();
-            //Programador ajuste el codigo necesario para busqueda de claves unicas;
-            vResult = insDb.ExistsRecord(DbSchema + ".RutaDeComercializacion", "ConsecutivoCompania", ParametrosClave(valRecordBusqueda, false, false));
+        private bool KeyDescripcionExists( RutaDeComercializacion valRecordBusqueda) {
+            bool vResult = false;           
+            LibDatabase insDb = new LibDatabase();            
+            vResult = insDb.ExistsRecord(DbSchema + ".RutaDeComercializacion", "ConsecutivoCompania", ParametrosDescripcion(valRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
