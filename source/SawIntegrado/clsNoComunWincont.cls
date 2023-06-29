@@ -1358,9 +1358,15 @@ Private Function fSQLBalancePorCentroDeCostos(ByVal valTableName As String, ByVa
    ConjuntoSQL = ConjuntoSQL & " AND tblSaldoContableTemp.SubTotalDebe = 0 "
    ConjuntoSQL = ConjuntoSQL & " AND tblSaldoContableTemp.SubTotalHaber = 0)"
    Sql = "SELECT CentroDeCostos.Codigo,"
-   Sql = Sql & "': ' + CentroDeCostos.Descripcion AS DescripcionCC, tblSaldoContableTemp.Descripcion, tblSaldoContableTemp.TieneSubCuentas AS TieneSubCuentas, "
-   Sql = Sql & "SUM(tblSaldoContableTemp.SaldoInicial) AS SaldoInicial, SUM(tblSaldoContableTemp.SubTotalDebe) AS SaldoDebe, "
-   Sql = Sql & "SUM(tblSaldoContableTemp.SubTotalHaber) AS SaldoHaber, SUM(tblSaldoContableTemp.Saldo) AS SaldoActual, MIN(tblSaldoContableTemp.CodeAux) "
+   Sql = Sql & "': ' + CentroDeCostos.Descripcion AS DescripcionCC, "
+   Sql = Sql & "tblSaldoContableTemp.Codigo AS CodigoCuenta, "
+   Sql = Sql & "tblSaldoContableTemp.Descripcion, "
+   Sql = Sql & "tblSaldoContableTemp.TieneSubCuentas AS TieneSubCuentas, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.SaldoInicial) AS SaldoInicial, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.SubTotalDebe) AS SaldoDebe, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.SubTotalHaber) AS SaldoHaber, "
+   Sql = Sql & "SUM(tblSaldoContableTemp.Saldo) AS SaldoActual, "
+   Sql = Sql & "MIN(tblSaldoContableTemp.CodeAux) "
    Sql = Sql & " FROM tblSaldoContableTemp INNER JOIN CentroDeCostos "
    Sql = Sql & " ON CentroDeCostos.Codigo = tblSaldoContableTemp.CodeAux "
    Sql = Sql & " AND CentroDeCostos.ConsecutivoPeriodo = " & gContPeriodoActual.GetConsecutivoPeriodo
@@ -1433,9 +1439,12 @@ Public Sub CompletarTablaDeSaldoyAuxiliares(ByVal valTableName As String, ByVal 
    vMontoHaber = gUtilSQL.getIIF(varNombreTablaAsiento & ".MontoHaber IS NULL ", 0, varNombreTablaAsiento & ".MontoHaber", True)
    Sql = CteMovimientosDolar & " SELECT tblSaldoContableTemp.CodeAux AS CodigoCC, "
    Sql = Sql & "tblSaldoContableTemp.Codigo AS CodigoCuenta, "
-   Sql = Sql & "tblSaldoContableTemp.Descripcion, MIN " & vSaldo & "   AS SaldoInicial, "
-   Sql = Sql & "SUM" & vMontoDebe & " as SaldoDebe, SUM" & vMontoHaber & " as SaldoHaber, "
-   Sql = Sql & "SUM(" & vSaldo & "  + (" & vMontoDebe & " - " & vMontoHaber & ")) AS SaldoActual, AplicaReconversion "
+   Sql = Sql & "tblSaldoContableTemp.Descripcion, "
+   Sql = Sql & "MIN " & vSaldo & "   AS SaldoInicial, "
+   Sql = Sql & "SUM" & vMontoDebe & " as SaldoDebe, "
+   Sql = Sql & "SUM" & vMontoHaber & " as SaldoHaber, "
+   Sql = Sql & "SUM(" & vSaldo & "  + (" & vMontoDebe & " - " & vMontoHaber & ")) AS SaldoActual, "
+   Sql = Sql & " AplicaReconversion "
    Sql = Sql & " FROM tblSaldoContableTemp "
    Sql = Sql & " LEFT JOIN " & varNombreTablaAsiento
    Sql = Sql & " ON " & varNombreTablaAsiento & ".Codigo = tblSaldoContableTemp.CodeAux"
@@ -1466,7 +1475,7 @@ Public Sub CompletarTablaDeSaldoyAuxiliares(ByVal valTableName As String, ByVal 
    Set insCalculaTotales = Nothing
 h_EXIT: On Error GoTo 0
    Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "CalcularMontosBalanceXCentroDeCosto", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "CompletarTablaDeSaldoyAuxiliares", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 Public Sub sEliminaDatosEsquemasAsociadosAPeriodo(ByVal valConsecutivoPeriodo As Long)
    Dim insEsquemaBalanceMov As clsEsquemaDeBalanceMovNavigator
