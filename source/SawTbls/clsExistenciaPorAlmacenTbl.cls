@@ -67,7 +67,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "CodigoAlmacen" & " " & gUtilSQL.getVarCharTypeForDB(5) & " CONSTRAINT nn" & GetTableName() & "CodigoAlma NOT NULL, "
    SQL = SQL & "CodigoArticulo" & " " & gUtilSQL.getVarCharTypeForDB(30) & " CONSTRAINT nn" & GetTableName() & "CodigoArti NOT NULL, "
    SQL = SQL & "Cantidad" & " " & gUtilSQL.getNumericTypeForDB(12, 2) & ", "
-   SQL = SQL & "Ubicacion" & gUtilSQL.getVarCharTypeForDB(30) & ", "
+   SQL = SQL & "Ubicacion" & gUtilSQL.getVarCharTypeForDB(100) & ", "
    SQL = SQL & "ConsecutivoAlmacen" & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "Consecutiv NOT NULL, "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"
    gDbUtil.Execute gDefDatabase.Conexion, SQL
