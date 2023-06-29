@@ -1903,11 +1903,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 KeyTip = "Alt+F5"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Consultar el Precio de Artículo",
+                Label = "Consultar Precio de Artículo",
                 Command = BuscarPrecioDeArticuloCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/Alt11.png", UriKind.Relative),
-                ToolTipDescription = "Consultar el Precio de Artículo",
-                ToolTipTitle = "Consultar el Precio de Artículo",
+                ToolTipDescription = "Consultar Precio de Artículo",
+                ToolTipTitle = "Consultar Precio de Artículo",
                 KeyTip = "Alt + F11"
             });
             if (EsValidaFacturaParaDecretoIvaEspecial()) {
@@ -2668,7 +2668,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (CodigoArticuloSeleccionado != "") {
                     vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
                 }
-                var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Articulo Inventario Ubicación",  vDefaultCriteria, vFixedCriteria, string.Empty);
+                var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Artículo Inventario Ubicación",  vDefaultCriteria, vFixedCriteria, string.Empty);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {

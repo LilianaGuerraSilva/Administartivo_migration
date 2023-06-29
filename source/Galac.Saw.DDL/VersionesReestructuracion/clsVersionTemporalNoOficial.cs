@@ -24,7 +24,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
 			CrearRutaDeComercializacion();
-			CrearTablaAdmVendedor();			
+			CrearTablaAdmVendedor();
+			AmpliarCampoUbicacion();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -123,6 +124,11 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			} catch (Exception) {
 				throw;
 			}
+		}
+
+		private void AmpliarCampoUbicacion() {
+			string vSQL = "ALTER TABLE " + LibDbo.ToFullDboName("dbo.ExistenciaPorAlmacen") + " ALTER COLUMN Ubicacion VARCHAR(100) NULL";
+			Execute(vSQL, 0);
 		}
 	}
 }   
