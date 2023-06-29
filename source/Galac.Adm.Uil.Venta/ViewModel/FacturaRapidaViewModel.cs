@@ -2657,17 +2657,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteBuscarUbicacionArticuloCommand() {
             try {
-                string CodigoArticuloSeleccionado = "";
+                //string CodigoArticuloSeleccionado = "";
                 LibSearchCriteria vDefaultCriteria = null;
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("dbo.ExistenciaPorAlmacen.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.TipoArticuloInv", eTipoArticuloInv.Simple), eLogicOperatorType.And);
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.StatusdelArticulo", eStatusArticulo.Vigente), eLogicOperatorType.And);
-                CuadraDeBusquedaDeUbicacionArticulosViewModel = new CuadroDeBusquedaDeUbicacionDeArticulosViewModel();
-                CuadraDeBusquedaDeUbicacionArticulosViewModel.ItemSelected = ArticuloSeleccionado;
-                CodigoArticuloSeleccionado = Articulo;
-                if (CodigoArticuloSeleccionado != "") {
-                    vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
-                }
+                //CuadraDeBusquedaDeUbicacionArticulosViewModel = new CuadroDeBusquedaDeUbicacionDeArticulosViewModel();
+                //CuadraDeBusquedaDeUbicacionArticulosViewModel.ItemSelected = ArticuloSeleccionado;
+                //CodigoArticuloSeleccionado = Articulo;
+                //if (CodigoArticuloSeleccionado != "") {
+                //    vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
+                //}
                 var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Artículo Inventario Ubicación",  vDefaultCriteria, vFixedCriteria, string.Empty);
             } catch (System.AccessViolationException) {
                 throw;
