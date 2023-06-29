@@ -885,7 +885,7 @@ Private Function fInsertarVendedor() As Boolean
    Set insUtAdoCmd = New clsUtilAdoCmd
    Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorINS", gDefDatabase.Conexion)
    Set Rs = New ADODB.Recordset
-   vSql = "SELECT ISNULL(MAX(Consecutivo), 0) + 1 AS SiguienteConsecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
+   vSql = "SELECT ISNULL(MAX(Consecutivo), 0) + 1 AS SiguienteConsecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValueForNumeric(mConsecutivoCompaniaActual)
    If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
       vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("SiguienteConsecutivo").Value))
    End If
@@ -1021,8 +1021,6 @@ Private Function fImportaLineasVendedoryComision(ByVal NumeroDeLineaActual As Lo
          exito = True
       End If
    Else
-      mConsecutivoRenglon = insRenglonComisionesDeVendedor.fGenerateNextConsecutivoRenglon(insVendedor.GetCodigo)
-      insRenglonComisionesDeVendedor.SetConsecutivo mConsecutivoRenglon
       If Not fInsertarComisionesDelVendedor(NumeroDeLineaActual) Then
         gMessage.Advertencia "No se pudo importar algunos de los registros del vendedor " & insVendedor.GetCodigo
       Else
@@ -1044,10 +1042,16 @@ Private Function fInsertarComisionesDelVendedor(ByVal NumeroDeLineaActual As Lon
    On Error GoTo h_ERROR
    Continuar = False
    Set Rs = New ADODB.Recordset
+   mConsecutivoRenglon = 1
+   vSql = "SELECT ISNULL(MAX(Consecutivo), 0) + 1 AS SiguienteConsecutivo FROM Adm.VendedorDetalleComisiones WHERE ConsecutivoCompania = " & gUtilSQL.fSimpleSqlValueForNumeric(mConsecutivoCompaniaActual)
+   vSql = vSql & " AND ConsecutivoVendedor = " & gUtilSQL.fSimpleSqlValueForNumeric(insVendedor.GetConsecutivo)
+   If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
+      mConsecutivoRenglon = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("SiguienteConsecutivo").Value))
+   End If
    If mConsecutivoRenglon > 0 Then
-      insRenglonComisionesDeVendedor.SetConsecutivoVendedor insVendedor.GetConsecutivo
-      If insVendedor.fSearchByField("Consecutivo", insVendedor.GetConsecutivo, False, False) Then
-         If Not insRenglonComisionesDeVendedor.fSearchByField("Consecutivo", insRenglonComisionesDeVendedor.GetConsecutivo, False, False) Then
+      If insRenglonComisionesDeVendedor.GetNombreDeLineaDeProducto <> "" Then
+         insRenglonComisionesDeVendedor.SetConsecutivoVendedor insVendedor.GetConsecutivo
+         If insVendedor.fSearchByField("Consecutivo", insVendedor.GetConsecutivo, False, False) Then
             Set insUtAdoCmd = New clsUtilAdoCmd
             Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorDetalleComisionesINS", gDefDatabase.Conexion)
             vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", insRenglonComisionesDeVendedor.GetConsecutivoCompania)
