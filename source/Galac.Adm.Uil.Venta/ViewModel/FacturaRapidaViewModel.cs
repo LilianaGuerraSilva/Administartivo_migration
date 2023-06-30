@@ -168,7 +168,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
         public ISearchBoxViewModel CuadroDeBusquedaDeArticulosViewModel { get; set; }
         public ISearchBoxViewModel CuadroDeBusquedaDeClientesViewModel { get; set; }
-        public ISearchBoxViewModel CuadraDeBusquedaDeUbicacionArticulosViewModel { get; set; }
+        public ISearchBoxViewModel CuadroDeBusquedaDeUbicacionArticulosViewModel { get; set; }
 
         public override string ModuleName {
             get {
