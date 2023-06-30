@@ -1302,7 +1302,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 		
         private ValidationResult PorcentajeVentas4Validating() {
-            return ValidarPorcentajesDeComisiones(PorcentajeVentas4, PorcentajeVentas3, PorcentajeVentas5, TopeFinalVenta4, TopeFinalVenta5, UsaComisionPorVenta); //Nivel4y5
+            return ValidarPorcentajesDeComisiones(PorcentajeVentas4, PorcentajeVentas3, (PorcentajeVentas5 == 0 ? PorcentajeVentas4 : PorcentajeVentas5), TopeFinalVenta4, TopeFinalVenta5, UsaComisionPorVenta); //Nivel4y5
         }
 		
         private ValidationResult PorcentajeVentas5Validating() {
@@ -1320,7 +1320,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return ValidarPorcentajesDeComisiones(PorcentajeCobranza3, PorcentajeCobranza2, PorcentajeCobranza4, TopeFinalCobranza3, TopeFinalCobranza4, UsaComisionPorCobranza);
         }
         private ValidationResult PorcentajeCobranza4Validating() {
-            return ValidarPorcentajesDeComisiones(PorcentajeCobranza4, PorcentajeCobranza3, PorcentajeCobranza5, TopeFinalCobranza4, TopeFinalCobranza5, UsaComisionPorCobranza);
+            return ValidarPorcentajesDeComisiones(PorcentajeCobranza4, PorcentajeCobranza3, (PorcentajeCobranza5 == 0 ? PorcentajeCobranza4 : PorcentajeCobranza5), TopeFinalCobranza4, TopeFinalCobranza5, UsaComisionPorCobranza);
         }
 		
         private ValidationResult PorcentajeCobranza5Validating() {

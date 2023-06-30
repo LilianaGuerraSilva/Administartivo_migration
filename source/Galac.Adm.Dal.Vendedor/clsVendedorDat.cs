@@ -433,7 +433,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 return false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("Comun.MunicipioCiudad", "NombreCiudad", insDb.InsSql.ToSqlValue(valCiudad), true)) {
+                if (!insDb.ExistsValue("Comun.Ciudad", "NombreCiudad", insDb.InsSql.ToSqlValue(valCiudad), true)) {
                     BuildValidationInfo("El valor asignado al campo ciudad no existe, escoga nuevamente.");
                     vResult = false;
                 }
