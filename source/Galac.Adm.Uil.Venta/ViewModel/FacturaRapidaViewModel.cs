@@ -168,7 +168,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Propiedades
         public ISearchBoxViewModel CuadroDeBusquedaDeArticulosViewModel { get; set; }
         public ISearchBoxViewModel CuadroDeBusquedaDeClientesViewModel { get; set; }
-        public ISearchBoxViewModel CuadroDeBusquedaDeUbicacionArticulosViewModel { get; set; }
 
         public override string ModuleName {
             get {
@@ -2657,18 +2656,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteBuscarUbicacionArticuloCommand() {
             try {
-                //string CodigoArticuloSeleccionado = "";
                 LibSearchCriteria vDefaultCriteria = null;
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("dbo.ExistenciaPorAlmacen.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.TipoArticuloInv", eTipoArticuloInv.Simple), eLogicOperatorType.And);
-                vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.StatusdelArticulo", eStatusArticulo.Vigente), eLogicOperatorType.And);
-                //CuadraDeBusquedaDeUbicacionArticulosViewModel = new CuadroDeBusquedaDeUbicacionDeArticulosViewModel();
-                //CuadraDeBusquedaDeUbicacionArticulosViewModel.ItemSelected = ArticuloSeleccionado;
-                //CodigoArticuloSeleccionado = Articulo;
-                //if (CodigoArticuloSeleccionado != "") {
-                //    vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
-                //}
-                var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Artículo Inventario Ubicación",  vDefaultCriteria, vFixedCriteria, string.Empty);
+                string CodigoArticuloSeleccionado = LibConvert.ToStr(DetailFacturaRapidaDetalle.SelectedItem.Articulo);
+                if (!LibString.IsNullOrEmpty(CodigoArticuloSeleccionado, true)) {
+                    vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
+                }
+                var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Ubicación de Artículo de Inventario",  vDefaultCriteria, vFixedCriteria, string.Empty);
             } catch (System.AccessViolationException) {
                 throw;
             } catch (System.Exception vEx) {

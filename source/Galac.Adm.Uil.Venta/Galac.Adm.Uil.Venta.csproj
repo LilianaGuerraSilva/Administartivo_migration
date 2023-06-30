@@ -246,7 +246,6 @@
     <Compile Include="ViewModel\CobroRapidoMultimonedaViewModel.cs" />
     <Compile Include="ViewModel\CobroRapidoViewModelBase.cs" />
     <Compile Include="ViewModel\CobroRapidoVzlaViewModelBase.cs" />
-    <Compile Include="ViewModel\CuadroDeBusquedaDeUbicacionDeArticulosViewModel.cs" />
     <Compile Include="ViewModel\CuadroDeBusquedaDeArticulosViewModel.cs" />
     <Compile Include="ViewModel\CuadroDeBusquedaDeClientesViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaDetalleMngViewModel.cs" />
