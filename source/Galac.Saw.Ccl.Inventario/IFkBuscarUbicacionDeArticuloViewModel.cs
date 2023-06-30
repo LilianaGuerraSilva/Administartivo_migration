@@ -12,7 +12,7 @@ namespace Galac.Saw.Ccl.Inventario {
         string CodigoArticulo { get; set; }
         string Descripcion { get; set; }
         string Ubicacion { get; set; }
-        string Existencia { get; set; }
+        decimal Existencia { get; set; }
         #endregion //Propiedades
 
 

@@ -75,7 +75,7 @@ namespace Galac.Adm.Brl.Venta {
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
                     vResult = vPdnModule.GetDataForList("Punto de Venta", ref refXmlDocument, valXmlParamsExpression);
                     break;
-                case "Artículo Inventario Ubicación":
+                case "Ubicación de Artículo de Inventario":
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
                     vResult = vPdnModule.GetDataForList("Punto de Venta Ubicación", ref refXmlDocument, valXmlParamsExpression);
                     break;
