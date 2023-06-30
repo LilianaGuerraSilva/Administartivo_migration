@@ -2659,10 +2659,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibSearchCriteria vDefaultCriteria = null;
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("dbo.ExistenciaPorAlmacen.ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania"));
                 vFixedCriteria.Add(LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.TipoArticuloInv", eTipoArticuloInv.Simple), eLogicOperatorType.And);
-                string CodigoArticuloSeleccionado = LibConvert.ToStr(DetailFacturaRapidaDetalle.SelectedItem.Articulo);
-                if (!LibString.IsNullOrEmpty(CodigoArticuloSeleccionado, true)) {
-                    vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
-                }
+                //string CodigoArticuloSeleccionado = LibConvert.ToStr(DetailFacturaRapidaDetalle.SelectedItem.Articulo);
+                //if (!LibString.IsNullOrEmpty(CodigoArticuloSeleccionado, true)) {
+                //    vDefaultCriteria = (LibSearchCriteria.CreateCriteria("dbo.ArticuloInventario.Codigo", CodigoArticuloSeleccionado));
+                //}
                 var vConexionArticulo = ChooseRecord<FkBuscarUbicacionDeArticuloViewModel>("Ubicación de Artículo de Inventario",  vDefaultCriteria, vFixedCriteria, string.Empty);
             } catch (System.AccessViolationException) {
                 throw;
