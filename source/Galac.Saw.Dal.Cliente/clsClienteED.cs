@@ -489,6 +489,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("         Cliente.Status,");
             SQL.AppendLine("         Cliente.Contacto,");
             SQL.AppendLine("         Cliente.ZonaDeCobranza,");
+            SQL.AppendLine("         Cliente.ConsecutivoVendedor,");
             SQL.AppendLine("         Cliente.CodigoVendedor,");
             SQL.AppendLine("         Cliente.RazonInactividad,");
             SQL.AppendLine("         Cliente.Email,");
@@ -556,7 +557,8 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.Ciudad,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.ZonaPostal,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.ZonaDeCobranza,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.CodigoVendedor,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.ConsecutivoVendedor,");
+			SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.CodigoVendedor,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.SectorDeNegocio,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.StatusStr,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.ActivarAvisoAlEscoger,");
@@ -598,7 +600,8 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("      " + DbSchema + ".Cliente.ZonaPostal,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.Telefono,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.ZonaDeCobranza,");
-            SQL.AppendLine("      " + DbSchema + ".Cliente.CodigoVendedor,");
+            SQL.AppendLine("      " + DbSchema + ".Cliente.ConsecutivoVendedor,");
+			SQL.AppendLine("      " + DbSchema + ".Cliente.CodigoVendedor,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.CuentaContableCxC,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.CuentaContableIngresos,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.CuentaContableAnticipo,");
@@ -637,7 +640,7 @@ namespace Galac.Saw.Dal.Cliente {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteINS",SqlSpInsParameters(),SqlSpIns(),true);
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteUPD",SqlSpUpdParameters(),SqlSpUpd(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteDEL",SqlSpDelParameters(),SqlSpDel(),true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteGET",SqlSpGetParameters(),SqlSpGet(),true);
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteGET",SqlSpGetParameters(),SqlSpGet(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteSCH",SqlSpSearchParameters(),SqlSpSearch(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteGetFk",SqlSpGetFKParameters(),SqlSpGetFK(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ObtenerPaginaDeClientesPorNombre",SqlObtenerPaginaDeClientesParametros(),SqlObtenerPaginaDeClientesPorNombreSentencia(),true) && vResult;
