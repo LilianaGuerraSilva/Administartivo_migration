@@ -112,7 +112,15 @@ namespace Galac.Saw.Brl.Cliente {
             return cl1.GetType().GetProperty(valCampo).GetValue(cl1, null);
         }
 
-
+        private int BuscarConsecutivoVendedor(string valCodigoVendedor) {
+            int vResult = 1;
+            string vSql = "SELECT Consecutivo FROM ADM.Vendedor WHERE Codigo =" + new QAdvSql("").ToSqlValue(valCodigoVendedor);
+            var vSqlResult = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vSqlResult != null && vSqlResult.HasElements) {
+                vResult = LibConvert.ToInt(LibXml.GetPropertyString(vSqlResult, "Consecutivo"));
+            }
+            return vResult;
+        }
 
         LibResponse IClientePdn.InsertClienteForExternalRecord(string valNombre, string valNumeroRIF, string valDireccion, string valTelefono, ref string refCodigo, eTipoDocumentoIdentificacion valTipoDocumentoIdentificacion) {
             Entity.Cliente vCliente = new Entity.Cliente();
@@ -137,6 +145,7 @@ namespace Galac.Saw.Brl.Cliente {
 
             LibGalac.Aos.Dal.LibDatabase insDb = new LibGalac.Aos.Dal.LibDatabase(clsCkn.ConfigKeyForDbService);
             vCliente.Codigo = insDb.NextStrConsecutive("Cliente", "Codigo", new QAdvSql("").SqlIntValueWithAnd("", "ConsecutivoCompania", LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania")) + " AND Codigo <> '000000000A' AND codigo <> 'RD_Cliente'", true, 10);
+            vCliente.ConsecutivoVendedor = BuscarConsecutivoVendedor(vCliente.CodigoVendedor);
             if (ExisteElCodigoDeCliente(vCliente.Codigo)) {
                 vCliente.Codigo = GeneraCodigoClienteRapidoSinCast();
             }

@@ -27,6 +27,7 @@ namespace Galac.Saw.Ccl.Cliente {
         private eStatusCliente _Status;
         private string _Contacto;
         private string _ZonaDeCobranza;
+        private int _ConsecutivoVendedor;
         private string _CodigoVendedor;
         private string _RazonInactividad;
         private string _Email;
@@ -135,6 +136,11 @@ namespace Galac.Saw.Ccl.Cliente {
         public string ZonaDeCobranza {
             get { return _ZonaDeCobranza; }
             set { _ZonaDeCobranza = LibString.Mid(value, 0, 100); }
+        }
+		
+        public int ConsecutivoVendedor {
+            get { return _ConsecutivoVendedor; }
+            set { _ConsecutivoVendedor = value; }
         }
 
         public string CodigoVendedor {
@@ -357,6 +363,7 @@ namespace Galac.Saw.Ccl.Cliente {
             StatusAsEnum = eStatusCliente.Activo;
             Contacto = string.Empty;
             ZonaDeCobranza = string.Empty;
+            ConsecutivoVendedor = 0;
             CodigoVendedor = string.Empty;
             RazonInactividad = string.Empty;
             Email = string.Empty;
@@ -400,6 +407,7 @@ namespace Galac.Saw.Ccl.Cliente {
             vResult.StatusAsEnum = _Status;
             vResult.Contacto = _Contacto;
             vResult.ZonaDeCobranza = _ZonaDeCobranza;
+            vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.CodigoVendedor = _CodigoVendedor;
             vResult.RazonInactividad = _RazonInactividad;
             vResult.Email = _Email;
@@ -443,6 +451,7 @@ namespace Galac.Saw.Ccl.Cliente {
                "\nStatus = " + _Status.ToString() +
                "\nContacto = " + _Contacto +
                "\nZona De Cobranza = " + _ZonaDeCobranza +
+               "\nCódigo del Vendedor = " + _ConsecutivoVendedor.ToString() +
                "\nCódigo del Vendedor = " + _CodigoVendedor +
                "\nRazon Inactividad = " + _RazonInactividad +
                "\nEmail = " + _Email +
