@@ -342,7 +342,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     @PrimaryKey=ConsecutivoCompania,Nombre
 }
 
-{@S}Cliente = Record //Male,Multiarchivo=Compania , MALE, Componente=Cliente,Esquema=Saw,interop
+{@S}Cliente = Record //Male,Multiarchivo=Compania , MALE, Componente=Cliente,Esquema=Saw,interop,Generate
    ConsecutivoCompania    : LongInt; //o,HIDE
    Consecutivo            : longint; // o,a,HIDE,Consecutive,g,"Consecutivo"
    Codigo                 : Str10; //g,o,"Código",sugestConsecutive,search
@@ -357,7 +357,8 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
    Status                 : unStatusCliente;
    Contacto               : Str35; //
    ZonaDeCobranza         : Str20; //=zonaCobranza.nombre,search
-   CodigoVendedor         : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()",search
+   ConsecutivoVendedor	  : LongInt;//"Consecutivo Vendedor",hide,=vendedor.Consecutivo
+   CodigoVendedor         : Str5;//"Código del Vendedor",=vendedor.codigo,ci"gProyParametros.getUsarCodigoVendedorEnPantallas()",search   
    RazonInactividad       : Str35;
    Email                  : Str40;
    ActivarAvisoAlEscoger  : Boolean;
