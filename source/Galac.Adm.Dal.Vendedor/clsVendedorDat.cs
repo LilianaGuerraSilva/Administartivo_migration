@@ -116,7 +116,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private StringBuilder ParametrosDescripcion(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+        private StringBuilder ParametrosNombre(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             if (valAddReturnParameter) {
@@ -129,8 +129,7 @@ namespace Galac.Adm.Dal.Vendedor {
             }
             vResult = vParams.Get();
             return vResult;
-        }
-    
+        }    
 
         private StringBuilder ParametrosProximoConsecutivo(Entity.Vendedor valRecord) {
             StringBuilder vResult = new StringBuilder();
@@ -513,7 +512,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.Nombre = valNombre;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosDescripcion(vRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosNombre(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
