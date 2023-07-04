@@ -66,3 +66,7 @@
 	path = source/ContabilidadVb
 	url = https://github.com/Galac-Software/ContabilidadVb.git
 	branch = feature/SawProximaVersion2023Julio
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/Galac-Software/IvaVb.git
+	branch = release/IVA-34.4
