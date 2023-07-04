@@ -16,7 +16,7 @@ using System.Xml.Linq;
 using LibGalac.Aos.Uil;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
-    public class VendedorViewModel : LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
+    public class VendedorViewModel: LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
         #region Variables       
         private decimal _TopeInicialVenta2;
         private decimal _TopeInicialVenta3;
@@ -83,7 +83,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private FkCiudadViewModel _ConexionCiudad = null;
         private FkRutaDeComercializacionViewModel _ConexionRutaDeComercializacion = null;
 
-	    #endregion
+        #endregion
         #region Propiedades
 
         public override string ModuleName {
@@ -271,7 +271,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        public int  ConsecutivoRutaDeComercializacion {
+        public int ConsecutivoRutaDeComercializacion {
             get {
                 return Model.ConsecutivoRutaDeComercializacion;
             }
@@ -283,8 +283,8 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Ruta de Comercialización es requerido.")]
-        [LibGridColum("Ruta de Comercialización", ColumnOrder = 4,Width =300)]
-        public string  RutaDeComercializacion {
+        [LibGridColum("Ruta de Comercialización", ColumnOrder = 4, Width = 300)]
+        public string RutaDeComercializacion {
             get {
                 return Model.RutaDeComercializacion;
             }
@@ -377,7 +377,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialVenta2 {
             get {
-                if (UsaComisionPorVenta && Action == eAccionSR.Consultar && TopeFinalVenta1 != 0) {
+                if (UsaComisionPorVenta && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalVenta1 != 0) {
                     return TopeFinalVenta1 + 1;
                 }
                 return LibMath.RoundToNDecimals(_TopeInicialVenta2, 2);
@@ -420,10 +420,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
-		
+
         public decimal TopeInicialVenta3 {
             get {
-                if (UsaComisionPorVenta && Action == eAccionSR.Consultar && TopeFinalVenta2 != 0) {
+                if (UsaComisionPorVenta && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalVenta2 != 0) {
                     return TopeFinalVenta2 + 1;
                 }
                 return LibMath.RoundToNDecimals(_TopeInicialVenta3, 2);
@@ -466,10 +466,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
-		
+
         public decimal TopeInicialVenta4 {
             get {
-                if (UsaComisionPorVenta && Action == eAccionSR.Consultar && TopeFinalVenta3 != 0) {
+                if (UsaComisionPorVenta && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalVenta3 != 0) {
                     return TopeFinalVenta3 + 1;
                 }
                 return LibMath.RoundToNDecimals(_TopeInicialVenta4, 2);
@@ -494,7 +494,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
-		
+
         [LibCustomValidation("PorcentajeVentas4Validating")]
         public decimal PorcentajeVentas4 {
             get {
@@ -585,7 +585,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza2 {
             get {
-                if (UsaComisionPorCobranza && Action == eAccionSR.Consultar && TopeFinalCobranza1 != 0) {
+                if (UsaComisionPorCobranza && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalCobranza1 != 0) {
                     return TopeFinalCobranza1 + 1;
                 }
                 return LibMath.RoundToNDecimals(_TopeInicialCobranza2, 2);
@@ -631,7 +631,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza3 {
             get {
-                if (UsaComisionPorCobranza && Action == eAccionSR.Consultar && TopeFinalCobranza2 != 0) {
+                if (UsaComisionPorCobranza && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalCobranza2 != 0) {
                     return TopeFinalCobranza2 + 1;
                 }
                 return LibMath.RoundToNDecimals(_TopeInicialCobranza3, 2);
@@ -677,7 +677,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza4 {
             get {
-                if (UsaComisionPorCobranza && Action == eAccionSR.Consultar && TopeFinalCobranza3 != 0) {
+                if (UsaComisionPorCobranza && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalCobranza3 != 0) {
                     return TopeFinalCobranza3 + 1;
                 }
                 return LibMath.RoundToNDecimals(_TopeInicialCobranza4, 2);
@@ -753,7 +753,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 if (Model.UsaComisionPorVentaAsBool != value) {
                     Model.UsaComisionPorVentaAsBool = value;
                     IsDirty = true;
-					if (value == false) {
+                    if (!value) {
                         LimpiarTopesDeVenta();
                         LimpiarPorcentajesDeVenta();
                     }
@@ -771,7 +771,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 if (Model.UsaComisionPorCobranzaAsBool != value) {
                     Model.UsaComisionPorCobranzaAsBool = value;
                     IsDirty = true;
-					if (value == false) {
+                    if (!value) {
                         LimpiarTopesDeCobranza();
                         LimpiarPorcentajesDeCobranza();
                     }
@@ -904,7 +904,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 return "Los montos de las comisiones están expresados en " + ObtenerMonedaLocal();
             }
         }
-		
+
         public FkRutaDeComercializacionViewModel ConexionRutaDeComercializacion {
             get {
                 return _ConexionRutaDeComercializacion;
@@ -953,12 +953,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public VendedorViewModel()
             : this(new Ccl.Vendedor.Vendedor(), eAccionSR.Insertar) {
         }
-		
+
         public VendedorViewModel(Ccl.Vendedor.Vendedor initModel, eAccionSR initAction)
             : base(initModel, initAction, LibGlobalValues.Instance.GetAppMemInfo(), LibGlobalValues.Instance.GetMfcInfo()) {
             DefaultFocusedPropertyName = ConsecutivoCompaniaPropertyName;
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
-            InitializeDetails();            
+            InitializeDetails();
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -1046,7 +1046,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             //ConexionCiudad = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCiudadViewModel>("Ciudad", LibSearchCriteria.CreateCriteria("NombreCiudad", Ciudad), new Saw.Brl.SttDef.clsSettValueByCompanyNav());
-            ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", 1), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());         
+            ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", 1), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());
         }
 
         protected override void ExecuteAction() {
@@ -1056,8 +1056,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
             base.ExecuteAction();
+            LimpiarTopesDeVenta();
+            LimpiarPorcentajesDeVenta();
+            LimpiarPorcentajesDeCobranza();
+            LimpiarTopesDeCobranza();
         }
-        
+
         private void ExecuteChooseCiudadCommand(string valNombreCiudad) {
             try {
                 if (valNombreCiudad == null) {
@@ -1108,7 +1112,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             vTopeMasAlto = vTopeMasAlto < TopeFinalVenta4 ? TopeFinalVenta4 : vTopeMasAlto;
             return vTopeMasAlto;
         }
-                       
+
         private decimal TopeFinalDeCobranzaMasAlto() {
             decimal vTopeMasAlto = 0;
             vTopeMasAlto = vTopeMasAlto < TopeFinalCobranza1 ? TopeFinalCobranza1 : vTopeMasAlto;
@@ -1122,7 +1126,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             XElement vResulset = GetBusinessComponent().QueryInfo(eProcessMessageType.Message, "ProximoCodigo", Mfc.GetIntAsParam("Compania"), false);
             return LibXml.GetPropertyString(vResulset, "Codigo");
         }
-        
+
         private static bool CalculaComisionesSobreRenglones() {
             eComisionesEnFactura vFormaDeAsignarComisionesDeVendedor = (eComisionesEnFactura)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ComisionesEnFactura");
             return vFormaDeAsignarComisionesDeVendedor != eComisionesEnFactura.SobreRenglones;
@@ -1137,11 +1141,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private void LimpiarTopesDeVenta() {
             TopeInicialVenta1 = 0;
             RaisePropertyChanged(TopeInicialVenta1PropertyName);
-            _TopeInicialVenta2 = 0;
+            TopeInicialVenta2 = 0;
             RaisePropertyChanged(TopeInicialVenta2PropertyName);
-            _TopeInicialVenta3 = 0;
+            TopeInicialVenta3 = 0;
             RaisePropertyChanged(TopeInicialVenta3PropertyName);
-            _TopeInicialVenta4 = 0;
+            TopeInicialVenta4 = 0;
             RaisePropertyChanged(TopeInicialVenta4PropertyName);
             TopeFinalVenta1 = 0;
             RaisePropertyChanged(TopeFinalVenta1PropertyName);
@@ -1171,11 +1175,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private void LimpiarTopesDeCobranza() {
             TopeInicialCobranza1 = 0;
             RaisePropertyChanged(TopeInicialCobranza1PropertyName);
-            _TopeInicialCobranza2 = 0;
+            TopeInicialCobranza2 = 0;
             RaisePropertyChanged(TopeInicialCobranza2PropertyName);
-            _TopeInicialCobranza3 = 0;
+            TopeInicialCobranza3 = 0;
             RaisePropertyChanged(TopeInicialCobranza3PropertyName);
-            _TopeInicialCobranza4 = 0;
+            TopeInicialCobranza4 = 0;
             RaisePropertyChanged(TopeInicialCobranza4PropertyName);
             TopeFinalCobranza1 = 0;
             RaisePropertyChanged(TopeFinalCobranza1PropertyName);
@@ -1211,35 +1215,35 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
             return vResult;
         }
-		
+
         private ValidationResult TopeFinalVenta1Validating() {
             return ValidarTopesDeComisiones(TopeInicialVenta1, TopeFinalVenta1, UsaComisionPorVenta);
         }
-		
+
         private ValidationResult TopeFinalVenta2Validating() {
             return ValidarTopesDeComisiones(TopeInicialVenta2, TopeFinalVenta2, UsaComisionPorVenta);
         }
-		
+
         private ValidationResult TopeFinalVenta3Validating() {
             return ValidarTopesDeComisiones(TopeInicialVenta3, TopeFinalVenta3, UsaComisionPorVenta);
         }
-		
+
         private ValidationResult TopeFinalVenta4Validating() {
             return ValidarTopesDeComisiones(TopeInicialVenta4, TopeFinalVenta4, UsaComisionPorVenta);
         }
-		
+
         private ValidationResult TopeFinalCobranza1Validating() {
             return ValidarTopesDeComisiones(TopeInicialCobranza1, TopeFinalCobranza1, UsaComisionPorCobranza);
         }
-		
+
         private ValidationResult TopeFinalCobranza2Validating() {
             return ValidarTopesDeComisiones(TopeInicialCobranza2, TopeFinalCobranza2, UsaComisionPorCobranza);
         }
-		
+
         private ValidationResult TopeFinalCobranza3Validating() {
             return ValidarTopesDeComisiones(TopeInicialCobranza3, TopeFinalCobranza3, UsaComisionPorCobranza);
         }
-		
+
         private ValidationResult TopeFinalCobranza4Validating() {
             return ValidarTopesDeComisiones(TopeInicialCobranza4, TopeFinalCobranza4, UsaComisionPorCobranza);
         }
@@ -1248,7 +1252,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             ConsecutivoRutaDeComercializacion = 1;
             ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", ConsecutivoRutaDeComercializacion), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());
         }
-		
+
         #endregion //Validaciones de Topes de Comisiones
         #region Validaciones de Porcentajes de Comisiones
         private ValidationResult ValidarPorcentajesDeComisionesNivel1(decimal valPorcentajeComisionActual, decimal valPorcentajeComisionSiguiente, decimal valTopeFinalDelSiguienteNivel, bool valUsaEsteTipoDeComision) {
@@ -1262,7 +1266,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
             return vResult;
         }
-		
+
         private ValidationResult ValidarPorcentajesDeComisiones(decimal valPorcentajeComisionActual, decimal valPorcentajeComisionAnterior, decimal valPorcentajeComisionSiguiente, decimal valTopeFinalNivelActual, decimal valTopeFinalSiguienteNivel, bool valUsaEsteTipoDeComision) {
             ValidationResult vResult = ValidationResult.Success;
             if (valUsaEsteTipoDeComision) {
@@ -1276,7 +1280,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
             return vResult;
         }
-		
+
         private ValidationResult ValidarPorcentajesDeComisionesNivel5(decimal valPorcentajeComisionActual, decimal valPorcentajeComisionAnterior, bool valUsaEsteTipoDeComision) {
             ValidationResult vResult = ValidationResult.Success;
             if (valUsaEsteTipoDeComision) {
@@ -1288,41 +1292,41 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
             return vResult;
         }
-		
+
         private ValidationResult PorcentajeVentas1Validating() {
             return ValidarPorcentajesDeComisionesNivel1(PorcentajeVentas1, PorcentajeVentas2, TopeFinalVenta2, UsaComisionPorVenta);
         }
-		
+
         private ValidationResult PorcentajeVentas2Validating() {
             return ValidarPorcentajesDeComisiones(PorcentajeVentas2, PorcentajeVentas1, PorcentajeVentas3, TopeFinalVenta2, TopeFinalVenta3, UsaComisionPorVenta);
         }
-		
+
         private ValidationResult PorcentajeVentas3Validating() {
             return ValidarPorcentajesDeComisiones(PorcentajeVentas3, PorcentajeVentas2, PorcentajeVentas4, TopeFinalVenta3, TopeFinalVenta4, UsaComisionPorVenta);
         }
-		
+
         private ValidationResult PorcentajeVentas4Validating() {
             return ValidarPorcentajesDeComisiones(PorcentajeVentas4, PorcentajeVentas3, (PorcentajeVentas5 == 0 ? PorcentajeVentas4 : PorcentajeVentas5), TopeFinalVenta4, TopeFinalVenta5, UsaComisionPorVenta); //Nivel4y5
         }
-		
+
         private ValidationResult PorcentajeVentas5Validating() {
             return ValidarPorcentajesDeComisionesNivel5(PorcentajeVentas5, PorcentajeVentas4, UsaComisionPorVenta);
         }
-		
+
         private ValidationResult PorcentajeCobranza1Validating() {
             return ValidarPorcentajesDeComisionesNivel1(PorcentajeCobranza1, PorcentajeCobranza2, TopeFinalCobranza2, UsaComisionPorCobranza);
         }
         private ValidationResult PorcentajeCobranza2Validating() {
             return ValidarPorcentajesDeComisiones(PorcentajeCobranza2, PorcentajeCobranza1, PorcentajeCobranza3, TopeFinalCobranza2, TopeFinalCobranza3, UsaComisionPorCobranza);
         }
-		
+
         private ValidationResult PorcentajeCobranza3Validating() {
             return ValidarPorcentajesDeComisiones(PorcentajeCobranza3, PorcentajeCobranza2, PorcentajeCobranza4, TopeFinalCobranza3, TopeFinalCobranza4, UsaComisionPorCobranza);
         }
         private ValidationResult PorcentajeCobranza4Validating() {
             return ValidarPorcentajesDeComisiones(PorcentajeCobranza4, PorcentajeCobranza3, (PorcentajeCobranza5 == 0 ? PorcentajeCobranza4 : PorcentajeCobranza5), TopeFinalCobranza4, TopeFinalCobranza5, UsaComisionPorCobranza);
         }
-		
+
         private ValidationResult PorcentajeCobranza5Validating() {
             return ValidarPorcentajesDeComisionesNivel5(PorcentajeCobranza5, PorcentajeCobranza4, UsaComisionPorCobranza);
         }
