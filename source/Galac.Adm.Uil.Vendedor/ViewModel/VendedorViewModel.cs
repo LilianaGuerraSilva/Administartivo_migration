@@ -753,7 +753,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 if (Model.UsaComisionPorVentaAsBool != value) {
                     Model.UsaComisionPorVentaAsBool = value;
                     IsDirty = true;
-					if (value == false) {
+                    if (!value) {
                         LimpiarTopesDeVenta();
                         LimpiarPorcentajesDeVenta();
                     }
@@ -771,7 +771,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 if (Model.UsaComisionPorCobranzaAsBool != value) {
                     Model.UsaComisionPorCobranzaAsBool = value;
                     IsDirty = true;
-					if (value == false) {
+                    if (!value) {
                         LimpiarTopesDeCobranza();
                         LimpiarPorcentajesDeCobranza();
                     }
@@ -1053,9 +1053,13 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
                 if (!UsaComisionPorVenta && !UsaComisionPorCobranza) {
                     LibMessages.MessageBox.Alert(this, "Recuerde asignar Comisiones de Venta y/o Cobranza a este Vendedor.", ModuleName);
-                }
+                }              
             }
             base.ExecuteAction();
+            LimpiarTopesDeVenta();
+            LimpiarPorcentajesDeVenta();
+            LimpiarPorcentajesDeCobranza();
+            LimpiarTopesDeCobranza();
         }
         
         private void ExecuteChooseCiudadCommand(string valNombreCiudad) {
@@ -1137,11 +1141,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private void LimpiarTopesDeVenta() {
             TopeInicialVenta1 = 0;
             RaisePropertyChanged(TopeInicialVenta1PropertyName);
-            _TopeInicialVenta2 = 0;
+            TopeInicialVenta2 = 0;
             RaisePropertyChanged(TopeInicialVenta2PropertyName);
-            _TopeInicialVenta3 = 0;
+            TopeInicialVenta3 = 0;
             RaisePropertyChanged(TopeInicialVenta3PropertyName);
-            _TopeInicialVenta4 = 0;
+            TopeInicialVenta4 = 0;
             RaisePropertyChanged(TopeInicialVenta4PropertyName);
             TopeFinalVenta1 = 0;
             RaisePropertyChanged(TopeFinalVenta1PropertyName);
@@ -1171,11 +1175,11 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private void LimpiarTopesDeCobranza() {
             TopeInicialCobranza1 = 0;
             RaisePropertyChanged(TopeInicialCobranza1PropertyName);
-            _TopeInicialCobranza2 = 0;
+            TopeInicialCobranza2 = 0;
             RaisePropertyChanged(TopeInicialCobranza2PropertyName);
-            _TopeInicialCobranza3 = 0;
+            TopeInicialCobranza3 = 0;
             RaisePropertyChanged(TopeInicialCobranza3PropertyName);
-            _TopeInicialCobranza4 = 0;
+            TopeInicialCobranza4 = 0;
             RaisePropertyChanged(TopeInicialCobranza4PropertyName);
             TopeFinalCobranza1 = 0;
             RaisePropertyChanged(TopeFinalCobranza1PropertyName);
