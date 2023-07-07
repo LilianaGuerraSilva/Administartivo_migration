@@ -42,7 +42,7 @@ namespace Galac.Saw.Dal.Tablas {
             vParams.AddInString("Descripcion", valRecord.Descripcion, 100);
             vParams.AddInString("NombreOperador", ((CustomIdentity) Thread.CurrentPrincipal.Identity).Login, 10);
             vParams.AddInDateTime("FechaUltimaModificacion", LibDate.Today());
-            if (valAction == eAccionSR.Modificar) {               
+            if (valAction == eAccionSR.Modificar) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
             vResult = vParams.Get();
@@ -55,8 +55,8 @@ namespace Galac.Saw.Dal.Tablas {
             if (valAddReturnParameter) {
                 vParams.AddReturn();
             }
-            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);            
-            vParams.AddInString("Descripcion", valRecord.Descripcion, 100);
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
+            vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
@@ -64,14 +64,14 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        private StringBuilder ParametrosClaveDel(RutaDeComercializacion valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+        private StringBuilder ParametrosDescripcion(RutaDeComercializacion valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             if (valAddReturnParameter) {
                 vParams.AddReturn();
             }
-            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
-            vParams.AddInInteger("Consecutivo", valRecord.Consecutivo);
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);            
+            vParams.AddInString("Descripcion", valRecord.Descripcion, 100);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
@@ -120,7 +120,7 @@ namespace Galac.Saw.Dal.Tablas {
             CurrentRecord = refRecord[0];
             if (Validate(eAccionSR.Eliminar, out vErrMsg)) {
                 LibDatabase insDb = new LibDatabase();
-                vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "RutaDeComercializacionDEL"), ParametrosClaveDel(CurrentRecord, true, true));
+                vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "RutaDeComercializacionDEL"), ParametrosClave(CurrentRecord, true, true));
                 insDb.Dispose();
             } else {
                 throw new GalacValidationException(vErrMsg);
@@ -224,7 +224,8 @@ namespace Galac.Saw.Dal.Tablas {
         protected override bool Validate(eAccionSR valAction, out string outErrorMessage) {
             bool vResult = true;
             ClearValidationInfo();
-            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);            
+            vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
+            vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
             vResult = IsValidDescripcion(valAction, CurrentRecord) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
@@ -242,6 +243,23 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
+        private bool IsValidConsecutivo(eAccionSR valAction, int valConsecutivoCompania, int valConsecutivo){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            if (valConsecutivo == 0) {
+                BuildValidationInfo(MsgRequiredField("Consecutivo"));
+                vResult = false;
+            } else if (valAction == eAccionSR.Insertar) {
+                if (KeyExists(valConsecutivoCompania, valConsecutivo)) {
+                    BuildValidationInfo(MsgFieldValueAlreadyExist("Consecutivo", valConsecutivo));
+                    vResult = false;
+                }
+            }
+            return vResult;
+        }
+
         private bool IsValidDescripcion(eAccionSR valAction, RutaDeComercializacion valCurrentRecord) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
@@ -250,8 +268,8 @@ namespace Galac.Saw.Dal.Tablas {
             if (LibString.IsNullOrEmpty(valCurrentRecord.Descripcion, true)) {
                 BuildValidationInfo(MsgRequiredField("Descripcion"));
                 return false;
-            } else if (valAction == eAccionSR.Insertar) {
-                if (KeyExists(valCurrentRecord.ConsecutivoCompania, valCurrentRecord.Descripcion)) {
+            } else if (valAction == eAccionSR.Insertar) {               
+                if (KeyDescripcionExists(valCurrentRecord)) {
                     BuildValidationInfo("La Ruta de Comercialización ingresada ya existe, ingrese una distinta.");
                     vResult = false;
                 }
@@ -259,17 +277,24 @@ namespace Galac.Saw.Dal.Tablas {
             return vResult;
         }
 
-        private bool KeyExists(int valConsecutivoCompania, string valDescripcion) {
+        private bool KeyExists(int valConsecutivoCompania, int valConsecutivo) {
             bool vResult = false;
             RutaDeComercializacion vRecordBusqueda = new RutaDeComercializacion();
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
-            vRecordBusqueda.Descripcion = valDescripcion;
+            vRecordBusqueda.Consecutivo = valConsecutivo;
             LibDatabase insDb = new LibDatabase();
             vResult = insDb.ExistsRecord(DbSchema + ".RutaDeComercializacion", "ConsecutivoCompania", ParametrosClave(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }        
-        
+
+        private bool KeyDescripcionExists( RutaDeComercializacion valRecordBusqueda) {
+            bool vResult = false;           
+            LibDatabase insDb = new LibDatabase();            
+            vResult = insDb.ExistsRecord(DbSchema + ".RutaDeComercializacion", "ConsecutivoCompania", ParametrosDescripcion(valRecordBusqueda, false, false));
+            insDb.Dispose();
+            return vResult;
+        }
         #endregion //Validaciones
         #region Miembros de ILibDataFKSearch
         bool ILibDataFKSearch.ConnectFk(ref XmlDocument refResulset, eProcessMessageType valType, string valProcessMessage, StringBuilder valXmlParamsExpression) {
