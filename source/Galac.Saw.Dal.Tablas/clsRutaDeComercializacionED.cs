@@ -121,12 +121,17 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("   DECLARE @CurrentTimeStamp timestamp");
             SQL.AppendLine("   DECLARE @ValidationMsg " + InsSql.VarCharTypeForDb(1500) + " --No puede ser más");
             SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10, 0) + "");
-            //SQL.AppendLine("--DECLARE @CanBeChanged bit");
+            SQL.AppendLine("   DECLARE @DescripcionOriginal " + InsSql.VarCharTypeForDb(100));
             SQL.AppendLine("   SET @ReturnValue = -1");
             SQL.AppendLine("   SET @ValidationMsg = ''");
             SQL.AppendLine("   IF EXISTS(SELECT ConsecutivoCompania FROM " + DbSchema + ".RutaDeComercializacion WHERE ConsecutivoCompania = @ConsecutivoCompania AND Consecutivo = @Consecutivo)");
             SQL.AppendLine("   BEGIN");
             SQL.AppendLine("      SELECT @CurrentTimeStamp = fldTimeStamp FROM " + DbSchema + ".RutaDeComercializacion WHERE ConsecutivoCompania = @ConsecutivoCompania AND Consecutivo = @Consecutivo");
+            SQL.AppendLine("      SELECT @DescripcionOriginal = Descripcion FROM " + DbSchema + ".RutaDeComercializacion WHERE ConsecutivoCompania = @ConsecutivoCompania AND Consecutivo = @Consecutivo");
+            SQL.AppendLine("      IF (@DescripcionOriginal = @Descripcion)");
+            SQL.AppendLine("         RETURN 1 ");
+            SQL.AppendLine("      ELSE ");
+            SQL.AppendLine("      BEGIN");
             SQL.AppendLine("      IF (CAST(@CurrentTimeStamp AS bigint) = @TimeStampAsInt)");
             SQL.AppendLine("      BEGIN");
             SQL.AppendLine("--Para Validaciones de FK Lógicas crear e invocar:DECLARE @CanBeChanged bit; EXEC @CanBeChanged = " + DbSchema + ".Gp_RutaDeComercializacionCanBeUpdated @ConsecutivoCompania,@Consecutivo, @CurrentTimeStamp, @ValidationMsg out");
@@ -154,12 +159,10 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("            RAISERROR(@ValidationMsg, 14 ,1)");
             SQL.AppendLine("            ROLLBACK");
             SQL.AppendLine("         END");
-            //SQL.AppendLine("--END");
-            //SQL.AppendLine("--ELSE");
-            //SQL.AppendLine("--	RAISERROR('El registro no puede ser modificado: %s', 14, 1, @ValidationMsg)");
             SQL.AppendLine("      END");
             SQL.AppendLine("      ELSE");
             SQL.AppendLine("         RAISERROR('El registro ha sido modificado o eliminado por otro usuario.', 14, 1)");
+            SQL.AppendLine("   END");
             SQL.AppendLine("   END");
             SQL.AppendLine("   ELSE");
             SQL.AppendLine("      RAISERROR('El registro no existe.', 14, 1)");
@@ -167,6 +170,7 @@ namespace Galac.Saw.Dal.Tablas {
             SQL.AppendLine("END");
             return SQL.ToString();
         }
+
 
         private string SqlSpDelParameters() {
             StringBuilder SQL = new StringBuilder();
