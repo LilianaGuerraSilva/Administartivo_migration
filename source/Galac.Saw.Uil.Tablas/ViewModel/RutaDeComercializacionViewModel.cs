@@ -16,7 +16,7 @@ using Galac.Saw.Brl.Tablas;
 using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Saw.Uil.Tablas.ViewModel {
-    public class RutaDeComercializacionViewModel : LibInputViewModelMfc<RutaDeComercializacion> {
+    public class RutaDeComercializacionViewModel: LibInputViewModelMfc<RutaDeComercializacion> {
         #region Constantes
         public const string DescripcionPropertyName = "Descripcion";
         public const string NombreOperadorPropertyName = "NombreOperador";
@@ -28,7 +28,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             get { return "Ruta de Comercialización"; }
         }
 
-        public int  ConsecutivoCompania {
+        public int ConsecutivoCompania {
             get {
                 return Model.ConsecutivoCompania;
             }
@@ -39,7 +39,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             }
         }
 
-        public int  Consecutivo {
+        public int Consecutivo {
             get {
                 return Model.Consecutivo;
             }
@@ -51,8 +51,8 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Descripción es requerido.")]
-        [LibGridColum("Descripción", MaxLength=100)]
-        public string  Descripcion {
+        [LibGridColum("Descripción", Width = 600)]
+        public string Descripcion {
             get {
                 return Model.Descripcion;
             }
@@ -65,7 +65,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             }
         }
 
-        public string  NombreOperador {
+        public string NombreOperador {
             get {
                 return Model.NombreOperador;
             }
@@ -78,7 +78,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
             }
         }
 
-        public DateTime  FechaUltimaModificacion {
+        public DateTime FechaUltimaModificacion {
             get {
                 return Model.FechaUltimaModificacion;
             }
@@ -105,7 +105,7 @@ namespace Galac.Saw.Uil.Tablas.ViewModel {
 
         protected override void InitializeLookAndFeel(RutaDeComercializacion valModel) {
             base.InitializeLookAndFeel(valModel);
-            if (Consecutivo == 0 ) {
+            if (Consecutivo == 0) {
                 Consecutivo = GenerarProximoConsecutivo();
             }
         }

@@ -268,9 +268,8 @@ namespace Galac.Saw.Dal.Tablas {
             if (LibString.IsNullOrEmpty(valCurrentRecord.Descripcion, true)) {
                 BuildValidationInfo(MsgRequiredField("Descripcion"));
                 return false;
-            } else {
-                LibDatabase insDb = new LibDatabase();
-                if (KeyDescripcionExists( valCurrentRecord)) {
+            } else if (valAction == eAccionSR.Insertar) {               
+                if (KeyDescripcionExists(valCurrentRecord)) {
                     BuildValidationInfo("La Ruta de Comercialización ingresada ya existe, ingrese una distinta.");
                     vResult = false;
                 }
