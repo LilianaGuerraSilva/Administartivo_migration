@@ -191,14 +191,21 @@ namespace Galac.Saw.Dal.Tablas {
             LibResponse vResult = new LibResponse();
             string vErrMsg = "";
             CurrentRecord = refRecord[0];
-            if (ExecuteProcessBeforeUpdate()) {
-                if (Validate(eAccionSR.Modificar, out vErrMsg)) {
-                    LibDatabase insDb = new LibDatabase();
-                    vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "RutaDeComercializacionUPD"), ParametrosActualizacion(CurrentRecord, eAccionSR.Modificar));
-                    insDb.Dispose();
-                } else {
-                    throw new GalacValidationException(vErrMsg);
+            try {
+                if (ExecuteProcessBeforeUpdate()) {
+                    if (Validate(eAccionSR.Modificar, out vErrMsg)) {
+                        LibDatabase insDb = new LibDatabase();
+                        vResult.Success = insDb.ExecSpNonQueryNonTransaction(insDb.ToSpName(DbSchema, "RutaDeComercializacionUPD"), ParametrosActualizacion(CurrentRecord, eAccionSR.Modificar));
+                        insDb.Dispose();
+                    } else {
+                        throw new GalacValidationException(vErrMsg);
+                    }
                 }
+            } catch (GalacAlertException ex) {
+                vErrMsg = ex.Message;
+                if (LibText.S1IsInS2("Ya existe la clave", ex.Message))
+                    vErrMsg = "La Ruta de Comercialización " + CurrentRecord.Descripcion + " ya existe.";
+                throw new GalacAlertException(vErrMsg);
             }
             return vResult;
         }
