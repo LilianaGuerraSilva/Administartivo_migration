@@ -292,11 +292,12 @@ namespace Galac.Adm.Dal.Vendedor {
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Modificar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.Update(IList<Entity.Vendedor> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
+            string vErrMsg = string.Empty;
             try {
                 CurrentRecord = refRecord[0];
                 if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
                     if (ExecuteProcessBeforeUpdate()) {
-                        if (valUseDetail) {
+                        if (valUseDetail && refRecord[0].DetailVendedorDetalleComisiones.Count > 0) {
                             vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
                         } else {
                             vResult = UpdateMaster(CurrentRecord, valAction);
@@ -307,8 +308,11 @@ namespace Galac.Adm.Dal.Vendedor {
                     }
                 }
                 return vResult;
-            } finally {
-
+            } catch (GalacAlertException ex) {
+                vErrMsg = ex.Message;
+                if (LibText.S1IsInS2("Ya existe la clave", ex.Message))
+                    vErrMsg = "El vendedor " + CurrentRecord.Nombre + " ya existe.";
+                throw new GalacAlertException(vErrMsg);
             }
         }
 
@@ -432,8 +436,7 @@ namespace Galac.Adm.Dal.Vendedor {
             if (LibString.IsNullOrEmpty(valNombre, true)) {
                 BuildValidationInfo(MsgRequiredField("Nombre"));
                 return false;
-            } else {
-                LibDatabase insDb = new LibDatabase();
+            } else if (valAction == eAccionSR.Insertar) {
                 if (KeyNombreExists(valConsecutivoCompania, valNombre)) {
                     BuildValidationInfo("Este nombre de vendedor ya existe.");
                     vResult = false;
