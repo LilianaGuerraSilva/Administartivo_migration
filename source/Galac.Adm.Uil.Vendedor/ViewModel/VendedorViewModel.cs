@@ -17,14 +17,6 @@ using LibGalac.Aos.Uil;
 
 namespace Galac.Adm.Uil.Vendedor.ViewModel {
     public class VendedorViewModel: LibInputMasterViewModelMfc<Ccl.Vendedor.Vendedor> {
-        #region Variables       
-        private decimal _TopeInicialVenta2;
-        private decimal _TopeInicialVenta3;
-        private decimal _TopeInicialVenta4;
-        private decimal _TopeInicialCobranza2;
-        private decimal _TopeInicialCobranza3;
-        private decimal _TopeInicialCobranza4;
-        #endregion
         #region Constantes
         public const string ConsecutivoCompaniaPropertyName = "ConsecutivoCompania";
         public const string ConsecutivoPropertyName = "Consecutivo";
@@ -82,7 +74,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public const string MensajePorcentajeDeComisionMayorA100 = "El porcentaje de comisión debe ser menor al 100%";
         private FkCiudadViewModel _ConexionCiudad = null;
         private FkRutaDeComercializacionViewModel _ConexionRutaDeComercializacion = null;
-
+        private string NombreOld;
         #endregion
         #region Propiedades
 
@@ -129,7 +121,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "Nombre del Vendedor es requerido.")]
+        [LibCustomValidation("NombreVendedorValidating")]
         [LibGridColum("Nombre", ColumnOrder = 1, Width = 300)]
         public string Nombre {
             get {
@@ -282,7 +274,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El campo Ruta de Comercialización es requerido.")]
+        [LibCustomValidation("RutaDeComercializacionValidating")]
         [LibGridColum("Ruta de Comercialización", ColumnOrder = 4, Width = 300)]
         public string RutaDeComercializacion {
             get {
@@ -349,14 +341,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalVenta1 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalVenta1PropertyName);
-                    if (value != 0) {
-                        _TopeInicialVenta2 = value + 1;
-                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto();
-                        RaisePropertyChanged(TopeFinalVenta5PropertyName);
-                    } else {
-                        _TopeInicialVenta2 = 0;
-                    }
                     RaisePropertyChanged(TopeInicialVenta2PropertyName);
+                    if (value != 0) {
+                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto();
+                    }
                 }
             }
         }
@@ -377,12 +365,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialVenta2 {
             get {
-                if (UsaComisionPorVenta && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalVenta1 != 0) {
-                    return TopeFinalVenta1 + 1;
+                decimal vTopeInicialVenta2 = 0;
+                if (UsaComisionPorVenta && TopeFinalVenta1 != 0) {
+                    vTopeInicialVenta2 = TopeFinalVenta1 + 1;
                 }
-                return LibMath.RoundToNDecimals(_TopeInicialVenta2, 2);
+                return LibMath.RoundToNDecimals(vTopeInicialVenta2, 2);
             }
-            set { _TopeInicialVenta2 = value; }
         }
 
         [LibCustomValidation("TopeFinalVenta2Validating")]
@@ -395,14 +383,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalVenta2 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalVenta2PropertyName);
-                    if (value != 0) {
-                        _TopeInicialVenta3 = value + 1;
-                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto();
-                        RaisePropertyChanged(TopeFinalVenta5PropertyName);
-                    } else {
-                        _TopeInicialVenta3 = 0;
-                    }
                     RaisePropertyChanged(TopeInicialVenta3PropertyName);
+                    if (value != 0) {
+                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto();
+                    }
                 }
             }
         }
@@ -423,12 +407,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialVenta3 {
             get {
-                if (UsaComisionPorVenta && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalVenta2 != 0) {
-                    return TopeFinalVenta2 + 1;
+                decimal vTopeInicialVenta3 = 0;
+                if (UsaComisionPorVenta && TopeFinalVenta2 != 0) {
+                    vTopeInicialVenta3 = TopeFinalVenta2 + 1;
                 }
-                return LibMath.RoundToNDecimals(_TopeInicialVenta3, 2);
+                return LibMath.RoundToNDecimals(vTopeInicialVenta3, 2);
             }
-            set { _TopeInicialVenta3 = value; }
         }
 
         [LibCustomValidation("TopeFinalVenta3Validating")]
@@ -441,14 +425,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalVenta3 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalVenta3PropertyName);
-                    if (value != 0) {
-                        _TopeInicialVenta4 = value + 1;
-                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto();
-                        RaisePropertyChanged(TopeFinalVenta5PropertyName);
-                    } else {
-                        _TopeInicialVenta4 = 0;
-                    }
                     RaisePropertyChanged(TopeInicialVenta4PropertyName);
+                    if (value != 0) {
+                        TopeFinalVenta5 = TopeFinalDeVentaMasAlto();
+                    }
                 }
             }
         }
@@ -469,12 +449,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialVenta4 {
             get {
-                if (UsaComisionPorVenta && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalVenta3 != 0) {
-                    return TopeFinalVenta3 + 1;
+                decimal vTopeInicialVenta4 = 0;
+                if (UsaComisionPorVenta && TopeFinalVenta3 != 0) {
+                    vTopeInicialVenta4 = TopeFinalVenta3 + 1;
                 }
-                return LibMath.RoundToNDecimals(_TopeInicialVenta4, 2);
+                return LibMath.RoundToNDecimals(vTopeInicialVenta4, 2);
             }
-            set { _TopeInicialVenta4 = value; }
         }
 
         [LibCustomValidation("TopeFinalVenta4Validating")]
@@ -489,7 +469,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     RaisePropertyChanged(TopeFinalVenta4PropertyName);
                     if (value != 0) {
                         TopeFinalVenta5 = TopeFinalDeVentaMasAlto();
-                        RaisePropertyChanged(TopeFinalVenta5PropertyName);
                     }
                 }
             }
@@ -521,6 +500,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
         }
+
         [LibCustomValidation("PorcentajeVentas5Validating")]
         public decimal PorcentajeVentas5 {
             get {
@@ -557,14 +537,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza1 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza1PropertyName);
-                    if (value != 0) {
-                        _TopeInicialCobranza2 = value + 1;
-                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();
-                        RaisePropertyChanged(TopeFinalCobranza5PropertyName);
-                    } else {
-                        _TopeInicialCobranza2 = 0;
-                    }
                     RaisePropertyChanged(TopeInicialCobranza2PropertyName);
+                    if (value != 0) {
+                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();
+                    }
                 }
             }
         }
@@ -585,12 +561,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza2 {
             get {
-                if (UsaComisionPorCobranza && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalCobranza1 != 0) {
-                    return TopeFinalCobranza1 + 1;
+                decimal vTopeInicialCobranza2 = 0;
+                if (UsaComisionPorCobranza && TopeFinalCobranza1 != 0) {
+                    vTopeInicialCobranza2 = TopeFinalCobranza1 + 1;
                 }
-                return LibMath.RoundToNDecimals(_TopeInicialCobranza2, 2);
+                return LibMath.RoundToNDecimals(vTopeInicialCobranza2, 2);
             }
-            set { _TopeInicialCobranza2 = value; }
         }
 
         [LibCustomValidation("TopeFinalCobranza2Validating")]
@@ -603,14 +579,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza2 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza2PropertyName);
-                    if (value != 0) {
-                        _TopeInicialCobranza3 = value + 1;
-                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();
-                        RaisePropertyChanged(TopeFinalCobranza5PropertyName);
-                    } else {
-                        _TopeInicialCobranza3 = 0;
-                    }
                     RaisePropertyChanged(TopeInicialCobranza3PropertyName);
+                    if (value != 0) {
+                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();
+                    }
                 }
             }
         }
@@ -631,12 +603,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza3 {
             get {
-                if (UsaComisionPorCobranza && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalCobranza2 != 0) {
-                    return TopeFinalCobranza2 + 1;
+                decimal TopeInicialCobranza3 = 0;
+                if (UsaComisionPorCobranza && TopeFinalCobranza2 != 0) {
+                    TopeInicialCobranza3 = TopeFinalCobranza2 + 1;
                 }
-                return LibMath.RoundToNDecimals(_TopeInicialCobranza3, 2);
+                return LibMath.RoundToNDecimals(TopeInicialCobranza3, 2);
             }
-            set { _TopeInicialCobranza3 = value; }
         }
 
         [LibCustomValidation("TopeFinalCobranza3Validating")]
@@ -649,14 +621,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza3 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza3PropertyName);
-                    if (value != 0) {
-                        _TopeInicialCobranza4 = value + 1;
-                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();
-                        RaisePropertyChanged(TopeFinalCobranza5PropertyName);
-                    } else {
-                        _TopeInicialCobranza4 = 0;
-                    }
                     RaisePropertyChanged(TopeInicialCobranza4PropertyName);
+                    if (value != 0) {
+                        TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();
+                    }
                 }
             }
         }
@@ -677,12 +645,12 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
 
         public decimal TopeInicialCobranza4 {
             get {
-                if (UsaComisionPorCobranza && (Action == eAccionSR.Consultar || Action == eAccionSR.Modificar) && TopeFinalCobranza3 != 0) {
-                    return TopeFinalCobranza3 + 1;
+                decimal vTopeInicialCobranza4 = 0;
+                if (UsaComisionPorCobranza && TopeFinalCobranza3 != 0) {
+                    vTopeInicialCobranza4 = TopeFinalCobranza3 + 1;
                 }
-                return LibMath.RoundToNDecimals(_TopeInicialCobranza4, 2);
+                return LibMath.RoundToNDecimals(vTopeInicialCobranza4, 2);
             }
-            set { _TopeInicialCobranza4 = value; }
         }
 
         [LibCustomValidation("TopeFinalCobranza4Validating")]
@@ -697,7 +665,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     RaisePropertyChanged(TopeFinalCobranza4PropertyName);
                     if (value != 0) {
                         TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();
-                        RaisePropertyChanged(TopeFinalCobranza5PropertyName);
                     }
                 }
             }
@@ -968,7 +935,10 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             if (LibString.IsNullOrEmpty(Codigo, true)) {
                 Codigo = GenerarProximoCodigo();
             }
-            CargarRutaDeComercializacionPorDefecto();
+            if (Action == eAccionSR.Insertar) {
+                CargarRutaDeComercializacionPorDefecto();
+            }
+            NombreOld = Nombre;
         }
 
         protected override Ccl.Vendedor.Vendedor FindCurrentRecord(Ccl.Vendedor.Vendedor valModel) {
@@ -1046,7 +1016,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         protected override void ReloadRelatedConnections() {
             base.ReloadRelatedConnections();
             //ConexionCiudad = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkCiudadViewModel>("Ciudad", LibSearchCriteria.CreateCriteria("NombreCiudad", Ciudad), new Saw.Brl.SttDef.clsSettValueByCompanyNav());
-            ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", 1), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());
+            ConexionRutaDeComercializacion = LibFKRetrievalHelper.FirstConnectionRecordOrDefault<FkRutaDeComercializacionViewModel>("Vendedor", LibSearchCriteria.CreateCriteria("Consecutivo", ConsecutivoRutaDeComercializacion), new Saw.Brl.Tablas.clsRutaDeComercializacionNav());
         }
 
         protected override void ExecuteAction() {
@@ -1056,10 +1026,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
             base.ExecuteAction();
-            LimpiarTopesDeVenta();
-            LimpiarPorcentajesDeVenta();
-            LimpiarPorcentajesDeCobranza();
-            LimpiarTopesDeCobranza();
         }
 
         private void ExecuteChooseCiudadCommand(string valNombreCiudad) {
@@ -1141,12 +1107,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private void LimpiarTopesDeVenta() {
             TopeInicialVenta1 = 0;
             RaisePropertyChanged(TopeInicialVenta1PropertyName);
-            TopeInicialVenta2 = 0;
-            RaisePropertyChanged(TopeInicialVenta2PropertyName);
-            TopeInicialVenta3 = 0;
-            RaisePropertyChanged(TopeInicialVenta3PropertyName);
-            TopeInicialVenta4 = 0;
-            RaisePropertyChanged(TopeInicialVenta4PropertyName);
             TopeFinalVenta1 = 0;
             RaisePropertyChanged(TopeFinalVenta1PropertyName);
             TopeFinalVenta2 = 0;
@@ -1175,12 +1135,6 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private void LimpiarTopesDeCobranza() {
             TopeInicialCobranza1 = 0;
             RaisePropertyChanged(TopeInicialCobranza1PropertyName);
-            TopeInicialCobranza2 = 0;
-            RaisePropertyChanged(TopeInicialCobranza2PropertyName);
-            TopeInicialCobranza3 = 0;
-            RaisePropertyChanged(TopeInicialCobranza3PropertyName);
-            TopeInicialCobranza4 = 0;
-            RaisePropertyChanged(TopeInicialCobranza4PropertyName);
             TopeFinalCobranza1 = 0;
             RaisePropertyChanged(TopeFinalCobranza1PropertyName);
             TopeFinalCobranza2 = 0;
@@ -1208,44 +1162,46 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         #endregion //Limpieza de Campos de Comisiones
 
         #region Validaciones de Topes de Comisiones
-        private ValidationResult ValidarTopesDeComisiones(decimal valTopeInicial, decimal valTopeFinal, bool valUsaEsteTipoDeComision) {
+        private ValidationResult ValidarTopesDeComisiones(decimal valTopeInicial, decimal valTopeFinal, decimal valPorcentaje, bool valUsaEsteTipoDeComision) {
             ValidationResult vResult = ValidationResult.Success;
-            if (valUsaEsteTipoDeComision && (valTopeFinal < valTopeInicial)) {
-                vResult = new ValidationResult(MensajeTopeFinalDeVentaMenorAlTopeInicial);
+            if (valPorcentaje != 0 && valTopeFinal != 0 && valTopeInicial != 0) {
+                if (valUsaEsteTipoDeComision && (valTopeFinal < valTopeInicial)) {
+                    vResult = new ValidationResult(MensajeTopeFinalDeVentaMenorAlTopeInicial);
+                }
             }
             return vResult;
         }
 
         private ValidationResult TopeFinalVenta1Validating() {
-            return ValidarTopesDeComisiones(TopeInicialVenta1, TopeFinalVenta1, UsaComisionPorVenta);
+            return ValidarTopesDeComisiones(TopeInicialVenta1, TopeFinalVenta1, PorcentajeVentas1, UsaComisionPorVenta);
         }
 
         private ValidationResult TopeFinalVenta2Validating() {
-            return ValidarTopesDeComisiones(TopeInicialVenta2, TopeFinalVenta2, UsaComisionPorVenta);
+            return ValidarTopesDeComisiones(TopeInicialVenta2, TopeFinalVenta2, PorcentajeVentas2, UsaComisionPorVenta);
         }
 
         private ValidationResult TopeFinalVenta3Validating() {
-            return ValidarTopesDeComisiones(TopeInicialVenta3, TopeFinalVenta3, UsaComisionPorVenta);
+            return ValidarTopesDeComisiones(TopeInicialVenta3, TopeFinalVenta3, PorcentajeVentas3, UsaComisionPorVenta);
         }
 
         private ValidationResult TopeFinalVenta4Validating() {
-            return ValidarTopesDeComisiones(TopeInicialVenta4, TopeFinalVenta4, UsaComisionPorVenta);
+            return ValidarTopesDeComisiones(TopeInicialVenta4, TopeFinalVenta4, PorcentajeVentas4, UsaComisionPorVenta);
         }
 
         private ValidationResult TopeFinalCobranza1Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza1, TopeFinalCobranza1, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza1, TopeFinalCobranza1, PorcentajeCobranza1, UsaComisionPorCobranza);
         }
 
         private ValidationResult TopeFinalCobranza2Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza2, TopeFinalCobranza2, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza2, TopeFinalCobranza2, PorcentajeCobranza2, UsaComisionPorCobranza);
         }
 
         private ValidationResult TopeFinalCobranza3Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza3, TopeFinalCobranza3, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza3, TopeFinalCobranza3, PorcentajeCobranza3, UsaComisionPorCobranza);
         }
 
         private ValidationResult TopeFinalCobranza4Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza4, TopeFinalCobranza4, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza4, TopeFinalCobranza4, PorcentajeCobranza4, UsaComisionPorCobranza);
         }
 
         private void CargarRutaDeComercializacionPorDefecto() {
@@ -1285,7 +1241,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             ValidationResult vResult = ValidationResult.Success;
             if (valUsaEsteTipoDeComision) {
                 if (valPorcentajeComisionActual <= valPorcentajeComisionAnterior) {
-                    vResult = new ValidationResult(MensajePorcentajeDeComisionConValorNoAceptado);
+                    //vResult = new ValidationResult(MensajePorcentajeDeComisionConValorNoAceptado);
                 } else if (valPorcentajeComisionActual > 100) {
                     vResult = new ValidationResult(MensajePorcentajeDeComisionMayorA100);
                 }
@@ -1330,6 +1286,30 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         private ValidationResult PorcentajeCobranza5Validating() {
             return ValidarPorcentajesDeComisionesNivel5(PorcentajeCobranza5, PorcentajeCobranza4, UsaComisionPorCobranza);
         }
+
+        private ValidationResult RutaDeComercializacionValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
+                if (LibString.IsNullOrEmpty((RutaDeComercializacion))) {
+                    vResult = new ValidationResult("La ruta de comerciaización es requerida.");
+                }
+            }
+            return vResult;
+        }
+
+        private ValidationResult NombreVendedorValidating() {
+            IVendedorPdn insVendedorNav = new clsVendedorNav();
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
+                if (LibString.IsNullOrEmpty(Nombre)) {
+                    vResult = new ValidationResult("Nombre del Vendedor es requerido.");
+                } else if (insVendedorNav.NombreVendedorYaExiste(ConsecutivoCompania, Nombre) && !LibString.S1IsInS2(Nombre, NombreOld)) {
+                    vResult = new ValidationResult("El vendedor " + Nombre + " ya existe.");
+                }
+            }
+            return vResult;
+        }
+
         #endregion //Validaciones de Porcentajes de Comisiones
 
         #endregion //Metodos Generados

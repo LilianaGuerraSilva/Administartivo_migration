@@ -92,6 +92,16 @@ namespace Galac.Adm.Brl.Vendedor {
             //return vResult;
         }
 
+        bool Entity.IVendedorPdn.NombreVendedorYaExiste(int valConsecutivoCompania, string valNombreVendedor) {
+            bool vResult = false;
+            LibGpParams vParam = new LibGpParams();
+            LibDatabase insDatabase = new LibDatabase();
+            vParam.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
+            vParam.AddInString("Nombre", valNombreVendedor, 35);
+            vResult = insDatabase.ExistsRecord("Adm.Vendedor", "Nombre", vParam.Get());
+            return vResult;
+        }
+
         Entity.Vendedor VendedorPorDefecto(int valConsecutivoCompania) {
             Entity.Vendedor insVendedor = new Entity.Vendedor();
             insVendedor.ConsecutivoCompania = valConsecutivoCompania;

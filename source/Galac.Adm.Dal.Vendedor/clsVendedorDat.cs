@@ -116,20 +116,20 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private StringBuilder ParametrosNombre(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+        private StringBuilder ParametrosClaveNombre(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             if (valAddReturnParameter) {
                 vParams.AddReturn();
             }
-            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);           
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("Nombre", valRecord.Nombre, 35);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
             vResult = vParams.Get();
             return vResult;
-        }    
+        }
 
         private StringBuilder ParametrosProximoConsecutivo(Entity.Vendedor valRecord) {
             StringBuilder vResult = new StringBuilder();
@@ -292,24 +292,21 @@ namespace Galac.Adm.Dal.Vendedor {
         [PrincipalPermission(SecurityAction.Demand, Role = "Vendedor.Modificar")]
         LibResponse ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.Update(IList<Entity.Vendedor> refRecord, bool valUseDetail, eAccionSR valAction) {
             LibResponse vResult = new LibResponse();
-            try {
-                CurrentRecord = refRecord[0];
-                if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
-                    if (ExecuteProcessBeforeUpdate()) {
-                        if (valUseDetail) {
-                            vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
-                        } else {
-                            vResult = UpdateMaster(CurrentRecord, valAction);
-                        }
-                        if (vResult.Success) {
-                            ExecuteProcessAfterUpdate();
-                        }
+            string vErrMsg = string.Empty;
+            CurrentRecord = refRecord[0];
+            if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
+                if (ExecuteProcessBeforeUpdate()) {
+                    if (valUseDetail && CurrentRecord.DetailVendedorDetalleComisiones.Count > 0) {
+                        vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
+                    } else {
+                        vResult = UpdateMaster(CurrentRecord, valAction);
+                    }
+                    if (vResult.Success) {
+                        ExecuteProcessAfterUpdate();
                     }
                 }
-                return vResult;
-            } finally {
-
             }
+            return vResult;
         }
 
         bool ILibDataMasterComponent<IList<Entity.Vendedor>, IList<Entity.Vendedor>>.ValidateAll(IList<Entity.Vendedor> refRecords, bool valUseDetail, eAccionSR valAction, StringBuilder refErrorMessage) {
@@ -371,7 +368,7 @@ namespace Galac.Adm.Dal.Vendedor {
             ClearValidationInfo();
             bool vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
-            vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;
+            vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;           
             vResult = IsValidNombre(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Nombre) && vResult;
             vResult = IsValidCiudad(valAction, CurrentRecord.Ciudad) && vResult;
             vResult = IsValidConsecutivoRutaDeComercializacion(valAction, CurrentRecord.ConsecutivoRutaDeComercializacion) && vResult;
@@ -432,8 +429,7 @@ namespace Galac.Adm.Dal.Vendedor {
             if (LibString.IsNullOrEmpty(valNombre, true)) {
                 BuildValidationInfo(MsgRequiredField("Nombre"));
                 return false;
-            } else {
-                LibDatabase insDb = new LibDatabase();
+            } else if (valAction == eAccionSR.Insertar || valAction == eAccionSR.Modificar) {
                 if (KeyNombreExists(valConsecutivoCompania, valNombre)) {
                     BuildValidationInfo("Este nombre de vendedor ya existe.");
                     vResult = false;
@@ -512,7 +508,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.Nombre = valNombre;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosNombre(vRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClaveNombre(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
