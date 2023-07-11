@@ -41,7 +41,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine(InsSql.CreateTable("Vendedor", DbSchema) + " ( ");
             SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenConsecutiv NOT NULL, ");
             SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenConsecut NOT NULL, ");
-            SQL.AppendLine("Codigo" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_VenCo DEFAULT (''), ");
+            SQL.AppendLine("Codigo" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT nnVenCodigo NOT NULL, ");
             SQL.AppendLine("Nombre" + InsSql.VarCharTypeForDb(35) + " CONSTRAINT d_VenNo DEFAULT (''), ");
             SQL.AppendLine("RIF" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_VenRIF DEFAULT (''), ");
             SQL.AppendLine("StatusVendedor" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_VenStVe DEFAULT ('0'), ");
