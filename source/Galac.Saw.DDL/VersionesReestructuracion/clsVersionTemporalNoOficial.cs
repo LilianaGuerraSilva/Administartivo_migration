@@ -25,8 +25,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			CrearRutaDeComercializacion();
 			CrearTablaAdmVendedor();
-			AmpliarCampoUbicacion();			
-            DisposeConnectionNoTransaction();
+			AmpliarCampoUbicacion();
+			DisposeConnectionNoTransaction();
 			return true;
 		}
 		private void CrearTablaAdmVendedor() {
@@ -117,9 +117,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void LLenarRutaDeComercializacionPorCompania() {
 			try {
 				StringBuilder vSql = new StringBuilder();
-                vSql.AppendLine("INSERT INTO Saw.RutaDeComercializacion (ConsecutivoCompania,Consecutivo,Descripcion,NombreOperador,FechaUltimaModificacion)");
-                vSql.AppendLine("SELECT ConsecutivoCompania,1,'NO ASIGNADA','JEFE',GETDATE()");
-                vSql.AppendLine("FROM Compania");
+				vSql.AppendLine("INSERT INTO Saw.RutaDeComercializacion (ConsecutivoCompania,Consecutivo,Descripcion,NombreOperador,FechaUltimaModificacion)");
+				vSql.AppendLine("SELECT ConsecutivoCompania,1,'NO ASIGNADA','JEFE',GETDATE()");
+				vSql.AppendLine("FROM Compania");
 				LibBusiness.ExecuteUpdateOrDelete(vSql.ToString(), null, "", 0);
 			} catch (Exception) {
 				throw;
@@ -129,6 +129,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void AmpliarCampoUbicacion() {
 			string vSQL = "ALTER TABLE " + LibDbo.ToFullDboName("dbo.ExistenciaPorAlmacen") + " ALTER COLUMN Ubicacion VARCHAR(100) NULL";
 			Execute(vSQL, 0);
-		}		
+		}
 	}
 }   
