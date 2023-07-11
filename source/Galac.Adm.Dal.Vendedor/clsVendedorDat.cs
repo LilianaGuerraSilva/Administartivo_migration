@@ -116,20 +116,20 @@ namespace Galac.Adm.Dal.Vendedor {
             return vResult;
         }
 
-        private StringBuilder ParametrosNombre(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
+        private StringBuilder ParametrosClaveNombre(Entity.Vendedor valRecord, bool valIncludeTimestamp, bool valAddReturnParameter) {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             if (valAddReturnParameter) {
                 vParams.AddReturn();
             }
-            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);           
+            vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("Nombre", valRecord.Nombre, 35);
             if (valIncludeTimestamp) {
                 vParams.AddInTimestamp("TimeStampAsInt", valRecord.fldTimeStamp);
             }
             vResult = vParams.Get();
             return vResult;
-        }    
+        }
 
         private StringBuilder ParametrosProximoConsecutivo(Entity.Vendedor valRecord) {
             StringBuilder vResult = new StringBuilder();
@@ -297,7 +297,7 @@ namespace Galac.Adm.Dal.Vendedor {
                 CurrentRecord = refRecord[0];
                 if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
                     if (ExecuteProcessBeforeUpdate()) {
-                        if (valUseDetail && refRecord[0].DetailVendedorDetalleComisiones.Count > 0) {
+                        if (valUseDetail && CurrentRecord.DetailVendedorDetalleComisiones.Count > 0) {
                             vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
                         } else {
                             vResult = UpdateMaster(CurrentRecord, valAction);
@@ -515,7 +515,7 @@ namespace Galac.Adm.Dal.Vendedor {
             vRecordBusqueda.ConsecutivoCompania = valConsecutivoCompania;
             vRecordBusqueda.Nombre = valNombre;
             LibDatabase insDb = new LibDatabase();
-            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosNombre(vRecordBusqueda, false, false));
+            vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClaveNombre(vRecordBusqueda, false, false));
             insDb.Dispose();
             return vResult;
         }
