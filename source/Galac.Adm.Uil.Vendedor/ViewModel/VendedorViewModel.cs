@@ -74,7 +74,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         public const string MensajePorcentajeDeComisionMayorA100 = "El porcentaje de comisión debe ser menor al 100%";
         private FkCiudadViewModel _ConexionCiudad = null;
         private FkRutaDeComercializacionViewModel _ConexionRutaDeComercializacion = null;
-
+        private string NombreOld;
         #endregion
         #region Propiedades
 
@@ -121,7 +121,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "Nombre del Vendedor es requerido.")]
+        [LibCustomValidation("NombreVendedorValidating")]
         [LibGridColum("Nombre", ColumnOrder = 1, Width = 300)]
         public string Nombre {
             get {
@@ -274,7 +274,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             }
         }
 
-        [LibCustomValidation("RutaDeComercializacionValidate")]
+        [LibCustomValidation("RutaDeComercializacionValidating")]
         [LibGridColum("Ruta de Comercialización", ColumnOrder = 4, Width = 300)]
         public string RutaDeComercializacion {
             get {
@@ -938,6 +938,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             if (Action == eAccionSR.Insertar) {
                 CargarRutaDeComercializacionPorDefecto();
             }
+            NombreOld = Nombre;
         }
 
         protected override Ccl.Vendedor.Vendedor FindCurrentRecord(Ccl.Vendedor.Vendedor valModel) {
@@ -1024,7 +1025,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     LibMessages.MessageBox.Alert(this, "Recuerde asignar Comisiones de Venta y/o Cobranza a este Vendedor.", ModuleName);
                 }
             }
-            base.ExecuteAction();            
+            base.ExecuteAction();
         }
 
         private void ExecuteChooseCiudadCommand(string valNombreCiudad) {
@@ -1286,15 +1287,29 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
             return ValidarPorcentajesDeComisionesNivel5(PorcentajeCobranza5, PorcentajeCobranza4, UsaComisionPorCobranza);
         }
 
-        private ValidationResult RutaDeComercializacionValidate() {
+        private ValidationResult RutaDeComercializacionValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if (Action == eAccionSR.Insertar) {
+            if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
                 if (LibString.IsNullOrEmpty((RutaDeComercializacion))) {
                     vResult = new ValidationResult("La ruta de comerciaización es requerida.");
                 }
             }
             return vResult;
         }
+
+        private ValidationResult NombreVendedorValidating() {
+            IVendedorPdn insVendedorNav = new clsVendedorNav();
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action == eAccionSR.Insertar || Action == eAccionSR.Modificar) {
+                if (LibString.IsNullOrEmpty(Nombre)) {
+                    vResult = new ValidationResult("Nombre del Vendedor es requerido.");
+                } else if (insVendedorNav.NombreVendedorYaExiste(ConsecutivoCompania, Nombre) && !LibString.S1IsInS2(Nombre, NombreOld)) {
+                    vResult = new ValidationResult("El vendedor " + Nombre + " ya existe.");
+                }
+            }
+            return vResult;
+        }
+
         #endregion //Validaciones de Porcentajes de Comisiones
 
         #endregion //Metodos Generados

@@ -320,7 +320,9 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
      NombreOperador               : Str10;//a
      FechaUltimaModificacion     : date;//a
     @PrimaryKey=ConsecutivoCompania,Consecutivo
+    @UniqueKey=ConsecutivoCompania,Codigo
     @UniqueKey=ConsecutivoCompania,Nombre
+	// Nombre no es clave unica fisica por compatibilidad de migracion
 }
 
 {@D VENDEDOR}VendedorDetalleComisiones = Record //Male,Multiarchivo=Compania, Componente=Vendedor, Esquema=Adm, EsquemaBD=Adm, GENERATE

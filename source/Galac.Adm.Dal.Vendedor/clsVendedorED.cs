@@ -41,7 +41,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine(InsSql.CreateTable("Vendedor", DbSchema) + " ( ");
             SQL.AppendLine("ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenConsecutiv NOT NULL, ");
             SQL.AppendLine("Consecutivo" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnVenConsecut NOT NULL, ");
-            SQL.AppendLine("Codigo" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT nnVenCodigo NOT NULL, ");
+            SQL.AppendLine("Codigo" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_VenCo DEFAULT (''), ");
             SQL.AppendLine("Nombre" + InsSql.VarCharTypeForDb(35) + " CONSTRAINT d_VenNo DEFAULT (''), ");
             SQL.AppendLine("RIF" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_VenRIF DEFAULT (''), ");
             SQL.AppendLine("StatusVendedor" + InsSql.CharTypeForDb(1) + " CONSTRAINT d_VenStVe DEFAULT ('0'), ");
@@ -91,7 +91,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine(", CONSTRAINT fk_VendedorRutaDeComercializacion FOREIGN KEY (ConsecutivoCompania, ConsecutivoRutaDeComercializacion)");
             SQL.AppendLine("REFERENCES Saw.RutaDeComercializacion(ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(",CONSTRAINT u_Venniabre UNIQUE NONCLUSTERED (ConsecutivoCompania,Nombre)");
+            SQL.AppendLine(",CONSTRAINT u_Venniaigo UNIQUE NONCLUSTERED (ConsecutivoCompania,Codigo)");
             SQL.AppendLine(")");
             return SQL.ToString();
         }
@@ -124,7 +124,7 @@ namespace Galac.Adm.Dal.Vendedor {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@Codigo" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@Codigo" + InsSql.VarCharTypeForDb(5) + " = '',");
             SQL.AppendLine("@Nombre" + InsSql.VarCharTypeForDb(35) + " = '',");
             SQL.AppendLine("@RIF" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@StatusVendedor" + InsSql.CharTypeForDb(1) + " = '0',");
