@@ -1339,7 +1339,7 @@ On Error GoTo h_ERROR
    Else
       txtCodigoVendedor.Text = insVendedor.fFillWithCerosOnLeft(txtCodigoVendedor.Text)
    End If
-   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoVendedor.Text, "", "StatusVendedor", "0", "", "") Then
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoVendedor.Text, "") Then
       sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
@@ -1615,7 +1615,7 @@ Private Sub txtNombreVendedor_Validate(Cancel As Boolean)
    If gTexto.DfLen(txtNombreVendedor.Text) = 0 Then
       txtNombreVendedor.Text = "*"
    End If
-   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreVendedor.Text, "Nombre", "StatusVendedor", "0", "", "") Then
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreVendedor.Text, "Nombre") Then
       sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
