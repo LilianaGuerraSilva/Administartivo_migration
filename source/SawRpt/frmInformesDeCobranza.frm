@@ -1400,7 +1400,7 @@ Private Sub txtCodigoDeVendedor_Validate(Cancel As Boolean)
    End If
    insVendedor.sClrRecord
    insVendedor.SetCodigo txtCodigoDeVendedor
-   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoDeVendedor.Text, "", "StatusVendedor", "0", "", "") Then
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoDeVendedor.Text, "") Then
       sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True
@@ -1748,7 +1748,7 @@ Private Sub txtNombreDeVendedor_Validate(Cancel As Boolean)
    End If
    insVendedor.sClrRecord
    insVendedor.SetNombre txtNombreDeVendedor
-   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreDeVendedor.Text, "Nombre", "StatusVendedor", "0", "", "") Then
+   If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreDeVendedor.Text, "Nombre") Then
      sAssignFieldsFromConnectionVendedor
    Else
       Cancel = True

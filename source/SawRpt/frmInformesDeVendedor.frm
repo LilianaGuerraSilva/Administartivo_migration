@@ -503,7 +503,7 @@ Private Sub txtCodigoDeVendedor_Validate(Cancel As Boolean)
       txtCodigoDeVendedor.Text = insVendedor.fFillWithCerosOnLeft(txtCodigoDeVendedor.Text)
    End If
    If UCase(txtCodigoDeVendedor.Text) <> UCase(mCodigoVendedorOriginal) Then
-      If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoDeVendedor.Text, "", "StatusVendedor", "0", "", "") Then
+      If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoDeVendedor.Text, "") Then
          sAssignFieldsFromConnectionVendedor
       Else
          Cancel = True
@@ -547,7 +547,7 @@ Private Sub txtNombreDeVendedor_Validate(Cancel As Boolean)
       txtNombreDeVendedor.Text = "*"
    End If
    If UCase(txtNombreDeVendedor.Text) <> UCase(mNombreVendedorOriginal) Then
-      If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreDeVendedor.Text, "Nombre", "StatusVendedor", "0", "", "") Then
+      If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreDeVendedor.Text, "Nombre") Then
          sAssignFieldsFromConnectionVendedor
       Else
          Cancel = True
