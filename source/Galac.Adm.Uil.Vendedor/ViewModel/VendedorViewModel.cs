@@ -522,7 +522,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 if (Model.TopeInicialCobranza1 != value) {
                     Model.TopeInicialCobranza1 = value;
                     IsDirty = true;
-                    RaisePropertyChanged(TopeInicialCobranza1PropertyName);
+                    RaisePropertyChanged(TopeInicialCobranza1PropertyName);                  
                 }
             }
         }
@@ -537,6 +537,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza1 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza1PropertyName);
+                    RaisePropertyChanged(TopeInicialCobranza2PropertyName);
                     if (value != 0) {                        
                         TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();                      
                     }                    
@@ -578,6 +579,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza2 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza2PropertyName);
+                    RaisePropertyChanged(TopeInicialCobranza3PropertyName);
                     if (value != 0) {                        
                         TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();                        
                     }                   
@@ -619,6 +621,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                     Model.TopeFinalCobranza3 = value;
                     IsDirty = true;
                     RaisePropertyChanged(TopeFinalCobranza3PropertyName);
+                    RaisePropertyChanged(TopeInicialCobranza4PropertyName);
                     if (value != 0) {                        
                         TopeFinalCobranza5 = TopeFinalDeCobranzaMasAlto();                        
                     }                   
