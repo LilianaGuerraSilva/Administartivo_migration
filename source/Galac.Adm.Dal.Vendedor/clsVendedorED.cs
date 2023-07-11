@@ -125,7 +125,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Codigo" + InsSql.VarCharTypeForDb(5) + ",");
-            SQL.AppendLine("@Nombre" + InsSql.VarCharTypeForDb(35) + "= '',");
+            SQL.AppendLine("@Nombre" + InsSql.VarCharTypeForDb(35) + " = '',");
             SQL.AppendLine("@RIF" + InsSql.VarCharTypeForDb(20) + " = '',");
             SQL.AppendLine("@StatusVendedor" + InsSql.CharTypeForDb(1) + " = '0',");
             SQL.AppendLine("@Direccion" + InsSql.VarCharTypeForDb(255) + " = '',");
