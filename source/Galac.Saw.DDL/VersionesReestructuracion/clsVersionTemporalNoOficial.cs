@@ -25,8 +25,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();
 			CrearRutaDeComercializacion();
 			CrearTablaAdmVendedor();
-			AmpliarCampoUbicacion();
-			TempArgeraClaveUnicaNombreVendero();
+			AmpliarCampoUbicacion();			
             DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -130,14 +129,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void AmpliarCampoUbicacion() {
 			string vSQL = "ALTER TABLE " + LibDbo.ToFullDboName("dbo.ExistenciaPorAlmacen") + " ALTER COLUMN Ubicacion VARCHAR(100) NULL";
 			Execute(vSQL, 0);
-		}
-
-		private void TempArgeraClaveUnicaNombreVendero() {
-			// Es Temporal, Solo para las BD que ya reestructuraron con prubas
-			if (!AlterColumnIfExist("Adm.Vendedor", "Nombre", InsSql.VarCharTypeForDb(35), "u_Venniabre", "")) {
-				string vSql = "ALTER TABLE Adm.Vendedor ADD CONSTRAINT u_Venniabre UNIQUE NONCLUSTERED (ConsecutivoCompania,Nombre)";
-				Execute(vSql);
-			}			
-		}
+		}		
 	}
 }   
