@@ -91,7 +91,7 @@ namespace Galac.Adm.Dal.Vendedor {
             SQL.AppendLine(", CONSTRAINT fk_VendedorRutaDeComercializacion FOREIGN KEY (ConsecutivoCompania, ConsecutivoRutaDeComercializacion)");
             SQL.AppendLine("REFERENCES Saw.RutaDeComercializacion(ConsecutivoCompania, Consecutivo)");
             SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(",CONSTRAINT u_Venniaigo UNIQUE NONCLUSTERED (ConsecutivoCompania,Codigo)");
+            SQL.AppendLine(",CONSTRAINT u_VenCodigo UNIQUE NONCLUSTERED (ConsecutivoCompania,Codigo)");
             SQL.AppendLine(")");
             return SQL.ToString();
         }
