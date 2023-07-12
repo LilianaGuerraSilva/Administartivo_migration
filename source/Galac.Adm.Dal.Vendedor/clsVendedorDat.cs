@@ -524,8 +524,7 @@ namespace Galac.Adm.Dal.Vendedor {
             LibDatabase insDb = new LibDatabase();
             QAdvSql insSql = new QAdvSql("");
             string vSql = "SELECT Nombre FROM " + DbSchema + ".Vendedor WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND Consecutivo <>" + insSql.ToSqlValue(valConsecutivo) + " AND Nombre = " + insSql.ToSqlValue(valNombre);
-            int vCount = insDb.RecordCountOfSql(vSql);
-            vResult = (vCount > 0);
+            vResult = (insDb.RecordCountOfSql(vSql) > 0);
             insDb.Dispose();
             return vResult;
         }

@@ -470,7 +470,7 @@
                                 Width="100"
                                 HorizontalContentAlignment="Right"
                                 DecimalDigits="2"
-                                IsReadOnly="True"
+                                IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialVenta2, Mode=OneWay}" />
@@ -507,7 +507,7 @@
                                 Width="100"
                                 HorizontalContentAlignment="Right"
                                 DecimalDigits="2"
-                                IsReadOnly="True"
+                                IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialVenta3, Mode=OneWay}" />
@@ -544,7 +544,7 @@
                                 Width="100"
                                 HorizontalContentAlignment="Right"
                                 DecimalDigits="2"
-                                IsReadOnly="True"
+                                IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialVenta4, Mode=OneWay}" />
@@ -716,7 +716,7 @@
                                 Width="100"
                                 HorizontalContentAlignment="Right"
                                 DecimalDigits="2"
-                                IsReadOnly="True"
+                                IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialCobranza2, Mode=OneWay}" />
@@ -753,7 +753,7 @@
                                 Width="100"
                                 HorizontalContentAlignment="Right"
                                 DecimalDigits="2"
-                                IsReadOnly="True"
+                                IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialCobranza3, Mode=OneWay}" />
@@ -790,7 +790,7 @@
                                 Width="100"
                                 HorizontalContentAlignment="Right"
                                 DecimalDigits="2"
-                                IsReadOnly="True"
+                                IsEnabled="False"
                                 MaxLength="10"
                                 Style="{StaticResource TextBoxInputStyle}"
                                 Text="{Binding Path=TopeInicialCobranza4, Mode=OneWay}" />
