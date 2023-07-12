@@ -1177,15 +1177,15 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         private ValidationResult TopeFinalVenta2Validating() {
-            return ValidarTopesDeComisiones(TopeInicialVenta2, TopeFinalVenta2, PorcentajeVentas2, UsaComisionPorVenta);
+            return ValidarTopesDeComisiones(TopeInicialVenta2, TopeFinalVenta2, PorcentajeVentas1, UsaComisionPorVenta);
         }
 
         private ValidationResult TopeFinalVenta3Validating() {
-            return ValidarTopesDeComisiones(TopeInicialVenta3, TopeFinalVenta3, PorcentajeVentas3, UsaComisionPorVenta);
+            return ValidarTopesDeComisiones(TopeInicialVenta3, TopeFinalVenta3, PorcentajeVentas2, UsaComisionPorVenta);
         }
 
         private ValidationResult TopeFinalVenta4Validating() {
-            return ValidarTopesDeComisiones(TopeInicialVenta4, TopeFinalVenta4, PorcentajeVentas4, UsaComisionPorVenta);
+            return ValidarTopesDeComisiones(TopeInicialVenta4, TopeFinalVenta4, PorcentajeVentas3, UsaComisionPorVenta);
         }
 
         private ValidationResult TopeFinalCobranza1Validating() {
@@ -1193,15 +1193,15 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         private ValidationResult TopeFinalCobranza2Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza2, TopeFinalCobranza2, PorcentajeCobranza2, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza2, TopeFinalCobranza1, PorcentajeCobranza2, UsaComisionPorCobranza);
         }
 
         private ValidationResult TopeFinalCobranza3Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza3, TopeFinalCobranza3, PorcentajeCobranza3, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza3, TopeFinalCobranza2, PorcentajeCobranza3, UsaComisionPorCobranza);
         }
 
         private ValidationResult TopeFinalCobranza4Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza4, TopeFinalCobranza4, PorcentajeCobranza4, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza4, TopeFinalCobranza3, PorcentajeCobranza4, UsaComisionPorCobranza);
         }
 
         private void CargarRutaDeComercializacionPorDefecto() {
