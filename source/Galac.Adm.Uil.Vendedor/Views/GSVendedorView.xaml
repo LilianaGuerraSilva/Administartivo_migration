@@ -463,17 +463,17 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 2"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSNumericBoxWpfSch
+                            <Label
                                 Name="txtTopeInicialVenta2"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="100"
+                                Height="25"
                                 HorizontalContentAlignment="Right"
-                                DecimalDigits="2"
-                                IsEnabled="False"
-                                MaxLength="10"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialVenta2, Mode=OneWay}" />
+                                BorderBrush="LightGray"
+                                BorderThickness="1,1,1,1"
+                                Content="{Binding Path=TopeInicialVenta2, Mode=OneWay}"
+                                Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalVenta2"
                                 Grid.Row="2"
@@ -500,17 +500,17 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 3"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSNumericBoxWpfSch
+                            <Label
                                 Name="txtTopeInicialVenta3"
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Width="100"
+                                Height="25"
                                 HorizontalContentAlignment="Right"
-                                DecimalDigits="2"
-                                IsEnabled="False"
-                                MaxLength="10"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialVenta3, Mode=OneWay}" />
+                                BorderBrush="LightGray"
+                                BorderThickness="1,1,1,1"
+                                Content="{Binding Path=TopeInicialVenta3, Mode=OneWay}"
+                                Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalVenta3"
                                 Grid.Row="3"
@@ -537,17 +537,17 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 4"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSNumericBoxWpfSch
+                            <Label
                                 Name="txtTopeInicialVenta4"
                                 Grid.Row="4"
                                 Grid.Column="1"
                                 Width="100"
+                                Height="25"
                                 HorizontalContentAlignment="Right"
-                                DecimalDigits="2"
-                                IsEnabled="False"
-                                MaxLength="10"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialVenta4, Mode=OneWay}" />
+                                BorderBrush="LightGray"
+                                BorderThickness="1,1,1,1"
+                                Content="{Binding Path=TopeInicialVenta4, Mode=OneWay}"
+                                Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalVenta4"
                                 Grid.Row="4"
@@ -709,17 +709,17 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 2"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSNumericBoxWpfSch
+                            <Label
                                 Name="txtTopeInicialCobranza2"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="100"
+                                Height="25"
                                 HorizontalContentAlignment="Right"
-                                DecimalDigits="2"
-                                IsEnabled="False"
-                                MaxLength="10"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialCobranza2, Mode=OneWay}" />
+                                BorderBrush="LightGray"
+                                BorderThickness="1,1,1,1"
+                                Content="{Binding Path=TopeInicialCobranza2, Mode=OneWay}"
+                                Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalCobranza2"
                                 Grid.Row="2"
@@ -746,17 +746,17 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 3"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSNumericBoxWpfSch
+                            <Label
                                 Name="txtTopeInicialCobranza3"
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Width="100"
+                                Height="25"
                                 HorizontalContentAlignment="Right"
-                                DecimalDigits="2"
-                                IsEnabled="False"
-                                MaxLength="10"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialCobranza3, Mode=OneWay}" />
+                                BorderBrush="LightGray"
+                                BorderThickness="1,1,1,1"
+                                Content="{Binding Path=TopeInicialCobranza3, Mode=OneWay}"
+                                Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalCobranza3"
                                 Grid.Row="3"
@@ -783,17 +783,17 @@
                                 VerticalContentAlignment="Center"
                                 Content="Nivel 4"
                                 Style="{StaticResource LabelPrompt}" />
-                            <nsWpfControls:GSNumericBoxWpfSch
+                            <Label
                                 Name="txtTopeInicialCobranza4"
                                 Grid.Row="4"
                                 Grid.Column="1"
                                 Width="100"
+                                Height="25"
                                 HorizontalContentAlignment="Right"
-                                DecimalDigits="2"
-                                IsEnabled="False"
-                                MaxLength="10"
-                                Style="{StaticResource TextBoxInputStyle}"
-                                Text="{Binding Path=TopeInicialCobranza4, Mode=OneWay}" />
+                                BorderBrush="LightGray"
+                                BorderThickness="1,1,1,1"
+                                Content="{Binding Path=TopeInicialCobranza4, Mode=OneWay}"
+                                Style="{StaticResource LabelPrompt}" />
                             <nsWpfControls:GSNumericBoxWpf
                                 Name="txtTopeFinalCobranza4"
                                 Grid.Row="4"
