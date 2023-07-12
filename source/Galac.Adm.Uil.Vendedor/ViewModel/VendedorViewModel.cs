@@ -1193,15 +1193,15 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
         }
 
         private ValidationResult TopeFinalCobranza2Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza2, TopeFinalCobranza1, PorcentajeCobranza2, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza2, TopeFinalCobranza2, PorcentajeCobranza1, UsaComisionPorCobranza);
         }
 
         private ValidationResult TopeFinalCobranza3Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza3, TopeFinalCobranza2, PorcentajeCobranza3, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza3, TopeFinalCobranza3, PorcentajeCobranza2, UsaComisionPorCobranza);
         }
 
         private ValidationResult TopeFinalCobranza4Validating() {
-            return ValidarTopesDeComisiones(TopeInicialCobranza4, TopeFinalCobranza3, PorcentajeCobranza4, UsaComisionPorCobranza);
+            return ValidarTopesDeComisiones(TopeInicialCobranza4, TopeFinalCobranza4, PorcentajeCobranza3, UsaComisionPorCobranza);
         }
 
         private void CargarRutaDeComercializacionPorDefecto() {
