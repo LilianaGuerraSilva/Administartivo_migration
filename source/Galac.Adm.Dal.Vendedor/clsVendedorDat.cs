@@ -429,7 +429,7 @@ namespace Galac.Adm.Dal.Vendedor {
             if (LibString.IsNullOrEmpty(valNombre, true)) {
                 BuildValidationInfo(MsgRequiredField("Nombre"));
                 return false;
-            } else if (valAction == eAccionSR.Insertar || valAction == eAccionSR.Modificar) {
+            } else if (valAction == eAccionSR.Insertar) {
                 if (KeyNombreExists(valConsecutivoCompania, valNombre)) {
                     BuildValidationInfo("Este nombre de vendedor ya existe.");
                     vResult = false;
