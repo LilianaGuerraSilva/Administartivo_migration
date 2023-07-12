@@ -13,6 +13,7 @@ using LibGalac.Aos.DefGen;
 using Entity = Galac.Adm.Ccl.Vendedor;
 using Galac.Adm.Ccl.Vendedor;
 using LibGalac.Aos.UI.Mvvm.Messaging;
+using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Adm.Dal.Vendedor {
     public class clsVendedorDat: LibData, ILibDataMasterComponentWithSearch<IList<Entity.Vendedor>, IList<Entity.Vendedor>>, ILibDataImport, IVendedorDatPdn {
