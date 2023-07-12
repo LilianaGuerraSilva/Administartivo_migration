@@ -368,8 +368,8 @@ namespace Galac.Adm.Dal.Vendedor {
             ClearValidationInfo();
             bool vResult = IsValidConsecutivoCompania(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo);
             vResult = IsValidConsecutivo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo) && vResult;
-            vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;           
-            vResult = IsValidNombre(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Nombre) && vResult;
+            vResult = IsValidCodigo(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Codigo) && vResult;
+            vResult = IsValidNombre(valAction, CurrentRecord.ConsecutivoCompania, CurrentRecord.Consecutivo, CurrentRecord.Nombre) && vResult;
             vResult = IsValidCiudad(valAction, CurrentRecord.Ciudad) && vResult;
             vResult = IsValidConsecutivoRutaDeComercializacion(valAction, CurrentRecord.ConsecutivoRutaDeComercializacion) && vResult;
             outErrorMessage = Information.ToString();
@@ -421,7 +421,7 @@ namespace Galac.Adm.Dal.Vendedor {
             return true;
         }
 
-        private bool IsValidNombre(eAccionSR valAction, int valConsecutivoCompania, string valNombre) {
+        private bool IsValidNombre(eAccionSR valAction, int valConsecutivoCompania, int ValConsecutivo, string valNombre) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
@@ -431,6 +431,11 @@ namespace Galac.Adm.Dal.Vendedor {
                 return false;
             } else if (valAction == eAccionSR.Insertar) {
                 if (KeyNombreExists(valConsecutivoCompania, valNombre)) {
+                    BuildValidationInfo("Este nombre de vendedor ya existe.");
+                    vResult = false;
+                }
+            } else if (valAction == eAccionSR.Modificar) {
+                if (KeyNombreExistsModificar(valConsecutivoCompania, ValConsecutivo, valNombre)) {
                     BuildValidationInfo("Este nombre de vendedor ya existe.");
                     vResult = false;
                 }
@@ -509,6 +514,17 @@ namespace Galac.Adm.Dal.Vendedor {
             vRecordBusqueda.Nombre = valNombre;
             LibDatabase insDb = new LibDatabase();
             vResult = insDb.ExistsRecord(DbSchema + ".Vendedor", "ConsecutivoCompania", ParametrosClaveNombre(vRecordBusqueda, false, false));
+            insDb.Dispose();
+            return vResult;
+        }
+
+        private bool KeyNombreExistsModificar(int valConsecutivoCompania, int valConsecutivo, string valNombre) {
+            bool vResult = false;
+            LibDatabase insDb = new LibDatabase();
+            QAdvSql insSql = new QAdvSql("");
+            string vSql = "SELECT Nombre FROM " + DbSchema + ".Vendedor WHERE ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania) + " AND Consecutivo <>" + insSql.ToSqlValue(valConsecutivo) + " AND Nombre = " + insSql.ToSqlValue(valNombre);
+            int vCount = insDb.RecordCountOfSql(vSql);
+            vResult = (vCount > 0);
             insDb.Dispose();
             return vResult;
         }
