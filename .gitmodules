@@ -22,30 +22,6 @@
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
 	branch = release/v2104
-[submodule "source/Axi"]
-	path = source/Axi
-	url = https://github.com/Galac-Software/Axi.git
-	branch = master
-[submodule "source/RetencionesVb"]
-	path = source/RetencionesVb
-	url = https://github.com/Galac-Software/RetencionesVb.git
-	branch = release/SawV23.5.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/Galac-Software/IvaVb.git
-	branch = release/SawV23.5.0.0
-[submodule "source/ContabIwrp"]
-	path = source/ContabIwrp
-	url = https://github.com/Galac-Software/ContabiWrp.git
-	branch = release/SawV23.5.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://github.com/Galac-Software/vbaComun.git
-	branch = release/SawV23.5.0.0
-[submodule "source/ContabilidadVb"]
-	path = source/ContabilidadVb
-	url = https://github.com/Galac-Software/ContabilidadVb.git
-	branch = feature/SawProximaVersion2023Julio
 [submodule "bin/binAdministrativoVb"]
 	path = bin/binAdministrativoVb
 	url = https://github.com/Galac-Software/BinAdministrativoVB.git
