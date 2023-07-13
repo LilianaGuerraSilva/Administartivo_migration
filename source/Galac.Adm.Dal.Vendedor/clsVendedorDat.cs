@@ -297,7 +297,7 @@ namespace Galac.Adm.Dal.Vendedor {
             CurrentRecord = refRecord[0];
             if (ValidateMasterDetail(valAction, CurrentRecord, valUseDetail)) {
                 if (ExecuteProcessBeforeUpdate()) {
-                    if (valUseDetail && CurrentRecord.DetailVendedorDetalleComisiones.Count > 0) {
+                    if (valUseDetail) {
                         vResult = UpdateMasterAndDetail(CurrentRecord, valAction);
                     } else {
                         vResult = UpdateMaster(CurrentRecord, valAction);
@@ -348,6 +348,7 @@ namespace Galac.Adm.Dal.Vendedor {
         }
 
         private bool SetPkInDetailVendedorDetalleComisionesAndUpdateDb(Ccl.Vendedor.Vendedor valRecord) {
+            bool vResult = false;
             int vConsecutivo = 1;
             clsVendedorDetalleComisionesDat insVendedorDetalleComisiones = new clsVendedorDetalleComisionesDat();
             foreach (VendedorDetalleComisiones vDetail in valRecord.DetailVendedorDetalleComisiones) {
@@ -356,7 +357,11 @@ namespace Galac.Adm.Dal.Vendedor {
                 vDetail.Consecutivo = vConsecutivo;
                 vConsecutivo++;
             }
-            return insVendedorDetalleComisiones.InsertChild(valRecord, insTrn);
+            vResult = insVendedorDetalleComisiones.InsertChild(valRecord, insTrn);
+            if (valRecord.DetailVendedorDetalleComisiones.Count == 0) {
+                vResult = true;
+            }
+            return vResult;
         }
 
         private bool UpdateDetail(Entity.Vendedor valRecord) {
