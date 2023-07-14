@@ -54,19 +54,19 @@
 	path = source/RetencionesVb
 	url = https://github.com/Galac-Software/RetencionesVb.git
 	branch = release/SawV23.5.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/Galac-Software/IvaVb.git
-	branch = release/SawV23.5.0.0
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://github.com/Galac-Software/ContabiWrp.git
-	branch = release/SawV23.5.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://github.com/Galac-Software/vbaComun.git
 	branch = release/SawV23.5.0.0
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://github.com/Galac-Software/ContabilidadVb.git
 	branch = feature/SawProximaVersion2023Julio
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/Galac-Software/IvaVb.git
+	branch = release/IVA-34.4
+[submodule "source/VbaComun"]
+	path = source/VbaComun
+	url = https://github.com/Galac-Software/vbaComun.git
+	branch = feature/SawIncorporarMejorasLibrosDeCompraVenta
