@@ -1190,7 +1190,7 @@ Private Function fBuscarConsecutivoVendedorFactura(ByVal valConsecutivoCompania 
    Dim vRs As ADODB.Recordset
    On Error GoTo h_ERROR
    vResult = 1
-   Set Rs = New ADODB.Recordset
+   Set vRs = New ADODB.Recordset
    vSql = "SELECT Consecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
    If gDbUtil.fOpenRecordset(vRs, vSql, Conexion) Then
       If gDbUtil.fRecordCount(vRs) > 0 Then
