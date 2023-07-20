@@ -1201,9 +1201,7 @@ Private Function fBuscarConsecutivoVendedorFactura(ByVal valConsecutivoCompania 
 h_EXIT: On Error GoTo 0
    fBuscarConsecutivoVendedorFactura = vResult
    Exit Function
-h_ERROR:
-   fBuscarConsecutivoVendedorFactura = 1
-   Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fBuscarConsecutivoVendedorFactura", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fBuscarConsecutivoVendedorFactura", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String) As Boolean
