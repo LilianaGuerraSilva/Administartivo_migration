@@ -1184,21 +1184,20 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Function fBuscarConsecutivoVendedorFactura(ByVal valConsecutivoCompania As Integer, ByVal valCodigo As String, ByRef refConsecutivo As Integer) As Boolean
-   Dim vResult As Boolean
+Private Function fBuscarConsecutivoVendedorFactura(ByVal valConsecutivoCompania As Integer, ByVal valCodigo As String) As Integer
+   Dim vResult As Integer
    Dim vSql As String
-   Dim Rs As ADODB.Recordset
+   Dim vRs As ADODB.Recordset
    On Error GoTo h_ERROR
-   vResult = False
+   vResult = 1
    Set Rs = New ADODB.Recordset
    vSql = "SELECT Consecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
-   If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-      If gDbUtil.fRecordCount(Rs) > 0 Then
-         refConsecutivo = gConvert.ConvierteAInteger(Rs.Fields("Consecutivo").Value)
-         vResult = True
+   If gDbUtil.fOpenRecordset(vRs, vSql, Conexion) Then
+      If gDbUtil.fRecordCount(vRs) > 0 Then
+         vResult = gConvert.ConvierteAInteger(vRs.Fields("Consecutivo").Value)
       End If
    End If
-   Set Rs = Nothing
+   Set vRs = Nothing
 h_EXIT: On Error GoTo 0
    fBuscarConsecutivoVendedorFactura = vResult
    Exit Function
@@ -1241,7 +1240,8 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       End If
       Set Rs = Nothing
       vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-      If fBuscarConsecutivoVendedorFactura(mConsecutivoCompaniaActual, vCodigoVendedor, vConsecutivoVendedor) Then
+      vConsecutivoVendedor = fBuscarConsecutivoVendedorFactura(mConsecutivoCompaniaActual, vCodigoVendedor)
+      If (vConsecutivoVendedor > 1) Then
          .SetCodigoVendedor vCodigoVendedor
          .SetConsecutivoVendedor vConsecutivoVendedor
       Else
