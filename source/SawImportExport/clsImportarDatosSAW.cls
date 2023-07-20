@@ -1184,6 +1184,27 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Private Function fBuscarConsecutivoVendedorFactura(ByVal valConsecutivoCompania As Integer, ByVal valCodigo As String, ByRef refConsecutivo As Integer) As Boolean
+   Dim vResult As Boolean
+   Dim vSql As String
+   Dim Rs As ADODB.Recordset
+   On Error GoTo h_ERROR
+   vResult = False
+   Set Rs = New ADODB.Recordset
+   vSql = "SELECT Consecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
+   If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
+      If gDbUtil.fRecordCount(Rs) > 0 Then
+         refConsecutivo = gConvert.ConvierteAInteger(Rs.Fields("Consecutivo").Value)
+         vResult = True
+      End If
+   End If
+   Set Rs = Nothing
+h_EXIT: On Error GoTo 0
+   fBuscarConsecutivoVendedorFactura = vResult
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fBuscarConsecutivoVendedorFactura", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
 Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String) As Boolean
    Dim linea As String
    Dim var_AlicuotaIvaEnum As enum_TipoDeAlicuota
@@ -1192,7 +1213,7 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
    Dim vTipoDePersona As String
    Dim vEsGeneradaPorPuntoDeVenta As Boolean
    Dim vCodigoMonedaDeCobro  As String
-   Dim vConsecutivoVendedor  As String
+   Dim vConsecutivoVendedor As Integer
    On Error GoTo h_ERROR
    fDistribuyeLaLineaDeFactura = False
    linea = refLineaActual
@@ -1209,7 +1230,7 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       vSql = "SELECT * FROM Cliente WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
       vSql = vSql & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(vCodigoCliente)
       If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-         If Rs.RecordCount > 0 Then
+         If gDbUtil.fRecordCount(Rs) > 0 Then
            If gTexto.DfLen(Rs.Fields("TipoDeContribuyente").Value) = 0 Then
              mTipoDeContribuyenteClienteFactura = "1"
            Else
@@ -1220,12 +1241,12 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       End If
       Set Rs = Nothing
       vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-      .SetCodigoVendedor vCodigoVendedor
-      vConsecutivoVendedor = gUtilImport.fToInt(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
-      .SetConsecutivoVendedor vConsecutivoVendedor
-      If Not gDbUtil.fRecordCountOfSql("SELECT Consecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & vConsecutivoCompania & " AND Consecutivo = " & vConsecutivoVendedor) > 0 Then
-        .SetCodigoVendedor "00001"
-        .SetConsecutivoVendedor 1
+      If fBuscarConsecutivoVendedorFactura(mConsecutivoCompaniaActual, vCodigoVendedor, vConsecutivoVendedor) Then
+         .SetCodigoVendedor vCodigoVendedor
+         .SetConsecutivoVendedor vConsecutivoVendedor
+      Else
+         .SetCodigoVendedor "00001"
+         .SetConsecutivoVendedor 1
       End If
       vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetObservaciones vObservaciones
