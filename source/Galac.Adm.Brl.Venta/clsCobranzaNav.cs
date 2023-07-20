@@ -29,6 +29,7 @@ namespace Galac.Adm.Brl.Venta {
 
             DateTime vFecha = LibConvert.ToDate(LibXml.GetPropertyString(valData, "Fecha"));
             string vCodigoCliente = LibXml.GetPropertyString(valData, "CodigoCliente");
+            int vConsecutivoCobrador = LibConvert.ToInt(LibXml.GetPropertyString(valData, "ConsecutivoVendedor"));
             string vCodigoCobrador = LibXml.GetPropertyString(valData, "CodigoVendedor");
             decimal vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valData, "TotalFactura"), 2);
             decimal vTotalCobrado = vTotalFactura;
@@ -98,6 +99,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInDateTime("Fecha", vFecha);
             vParams.AddInDateTime("FechaAnulacion", vFecha);
             vParams.AddInString("CodigoCliente", vCodigoCliente, 10);
+            vParams.AddInInteger("ConsecutivoCobrador", vConsecutivoCobrador);
             vParams.AddInString("CodigoCobrador", vCodigoCobrador, 5);
             vParams.AddInDecimal("TotalFactura", vTotalFactura, 2);
             vParams.AddInDecimal("RetencionIslr", 0, 2);
@@ -138,6 +140,7 @@ namespace Galac.Adm.Brl.Venta {
             sql.AppendLine(", Fecha");
             sql.AppendLine(", FechaAnulacion ");
             sql.AppendLine(", CodigoCliente");
+            sql.AppendLine(", ConsecutivoCobrador");
             sql.AppendLine(", CodigoCobrador");
             sql.AppendLine(", TotalDocumentos ");
             sql.AppendLine(", RetencionIslr ");
@@ -176,6 +179,7 @@ namespace Galac.Adm.Brl.Venta {
             sql.AppendLine(", @Fecha");
             sql.AppendLine(", @FechaAnulacion");
             sql.AppendLine(", @CodigoCliente");
+            sql.AppendLine(", @ConsecutivoCobrador");
             sql.AppendLine(", @CodigoCobrador");
             sql.AppendLine(", @TotalFactura");
             sql.AppendLine(", @RetencionIslr ");
@@ -391,6 +395,7 @@ namespace Galac.Adm.Brl.Venta {
         void ICobranzaPdn.InsertarCobranzasDeCobroEnMultimoneda(int valConsecutivoCompania, XElement valDatosFactura, XElement valDatosRenglonCobro, XElement valDataCxC, out List<string> outNumerosDeCobranzas) {
             DateTime vFecha = LibConvert.ToDate(LibXml.GetPropertyString(valDatosFactura, "Fecha"));
             string vCodigoCliente = LibXml.GetPropertyString(valDatosFactura, "CodigoCliente");
+            int vConsecutivoCobrador = LibConvert.ToInt(LibXml.GetPropertyString(valDatosFactura, "ConsecutivoVendedor"));
             string vCodigoCobrador = LibXml.GetPropertyString(valDatosFactura, "CodigoVendedor");
             string vNumeroFactura = LibXml.GetPropertyString(valDatosFactura, "Numero");
             int vTipoDeCXC = LibImportData.ToInt(LibXml.GetPropertyString(valDataCxC, "TipoCxc"));
@@ -437,7 +442,7 @@ namespace Galac.Adm.Brl.Venta {
             }
             if (vRenglonesEnDivisa != null) {
                 vCodigoMonedaCobranza = vRenglonesEnDivisa.Select(s => (string)s.Element("CodigoMoneda")).FirstOrDefault();
-                InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vCodigoCobrador, vTotalFacturaEnDivisas, vTotalFacturaEnDivisas, vRenglonesEnDivisa, false, ref refNumeroDeCobranza, out vTotalCobrado));
+                InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vTotalFacturaEnDivisas, vTotalFacturaEnDivisas, vRenglonesEnDivisa, false, ref refNumeroDeCobranza, out vTotalCobrado));
                 InsertarDocumentoCobrado(CrearXmlDeDatosDocumentoCobrado(valConsecutivoCompania, refNumeroDeCobranza, vNumeroFactura, vTotalFactura, vTotalFacturaEnDivisas, vCambioAMonedaLocal, vFecha, vTotalCobrado, valDataCxC, vCodigoMonedaCobranza, vTotalAbonadoMonedaLocal));
                 vNumeroDeCobranzas.Add(refNumeroDeCobranza);
                 vTotalPorCobrar = vTotalFactura - LibMath.RoundToNDecimals(vTotalCobrado * vCambioAMonedaLocal, 2);
@@ -446,7 +451,7 @@ namespace Galac.Adm.Brl.Venta {
                 vTienePagosEnDivisas = (vRenglonesEnDivisa != null);
                 vCambioAMonedaLocal = 1;
                 vCodigoMonedaCobranza = new clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
-                InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vCodigoCobrador, vTotalFactura, vTotalPorCobrar, vRenglonesEnMonedaLocal, vTienePagosEnDivisas, ref refNumeroDeCobranza, out vTotalCobrado));
+                InsertarCobranza(CrearXmlDeDatosCobranza(valConsecutivoCompania, vFecha, vCodigoCliente, vConsecutivoCobrador, vCodigoCobrador, vTotalFactura, vTotalPorCobrar, vRenglonesEnMonedaLocal, vTienePagosEnDivisas, ref refNumeroDeCobranza, out vTotalCobrado));
                 InsertarDocumentoCobrado(CrearXmlDeDatosDocumentoCobrado(valConsecutivoCompania, refNumeroDeCobranza, vNumeroFactura, vTotalFactura, vTotalFacturaEnDivisas, vCambioAMonedaLocal, vFecha, vTotalCobrado, valDataCxC, vCodigoMonedaCobranza));
                 vNumeroDeCobranzas.Add(refNumeroDeCobranza);
             }
@@ -458,7 +463,7 @@ namespace Galac.Adm.Brl.Venta {
             outNumerosDeCobranzas = vNumeroDeCobranzas;
         }
 
-        private XElement CrearXmlDeDatosCobranza(int valConsecutivoCompania, DateTime valFecha, string valCodigoCliente, string valCodigoCobrador, decimal valTotalFactura, decimal valTotalPorCobrar, IEnumerable<XElement> valRenglonesDeCobro, bool valTienePagosEnDivisas, ref string refNumeroDeCobranza, out decimal outTotalCobrado) {
+        private XElement CrearXmlDeDatosCobranza(int valConsecutivoCompania, DateTime valFecha, string valCodigoCliente, int valConsecutivoCobrador,string valCodigoCobrador, decimal valTotalFactura, decimal valTotalPorCobrar, IEnumerable<XElement> valRenglonesDeCobro, bool valTienePagosEnDivisas, ref string refNumeroDeCobranza, out decimal outTotalCobrado) {
             string vCodigoMonedaLocal = new Saw.Lib.clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
             if (refNumeroDeCobranza == string.Empty) {
                 refNumeroDeCobranza = ((ICobranzaPdn)new clsCobranzaNav()).GenerarProximoNumeroCobranza(valConsecutivoCompania);
@@ -515,6 +520,7 @@ namespace Galac.Adm.Brl.Venta {
                 new XElement("FechaAnulacion", valFecha),
                 new XElement("FechaAnulacion", valFecha),
                 new XElement("CodigoCliente", valCodigoCliente),
+                new XElement("ConsecutivoCobrador", valConsecutivoCobrador),
                 new XElement("CodigoCobrador", valCodigoCobrador),
                 new XElement("TotalDocumentos", outTotalCobrado),
                 new XElement("RetencionIslr", 0),
@@ -616,6 +622,7 @@ namespace Galac.Adm.Brl.Venta {
             outNumeroDeCobranza = ((ICobranzaPdn)new clsCobranzaNav()).GenerarProximoNumeroCobranza(valConsecutivoCompania);
             DateTime vFecha = LibDate.Today();
             string vCodigoCliente = LibXml.GetPropertyString(valDatosFactura, "CodigoCliente");
+            int vConsecutivoCobrador = LibConvert.ToInt(LibXml.GetPropertyString(valDatosFactura, "ConsecutivoVendedor"));
             string vCodigoCobrador = LibXml.GetPropertyString(valDatosFactura, "CodigoVendedor");
             string vNumeroFactura = LibXml.GetPropertyString(valDatosFactura, "Numero");
             decimal vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valDatosFactura, "TotalFactura"));
@@ -637,6 +644,7 @@ namespace Galac.Adm.Brl.Venta {
                 new XElement("FechaAnulacion", vFecha),
                 new XElement("FechaAnulacion", vFecha),
                 new XElement("CodigoCliente", vCodigoCliente),
+                new XElement("ConsecutivoCobrador", vConsecutivoCobrador),
                 new XElement("CodigoCobrador", vCodigoCobrador),
                 new XElement("TotalDocumentos", vTotalCobrado),
                 new XElement("RetencionIslr", 0),
@@ -725,6 +733,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInDateTime("Fecha", LibConvert.ToDate(LibXml.GetPropertyString(valXmlCobranza, "Fecha")));
             vParams.AddInDateTime("FechaAnulacion", LibConvert.ToDate(LibXml.GetPropertyString(valXmlCobranza, "Fecha")));
             vParams.AddInString("CodigoCliente", LibXml.GetPropertyString(valXmlCobranza, "CodigoCliente"), 10);
+            vParams.AddInInteger("ConsecutivoCobrador", LibConvert.ToInt(LibXml.GetPropertyString(valXmlCobranza, "ConsecutivoCobrador")));
             vParams.AddInString("CodigoCobrador", LibXml.GetPropertyString(valXmlCobranza, "CodigoCobrador"), 5);
             vParams.AddInDecimal("TotalFactura", LibImportData.ToDec(LibXml.GetPropertyString(valXmlCobranza, "TotalDocumentos")), 2);
             vParams.AddInDecimal("RetencionIslr", LibImportData.ToDec(LibXml.GetPropertyString(valXmlCobranza, "RetencionIslr")), 2);
@@ -764,6 +773,7 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine(", Fecha");
             vSql.AppendLine(", FechaAnulacion ");
             vSql.AppendLine(", CodigoCliente");
+            vSql.AppendLine(", ConsecutivoCobrador");
             vSql.AppendLine(", CodigoCobrador");
             vSql.AppendLine(", TotalDocumentos ");
             vSql.AppendLine(", RetencionIslr ");
@@ -802,6 +812,7 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine(", @Fecha");
             vSql.AppendLine(", @FechaAnulacion");
             vSql.AppendLine(", @CodigoCliente");
+            vSql.AppendLine(", @ConsecutivoCobrador");
             vSql.AppendLine(", @CodigoCobrador");
             vSql.AppendLine(", @TotalFactura");
             vSql.AppendLine(", @RetencionIslr ");

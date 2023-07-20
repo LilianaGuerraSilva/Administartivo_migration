@@ -108,7 +108,7 @@ namespace Galac.Adm.Brl.Venta {
 
         private XElement BuscarDatosDeFactura(int valConsecutivoCompania, string valNumeroFactura, int valTipoDeDocumento) {
             StringBuilder vSQL = new StringBuilder();
-            vSQL.AppendLine("SELECT Numero, TipoDeDocumento, Fecha, CodigoCliente, CodigoVendedor, TotalFactura, CodigoMoneda, CambioABolivares FROM dbo.factura WHERE Numero = @NumeroFactura AND TipoDeDocumento = @TipoDeDocumento AND ConsecutivoCompania = @ConsecutivoCompania");
+            vSQL.AppendLine("SELECT Numero, TipoDeDocumento, Fecha, CodigoCliente, ConsecutivoVendedor,CodigoVendedor, TotalFactura, CodigoMoneda, CambioABolivares FROM dbo.factura WHERE Numero = @NumeroFactura AND TipoDeDocumento = @TipoDeDocumento AND ConsecutivoCompania = @ConsecutivoCompania");
             LibGpParams vParams = new LibGpParams();
             vParams.AddInString("NumeroFactura", valNumeroFactura, 11);
             vParams.AddInEnum("TipoDeDocumento", valTipoDeDocumento);

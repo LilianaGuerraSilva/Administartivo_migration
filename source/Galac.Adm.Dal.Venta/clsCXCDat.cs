@@ -42,7 +42,7 @@ namespace Galac.Adm.Dal.Venta {
 
             vSql.AppendLine(" INSERT INTO cxc");
             vSql.AppendLine(" (ConsecutivoCompania");
-            vSql.AppendLine(" ,Numero, Status, TipoCxc, CodigoCliente, CodigoVendedor, Origen ");
+            vSql.AppendLine(" ,Numero, Status, TipoCxc, CodigoCliente, ConsecutivoVendedor,CodigoVendedor, Origen ");
             vSql.AppendLine(" ,Fecha ,FechaCancelacion, FechaVencimiento ");
             vSql.AppendLine(" ,MontoExento, MontoGravado, MontoIva, MontoAbonado ");
             vSql.AppendLine(" ,Descripcion, Moneda, CambioAbolivares, CodigoCc, CentroDeCostos, SeRetuvoIva ");
@@ -53,6 +53,7 @@ namespace Galac.Adm.Dal.Venta {
             vSql.AppendLine(" , " + "@StatusCXC");
             vSql.AppendLine(" , " + "@TipoCxC");
             vSql.AppendLine(" , " + "@CodigoCliente");
+            vSql.AppendLine(" , " + "@ConsecutivoVendedor");
             vSql.AppendLine(" , " + "@CodigoVendedor");
             vSql.AppendLine(" , " + "@OrigenDocumento");
             vSql.AppendLine(" , " + "@Fecha");
@@ -92,6 +93,7 @@ namespace Galac.Adm.Dal.Venta {
             eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(LibXml.GetPropertyString(valData, "TipoDeDocumento"));
             eTipoDeTransaccion vTipoCxC = eTipoDeTransaccion.TICKETMAQUINAREGISTRADORA;
             string vCodigoCliente = LibXml.GetPropertyString(valData, "CodigoCliente");
+            int vConsecutivoVendedor = LibConvert.ToInt(LibXml.GetPropertyString(valData, "ConsecutivoVendedor"));
             string vCodigoVendedor = LibXml.GetPropertyString(valData, "CodigoVendedor");
             string vComprobanteFiscal = LibXml.GetPropertyString(valData, "NumeroComprobanteFiscal");
             string vNumeroFactura = LibXml.GetPropertyString(valData, "Numero");
@@ -118,6 +120,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInEnum("StatusCXC", (int)vStatusCXC);
             vParams.AddInEnum("TipoCxC", (int)vTipoCxC);
             vParams.AddInString("CodigoCliente", vCodigoCliente, 10);
+            vParams.AddInInteger("ConsecutivoVendedor", vConsecutivoVendedor);
             vParams.AddInString("CodigoVendedor", vCodigoVendedor, 5);
             vParams.AddInEnum("OrigenDocumento", (int)vOrigenDocumento);
             vParams.AddInDateTime("Fecha", vFechaFactura);
