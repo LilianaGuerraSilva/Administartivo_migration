@@ -127,6 +127,7 @@ Private Function fSQLExportarFacturas(ByVal valExportarBorradores As Boolean) As
    SQL = SQL & "factura.Fecha, "
    SQL = SQL & "factura.CodigoCliente, "
    SQL = SQL & "factura.CodigoVendedor, "
+   SQL = SQL & "factura.ConsecutivoVendedor, "
    SQL = SQL & sqlReplaceObservaciones & " AS Observaciones, "
    SQL = SQL & "factura.TotalMontoExento, "
    SQL = SQL & "factura.TotalBaseImponible, "

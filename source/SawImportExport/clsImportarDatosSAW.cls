@@ -1192,6 +1192,7 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
    Dim vTipoDePersona As String
    Dim vEsGeneradaPorPuntoDeVenta As Boolean
    Dim vCodigoMonedaDeCobro  As String
+   Dim vConsecutivoVendedor  As String
    On Error GoTo h_ERROR
    fDistribuyeLaLineaDeFactura = False
    linea = refLineaActual
@@ -1220,6 +1221,12 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       Set Rs = Nothing
       vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetCodigoVendedor vCodigoVendedor
+      vConsecutivoVendedor = gUtilImport.fToInt(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+      .SetConsecutivoVendedor vConsecutivoVendedor
+      If Not gDbUtil.fRecordCountOfSql("SELECT Consecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & vConsecutivoCompania & " AND Consecutivo = " & vConsecutivoVendedor) > 0 Then
+        .SetCodigoVendedor "00001"
+        .SetConsecutivoVendedor 1
+      End If
       vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetObservaciones vObservaciones
       vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
