@@ -591,7 +591,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
       insCliente.SetConsecutivoVendedor vConsecutivoVendedor
    Else
       insCliente.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
-      insCliente.SetConsecutivoVendedor 1
+      insCliente.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCliente.GetCodigoVendedor)
    End If
    insCliente.SetEsExtranjero gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCliente.SetEmail gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -1253,7 +1253,7 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
          .SetConsecutivoVendedor vConsecutivoVendedor
       Else
          .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
-         .SetConsecutivoVendedor 1
+         .SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, .GetCodigoVendedor)
       End If
       vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetObservaciones vObservaciones
@@ -1917,7 +1917,7 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
    Else
       insCxC.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
       insCxC.SetNombreVendedor "OFICINA"
-      insCxC.SetConsecutivoVendedor 1
+      insCxC.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCxC.GetCodigoVendedor)
    End If
    insCxC.SetFecha gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaCancelacion gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -2122,7 +2122,7 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
    Else
       insCxC.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
       insCxC.SetNombreVendedor "OFICINA"
-      insCxC.SetConsecutivoVendedor 1
+      insCxC.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCxC.GetCodigoVendedor)
    End If
    insCxC.SetFecha gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaCancelacion gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -4660,7 +4660,7 @@ Private Function fDistribuyeLaLineaDeCotizacion(ByRef refLineaActual As String, 
          .SetConsecutivoVendedor vConsecutivoVendedor
       Else
          .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
-         .SetConsecutivoVendedor 1
+         .SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, .GetCodigoVendedor)
       End If
       vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetObservaciones vObservaciones
