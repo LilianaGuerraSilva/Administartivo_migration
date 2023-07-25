@@ -103,6 +103,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("INNER JOIN Adm.Caja ON  " + DbSchema + ".CajaApertura.ConsecutivoCaja = Adm.Caja.Consecutivo");
             SQL.AppendLine("      AND " + DbSchema + ".CajaApertura.ConsecutivoCompania = Adm.Caja.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Lib.GUser ON  " + DbSchema + ".CajaApertura.NombreDelUsuario = Lib.GUser.UserName");
+            SQL.AppendLine("INNER JOIN Moneda ON  " + DbSchema + ".CajaApertura.CodigoMoneda = Moneda.Codigo");
             return SQL.ToString();
         }
 
@@ -124,7 +125,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@HoraApertura" + InsSql.VarCharTypeForDb(5) + " = '',");
             SQL.AppendLine("@HoraCierre" + InsSql.VarCharTypeForDb(5) + " = '',");
             SQL.AppendLine("@CajaCerrada" + InsSql.CharTypeForDb(1) + " = 'N',");
-            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " = '',");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
             SQL.AppendLine("@Cambio" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@MontoAperturaME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@MontoCierreME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
@@ -427,7 +428,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("             INNER JOIN Adm.Gv_Caja_B1 ON " + DbSchema + ".CajaApertura.ConsecutivoCaja = Adm.Gv_Caja_B1.Consecutivo ");
             SQL.AppendLine("             AND " + DbSchema + ".CajaApertura.ConsecutivoCompania = Adm.Gv_Caja_B1.ConsecutivoCompania ");
             SQL.AppendLine("             INNER JOIN Lib.Gv_GUser_B1 ON " + DbSchema + ".CajaApertura.NombreDelUsuario = Lib.Gv_GUser_B1.UserName");
-            SQL.AppendLine("      WHERE CajaApertura.ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("             INNER JOIN dbo.Gv_Moneda_B1 ON " + DbSchema + ".CajaApertura.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo");
+			SQL.AppendLine("      WHERE CajaApertura.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND CajaApertura.Consecutivo = @Consecutivo");
             SQL.AppendLine("         AND CajaApertura.ConsecutivoCaja = @ConsecutivoCaja");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -486,6 +488,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      INNER JOIN Adm.Gv_Caja_B1 ON  " + DbSchema + ".Gv_CajaApertura_B1.ConsecutivoCaja = Adm.Gv_Caja_B1.Consecutivo ");
             SQL.AppendLine("      AND " + DbSchema + ".Gv_CajaApertura_B1.ConsecutivoCompania = Adm.Gv_Caja_B1.ConsecutivoCompania");
             SQL.AppendLine("      INNER JOIN Lib.Gv_GUser_B1 ON  " + DbSchema + ".Gv_CajaApertura_B1.NombreDelUsuario = Lib.Gv_GUser_B1.UserName ");
+			SQL.AppendLine("      INNER JOIN dbo.Gv_Moneda_B1 ON  " + DbSchema + ".Gv_CajaApertura_B1.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo ");
             SQL.AppendLine("      INNER JOIN CTE_CajaApertura ON ");
             SQL.AppendLine(DbSchema + ".Gv_CajaApertura_B1.ConsecutivoCaja = CTE_CajaApertura.ConsecutivoCaja AND ");
             SQL.AppendLine(DbSchema + ".Gv_CajaApertura_B1.Consecutivo = CTE_CajaApertura.Consecutivo '");
@@ -515,7 +518,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".CajaApertura.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".CajaApertura.Consecutivo,");
             SQL.AppendLine("      " + DbSchema + ".CajaApertura.ConsecutivoCaja,");
-            SQL.AppendLine("      " + DbSchema + ".CajaApertura.NombreDelUsuario");
+            SQL.AppendLine("      " + DbSchema + ".CajaApertura.NombreDelUsuario,");
+            SQL.AppendLine("      " + DbSchema + ".CajaApertura.CodigoMoneda");
             //            SQL.AppendLine("      ," + DbSchema + ".CajaApertura.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".CajaApertura");
             SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");

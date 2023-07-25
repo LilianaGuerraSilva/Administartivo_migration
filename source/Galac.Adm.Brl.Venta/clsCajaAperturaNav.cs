@@ -168,7 +168,11 @@ namespace Galac.Adm.Brl.Venta {
                     vPdnModule = new LibGalac.Aos.Brl.Usal.LibGUserNav();
                     vResult = vPdnModule.GetDataForList("Caja Apertura",ref refXmlDocument,valXmlParamsExpression);
                     break;
-                default:
+                case "Moneda":
+                    vPdnModule = new Galac.Comun.Brl.TablasGen.clsMonedaNav();
+                    vResult = vPdnModule.GetDataForList("Caja Apertura", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+				default:
                     vPdnModule = new Galac.Adm.Brl.Venta.clsCajaAperturaNav();
                     vResult = vPdnModule.GetDataForList("Caja Apertura",ref refXmlDocument,valXmlParamsExpression);
                     break;                    

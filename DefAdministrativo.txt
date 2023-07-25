@@ -2644,7 +2644,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 	HoraApertura		: Str5;//a
     HoraCierre		    : Str5;//a
     CajaCerrada		    : Boolean;
-    CodigoMoneda		: Str4;//=Moneda.Codigo
+    CodigoMoneda		: Str4;//=Moneda.Codigo,Search
     Cambio			    : Decimal;//"Cambio"
     MontoAperturaME		: Decimal;
     MontoCierreME 		: Decimal;
