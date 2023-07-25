@@ -75,38 +75,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInInteger("ConsecutivoCaja",valConsecutivo);
             vResult = new Galac.Adm.Dal.Venta.clsCajaAperturaDat().CajasCerradas(vParams.Get());            
             return vResult;
-        }
-
-        bool ICajaAperturaPdn.AbrirCaja(CajaApertura valCajaApertura) {
-            LibGpParams vParams = new LibGpParams();
-            IList<CajaApertura> ListCajaApertura = new List<CajaApertura>();
-            ILibDataComponent<IList<CajaApertura>,IList<CajaApertura>> insCajaAperturaFiscalDat = new Dal.Venta.clsCajaAperturaDat();
-            bool vResult = false;
-            ListCajaApertura.Add(new CajaApertura {
-                ConsecutivoCompania = valCajaApertura.ConsecutivoCompania,
-                Consecutivo = valCajaApertura.Consecutivo,
-                ConsecutivoCaja = valCajaApertura.ConsecutivoCaja,
-                NombreDelUsuario = valCajaApertura.NombreDelUsuario,
-                MontoApertura = valCajaApertura.MontoApertura,
-                MontoCierre = valCajaApertura.MontoCierre,
-                MontoEfectivo = valCajaApertura.MontoEfectivo,
-                MontoTarjeta = valCajaApertura.MontoTarjeta,
-                MontoCheque = valCajaApertura.MontoCheque,
-                MontoDeposito = valCajaApertura.MontoDeposito,
-                MontoAnticipo = valCajaApertura.MontoAnticipo,
-                Fecha =LibDate.Today(),
-                HoraApertura =valCajaApertura.HoraApertura,
-                HoraCierre = valCajaApertura.HoraCierre,
-                CajaCerradaAsBool =false,
-                NombreCaja =valCajaApertura.NombreCaja,                
-                CodigoMoneda = valCajaApertura.CodigoMoneda,
-                Cambio = valCajaApertura.Cambio,
-                NombreOperador ="",
-                FechaUltimaModificacion = valCajaApertura.FechaUltimaModificacion
-            });            
-            vResult = insCajaAperturaFiscalDat.Insert(ListCajaApertura).Success;            
-            return vResult;
-        }
+        }       
 
         bool ICajaAperturaPdn.CerrarCaja(CajaApertura valCajaApertura) {
             LibGpParams vParams = new LibGpParams();
