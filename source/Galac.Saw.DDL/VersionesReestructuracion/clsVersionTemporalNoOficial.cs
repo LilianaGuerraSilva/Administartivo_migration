@@ -23,12 +23,43 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-			CrearRutaDeComercializacion();
-			CrearTablaAdmVendedor();
-			AmpliarCampoUbicacion();
+			//CrearRutaDeComercializacion();
+			//CrearTablaAdmVendedor();
+			//AmpliarCampoUbicacion();
+			//
+			CamposMonedaExtranjeraEnCajaApertura();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
+
+		private void CamposMonedaExtranjeraEnCajaApertura() {
+			if (AddColumnCurrency("Adm.CajaApertura", "MontoAperturaME", "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoApME", "0", "MontoAperturaME");
+			}
+			if (AddColumnCurrency("Adm.CajaApertura", "MontoCierreME", "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoCiME", "0", "MontoCierreME");
+			}
+			if (AddColumnCurrency("Adm.CajaApertura", "MontoEfectivoME", "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoEfME", "0", "MontoEfectivoME");
+			}
+			if (AddColumnCurrency("Adm.CajaApertura", "MontoTarjetaME", "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoTaME", "0", "MontoTarjetaME");
+			}
+			if (AddColumnCurrency("Adm.CajaApertura", "MontoChequeME", "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoChME", "0", "MontoChequeME");
+			}
+			if (AddColumnCurrency("Adm.CajaApertura", "MontoDepositoME", "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoDeME", "0", "MontoDepositoME");
+			}
+			if (AddColumnCurrency("Adm.CajaApertura", "MontoAnticipoME", "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoAnME", "0", "MontoAnticipoME");
+			}
+			Execute("UPDATE Adm.CajaApertura SET CodigoMoneda = 'VED', Cambio = 1 WHERE CodigoMoneda IS NULL OR CodigoMoneda = '' OR CodigoMoneda = 'VES' OR Cambio IS NULL OR Cambio = 0");
+			if (!ForeignKeyNameExists("fk_CajaAperturaMoneda")) {
+				AddForeignKey("dbo.Moneda", "Adm.CajaApertura", new string[] { "Codigo" }, new string[] { "CodigoMoneda" }, false, true);
+			}
+		}
+
 		private void CrearTablaAdmVendedor() {
 			if (!TableExists("Adm.Vendedor")) {
 				new clsVendedorED().InstalarTabla();
@@ -106,7 +137,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSQL.AppendLine("AND " + valTabla + "." + valColumnaAnterior + " = Adm.Vendedor.Codigo");
 			vDb.ExecuteWithScope(vSQL.ToString());
 		}
-
 
 		private void CrearRutaDeComercializacion() {
 			if (new Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla()) {

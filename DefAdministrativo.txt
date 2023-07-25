@@ -2627,7 +2627,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
  }
 
-{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm     
+{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme,GENERATE
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	Consecutivo   		: LongInt;//u,o,a,sugestconsecutive
 	ConsecutivoCaja     : Long;//Hide,=Caja.ConsecutivoCaja
@@ -2642,10 +2642,17 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     MontoAnticipo		: Decimal;
 	Fecha			: date;//a
 	HoraApertura		: Str5;//a
-	HoraCierre		: Str5;//a
-	CajaCerrada		: Boolean;
-	CodigoMoneda		: Str4;//Hide
-	Cambio			: Decimal;//Hide,"Cambio"	
+    HoraCierre		    : Str5;//a
+    CajaCerrada		    : Boolean;
+    CodigoMoneda		: Str4;//=Moneda.Codigo,Search
+    Cambio			    : Decimal;//"Cambio"
+    MontoAperturaME		: Decimal;
+    MontoCierreME 		: Decimal;
+    MontoEfectivoME		: Decimal;
+    MontoTarjetaME 		: Decimal;
+    MontoChequeME 		: Decimal;
+    MontoDepositoME		: Decimal;
+    MontoAnticipoME		: Decimal;
 	NombreOperador		: Str10;//a
 	FechaUltimaModificacion	: date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo,ConsecutivoCaja
