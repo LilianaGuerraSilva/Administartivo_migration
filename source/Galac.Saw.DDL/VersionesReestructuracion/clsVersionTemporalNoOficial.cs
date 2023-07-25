@@ -55,7 +55,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoAnME", "0", "MontoAnticipoME");
 			}
 			Execute("UPDATE Adm.CajaApertura SET CodigoMoneda = 'VED', Cambio = 1 WHERE CodigoMoneda IS NULL OR CodigoMoneda = '' OR CodigoMoneda = 'VES' OR Cambio IS NULL OR Cambio = 0");
-			AddForeignKey("Moneda", "Adm.CajaApertura",new string[] { "Codigo" },new string[] { "CodigoMoneda" }, false, true);
+			if (!ForeignKeyNameExists("fk_CajaAperturaMoneda")) {
+				AddForeignKey("dbo.Moneda", "Adm.CajaApertura", new string[] { "Codigo" }, new string[] { "CodigoMoneda" }, false, true);
+			}
 		}
 
 		private void CrearTablaAdmVendedor() {
