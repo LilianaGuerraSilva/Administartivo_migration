@@ -15,6 +15,8 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Ccl.Usal;
+using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
+using Galac.Adm.Ccl.DispositivosExternos;
 using LibGalac.Aos.Cnf;
 using System.Collections;
 using Galac.Comun.Ccl.TablasGen;
@@ -22,7 +24,7 @@ using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CajaAperturaViewModel : LibInputViewModel<CajaApertura> {
+    public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
 
         #region Constantes y Variables
         const string NombreCajaPropertyName = "NombreCaja";
@@ -553,7 +555,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ShowDetaills = true;
                 Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
                 TotalesPorCierreDeCaja();
-            }           
+            }
         }
 
         public override void InitializeViewModel(eAccionSR valAction) {
@@ -593,8 +595,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
-            }            
-            AsignaTasaDelDia(CodigoMoneda);            
+            }
+            AsignaTasaDelDia(CodigoMoneda);
         }
 
         protected override void InitializeLookAndFeel(CajaApertura valModel) {
@@ -917,14 +919,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool ImprimirCierreX() {
             try {
                 bool vResult = false;
-                //ICajaPdn insCaja = new clsCajaNav();
-                //XElement xmlImpresoraFiscal = null;
-                //insCaja.FindByConsecutivoCaja(ConsecutivoCompania, ConsecutivoCaja, "", ref xmlImpresoraFiscal);
-                //clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
-                //IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
-                //vResult = insIMaquinaFiscal.RealizarReporteX();
-                //insCaja.ActualizarCierreXEnFacturas(ConsecutivoCompania, ConsecutivoCaja, Fecha, HoraApertura, HoraCierre);
-                //insIMaquinaFiscal = null;
+                ICajaPdn insCaja = new clsCajaNav();
+                XElement xmlImpresoraFiscal = null;
+                insCaja.FindByConsecutivoCaja(ConsecutivoCompania, ConsecutivoCaja, "", ref xmlImpresoraFiscal);
+                clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+                IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
+                vResult = insIMaquinaFiscal.RealizarReporteX();
+                insCaja.ActualizarCierreXEnFacturas(ConsecutivoCompania, ConsecutivoCaja, Fecha, HoraApertura, HoraCierre);
+                insIMaquinaFiscal = null;
                 return vResult;
             } catch (Exception vEx) {
                 throw vEx;
