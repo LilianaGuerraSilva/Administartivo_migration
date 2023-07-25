@@ -15,12 +15,16 @@ using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.Ccl.Usal;
+using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
+using Galac.Adm.Ccl.DispositivosExternos;
 using LibGalac.Aos.Cnf;
 using System.Collections;
 using Galac.Comun.Ccl.TablasGen;
+using Galac.Comun.Brl.TablasGen;
+using Galac.Comun.Uil.TablasGen.ViewModel;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CajaAperturaViewModel : LibInputViewModel<CajaApertura> {
+    public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
 
         #region Constantes y Variables
         const string NombreCajaPropertyName = "NombreCaja";
@@ -54,7 +58,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         ICajaAperturaPdn insCajaApertura;
         bool _CajaCerrada = false;
         bool _UsuarioNoAsignado = false;
-
+        private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
+        private bool _UsaCobroMultimoneda = false;
         #endregion //Constantes y Variables
 
         #region Propiedades
@@ -551,7 +556,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
                 TotalesPorCierreDeCaja();
             }
-            CodigoMoneda = "USD";
         }
 
         public override void InitializeViewModel(eAccionSR valAction) {
@@ -567,13 +571,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoEfectivo = 0m;
                 MontoTarjeta = 0m;
                 MontoAnticipo = 0m;
-
                 MontoCierreME = 0m;
                 MontoChequeME = 0m;
                 MontoDepositoME = 0m;
                 MontoEfectivoME = 0m;
                 MontoTarjetaME = 0m;
                 MontoAnticipoME = 0m;
+                CargarValoresInicialesDeMoneda();
             } else if (Action == eAccionSR.Modificar) {
                 CajaCerrada = true;
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
@@ -581,6 +585,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
                 TotalesPorCierreDeCaja();
             }
+        }
+
+
+        private void CargarValoresInicialesDeMoneda() {
+            vMonedaLocal = new Saw.Lib.clsNoComunSaw();
+            _UsaCobroMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
+            if (_UsaCobroMultimoneda) {
+                CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            } else {
+                CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            }
+            AsignaTasaDelDia(CodigoMoneda);
         }
 
         protected override void InitializeLookAndFeel(CajaApertura valModel) {
@@ -785,12 +801,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
-                LibSearchCriteria vFixedCriteria = null; // LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
-                //vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
-                //AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
+                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
+                AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
                 ConexionCodigoMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoMoneda != null) {
                     CodigoMoneda = ConexionCodigoMoneda.Codigo;
+                    AsignaTasaDelDia(CodigoMoneda);
                 } else {
                     CodigoMoneda = string.Empty;
                 }
@@ -902,14 +919,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool ImprimirCierreX() {
             try {
                 bool vResult = false;
-                //ICajaPdn insCaja = new clsCajaNav();
-                //XElement xmlImpresoraFiscal = null;
-                //insCaja.FindByConsecutivoCaja(ConsecutivoCompania, ConsecutivoCaja, "", ref xmlImpresoraFiscal);
-                //clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
-                //IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
-                //vResult = insIMaquinaFiscal.RealizarReporteX();
-                //insCaja.ActualizarCierreXEnFacturas(ConsecutivoCompania, ConsecutivoCaja, Fecha, HoraApertura, HoraCierre);
-                //insIMaquinaFiscal = null;
+                ICajaPdn insCaja = new clsCajaNav();
+                XElement xmlImpresoraFiscal = null;
+                insCaja.FindByConsecutivoCaja(ConsecutivoCompania, ConsecutivoCaja, "", ref xmlImpresoraFiscal);
+                clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+                IImpresoraFiscalPdn insIMaquinaFiscal = vCreatorMaquinaFiscal.Crear(xmlImpresoraFiscal);
+                vResult = insIMaquinaFiscal.RealizarReporteX();
+                insCaja.ActualizarCierreXEnFacturas(ConsecutivoCompania, ConsecutivoCaja, Fecha, HoraApertura, HoraCierre);
+                insIMaquinaFiscal = null;
                 return vResult;
             } catch (Exception vEx) {
                 throw vEx;
@@ -940,6 +957,67 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public bool IsEnabledForInsert {
             get {
                 return (Action == eAccionSR.Insertar);
+            }
+        }
+
+        public bool IsEnabledForME {
+            get {
+                return _UsaCobroMultimoneda && IsEnabledForInsert;
+            }
+        }
+
+        public bool AsignaTasaDelDia(string valCodigoMoneda) {
+            vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
+            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
+                decimal vTasa = 1;
+                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
+                CodigoMoneda = ConexionCodigoMoneda.Codigo;
+                NombreME = ConexionCodigoMoneda.Nombre;
+                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Fecha, out vTasa)) {
+                    Cambio = vTasa;
+                    return true;
+                } else {
+                    bool vElProgramaEstaEnModoAvanzado = false;
+                    bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
+                    int vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado);
+                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
+                    vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
+                    vViewModel.FechaDeVigencia = Fecha;
+                    vViewModel.CodigoMoneda = CodigoMoneda;
+                    vViewModel.NombreMoneda = NombreME;
+                    vViewModel.IsEnabledFecha = false;
+                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+                    if (!vResult) {
+                        if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                            return false;
+                        }
+                        AsignarValoresDeMonedaPorDefecto();
+                    }
+                    return true;
+                }
+            } else {
+                CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
+                NombreME = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
+                Cambio = 1;
+                return true;
+            }
+        }
+
+        private void CambioChanged(decimal valCambio) {
+            Cambio = valCambio;
+        }
+
+        private void AsignarValoresDeMonedaPorDefecto() {
+            if (_UsaCobroMultimoneda) {
+                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));
+                CodigoMoneda = ConexionCodigoMoneda.Codigo;
+                NombreME = ConexionCodigoMoneda.Nombre;
+                AsignaTasaDelDia(CodigoMoneda);
+            } else {
+                CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
+                NombreME = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
+                Cambio = 1;
             }
         }
 

@@ -42,6 +42,7 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();            
+            vParams.AddInDateFormat("DateFormat");
             vParams.AddInInteger("ConsecutivoCompania",valRecord.ConsecutivoCompania);
             vParams.AddInInteger("Consecutivo",valRecord.Consecutivo);
             vParams.AddInInteger("ConsecutivoCaja",valRecord.ConsecutivoCaja);
@@ -323,7 +324,7 @@ namespace Galac.Adm.Dal.Venta {
                 vResult = false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("Comun.Moneda", "Codigo", insDb.InsSql.ToSqlValue(valCodigoMoneda), true)) {
+                if (!insDb.ExistsValue("dbo.Moneda", "Codigo", insDb.InsSql.ToSqlValue(valCodigoMoneda), true)) {
                     BuildValidationInfo("El valor asignado al campo Codigo Moneda no existe, escoga nuevamente.");
                     vResult = false;
                 }
