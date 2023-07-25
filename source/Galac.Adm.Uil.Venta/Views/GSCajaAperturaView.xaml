@@ -34,7 +34,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Name="Encabezado"
+        <Grid
+            Name="Encabezado"
             Grid.Row="0"
             Grid.Column="0"
             FocusManager.FocusedElement="{Binding ElementName=txtNombreCaja}">
@@ -89,19 +90,20 @@
                 Model="{Binding Path=ConexionNombreDelUsuario, Mode=TwoWay}"
                 SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}" />
         </Grid>
-        <Grid Name="Titulos"
-              Grid.Row="1"
-              Grid.Column="0"
-              Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}">
+        <Grid
+            Name="Titulos"
+            Grid.Row="1"
+            Grid.Column="0"
+            Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="180"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="180" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Label
                 Name="lblBs"
@@ -111,40 +113,53 @@
                 HorizontalContentAlignment="Center"
                 Content="Bolívares (Bs)"
                 Style="{StaticResource LabelPrompt}" />
-            <nsWpfControls:GSSeekConnection 
-                Name="txtCodigoMoneda" 
-                Grid.Row="0" 
-                Grid.Column="2"                 
-                Width="70" 
-                Height="23" Margin="0,4,0,4" 
-                HorizontalAlignment="Left" 
-                IsEnabled="{Binding Path=IsEnabledForInsert}"
-                DisplayMemberPath="Codigo"
-                Model="{Binding Path=ConexionCodigoMoneda, Mode=TwoWay}"
+            <nsWpfControls:GSSeekConnection
+                Name="txtCodigoMoneda"
+                Grid.Row="0"
+                Grid.Column="2"
+                Width="70"
+                Height="23"
+                Margin="0,4,0,4"
+                HorizontalAlignment="Left"
                 ConnectionValue="{Binding Path=CodigoMoneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Codigo"
+                IsEnabled="{Binding Path=IsEnabledForME}"
+                Model="{Binding Path=ConexionCodigoMoneda, Mode=TwoWay}"
                 SearchCommand="{Binding Path=ChooseCodigoMonedaCommand}" />
             <Label
                 Name="lblME"
                 Grid.Row="0"
                 Grid.Column="3"
+                Height="25"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Stretch"
+                BorderBrush="LightGray"
+                BorderThickness="1,1,1,1"
                 Content="{Binding Path=NombreME, Mode=OneWay}"
+                Foreground="DimGray"
                 Style="{StaticResource LabelPrompt}" />
-            <Label Name="lblCambio"
-                   Grid.Row="1" 
-                   Grid.Column="2" 
-                   Content="Cambio" 
-                   Style="{StaticResource LabelPrompt}" />
-            <nsWpfControls:GSNumericBoxWpf 
-                Name="txtCambio" 
-                Grid.Row="1" 
-                Grid.Column="3" 
+            <Label
+                Name="lblCambio"
+                Grid.Row="1"
+                Grid.Column="2"
+                Content="Cambio"
+                Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSNumericBoxWpf
+                Name="txtCambio"
+                Grid.Row="1"
+                Grid.Column="3"
+                Width="128"
+                Margin="3,3,3,3"
+                BorderThickness="1"
                 DecimalDigits="4"
-                Style="{StaticResource TextBoxInputStyle}" InputDataType="UDecimal" IsEnabled="{Binding Path=IsEnabled}"
-                Value="{Binding Path=Cambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Margin="3,3,3,3" Width="128"/>
+                InputDataType="UDecimal"
+                IsEnabled="{Binding Path=IsEnabledForME}"
+                Style="{StaticResource TextBoxInputStyle}"
+                Value="{Binding Path=Cambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Grid Name="Detaills"
+        <Grid
+            Name="Detaills"
             Grid.Row="2"
             Grid.Column="0"
             Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}">
@@ -176,29 +191,35 @@
                 Grid.Column="1"
                 Width="150"
                 BorderThickness="1.5"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="{Binding Path=IsEnabledForInsert}"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoApertura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  />
+                Value="{Binding Path=MontoApertura, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoAperturaME"
                 Grid.Row="0"
                 Grid.Column="2"
                 Width="150"
                 BorderThickness="1.5"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="{Binding Path=IsEnabledForInsert}"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  />
+                Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMovimientos"
-                Grid.Row="1"                
-                Content="Totales por Forma de Pago"                
-                Style="{StaticResource LabelPrompt}" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Grid.Column="1" Margin="0" Width="351" Grid.ColumnSpan="2" />
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Width="351"
+                Margin="0"
+                HorizontalAlignment="Left"
+                HorizontalContentAlignment="Center"
+                Content="Totales por Forma de Pago"
+                Style="{StaticResource LabelPrompt}" />
             <Label
                 Name="lblMontoEfectivo"
                 Grid.Row="2"
@@ -210,9 +231,9 @@
                 Grid.Row="2"
                 Grid.Column="1"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoEfectivo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -221,9 +242,9 @@
                 Grid.Row="2"
                 Grid.Column="2"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoEfectivoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -238,9 +259,9 @@
                 Grid.Row="3"
                 Grid.Column="1"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoTarjeta, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -249,9 +270,9 @@
                 Grid.Row="3"
                 Grid.Column="2"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoTarjetaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -266,9 +287,9 @@
                 Grid.Row="4"
                 Grid.Column="1"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoCheque, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -277,9 +298,9 @@
                 Grid.Row="4"
                 Grid.Column="2"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoChequeME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -294,9 +315,9 @@
                 Grid.Row="5"
                 Grid.Column="1"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoDeposito, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -305,9 +326,9 @@
                 Grid.Row="5"
                 Grid.Column="2"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoDepositoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -322,9 +343,9 @@
                 Grid.Row="6"
                 Grid.Column="1"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoAnticipo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -333,9 +354,9 @@
                 Grid.Row="6"
                 Grid.Column="2"
                 Width="150"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoAnticipoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -364,9 +385,9 @@
                 Grid.Column="1"
                 Width="150"
                 Background="#FF41719C"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -376,17 +397,18 @@
                 Grid.Column="2"
                 Width="150"
                 Background="#FF41719C"
+                DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                DecimalDigits="2"
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoCierreME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Grid Name="Pie"
-              Grid.Row="3"
-              Grid.Column="0"
-              Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}">
+        <Grid
+            Name="Pie"
+            Grid.Row="3"
+            Grid.Column="0"
+            Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -412,7 +434,7 @@
             <Label
                 Name="lblHoraCierre"
                 Grid.Row="0"
-                Grid.Column="2" 
+                Grid.Column="2"
                 Content="Hora Cierre"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSDatePickerWpf
