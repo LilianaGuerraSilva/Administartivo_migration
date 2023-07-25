@@ -989,7 +989,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 } else {
                     bool vElProgramaEstaEnModoAvanzado = false;
                     bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
-                    int vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
                     CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado);
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
