@@ -22,6 +22,7 @@ using System.Collections;
 using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
+using System.Windows;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
@@ -576,8 +577,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoDepositoME = 0m;
                 MontoEfectivoME = 0m;
                 MontoTarjetaME = 0m;
-                MontoAnticipoME = 0m;
-                CargarValoresInicialesDeMoneda();
+                MontoAnticipoME = 0m;                
             } else if (Action == eAccionSR.Modificar) {
                 CajaCerrada = true;
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
@@ -585,18 +585,25 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
                 TotalesPorCierreDeCaja();
             }
+            CargarValoresInicialesDeMoneda();
         }
 
 
         private void CargarValoresInicialesDeMoneda() {
             vMonedaLocal = new Saw.Lib.clsNoComunSaw();
             _UsaCobroMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
-            if (_UsaCobroMultimoneda) {
-                CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+            if (Action == eAccionSR.Insertar) {                
+                if (_UsaCobroMultimoneda) {
+                    CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+                } else {
+                    CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+                }
+                AsignaTasaDelDia(CodigoMoneda);
             } else {
-                CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
+                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));
+                CodigoMoneda = ConexionCodigoMoneda.Codigo;
+                NombreME = ConexionCodigoMoneda.Nombre;
             }
-            AsignaTasaDelDia(CodigoMoneda);
         }
 
         protected override void InitializeLookAndFeel(CajaApertura valModel) {
@@ -688,19 +695,22 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteAbrirCajaCommand() {
             bool vSePuede = false;
-            if (IsValid) {
-                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
-                if (vSePuede) {
-                    if (insCajaApertura.AbrirCaja(Model)) {
-                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
-                        RaiseRequestCloseEvent();
+            try {
+                if (IsValid) {
+                    vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
+                    if (vSePuede) {
+                        ExecuteExecuteActionAndCloseCommand();
+                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");                        
                     } else {
                         LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " no pudo ser abierta.", "");
+
                     }
+                } else {
+                    LibMessages.MessageBox.Alert(this, Error, "Notificación");
                 }
-            } else {
-                LibMessages.MessageBox.Alert(this, Error, "Notificación");
-            }
+            } catch (Exception) {
+                throw;
+            }            
         }
 
         private void ExecuteCerrarCajaCommand() {
@@ -979,7 +989,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 } else {
                     bool vElProgramaEstaEnModoAvanzado = false;
                     bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
-                    int vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
                     CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado);
                     vViewModel.InitializeViewModel(eAccionSR.Insertar);
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
