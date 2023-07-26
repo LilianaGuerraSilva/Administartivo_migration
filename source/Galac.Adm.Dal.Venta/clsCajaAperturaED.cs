@@ -84,7 +84,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("REFERENCES Lib.GUser(UserName) ");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_CajaAperturaMoneda FOREIGN KEY (CodigoMoneda)");
-            SQL.AppendLine("REFERENCES dbo.Moneda(Codigo)");
+            SQL.AppendLine("REFERENCES Moneda(Codigo)");
             SQL.AppendLine("ON UPDATE CASCADE) ");
             return SQL.ToString();
         }
