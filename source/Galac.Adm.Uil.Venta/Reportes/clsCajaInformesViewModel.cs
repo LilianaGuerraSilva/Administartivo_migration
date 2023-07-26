@@ -34,6 +34,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
 			AvailableReports.Add(new clsCuadreCajaConDetalleFormaPagoViewModel());
 			AvailableReports.Add(new clsCuadreCajaPorTipoCobroYUsuarioViewModel());
 			AvailableReports.Add(new clsCajasAperturadasViewModel());
+            AvailableReports.Add(new clsCajaCerradaViewModel());
             Mfc = initMfc;           
             Title = "Informes de Caja";
         }
@@ -54,6 +55,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 vResult = ConfigReportCuadreCajaPorTipoCobroYUsuario(SelectedReport as clsCuadreCajaPorTipoCobroYUsuarioViewModel);
             } else if (SelectedReport is clsCajasAperturadasViewModel) {
                 vResult = ConfigReportCajasAperturadas(SelectedReport as clsCajasAperturadasViewModel);
+            } else if (SelectedReport is clsCajaCerradaViewModel) {
+                vResult = ConfigReportCajaCerrada(SelectedReport as clsCajaCerradaViewModel);
             }
             return vResult;
         }
@@ -185,11 +188,16 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             return vResult;
         }
 		
-		
+        private ILibRpt ConfigReportCajaCerrada(clsCajaCerradaViewModel valViewModel) {
+            ILibRpt vResult = null;
+            if (valViewModel != null) {
+                vResult = new Galac.Adm.Rpt.Venta.clsCajaCerrada(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta) {
+                    Worker = Manager
+                };
+            }
+            return vResult;
+        }
         #endregion //Metodos Generados
-
-
     } //End of class clsCajaInformesViewModel
-
 } //End of namespace Galac.Adm.Uil.Venta
 
