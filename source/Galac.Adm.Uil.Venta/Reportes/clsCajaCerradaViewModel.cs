@@ -25,7 +25,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         #endregion //Propiedades
         #region Constructores
         public clsCajaCerradaViewModel() {
-            FechaDesde = LibConvert.ToDate("01/01/" + LibDate.Today().Year.ToString());
+            FechaDesde = LibConvert.ToDate("01/" + LibDate.Today().Month.ToString() + "/" + LibDate.Today().Year.ToString());
             FechaHasta = LibDate.Today();
         }
         #endregion //Constructores
