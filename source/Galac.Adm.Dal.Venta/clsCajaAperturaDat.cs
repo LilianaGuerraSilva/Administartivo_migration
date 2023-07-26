@@ -42,6 +42,7 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();            
+            vParams.AddInDateFormat("DateFormat");
             vParams.AddInInteger("ConsecutivoCompania",valRecord.ConsecutivoCompania);
             vParams.AddInInteger("Consecutivo",valRecord.Consecutivo);
             vParams.AddInInteger("ConsecutivoCaja",valRecord.ConsecutivoCaja);
@@ -59,6 +60,13 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInBoolean("CajaCerrada", valRecord.CajaCerradaAsBool);
             vParams.AddInString("CodigoMoneda", valRecord.CodigoMoneda, 4);
             vParams.AddInDecimal("Cambio", valRecord.Cambio, 4);
+            vParams.AddInDecimal("MontoAperturaME", valRecord.MontoAperturaME, 4);
+            vParams.AddInDecimal("MontoCierreME", valRecord.MontoCierreME, 4);
+            vParams.AddInDecimal("MontoEfectivoME", valRecord.MontoEfectivoME, 4);
+            vParams.AddInDecimal("MontoTarjetaME", valRecord.MontoTarjetaME, 4);
+            vParams.AddInDecimal("MontoChequeME", valRecord.MontoChequeME, 4);
+            vParams.AddInDecimal("MontoDepositoME", valRecord.MontoDepositoME, 4);
+            vParams.AddInDecimal("MontoAnticipoME", valRecord.MontoAnticipoME, 4);
             vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
             vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
             if(valAction == eAccionSR.Modificar) {
@@ -227,6 +235,7 @@ namespace Galac.Adm.Dal.Venta {
             //vResult = IsValidConsecutivoCaja(valAction,CurrentRecord.ConsecutivoCompania,CurrentRecord.Consecutivo,CurrentRecord.ConsecutivoCaja) && vResult;
             vResult = IsValidNombreDelUsuario(valAction,CurrentRecord.NombreDelUsuario) && vResult;
             vResult = IsValidFecha(valAction,CurrentRecord.Fecha) && vResult;
+            vResult = IsValidCodigoMoneda(valAction, CurrentRecord.CodigoMoneda) && vResult;
             outErrorMessage = Information.ToString();
             return vResult;
         }
@@ -292,14 +301,33 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        private bool IsValidFecha(eAccionSR valAction,DateTime valFecha) {
+        private bool IsValidFecha(eAccionSR valAction, DateTime valFecha) {
             bool vResult = true;
-            if((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if(LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFecha,false,valAction)) {
+            if (LibDefGen.DateIsGreaterThanDateLimitForEnterData(valFecha, false, valAction)) {
                 BuildValidationInfo(LibDefGen.MessageDateRestrictionDemoProgram());
                 vResult = false;
+            }
+            return vResult;
+        }
+
+        private bool IsValidCodigoMoneda(eAccionSR valAction, string valCodigoMoneda){
+            bool vResult = true;
+            if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
+                return true;
+            }
+            valCodigoMoneda = LibString.Trim(valCodigoMoneda);
+            if (LibString.IsNullOrEmpty(valCodigoMoneda , true)) {
+                BuildValidationInfo(MsgRequiredField("Codigo Moneda"));
+                vResult = false;
+            } else {
+                LibDatabase insDb = new LibDatabase();
+                if (!insDb.ExistsValue("Moneda", "Codigo", insDb.InsSql.ToSqlValue(valCodigoMoneda), true)) {
+                    BuildValidationInfo("El valor asignado al campo Codigo Moneda no existe, escoga nuevamente.");
+                    vResult = false;
+                }
             }
             return vResult;
         }
