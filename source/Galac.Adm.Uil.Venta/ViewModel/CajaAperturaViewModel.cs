@@ -1053,7 +1053,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } else {
                 if (LibString.IsNullOrEmpty(CodigoMoneda)) {
                     vResult = new ValidationResult("El Código de la Moneda es requerido.");
-                } else if (!LibString.S1IsEqualToS2(CodigoMoneda, vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()))) {
+                } else if (LibString.S1IsEqualToS2(CodigoMoneda, vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()))) {
                     vResult = new ValidationResult("La moneda seleccionada debe ser distinta de " + vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today()));
                 }
             }
