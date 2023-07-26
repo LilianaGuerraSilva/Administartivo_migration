@@ -39,6 +39,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql = insCajaSql.SqlCuadreCajaCobroMultimonedaDetallado(valConsecutivoCompania, valFechaInicial, valFechaFinal, valCantidadOperadorDeReporte, valNombreDelOperador, valMonedaDeReporte, valTotalesTipoCobro);
             return insCuadreCajaCobroMultimonedaDetallado.GetDt(vSql, 0);
         }
+
 		System.Data.DataTable ICajaInformes.BuildCajasAperturadas(int valConsecutivoCompania) {
             string vSql = "";
             clsCajaSql insCajaSql = new clsCajaSql();
@@ -46,6 +47,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql = insCajaSql.SqlCajasAperturadas(valConsecutivoCompania);
             return insCajasAperturadas.GetDt(vSql, 0);
         }
+
 		System.Data.DataTable ICajaInformes.BuildCuadreCajaPorTipoCobro(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTipoDeInforme valTipoDeInforme) {
             string vSql = "";
             clsCajaSql insCajaSql = new clsCajaSql();
@@ -81,10 +83,15 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql = insCajaSql.SqlCuadreCajaPorUsuario(valConsecutivoCompania, valFechaInicial, valFechaFinal, valTipoDeInforme, valMonedaDeReporte, valCantidadOperadorDeReporte, valNombreDelOperador);
             return insCuadreCajaPorUsuario.GetDt(vSql, 0);
         }
+
+        System.Data.DataTable ICajaInformes.BuildCajaCerrada(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
+            string vSql = "";
+            clsCajaSql insCajaAperturaSql = new clsCajaSql();
+            LibGalac.Aos.Base.ILibDataRpt insCajaCerrada = new Galac.Adm.Dal.Venta.clsCajaDat();
+            vSql = insCajaAperturaSql.SqlCajaCerrada(valConsecutivoCompania, valFechaDesde, valFechaHasta);
+            return insCajaCerrada.GetDt(vSql, 0);
+        }
         #endregion //Metodos Generados
-
-
     } //End of class clsCajaRpt
-
 } //End of namespace Galac.Adm.Brl.Venta
 

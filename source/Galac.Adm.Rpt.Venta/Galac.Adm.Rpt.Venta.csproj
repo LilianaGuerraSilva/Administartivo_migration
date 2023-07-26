@@ -82,6 +82,7 @@
     <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsCajaCerrada.cs" />
     <Compile Include="clsCajasAperturadas.cs" />
     <Compile Include="clsCobranzasEntreFechas.cs" />
     <Compile Include="clsComisionDeVendedoresPorCobranzaMontoResumido.cs" />
@@ -101,6 +102,12 @@
     <Compile Include="clsFacturacionPorUsuario.cs" />
     <Compile Include="clsNotaDeEntregaEntreFechasPorCliente.cs" />
     <Compile Include="clsResumenDiarioDeVentasEntreFechas.cs" />
+    <Compile Include="dsrCajaCerrada.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsrCajaCerrada.designer.cs">
+      <DependentUpon>dsrCajaCerrada.cs</DependentUpon>
+    </Compile>
     <Compile Include="dsrCobranzasEntreFechas.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -236,6 +243,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="dsrCajaCerrada.resx">
+      <DependentUpon>dsrCajaCerrada.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="dsrCajasAperturadas.resx">
       <DependentUpon>dsrCajasAperturadas.cs</DependentUpon>
     </EmbeddedResource>

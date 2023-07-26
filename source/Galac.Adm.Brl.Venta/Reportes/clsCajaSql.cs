@@ -13,34 +13,38 @@ using LibGalac.Aos.Dal;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
     public class clsCajaSql {
+        QAdvSql insSql;
+
+        public clsCajaSql() {
+            insSql = new QAdvSql("");
+        }
         #region Metodos Generados
 
         public string SqlCuadreCajaCobroMultimonedaDetallado(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoCobro) {
-            QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             int vConsecutivoCajaGenerica = 0;
             string vSQLWhere = "";
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", vUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
-            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
-            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
+            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno) {
-                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "factura.NombreOperador", valNombreDelOperador);
+                vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "factura.NombreOperador", valNombreDelOperador);
             }
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
-            string esFacturaValida = vUtilSql.IIF("renglonCobroDeFactura.Monto IS NULL AND (factura.TotalFactura) > 0", "(factura.TotalFactura)", vUtilSql.ToInt("0"), true);
-            string esNotaDeCredito = vUtilSql.IIF("factura.TipoDeDocumento IN (" + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")", vUtilSql.ToSqlValue("NOTAS DE CRÉDITO/DEVOLUCIONES"), vUtilSql.ToSqlValue(string.Empty), false);
-            string esFacturaCobrada = vUtilSql.IIF("factura.TipoDeDocumento IN (" + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")", vUtilSql.ToSqlValue("FACTURAS COBRADAS"), esNotaDeCredito, false);
-            string esFacturaNoCobrada = vUtilSql.IIF("SUM" + esFacturaValida + vUtilSql.ComparisonOp(">") + vUtilSql.ToInt("0") + "AND factura.TipoDeDocumento IN (" + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")", vUtilSql.ToSqlValue("FACTURAS NO COBRADAS"), esFacturaCobrada, true);
-            vSql.AppendLine(vUtilSql.SetDateFormat());
+            vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
+            string esFacturaValida = insSql.IIF("renglonCobroDeFactura.Monto IS NULL AND (factura.TotalFactura) > 0", "(factura.TotalFactura)", insSql.ToInt("0"), true);
+            string esNotaDeCredito = insSql.IIF("factura.TipoDeDocumento IN (" + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")", insSql.ToSqlValue("NOTAS DE CRÉDITO/DEVOLUCIONES"), insSql.ToSqlValue(string.Empty), false);
+            string esFacturaCobrada = insSql.IIF("factura.TipoDeDocumento IN (" + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")", insSql.ToSqlValue("FACTURAS COBRADAS"), esNotaDeCredito, false);
+            string esFacturaNoCobrada = insSql.IIF("SUM" + esFacturaValida + insSql.ComparisonOp(">") + insSql.ToInt("0") + "AND factura.TipoDeDocumento IN (" + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + ")", insSql.ToSqlValue("FACTURAS NO COBRADAS"), esFacturaCobrada, true);
+            vSql.AppendLine(insSql.SetDateFormat());
             vSql.AppendLine(" ;WITH CTE_MonedasActivas(CodMoneda, NombreMoneda, SimboloMoneda)");
             vSql.AppendLine("	AS (SELECT");
             vSql.AppendLine("		Codigo AS CodMoneda,");
             vSql.AppendLine("		Nombre AS NombreMoneda,");
             vSql.AppendLine("		Simbolo AS SimboloMoneda");
             vSql.AppendLine("	    FROM dbo.Moneda");
-            vSql.AppendLine("	    WHERE Activa = " + vUtilSql.ToSqlValue(LibConvert.BoolToSN(true)));
+            vSql.AppendLine("	    WHERE Activa = " + insSql.ToSqlValue(LibConvert.BoolToSN(true)));
             vSql.AppendLine("       AND TipoDeMoneda = " + LibConvert.ToInt(eTipoDeMoneda.Fisica));
             vSql.AppendLine("       )");
             vSql.AppendLine(" SELECT");
@@ -54,18 +58,18 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	, factura.NumeroComprobanteFiscal");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
                 vSql.AppendLine("	, MAX(factura.TotalFactura) AS TotalFactura");
-                vSql.AppendLine(", " + vUtilSql.IsNull("SUM(renglonCobroDeFactura.Monto)", vUtilSql.ToSqlValue(string.Empty)) + " AS Monto");
+                vSql.AppendLine(", " + insSql.IsNull("SUM(renglonCobroDeFactura.Monto)", insSql.ToSqlValue(string.Empty)) + " AS Monto");
                 vSql.AppendLine("   , MAX(factura.CambioMostrarTotalEnDivisas) AS TasaOperacion");
             } else {
                 vSql.AppendLine("	, MAX(factura.TotalFactura * factura.CambioABolivares) AS TotalFactura");
-                vSql.AppendLine(", " + vUtilSql.IsNull("SUM(renglonCobroDeFactura.Monto * renglonCobroDeFactura.CambioAMonedaLocal)", vUtilSql.ToSqlValue(string.Empty)) + " AS Monto");
-                vSql.AppendLine(", " + vUtilSql.IsNull("MonedaRenglon.SimboloMoneda", vUtilSql.ToSqlValue(string.Empty)) + " AS SimboloFormaDeCobro");
-                vSql.AppendLine(", " + vUtilSql.IsNull("MAX(renglonCobroDeFactura.CambioAMonedaLocal)", vUtilSql.ToSqlValue(string.Empty)) + " AS CambioABolivares");
+                vSql.AppendLine(", " + insSql.IsNull("SUM(renglonCobroDeFactura.Monto * renglonCobroDeFactura.CambioAMonedaLocal)", insSql.ToSqlValue(string.Empty)) + " AS Monto");
+                vSql.AppendLine(", " + insSql.IsNull("MonedaRenglon.SimboloMoneda", insSql.ToSqlValue(string.Empty)) + " AS SimboloFormaDeCobro");
+                vSql.AppendLine(", " + insSql.IsNull("MAX(renglonCobroDeFactura.CambioAMonedaLocal)", insSql.ToSqlValue(string.Empty)) + " AS CambioABolivares");
             }
-            vSql.AppendLine(", " + vUtilSql.IsNull("FormaDelCobro.TipoDePago", vUtilSql.ToSqlValue(string.Empty)) + " AS TipoDeCobro");
+            vSql.AppendLine(", " + insSql.IsNull("FormaDelCobro.TipoDePago", insSql.ToSqlValue(string.Empty)) + " AS TipoDeCobro");
             vSql.AppendLine("	, MonedaDoc.SimboloMoneda AS SimboloMonedaDoc");
-            vSql.AppendLine(", " + vUtilSql.IsNull("MonedaRenglon.CodMoneda", vUtilSql.ToSqlValue(string.Empty)) + "AS CodMonedaFormaDelCobro");
-            vSql.AppendLine(", " + vUtilSql.IsNull("MonedaRenglon.NombreMoneda", vUtilSql.ToSqlValue(string.Empty)) + "AS NombreMonedaFormaDelCobro");
+            vSql.AppendLine(", " + insSql.IsNull("MonedaRenglon.CodMoneda", insSql.ToSqlValue(string.Empty)) + "AS CodMonedaFormaDelCobro");
+            vSql.AppendLine(", " + insSql.IsNull("MonedaRenglon.NombreMoneda", insSql.ToSqlValue(string.Empty)) + "AS NombreMonedaFormaDelCobro");
             vSql.AppendLine(" FROM Adm.Caja");
             vSql.AppendLine(" LEFT JOIN factura");
             vSql.AppendLine("	ON factura.ConsecutivoCaja = Caja.Consecutivo");
@@ -82,7 +86,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine(" LEFT JOIN CTE_MonedasActivas AS MonedaRenglon");
             vSql.AppendLine("   ON MonedaRenglon.CodMoneda = renglonCobroDeFactura.CodigoMoneda");
             if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+                vSql.AppendLine(insSql.WhereSql(vSQLWhere));
             }
             vSql.AppendLine(" GROUP BY");
             vSql.AppendLine("	Caja.Consecutivo");
@@ -95,8 +99,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	, factura.NumeroComprobanteFiscal");
             vSql.AppendLine("	, factura.CodigoVendedor");
             vSql.AppendLine("	, TotalFactura");
-            //vSql.AppendLine("   , renglonCobroDeFactura.CodigoFormaDelCobro");
-            //vSql.AppendLine("	, renglonCobroDeFactura.CodigoMoneda");
             if (valMonedaDeReporte != Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
                 vSql.AppendLine("	, MonedaRenglon.SimboloMoneda");
             }
@@ -114,14 +116,14 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	, MonedaRenglon.CodMoneda DESC");
             return vSql.ToString();
         }
+
         public string SqlCajasAperturadas(int valConsecutivoCompania) {
             int vConsecutivoCajaGenerica = 0;
-            QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             string vSQLWhere = "";
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "CajaApertura.CajaCerrada", vUtilSql.ToSqlValue("N"));
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "CajaApertura.CajaCerrada", insSql.ToSqlValue("N"));
             vSQLWhere = vSQLWhere + " AND Caja.Consecutivo" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "Caja.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "Caja.ConsecutivoCompania", valConsecutivoCompania);
             vSql.AppendLine(" SELECT");
             vSql.AppendLine("   CajaApertura.ConsecutivoCaja AS ConsecutivoCaja");
             vSql.AppendLine("   ,  CajaApertura.NombreDelUsuario AS NombreDelUsuario");
@@ -145,46 +147,45 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 
         public string SqlCuadreCajaPorTipoCobro(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eTipoDeInforme valTipoDeInforme) {
             int vConsecutivoCajaGenerica = 0;
-            QAdvSql vUtilSql = new QAdvSql("");
             string vSQLWhere = "";
             StringBuilder vSql = new StringBuilder();
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", vUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
-            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
-            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
-            string menorA = vUtilSql.ComparisonOp("<");
-            string mayorA = vUtilSql.ComparisonOp(">");
-            string montoRenglon = vUtilSql.IsNull("renglonCobroDeFactura.Monto", vUtilSql.ToInt("0"));
-            string cambioDelRenglon = vUtilSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", vUtilSql.ToInt("1"));
-            string esEfectivo = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo);
-            string esTarjeta = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta);
-            string esCheque = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Cheque);
-            string monedaCobro = vUtilSql.IsNull("MonedaRenglon.Nombre", "MonedaDoc.Nombre");
-            string esDepTransferencia = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Deposito);
-            string esNotaDeCredito = montoRenglon + menorA + vUtilSql.ToInt("0") + vUtilSql.LogicalOp("OR") + " factura.TotalFactura" + menorA + vUtilSql.ToInt("0");
-            string existeVuelto = "SUM(" + montoRenglon + ")" + mayorA + "factura.TotalFactura " + vUtilSql.LogicalOp("AND") + "factura.TotalFactura" + mayorA + vUtilSql.ToInt("0");
-            string montoEfectivo = "SUM" + vUtilSql.IIF(esEfectivo, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoTarjeta = "SUM" + vUtilSql.IIF(esTarjeta, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoDepTranferencia = "SUM" + vUtilSql.IIF(esDepTransferencia, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoCheque = "SUM" + vUtilSql.IIF(esCheque, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoNotaDeCredito = "SUM" + vUtilSql.IIF(esNotaDeCredito, montoRenglon, vUtilSql.ToInt("0"), true);
-            string monedasIguales = "renglonCobroDeFactura.CodigoMoneda" + vUtilSql.ComparisonOp("=") + "factura.CodigoMoneda";
-            string calculoMontoVuelto = vUtilSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - factura.TotalFactura", vUtilSql.ToInt("0"), true);
-            string montoVuelto = vUtilSql.IIF(monedasIguales, calculoMontoVuelto, vUtilSql.ToInt("0"), true);
-            string montoPagadoSinConvertir = "SUM" + vUtilSql.IIF(montoRenglon + menorA + vUtilSql.ToInt("0"), vUtilSql.ToInt("0"), montoRenglon, true);
-            string convEnRenglon = montoRenglon + " * " + vUtilSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", vUtilSql.ToInt("1"));
-            string montoPagadoConvertido = "SUM" + vUtilSql.IIF(convEnRenglon + " IS NULL " + vUtilSql.LogicalOp("OR") + convEnRenglon + vUtilSql.ComparisonOp("<") + vUtilSql.ToInt("0"), vUtilSql.ToInt("0"), convEnRenglon, true);
-            string montoPagado = vUtilSql.IIF(monedasIguales, montoPagadoSinConvertir, montoPagadoConvertido, true);
-            string esCredito = "MonedaRenglon.Nombre IS NULL" + vUtilSql.LogicalOp("AND") + "factura.TotalFactura" + vUtilSql.ComparisonOp("<>") + vUtilSql.ToInt("0");
-            string montoEfectivoEnBs = "SUM" + vUtilSql.IIF(esEfectivo, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoTarjetaEnBs = "SUM" + vUtilSql.IIF(esTarjeta, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoDepTranferenciaEnBs = "SUM" + vUtilSql.IIF(esDepTransferencia, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoChequeEnBs = "SUM" + vUtilSql.IIF(esCheque, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoNotaDeCreditoEnBs = "SUM" + vUtilSql.IIF(esNotaDeCredito, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoCredito = vUtilSql.IIF(esCredito, "factura.TotalFactura", vUtilSql.ToInt("0"), true);
-            vSql.AppendLine(vUtilSql.SetDateFormat());
+            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
+            vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
+            string menorA = insSql.ComparisonOp("<");
+            string mayorA = insSql.ComparisonOp(">");
+            string montoRenglon = insSql.IsNull("renglonCobroDeFactura.Monto", insSql.ToInt("0"));
+            string cambioDelRenglon = insSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", insSql.ToInt("1"));
+            string esEfectivo = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo);
+            string esTarjeta = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta);
+            string esCheque = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Cheque);
+            string monedaCobro = insSql.IsNull("MonedaRenglon.Nombre", "MonedaDoc.Nombre");
+            string esDepTransferencia = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Deposito);
+            string esNotaDeCredito = montoRenglon + menorA + insSql.ToInt("0") + insSql.LogicalOp("OR") + " factura.TotalFactura" + menorA + insSql.ToInt("0");
+            string existeVuelto = "SUM(" + montoRenglon + ")" + mayorA + "factura.TotalFactura " + insSql.LogicalOp("AND") + "factura.TotalFactura" + mayorA + insSql.ToInt("0");
+            string montoEfectivo = "SUM" + insSql.IIF(esEfectivo, montoRenglon, insSql.ToInt("0"), true);
+            string montoTarjeta = "SUM" + insSql.IIF(esTarjeta, montoRenglon, insSql.ToInt("0"), true);
+            string montoDepTranferencia = "SUM" + insSql.IIF(esDepTransferencia, montoRenglon, insSql.ToInt("0"), true);
+            string montoCheque = "SUM" + insSql.IIF(esCheque, montoRenglon, insSql.ToInt("0"), true);
+            string montoNotaDeCredito = "SUM" + insSql.IIF(esNotaDeCredito, montoRenglon, insSql.ToInt("0"), true);
+            string monedasIguales = "renglonCobroDeFactura.CodigoMoneda" + insSql.ComparisonOp("=") + "factura.CodigoMoneda";
+            string calculoMontoVuelto = insSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - factura.TotalFactura", insSql.ToInt("0"), true);
+            string montoVuelto = insSql.IIF(monedasIguales, calculoMontoVuelto, insSql.ToInt("0"), true);
+            string montoPagadoSinConvertir = "SUM" + insSql.IIF(montoRenglon + menorA + insSql.ToInt("0"), insSql.ToInt("0"), montoRenglon, true);
+            string convEnRenglon = montoRenglon + " * " + insSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", insSql.ToInt("1"));
+            string montoPagadoConvertido = "SUM" + insSql.IIF(convEnRenglon + " IS NULL " + insSql.LogicalOp("OR") + convEnRenglon + insSql.ComparisonOp("<") + insSql.ToInt("0"), insSql.ToInt("0"), convEnRenglon, true);
+            string montoPagado = insSql.IIF(monedasIguales, montoPagadoSinConvertir, montoPagadoConvertido, true);
+            string esCredito = "MonedaRenglon.Nombre IS NULL" + insSql.LogicalOp("AND") + "factura.TotalFactura" + insSql.ComparisonOp("<>") + insSql.ToInt("0");
+            string montoEfectivoEnBs = "SUM" + insSql.IIF(esEfectivo, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoTarjetaEnBs = "SUM" + insSql.IIF(esTarjeta, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoDepTranferenciaEnBs = "SUM" + insSql.IIF(esDepTransferencia, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoChequeEnBs = "SUM" + insSql.IIF(esCheque, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoNotaDeCreditoEnBs = "SUM" + insSql.IIF(esNotaDeCredito, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoCredito = insSql.IIF(esCredito, "factura.TotalFactura", insSql.ToInt("0"), true);
+            vSql.AppendLine(insSql.SetDateFormat());
             vSql.AppendLine("   SELECT");
             vSql.AppendLine("   MonedaDoc.Nombre AS MonedaDoc");
             vSql.AppendLine("   , " + monedaCobro + " AS MonedaCobro");
@@ -231,7 +232,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   LEFT JOIN dbo.Moneda AS MonedaRenglon");
             vSql.AppendLine("       ON MonedaRenglon.Codigo = renglonCobroDeFactura.CodigoMoneda");
             if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+                vSql.AppendLine(insSql.WhereSql(vSQLWhere));
             }
             vSql.AppendLine("   GROUP BY");
             vSql.AppendLine("	    factura.Moneda");
@@ -260,33 +261,32 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 
         public string SqlCuadreCajaPorTipoCobroYUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte) {
             int vConsecutivoCajaGenerica = 0;
-            QAdvSql vUtilSql = new QAdvSql("");
             string vSQLWhereFactura = string.Empty;
             string vSQLWhereAnticipo = string.Empty;
             StringBuilder vSql = new StringBuilder();
             //ANTICIPO
-            vSQLWhereAnticipo = vUtilSql.SqlEnumValueWithAnd(vSQLWhereAnticipo, "anticipo.Tipo", (int)eTipoDeAnticipo.Cobrado);
-            vSQLWhereAnticipo = vSQLWhereAnticipo + " AND anticipo.Status IN ( " + vUtilSql.EnumToSqlValue((int)eStatusAnticipo.Vigente) + "," + vUtilSql.EnumToSqlValue((int)eStatusAnticipo.ParcialmenteUsado) + ")";
-            vSQLWhereAnticipo = vUtilSql.SqlDateValueBetween(vSQLWhereAnticipo, "anticipo.Fecha", valFechaInicial, valFechaFinal);
-            vSQLWhereAnticipo = vUtilSql.SqlExpressionValueWithAnd(vSQLWhereAnticipo, "anticipo.AsociarAnticipoACaja", vUtilSql.ToSqlValue(LibConvert.BoolToSN(true)));
+            vSQLWhereAnticipo = insSql.SqlEnumValueWithAnd(vSQLWhereAnticipo, "anticipo.Tipo", (int)eTipoDeAnticipo.Cobrado);
+            vSQLWhereAnticipo = vSQLWhereAnticipo + " AND anticipo.Status IN ( " + insSql.EnumToSqlValue((int)eStatusAnticipo.Vigente) + "," + insSql.EnumToSqlValue((int)eStatusAnticipo.ParcialmenteUsado) + ")";
+            vSQLWhereAnticipo = insSql.SqlDateValueBetween(vSQLWhereAnticipo, "anticipo.Fecha", valFechaInicial, valFechaFinal);
+            vSQLWhereAnticipo = insSql.SqlExpressionValueWithAnd(vSQLWhereAnticipo, "anticipo.AsociarAnticipoACaja", insSql.ToSqlValue(LibConvert.BoolToSN(true)));
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
-                vSQLWhereAnticipo = vUtilSql.SqlValueWithAnd(vSQLWhereAnticipo, "anticipo.NombreOperador", valNombreDelOperador);
+                vSQLWhereAnticipo = insSql.SqlValueWithAnd(vSQLWhereAnticipo, "anticipo.NombreOperador", valNombreDelOperador);
             }
-            vSQLWhereAnticipo = vUtilSql.SqlIntValueWithAnd(vSQLWhereAnticipo, "anticipo.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhereAnticipo = insSql.SqlIntValueWithAnd(vSQLWhereAnticipo, "anticipo.ConsecutivoCompania", valConsecutivoCompania);
             //FACTURA
-            vSQLWhereFactura = vUtilSql.SqlExpressionValueWithAnd(vSQLWhereFactura, "factura.StatusFactura", vUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSQLWhereFactura = insSql.SqlExpressionValueWithAnd(vSQLWhereFactura, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhereFactura = vSQLWhereFactura + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
-            vSQLWhereFactura = vSQLWhereFactura + " AND factura.TipoDeDocumento IN ( " + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
-            vSQLWhereFactura = vUtilSql.SqlDateValueBetween(vSQLWhereFactura, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhereFactura = vUtilSql.SqlExpressionValueWithAnd(vSQLWhereFactura, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue(LibConvert.BoolToSN(true)));
+            vSQLWhereFactura = vSQLWhereFactura + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhereFactura = insSql.SqlDateValueBetween(vSQLWhereFactura, "factura.fecha", valFechaInicial, valFechaFinal);
+            vSQLWhereFactura = insSql.SqlExpressionValueWithAnd(vSQLWhereFactura, "factura.GeneraCobroDirecto", insSql.ToSqlValue(LibConvert.BoolToSN(true)));
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
-                vSQLWhereFactura = vUtilSql.SqlValueWithAnd(vSQLWhereFactura, "factura.NombreOperador", valNombreDelOperador);
+                vSQLWhereFactura = insSql.SqlValueWithAnd(vSQLWhereFactura, "factura.NombreOperador", valNombreDelOperador);
             }
-            vSQLWhereFactura = vUtilSql.SqlIntValueWithAnd(vSQLWhereFactura, "factura.ConsecutivoCompania", valConsecutivoCompania);
-            string prefijoNroDocFactura = vUtilSql.ToSqlValue("Fact: ");
-            string prefijoNroDocAnticipo = vUtilSql.ToSqlValue("Ant: ");
-            string menorA = vUtilSql.ComparisonOp("<");
-            string mayorA = vUtilSql.ComparisonOp(">");
+            vSQLWhereFactura = insSql.SqlIntValueWithAnd(vSQLWhereFactura, "factura.ConsecutivoCompania", valConsecutivoCompania);
+            string prefijoNroDocFactura = insSql.ToSqlValue("Fact: ");
+            string prefijoNroDocAnticipo = insSql.ToSqlValue("Ant: ");
+            string menorA = insSql.ComparisonOp("<");
+            string mayorA = insSql.ComparisonOp(">");
             #region CondicionalesAnticipo
             string montoTotalAnticipo = "anticipo.MontoTotal";
             string montoUsadoAnticipo = "anticipo.MontoUsado";
@@ -295,52 +295,51 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string montoUsadoAnticipoBs = montoUsadoAnticipo + " * " + cambioAnticipo;
             #endregion CondicionalesAnticipo
 
-
             #region CondicionalesFactura
-            string montoRenglon = vUtilSql.IsNull("renglonCobroDeFactura.Monto", vUtilSql.ToInt("0"));
-            string cambioDelRenglon = vUtilSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", vUtilSql.ToInt("1"));
-            string esEfectivo = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo);
-            string esTarjeta = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta);
-            string esCheque = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Cheque);
-            string monedaCobro = vUtilSql.IsNull("MonedaRenglon.Nombre", "MonedaDoc.Nombre");
-            string esDepTransferencia = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Deposito);
-            string esNotaDeCredito = montoRenglon + menorA + vUtilSql.ToInt("0") + vUtilSql.LogicalOp("OR") + " factura.TotalFactura" + menorA + vUtilSql.ToInt("0");
-            string esAnticipoUsado = "FormaDelCobro.TipoDePago" + vUtilSql.ComparisonOp("=") + vUtilSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo);
-            string existeVuelto = "SUM(" + montoRenglon + ")" + mayorA + "factura.TotalFactura " + vUtilSql.LogicalOp("AND") + "factura.TotalFactura" + mayorA + vUtilSql.ToInt("0");
-            string montoEfectivo = "SUM" + vUtilSql.IIF(esEfectivo, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoTarjeta = "SUM" + vUtilSql.IIF(esTarjeta, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoDepTranferencia = "SUM" + vUtilSql.IIF(esDepTransferencia, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoCheque = "SUM" + vUtilSql.IIF(esCheque, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoAnticipoUsado = "SUM" + vUtilSql.IIF(esAnticipoUsado, montoRenglon, vUtilSql.ToInt("0"), true);
-            string montoNotaDeCredito = "SUM" + vUtilSql.IIF(esNotaDeCredito, montoRenglon, vUtilSql.ToInt("0"), true);
-            string monedasIguales = "renglonCobroDeFactura.CodigoMoneda" + vUtilSql.ComparisonOp("=") + "factura.CodigoMoneda";
-            string calculoMontoVuelto = vUtilSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - factura.TotalFactura", vUtilSql.ToInt("0"), true);
-            string montoVuelto = vUtilSql.IIF(monedasIguales, calculoMontoVuelto, vUtilSql.ToInt("0"), true);
-            string montoPagadoSinConvertir = "SUM" + vUtilSql.IIF(montoRenglon + menorA + vUtilSql.ToInt("0"), vUtilSql.ToInt("0"), montoRenglon, true);
-            string convEnRenglon = montoRenglon + " * " + vUtilSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", vUtilSql.ToInt("1"));
-            string montoPagadoConvertido = "SUM" + vUtilSql.IIF(convEnRenglon + " IS NULL " + vUtilSql.LogicalOp("OR") + convEnRenglon + menorA + vUtilSql.ToInt("0"), vUtilSql.ToInt("0"), convEnRenglon, true);
+            string montoRenglon = insSql.IsNull("renglonCobroDeFactura.Monto", insSql.ToInt("0"));
+            string cambioDelRenglon = insSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", insSql.ToInt("1"));
+            string esEfectivo = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo);
+            string esTarjeta = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta);
+            string esCheque = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Cheque);
+            string monedaCobro = insSql.IsNull("MonedaRenglon.Nombre", "MonedaDoc.Nombre");
+            string esDepTransferencia = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Deposito);
+            string esNotaDeCredito = montoRenglon + menorA + insSql.ToInt("0") + insSql.LogicalOp("OR") + " factura.TotalFactura" + menorA + insSql.ToInt("0");
+            string esAnticipoUsado = "FormaDelCobro.TipoDePago" + insSql.ComparisonOp("=") + insSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo);
+            string existeVuelto = "SUM(" + montoRenglon + ")" + mayorA + "factura.TotalFactura " + insSql.LogicalOp("AND") + "factura.TotalFactura" + mayorA + insSql.ToInt("0");
+            string montoEfectivo = "SUM" + insSql.IIF(esEfectivo, montoRenglon, insSql.ToInt("0"), true);
+            string montoTarjeta = "SUM" + insSql.IIF(esTarjeta, montoRenglon, insSql.ToInt("0"), true);
+            string montoDepTranferencia = "SUM" + insSql.IIF(esDepTransferencia, montoRenglon, insSql.ToInt("0"), true);
+            string montoCheque = "SUM" + insSql.IIF(esCheque, montoRenglon, insSql.ToInt("0"), true);
+            string montoAnticipoUsado = "SUM" + insSql.IIF(esAnticipoUsado, montoRenglon, insSql.ToInt("0"), true);
+            string montoNotaDeCredito = "SUM" + insSql.IIF(esNotaDeCredito, montoRenglon, insSql.ToInt("0"), true);
+            string monedasIguales = "renglonCobroDeFactura.CodigoMoneda" + insSql.ComparisonOp("=") + "factura.CodigoMoneda";
+            string calculoMontoVuelto = insSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - factura.TotalFactura", insSql.ToInt("0"), true);
+            string montoVuelto = insSql.IIF(monedasIguales, calculoMontoVuelto, insSql.ToInt("0"), true);
+            string montoPagadoSinConvertir = "SUM" + insSql.IIF(montoRenglon + menorA + insSql.ToInt("0"), insSql.ToInt("0"), montoRenglon, true);
+            string convEnRenglon = montoRenglon + " * " + insSql.IsNull("renglonCobroDeFactura.CambioAMonedaLocal", insSql.ToInt("1"));
+            string montoPagadoConvertido = "SUM" + insSql.IIF(convEnRenglon + " IS NULL " + insSql.LogicalOp("OR") + convEnRenglon + menorA + insSql.ToInt("0"), insSql.ToInt("0"), convEnRenglon, true);
 
-            string montoPagado = vUtilSql.IIF(monedasIguales, montoPagadoSinConvertir, montoPagadoConvertido, true);
-            string esCredito = "MonedaRenglon.Nombre IS NULL" + vUtilSql.LogicalOp("AND") + "factura.TotalFactura" + vUtilSql.ComparisonOp("<>") + vUtilSql.ToInt("0");
-            string montoEfectivoEnBs = "SUM" + vUtilSql.IIF(esEfectivo, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoTarjetaEnBs = "SUM" + vUtilSql.IIF(esTarjeta, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoDepTranferenciaEnBs = "SUM" + vUtilSql.IIF(esDepTransferencia, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoChequeEnBs = "SUM" + vUtilSql.IIF(esCheque, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoAnticipoUsadoEnBs = "SUM" + vUtilSql.IIF(esAnticipoUsado, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoNotaDeCreditoEnBs = "SUM" + vUtilSql.IIF(esNotaDeCredito, montoRenglon + " * " + cambioDelRenglon, vUtilSql.ToInt("0"), true);
-            string montoCredito = vUtilSql.IIF(esCredito, "factura.TotalFactura", vUtilSql.ToInt("0"), true);
+            string montoPagado = insSql.IIF(monedasIguales, montoPagadoSinConvertir, montoPagadoConvertido, true);
+            string esCredito = "MonedaRenglon.Nombre IS NULL" + insSql.LogicalOp("AND") + "factura.TotalFactura" + insSql.ComparisonOp("<>") + insSql.ToInt("0");
+            string montoEfectivoEnBs = "SUM" + insSql.IIF(esEfectivo, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoTarjetaEnBs = "SUM" + insSql.IIF(esTarjeta, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoDepTranferenciaEnBs = "SUM" + insSql.IIF(esDepTransferencia, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoChequeEnBs = "SUM" + insSql.IIF(esCheque, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoAnticipoUsadoEnBs = "SUM" + insSql.IIF(esAnticipoUsado, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoNotaDeCreditoEnBs = "SUM" + insSql.IIF(esNotaDeCredito, montoRenglon + " * " + cambioDelRenglon, insSql.ToInt("0"), true);
+            string montoCredito = insSql.IIF(esCredito, "factura.TotalFactura", insSql.ToInt("0"), true);
             #endregion CondicionalesFactura
 
-            vSql.AppendLine(vUtilSql.SetDateFormat());
+            vSql.AppendLine(insSql.SetDateFormat());
             vSql.AppendLine("SELECT");
             vSql.AppendLine("    anticipo.NombreOperador AS NombreDelOperador");
             vSql.AppendLine("    , anticipo.Moneda AS MonedaDoc");
             vSql.AppendLine("    , anticipo.Moneda AS MonedaCobro");
-            vSql.AppendLine("    , " + vUtilSql.IsNull("anticipo.CodigoMoneda", vUtilSql.ToSqlValue(string.Empty)) + " AS CodMoneda");
+            vSql.AppendLine("    , " + insSql.IsNull("anticipo.CodigoMoneda", insSql.ToSqlValue(string.Empty)) + " AS CodMoneda");
             vSql.AppendLine("    , anticipo.ConsecutivoCaja AS ConsecutivoCaja");
             vSql.AppendLine("    , caja.NombreCaja AS NombreCaja");
-            vSql.AppendLine("    ," + prefijoNroDocAnticipo + vUtilSql.CharConcat() + "anticipo.Numero AS NumeroDoc");
-            vSql.AppendLine("    ," + vUtilSql.ToSqlValue(string.Empty) + " AS NumFiscal");
+            vSql.AppendLine("    ," + prefijoNroDocAnticipo + insSql.CharConcat() + "anticipo.Numero AS NumeroDoc");
+            vSql.AppendLine("    ," + insSql.ToSqlValue(string.Empty) + " AS NumFiscal");
             vSql.AppendLine("    , anticipo.Fecha AS Fecha");
             vSql.AppendLine("    , cliente.Nombre AS NombreCliente");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
@@ -374,17 +373,17 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("       ON Cliente.ConsecutivoCompania = anticipo.ConsecutivoCompania");
             vSql.AppendLine("       AND Cliente.Codigo = anticipo.CodigoCliente");
             if (LibString.Len(vSQLWhereAnticipo) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhereAnticipo));
+                vSql.AppendLine(insSql.WhereSql(vSQLWhereAnticipo));
             }
             vSql.AppendLine("   UNION");
             vSql.AppendLine("   SELECT");
             vSql.AppendLine("   factura.NombreOperador AS NombreDelOperador");
             vSql.AppendLine("   , MonedaDoc.Nombre AS MonedaDoc");
             vSql.AppendLine("   , " + monedaCobro + " AS MonedaCobro");
-            vSql.AppendLine("    , " + vUtilSql.IsNull("MonedaRenglon.Codigo", vUtilSql.ToSqlValue(string.Empty)) + " AS CodMoneda");
+            vSql.AppendLine("    , " + insSql.IsNull("MonedaRenglon.Codigo", insSql.ToSqlValue(string.Empty)) + " AS CodMoneda");
             vSql.AppendLine("   , factura.ConsecutivoCaja AS ConsecutivoCaja");
             vSql.AppendLine("   , caja.NombreCaja AS NombreCaja");
-            vSql.AppendLine("   , " + prefijoNroDocFactura + vUtilSql.CharConcat() + "factura.Numero AS NumeroDoc");
+            vSql.AppendLine("   , " + prefijoNroDocFactura + insSql.CharConcat() + "factura.Numero AS NumeroDoc");
             vSql.AppendLine("   , factura.NumeroComprobanteFiscal AS NumFiscal");
             vSql.AppendLine("   , factura.Fecha AS Fecha");
             vSql.AppendLine("   , cliente.Nombre AS NombreCliente");
@@ -427,7 +426,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   LEFT JOIN dbo.Moneda AS MonedaRenglon");
             vSql.AppendLine("       ON MonedaRenglon.Codigo = renglonCobroDeFactura.CodigoMoneda");
             if (LibString.Len(vSQLWhereFactura) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhereFactura));
+                vSql.AppendLine(insSql.WhereSql(vSQLWhereFactura));
             }
             vSql.AppendLine("   GROUP BY");
             vSql.AppendLine("	    factura.Moneda");
@@ -458,18 +457,17 @@ namespace Galac.Adm.Brl.Venta.Reportes {
         }
 
         public string SqlCuadreCajaConDetalleFormaPago(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoPago) {
-            QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             int vConsecutivoCajaGenerica = 0;
             string vSQLWhere = "";
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", vUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
-            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
-            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
+            vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
 
-            vSql.AppendLine(vUtilSql.SetDateFormat());
+            vSql.AppendLine(insSql.SetDateFormat());
             vSql.AppendLine(" SELECT");
             vSql.AppendLine("	Caja.Consecutivo");
             vSql.AppendLine("	, Caja.NombreCaja");
@@ -480,15 +478,15 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   , Cliente.Nombre AS NombreCliente");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
                 vSql.AppendLine("	, MAX(factura.TotalFactura) AS MontoDoc");
-                vSql.AppendLine("   , " + vUtilSql.IsNull("SUM(renglonCobroDeFactura.Monto)", vUtilSql.ToCur("0")) + " AS MontoCobro");
+                vSql.AppendLine("   , " + insSql.IsNull("SUM(renglonCobroDeFactura.Monto)", insSql.ToCur("0")) + " AS MontoCobro");
                 vSql.AppendLine("   , MAX(factura.CambioMostrarTotalEnDivisas) AS TasaOperacion");
             } else {
                 vSql.AppendLine("	, MAX(factura.TotalFactura * factura.CambioABolivares) AS MontoDoc");
-                vSql.AppendLine(", " + vUtilSql.IsNull("SUM(renglonCobroDeFactura.Monto * renglonCobroDeFactura.CambioAMonedaLocal)", vUtilSql.ToCur("0")) + " AS MontoCobro");
-                vSql.AppendLine(", " + vUtilSql.IsNull("MAX(renglonCobroDeFactura.CambioAMonedaLocal)", vUtilSql.ToCur("0")) + " AS CambioABolivares");
+                vSql.AppendLine(", " + insSql.IsNull("SUM(renglonCobroDeFactura.Monto * renglonCobroDeFactura.CambioAMonedaLocal)", insSql.ToCur("0")) + " AS MontoCobro");
+                vSql.AppendLine(", " + insSql.IsNull("MAX(renglonCobroDeFactura.CambioAMonedaLocal)", insSql.ToCur("0")) + " AS CambioABolivares");
             }
-            vSql.AppendLine(", " + vUtilSql.IsNull("FormaDelCobro.TipoDePago", vUtilSql.ToSqlValue(string.Empty)) + " AS TipoDeCobro");
-            vSql.AppendLine(", " + vUtilSql.IsNull("MonedaRenglon.Nombre", vUtilSql.ToSqlValue(string.Empty)) + "AS NombreMonedaFormaDelCobro");
+            vSql.AppendLine(", " + insSql.IsNull("FormaDelCobro.TipoDePago", insSql.ToSqlValue(string.Empty)) + " AS TipoDeCobro");
+            vSql.AppendLine(", " + insSql.IsNull("MonedaRenglon.Nombre", insSql.ToSqlValue(string.Empty)) + "AS NombreMonedaFormaDelCobro");
             if (valTotalesTipoPago) {
                 vSql.AppendLine("   , MonedaRenglon.Codigo AS CodMonedaCobro");
             }
@@ -508,7 +506,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine(" INNER JOIN dbo.Moneda AS MonedaRenglon");
             vSql.AppendLine("   ON MonedaRenglon.Codigo = renglonCobroDeFactura.CodigoMoneda");
             if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+                vSql.AppendLine(insSql.WhereSql(vSQLWhere));
             }
             vSql.AppendLine(" GROUP BY");
             vSql.AppendLine("	Caja.Consecutivo");
@@ -535,18 +533,17 @@ namespace Galac.Adm.Brl.Venta.Reportes {
         }
 
         public string SqlCuadreCajaConDetalleFormaPagoResumido(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, bool valTotalesTipoPago) {
-            QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             int vConsecutivoCajaGenerica = 0;
             string vSQLWhere = "";
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", vUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
-            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
-            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
+            vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
 
-            vSql.AppendLine(vUtilSql.SetDateFormat());
+            vSql.AppendLine(insSql.SetDateFormat());
             vSql.AppendLine(" ;WITH CTE_TotalCaja(ConsecutivoCompañia, ConsecutivoCaja, MontoTotalCaja)");
             vSql.AppendLine(" AS");
             vSql.AppendLine("(SELECT");
@@ -555,7 +552,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	, SUM(factura.TotalFactura) AS MontoTotalCaja");
             vSql.AppendLine(" FROM dbo.factura");
             if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+                vSql.AppendLine(insSql.WhereSql(vSQLWhere));
             }
             vSql.AppendLine(" GROUP BY");
             vSql.AppendLine("	factura.ConsecutivoCompania");
@@ -569,11 +566,11 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("    , MonedaRenglon.Nombre AS MonedaPago");
             vSql.AppendLine("    , CTE_TotalCaja.MontoTotalCaja AS MontoFacturas");
             if (valMonedaDeReporte == Saw.Lib.eMonedaParaImpresion.EnMonedaOriginal) {
-                vSql.AppendLine("    , " + vUtilSql.IsNull("SUM(renglonCobroDeFactura.Monto)", vUtilSql.ToInt("0")) + " AS MontoCobro");
+                vSql.AppendLine("    , " + insSql.IsNull("SUM(renglonCobroDeFactura.Monto)", insSql.ToInt("0")) + " AS MontoCobro");
             } else {
-                vSql.AppendLine("    , " + vUtilSql.IsNull("SUM(renglonCobroDeFactura.Monto * renglonCobroDeFactura.CambioAMonedaLocal)", vUtilSql.ToInt("0")) + " AS MontoCobro");
+                vSql.AppendLine("    , " + insSql.IsNull("SUM(renglonCobroDeFactura.Monto * renglonCobroDeFactura.CambioAMonedaLocal)", insSql.ToInt("0")) + " AS MontoCobro");
             }
-            vSql.AppendLine("    , " + vUtilSql.IsNull("FormaDelCobro.TipoDePago", vUtilSql.ToSqlValue(string.Empty)) + " AS TipoDeCobro");
+            vSql.AppendLine("    , " + insSql.IsNull("FormaDelCobro.TipoDePago", insSql.ToSqlValue(string.Empty)) + " AS TipoDeCobro");
             vSql.AppendLine(" FROM Adm.Caja");
             vSql.AppendLine("    INNER JOIN factura");
             vSql.AppendLine("       ON factura.ConsecutivoCaja = Caja.Consecutivo");
@@ -590,7 +587,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("	    ON CTE_TotalCaja.ConsecutivoCaja = Caja.Consecutivo");
             vSql.AppendLine("	    AND CTE_TotalCaja.ConsecutivoCompañia = Caja.ConsecutivoCompania");
             if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+                vSql.AppendLine(insSql.WhereSql(vSQLWhere));
             }
             vSql.AppendLine(" GROUP BY Caja.Consecutivo,");
             vSql.AppendLine("    Caja.NombreCaja,");
@@ -607,32 +604,31 @@ namespace Galac.Adm.Brl.Venta.Reportes {
 
         public string SqlCuadreCajaPorUsuario(int valConsecutivoCompania, DateTime valFechaInicial, DateTime valFechaFinal, Saw.Lib.eTipoDeInforme valTipoDeInforme, Saw.Lib.eMonedaParaImpresion valMonedaDeReporte, Saw.Lib.eCantidadAImprimir valCantidadOperadorDeReporte, string valNombreDelOperador) {
             const int vConsecutivoCajaGenerica = 0;
-            QAdvSql vUtilSql = new QAdvSql("");
             StringBuilder vSql = new StringBuilder();
             #region Filtro de consulta
             string vSQLWhere = "";
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", vUtilSql.EnumToSqlValue((int)eStatusFactura.Emitida));
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
-            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + vUtilSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
-            vSQLWhere = vUtilSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
-            vSQLWhere = vUtilSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", vUtilSql.ToSqlValue("S"));
+            vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
+            vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
             #region Manejo para Fechas de Apertura y Cierre de Caja            
-            string horaCierre = " AND factura.HoraModificacion BETWEEN  CajaApertura.HoraApertura AND " + vUtilSql.IIF("CajaApertura.HoraCierre <> " + vUtilSql.ToSqlValue(string.Empty), "CajaApertura.HoraCierre", vUtilSql.ToSqlValue("23:59"), true);
-            string fechaCierre = " AND Factura.Fecha <= " + vUtilSql.IIF("CajaApertura.CajaCerrada = " + vUtilSql.ToSqlValue(false), "CajaApertura.Fecha", "GetDate()", true);
+            string horaCierre = " AND factura.HoraModificacion BETWEEN  CajaApertura.HoraApertura AND " + insSql.IIF("CajaApertura.HoraCierre <> " + insSql.ToSqlValue(string.Empty), "CajaApertura.HoraCierre", insSql.ToSqlValue("23:59"), true);
+            string fechaCierre = " AND Factura.Fecha <= " + insSql.IIF("CajaApertura.CajaCerrada = " + insSql.ToSqlValue(false), "CajaApertura.Fecha", "GetDate()", true);
             #endregion Manejo para Fechas de Apertura y Cierre de Caja
             vSQLWhere = vSQLWhere + fechaCierre + horaCierre;
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
-                vSQLWhere = vUtilSql.SqlValueWithAnd(vSQLWhere, "Factura.NombreOperador", valNombreDelOperador);
+                vSQLWhere = insSql.SqlValueWithAnd(vSQLWhere, "Factura.NombreOperador", valNombreDelOperador);
             }
-            vSQLWhere = vUtilSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
+            vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
             #endregion Filtro de consulta
             #region Calculo Vuelto
-            string mayorA = vUtilSql.ComparisonOp(">");
-            string monedasIguales = "MonedaRenglon.Codigo" + vUtilSql.ComparisonOp("=") + "factura.CodigoMoneda";
-            string montoRenglon = vUtilSql.IsNull("renglonCobroDeFactura.Monto", vUtilSql.ToInt("0"));
-            string existeVuelto = "SUM(" + montoRenglon + ")" + mayorA + "factura.TotalFactura " + vUtilSql.LogicalOp("AND") + "factura.TotalFactura" + mayorA + vUtilSql.ToInt("0");
-            string calculoMontoVuelto = vUtilSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - factura.TotalFactura", vUtilSql.ToInt("0"), true);
-            string montoVuelto = vUtilSql.IIF(monedasIguales, calculoMontoVuelto, vUtilSql.ToInt("0"), true);
+            string mayorA = insSql.ComparisonOp(">");
+            string monedasIguales = "MonedaRenglon.Codigo" + insSql.ComparisonOp("=") + "factura.CodigoMoneda";
+            string montoRenglon = insSql.IsNull("renglonCobroDeFactura.Monto", insSql.ToInt("0"));
+            string existeVuelto = "SUM(" + montoRenglon + ")" + mayorA + "factura.TotalFactura " + insSql.LogicalOp("AND") + "factura.TotalFactura" + mayorA + insSql.ToInt("0");
+            string calculoMontoVuelto = insSql.IIF(existeVuelto, "SUM(" + montoRenglon + ") - factura.TotalFactura", insSql.ToInt("0"), true);
+            string montoVuelto = insSql.IIF(monedasIguales, calculoMontoVuelto, insSql.ToInt("0"), true);
             #endregion            
             vSql.AppendLine(" SELECT");
             vSql.AppendLine("    Factura.NombreOperador AS NombreUsuario");
@@ -668,7 +664,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		ON CajaApertura.ConsecutivoCaja = Factura.ConsecutivoCaja");
             vSql.AppendLine("		AND CajaApertura.ConsecutivoCompania = Factura.ConsecutivoCompania");
             if (LibString.Len(vSQLWhere) > 0) {
-                vSql.AppendLine(vUtilSql.WhereSql(vSQLWhere));
+                vSql.AppendLine(insSql.WhereSql(vSQLWhere));
             }
             vSql.AppendLine(" GROUP BY");
             vSql.AppendLine("    Factura.NombreOperador");
@@ -693,7 +689,105 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("   , Cliente.Nombre");
             return vSql.ToString();
         }
+
+        internal string SqlCajaCerrada(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
+            StringBuilder vSql = new StringBuilder();
+            vSql.Append(SqlCTECajaAperturadaPorOperador(valConsecutivoCompania, valFechaDesde, valFechaHasta));
+            vSql.AppendLine("SELECT ");
+            vSql.AppendLine("	CAST(Consecutivo AS varchar(10)) + '-' + CAST(ConsecutivoCaja AS varchar(10)) AS ConsecutivoConsecutivoCaja, ");
+            vSql.AppendLine("	NombreCaja, ");
+            vSql.AppendLine("	Fecha, ");
+            vSql.AppendLine("	HoraApertura, ");
+            vSql.AppendLine("	HoraCierre, ");
+            vSql.AppendLine("	Operador, ");
+            vSql.AppendLine("	Movimiento,");
+            vSql.AppendLine("	MontoApertura, MontoAperturaME,");
+            vSql.AppendLine("	MontoCierre, MontoCierreME,");
+            vSql.AppendLine("	(CASE CodigoMoneda WHEN 'VED' THEN 'Monto M.E.' ELSE 'MONTO ' + CodigoMoneda END) AS EtiquetaMontoME,");
+            vSql.AppendLine("	SUM(MontoML) MontoML,");
+            vSql.AppendLine("	SUM(MontoME) MontoME ");            
+            vSql.AppendLine("FROM CTE_CajaAperturadaPorOperador");
+            vSql.AppendLine("GROUP BY ");
+            vSql.AppendLine("	Consecutivo, ");
+            vSql.AppendLine("	ConsecutivoCaja, ");
+            vSql.AppendLine("	NombreCaja, ");
+            vSql.AppendLine("	Fecha, ");
+            vSql.AppendLine("	HoraApertura, ");
+            vSql.AppendLine("	HoraCierre, ");
+            vSql.AppendLine("	Operador, ");
+            vSql.AppendLine("	MontoApertura, MontoAperturaME,");
+            vSql.AppendLine("	MontoCierre, MontoCierreME,");
+            vSql.AppendLine("	Movimiento,");
+            vSql.AppendLine("	CodigoMoneda");
+            vSql.AppendLine("ORDER BY ");
+            vSql.AppendLine("	Consecutivo, ");
+            vSql.AppendLine("	ConsecutivoCaja, ");
+            vSql.AppendLine("	Fecha,");
+            vSql.AppendLine("	Movimiento");
+            return vSql.ToString();
+        }
+
+        string SqlCTECajaAperturadaPorOperador(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("; WITH CTE_CajaAperturadaPorOperador AS(");
+            vSql.AppendLine(SqlUNPIVOTCajaCerrada(true, valConsecutivoCompania, valFechaDesde, valFechaHasta));
+            vSql.AppendLine(" UNION ");
+            vSql.AppendLine(SqlUNPIVOTCajaCerrada(false, valConsecutivoCompania, valFechaDesde, valFechaHasta));
+            vSql.AppendLine(")");
+            return vSql.ToString();
+        }
+
+        string SqlUNPIVOTCajaCerrada(bool valEsPAraMonedaLocal, int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
+            StringBuilder vSql = new StringBuilder();
+            vSql.AppendLine("SELECT ");
+            vSql.AppendLine("	Consecutivo, ");
+            vSql.AppendLine("	ConsecutivoCaja, ");
+            vSql.AppendLine("	NombreCaja, ");
+            vSql.AppendLine("	Fecha, ");
+            vSql.AppendLine("	HoraApertura, ");
+            vSql.AppendLine("	HoraCierre, ");
+            vSql.AppendLine("	Operador,");
+            vSql.AppendLine("	MontoApertura, MontoAperturaME,");
+            vSql.AppendLine("	MontoCierre, MontoCierreME,");
+            vSql.AppendLine("	Movimiento,");
+            if (valEsPAraMonedaLocal) {
+                vSql.AppendLine("	MontoML,");
+                vSql.AppendLine("	0 AS MontoME, CodigoMoneda");
+            } else {
+                vSql.AppendLine("	0 AS MontoML,");
+                vSql.AppendLine("	MontoME, CodigoMoneda");
+            }
+            vSql.AppendLine("FROM (SELECT ");
+            vSql.AppendLine("		CA.Consecutivo, ");
+            vSql.AppendLine("		CA.ConsecutivoCaja, ");
+            vSql.AppendLine("		C.NombreCaja, ");
+            vSql.AppendLine("		'(' + NombreDelUsuario + ') ' + Usr.FirstAndLastName AS Operador,");
+            vSql.AppendLine("		MontoApertura, MontoAperturaME,");
+            vSql.AppendLine("		MontoCierre, MontoCierreME,");
+            if (valEsPAraMonedaLocal) {
+                vSql.AppendLine("		MontoEfectivo [01 - Efectivo], MontoTarjeta [02 - Tarjeta], MontoCheque [03 - Cheque], MontoDeposito [04 - Depósito], MontoAnticipo [05 - Anticipo], ");
+            } else {
+                vSql.AppendLine("		MontoEfectivoME [01 - Efectivo], MontoTarjetaME [02 - Tarjeta], MontoChequeME [03 - Cheque], MontoDepositoME [04 - Depósito], MontoAnticipoME [05 - Anticipo], ");
+            }
+            vSql.AppendLine("		Fecha, ");
+            vSql.AppendLine("		HoraApertura, ");
+            vSql.AppendLine("		HoraCierre, ");
+            vSql.AppendLine("		CajaCerrada, CA.CodigoMoneda ");
+            vSql.AppendLine("	FROM Adm.CajaApertura AS CA INNER JOIN Lib.GUser Usr");
+            vSql.AppendLine("		ON CA.NombreDelUsuario = Usr.UserName");
+            vSql.AppendLine("		INNER JOIN Adm.Caja C");
+            vSql.AppendLine("		ON CA.ConsecutivoCaja = c.Consecutivo");
+            vSql.AppendLine("		AND CA.ConsecutivoCompania = C.ConsecutivoCompania");
+            vSql.AppendLine("	WHERE CA.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
+            vSql.AppendLine("		AND " + insSql.SqlDateValueBetween("", "CA.Fecha", valFechaDesde, valFechaHasta));
+            vSql.AppendLine("		AND CA.CajaCerrada = " + insSql.ToSqlValue(true) + ") BaseUnpivot");
+            if (valEsPAraMonedaLocal) {
+                vSql.AppendLine("	UNPIVOT (MontoML FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo]))AS CajaAperturaPorOperadorML"); 
+            } else {
+                vSql.AppendLine("	UNPIVOT (MontoME FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo]))AS CajaAperturaPorOperadorME");
+            }
+            return vSql.ToString();
+        }
         #endregion //Metodos Generados
     } //End of class clsCajaSql
 } //End of namespace Galac.Adm.Brl.Venta
-
