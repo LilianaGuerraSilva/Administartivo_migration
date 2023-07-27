@@ -43,6 +43,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string HoraCierrePropertyName = "HoraCierre";
         const string CajaCerradaPropertyName = "CajaCerrada";
         const string CodigoMonedaPropertyName = "CodigoMoneda";
+        const string MonedaPropertyName = "Moneda";
         const string CambioPropertyName = "Cambio";
         const string MontoAperturaMEPropertyName = "MontoAperturaME";
         const string MontoCierreMEPropertyName = "MontoCierreME";
@@ -53,15 +54,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoAnticipoMEPropertyName = "MontoAnticipoME";
         const string NombreOperadorPropertyName = "NombreOperador";
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
-
         private FkCajaViewModel _ConexionNombreCaja = null;
         private FkGUserViewModel _ConexionNombreDelUsuario = null;
-        private FkMonedaViewModel _ConexionCodigoMoneda = null;
+        private FkMonedaViewModel _ConexionMoneda = null;
         ICajaAperturaPdn insCajaApertura;
         bool _CajaCerrada = false;
         bool _UsuarioNoAsignado = false;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
         private bool _UsaCobroMultimoneda = false;
+        private string _CodigoMEInicial;
         #endregion //Constantes y Variables
 
         #region Propiedades
@@ -102,7 +103,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             private set;
         }
 
-        public RelayCommand<string> ChooseCodigoMonedaCommand {
+        public RelayCommand<string> ChooseMonedaCommand {
             get;
             private set;
         }
@@ -174,7 +175,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("MontoApertura", eGridColumType.Numeric, IsForSearch = false, IsForList = true, Header = "Monto De Apertura", ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 2, Width = 120)]
+        [LibGridColum("MontoApertura", eGridColumType.Numeric, IsForSearch = false, IsForList = true, Header = "Monto de Apertura", ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 2, Width = 120)]
         public decimal MontoApertura {
             get {
                 return Model.MontoApertura;
@@ -187,7 +188,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("MontoCierre", eGridColumType.Numeric, IsForSearch = false, IsForList = true, Header = "Monto De Cierre", ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 3, Width = 120)]
+        [LibGridColum("MontoCierre", eGridColumType.Numeric, IsForSearch = false, IsForList = true, Header = "Monto de Cierre", ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 3, Width = 120)]
         public decimal MontoCierre {
             get {
                 return Model.MontoCierre;
@@ -272,7 +273,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("HoraAperturaDt", eGridColumType.Generic, Header = "Hora de Apertura", IsForList = true, IsForSearch = false, Alignment = eTextAlignment.Center, Width = 110, ColumnOrder = 7)]
+        [LibGridColum("HoraAperturaDt", eGridColumType.Generic, Header = "Hora de Apertura", IsForList = true, IsForSearch = false, Alignment = eTextAlignment.Center, Width = 110, ColumnOrder = 9)]
         public string HoraAperturaDt {
             get {
                 return LibConvert.ToStrOnlyForHour(LibConvert.ToDate(HoraApertura), "hh:mm tt");
@@ -291,7 +292,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("HoraCierreDt", eGridColumType.Generic, Header = "Hora de Cierre", IsForList = true, IsForSearch = false, Alignment = eTextAlignment.Center, Width = 110, ColumnOrder = 8)]
+        [LibGridColum("HoraCierreDt", eGridColumType.Generic, Header = "Hora de Cierre", IsForList = true, IsForSearch = false, Alignment = eTextAlignment.Center, Width = 110, ColumnOrder = 10)]
         public string HoraCierreDt {
             get {
                 return LibConvert.ToStrOnlyForHour(LibConvert.ToDate(HoraCierre), "hh:mm tt");
@@ -310,7 +311,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("CajaCerradaStr", eGridColumType.Generic, Header = "Caja Abierta", IsForList = true, IsForSearch = false, Alignment = eTextAlignment.Center, Width = 100, ColumnOrder = 4)]
+        [LibGridColum("CajaCerradaStr", eGridColumType.Generic, Header = "Caja Abierta", IsForList = true, IsForSearch = false, Alignment = eTextAlignment.Center, Width = 100, ColumnOrder = 6)]
         public string CajaCerradaStr {
             get {
                 return Model.CajaCerradaAsBool ? "" : "\u2713";
@@ -329,8 +330,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-
-        [LibCustomValidation("CodigoMonedaValidating")]        
+             
         public string CodigoMoneda {
             get {
                 return Model.CodigoMoneda;
@@ -339,19 +339,29 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (Model.CodigoMoneda != value) {
                     Model.CodigoMoneda = value;
                     IsDirty = true;
-                    RaisePropertyChanged(CodigoMonedaPropertyName);
-                    if (LibString.IsNullOrEmpty(CodigoMoneda, true)) {
-                        ConexionCodigoMoneda = null;
-                    } else if ((ConexionCodigoMoneda != null) && !LibString.IsNullOrEmpty(ConexionCodigoMoneda.Nombre)) {
-                        NombreME = ConexionCodigoMoneda.Nombre;
-                        RaisePropertyChanged(() => NombreME);
-                    }
+                    RaisePropertyChanged(CodigoMonedaPropertyName);                   
                 }
             }
         }
 
-        public string NombreME { get; private set; }
-
+        [LibCustomValidation("CodigoMonedaValidating")]
+        public string  Moneda {
+            get {
+                return Model.Moneda;
+            }
+            set {
+                if (Model.Moneda != value) {
+                    Model.Moneda = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(MonedaPropertyName);
+                    if (LibString.IsNullOrEmpty(Moneda, true)) {
+                        ConexionMoneda = null;
+                    }
+                } else if (!LibString.IsNullOrEmpty(Model.Moneda)) {
+                    RaisePropertyChanged(MonedaPropertyName);
+                }
+            }
+        }
         
         [LibCustomValidation("TasaDeCambioValidating")]
         public decimal Cambio {
@@ -367,6 +377,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        [LibGridColum("MontoAperturaME", eGridColumType.Numeric, IsForSearch = false, IsForList = true, Header = "Monto de Apertura en Divisas", ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 4, Width = 180)]
         public decimal MontoAperturaME {
             get {
                 return Model.MontoAperturaME;
@@ -380,6 +391,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        [LibGridColum("MontCierreME", eGridColumType.Numeric, IsForSearch = false, IsForList = true, Header = "Monto de Cierre en Divisas", ConditionalPropertyDecimalDigits = "DecimalDigits", Alignment = eTextAlignment.Right, ColumnOrder = 5, Width = 180)]
         public decimal MontoCierreME {
             get {
                 return Model.MontoCierreME;
@@ -471,7 +483,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         [LibCustomValidation("FechaValidating")]
-        [LibGridColum("Fecha Ult Modificación", eGridColumType.DatePicker, IsForList = true, IsForSearch = false, Width = 150, ColumnOrder = 6)]
+        [LibGridColum("Fecha Ult Modificación", eGridColumType.DatePicker, IsForList = true, IsForSearch = false, Width = 150, ColumnOrder = 8)]
         public DateTime FechaUltimaModificacion {
             get {
                 return Model.FechaUltimaModificacion;
@@ -484,7 +496,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibGridColum("CajaAsignada", Header = "Caja asignada a estación", IsForList = true, IsForSearch = false, Alignment = eTextAlignment.Center, Width = 150, ColumnOrder = 5)]
+        [LibGridColum("CajaAsignada", Header = "Caja asignada a estación", IsForList = true, IsForSearch = false, Alignment = eTextAlignment.Center, Width = 150, ColumnOrder = 7)]
         public string CajaAsignada {
             get {
                 return ObtenerCajaAsignada();
@@ -527,16 +539,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public FkMonedaViewModel ConexionCodigoMoneda {
+        public FkMonedaViewModel ConexionMoneda {
             get {
-                return _ConexionCodigoMoneda;
+                return _ConexionMoneda;
             }
             set {
-                if (_ConexionCodigoMoneda != value) {
-                    _ConexionCodigoMoneda = value;
-                    RaisePropertyChanged(CodigoMonedaPropertyName);
+                if (_ConexionMoneda != value) {
+                    _ConexionMoneda = value;                   
                 }
-                if (_ConexionCodigoMoneda == null) {
+                if (_ConexionMoneda == null) {
                     CodigoMoneda = string.Empty;
                 }
             }
@@ -598,14 +609,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (Action == eAccionSR.Insertar) {                
                 if (_UsaCobroMultimoneda) {
                     CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
+                    _CodigoMEInicial = CodigoMoneda;
                 } else {
                     CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today());
                 }
                 AsignaTasaDelDia(CodigoMoneda);
             } else {
-                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));
-                CodigoMoneda = ConexionCodigoMoneda.Codigo;
-                NombreME = ConexionCodigoMoneda.Nombre;
+                ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));
+                CodigoMoneda = ConexionMoneda.Codigo;
+                Moneda = ConexionMoneda.Nombre;
             }
         }
 
@@ -629,7 +641,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             base.InitializeCommands();
             ChooseNombreCajaCommand = new RelayCommand<string>(ExecuteChooseNombreCajaCommand);
             ChooseNombreDelUsuarioCommand = new RelayCommand<string>(ExecuteChooseNombreDelUsuarioCommand);
-            ChooseCodigoMonedaCommand = new RelayCommand<string>(ExecuteChooseCodigoMonedaCommand);
+            ChooseMonedaCommand = new RelayCommand<string>(ExecuteChooseMonedaCommand);
             AbrirCajaCommand = new RelayCommand(ExecuteAbrirCajaCommand, CanExecuteAbrirCajaCommand);
             CerrarCajaCommand = new RelayCommand(ExecuteCerrarCajaCommand, CanExecuteCerrarCajaCommand);
             CloseCommand = new RelayCommand(ExecuteCloseCommand, CanExecuteAction);
@@ -808,18 +820,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        private void ExecuteChooseCodigoMonedaCommand(string valCodigo) {
+        private void ExecuteChooseMonedaCommand(string valMoneda) {
             try {
-                if (valCodigo == null) {
-                    valCodigo = string.Empty;
+                if (valMoneda == null) {
+                    valMoneda = string.Empty;
                 }
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Nombre", valMoneda);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
-                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
-                //AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
-                ConexionCodigoMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCodigoMoneda != null) {
-                    CodigoMoneda = ConexionCodigoMoneda.Codigo;
+                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);                
+                AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
+                ConexionMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionMoneda != null) {
+                    Moneda = ConexionMoneda.Nombre;
+                    CodigoMoneda = ConexionMoneda.Codigo;
                     AsignaTasaDelDia(CodigoMoneda);
                 } else {
                     CodigoMoneda = string.Empty;
@@ -829,7 +842,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
-        }
+        }     
 
         private void AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref LibSearchCriteria vFixedCriteria) {
             XElement vXmlMonedaLocales = ((Comun.Ccl.TablasGen.IMonedaLocalPdn)new Comun.Brl.TablasGen.clsMonedaLocalProcesos()).BusquedaTodasLasMonedasLocales(LibDefGen.ProgramInfo.Country);
@@ -840,7 +853,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-
 
         private bool CanExecuteAbrirCajaCommand() {
             return true;
@@ -893,7 +905,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             base.ReloadRelatedConnections();
             ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja", LibSearchCriteria.CreateCriteria("NombreCaja", NombreCaja));
             ConexionNombreDelUsuario = FirstConnectionRecordOrDefault<FkGUserViewModel>("Usuario", LibSearchCriteria.CreateCriteria("UserName", NombreDelUsuario));
-            ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Codigo", CodigoMoneda));
+            ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Codigo", CodigoMoneda));
         }
 
         protected override IEnumerable GetListFromModule(string valModuleName, LibSearchCriteria valCriteria, Type valRecordType, string valOrderByMember) {
@@ -983,9 +995,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
                 decimal vTasa = 1;
-                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
-                CodigoMoneda = ConexionCodigoMoneda.Codigo;
-                NombreME = ConexionCodigoMoneda.Nombre;
+                ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
+                CodigoMoneda = ConexionMoneda.Codigo;
+                Moneda = ConexionMoneda.Nombre;
                 if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Fecha, out vTasa)) {
                     Cambio = vTasa;
                     return true;
@@ -998,20 +1010,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
                     vViewModel.FechaDeVigencia = Fecha;
                     vViewModel.CodigoMoneda = CodigoMoneda;
-                    vViewModel.NombreMoneda = NombreME;
+                    vViewModel.NombreMoneda = Moneda;
                     vViewModel.IsEnabledFecha = false;
                     bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
                     if (!vResult) {
                         if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
                             return false;
                         }
-                        Cambio = 1;
+                        AsignarValoresDeMonedaPorDefecto();
                     }
                     return true;
                 }
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
-                NombreME = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
+                Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
                 Cambio = 1;
                 return true;
             }
@@ -1022,14 +1034,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void AsignarValoresDeMonedaPorDefecto() {
-            if (_UsaCobroMultimoneda) {
-                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));
+            if (_UsaCobroMultimoneda) {                
+                ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));                
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
-                NombreME = ConexionCodigoMoneda.Nombre;
-                AsignaTasaDelDia(CodigoMoneda);
+                Moneda = ConexionMoneda.Nombre;
+                if (LibString.S1IsEqualToS2(CodigoMoneda, _CodigoMEInicial)) {
+                    Cambio = 1;
+                } else {
+                    AsignaTasaDelDia(_CodigoMEInicial);                    
+                }
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
-                NombreME = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
+                Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
                 Cambio = 1;
             }
         }
@@ -1039,7 +1055,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (Action != eAccionSR.Insertar) {
                 return ValidationResult.Success;
             } else if (!LibString.S1IsEqualToS2(CodigoMoneda, vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()))) {
-                if (Cambio == 1) {
+                if (Cambio <= 1) {
                     vResult = new ValidationResult("La tasa de cambio debe ser mayor a 1");
                 }
             }
@@ -1053,7 +1069,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } else {
                 if (LibString.IsNullOrEmpty(CodigoMoneda)) {
                     vResult = new ValidationResult("El Código de la Moneda es requerido.");
-                } else if (LibString.S1IsEqualToS2(CodigoMoneda, vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()))) {
+                } else if (_UsaCobroMultimoneda && LibString.S1IsEqualToS2(CodigoMoneda, vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()))) {
                     vResult = new ValidationResult("La moneda seleccionada debe ser distinta de " + vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today()));
                 }
             }
