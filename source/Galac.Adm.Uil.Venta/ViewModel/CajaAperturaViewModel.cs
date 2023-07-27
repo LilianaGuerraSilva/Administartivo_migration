@@ -1036,7 +1036,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void AsignarValoresDeMonedaPorDefecto() {
             if (_UsaCobroMultimoneda) {                
                 ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));                
-                CodigoMoneda = ConexionCodigoMoneda.Codigo;
+                CodigoMoneda = ConexionMoneda.Codigo;
                 Moneda = ConexionMoneda.Nombre;
                 if (LibString.S1IsEqualToS2(CodigoMoneda, _CodigoMEInicial)) {
                     Cambio = 1;
