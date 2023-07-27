@@ -23,10 +23,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
 			StartConnectionNoTransaction();
-			//CrearRutaDeComercializacion();
-			//CrearTablaAdmVendedor();
-			//AmpliarCampoUbicacion();
-			//
+			CrearRutaDeComercializacion();
+			CrearTablaAdmVendedor();
+			AmpliarCampoUbicacion();			
 			CamposMonedaExtranjeraEnCajaApertura();
 			DisposeConnectionNoTransaction();
 			return true;
