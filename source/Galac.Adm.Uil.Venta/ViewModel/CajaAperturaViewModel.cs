@@ -23,6 +23,7 @@ using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 using System.Windows;
+using Galac.Adm.Ccl.CajaChica;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
@@ -329,7 +330,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        [LibRequired(ErrorMessage = "El Código de la Moneda es requerido.")]
+        [LibCustomValidation("CodigoMonedaValidating")]        
         public string CodigoMoneda {
             get {
                 return Model.CodigoMoneda;
@@ -351,6 +352,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public string NombreME { get; private set; }
 
+        
+        [LibCustomValidation("TasaDeCambioValidating")]
         public decimal Cambio {
             get {
                 return Model.Cambio;
@@ -813,7 +816,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigo);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
                 vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
-                AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
+                //AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
                 ConexionCodigoMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionCodigoMoneda != null) {
                     CodigoMoneda = ConexionCodigoMoneda.Codigo;
@@ -1002,7 +1005,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
                             return false;
                         }
-                        AsignarValoresDeMonedaPorDefecto();
+                        Cambio = 1;
                     }
                     return true;
                 }
@@ -1031,6 +1034,31 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        private ValidationResult TasaDeCambioValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action != eAccionSR.Insertar) {
+                return ValidationResult.Success;
+            } else if (!LibString.S1IsEqualToS2(CodigoMoneda, vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()))) {
+                if (Cambio == 1) {
+                    vResult = new ValidationResult("La tasa de cambio debe ser mayor a 1");
+                }
+            }
+            return vResult;
+        }
+
+        private ValidationResult CodigoMonedaValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Action != eAccionSR.Insertar) {
+                return ValidationResult.Success;
+            } else {
+                if (LibString.IsNullOrEmpty(CodigoMoneda)) {
+                    vResult = new ValidationResult("El Código de la Moneda es requerido.");
+                } else if (LibString.S1IsEqualToS2(CodigoMoneda, vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(LibDate.Today()))) {
+                    vResult = new ValidationResult("La moneda seleccionada debe ser distinta de " + vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(LibDate.Today()));
+                }
+            }
+            return vResult;
+        }
         #endregion //Metodos
 
     } //End of class CajaAperturaViewModel

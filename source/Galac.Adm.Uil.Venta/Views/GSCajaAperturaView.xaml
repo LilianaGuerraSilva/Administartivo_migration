@@ -206,7 +206,7 @@
                 DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
-                IsEnabled="{Binding Path=IsEnabledForInsert}"
+                IsEnabled="{Binding Path=IsEnabledForME}"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
