@@ -9,8 +9,8 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
-using Galac.Saw.Ccl.Vendedor;
-using Galac.Saw.Brl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
+using Galac.Adm.Brl.Vendedor;
 
 namespace Galac.Adm.Rpt.Venta {
     /// <summary>

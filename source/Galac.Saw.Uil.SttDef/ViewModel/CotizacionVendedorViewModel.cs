@@ -150,8 +150,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     valCodigo = string.Empty;
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Gv_Vendedor_B1.Codigo", valCodigo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_Vendedor_B1.ConsecutivoCompania", LibConvert.ToStr(Mfc.GetInt("Compania")));
-                ConexionVendedorGenerico = null;
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Gv_Vendedor_B1.ConsecutivoCompania", LibConvert.ToStr(Mfc.GetInt("Compania")));                
                 ConexionVendedorGenerico = LibFKRetrievalHelper.ChooseRecord<FkVendedorViewModel>("Vendedor", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if(ConexionVendedorGenerico != null) {
                     CodigoGenericoVendedor = ConexionVendedorGenerico.Codigo;

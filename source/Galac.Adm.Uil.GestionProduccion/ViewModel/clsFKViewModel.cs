@@ -5,6 +5,7 @@ using System.Text;
 using LibGalac.Aos.UI.Mvvm.Helpers;
 using Galac.Adm.Ccl.GestionProduccion;
 using Galac.Saw.Ccl.Inventario;
+using Galac.Saw.Uil.Inventario.ViewModel;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class FkArticuloInventarioViewModel : IFkArticuloInventarioViewModel {
@@ -28,6 +29,16 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
         public string UnidadDeVenta { get; set; }
         public decimal MePrecioSinIva { get; set; }
         public decimal MePrecioConIva { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1, ColumnOrder = 3)]
+        public string CampoDefinible1 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2, ColumnOrder = 4)]
+        public string CampoDefinible2 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3, ColumnOrder = 5)]
+        public string CampoDefinible3 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4, ColumnOrder = 6)]
+        public string CampoDefinible4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5, ColumnOrder = 7)]
+        public string CampoDefinible5 { get; set; }
     }
     public class FkListaDeMaterialesViewModel : IFkListaDeMaterialesViewModel {
         public int ConsecutivoCompania { get; set; }

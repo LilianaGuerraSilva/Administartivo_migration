@@ -121,9 +121,14 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(", Gv_EnumTipoDeArticulo.StrValue AS TipoDeArticuloStr");
             SQL.AppendLine(", ArticuloInventario.StatusdelArticulo");
             SQL.AppendLine(", ArticuloInventario.TipoDeArticulo");
-
             SQL.AppendLine(", ArticuloInventario.ArancelesCodigo");
             SQL.AppendLine(", ArticuloInventario.TipoDeMercanciaProduccion ");
+
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible1 ");
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible2 ");
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible3 ");
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible4 ");
+            SQL.AppendLine(", ArticuloInventario.CampoDefinible5 ");
             SQL.AppendLine(" FROM ArticuloInventario ");
             SQL.AppendLine(" LEFT JOIN ExistenciaPorAlmacen ON (ExistenciaPorAlmacen.ConsecutivoCompania = ArticuloInventario.ConsecutivoCompania ");
             SQL.AppendLine(" AND ExistenciaPorAlmacen.CodigoArticulo = ArticuloInventario.Codigo) 	");
@@ -171,6 +176,7 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine(" , ArticuloInventario.TipoDeArticulo, ArticuloInventario.UsaBalanza");
             SQL.AppendLine(" , ArticuloInventario.Peso, ArticuloInventario.ArancelesCodigo, ArticuloInventario.TipoDeMercanciaProduccion, MePrecioSinIva, MePrecioConIva, MePrecioSinIva2");
             SQL.AppendLine(", MePrecioConIva2, MePrecioSinIva3, MePrecioConIva3, MePrecioSinIva4, MePrecioConIva4");
+            SQL.AppendLine(", CampoDefinible1, CampoDefinible2, CampoDefinible3, CampoDefinible4, CampoDefinible5");
             return SQL.ToString();
 
         }
@@ -501,6 +507,11 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("    Gv_ArticuloInventario_B1.MePrecioConIva2, ");
             SQL.AppendLine("    Gv_ArticuloInventario_B1.MePrecioConIva3, ");
             SQL.AppendLine("    Gv_ArticuloInventario_B1.MePrecioConIva4, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible1, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible2, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible3, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible4, ");
+            SQL.AppendLine("    Gv_ArticuloInventario_B1.CampoDefinible5, ");
             SQL.AppendLine("    Comun.Aranceles.AdValorem, ");
             SQL.AppendLine("    Comun.Aranceles.Seguro, ");
             SQL.AppendLine("    Gv_ArticuloInventario_B1.TipoDeMercanciaProduccion ");
@@ -802,7 +813,12 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("      Existencia, ");
             SQL.AppendLine("      CantidadMaxima, ");
             SQL.AppendLine("      CantidadMinima, ");
-            SQL.AppendLine("      TipoDeArticulo");
+            SQL.AppendLine("      TipoDeArticulo,");
+            SQL.AppendLine("      CampoDefinible1,");
+            SQL.AppendLine("      CampoDefinible2,");
+            SQL.AppendLine("      CampoDefinible3,");
+            SQL.AppendLine("      CampoDefinible4,");
+            SQL.AppendLine("      CampoDefinible5 ");
             SQL.AppendLine("     FROM Gv_ArticuloInventario_B2");
             SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
             SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
@@ -843,15 +859,13 @@ namespace Galac.Saw.Dal.Inventario {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ArticuloInventarioSCH",SqlSpSearchParameters(),SqlSpSearch(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ArticuloInventarioCompraSCH",SqlSpSearchForCompraParameters(),SqlSpSearchForCompra(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ObtenerPaginaDeArticulosPorDescripcion",
-                                                    SqlObtenerPaginaDeArticulosParametros(),
-                                                    SqlObtenerPaginaDeArticulosPorDescripcionSentencia(),
-                                                    true) && vResult;
+                                                    SqlObtenerPaginaDeArticulosParametros(),SqlObtenerPaginaDeArticulosPorDescripcionSentencia(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ObtenerPaginaDeArticulosPorCodigo",
-                                                    SqlObtenerPaginaDeArticulosParametros(),
-                                                    SqlObtenerPaginaDeArticulosPorCodigoSentencia(),
-                                                    true) && vResult;
+                                                    SqlObtenerPaginaDeArticulosParametros(),SqlObtenerPaginaDeArticulosPorCodigoSentencia(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ArticuloInventarioGetFk",SqlSpGetFKParameters(),SqlSpGetFK(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ArticuloInventarioCompraGetFk",SqlSpGetFKForCompraParameters(),SqlSpGetFKForCompra(),true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ArticuloInventarioUbicacionSCH", SqlSpUbicacionSearchParameters(), SqlSpUbicacionSearch(), true) && vResult;
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ArticuloInventarioUbicacionGetFk", SqlSpGetFKForUbicacionParameters(), SqlSpGetFKForUbicacion(), true) && vResult;
             insSps.Dispose();
             return vResult;
         }
@@ -894,12 +908,14 @@ namespace Galac.Saw.Dal.Inventario {
             //vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioUPD") && vResult;
             //vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioDEL") && vResult;
             //vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioGET") && vResult;
-            //vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioGetFk") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioUbicacionGetFk") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioUbicacionSCH") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioCompraGetFk") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioGetFk") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ObtenerPaginaDeArticulosPorCodigo") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ObtenerPaginaDeArticulosPorDescripcion") && vResult;
-            vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioSCH") && vResult;
             vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioCompraSCH") && vResult;
+            vResult = insSp.Drop(DbSchema + ".Gp_ArticuloInventarioSCH") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_ArticuloInventario_B2") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_ArticuloInventario_B1") && vResult;
             vResult = insVista.Drop(DbSchema + ".Gv_EnumStatusArticulo") && vResult;
@@ -1001,6 +1017,78 @@ namespace Galac.Saw.Dal.Inventario {
             SQL.AppendLine("            SELECT  Codigo ");
             SQL.AppendLine("            FROM OPENXML( @hdoc, 'GpData/GpResult',2) ");
             SQL.AppendLine("            WITH (Codigo varchar(30)) AS XmlDocOfFK2) )");
+            SQL.AppendLine(" EXEC sp_xml_removedocument @hdoc");
+            SQL.AppendLine("   RETURN @@ROWCOUNT");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpUbicacionSearchParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@SQLWhere" + InsSql.VarCharTypeForDb(2000) + " = null,");
+            SQL.AppendLine("@SQLOrderBy" + InsSql.VarCharTypeForDb(500) + " = null,");
+            SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + " = null,");
+            SQL.AppendLine("@UseTopClausule" + InsSql.VarCharTypeForDb(1) + " = 'S'");
+            return SQL.ToString();
+        }
+
+        private string SqlSpUbicacionSearch() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   DECLARE @strSQL AS " + InsSql.VarCharTypeForDb(7000));
+            SQL.AppendLine("   DECLARE @TopClausule AS " + InsSql.VarCharTypeForDb(10));
+            SQL.AppendLine("   IF(@UseTopClausule = 'S') ");
+            SQL.AppendLine("    SET @TopClausule = 'TOP 500'");
+            SQL.AppendLine("   ELSE ");
+            SQL.AppendLine("    SET @TopClausule = ''");
+            SQL.AppendLine("   SET @strSQL = ");
+            SQL.AppendLine("    ' SET DateFormat ' + @DateFormat + ");
+            SQL.AppendLine("    ' SELECT ' + @TopClausule + '");
+            SQL.AppendLine("    Saw.Almacen.NombreAlmacen AS NombreAlmacen, ");
+            SQL.AppendLine("    dbo.ArticuloInventario.Codigo AS CodigoArticulo, ");
+            SQL.AppendLine("    dbo.ArticuloInventario.Descripcion AS Descripcion, ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.Ubicacion AS Ubicacion, ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.Cantidad AS Existencia");
+            SQL.AppendLine("    FROM dbo.ExistenciaPorAlmacen INNER JOIN dbo.ArticuloInventario ON ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.ConsecutivoCompania = dbo.ArticuloInventario.ConsecutivoCompania AND ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.CodigoArticulo = dbo.ArticuloInventario.Codigo INNER JOIN Saw.Almacen ON");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.ConsecutivoCompania = Saw.Almacen.ConsecutivoCompania AND ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.CodigoAlmacen = Saw.Almacen.Codigo");
+            SQL.AppendLine("'   IF (NOT @SQLWhere IS NULL) AND (@SQLWhere <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' WHERE ' + @SQLWhere");
+            SQL.AppendLine("   IF (NOT @SQLOrderBy IS NULL) AND (@SQLOrderBy <> '')");
+            SQL.AppendLine("      SET @strSQL = @strSQL + ' ORDER BY ' + @SQLOrderBy");
+            SQL.AppendLine("   EXEC(@strSQL)");
+            SQL.AppendLine("END");
+            return SQL.ToString();
+        }
+
+        private string SqlSpGetFKForUbicacionParameters() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10, 0) + ",");
+            SQL.AppendLine("@XmlData" + InsSql.XmlTypeForDb());
+            return SQL.ToString();
+        }
+
+        private string SqlSpGetFKForUbicacion() {
+            StringBuilder SQL = new StringBuilder();
+            SQL.AppendLine("BEGIN");
+            SQL.AppendLine(" DECLARE @hdoc int ");
+            SQL.AppendLine(" EXEC sp_xml_preparedocument @hdoc OUTPUT, @XmlData ");
+            SQL.AppendLine("   SET NOCOUNT ON;");
+            SQL.AppendLine("   SELECT ");
+            SQL.AppendLine("    Saw.Almacen.NombreAlmacen AS NombreAlmacen, ");
+            SQL.AppendLine("    dbo.ArticuloInventario.Codigo AS CodigoArticulo, ");
+            SQL.AppendLine("    dbo.ArticuloInventario.Descripcion AS Descripcion, ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.Ubicacion AS Ubicacion, ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.Cantidad AS Existencia");
+            SQL.AppendLine("    FROM dbo.ExistenciaPorAlmacen INNER JOIN dbo.ArticuloInventario ON ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.ConsecutivoCompania = dbo.ArticuloInventario.ConsecutivoCompania AND ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.CodigoArticulo = dbo.ArticuloInventario.Codigo INNER JOIN Saw.Almacen ON");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.ConsecutivoCompania = Saw.Almacen.ConsecutivoCompania AND ");
+            SQL.AppendLine("    dbo.ExistenciaPorAlmacen.CodigoAlmacen = Saw.Almacen.Codigo");
+            SQL.AppendLine("      WHERE dbo.ExistenciaPorAlmacen.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine(" EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
             SQL.AppendLine("END");

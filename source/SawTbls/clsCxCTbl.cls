@@ -33,12 +33,9 @@ Private Sub sAddForeignKeys()
    On Error GoTo h_ERROR
    usarSoloUnElementoEnLaRelacion = True
    deleteOnCascade = True
-   gDbUtil.AddForeignKeySegunTablaPrimaria "Cliente", GetTableName(), "Codigo", _
-         "CodigoCliente", Not usarSoloUnElementoEnLaRelacion, _
+   gDbUtil.AddForeignKeySegunTablaPrimaria "Adm.Vendedor", GetTableName(), "Consecutivo", _
+         "ConsecutivoVendedor", Not usarSoloUnElementoEnLaRelacion, _
          "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
-   gDbUtil.AddForeignKeySegunTablaPrimaria "Vendedor", GetTableName(), "Codigo", _
-      "CodigoVendedor", Not usarSoloUnElementoEnLaRelacion, _
-      "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
    gDbUtil.AddForeignKeySegunTablaPrimaria "Moneda", GetTableName(), "", "", _
          usarSoloUnElementoEnLaRelacion, "Codigo", "CodigoMoneda", Not deleteOnCascade
 h_EXIT: On Error GoTo 0
@@ -99,6 +96,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "TipoCxc " & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "TipoCxC NOT NULL, "
    SQL = SQL & "CodigoCliente " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "CodigoVendedor " & gUtilSQL.getVarCharTypeForDB(5) & ", "
+   SQL = SQL & "ConsecutivoVendedor " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "VenCon NOT NULL, "
    SQL = SQL & "Origen " & gUtilSQL.getCharTypeForDB(1) & ", "
    SQL = SQL & "Fecha " & gUtilSQL.getDateTypeForDB() & ", "
    SQL = SQL & "FechaCancelacion " & gUtilSQL.getDateTypeForDB() & ", "

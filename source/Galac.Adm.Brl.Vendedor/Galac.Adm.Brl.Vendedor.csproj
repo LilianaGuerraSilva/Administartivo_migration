@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4144723B-6F39-4DEB-A594-EBA4116642FB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Galac.Adm.Brl.Vendedor</RootNamespace>
+    <AssemblyName>Galac.Adm.Brl.Vendedor</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Galac.Comun.Brl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Brl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Comun.Ccl.TablasGen">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\binComunAos\Galac.Comun.Ccl.TablasGen.dll</HintPath>
+    </Reference>
+    <Reference Include="Galac.Saw.Ccl.Tablas">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Galac.Saw.Ccl.Tablas.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Base">
+      <Name>LibGalac.Aos.Base</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Catching">
+      <Name>LibGalac.Aos.Catching</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Brl">
+      <Name>LibGalac.Aos.Brl</Name>
+      <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Brl.dll</HintPath>
+    </Reference>
+    <Reference Include="LibGalac.Aos.Dal">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Administrativo2\bin\binLibAos\LibGalac.Aos.Dal.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsVendedorImpExp.cs" />
+    <Compile Include="clsVendedorDetalleComisionesNav.cs" />
+    <Compile Include="clsVendedorNav.cs" />
+    <Compile Include="IVendedorDatDetalleComisionesImportarPdn.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VendedorDetalleComisionesImportar.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
+      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Dal.Vendedor\Galac.Adm.Dal.Vendedor.csproj">
+      <Project>{c97096c2-6491-48ba-a7bc-a9cce5b101b5}</Project>
+      <Name>Galac.Adm.Dal.Vendedor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Saw.Brl.Tablas\Galac.Saw.Brl.Tablas.csproj">
+      <Project>{893120CF-ED36-4227-BBFC-EF9E534B7F50}</Project>
+      <Name>Galac.Saw.Brl.Tablas</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

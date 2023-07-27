@@ -147,10 +147,6 @@
       <Project>{893120cf-ed36-4227-bbfc-ef9e534b7f50}</Project>
       <Name>Galac.Saw.Brl.Tablas</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Brl.Vendedor\Galac.Saw.Brl.Vendedor.csproj">
-      <Project>{4144723b-6f39-4deb-a594-eba4116642fb}</Project>
-      <Name>Galac.Saw.Brl.Vendedor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Ccl.Cliente\Galac.Saw.Ccl.Cliente.csproj">
       <Project>{186abef1-b1c6-4b23-a072-1b6d9bc633e8}</Project>
       <Name>Galac.Saw.Ccl.Cliente</Name>
@@ -166,10 +162,6 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.Tablas\Galac.Saw.Ccl.Tablas.csproj">
       <Project>{5bbc6220-f35e-4b5a-826e-cfece2eb3364}</Project>
       <Name>Galac.Saw.Ccl.Tablas</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Ccl.Vendedor\Galac.Saw.Ccl.Vendedor.csproj">
-      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
-      <Name>Galac.Saw.Ccl.Vendedor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib.Uil\Galac.Saw.Lib.Uil.csproj">
       <Project>{ae2fdf07-4a14-48bd-ba32-d1701f5514d0}</Project>

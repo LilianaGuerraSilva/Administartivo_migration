@@ -42,10 +42,7 @@ Private Sub sAddForeignKeys()
          "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
    gDbUtil.AddForeignKeySegunTablaPrimaria "Moneda", GetTableName(), "", "", _
          usarSoloUnElementoEnLaRelacion, "Codigo", "CodigoMoneda", Not deleteOnCascade
-   gDbUtil.AddForeignKeySegunTablaPrimaria "Vendedor", GetTableName(), "Codigo", _
-         "CodigoVendedor", Not usarSoloUnElementoEnLaRelacion, _
-         "ConsecutivoCompania", "ConsecutivoCompania", Not deleteOnCascade
-   
+   gDbUtil.Execute gDefDatabase.Conexion, "ALTER TABLE Contrato ADD CONSTRAINT fk_ContratoVend FOREIGN KEY (ConsecutivoCompania,ConsecutivoVendedor) REFERENCES Adm.Vendedor (ConsecutivoCompania,Consecutivo) ON UPDATE NO ACTION ON DELETE NO ACTION"
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAddForeignKeys", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -99,6 +96,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean) As Boolean
    SQL = SQL & "CodigoMoneda " & gUtilSQL.getVarCharTypeForDB(4) & " CONSTRAINT nn" & GetTableName() & "CodigoMoneda NOT NULL, "
    SQL = SQL & "NombreOperador " & gUtilSQL.getVarCharTypeForDB(10) & ", "
    SQL = SQL & "CodigoVendedor " & gUtilSQL.getVarCharTypeForDB(5) & ", "
+   SQL = SQL & "ConsecutivoVendedor " & gUtilSQL.getNumericTypeForDB(9, 0) & " CONSTRAINT nn" & GetTableName() & "VenCon NOT NULL, "
    SQL = SQL & "NombreVendedor " & gUtilSQL.getVarCharTypeForDB(35) & ", "
    SQL = SQL & "Moneda " & gUtilSQL.getVarCharTypeForDB(80) & ", "
    SQL = SQL & "FacturarAOtroCliente" & gUtilSQL.getCharTypeForDB(1) & " CONSTRAINT nn" & GetTableName() & "FacturarAO NOT NULL, "

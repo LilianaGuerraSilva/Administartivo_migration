@@ -435,6 +435,10 @@
       <Project>{295d5b19-4600-48c4-9da1-879a1875fbb9}</Project>
       <Name>Galac.Adm.Ccl.Banco</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Vendedor\Galac.Adm.Ccl.Vendedor.csproj">
+      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
+      <Name>Galac.Adm.Ccl.Vendedor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Uil.Banco\Galac.Adm.Uil.Banco.csproj">
       <Project>{cea20080-8bbe-4562-b30c-88a9b1e0218c}</Project>
       <Name>Galac.Adm.Uil.Banco</Name>
@@ -462,10 +466,6 @@
     <ProjectReference Include="..\Galac.Saw.Ccl.SttDef\Galac.Saw.Ccl.SttDef.csproj">
       <Project>{82c458b1-c93b-46a9-b58c-63ecd3633861}</Project>
       <Name>Galac.Saw.Ccl.SttDef</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Galac.Saw.Ccl.Vendedor\Galac.Saw.Ccl.Vendedor.csproj">
-      <Project>{57734928-dfdd-4e96-af01-a818bcd85e4e}</Project>
-      <Name>Galac.Saw.Ccl.Vendedor</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
       <Project>{b04e6942-e0b8-4ba2-90e7-fbf8a95ddc86}</Project>

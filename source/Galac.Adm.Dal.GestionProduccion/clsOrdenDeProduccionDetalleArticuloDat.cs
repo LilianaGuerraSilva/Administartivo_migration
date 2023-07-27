@@ -176,7 +176,6 @@ namespace Galac.Adm.Dal.GestionProduccion {
             foreach (var item in valRecord.DetailOrdenDeProduccionDetalleArticulo ) {
                 vResult = vResult && InsertDetail(item, insTrn);
             }
-            
             return vResult;
         }
 

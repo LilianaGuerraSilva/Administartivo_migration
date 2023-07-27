@@ -88,13 +88,13 @@ Begin VB.Form frmInformesDeVendedor
       Begin VB.OptionButton optImprimirInforme 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00F3F3F3&
-         Caption         =   "Listado de Vendores por Comisión por Línea de Producto ...................................................."
+         Caption         =   "Listado de Vendedores por Comisión por Línea de Producto..........................................."
          ForeColor       =   &H00A84439&
-         Height          =   495
+         Height          =   585
          Index           =   1
          Left            =   120
          TabIndex        =   1
-         Top             =   975
+         Top             =   870
          Width           =   3570
       End
    End
@@ -181,7 +181,7 @@ Begin VB.Form frmInformesDeVendedor
       AutoSize        =   -1  'True
       BackColor       =   &H80000005&
       BackStyle       =   0  'Transparent
-      Caption         =   "Titulo del Informe"
+      Caption         =   "Título del Informe"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   12
@@ -192,11 +192,11 @@ Begin VB.Form frmInformesDeVendedor
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H000040C0&
-      Height          =   345
+      Height          =   300
       Left            =   4050
       TabIndex        =   17
       Top             =   135
-      Width           =   2115
+      Width           =   2100
    End
 End
 Attribute VB_Name = "frmInformesDeVendedor"
@@ -209,6 +209,9 @@ Private mDondeImprimir As enum_DondeImprimir
 Private mInformeSeleccionado As Integer
 Private insVendedor As Object
 Private gProyCompaniaActual As Object
+Private insCnxAos As Object
+Private mCodigoVendedorOriginal As String
+Private mNombreVendedorOriginal As String
 Private Function GetGender() As Enum_Gender
    GetGender = eg_Male
 End Function
@@ -259,8 +262,10 @@ On Error GoTo h_ERROR
          lblNombreDeVendedor.Visible = True
          If gProyParametros.GetUsaCodigoVendedorEnPantalla Then
             txtCodigoDeVendedor.Visible = True
+            txtNombreDeVendedor.Enabled = False
          Else
             txtCodigoDeVendedor.Visible = False
+            txtNombreDeVendedor.Enabled = True
          End If
    Else
          txtNombreDeVendedor.Visible = False
@@ -357,7 +362,6 @@ End Sub
 
 Public Sub sInitLookAndFeel()
    On Error GoTo h_ERROR
-   'Set insVendedor = New clsVendedorNavigator
    lblTituloDeReporte.Visible = True
    gEnumReport.FillComboBoxWithCantidadAImprimir cmbCantidadAImprimirVendedor
    cmbCantidadAImprimirVendedor.Text = gEnumReport.enumCantidadAImprimirToString(eCI_TODOS)
@@ -365,7 +369,7 @@ Public Sub sInitLookAndFeel()
    mInformeSeleccionado = 0
    sValidaLosCampos mInformeSeleccionado
    gEnumProyecto.FillComboBoxWithStatusCliente cmbStatus, Buscar
-   cmbStatus.Width = gAPI.maxLengthOfValuesOfComboBox(cmbStatus) * 100 'Numero estimado aproximado
+   cmbStatus.Width = gAPI.maxLengthOfValuesOfComboBox(cmbStatus) * 100
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sInitLookAndFeel", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -467,6 +471,52 @@ h_EXIT: On Error GoTo 0
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "optImprimirInforme_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Private Sub txtCodigoDeVendedor_GotFocus()
+   On Error GoTo h_ERROR
+   gAPI.SelectAllText txtCodigoDeVendedor
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeVendedor_GotFocus", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Private Sub txtCodigoDeVendedor_KeyDown(KeyCode As Integer, Shift As Integer)
+   On Error GoTo h_ERROR
+   sCheckForSpecialKeys KeyCode, Shift
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeVendedor_KeyDown", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Private Sub txtCodigoDeVendedor_KeyPress(KeyAscii As Integer)
+   On Error GoTo h_ERROR
+   gAPI.sfEnterLikeTab Me, KeyAscii
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoDeVendedor_KeyPress", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
+Private Sub txtCodigoDeVendedor_Validate(Cancel As Boolean)
+   On Error GoTo h_ERROR
+   If gTexto.DfLen(txtCodigoDeVendedor.Text) = 0 Then
+      txtCodigoDeVendedor.Text = "*"
+   Else
+      txtCodigoDeVendedor.Text = insVendedor.fFillWithCerosOnLeft(txtCodigoDeVendedor.Text)
+   End If
+   If UCase(txtCodigoDeVendedor.Text) <> UCase(mCodigoVendedorOriginal) Then
+      If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtCodigoDeVendedor.Text, "") Then
+         sAssignFieldsFromConnectionVendedor
+      Else
+         Cancel = True
+         GoTo h_EXIT
+      End If
+   End If
+   Cancel = False
+h_EXIT: On Error GoTo 0
+   Exit Sub
+h_ERROR: Cancel = True
+   gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtCodigoVendedor_Validate", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Sub
+
 Private Sub txtNombreDeVendedor_GotFocus()
    On Error GoTo h_ERROR
    gAPI.SelectAllText txtNombreDeVendedor
@@ -485,8 +535,7 @@ End Sub
  
 Private Sub txtNombreDeVendedor_KeyPress(KeyAscii As Integer)
    On Error GoTo h_ERROR
-   If gAPI.sfEnterLikeTab(Me, KeyAscii) Then
-   End If
+   gAPI.sfEnterLikeTab Me, KeyAscii
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDeVendedor_KeyPress", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -494,16 +543,16 @@ End Sub
 
 Private Sub txtNombreDeVendedor_Validate(Cancel As Boolean)
    On Error GoTo h_ERROR
-   If LenB(txtNombreDeVendedor) = 0 Then
-      txtNombreDeVendedor = "*"
+   If gTexto.DfLen(txtNombreDeVendedor.Text) = 0 Then
+      txtNombreDeVendedor.Text = "*"
    End If
-   insVendedor.sClrRecord
-   insVendedor.SetNombre txtNombreDeVendedor
-   If insVendedor.fSearchSelectConnection() Then
-      sSelectAndSetValuesOfVendedor
-   Else
-      Cancel = True
-      GoTo h_EXIT
+   If UCase(txtNombreDeVendedor.Text) <> UCase(mNombreVendedorOriginal) Then
+      If insCnxAos.fSelectAndSetValuesOfVendedorFromAOS(insVendedor, txtNombreDeVendedor.Text, "Nombre") Then
+         sAssignFieldsFromConnectionVendedor
+      Else
+         Cancel = True
+         GoTo h_EXIT
+      End If
    End If
    Cancel = False
 h_EXIT: On Error GoTo 0
@@ -511,40 +560,24 @@ h_EXIT: On Error GoTo 0
 h_ERROR: gError.sErrorMessage Err.Number, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "txtNombreDeVendedor_Validate", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Private Sub sSelectAndSetValuesOfVendedor()
-  On Error GoTo h_ERROR
-   If insVendedor.fRsRecordCount(False) = 1 Then
-      sAssignFieldsFromConnectionVendedor
-   ElseIf insVendedor.fRsRecordCount(False) > 1 Then
-      If gProyParametros.GetUsaCodigoVendedorEnPantalla Then
-         insVendedor.sShowListSelect "Codigo", txtCodigoDeVendedor.Text
-      Else
-         insVendedor.sShowListSelect "Nombre", txtNombreDeVendedor.Text
-      End If
-      sAssignFieldsFromConnectionVendedor
-   End If
-h_EXIT: On Error GoTo 0
-   Exit Sub
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sSelectAndSetValuesOfVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Sub
-
 Private Sub sAssignFieldsFromConnectionVendedor()
    On Error GoTo h_ERROR
    txtNombreDeVendedor.Text = insVendedor.GetNombre
    txtCodigoDeVendedor.Text = insVendedor.GetCodigo
+   mNombreVendedorOriginal = insVendedor.GetNombre
+   mCodigoVendedorOriginal = insVendedor.GetCodigo
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sAssignFieldsFromConnectionVendedor", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
-Public Sub sLoadObjectValues(ByVal valVendedorNavigator As Object, ByVal valProyCompaniaActual As Object)
+Public Sub sLoadObjectValues(ByVal valVendedorNavigator As Object, ByVal valProyCompaniaActual As Object, ByVal valConexionesSawAOS As Object)
 On Error GoTo h_ERROR
    Set insVendedor = valVendedorNavigator
+   Set insCnxAos = valConexionesSawAOS
    Set gProyCompaniaActual = valProyCompaniaActual
    sInitLookAndFeel
 h_EXIT: On Error GoTo 0
    Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "sLoadObjectValues", CM_MESSAGE_NAME, GetGender, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
-
-

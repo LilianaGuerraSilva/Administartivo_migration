@@ -664,6 +664,23 @@ namespace Galac.Saw.DDL {
 			bool vResult = new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarTabla();
 			return vResult;
 		}
+
+        public bool CrearVendedor() {
+            bool vResult;
+            vResult = new Galac.Adm.Dal.Vendedor.clsVendedorED().InstalarTabla();
+            if (CreateCompatibilityView) {
+                vResult = vResult && clsCompatViews.CrearVistaDboVendedor();
+                vResult = vResult && clsCompatViews.CrearVistaDboRenglonComisionesDeVendedor();
+            }
+            return vResult;
+        }
+
+        public bool CrearRutaDeComercializacion() {
+            bool vResult;
+            vResult = new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarTabla();            
+            return vResult;
+        }
+
         public bool CrearVistasYProcedimientos(string[] valModulos) {
             bool vResult = true;
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Usuario")) {
@@ -797,7 +814,7 @@ namespace Galac.Saw.DDL {
                 vResult = vResult && new Galac.Saw.Dal.SttDef.clsSettValueByCompanyED().InstalarVistasYSps();
             }
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "Vendedor")) {
-                vResult = vResult && new Galac.Saw.Dal.Vendedor.clsVendedorED().InstalarVistasYSps();
+                vResult = vResult && new Galac.Adm.Dal.Vendedor.clsVendedorED().InstalarVistasYSps();
             }
             if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "ConceptoBancario")) {
                 vResult = vResult && new Galac.Adm.Dal.Banco.clsConceptoBancarioED().InstalarVistasYSps();
@@ -923,6 +940,9 @@ namespace Galac.Saw.DDL {
 			if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "TransferenciaEntreCuentasBancarias")) {
 				vResult = vResult && new Galac.Adm.Dal.Banco.clsTransferenciaEntreCuentasBancariasED().InstalarVistasYSps();
 			}
+            if (LibGalac.Aos.Base.LibArray.Contains(valModulos, "RutaDeComercializacion")) {
+                vResult = vResult && new Galac.Saw.Dal.Tablas.clsRutaDeComercializacionED().InstalarVistasYSps();
+            }
             return vResult;
         }
     }

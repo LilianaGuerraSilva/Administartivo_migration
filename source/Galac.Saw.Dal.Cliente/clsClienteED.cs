@@ -36,6 +36,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("Contacto" + InsSql.VarCharTypeForDb(35) + " CONSTRAINT d_CliCo DEFAULT (''), ");
             SQL.AppendLine("ZonaDeCobranza" + InsSql.VarCharTypeForDb(20) + " CONSTRAINT d_CliZoDeCo DEFAULT (''), ");
             SQL.AppendLine("CodigoVendedor" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CliCoVe DEFAULT (''), ");
+            SQL.AppendLine("ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + " CONSTRAINT nnClienteConVen NOT NULL, ");
             SQL.AppendLine("RazonInactividad" + InsSql.VarCharTypeForDb(35) + " CONSTRAINT d_CliRaIn DEFAULT (''), ");
             SQL.AppendLine("Email" + InsSql.VarCharTypeForDb(100) + " CONSTRAINT d_CliEm DEFAULT (''), ");
             SQL.AppendLine("ActivarAvisoAlEscoger" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCliActivarAvi NOT NULL, ");
@@ -68,9 +69,9 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine(", CONSTRAINT fk_ClienteZonaCobranza FOREIGN KEY (ConsecutivoCompania, ZonaDeCobranza)");
             SQL.AppendLine("REFERENCES Saw.ZonaCobranza(ConsecutivoCompania, Nombre)");
             SQL.AppendLine("ON UPDATE CASCADE");
-            SQL.AppendLine(", CONSTRAINT fk_ClienteVendedor FOREIGN KEY (ConsecutivoCompania, CodigoVendedor)");
-            SQL.AppendLine("REFERENCES dbo.Vendedor(ConsecutivoCompania, codigo)");
-            SQL.AppendLine("ON UPDATE CASCADE");
+            SQL.AppendLine(", CONSTRAINT fk_ClienteVendedor FOREIGN KEY (ConsecutivoCompania, ConsecutivoVendedor)");
+            SQL.AppendLine("REFERENCES Adm.Vendedor(ConsecutivoCompania, Consecutivo)");
+            SQL.AppendLine("ON UPDATE NO ACTION");
             SQL.AppendLine(", CONSTRAINT fk_ClienteCuenta FOREIGN KEY (ConsecutivoCompania, CuentaContableCxC)");
             SQL.AppendLine("REFERENCES dbo.Cuenta(ConsecutivoCompania, codigo)");
             SQL.AppendLine("ON UPDATE CASCADE");
@@ -95,7 +96,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("SELECT Cliente.ConsecutivoCompania, Cliente.Consecutivo, Cliente.Codigo, Cliente.Nombre, Cliente.NumeroRIF");
             SQL.AppendLine(", Cliente.NumeroNIT, Cliente.Direccion, Cliente.Ciudad, Cliente.ZonaPostal");
             SQL.AppendLine(", Cliente.Telefono, Cliente.FAX, Cliente.Status, " + DbSchema + ".Gv_EnumStatusCliente.StrValue AS StatusStr, Cliente.Contacto");
-            SQL.AppendLine(", Cliente.ZonaDeCobranza, Cliente.CodigoVendedor, Cliente.RazonInactividad, Cliente.Email");
+            SQL.AppendLine(", Cliente.ZonaDeCobranza, Cliente.CodigoVendedor, Cliente.ConsecutivoVendedor, Cliente.RazonInactividad, Cliente.Email");
             SQL.AppendLine(", Cliente.ActivarAvisoAlEscoger, Cliente.TextoDelAviso, Cliente.CuentaContableCxC, Cliente.CuentaContableIngresos");
             SQL.AppendLine(", Cliente.CuentaContableAnticipo, Cliente.InfoGalac, Cliente.SectorDeNegocio, Cliente.CodigoLote, Cliente.NivelDePrecio, " + DbSchema + ".Gv_EnumNivelDePrecio.StrValue AS NivelDePrecioStr");
             SQL.AppendLine(", Cliente.Origen, " + DbSchema + ".Gv_EnumOrigenFacturacionOManual.StrValue AS OrigenStr, Cliente.DiaCumpleanos, Cliente.MesCumpleanos, Cliente.CorrespondenciaXEnviar");
@@ -142,6 +143,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("@Contacto" + InsSql.VarCharTypeForDb(35) + " = '',");
             SQL.AppendLine("@ZonaDeCobranza" + InsSql.VarCharTypeForDb(100) + ",");
             SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@RazonInactividad" + InsSql.VarCharTypeForDb(35) + " = '',");
             SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(100) + " = '',");
             SQL.AppendLine("@ActivarAvisoAlEscoger" + InsSql.CharTypeForDb(1) + " = 'N',");
@@ -193,6 +195,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("            Contacto,");
             SQL.AppendLine("            ZonaDeCobranza,");
             SQL.AppendLine("            CodigoVendedor,");
+            SQL.AppendLine("            ConsecutivoVendedor,");
             SQL.AppendLine("            RazonInactividad,");
             SQL.AppendLine("            Email,");
             SQL.AppendLine("            ActivarAvisoAlEscoger,");
@@ -232,6 +235,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("            @Contacto,");
             SQL.AppendLine("            @ZonaDeCobranza,");
             SQL.AppendLine("            @CodigoVendedor,");
+            SQL.AppendLine("            @ConsecutivoVendedor,");
             SQL.AppendLine("            @RazonInactividad,");
             SQL.AppendLine("            @Email,");
             SQL.AppendLine("            @ActivarAvisoAlEscoger,");
@@ -283,6 +287,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("@Contacto" + InsSql.VarCharTypeForDb(35) + ",");
             SQL.AppendLine("@ZonaDeCobranza" + InsSql.VarCharTypeForDb(20) + ",");
             SQL.AppendLine("@CodigoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
+            SQL.AppendLine("@ConsecutivoVendedor" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@RazonInactividad" + InsSql.VarCharTypeForDb(35) + ",");
             SQL.AppendLine("@Email" + InsSql.VarCharTypeForDb(100) + ",");
             SQL.AppendLine("@ActivarAvisoAlEscoger" + InsSql.CharTypeForDb(1) + ",");
@@ -344,6 +349,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("               Contacto = @Contacto,");
             SQL.AppendLine("               ZonaDeCobranza = @ZonaDeCobranza,");
             SQL.AppendLine("               CodigoVendedor = @CodigoVendedor,");
+            SQL.AppendLine("               ConsecutivoVendedor = @ConsecutivoVendedor,");
             SQL.AppendLine("               RazonInactividad = @RazonInactividad,");
             SQL.AppendLine("               Email = @Email,");
             SQL.AppendLine("               ActivarAvisoAlEscoger = @ActivarAvisoAlEscoger,");
@@ -483,6 +489,7 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("         Cliente.Status,");
             SQL.AppendLine("         Cliente.Contacto,");
             SQL.AppendLine("         Cliente.ZonaDeCobranza,");
+            SQL.AppendLine("         Cliente.ConsecutivoVendedor,");
             SQL.AppendLine("         Cliente.CodigoVendedor,");
             SQL.AppendLine("         Cliente.RazonInactividad,");
             SQL.AppendLine("         Cliente.Email,");
@@ -550,7 +557,8 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.Ciudad,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.ZonaPostal,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.ZonaDeCobranza,");
-            SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.CodigoVendedor,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.ConsecutivoVendedor,");
+			SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.CodigoVendedor,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.SectorDeNegocio,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.StatusStr,");
             SQL.AppendLine("      " + DbSchema + ".Gv_Cliente_B1.ActivarAvisoAlEscoger,");
@@ -592,7 +600,8 @@ namespace Galac.Saw.Dal.Cliente {
             SQL.AppendLine("      " + DbSchema + ".Cliente.ZonaPostal,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.Telefono,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.ZonaDeCobranza,");
-            SQL.AppendLine("      " + DbSchema + ".Cliente.CodigoVendedor,");
+            SQL.AppendLine("      " + DbSchema + ".Cliente.ConsecutivoVendedor,");
+			SQL.AppendLine("      " + DbSchema + ".Cliente.CodigoVendedor,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.CuentaContableCxC,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.CuentaContableIngresos,");
             SQL.AppendLine("      " + DbSchema + ".Cliente.CuentaContableAnticipo,");
@@ -631,7 +640,7 @@ namespace Galac.Saw.Dal.Cliente {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteINS",SqlSpInsParameters(),SqlSpIns(),true);
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteUPD",SqlSpUpdParameters(),SqlSpUpd(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteDEL",SqlSpDelParameters(),SqlSpDel(),true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteGET",SqlSpGetParameters(),SqlSpGet(),true);
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteGET",SqlSpGetParameters(),SqlSpGet(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteSCH",SqlSpSearchParameters(),SqlSpSearch(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ClienteGetFk",SqlSpGetFKParameters(),SqlSpGetFK(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_ObtenerPaginaDeClientesPorNombre",SqlObtenerPaginaDeClientesParametros(),SqlObtenerPaginaDeClientesPorNombreSentencia(),true) && vResult;

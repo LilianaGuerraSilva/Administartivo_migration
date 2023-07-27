@@ -43,12 +43,11 @@ Public Function fSQLgenerarContrato(ByVal valConsecutivoCompania As Long, ByVal 
          "contrato.Observaciones, contrato.DuracionDelContrato, " & _
          "contrato.Moneda, contrato.CodigoVendedor, "
    SQL = SQL & gUtilSQL.getIIF("FacturarAOtroCliente = " & gUtilSQL.fBooleanToSqlValue(True), "contrato.NombreClienteAfacturar", "Cliente.Nombre") & " AS NombreDelCliente,"
-   SQL = SQL & " vendedor.Nombre AS NombreDelVendedor, " & _
-         "contrato.CodigoMoneda"
+   SQL = SQL & " vendedor.Nombre AS NombreDelVendedor, vendedor.Consecutivo AS ConsecutivoVendedor, contrato.CodigoMoneda"
    SQL = SQL & " FROM contrato INNER JOIN cliente"
    SQL = SQL & " ON ( contrato.ConsecutivoCompania = cliente.ConsecutivoCompania"
    SQL = SQL & " AND cliente.Codigo =  contrato.CodigoCliente)"
-   SQL = SQL & " INNER JOIN vendedor"
+   SQL = SQL & " INNER JOIN adm.vendedor"
    SQL = SQL & " ON (contrato.ConsecutivoCompania = vendedor.ConsecutivoCompania"
    SQL = SQL & " AND vendedor.Codigo = contrato.CodigoVendedor)"
    SQL = SQL & " WHERE contrato.ConsecutivoCompania = " & valConsecutivoCompania & _

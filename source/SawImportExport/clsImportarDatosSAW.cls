@@ -93,6 +93,7 @@ Private EnumSystemModules As enum_SystemModules
 Private insImportar As clsImportar
 Private mSeImportaComoHistorica As Boolean
 'VENDEDORES
+Private vConsecutivoVendedor As Integer
 Private vRIF As String
 Private vStatusVendedor As String
 Private vDireccion As String
@@ -131,6 +132,7 @@ Private vUsaComisionPorCobranza As Boolean
 Private mNombreDeLineaDeProducto As String
 Private mTipoDeComision As String
 Private mPorcentaje As Currency
+Private vConsecutivoRutaDeComercialzacion As Integer
 'CxC
 Private mNumeroYTipoDeCxC As String
 'Cotizacion
@@ -582,7 +584,15 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    insCliente.SetZonaPostal gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCliente.SetZonaDeCobranza gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCliente.SetSectorDeNegocio gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCliente.SetCodigoVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+   If (vConsecutivoVendedor > 1) Then
+      insCliente.SetCodigoVendedor vCodigoVendedor
+      insCliente.SetConsecutivoVendedor vConsecutivoVendedor
+   Else
+      insCliente.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      insCliente.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCliente.GetCodigoVendedor)
+   End If
    insCliente.SetEsExtranjero gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCliente.SetEmail gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCliente.SetContacto gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -608,55 +618,55 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    If valVerificarSiEstaRepetido Then
       If gTexto.DfLen(insCliente.GetCodigo) = 0 Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  no puede estar en blanco .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  no puede estar en blanco .:::"
       ElseIf insCliente.fSearchByField("Codigo", insCliente.GetCodigo, False, False) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  ya esta registrado en el sistema .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  ya esta registrado en el sistema .:::"
       ElseIf insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, valLineaActual, insCliente.GetCodigo, CM_INDEX_CODIGO_CLIENTE) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  aparece más de una vez en el archivo de importación .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  aparece más de una vez en el archivo de importación .:::"
       Else
          If CM_INDEX_CODIGO_CLIENTE < UBound(mVectorDeVerificaciones) And CM_INDEX_CODIGO_CLIENTE >= LBound(mVectorDeVerificaciones) Then
             mVectorDeVerificaciones(CM_INDEX_CODIGO_CLIENTE, valLineaActual) = insCliente.GetCodigo
          End If
          LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetCodigo), " ")
       End If
-      If gTexto.DfLen(insCliente.getNombre) = 0 Then
+      If gTexto.DfLen(insCliente.GetNombre) = 0 Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  no puede estar en blanco .:::"
-      ElseIf insCliente.fSearchByField("Nombre", insCliente.getNombre, False, False) Then
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  no puede estar en blanco .:::"
+      ElseIf insCliente.fSearchByField("Nombre", insCliente.GetNombre, False, False) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  ya esta registrado en el sistema .:::"
-      ElseIf insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, valLineaActual, insCliente.getNombre, CM_INDEX_NOMBRE_CLIENTE) Then
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  ya esta registrado en el sistema .:::"
+      ElseIf insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, valLineaActual, insCliente.GetNombre, CM_INDEX_NOMBRE_CLIENTE) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  aparece más de una vez en el archivo de importación .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Nombre del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  aparece más de una vez en el archivo de importación .:::"
       Else
          If CM_INDEX_NOMBRE_CLIENTE < UBound(mVectorDeVerificaciones) And CM_INDEX_NOMBRE_CLIENTE >= LBound(mVectorDeVerificaciones) Then
-            mVectorDeVerificaciones(CM_INDEX_NOMBRE_CLIENTE, valLineaActual) = insCliente.getNombre
+            mVectorDeVerificaciones(CM_INDEX_NOMBRE_CLIENTE, valLineaActual) = insCliente.GetNombre
          End If
-         LineaDeErrores = LineaDeErrores & String(Len(insCliente.getNombre), " ")
+         LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetNombre), " ")
       End If
       If gTexto.DfLen(insCliente.getNumeroRIF) = 0 Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de RIF  del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  no puede estar en blanco .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de RIF  del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  no puede estar en blanco .:::"
       ElseIf insCliente.fSearchByField("NumeroRIF", insCliente.getNumeroRIF, False, False) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de RIF  del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & " - RIF: " & insCliente.getNumeroRIF & " <==  ya esta registrado en el sistema .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de RIF  del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & " - RIF: " & insCliente.getNumeroRIF & " <==  ya esta registrado en el sistema .:::"
       ElseIf insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, valLineaActual, insCliente.getNumeroRIF, CM_INDEX_RIF_CLIENTE) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de RIF  del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & " - RIF: " & insCliente.getNumeroRIF & "<==  aparece más de una vez en el archivo de importación .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de RIF  del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & " - RIF: " & insCliente.getNumeroRIF & "<==  aparece más de una vez en el archivo de importación .:::"
       ElseIf Not insInputCamposEspeciales.fNumeroDeRifIsValid(insCliente.getNumeroRIF, False) And valVerificarSiEstaRepetido Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & " ERROR EL Número de RIF (" & insCliente.getNumeroRIF & ") del Proveedor  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  no es válido, por lo tanto este registro no se importará."
+         LineaDeErrores = LineaDeErrores & " ERROR EL Número de RIF (" & insCliente.getNumeroRIF & ") del Proveedor  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  no es válido, por lo tanto este registro no se importará."
       Else
-        LineaDeErrores = LineaDeErrores & String(Len(insCliente.getNombre), " ")
+        LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetNombre), " ")
         LineaDeErrores = LineaDeErrores & String(Len(insCliente.getNumeroRIF), " ")
       End If
       LineaDeErrores = LineaDeErrores & String(Len(insCliente.getNumeroNIT), " ")
       If gTexto.DfLen(insCliente.GetCuentaContableCxC) > 0 Then
          If Not insCtaContable.fSearchCuentaByCodigo(insCliente.GetCuentaContableCxC) Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR La Cta. Contable para CxC del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  No esta definida en el catalogo de cuentas, se colocará en blanco .:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR La Cta. Contable para CxC del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  No esta definida en el catalogo de cuentas, se colocará en blanco .:::"
          Else
             LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetCuentaContableCxC), " ")
          End If
@@ -666,7 +676,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
       If gTexto.DfLen(insCliente.GetCuentaContableIngresos) > 0 Then
          If Not insCtaContable.fSearchCuentaByCodigo(insCliente.GetCuentaContableIngresos) Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR La Cta. Contable para Ingresos del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  No esta definida en el catalogo de cuentas, se colocará en blanco .:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR La Cta. Contable para Ingresos del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  No esta definida en el catalogo de cuentas, se colocará en blanco .:::"
          Else
             LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetCuentaContableIngresos), " ")
          End If
@@ -676,29 +686,29 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
       If gTexto.DfLen(insCliente.GetStatusStr) > 0 Then
          If gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_ACTIVO And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_DATOS_DESACTUALIZADOS And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_INACTIVO And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_RESTRINGIDO And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_SUSPENDIDO And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_TIEMPO_SIN_CONTACTO Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Status no válido para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   se reemplazará por " & gEnumProyecto.enumStatusClienteToString(eSC_ACTIVO) & " .:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Status no válido para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==   se reemplazará por " & gEnumProyecto.enumStatusClienteToString(eSC_ACTIVO) & " .:::"
          Else
             LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetStatusStr), " ")
          End If
       Else
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Status del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por " & gEnumProyecto.enumStatusClienteToString(eSC_ACTIVO) & " .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Status del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  esta en blanco. Se remplazará por " & gEnumProyecto.enumStatusClienteToString(eSC_ACTIVO) & " .:::"
       End If
-      LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetTelefono), " ")
+      LineaDeErrores = LineaDeErrores & String(Len(insCliente.getTelefono), " ")
       LineaDeErrores = LineaDeErrores & String(Len(insCliente.getFax), " ")
       LineaDeErrores = LineaDeErrores & String(Len(insCliente.getDireccion), " ")
-      If gTexto.DfLen(insCliente.GetCiudad) > 0 Then
-         If Not insCiudad.fSearchByField("NombreCiudad", insCliente.GetCiudad, False) Then
+      If gTexto.DfLen(insCliente.getCiudad) > 0 Then
+         If Not insCiudad.fSearchByField("NombreCiudad", insCliente.getCiudad, False) Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó una Ciudad <<< " & insCliente.GetCiudad & " >>> para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenada en la Tabla de Ciudades. Se incluirá automaticamente.:::"
-            insCiudad.SetNombreCiudad (insCliente.GetCiudad)
+            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó una Ciudad <<< " & insCliente.getCiudad & " >>> para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==   que no esta Almacenada en la Tabla de Ciudades. Se incluirá automaticamente.:::"
+            insCiudad.SetNombreCiudad (insCliente.getCiudad)
             insCiudad.fInsert
          Else
-            LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetCiudad), " ")
+            LineaDeErrores = LineaDeErrores & String(Len(insCliente.getCiudad), " ")
          End If
       Else
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Status del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por " & gEnumProyecto.enumStatusClienteToString(eSC_ACTIVO) & " .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Status del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  esta en blanco. Se remplazará por " & gEnumProyecto.enumStatusClienteToString(eSC_ACTIVO) & " .:::"
       End If
-      LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetZonaPostal), " ")
+      LineaDeErrores = LineaDeErrores & String(Len(insCliente.getZonaPostal), " ")
       If gTexto.DfLen(insCliente.GetZonaDeCobranza) > 0 Then
          Set mrsZona = New ADODB.Recordset
          existeZona = False
@@ -706,7 +716,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
          If gDbUtil.fOpenRecordSetAllParameters(mrsZona, SQL, gDefDatabase.Conexion, adLockOptimistic, adUseClient, adOpenStatic) Then
             If mrsZona.RecordCount <= 0 Then
                ErrorAlTraducirLaLinea = True
-               LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó la Zona de Cobranza '" & insCliente.GetZonaDeCobranza & "' para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenada en la Tabla de Zonas de Cobranza. Se reemplazará por >> " & fPrimerZonaCobranza & " << .:::"
+               LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó la Zona de Cobranza '" & insCliente.GetZonaDeCobranza & "' para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==   que no esta Almacenada en la Tabla de Zonas de Cobranza. Se reemplazará por >> " & fPrimerZonaCobranza & " << .:::"
                existeZona = False
             Else
                LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetStatusStr), " ")
@@ -715,27 +725,27 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
          End If
          Set mrsZona = Nothing
       Else
-         LineaDeErrores = LineaDeErrores & ":::. ERROR La Zona de Cobranza del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por >> " & fPrimerZonaCobranza & " << .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR La Zona de Cobranza del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  esta en blanco. Se remplazará por >> " & fPrimerZonaCobranza & " << .:::"
       End If
       If gTexto.DfLen(insCliente.GetSectorDeNegocio) > 0 Then
          If Not insSectorNegocio.fSearchByField("Descripcion", insCliente.GetSectorDeNegocio, False, False) Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Sector de Negocios para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenado en la Tabla de Sector de Negocio. Se reemplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio & " << .:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Sector de Negocios para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==   que no esta Almacenado en la Tabla de Sector de Negocio. Se reemplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio & " << .:::"
          Else
             LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetStatusStr), " ")
          End If
       Else
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Sector de Negocios del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio & " << .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Sector de Negocios del Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  esta en blanco. Se remplazará por >> " & insSectorNegocio.fPrimerSectorDeNegocio & " << .:::"
       End If
-      If gTexto.DfLen(insCliente.getCodigoVendedor) > 0 Then
-         If Not insVendedor.fSearchByField("Codigo", insCliente.getCodigoVendedor, False, False) Then
+      If gTexto.DfLen(insCliente.GetCodigoVendedor) > 0 Then
+         If Not insVendedor.fSearchByField("Codigo", insCliente.GetCodigoVendedor, False, False) Then
             ErrorAlTraducirLaLinea = True
-            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Código de Vendedor para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==   que no esta Almacenado en el Sistema. Se reemplazará por >> " & gProyParametrosCompania.getCodigoGenericoVendedor & " <<, que corresponde al código del vendedor genérico asignado en los parámetros de esta compañía .:::"
+            LineaDeErrores = LineaDeErrores & ":::. ERROR Indicó un Código de Vendedor para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==   que no esta Almacenado en el Sistema. Se reemplazará por >> " & gProyParametrosCompania.getCodigoGenericoVendedor & " <<, que corresponde al código del vendedor genérico asignado en los parámetros de esta compañía .:::"
          Else
             LineaDeErrores = LineaDeErrores & String(Len(insCliente.GetStatusStr), " ")
          End If
       Else
-         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Vendedor asignado para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.getNombre & "<==  esta en blanco. Se remplazará por >> " & gProyParametrosCompania.getCodigoGenericoVendedor & " << .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR El Código del Vendedor asignado para el Cliente  ==>" & insCliente.GetCodigo & "-" & insCliente.GetNombre & "<==  esta en blanco. Se remplazará por >> " & gProyParametrosCompania.getCodigoGenericoVendedor & " << .:::"
       End If
    End If
    If gTexto.DfLen(insCliente.GetCuentaContableCxC) > 0 And Not insCtaContable.fSearchCuentaByCodigo(insCliente.GetCuentaContableCxC) Then
@@ -747,7 +757,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    If gTexto.DfLen(insCliente.GetStatusStr) = 0 Or (gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_ACTIVO And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_DATOS_DESACTUALIZADOS And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_INACTIVO And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_RESTRINGIDO And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_SUSPENDIDO And gEnumProyecto.strStatusClienteToNum(insCliente.GetStatusStr) <> enum_StatusCliente.eSC_TIEMPO_SIN_CONTACTO) Then
       insCliente.SetStatusStr gEnumProyecto.enumStatusClienteToString(eSC_ACTIVO)
    End If
-   If gTexto.DfLen(insCliente.GetCiudad) = 0 Or Not insCiudad.fSearchByField("NombreCiudad", insCliente.GetCiudad, False, False) Then
+   If gTexto.DfLen(insCliente.getCiudad) = 0 Or Not insCiudad.fSearchByField("NombreCiudad", insCliente.getCiudad, False, False) Then
       insCliente.SetCiudad mCiudadCompaniaActual
    End If
    If gTexto.DfLen(insCliente.GetZonaDeCobranza) = 0 Or Not existeZona Then
@@ -756,7 +766,7 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    If gTexto.DfLen(insCliente.GetSectorDeNegocio) = 0 Or Not insSectorNegocio.fSearchByField("Descripcion", insCliente.GetSectorDeNegocio, False, False) Then
       insCliente.SetSectorDeNegocio insSectorNegocio.fPrimerSectorDeNegocio
    End If
-   If gTexto.DfLen(insCliente.getCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCliente.getCodigoVendedor, False, False) Then
+   If gTexto.DfLen(insCliente.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCliente.GetCodigoVendedor, False, False) Then
       insCliente.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
    End If
    If (insCliente.GetDiaCumpleanos < 1) Or (insCliente.GetDiaCumpleanos > 31) Then
@@ -861,28 +871,88 @@ Private Function fDistribuyeLaLineaVendedor(ByRef refLineaActual As String, ByVa
       vMonto = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
       mPorcentaje = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    End If
+   vConsecutivoRutaDeComercialzacion = gUtilImport.fToInt(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
+   If Not gDbUtil.fRecordCountOfSql("SELECT Consecutivo FROM Saw.RutaDeComercializacion WHERE ConsecutivoCompania = " & vConsecutivoCompania & " AND Consecutivo = " & vConsecutivoRutaDeComercialzacion) > 0 Then
+      vConsecutivoRutaDeComercialzacion = 1
+   End If
 h_EXIT: On Error GoTo 0
    fDistribuyeLaLineaVendedor = True
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fDistribuyeLaLineaVendedor", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fInsertarVendedor(ByVal NumeroDeLineaActual As Long) As Boolean
-   Dim Continuar As Boolean
+Private Function fInsertarVendedor() As Boolean
+   Dim vResult As Boolean
+   Dim insUtAdoCmd As clsUtilAdoCmd
+   Dim vCmd As ADODB.Command
+   Dim vSql As String
+   Dim Rs As ADODB.Recordset
    On Error GoTo h_ERROR
-   Continuar = False
-   If Not gTexto.DfLen(insVendedor.GetCodigo) = 0 Then
+   vConsecutivoVendedor = 1
+   vResult = False
+   Set insUtAdoCmd = New clsUtilAdoCmd
+   Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorINS", gDefDatabase.Conexion)
+   Set Rs = New ADODB.Recordset
+   vSql = "SELECT ISNULL(MAX(Consecutivo), 0) + 1 AS SiguienteConsecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
+   If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
+      vConsecutivoVendedor = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("SiguienteConsecutivo").Value))
+   End If
+   Set Rs = Nothing
+   If Not insVendedor.fSearchByField("Consecutivo", vConsecutivoVendedor, False, False) Then
       If Not insVendedor.fSearchByField("Codigo", insVendedor.GetCodigo, False, False) Then
-         If insVendedor.fInsert(insertar, True, False) Then
-            If fInsertarComisionesDelVendedor Then
-               Continuar = True
-            End If
-          End If
+         insVendedor.SetConsecutivo vConsecutivoVendedor
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", gProyParametrosCompania.GetConsecutivoCompania)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", vConsecutivoVendedor)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Codigo", 5, insVendedor.GetCodigo)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Nombre", 35, insVendedor.GetNombre)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@RIF", 20, insVendedor.getRIF)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@StatusVendedor", 1, gConvert.enumerativoAChar(gEnumProyecto.strStatusVendedorToNum(insVendedor.GetStatusVendedorStr, False)))
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Direccion", 255, insVendedor.getDireccion)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Ciudad", 100, insVendedor.getCiudad)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@ZonaPostal", 7, insVendedor.getZonaPostal)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Telefono", 40, insVendedor.getTelefono)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Fax", 20, insVendedor.getFax)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Email", 40, insVendedor.getEmail)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Notas", 255, insVendedor.getNotas)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoRutaDeComercializacion", insVendedor.getConsecutivoRutaDeComercializacion)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@ComisionPorVenta", insVendedor.getComisionPorVenta)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@ComisionPorCobro", insVendedor.getComisionPorCobro)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeInicialVenta1", insVendedor.getTopeInicialVenta1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta1", insVendedor.getTopeFinalVenta1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas1", insVendedor.getPorcentajeVentas1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta2", insVendedor.GetTopeFinalVenta2)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas2", insVendedor.getPorcentajeVentas2)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta3", insVendedor.GetTopeFinalVenta3)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas3", insVendedor.GetPorcentajeVentas3)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta4", insVendedor.GetTopeFinalVenta4)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas4", insVendedor.GetPorcentajeVentas4)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalVenta5", insVendedor.GetTopeFinalVenta5)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeVentas5", insVendedor.GetPorcentajeVentas5)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeInicialCobranza1", insVendedor.GetTopeInicialCobranza1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza1", insVendedor.GetTopeFinalCobranza1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza1", insVendedor.GetPorcentajeCobranza1)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza2", insVendedor.GetTopeFinalCobranza2)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza2", insVendedor.GetPorcentajeCobranza2)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza3", insVendedor.GetTopeFinalCobranza3)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza3", insVendedor.GetPorcentajeCobranza3)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza4", insVendedor.GetTopeFinalCobranza4)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza4", insVendedor.GetPorcentajeCobranza4)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@TopeFinalCobranza5", insVendedor.GetTopeFinalCobranza5)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@PorcentajeCobranza5", insVendedor.GetPorcentajeCobranza5)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterBooleanSN("@UsaComisionPorVenta", insVendedor.GetUsaComisionPorVenta)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterBooleanSN("@UsaComisionPorCobranza", insVendedor.GetUsaComisionPorCobranza)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoLote", 10, insVendedor.GetCodigoLote)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreOperador", 10, insVendedor.GetNombreOperador)
+         vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterDate("@FechaUltimaModificacion", gUtilDate.getFechaDeHoy)
+         insUtAdoCmd.fExecCmd vCmd
+         vResult = True
       End If
    End If
+   Set vCmd = Nothing
 h_EXIT: On Error GoTo 0
-   fInsertarVendedor = Continuar
+   fInsertarVendedor = vResult
    Exit Function
+   fInsertarVendedor = False
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fInsertarVendedor", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
@@ -901,6 +971,7 @@ Private Sub sSeteaValoresDeLaLineaDelArchivo_VENDEDOR()
       .SetFax vFax
       .SetEmail vEmail
       .SetNotas vNotas
+      .SetConsecutivoRutaDeComercializacion vConsecutivoRutaDeComercialzacion
       .SetComisionPorVenta vComisionPorVenta
       .SetComisionPorCobro vComisionPorCobro
       .SetTopeInicialVenta1 vTopeInicialVenta1
@@ -932,15 +1003,17 @@ Private Sub sSeteaValoresDeLaLineaDelArchivo_VENDEDOR()
       .SetCodigoLote mCodigoLote
    End With
    If gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreRenglones Or gProyParametrosCompania.GetComisionesEnFacturaAsEnum = eCEF_SobreTotalFacturayRenglones Then
-      With insRenglonComisionesDeVendedor
-         .SetConsecutivoCompania mConsecutivoCompaniaActual
-         .SetCodigoVendedor mValorDelCampoDeId
-         .SetConsecutivoRenglon mConsecutivoRenglon
-         .SetNombreDeLineaDeProducto mNombreDeLineaDeProducto
-         .SetTipoDeComisionStr gEnumProyecto.enumTipoComisionToString(gEnumProyecto.fSiglasTipoComisionToEnum(mTipoDeComision))
-         .SetMonto vMonto
-         .SetPorcentaje mPorcentaje
-      End With
+      If mConsecutivoRenglon > 0 Then
+         With insRenglonComisionesDeVendedor
+            .SetConsecutivoCompania mConsecutivoCompaniaActual
+            .SetCodigoVendedor mValorDelCampoDeId
+            .SetConsecutivo mConsecutivoRenglon
+            .SetNombreDeLineaDeProducto mNombreDeLineaDeProducto
+            .SetTipoDeComisionStr gEnumProyecto.enumTipoComisionToString(gEnumProyecto.fSiglasTipoComisionToEnum(mTipoDeComision))
+            .SetMonto vMonto
+            .SetPorcentaje mPorcentaje
+         End With
+      End If
    End If
 h_EXIT: On Error GoTo 0
    Exit Sub
@@ -950,13 +1023,13 @@ End Sub
 Private Function fImportaLineasVendedoryComision(ByVal NumeroDeLineaActual As Long) As Boolean
    Dim exito As Boolean
    On Error GoTo h_ERROR
-   If fInsertarVendedor(NumeroDeLineaActual) Then
-      mNregistroAInsertar = mNregistroAInsertar + 1
-      exito = True
+   If fInsertarVendedor() Then
+      If fInsertarComisionesDelVendedor(NumeroDeLineaActual) Then
+         mNregistroAInsertar = mNregistroAInsertar + 1
+         exito = True
+      End If
    Else
-      mConsecutivoRenglon = insRenglonComisionesDeVendedor.fGenerateNextConsecutivoRenglon(insVendedor.GetCodigo)
-     insRenglonComisionesDeVendedor.SetConsecutivoRenglon mConsecutivoRenglon
-      If Not fInsertarComisionesDelVendedor Then
+      If Not fInsertarComisionesDelVendedor(NumeroDeLineaActual) Then
         gMessage.Advertencia "No se pudo importar algunos de los registros del vendedor " & insVendedor.GetCodigo
       Else
          exito = True
@@ -968,15 +1041,40 @@ h_EXIT:  On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fImportaLineasVendedoryComision", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Private Function fInsertarComisionesDelVendedor() As Boolean
+Private Function fInsertarComisionesDelVendedor(ByVal NumeroDeLineaActual As Long) As Boolean
    Dim Continuar As Boolean
+   Dim insUtAdoCmd As clsUtilAdoCmd
+   Dim vCmd As ADODB.Command
+   Dim vSql As String
+   Dim Rs As ADODB.Recordset
    On Error GoTo h_ERROR
    Continuar = False
-    If Not gTexto.DfLen(insRenglonComisionesDeVendedor.getCodigoVendedor) = 0 Then
-       If insRenglonComisionesDeVendedor.fInsert(insertar, True, False) Then
-          Continuar = True
-       End If
-    End If
+   Set Rs = New ADODB.Recordset
+   mConsecutivoRenglon = 1
+   vSql = "SELECT ISNULL(MAX(Consecutivo), 0) + 1 AS SiguienteConsecutivo FROM Adm.VendedorDetalleComisiones WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
+   vSql = vSql & " AND ConsecutivoVendedor = " & insVendedor.GetConsecutivo
+   If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
+      mConsecutivoRenglon = gConvert.ConvierteAInteger(gConvert.fConvierteAString(Rs("SiguienteConsecutivo").Value))
+   End If
+   If mConsecutivoRenglon > 0 Then
+      If insRenglonComisionesDeVendedor.GetNombreDeLineaDeProducto <> "" Then
+         insRenglonComisionesDeVendedor.SetConsecutivoVendedor insVendedor.GetConsecutivo
+         If insVendedor.fSearchByField("Consecutivo", insVendedor.GetConsecutivo, False, False) Then
+            Set insUtAdoCmd = New clsUtilAdoCmd
+            Set vCmd = insUtAdoCmd.fCreateCmd("Adm.Gp_VendedorDetalleComisionesINS", gDefDatabase.Conexion)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoCompania", insRenglonComisionesDeVendedor.GetConsecutivoCompania)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@ConsecutivoVendedor", insRenglonComisionesDeVendedor.GetConsecutivoVendedor)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterInteger("@Consecutivo", mConsecutivoRenglon)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NombreDeLineaDeProducto", 20, insRenglonComisionesDeVendedor.GetNombreDeLineaDeProducto)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDeComision", 1, gConvert.enumerativoAChar(gEnumProyecto.strTipoComisionToNum(insRenglonComisionesDeVendedor.GetTipoDeComisionStr, False)))
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@Monto", insRenglonComisionesDeVendedor.GetMonto)
+            vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterCurrency("@Porcentaje", insRenglonComisionesDeVendedor.GetPorcentaje)
+            insUtAdoCmd.fExecCmd vCmd
+            Set vCmd = Nothing
+         End If
+      End If
+   End If
+   Continuar = True
 h_EXIT: On Error GoTo 0
    fInsertarComisionesDelVendedor = Continuar
    Exit Function
@@ -988,11 +1086,11 @@ Private Sub sVerificaSiHayErrorEnLaLinea_VENDEDOR(ByVal NumeroDeLineaActual As L
    If gTexto.DfLen(mValorDelCampoDeId) = 0 Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  no puede estar en blanco .:::"
-   ElseIf insVendedor.fSearchByField("Codigo", mValorDelCampoDeId, False) Then
+   ElseIf insVendedor.fSearchByField("Codigo", mValorDelCampoDeId, False, False) Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Número de Código del Vendedor  ==>" & mValorDelCampoDeId & "<==  ya se encuentra registrado en el sistema .:::"
       RegistrosYaExistentesEnBD = RegistrosYaExistentesEnBD + 1
-   ElseIf insRenglonComisionesDeVendedor.fSearchByField("CodigoVendedor", mValorDelCampoDeId) Then
+   ElseIf insRenglonComisionesDeVendedor.fSearchByField("CodigoVendedor", mValorDelCampoDeId, False, True) Then
       ErrorAlTraducirLaLinea = True
       LineaDeErrores = LineaDeErrores & ":::. ERROR El Vendedor ==>" & vNombre & "<== de código ==>" & mValorDelCampoDeId & "<==  posee datos de Comisiones registradas en el sistema, para poder importar los datos de este vendedor, asegúrese de que el vendedor no se encuentre ya registrado en el sistema y de no ser este el caso, contacte a su administrador de bases de datos y notifíquele que la data está errada y deberá eliminar las comisiones asociadas a este vendedor inexistente, para poder llevar acabo la importación  .:::"
    ElseIf Not insImportar.fYaFueCargadoElItemEnElArray(mVectorDeVerificaciones, NumeroDeLineaActual, mValorDelCampoDeId, CM_INDEX_NUMERO_VENDEDOR) Then
@@ -1094,6 +1192,26 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Private Function fBuscarConsecutivoVendedor(ByVal valConsecutivoCompania As Integer, ByVal valCodigo As String) As Integer
+   Dim vResult As Integer
+   Dim vSql As String
+   Dim vRs As ADODB.Recordset
+   On Error GoTo h_ERROR
+   vResult = 1
+   Set vRs = New ADODB.Recordset
+   vSql = "SELECT Consecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
+   If gDbUtil.fOpenRecordset(vRs, vSql, Conexion) Then
+      If gDbUtil.fRecordCount(vRs) > 0 Then
+         vResult = gConvert.ConvierteAInteger(vRs.Fields("Consecutivo").Value)
+      End If
+   End If
+   Set vRs = Nothing
+h_EXIT: On Error GoTo 0
+   fBuscarConsecutivoVendedor = vResult
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fBuscarConsecutivoVendedor", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
 Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String) As Boolean
    Dim linea As String
    Dim var_AlicuotaIvaEnum As enum_TipoDeAlicuota
@@ -1118,7 +1236,7 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       vSql = "SELECT * FROM Cliente WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
       vSql = vSql & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(vCodigoCliente)
       If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-         If Rs.RecordCount > 0 Then
+         If gDbUtil.fRecordCount(Rs) > 0 Then
            If gTexto.DfLen(Rs.Fields("TipoDeContribuyente").Value) = 0 Then
              mTipoDeContribuyenteClienteFactura = "1"
            Else
@@ -1129,7 +1247,14 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       End If
       Set Rs = Nothing
       vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-      .SetCodigoVendedor vCodigoVendedor
+      vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+      If (vConsecutivoVendedor > 1) Then
+         .SetCodigoVendedor vCodigoVendedor
+         .SetConsecutivoVendedor vConsecutivoVendedor
+      Else
+         .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+         .SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, .GetCodigoVendedor)
+      End If
       vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetObservaciones vObservaciones
       vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -1770,6 +1895,7 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
    Dim TextoAuxiliar As String
+   Dim vNombreVendedor As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -1781,8 +1907,18 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
    mNumeroYTipoDeCxC = insCxC.GetNumero + insCxC.GetTipoCxCStr
    insCxC.SetCodigoCliente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNombreCliente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxC.SetCodigoVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxC.SetNombreVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vNombreVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+   If (vConsecutivoVendedor > 1) Then
+      insCxC.SetCodigoVendedor vCodigoVendedor
+      insCxC.SetNombreVendedor vNombreVendedor
+      insCxC.SetConsecutivoVendedor vConsecutivoVendedor
+   Else
+      insCxC.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      insCxC.SetNombreVendedor "OFICINA"
+      insCxC.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCxC.GetCodigoVendedor)
+   End If
    insCxC.SetFecha gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaCancelacion gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaVencimiento gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -1800,7 +1936,7 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
    insCxC.SetNumeroDocumentoOrigen gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNoAplicaParaLibroDeVentas gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetMoneda fDevuelveElNombreDeLaMonedaIfExist(insCxC.GetCodigoMoneda)
-   insCxC.SetCodigoLote insLoteDeAdm.getCodigoLote
+   insCxC.SetCodigoLote insLoteDeAdm.GetCodigoLote
    insCxC.SetNumeroControl gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNumeroComprobanteFiscal gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    If valVerificarSiEstaRepetido Then
@@ -1846,11 +1982,11 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
       Else
          LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetNombreCliente), " ")
       End If
-      If gTexto.DfLen(insCxC.getCodigoVendedor) > 0 And Not insVendedor.fSearchByField("Codigo", insCxC.getCodigoVendedor, False, False) Then
+      If gTexto.DfLen(insCxC.GetCodigoVendedor) > 0 And Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor, False, False) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR el vendedor " & insCxC.getCodigoVendedor & " de la CxC Nro " & insCxC.GetNumero & " No esta registrado en el sistema. Debe incluirlo antes de ejecutar el proceso .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR el vendedor " & insCxC.GetCodigoVendedor & " de la CxC Nro " & insCxC.GetNumero & " No esta registrado en el sistema. Debe incluirlo antes de ejecutar el proceso .:::"
       Else
-         LineaDeErrores = LineaDeErrores & String(Len(insCxC.getCodigoVendedor), " ")
+         LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetCodigoVendedor), " ")
       End If
       If gTexto.DfLen(insCxC.GetNombreVendedor) > 0 And Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor, False, False) Then
          ErrorAlTraducirLaLinea = True
@@ -1921,7 +2057,7 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(insCxC.GetCodigoCliente) = 0 Or Not insCliente.fSearchByField("Codigo", insCxC.GetCodigoCliente, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxC.getCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCxC.getCodigoVendedor, False, False) Then
+      ElseIf gTexto.DfLen(insCxC.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor, False, False) Then
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(insCxC.GetNombreVendedor) = 0 Or Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor, False, False) Then
          refEsteRegistroSeIncluye = False
@@ -1964,6 +2100,7 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
    Dim TextoAuxiliar As String
+   Dim vNombreVendedor As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -1975,8 +2112,18 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
    mNumeroYTipoDeCxC = insCxC.GetNumero + insCxC.GetTipoCxCStr
    insCxC.SetCodigoCliente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNombreCliente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxC.SetCodigoVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxC.SetNombreVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vNombreVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+   If (vConsecutivoVendedor > 1) Then
+      insCxC.SetCodigoVendedor vCodigoVendedor
+      insCxC.SetNombreVendedor vNombreVendedor
+      insCxC.SetConsecutivoVendedor vConsecutivoVendedor
+   Else
+      insCxC.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      insCxC.SetNombreVendedor "OFICINA"
+      insCxC.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCxC.GetCodigoVendedor)
+   End If
    insCxC.SetFecha gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaCancelacion gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaVencimiento gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -1994,7 +2141,7 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
    insCxC.SetNumeroDocumentoOrigen gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNoAplicaParaLibroDeVentas gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetMoneda fDevuelveElNombreDeLaMonedaIfExist(insCxC.GetCodigoMoneda)
-   insCxC.SetCodigoLote insLoteDeAdm.getCodigoLote
+   insCxC.SetCodigoLote insLoteDeAdm.GetCodigoLote
    insCxC.SetNumeroControl gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNumeroComprobanteFiscal gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    If valVerificarSiEstaRepetido Then
@@ -2040,11 +2187,11 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
       Else
          LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetNombreCliente), " ")
       End If
-      If gTexto.DfLen(insCxC.getCodigoVendedor) > 0 And Not insVendedor.fSearchByField("Codigo", insCxC.getCodigoVendedor, False, False) Then
+      If gTexto.DfLen(insCxC.GetCodigoVendedor) > 0 And Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor, False, False) Then
          ErrorAlTraducirLaLinea = True
-         LineaDeErrores = LineaDeErrores & ":::. ERROR el vendedor " & insCxC.getCodigoVendedor & " de la CxC Nro " & insCxC.GetNumero & " No esta registrado en el sistema. Debe incluirlo antes de ejecutar el proceso .:::"
+         LineaDeErrores = LineaDeErrores & ":::. ERROR el vendedor " & insCxC.GetCodigoVendedor & " de la CxC Nro " & insCxC.GetNumero & " No esta registrado en el sistema. Debe incluirlo antes de ejecutar el proceso .:::"
       Else
-         LineaDeErrores = LineaDeErrores & String(Len(insCxC.getCodigoVendedor), " ")
+         LineaDeErrores = LineaDeErrores & String(Len(insCxC.GetCodigoVendedor), " ")
       End If
       If gTexto.DfLen(insCxC.GetNombreVendedor) > 0 And Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor, False, False) Then
          ErrorAlTraducirLaLinea = True
@@ -2132,7 +2279,7 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(insCxC.GetCodigoCliente) = 0 Or Not insCliente.fSearchByField("Codigo", insCxC.GetCodigoCliente, False, False) Then
          refEsteRegistroSeIncluye = False
-      ElseIf gTexto.DfLen(insCxC.getCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCxC.getCodigoVendedor, False, False) Then
+      ElseIf gTexto.DfLen(insCxC.GetCodigoVendedor) = 0 Or Not insVendedor.fSearchByField("Codigo", insCxC.GetCodigoVendedor, False, False) Then
          refEsteRegistroSeIncluye = False
       ElseIf gTexto.DfLen(insCxC.GetNombreVendedor) = 0 Or Not insVendedor.fSearchByField("Nombre", insCxC.GetNombreVendedor, False, False) Then
          refEsteRegistroSeIncluye = False
@@ -4128,7 +4275,7 @@ Private Sub sAsignaValoresDelLoteAImportar(ByVal modulo As Integer, ByVal Descri
    insLoteDeAdm.SetNombreOperador mNombreDelUsuario
    insLoteDeAdm.SetFechaUltimaModificacion gUtilDate.getFechaDeHoy
    insLoteDeAdm.SetCodigoLote insLoteDeAdm.fGenerateNextCodigoLote(True)
-   SetCodigoLote insLoteDeAdm.getCodigoLote
+   SetCodigoLote insLoteDeAdm.GetCodigoLote
 h_EXIT: On Error GoTo 0
   Exit Sub
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sAsignaValoresDelLoteAImportar", "Importar modulos Administrativo", eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
@@ -4463,12 +4610,12 @@ Private Function fInsertarProveedor() As Boolean
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaContableCxP", 30, insProveedor.getCuentaContableCxP)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaContableGastos", 30, insProveedor.getCuentaContableGastos)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CuentaContableAnticipo", 30, insProveedor.getCuentaContableAnticipo)
-   vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoLote", 10, insProveedor.getCodigoLote)
+   vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@CodigoLote", 10, insProveedor.GetCodigoLote)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Beneficiario", 60, insProveedor.getBeneficiario)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterBooleanSN("@UsarBeneficiarioImpCheq", insProveedor.getUsarBeneficiarioImpCheq)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterChar("@TipoDocumentoIdentificacion", 1, gConvert.enumerativoAChar(gEnumProyecto.strTipoDocumentoIdentificacionPeruToNum(insProveedor.GetTipoDocumentoIdentificacionStr, False)))
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterBooleanSN("@EsAgenteDeRetencionIva", insProveedor.getEsAgenteDeRetencionIva)
-   vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Nombre", 20, insProveedor.getNombre)
+   vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@Nombre", 20, insProveedor.GetNombre)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@ApellidoPaterno", 20, insProveedor.getApellidoPaterno)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@ApellidoMaterno", 20, insProveedor.getApellidoMaterno)
    vCmd.Parameters.Append insUtAdoCmd.fCreateInputParameterString("@NumeroCuentaBancaria", 20, insProveedor.getNumeroCuentaBancaria)
@@ -4507,7 +4654,14 @@ Private Function fDistribuyeLaLineaDeCotizacion(ByRef refLineaActual As String, 
       vCodigoCliente = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetCodigoCliente vCodigoCliente
       vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-      .SetCodigoVendedor vCodigoVendedor
+      vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+      If (vConsecutivoVendedor > 1) Then
+         .SetCodigoVendedor vCodigoVendedor
+         .SetConsecutivoVendedor vConsecutivoVendedor
+      Else
+         .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+         .SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, .GetCodigoVendedor)
+      End If
       vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetObservaciones vObservaciones
       vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -4821,7 +4975,9 @@ Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal
       .SetFecha valFechaRDV
       .SetFechaDeEntrega valFechaRDV
       .SetCodigoCliente "RD_Cliente"
-      .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      vCodigoVendedor = gProyParametrosCompania.getCodigoGenericoVendedor
+      .SetCodigoVendedor vCodigoVendedor
+      .SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
       .SetObservaciones ""
       .SetCodigoNota1 ""
       .SetCodigoNota2 ""

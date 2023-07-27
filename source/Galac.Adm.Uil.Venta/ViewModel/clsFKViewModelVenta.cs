@@ -6,7 +6,7 @@ using LibGalac.Aos.Ccl.Usal;
 using LibGalac.Aos.UI.Mvvm.Helpers;
 using Galac.Saw.Ccl.Inventario;
 using Galac.Adm.Ccl.Venta;
-using Galac.Saw.Ccl.Vendedor;
+using Galac.Adm.Ccl.Vendedor;
 using Galac.Saw.Ccl.SttDef;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Saw.Ccl.Tablas;
@@ -15,6 +15,9 @@ using Galac.Adm.Ccl.CAnticipo;
 using Galac.Adm.Ccl.Banco;
 using Galac.Adm.Ccl.DispositivosExternos;
 using LibGalac.Aos.Uil.Usal.ViewModel;
+using LibGalac.Aos.Base;
+using Galac.Saw.Uil.Inventario.ViewModel;
+
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
     public class FkGUserViewModel : ILibFkGUserViewModel {
@@ -34,6 +37,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
     public class FkVendedorViewModel : IFkVendedorViewModel {
         public int ConsecutivoCompania { get; set; }
+        public int Consecutivo { get; set; }
         [LibGridColum("Código")]
         public string Codigo { get; set; }
         [LibGridColum("Cédula")]
@@ -79,13 +83,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public string Codigo { get; set; }
         [LibGridColum("Descripción", DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion", Width = 200)]
         public string Descripcion { get; set; }
-        [LibGridColum("Precio Sin IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA", Width = 150)]
+        [LibGridColum("Precio Sin IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA", Width = 150, Alignment = eTextAlignment.Right)]
         public decimal PrecioSinIVA { get; set; }
-        [LibGridColum("Precio Con IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA", Width = 150)]
+        [LibGridColum("Precio Con IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA", Width = 150, Alignment = eTextAlignment.Right)]
         public decimal PrecioConIVA { get; set; }
         public string LineaDeProducto { get; set; }
         public string Categoria { get; set; }
-        [LibGridColum("Existencia", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Existencia", Width = 150)]
+        [LibGridColum("Existencia", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Existencia", Width = 150, Alignment = eTextAlignment.Right)]
         public decimal Existencia { get; set; }
         public int AlicuotaIVA { get; set; }
         public decimal PorcentajeBaseImponible { get; set; }
@@ -96,9 +100,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal Peso { get; set; }
         public string UnidadDeVenta { get; set; }
         public int AlicuotaIva { get; set; }
-        [LibGridColum("Me Precio Sin IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Sin IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioSinIva { get; set; }
-        [LibGridColum("Me Precio Con IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Con IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioConIva { get; set; }
         public decimal MePrecioSinIva2 { get; set; }
         public decimal MePrecioConIva2 { get; set; }
@@ -106,6 +110,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal MePrecioConIva3 { get; set; }
         public decimal MePrecioSinIva4 { get; set; }
         public decimal MePrecioConIva4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        public string CampoDefinible1 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        public string CampoDefinible2 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        public string CampoDefinible3 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        public string CampoDefinible4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        public string CampoDefinible5 { get; set; }
+
     }
 
     public class FkArticuloInventarioBuscarViewModel : IFkArticuloInventarioViewModel {
@@ -114,21 +129,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public string Codigo { get; set; }
         [LibGridColum("Descripción", DbMemberPath = "dbo.Gv_ArticuloInventario_B1.Descripcion", Width = 200)]
         public string Descripcion { get; set; }
-        [LibGridColum("Precio Sin IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA", Width = 100, IsForSearch = false)]
+        [LibGridColum("Precio Sin IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal PrecioSinIVA { get; set; }
-        [LibGridColum("Precio Con IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA", Width = 100, IsForSearch = false)]
+        [LibGridColum("Precio Con IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal PrecioConIVA { get; set; }
-        [LibGridColum("Precio Sin IVA 2", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA2", Width = 100, IsForList = false, IsForSearch = false)]
+        [LibGridColum("Precio Sin IVA 2", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA2", Width = 100, IsForList = false, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal PrecioSinIVA2 { get; set; }
-        [LibGridColum("Precio Con IVA 2", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA2", Width = 100, IsForList = false, IsForSearch = false)]
+        [LibGridColum("Precio Con IVA 2", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA2", Width = 100, IsForList = false, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal PrecioConIVA2 { get; set; }
-        [LibGridColum("Precio Sin IVA 3", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA3", Width = 100, IsForList = false, IsForSearch = false)]
+        [LibGridColum("Precio Sin IVA 3", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA3", Width = 100, IsForList = false, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal PrecioSinIVA3 { get; set; }
-        [LibGridColum("Precio Con IVA 3", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA3", Width = 100, IsForList = false, IsForSearch = false)]
+        [LibGridColum("Precio Con IVA 3", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA3", Width = 100, IsForList = false, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal PrecioConIVA3 { get; set; }
-        [LibGridColum("Precio Sin IVA 4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA4", Width = 100, IsForList = false, IsForSearch = false)]
+        [LibGridColum("Precio Sin IVA 4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioSinIVA4", Width = 100, IsForList = false, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal PrecioSinIVA4 { get; set; }
-        [LibGridColum("Precio Con IVA 4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA4", Width = 100, IsForList = false, IsForSearch = false)]
+        [LibGridColum("Precio Con IVA 4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.PrecioConIVA4", Width = 100, IsForList = false, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal PrecioConIVA4 { get; set; }
         public string LineaDeProducto { get; set; }
         public string Categoria { get; set; }
@@ -142,22 +157,34 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal CostoUnitario { get; set; }
         public decimal Peso { get; set; }
         public string UnidadDeVenta { get; set; }
-        [LibGridColum("Me Precio Sin IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Sin IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioSinIva { get; set; }
-        [LibGridColum("Me Precio Sin IVA2", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva2", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Sin IVA2", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva2", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioSinIva2 { get; set; }
-        [LibGridColum("Me Precio Sin IVA3", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva3", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Sin IVA3", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva3", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioSinIva3 { get; set; }
-        [LibGridColum("Me Precio Sin IVA4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva4", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Sin IVA4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioSinIva4", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioSinIva4 { get; set; }
-        [LibGridColum("Me Precio Con IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Con IVA", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioConIva { get; set; }
-        [LibGridColum("Me Precio Con IVA2", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva2", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Con IVA2", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva2", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioConIva2 { get; set; }
-        [LibGridColum("Me Precio Con IVA3", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva3", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Con IVA3", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva3", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioConIva3 { get; set; }
-        [LibGridColum("Me Precio Con IVA4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva4", Width = 100, IsForSearch = false)]
+        [LibGridColum("Me Precio Con IVA4", eGridColumType.Numeric, DbMemberPath = "dbo.Gv_ArticuloInventario_B1.MePrecioConIva4", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
         public decimal MePrecioConIva4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 1)]
+        public string CampoDefinible1 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 2)]
+        public string CampoDefinible2 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 3)]
+        public string CampoDefinible3 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 4)]
+        public string CampoDefinible4 { get; set; }
+        [ArtInvCamposDefiniblesGridColumnAttribue("", 5)]
+        public string CampoDefinible5 { get; set; }
+
+
     }
 
     public class FkFacturaRapidaViewModel : IFkFacturaRapidaViewModel {
@@ -171,6 +198,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         [LibGridColum("Cliente")]
         public string NombreCliente { get; set; }
         public eTipoDocumentoFactura TipoDeDocumento { get; set; }
+    }
+	public class FkBuscarUbicacionDeArticuloViewModel : IFkBuscarUbicacionDeArticuloViewModel {
+        public int ConsecutivoCompania { get; set; }
+        [LibGridColum("Código Almacén", DbMemberPath = "CodigoAlmacen", IsForList = false)]
+        public string CodigoAlmacen { get; set; }
+        [LibGridColum("Nombre Almacén", DbMemberPath = "NombreAlmacen", Width = 150)]
+        public string NombreAlmacen { get; set; }
+        [LibGridColum("Código Artículo", DbMemberPath = "CodigoArticulo", Width = 150)]
+        public string CodigoArticulo { get; set; }
+        [LibGridColum("Descripción Artículo", DbMemberPath = "dbo.ArticuloInventario.Descripcion", Width = 350)]
+        public string Descripcion { get; set; }
+        [LibGridColum("Ubicación", DbMemberPath = "Ubicacion", Width = 300)]
+        public string Ubicacion { get; set; }
+        [LibGridColum("Existencia", eGridColumType.Numeric, DbMemberPath = "Existencia", Width = 100, IsForSearch = false, Alignment = eTextAlignment.Right)]
+        public decimal Existencia { get; set; }
     }
 
     public class FkFormaDelCobroViewModel : IFkFormaDelCobroViewModel {

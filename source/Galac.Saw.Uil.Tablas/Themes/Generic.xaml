@@ -1,8 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:nsCSVM="clr-namespace:Galac.Saw.Uil.Tablas.ViewModel"
-    xmlns:nsCSV="clr-namespace:Galac.Saw.Uil.Tablas.Views">
+    xmlns:nsCSV="clr-namespace:Galac.Saw.Uil.Tablas.Views"
+    xmlns:nsCSVM="clr-namespace:Galac.Saw.Uil.Tablas.ViewModel">
     <DataTemplate DataType="{x:Type nsCSVM:UrbanizacionZPViewModel}">
         <nsCSV:GSUrbanizacionZPView />
     </DataTemplate>
@@ -35,5 +35,8 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type nsCSVM:ImpuestoBancarioViewModel}">
         <nsCSV:GSImpuestoBancarioView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:RutaDeComercializacionViewModel}">
+        <nsCSV:GSRutaDeComercializacionView />
     </DataTemplate>
 </ResourceDictionary>

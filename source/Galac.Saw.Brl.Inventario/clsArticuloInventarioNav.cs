@@ -52,6 +52,8 @@ namespace Galac.Saw.Brl.Inventario {
                 case "Lista de Materiales":
                 case "Orden de Producción":
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraSCH", valXmlParamsExpression);
+                case "Punto de Venta Ubicación":
+                    return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionSCH", valXmlParamsExpression);
                 default:
                     return instanciaDal.ConnectFk(ref refXmlDocument, eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioSCH", valXmlParamsExpression);
             }
@@ -65,6 +67,8 @@ namespace Galac.Saw.Brl.Inventario {
                 case "Lista de Materiales":
                 case "Orden de Producción":
                     return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioCompraGetFk", valParameters);
+                case "Punto de Venta Ubicación":
+                    return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioUbicacionGetFk", valParameters);
                 default:
                     return instanciaDal.QueryInfo(eProcessMessageType.SpName, "dbo.Gp_ArticuloInventarioGetFk", valParameters);
             }
@@ -368,7 +372,7 @@ namespace Galac.Saw.Brl.Inventario {
                 vParams.AddInString("Serial", itemSerial.CodigoSerial, 50);
                 vParams.AddInString("Rollo", itemSerial.CodigoRollo, 20);
                 vParams.AddInDateTime("Fecha", LibDate.Today());
-                vParams.AddInString("Ubicacion", " ", 30);
+                vParams.AddInString("Ubicacion", " ", 100);
                 vSQL = new StringBuilder();
                 vSQL.AppendLine("UPDATE ExistenciaPorGrupo  SET Existencia = Existencia + @Existencia WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoArticulo = @CodigoArticulo AND Serial = @Serial AND Rollo = @Rollo");
                 vSQL.AppendLine(" IF @@ROWCOUNT = 0");
@@ -416,7 +420,7 @@ namespace Galac.Saw.Brl.Inventario {
             vParams.AddInString("CodigoAlmacen", valCodigoAlmacen, 5);
             vParams.AddInString("CodigoArticulo", valCodigoArticulo, 30);
             vParams.AddInDecimal("Cantidad", valCantidad, 4);
-            vParams.AddInString("Ubicacion", valUbicacion, 30);
+            vParams.AddInString("Ubicacion", valUbicacion, 100);
             vParams.AddInInteger("ConsecutivoAlmacen", valConsecutivoAlmacen);
             StringBuilder vSQL = new StringBuilder();
             vSQL.AppendLine("UPDATE  ExistenciaPorAlmacen SET Cantidad = Cantidad + @Cantidad WHERE ConsecutivoCompania = @ConsecutivoCompania AND CodigoArticulo = @CodigoArticulo AND ConsecutivoAlmacen = @ConsecutivoAlmacen");

@@ -64,7 +64,7 @@ namespace Galac.Adm.Brl.Venta {
                     vResult = vPdnModule.GetDataForList("Punto de Venta", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Vendedor":
-                    vPdnModule = new Galac.Saw.Brl.Vendedor.clsVendedorNav();
+                    vPdnModule = new Galac.Adm.Brl.Vendedor.clsVendedorNav();
                     vResult = vPdnModule.GetDataForList("Punto de Venta", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 //case "Caja":
@@ -74,6 +74,10 @@ namespace Galac.Adm.Brl.Venta {
                 case "Articulo Inventario":
                     vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
                     vResult = vPdnModule.GetDataForList("Punto de Venta", ref refXmlDocument, valXmlParamsExpression);
+                    break;
+                case "Ubicación de Artículo de Inventario":
+                    vPdnModule = new Galac.Saw.Brl.Inventario.clsArticuloInventarioNav();
+                    vResult = vPdnModule.GetDataForList("Punto de Venta Ubicación", ref refXmlDocument, valXmlParamsExpression);
                     break;
                 case "Moneda":
                     vPdnModule = new Galac.Comun.Brl.TablasGen.clsMonedaNav();

@@ -19,6 +19,7 @@ namespace Galac.Adm.Ccl.Venta {
         private DateTime _Fecha;
         private string _CodigoCliente;
         private string _CodigoVendedor;
+        private int _ConsecutivoVendedor;
         private string _Observaciones;
         private decimal _TotalMontoExento;
         private decimal _TotalBaseImponible;
@@ -151,10 +152,15 @@ namespace Galac.Adm.Ccl.Venta {
             get { return _CodigoCliente; }
             set { _CodigoCliente = LibString.Mid(value, 0, 10); }
         }
-
+				
         public string CodigoVendedor {
             get { return _CodigoVendedor; }
             set { _CodigoVendedor = LibString.Mid(value, 0, 5); }
+        }
+
+        public int ConsecutivoVendedor {
+            get { return _ConsecutivoVendedor; }
+            set { _ConsecutivoVendedor = value; }
         }
 
         public string Observaciones {
@@ -853,6 +859,7 @@ namespace Galac.Adm.Ccl.Venta {
             Fecha = LibDate.Today();
             CodigoCliente = string.Empty;
             CodigoVendedor = string.Empty;
+            ConsecutivoVendedor = 0;
             Observaciones = string.Empty;
             TotalMontoExento = 0;
             TotalBaseImponible = 0;
@@ -971,6 +978,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.Fecha = _Fecha;
             vResult.CodigoCliente = _CodigoCliente;
             vResult.CodigoVendedor = _CodigoVendedor;
+            vResult.ConsecutivoVendedor = _ConsecutivoVendedor;
             vResult.Observaciones = _Observaciones;
             vResult.TotalMontoExento = _TotalMontoExento;
             vResult.TotalBaseImponible = _TotalBaseImponible;
@@ -1086,6 +1094,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nFecha = " + _Fecha.ToShortDateString() +
                "\nCodigo Cliente = " + _CodigoCliente +
                "\nCodigo Vendedor = " + _CodigoVendedor +
+               "\nConsecutivo del Vendedor = " + _ConsecutivoVendedor.ToString() +
                "\nObservaciones = " + _Observaciones +
                "\nTotal Monto Exento = " + _TotalMontoExento.ToString() +
                "\nTotal Base Imponible = " + _TotalBaseImponible.ToString() +

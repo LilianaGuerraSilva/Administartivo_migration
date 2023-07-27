@@ -61,6 +61,7 @@
     <Compile Include="IArticuloInventarioPdn.cs" />
     <Compile Include="IFkAlmacenViewModel.cs" />
     <Compile Include="IFkArticuloInventarioViewModel.cs" />
+    <Compile Include="IFkBuscarUbicacionDeArticuloViewModel.cs" />
     <Compile Include="IFkCategoriaViewModel.cs" />
     <Compile Include="IFkCentroDeCostosViewModel.cs" />
     <Compile Include="IFkColorViewModel.cs" />
