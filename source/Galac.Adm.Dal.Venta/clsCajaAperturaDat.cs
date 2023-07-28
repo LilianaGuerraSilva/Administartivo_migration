@@ -324,7 +324,7 @@ namespace Galac.Adm.Dal.Venta {
                 vResult = false;
             } else {
                 LibDatabase insDb = new LibDatabase();
-                if (!insDb.ExistsValue("dbo.Moneda", "Codigo", insDb.InsSql.ToSqlValue(valCodigoMoneda), true)) {
+                if (!insDb.ExistsValue("Moneda", "Codigo", insDb.InsSql.ToSqlValue(valCodigoMoneda), true)) {
                     BuildValidationInfo("El valor asignado al campo Codigo Moneda no existe, escoga nuevamente.");
                     vResult = false;
                 }

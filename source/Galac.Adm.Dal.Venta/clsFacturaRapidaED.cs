@@ -209,7 +209,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      AND " + DbSchema + ".Factura.ConsecutivoCompania = Adm.Vendedor.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Adm.Caja ON  " + DbSchema + ".Factura.ConsecutivoCaja = Adm.Caja.Consecutivo");
             SQL.AppendLine("      AND " + DbSchema + ".Factura.ConsecutivoCompania = Adm.Caja.ConsecutivoCompania");            
-            SQL.AppendLine("INNER JOIN dbo.Moneda AS MonedaDeCobro ON  " + DbSchema + ".Factura.CodigoMonedaDeCobro = MonedaDeCobro.codigo");
+            SQL.AppendLine("INNER JOIN Moneda AS MonedaDeCobro ON  " + DbSchema + ".Factura.CodigoMonedaDeCobro = MonedaDeCobro.codigo");
             SQL.AppendLine("      AND  MonedaDeCobro.Activa = 'S'");
             return SQL.ToString();
         }

@@ -98,4 +98,7 @@
     <DataTemplate DataType="{x:Type nsReportesView:clsContratoEntreFechasViewModel}">
         <nsReportesView:GSContratoEntreFechas />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsReportesView:clsCajaCerradaViewModel}">
+        <nsReportesView:GSCajaCerrada />
+    </DataTemplate>
 </ResourceDictionary>

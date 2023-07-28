@@ -29,6 +29,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _HoraCierre;
         private bool _CajaCerrada;
         private string _CodigoMoneda;
+        private string _Moneda;
         private decimal _Cambio;
         private decimal _MontoAperturaME;
         private decimal _MontoCierreME;
@@ -134,6 +135,11 @@ namespace Galac.Adm.Ccl.Venta {
             set { _CodigoMoneda = LibString.Mid(value, 0, 4); }
         }
 
+        public string Moneda {
+            get { return _Moneda; }
+            set { _Moneda = LibString.Mid(value, 0, 80); }
+        }
+
         public decimal Cambio {
             get { return _Cambio; }
             set { _Cambio = value; }
@@ -224,6 +230,7 @@ namespace Galac.Adm.Ccl.Venta {
             HoraCierre = string.Empty;
             CajaCerradaAsBool = false;
             CodigoMoneda = string.Empty;
+            Moneda = string.Empty;
             Cambio = 0;
             MontoAperturaME = 0;
             MontoCierreME = 0;
@@ -256,6 +263,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.HoraCierre = _HoraCierre;
             vResult.CajaCerradaAsBool = _CajaCerrada;
             vResult.CodigoMoneda = _CodigoMoneda;
+            vResult.Moneda = _Moneda;
             vResult.Cambio = _Cambio;
             vResult.MontoAperturaME = _MontoAperturaME;
             vResult.MontoCierreME = _MontoCierreME;

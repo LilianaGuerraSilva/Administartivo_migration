@@ -84,7 +84,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("REFERENCES Lib.GUser(UserName) ");
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_CajaAperturaMoneda FOREIGN KEY (CodigoMoneda)");
-            SQL.AppendLine("REFERENCES dbo.Moneda(Codigo)");
+            SQL.AppendLine("REFERENCES Moneda(Codigo)");
             SQL.AppendLine("ON UPDATE CASCADE) ");
             return SQL.ToString();
         }
@@ -479,6 +479,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.HoraCierre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.CajaCerrada,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.MontoApertura,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.MontoCierreME,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.MontoAperturaME,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.MontoCierre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.Cambio,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.CodigoMoneda,");			
