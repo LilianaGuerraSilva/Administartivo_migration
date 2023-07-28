@@ -604,7 +604,7 @@ namespace Galac.Adm.Dal.Venta {
 
         private string SqlSpCajaAperturaCerrarParameters() {
             StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
+            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");            
             SQL.AppendLine("@ConsecutivoCaja" + InsSql.NumericTypeForDb(10,0) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@HoraCierre" + InsSql.VarCharTypeForDb(5) + ",");
@@ -614,8 +614,15 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@MontoDeposito" + InsSql.NumericTypeForDb(30,5) + ",");
             SQL.AppendLine("@MontoAnticipo" + InsSql.NumericTypeForDb(30,5) + ",");
             SQL.AppendLine("@MontoCierre" + InsSql.NumericTypeForDb(30,5) + ",");
+            SQL.AppendLine("@MontoEfectivoME" + InsSql.NumericTypeForDb(30, 5) + ",");
+            SQL.AppendLine("@MontoChequeME" + InsSql.NumericTypeForDb(30, 5) + ",");
+            SQL.AppendLine("@MontoTarjetaME" + InsSql.NumericTypeForDb(30, 5) + ",");
+            SQL.AppendLine("@MontoDepositoME" + InsSql.NumericTypeForDb(30, 5) + ",");
+            SQL.AppendLine("@MontoAnticipoME" + InsSql.NumericTypeForDb(30, 5) + ",");
+            SQL.AppendLine("@MontoCierreME" + InsSql.NumericTypeForDb(30, 5) + ",");
             SQL.AppendLine("@Cambio" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + "");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
+            SQL.AppendLine("@CajaCerrada" + InsSql.BoolTypeForDb() + "");
             return SQL.ToString();
         }
 
@@ -626,15 +633,21 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" BEGIN");
             SQL.AppendLine(" UPDATE ");
             SQL.AppendLine(" " + DbSchema + ".CajaApertura ");
-            SQL.AppendLine(" SET CajaCerrada = " + _QAdvSql.ToSqlValue(true) + ", ");
+            SQL.AppendLine(" SET CajaCerrada = @CajaCerrada, ");
             SQL.AppendLine(" HoraCierre  = @HoraCierre, ");
             SQL.AppendLine(" MontoEfectivo = @MontoEfectivo, ");
             SQL.AppendLine(" MontoCheque = @MontoCheque, ");
             SQL.AppendLine(" MontoTarjeta = @MontoTarjeta, ");
             SQL.AppendLine(" MontoDeposito = @MontoDeposito, ");
             SQL.AppendLine(" MontoAnticipo = @MontoAnticipo, ");
-            SQL.AppendLine(" MontoCierre = @MontoCierre, ");			
-			SQL.AppendLine(" Cambio = @Cambio, ");
+            SQL.AppendLine(" MontoCierre = @MontoCierre, ");
+            SQL.AppendLine(" MontoEfectivoME = @MontoEfectivoME, ");
+            SQL.AppendLine(" MontoChequeME = @MontoChequeME, ");
+            SQL.AppendLine(" MontoTarjetaME = @MontoTarjetaME, ");
+            SQL.AppendLine(" MontoDepositoME = @MontoDepositoME, ");
+            SQL.AppendLine(" MontoAnticipoME = @MontoAnticipoME, ");
+            SQL.AppendLine(" MontoCierreME = @MontoCierreME, ");
+            SQL.AppendLine(" Cambio = @Cambio, ");
             SQL.AppendLine(" CodigoMoneda = @CodigoMoneda, ");			
             SQL.AppendLine(" FechaUltimaModificacion = @FechaUltimaModificacion ");
             SQL.AppendLine(" WHERE ");
