@@ -26,10 +26,6 @@
 	path = bin/binAdministrativoVb
 	url = https://github.com/Galac-Software/BinAdministrativoVB.git
 	branch = release/V2305
-[submodule "bin/binAdministrativoAos"]
-	path = bin/binAdministrativoAos
-	url = https://github.com/Galac-Software/BinAdministrativoAos.git
-	branch = release/V23.6.0.0
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/Galac-Software/BinComunAos.git
@@ -70,3 +66,7 @@
 	path = source/VbaComun
 	url = https://github.com/Galac-Software/vbaComun.git
 	branch = release/SawV23.6.0.0
+[submodule "bin/binAdministrativoAos"]
+	path = bin/binAdministrativoAos
+	url = https://github.com/Galac-Software/BinAdministrativoAos.git
+	branch = release/V23.7.0.0
