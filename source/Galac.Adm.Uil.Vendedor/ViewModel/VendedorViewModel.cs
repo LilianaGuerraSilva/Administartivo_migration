@@ -1026,6 +1026,7 @@ namespace Galac.Adm.Uil.Vendedor.ViewModel {
                 }
             }
             base.ExecuteAction();
+            NombreOld = Nombre;
         }
 
         private void ExecuteChooseCiudadCommand(string valNombreCiudad) {

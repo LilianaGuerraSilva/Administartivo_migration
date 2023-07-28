@@ -584,7 +584,15 @@ Private Function fDistribuyeLaLineaDeCliente(ByRef refLineaActual As String, ByV
    insCliente.SetZonaPostal gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCliente.SetZonaDeCobranza gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCliente.SetSectorDeNegocio gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCliente.SetCodigoVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+   If (vConsecutivoVendedor > 1) Then
+      insCliente.SetCodigoVendedor vCodigoVendedor
+      insCliente.SetConsecutivoVendedor vConsecutivoVendedor
+   Else
+      insCliente.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      insCliente.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCliente.GetCodigoVendedor)
+   End If
    insCliente.SetEsExtranjero gConvert.ConvertStringToBoolean(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCliente.SetEmail gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCliente.SetContacto gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
@@ -1184,6 +1192,26 @@ h_EXIT: On Error GoTo 0
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "sVerificaSiHayErrorEnLaLineaValoresAjustables_VENDEDOR", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Sub
 
+Private Function fBuscarConsecutivoVendedor(ByVal valConsecutivoCompania As Integer, ByVal valCodigo As String) As Integer
+   Dim vResult As Integer
+   Dim vSql As String
+   Dim vRs As ADODB.Recordset
+   On Error GoTo h_ERROR
+   vResult = 1
+   Set vRs = New ADODB.Recordset
+   vSql = "SELECT Consecutivo FROM Adm.Vendedor WHERE ConsecutivoCompania = " & valConsecutivoCompania & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(valCodigo)
+   If gDbUtil.fOpenRecordset(vRs, vSql, Conexion) Then
+      If gDbUtil.fRecordCount(vRs) > 0 Then
+         vResult = gConvert.ConvierteAInteger(vRs.Fields("Consecutivo").Value)
+      End If
+   End If
+   Set vRs = Nothing
+h_EXIT: On Error GoTo 0
+   fBuscarConsecutivoVendedor = vResult
+   Exit Function
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, "clsImportarDatosSAW", "fBuscarConsecutivoVendedor", CM_MESSAGE_NAME_VENDEDOR, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
+End Function
+
 Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByVal valLineaActual As Long, ByVal valSeparador As String) As Boolean
    Dim linea As String
    Dim var_AlicuotaIvaEnum As enum_TipoDeAlicuota
@@ -1208,7 +1236,7 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       vSql = "SELECT * FROM Cliente WHERE ConsecutivoCompania = " & mConsecutivoCompaniaActual
       vSql = vSql & " AND Codigo = " & gUtilSQL.fSimpleSqlValue(vCodigoCliente)
       If gDbUtil.fOpenRecordset(Rs, vSql, Conexion) Then
-         If Rs.RecordCount > 0 Then
+         If gDbUtil.fRecordCount(Rs) > 0 Then
            If gTexto.DfLen(Rs.Fields("TipoDeContribuyente").Value) = 0 Then
              mTipoDeContribuyenteClienteFactura = "1"
            Else
@@ -1219,7 +1247,14 @@ Private Function fDistribuyeLaLineaDeFactura(ByRef refLineaActual As String, ByV
       End If
       Set Rs = Nothing
       vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-      .SetCodigoVendedor vCodigoVendedor
+      vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+      If (vConsecutivoVendedor > 1) Then
+         .SetCodigoVendedor vCodigoVendedor
+         .SetConsecutivoVendedor vConsecutivoVendedor
+      Else
+         .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+         .SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, .GetCodigoVendedor)
+      End If
       vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetObservaciones vObservaciones
       vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -1860,6 +1895,7 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
    Dim TextoAuxiliar As String
+   Dim vNombreVendedor As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -1871,8 +1907,18 @@ Private Function fDistribuyeLaLineaDeLaCxC(ByRef refLineaActual As String, ByVal
    mNumeroYTipoDeCxC = insCxC.GetNumero + insCxC.GetTipoCxCStr
    insCxC.SetCodigoCliente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNombreCliente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxC.SetCodigoVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxC.SetNombreVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vNombreVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+   If (vConsecutivoVendedor > 1) Then
+      insCxC.SetCodigoVendedor vCodigoVendedor
+      insCxC.SetNombreVendedor vNombreVendedor
+      insCxC.SetConsecutivoVendedor vConsecutivoVendedor
+   Else
+      insCxC.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      insCxC.SetNombreVendedor "OFICINA"
+      insCxC.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCxC.GetCodigoVendedor)
+   End If
    insCxC.SetFecha gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaCancelacion gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaVencimiento gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -2054,6 +2100,7 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
    Dim ErrorAlTraducirLaLinea As Boolean
    Dim ExisteArticuloEnArchivo As Boolean
    Dim TextoAuxiliar As String
+   Dim vNombreVendedor As String
    On Error GoTo h_ERROR
    ErrorAlTraducirLaLinea = False
    LineaDeErrores = ""
@@ -2065,8 +2112,18 @@ Private Function fDistribuyeLaLineaDeLaCxCEspecial(ByRef refLineaActual As Strin
    mNumeroYTipoDeCxC = insCxC.GetNumero + insCxC.GetTipoCxCStr
    insCxC.SetCodigoCliente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
    insCxC.SetNombreCliente gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxC.SetCodigoVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-   insCxC.SetNombreVendedor gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vNombreVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
+   vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+   If (vConsecutivoVendedor > 1) Then
+      insCxC.SetCodigoVendedor vCodigoVendedor
+      insCxC.SetNombreVendedor vNombreVendedor
+      insCxC.SetConsecutivoVendedor vConsecutivoVendedor
+   Else
+      insCxC.SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      insCxC.SetNombreVendedor "OFICINA"
+      insCxC.SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, insCxC.GetCodigoVendedor)
+   End If
    insCxC.SetFecha gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaCancelacion gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
    insCxC.SetFechaVencimiento gConvert.fConvertStringToDate(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -4597,7 +4654,14 @@ Private Function fDistribuyeLaLineaDeCotizacion(ByRef refLineaActual As String, 
       vCodigoCliente = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetCodigoCliente vCodigoCliente
       vCodigoVendedor = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
-      .SetCodigoVendedor vCodigoVendedor
+      vConsecutivoVendedor = fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
+      If (vConsecutivoVendedor > 1) Then
+         .SetCodigoVendedor vCodigoVendedor
+         .SetConsecutivoVendedor vConsecutivoVendedor
+      Else
+         .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+         .SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, .GetCodigoVendedor)
+      End If
       vObservaciones = gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador)
       .SetObservaciones vObservaciones
       vMontoExentoDespuesDeDescuento = gUtilImport.fToCurrency(gUtilImport.fReadValueUntilDelimiterAndCut(linea, valSeparador))
@@ -4911,7 +4975,9 @@ Private Sub sConstruyeRDV(ByVal valNumeroComprobanteFiscalDesde As String, ByVal
       .SetFecha valFechaRDV
       .SetFechaDeEntrega valFechaRDV
       .SetCodigoCliente "RD_Cliente"
-      .SetCodigoVendedor gProyParametrosCompania.getCodigoGenericoVendedor
+      vCodigoVendedor = gProyParametrosCompania.getCodigoGenericoVendedor
+      .SetCodigoVendedor vCodigoVendedor
+      .SetConsecutivoVendedor fBuscarConsecutivoVendedor(mConsecutivoCompaniaActual, vCodigoVendedor)
       .SetObservaciones ""
       .SetCodigoNota1 ""
       .SetCodigoNota2 ""
