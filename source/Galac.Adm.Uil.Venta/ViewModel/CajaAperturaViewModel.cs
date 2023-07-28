@@ -596,8 +596,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 CajaCerrada = true;
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
             } else if (Action == eAccionSR.Consultar) {
-                Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
-                TotalesPorCierreDeCaja();
+                Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);               
             }
             CargarValoresInicialesDeMoneda();
         }
@@ -733,20 +732,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
                 if (vSePuede) {
-                    if (insCajaApertura != null && insCajaApertura.CerrarCaja(Model)) {
-                        if (ConexionNombreCaja == null) {
-                            LibMessages.MessageBox.Information(this, "La caja no pudo ser cerrada", "");
-                        } else {
-                            if (ConexionNombreCaja.UsaMaquinaFiscal) {
-                                ImprimirCierreX();
-                            }
-                            LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
-                            RaiseRequestCloseEvent();
-                        }
+                    CajaCerrada = true;
+                    ExecuteAction();
+                    if (ConexionNombreCaja == null) {
+                        LibMessages.MessageBox.Information(this, "La caja no pudo ser cerrada", "");
                     } else {
-                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " no pudo ser cerrada", "");
+                        if (ConexionNombreCaja.UsaMaquinaFiscal) {
+                            ImprimirCierreX();
+                        }
+                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
+                        ExecuteCloseCommand();
                     }
+                } else {
+                    LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " no pudo ser cerrada", "");
                 }
+
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
@@ -967,6 +967,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoDeposito = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDeposito"));
                 MontoAnticipo = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipo"));
                 MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo;
+                MontoEfectivoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoEfectivoME"));
+                MontoTarjetaME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjetaME"));
+                MontoChequeME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoChequeME"));
+                MontoDepositoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDepositoME"));
+                MontoAnticipoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipoME"));
+                MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME;
             }
         }
 

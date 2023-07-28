@@ -11,16 +11,20 @@ using LibGalac.Aos.Brl;
 using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Lib;
+using Galac.Comun.Ccl.TablasGen;
+using Galac.Comun.Brl.TablasGen;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaAperturaNav:LibBaseNav<IList<CajaApertura>,IList<CajaApertura>>, ICajaAperturaPdn {
         #region Variables
+        QAdvSql insSql;
         #endregion //Variables
         #region Propiedades
         #endregion //Propiedades
         #region Constructores
 
         public clsCajaAperturaNav() {
+            insSql = new QAdvSql("");
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -89,8 +93,13 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInDecimal("MontoTarjeta",valCajaApertura.MontoTarjeta,4);
             vParams.AddInDecimal("MontoDeposito",valCajaApertura.MontoDeposito,4);
             vParams.AddInDecimal("MontoAnticipo",valCajaApertura.MontoAnticipo,4);
-            vParams.AddInDecimal("MontoCierre",valCajaApertura.MontoCierre,4);
-            vParams.AddInString("CodigoMoneda",valCajaApertura.CodigoMoneda,4);
+            vParams.AddInDecimal("MontoCierre",valCajaApertura.MontoCierre,4);           
+            vParams.AddInDecimal("MontoChequeME", valCajaApertura.MontoChequeME, 4);
+            vParams.AddInDecimal("MontoTarjetaME", valCajaApertura.MontoTarjetaME, 4);
+            vParams.AddInDecimal("MontoDepositoME", valCajaApertura.MontoDepositoME, 4);
+            vParams.AddInDecimal("MontoAnticipoME", valCajaApertura.MontoAnticipoME, 4);
+            vParams.AddInDecimal("MontoCierreME", valCajaApertura.MontoCierreME, 4);
+            vParams.AddInString("CodigoMoneda", valCajaApertura.CodigoMoneda, 4);
             vParams.AddInDecimal("Cambio",valCajaApertura.Cambio,4);            
             vResult = new Galac.Adm.Dal.Venta.clsCajaAperturaDat().CerrarCaja(vParams.Get());
             return vResult;
@@ -153,35 +162,41 @@ namespace Galac.Adm.Brl.Venta {
             //FillWithForeignInfoCajaApertura(ref refData);
         }
 
+        private string vSqlWhereTotalesMontosPorFormaDecobro(int valconsecutivoCompania, int valConsecutivoCaja, string valHoraApertura, string valHoraCierre, bool valEnDivisas) {
+            IMonedaLocalActual insMonedaLocalActual = new clsMonedaLocalActual();
+            string vCodigoMonedaLocal = insMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            string vSqlWhere = "";
+            if (valEnDivisas) {
+                vSqlWhere = "renglonCobroDeFactura.CodigoMoneda <> " + insSql.ToSqlValue(vCodigoMonedaLocal) +" AND ";
+            } else {
+                vSqlWhere = "renglonCobroDeFactura.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal) + " AND ";
+            }
+            vSqlWhere = vSqlWhere + "factura.Fecha BETWEEN CTE_MaxAperturaCaja.Fecha AND " + insSql.ToSqlValue(LibDate.Today());
+            vSqlWhere = insSql.SqlIntValueWithOperators(vSqlWhere, "factura.ConsecutivoCaja", valConsecutivoCaja, " AND ", "=");
+            vSqlWhere = insSql.SqlIntValueWithOperators(vSqlWhere, "factura.ConsecutivoCompania", valconsecutivoCompania, "", "=");
+            vSqlWhere = insSql.SqlValueBetween(vSqlWhere, "factura.HoraModificacion", valHoraApertura, valHoraCierre, "");
+            vSqlWhere = insSql.WhereSql(vSqlWhere);
+            return vSqlWhere;
+        }
 
-        bool ICajaAperturaPdn.TotalesMontosPorFormaDecobro(ref XElement refResult,int valconsecutivoCompania,int valConsecutivoCaja,string valHoraApertura,string valHoraCierre) {
+        bool ICajaAperturaPdn.TotalesMontosPorFormaDecobro(ref XElement refResult, int valconsecutivoCompania, int valConsecutivoCaja, string valHoraApertura, string valHoraCierre) {
             bool vReq = false;
             StringBuilder vSql = new StringBuilder();
-            QAdvSql vQAdvSql = new QAdvSql("");
-            string vSqlTipoFormaDeCobro = "FormaDelCobro.TipoDePago = ";
-            string vSqlSumMontoXFormaDeCobro = "";
-            string vSqlWhere = "";
-            vSqlSumMontoXFormaDeCobro = "SUM(renglonCobroDeFactura.CambioAMonedaLocal * renglonCobroDeFactura.Monto)";
-            vSqlWhere = "factura.Fecha BETWEEN CTE_MaxAperturaCaja.Fecha AND "+ vQAdvSql.ToSqlValue(LibDate.Today());
-            vSqlWhere = vQAdvSql.SqlIntValueWithOperators(vSqlWhere,"factura.ConsecutivoCaja",valConsecutivoCaja," AND ","=");
-            vSqlWhere = vQAdvSql.SqlIntValueWithOperators(vSqlWhere,"factura.ConsecutivoCompania",valconsecutivoCompania,"","=");
-            vSqlWhere = vQAdvSql.SqlValueBetween(vSqlWhere,"factura.HoraModificacion",valHoraApertura,valHoraCierre,"");
-            vSqlWhere = vQAdvSql.WhereSql(vSqlWhere);
-            vSql.AppendLine(" SET DATEFORMAT DMY ");
             vSql.AppendLine(" ;WITH CTE_MaxAperturaCaja(Fecha,ConsecutivoCaja,ConsecutivoCompania) AS");
-            vSql.AppendLine(" (SELECT TOP(1)Fecha,ConsecutivoCaja,ConsecutivoCompania ");            
+            vSql.AppendLine(" (SELECT TOP(1)Fecha,ConsecutivoCaja,ConsecutivoCompania ");
             vSql.AppendLine(" FROM Adm.CajaApertura");
-            vSql.AppendLine(" WHERE ConsecutivoCaja=" + vQAdvSql.ToSqlValue(valConsecutivoCaja));
-            vSql.AppendLine(" AND CajaCerrada =" + vQAdvSql.ToSqlValue(false));
-            vSql.AppendLine(" AND ConsecutivoCompania=" + vQAdvSql.ToSqlValue(valconsecutivoCompania));
+            vSql.AppendLine(" WHERE ConsecutivoCaja=" + insSql.ToSqlValue(valConsecutivoCaja));
+            vSql.AppendLine(" AND CajaCerrada =" + insSql.ToSqlValue(false));
+            vSql.AppendLine(" AND ConsecutivoCompania=" + insSql.ToSqlValue(valconsecutivoCompania));
             vSql.AppendLine(" ORDER BY Fecha DESC)");
-            vSql.AppendLine(" ,CTE_MontoCierre (MontoEfectivo,MontoCheque,MontoTarjeta,MontoDeposito,MontoAnticipo) AS");
+            vSql.AppendLine(" ,CTE_MontoCierre (MontoEfectivo,MontoCheque,MontoTarjeta,MontoDeposito,MontoAnticipo, MontoEfectivoME,MontoChequeME,MontoTarjetaME,MontoDepositoME,MontoAnticipoME) AS");
             vSql.AppendLine("  ( SELECT ");
-            vSql.AppendLine(vQAdvSql.IIF(vSqlTipoFormaDeCobro + vQAdvSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo),vSqlSumMontoXFormaDeCobro,"0",true) + " AS MontoEfectivo, ");
-            vSql.AppendLine(vQAdvSql.IIF(vSqlTipoFormaDeCobro + vQAdvSql.EnumToSqlValue((int)eFormaDeCobro.Cheque),vSqlSumMontoXFormaDeCobro,"0",true) + " AS MontoCheque, ");
-            vSql.AppendLine(vQAdvSql.IIF(vSqlTipoFormaDeCobro + vQAdvSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta),vSqlSumMontoXFormaDeCobro,"0",true) + " AS MontoTarjeta, ");
-            vSql.AppendLine(vQAdvSql.IIF(vSqlTipoFormaDeCobro + vQAdvSql.EnumToSqlValue((int)eFormaDeCobro.Deposito),vSqlSumMontoXFormaDeCobro,"0",true) + " AS MontoDeposito, ");
-            vSql.AppendLine(vQAdvSql.IIF(vSqlTipoFormaDeCobro + vQAdvSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo),vSqlSumMontoXFormaDeCobro,"0",true) + " AS MontoAnticipo ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivo, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Cheque), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoCheque, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjeta, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Deposito), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoDeposito, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoAnticipo ");
+            vSql.AppendLine(" , 0, 0 ,0 ,0, 0 ");
             vSql.AppendLine("  FROM renglonCobroDeFactura");
             vSql.AppendLine("  INNER JOIN  FormaDelCobro ON");
             vSql.AppendLine("  renglonCobroDeFactura.CodigoFormaDelCobro = FormaDelCobro.Codigo");
@@ -192,19 +207,43 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine("  INNER JOIN CTE_MaxAperturaCaja ON");
             vSql.AppendLine("  factura.ConsecutivoCaja = CTE_MaxAperturaCaja.ConsecutivoCaja AND");
             vSql.AppendLine("  factura.ConsecutivoCompania = CTE_MaxAperturaCaja.ConsecutivoCompania");
-            vSql.AppendLine(vSqlWhere);
+            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valHoraApertura, valHoraCierre, false));
+            vSql.AppendLine("  GROUP BY FormaDelCobro.TipoDePago");
+            vSql.AppendLine(" UNION ");
+            vSql.AppendLine(" SELECT ");
+            vSql.AppendLine(" 0, 0, 0, 0, 0, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivoME, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Cheque), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoChequeME, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjetaME, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Deposito), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoDepositoME, ");
+            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoAnticipoME ");
+            vSql.AppendLine("  FROM renglonCobroDeFactura");
+            vSql.AppendLine("  INNER JOIN  FormaDelCobro ON");
+            vSql.AppendLine("  renglonCobroDeFactura.CodigoFormaDelCobro = FormaDelCobro.Codigo");
+            vSql.AppendLine("  INNER JOIN factura  ON");
+            vSql.AppendLine("  renglonCobroDeFactura.ConsecutivoCompania = factura.ConsecutivoCompania");
+            vSql.AppendLine("  AND renglonCobroDeFactura.NumeroFactura = factura.Numero");
+            vSql.AppendLine("  AND  renglonCobroDeFactura.TipoDeDocumento = factura.TipoDeDocumento");
+            vSql.AppendLine("  INNER JOIN CTE_MaxAperturaCaja ON");
+            vSql.AppendLine("  factura.ConsecutivoCaja = CTE_MaxAperturaCaja.ConsecutivoCaja AND");
+            vSql.AppendLine("  factura.ConsecutivoCompania = CTE_MaxAperturaCaja.ConsecutivoCompania");
+            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valHoraApertura, valHoraCierre, true));
             vSql.AppendLine("  GROUP BY FormaDelCobro.TipoDePago)");
             vSql.AppendLine("  SELECT ");
             vSql.AppendLine("ISNULL(SUM(MontoEfectivo),0) AS MontoEfectivo ,");
             vSql.AppendLine("ISNULL(SUM(MontoTarjeta) ,0) AS MontoTarjeta ,");
             vSql.AppendLine("ISNULL(SUM(MontoDeposito),0) AS MontoDeposito ,");
-            vSql.AppendLine("ISNULL(SUM(MontoAnticipo),0) AS MontoAnticipo ,"); 
-            vSql.AppendLine("ISNULL(SUM(MontoCheque),0) AS MontoCheque ");            
+            vSql.AppendLine("ISNULL(SUM(MontoAnticipo),0) AS MontoAnticipo ,");
+            vSql.AppendLine("ISNULL(SUM(MontoCheque),0) AS MontoCheque, ");
+            vSql.AppendLine("ISNULL(SUM(MontoEfectivoME),0) AS MontoEfectivoME ,");
+            vSql.AppendLine("ISNULL(SUM(MontoTarjetaME) ,0) AS MontoTarjetaME ,");
+            vSql.AppendLine("ISNULL(SUM(MontoDepositoME),0) AS MontoDepositoME ,");
+            vSql.AppendLine("ISNULL(SUM(MontoAnticipoME),0) AS MontoAnticipoME ,");
+            vSql.AppendLine("ISNULL(SUM(MontoChequeME),0) AS MontoChequeME ");
             vSql.AppendLine(" FROM CTE_MontoCierre ");
-            refResult = LibBusiness.ExecuteSelect(vSql.ToString(),new LibGpParams().Get(),"",-1);
+            refResult = LibBusiness.ExecuteSelect(vSql.ToString(), new LibGpParams().Get(), "", -1);
             return vReq = (refResult.Descendants("GpResult").Count() > 0);
         }
-
         #region CajaApertura
 
         /*
