@@ -60,7 +60,7 @@ namespace Galac.Adm.Rpt.Venta {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrCajaCerrada vRpt = new dsrCajaCerrada();
-            if (Data.Rows.Count >= 1) {
+            if (Data != null && Data.Rows != null && Data.Rows.Count < 1) {
                 throw new GalacException("No existen datos para mostrar", eExceptionManagementType.Alert);
             }
             if (vRpt.ConfigReport(Data, FechaDesde, FechaHasta)) {
