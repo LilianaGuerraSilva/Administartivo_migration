@@ -244,76 +244,14 @@ namespace Galac.Adm.Brl.Venta {
             refResult = LibBusiness.ExecuteSelect(vSql.ToString(), new LibGpParams().Get(), "", -1);
             return vReq = (refResult.Descendants("GpResult").Count() > 0);
         }
-        #region CajaApertura
-
-        /*
-        private void FillWithForeignInfoCajaApertura(ref IList<CajaApertura> refData) {
-            XElement vInfoConexionCaja = FindInfoCaja(refData);
-            var vListCaja = (from vRecord in vInfoConexionCaja.Descendants("GpResult")
-                             select new {
-                                 ConsecutivoCompania = LibConvert.ToInt(vRecord.Element("ConsecutivoCompania")),
-                                 Consecutivo = LibConvert.ToInt(vRecord.Element("ConsecutivoCaja")),
-                                 NombreCaja = vRecord.Element("NombreCaja").Value,
-                                 UsaGaveta = vRecord.Element("UsaGaveta").Value,
-                                 Puerto = vRecord.Element("Puerto").Value,
-                                 Comando = vRecord.Element("Comando").Value,
-                                 PermitirAbrirSinSupervisor = vRecord.Element("PermitirAbrirSinSupervisor").Value,
-                                 UsaAccesoRapido = vRecord.Element("UsaAccesoRapido").Value,
-                                 UsaMaquinaFiscal = vRecord.Element("UsaMaquinaFiscal").Value,
-                                 FamiliaImpresoraFiscal = vRecord.Element("FamiliaImpresoraFiscal").Value,
-                                 ModeloDeMaquinaFiscal = vRecord.Element("ModeloDeMaquinaFiscal").Value,
-                                 SerialDeMaquinaFiscal = vRecord.Element("SerialDeMaquinaFiscal").Value,
-                                 PuertoMaquinaFiscal = vRecord.Element("PuertoMaquinaFiscal").Value,
-                                 AbrirGavetaDeDinero = vRecord.Element("AbrirGavetaDeDinero").Value,
-                                 UltimoNumeroCompFiscal = vRecord.Element("UltimoNumeroCompFiscal").Value,
-                                 UltimoNumeroNCFiscal = vRecord.Element("UltimoNumeroNCFiscal").Value,
-                                 IpParaConexion = vRecord.Element("IpParaConexion").Value,
-                                 MascaraSubred = vRecord.Element("MascaraSubred").Value,
-                                 Gateway = vRecord.Element("Gateway").Value,
-                                 PermitirDescripcionDelArticuloExtendida = vRecord.Element("PermitirDescripcionDelArticuloExtendida").Value,
-                                 PermitirNombreDelClienteExtendido = vRecord.Element("PermitirNombreDelClienteExtendido").Value,
-                                 UsarModoDotNet = vRecord.Element("UsarModoDotNet").Value
-                             }).Distinct();
-            XElement vInfoConexionGUser = FindInfoGUser();
-            var vListGUser = (from vRecord in vInfoConexionGUser.Descendants("GpResult")
-                              select new {
-                                  UserName = vRecord.Element("UserName").Value,
-                                  FirstAndLastName = vRecord.Element("FirstAndLastName").Value,
-                                  UserPassword = vRecord.Element("UserPassword").Value,
-                                  Cargo = vRecord.Element("Cargo").Value,
-                                  EMail = vRecord.Element("EMail").Value,
-                                  Status = vRecord.Element("Status").Value,
-                                  IsSuperviser = vRecord.Element("IsSuperviser").Value,
-                                  NameLastUsedCompany = vRecord.Element("NameLastUsedCompany").Value,
-                                  LastUsedMFCList = vRecord.Element("LastUsedMFCList").Value
-                              }).Distinct();
-
-            foreach(CajaApertura vItem in refData) {
-                vItem.NombreCaja = vInfoConexionCaja.Descendants("GpResult")
-                    .Where(p => p.Element("ConsecutivoCaja").Value == LibConvert.ToStr(vItem.ConsecutivoCaja))
-                    .Select(p => p.Element("NombreCaja").Value).FirstOrDefault();
-            }
-        }
-        */
+        #region CajaApertura       
 
         private XElement FindInfoCaja(IList<CajaApertura> valData) {
-            XElement vXElement = new XElement("GpData");
-            //foreach(CajaApertura vItem in valData) {
-            //    //vXElement.Add(FilterCajaAperturaByDistinctCaja(vItem).Descendants("GpResult"));
-            //}
+            XElement vXElement = new XElement("GpData");            
             ILibPdn insCaja = new Galac.Adm.Brl.Venta.clsCajaNav();
             XElement vXElementResult = insCaja.GetFk("CajaApertura",ParametersGetFKCajaForXmlSubSet(valData[0].ConsecutivoCompania,vXElement));
             return vXElementResult;
-        }
-
-        private XElement FilterCajaAperturaByDistinctCaja(CajaApertura valMaster) {
-            //XElement vXElement = new XElement("GpData",
-            //    from vEntity in valMaster.DetailCajaApertura.Distinct()
-            //    select new XElement("GpResult",
-            //        new XElement("ConsecutivoCaja", vEntity.ConsecutivoCaja)));
-            //return vXElement;
-            return null;
-        }
+        }     
 
         private StringBuilder ParametersGetFKCajaForXmlSubSet(int valConsecutivoCompania,XElement valXElement) {
             StringBuilder vResult = new StringBuilder();
