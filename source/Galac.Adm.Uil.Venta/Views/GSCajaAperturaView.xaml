@@ -41,7 +41,7 @@
             FocusManager.FocusedElement="{Binding ElementName=txtNombreCaja}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -57,6 +57,7 @@
                 Name="txtNombreCaja"
                 Grid.Row="0"
                 Grid.Column="1"
+                Width="420"
                 Height="23"
                 Margin="5"
                 HorizontalAlignment="Stretch"
@@ -73,11 +74,13 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Content="Operador"
-                Style="{StaticResource LabelPrompt}" />
+                Style="{StaticResource LabelPrompt}"
+                Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}" />
             <nsWpfControls:GSSeekConnection
                 Name="txtNombreDelUsuario"
                 Grid.Row="1"
                 Grid.Column="1"
+                Width="420"
                 Height="23"
                 Margin="5"
                 HorizontalAlignment="Stretch"
@@ -88,7 +91,8 @@
                 Foreground="Black"
                 IsEnabled="{Binding Path=IsEnabledForInsert}"
                 Model="{Binding Path=ConexionNombreDelUsuario, Mode=TwoWay}"
-                SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}" />
+                SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}"
+                Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}" />
         </Grid>
         <Grid
             Name="Titulos"
@@ -117,7 +121,7 @@
                 Name="txtCodigoMoneda"
                 Grid.Row="0"
                 Grid.Column="2"
-                Width="120"
+                Width="60"
                 BorderThickness="1"
                 InputDataType="Alfanumeric"
                 IsEnabled="False"
@@ -128,7 +132,7 @@
                 Name="txtMoneda"
                 Grid.Row="0"
                 Grid.Column="3"
-                Width="126"
+                Width="162"
                 Height="23"
                 Margin="3"
                 HorizontalAlignment="Left"
@@ -147,7 +151,7 @@
                 Name="txtCambio"
                 Grid.Row="1"
                 Grid.Column="3"
-                Width="126"
+                Width="162"
                 Margin="3,3,3,3"
                 BorderThickness="1"
                 DecimalDigits="4"

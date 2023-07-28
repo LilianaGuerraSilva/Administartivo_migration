@@ -591,13 +591,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoDepositoME = 0m;
                 MontoEfectivoME = 0m;
                 MontoTarjetaME = 0m;
-                MontoAnticipoME = 0m;                
+                MontoAnticipoME = 0m;
             } else if (Action == eAccionSR.Modificar) {
                 CajaCerrada = true;
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
-            } else if (Action == eAccionSR.Consultar) {
-                Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
-                TotalesPorCierreDeCaja();
             }
             CargarValoresInicialesDeMoneda();
         }

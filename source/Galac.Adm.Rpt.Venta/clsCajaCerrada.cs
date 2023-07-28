@@ -8,6 +8,8 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.Base.Report;
 using LibGalac.Aos.ARRpt;
 using Galac.Adm.Ccl.Venta;
+using LibGalac.Aos.Catching;
+
 namespace Galac.Adm.Rpt.Venta {
 
     public class clsCajaCerrada: LibRptBaseMfc {
@@ -58,6 +60,9 @@ namespace Galac.Adm.Rpt.Venta {
             WorkerReportProgress(90, "Configurando Informe...");
             Dictionary<string, string> vParams = GetConfigReportParameters();
             dsrCajaCerrada vRpt = new dsrCajaCerrada();
+            if (Data == null || Data.Rows == null || Data.Rows.Count < 1) {
+                throw new GalacException("No existen datos para mostrar", eExceptionManagementType.Alert);
+            }
             if (vRpt.ConfigReport(Data, FechaDesde, FechaHasta)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsCajaCerrada.ReportName, true, ExportFileFormat, "", false);
             }
