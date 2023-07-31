@@ -552,8 +552,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" IF (SELECT  COUNT(Adm.CajaApertura.NombreDelUsuario) AS CantidadApertura ");
             SQL.AppendLine("   FROM Adm.CajaApertura");
             SQL.AppendLine("   WHERE NombreDelUsuario = @NombreDelUsuario ");
-            SQL.AppendLine("   AND CajaCerrada = @CajaCerrada ");
-            SQL.AppendLine("   AND ConsecutivoCaja = @ConsecutivoCaja ");
+            SQL.AppendLine("   AND CajaCerrada = @CajaCerrada ");            
             SQL.AppendLine("   AND ConsecutivoCompania = @ConsecutivoCompania)> 0 ");
             SQL.AppendLine("   SELECT 'S' AS UsuarioYaAsignado ");
             SQL.AppendLine(" ELSE ");

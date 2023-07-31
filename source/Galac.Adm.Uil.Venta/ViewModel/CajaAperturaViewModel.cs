@@ -59,7 +59,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private FkMonedaViewModel _ConexionMoneda = null;
         ICajaAperturaPdn insCajaApertura;
         bool _CajaCerrada = false;
-        bool _UsuarioNoAsignado = false;
+        bool _UsuarioFueAsignado = false;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
         private bool _UsaCobroMultimoneda = false;
         private string _CodigoMEInicial;
@@ -807,7 +807,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (ConexionNombreDelUsuario != null) {
                     NombreDelUsuario = ConexionNombreDelUsuario.UserName;
                     if (Action == eAccionSR.Modificar || Action == eAccionSR.Insertar) {
-                        _UsuarioNoAsignado = insCajaApertura.UsuarioFueAsignado(ConsecutivoCompania, ConsecutivoCaja, NombreDelUsuario, false, false);
+                        _UsuarioFueAsignado = insCajaApertura.UsuarioFueAsignado(ConsecutivoCompania, ConsecutivoCaja, NombreDelUsuario, false, false);
                     }
                 } else {
                     NombreDelUsuario = string.Empty;
@@ -917,7 +917,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool ValidarUsuarioAsignado() {
             bool vResult = true;
-            if (_UsuarioNoAsignado && Action != eAccionSR.Escoger) {
+            if (_UsuarioFueAsignado && Action != eAccionSR.Escoger) {
                 LibMessages.MessageBox.Information(this, "El usuario " + NombreDelUsuario + " ya aperturó otra caja", ModuleName);
                 NombreDelUsuario = string.Empty;
                 vResult = false;
