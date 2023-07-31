@@ -568,8 +568,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             if (Action == eAccionSR.Listar || Action == eAccionSR.Consultar) {
                 ShowDetaills = true;
-                Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
-                TotalesPorCierreDeCaja();
+                Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);               
             }
         }
 
@@ -594,6 +593,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoAnticipoME = 0m;
             } else if (Action == eAccionSR.Modificar) {
                 CajaCerrada = true;
+                TotalesPorCierreDeCaja();
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
             }
             CargarValoresInicialesDeMoneda();
@@ -783,8 +783,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ConsecutivoCaja = ConexionNombreCaja.Consecutivo;
                     NombreCaja = ConexionNombreCaja.NombreCaja;
                     if (Action == eAccionSR.Modificar || Action == eAccionSR.Insertar) {
-                        _CajaCerrada = insCajaApertura.GetCajaCerrada(ConsecutivoCompania, ConsecutivoCaja, false);
-                        TotalesPorCierreDeCaja();
+                        _CajaCerrada = insCajaApertura.GetCajaCerrada(ConsecutivoCompania, ConsecutivoCaja, false);                        
                     }
                 } else {
                     ConsecutivoCaja = 0;
