@@ -708,21 +708,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ExecuteAbrirCajaCommand() {
             bool vSePuede = false;
             try {
-                if (IsValid) {
-                    vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
-                    if (vSePuede) {
-                        base.ExecuteAction();
-                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
-                    } else {
-                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " no pudo ser abierta.", "");
-
-                    }
+                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
+                if (vSePuede) {
+                    base.ExecuteAction();
+                    LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
                     ExecuteCloseCommand();
-                } else {
-                    LibMessages.MessageBox.Alert(this, Error, "Notificación");
                 }
-            } catch (Exception) {
-                throw;
+
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
         }
 
@@ -742,10 +736,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
                         ExecuteCloseCommand();
                     }
-                } else {
-                    LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " no pudo ser cerrada", "");
                 }
-
             } catch (Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
@@ -918,7 +909,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool ValidarUsuarioAsignado() {
             bool vResult = true;
             if (_UsuarioFueAsignado && Action != eAccionSR.Escoger) {
-                LibMessages.MessageBox.Information(this, "El usuario " + NombreDelUsuario + " ya aperturó otra caja", ModuleName);
+                LibMessages.MessageBox.Information(this, "Ya existe una caja abierta por el usuario: " + NombreDelUsuario, ModuleName);
                 NombreDelUsuario = string.Empty;
                 vResult = false;
             }
