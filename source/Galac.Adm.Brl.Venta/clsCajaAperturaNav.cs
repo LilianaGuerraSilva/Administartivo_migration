@@ -81,31 +81,6 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }       
 
-        bool ICajaAperturaPdn.CerrarCaja(CajaApertura valCajaApertura) {
-            LibGpParams vParams = new LibGpParams();
-            bool vResult = false;
-            vParams.AddInInteger("ConsecutivoCompania",valCajaApertura.ConsecutivoCompania);
-            vParams.AddInInteger("ConsecutivoCaja",valCajaApertura.ConsecutivoCaja);
-            vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
-            vParams.AddInString("HoraCierre",valCajaApertura.HoraCierre,5);
-            vParams.AddInDecimal("MontoEfectivo",valCajaApertura.MontoEfectivo,4);
-            vParams.AddInDecimal("MontoCheque",valCajaApertura.MontoCheque,4);
-            vParams.AddInDecimal("MontoTarjeta",valCajaApertura.MontoTarjeta,4);
-            vParams.AddInDecimal("MontoDeposito",valCajaApertura.MontoDeposito,4);
-            vParams.AddInDecimal("MontoAnticipo",valCajaApertura.MontoAnticipo,4);
-            vParams.AddInDecimal("MontoCierre",valCajaApertura.MontoCierre,4);           
-            vParams.AddInDecimal("MontoChequeME", valCajaApertura.MontoChequeME, 4);
-            vParams.AddInDecimal("MontoTarjetaME", valCajaApertura.MontoTarjetaME, 4);
-            vParams.AddInDecimal("MontoDepositoME", valCajaApertura.MontoDepositoME, 4);
-            vParams.AddInDecimal("MontoAnticipoME", valCajaApertura.MontoAnticipoME, 4);
-            vParams.AddInDecimal("MontoCierreME", valCajaApertura.MontoCierreME, 4);
-            vParams.AddInString("CodigoMoneda", valCajaApertura.CodigoMoneda, 4);
-            vParams.AddInDecimal("Cambio",valCajaApertura.Cambio,4);            
-            vResult = new Galac.Adm.Dal.Venta.clsCajaAperturaDat().CerrarCaja(vParams.Get());
-            return vResult;
-        }
-
-
         bool ICajaAperturaPdn.UsuarioFueAsignado(int valConsecutivoCompania,int valConsecutivoCaja,string valNombreDelUsuario, bool valCajaCerrada,bool valResumenDiario ) {
             LibGpParams vParams = new LibGpParams();
             bool vResult = false;
