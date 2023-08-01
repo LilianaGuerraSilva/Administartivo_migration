@@ -141,8 +141,8 @@ namespace Galac.Adm.Brl.Venta {
         private string vSqlWhereTotalesMontosPorFormaDecobro(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura, bool valEnDivisas) {
             IMonedaLocalActual insMonedaLocalActual = new clsMonedaLocalActual();
             string vCodigoMonedaLocal = insMonedaLocalActual.CodigoMoneda(LibDate.Today());
-            string vSqlHoraFechaFactura = "CONVERT(datetime, factura.fecha + ' '  + factura.HoraModificacion,103)";
-            string vSqlHoraFechaCaja = "CONVERT(datetime, adm.CajaApertura.Fecha + ' ' + adm.CajaApertura.HoraApertura, 103)";
+            string vSqlHoraFechaFactura = "CONVERT(datetime, factura.fecha + factura.HoraModificacion,103)";
+            string vSqlHoraFechaCaja = "CONVERT(datetime, adm.CajaApertura.Fecha + adm.CajaApertura.HoraApertura, 103)";
             string vSqlWhere = "";
             vSqlWhere = insSql.SqlIntValueWithAnd(vSqlWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
             vSqlWhere = insSql.SqlIntValueWithAnd(vSqlWhere, "factura.ConsecutivoCaja", valConsecutivoCaja);
