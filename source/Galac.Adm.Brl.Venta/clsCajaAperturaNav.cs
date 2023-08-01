@@ -138,30 +138,26 @@ namespace Galac.Adm.Brl.Venta {
             //FillWithForeignInfoCajaApertura(ref refData);
         }
 
-        private string vSqlWhereTotalesMontosPorFormaDecobro(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura, bool valEnDivisas) {
-            IMonedaLocalActual insMonedaLocalActual = new clsMonedaLocalActual();
-            string vCodigoMonedaLocal = insMonedaLocalActual.CodigoMoneda(LibDate.Today());
+        private string vSqlWhereTotalesMontosPorFormaDecobro(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura, string valCodigoMoneda) {          
             string vSqlHoraFechaFactura = "CONVERT(datetime, factura.fecha + factura.HoraModificacion,103)";
             string vSqlHoraFechaCaja = "CONVERT(datetime, adm.CajaApertura.Fecha + adm.CajaApertura.HoraApertura, 103)";
             string vSqlWhere = "";
             vSqlWhere = insSql.SqlIntValueWithAnd(vSqlWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
             vSqlWhere = insSql.SqlIntValueWithAnd(vSqlWhere, "factura.ConsecutivoCaja", valConsecutivoCaja);
             vSqlWhere = insSql.SqlDateValueWithAnd(vSqlWhere, "factura.Fecha", valFechaApertura);
-            vSqlWhere = insSql.SqlBoolValueWithAnd(vSqlWhere, "CajaApertura.CajaCerrada", false);
-            if (valEnDivisas) {
-                vSqlWhere = insSql.SqlValueWithOperators(vSqlWhere, "renglonCobroDeFactura.CodigoMoneda", vCodigoMonedaLocal, false, " AND ", "<>");
-            } else {
-                vSqlWhere = insSql.SqlValueWithOperators(vSqlWhere, "renglonCobroDeFactura.CodigoMoneda", vCodigoMonedaLocal, false, " AND ", "=");
-            }
+            vSqlWhere = insSql.SqlBoolValueWithAnd(vSqlWhere, "CajaApertura.CajaCerrada", false);       
+            vSqlWhere = insSql.SqlValueWithOperators(vSqlWhere, "renglonCobroDeFactura.CodigoMoneda", valCodigoMoneda, false, " AND ", "=");            
             vSqlWhere = vSqlWhere + " AND factura.ConsecutivoCaja = CajaApertura.ConsecutivoCaja ";                 
             vSqlWhere = vSqlWhere + " AND " + vSqlHoraFechaFactura + ">= " + vSqlHoraFechaCaja;
             vSqlWhere = insSql.WhereSql(vSqlWhere);
             return vSqlWhere;
         }
 
-        bool ICajaAperturaPdn.TotalesMontosPorFormaDecobro(ref XElement refResult, int valconsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura) {
+        bool ICajaAperturaPdn.TotalesMontosPorFormaDecobro(ref XElement refResult, int valconsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura, string valCodigoMonedaME) {
             bool vReq = false;
-            StringBuilder vSql = new StringBuilder();   
+            IMonedaLocalActual insMonedaLocalActual = new clsMonedaLocalActual();
+            string vCodigoMonedaLocal = insMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            StringBuilder vSql = new StringBuilder();
             vSql.AppendLine(" ;WITH CTE_MontoCierre (MontoEfectivo,MontoCheque,MontoTarjeta,MontoDeposito,MontoAnticipo, MontoEfectivoME,MontoChequeME,MontoTarjetaME,MontoDepositoME,MontoAnticipoME) AS");
             vSql.AppendLine("  ( SELECT ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivo, ");
@@ -180,29 +176,31 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine("  INNER JOIN Adm.CajaApertura ON ");
             vSql.AppendLine("  CajaApertura.ConsecutivoCaja = factura.ConsecutivoCaja AND ");
             vSql.AppendLine("  CajaApertura.ConsecutivoCompania = factura.ConsecutivoCompania ");
-            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valFechaApertura, valHoraApertura,  false));
+            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valFechaApertura, valHoraApertura, vCodigoMonedaLocal));
             vSql.AppendLine("  GROUP BY FormaDelCobro.TipoDePago");
-            vSql.AppendLine(" UNION ");
-            vSql.AppendLine(" SELECT ");
-            vSql.AppendLine(" 0, 0, 0, 0, 0, ");
-            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivoME, ");
-            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Cheque), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoChequeME, ");
-            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjetaME, ");
-            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Deposito), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoDepositoME, ");
-            vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoAnticipoME ");
-            vSql.AppendLine("  FROM renglonCobroDeFactura");
-            vSql.AppendLine("  INNER JOIN  FormaDelCobro ON");
-            vSql.AppendLine("  renglonCobroDeFactura.CodigoFormaDelCobro = FormaDelCobro.Codigo");
-            vSql.AppendLine("  INNER JOIN factura  ON");
-            vSql.AppendLine("  renglonCobroDeFactura.ConsecutivoCompania = factura.ConsecutivoCompania");
-            vSql.AppendLine("  AND renglonCobroDeFactura.NumeroFactura = factura.Numero");
-            vSql.AppendLine("  AND  renglonCobroDeFactura.TipoDeDocumento = factura.TipoDeDocumento");
-            vSql.AppendLine("  INNER JOIN Adm.CajaApertura ON ");
-            vSql.AppendLine("  CajaApertura.ConsecutivoCaja = factura.ConsecutivoCaja AND ");
-            vSql.AppendLine("  CajaApertura.ConsecutivoCompania = factura.ConsecutivoCompania ");
-            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valFechaApertura, valHoraApertura,  true));
-            vSql.AppendLine("  GROUP BY FormaDelCobro.TipoDePago)");
-            vSql.AppendLine("  SELECT ");
+            if (!LibString.S1IsEqualToS2(valCodigoMonedaME, vCodigoMonedaLocal)) {
+                vSql.AppendLine(" UNION ");
+                vSql.AppendLine(" SELECT ");
+                vSql.AppendLine(" 0, 0, 0, 0, 0, ");
+                vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivoME, ");
+                vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Cheque), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoChequeME, ");
+                vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjetaME, ");
+                vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Deposito), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoDepositoME, ");
+                vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoAnticipoME ");
+                vSql.AppendLine("  FROM renglonCobroDeFactura");
+                vSql.AppendLine("  INNER JOIN  FormaDelCobro ON");
+                vSql.AppendLine("  renglonCobroDeFactura.CodigoFormaDelCobro = FormaDelCobro.Codigo");
+                vSql.AppendLine("  INNER JOIN factura  ON");
+                vSql.AppendLine("  renglonCobroDeFactura.ConsecutivoCompania = factura.ConsecutivoCompania");
+                vSql.AppendLine("  AND renglonCobroDeFactura.NumeroFactura = factura.Numero");
+                vSql.AppendLine("  AND  renglonCobroDeFactura.TipoDeDocumento = factura.TipoDeDocumento");
+                vSql.AppendLine("  INNER JOIN Adm.CajaApertura ON ");
+                vSql.AppendLine("  CajaApertura.ConsecutivoCaja = factura.ConsecutivoCaja AND ");
+                vSql.AppendLine("  CajaApertura.ConsecutivoCompania = factura.ConsecutivoCompania ");
+                vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valFechaApertura, valHoraApertura, valCodigoMonedaME));
+                vSql.AppendLine("  GROUP BY FormaDelCobro.TipoDePago ");
+            }
+            vSql.AppendLine(") SELECT ");
             vSql.AppendLine("ISNULL(SUM(MontoEfectivo),0) AS MontoEfectivo ,");
             vSql.AppendLine("ISNULL(SUM(MontoTarjeta) ,0) AS MontoTarjeta ,");
             vSql.AppendLine("ISNULL(SUM(MontoDeposito),0) AS MontoDeposito ,");
