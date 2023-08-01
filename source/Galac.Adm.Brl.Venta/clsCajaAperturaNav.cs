@@ -165,7 +165,7 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjeta, ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Deposito), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoDeposito, ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Anticipo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoAnticipo ");
-            vSql.AppendLine(" , 0, 0 ,0 ,0, 0 ");
+            vSql.AppendLine(" , 0 AS MontoEfectivoME, 0 AS MontoTarjetaME, 0 AS MontoDepositoME ,0 AS MontoAnticipoME, 0 AS MontoChequeME");
             vSql.AppendLine("  FROM renglonCobroDeFactura");
             vSql.AppendLine("  INNER JOIN  FormaDelCobro ON");
             vSql.AppendLine("  renglonCobroDeFactura.CodigoFormaDelCobro = FormaDelCobro.Codigo");
@@ -181,7 +181,7 @@ namespace Galac.Adm.Brl.Venta {
             if (!LibString.S1IsEqualToS2(valCodigoMonedaME, vCodigoMonedaLocal)) {
                 vSql.AppendLine(" UNION ");
                 vSql.AppendLine(" SELECT ");
-                vSql.AppendLine(" 0, 0, 0, 0, 0, ");
+                vSql.AppendLine(" 0 AS MontoEfectivo, 0 AS MontoTarjeta, 0 AS MontoDeposito, 0 AS MontoAnticipo, 0 AS MontoCheque, ");
                 vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivoME, ");
                 vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Cheque), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoChequeME, ");
                 vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Tarjeta), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoTarjetaME, ");
