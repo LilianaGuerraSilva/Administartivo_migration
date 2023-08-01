@@ -12,7 +12,7 @@ namespace Galac.Adm.Ccl.Venta {
         XElement FindByConsecutivoApertura(int valConsecutivoCompania,int valConsecutivoApertura);              
         bool GetCajaCerrada(int valConsecutivoCompania,int valConsecutivoCaja,bool valIsCajaCerrada);
         bool UsuarioFueAsignado(int valConsecutivoCompania,int valConsecutivoCaja,string valNombreDelUsuario,bool valIsCajaCerrada,bool valResumenDiario);
-        bool TotalesMontosPorFormaDecobro(ref XElement refResult,int valconsecutivoCompania,int valConsecutivoCaja,string valHoraApertura,string valHoraCierre);
+        bool TotalesMontosPorFormaDecobro(ref XElement refResult, int valconsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura);
         bool AsignarCaja(int ConsecutivoCaja);
         #endregion //Metodos Generados
     } //End of class ICajaAperturaPdn    

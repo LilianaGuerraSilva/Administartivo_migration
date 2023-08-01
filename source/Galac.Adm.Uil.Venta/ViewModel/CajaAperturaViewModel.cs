@@ -950,7 +950,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void TotalesPorCierreDeCaja() {
             XElement vReq = null;
-            if (insCajaApertura.TotalesMontosPorFormaDecobro(ref vReq, ConsecutivoCompania, ConsecutivoCaja, HoraApertura, HoraCierre)) {
+            if (insCajaApertura.TotalesMontosPorFormaDecobro(ref vReq, ConsecutivoCompania, ConsecutivoCaja, Fecha, HoraCierre)) {
                 MontoEfectivo = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoEfectivo"));
                 MontoTarjeta = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjeta"));
                 MontoCheque = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoCheque"));

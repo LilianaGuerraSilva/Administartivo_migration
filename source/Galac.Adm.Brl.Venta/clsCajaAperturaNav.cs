@@ -13,6 +13,7 @@ using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Lib;
 using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
+using System.Reflection;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsCajaAperturaNav:LibBaseNav<IList<CajaApertura>,IList<CajaApertura>>, ICajaAperturaPdn {
@@ -137,34 +138,31 @@ namespace Galac.Adm.Brl.Venta {
             //FillWithForeignInfoCajaApertura(ref refData);
         }
 
-        private string vSqlWhereTotalesMontosPorFormaDecobro(int valconsecutivoCompania, int valConsecutivoCaja, string valHoraApertura, string valHoraCierre, bool valEnDivisas) {
+        private string vSqlWhereTotalesMontosPorFormaDecobro(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura, bool valEnDivisas) {
             IMonedaLocalActual insMonedaLocalActual = new clsMonedaLocalActual();
             string vCodigoMonedaLocal = insMonedaLocalActual.CodigoMoneda(LibDate.Today());
+            string vSqlHoraFechaFactura = "CONVERT(datetime, factura.fecha + ' '  + factura.HoraModificacion,103)";
+            string vSqlHoraFechaCaja = "CONVERT(datetime, adm.CajaApertura.Fecha + ' ' + adm.CajaApertura.HoraApertura, 103)";
             string vSqlWhere = "";
+            vSqlWhere = insSql.SqlIntValueWithAnd(vSqlWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
+            vSqlWhere = insSql.SqlIntValueWithAnd(vSqlWhere, "factura.ConsecutivoCaja", valConsecutivoCaja);
+            vSqlWhere = insSql.SqlDateValueWithAnd(vSqlWhere, "factura.Fecha", valFechaApertura);
+            vSqlWhere = insSql.SqlBoolValueWithAnd(vSqlWhere, "CajaApertura.CajaCerrada", false);
             if (valEnDivisas) {
-                vSqlWhere = "renglonCobroDeFactura.CodigoMoneda <> " + insSql.ToSqlValue(vCodigoMonedaLocal) +" AND ";
+                vSqlWhere = insSql.SqlValueWithOperators(vSqlWhere, "renglonCobroDeFactura.CodigoMoneda", vCodigoMonedaLocal, false, " AND ", "<>");
             } else {
-                vSqlWhere = "renglonCobroDeFactura.CodigoMoneda = " + insSql.ToSqlValue(vCodigoMonedaLocal) + " AND ";
+                vSqlWhere = insSql.SqlValueWithOperators(vSqlWhere, "renglonCobroDeFactura.CodigoMoneda", vCodigoMonedaLocal, false, " AND ", "=");
             }
-            vSqlWhere = vSqlWhere + "factura.Fecha BETWEEN CTE_MaxAperturaCaja.Fecha AND " + insSql.ToSqlValue(LibDate.Today());
-            vSqlWhere = insSql.SqlIntValueWithOperators(vSqlWhere, "factura.ConsecutivoCaja", valConsecutivoCaja, " AND ", "=");
-            vSqlWhere = insSql.SqlIntValueWithOperators(vSqlWhere, "factura.ConsecutivoCompania", valconsecutivoCompania, "", "=");
-            vSqlWhere = insSql.SqlValueBetween(vSqlWhere, "factura.HoraModificacion", valHoraApertura, valHoraCierre, "");
+            vSqlWhere = vSqlWhere + " AND factura.ConsecutivoCaja = CajaApertura.ConsecutivoCaja ";                 
+            vSqlWhere = vSqlWhere + " AND " + vSqlHoraFechaFactura + ">= " + vSqlHoraFechaCaja;
             vSqlWhere = insSql.WhereSql(vSqlWhere);
             return vSqlWhere;
         }
 
-        bool ICajaAperturaPdn.TotalesMontosPorFormaDecobro(ref XElement refResult, int valconsecutivoCompania, int valConsecutivoCaja, string valHoraApertura, string valHoraCierre) {
+        bool ICajaAperturaPdn.TotalesMontosPorFormaDecobro(ref XElement refResult, int valconsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura) {
             bool vReq = false;
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine(" ;WITH CTE_MaxAperturaCaja(Fecha,ConsecutivoCaja,ConsecutivoCompania) AS");
-            vSql.AppendLine(" (SELECT TOP(1)Fecha,ConsecutivoCaja,ConsecutivoCompania ");
-            vSql.AppendLine(" FROM Adm.CajaApertura");
-            vSql.AppendLine(" WHERE ConsecutivoCaja=" + insSql.ToSqlValue(valConsecutivoCaja));
-            vSql.AppendLine(" AND CajaCerrada =" + insSql.ToSqlValue(false));
-            vSql.AppendLine(" AND ConsecutivoCompania=" + insSql.ToSqlValue(valconsecutivoCompania));
-            vSql.AppendLine(" ORDER BY Fecha DESC)");
-            vSql.AppendLine(" ,CTE_MontoCierre (MontoEfectivo,MontoCheque,MontoTarjeta,MontoDeposito,MontoAnticipo, MontoEfectivoME,MontoChequeME,MontoTarjetaME,MontoDepositoME,MontoAnticipoME) AS");
+            StringBuilder vSql = new StringBuilder();   
+            vSql.AppendLine(" ;WITH CTE_MontoCierre (MontoEfectivo,MontoCheque,MontoTarjeta,MontoDeposito,MontoAnticipo, MontoEfectivoME,MontoChequeME,MontoTarjetaME,MontoDepositoME,MontoAnticipoME) AS");
             vSql.AppendLine("  ( SELECT ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Efectivo), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoEfectivo, ");
             vSql.AppendLine(insSql.IIF("FormaDelCobro.TipoDePago = " + insSql.EnumToSqlValue((int)eFormaDeCobro.Cheque), "SUM(renglonCobroDeFactura.Monto)", "0", true) + " AS MontoCheque, ");
@@ -179,10 +177,10 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine("  renglonCobroDeFactura.ConsecutivoCompania = factura.ConsecutivoCompania");
             vSql.AppendLine("  AND renglonCobroDeFactura.NumeroFactura = factura.Numero");
             vSql.AppendLine("  AND  renglonCobroDeFactura.TipoDeDocumento = factura.TipoDeDocumento");
-            vSql.AppendLine("  INNER JOIN CTE_MaxAperturaCaja ON");
-            vSql.AppendLine("  factura.ConsecutivoCaja = CTE_MaxAperturaCaja.ConsecutivoCaja AND");
-            vSql.AppendLine("  factura.ConsecutivoCompania = CTE_MaxAperturaCaja.ConsecutivoCompania");
-            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valHoraApertura, valHoraCierre, false));
+            vSql.AppendLine("  INNER JOIN Adm.CajaApertura ON ");
+            vSql.AppendLine("  CajaApertura.ConsecutivoCaja = factura.ConsecutivoCaja AND ");
+            vSql.AppendLine("  CajaApertura.ConsecutivoCompania = factura.ConsecutivoCompania ");
+            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valFechaApertura, valHoraApertura,  false));
             vSql.AppendLine("  GROUP BY FormaDelCobro.TipoDePago");
             vSql.AppendLine(" UNION ");
             vSql.AppendLine(" SELECT ");
@@ -199,10 +197,10 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine("  renglonCobroDeFactura.ConsecutivoCompania = factura.ConsecutivoCompania");
             vSql.AppendLine("  AND renglonCobroDeFactura.NumeroFactura = factura.Numero");
             vSql.AppendLine("  AND  renglonCobroDeFactura.TipoDeDocumento = factura.TipoDeDocumento");
-            vSql.AppendLine("  INNER JOIN CTE_MaxAperturaCaja ON");
-            vSql.AppendLine("  factura.ConsecutivoCaja = CTE_MaxAperturaCaja.ConsecutivoCaja AND");
-            vSql.AppendLine("  factura.ConsecutivoCompania = CTE_MaxAperturaCaja.ConsecutivoCompania");
-            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valHoraApertura, valHoraCierre, true));
+            vSql.AppendLine("  INNER JOIN Adm.CajaApertura ON ");
+            vSql.AppendLine("  CajaApertura.ConsecutivoCaja = factura.ConsecutivoCaja AND ");
+            vSql.AppendLine("  CajaApertura.ConsecutivoCompania = factura.ConsecutivoCompania ");
+            vSql.AppendLine(vSqlWhereTotalesMontosPorFormaDecobro(valconsecutivoCompania, valConsecutivoCaja, valFechaApertura, valHoraApertura,  true));
             vSql.AppendLine("  GROUP BY FormaDelCobro.TipoDePago)");
             vSql.AppendLine("  SELECT ");
             vSql.AppendLine("ISNULL(SUM(MontoEfectivo),0) AS MontoEfectivo ,");
@@ -258,4 +256,6 @@ namespace Galac.Adm.Brl.Venta {
         #endregion //Metodos Generados        
     } //End of class clsCajaAperturaNav   
 } //End of namespace Galac.Adm.Brl.Venta
+
+
 
