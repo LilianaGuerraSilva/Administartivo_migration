@@ -2813,6 +2813,9 @@ Private Function fLasCuentasDeAnticipoEstanCompletas(ByVal valTipoDocumento As I
       EstanCompletas = EstanCompletas And fLasCuentasDeCreditoBancarioEstanCompletas()
       EstanCompletas = EstanCompletas And fLasCuentasDeDebitoBancarioEstanCompletas()
    End If
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetAnticipoTipoComprobante <> ""
+   End If
 h_EXIT:
    fLasCuentasDeAnticipoEstanCompletas = EstanCompletas
    On Error GoTo 0
@@ -2843,7 +2846,11 @@ Public Function fLasCuentasDeReglasDeContabilizacionEstanCompletas(ByVal valModu
       End Select
    End If
    If Not EstanCompletas And valConMensaje Then
-      mensaje = "Faltan definir Cuentas Contables en las Reglas de Contabilización para "
+      If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+         mensaje = "Faltan definir Cuentas Contables o Tipo de Comprobantes en las Reglas de Contabilización para "
+      Else
+         mensaje = "Faltan definir Cuentas Contables en las Reglas de Contabilización para "
+      End If
       mensaje = mensaje & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & "." & vbCr & vbCr
       mensaje = mensaje & "Vaya al módulo de Reglas de Contabilización y complételas, por favor."
       gMessage.Advertencia mensaje
@@ -3019,13 +3026,9 @@ Private Function fLosTiposDeComprobantesEstanCompletos() As Boolean
    If gContPeriodoActual.GetTipoDeNumeracionAsEnum <> eTN_TIPOMESCONSECUTIVO Then
       varEstanCompletos = True
    Else
-      varEstanCompletos = GetCxCTipoComprobante <> "" And GetCxPTipoComprobante <> "" And _
-                           GetCobranzaTipoComprobante <> "" And GetPagoTipoComprobante <> "" And _
-                           GetFacturaTipoComprobante <> "" And GetMovimientoBancarioTipoComprobante <> "" And _
-                           GetAnticipoTipoComprobante <> "" And GetInventarioTipoComprobante <> "" And _
-                           GetPagosSueldosTipoComprobante <> "" And GetSiglasTipoComprobanteCajaChica <> "" And _
-                           GetSiglasTipoComprobanteRendiciones <> "" And GetTransfCtasSigasTipoComprobante <> "" And _
-                           GetOrdenDeProduccionTipoComprobante <> ""
+      varEstanCompletos = GetFacturaTipoComprobante <> "" And GetCxCTipoComprobante <> "" And _
+            GetCxPTipoComprobante <> "" And GetCobranzaTipoComprobante <> "" And _
+            GetPagoTipoComprobante <> "" And GetMovimientoBancarioTipoComprobante <> ""
    End If
 h_EXIT: On Error GoTo 0
    fLosTiposDeComprobantesEstanCompletos = varEstanCompletos
@@ -3326,6 +3329,9 @@ Private Function fLasCuentasDeInventarioEstanCompletas() As Boolean
    Dim EstanCompletas As Boolean
    On Error GoTo h_ERROR
    EstanCompletas = (GetCuentaCostoDeVenta() <> "" And GetCuentaInventario() <> "")
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetInventarioTipoComprobante <> ""
+   End If
 h_EXIT:
    fLasCuentasDeInventarioEstanCompletas = EstanCompletas
    On Error GoTo 0
@@ -3659,6 +3665,9 @@ Public Function fLasCuentasDePagoSueldoEstanCompletas() As Boolean
    Dim EstanCompletas As Boolean
    On Error GoTo h_ERROR
    EstanCompletas = (GetCtaDePagosSueldosBanco() <> "" And GetCtaDePagosSueldos() <> "")
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetPagosSueldosTipoComprobante <> ""
+   End If
 h_EXIT:
    fLasCuentasDePagoSueldoEstanCompletas = EstanCompletas
    On Error GoTo 0
@@ -3716,6 +3725,9 @@ Public Function fLasCuentasDeReposicionEstanCompletas() As Boolean
    Dim EstanCompletas As Boolean
    On Error GoTo h_ERROR
    EstanCompletas = (Replace(GetCuentaCajaChicaGasto(), " ", "") <> "" And Replace(GetCuentaCajaChicaBanco(), " ", "") <> "" And Replace(GetCuentaCajaChicaBancoDebe(), " ", "") <> "" And Replace(GetCuentaCajaChicaBancoHaber(), " ", "") <> "" And Replace(GetCuentaPagosCxPProveedores(), " ", "") <> "")
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetSiglasTipoComprobanteCajaChica <> ""
+   End If
 h_EXIT:
    fLasCuentasDeReposicionEstanCompletas = EstanCompletas
    On Error GoTo 0
@@ -3848,6 +3860,9 @@ Private Function fLasCuentasDeTransfCtasEstanCompletas() As Boolean
    If (gProyParametrosCompania.GetManejaDebitoBancario) Then
       EstanCompletas = EstanCompletas And fLasCuentasDeDebitoBancarioEstanCompletas()
    End If
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetTransfCtasSigasTipoComprobante <> ""
+   End If
 h_EXIT:
    fLasCuentasDeTransfCtasEstanCompletas = EstanCompletas
    On Error GoTo 0
@@ -3860,6 +3875,9 @@ Private Function fLasCuentasDeOrdenDeProduccionEstanCompletas() As Boolean
    On Error GoTo h_ERROR
    vEstanCompletas = GetCuentaOrdenDeProduccionMateriaPrima <> ""
    vEstanCompletas = vEstanCompletas And GetCuentaOrdenDeProduccionProductoTerminado <> ""
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      vEstanCompletas = vEstanCompletas And GetOrdenDeProduccionTipoComprobante <> ""
+   End If
 h_EXIT:
    fLasCuentasDeOrdenDeProduccionEstanCompletas = vEstanCompletas
    On Error GoTo 0
