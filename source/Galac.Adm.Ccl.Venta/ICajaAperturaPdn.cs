@@ -9,11 +9,10 @@ namespace Galac.Adm.Ccl.Venta {
 
     public interface ICajaAperturaPdn:ILibPdn {
         #region Metodos Generados
-        XElement FindByConsecutivoApertura(int valConsecutivoCompania,int valConsecutivoApertura);       
-        bool CerrarCaja(CajaApertura vRecord);
+        XElement FindByConsecutivoApertura(int valConsecutivoCompania,int valConsecutivoApertura);              
         bool GetCajaCerrada(int valConsecutivoCompania,int valConsecutivoCaja,bool valIsCajaCerrada);
         bool UsuarioFueAsignado(int valConsecutivoCompania,int valConsecutivoCaja,string valNombreDelUsuario,bool valIsCajaCerrada,bool valResumenDiario);
-        bool TotalesMontosPorFormaDecobro(ref XElement refResult,int valconsecutivoCompania,int valConsecutivoCaja,string valHoraApertura,string valHoraCierre);
+        bool TotalesMontosPorFormaDecobro(ref XElement refResult, int valconsecutivoCompania, int valConsecutivoCaja, DateTime valFechaApertura, string valHoraApertura, string valCodigoMoneda);
         bool AsignarCaja(int ConsecutivoCaja);
         #endregion //Metodos Generados
     } //End of class ICajaAperturaPdn    

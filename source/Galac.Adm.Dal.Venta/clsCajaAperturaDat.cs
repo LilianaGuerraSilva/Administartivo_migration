@@ -409,22 +409,7 @@ namespace Galac.Adm.Dal.Venta {
                 vResult = LibConvert.ToInt(LibXml.GetPropertyString(vXmlResult,"NextConsecutivo"));                
             }
             return vResult;
-        }
-
-        public bool CerrarCaja(StringBuilder valXmlParamsExpression) {
-            bool vResult = false;
-            try {
-                LibDatabase insDb = new LibDatabase();
-                XmlDocument vResulset = insDb.LoadFromSp(insDb.ToSpName(DbSchema,"CajaAperturaCerrar"),valXmlParamsExpression,0);
-                if(vResulset != null && vResulset.DocumentElement != null && vResulset.DocumentElement.HasChildNodes) {
-                    XElement vXmlResult = LibXml.ToXElement(vResulset);
-                    vResult = LibConvert.ToInt(LibXml.GetPropertyString(vXmlResult,"RowsAfects")) > 0;
-                }
-                return vResult;
-            } catch(Exception vEx) {
-                throw vEx;
-            }
-        }               
+        }                     
         #endregion //Miembros de ILibDataFKSearch
         #endregion //Metodos Generados
     } //End of class clsCajaAperturaDat

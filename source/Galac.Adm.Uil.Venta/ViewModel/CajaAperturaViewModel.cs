@@ -59,7 +59,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private FkMonedaViewModel _ConexionMoneda = null;
         ICajaAperturaPdn insCajaApertura;
         bool _CajaCerrada = false;
-        bool _UsuarioNoAsignado = false;
+        bool _UsuarioFueAsignado = false;
         private Saw.Lib.clsNoComunSaw vMonedaLocal = null;
         private bool _UsaCobroMultimoneda = false;
         private string _CodigoMEInicial;
@@ -330,7 +330,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-             
+
         public string CodigoMoneda {
             get {
                 return Model.CodigoMoneda;
@@ -339,13 +339,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (Model.CodigoMoneda != value) {
                     Model.CodigoMoneda = value;
                     IsDirty = true;
-                    RaisePropertyChanged(CodigoMonedaPropertyName);                   
+                    RaisePropertyChanged(CodigoMonedaPropertyName);
                 }
             }
         }
 
         [LibCustomValidation("CodigoMonedaValidating")]
-        public string  Moneda {
+        public string Moneda {
             get {
                 return Model.Moneda;
             }
@@ -362,7 +362,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
-        
+
         [LibCustomValidation("TasaDeCambioValidating")]
         public decimal Cambio {
             get {
@@ -545,7 +545,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             set {
                 if (_ConexionMoneda != value) {
-                    _ConexionMoneda = value;                   
+                    _ConexionMoneda = value;
                 }
                 if (_ConexionMoneda == null) {
                     CodigoMoneda = string.Empty;
@@ -568,8 +568,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             if (Action == eAccionSR.Listar || Action == eAccionSR.Consultar) {
                 ShowDetaills = true;
-                Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
-                TotalesPorCierreDeCaja();
+                Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);               
             }
         }
 
@@ -594,6 +593,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoAnticipoME = 0m;
             } else if (Action == eAccionSR.Modificar) {
                 CajaCerrada = true;
+                TotalesPorCierreDeCaja();
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
             }
             CargarValoresInicialesDeMoneda();
@@ -603,7 +603,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void CargarValoresInicialesDeMoneda() {
             vMonedaLocal = new Saw.Lib.clsNoComunSaw();
             _UsaCobroMultimoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaCobroDirectoEnMultimoneda");
-            if (Action == eAccionSR.Insertar) {                
+            if (Action == eAccionSR.Insertar) {
                 if (_UsaCobroMultimoneda) {
                     CodigoMoneda = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
                     _CodigoMEInicial = CodigoMoneda;
@@ -708,21 +708,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ExecuteAbrirCajaCommand() {
             bool vSePuede = false;
             try {
-                if (IsValid) {
-                    vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
-                    if (vSePuede) {
-                        ExecuteExecuteActionAndCloseCommand();
-                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");                        
-                    } else {
-                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " no pudo ser abierta.", "");
-
-                    }
-                } else {
-                    LibMessages.MessageBox.Alert(this, Error, "Notificación");
+                vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
+                if (vSePuede) {
+                    base.ExecuteAction();
+                    LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue abierta con exito.", "");
+                    ExecuteCloseCommand();
                 }
-            } catch (Exception) {
-                throw;
-            }            
+
+            } catch (Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
         }
 
         private void ExecuteCerrarCajaCommand() {
@@ -730,18 +725,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 vSePuede = ValidarCajasAbiertas() && ValidarUsuarioAsignado();
                 if (vSePuede) {
-                    if (insCajaApertura != null && insCajaApertura.CerrarCaja(Model)) {
-                        if (ConexionNombreCaja == null) {
-                            LibMessages.MessageBox.Information(this, "La caja no pudo ser cerrada", "");
-                        } else {
-                            if (ConexionNombreCaja.UsaMaquinaFiscal) {
-                                ImprimirCierreX();
-                            }
-                            LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
-                            RaiseRequestCloseEvent();
-                        }
+                    CajaCerrada = true;
+                    base.ExecuteAction();
+                    if (ConexionNombreCaja == null) {
+                        LibMessages.MessageBox.Information(this, "La caja no pudo ser cerrada", "");
                     } else {
-                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " no pudo ser cerrada", "");
+                        if (ConexionNombreCaja.UsaMaquinaFiscal) {
+                            ImprimirCierreX();
+                        }
+                        LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Cerrada con exíto", "");
+                        ExecuteCloseCommand();
                     }
                 }
             } catch (Exception vEx) {
@@ -759,7 +752,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (!LibString.IsNullOrEmpty(NombreCaja)) {
                     insCajaApertura.AsignarCaja(ConsecutivoCaja);
                     LibMessages.MessageBox.Information(this, "La caja " + NombreCaja + " fue Asignada con exito.", "");
-                    RaiseRequestCloseEvent();
+                    base.ExecuteAction();
+                    ExecuteCloseCommand();
                 } else {
                     LibMessages.MessageBox.Alert(this, "El nombre de la caja es requierido ", "");
                 }
@@ -780,8 +774,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ConsecutivoCaja = ConexionNombreCaja.Consecutivo;
                     NombreCaja = ConexionNombreCaja.NombreCaja;
                     if (Action == eAccionSR.Modificar || Action == eAccionSR.Insertar) {
-                        _CajaCerrada = insCajaApertura.GetCajaCerrada(ConsecutivoCompania, ConsecutivoCaja, false);
-                        TotalesPorCierreDeCaja();
+                        _CajaCerrada = insCajaApertura.GetCajaCerrada(ConsecutivoCompania, ConsecutivoCaja, false);                        
                     }
                 } else {
                     ConsecutivoCaja = 0;
@@ -805,7 +798,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (ConexionNombreDelUsuario != null) {
                     NombreDelUsuario = ConexionNombreDelUsuario.UserName;
                     if (Action == eAccionSR.Modificar || Action == eAccionSR.Insertar) {
-                        _UsuarioNoAsignado = insCajaApertura.UsuarioFueAsignado(ConsecutivoCompania, ConsecutivoCaja, NombreDelUsuario, false, false);
+                        _UsuarioFueAsignado = insCajaApertura.UsuarioFueAsignado(ConsecutivoCompania, ConsecutivoCaja, NombreDelUsuario, false, false);
                     }
                 } else {
                     NombreDelUsuario = string.Empty;
@@ -824,7 +817,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
                 LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("Nombre", valMoneda);
                 LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("Activa", LibConvert.BoolToSN(true));
-                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);                
+                vFixedCriteria.Add("TipoDeMoneda", eBooleanOperatorType.IdentityEquality, eTipoDeMoneda.Fisica);
                 AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref vFixedCriteria);
                 ConexionMoneda = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionMoneda != null) {
@@ -839,7 +832,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx, ModuleName);
             }
-        }     
+        }
 
         private void AgregarCriteriaParaExcluirMonedasLocalesNoVigentesAlDiaActual(ref LibSearchCriteria vFixedCriteria) {
             XElement vXmlMonedaLocales = ((Comun.Ccl.TablasGen.IMonedaLocalPdn)new Comun.Brl.TablasGen.clsMonedaLocalProcesos()).BusquedaTodasLasMonedasLocales(LibDefGen.ProgramInfo.Country);
@@ -915,8 +908,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool ValidarUsuarioAsignado() {
             bool vResult = true;
-            if (_UsuarioNoAsignado && Action != eAccionSR.Escoger) {
-                LibMessages.MessageBox.Information(this, "El usuario " + NombreDelUsuario + " ya aperturó otra caja", ModuleName);
+            if (_UsuarioFueAsignado && Action != eAccionSR.Escoger) {
+                LibMessages.MessageBox.Information(this, "Ya existe una caja abierta por el usuario: " + NombreDelUsuario, ModuleName);
                 NombreDelUsuario = string.Empty;
                 vResult = false;
             }
@@ -957,13 +950,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void TotalesPorCierreDeCaja() {
             XElement vReq = null;
-            if (insCajaApertura.TotalesMontosPorFormaDecobro(ref vReq, ConsecutivoCompania, ConsecutivoCaja, HoraApertura, HoraCierre)) {
+            if (insCajaApertura.TotalesMontosPorFormaDecobro(ref vReq, ConsecutivoCompania, ConsecutivoCaja, Fecha, HoraCierre, CodigoMoneda)) {
                 MontoEfectivo = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoEfectivo"));
                 MontoTarjeta = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjeta"));
                 MontoCheque = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoCheque"));
                 MontoDeposito = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDeposito"));
                 MontoAnticipo = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipo"));
                 MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo;
+                MontoEfectivoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoEfectivoME"));
+                MontoTarjetaME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjetaME"));
+                MontoChequeME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoChequeME"));
+                MontoDepositoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDepositoME"));
+                MontoAnticipoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipoME"));
+                MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME;
             }
         }
 
@@ -1031,14 +1030,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void AsignarValoresDeMonedaPorDefecto() {
-            if (_UsaCobroMultimoneda) {                
-                ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));                
+            if (_UsaCobroMultimoneda) {
+                ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));
                 CodigoMoneda = ConexionMoneda.Codigo;
                 Moneda = ConexionMoneda.Nombre;
                 if (LibString.S1IsEqualToS2(CodigoMoneda, _CodigoMEInicial)) {
                     Cambio = 1;
                 } else {
-                    AsignaTasaDelDia(_CodigoMEInicial);                    
+                    AsignaTasaDelDia(_CodigoMEInicial);
                 }
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);

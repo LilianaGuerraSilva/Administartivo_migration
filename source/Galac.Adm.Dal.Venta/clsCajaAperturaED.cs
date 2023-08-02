@@ -552,8 +552,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" IF (SELECT  COUNT(Adm.CajaApertura.NombreDelUsuario) AS CantidadApertura ");
             SQL.AppendLine("   FROM Adm.CajaApertura");
             SQL.AppendLine("   WHERE NombreDelUsuario = @NombreDelUsuario ");
-            SQL.AppendLine("   AND CajaCerrada = @CajaCerrada ");
-            SQL.AppendLine("   AND ConsecutivoCaja = @ConsecutivoCaja ");
+            SQL.AppendLine("   AND CajaCerrada = @CajaCerrada ");            
             SQL.AppendLine("   AND ConsecutivoCompania = @ConsecutivoCompania)> 0 ");
             SQL.AppendLine("   SELECT 'S' AS UsuarioYaAsignado ");
             SQL.AppendLine(" ELSE ");
@@ -600,51 +599,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" ELSE SELECT(CASE WHEN @CajaCerrada = 'S' THEN ");
             SQL.AppendLine(" 'N' ELSE 'S' END) AS ReqCajasCerradas END ");            
             return SQL.ToString();
-        }
-
-        private string SqlSpCajaAperturaCerrarParameters() {
-            StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@ConsecutivoCaja" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
-            SQL.AppendLine("@HoraCierre" + InsSql.VarCharTypeForDb(5) + ",");
-            SQL.AppendLine("@MontoEfectivo" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoCheque" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoTarjeta" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoDeposito" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoAnticipo" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoCierre" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@Cambio" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + "");
-            return SQL.ToString();
-        }
-
-        private string SqlSpCajaAperturaCerrar() {
-            StringBuilder SQL = new StringBuilder();
-            QAdvSql _QAdvSql = new QAdvSql("");
-            SQL.AppendLine(" SET NOCOUNT ON; ");
-            SQL.AppendLine(" BEGIN");
-            SQL.AppendLine(" UPDATE ");
-            SQL.AppendLine(" " + DbSchema + ".CajaApertura ");
-            SQL.AppendLine(" SET CajaCerrada = " + _QAdvSql.ToSqlValue(true) + ", ");
-            SQL.AppendLine(" HoraCierre  = @HoraCierre, ");
-            SQL.AppendLine(" MontoEfectivo = @MontoEfectivo, ");
-            SQL.AppendLine(" MontoCheque = @MontoCheque, ");
-            SQL.AppendLine(" MontoTarjeta = @MontoTarjeta, ");
-            SQL.AppendLine(" MontoDeposito = @MontoDeposito, ");
-            SQL.AppendLine(" MontoAnticipo = @MontoAnticipo, ");
-            SQL.AppendLine(" MontoCierre = @MontoCierre, ");			
-			SQL.AppendLine(" Cambio = @Cambio, ");
-            SQL.AppendLine(" CodigoMoneda = @CodigoMoneda, ");			
-            SQL.AppendLine(" FechaUltimaModificacion = @FechaUltimaModificacion ");
-            SQL.AppendLine(" WHERE ");
-            SQL.AppendLine(" ConsecutivoCaja = @ConsecutivoCaja ");
-            SQL.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania ");
-            SQL.AppendLine(" AND CajaCerrada <> " + _QAdvSql.ToSqlValue(true));
-            SQL.AppendLine(" SELECT  @@ROWCOUNT AS RowsAfects ");
-            SQL.AppendLine(" END");
-            return SQL.ToString();
-        }        
+        }               
 
         bool CrearVistas() {
             bool vResult = false;
@@ -664,8 +619,7 @@ namespace Galac.Adm.Dal.Venta {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaAperturaGET",SqlSpGetParameters(),SqlSpGet(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaAperturaSCH",SqlSpSearchParameters(),SqlSpSearch(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaAperturaGetFk",SqlSpGetFKParameters(),SqlSpGetFK(),true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajasCerradasGet",SqlSpCajasCerradasParameters(),SqlSpCajasCerradasGet(),true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaAperturaCerrar",SqlSpCajaAperturaCerrarParameters(),SqlSpCajaAperturaCerrar(),true) && vResult;            
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajasCerradasGet",SqlSpCajasCerradasParameters(),SqlSpCajasCerradasGet(),true) && vResult;            
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaUsuarioAsignadoGet",SqlSpUsuarioAsignadoParameters(),SqlSpUsuarioAsignadoGet(),true) && vResult;            
             insSps.Dispose();
             return vResult;
