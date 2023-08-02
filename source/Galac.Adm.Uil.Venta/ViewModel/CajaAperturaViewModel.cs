@@ -567,8 +567,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 insCajaApertura = new Brl.Venta.clsCajaAperturaNav() as ICajaAperturaPdn;
             }
             if (Action == eAccionSR.Listar || Action == eAccionSR.Consultar) {
-                ShowDetaills = true;
-                Model.HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);               
+                ShowDetaills = true;                          
             }
         }
 
