@@ -18,10 +18,6 @@
 	path = bin/binLibProtec
 	url = https://github.com/Galac-Software/BinLibProtec.git
 	branch = release/v18.2.2.0
-[submodule "bin/binLibVb"]
-	path = bin/binLibVb
-	url = https://github.com/Galac-Software/BinLibVb.git
-	branch = release/v2104
 [submodule "source/Axi"]
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
@@ -29,10 +25,6 @@
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://github.com/Galac-Software/BinEsqNiif.git
-	branch = release/SawV23.5.0.0
-[submodule "bin/binContabilidadVb"]
-	path = bin/binContabilidadVb
-	url = https://github.com/Galac-Software/BinContabilidadVb.git
 	branch = release/SawV23.5.0.0
 [submodule "bin/binContabilidadAos"]
 	path = bin/binContabilidadAos
