@@ -62,3 +62,11 @@
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
 	branch = release/V2201
+[submodule "source/ContabilidadVb"]
+	path = source/ContabilidadVb
+	url = https://github.com/Galac-Software/ContabilidadVb.git
+	branch = release/WCO-20.3
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/Galac-Software/IvaVb.git
+	branch = release/IVA-34.5
