@@ -49,7 +49,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoAperturaME = new DataDynamics.ActiveReports.TextBox();
             this.txtMontoCodigoMoneda = new DataDynamics.ActiveReports.TextBox();
             this.lblMontoML = new DataDynamics.ActiveReports.Label();
-            this.lblMontoME = new DataDynamics.ActiveReports.Label();
+            this.lblApertura = new DataDynamics.ActiveReports.Label();
             this.lblMovimiento = new DataDynamics.ActiveReports.Label();
             this.GFCajaApertura = new DataDynamics.ActiveReports.GroupFooter();
             this.lblHoraCierre = new DataDynamics.ActiveReports.Label();
@@ -77,7 +77,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoAperturaME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCodigoMoneda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoML)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblMontoME)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblApertura)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMovimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblHoraCierre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtHoraCierre)).BeginInit();
@@ -210,7 +210,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoAperturaME,
             this.txtMontoCodigoMoneda,
             this.lblMontoML,
-            this.lblMontoME,
+            this.lblApertura,
             this.lblMovimiento});
             this.GHCajaApertura.Height = 0.6312501F;
             this.GHCajaApertura.Name = "GHCajaApertura";
@@ -245,7 +245,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblHoraApertura.Name = "lblHoraApertura";
             this.lblHoraApertura.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblHoraApertura.Text = "Hora Apertura";
-            this.lblHoraApertura.Top = 0.156F;
+            this.lblHoraApertura.Top = 0.15625F;
             this.lblHoraApertura.Width = 1.5F;
             // 
             // lblNombreCaja
@@ -276,7 +276,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtOperador.Name = "txtOperador";
             this.txtOperador.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtOperador.Text = "txtOperador";
-            this.txtOperador.Top = 0.156F;
+            this.txtOperador.Top = 0.15625F;
             this.txtOperador.Width = 3.5F;
             // 
             // txtFechaApertura
@@ -296,7 +296,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtHoraApertura.Name = "txtHoraApertura";
             this.txtHoraApertura.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtHoraApertura.Text = "txtHoraApertura";
-            this.txtHoraApertura.Top = 0.156F;
+            this.txtHoraApertura.Top = 0.15625F;
             this.txtHoraApertura.Width = 1.5F;
             // 
             // txtMontoAperturaML
@@ -342,16 +342,16 @@ namespace Galac.Adm.Rpt.Venta
             this.lblMontoML.Top = 0.319F;
             this.lblMontoML.Width = 1.5F;
             // 
-            // lblMontoME
+            // lblApertura
             // 
-            this.lblMontoME.Height = 0.15625F;
-            this.lblMontoME.HyperLink = null;
-            this.lblMontoME.Left = 0F;
-            this.lblMontoME.Name = "lblMontoME";
-            this.lblMontoME.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
-            this.lblMontoME.Text = "Monto ME";
-            this.lblMontoME.Top = 0.4750001F;
-            this.lblMontoME.Width = 4.5F;
+            this.lblApertura.Height = 0.15625F;
+            this.lblApertura.HyperLink = null;
+            this.lblApertura.Left = 0F;
+            this.lblApertura.Name = "lblApertura";
+            this.lblApertura.Style = "font-size: 8pt; font-weight: bold; text-align: right; ddo-char-set: 1";
+            this.lblApertura.Text = "Apertura";
+            this.lblApertura.Top = 0.4750001F;
+            this.lblApertura.Width = 4.5F;
             // 
             // lblMovimiento
             // 
@@ -468,7 +468,7 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoAperturaME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCodigoMoneda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMontoML)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.lblMontoME)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblApertura)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblMovimiento)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblHoraCierre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtHoraCierre)).EndInit();
@@ -493,7 +493,7 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.PageFooter PageFooter;
         private DataDynamics.ActiveReports.GroupHeader GHCajaApertura;
         private DataDynamics.ActiveReports.Label lblMontoML;
-        private DataDynamics.ActiveReports.Label lblMontoME;
+        private DataDynamics.ActiveReports.Label lblApertura;
         private DataDynamics.ActiveReports.Label lblOperador;
         private DataDynamics.ActiveReports.Label lblFechaApertura;
         private DataDynamics.ActiveReports.Label lblHoraApertura;

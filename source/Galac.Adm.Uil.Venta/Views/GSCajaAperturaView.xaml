@@ -33,9 +33,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid
-            Name="Encabezado"
+        <Grid Name="Encabezado"
             Grid.Row="0"
             Grid.Column="0"
             FocusManager.FocusedElement="{Binding ElementName=txtNombreCaja}">
@@ -75,7 +75,7 @@
                 Grid.Column="0"
                 Content="Operador"
                 Style="{StaticResource LabelPrompt}"
-                Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}" />
+                Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" />
             <nsWpfControls:GSSeekConnection
                 Name="txtNombreDelUsuario"
                 Grid.Row="1"
@@ -92,13 +92,12 @@
                 IsEnabled="{Binding Path=IsEnabledForInsert}"
                 Model="{Binding Path=ConexionNombreDelUsuario, Mode=TwoWay}"
                 SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}"
-                Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}" />
+                Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" />
         </Grid>
-        <Grid
-            Name="Titulos"
+        <Grid Name="Titulos"
             Grid.Row="1"
             Grid.Column="0"
-            Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}">
+            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -160,25 +159,15 @@
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=Cambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Grid
-            Name="Detaills"
-            Grid.Row="2"
-            Grid.Column="0"
-            Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}">
+        <Grid Name="Apertura"
+              Grid.Row="2"
+              Grid.Column="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="177" />
+                <ColumnDefinition Width="177" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label
@@ -211,9 +200,29 @@
                 IsEnabled="{Binding Path=IsEnabledForME}"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+        <Grid Name="Detalle"
+            Grid.Row="3"
+            Grid.Column="0"
+            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <Label
                 Name="lblMovimientos"
-                Grid.Row="1"
+                Grid.Row="0"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Width="351"
@@ -224,13 +233,13 @@
                 Style="{StaticResource LabelPrompt}" />
             <Label
                 Name="lblMontoEfectivo"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="0"
                 Content="Efectivo"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoEfectivo"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="1"
                 Width="150"
                 DecimalDigits="2"
@@ -241,7 +250,7 @@
                 Value="{Binding Path=MontoEfectivo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoEfectivoME"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.Column="2"
                 Width="150"
                 DecimalDigits="2"
@@ -252,13 +261,13 @@
                 Value="{Binding Path=MontoEfectivoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoTarjeta"
-                Grid.Row="3"
+                Grid.Row="2"
                 Grid.Column="0"
-                Content="Tarjeta"
+                Content="Tarjetas"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoTarjeta"
-                Grid.Row="3"
+                Grid.Row="2"
                 Grid.Column="1"
                 Width="150"
                 DecimalDigits="2"
@@ -269,7 +278,7 @@
                 Value="{Binding Path=MontoTarjeta, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoTarjetaME"
-                Grid.Row="3"
+                Grid.Row="2"
                 Grid.Column="2"
                 Width="150"
                 DecimalDigits="2"
@@ -280,13 +289,13 @@
                 Value="{Binding Path=MontoTarjetaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoCheque"
-                Grid.Row="4"
+                Grid.Row="3"
                 Grid.Column="0"
-                Content="Cheque"
+                Content="Cheques"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoCheque"
-                Grid.Row="4"
+                Grid.Row="3"
                 Grid.Column="1"
                 Width="150"
                 DecimalDigits="2"
@@ -297,7 +306,7 @@
                 Value="{Binding Path=MontoCheque, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoChequeME"
-                Grid.Row="4"
+                Grid.Row="3"
                 Grid.Column="2"
                 Width="150"
                 DecimalDigits="2"
@@ -308,13 +317,13 @@
                 Value="{Binding Path=MontoChequeME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoDeposito"
-                Grid.Row="5"
+                Grid.Row="4"
                 Grid.Column="0"
-                Content="Monto Deposito"
+                Content="Depósitos"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoDeposito"
-                Grid.Row="5"
+                Grid.Row="4"
                 Grid.Column="1"
                 Width="150"
                 DecimalDigits="2"
@@ -325,7 +334,7 @@
                 Value="{Binding Path=MontoDeposito, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoDepositoME"
-                Grid.Row="5"
+                Grid.Row="4"
                 Grid.Column="2"
                 Width="150"
                 DecimalDigits="2"
@@ -336,13 +345,13 @@
                 Value="{Binding Path=MontoDepositoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 Name="lblMontoAnticipo"
-                Grid.Row="6"
+                Grid.Row="5"
                 Grid.Column="0"
-                Content="Monto Anticipo"
+                Content="Anticipos"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoAnticipo"
-                Grid.Row="6"
+                Grid.Row="5"
                 Grid.Column="1"
                 Width="150"
                 DecimalDigits="2"
@@ -353,7 +362,7 @@
                 Value="{Binding Path=MontoAnticipo, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoAnticipoME"
-                Grid.Row="6"
+                Grid.Row="5"
                 Grid.Column="2"
                 Width="150"
                 DecimalDigits="2"
@@ -364,7 +373,7 @@
                 Value="{Binding Path=MontoAnticipoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Line
                 Name="linTotal"
-                Grid.Row="7"
+                Grid.Row="6"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Margin="0,5"
@@ -377,13 +386,13 @@
                 Y2="0" />
             <Label
                 Name="lblMontoCierre"
-                Grid.Row="8"
+                Grid.Row="7"
                 Grid.Column="0"
                 Content="Cierre"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoCierre"
-                Grid.Row="8"
+                Grid.Row="7"
                 Grid.Column="1"
                 Width="150"
                 Background="#FF41719C"
@@ -395,7 +404,7 @@
                 Value="{Binding Path=MontoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoCierreME"
-                Grid.Row="8"
+                Grid.Row="7"
                 Grid.Column="2"
                 Width="150"
                 Background="#FF41719C"
@@ -406,11 +415,9 @@
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoCierreME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Grid
-            Name="Pie"
-            Grid.Row="3"
-            Grid.Column="0"
-            Visibility="{Binding Path=ShowDetaills, Converter={StaticResource booleanToVisibilityConverter}}">
+        <Grid Name="Pie"
+            Grid.Row="4"
+            Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -438,7 +445,8 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 Content="Hora Cierre"
-                Style="{StaticResource LabelPrompt}" />
+                Style="{StaticResource LabelPrompt}"
+                Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" />
             <nsWpfControls:GSDatePickerWpf
                 Name="dtpFecha"
                 Grid.Row="1"
@@ -468,7 +476,8 @@
                 Content="{Binding Path=HoraCierreDt}"
                 Foreground="Black"
                 Opacity="0.25"
-                Style="{StaticResource LabelCalculatedField}" />
+                Style="{StaticResource LabelCalculatedField}"
+                Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}"/>
         </Grid>
     </Grid>
 </UserControl>

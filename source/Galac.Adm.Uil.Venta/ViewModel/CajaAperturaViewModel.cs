@@ -70,7 +70,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get { return "Caja Registradora"; }
         }
 
-        public bool ShowDetaills { get; private set; }
+        public bool ShowDetalle { get; private set; }
 
 
         public RelayCommand AbrirCajaCommand {
@@ -566,15 +566,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (insCajaApertura == null) {
                 insCajaApertura = new Brl.Venta.clsCajaAperturaNav() as ICajaAperturaPdn;
             }
-            if (Action == eAccionSR.Listar || Action == eAccionSR.Consultar) {
-                ShowDetaills = true;                          
-            }
         }
 
         public override void InitializeViewModel(eAccionSR valAction) {
             base.InitializeViewModel(valAction);
             InitializeRibbon();
-            ShowDetaills = (Action != eAccionSR.Escoger);
             if (Action == eAccionSR.Insertar) {
                 HoraApertura = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
                 HoraCierre = "";
@@ -593,11 +589,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } else if (Action == eAccionSR.Modificar) {
                 CajaCerrada = true;
                 TotalesPorCierreDeCaja();
-                HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
+                HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);           
             }
+            ShowDetalle = CajaCerrada;
             CargarValoresInicialesDeMoneda();
         }
-
 
         private void CargarValoresInicialesDeMoneda() {
             vMonedaLocal = new Saw.Lib.clsNoComunSaw();
