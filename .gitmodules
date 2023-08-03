@@ -66,3 +66,7 @@
 	path = source/IvaVb
 	url = https://github.com/Galac-Software/IvaVb.git
 	branch = release/IVA-34.5
+[submodule "source/vbaComun"]
+	path = source/vbaComun
+	url = https://github.com/Galac-Software/vbaComun.git
+	branch = PrevioVersion23.7
