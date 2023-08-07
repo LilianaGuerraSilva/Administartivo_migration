@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Venta.ViewModel"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Width="480">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -38,7 +39,7 @@
         <Grid Name="Encabezado"
             Grid.Row="0"
             Grid.Column="0"
-            FocusManager.FocusedElement="{Binding ElementName=txtNombreCaja}">
+            FocusManager.FocusedElement="{Binding ElementName=txtNombreCaja}" Margin="0,0,67,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -56,11 +57,8 @@
             <nsWpfControls:GSSeekConnection
                 Name="txtNombreCaja"
                 Grid.Row="0"
-                Grid.Column="1"
-                Width="420"
                 Height="23"
-                Margin="5"
-                HorizontalAlignment="Stretch"
+                Margin="1,5,-371,5"                
                 HorizontalContentAlignment="Left"
                 Background="LightGray"
                 ConnectionValue="{Binding Path=NombreCaja, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -68,22 +66,19 @@
                 Foreground="Black"
                 IsEnabled="{Binding Path=IsEnabled}"
                 Model="{Binding Path=ConexionNombreCaja, Mode=TwoWay}"
-                SearchCommand="{Binding Path=ChooseNombreCajaCommand}" />
+                SearchCommand="{Binding Path=ChooseNombreCajaCommand}" Grid.Column="1" />
             <Label
                 Name="lblNombreDelUsuario"
                 Grid.Row="1"
                 Grid.Column="0"
                 Content="Operador"
-                Style="{StaticResource LabelPrompt}"
-                Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSSeekConnection
                 Name="txtNombreDelUsuario"
                 Grid.Row="1"
                 Grid.Column="1"
-                Width="420"
-                Height="23"
-                Margin="5"
-                HorizontalAlignment="Stretch"
+                Height="23"                
+                Margin="1,4,-371,6"                
                 HorizontalContentAlignment="Left"
                 Background="LightGray"
                 ConnectionValue="{Binding Path=NombreDelUsuario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -91,31 +86,29 @@
                 Foreground="Black"
                 IsEnabled="{Binding Path=IsEnabledForInsert}"
                 Model="{Binding Path=ConexionNombreDelUsuario, Mode=TwoWay}"
-                SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}"
-                Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" />
+                SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}" RenderTransformOrigin="-14.469,0.652" />
         </Grid>
         <Grid Name="Titulos"
             Grid.Row="1"
-            Grid.Column="0"
-            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}">
+            Grid.Column="0" Margin="0,0,67,0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="180" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="70" />
+                <ColumnDefinition Width="168" />
+                <ColumnDefinition Width="Auto" MinWidth="69" />
+                <ColumnDefinition Width="Auto" MinWidth="172" />
             </Grid.ColumnDefinitions>
             <Label
                 Name="lblBs"
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
                 Content="Bolívares (Bs)"
-                Style="{StaticResource LabelPrompt}" />
+                Style="{StaticResource LabelPrompt}" Margin="0,0,27,0" Height="24" />
             <nsWpfControls:GSTextBoxWpf
                 Name="txtCodigoMoneda"
                 Grid.Row="0"
@@ -126,14 +119,13 @@
                 IsEnabled="False"
                 MaxLength="4"
                 Style="{StaticResource TextBoxInputStyle}"
-                Text="{Binding Path=CodigoMoneda, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Path=CodigoMoneda, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Height="Auto" Margin="3,4,0,4" />
             <nsWpfControls:GSSeekConnection
                 Name="txtMoneda"
                 Grid.Row="0"
                 Grid.Column="3"
-                Width="162"
-                Height="23"
-                Margin="3"
+                Width="150"
+                Margin="3,4,0,4"
                 HorizontalAlignment="Left"
                 ConnectionValue="{Binding Path=Moneda, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                 DisplayMemberPath="Nombre"
@@ -145,23 +137,23 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Content="Cambio"
-                Style="{StaticResource LabelPrompt}" />
+                Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="60" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtCambio"
                 Grid.Row="1"
                 Grid.Column="3"
-                Width="162"
-                Margin="3,3,3,3"
+                Width="150"
+                Margin="3,4,0,4"
                 BorderThickness="1"
                 DecimalDigits="4"
                 InputDataType="UDecimal"
                 IsEnabled="{Binding Path=IsEnabledForME}"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=Cambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                Value="{Binding Path=Cambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Height="Auto" />
         </Grid>
         <Grid Name="Apertura"
               Grid.Row="2"
-              Grid.Column="0">
+              Grid.Column="0" Margin="0,0,67,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="177" />
@@ -191,7 +183,7 @@
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoAperturaME"
                 Grid.Row="0"
-                Grid.Column="2"
+                Grid.Column="1"
                 Width="150"
                 BorderThickness="1.5"
                 DecimalDigits="2"
@@ -199,12 +191,12 @@
                 InputDataType="UDecimal"
                 IsEnabled="{Binding Path=IsEnabledForME}"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="171,4,0,3" Grid.ColumnSpan="2" />
         </Grid>
         <Grid Name="Detalle"
             Grid.Row="3"
             Grid.Column="0"
-            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}">
+            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" Margin="0,0,67,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -225,7 +217,7 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
-                Width="351"
+                Width="322"
                 Margin="0"
                 HorizontalAlignment="Left"
                 HorizontalContentAlignment="Center"
@@ -414,19 +406,42 @@
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoCierreME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Line
+                x:Name="linVertical2"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="162,3,30,24"
+                HorizontalAlignment="Stretch"
+                StrokeThickness="1"
+                X1="0"
+                X2="145"
+                Y1="0"
+                Y2="0" Grid.ColumnSpan="2">
+                <Line.Stroke>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
+                </Line.Stroke>
+                <Line.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="90"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Line.RenderTransform>
+            </Line>
         </Grid>
         <Grid Name="Pie"
             Grid.Row="4"
-            Grid.Column="0">
+            Grid.Column="0" Margin="0,0,67,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label
                 Name="lblFecha"
@@ -479,5 +494,28 @@
                 Style="{StaticResource LabelCalculatedField}"
                 Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}"/>
         </Grid>
+        <Line
+            x:Name="linVertical1"
+            Grid.Row="1"
+            Margin="232,0,225,58"
+            HorizontalAlignment="Stretch"
+            StrokeThickness="1"
+            X1="0"
+            X2="90"
+            Y1="0"
+            Y2="0"  >
+            <Line.Stroke>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
+            </Line.Stroke>
+            <Line.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Line.RenderTransform>
+        </Line>
+
     </Grid>
 </UserControl>
