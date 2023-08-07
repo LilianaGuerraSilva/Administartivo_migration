@@ -2655,9 +2655,9 @@ End Function
 Private Function fLasCuentasDeCxCEstanCompletas() As Boolean
    Dim EstanCompletas As Boolean
    On Error GoTo h_ERROR
-   EstanCompletas = False
-   If GetCuentaCxCClientes <> "" And GetCuentaCxCIngresos <> "" Then
-      EstanCompletas = True
+   EstanCompletas = GetCuentaCxCClientes <> "" And GetCuentaCxCIngresos <> ""
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetCxCTipoComprobante <> ""
    End If
 h_EXIT:
    fLasCuentasDeCxCEstanCompletas = EstanCompletas
@@ -2669,8 +2669,7 @@ End Function
 Private Function fLasCuentasDeCxPEstanCompletas() As Boolean
    Dim EstanCompletas As Boolean
    On Error GoTo h_ERROR
-   EstanCompletas = GetCuentaCxPGasto <> ""
-   EstanCompletas = EstanCompletas And GetCuentaCxPProveedores <> ""
+   EstanCompletas = GetCuentaCxPGasto <> "" And GetCuentaCxPProveedores <> ""
    If EstanCompletas Then
       If gProyCompaniaActual.fPuedoUsarOpcionesDeContribuyenteEspecial Then
          If GetDondeContabilizarRetIvaAsEnum = eDC_NoContabilizada Then
@@ -2681,7 +2680,10 @@ Private Function fLasCuentasDeCxPEstanCompletas() As Boolean
       End If
       If gProyParametrosCompania.GetRetieneImpuestoMunicipal() Then
          EstanCompletas = EstanCompletas And GetCuentaRetencionImpuestoMunicipal <> ""
+      End If
    End If
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetCxPTipoComprobante <> ""
    End If
 h_EXIT:
    fLasCuentasDeCxPEstanCompletas = EstanCompletas
@@ -2706,6 +2708,9 @@ Private Function fLasCuentasDeCobranzaEstanCompletas() As Boolean
    End If
    If (gProyParametrosCompania.GetManejaCreditoBancario) Then
       EstanCompletas = EstanCompletas And fLasCuentasDeCreditoBancarioEstanCompletas()
+   End If
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetCobranzaTipoComprobante <> ""
    End If
 h_EXIT:
    fLasCuentasDeCobranzaEstanCompletas = EstanCompletas
@@ -2734,6 +2739,9 @@ Private Function fLasCuentasDePagosEstanCompletas() As Boolean
          End If
       End If
    End If
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetPagoTipoComprobante <> ""
+   End If
 h_EXIT:
    fLasCuentasDePagosEstanCompletas = EstanCompletas
    On Error GoTo 0
@@ -2748,8 +2756,11 @@ Private Function fLasCuentasDeMovBancarioEstanCompletas() As Boolean
    EstanCompletas = EstanCompletas And GetCuentaMovBancarioBancosHaber <> ""
    EstanCompletas = EstanCompletas And GetCuentaMovBancarioBancosDebe <> ""
    EstanCompletas = EstanCompletas And GetCuentaMovBancarioIngresos <> ""
-   If (gProyParametrosCompania.GetManejaDebitoBancario) Then
+   If gProyParametrosCompania.GetManejaDebitoBancario Then
       EstanCompletas = EstanCompletas And fLasCuentasDeDebitoBancarioEstanCompletas()
+   End If
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetMovimientoBancarioTipoComprobante <> ""
    End If
 h_EXIT:
    fLasCuentasDeMovBancarioEstanCompletas = EstanCompletas
@@ -2767,6 +2778,9 @@ Private Function fLasCuentasDeFacturacionEstanCompletas() As Boolean
    End If
    If gProyCompaniaActual.GetTipoDeContribuyenteIVAStr = gEnumProyecto.enumTipoDeContribuyenteIvaToString(enum_TipoDeContribuyenteIVA.eTD_ESPECIAL) Then
       EstanCompletas = EstanCompletas And GetCuentaCreditoBancarioGasto <> ""
+   End If
+   If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
+      EstanCompletas = EstanCompletas And GetFacturaTipoComprobante <> ""
    End If
 h_EXIT:
    fLasCuentasDeFacturacionEstanCompletas = EstanCompletas
@@ -2827,7 +2841,7 @@ Public Function fLasCuentasDeReglasDeContabilizacionEstanCompletas(ByVal valModu
    Dim EstanCompletas As Boolean
    Dim mensaje As String
    On Error GoTo h_ERROR
-   EstanCompletas = fLasCuentasDeIvaEstanCompletas And fLosTiposDeComprobantesEstanCompletos
+   EstanCompletas = fLasCuentasDeIvaEstanCompletas
    If EstanCompletas Then
       Select Case valModulo
          Case eCG_CXC: EstanCompletas = fLasCuentasDeCxCEstanCompletas
@@ -2846,12 +2860,11 @@ Public Function fLasCuentasDeReglasDeContabilizacionEstanCompletas(ByVal valModu
       End Select
    End If
    If Not EstanCompletas And valConMensaje Then
+      mensaje = "Faltan definir Cuentas Contables "
       If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
-         mensaje = "Faltan definir Cuentas Contables o Tipo de Comprobantes en las Reglas de Contabilización para "
-      Else
-         mensaje = "Faltan definir Cuentas Contables en las Reglas de Contabilización para "
+         mensaje = mensaje & " o Tipo de Comprobantes"
       End If
-      mensaje = mensaje & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & "." & vbCr & vbCr
+      mensaje = mensaje & " en las Reglas de Contabilización para " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & "." & vbCr & vbCr
       mensaje = mensaje & "Vaya al módulo de Reglas de Contabilización y complételas, por favor."
       gMessage.Advertencia mensaje
    End If
@@ -3018,22 +3031,6 @@ Public Function fSQLSeparadorDeCamposStandardDelNroDocumentoOrigen() As String
    On Error Resume Next
    fSQLSeparadorDeCamposStandardDelNroDocumentoOrigen = gUtilSQL.CharConcat & gUtilSQL.DfChar(9) & gUtilSQL.CharConcat
    On Error GoTo 0
-End Function
-
-Private Function fLosTiposDeComprobantesEstanCompletos() As Boolean
-   Dim varEstanCompletos As Boolean
-   On Error GoTo h_ERROR
-   If gContPeriodoActual.GetTipoDeNumeracionAsEnum <> eTN_TIPOMESCONSECUTIVO Then
-      varEstanCompletos = True
-   Else
-      varEstanCompletos = GetFacturaTipoComprobante <> "" And GetCxCTipoComprobante <> "" And _
-            GetCxPTipoComprobante <> "" And GetCobranzaTipoComprobante <> "" And _
-            GetPagoTipoComprobante <> "" And GetMovimientoBancarioTipoComprobante <> ""
-   End If
-h_EXIT: On Error GoTo 0
-   fLosTiposDeComprobantesEstanCompletos = varEstanCompletos
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fLosTiposDeComprobantesEstanCompletos", CM_MESSAGE_NAME, eg_Male, Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fImprimeReglasDeContabilizacion() As Boolean
