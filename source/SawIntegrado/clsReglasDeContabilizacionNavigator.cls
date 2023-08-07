@@ -2862,7 +2862,7 @@ Public Function fLasCuentasDeReglasDeContabilizacionEstanCompletas(ByVal valModu
    If Not EstanCompletas And valConMensaje Then
       mensaje = "Faltan definir Cuentas Contables "
       If gContPeriodoActual.GetTipoDeNumeracionAsEnum = eTN_TIPOMESCONSECUTIVO Then
-         mensaje = mensaje & " o Tipo de Comprobantes"
+         mensaje = mensaje & "o Tipos de Comprobante"
       End If
       mensaje = mensaje & " en las Reglas de Contabilización para " & gEnumProyectoWincont.enumComprobanteGeneradoPorToString(valModulo) & "." & vbCr & vbCr
       mensaje = mensaje & "Vaya al módulo de Reglas de Contabilización y complételas, por favor."
