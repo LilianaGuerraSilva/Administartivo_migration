@@ -449,8 +449,9 @@ namespace Galac.Saw.DDL {
             vSql.AppendLine(" CAST(Adm.Vendedor.TopeFinalCobranza5 AS MONEY) AS TopeFinalCobranza5, ");
             vSql.AppendLine(" CAST(Adm.Vendedor.PorcentajeCobranza5 AS MONEY) AS PorcentajeCobranza5, ");
             vSql.AppendLine(" Adm.Vendedor.UsaComisionPorVenta, Adm.Vendedor.UsaComisionPorCobranza, Adm.Vendedor.CodigoLote, '0' as TipoDocumentoIdentificacion, ");
+            vSql.AppendLine(" ISNULL(Saw.RutaDeComercializacion.Descripcion, 'NULL - NO ASIGNADA') AS TipoDeVendedor, ");
             vSql.AppendLine(" Adm.Vendedor.NombreOperador, Adm.Vendedor.FechaUltimaModificacion");
-            vSql.AppendLine(" FROM Adm.Vendedor INNER JOIN Saw.RutaDeComercializacion ");
+            vSql.AppendLine(" FROM Adm.Vendedor LEFT JOIN Saw.RutaDeComercializacion ");
             vSql.AppendLine(" ON Adm.Vendedor.ConsecutivoCompania = Saw.RutaDeComercializacion.ConsecutivoCompania ");
             vSql.AppendLine(" AND Adm.Vendedor.ConsecutivoRutaDeComercializacion = Saw.RutaDeComercializacion.Consecutivo ");
             return LibViews.CreateCompatibilityView("Vendedor", vSql.ToString(), true);
