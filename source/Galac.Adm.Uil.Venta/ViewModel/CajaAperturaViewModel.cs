@@ -72,6 +72,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool ShowDetalle { get; private set; }
 
+        public bool ShowSoloCaja { get; private set; }
+
 
         public RelayCommand AbrirCajaCommand {
             get;
@@ -591,7 +593,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 TotalesPorCierreDeCaja();
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);           
             }
-            ShowDetalle = CajaCerrada;
+            ShowSoloCaja = (Action != eAccionSR.Escoger);
+            ShowDetalle = CajaCerrada && ShowSoloCaja;
             CargarValoresInicialesDeMoneda();
         }
 
