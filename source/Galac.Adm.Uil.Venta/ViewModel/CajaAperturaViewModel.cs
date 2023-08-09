@@ -589,8 +589,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoEfectivoME = 0m;
                 MontoTarjetaME = 0m;
                 MontoAnticipoME = 0m;
-            } else if (Action == eAccionSR.Modificar) {
-                CajaCerrada = true;
+            } else if (Action == eAccionSR.Modificar) {              
                 TotalesPorCierreDeCaja();
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);           
             }
