@@ -71,7 +71,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         public bool ShowDetalle { get; private set; }
-
+        public bool ShowTitulos { get; private set; }
+        public bool ShowApertura { get; private set; }
+        public bool ShowStatusCajaCerrada { get; private set; }
+        public bool ShowStatusCajaAbierta { get; private set; }
 
         public RelayCommand AbrirCajaCommand {
             get;
@@ -586,12 +589,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoEfectivoME = 0m;
                 MontoTarjetaME = 0m;
                 MontoAnticipoME = 0m;
-            } else if (Action == eAccionSR.Modificar) {
-                CajaCerrada = true;
+            } else if (Action == eAccionSR.Modificar) {              
                 TotalesPorCierreDeCaja();
                 HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);           
             }
             ShowDetalle = CajaCerrada;
+            ShowApertura = Action != eAccionSR.Escoger || CajaCerrada;
+            ShowTitulos = Action != eAccionSR.Escoger || CajaCerrada;
+            ShowStatusCajaCerrada = CajaCerrada;
+            ShowStatusCajaAbierta = !CajaCerrada;
             CargarValoresInicialesDeMoneda();
         }
 

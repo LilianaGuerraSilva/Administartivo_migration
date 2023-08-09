@@ -35,11 +35,38 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Name="Encabezado"
+        <Grid Name="StatusCaja"
             Grid.Row="0"
             Grid.Column="0"
-            FocusManager.FocusedElement="{Binding ElementName=txtNombreCaja}" Margin="0,0,67,0">
+            Margin="0,0,67,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label
+                Name="StatusCajaCerrada"
+                Margin="327,0,-467,0"
+                HorizontalContentAlignment="Right"
+                Content="Caja Cerrada"
+                Style="{StaticResource LabelStatusRed}"
+                Visibility="{Binding Path=ShowStatusCajaCerrada, Converter={StaticResource booleanToVisibilityConverter}}" />
+            <Label
+                Name="StatusCajaAbierta"
+                Margin="327,0,-467,0"
+                HorizontalContentAlignment="Right"
+                Content="Caja Abierta"
+                Style="{StaticResource LabelStatusBlue}"
+                Visibility="{Binding Path=ShowStatusCajaAbierta, Converter={StaticResource booleanToVisibilityConverter}}" />
+        </Grid>
+        <Grid Name="Encabezado"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,0,67,0"
+            FocusManager.FocusedElement="{Binding ElementName=txtNombreCaja}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -57,8 +84,9 @@
             <nsWpfControls:GSSeekConnection
                 Name="txtNombreCaja"
                 Grid.Row="0"
+                Grid.Column="1"
                 Height="23"
-                Margin="1,5,-371,5"                
+                Margin="1,5,-371,5"
                 HorizontalContentAlignment="Left"
                 Background="LightGray"
                 ConnectionValue="{Binding Path=NombreCaja, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -66,7 +94,7 @@
                 Foreground="Black"
                 IsEnabled="{Binding Path=IsEnabled}"
                 Model="{Binding Path=ConexionNombreCaja, Mode=TwoWay}"
-                SearchCommand="{Binding Path=ChooseNombreCajaCommand}" Grid.Column="1" />
+                SearchCommand="{Binding Path=ChooseNombreCajaCommand}" />
             <Label
                 Name="lblNombreDelUsuario"
                 Grid.Row="1"
@@ -77,8 +105,8 @@
                 Name="txtNombreDelUsuario"
                 Grid.Row="1"
                 Grid.Column="1"
-                Height="23"                
-                Margin="1,4,-371,6"                
+                Height="23"
+                Margin="1,4,-371,6"
                 HorizontalContentAlignment="Left"
                 Background="LightGray"
                 ConnectionValue="{Binding Path=NombreDelUsuario, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
@@ -86,11 +114,14 @@
                 Foreground="Black"
                 IsEnabled="{Binding Path=IsEnabledForInsert}"
                 Model="{Binding Path=ConexionNombreDelUsuario, Mode=TwoWay}"
-                SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}" RenderTransformOrigin="-14.469,0.652" />
+                RenderTransformOrigin="-14.469,0.652"
+                SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}" />
         </Grid>
         <Grid Name="Titulos"
-            Grid.Row="1"
-            Grid.Column="0" Margin="0,0,67,0" >
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0,0,67,0"
+            Visibility="{Binding Path=ShowTitulos, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -105,21 +136,25 @@
                 Name="lblBs"
                 Grid.Row="1"
                 Grid.Column="1"
+                Height="24"
+                Margin="0,0,27,0"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
                 Content="Bolívares (Bs)"
-                Style="{StaticResource LabelPrompt}" Margin="0,0,27,0" Height="24" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSTextBoxWpf
                 Name="txtCodigoMoneda"
                 Grid.Row="0"
                 Grid.Column="2"
                 Width="60"
+                Height="Auto"
+                Margin="3,4,0,4"
                 BorderThickness="1"
                 InputDataType="Alfanumeric"
                 IsEnabled="False"
                 MaxLength="4"
                 Style="{StaticResource TextBoxInputStyle}"
-                Text="{Binding Path=CodigoMoneda, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Height="Auto" Margin="3,4,0,4" />
+                Text="{Binding Path=CodigoMoneda, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSSeekConnection
                 Name="txtMoneda"
                 Grid.Row="0"
@@ -136,24 +171,30 @@
                 Name="lblCambio"
                 Grid.Row="1"
                 Grid.Column="2"
+                Width="60"
+                Height="24"
+                Margin="3,3,0,0"
                 Content="Cambio"
-                Style="{StaticResource LabelPrompt}" Height="24" Margin="3,3,0,0" Width="60" />
+                Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtCambio"
                 Grid.Row="1"
                 Grid.Column="3"
                 Width="150"
+                Height="Auto"
                 Margin="3,4,0,4"
                 BorderThickness="1"
                 DecimalDigits="4"
                 InputDataType="UDecimal"
                 IsEnabled="{Binding Path=IsEnabledForME}"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=Cambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Height="Auto" />
+                Value="{Binding Path=Cambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Grid Name="Apertura"
-              Grid.Row="2"
-              Grid.Column="0" Margin="0,0,67,0">
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="0,0,67,0"
+            Visibility="{Binding Path=ShowApertura, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="177" />
@@ -184,19 +225,22 @@
                 Name="txtMontoAperturaME"
                 Grid.Row="0"
                 Grid.Column="1"
+                Grid.ColumnSpan="2"
                 Width="150"
+                Margin="171,4,0,3"
                 BorderThickness="1.5"
                 DecimalDigits="2"
                 Foreground="Black"
                 InputDataType="UDecimal"
                 IsEnabled="{Binding Path=IsEnabledForME}"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Margin="171,4,0,3" Grid.ColumnSpan="2" />
+                Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Grid Name="Detalle"
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.Column="0"
-            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" Margin="0,0,67,0">
+            Margin="0,0,67,0"
+            Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -410,29 +454,31 @@
                 x:Name="linVertical2"
                 Grid.Row="1"
                 Grid.Column="1"
+                Grid.ColumnSpan="2"
                 Margin="162,3,30,24"
                 HorizontalAlignment="Stretch"
                 StrokeThickness="1"
                 X1="0"
                 X2="145"
                 Y1="0"
-                Y2="0" Grid.ColumnSpan="2">
+                Y2="0">
                 <Line.Stroke>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
                 </Line.Stroke>
                 <Line.RenderTransform>
                     <TransformGroup>
-                        <ScaleTransform ScaleY="-1"/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="90"/>
-                        <TranslateTransform/>
+                        <ScaleTransform ScaleY="-1" />
+                        <SkewTransform />
+                        <RotateTransform Angle="90" />
+                        <TranslateTransform />
                     </TransformGroup>
                 </Line.RenderTransform>
             </Line>
         </Grid>
         <Grid Name="Pie"
-            Grid.Row="4"
-            Grid.Column="0" Margin="0,0,67,0">
+            Grid.Row="5"
+            Grid.Column="0"
+            Margin="0,0,67,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -492,30 +538,30 @@
                 Foreground="Black"
                 Opacity="0.25"
                 Style="{StaticResource LabelCalculatedField}"
-                Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}"/>
+                Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" />
         </Grid>
         <Line
             x:Name="linVertical1"
-            Grid.Row="1"
+            Grid.Row="2"
             Margin="232,0,225,58"
             HorizontalAlignment="Stretch"
             StrokeThickness="1"
+            Visibility="{Binding Path=ShowTitulos, Converter={StaticResource booleanToVisibilityConverter}}"
             X1="0"
             X2="90"
             Y1="0"
-            Y2="0"  >
+            Y2="0">
             <Line.Stroke>
-                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}" />
             </Line.Stroke>
             <Line.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform ScaleY="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="90"/>
-                    <TranslateTransform/>
+                    <ScaleTransform ScaleY="-1" />
+                    <SkewTransform />
+                    <RotateTransform Angle="90" />
+                    <TranslateTransform />
                 </TransformGroup>
             </Line.RenderTransform>
         </Line>
-
     </Grid>
 </UserControl>
