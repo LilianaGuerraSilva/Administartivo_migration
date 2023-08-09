@@ -595,7 +595,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 TotalesPorCierreDeCaja();
                 HoraCierre = insLibSaw.ConvertHourToLongFormat(LibDate.CurrentHourAsStr);
             }
-            ShowDetalle = CajaCerrada;
+            ShowDetalle = CajaCerrada || Action == eAccionSR.Modificar;
             ShowApertura = Action != eAccionSR.Escoger || CajaCerrada;
             ShowTitulos = Action != eAccionSR.Escoger || CajaCerrada;
             ShowStatusCajaCerrada = CajaCerrada;
