@@ -1083,6 +1083,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        private string HoraModificacion {            
+            set {
+                if (Model.HoraModificacion != value) {
+                    Model.HoraModificacion = value;                                        
+                }
+            }
+        }
+
         public bool IsVisibleAlicuotas {
             get {
                 return false;//LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("FacturaRapida", "UsaMultiplesAlicuotas");
@@ -1684,6 +1692,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ConsecutivoCaja = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "ConsecutivoCaja");
             }
             CalcularTotalFacturaDivisas();
+            HoraModificacion = new clsLibSaw().ConvertHourToLongFormat(LibDate.CurrentHourAsStr);
         }
 
         protected override FacturaRapida FindCurrentRecord(FacturaRapida valModel) {

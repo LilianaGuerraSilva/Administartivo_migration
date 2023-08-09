@@ -127,7 +127,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("SerialMaquinaFiscal", valRecord.SerialMaquinaFiscal, 15);
             vParams.AddInBoolean("AplicarPromocion", valRecord.AplicarPromocionAsBool);
             vParams.AddInBoolean("RealizoCierreX", valRecord.RealizoCierreXAsBool);
-            vParams.AddInString("HoraModificacion", LibConvert.ToShortTimeStr(System.DateTime.Now), 5);
+            vParams.AddInString("HoraModificacion",valRecord.HoraModificacion, 5);
             vParams.AddInEnum("FormaDeCobro", valRecord.FormaDeCobroAsDB);
             vParams.AddInString("OtraFormaDeCobro", valRecord.OtraFormaDeCobro, 20);
             vParams.AddInString("NoCotizacionDeOrigen", valRecord.NoCotizacionDeOrigen, 11);

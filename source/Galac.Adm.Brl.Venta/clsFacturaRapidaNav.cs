@@ -11,6 +11,7 @@ using Galac.Saw.Ccl.SttDef;
 using Galac.Adm.Ccl.Venta;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Adm.Ccl.Banco;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Brl.Venta {
     public partial class clsFacturaRapidaNav : LibBaseNavMaster<IList<FacturaRapida>, IList<FacturaRapida>>, IFacturaRapidaPdn {
@@ -283,6 +284,7 @@ namespace Galac.Adm.Brl.Venta {
             decimal vIGTFML = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "IGTFML"),2);
             decimal vIGTFME = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "IGTFME"),2);
             decimal vAlicuotaIGTF = LibImportData.ToDec(LibXml.GetPropertyString(xElementFacturaRapida, "AlicuotaIGTF"),2);
+            string vHoraModificacion = new clsLibSaw().ConvertHourToLongFormat(LibDate.CurrentHourAsStr);
             LibGpParams vParams = new LibGpParams();
             StringBuilder vSql = new StringBuilder();
             QAdvSql insQAdvSql = new QAdvSql("");
@@ -301,6 +303,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInDecimal("IGTFML", vIGTFML, 2);
             vParams.AddInDecimal("IGTFME", vIGTFME, 2);
             vParams.AddInDecimal("AlicuotaIGTF", vAlicuotaIGTF, 2);
+            vParams.AddInString("HoraModificacion", vHoraModificacion, 5);
             vSql.AppendLine("UPDATE dbo.Factura");
             vSql.AppendLine(" SET Numero = @Numero ");
             vSql.AppendLine(" ,StatusFactura = @StatusFactura ");
@@ -314,6 +317,7 @@ namespace Galac.Adm.Brl.Venta {
             vSql.AppendLine(" ,IGTFML = @IGTFML ");
             vSql.AppendLine(" ,IGTFME = @IGTFME ");
             vSql.AppendLine(" ,AlicuotaIGTF = @AlicuotaIGTF ");
+            vSql.AppendLine(" ,HoraModificacion = @HoraModificacion ");
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND Numero = " + insQAdvSql.ToSqlValue(valNumeroBorrador));
             vSql.AppendLine(" AND TipoDeDocumento = @TipoDeDocumento ");
