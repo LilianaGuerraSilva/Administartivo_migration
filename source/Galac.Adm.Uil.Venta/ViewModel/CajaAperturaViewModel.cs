@@ -24,6 +24,7 @@ using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 using System.Windows;
 using Galac.Adm.Ccl.CajaChica;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CajaAperturaViewModel: LibInputViewModel<CajaApertura> {
@@ -574,8 +575,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public override void InitializeViewModel(eAccionSR valAction) {
             base.InitializeViewModel(valAction);
             InitializeRibbon();
+            clsLibSaw insLibSaw = new clsLibSaw();
             if (Action == eAccionSR.Insertar) {
-                HoraApertura = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);
+                HoraApertura = insLibSaw.ConvertHourToLongFormat(LibDate.CurrentHourAsStr);
                 HoraCierre = "";
                 MontoCierre = 0m;
                 MontoCheque = 0m;
@@ -591,9 +593,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoAnticipoME = 0m;
             } else if (Action == eAccionSR.Modificar) {              
                 TotalesPorCierreDeCaja();
-                HoraCierre = ConvertToLongHTimeFormat(LibDate.CurrentHourAsStr);           
+                HoraCierre = insLibSaw.ConvertHourToLongFormat(LibDate.CurrentHourAsStr);
             }
-            ShowDetalle = CajaCerrada;
+            ShowDetalle = CajaCerrada || Action == eAccionSR.Modificar;
             ShowApertura = Action != eAccionSR.Escoger || CajaCerrada;
             ShowTitulos = Action != eAccionSR.Escoger || CajaCerrada;
             ShowStatusCajaCerrada = CajaCerrada;
@@ -965,16 +967,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoAnticipoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipoME"));
                 MontoCierreME = MontoAperturaME + MontoEfectivoME + MontoTarjetaME + MontoChequeME + MontoDepositoME + MontoAnticipoME;
             }
-        }
-
-        private string ConvertToLongHTimeFormat(string valHours) {
-            string vResult = "";
-            valHours = LibString.Replace(valHours, "\u0020", "");
-            valHours = LibString.Replace(valHours, ".", "");
-            DateTime vTime = LibConvert.ToDate(valHours);
-            vResult = String.Format("{0:HH:mm}", vTime);
-            return vResult;
-        }
+        }        
 
         public bool IsEnabledForInsert {
             get {
