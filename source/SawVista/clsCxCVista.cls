@@ -1106,7 +1106,8 @@ Private Function fSqlVentasDetalladoSeccionUnion(ByVal valEsTipoResumenDiario As
           gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
           fSQLRoundForLibrosSaw("Factura.MontoIvaAlicuota1 * Factura.CambioABolivares", 2), True), _
           gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2,"
-   vSQL = vSQL & gUtilSQL.getIIF("Factura.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneradaPor.eFGP_AjusteIGTF), gUtilSQL.fSimpleSqlValue("igtf"), gUtilSQL.fSimpleSqlValue(""), True) & " AS GeneradoPorIGTF "
+   vSQL = vSQL & gUtilSQL.getIIF("Factura.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneradaPor.eFGP_AjusteIGTF), gUtilSQL.fSimpleSqlValue("igtf"), gUtilSQL.fSimpleSqlValue(""), True) & " AS GeneradoPorIGTF, "
+   vSQL = vSQL & " factura.IGTFML AS IGTFML "
    vSQL = vSQL & " FROM factura LEFT JOIN"
    vSQL = vSQL & " Cxc ON CxC.ConsecutivoCompania = factura.ConsecutivoCompania AND "
    vSQL = vSQL & " CxC.NumeroDocumentoOrigen = factura.Numero AND "
