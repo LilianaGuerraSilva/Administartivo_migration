@@ -185,7 +185,7 @@ Public Function fSqlViewVentasFactura() As String
    vSQL = vSQL & "factura.BaseImponibleIGTF AS BaseImponibleIGTF, "
    vSQL = vSQL & "factura.AlicuotaIGTF AS PorcentajeIGTF, "
    vSQL = vSQL & "factura.IGTFML AS AlicuotaIGTF, "
-   vSQL = vSQL & "(factura.TotalFactura + factura.IGTFML) AS VentasIncluyendoIGTF "
+   vSQL = vSQL & "(factura.TotalFactura + factura.IGTFML) AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & vbCrLf & " FROM factura LEFT JOIN" & vbCrLf
    vSQL = vSQL & vbCrLf & " IGV_RetencionDocumentoCobrado ON factura.ConsecutivoCompania = IGV_RetencionDocumentoCobrado.ConsecutivoCompania AND" & vbCrLf
    vSQL = vSQL & vbCrLf & " factura.Numero = IGV_RetencionDocumentoCobrado.NumeroDocumentoOrigen AND" & vbCrLf
@@ -247,7 +247,7 @@ Public Function fSqlViewVentasCxC() As String
    vSQL = vSQL & " ,0 AS BaseImponibleIGTF "
    vSQL = vSQL & " ,0 AS PorcentajeIGTF "
    vSQL = vSQL & " ,0 AS AlicuotaIGTF "
-   vSQL = vSQL & " ,0 AS VentasIncluyendoIGTF "
+   vSQL = vSQL & " ,0 AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & vbCrLf & " FROM CxC LEFT JOIN IGV_RetencionDocumentoCobrado ON"
    vSQL = vSQL & vbCrLf & " CxC.ConsecutivoCompania = IGV_RetencionDocumentoCobrado.ConsecutivoCompania AND"
    vSQL = vSQL & vbCrLf & " Cxc.Numero = IGV_RetencionDocumentoCobrado.NumeroDelDocumentoCobrado AND"
@@ -335,7 +335,7 @@ Public Function fSqlViewVentasResumen() As String
    vSQL = vSQL & "0 AS BaseImponibleIGTF, "
    vSQL = vSQL & "0 AS PorcentajeIGTF, "
    vSQL = vSQL & "0 AS AlicuotaIGTF, "
-   vSQL = vSQL & "0 AS VentasIncluyendoIGTF "
+   vSQL = vSQL & "0 AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & vbCrLf & " FROM factura"
    vSQL = vSQL & vbCrLf & " INNER JOIN IGV_BaseimponibleAlicuotasVentasResumenDeVentas ON"
    vSQL = vSQL & vbCrLf & " IGV_BaseimponibleAlicuotasVentasResumenDeVentas.ConsecutivoCompania   = Factura.ConsecutivoCompania AND"
@@ -428,7 +428,7 @@ Public Function fSqlViewVentasResumenManual() As String
    vSQL = vSQL & "0 AS BaseImponibleIGTF, "
    vSQL = vSQL & "0 AS PorcentajeIGTF, "
    vSQL = vSQL & "0 AS AlicuotaIGTF, "
-   vSQL = vSQL & "0 AS VentasIncluyendoIGTF "
+   vSQL = vSQL & "0 AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & vbCrLf & " FROM factura LEFT JOIN"
    vSQL = vSQL & vbCrLf & " Cxc ON CxC.ConsecutivoCompania = factura.ConsecutivoCompania AND CxC.NumeroDocumentoOrigen = factura.Numero AND"
    vSQL = vSQL & vbCrLf & " CxC.CodigoCliente = factura.CodigoCliente"
@@ -826,7 +826,7 @@ Public Function fSqlViewVentasFacturaAgrupado() As String
    vSQL = vSQL & "IGV_FacturaBase.BaseImponibleIGTF AS BaseImponibleIGTF, "
    vSQL = vSQL & "IGV_FacturaBase.PorcentajeIGTF AS PorcentajeIGTF, "
    vSQL = vSQL & "IGV_FacturaBase.AlicuotaIGTF AS AlicuotaIGTF, "
-   vSQL = vSQL & "IGV_FacturaBase.VentasIncluyendoIGTF AS VentasIncluyendoIGTF "
+   vSQL = vSQL & "IGV_FacturaBase.VentasIncluyendoIvaeIGTF AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & " FROM            IGV_FacturaBase LEFT JOIN" & vbCrLf
    vSQL = vSQL & " IGV_RetencionDocumentoCobrado ON IGV_FacturaBase.ConsecutivoCompania = IGV_RetencionDocumentoCobrado.ConsecutivoCompania AND" & vbCrLf
    vSQL = vSQL & " IGV_FacturaBase.Numero = IGV_RetencionDocumentoCobrado.NumeroDocumentoOrigen AND" & vbCrLf
@@ -937,7 +937,7 @@ Public Function fSqlViewVentasResumenAgrupado() As String
    vSQL = vSQL & " 0 AS BaseImponibleIGTF, "
    vSQL = vSQL & " 0 AS PorcentajeIGTF, "
    vSQL = vSQL & " 0 AS AlicuotaIGTF, "
-   vSQL = vSQL & " 0 AS VentasIncluyendoIGTF "
+   vSQL = vSQL & " 0 AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & " FROM IGV_FacturaBase LEFT JOIN"
    vSQL = vSQL & " Cxc ON CxC.ConsecutivoCompania = IGV_FacturaBase.ConsecutivoCompania AND CxC.NumeroDocumentoOrigen = IGV_FacturaBase.Numero AND"
    vSQL = vSQL & " CxC.CodigoCliente = IGV_FacturaBase.CodigoCliente"
@@ -1001,7 +1001,7 @@ Public Function fSqlViewFacturaBase() As String
    vSQL = vSQL & "factura.BaseImponibleIGTF AS BaseImponibleIGTF, " & vbCrLf
    vSQL = vSQL & "factura.AlicuotaIGTF AS PorcentajeIGTF, " & vbCrLf
    vSQL = vSQL & "factura.IGTFML AS AlicuotaIGTF, " & vbCrLf
-   vSQL = vSQL & "(factura.TotalFactura + factura.IGTFML) AS VentasIncluyendoIGTF " & vbCrLf
+   vSQL = vSQL & "(factura.TotalFactura + factura.IGTFML) AS VentasIncluyendoIvaeIGTF " & vbCrLf
    vSQL = vSQL & " FROM factura" & vbCrLf
    fSqlViewFacturaBase = vSQL
 h_EXIT:     On Error GoTo 0
@@ -1131,7 +1131,7 @@ Private Function fSqlVentasDetalladoSeccionUnion(ByVal valEsTipoResumenDiario As
    vSQL = vSQL & "factura.BaseImponibleIGTF AS BaseImponibleIGTF, "
    vSQL = vSQL & "factura.AlicuotaIGTF AS PorcentajeIGTF, "
    vSQL = vSQL & "factura.IGTFML AS AlicuotaIGTF, "
-   vSQL = vSQL & "(factura.TotalFactura + factura.IGTFML) AS VentasIncluyendoIGTF "
+   vSQL = vSQL & "(factura.TotalFactura + factura.IGTFML) AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & " FROM factura LEFT JOIN"
    vSQL = vSQL & " Cxc ON CxC.ConsecutivoCompania = factura.ConsecutivoCompania AND "
    vSQL = vSQL & " CxC.NumeroDocumentoOrigen = factura.Numero AND "
