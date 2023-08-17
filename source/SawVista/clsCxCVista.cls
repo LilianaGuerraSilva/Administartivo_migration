@@ -331,11 +331,11 @@ Public Function fSqlViewVentasResumen() As String
             gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
             fSQLRoundForLibrosSaw("IGV_BaseimponibleAlicuotasVentasResumenDeVentas.MontoIvaAlicuotaGeneral * Factura.CambioABolivares", 2), True), _
             gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2,"
-   vSQL = vSQL & gUtilSQL.fSimpleSqlValue("") & " AS GeneradoPorIGTF, "
-   vSQL = vSQL & "0 AS BaseImponibleIGTF, "
-   vSQL = vSQL & "0 AS PorcentajeIGTF, "
-   vSQL = vSQL & "0 AS AlicuotaIGTF, "
-   vSQL = vSQL & "0 AS VentasIncluyendoIvaeIGTF "
+   vSQL = vSQL & gUtilSQL.getIIF("Factura.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneradaPor.eFGP_AjusteIGTF), gUtilSQL.fSimpleSqlValue("igtf"), gUtilSQL.fSimpleSqlValue(""), True) & " AS GeneradoPorIGTF, "
+   vSQL = vSQL & " factura.BaseImponibleIGTF AS BaseImponibleIGTF, "
+   vSQL = vSQL & " factura.AlicuotaIGTF AS PorcentajeIGTF, "
+   vSQL = vSQL & " factura.IGTFML AS AlicuotaIGTF, "
+   vSQL = vSQL & "(factura.TotalFactura + factura.IGTFML) AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & vbCrLf & " FROM factura"
    vSQL = vSQL & vbCrLf & " INNER JOIN IGV_BaseimponibleAlicuotasVentasResumenDeVentas ON"
    vSQL = vSQL & vbCrLf & " IGV_BaseimponibleAlicuotasVentasResumenDeVentas.ConsecutivoCompania   = Factura.ConsecutivoCompania AND"
@@ -424,11 +424,11 @@ Public Function fSqlViewVentasResumenManual() As String
           " AND (Factura.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
           " AND (AlicuotaImpuestoEspecial2.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", _
           "Factura.MontoIVAAlicuota3", gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2,"
-   vSQL = vSQL & gUtilSQL.fSimpleSqlValue("") & " AS GeneradoPorIGTF, "
-   vSQL = vSQL & "0 AS BaseImponibleIGTF, "
-   vSQL = vSQL & "0 AS PorcentajeIGTF, "
-   vSQL = vSQL & "0 AS AlicuotaIGTF, "
-   vSQL = vSQL & "0 AS VentasIncluyendoIvaeIGTF "
+   vSQL = vSQL & gUtilSQL.getIIF("Factura.GeneradoPor = " & gUtilSQL.fSQLSimpleValueForEnum(enum_FacturaGeneradaPor.eFGP_AjusteIGTF), gUtilSQL.fSimpleSqlValue("igtf"), gUtilSQL.fSimpleSqlValue(""), True) & " AS GeneradoPorIGTF, "
+   vSQL = vSQL & "factura.BaseImponibleIGTF AS BaseImponibleIGTF, "
+   vSQL = vSQL & "factura.AlicuotaIGTF AS PorcentajeIGTF, "
+   vSQL = vSQL & "factura.IGTFML AS AlicuotaIGTF, "
+   vSQL = vSQL & "(factura.TotalFactura + factura.IGTFML) AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & vbCrLf & " FROM factura LEFT JOIN"
    vSQL = vSQL & vbCrLf & " Cxc ON CxC.ConsecutivoCompania = factura.ConsecutivoCompania AND CxC.NumeroDocumentoOrigen = factura.Numero AND"
    vSQL = vSQL & vbCrLf & " CxC.CodigoCliente = factura.CodigoCliente"
@@ -822,7 +822,7 @@ Public Function fSqlViewVentasFacturaAgrupado() As String
           gUtilSQL.getIIF("IGV_FacturaBase.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), 0, _
           fSQLRoundForLibrosSaw("IGV_FacturaBase.MontogravableAlicuota1 * IGV_FacturaBase.CambioABolivares", 2), True), _
           gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2, "
-   vSQL = vSQL & " IGV_FacturaBase.GeneradoPorIGTF, "
+   vSQL = vSQL & "IGV_FacturaBase.GeneradoPorIGTF, "
    vSQL = vSQL & "IGV_FacturaBase.BaseImponibleIGTF AS BaseImponibleIGTF, "
    vSQL = vSQL & "IGV_FacturaBase.PorcentajeIGTF AS PorcentajeIGTF, "
    vSQL = vSQL & "IGV_FacturaBase.AlicuotaIGTF AS AlicuotaIGTF, "
@@ -933,11 +933,11 @@ Public Function fSqlViewVentasResumenAgrupado() As String
          " AND (IGV_FacturaBase.AplicaDecretoIvaEspecial = " & gUtilSQL.fBooleanToSqlValue(True) & _
          " AND (AlicuotaImpuestoEspecial2.AlicuotaIVAASustituir = " & gUtilSQL.fSQLSimpleValueForEnum(enum_AlicuotaIVA.eAIVA_Extendida) & "))", _
          "IGV_FacturaBase.MontoIVAAlicuota3", gUtilSQL.fSimpleSqlValueForNumeric(0), True) & " AS MontoIVAAlicuotaEspecial2,"
-   vSQL = vSQL & gUtilSQL.fSimpleSqlValue("") & " AS GeneradoPorIGTF, "
-   vSQL = vSQL & " 0 AS BaseImponibleIGTF, "
-   vSQL = vSQL & " 0 AS PorcentajeIGTF, "
-   vSQL = vSQL & " 0 AS AlicuotaIGTF, "
-   vSQL = vSQL & " 0 AS VentasIncluyendoIvaeIGTF "
+   vSQL = vSQL & " IGV_FacturaBase.GeneradoPorIGTF AS GeneradoPorIGTF, "
+   vSQL = vSQL & " IGV_FacturaBase.BaseImponibleIGTF AS BaseImponibleIGTF, "
+   vSQL = vSQL & " IGV_FacturaBase.PorcentajeIGTF AS PorcentajeIGTF, "
+   vSQL = vSQL & " IGV_FacturaBase.AlicuotaIGTF AS AlicuotaIGTF, "
+   vSQL = vSQL & " IGV_FacturaBase.VentasIncluyendoIvaeIGTF AS VentasIncluyendoIvaeIGTF "
    vSQL = vSQL & " FROM IGV_FacturaBase LEFT JOIN"
    vSQL = vSQL & " Cxc ON CxC.ConsecutivoCompania = IGV_FacturaBase.ConsecutivoCompania AND CxC.NumeroDocumentoOrigen = IGV_FacturaBase.Numero AND"
    vSQL = vSQL & " CxC.CodigoCliente = IGV_FacturaBase.CodigoCliente"
