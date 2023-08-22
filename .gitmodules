@@ -58,15 +58,15 @@
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
 	branch = release/V2201
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/Galac-Software/IvaVb.git
-	branch = release/IVA-34.5
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://github.com/Galac-Software/vbaComun.git
-	branch = feature/PrevioVersion23.7
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://github.com/Galac-Software/ContabilidadVb.git
 	branch = feature/SawProximaVersion2023Agosto
+[submodule "source/IvaVb"]
+	path = source/IvaVb
+	url = https://github.com/Galac-Software/IvaVb.git
+	branch = release/IVA-34.6
+[submodule "source/VbaComun"]
+	path = source/VbaComun
+	url = https://github.com/Galac-Software/vbaComun.git
+	branch = feature/SawIncorporarMejorasLibrosDeVenta_IGTF_ED
