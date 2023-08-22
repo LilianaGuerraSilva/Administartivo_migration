@@ -3,7 +3,7 @@ Proyecto=SAW
 PatronPresentacion=MVVM
 
 $GENERATE$
-#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
+//#INCLUDE=ExternalLib,"C:\cvs\documentos\dotNet\Def\DefLibGalac.txt"
 #INCLUDE=ExternalTablasGen,"C:\cvs\documentos\productos\Migracion AOS\DefTablasGen.txt"
 //#INCLUDE=ExternalSttdef,"C:\Git\Administrativo\DefParametrosAdministrativos.txt"
 //#INCLUDE=ExternarWincont,"C:\cvs\documentos\vba\Def\DefContabilidad-V1.txt"
@@ -198,7 +198,11 @@ unClientesOrdenadosPor = (PorCodigo, PorNombre); //e,Componente=Venta
 unTipoAlicPorContIGTF = (NoAsignado "No asignado", Cont14 "Contribuyente 1-4", Cont5 "Contribuyente 5", Cont6 "Contribuyente 6");//e,Componente=Banco
 unFormaDeCalcularCostoTerminado = (APartirDeMonedaLocal, APartirDeMonedaExtranjera); //e,Componente=SttDef
 unStatusTransferenciaBancaria= (Vigente,Anulada);//e,Componente=Banco
-unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Componente=Venta,GENERATE
+unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Componente=Venta
+unIdFiscalPM = (V, J, E, G, P);//e,Componente=Venta
+unCodigoCel = (Cod_0412, Cod_0414, Cod_0424, Cod_0416, Cod_0426);//e,Componente=Venta
+unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "0104 Banco Venezolano de Crédito S.A. Banco Universal", Bco_0105 "0105 Banco Mercantil C.A. Banco Universal", Bco_0108 "0108 Banco Provincial S.A. Banco Universal", Bco_0114 "0114 Banco del Caribe C.A. Banco Universal", Bco_0115 "0115 Banco Exterior C.A. Banco Universal", Bco_0128 "0128 Banco Caroní C.A. Banco Universal", Bco_0134 "0134 Banesco Banco Universal C.A.", Bco_0137 "0137 Banco Sofitasa Banco Universal C.A.", Bco_0138 "0138 Banco Plaza Banco universal", Bco_0146 "0146 Banco de la Gente Emprendedora C.A.", Bco_0151 "0151 Banco Fondo Común C.A Banco Universal", Bco_0156 "0156 100% Banco Banco Comercial C.A", Bco_0157 "0157 DelSur Banco Universal C.A.", Bco_0163 "0163 Banco del Tesoro C.A. Banco Universal", Bco_0168 "0168 Bancrecer S.A. Banco Microfinanciero", Bco_0169 "0169 Mi Banco Banco Microfinanciero C.A.", Bco_0171 "0171 Banco Activo C.A. Banco Universal", Bco_0172 "0172 Bancamiga Banco Universal C.A.", Bco_0174 "0174 Banplus Banco Universal C.A.", Bco_0175 "0175 Banco Bicentenario del Pueblo Banco Universal C.A.", Bco_0177 "0177 Banco de la Fuerza Armada Nacional Bolivariana B.U.", Bco_0191 "0191 Banco Nacional de Crédito C.A. Banco Universal");//e,Componente=Venta
+
 
 // Record Repetido en archivo Externo
 //{@S}UrbanizacionZP = record //"Urbanización - Zona Postal",Componente=Tablas,Esquema=Saw,interop
@@ -209,7 +213,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 //}
 
 
-{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania,Componente=Compania,Esquema=Saw,EsquemaBd=Dbo,interop, GENERATE
+{@S}Compania = Record //"Compañía",Female, CONTROLADORMULTIARCHIVO=ConsecutivoCompania,Componente=Compania,Esquema=Saw,EsquemaBd=Dbo,interop
    ConsecutivoCompania      : LongInt;//o,HIDE,sugestConsecutive
    Codigo                   : Str4;  //u,g,o,"Código",sugestConsecutive,SEARCH
    Nombre                   : Str50; //u,g,o,SEARCH
@@ -272,7 +276,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
    @PrimaryKey=Nombre,FechadeVigencia
 }
 
-{@M}Vendedor = Record//Multiarchivo=Compania, "Vendedor", Componente=Vendedor, impexp, Esquema=Adm, EsquemaBD=Adm, GENERATE
+{@M}Vendedor = Record//Multiarchivo=Compania, "Vendedor", Componente=Vendedor, impexp, Esquema=Adm, EsquemaBD=Adm, 
      ConsecutivoCompania		: LongInt;//
      Consecutivo             : Longint;
      Codigo		            : Str5;//
@@ -344,7 +348,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     @PrimaryKey=ConsecutivoCompania,Nombre
 }
 
-{@S}Cliente = Record //Male,Multiarchivo=Compania , MALE, Componente=Cliente,Esquema=Saw,interop,Generate
+{@S}Cliente = Record //Male,Multiarchivo=Compania , MALE, Componente=Cliente,Esquema=Saw,interop
    ConsecutivoCompania    : LongInt; //o,HIDE
    Consecutivo            : longint; // o,a,HIDE,Consecutive,g,"Consecutivo"
    Codigo                 : Str10; //g,o,"Código",sugestConsecutive,search
@@ -397,7 +401,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
    }
 
 
-{@M}CxC = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta, GENERATE
+{@M}CxC = Record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta
     ConsecutivoCompania	      : Longint; //HIDE
     Numero	              : Str20;   //u,o,g,"Número",SEARCH
     Status                    : unStatusDocumento;//g,"Status",SEARCH
@@ -469,7 +473,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
     @PrimaryKey=ConsecutivoCompania,Numero,TipoCxC,ConsecutivoRenglonOI
 }
 
-{@M}Cotizacion = Record //Female,Multiarchivo=Compania, GENERATE
+{@M}Cotizacion = Record //Female,Multiarchivo=Compania
     ConsecutivoCompania	: Longint; //HIDE
     Numero			: Str11;   //o,g,"Número",sugestConsecutive,search
     Fecha               : unFecha;//O,G,"Fecha",search
@@ -862,7 +866,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
        @PrimaryKey=ConsecutivoCompania,CodigoArticulo,CodigoDeBarra
 }
 
-{@M}Cobranza = record //Multiarchivo=Compania,Componente=Venta, Esquema=Adm, EsquemaBD=Dbo,GenerateFrmInforme,GenerateRptConfigurar, GENERATE
+{@M}Cobranza = record //Multiarchivo=Compania,Componente=Venta, Esquema=Adm, EsquemaBD=Dbo,GenerateFrmInforme,GenerateRptConfigurar
 	ConsecutivoCompania		: LongInt;//Hide	
 	Numero			: Str10;  //u,O,G,search,"Número Cobranza",sugestConsecutive
 	StatusCobranza	:	unStatusCobranza;//O,G,SEARCH,"Status Cobranza"
@@ -960,7 +964,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 	@PrimaryKey= ConsecutivoCompania, ConsecutivoMaquinaFiscal
    }
 
-{@M}Factura = record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta, GENERATE
+{@M}Factura = record //Female,Multiarchivo=Compania,GenerateRptConfigurar,GenerateFrmInforme,Esquema=Adm,Componente=Venta
     ConsecutivoCompania: Longint; //HIDE
     Numero        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha            : unFecha;//O,G,"Fecha",search
@@ -1820,7 +1824,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 
 
 
-{@S}Contrato = Record; //Multiarchivo=Compania, GENERATE
+{@S}Contrato = Record; //Multiarchivo=Compania
    ConsecutivoCompania: Longint; //HIDE
    NumeroContrato     : Str5; //"Nº Contrato",g,sugestConsecutive,Search,o
    StatusContrato     : unStatusContrato;//g,search
@@ -2627,7 +2631,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
  }
 
-{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme,GENERATE
+{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	Consecutivo   		: LongInt;//u,o,a,sugestconsecutive
 	ConsecutivoCaja     : Long;//Hide,=Caja.ConsecutivoCaja
@@ -3417,7 +3421,7 @@ unFacturaGeneradaPor = (Usuario, Cotizacion, Galac360, AjusteIGTF);//e,Component
 }
 
 
-{@M}FacturaRapida = record //Multiarchivo=Compania, "Facturación Rápida", Componente=Venta, Esquema=dbo,  interop, GenerateRptConfigurar, GenerateFrmInforme, GENERATE
+{@M}FacturaRapida = record //Multiarchivo=Compania, "Facturación Rápida", Componente=Venta, Esquema=dbo,  interop, GenerateRptConfigurar, GenerateFrmInforme
     ConsecutivoCompania           : Longint; //HIDE
     Numero                        : str11;  //O,G,U,"Número de Factura",search,suggestConsecutive
     Fecha                         : unFecha;//O,G,"Fecha",search
@@ -4530,7 +4534,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	//este uk es solo para que narrador pueda generar, no se pasa
 }
 
-{@S}RutaDeComercializacion = record //Multiarchivo=Compania,"Ruta de Comercialización",Componente=Tablas,Esquema=Saw,GENERATE
+{@S}RutaDeComercializacion = record //Multiarchivo=Compania,"Ruta de Comercialización",Componente=Tablas,Esquema=Saw
 	ConsecutivoCompania			:LongInt;//Hide
 	Consecutivo					:LongInt;//Hide,sugestConsecutive
 	Descripcion					:Str100;//"Descripción",o,g,search
@@ -4538,4 +4542,25 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	FechaUltimaModificacion		:date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo 
 	@UniqueKey=ConsecutivoCompania,Descripcion 
+}
+
+{@F}C2PMegasoft = record // "Cambio por Pago Móvil C2P",Esquema=Adm,Componente=Venta,GENERATE
+	CodigoAfiliacion	: Str20;//"Código Afiliación"
+	NroControl		: Str20;//"Nro. Control"
+	NombreCliente		: Str50;//"Cliente"
+	DatosPagoMovil		: label;//"Datos Pago Móvil"
+	IDFiscal		: unIdFiscalPM;//
+	RifCliente		: Str14;//"Identificación"
+	NroFactura		: Str15;//"Nro. Factura"
+	Monto			: decimal;//"Monto"
+	CodigoTelefono		: unCodigoCel;//"Código Cel"
+	NumeroTelefono		: Str7;//"Teléfono"
+	Banco			: unBancoPM;//"Banco"
+	Vuelto			: decimal;//"Vuelto
+}
+
+{@F}VueltoEfectivo = record //"Vuelto efectivo",Esquema=Adm,Componente=Venta,GENERATE
+	TasaDeCambio	: label//"Tasa de Cambio"
+	EfectivoMonedaLocal	: decimal;//"Bolívar"
+	EfectivoMonedaDivisa	: decimal;//"Divisa"
 }
