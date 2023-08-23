@@ -34,7 +34,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion //Variables y Constantes
 
         #region Constructor e Inicializadores
-
         public CobroRapidoViewModelBase() {
             MontoRestantePorPagar = TotalFactura;
             TotalCobrado = 0;
@@ -199,6 +198,5 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public abstract void CalcularTotales();
 
         #endregion //Metodos
-
     }
 }
