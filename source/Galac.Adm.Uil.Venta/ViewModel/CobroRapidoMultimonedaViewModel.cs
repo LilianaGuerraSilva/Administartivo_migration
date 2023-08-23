@@ -274,6 +274,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        private decimal VueltoEfectivoMonedaLocal { 
+            get; 
+            set; 
+        }
+        private decimal VueltoEfectivoDivisas { get; set; }
+        private decimal VueltoC2pMonedaLocal { get; set; }
+
         public decimal VueltoEnMonedaLocal {
             get {
                 return _VueltoEnMonedaLocal;
@@ -635,12 +642,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteVueltoEnEfectivo() {
-
+            VueltoEfectivoViewModel vViewModel = new VueltoEfectivoViewModel(CambioAMonedaLocal, MontoRestantePorPagar, MontoRestantePorPagarEnDivisas, NombreDeMonedaLocal, NombreMonedaDivisa);
+            LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+            VueltoEfectivoMonedaLocal = vViewModel.EfectivoMonedaLocal;
+            VueltoEfectivoDivisas = vViewModel.EfectivoMonedaDivisa;
+            VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);
+            VueltoEnDivisas = -1 * VueltoEfectivoDivisas;
         }
 
         private void ExecuteVueltoConPagoMovil() {
             C2PMegasoftViewModel vViewModel = new C2PMegasoftViewModel();
             LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+            VueltoC2pMonedaLocal = LibConvert.ToDec(vViewModel.Monto);
+            VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);
         }
 
         protected override void ExecuteCancel() {

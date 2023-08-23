@@ -163,7 +163,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private ValidationResult MontoRestantePorPagarValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((MontoRestantePorPagar <= 0)) {
+            if (MontoRestantePorPagar <= 0) {
                 return ValidationResult.Success;
             } else {
                 vResult = new ValidationResult("No puede grabar sin introducir una forma de pago");
