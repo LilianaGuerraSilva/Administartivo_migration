@@ -34,7 +34,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public eBancoPM Banco { get; set; }
         public decimal Vuelto { get; set; }
         public string CodigoAfiliacion { get; set; }
-        public string NroControl { get; set; }
 
         public eCodigoCel[] ArrayCodigoCel { get { return LibEnumHelper<eCodigoCel>.GetValuesInArray(); } }
         public eBancoPM[] ArrayBancoPM { get { return LibEnumHelper<eBancoPM>.GetValuesInArray(); } }
@@ -46,7 +45,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
             NroFactura = initNroFactura;
             Monto = LibConvert.NumToString(LibMath.Abs(initMonto), 2);
             CodigoAfiliacion = "{código de afiliación}";
-            NroControl = "{nro. ctrl}";
         }
         #endregion //Constructores
         #region Metodos Generados

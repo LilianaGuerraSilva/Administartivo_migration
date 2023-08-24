@@ -214,7 +214,6 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label
                 Name="lblCodigoAfiliacion"
@@ -235,23 +234,6 @@
                 MaxLength="20"
                 Style="{StaticResource TextBoxInputStyle}"
                 Text="{Binding Path=CodigoAfiliacion, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-            <Label
-                Name="lblNroControl"
-                Grid.Row="1"
-                Grid.Column="0"
-                Content="Nro. Control"
-                Style="{StaticResource LabelPrompt}" />
-            <nsWpfControls:GSTextBoxWpf
-                Name="txtNroControl"
-                Grid.Row="1"
-                Grid.Column="1"
-                Width="200"
-                BorderThickness="1"
-                InputDataType="Alfanumeric"
-                IsEnabled="False"
-                MaxLength="20"
-                Style="{StaticResource TextBoxInputStyle}"
-                Text="{Binding Path=NroControl, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
     </Grid>
 </UserControl>
