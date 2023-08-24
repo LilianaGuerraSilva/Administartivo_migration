@@ -41,7 +41,12 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public eIdFiscalPM[] ArrayIdFiscalPM { get { return LibEnumHelper<eIdFiscalPM>.GetValuesInArray(); } }
         #endregion //Propiedades
         #region Constructores
-        public C2PMegasoftViewModel() {
+        public C2PMegasoftViewModel(string initNombreCliente, string initNroFactura, decimal initMonto) {
+            NombreCliente = initNombreCliente;
+            NroFactura = initNroFactura;
+            Monto = LibConvert.NumToString(LibMath.Abs(initMonto), 2);
+            CodigoAfiliacion = "{código de afiliación}";
+            NroControl = "{nro. ctrl}";
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -93,9 +98,16 @@ namespace Galac.Adm.IntegracionMS.Venta {
         }
 
         private void ExecuteLimpiarCommand() {
+            IDFiscal = eIdFiscalPM.V;
+            Rif = string.Empty;
+            CodigoTelefono = eCodigoCel.Cod_0412;
+            NumeroTelefono = string.Empty;
+            Banco = eBancoPM.Bco_0102;
+            Vuelto = 0M;
         }
+
         private void ExecuteCobrarCommand() {
-            //RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
+            //cerrar
         }
 
         private bool CanExecuteLimpiarCommand() { return true; }

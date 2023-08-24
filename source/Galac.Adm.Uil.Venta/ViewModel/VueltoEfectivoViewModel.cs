@@ -84,8 +84,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public VueltoEfectivoViewModel(decimal initCambioAMonedaLocal, decimal initPorVueltoMonedaLocal, decimal initPorVueltoDivisa, string initNombreDeMonedaLocal, string initNombreDeDivisa) {
             CambioAMonedaLocal = initCambioAMonedaLocal;
-            PorVueltoMonedaLocal = -1 * initPorVueltoMonedaLocal;
-            PorVueltoDivisa = -1 * initPorVueltoDivisa;
+            PorVueltoMonedaLocal = LibMath.Abs(initPorVueltoMonedaLocal);
+            PorVueltoDivisa = LibMath.Abs(initPorVueltoDivisa);
             NombreDeMonedaLocal = initNombreDeMonedaLocal;
             NombreDeDivisa = initNombreDeDivisa;
         }
