@@ -5,6 +5,7 @@ using System.Text;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Mvvm;
 using Galac.Adm.Ccl.Venta;
+using LibGalac.Aos.UI.Mvvm.Ribbon;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class VueltoEfectivoViewModel : LibGenericViewModel {
@@ -88,7 +89,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             NombreDeDivisa = initNombreDeDivisa;
         }
 
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateVueltoEfectivoRibbonButtonGroup());
+                var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
+                RibbonData.TabDataCollection[0].GroupDataCollection[0] = RibbonData.TabDataCollection[0].GroupDataCollection[1];
+                RibbonData.TabDataCollection[0].GroupDataCollection[1] = tempRibbon;
+            }
+        }
 
+        LibRibbonGroupData CreateVueltoEfectivoRibbonButtonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Comandos");
+            return vResult;
+        }
 
     }
 }

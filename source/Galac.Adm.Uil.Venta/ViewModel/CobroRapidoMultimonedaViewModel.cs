@@ -576,7 +576,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() { 
                 Label = "Vuelto con Pago Móvil",
                 Command = VueltoConPagoMovil,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Image/F10.png", UriKind.Relative),
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
                 ToolTipDescription = "Datos del Vuelto con Pago Móvil C2P",
                 ToolTipTitle = "Vuelto con PM C2P",
                 IsVisible = true,
