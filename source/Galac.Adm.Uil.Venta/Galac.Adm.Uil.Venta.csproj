@@ -256,6 +256,7 @@
     <Compile Include="ViewModel\FacturaRapidaDetalleViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaMngViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaViewModel.cs" />
+    <Compile Include="ViewModel\VueltoEfectivoViewModel.cs" />
     <Compile Include="Views\GSBuscarPrecioDeArticuloView.xaml.cs">
       <DependentUpon>GSBuscarPrecioDeArticuloView.xaml</DependentUpon>
     </Compile>
