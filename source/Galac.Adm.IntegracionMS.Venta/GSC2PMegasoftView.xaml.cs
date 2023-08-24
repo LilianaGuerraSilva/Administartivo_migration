@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Galac.Adm.Uil.Venta.Views {
+namespace Galac.Adm.IntegracionMS.Venta {
     /// <summary>
     /// Interaction logic for GSC2PMegasoftView.xaml
     /// </summary>

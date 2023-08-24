@@ -6,11 +6,12 @@ using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Mvvm;
 using Galac.Adm.Ccl.Venta;
 using LibGalac.Aos.UI.Mvvm.Ribbon;
+using LibGalac.Aos.UI.Mvvm.Command;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class VueltoEfectivoViewModel : LibGenericViewModel {
         public override string ModuleName { get { return "Vuelto en Efectivo"; } }
-
+        private const string VueltoEfectivoPropertyName = "VueltoEfectivo";
         public string CambioAMonedaLocalParaMostrar {
             get { return LibConvert.NumToString(CambioAMonedaLocal, 4); }
         }
@@ -36,7 +37,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             set {
                 if (_PorVueltoMonedaLocal != value) {
                     _PorVueltoMonedaLocal = value;
-                    RaisePropertyChanged(() => PorVueltoMonedaLocal);
+                    RaisePropertyChanged(() => _PorVueltoMonedaLocal);
                 }
             }
         }
@@ -83,8 +84,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public VueltoEfectivoViewModel(decimal initCambioAMonedaLocal, decimal initPorVueltoMonedaLocal, decimal initPorVueltoDivisa, string initNombreDeMonedaLocal, string initNombreDeDivisa) {
             CambioAMonedaLocal = initCambioAMonedaLocal;
-            PorVueltoMonedaLocal = initPorVueltoMonedaLocal;
-            PorVueltoDivisa = initPorVueltoDivisa;
+            PorVueltoMonedaLocal = -1 * initPorVueltoMonedaLocal;
+            PorVueltoDivisa = -1 * initPorVueltoDivisa;
             NombreDeMonedaLocal = initNombreDeMonedaLocal;
             NombreDeDivisa = initNombreDeDivisa;
         }
@@ -99,10 +100,50 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        protected override void InitializeCommands() {
+            base.InitializeCommands();
+            PagarCommand = new RelayCommand(ExecuteCobrarCommand, CanExecuteCobrarCommand);
+            LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
+        }
+
+        public RelayCommand PagarCommand { get; private set; }
+        public RelayCommand LimpiarCommand { get; private set; }
+
         LibRibbonGroupData CreateVueltoEfectivoRibbonButtonGroup() {
             LibRibbonGroupData vResult = new LibRibbonGroupData("Comandos");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Pagar",
+                Command = PagarCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F6.png", UriKind.Relative),
+                ToolTipDescription = "Guarda los cambios en " + ModuleName + ".",
+                ToolTipTitle = "Ejecutar Acción (F6)",
+                IsVisible = true,
+                KeyTip = "F6"
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Limpiar",
+                Command = LimpiarCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F7.png", UriKind.Relative),
+                ToolTipDescription = "Guarda los cambios en " + ModuleName + ".",
+                ToolTipTitle = "Ejecutar Acción (F7)",
+                IsVisible = true,
+                KeyTip = "F7"
+            });
             return vResult;
         }
+
+        private void ExecuteLimpiarCommand() {
+            EfectivoMonedaDivisa = 0;
+            EfectivoMonedaLocal = 0;
+            RaiseMoveFocus(VueltoEfectivoPropertyName);
+        }
+
+        private void ExecuteCobrarCommand() {
+            //RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
+        }
+
+        private bool CanExecuteLimpiarCommand() { return true; }
+        private bool CanExecuteCobrarCommand() { return true; }
 
     }
 }

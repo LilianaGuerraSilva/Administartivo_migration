@@ -17,6 +17,7 @@ using System.Xml.Linq;
 using System.Windows.Media;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Adm.Ccl.CajaChica;
+using Galac.Adm.IntegracionMS.Venta;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CobroRapidoMultimonedaViewModel : CobroRapidoVzlaViewModelBase {
