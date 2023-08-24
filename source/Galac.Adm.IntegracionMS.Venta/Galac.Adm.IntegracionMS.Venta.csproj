@@ -32,12 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Galac.Adm.Brl.Venta">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Brl.Venta.dll</HintPath>
-    </Reference>
-    <Reference Include="Galac.Adm.Ccl.Venta">
-      <HintPath>..\..\bin\binAdministrativoAos\Galac.Adm.Ccl.Venta.dll</HintPath>
-    </Reference>
     <Reference Include="LibGalac.Aos.Base">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Base.dll</HintPath>
     </Reference>
@@ -83,6 +77,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Galac.Adm.Brl.Venta\Galac.Adm.Brl.Venta.csproj">
+      <Project>{ae95f4aa-3119-4d39-96fb-95a53b7abb65}</Project>
+      <Name>Galac.Adm.Brl.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.Ccl.Venta\Galac.Adm.Ccl.Venta.csproj">
+      <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
+      <Name>Galac.Adm.Ccl.Venta</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
