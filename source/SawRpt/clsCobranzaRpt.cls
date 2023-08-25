@@ -412,7 +412,6 @@ Public Function fConfigurarDatosDelReporteComisionXVendedorResumido(ByRef refRpt
             sConfigurarDatosDeComisionDeVendedorCobranzas refRpt, valSqlDelReporte, valfechaInicio, valFechaFinal, valUsarCambioOriginal, True, NombreCompaniaParaInformes
          End If
          Call refRpt.AddNamedItem("insRptCobranzaConfigurar", insVendedor)
-         Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
          fConfigurarDatosDelReporteComisionXVendedorResumido = True
       Case enum_CalculoParaComisionesSobreCobranzaEnBaseA.eCP_PORCENTAJE_POR_ARTICULO And valComisionesPorVentas
          sConfigurarDatosDeComisionDeVendedorPorArticuloResumido refRpt, valSqlDelReporte, valfechaInicio, valFechaFinal, valComisionesPorVentas, NombreCompaniaParaInformesFalse
@@ -420,7 +419,8 @@ Public Function fConfigurarDatosDelReporteComisionXVendedorResumido(ByRef refRpt
       Case enum_CalculoParaComisionesSobreCobranzaEnBaseA.eCP_PORCENTAJE_POR_ARTICULO And Not valComisionesPorVentas
          sConfigurarDatosDeComisionDeVendedorPorCobranzaPorArticuloResumido refRpt, valSqlDelReporte, valfechaInicio, valFechaFinal, valComisionesPorVentas, NombreCompaniaParaInformesFalse
          fConfigurarDatosDelReporteComisionXVendedorResumido = True
-      End Select
+   End Select
+   Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
 h_EXIT: On Error GoTo 0
    Exit Function
 h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
@@ -451,6 +451,7 @@ Public Function fConfigurarDatosDelReporteComisionXVendedorDetallado(ByRef refRp
    End Select
    Call refRpt.AddNamedItem("insRptCobranzaConfigurar", insVendedor)
    Call refRpt.AddNamedItem("gUtilReports", gUtilReports)
+   Call refRpt.AddNamedItem("gConvert", gConvert)
    fConfigurarDatosDelReporteComisionXVendedorDetallado = exito
 h_EXIT: On Error GoTo 0
    Exit Function
