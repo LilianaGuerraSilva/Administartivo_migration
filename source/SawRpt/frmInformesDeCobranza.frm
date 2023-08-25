@@ -2184,7 +2184,7 @@ Private Function fEjecutaElReportedetalladoPorCobro(ByVal OpcionesComisionesSobr
          sql = sql & "(" & insCobranzaSQL.fConstruirSQLPorCobrosDelReporteComisionDeVendedorDetalladoOrigenFactura(mUsarCambioOriginal, gUltimaTasaDeCambio, cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(eMR_EnBs, gProyParametros.GetNombreMonedaLocal), gMonedaLocalActual, gProyParametrosCompania.GetAsignarComisionDeVendedorEnCobranza, chkMontoBruto = vbChecked, gProyCompaniaActual.GetConsecutivoCompania, dtpFechaInicial.Value, dtpFechaFinal.Value, CmbCantidadAImprimir.Text, txtNombreDeVendedor.Text, gProyParametrosCompania.GetUsarOtrosCargoDeFactura) & ")"
          sql = sql & " ORDER BY "
          If cmbMonedaDeLosReportes.Text = gEnumReport.enumMonedaDeLosReportesToString(enum_MonedaDeLosReportes.eMR_EnBs, gProyParametros.GetNombreMonedaLocal) Then
-            sql = sql & insVendedor.GetTableName & ".Codigo, "
+            sql = sql & "vendedor.Codigo, "
          Else
             sql = sql & insCobranza.GetTableName & ".Moneda, "
             sql = sql & "vendedor.Codigo, "
