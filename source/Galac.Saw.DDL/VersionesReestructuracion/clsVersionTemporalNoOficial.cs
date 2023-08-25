@@ -26,6 +26,5 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			DisposeConnectionNoTransaction();
 			return true;
 		}
-		
 	}
 }   

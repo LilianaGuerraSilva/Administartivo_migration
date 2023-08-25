@@ -29,7 +29,15 @@ namespace Galac.Adm.Ccl.Venta {
         private string _HoraCierre;
         private bool _CajaCerrada;
         private string _CodigoMoneda;
+        private string _Moneda;
         private decimal _Cambio;
+        private decimal _MontoAperturaME;
+        private decimal _MontoCierreME;
+        private decimal _MontoEfectivoME;
+        private decimal _MontoTarjetaME;
+        private decimal _MontoChequeME;
+        private decimal _MontoDepositoME;
+        private decimal _MontoAnticipoME;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -127,10 +135,51 @@ namespace Galac.Adm.Ccl.Venta {
             set { _CodigoMoneda = LibString.Mid(value, 0, 4); }
         }
 
+        public string Moneda {
+            get { return _Moneda; }
+            set { _Moneda = LibString.Mid(value, 0, 80); }
+        }
+
         public decimal Cambio {
             get { return _Cambio; }
             set { _Cambio = value; }
         }
+
+        public decimal MontoAperturaME {
+            get { return _MontoAperturaME; }
+            set { _MontoAperturaME = value; }
+        }
+
+        public decimal MontoCierreME {
+            get { return _MontoCierreME; }
+            set { _MontoCierreME = value; }
+        }
+
+        public decimal MontoEfectivoME {
+            get { return _MontoEfectivoME; }
+            set { _MontoEfectivoME = value; }
+        }
+
+        public decimal MontoTarjetaME {
+            get { return _MontoTarjetaME; }
+            set { _MontoTarjetaME = value; }
+        }
+
+        public decimal MontoChequeME {
+            get { return _MontoChequeME; }
+            set { _MontoChequeME = value; }
+        }
+
+        public decimal MontoDepositoME {
+            get { return _MontoDepositoME; }
+            set { _MontoDepositoME = value; }
+        }
+
+        public decimal MontoAnticipoME {
+            get { return _MontoAnticipoME; }
+            set { _MontoAnticipoME = value; }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -181,7 +230,15 @@ namespace Galac.Adm.Ccl.Venta {
             HoraCierre = string.Empty;
             CajaCerradaAsBool = false;
             CodigoMoneda = string.Empty;
+            Moneda = string.Empty;
             Cambio = 0;
+            MontoAperturaME = 0;
+            MontoCierreME = 0;
+            MontoEfectivoME = 0;
+            MontoTarjetaME = 0;
+            MontoChequeME = 0;
+            MontoDepositoME = 0;
+            MontoAnticipoME = 0;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -206,7 +263,15 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.HoraCierre = _HoraCierre;
             vResult.CajaCerradaAsBool = _CajaCerrada;
             vResult.CodigoMoneda = _CodigoMoneda;
+            vResult.Moneda = _Moneda;
             vResult.Cambio = _Cambio;
+            vResult.MontoAperturaME = _MontoAperturaME;
+            vResult.MontoCierreME = _MontoCierreME;
+            vResult.MontoEfectivoME = _MontoEfectivoME;
+            vResult.MontoTarjetaME = _MontoTarjetaME;
+            vResult.MontoChequeME = _MontoChequeME;
+            vResult.MontoDepositoME = _MontoDepositoME;
+            vResult.MontoAnticipoME = _MontoAnticipoME;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -231,6 +296,13 @@ namespace Galac.Adm.Ccl.Venta {
                "\nCaja Cerrada = " + _CajaCerrada +
                "\nCodigo Moneda = " + _CodigoMoneda +
                "\nCambio = " + _Cambio.ToString() +
+               "\nMonto Apertura ME = " + _MontoAperturaME.ToString() +
+               "\nMonto Cierre ME = " + _MontoCierreME.ToString() +
+               "\nMonto Efectivo ME = " + _MontoEfectivoME.ToString() +
+               "\nMonto Tarjeta ME = " + _MontoTarjetaME.ToString() +
+               "\nMonto Cheque ME = " + _MontoChequeME.ToString() +
+               "\nMonto Deposito ME = " + _MontoDepositoME.ToString() +
+               "\nMonto Anticipo ME = " + _MontoAnticipoME.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }

@@ -63,8 +63,15 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("HoraApertura" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CajApeHoAp DEFAULT (''), ");
             SQL.AppendLine("HoraCierre" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CajApeHoCi DEFAULT (''), ");
             SQL.AppendLine("CajaCerrada" + InsSql.CharTypeForDb(1) + " CONSTRAINT nnCajApeCajaCerrad NOT NULL, ");
-            SQL.AppendLine("CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_CajApeCoMo DEFAULT ('VES'), ");
+            SQL.AppendLine("CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_CajApeCoMo DEFAULT ('VED'), ");
             SQL.AppendLine("Cambio" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeCa DEFAULT (1), ");
+            SQL.AppendLine("MontoAperturaME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoApME DEFAULT (0), ");
+            SQL.AppendLine("MontoCierreME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoCiME DEFAULT (0), ");
+            SQL.AppendLine("MontoEfectivoME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoEfME DEFAULT (0), ");
+            SQL.AppendLine("MontoTarjetaME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoTaME DEFAULT (0), ");
+            SQL.AppendLine("MontoChequeME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoChME DEFAULT (0), ");
+            SQL.AppendLine("MontoDepositoME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoDeME DEFAULT (0), ");
+            SQL.AppendLine("MontoAnticipoME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoAnME DEFAULT (0), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -75,6 +82,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("ON UPDATE CASCADE");
             SQL.AppendLine(", CONSTRAINT fk_CajaAperturaGUser FOREIGN KEY (NombreDelUsuario)");
             SQL.AppendLine("REFERENCES Lib.GUser(UserName) ");
+            SQL.AppendLine("ON UPDATE CASCADE");
+            SQL.AppendLine(", CONSTRAINT fk_CajaAperturaMoneda FOREIGN KEY (CodigoMoneda)");
+            SQL.AppendLine("REFERENCES Moneda(Codigo)");
             SQL.AppendLine("ON UPDATE CASCADE) ");
             return SQL.ToString();
         }
@@ -83,18 +93,23 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT CajaApertura.ConsecutivoCompania, CajaApertura.Consecutivo, CajaApertura.ConsecutivoCaja, CajaApertura.NombreDelUsuario");
             SQL.AppendLine(", CajaApertura.MontoApertura, CajaApertura.MontoCierre, CajaApertura.MontoEfectivo, CajaApertura.MontoTarjeta");
-            SQL.AppendLine(", CajaApertura.MontoCheque, CajaApertura.MontoDeposito, CajaApertura.MontoAnticipo, CajaApertura.Fecha, CajaApertura.HoraApertura, CajaApertura.HoraCierre");
-            SQL.AppendLine(", CajaApertura.Cambio, CajaApertura.CodigoMoneda, CajaApertura.CajaCerrada, CajaApertura.NombreOperador, CajaApertura.FechaUltimaModificacion");
+            SQL.AppendLine(", CajaApertura.MontoCheque, CajaApertura.MontoDeposito, CajaApertura.MontoAnticipo, CajaApertura.Fecha");
+            SQL.AppendLine(", CajaApertura.HoraApertura, CajaApertura.HoraCierre, CajaApertura.CajaCerrada, CajaApertura.CodigoMoneda");
+            SQL.AppendLine(", CajaApertura.Cambio, CajaApertura.MontoAperturaME, CajaApertura.MontoCierreME, CajaApertura.MontoEfectivoME");
+            SQL.AppendLine(", CajaApertura.MontoTarjetaME, CajaApertura.MontoChequeME, CajaApertura.MontoDepositoME, CajaApertura.MontoAnticipoME");
+            SQL.AppendLine(", CajaApertura.NombreOperador, CajaApertura.FechaUltimaModificacion");
             SQL.AppendLine(", CajaApertura.fldTimeStamp, CAST(CajaApertura.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".CajaApertura");
             SQL.AppendLine("INNER JOIN Adm.Caja ON  " + DbSchema + ".CajaApertura.ConsecutivoCaja = Adm.Caja.Consecutivo");
             SQL.AppendLine("      AND " + DbSchema + ".CajaApertura.ConsecutivoCompania = Adm.Caja.ConsecutivoCompania");
             SQL.AppendLine("INNER JOIN Lib.GUser ON  " + DbSchema + ".CajaApertura.NombreDelUsuario = Lib.GUser.UserName");
+            SQL.AppendLine("INNER JOIN Moneda ON  " + DbSchema + ".CajaApertura.CodigoMoneda = Moneda.Codigo");
             return SQL.ToString();
         }
 
         private string SqlSpInsParameters() {
             StringBuilder SQL = new StringBuilder();            
+            SQL.AppendLine("@DateFormat" + InsSql.VarCharTypeForDb(3) + ",");
             SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
             SQL.AppendLine("@Consecutivo" + InsSql.NumericTypeForDb(10,0) + ",");
             SQL.AppendLine("@ConsecutivoCaja" + InsSql.NumericTypeForDb(10,0) + ",");
@@ -110,8 +125,15 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@HoraApertura" + InsSql.VarCharTypeForDb(5) + " = '',");
             SQL.AppendLine("@HoraCierre" + InsSql.VarCharTypeForDb(5) + " = '',");
             SQL.AppendLine("@CajaCerrada" + InsSql.CharTypeForDb(1) + " = 'N',");
-            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " = '',");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
             SQL.AppendLine("@Cambio" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoAperturaME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoCierreME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoEfectivoME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoTarjetaME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoChequeME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoDepositoME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoAnticipoME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -121,6 +143,7 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("BEGIN");
             SQL.AppendLine("   SET NOCOUNT ON;");            
+            SQL.AppendLine("   SET DATEFORMAT @DateFormat");
             SQL.AppendLine("   DECLARE @ReturnValue " + InsSql.NumericTypeForDb(10,0) + "");
             SQL.AppendLine("	IF EXISTS(SELECT ConsecutivoCompania FROM Dbo.Compania WHERE ConsecutivoCompania = @ConsecutivoCompania)");
             SQL.AppendLine("	BEGIN");
@@ -143,6 +166,13 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            CajaCerrada,");
             SQL.AppendLine("            CodigoMoneda,");
             SQL.AppendLine("            Cambio,");
+            SQL.AppendLine("            MontoAperturaME,");
+            SQL.AppendLine("            MontoCierreME,");
+            SQL.AppendLine("            MontoEfectivoME,");
+            SQL.AppendLine("            MontoTarjetaME,");
+            SQL.AppendLine("            MontoChequeME,");
+            SQL.AppendLine("            MontoDepositoME,");
+            SQL.AppendLine("            MontoAnticipoME,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -163,6 +193,13 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @CajaCerrada,");
             SQL.AppendLine("            @CodigoMoneda,");
             SQL.AppendLine("            @Cambio,");
+            SQL.AppendLine("            @MontoAperturaME,");
+            SQL.AppendLine("            @MontoCierreME,");
+            SQL.AppendLine("            @MontoEfectivoME,");
+            SQL.AppendLine("            @MontoTarjetaME,");
+            SQL.AppendLine("            @MontoChequeME,");
+            SQL.AppendLine("            @MontoDepositoME,");
+            SQL.AppendLine("            @MontoAnticipoME,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -195,6 +232,13 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@CajaCerrada" + InsSql.CharTypeForDb(1) + ",");
             SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
             SQL.AppendLine("@Cambio" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoAperturaME" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoCierreME" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoEfectivoME" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoTarjetaME" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoChequeME" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoDepositoME" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoAnticipoME" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -236,6 +280,13 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               CajaCerrada = @CajaCerrada,");
             SQL.AppendLine("               CodigoMoneda = @CodigoMoneda,");
             SQL.AppendLine("               Cambio = @Cambio,");
+            SQL.AppendLine("               MontoAperturaME = @MontoAperturaME,");
+            SQL.AppendLine("               MontoCierreME = @MontoCierreME,");
+            SQL.AppendLine("               MontoEfectivoME = @MontoEfectivoME,");
+            SQL.AppendLine("               MontoTarjetaME = @MontoTarjetaME,");
+            SQL.AppendLine("               MontoChequeME = @MontoChequeME,");
+            SQL.AppendLine("               MontoDepositoME = @MontoDepositoME,");
+            SQL.AppendLine("               MontoAnticipoME = @MontoAnticipoME,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -362,6 +413,13 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         CajaApertura.CajaCerrada,");
             SQL.AppendLine("         CajaApertura.CodigoMoneda,");
             SQL.AppendLine("         CajaApertura.Cambio,");
+            SQL.AppendLine("         CajaApertura.MontoAperturaME,");
+            SQL.AppendLine("         CajaApertura.MontoCierreME,");
+            SQL.AppendLine("         CajaApertura.MontoEfectivoME,");
+            SQL.AppendLine("         CajaApertura.MontoTarjetaME,");
+            SQL.AppendLine("         CajaApertura.MontoChequeME,");
+            SQL.AppendLine("         CajaApertura.MontoDepositoME,");
+            SQL.AppendLine("         CajaApertura.MontoAnticipoME,");
             SQL.AppendLine("         CajaApertura.NombreOperador,");
             SQL.AppendLine("         CajaApertura.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(CajaApertura.fldTimeStamp AS bigint) AS fldTimeStampBigint,");
@@ -370,7 +428,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("             INNER JOIN Adm.Gv_Caja_B1 ON " + DbSchema + ".CajaApertura.ConsecutivoCaja = Adm.Gv_Caja_B1.Consecutivo ");
             SQL.AppendLine("             AND " + DbSchema + ".CajaApertura.ConsecutivoCompania = Adm.Gv_Caja_B1.ConsecutivoCompania ");
             SQL.AppendLine("             INNER JOIN Lib.Gv_GUser_B1 ON " + DbSchema + ".CajaApertura.NombreDelUsuario = Lib.Gv_GUser_B1.UserName");
-            SQL.AppendLine("      WHERE CajaApertura.ConsecutivoCompania = @ConsecutivoCompania");
+            SQL.AppendLine("             INNER JOIN dbo.Gv_Moneda_B1 ON " + DbSchema + ".CajaApertura.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo");
+			SQL.AppendLine("      WHERE CajaApertura.ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("         AND CajaApertura.Consecutivo = @Consecutivo");
             SQL.AppendLine("         AND CajaApertura.ConsecutivoCaja = @ConsecutivoCaja");
             SQL.AppendLine("   RETURN @@ROWCOUNT");
@@ -420,6 +479,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.HoraCierre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.CajaCerrada,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.MontoApertura,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.MontoCierreME,");
+            SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.MontoAperturaME,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.MontoCierre,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.Cambio,");
             SQL.AppendLine("      " + DbSchema + ".Gv_CajaApertura_B1.CodigoMoneda,");			
@@ -429,6 +490,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      INNER JOIN Adm.Gv_Caja_B1 ON  " + DbSchema + ".Gv_CajaApertura_B1.ConsecutivoCaja = Adm.Gv_Caja_B1.Consecutivo ");
             SQL.AppendLine("      AND " + DbSchema + ".Gv_CajaApertura_B1.ConsecutivoCompania = Adm.Gv_Caja_B1.ConsecutivoCompania");
             SQL.AppendLine("      INNER JOIN Lib.Gv_GUser_B1 ON  " + DbSchema + ".Gv_CajaApertura_B1.NombreDelUsuario = Lib.Gv_GUser_B1.UserName ");
+			SQL.AppendLine("      INNER JOIN dbo.Gv_Moneda_B1 ON  " + DbSchema + ".Gv_CajaApertura_B1.CodigoMoneda = dbo.Gv_Moneda_B1.Codigo ");
             SQL.AppendLine("      INNER JOIN CTE_CajaApertura ON ");
             SQL.AppendLine(DbSchema + ".Gv_CajaApertura_B1.ConsecutivoCaja = CTE_CajaApertura.ConsecutivoCaja AND ");
             SQL.AppendLine(DbSchema + ".Gv_CajaApertura_B1.Consecutivo = CTE_CajaApertura.Consecutivo '");
@@ -458,7 +520,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("      " + DbSchema + ".CajaApertura.ConsecutivoCompania,");
             SQL.AppendLine("      " + DbSchema + ".CajaApertura.Consecutivo,");
             SQL.AppendLine("      " + DbSchema + ".CajaApertura.ConsecutivoCaja,");
-            SQL.AppendLine("      " + DbSchema + ".CajaApertura.NombreDelUsuario");
+            SQL.AppendLine("      " + DbSchema + ".CajaApertura.NombreDelUsuario,");
+            SQL.AppendLine("      " + DbSchema + ".CajaApertura.CodigoMoneda");
             //            SQL.AppendLine("      ," + DbSchema + ".CajaApertura.[Programador - personaliza este sp y coloca solo los campos que te interesa exponer a quienes lo consumen]");
             SQL.AppendLine("      FROM " + DbSchema + ".CajaApertura");
             SQL.AppendLine("      WHERE ConsecutivoCompania = @ConsecutivoCompania");
@@ -489,8 +552,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" IF (SELECT  COUNT(Adm.CajaApertura.NombreDelUsuario) AS CantidadApertura ");
             SQL.AppendLine("   FROM Adm.CajaApertura");
             SQL.AppendLine("   WHERE NombreDelUsuario = @NombreDelUsuario ");
-            SQL.AppendLine("   AND CajaCerrada = @CajaCerrada ");
-            SQL.AppendLine("   AND ConsecutivoCaja = @ConsecutivoCaja ");
+            SQL.AppendLine("   AND CajaCerrada = @CajaCerrada ");            
             SQL.AppendLine("   AND ConsecutivoCompania = @ConsecutivoCompania)> 0 ");
             SQL.AppendLine("   SELECT 'S' AS UsuarioYaAsignado ");
             SQL.AppendLine(" ELSE ");
@@ -537,51 +599,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine(" ELSE SELECT(CASE WHEN @CajaCerrada = 'S' THEN ");
             SQL.AppendLine(" 'N' ELSE 'S' END) AS ReqCajasCerradas END ");            
             return SQL.ToString();
-        }
-
-        private string SqlSpCajaAperturaCerrarParameters() {
-            StringBuilder SQL = new StringBuilder();
-            SQL.AppendLine("@ConsecutivoCompania" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@ConsecutivoCaja" + InsSql.NumericTypeForDb(10,0) + ",");
-            SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
-            SQL.AppendLine("@HoraCierre" + InsSql.VarCharTypeForDb(5) + ",");
-            SQL.AppendLine("@MontoEfectivo" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoCheque" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoTarjeta" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoDeposito" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoAnticipo" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@MontoCierre" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@Cambio" + InsSql.NumericTypeForDb(30,5) + ",");
-            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + "");
-            return SQL.ToString();
-        }
-
-        private string SqlSpCajaAperturaCerrar() {
-            StringBuilder SQL = new StringBuilder();
-            QAdvSql _QAdvSql = new QAdvSql("");
-            SQL.AppendLine(" SET NOCOUNT ON; ");
-            SQL.AppendLine(" BEGIN");
-            SQL.AppendLine(" UPDATE ");
-            SQL.AppendLine(" " + DbSchema + ".CajaApertura ");
-            SQL.AppendLine(" SET CajaCerrada = " + _QAdvSql.ToSqlValue(true) + ", ");
-            SQL.AppendLine(" HoraCierre  = @HoraCierre, ");
-            SQL.AppendLine(" MontoEfectivo = @MontoEfectivo, ");
-            SQL.AppendLine(" MontoCheque = @MontoCheque, ");
-            SQL.AppendLine(" MontoTarjeta = @MontoTarjeta, ");
-            SQL.AppendLine(" MontoDeposito = @MontoDeposito, ");
-            SQL.AppendLine(" MontoAnticipo = @MontoAnticipo, ");
-            SQL.AppendLine(" MontoCierre = @MontoCierre, ");			
-			SQL.AppendLine(" Cambio = @Cambio, ");
-            SQL.AppendLine(" CodigoMoneda = @CodigoMoneda, ");			
-            SQL.AppendLine(" FechaUltimaModificacion = @FechaUltimaModificacion ");
-            SQL.AppendLine(" WHERE ");
-            SQL.AppendLine(" ConsecutivoCaja = @ConsecutivoCaja ");
-            SQL.AppendLine(" AND ConsecutivoCompania = @ConsecutivoCompania ");
-            SQL.AppendLine(" AND CajaCerrada <> " + _QAdvSql.ToSqlValue(true));
-            SQL.AppendLine(" SELECT  @@ROWCOUNT AS RowsAfects ");
-            SQL.AppendLine(" END");
-            return SQL.ToString();
-        }        
+        }               
 
         bool CrearVistas() {
             bool vResult = false;
@@ -601,8 +619,7 @@ namespace Galac.Adm.Dal.Venta {
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaAperturaGET",SqlSpGetParameters(),SqlSpGet(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaAperturaSCH",SqlSpSearchParameters(),SqlSpSearch(),true) && vResult;
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaAperturaGetFk",SqlSpGetFKParameters(),SqlSpGetFK(),true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajasCerradasGet",SqlSpCajasCerradasParameters(),SqlSpCajasCerradasGet(),true) && vResult;
-            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaAperturaCerrar",SqlSpCajaAperturaCerrarParameters(),SqlSpCajaAperturaCerrar(),true) && vResult;            
+            vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajasCerradasGet",SqlSpCajasCerradasParameters(),SqlSpCajasCerradasGet(),true) && vResult;            
             vResult = insSps.CreateStoredProcedure(DbSchema + ".Gp_CajaUsuarioAsignadoGet",SqlSpUsuarioAsignadoParameters(),SqlSpUsuarioAsignadoGet(),true) && vResult;            
             insSps.Dispose();
             return vResult;
