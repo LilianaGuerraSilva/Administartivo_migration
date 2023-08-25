@@ -85,17 +85,16 @@
                 Grid.Column="2"
                 Content="Monto"
                 Style="{StaticResource LabelPrompt}" />
-            <nsWpfControls:GSNumericBoxWpf
+            <nsWpfControls:GSTextBoxWpf
                 Name="txtMonto"
                 Grid.Row="0"
                 Grid.Column="3"
                 Width="150"
                 BorderThickness="1"
-                InputDataType="UDecimal"
                 IsEnabled="False"
                 MaxLength="28"
                 Style="{StaticResource TextBoxInputStyle}"
-                Value="{Binding Path=Monto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Path=Monto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>

@@ -11,19 +11,31 @@ using LibGalac.Aos.UI.Mvvm.Command;
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class VueltoEfectivoViewModel : LibGenericViewModel {
         public override string ModuleName { get { return "Vuelto en Efectivo"; } }
-        private const string VueltoEfectivoPropertyName = "VueltoEfectivo";
+
+        #region Constantes
+        private decimal _CambioAMonedaLocal;
+        private decimal _PorVueltoMonedaLocal;
+        private decimal _PorVueltoDivisa;
+        private string _Monto;
+        private string _Rif;
+        private eCodigoCel _CodigoTelefono;
+        private string _NumeroTelefono;
+        private eBancoPM _Banco;
+        private decimal _Vuelto;
+        private string _CodigoAfiliacion;
+        #endregion
+
         public string CambioAMonedaLocalParaMostrar {
             get { return LibConvert.NumToString(CambioAMonedaLocal, 4); }
         }
 
-        decimal _CambioAMonedaLocal;
-        public decimal CambioAMonedaLocal{
+        public decimal CambioAMonedaLocal {
             get { return _CambioAMonedaLocal; }
             set {
                 if (_CambioAMonedaLocal != value) {
                     _CambioAMonedaLocal = value;
                     RaisePropertyChanged(() => CambioAMonedaLocal);
-                } 
+                }
             }
         }
 
@@ -31,13 +43,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get { return LibConvert.NumToString(PorVueltoMonedaLocal, 2); }
         }
 
-        decimal _PorVueltoMonedaLocal;
         public decimal PorVueltoMonedaLocal {
             get { return _PorVueltoMonedaLocal; }
             set {
                 if (_PorVueltoMonedaLocal != value) {
                     _PorVueltoMonedaLocal = value;
-                    RaisePropertyChanged(() => _PorVueltoMonedaLocal);
+                    RaisePropertyChanged(() => PorVueltoMonedaLocal);
                 }
             }
         }
@@ -46,13 +57,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get { return LibConvert.NumToString(PorVueltoDivisa, 2); }
         }
 
-        decimal _PorVueltoDivisa;
         public decimal PorVueltoDivisa {
             get { return _PorVueltoDivisa; }
             set {
                 if (_PorVueltoDivisa != value) {
                     _PorVueltoDivisa = value;
-                    RaisePropertyChanged(() => _PorVueltoDivisa);
+                    RaisePropertyChanged(() => PorVueltoDivisa);
                 }
             }
         }
@@ -72,14 +82,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         decimal _EfectivoMonedaLocal;
         public decimal EfectivoMonedaLocal {
             get { return _EfectivoMonedaLocal; }
-            set { _EfectivoMonedaLocal = value; }
+            set {
+                if (_EfectivoMonedaLocal != value) {
+                    _EfectivoMonedaLocal = value;
+                    RaisePropertyChanged(() => EfectivoMonedaLocal);
+                }
+            }
         }
 
         decimal _EfectivoMonedaDivisa;
 
         public decimal EfectivoMonedaDivisa {
             get { return _EfectivoMonedaDivisa; }
-            set { _EfectivoMonedaDivisa = value; }
+            set {   
+                if (_EfectivoMonedaDivisa != value) {
+                    _EfectivoMonedaDivisa = value;
+                    RaisePropertyChanged(() => EfectivoMonedaDivisa);
+                }
+            }
         }
 
         public VueltoEfectivoViewModel(decimal initCambioAMonedaLocal, decimal initPorVueltoMonedaLocal, decimal initPorVueltoDivisa, string initNombreDeMonedaLocal, string initNombreDeDivisa) {
@@ -135,7 +155,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ExecuteLimpiarCommand() {
             EfectivoMonedaDivisa = 0;
             EfectivoMonedaLocal = 0;
-            RaiseMoveFocus(VueltoEfectivoPropertyName);
         }
 
         private void ExecuteCobrarCommand() {

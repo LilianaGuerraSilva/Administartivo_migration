@@ -14,34 +14,135 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
+using Galac.Saw.Uil.Cliente.ViewModel;
 
 namespace Galac.Adm.IntegracionMS.Venta {
     public class C2PMegasoftViewModel : LibGenericViewModel {
         #region Constantes
+        private eIdFiscalPM _IDFiscal;
+        private string _NombreCliente;
+        private string _NroFactura;
+        private string _Monto;
+        private string _Rif;
+        private eCodigoCel _CodigoTelefono;
+        private string _NumeroTelefono;
+        private eBancoPM _Banco;
+        private decimal _Vuelto;
+        private string _CodigoAfiliacion;
         #endregion
         #region Propiedades
         public override string ModuleName {
             get { return "Vuelto por Pago Móvil C2P"; }
         }
 
-        public string NombreCliente { get; set; }
-        public string NroFactura { get; set; }
-        public string Monto { get; set; }
-        public eIdFiscalPM IDFiscal { get; set; }
-        public string Rif { get; set; }
-        public eCodigoCel CodigoTelefono { get; set; }
-        public string NumeroTelefono { get; set; }
-        public eBancoPM Banco { get; set; }
-        public decimal Vuelto { get; set; }
-        public string CodigoAfiliacion { get; set; }
+        public string NombreCliente {
+            get { return _NombreCliente; }
+            set {
+                if (_NombreCliente != value) {
+                    _NombreCliente = value;
+                    RaisePropertyChanged(() => NombreCliente);
+                }
+            }
+        }
+
+        public string NroFactura {
+            get { return _NroFactura; }
+            set {
+                if (_NroFactura != value) {
+                    _NroFactura = value;
+                    RaisePropertyChanged(() => NroFactura);
+                }
+            }
+        }
+
+        public string Monto {
+            get { return _Monto; }
+            set {
+                if (_Monto != value) {
+                    _Monto = value;
+                    RaisePropertyChanged(() => Monto);
+                }
+            }
+        }
+
+        public eIdFiscalPM IDFiscal {
+            get { return _IDFiscal; }
+            set {
+                if (_IDFiscal != value) {
+                    _IDFiscal = value;
+                    RaisePropertyChanged(() => IDFiscal);
+                }
+            }
+        }
+
+        public string Rif {
+            get { return _Rif; }
+            set {
+                if (_Rif != value) {
+                    _Rif = value;
+                    RaisePropertyChanged(() => Rif);
+                }
+            }
+        }
+
+        public eCodigoCel CodigoTelefono {
+            get { return _CodigoTelefono; }
+            set {
+                if (_CodigoTelefono != value) {
+                    _CodigoTelefono = value;
+                    RaisePropertyChanged(() => CodigoTelefono);
+                }
+            }
+        }
+
+        public string NumeroTelefono {
+            get { return _NumeroTelefono; }
+            set {
+                if (_NumeroTelefono != value) {
+                    _NumeroTelefono = value;
+                    RaisePropertyChanged(() => NumeroTelefono);
+                }
+            }
+        }
+
+        public eBancoPM Banco {
+            get { return _Banco; }
+            set {
+                if (_Banco != value) {
+                    _Banco = value;
+                    RaisePropertyChanged(() => Banco);
+                }
+            }
+        }
+
+        public decimal Vuelto {
+            get { return _Vuelto; }
+            set {
+                if (_Vuelto != value) {
+                    _Vuelto = value;
+                    RaisePropertyChanged(() => Vuelto);
+                }
+            }
+        }
+
+        public string CodigoAfiliacion {
+            get { return _CodigoAfiliacion; }
+            set {
+                if (_CodigoAfiliacion != value) {
+                    _CodigoAfiliacion = value;
+                    RaisePropertyChanged(() => CodigoAfiliacion);
+                }
+            }
+        }
 
         public eCodigoCel[] ArrayCodigoCel { get { return LibEnumHelper<eCodigoCel>.GetValuesInArray(); } }
         public eBancoPM[] ArrayBancoPM { get { return LibEnumHelper<eBancoPM>.GetValuesInArray(); } }
         public eIdFiscalPM[] ArrayIdFiscalPM { get { return LibEnumHelper<eIdFiscalPM>.GetValuesInArray(); } }
         #endregion //Propiedades
         #region Constructores
-        public C2PMegasoftViewModel(string initNombreCliente, string initNroFactura, decimal initMonto) {
-            NombreCliente = initNombreCliente;
+        public C2PMegasoftViewModel(string initCodigoCliente, string initNroFactura, decimal initMonto) {
+            ExecuteChooseCodigoClienteCommand(initCodigoCliente);
+            //NombreCliente = initCodigoCliente;
             NroFactura = initNroFactura;
             Monto = LibConvert.NumToString(LibMath.Abs(initMonto), 2);
             CodigoAfiliacion = "{código de afiliación}";
@@ -111,6 +212,48 @@ namespace Galac.Adm.IntegracionMS.Venta {
         private bool CanExecuteLimpiarCommand() { return true; }
         private bool CanExecuteCobrarCommand() { return true; }
 
+        private void ExecuteChooseCodigoClienteCommand(string valcodigo) {
+            try {
+                if (LibString.IsNullOrEmpty(valcodigo, true)) {
+                    valcodigo = string.Empty;
+                }
+                NombreCliente = string.Empty;
+
+                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("codigo", valcodigo);
+                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
+                ConexionCodigoCliente = ChooseRecord<FkClienteViewModel>("Cliente", vDefaultCriteria, vFixedCriteria, string.Empty);
+                if (ConexionCodigoCliente != null) {
+                    ConsecutivoCliente = ConexionCodigoCliente.Consecutivo;
+                    CodigoCliente = ConexionCodigoCliente.Codigo;
+                    NombreCliente = ConexionCodigoCliente.Nombre;
+                }
+            } catch (AccessViolationException) {
+                throw;
+            } catch (Exception vEx) {
+                LibMessages.RaiseError.ShowError(vEx, ModuleName);
+            }
+        }
+        public FkClienteViewModel ConexionCodigoCliente {
+            get {
+                return _ConexionCodigoCliente;
+            }
+            set {
+                if (_ConexionCodigoCliente != value) {
+                    _ConexionCodigoCliente = value;
+                    RaisePropertyChanged(CodigoClientePropertyName);
+
+                    if (_ConexionCodigoCliente != null) {
+                        NombreCliente = _ConexionCodigoCliente.Nombre;
+                        CodigoCliente = _ConexionCodigoCliente.Codigo;
+                    }
+                    if (_ConexionCodigoCliente == null) {
+                        NombreCliente = string.Empty;
+                        CodigoCliente = string.Empty;
+                    }
+
+                }
+            }
+        }
     } //End of class C2PMegasoftViewModel
 
 } //End of namespace Galac.Adm.Uil.Venta.ViewModel
