@@ -14,7 +14,6 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using Galac.Adm.Brl.Venta;
 using Galac.Adm.Ccl.Venta;
-using Galac.Saw.Uil.Cliente.ViewModel;
 
 namespace Galac.Adm.IntegracionMS.Venta {
     public class C2PMegasoftViewModel : LibGenericViewModel {
@@ -141,8 +140,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
         #endregion //Propiedades
         #region Constructores
         public C2PMegasoftViewModel(string initCodigoCliente, string initNroFactura, decimal initMonto) {
-            ExecuteChooseCodigoClienteCommand(initCodigoCliente);
-            //NombreCliente = initCodigoCliente;
+            NombreCliente = initCodigoCliente;
             NroFactura = initNroFactura;
             Monto = LibConvert.NumToString(LibMath.Abs(initMonto), 2);
             CodigoAfiliacion = "{código de afiliación}";
@@ -211,49 +209,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
 
         private bool CanExecuteLimpiarCommand() { return true; }
         private bool CanExecuteCobrarCommand() { return true; }
-
-        private void ExecuteChooseCodigoClienteCommand(string valcodigo) {
-            try {
-                if (LibString.IsNullOrEmpty(valcodigo, true)) {
-                    valcodigo = string.Empty;
-                }
-                NombreCliente = string.Empty;
-
-                LibSearchCriteria vDefaultCriteria = LibSearchCriteria.CreateCriteriaFromText("codigo", valcodigo);
-                LibSearchCriteria vFixedCriteria = LibSearchCriteria.CreateCriteria("ConsecutivoCompania", Mfc.GetInt("Compania"));
-                ConexionCodigoCliente = ChooseRecord<FkClienteViewModel>("Cliente", vDefaultCriteria, vFixedCriteria, string.Empty);
-                if (ConexionCodigoCliente != null) {
-                    ConsecutivoCliente = ConexionCodigoCliente.Consecutivo;
-                    CodigoCliente = ConexionCodigoCliente.Codigo;
-                    NombreCliente = ConexionCodigoCliente.Nombre;
-                }
-            } catch (AccessViolationException) {
-                throw;
-            } catch (Exception vEx) {
-                LibMessages.RaiseError.ShowError(vEx, ModuleName);
-            }
-        }
-        public FkClienteViewModel ConexionCodigoCliente {
-            get {
-                return _ConexionCodigoCliente;
-            }
-            set {
-                if (_ConexionCodigoCliente != value) {
-                    _ConexionCodigoCliente = value;
-                    RaisePropertyChanged(CodigoClientePropertyName);
-
-                    if (_ConexionCodigoCliente != null) {
-                        NombreCliente = _ConexionCodigoCliente.Nombre;
-                        CodigoCliente = _ConexionCodigoCliente.Codigo;
-                    }
-                    if (_ConexionCodigoCliente == null) {
-                        NombreCliente = string.Empty;
-                        CodigoCliente = string.Empty;
-                    }
-
-                }
-            }
-        }
     } //End of class C2PMegasoftViewModel
 
 } //End of namespace Galac.Adm.Uil.Venta.ViewModel

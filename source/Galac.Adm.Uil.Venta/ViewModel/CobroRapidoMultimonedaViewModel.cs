@@ -652,7 +652,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteVueltoConPagoMovil() {
-            C2PMegasoftViewModel vViewModel = new C2PMegasoftViewModel(CodigoCliente, NumeroFactura, MontoRestantePorPagar);
+            C2PMegasoftViewModel vViewModel = new C2PMegasoftViewModel(CodigoCliente, NumeroFactura, MontoRestantePorPagar);//TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
             LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             VueltoC2pMonedaLocal = LibConvert.ToDec(vViewModel.Vuelto);
             VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);
