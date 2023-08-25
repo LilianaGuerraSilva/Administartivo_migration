@@ -204,11 +204,80 @@ namespace Galac.Adm.IntegracionMS.Venta {
         }
 
         private void ExecuteCobrarCommand() {
+            string vCodigoAfiliacion2 = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAfiliacionC2PMegasoft");
+            string vCodigoAfiliacion = "123456789012345";
+            string vCodigoControl = "";
+
+            if (EjecutaPreRegistro(vCodigoAfiliacion, out vCodigoControl))
+            {
+                CodigoAfiliacion = vCodigoControl;  // Este valor no va aquí, solo se colocó por inspeccionarlo
+                if (EjecutaProcesarCambio(vCodigoAfiliacion, vCodigoControl))
+                {
+                    LibMessages.MessageBox.Alert(this, "Proceso se ejecutó con éxito.", "Cambio Pago Móvil");
+                    ExecuteLimpiarCommand();
+                    // Acá se ejecutan respuestas para el Saw, Devuelve CodigoControl, cierra la ventana, etc.
+                }
+            }
             //cerrar
         }
 
         private bool CanExecuteLimpiarCommand() { return true; }
         private bool CanExecuteCobrarCommand() { return true; }
-    } //End of class C2PMegasoftViewModel
 
+        private bool EjecutaPreRegistro(string valCodAfiliacion, out string valCodigoControl) {
+            const string preReg_valido = "00";
+            const string preReg_invalido = "99";
+            LibResponse vResultOperacion = new LibResponse();
+            bool vExito = false;
+            valCodigoControl = "";
+
+            try {
+                C2PMegasoftNav C2PNav = new C2PMegasoftNav();
+                Preregister.request request = new Preregister.request() { cod_afiliacion = valCodAfiliacion };
+                Preregister.response vResponse = C2PNav.ExecutePreregister(request);
+
+                if (vResponse != null) {
+                    if (vResponse.codigo == preReg_valido) {
+                        valCodigoControl = vResponse.control;
+                        vExito = true;
+                    } else if (vResponse.codigo == preReg_invalido) {
+                        LibMessages.MessageBox.Alert(this, "PROGRAMADOR: " + vResponse.descripcion, "Cambio Pago Móvil");
+                    } else {
+                        LibMessages.MessageBox.Alert(this, "No fué posible establecer conexión con el sistema de pago. Por favor intente nuevamente.", "Cambio Pago Móvil");
+                    }
+                }
+            } catch {
+                LibMessages.MessageBox.Alert(this, "No fué posible establecer conexión con el sistema de pago. Por favor intente nuevamente.", "Cambio Pago Móvil");
+            }
+            return vExito;
+        }
+
+        private bool EjecutaProcesarCambio(string valCodAfiliacion, string valCodigoControl)
+        {
+            C2PMegasoftNav C2PNav = new C2PMegasoftNav();
+            string vCedula = LibEnumHelper.GetDescription(IDFiscal) + Rif;
+            string vTelefono = LibEnumHelper.GetDescription(CodigoTelefono) + NumeroTelefono;
+            string vCodigoBanco = LibText.Mid (LibEnumHelper.GetDescription(Banco), 0, 4);
+            string vVuelto = LibConvert.NumToString(LibMath.Abs(Vuelto), 2);
+            const string MonedaBs = "0";
+            bool vExito = false;
+
+            try {
+                ProcesarCambioPagoMovil.request request2 = new ProcesarCambioPagoMovil.request() { cod_afiliacion = valCodAfiliacion, control = valCodigoControl, cid = vCedula, telefono = vTelefono, codigobanco = vCodigoBanco, tipo_moneda = MonedaBs, amount = vVuelto, factura = NroFactura };
+                ProcesarCambioPagoMovil.response vResponse2 = C2PNav.ExecuteProcesarCambioPagoMovil(request2);
+                if (vResponse2 != null) {
+                    if (vResponse2.descripcion == "APROBADA") {
+                        LibMessages.MessageBox.Alert(this, "PROGRAMADOR: "+ vResponse2.descripcion, "Cambio Pago Móvil");
+                        vExito = true;
+                    } else {
+                        LibMessages.MessageBox.Alert(this, vResponse2.descripcion, "Cambio Pago Móvil");
+                    }
+                }
+            } catch {
+                LibMessages.MessageBox.Alert(this, "No se recibió respuesta. Por favor valide. Número de Control: " + valCodigoControl, "Cambio Pago Móvil");
+            }   
+            return vExito;
+
+        } //End of class C2PMegasoftViewModel
+    }
 } //End of namespace Galac.Adm.Uil.Venta.ViewModel
