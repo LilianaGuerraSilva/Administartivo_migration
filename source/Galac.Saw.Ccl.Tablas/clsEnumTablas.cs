@@ -18,7 +18,7 @@ namespace Galac.Saw.Ccl.Tablas {
         Anticipo,
         [LibEnumDescription("Vuelto Efectivo")]
         VueltoEfectivo,
-		[LibEnumDescription("VueltoC2P")]
+		[LibEnumDescription("Vuelto C2P")]
         VueltoC2P
     }
 

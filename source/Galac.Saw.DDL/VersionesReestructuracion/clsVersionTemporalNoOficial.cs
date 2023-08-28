@@ -1,29 +1,16 @@
 using System.Text;
-using System.Data;
-using LibGalac.Aos.Base;
-using LibGalac.Aos.DefGen;
-using Galac.Saw.Ccl.SttDef;
-using System.Threading;
 using LibGalac.Aos.Dal;
-using System;
-using LibGalac.Aos.Base.Dal;
-using System.Xml.Linq;
-using LibGalac.Aos.Brl;
-using System.Collections.Generic;
-using System.Linq;
-using Galac.Adm.Ccl.Vendedor;
-using LibGalac.Aos.Catching;
-using Galac.Adm.Dal.Vendedor;
 using Galac.Saw.Ccl.Tablas;
-using Galac.Saw.Brl.Tablas;
+
 
 namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 	class clsVersionTemporalNoOficial: clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();			
+			StartConnectionNoTransaction();
 			CamposMonedaExtranjeraEnCajaApertura();
+			AgregaNuevosRegistrosTipoFormaDelCobro();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -56,6 +43,19 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			}
 		}
 
-		
+		private void AgregaNuevosRegistrosTipoFormaDelCobro() {
+			LibDatabase insDb = new LibDatabase();
+			string vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
+			InsertFormaDelCobro(vNextCode, eTipoDeFormaDePago.VueltoEfectivo);
+			vNextCode = insDb.NextStrConsecutive("Saw.formaDelCobro", "Codigo", "", true, 5);
+			InsertFormaDelCobro(vNextCode, eTipoDeFormaDePago.VueltoC2P);
+		}
+
+		private void InsertFormaDelCobro(string valCodigo, eTipoDeFormaDePago valFormaDelCobro) {
+			StringBuilder vSql = new StringBuilder();
+			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES ");
+			vSql.AppendLine("(" + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue("VUELTO") + ", " + _insSql.EnumToSqlValue((int)valFormaDelCobro) + ")");
+			Execute(vSql.ToString());
+		}
 	}
 }   
