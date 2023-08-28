@@ -209,7 +209,8 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 string vCedula = LibEnumHelper.GetDescription(IDFiscal) + Rif;
                 string vTelefono = LibEnumHelper.GetDescription(CodigoTelefono) + NumeroTelefono;
                 string vCodigoBanco = LibText.Mid(LibEnumHelper.GetDescription(Banco), 0, 4);
-                string vVuelto = LibConvert.NumToString(LibMath.Abs(Vuelto), 2);
+                string vVuelto = LibConvert.NumberWithCommasAndDot(Vuelto, LibConvert.ToByte(Vuelto.ToString().Length+1) , 2, eAlignmentType.Right).Replace(",","");
+
                 megasoftNav.EjecutaCambiPagoMovil(vCedula, vTelefono, vCodigoBanco, vVuelto, NroFactura);
                 RaiseRequestCloseEvent();
             } catch (System.AccessViolationException) {

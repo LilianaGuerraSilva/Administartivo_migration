@@ -6,7 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
     xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
-    <UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Key="F6" Command="{Binding Path=PagarCommand}" />
+        <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />        
+    </UserControl.InputBindings>
+    <UserControl.Resources>       
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
