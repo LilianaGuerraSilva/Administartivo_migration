@@ -7,6 +7,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 using LibGalac.Aos.Base;
+using LibGalac.Aos.UI.Mvvm.Messaging;
 
 namespace Galac.Adm.IntegracionMS.Venta {
     public class C2PMegasoftNav {
@@ -18,8 +19,70 @@ namespace Galac.Adm.IntegracionMS.Venta {
             _UrlBase = "http://payment.somee.com";
         }
 
+        public  void EjecutaCambiPagoMovil(string valCedula, string valTelefono, string valCodigoBanco, string valVuelto, string valNroFactura) {
+            try {
+                string valCodigoAfiliacion = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAfiliacionC2PMegasoft");
+                string valNumeroControl = EjecutaPreRegistro(valCodigoAfiliacion);
+                if (!LibString.IsNullOrEmpty(valNumeroControl)) {
+                    EjecutaProcesarCambio(valCodigoAfiliacion, valNumeroControl, valCedula, valTelefono, valCodigoBanco, valVuelto, valNroFactura);
+                }
+            } catch (Exception ex) {
+                throw ex;
+            }
+        }
 
-        public Preregister.response ExecutePreregister(Preregister.request valrequestObject) {
+        string EjecutaPreRegistro(string valCodAfiliacion) {
+            string vResult;
+            try {
+                Preregister.request request = new Preregister.request() { cod_afiliacion = valCodAfiliacion };
+                Preregister.response vResponse = SendPreregister(request);
+                if (vResponse != null) {
+                    if (vResponse.codigo == Preregister.Constantes.valido) {
+                        vResult = vResponse.control;
+                    } else if (vResponse.codigo == Preregister.Constantes.invalido) {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.descripcion);
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException("No fué posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
+                    }
+                } else {
+                    throw new LibGalac.Aos.Catching.GalacAlertException("No fué posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
+                }
+            } catch {
+                throw new LibGalac.Aos.Catching.GalacAlertException("No fué posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
+            }
+            return vResult;
+        }
+
+        bool EjecutaProcesarCambio(string valCodAfiliacion, string valCodigoControl, string valCedula, string valTelefono, string valCodigoBanco, string valVuelto, string valNroFactura) {
+            const string MonedaBs = "0";
+            bool vExito = false;
+            try {
+                ProcesarCambioPagoMovil.request request2 = new ProcesarCambioPagoMovil.request() {
+                    cod_afiliacion = valCodAfiliacion,
+                    control = valCodigoControl,
+                    cid = valCedula,
+                    telefono = valTelefono,
+                    codigobanco = valCodigoBanco,
+                    tipo_moneda = MonedaBs,
+                    amount = valVuelto,
+                    factura = valNroFactura
+                };
+                ProcesarCambioPagoMovil.response vResponse = SendProcesarCambioPagoMovil(request2);
+                if (vResponse != null) {
+                    if (vResponse.codigo == ProcesarCambioPagoMovil.Constantes.valido) {
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.descripcion);
+                    }
+                }
+            } catch {
+                throw new LibGalac.Aos.Catching.GalacAlertException("No se recibió respuesta. Por favor valide. Número de Control: " + valCodigoControl);
+            }
+            return vExito;
+
+        }
+
+        Preregister.response SendPreregister(Preregister.request valrequestObject) {
             var requestXml = Serialize<Preregister.request>(valrequestObject);
             var result = Post(_Urlpreregistr, requestXml);
             if (!string.IsNullOrEmpty(result)) {
@@ -28,7 +91,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return null;
         }
 
-        public ProcesarCambioPagoMovil.response ExecuteProcesarCambioPagoMovil(ProcesarCambioPagoMovil.request valrequestObject) {
+        ProcesarCambioPagoMovil.response SendProcesarCambioPagoMovil(ProcesarCambioPagoMovil.request valrequestObject) {
             var requestXml = Serialize<ProcesarCambioPagoMovil.request>(valrequestObject);
             var result = Post(_Urlprocesar_cambio_pagomovil, requestXml);
             if (!string.IsNullOrEmpty(result)) {
@@ -37,11 +100,32 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return null;
         }
 
-        public Querystatus.response ExecuteQuerystatus(Querystatus.request valrequestObject) {
+        Querystatus.response SendQuerystatus(Querystatus.request valrequestObject) {
             var requestXml = Serialize<Querystatus.request>(valrequestObject);
             var result = Post(_Urlquerystatus, requestXml);
             if (!string.IsNullOrEmpty(result)) {
                 return Deserialize<Querystatus.response>(result);
+            }
+            return null;
+        }
+
+        string Post(string Url, string requestXml) {
+            Uri baseUri = new Uri(_UrlBase);
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(baseUri, Url));
+            byte[] bytes;
+            bytes = System.Text.Encoding.ASCII.GetBytes(requestXml);
+            request.ContentType = "application/xml";
+            request.ContentLength = bytes.Length;
+            request.Method = "POST";
+            Stream requestStream = request.GetRequestStream();
+            requestStream.Write(bytes, 0, bytes.Length);
+            requestStream.Close();
+            HttpWebResponse response;
+            response = (HttpWebResponse)request.GetResponse();
+            if (response.StatusCode == HttpStatusCode.OK) {
+                Stream responseStream = response.GetResponseStream();
+                string responseStr = new StreamReader(responseStream).ReadToEnd();
+                return responseStr;
             }
             return null;
         }
@@ -63,25 +147,5 @@ namespace Galac.Adm.IntegracionMS.Venta {
 
         }
 
-        private string Post(string Url, string requestXml) {
-            Uri baseUri = new Uri(_UrlBase);
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(baseUri, Url));
-            byte[] bytes;
-            bytes = System.Text.Encoding.ASCII.GetBytes(requestXml);
-            request.ContentType = "application/xml";
-            request.ContentLength = bytes.Length;
-            request.Method = "POST";
-            Stream requestStream = request.GetRequestStream();
-            requestStream.Write(bytes, 0, bytes.Length);
-            requestStream.Close();
-            HttpWebResponse response;
-            response = (HttpWebResponse)request.GetResponse();
-            if (response.StatusCode == HttpStatusCode.OK) {
-                Stream responseStream = response.GetResponseStream();
-                string responseStr = new StreamReader(responseStream).ReadToEnd();
-                return responseStr;
-            }
-            return null;
-        }
     }
 }
