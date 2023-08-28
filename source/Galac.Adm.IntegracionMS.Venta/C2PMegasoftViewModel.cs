@@ -133,6 +133,8 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 }
             }
         }
+        public string NumeroControl { get; set; }
+        public bool EstadoProceso { get; set; }
 
         public eCodigoCel[] ArrayCodigoCel { get { return LibEnumHelper<eCodigoCel>.GetValuesInArray(); } }
         public eBancoPM[] ArrayBancoPM { get { return LibEnumHelper<eBancoPM>.GetValuesInArray(); } }
@@ -210,8 +212,12 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 string vTelefono = LibEnumHelper.GetDescription(CodigoTelefono) + NumeroTelefono;
                 string vCodigoBanco = LibText.Mid(LibEnumHelper.GetDescription(Banco), 0, 4);
                 string vVuelto = LibConvert.NumberWithCommasAndDot(Vuelto, LibConvert.ToByte(Vuelto.ToString().Length+1) , 2, eAlignmentType.Right).Replace(",","");
-
-                megasoftNav.EjecutaCambiPagoMovil(vCedula, vTelefono, vCodigoBanco, vVuelto, NroFactura);
+                string vNumeroControl = "";
+                LibResponse vResult = megasoftNav.EjecutaCambioPagoMovil(vCedula, vTelefono, vCodigoBanco, vVuelto, NroFactura, ref vNumeroControl);
+                if (vResult != null) {
+                    EstadoProceso = vResult.Success;
+                    NumeroControl = vNumeroControl;
+                }
                 RaiseRequestCloseEvent();
             } catch (System.AccessViolationException) {
                 throw;

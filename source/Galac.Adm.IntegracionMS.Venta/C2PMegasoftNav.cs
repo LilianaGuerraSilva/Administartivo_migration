@@ -19,16 +19,18 @@ namespace Galac.Adm.IntegracionMS.Venta {
             _UrlBase = "http://payment.somee.com";
         }
 
-        public  void EjecutaCambiPagoMovil(string valCedula, string valTelefono, string valCodigoBanco, string valVuelto, string valNroFactura) {
+        internal LibResponse EjecutaCambioPagoMovil(string valCedula, string valTelefono, string valCodigoBanco, string valVuelto, string valNroFactura, ref string refNumeroControl) {
+            LibResponse vResult = new LibResponse();
             try {
                 string valCodigoAfiliacion = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAfiliacionC2PMegasoft");
-                string valNumeroControl = EjecutaPreRegistro(valCodigoAfiliacion);
-                if (!LibString.IsNullOrEmpty(valNumeroControl)) {
-                    EjecutaProcesarCambio(valCodigoAfiliacion, valNumeroControl, valCedula, valTelefono, valCodigoBanco, valVuelto, valNroFactura);
+                refNumeroControl = EjecutaPreRegistro(valCodigoAfiliacion);
+                if (!LibString.IsNullOrEmpty(refNumeroControl)) {
+                    vResult.Success  = EjecutaProcesarCambio(valCodigoAfiliacion, refNumeroControl, valCedula, valTelefono, valCodigoBanco, valVuelto, valNroFactura);
                 }
             } catch (Exception ex) {
                 throw ex;
             }
+            return vResult;
         }
 
         string EjecutaPreRegistro(string valCodAfiliacion) {
@@ -42,13 +44,13 @@ namespace Galac.Adm.IntegracionMS.Venta {
                     } else if (vResponse.codigo == Preregister.Constantes.invalido) {
                         throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.descripcion);
                     } else {
-                        throw new LibGalac.Aos.Catching.GalacAlertException("No fué posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
+                        throw new LibGalac.Aos.Catching.GalacAlertException("No fue posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
                     }
                 } else {
-                    throw new LibGalac.Aos.Catching.GalacAlertException("No fué posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
+                    throw new LibGalac.Aos.Catching.GalacAlertException("No fue posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
                 }
             } catch {
-                throw new LibGalac.Aos.Catching.GalacAlertException("No fué posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
+                throw new LibGalac.Aos.Catching.GalacAlertException("No fue posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
             }
             return vResult;
         }
