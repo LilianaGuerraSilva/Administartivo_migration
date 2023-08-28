@@ -14,6 +14,12 @@ namespace Galac.Adm.IntegracionMS.Venta {
             public string descripcion { get; set; }
             public string control { get; set; }
         }
+
+        public static class Constantes {
+            public const string valido = "00";
+            public const string invalido = "99";
+
+        }
     }
 
     namespace ProcesarCambioPagoMovil {
@@ -29,24 +35,30 @@ namespace Galac.Adm.IntegracionMS.Venta {
         }
 
         public class response {
-            public double control { get; set; }
-            public int codigo { get; set; }
+            public string control { get; set; }
+            public string codigo { get; set; }
             public string descripcion { get; set; }
-            public object vtid { get; set; }
-            public object seqnum { get; set; }
-            public object authid { get; set; }
-            public object authname { get; set; }
-            public object factura { get; set; }
-            public object referencia { get; set; }
-            public object terminal { get; set; }
-            public object lote { get; set; }
-            public object rifbanco { get; set; }
-            public object afiliacion { get; set; }
+            public string vtid { get; set; }
+            public string seqnum { get; set; }
+            public string authid { get; set; }
+            public string authname { get; set; }
+            public string factura { get; set; }
+            public string referencia { get; set; }
+            public string terminal { get; set; }
+            public string lote { get; set; }
+            public string rifbanco { get; set; }
+            public string afiliacion { get; set; }
             public voucher voucher { get; set; }
         }
 
         public class voucher {
             public string linea { get; set; }
+        }
+
+        public static class Constantes {
+            public const string valido = "00";
+            public const string invalido = "99";
+
         }
     }
 
