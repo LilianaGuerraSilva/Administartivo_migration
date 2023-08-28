@@ -58,10 +58,6 @@
 	path = source/ContabIwrp
 	url = https://github.com/Galac-Software/ContabiWrp.git
 	branch = release/SawV23.9.0.0
-[submodule "source/IvaVb"]
-	path = source/IvaVb
-	url = https://github.com/Galac-Software/IvaVb.git
-	branch = release/SawV23.9.0.0
 [submodule "source/RetencionesVb"]
 	path = source/RetencionesVb
 	url = https://github.com/Galac-Software/RetencionesVb.git
