@@ -18,6 +18,7 @@ using System.Windows.Media;
 using Galac.Saw.Ccl.Cliente;
 using Galac.Adm.Ccl.CajaChica;
 using Galac.Adm.IntegracionMS.Venta;
+using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public class CobroRapidoMultimonedaViewModel : CobroRapidoVzlaViewModelBase {
@@ -591,6 +592,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Comandos
         protected override void ExecuteCobrarCommand() {
             bool SeImprimio = true;
+            IRenglonCobroDeFacturaPdn insRenglonCobroDeFacturaPdn = new clsRenglonCobroDeFacturaNav();
             if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                 clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                 List<RenglonCobroDeFactura> vListaDecobro = new List<RenglonCobroDeFactura>();
@@ -613,6 +615,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         IRenglonCobroDeFacturaPdn vRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
                         DialogResult = vRenglonCobro.InsertChildRenglonCobroDeFactura(ConsecutivoCompania, NumeroFactura, eTipoDocumentoFactura.ComprobanteFiscal, vListaDecobro).Success;
                         if (DialogResult) {
+                            vListaDecobro.RemoveAll(x => x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo) || x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P));
                             SeImprimio = ImprimirFacturaFiscal(vListaDecobro);
                         }
                         if (SeCobro != null)
@@ -771,6 +774,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private List<RenglonCobroDeFactura> CrearListaDeCobro(eTipoDocumentoFactura valTipoDeDocumento, int valCodigoBancoParaMonedaLocal, int valCodigoBancoParaDivisa) {
+            IRenglonCobroDeFacturaPdn insRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
             List<RenglonCobroDeFactura> vRenglonesDeCobro = new List<RenglonCobroDeFactura>();
             int vConsecutivoRenglon = 0;
             string vCodigoMonedaLocal = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaCompania");
@@ -909,7 +913,48 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         CambioAMonedaLocal = CambioAMonedaLocal
                     });
                 }
-                //TODO: Falta agregar registro en renglón de cobro del vuelto en divisas y en moneda local
+                if (VueltoEfectivoMonedaLocal != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo),
+                        CodigoBanco = valCodigoBancoParaDivisa,
+                        Monto = VueltoEfectivoMonedaLocal,
+                        CodigoMoneda = vCodigoMonedaLocal,
+                        CambioAMonedaLocal = 1
+                    });
+                }
+                if (VueltoEfectivoDivisas != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo),
+                        CodigoBanco = valCodigoBancoParaDivisa,
+                        Monto = VueltoEfectivoDivisas,
+                        CodigoMoneda = CodigoMonedaDivisa,
+                        CambioAMonedaLocal = CambioAMonedaLocal
+                    });
+                }
+                if (VueltoC2pMonedaLocal != 0) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P),
+                        CodigoBanco = valCodigoBancoParaDivisa,
+                        Monto = VueltoC2pMonedaLocal,
+                        CodigoMoneda = vCodigoMonedaLocal,
+                        CambioAMonedaLocal = 1
+                    });
+                }               
             }
             return vRenglonesDeCobro;
         }
