@@ -22,7 +22,7 @@ namespace Galac.Saw.SLev {
             vPermisos.Add(new CustomRole("Compañía", "Modificar", "Compañía / Parámetros / Niveles de Precio", 2));
             vPermisos.Add(new CustomRole("Compañía", "Eliminar", "Compañía / Parámetros / Niveles de Precio", 2));
             vPermisos.Add(new CustomRole("Compañía", "Copiar Parámetros Administrativos", "Compañía / Parámetros / Niveles de Precio", 2));
-            vPermisos.Add(new CustomRole("Compañía", "Activar Conexión con G360", "Compañía / Parámetros / Niveles de Precio", 2));
+            vPermisos.Add(new CustomRole("Compañía", "Activar - Desactivar Conexión con G360", "Compañía / Parámetros / Niveles de Precio", 2));
             #endregion
 
             #region Factura
