@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdGroupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <sawLibUil:StringToCurrencyConverter x:Key="StringToCurrencyConverter" />
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.InputBindings>

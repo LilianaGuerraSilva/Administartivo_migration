@@ -63,7 +63,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private string _IsVisibleSeccionEfectivo;
         private string _IsVisibleSeccionTarjeta;
         private string _IsVisibleSeccionTransferencia;
-        private string _IsVisibleSeccionVuelto;
         private bool _IsEnabledEfectivoDivisa;
         private XElement _XmlDatosDelCobro;
         private XElement _XmlDatosIGTF;
@@ -362,6 +361,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string NumeroControlVueltoPagoMovil { get; set; }
+
         public FkMonedaViewModel ConexionCodigoMoneda {
             get {
                 return _ConexionCodigoMoneda;
@@ -412,14 +413,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public string IsVisibleSeccionVuelto {
+        public bool IsVisibleSeccionVuelto {
             get {
-                return _IsVisibleSeccionVuelto;
-            }
-            set {
-                if (_IsVisibleSeccionVuelto != value) {
-                    _IsVisibleSeccionVuelto = value;
-                }
+                return (TipoDeDocumento == eTipoDocumentoFactura.Factura
+                            || TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito
+                            || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal
+                            || TipoDeDocumento == eTipoDocumentoFactura.Boleta)
+                    && ((VueltoEnMonedaLocal + VueltoEnDivisas) != 0);
             }
         }
 
@@ -655,14 +655,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteVueltoConPagoMovil() {
-            C2PMegasoftViewModel vViewModel = new C2PMegasoftViewModel(CodigoCliente, NumeroFactura, MontoRestantePorPagar);//TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-            LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-            VueltoC2pMonedaLocal = LibConvert.ToDec(vViewModel.Vuelto);
+            IC2PMegaSoftMng insVueltoMegasoft = (IC2PMegaSoftMng)new C2PMegasoftNav();
+            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
+            insVueltoMegasoft.EjecutaVueltoPagoMovil(CodigoCliente, NumeroFactura, MontoRestantePorPagar);
+            VueltoC2pMonedaLocal = insVueltoMegasoft.MontoVueltoPagoMovil;
             VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);
+            NumeroControlVueltoPagoMovil = insVueltoMegasoft.NumeroControlVueltoPagoMovil;
         }
 
         protected override void ExecuteCancel() {
-            if (LibMessages.MessageBox.YesNo(this, "Esta seguro que desea salir?", "Cobro Rápido en Multimoneda")) {
+            if (LibMessages.MessageBox.YesNo(this, "¿Está seguro que desea salir?", "Cobro Rápido en Multimoneda")) {
                 _XmlDatosDelCobro = null;
                 _XmlDatosIGTF = null;
                 if (SeCobro != null)
@@ -992,14 +994,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
-                    IsVisibleSeccionVuelto = "Visible";
                     IsEnabledEfectivoDivisa = true;
                     break;
                 case eTipoDocumentoFactura.NotaDeCredito:
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Collapsed";
                     IsVisibleSeccionTransferencia = "Collapsed";
-                    IsVisibleSeccionVuelto = "Collapsed";
                     EfectivoEnMonedaLocal = TotalFactura;
                     IsEnabledEfectivoDivisa = false;
                     break;
@@ -1007,7 +1007,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
-                    IsVisibleSeccionVuelto = "Visible";
                     IsEnabledEfectivoDivisa = true;
                     break;
                 case eTipoDocumentoFactura.ResumenDiarioDeVentas:
@@ -1018,21 +1017,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
-                    IsVisibleSeccionVuelto = "Visible";
                     IsEnabledEfectivoDivisa = true;
                     break;
                 case eTipoDocumentoFactura.Boleta:
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
-                    IsVisibleSeccionVuelto = "Visible";
                     IsEnabledEfectivoDivisa = true;
                     break;
                 case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Collapsed";
                     IsVisibleSeccionTransferencia = "Collapsed";
-                    IsVisibleSeccionVuelto = "Collapsed";
                     EfectivoEnMonedaLocal = TotalFactura;
                     IsEnabledEfectivoDivisa = false;
                     break;
