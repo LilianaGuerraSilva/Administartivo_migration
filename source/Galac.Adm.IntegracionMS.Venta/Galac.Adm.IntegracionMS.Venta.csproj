@@ -69,10 +69,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="C2PMegasoftMng.cs" />
     <Compile Include="C2PMegasoftNav.cs" />
     <Compile Include="C2PMegasoftViewModel.cs" />
     <Compile Include="C2PMegasoftModel.cs" />
     <Compile Include="GSC2PMegasoftView.xaml.cs" />
+    <Compile Include="IC2PMegaSoftMng.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
