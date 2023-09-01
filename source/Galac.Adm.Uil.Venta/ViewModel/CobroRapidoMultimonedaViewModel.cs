@@ -925,7 +925,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ConsecutivoRenglon = vConsecutivoRenglon,
                     CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo),
                     CodigoBanco = valCodigoBancoParaDivisa,
-                    Monto = VueltoEnMonedaLocal,
+                    Monto = LibMath.Abs(VueltoEnMonedaLocal),
                     CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1
                 });
@@ -939,7 +939,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ConsecutivoRenglon = vConsecutivoRenglon,
                     CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P),
                     CodigoBanco = valCodigoBancoParaDivisa,
-                    Monto = VueltoC2pMonedaLocal,
+                    Monto = LibMath.Abs(VueltoC2pMonedaLocal),
                     CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1
                 });
@@ -953,7 +953,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ConsecutivoRenglon = vConsecutivoRenglon,
                     CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo),
                     CodigoBanco = valCodigoBancoParaDivisa,
-                    Monto = VueltoEnDivisas,
+                    Monto = LibMath.Abs(VueltoEnDivisas),
                     CodigoMoneda = CodigoMonedaDivisa,
                     CambioAMonedaLocal = CambioAMonedaLocal
                 });
