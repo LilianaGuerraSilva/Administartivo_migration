@@ -305,7 +305,7 @@ Public Function fSQLParaLaImpresionDeCodDeBarras(ByVal valConsecutivoCompania As
    & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTAGENERAL) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaGeneral) _
    & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTA2) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaReducida) _
    & " WHEN " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAlicuota.eTD_ALICUOTA3) & " THEN " & gConvert.fConvierteAString(valPorcentajeAlicuotaAdicional) & " ELSE 0 END)"
-   vSQL = " SELECT AI.Codigo AS CodigoArticulo, "
+   vSQL = " SELECT AI.Codigo + ISNULL(EPG.CodigoColor, '') + ISNULL(EPG.CodigoTalla, '') AS CodigoArticulo, "
    vSQL = vSQL & "AI.Descripcion " & gUtilSQL.CharConcat & vSqlColorDescrip & gUtilSQL.CharConcat & vSqlTallaDescrip & " AS Descripcion, "
    vSQL = vSQL & "AI.AlicuotaIva AS AlicuotaIvaChr, "
    vSQL = vSQL & vSqlAlicuota & " AS AlicuotaIvaValor, "

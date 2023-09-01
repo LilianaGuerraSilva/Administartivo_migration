@@ -137,7 +137,7 @@ Public Function fCreateTable(ByVal valShowMessage As Boolean, ByVal valEsSistema
    SQL = SQL & "FechaUltimaModificacion" & gUtilSQL.getDateTypeForDB & ", "
    SQL = SQL & "TipoDocumentoIdentificacion" & gUtilSQL.getCharTypeForDB(1) & ", "
    SQL = SQL & "TipoDeContribuyente" & gUtilSQL.getCharTypeForDB(1) & " , "
-   SQL = SQL & "CampoDefinible1" & gUtilSQL.getVarCharTypeForDB(20) & ", "
+   SQL = SQL & "CampoDefinible1" & gUtilSQL.getVarCharTypeForDB(60) & ", "
    SQL = SQL & gDefDatabase.getFN_TIMESTAMP() & " timestamp )"
    gDbUtil.Execute gDefDatabase.Conexion, SQL
    sAddPrimaryKeyAndOtherConstrains
