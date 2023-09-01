@@ -598,9 +598,9 @@
             FontFamily="Calibri"
             FontSize="14"
             FontWeight="Bold"
-            Header="VUELTO REGISTRADO"
+            Header="VUELTO"
             Style="{StaticResource GroupBoxStyle}"
-            Visibility="{Binding IsVisibleSeccionVuelto}">
+            Visibility="Visible">
             <Grid Name="tbiSeccionVuelto" Height="auto">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -620,7 +620,7 @@
                     Margin="2"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
-                    Content="Vuelto:"
+                    Content="Efectivo:"
                     FontFamily="Calibri"
                     FontSize="18"
                     FontStyle="Normal"
@@ -633,7 +633,7 @@
                     Grid.Column="1"
                     Height="24"
                     Margin="8,2"
-                    IsEnabled="False"
+                    IsEnabled="True"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Right"
                     DecimalDigits="{Binding Path=DecimalDigits}"
@@ -648,7 +648,7 @@
                     Grid.Column="2"
                     Height="24"
                     Margin="8,2"
-                    IsEnabled="False"
+                    IsEnabled="True"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Right"
                     DecimalDigits="{Binding Path=DecimalDigits}"
@@ -657,6 +657,35 @@
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=VueltoEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Height="27"
+                    Margin="2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Content="Pago Móvil:"
+                    FontFamily="Calibri"
+                    FontSize="18"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtVueltoPagoMovil"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Height="24"
+                    Margin="8,2"
+                    IsEnabled="False"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    DecimalDigits="{Binding Path=DecimalDigits}"
+                    FontSize="18"
+                    InputDataType="Decimal"
+                    MaxLength="28"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>        
         <Border

@@ -377,7 +377,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public RelayCommand LimpiarCommand { get; private set; }
 
-        public RelayCommand VueltoEnEfectivo { get; private set; }
+        //public RelayCommand VueltoEnEfectivo { get; private set; }
         public RelayCommand VueltoConPagoMovil { get; private set; }
 
         public string IsVisibleSeccionEfectivo {
@@ -546,7 +546,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
-            VueltoEnEfectivo = new RelayCommand(ExecuteVueltoEnEfectivo, CanExecuteVueltoEnEfectivoCommand);
+            //VueltoEnEfectivo = new RelayCommand(ExecuteVueltoEnEfectivo, CanExecuteVueltoEnEfectivoCommand);
             VueltoConPagoMovil = new RelayCommand(ExecuteVueltoConPagoMovil, CanExecuteVueltoConPagoMovilCommand);
         }
 
@@ -566,15 +566,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 IsVisible = true,
                 KeyTip = "F7"
             });
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Vuelto en Efectivo",
-                Command = VueltoEnEfectivo,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F9.png", UriKind.Relative),
-                ToolTipDescription = "Datos del Vuelto en Efectivo",
-                ToolTipTitle = "Vuelto en Efectivo",
-                IsVisible = true,
-                KeyTip = "F9"
-            });
+            //vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+            //    Label = "Vuelto en Efectivo",
+            //    Command = VueltoEnEfectivo,
+            //    LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F9.png", UriKind.Relative),
+            //    ToolTipDescription = "Datos del Vuelto en Efectivo",
+            //    ToolTipTitle = "Vuelto en Efectivo",
+            //    IsVisible = true,
+            //    KeyTip = "F9"
+            //});
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() { 
                 Label = "Vuelto con Pago Móvil",
                 Command = VueltoConPagoMovil,
@@ -645,14 +645,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
         }
 
-        private void ExecuteVueltoEnEfectivo() {
-            VueltoEfectivoViewModel vViewModel = new VueltoEfectivoViewModel(CambioAMonedaLocal, MontoRestantePorPagar, MontoRestantePorPagarEnDivisas, NombreDeMonedaLocal, NombreMonedaDivisa);
-            LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-            VueltoEfectivoMonedaLocal = vViewModel.EfectivoMonedaLocal;
-            VueltoEfectivoDivisas = vViewModel.EfectivoMonedaDivisa;
-            VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);
-            VueltoEnDivisas = -1 * VueltoEfectivoDivisas;
-        }
+        //private void ExecuteVueltoEnEfectivo() {
+        //    VueltoEfectivoViewModel vViewModel = new VueltoEfectivoViewModel(CambioAMonedaLocal, MontoRestantePorPagar, MontoRestantePorPagarEnDivisas, NombreDeMonedaLocal, NombreMonedaDivisa);
+        //    LibMessages.EditViewModel.ShowEditor(vViewModel, true);
+        //    VueltoEfectivoMonedaLocal = vViewModel.EfectivoMonedaLocal;
+        //    VueltoEfectivoDivisas = vViewModel.EfectivoMonedaDivisa;
+        //    VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);
+        //    VueltoEnDivisas = -1 * VueltoEfectivoDivisas;
+        //}
 
         private void ExecuteVueltoConPagoMovil() {
             IC2PMegaSoftMng insVueltoMegasoft = (IC2PMegaSoftMng)new C2PMegasoftNav();
@@ -698,7 +698,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private bool CanExecuteLimpiarCommand() { return true; }
-        private bool CanExecuteVueltoEnEfectivoCommand() { return true; }
+        //private bool CanExecuteVueltoEnEfectivoCommand() { return true; }
         private bool CanExecuteVueltoConPagoMovilCommand() { return true; }
         #endregion
 
