@@ -22,9 +22,14 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 	class clsVersionTemporalNoOficial: clsVersionARestructurar {
 		public clsVersionTemporalNoOficial(string valCurrentDataBaseName) : base(valCurrentDataBaseName) { }
 		public override bool UpdateToVersion() {
-			StartConnectionNoTransaction();			
-			DisposeConnectionNoTransaction();
+			StartConnectionNoTransaction();
+			ExtiendeLongitudCampoDefinibleCliente();
+            DisposeConnectionNoTransaction();
 			return true;
+		}
+
+		private void ExtiendeLongitudCampoDefinibleCliente() {
+			AlterColumnIfExist("Cliente", "CampoDefinible1", InsSql.VarCharTypeForDb(60), "", "");
 		}
 	}
 }   
