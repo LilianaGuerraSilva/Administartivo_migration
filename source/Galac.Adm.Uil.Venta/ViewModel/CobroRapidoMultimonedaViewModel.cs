@@ -564,15 +564,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 IsVisible = true,
                 KeyTip = "F7"
             });            
-            //vResult.ControlDataCollection.Add(new LibRibbonButtonData() { 
-            //    Label = "Vuelto con Pago Móvil",
-            //    Command = VueltoConPagoMovil,
-            //    LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
-            //    ToolTipDescription = "Datos del Vuelto con Pago Móvil C2P",
-            //    ToolTipTitle = "Vuelto con PM C2P",
-            //    IsVisible = true,
-            //    KeyTip = "F10"
-            //});
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() { 
+                Label = "Vuelto con Pago Móvil",
+                Command = VueltoConPagoMovil,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
+                ToolTipDescription = "Datos del Vuelto con Pago Móvil C2P",
+                ToolTipTitle = "Vuelto con PM C2P",
+                IsVisible = true,
+                KeyTip = "F10"
+            });
             return vResult;
         }
 

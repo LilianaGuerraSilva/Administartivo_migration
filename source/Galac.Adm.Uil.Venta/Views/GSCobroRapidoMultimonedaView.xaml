@@ -657,7 +657,7 @@
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=VueltoEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-                <!--<Label
+                <Label
                     Grid.Row="1"
                     Grid.Column="0"
                     Height="27"
@@ -685,7 +685,7 @@
                     InputDataType="Decimal"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />-->
+                    Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
         <Border
