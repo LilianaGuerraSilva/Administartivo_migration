@@ -75,8 +75,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string IGTFMLPropertyName = "IGTFML";
         private const string IGTFMEPropertyName = "IGTFME";
         private const string AlicuotaIGTFPropertyName = "AlicuotaIGTF";
-        private const string TotalAPagarMLPropertyName = "TotalAPagarML";
-        private const string TotalAPagarMEPropertyName = "TotalAPagarME";
+        private const string TotalAPagarMLParaMostrarPropertyName = "TotalAPagarMLParaMostrar";
+        private const string TotalAPagarMEParaMostrarPropertyName = "TotalAPagarMEParaMostrar";
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -736,8 +736,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaisePropertyChanged(IGTFMLPropertyName);
             RaisePropertyChanged(IGTFMEPropertyName);
             RaisePropertyChanged(AlicuotaIGTFPropertyName);
-            RaisePropertyChanged(TotalAPagarMLPropertyName);
-            RaisePropertyChanged(TotalAPagarMEPropertyName);
+            RaisePropertyChanged(TotalAPagarMLParaMostrarPropertyName);
+            RaisePropertyChanged(TotalAPagarMEParaMostrarPropertyName);
         }
 
         private void AsignarTasaDeCambioDelDia(string valCodigoMoneda, DateTime valFechaDeVigencia) {
