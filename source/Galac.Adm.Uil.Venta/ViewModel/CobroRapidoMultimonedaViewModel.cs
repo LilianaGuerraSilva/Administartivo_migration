@@ -478,9 +478,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string TotalAPagarMLParaMostrar {
+            get {
+                return LibConvert.ToStr(TotalAPagarML);
+            }
+        }
+
         public decimal TotalAPagarME {
             get {
                 return TotalFacturaEnDivisas + IGTFME;
+            }
+        }
+
+        public string TotalAPagarMEParaMostrar {
+            get {
+                return LibConvert.ToStr(TotalAPagarME);
             }
         }
 
