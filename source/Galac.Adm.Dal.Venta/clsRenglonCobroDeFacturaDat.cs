@@ -59,7 +59,7 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder vResult = new StringBuilder();
             LibGpParams vParams = new LibGpParams();
             vParams.AddReturn();
-            vParams.AddInInteger("ConsecutivoCompania",valConsecutivoCompania);
+            vParams.AddInInteger("ConsecutivoCompania", valConsecutivoCompania);
             vParams.AddInString("NumeroFactura", valNumero, 11);
             vParams.AddInEnum("TipoDeDocumento", (int)valTipoDeDocumento);
             vParams.AddInXml("XmlDataDetail", ParseToXml(valConsecutivoCompania, valNumero, valTipoDeDocumento, vListRecord));
@@ -86,7 +86,7 @@ namespace Galac.Adm.Dal.Venta {
             LibGpParams vParams = new LibGpParams();
             vParams.AddInInteger("ConsecutivoCompania", valRecord.ConsecutivoCompania);
             vParams.AddInString("NumeroFactura", valRecord.NumeroFactura, 11);
-            vParams.AddInString("TipoDeDocumento", valRecord.TipoDeDocumentoAsString , 0);
+            vParams.AddInString("TipoDeDocumento", valRecord.TipoDeDocumentoAsString, 0);
             vResult = vParams.Get();
             return vResult;
         }
@@ -100,11 +100,11 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        private XElement ParseToXml(int valConsecutivoCompania, string valNumero,eTipoDocumentoFactura valTipoDeDocumento, List<RenglonCobroDeFactura> valList) {
+        private XElement ParseToXml(int valConsecutivoCompania, string valNumero, eTipoDocumentoFactura valTipoDeDocumento, List<RenglonCobroDeFactura> valList) {
             int vConsecutivo = 1;
             foreach (RenglonCobroDeFactura item in valList) {
                 item.ConsecutivoRenglon = vConsecutivo;
-                vConsecutivo ++;
+                vConsecutivo++;
             }
             XElement vXElement = new XElement("GpData",
                 from vEntity in valList
@@ -153,7 +153,8 @@ namespace Galac.Adm.Dal.Venta {
                 case eProcessMessageType.Query:
                     vResult = insDb.LoadData<RenglonCobroDeFactura>(valProcessMessage, CmdTimeOut, valParameters);
                     break;
-                default: throw new ProgrammerMissingCodeException();
+                default:
+                    throw new ProgrammerMissingCodeException();
             }
             insDb.Dispose();
             return vResult;
@@ -177,15 +178,12 @@ namespace Galac.Adm.Dal.Venta {
         }
         #endregion //ILibDataDetailComponent<IList<RenglonCobroDeFactura>, IList<RenglonCobroDeFactura>>
 
-        public LibResponse InsertChild(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura  valTipoDocumento, List<RenglonCobroDeFactura> valRecord)
-         {
-             LibResponse vResult = new LibResponse();
+        public LibResponse InsertChild(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDocumento, List<RenglonCobroDeFactura> valRecord) {
+            LibResponse vResult = new LibResponse();
             StringBuilder vBuilder = ParametrosActualizacionDetail(valConsecutivoCompania, valNumeroFactura, valTipoDocumento, valRecord, eAccionSR.Insertar);
             LibGalac.Aos.Dal.LibDataScope valDataScope = new LibGalac.Aos.Dal.LibDataScope();
-            //vResult = insTrn.ExecSpNonQuery(insTrn.ToSpName(DbSchema, "RenglonCobroDeFacturaInsDet"), ParametrosActualizacionDetail(valRecord, eAccionSR.Insertar));
-            vResult.Success  = valDataScope.ExecSpNonQueryWithScope(valDataScope.ToSpName(DbSchema, "RenglonCobroDeFacturaInsDet"),vBuilder );
+            vResult.Success = valDataScope.ExecSpNonQueryWithScope(valDataScope.ToSpName(DbSchema, "RenglonCobroDeFacturaInsDet"), vBuilder);
             return vResult;
-          
         }
 
         #region Validaciones
@@ -199,13 +197,13 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        private bool IsValidCodigoFormaDelCobro(eAccionSR valAction, string valCodigoFormaDelCobro){
+        private bool IsValidCodigoFormaDelCobro(eAccionSR valAction, string valCodigoFormaDelCobro) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
             valCodigoFormaDelCobro = LibString.Trim(valCodigoFormaDelCobro);
-            if (LibString.IsNullOrEmpty(valCodigoFormaDelCobro , true)) {
+            if (LibString.IsNullOrEmpty(valCodigoFormaDelCobro, true)) {
                 BuildValidationInfo(MsgRequiredField("Codigo Forma Del Cobro"));
                 vResult = false;
             } else {
@@ -218,12 +216,12 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        private bool IsValidCodigoBanco(eAccionSR valAction, int valCodigoBanco){
+        private bool IsValidCodigoBanco(eAccionSR valAction, int valCodigoBanco) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (LibString.IsNullOrEmpty(valCodigoBanco.ToString() , true)) {
+            if (LibString.IsNullOrEmpty(valCodigoBanco.ToString(), true)) {
                 BuildValidationInfo(MsgRequiredField("Codigo Banco"));
                 vResult = false;
             } else {
@@ -236,12 +234,12 @@ namespace Galac.Adm.Dal.Venta {
             return vResult;
         }
 
-        private bool IsValidCodigoPuntoDeVenta(eAccionSR valAction, int valCodigoPuntoDeVenta){
+        private bool IsValidCodigoPuntoDeVenta(eAccionSR valAction, int valCodigoPuntoDeVenta) {
             bool vResult = true;
             if ((valAction == eAccionSR.Consultar) || (valAction == eAccionSR.Eliminar)) {
                 return true;
             }
-            if (LibString.IsNullOrEmpty(valCodigoPuntoDeVenta.ToString () , true)) {
+            if (LibString.IsNullOrEmpty(valCodigoPuntoDeVenta.ToString(), true)) {
                 BuildValidationInfo(MsgRequiredField("Codigo Punto De Venta"));
                 vResult = false;
             } else {

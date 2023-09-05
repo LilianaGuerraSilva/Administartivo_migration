@@ -1,0 +1,177 @@
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.Venta.Views.GSVueltoEfectivoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsVm="clr-namespace:Galac.Adm.Uil.Venta.ViewModel"
+    xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/LibGalac.Aos.UI.WpfRD;component/rsdInputControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=txtTasaDeCambio}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Height="30"
+            Margin="2"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Content="Tasa de Cambio:"
+            FontFamily="Calibri"
+            FontSize="20"
+            FontStyle="Normal"
+            FontWeight="Bold"
+            Foreground="Green"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpfSch
+            Grid.Row="0"
+            Grid.Column="1"
+            Height="30"
+            Margin="0,8,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            Background="Transparent"
+            BorderThickness="0"
+            DecimalDigits="4"
+            Focusable="False"
+            FontFamily="Calibri"
+            FontSize="20"
+            FontStyle="Normal"
+            FontWeight="Bold"
+            Foreground="Green"
+            InputDataType="igDec"
+            IsReadOnly="True"
+            Text="{Binding Mode=OneWay, Path=CambioAMonedaLocalParaMostrar}" />
+        <Border
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Margin="2"
+            Background="Green"
+            BorderThickness="1"
+            CornerRadius="5" />
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Height="30"
+            Margin="2,0"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Content="VUELTO:"
+            FontFamily="Calibri"
+            FontSize="20"
+            FontStyle="Normal"
+            FontWeight="Bold"
+            Foreground="White"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpfSch
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="30"
+            Margin="0,8,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            Background="Transparent"
+            BorderThickness="0"
+            DecimalDigits="4"
+            Focusable="False"
+            FontFamily="Calibri"
+            FontSize="20"
+            FontStyle="Normal"
+            FontWeight="Bold"
+            Foreground="White"
+            InputDataType="igDec"
+            IsReadOnly="True"
+            Text="{Binding Mode=OneWay, Path=PorVueltoMonedaLocalParaMostrar}" />
+        <nsWpfControls:GSNumericBoxWpfSch
+            Grid.Row="1"
+            Grid.Column="2"
+            Height="30"
+            Margin="0,8,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            Background="Transparent"
+            BorderThickness="0"
+            DecimalDigits="4"
+            Focusable="False"
+            FontFamily="Calibri"
+            FontSize="20"
+            FontStyle="Normal"
+            FontWeight="Bold"
+            Foreground="White"
+            InputDataType="igDec"
+            IsReadOnly="True"
+            Text="{Binding Mode=OneWay, Path=PorVueltoDivisaParaMostrar}" />
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Content=""
+            Style="{StaticResource LabelHeaderStyle}" />
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            Content="{Binding NombreDeMonedaLocal}"
+            Style="{StaticResource LabelHeaderStyle}" />
+        <Label
+            Grid.Row="2"
+            Grid.Column="2"
+            Content="{Binding NombreDeDivisa}"
+            Style="{StaticResource LabelHeaderStyle}" />
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Height="27"
+            Margin="2"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            Content="Efectivo:"
+            FontFamily="Calibri"
+            FontSize="18"
+            FontStyle="Normal"
+            Foreground="Black"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="120"
+            BorderThickness="1"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="28"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=EfectivoMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+        <nsWpfControls:GSNumericBoxWpf
+            Name="txtEfectivoMonedaDivisa"
+            Grid.Row="3"
+            Grid.Column="2"
+            Width="120"
+            BorderThickness="1"
+            InputDataType="UDecimal"
+            IsEnabled="{Binding Path=IsEnabled}"
+            MaxLength="28"
+            Style="{StaticResource TextBoxInputStyle}"
+            Value="{Binding Path=EfectivoMonedaDivisa, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+    </Grid>
+</UserControl>

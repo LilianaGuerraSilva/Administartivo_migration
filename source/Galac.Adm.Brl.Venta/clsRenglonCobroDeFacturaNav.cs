@@ -13,9 +13,10 @@ using LibGalac.Aos.Base.Dal;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Dal.Venta;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Adm.Brl.Venta {
-    public partial class clsRenglonCobroDeFacturaNav : LibBaseNavDetail<IList<RenglonCobroDeFactura>, IList<RenglonCobroDeFactura>>, IRenglonCobroDeFacturaPdn {
+    public partial class clsRenglonCobroDeFacturaNav: LibBaseNavDetail<IList<RenglonCobroDeFactura>, IList<RenglonCobroDeFactura>>, IRenglonCobroDeFacturaPdn {
         #region Variables
         #endregion //Variables
         #region Propiedades
@@ -67,39 +68,28 @@ namespace Galac.Adm.Brl.Venta {
             return instanciaDal.QueryInfo(eProcessMessageType.SpName, "Adm.Gp_FacturaRapidaGetFk", valParameters);
         }
 
-         LibResponse IRenglonCobroDeFacturaPdn.InsertRenglonCobroDeFactura(IList<RenglonCobroDeFactura> refRecord)  {
-
-             IRenglonCobroDeFacturaPdn c = new clsRenglonCobroDeFacturaNav ();
+        LibResponse IRenglonCobroDeFacturaPdn.InsertRenglonCobroDeFactura(IList<RenglonCobroDeFactura> refRecord) {
             try {
                 RegisterClient();
                 return base.InsertRecord(refRecord, null);
-            } catch (SqlException e) {
-               // if (LibExceptionMng.IsUniqueKeyViolation(e))
-               //     return this.InsertRecord(refRecord, valUseDetail);
+            } catch  {                
                 throw;
             }
-
         }
 
-          public  LibResponse InsertChildRenglonCobroDeFactura(int valConsecutivoCompania, string valNumeroFactura,eTipoDocumentoFactura valTipoDocumento, List<RenglonCobroDeFactura> valRecord) {
-             //RenglonCobroDeFactura vRenglon = new RenglonCobroDeFactura();
-             //Rendicion rendicion = refRecord[0];
-              clsRenglonCobroDeFacturaDat c = new clsRenglonCobroDeFacturaDat();
-             try {
-
-                 RegisterClient();
-                 return c.InsertChild( valConsecutivoCompania,  valNumeroFactura, valTipoDocumento,  valRecord);
-             } catch (SqlException e) {
-                 // if (LibExceptionMng.IsUniqueKeyViolation(e))
-                 //     return this.InsertRecord(refRecord, valUseDetail);
-                 throw;
-             }
-
-         }
+        public LibResponse InsertChildRenglonCobroDeFactura(int valConsecutivoCompania, string valNumeroFactura, eTipoDocumentoFactura valTipoDocumento, List<RenglonCobroDeFactura> valRecord) {
+            clsRenglonCobroDeFacturaDat insRenglonCobroDeFacturaDat = new clsRenglonCobroDeFacturaDat();
+            try {
+                RegisterClient();
+                return insRenglonCobroDeFacturaDat.InsertChild(valConsecutivoCompania, valNumeroFactura, valTipoDocumento, valRecord);
+            } catch {
+                throw;
+            }
+        }
 
         public XmlReader generarResultadoXml(RenglonCobroDeFactura refRecord) {
             string msj = "<GPResult><DatosContab><Datos><Documento>";
-               // +
+            // +
             //      "<Numero>" + refRecord.Numero + "</Numero>"
             //      + "<Fecha>" + refRecord.FechaCierre.ToShortDateString() + "</Fecha>"
             //      + "<Consecutivo>" + refRecord.Consecutivo + "</Consecutivo>"
@@ -173,7 +163,20 @@ namespace Galac.Adm.Brl.Venta {
             return vResult;
         }
 
+        string IRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago valTipoDeFormaDePago) {
+            try {
+                string vResult = "";
+                string vSql = "SELECT Codigo FROM Saw.FormaDelCobro WHERE TipoDePago = " + new QAdvSql("").EnumToSqlValue((int)valTipoDeFormaDePago);
+                XElement vResultXml = LibBusiness.ExecuteSelect(vSql, null, "", 0);
+                if (vResultXml != null && vResultXml.HasElements) {
+                    vResult = LibXml.GetPropertyString(vResultXml, "Codigo");
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
     } //End of class clsRenglonCobroDeFacturaNav
 
-} //End of namespace Galac..Brl.ComponenteNoEspecificado
+} //End of namespace Galac.Adm.Brl.Venta
 

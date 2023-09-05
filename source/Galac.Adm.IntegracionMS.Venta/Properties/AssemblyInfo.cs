@@ -1,16 +1,17 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Galac.Adm.Brl.Venta")]
+[assembly: AssemblyTitle("Galac.Adm.IntegracionMS.Venta")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Gálac Software")]
-[assembly: AssemblyProduct("Galac.Adm.Brl.Venta")]
-[assembly: AssemblyCopyright("Gálac Software Copyright © 2018")]
+[assembly: AssemblyProduct("Galac.Adm.IntegracionMS.Venta")]
+[assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("22226f4e-0267-4b26-83be-52f7dc5da396")]
+[assembly: Guid("9d68873c-e3cf-43c5-bbd1-becf6cfd6a0a")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +33,9 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.60.15.*")]
-[assembly: AssemblyFileVersion("2.60.15.9999")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: ThemeInfo(
+ResourceDictionaryLocation.ExternalAssembly, //where theme specific resource dictionaries are located 
+ResourceDictionaryLocation.SourceAssembly //where the generic resource dictionary is located 
+)]

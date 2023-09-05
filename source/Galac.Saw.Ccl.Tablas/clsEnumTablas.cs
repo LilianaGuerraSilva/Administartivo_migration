@@ -12,11 +12,15 @@ namespace Galac.Saw.Ccl.Tablas {
         Tarjeta, 
         [LibEnumDescription("Cheque")]
         Cheque, 
-        [LibEnumDescription("Deposito")]
+        [LibEnumDescription("Depósito")]
         Deposito,
         [LibEnumDescription("Anticipo")]
-        Anticipo
-	}
+        Anticipo,
+        [LibEnumDescription("Vuelto Efectivo")]
+        VueltoEfectivo,
+		[LibEnumDescription("Vuelto C2P")]
+        VueltoC2P
+    }
 
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
