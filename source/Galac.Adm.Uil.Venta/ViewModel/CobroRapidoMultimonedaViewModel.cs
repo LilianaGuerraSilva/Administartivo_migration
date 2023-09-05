@@ -496,6 +496,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public bool IsVisiblePM {
+            get {
+                return C2PMegasoftNav.EsVisiblePM();
+            }
+        }
+		
         private bool IsVisibleSeccionIGTF {
             get {
                 return _TipoDeContribuyenteIVA == eTipoDeContribuyenteDelIva.ContribuyenteEspecial && (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal);
@@ -580,9 +586,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Label = "Vuelto con Pago Móvil",
                 Command = VueltoConPagoMovil,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
-                ToolTipDescription = "Datos del Vuelto con Pago Móvil C2P",
-                ToolTipTitle = "Vuelto con PM C2P",
-                IsVisible = true,
+                ToolTipDescription = "Datos del Vuelto con Pago Móvil",
+                ToolTipTitle = "Vuelto con Pago Móvil",
+                IsVisible = IsVisiblePM,
                 KeyTip = "F10"
             });
             return vResult;

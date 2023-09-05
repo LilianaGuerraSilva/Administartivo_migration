@@ -672,7 +672,8 @@
                     FontStyle="Normal"
                     FontWeight="Bold"
                     Foreground="Black"
-                    Style="{StaticResource LabelPrompt}" />
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtVueltoPagoMovil"
                     Grid.Row="1"
@@ -687,6 +688,7 @@
                     IsEnabled="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
+                    Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>

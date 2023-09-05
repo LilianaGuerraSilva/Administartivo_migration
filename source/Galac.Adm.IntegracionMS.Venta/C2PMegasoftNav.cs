@@ -149,5 +149,9 @@ namespace Galac.Adm.IntegracionMS.Venta {
 
         }
 
+        public static bool EsVisiblePM() {
+            return false;
+        }
+
     }
 }
