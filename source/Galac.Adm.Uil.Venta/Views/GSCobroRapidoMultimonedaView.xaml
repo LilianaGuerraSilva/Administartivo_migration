@@ -640,7 +640,7 @@
                     DecimalDigits="{Binding Path=DecimalDigits}"
                     FontSize="18"
                     InputDataType="Decimal"
-                    IsEnabled="True"
+                    IsEnabled="{Binding Path=IsEnableVuelto}"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
@@ -655,7 +655,7 @@
                     DecimalDigits="{Binding Path=DecimalDigits}"
                     FontSize="18"
                     InputDataType="Decimal"
-                    IsEnabled="True"
+                    IsEnabled="{Binding Path=IsEnableVuelto}"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=VueltoEnDivisas, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />

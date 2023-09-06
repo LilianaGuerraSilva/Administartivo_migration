@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Mapa de Componentes de la Version del Producto-->
-<Producto NombreExe="Saw" Pais="VE" Version="23.9" Siglas="Saw">
+<Producto NombreExe="Saw" Pais="VE" Version="24.0" Siglas="Saw">
   <Proteccion>1802</Proteccion>
   <Libreria>
     <LibGalacCI>2201</LibGalacCI>
@@ -9,14 +9,14 @@
     <LibGalacXtmCI>2201</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>2306</SawEnum>
-    <SawImportExport>2306</SawImportExport>
-    <SawMaquinaFiscal>2306</SawMaquinaFiscal>
-    <SawNav>2306</SawNav>
-    <SawRpt>2306</SawRpt>
-    <SawSP>2306</SawSP>
-    <SawTbls>2306</SawTbls>
-    <SawVista>2306</SawVista>    
+    <SawEnum>ND</SawEnum>
+    <SawImportExport>ND</SawImportExport>
+    <SawMaquinaFiscal>ND</SawMaquinaFiscal>
+    <SawNav>ND</SawNav>
+    <SawRpt>ND</SawRpt>
+    <SawSP>ND</SawSP>
+    <SawTbls>ND</SawTbls>
+    <SawVista>ND</SawVista>    
     <ContabRpt>2301</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -220,6 +220,8 @@
     <Galac.Adm.Brl.Venta>2.60.15.0</Galac.Adm.Brl.Venta> 
     <Galac.Adm.Rpt.Venta>2.60.15.0</Galac.Adm.Rpt.Venta>		
     <Galac.Adm.Uil.Venta>2.60.15.0</Galac.Adm.Uil.Venta>	
+    <Galac.Adm.IntegracionMS.Venta>1.0.0.0</Galac.Adm.IntegracionMS.Venta>	
+	
 	
     <Galac.Adm.Ccl.ImprentaDigital>2.60.1.0</Galac.Adm.Ccl.ImprentaDigital>
     <Galac.Adm.Brl.ImprentaDigital>2.60.1.0</Galac.Adm.Brl.ImprentaDigital>    
