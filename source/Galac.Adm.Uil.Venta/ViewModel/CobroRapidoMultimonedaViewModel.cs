@@ -531,7 +531,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsEnableVuelto {
             get {
-                return MontoRestantePorPagar != 0 || MontoRestantePorPagarEnDivisas != 0;
+                return MontoRestantePorPagar < 0 || MontoRestantePorPagarEnDivisas < 0;
             }
         }
 
