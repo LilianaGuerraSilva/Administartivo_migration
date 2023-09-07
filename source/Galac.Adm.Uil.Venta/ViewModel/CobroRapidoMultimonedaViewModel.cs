@@ -77,6 +77,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string AlicuotaIGTFPropertyName = "AlicuotaIGTF";
         private const string TotalAPagarMLParaMostrarPropertyName = "TotalAPagarMLParaMostrar";
         private const string TotalAPagarMEParaMostrarPropertyName = "TotalAPagarMEParaMostrar";
+        private const string IsEnableVueltoPropertyName = "IsEnableVuelto";
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -349,6 +350,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     return "DIFERENCIA x CAMBIO";
                 } else if (MontoRestantePorPagar <= 0) {
                     return "VUELTO";
+                } else if (VueltoEnMonedaLocal > 0 || VueltoEnDivisas > 0) {
+                    return "VUELTO EXCEDIDO";
                 } else {
                     return "POR PAGAR";
                 }
@@ -523,6 +526,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public XElement XmlDatosIGTF {
             get {
                 return _XmlDatosIGTF;
+            }
+        }
+
+        public bool IsEnableVuelto {
+            get {
+                return MontoRestantePorPagar <= 0 || MontoRestantePorPagarEnDivisas <= 0;                
             }
         }
 
@@ -738,6 +747,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaisePropertyChanged(AlicuotaIGTFPropertyName);
             RaisePropertyChanged(TotalAPagarMLParaMostrarPropertyName);
             RaisePropertyChanged(TotalAPagarMEParaMostrarPropertyName);
+            RaisePropertyChanged(IsEnableVueltoPropertyName);
         }
 
         private void AsignarTasaDeCambioDelDia(string valCodigoMoneda, DateTime valFechaDeVigencia) {
