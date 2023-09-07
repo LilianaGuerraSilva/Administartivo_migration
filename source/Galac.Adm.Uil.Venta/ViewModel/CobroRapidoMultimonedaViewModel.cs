@@ -350,7 +350,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     return "DIFERENCIA x CAMBIO";
                 } else if (MontoRestantePorPagar <= 0) {
                     return "VUELTO";
-                } else if (MontoXPagarColor == eBorderBackMontoXPagarColor.Falta && (VueltoEnMonedaLocal > 0 || VueltoEnDivisas > 0)) {
+                } else if (VueltoEnMonedaLocal > 0 || VueltoEnDivisas > 0) {
                     return "VUELTO EXCEDIDO";
                 } else {
                     return "POR PAGAR";
