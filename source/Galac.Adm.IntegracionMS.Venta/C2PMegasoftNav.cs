@@ -13,48 +13,241 @@ using Newtonsoft.Json;
 namespace Galac.Adm.IntegracionMS.Venta {
     public class C2PMegasoftNav {
         string _UrlBase;
-        const string respExitosa = "00";
+        const string MonedaBs = "VES";
+        const string respAprobada = "00";
         const string _Urlprocesar_metodo_pago = "/vpos/metodo";
 
         public C2PMegasoftNav() {        
-            //_UrlBase = "http://payment.somee.com";
             _UrlBase = "http://localhost:8085";
         }
 
         public bool EjecutaProcesarCambioPagoMovil(string valCedula, string valVuelto) {
-            const string MonedaBs = "VES";
             bool vExito = false;
             try {
-                ProcesarMetodoPago.request request2 = new ProcesarMetodoPago.request() {
+                ProcesarMetodoPago.requestCambioPagoMovil request2 = new ProcesarMetodoPago.requestCambioPagoMovil() {
                     accion = "cambio",
                     montoTransaccion = valVuelto,
                     cedula = valCedula,
                     tipoMoneda = MonedaBs
                 };
-                ProcesarMetodoPago.response vResponse = SendProcesarMetodoDePago(request2);
+                ProcesarMetodoPago.response vResponse = SendProcesarCambioPagoMovil (request2);
                 if (vResponse != null) {
-                    if (vResponse.codRespuesta == respExitosa) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
                         vExito = true;
                     } else {
                         throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
-                        //LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vResponse.mensajeRespuesta);
                     }
                 }
             } catch (System.Exception vEx) {
-                //throw new LibGalac.Aos.Catching.GalacAlertException("No se recibió respuesta. Por favor valide su conexión a internet. ");
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Luis G.");
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
             }
             return vExito;
         }
 
-        ProcesarMetodoPago.response SendProcesarMetodoDePago(ProcesarMetodoPago.request valrequestObject) {
-            var requestJson = Serialize<ProcesarMetodoPago.request>(valrequestObject);
+        ProcesarMetodoPago.response SendProcesarCambioPagoMovil(ProcesarMetodoPago.requestCambioPagoMovil valrequestObject) {
+            var requestJson = Serialize<ProcesarMetodoPago.requestCambioPagoMovil>(valrequestObject);
             var result = Post(_Urlprocesar_metodo_pago, requestJson);
             if (!string.IsNullOrEmpty(result)) {
                 return Deserialize<ProcesarMetodoPago.response>(result);
             }
             return null;
         }
+
+        public bool EjecutaProcesarTarjeta(string valCedula, string valVuelto) {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestTarjeta request3 = new ProcesarMetodoPago.requestTarjeta() {
+                    accion = "tarjeta",
+                    montoTransaccion = valVuelto,
+                    cedula = valCedula
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarTarjeta(request3);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+
+        ProcesarMetodoPago.response SendProcesarTarjeta(ProcesarMetodoPago.requestTarjeta  valrequestObject) {
+            var requestJson = Serialize<ProcesarMetodoPago.requestTarjeta>(valrequestObject);
+            var result = Post(_Urlprocesar_metodo_pago, requestJson);
+            if (!string.IsNullOrEmpty(result)) {
+                return Deserialize<ProcesarMetodoPago.response>(result);
+            }
+            return null;
+        }
+
+        public bool EjecutaProcesarZelle(string valCedula, string valVuelto) {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestCompraZelle request4 = new ProcesarMetodoPago.requestCompraZelle() {
+                    accion = "tarjeta",
+                    montoTransaccion = valVuelto,
+                    cedula = valCedula
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarZelle(request4);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+
+        ProcesarMetodoPago.response SendProcesarZelle(ProcesarMetodoPago.requestCompraZelle  valrequestObject) {
+            var requestJson = Serialize<ProcesarMetodoPago.requestCompraZelle>(valrequestObject);
+            var result = Post(_Urlprocesar_metodo_pago, requestJson);
+            if (!string.IsNullOrEmpty(result)) {
+                return Deserialize<ProcesarMetodoPago.response>(result);
+            }
+            return null;
+        }
+
+        public bool EjecutaUltimoVoucherAprobado() {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestUltimoVoucher  request5 = new ProcesarMetodoPago.requestUltimoVoucher () {
+                    accion = "imprimeUltimoVoucher"
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarUltimoVoucher(request5);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+        public bool EjecutaUltimoVoucherProcesado() {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestUltimoVoucher request5 = new ProcesarMetodoPago.requestUltimoVoucher()  {
+                    accion = "imprimeUltimoVoucherP"
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarUltimoVoucher(request5);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information (null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+
+        ProcesarMetodoPago.response SendProcesarUltimoVoucher(ProcesarMetodoPago.requestUltimoVoucher valrequestObject) {
+            var requestJson = Serialize<ProcesarMetodoPago.requestUltimoVoucher>(valrequestObject);
+            var result = Post(_Urlprocesar_metodo_pago, requestJson);
+            if (!string.IsNullOrEmpty(result)) {
+                return Deserialize<ProcesarMetodoPago.response>(result);
+            }
+            return null;
+        }
+
+        public bool EjecutaPrecierre() {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestCierrePrecierre request6 = new ProcesarMetodoPago.requestCierrePrecierre() {
+                    accion = "precierre"
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarCierrePrecierre(request6);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) { 
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+
+        public bool EjecutaCierre() {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestCierrePrecierre request6 = new ProcesarMetodoPago.requestCierrePrecierre() {
+                    accion = "cierre"
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarCierrePrecierre(request6);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada)  {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+
+        public bool EjecutaUltimoCierre() {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestCierrePrecierre request6 = new ProcesarMetodoPago.requestCierrePrecierre() {
+                    accion = "ultimoCierre"
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarCierrePrecierre(request6);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+
+        ProcesarMetodoPago.response SendProcesarCierrePrecierre(ProcesarMetodoPago.requestCierrePrecierre valrequestObject) {
+            var requestJson = Serialize<ProcesarMetodoPago.requestCierrePrecierre>(valrequestObject);
+            var result = Post(_Urlprocesar_metodo_pago, requestJson);
+            if (!string.IsNullOrEmpty(result)) {
+                return Deserialize<ProcesarMetodoPago.response>(result);
+            }
+            return null;
+        }
+
         string Post(string Url, string requestjson) {
             Uri baseUri = new Uri(_UrlBase);
             var request = (HttpWebRequest)WebRequest.Create(new Uri(baseUri, Url));            
@@ -72,32 +265,42 @@ namespace Galac.Adm.IntegracionMS.Venta {
             }
             return null;
         }
-
         string Serialize<T>(T obj) {
             return JsonConvert.SerializeObject(obj);
         }
-
         T Deserialize<T>(string json) {
             return JsonConvert.DeserializeObject<T>(json);  
         }
-
         public static bool EsVisiblePM() {
             return false;
         }
     }
 
-    namespace ProcesarMetodoPago
-    {
-        public class request
-        {
+    namespace ProcesarMetodoPago {
+        public class requestCambioPagoMovil {
             public string accion { get; set; }
             public string montoTransaccion { get; set; }
             public string cedula { get; set; }
             public string tipoMoneda { get; set; }
         }
+        public class requestTarjeta {
+            public string accion { get; set; }
+            public string montoTransaccion { get; set; }
+            public string cedula { get; set; }
+        }
+        public class requestCompraZelle {
+            public string accion { get; set; }
+            public string montoTransaccion { get; set; }
+            public string cedula { get; set; }
+        }
+        public class requestUltimoVoucher {
+            public string accion { get; set; }
+        }
+        public class requestCierrePrecierre {
+            public string accion { get; set; }
+        }
 
-        public class response
-        {
+        public class response {
             public string codRespuesta { get; set; }
             public string mensajeRespuesta { get; set; }
             public string nombreVoucher { get; set; }
@@ -143,16 +346,5 @@ namespace Galac.Adm.IntegracionMS.Venta {
             public object listaTransServiciosOLB { get; set; }
         }
 
-        //public class voucher
-        //{
-        //    public string linea { get; set; }
-        //}
-
-        //public static class Constantes
-        //{
-        //    public const string valido = "00";
-        //    public const string invalido = "99";
-
-        //}
     }
 }
