@@ -55,12 +55,12 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return null;
         }
 
-        public bool EjecutaProcesarTarjeta(string valCedula, string valVuelto) {
+        public bool EjecutaProcesarTarjeta(string valCedula, string valMonto) {
             bool vExito = false;
             try {
                 ProcesarMetodoPago.requestTarjeta request3 = new ProcesarMetodoPago.requestTarjeta() {
                     accion = "tarjeta",
-                    montoTransaccion = valVuelto,
+                    montoTransaccion = valMonto,
                     cedula = valCedula
                 };
                 ProcesarMetodoPago.response vResponse = SendProcesarTarjeta(request3);
@@ -88,12 +88,12 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return null;
         }
 
-        public bool EjecutaProcesarZelle(string valCedula, string valVuelto) {
+        public bool EjecutaProcesarZelle(string valCedula, string valMonto) {
             bool vExito = false;
             try {
                 ProcesarMetodoPago.requestCompraZelle request4 = new ProcesarMetodoPago.requestCompraZelle() {
                     accion = "tarjeta",
-                    montoTransaccion = valVuelto,
+                    montoTransaccion = valMonto,
                     cedula = valCedula
                 };
                 ProcesarMetodoPago.response vResponse = SendProcesarZelle(request4);
