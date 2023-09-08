@@ -533,12 +533,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get {
                 decimal vTotalPagosML = EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal;
                 decimal vTotalPagosME = EfectivoEnDivisas + TransferenciaEnDivisas;
-                if (VueltoEnMonedaLocal > 0 || VueltoEnDivisas > 0) {
-                    return (MontoRestantePorPagar >= 0) || (MontoRestantePorPagarEnDivisas >= 0);
-                } else if (vTotalPagosML > 0 || vTotalPagosME > 0) {
+                if (VueltoEnMonedaLocal > 0 || VueltoEnDivisas > 0) { // Vuelto en exceso
+                    return true;
+                } else if (vTotalPagosML > 0 || vTotalPagosME > 0) { // Vuelto en 0
                     return (MontoRestantePorPagar < 0) || (MontoRestantePorPagarEnDivisas < 0);
                 } else {
-                    return (MontoRestantePorPagar <= 0) || (MontoRestantePorPagarEnDivisas <= 0);
+                    return (MontoRestantePorPagar <= 0) || (MontoRestantePorPagarEnDivisas <= 0); // Caso Inicio de Pantalla
                 }
             }
         }
