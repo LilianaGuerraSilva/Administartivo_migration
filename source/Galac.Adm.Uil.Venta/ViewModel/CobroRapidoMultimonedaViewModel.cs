@@ -21,7 +21,7 @@ using Galac.Adm.IntegracionMS.Venta;
 using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CobroRapidoMultimonedaViewModel : CobroRapidoVzlaViewModelBase {
+    public class CobroRapidoMultimonedaViewModel: CobroRapidoVzlaViewModelBase {
         #region Variables y Constantes
         private const string NombreDeMonedaLocalPropertyName = "NombreDeMonedaLocal";
         private const string NombreDeMonedaDivisaPropertyName = "NombreMonedaDivisa";
@@ -276,9 +276,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        private decimal VueltoEfectivoMonedaLocal { 
-            get; 
-            set; 
+        private decimal VueltoEfectivoMonedaLocal {
+            get;
+            set;
         }
         private decimal VueltoEfectivoDivisas { get; set; }
         private decimal VueltoC2pMonedaLocal { get; set; }
@@ -378,8 +378,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public RelayCommand LimpiarCommand { get; private set; }     
-        
+        public RelayCommand LimpiarCommand { get; private set; }
+
         public RelayCommand VueltoConPagoMovil { get; private set; }
 
         public string IsVisibleSeccionEfectivo {
@@ -504,7 +504,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 return C2PMegasoftNav.EsVisiblePM();
             }
         }
-		
+
         private bool IsVisibleSeccionIGTF {
             get {
                 return _TipoDeContribuyenteIVA == eTipoDeContribuyenteDelIva.ContribuyenteEspecial && (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal);
@@ -543,6 +543,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public bool IsVisibleVuelto {
+            get {
+                return TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal;
+            }
+        }
         #endregion
 
         #region Constructores e Inicializaciores
@@ -579,7 +584,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);            
+            LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
             VueltoConPagoMovil = new RelayCommand(ExecuteVueltoConPagoMovil, CanExecuteVueltoConPagoMovilCommand);
         }
 
@@ -598,8 +603,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipTitle = "Limpiar pantalla (F7)",
                 IsVisible = true,
                 KeyTip = "F7"
-            });            
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() { 
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Vuelto con Pago Móvil",
                 Command = VueltoConPagoMovil,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
@@ -667,7 +672,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             MontoRestantePorPagar = TotalFactura;
             MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
-        }        
+        }
 
         private void ExecuteVueltoConPagoMovil() {
             IC2PMegaSoftMng insVueltoMegasoft = (IC2PMegaSoftMng)new C2PMegasoftNav();

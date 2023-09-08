@@ -13,10 +13,15 @@ using LibGalac.Aos.Dal;
 
 namespace Galac.Adm.Brl.Venta.Reportes {
     public class clsCajaSql {
-        QAdvSql insSql;
+        QAdvSql insSql;         
+        string _CodigoVueltoEfectivo;
+        string _CodigoVueltoPM;
 
         public clsCajaSql() {
             insSql = new QAdvSql("");
+            IRenglonCobroDeFacturaPdn insRenglonCobroDeFacturaPdn = new clsRenglonCobroDeFacturaNav();
+            _CodigoVueltoEfectivo = insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(Saw.Ccl.Tablas.eTipoDeFormaDePago.VueltoEfectivo);
+            _CodigoVueltoPM = insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(Saw.Ccl.Tablas.eTipoDeFormaDePago.VueltoC2P);
         }
         #region Metodos Generados
 
@@ -27,6 +32,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
             vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = vSQLWhere + " AND (renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoEfectivo) + " AND renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoPM) + ") ";
             vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno) {
@@ -152,6 +158,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
             vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = vSQLWhere + " AND (renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoEfectivo) + " AND renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoPM) + ") ";
             vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
             vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
@@ -277,6 +284,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhereFactura = insSql.SqlExpressionValueWithAnd(vSQLWhereFactura, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhereFactura = vSQLWhereFactura + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
             vSQLWhereFactura = vSQLWhereFactura + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhereFactura = vSQLWhereFactura + " AND (renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoEfectivo) + " AND renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoPM) + ") ";
             vSQLWhereFactura = insSql.SqlDateValueBetween(vSQLWhereFactura, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhereFactura = insSql.SqlExpressionValueWithAnd(vSQLWhereFactura, "factura.GeneraCobroDirecto", insSql.ToSqlValue(LibConvert.BoolToSN(true)));
             if (valCantidadOperadorDeReporte == Saw.Lib.eCantidadAImprimir.Uno && !LibString.IsNullOrEmpty(valNombreDelOperador)) {
@@ -463,6 +471,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
             vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = vSQLWhere + " AND (renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoEfectivo) + " AND renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoPM) + ") ";
             vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
             vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
@@ -539,6 +548,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
             vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = vSQLWhere + " AND (renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoEfectivo) + " AND renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoPM) + ") ";
             vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
             vSQLWhere = insSql.SqlIntValueWithAnd(vSQLWhere, "factura.ConsecutivoCompania", valConsecutivoCompania);
@@ -610,6 +620,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.StatusFactura", insSql.EnumToSqlValue((int)eStatusFactura.Emitida));
             vSQLWhere = vSQLWhere + " AND factura.ConsecutivoCaja" + " <> " + LibConvert.ToStr(vConsecutivoCajaGenerica);
             vSQLWhere = vSQLWhere + " AND factura.TipoDeDocumento IN ( " + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.Factura) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.ComprobanteFiscal) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCredito) + "," + insSql.EnumToSqlValue((int)eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal) + ")";
+            vSQLWhere = vSQLWhere + " AND (renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoEfectivo) + " AND renglonCobroDeFactura.CodigoFormaDelCobro  <> " + insSql.ToSqlValue(_CodigoVueltoPM) + ") ";
             vSQLWhere = insSql.SqlDateValueBetween(vSQLWhere, "factura.fecha", valFechaInicial, valFechaFinal);
             vSQLWhere = insSql.SqlExpressionValueWithAnd(vSQLWhere, "factura.GeneraCobroDirecto", insSql.ToSqlValue("S"));
             #region Manejo para Fechas de Apertura y Cierre de Caja            
