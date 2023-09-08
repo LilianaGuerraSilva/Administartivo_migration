@@ -531,7 +531,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsEnableVuelto {
             get {
-                return MontoRestantePorPagar <= 0 || MontoRestantePorPagarEnDivisas <= 0;                
+                return (TotalAPagarML - (EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal + VueltoEnMonedaLocal) < 0) ||
+                       (TotalAPagarME - (EfectivoEnDivisas + TransferenciaEnDivisas + VueltoEnDivisas) < 0);
             }
         }
 
@@ -734,6 +735,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         public override void CalcularTotales() {
+            LimpiarVuelto();
             decimal TotalPagosMe = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) - LibMath.Abs(VueltoEnDivisas);
             decimal TotalPagoML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal);
             MontoRestantePorPagar = LibMath.RoundToNDecimals(TotalAPagarML - (TotalPagoML + LibMath.RoundToNDecimals(TotalPagosMe * CambioAMonedaLocal, 2)), 2);
@@ -748,6 +750,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaisePropertyChanged(TotalAPagarMLParaMostrarPropertyName);
             RaisePropertyChanged(TotalAPagarMEParaMostrarPropertyName);
             RaisePropertyChanged(IsEnableVueltoPropertyName);
+        }
+
+        private void LimpiarVuelto() {
+            decimal TotalPagosMe = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas);
+            decimal TotalPagoML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal);
+            if (TotalPagoML == 0 && TotalPagosMe == 0) {
+                VueltoEnMonedaLocal = 0;
+                VueltoEnDivisas = 0;
+            }
         }
 
         private void AsignarTasaDeCambioDelDia(string valCodigoMoneda, DateTime valFechaDeVigencia) {
