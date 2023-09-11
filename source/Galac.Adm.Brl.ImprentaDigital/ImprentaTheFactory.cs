@@ -213,7 +213,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vHoraEmision = LibString.Replace(vHoraEmision, ".", "");
             XElement vResult = new XElement("identificacionDocumento",
                     new XElement("TipoDocumento", GetTipoDocumento(_TipoDeDocumento)),
-                    new XElement("numeroDocumento", LibText.FillWithCharToLeft(LibString.SubString(FacturaImprentaDigital.Numero, LibString.Len(FacturaImprentaDigital.Numero) - 8, 8), "0", 8)),
+                    new XElement("numeroDocumento", LibText.FillWithCharToLeft(LibString.SubString(FacturaImprentaDigital.Numero, LibString.Len(FacturaImprentaDigital.Numero) - 11, 11), "0", 11)),
                     new XElement("tipoproveedor", _TipoDeProveedor),
                     new XElement("tipoTransaccion", GetTipoTransaccion(FacturaImprentaDigital.TipoDeTransaccionAsEnum)),
                     new XElement("fechaEmision", LibConvert.ToStr(FacturaImprentaDigital.Fecha)),
@@ -226,7 +226,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("moneda", FacturaImprentaDigital.CodigoMoneda));
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add(new XElement("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada)));
-                vResult.Add(new XElement("numeroFacturaAfectada", LibString.Right(FacturaImprentaDigital.NumeroFacturaAfectada, 8)));
+                vResult.Add(new XElement("numeroFacturaAfectada", LibString.Right(FacturaImprentaDigital.NumeroFacturaAfectada, 11)));
                 vResult.Add(new XElement("serieFacturaAfectada", vSerie));
                 vResult.Add(new XElement("montoFacturaAfectada", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))));
                 vResult.Add(new XElement("comentarioFacturaAfectada", FacturaImprentaDigital.Observaciones));
