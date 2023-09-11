@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace Galac.Saw.Lib {
     public static class ConfigHelper {
-        public static void AddKeyToAppSettings(string valKey, string valValue) {
+        public static void AddKeyToAppSettings(string valKey, string valValue) {           
             string vConfigurationFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
             string vAppSettingsFileName = "";
             string vConfigFileName = System.IO.Path.GetFileName(vConfigurationFile);
@@ -28,6 +28,10 @@ namespace Galac.Saw.Lib {
             XmlElement vAppSettings = vAppSettingsFile.DocumentElement;
             bool vContinue = false;
             foreach (XmlNode item in vAppSettings.ChildNodes) {
+                if (vContinue) {
+                    vContinue = false;
+                    break;
+                }
                 foreach (XmlAttribute item1 in item.Attributes) {
                     if (vContinue) {
                         item1.Value = valValue;
