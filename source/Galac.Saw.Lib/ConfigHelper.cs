@@ -38,8 +38,7 @@ namespace Galac.Saw.Lib {
                             vContinue = true;
                             x.Value = valValue;
                             break;
-                        }
-                       
+                        }                       
                     }
                 }
             }
