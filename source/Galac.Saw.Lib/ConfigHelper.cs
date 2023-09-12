@@ -28,17 +28,18 @@ namespace Galac.Saw.Lib {
             XmlElement vAppSettings = vAppSettingsFile.DocumentElement;
             bool vContinue = false;
             foreach (XmlNode item in vAppSettings.ChildNodes) {
-                if (vContinue) {
-                    vContinue = false;
+                if (vContinue) {                   
                     break;
                 }
-                foreach (XmlAttribute item1 in item.Attributes) {
-                    if (vContinue) {
-                        item1.Value = valValue;
-                        break;
-                    }
-                    if (LibString.S1IsEqualToS2(item1.Name, "key") && LibString.S1IsEqualToS2(item1.Value, valKey)) {
-                        vContinue = true;
+                foreach (XmlAttribute item1 in item.Attributes) {                    
+                    if (LibString.S1IsEqualToS2(item1.Name, "key") && LibString.S1IsEqualToS2(item1.Value, valKey)) {                       
+                        var x = item.Attributes["value"];
+                        if (x != null) {
+                            vContinue = true;
+                            x.Value = valValue;
+                            break;
+                        }
+                       
                     }
                 }
             }
