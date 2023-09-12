@@ -33,10 +33,10 @@ namespace Galac.Saw.Lib {
                 }
                 foreach (XmlAttribute item1 in item.Attributes) {                    
                     if (LibString.S1IsEqualToS2(item1.Name, "key") && LibString.S1IsEqualToS2(item1.Value, valKey)) {                       
-                        var x = item.Attributes["value"];
-                        if (x != null) {
+                        var vAttribute = item.Attributes["value"];
+                        if (vAttribute != null) {
                             vContinue = true;
-                            x.Value = valValue;
+                            vAttribute.Value = valValue;
                             break;
                         }                       
                     }
