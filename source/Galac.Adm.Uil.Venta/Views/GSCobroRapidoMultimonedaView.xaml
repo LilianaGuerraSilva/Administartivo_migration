@@ -602,7 +602,7 @@
             FontWeight="Bold"
             Header="VUELTO"
             Style="{StaticResource GroupBoxStyle}"
-            Visibility="Visible">
+            Visibility="{Binding Path=IsVisibleVuelto, Converter={StaticResource booleanToVisibilityConverter}}">
             <Grid Name="tbiSeccionVuelto" Height="auto">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -690,67 +690,67 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    Margin="2"
+                    Background="{Binding Path=BGColor}"
+                    BorderThickness="1"
+                    CornerRadius="5" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Height="30"
+                    Margin="2,1,2,7"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="{Binding Mode=OneWay, Path=lblPorPagarYVuelto}"
+                    FontFamily="Calibri"
+                    FontSize="20"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Style="{StaticResource LabelPrompt}" />
+                <nsWpfControls:GSNumericBoxWpfSch
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Height="28"
+                    Margin="8,2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Focusable="False"
+                    FontFamily="Calibri"
+                    FontSize="20"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Text="{Binding Mode=OneWay, Path=MontoRestantePorPagarEnMonedaLocalParaMostrar}" />
+                <nsWpfControls:GSNumericBoxWpfSch
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Height="28"
+                    Margin="8,2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    DecimalDigits="2"
+                    Focusable="False"
+                    FontFamily="Calibri"
+                    FontSize="20"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    InputDataType="igDec"
+                    Text="{Binding Mode=OneWay, Path=MontoRestantePorPagarEnDivisasParaMostrar}" />
             </Grid>
         </GroupBox>
-        <Border
-            Grid.Row="8"
-            Grid.Column="0"
-            Grid.ColumnSpan="4"
-            Margin="2"
-            Background="{Binding Path=BGColor}"
-            BorderThickness="1"
-            CornerRadius="5" />
-        <Label
-            Grid.Row="8"
-            Grid.Column="0"
-            Height="30"
-            Margin="2,1,2,7"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"
-            Content="{Binding Mode=OneWay, Path=lblPorPagarYVuelto}"
-            FontFamily="Calibri"
-            FontSize="20"
-            FontStyle="Normal"
-            FontWeight="Bold"
-            Foreground="White"
-            Style="{StaticResource LabelPrompt}" />
-        <nsWpfControls:GSNumericBoxWpfSch
-            Grid.Row="8"
-            Grid.Column="1"
-            Height="28"
-            Margin="8,2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            HorizontalContentAlignment="Center"
-            Background="Transparent"
-            BorderThickness="0"
-            Focusable="False"
-            FontFamily="Calibri"
-            FontSize="20"
-            FontStyle="Normal"
-            FontWeight="Bold"
-            Foreground="White"
-            Text="{Binding Mode=OneWay, Path=MontoRestantePorPagarEnMonedaLocalParaMostrar}" />
-        <nsWpfControls:GSNumericBoxWpfSch
-            Grid.Row="8"
-            Grid.Column="3"
-            Height="28"
-            Margin="8,2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            HorizontalContentAlignment="Center"
-            Background="Transparent"
-            BorderThickness="0"
-            DecimalDigits="2"
-            Focusable="False"
-            FontFamily="Calibri"
-            FontSize="20"
-            FontStyle="Normal"
-            FontWeight="Bold"
-            Foreground="White"
-            InputDataType="igDec"
-            Text="{Binding Mode=OneWay, Path=MontoRestantePorPagarEnDivisasParaMostrar}" />
     </Grid>
 </UserControl>
