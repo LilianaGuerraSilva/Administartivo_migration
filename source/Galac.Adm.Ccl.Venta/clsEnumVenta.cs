@@ -213,7 +213,7 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Anticipo", Index = 0)]
         [LibEnumDescription("00005", Index = 1)]
         Anticipo,
-        [LibEnumDescription("VueltoEfectivo", Index = 0)]
+        [LibEnumDescription("Vuelto Efectivo", Index = 0)]
         [LibEnumDescription("00007", Index = 1)]
         VueltoEfectivo
     }
