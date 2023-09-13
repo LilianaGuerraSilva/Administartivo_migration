@@ -9,14 +9,14 @@
     <LibGalacXtmCI>2201</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>ND</SawEnum>
-    <SawImportExport>ND</SawImportExport>
-    <SawMaquinaFiscal>ND</SawMaquinaFiscal>
-    <SawNav>ND</SawNav>
-    <SawRpt>ND</SawRpt>
-    <SawSP>ND</SawSP>
-    <SawTbls>ND</SawTbls>
-    <SawVista>ND</SawVista>    
+    <SawEnum>2307</SawEnum>
+    <SawImportExport>2307</SawImportExport>
+    <SawMaquinaFiscal>2307</SawMaquinaFiscal>
+    <SawNav>2307</SawNav>
+    <SawRpt>2307</SawRpt>
+    <SawSP>2307</SawSP>
+    <SawTbls>2307</SawTbls>
+    <SawVista>2307</SawVista>    
     <ContabRpt>2301</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
