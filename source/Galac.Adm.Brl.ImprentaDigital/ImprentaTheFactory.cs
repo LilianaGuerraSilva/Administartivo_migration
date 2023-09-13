@@ -191,6 +191,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             XElement vVendedor = GetDatosVendedor();
             XElement vComprador = GetDatosComprador();
             XElement vTotales = GetTotales();
+            XElement vTotalesME = GetTotalesME();
             var vObservaciones = GetDatosInfoAdicional().Descendants("InfoAdicional");
             var vDetalleFactura = GetDetalleFactura().Descendants("detallesItems");
             vDocumentoDigital = new XElement("documentoElectronico", new XElement("encabezado"));
@@ -198,6 +199,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vDocumentoDigital.Element("encabezado").Add(vVendedor);
             vDocumentoDigital.Element("encabezado").Add(vComprador);
             vDocumentoDigital.Element("encabezado").Add(vTotales);
+            vDocumentoDigital.Element("encabezado").Add(vTotalesME);
             vDocumentoDigital.Add(vDetalleFactura);
             if (_TipoDeDocumento == eTipoDocumentoFactura.Factura) {
                 vDocumentoDigital.Add(vObservaciones);
@@ -213,7 +215,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vHoraEmision = LibString.Replace(vHoraEmision, ".", "");
             XElement vResult = new XElement("identificacionDocumento",
                     new XElement("TipoDocumento", GetTipoDocumento(_TipoDeDocumento)),
-                    new XElement("numeroDocumento", LibText.FillWithCharToLeft(LibString.SubString(FacturaImprentaDigital.Numero, LibString.Len(FacturaImprentaDigital.Numero) - 8, 8), "0", 8)),
+                    new XElement("numeroDocumento", AjustarNumeroDeDocumento(FacturaImprentaDigital.Numero)),
                     new XElement("tipoproveedor", _TipoDeProveedor),
                     new XElement("tipoTransaccion", GetTipoTransaccion(FacturaImprentaDigital.TipoDeTransaccionAsEnum)),
                     new XElement("fechaEmision", LibConvert.ToStr(FacturaImprentaDigital.Fecha)),
@@ -226,13 +228,27 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("moneda", FacturaImprentaDigital.CodigoMoneda));
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add(new XElement("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada)));
-                vResult.Add(new XElement("numeroFacturaAfectada", LibString.Right(FacturaImprentaDigital.NumeroFacturaAfectada, 8)));
+                vResult.Add(new XElement("numeroFacturaAfectada", LibString.Right(FacturaImprentaDigital.NumeroFacturaAfectada, 11)));
                 vResult.Add(new XElement("serieFacturaAfectada", vSerie));
                 vResult.Add(new XElement("montoFacturaAfectada", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))));
                 vResult.Add(new XElement("comentarioFacturaAfectada", FacturaImprentaDigital.Observaciones));
             }
             return vResult;
         }
+
+        private string AjustarNumeroDeDocumento(string valNumeroDocumento) {
+            string vResult = "";
+            if (!LibString.IsNullOrEmpty(valNumeroDocumento)) {
+                int vSeparadorPrefijo = LibString.IndexOf(valNumeroDocumento, '-');
+                if (vSeparadorPrefijo > 0) {
+                    vResult = LibText.FillWithCharToLeft(LibString.SubString(valNumeroDocumento, vSeparadorPrefijo + 1, 11), "0", 11);
+                } else {
+                    vResult = LibText.FillWithCharToLeft(LibString.SubString(valNumeroDocumento, LibString.Len(valNumeroDocumento) - 11, 11), "0", 11);
+                }
+            }
+            return vResult;
+        }
+
         #endregion Identificacion de Documento
         #region vendedor
         private XElement GetDatosVendedor() {
@@ -284,41 +300,46 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private XElement GetDatosInfoAdicional() {
             XElement vResult = new XElement("InfoAdicional",
                 new XElement("InfoAdicional",
-                    new XElement("Posicion", "1,2"),
+                    new XElement("Posicion", "1,3"),
                     new XElement("Campo", "Información Adicional"),
                     new XElement("Valor", "Temporal")),
                 new XElement("InfoAdicional",
                     new XElement("Posicion", "1,1"),
                     new XElement("Campo", "Observaciones"),
-                    new XElement("Valor", FacturaImprentaDigital.Observaciones)));
+                    new XElement("Valor", FacturaImprentaDigital.Observaciones)),
+                new XElement("InfoAdicional",
+                    new XElement("Posicion", "1,2"),
+                    new XElement("Campo", "Ciudad"),
+                    new XElement("Valor", ClienteImprentaDigital.Ciudad)));
             return vResult;
         }
         #endregion InfoAdicional
 
 
         #region Impuestos
-        private XElement GetTotalImpuestos() {
+        private XElement GetTotalImpuestos(bool valParaMe) {
+            decimal vCambioBs = (valParaMe ? FacturaImprentaDigital.CambioMostrarTotalEnDivisas : 1);
             XElement vResult = new XElement("impuestosSubtotal",
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Exento)),
                     new XElement("AlicuotaImp", 0m),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento, 2))),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento / vCambioBs, 2))),
                     new XElement("ValorTotalImp", 0m)),
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.AlicuotaGeneral)),
                     new XElement("AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota1, 2)),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota1, 2))),
-                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota1, 2)))),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota1 / vCambioBs, 2))),
+                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota1 / vCambioBs, 2)))),
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Alicuota2)),
                     new XElement("AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota2, 2)),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota2, 2))),
-                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota2, 2)))),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota2 / vCambioBs, 2))),
+                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota2 / vCambioBs, 2)))),
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", GetAlicuota(eTipoDeAlicuota.Alicuota3)),
                     new XElement("AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.PorcentajeAlicuota3, 2)),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota3, 2))),
-                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota3, 2)))),
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoGravableAlicuota3 / vCambioBs, 2))),
+                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoIvaAlicuota3 / vCambioBs, 2)))),
                   new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", "P"), // Percibido -> SAW No lo maneja pero JSON lo requiere
                     new XElement("AlicuotaImp", 0m),
@@ -327,8 +348,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 new XElement("impuestosSubtotal",
                     new XElement("CodigoTotalImp", "IGTF"),
                     new XElement("AlicuotaImp", LibMath.RoundToNDecimals(FacturaImprentaDigital.AlicuotaIGTF, 2)),
-                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.BaseImponibleIGTF, 2))),
-                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.IGTFML, 2)))));
+                    new XElement("BaseImponibleImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.BaseImponibleIGTF / vCambioBs, 2))),
+                    new XElement("ValorTotalImp", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.IGTFML / vCambioBs, 2)))));
             return vResult;
         }
         #endregion Impuestos
@@ -343,7 +364,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             if (FacturaImprentaDigital.BaseImponibleIGTF > 0) { // Pagos en ML
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "09" : "99";
                 vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4);
-                vCodigoMoneda = FacturaImprentaDigital.CodigoMonedaDeCobro;
+                vCodigoMoneda = FacturaImprentaDigital.CodigoMonedaDeCobro == CodigoMonedaME ? FacturaImprentaDigital.CodigoMonedaDeCobro : CodigoMonedaME;
                 vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, 2));
                 vResult.Add(
                     new XElement("formasPago",
@@ -354,7 +375,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("tipoCambio", vCambioBs)));
             } else {
                 vFormaDeCobro = FacturaImprentaDigital.FormaDeCobroAsEnum == eTipoDeFormaDeCobro.Efectivo ? "08" : "99";
-                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioABolivares, 4);
+                vCambioBs = LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4);
                 vCodigoMoneda = FacturaImprentaDigital.CodigoMoneda;
                 vMonto = LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2));
                 vResult.Add(new XElement("forma", GetFormaDeCobro(FacturaImprentaDigital.FormaDeCobroAsEnum)),
@@ -389,10 +410,27 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))),
                new XElement("montoEnLetras", LibConvert.ToNumberInLetters(FacturaImprentaDigital.TotalFactura, false, "")),
                new XElement("totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1, 2))));
-            vResult.Add(GetTotalImpuestos().Descendants("impuestosSubtotal"));
+            vResult.Add(GetTotalImpuestos(false).Descendants("impuestosSubtotal"));
             vResult.Add(GetFormasPago().Descendants("formasPago"));
             return vResult;
         }
+
+        private XElement GetTotalesME() {            
+            XElement vResult = new XElement("TotalesOtraMoneda",
+               new XElement("moneda", CodigoMonedaME),
+               new XElement("tipoCambio", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("montoGravadoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("montoExentoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("subtotal", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("montoEnLetras", LibConvert.ToNumberInLetters(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2), false, "")),
+               new XElement("totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1 / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))));
+            vResult.Add(GetTotalImpuestos(true).Descendants("impuestosSubtotal"));
+            return vResult;
+        }
+
         #endregion Totales
         #region Detalle RenglonFactura
         public XElement GetDetalleFactura() {
