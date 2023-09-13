@@ -300,13 +300,17 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private XElement GetDatosInfoAdicional() {
             XElement vResult = new XElement("InfoAdicional",
                 new XElement("InfoAdicional",
-                    new XElement("Posicion", "1,2"),
+                    new XElement("Posicion", "1,3"),
                     new XElement("Campo", "Información Adicional"),
                     new XElement("Valor", "Temporal")),
                 new XElement("InfoAdicional",
                     new XElement("Posicion", "1,1"),
                     new XElement("Campo", "Observaciones"),
-                    new XElement("Valor", FacturaImprentaDigital.Observaciones)));
+                    new XElement("Valor", FacturaImprentaDigital.Observaciones)),
+                new XElement("InfoAdicional",
+                    new XElement("Posicion", "1,2"),
+                    new XElement("Campo", "Ciudad"),
+                    new XElement("Valor", ClienteImprentaDigital.Ciudad)));
             return vResult;
         }
         #endregion InfoAdicional
