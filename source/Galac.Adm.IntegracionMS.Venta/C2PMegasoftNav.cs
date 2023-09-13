@@ -272,7 +272,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return JsonConvert.DeserializeObject<T>(json);  
         }
         public static bool EsVisiblePM() {
-            return false;
+            return true;
         }
     }
 

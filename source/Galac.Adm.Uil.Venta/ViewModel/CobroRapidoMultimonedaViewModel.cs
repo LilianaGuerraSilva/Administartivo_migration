@@ -675,12 +675,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteVueltoConPagoMovil() {
-            IC2PMegaSoftMng insVueltoMegasoft = (IC2PMegaSoftMng)new C2PMegasoftNav();
+            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
             //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-            insVueltoMegasoft.EjecutaVueltoPagoMovil(CodigoCliente, NumeroFactura, MontoRestantePorPagar);
-            VueltoC2pMonedaLocal = insVueltoMegasoft.MontoVueltoPagoMovil;
-            VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);
-            NumeroControlVueltoPagoMovil = insVueltoMegasoft.NumeroControlVueltoPagoMovil;
+            VueltoC2pMonedaLocal = MontoRestantePorPagar;
+            insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibConvert.ToStr(VueltoC2pMonedaLocal, 2));           
+            VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);            
         }
 
         protected override void ExecuteCancel() {
