@@ -24,6 +24,7 @@ namespace Galac.Adm.Ccl.Venta {
         private decimal _MontoCheque;
         private decimal _MontoDeposito;
         private decimal _MontoAnticipo;
+        private decimal _MontoVuelto;
         private DateTime _Fecha;
         private string _HoraApertura;
         private string _HoraCierre;
@@ -38,6 +39,7 @@ namespace Galac.Adm.Ccl.Venta {
         private decimal _MontoChequeME;
         private decimal _MontoDepositoME;
         private decimal _MontoAnticipoME;
+        private decimal _MontoVueltoME;
         private string _NombreOperador;
         private DateTime _FechaUltimaModificacion;
         private long _fldTimeStamp;
@@ -103,6 +105,11 @@ namespace Galac.Adm.Ccl.Venta {
         public decimal MontoAnticipo {
             get { return _MontoAnticipo; }
             set { _MontoAnticipo = value; }
+        }
+
+        public decimal MontoVuelto {
+            get { return _MontoVuelto; }
+            set { _MontoVuelto = value; }
         }
 
         public DateTime Fecha {
@@ -180,6 +187,11 @@ namespace Galac.Adm.Ccl.Venta {
             set { _MontoAnticipoME = value; }
         }
 
+        public decimal MontoVueltoME {
+            get { return _MontoVueltoME; }
+            set { _MontoVueltoME = value; }
+        }
+
         public string NombreOperador {
             get { return _NombreOperador; }
             set { _NombreOperador = LibString.Mid(value, 0, 10); }
@@ -225,6 +237,7 @@ namespace Galac.Adm.Ccl.Venta {
             MontoCheque = 0;
             MontoDeposito = 0;
             MontoAnticipo = 0;
+            MontoVuelto = 0;
             Fecha = LibDate.Today();
             HoraApertura = string.Empty;
             HoraCierre = string.Empty;
@@ -239,6 +252,7 @@ namespace Galac.Adm.Ccl.Venta {
             MontoChequeME = 0;
             MontoDepositoME = 0;
             MontoAnticipoME = 0;
+            MontoVueltoME = 0;
             NombreOperador = string.Empty;
             FechaUltimaModificacion = LibDate.Today();
             fldTimeStamp = 0;
@@ -258,6 +272,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.MontoCheque = _MontoCheque;
             vResult.MontoDeposito = _MontoDeposito;
             vResult.MontoAnticipo = _MontoAnticipo;
+            vResult.MontoVuelto = _MontoVuelto;
             vResult.Fecha = _Fecha;
             vResult.HoraApertura = _HoraApertura;
             vResult.HoraCierre = _HoraCierre;
@@ -272,6 +287,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.MontoChequeME = _MontoChequeME;
             vResult.MontoDepositoME = _MontoDepositoME;
             vResult.MontoAnticipoME = _MontoAnticipoME;
+            vResult.MontoVueltoME = _MontoVueltoME;
             vResult.NombreOperador = _NombreOperador;
             vResult.FechaUltimaModificacion = _FechaUltimaModificacion;
             vResult.fldTimeStamp = _fldTimeStamp;
@@ -290,6 +306,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nMonto Cheque = " + _MontoCheque.ToString() +
                "\nMonto Deposito = " + _MontoDeposito.ToString() +
                "\nMonto Anticipo = " + _MontoAnticipo.ToString() +
+               "\nMonto Vuelto = " + _MontoVuelto.ToString() +
                "\nFecha = " + _Fecha.ToShortDateString() +
                "\nHora Apertura = " + _HoraApertura +
                "\nHora Cierre = " + _HoraCierre +
@@ -303,6 +320,7 @@ namespace Galac.Adm.Ccl.Venta {
                "\nMonto Cheque ME = " + _MontoChequeME.ToString() +
                "\nMonto Deposito ME = " + _MontoDepositoME.ToString() +
                "\nMonto Anticipo ME = " + _MontoAnticipoME.ToString() +
+               "\nMonto Vuelto ME = " + _MontoVueltoME.ToString() +
                "\nNombre Operador = " + _NombreOperador +
                "\nFecha Ultima Modificacion = " + _FechaUltimaModificacion.ToShortDateString();
         }

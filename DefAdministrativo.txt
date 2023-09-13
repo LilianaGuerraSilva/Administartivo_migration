@@ -2631,7 +2631,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 	@PrimaryKey=ConsecutivoCompania,Consecutivo
  }
 
-{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme
+{@S}CajaApertura = Record //Multiarchivo=Compania, "Caja Apertura", Componente=Venta, Esquema=Adm, EsquemaBD=Adm,GenerateRptConfigurar,GenerateFrmInforme, GENERATE
 	ConsecutivoCompania	: LongInt;//o,HIDE
 	Consecutivo   		: LongInt;//u,o,a,sugestconsecutive
 	ConsecutivoCaja     : Long;//Hide,=Caja.ConsecutivoCaja
@@ -2644,6 +2644,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
 	MontoCheque 		: Decimal;
    	MontoDeposito		: Decimal;
     MontoAnticipo		: Decimal;
+	MontoVuelto			: Decimal;
 	Fecha			: date;//a
 	HoraApertura		: Str5;//a
     HoraCierre		    : Str5;//a
@@ -2658,6 +2659,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
     MontoChequeME 		: Decimal;
     MontoDepositoME		: Decimal;
     MontoAnticipoME		: Decimal;
+	MontoVueltoME		: Decimal;
 	NombreOperador		: Str10;//a
 	FechaUltimaModificacion	: date;//a
 	@PrimaryKey=ConsecutivoCompania,Consecutivo,ConsecutivoCaja
@@ -4544,7 +4546,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	@UniqueKey=ConsecutivoCompania,Descripcion 
 }
 
-{@F}C2PMegasoft = record // "Cambio por Pago Móvil C2P",Esquema=Adm,Componente=Venta,GENERATE
+{@F}C2PMegasoft = record // "Cambio por Pago Móvil C2P",Esquema=Adm,Componente=Venta
 	CodigoAfiliacion	: Str20;//"Código Afiliación"
 	NroControl		: Str20;//"Nro. Control"
 	NombreCliente		: Str50;//"Cliente"
@@ -4559,7 +4561,7 @@ SeccionOrdenDeCompraDetalleArticuloInventario : seccion //"Items", Detail=OrdenD
 	Vuelto			: decimal;//"Vuelto
 }
 
-{@F}VueltoEfectivo = record //"Vuelto efectivo",Esquema=Adm,Componente=Venta,GENERATE
+{@F}VueltoEfectivo = record //"Vuelto efectivo",Esquema=Adm,Componente=Venta
 	TasaDeCambio	: label//"Tasa de Cambio"
 	EfectivoMonedaLocal	: decimal;//"Bolívar"
 	EfectivoMonedaDivisa	: decimal;//"Divisa"
