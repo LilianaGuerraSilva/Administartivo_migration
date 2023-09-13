@@ -11,7 +11,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			StartConnectionNoTransaction();			
 			AgregaNuevosRegistrosTipoFormaDelCobro();		
 			ExtiendeLongitudCampoDefinibleCliente();
-            DisposeConnectionNoTransaction();
+			CamposMonedaExtranjeraEnCajaApertura();
+			DisposeConnectionNoTransaction();
 			return true;
 		}
 
@@ -31,6 +32,15 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES ");
 			vSql.AppendLine("(" + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue("VUELTO") + ", " + _insSql.EnumToSqlValue((int)valFormaDelCobro) + ")");
 			Execute(vSql.ToString());
+		}
+
+		private void CamposMonedaExtranjeraEnCajaApertura() {
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoVuelto", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoVuel", "0", "MontoVuelto");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoVueltoME", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoVuelME", "0", "MontoVueltoME");
+			}
 		}
 	}
 }   

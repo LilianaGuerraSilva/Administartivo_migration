@@ -59,6 +59,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("MontoCheque" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_CajApeMoCh DEFAULT (0), ");
             SQL.AppendLine("MontoDeposito" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_CajApeMoDe DEFAULT (0), ");
             SQL.AppendLine("MontoAnticipo" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_CajApeMoAn DEFAULT (0), ");
+            SQL.AppendLine("MontoVuelto" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_CajApeMoVu DEFAULT (0), ");
             SQL.AppendLine("Fecha" + InsSql.DateTypeForDb() + " CONSTRAINT d_CajApeFe DEFAULT (''), ");
             SQL.AppendLine("HoraApertura" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CajApeHoAp DEFAULT (''), ");
             SQL.AppendLine("HoraCierre" + InsSql.VarCharTypeForDb(5) + " CONSTRAINT d_CajApeHoCi DEFAULT (''), ");
@@ -72,6 +73,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("MontoChequeME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoChME DEFAULT (0), ");
             SQL.AppendLine("MontoDepositoME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoDeME DEFAULT (0), ");
             SQL.AppendLine("MontoAnticipoME" + InsSql.DecimalTypeForDb(25, 4) + " CONSTRAINT d_CajApeMoAnME DEFAULT (0), ");
+            SQL.AppendLine("MontoVueltoME" + InsSql.DecimalTypeForDb(25,4) + " CONSTRAINT d_CajApeMoVuME DEFAULT (0), ");
             SQL.AppendLine("NombreOperador" + InsSql.VarCharTypeForDb(10) + ", ");
             SQL.AppendLine("FechaUltimaModificacion" + InsSql.DateTypeForDb() + ", ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
@@ -93,10 +95,10 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT CajaApertura.ConsecutivoCompania, CajaApertura.Consecutivo, CajaApertura.ConsecutivoCaja, CajaApertura.NombreDelUsuario");
             SQL.AppendLine(", CajaApertura.MontoApertura, CajaApertura.MontoCierre, CajaApertura.MontoEfectivo, CajaApertura.MontoTarjeta");
-            SQL.AppendLine(", CajaApertura.MontoCheque, CajaApertura.MontoDeposito, CajaApertura.MontoAnticipo, CajaApertura.Fecha");
+            SQL.AppendLine(", CajaApertura.MontoCheque, CajaApertura.MontoDeposito, CajaApertura.MontoAnticipo, CajaApertura.Fecha, CajaApertura.MontoVuelto");
             SQL.AppendLine(", CajaApertura.HoraApertura, CajaApertura.HoraCierre, CajaApertura.CajaCerrada, CajaApertura.CodigoMoneda");
             SQL.AppendLine(", CajaApertura.Cambio, CajaApertura.MontoAperturaME, CajaApertura.MontoCierreME, CajaApertura.MontoEfectivoME");
-            SQL.AppendLine(", CajaApertura.MontoTarjetaME, CajaApertura.MontoChequeME, CajaApertura.MontoDepositoME, CajaApertura.MontoAnticipoME");
+            SQL.AppendLine(", CajaApertura.MontoTarjetaME, CajaApertura.MontoChequeME, CajaApertura.MontoDepositoME, CajaApertura.MontoAnticipoME, CajaApertura.MontoVueltoME");
             SQL.AppendLine(", CajaApertura.NombreOperador, CajaApertura.FechaUltimaModificacion");
             SQL.AppendLine(", CajaApertura.fldTimeStamp, CAST(CajaApertura.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".CajaApertura");
@@ -121,6 +123,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@MontoCheque" + InsSql.DecimalTypeForDb(25,4) + " = 0,");
             SQL.AppendLine("@MontoDeposito" + InsSql.DecimalTypeForDb(25,4) + " = 0,");
             SQL.AppendLine("@MontoAnticipo" + InsSql.DecimalTypeForDb(25,4) + " = 0,");
+            SQL.AppendLine("@MontoVuelto" + InsSql.DecimalTypeForDb(25,4) + " = 0,");
             SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + " = '01/01/1900',");
             SQL.AppendLine("@HoraApertura" + InsSql.VarCharTypeForDb(5) + " = '',");
             SQL.AppendLine("@HoraCierre" + InsSql.VarCharTypeForDb(5) + " = '',");
@@ -134,6 +137,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@MontoChequeME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@MontoDepositoME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@MontoAnticipoME" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
+            SQL.AppendLine("@MontoVueltoME" + InsSql.DecimalTypeForDb(25,4) + " = 0,");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + " = '',");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + " = '01/01/1900'");
             return SQL.ToString();
@@ -160,6 +164,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            MontoCheque,");
             SQL.AppendLine("            MontoDeposito,");
             SQL.AppendLine("            MontoAnticipo,");
+            SQL.AppendLine("            MontoVuelto,");
             SQL.AppendLine("            Fecha,");
             SQL.AppendLine("            HoraApertura,");
             SQL.AppendLine("            HoraCierre,");
@@ -173,6 +178,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            MontoChequeME,");
             SQL.AppendLine("            MontoDepositoME,");
             SQL.AppendLine("            MontoAnticipoME,");
+            SQL.AppendLine("            MontoVueltoME,");
             SQL.AppendLine("            NombreOperador,");
             SQL.AppendLine("            FechaUltimaModificacion)");
             SQL.AppendLine("            VALUES(");
@@ -187,6 +193,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @MontoCheque,");
             SQL.AppendLine("            @MontoDeposito,");
             SQL.AppendLine("            @MontoAnticipo,");
+            SQL.AppendLine("            @MontoVuelto,");
             SQL.AppendLine("            @Fecha,");
             SQL.AppendLine("            @HoraApertura,");
             SQL.AppendLine("            @HoraCierre,");
@@ -200,6 +207,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @MontoChequeME,");
             SQL.AppendLine("            @MontoDepositoME,");
             SQL.AppendLine("            @MontoAnticipoME,");
+            SQL.AppendLine("            @MontoVueltoME,");
             SQL.AppendLine("            @NombreOperador,");
             SQL.AppendLine("            @FechaUltimaModificacion)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
@@ -226,6 +234,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@MontoCheque" + InsSql.DecimalTypeForDb(25,4) + ",");
             SQL.AppendLine("@MontoDeposito" + InsSql.DecimalTypeForDb(25,4) + ",");
             SQL.AppendLine("@MontoAnticipo" + InsSql.DecimalTypeForDb(25,4) + ",");
+            SQL.AppendLine("@MontoVuelto" + InsSql.DecimalTypeForDb(25,4) + ",");
             SQL.AppendLine("@Fecha" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@HoraApertura" + InsSql.VarCharTypeForDb(5) + ",");
             SQL.AppendLine("@HoraCierre" + InsSql.VarCharTypeForDb(5) + ",");
@@ -239,6 +248,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@MontoChequeME" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@MontoDepositoME" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@MontoAnticipoME" + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@MontoVueltoME" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@NombreOperador" + InsSql.VarCharTypeForDb(10) + ",");
             SQL.AppendLine("@FechaUltimaModificacion" + InsSql.DateTypeForDb() + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
@@ -274,6 +284,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               MontoCheque = @MontoCheque,");
             SQL.AppendLine("               MontoDeposito = @MontoDeposito,");
             SQL.AppendLine("               MontoAnticipo = @MontoAnticipo,");
+            SQL.AppendLine("               MontoVuelto = @MontoVuelto,");
             SQL.AppendLine("               Fecha = @Fecha,");
             SQL.AppendLine("               HoraApertura = @HoraApertura,");
             SQL.AppendLine("               HoraCierre = @HoraCierre,");
@@ -287,6 +298,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               MontoChequeME = @MontoChequeME,");
             SQL.AppendLine("               MontoDepositoME = @MontoDepositoME,");
             SQL.AppendLine("               MontoAnticipoME = @MontoAnticipoME,");
+            SQL.AppendLine("               MontoVueltoME = @MontoVueltoME,");
             SQL.AppendLine("               NombreOperador = @NombreOperador,");
             SQL.AppendLine("               FechaUltimaModificacion = @FechaUltimaModificacion");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
@@ -407,6 +419,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         CajaApertura.MontoCheque,");
             SQL.AppendLine("         CajaApertura.MontoDeposito,");
             SQL.AppendLine("         CajaApertura.MontoAnticipo,");
+            SQL.AppendLine("         CajaApertura.MontoVuelto,");
             SQL.AppendLine("         CajaApertura.Fecha,");
             SQL.AppendLine("         CajaApertura.HoraApertura,");
             SQL.AppendLine("         CajaApertura.HoraCierre,");
@@ -420,6 +433,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         CajaApertura.MontoChequeME,");
             SQL.AppendLine("         CajaApertura.MontoDepositoME,");
             SQL.AppendLine("         CajaApertura.MontoAnticipoME,");
+            SQL.AppendLine("         CajaApertura.MontoVueltoME,");
             SQL.AppendLine("         CajaApertura.NombreOperador,");
             SQL.AppendLine("         CajaApertura.FechaUltimaModificacion,");
             SQL.AppendLine("         CAST(CajaApertura.fldTimeStamp AS bigint) AS fldTimeStampBigint,");

@@ -37,7 +37,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Name="StatusCaja"
+        <Grid
+            Name="StatusCaja"
             Grid.Row="0"
             Grid.Column="0"
             Margin="0,0,67,0">
@@ -62,7 +63,8 @@
                 Style="{StaticResource LabelStatusBlue}"
                 Visibility="{Binding Path=ShowStatusCajaAbierta, Converter={StaticResource booleanToVisibilityConverter}}" />
         </Grid>
-        <Grid Name="Encabezado"
+        <Grid
+            Name="Encabezado"
             Grid.Row="1"
             Grid.Column="0"
             Margin="0,0,67,0"
@@ -117,7 +119,8 @@
                 RenderTransformOrigin="-14.469,0.652"
                 SearchCommand="{Binding Path=ChooseNombreDelUsuarioCommand}" />
         </Grid>
-        <Grid Name="Titulos"
+        <Grid
+            Name="Titulos"
             Grid.Row="2"
             Grid.Column="0"
             Margin="0,0,67,0"
@@ -190,7 +193,8 @@
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=Cambio, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Grid Name="Apertura"
+        <Grid
+            Name="Apertura"
             Grid.Row="3"
             Grid.Column="0"
             Margin="0,0,67,0"
@@ -236,7 +240,8 @@
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoAperturaME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
-        <Grid Name="Detalle"
+        <Grid
+            Name="Detalle"
             Grid.Row="4"
             Grid.Column="0"
             Margin="0,0,67,0"
@@ -247,6 +252,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -407,12 +413,40 @@
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoAnticipoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
-            <Line
-                Name="linTotal"
+            <Label
+                Name="lblMontoVuelto"
+                Grid.Row="6"
+                Grid.Column="0"
+                Content="Vuelto Efectivo"
+                Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSNumericBoxWpf
+                Name="txtMontoVuelto"
                 Grid.Row="6"
                 Grid.Column="1"
+                Width="150"
+                DecimalDigits="2"
+                Foreground="Black"
+                InputDataType="UDecimal"
+                IsEnabled="False"
+                Style="{StaticResource TextBoxInputStyle}"
+                Value="{Binding Path=MontoVuelto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            <nsWpfControls:GSNumericBoxWpf
+                Name="txtMontoVueltoME"
+                Grid.Row="6"
+                Grid.Column="2"
+                Width="150"
+                DecimalDigits="2"
+                Foreground="Black"
+                InputDataType="UDecimal"
+                IsEnabled="False"
+                Style="{StaticResource TextBoxInputStyle}"
+                Value="{Binding Path=MontoVueltoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Line
+                Name="linTotal"
+                Grid.Row="7"
+                Grid.Column="1"
                 Grid.ColumnSpan="2"
-                Margin="0,5"
+                Margin="0"
                 HorizontalAlignment="Stretch"
                 Stroke="Black"
                 StrokeThickness="2"
@@ -455,11 +489,10 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
-                Margin="162,3,30,24"
-                HorizontalAlignment="Stretch"
+                Margin="165,0,16,0"
                 StrokeThickness="1"
                 X1="0"
-                X2="145"
+                X2="178"
                 Y1="0"
                 Y2="0">
                 <Line.Stroke>
@@ -475,7 +508,8 @@
                 </Line.RenderTransform>
             </Line>
         </Grid>
-        <Grid Name="Pie"
+        <Grid
+            Name="Pie"
             Grid.Row="5"
             Grid.Column="0"
             Margin="0,0,67,0">

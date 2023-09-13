@@ -54,6 +54,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInDecimal("MontoCheque",valRecord.MontoCheque,4);
             vParams.AddInDecimal("MontoDeposito", valRecord.MontoDeposito, 4);
             vParams.AddInDecimal("MontoAnticipo", valRecord.MontoAnticipo, 4);
+            vParams.AddInDecimal("MontoVuelto", valRecord.MontoVuelto, 4);
             vParams.AddInDateTime("Fecha", valRecord.Fecha);
             vParams.AddInString("HoraApertura", valRecord.HoraApertura, 5);
             vParams.AddInString("HoraCierre", valRecord.HoraCierre, 5);
@@ -67,6 +68,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInDecimal("MontoChequeME", valRecord.MontoChequeME, 4);
             vParams.AddInDecimal("MontoDepositoME", valRecord.MontoDepositoME, 4);
             vParams.AddInDecimal("MontoAnticipoME", valRecord.MontoAnticipoME, 4);
+            vParams.AddInDecimal("MontoVueltoME", valRecord.MontoVueltoME, 4);
             vParams.AddInString("NombreOperador",((CustomIdentity)Thread.CurrentPrincipal.Identity).Login,10);
             vParams.AddInDateTime("FechaUltimaModificacion",LibDate.Today());
             if(valAction == eAccionSR.Modificar) {
