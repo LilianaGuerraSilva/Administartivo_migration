@@ -39,7 +39,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoChequePropertyName = "MontoCheque";
         const string MontoDepositoPropertyName = "MontoDeposito";
         const string MontoAnticipoPropertyName = "MontoAnticipo";
-        public const string MontoVueltoPropertyName = "MontoVuelto";
+        const string MontoVueltoPropertyName = "MontoVuelto";
+        const string MontoVueltoPMPropertyName = "MontoVueltoPM";
         const string FechaPropertyName = "Fecha";
         const string HoraAperturaPropertyName = "HoraApertura";
         const string HoraCierrePropertyName = "HoraCierre";
@@ -54,7 +55,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoChequeMEPropertyName = "MontoChequeME";
         const string MontoDepositoMEPropertyName = "MontoDepositoME";
         const string MontoAnticipoMEPropertyName = "MontoAnticipoME";
-        public const string MontoVueltoMEPropertyName = "MontoVueltoME";
+        const string MontoVueltoMEPropertyName = "MontoVueltoME";
         const string NombreOperadorPropertyName = "NombreOperador";
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         private FkCajaViewModel _ConexionNombreCaja = null;
@@ -275,6 +276,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (Model.MontoVuelto != value) {
                     Model.MontoVuelto = value;
                     RaisePropertyChanged(MontoVueltoPropertyName);
+                }
+            }
+        }
+        public decimal MontoVueltoPM {
+            get {
+                return Model.MontoVueltoPM;
+            }
+            set {
+                if (Model.MontoVueltoPM != value) {
+                    Model.MontoVueltoPM = value;
+                    RaisePropertyChanged(MontoVueltoPMPropertyName);
                 }
             }
         }
@@ -986,7 +998,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoDeposito = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDeposito"));
                 MontoAnticipo = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipo"));
                 MontoVuelto = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVuelto"));
-                MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo + MontoVuelto;
+                MontoVueltoPM = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoPM"));
+                MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo + MontoVuelto + MontoVueltoPM;
                 MontoEfectivoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoEfectivoME"));
                 MontoTarjetaME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjetaME"));
                 MontoChequeME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoChequeME"));

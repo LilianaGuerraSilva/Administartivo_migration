@@ -773,7 +773,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		MontoApertura, MontoAperturaME,");
             vSql.AppendLine("		MontoCierre, MontoCierreME,");
             if (valEsPAraMonedaLocal) {
-                vSql.AppendLine("		MontoEfectivo [01 - Efectivo], MontoTarjeta [02 - Tarjeta], MontoCheque [03 - Cheque], MontoDeposito [04 - Depósito], MontoAnticipo [05 - Anticipo], MontoVuelto [06 - VueltoEfectivo], ");
+                vSql.AppendLine("		MontoEfectivo [01 - Efectivo], MontoTarjeta [02 - Tarjeta], MontoCheque [03 - Cheque], MontoDeposito [04 - Depósito], MontoAnticipo [05 - Anticipo], MontoVuelto [06 - VueltoEfectivo], MontoVueltoPM [07 - VueltoPM], ");
             } else {
                 vSql.AppendLine("		MontoEfectivoME [01 - Efectivo], MontoTarjetaME [02 - Tarjeta], MontoChequeME [03 - Cheque], MontoDepositoME [04 - Depósito], MontoAnticipoME [05 - Anticipo], MontoVueltoME [06 - VueltoEfectivo], ");
             }
@@ -790,7 +790,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		AND " + insSql.SqlDateValueBetween("", "CA.Fecha", valFechaDesde, valFechaHasta));
             vSql.AppendLine("		AND CA.CajaCerrada = " + insSql.ToSqlValue(true) + ") BaseUnpivot");
             if (valEsPAraMonedaLocal) {
-                vSql.AppendLine("	UNPIVOT (MontoML FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - VueltoEfectivo]))AS CajaAperturaPorOperadorML"); 
+                vSql.AppendLine("	UNPIVOT (MontoML FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - VueltoEfectivo], [07 - VueltoPM]))AS CajaAperturaPorOperadorML"); 
             } else {
                 vSql.AppendLine("	UNPIVOT (MontoME FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - VueltoEfectivo]))AS CajaAperturaPorOperadorME");
             }

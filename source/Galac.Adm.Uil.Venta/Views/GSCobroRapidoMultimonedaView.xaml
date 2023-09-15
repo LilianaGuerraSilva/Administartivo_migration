@@ -689,7 +689,7 @@
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}"
-                    Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding Path=VueltoC2p, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="2"
                     Grid.Column="0"

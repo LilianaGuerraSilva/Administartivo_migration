@@ -34,6 +34,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string TransferenciaEnMonedaLocalPropertyName = "TransferenciaEnMonedaLocal";
         private const string TransferenciaEnDivisasPropertyName = "TransferenciaEnDivisas";
         private const string VueltoEnMonedaLocalPropertyName = "VueltoEnMonedaLocal";
+        private const string VueltoC2pPropertyName = "VueltoC2p";
         private const string VueltoEnDivisasPropertyName = "VueltoEnDivisas";
         private const string MontoRestantePorPagarEnDivisasPropertyName = "MontoRestantePorPagarEnDivisas";
         private const string MontoRestantePorPagarEnMonedaLocalParaMostrarPropertyName = "MontoRestantePorPagarEnMonedaLocalParaMostrar";
@@ -56,6 +57,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private decimal _TransferenciaEnMonedaLocal;
         private decimal _TransferenciaEnDivisas;
         private decimal _VueltoEnMonedaLocal;
+        private decimal _VueltoC2p;
         private decimal _VueltoEnDivisas;
         private string _MontoRestantePorPagarEnMonedaLocalParaMostrar;
         private string _MontoRestantePorPagarEnDivisasParaMostrar;
@@ -295,6 +297,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public decimal VueltoC2p {
+            get {
+                return _VueltoC2p;
+            }
+            set {
+                if (_VueltoC2p != value) {
+                    _VueltoC2p = value;
+                    RaisePropertyChanged(VueltoC2pPropertyName);
+                }
+            }
+        }
+
         public decimal VueltoEnDivisas {
             get {
                 return _VueltoEnDivisas;
@@ -351,6 +365,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 } else if (MontoRestantePorPagar <= 0) {
                     return "VUELTO";
                 } else if (VueltoEnMonedaLocal > 0 || VueltoEnDivisas > 0) {
+                    return "VUELTO EXCEDIDO";
+                } else if (VueltoC2p > 0) {
                     return "VUELTO EXCEDIDO";
                 } else {
                     return "POR PAGAR";
@@ -669,6 +685,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             TransferenciaEnDivisas = 0;
             VueltoEnMonedaLocal = 0;
             VueltoEnDivisas = 0;
+            if (VueltoC2p == 0) {
+                VueltoC2p = 0;
+            }
             MontoRestantePorPagar = TotalFactura;
             MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
@@ -677,9 +696,16 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ExecuteVueltoConPagoMovil() {
             C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
             //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-            VueltoC2pMonedaLocal = MontoRestantePorPagar;
-            insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibConvert.ToStr(VueltoC2pMonedaLocal, 2));           
-            VueltoEnMonedaLocal = -1 * (VueltoEfectivoMonedaLocal + VueltoC2pMonedaLocal);            
+            VueltoC2p = MontoRestantePorPagar ;
+            if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibConvert.ToStr((VueltoC2p * -1), 2))) {
+                VueltoC2p = (VueltoC2p - VueltoEfectivoMonedaLocal);
+                if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
+                    ExecuteCobrarCommand();
+                }                
+                
+            }
+
+                        
         }
 
         protected override void ExecuteCancel() {
@@ -702,11 +728,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vResult;
             CalcularTotales();
             decimal TotalPagosME = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) - LibMath.Abs(VueltoEnDivisas);
-            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal);
+            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
             vResult = ((TotalPagosML == 0) && (MontoRestantePorPagarEnDivisas <= 0))
                    || ((TotalPagosME == 0) && (MontoRestantePorPagar <= 0));
             if (!vResult) {
                 vResult = (TotalPagosME != 0) && (TotalPagosML != 0) && (MontoRestantePorPagar <= 0);
+
             }
             if (vResult) {
                 MontoXPagarColor = (MontoRestantePorPagar <= 0) ? eBorderBackMontoXPagarColor.Totalmente : eBorderBackMontoXPagarColor.FaltaPeroSePuede;
@@ -749,7 +776,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             decimal TotalPagosMe = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas);
             decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal);
             LimpiarVuelto(TotalPagosML, TotalPagosMe);
-            TotalPagosML = TotalPagosML - LibMath.Abs(VueltoEnMonedaLocal);
+            TotalPagosML = TotalPagosML - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
             TotalPagosMe = TotalPagosMe - LibMath.Abs(VueltoEnDivisas);
             MontoRestantePorPagar = LibMath.RoundToNDecimals(TotalAPagarML - (TotalPagosML + LibMath.RoundToNDecimals(TotalPagosMe * CambioAMonedaLocal, 2)), 2);
             MontoRestantePorPagarEnDivisas = LibMath.RoundToNDecimals(MontoRestantePorPagar / CambioAMonedaLocal, 2);
@@ -815,7 +842,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } else {
                 vCodigoMonedaLocal = LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VES" : vCodigoMonedaLocal;
             }
-            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal);
+            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
             if (TotalPagosML == 0) { //Se cobró todo en ME
                 decimal vCobradoEnDivisasConvertido = 0;
                 if (EfectivoEnDivisas != 0) {
@@ -960,7 +987,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     CambioAMonedaLocal = 1
                 });
             }
-            if (VueltoC2pMonedaLocal != 0) {
+            if (VueltoC2p != 0) {
                 vConsecutivoRenglon += 1;
                 vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
                     ConsecutivoCompania = ConsecutivoCompania,
@@ -969,7 +996,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ConsecutivoRenglon = vConsecutivoRenglon,
                     CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P),
                     CodigoBanco = valCodigoBancoParaDivisa,
-                    Monto = LibMath.Abs(VueltoC2pMonedaLocal),
+                    Monto = LibMath.Abs(VueltoC2p),
                     CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1
                 });

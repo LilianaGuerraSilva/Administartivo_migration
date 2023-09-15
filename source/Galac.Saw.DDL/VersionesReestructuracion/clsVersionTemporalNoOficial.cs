@@ -36,10 +36,13 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 		private void CamposMonedaExtranjeraEnCajaApertura() {
 			if (AddColumnDecimal("Adm.CajaApertura", "MontoVuelto", 25, 4, "", 0)) {
-				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoVuel", "0", "MontoVuelto");
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoVu", "0", "MontoVuelto");
 			}
 			if (AddColumnDecimal("Adm.CajaApertura", "MontoVueltoME", 25, 4, "", 0)) {
-				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoVuelME", "0", "MontoVueltoME");
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoVuME", "0", "MontoVueltoME");
+			}
+			if (AddColumnDecimal("Adm.CajaApertura", "MontoVueltoPM", 25, 4, "", 0)) {
+				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoVuPM", "0", "MontoVueltoPM");
 			}
 		}
 	}
