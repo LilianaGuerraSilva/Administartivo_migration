@@ -544,8 +544,10 @@
             </Grid.RowDefinitions>
             <Label
                 Name="lblFecha"
-                Grid.Row="0"
                 Grid.Column="0"
+                Height="24"
+                Margin="3,3,3,0"
+                VerticalAlignment="Center"
                 Content="Fecha"
                 Style="{StaticResource LabelPrompt}" />
             <Label
@@ -556,8 +558,10 @@
                 Style="{StaticResource LabelPrompt}" />
             <Label
                 Name="lblHoraCierre"
-                Grid.Row="0"
                 Grid.Column="2"
+                Margin="3,0,11,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
                 Content="Hora Cierre"
                 Style="{StaticResource LabelPrompt}"
                 Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -565,12 +569,16 @@
                 Name="dtpFecha"
                 Grid.Row="1"
                 Grid.Column="0"
+                Margin="3,3,3,3"
                 IsEnabled="False"
                 SelectedDate="{Binding Path=Fecha}" />
             <Label
                 Name="lneHoraApertura"
                 Grid.Row="1"
                 Grid.Column="1"
+                Width="80"
+                Height="16"
+                Margin="3,3,3,3"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
                 Background="LightGray"
@@ -583,8 +591,8 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Width="80"
-                Margin="6,3,0,0"
-                HorizontalAlignment="Left"
+                Height="16"
+                Margin="3,3,3,3"
                 HorizontalContentAlignment="Center"
                 Background="LightGray"
                 Content="{Binding Path=HoraCierreDt}"

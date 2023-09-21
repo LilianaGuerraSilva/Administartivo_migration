@@ -26,6 +26,7 @@ namespace Galac.Adm.Ccl.Venta {
         private string _NombreBancoPuntoDeVenta;
         private string _CodigoMoneda;
         private decimal _CambioAMonedaLocal;
+        private string _InfoAdicional;
         #endregion //Variables
         #region Propiedades
 
@@ -111,6 +112,10 @@ namespace Galac.Adm.Ccl.Venta {
             set { _CambioAMonedaLocal = value; }
         }
 
+        public string InfoAdicional {
+            get { return _InfoAdicional; }
+            set { _InfoAdicional = LibString.Mid(value, 0, 250); }
+        }
 
         #endregion //Propiedades
         #region Constructores
@@ -140,6 +145,7 @@ namespace Galac.Adm.Ccl.Venta {
             NombreBancoPuntoDeVenta = string.Empty;
             CodigoMoneda = string.Empty;
             CambioAMonedaLocal = 0;
+            InfoAdicional = string.Empty;
         }
 
         public RenglonCobroDeFactura Clone() {
@@ -158,6 +164,7 @@ namespace Galac.Adm.Ccl.Venta {
             vResult.NombreBancoPuntoDeVenta = _NombreBancoPuntoDeVenta;
             vResult.CodigoMoneda = _CodigoMoneda;
             vResult.CambioAMonedaLocal = _CambioAMonedaLocal;
+            vResult.InfoAdicional = _InfoAdicional;
             return vResult;
         }
 
@@ -175,7 +182,8 @@ namespace Galac.Adm.Ccl.Venta {
                "\nNombreBanco = " + _NombreBanco +
                "\nNombreBancoPuntoDeVenta = " + _NombreBancoPuntoDeVenta +
                "\nCodigoMoneda = " + _CodigoMoneda +
-               "\nCambioAMonedaLocal = " + _CambioAMonedaLocal;
+               "\nCambioAMonedaLocal = " + _CambioAMonedaLocal +
+               "\nInfoAdicional = " + _InfoAdicional;
         }
 
         #region Miembros de IEquatable<RenglonCobroDeFactura>

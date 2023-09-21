@@ -23,7 +23,7 @@
         <KeyBinding Key="F6" Command="{Binding Path=CobrarCommand}" />
         <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />
         <KeyBinding Key="F9" Command="{Binding Path=VueltoEnEfectivo}" />
-        <KeyBinding Key="F10" Command="{Binding Path=VueltoConPagoMovil}" />
+        <KeyBinding Key="F10" Command="{Binding Path=VueltoConPagoMovilCommand}" />
     </UserControl.InputBindings>
     <Grid Width="622" Height="auto">
         <Grid.ColumnDefinitions>

@@ -16,6 +16,8 @@ namespace Galac.Adm.IntegracionMS.Venta {
         const string MonedaBs = "VES";
         const string respAprobada = "00";
         const string _Urlprocesar_metodo_pago = "/vpos/metodo";
+        public string infoAdicional;
+        public string numeroReferencia;
 
         public C2PMegasoftNav() {        
             _UrlBase = "http://localhost:8085";
@@ -34,7 +36,9 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 if (vResponse != null) {
                     if (vResponse.codRespuesta == respAprobada) {
                         LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
-                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}    
+                        infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
+                        numeroReferencia = vResponse.numeroReferencia;
                         vExito = true;
                     } else {
                         throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
@@ -276,6 +280,8 @@ namespace Galac.Adm.IntegracionMS.Venta {
         }
     }
 
+    
+
     namespace ProcesarMetodoPago {
         public class requestCambioPagoMovil {
             public string accion { get; set; }
@@ -345,6 +351,5 @@ namespace Galac.Adm.IntegracionMS.Venta {
             public string voucherServicios { get; set; }
             public object listaTransServiciosOLB { get; set; }
         }
-
     }
 }

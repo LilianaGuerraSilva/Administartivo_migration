@@ -12,6 +12,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			AgregaNuevosRegistrosTipoFormaDelCobro();		
 			ExtiendeLongitudCampoDefinibleCliente();
 			CamposMonedaExtranjeraEnCajaApertura();
+			CamposInfoAdicionalRenglonCobroFactura();
 			DisposeConnectionNoTransaction();
 			return true;
 		}
@@ -30,7 +31,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		private void InsertFormaDelCobro(string valCodigo, eTipoDeFormaDePago valFormaDelCobro) {
 			StringBuilder vSql = new StringBuilder();
 			vSql.AppendLine("INSERT INTO Saw.FormaDelCobro (Codigo, Nombre, TipoDePago) VALUES ");
-			vSql.AppendLine("(" + InsSql.ToSqlValue(valCodigo) + " , " + InsSql.ToSqlValue("VUELTO") + ", " + _insSql.EnumToSqlValue((int)valFormaDelCobro) + ")");
+			vSql.AppendLine("(" + InsSql.ToSqlValue(valCodigo) + ", " + InsSql.ToSqlValue("VUELTO") + ", " + InsSql.EnumToSqlValue((int)valFormaDelCobro) + ")");
 			Execute(vSql.ToString());
 		}
 
@@ -43,6 +44,12 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			}
 			if (AddColumnDecimal("Adm.CajaApertura", "MontoVueltoPM", 25, 4, "", 0)) {
 				AddDefaultConstraint("Adm.CajaApertura", "d_CajApeMoVuPM", "0", "MontoVueltoPM");
+			}
+		}
+
+		private void CamposInfoAdicionalRenglonCobroFactura() {
+			if (AddColumnString("RenglonCobroDeFactura", "InfoAdicional", 250,"",string.Empty)) {
+				AddDefaultConstraint("RenglonCobroDeFactura", "d_RenCobDeFacInAd", string.Empty, "InfoAdicional");
 			}
 		}
 	}
