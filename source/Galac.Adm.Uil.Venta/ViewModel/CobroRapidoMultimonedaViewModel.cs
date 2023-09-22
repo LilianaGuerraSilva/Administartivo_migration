@@ -80,6 +80,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string TotalAPagarMLParaMostrarPropertyName = "TotalAPagarMLParaMostrar";
         private const string TotalAPagarMEParaMostrarPropertyName = "TotalAPagarMEParaMostrar";
         private const string IsEnableVueltoPropertyName = "IsEnableVuelto";
+        private string numeroReferencia;
+        private string infoAdcional;
+        public decimal TotalPagosME;
+        public decimal TotalPagosML;
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -330,6 +334,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     _MontoRestantePorPagarEnDivisas = value;
                     RaisePropertyChanged(MontoRestantePorPagarEnDivisasPropertyName);
                     CobrarCommand.RaiseCanExecuteChanged();
+                    VueltoConPagoMovilCommand.RaiseCanExecuteChanged();
+
+
                 }
             }
         }
@@ -396,7 +403,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public RelayCommand LimpiarCommand { get; private set; }
 
-        public RelayCommand VueltoConPagoMovil { get; private set; }
+        public RelayCommand VueltoConPagoMovilCommand { get; private set; }
 
         public string IsVisibleSeccionEfectivo {
             get {
@@ -601,7 +608,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
-            VueltoConPagoMovil = new RelayCommand(ExecuteVueltoConPagoMovil, CanExecuteVueltoConPagoMovilCommand);
+            VueltoConPagoMovilCommand = new RelayCommand(ExecuteVueltoConPagoMovilCommand, CanExecuteVueltoConPagoMovilCommand);
         }
 
         protected override void InitializeLookAndFeel() {
@@ -622,7 +629,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Vuelto con Pago Móvil",
-                Command = VueltoConPagoMovil,
+                Command = VueltoConPagoMovilCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
                 ToolTipDescription = "Datos del Vuelto con Pago Móvil",
                 ToolTipTitle = "Vuelto con Pago Móvil",
@@ -693,19 +700,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
         }
 
-        private void ExecuteVueltoConPagoMovil() {
+        private void ExecuteVueltoConPagoMovilCommand() {
             C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
             //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-            VueltoC2p = MontoRestantePorPagar ;
-            if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibConvert.ToStr((VueltoC2p * -1), 2))) {
-                VueltoC2p = (VueltoC2p - VueltoEfectivoMonedaLocal);
+            if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibConvert.ToStr((MontoRestantePorPagar * -1), 2))) {
+                VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
+                infoAdcional = insVueltoMegasoft.infoAdicional;
+                numeroReferencia = insVueltoMegasoft.numeroReferencia;
                 if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                     ExecuteCobrarCommand();
-                }                
-                
+                }                   
             }
-
-                        
         }
 
         protected override void ExecuteCancel() {
@@ -720,20 +725,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override bool CanExecuteCobrarCommand() {
             bool vResult = false;
-            vResult = SePuedeCobrar() && (_EsFacturaTradicional || base.CanExecuteCobrarCommand());
+            vResult = SePuedeCobrar() && base.CanExecuteCobrarCommand() &&
+                    ((TotalPagosME != 0) && (TotalPagosML != 0) && (MontoRestantePorPagar <= 0));
             return vResult;
         }
 
         private bool SePuedeCobrar() {
             bool vResult;
             CalcularTotales();
-            decimal TotalPagosME = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) - LibMath.Abs(VueltoEnDivisas);
-            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
-            vResult = ((TotalPagosML == 0) && (MontoRestantePorPagarEnDivisas <= 0))
-                   || ((TotalPagosME == 0) && (MontoRestantePorPagar <= 0));
+            TotalPagosME = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) - LibMath.Abs(VueltoEnDivisas);
+            TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
+            vResult = ((TotalPagosML == 0) && (MontoRestantePorPagar <= 0))
+                   || ((TotalPagosME == 0) && (MontoRestantePorPagarEnDivisas <= 0));
             if (!vResult) {
                 vResult = (TotalPagosME != 0) && (TotalPagosML != 0) && (MontoRestantePorPagar <= 0);
-
             }
             if (vResult) {
                 MontoXPagarColor = (MontoRestantePorPagar <= 0) ? eBorderBackMontoXPagarColor.Totalmente : eBorderBackMontoXPagarColor.FaltaPeroSePuede;
@@ -745,7 +750,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool CanExecuteLimpiarCommand() { return true; }
         //private bool CanExecuteVueltoEnEfectivoCommand() { return true; }
-        private bool CanExecuteVueltoConPagoMovilCommand() { return true; }
+        private bool CanExecuteVueltoConPagoMovilCommand() {
+            bool vResult = false;
+            vResult = (MontoRestantePorPagar < 0) || (MontoRestantePorPagarEnDivisas < 0);
+            return vResult; }
         #endregion
 
         #region Metodos
@@ -997,8 +1005,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P),
                     CodigoBanco = valCodigoBancoParaDivisa,
                     Monto = LibMath.Abs(VueltoC2p),
+                    NumeroDocumentoAprobacion = LibConvert.ToStr(numeroReferencia),
                     CodigoMoneda = vCodigoMonedaLocal,
-                    CambioAMonedaLocal = 1
+                    CambioAMonedaLocal = 1,
+                    InfoAdicional = LibConvert.ToStr(infoAdcional)
                 });
             }
             if (VueltoEnDivisas != 0) {
