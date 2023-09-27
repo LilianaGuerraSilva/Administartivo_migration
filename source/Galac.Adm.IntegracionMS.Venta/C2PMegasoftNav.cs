@@ -125,6 +125,72 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return null;
         }
 
+        public bool EjecutaProcesarCompraP2C(string valCedula, string valMonto) {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestCompraP2C  request4 = new ProcesarMetodoPago.requestCompraP2C () {
+                    accion = "tarjeta",
+                    montoTransaccion = valMonto,
+                    cedula = valCedula
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarPagoMovilP2C (request4);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+
+        ProcesarMetodoPago.response SendProcesarPagoMovilP2C(ProcesarMetodoPago.requestCompraP2C valrequestObject) {
+            var requestJson = Serialize<ProcesarMetodoPago.requestCompraP2C >(valrequestObject);
+            var result = Post(_Urlprocesar_metodo_pago, requestJson);
+            if (!string.IsNullOrEmpty(result)) {
+                return Deserialize<ProcesarMetodoPago.response>(result);
+            }
+            return null;
+        }
+
+        public bool EjecutaProcesarCompraBiopago(string valCedula, string valMonto) {
+            bool vExito = false;
+            try {
+                ProcesarMetodoPago.requestCompraBiopago request4 = new ProcesarMetodoPago.requestCompraBiopago() {
+                    accion = "tarjeta",
+                    montoTransaccion = valMonto,
+                    cedula = valCedula
+                };
+                ProcesarMetodoPago.response vResponse = SendProcesarBiopago(request4);
+                if (vResponse != null) {
+                    if (vResponse.codRespuesta == respAprobada) {
+                        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
+                        // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        vExito = true;
+                    } else {
+                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
+                    }
+                }
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Alert(null, vEx.Message, "Conexión con plataforma de pagos");
+            }
+            return vExito;
+        }
+
+        ProcesarMetodoPago.response SendProcesarBiopago(ProcesarMetodoPago.requestCompraBiopago valrequestObject) {
+            var requestJson = Serialize<ProcesarMetodoPago.requestCompraBiopago>(valrequestObject);
+            var result = Post(_Urlprocesar_metodo_pago, requestJson);
+            if (!string.IsNullOrEmpty(result)) {
+                return Deserialize<ProcesarMetodoPago.response>(result);
+            }
+            return null;
+        }
+
         public bool EjecutaUltimoVoucherAprobado() {
             bool vExito = false;
             try {
@@ -146,6 +212,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
             }
             return vExito;
         }
+
         public bool EjecutaUltimoVoucherProcesado() {
             bool vExito = false;
             try {
@@ -295,6 +362,16 @@ namespace Galac.Adm.IntegracionMS.Venta {
             public string cedula { get; set; }
         }
         public class requestCompraZelle {
+            public string accion { get; set; }
+            public string montoTransaccion { get; set; }
+            public string cedula { get; set; }
+        }
+        public class requestCompraP2C {
+            public string accion { get; set; }
+            public string montoTransaccion { get; set; }
+            public string cedula { get; set; }
+        }
+        public class requestCompraBiopago {
             public string accion { get; set; }
             public string montoTransaccion { get; set; }
             public string cedula { get; set; }
