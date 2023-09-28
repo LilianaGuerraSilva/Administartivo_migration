@@ -18,10 +18,6 @@
 	path = bin/binLibProtec
 	url = https://github.com/Galac-Software/BinLibProtec.git
 	branch = release/v18.2.2.0
-[submodule "source/Axi"]
-	path = source/Axi
-	url = https://github.com/Galac-Software/Axi.git
-	branch = master
 [submodule "bin/binLibVb"]
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
@@ -29,44 +25,48 @@
 [submodule "bin/binAdministrativoAos"]
 	path = bin/binAdministrativoAos
 	url = https://github.com/Galac-Software/BinAdministrativoAos.git
-	branch = release/V23.9.0.0
+	branch = release/V24.0.0.0
 [submodule "bin/binAdministrativoVb"]
 	path = bin/binAdministrativoVb
 	url = https://github.com/Galac-Software/BinAdministrativoVB.git
-	branch = release/V2306
+	branch = release/V2307
 [submodule "bin/binComunAos"]
 	path = bin/binComunAos
 	url = https://github.com/Galac-Software/BinComunAos.git
-	branch = release/SawV23.9.0.0
+	branch = release/SawV24.0.0.0
 [submodule "bin/binContabilidadAos"]
 	path = bin/binContabilidadAos
 	url = https://github.com/Galac-Software/BinContabilidadAos.git
-	branch = release/SawV23.9.0.0
+	branch = release/SawV24.0.0.0
 [submodule "bin/binContabilidadVb"]
 	path = bin/binContabilidadVb
 	url = https://github.com/Galac-Software/BinContabilidadVb.git
-	branch = release/SawV23.9.0.0
+	branch = release/SawV24.0.0.0
 [submodule "bin/binEsqNiif"]
 	path = bin/binEsqNiif
 	url = https://github.com/Galac-Software/BinEsqNiif.git
-	branch = release/SawV23.9.0.0
+	branch = release/SawV24.0.0.0
 [submodule "source/ContabilidadVb"]
 	path = source/ContabilidadVb
 	url = https://github.com/Galac-Software/ContabilidadVb.git
-	branch = release/SawV23.9.0.0
+	branch = release/SawV24.0.0.0
 [submodule "source/ContabIwrp"]
 	path = source/ContabIwrp
 	url = https://github.com/Galac-Software/ContabiWrp.git
-	branch = release/SawV23.9.0.0
-[submodule "source/RetencionesVb"]
-	path = source/RetencionesVb
-	url = https://github.com/Galac-Software/RetencionesVb.git
-	branch = release/SawV23.9.0.0
+	branch = release/SawV24.0.0.0
 [submodule "source/IvaVb"]
 	path = source/IvaVb
 	url = https://github.com/Galac-Software/IvaVb.git
-	branch = release/IVA-34.6
+	branch = release/SawV24.0.0.0
+[submodule "source/RetencionesVb"]
+	path = source/RetencionesVb
+	url = https://github.com/Galac-Software/RetencionesVb.git
+	branch = release/SawV24.0.0.0
 [submodule "source/VbaComun"]
 	path = source/VbaComun
 	url = https://github.com/Galac-Software/vbaComun.git
-	branch = feature/SawIncorporarMejorasLibrosDeVenta_IGTF_ED
+	branch = release/SawV24.0.0.0
+[submodule "source/Axi"]
+	path = source/Axi
+	url = https://github.com/Galac-Software/Axi.git
+	branch = master

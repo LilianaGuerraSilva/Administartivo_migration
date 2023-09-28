@@ -415,7 +415,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             return vResult;
         }
 
-        private XElement GetTotalesME() {            
+        private XElement GetTotalesME() {
             XElement vResult = new XElement("TotalesOtraMoneda",
                new XElement("moneda", CodigoMonedaME),
                new XElement("tipoCambio", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
@@ -424,8 +424,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                new XElement("subtotal", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
-               new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
-               new XElement("montoEnLetras", LibConvert.ToNumberInLetters(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2), false, "")),
+               new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("montoEnLetras", LibConvert.ToNumberInLetters(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2), false, "")),
                new XElement("totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1 / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))));
             vResult.Add(GetTotalImpuestos(true).Descendants("impuestosSubtotal"));
             return vResult;
