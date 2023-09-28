@@ -256,6 +256,7 @@
     <Compile Include="ViewModel\FacturaRapidaDetalleViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaMngViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaViewModel.cs" />
+    <Compile Include="ViewModel\VueltoEfectivoViewModel.cs" />
     <Compile Include="Views\GSBuscarPrecioDeArticuloView.xaml.cs">
       <DependentUpon>GSBuscarPrecioDeArticuloView.xaml</DependentUpon>
     </Compile>
@@ -308,6 +309,9 @@
       <DependentUpon>GSFacturaRapidaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reportes\clsCobranzaInformesViewModel.cs" />
+    <Compile Include="Views\GSVueltoEfectivoView.xaml.cs">
+      <DependentUpon>GSVueltoEfectivoView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Reportes\GSCajaCerrada.xaml">
@@ -454,6 +458,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GSVueltoEfectivoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Alt1.png" />
@@ -531,6 +539,10 @@
     <ProjectReference Include="..\Galac.Adm.Dal.Venta\Galac.Adm.Dal.Venta.csproj">
       <Project>{91e8ebac-7e53-48eb-9220-f5d2397c9446}</Project>
       <Name>Galac.Adm.Dal.Venta</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galac.Adm.IntegracionMS.Venta\Galac.Adm.IntegracionMS.Venta.csproj">
+      <Project>{d56c88dc-317e-400a-a687-338091b0204d}</Project>
+      <Name>Galac.Adm.IntegracionMS.Venta</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galac.Adm.Rpt.Venta\Galac.Adm.Rpt.Venta.csproj">
       <Project>{f8e98879-0458-41b6-b914-5f2c5cc28351}</Project>

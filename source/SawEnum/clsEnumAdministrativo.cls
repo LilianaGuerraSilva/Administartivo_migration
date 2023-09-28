@@ -1124,6 +1124,8 @@ Public Enum enum_TipoDeFormaDePago
    eTDA_CHEQUE
    eTDA_DEPOSITO
    eTDA_ANTICIPO
+   eTDA_VUELTO_EFECTIVO
+   eTDA_VUELTO_C2P
 End Enum
 
 Public Enum enum_PuertoSerial
@@ -9193,6 +9195,8 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_CHEQUE: enumTipoDeFormaDePagoToString = "Cheque"
       Case eTDA_DEPOSITO: enumTipoDeFormaDePagoToString = "Depósito"
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToString = "Anticipo"
+      Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToString = "Vuelto Efectivo"
+      Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToString = "Vuelto C2P"
       Case Else: enumTipoDeFormaDePagoToString = enumTipoDeFormaDePagoToString(0)
    End Select
 End Function
@@ -9201,7 +9205,7 @@ Public Function strTipoDeFormaDePagoToNum(ByVal tipoDeFormaDePago As String, Opt
    Dim mEnum As enum_TipoDeFormaDePago
    Dim nCount As Integer
    nCount = 0
-   For mEnum = eTDA_EFECTIVO To eTDA_ANTICIPO
+   For mEnum = eTDA_EFECTIVO To eTDA_VUELTO_C2P
       If UCase(tipoDeFormaDePago) = UCase(enumTipoDeFormaDePagoToString(mEnum)) Then
          strTipoDeFormaDePagoToNum = nCount
          GoTo h_EXIT
@@ -9236,6 +9240,10 @@ Public Sub FillComboBoxWithTipoDeFormaDePago(ByRef varComboBox As Object, Option
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_DEPOSITO)
    nCount = nCount + 1
    varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_ANTICIPO)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_EFECTIVO)
+   nCount = nCount + 1
+   varComboBox.List(nCount) = enumTipoDeFormaDePagoToString(enum_TipoDeFormaDePago.eTDA_VUELTO_C2P)
    varComboBox.ListIndex = 0  ' Se selecciona el valor por defecto
    varComboBox.Width = gApi.sugestedWidthForComboBox(varComboBox)
 End Sub

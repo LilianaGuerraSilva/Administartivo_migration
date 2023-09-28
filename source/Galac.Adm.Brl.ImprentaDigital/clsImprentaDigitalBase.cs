@@ -35,6 +35,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         public FacturaRapida FacturaImprentaDigital { get; set; }
         public List<FacturaRapidaDetalle> DetalleFacturaImprentaDigital { get; set; }
         public eProveedorImprentaDigital ProveedorImprentaDigital { get; set; }
+        public string CodigoMonedaME { get; private set; }
         public string Mensaje { get; set; }
         #endregion Propiedades
         public clsImprentaDigitalBase() {
@@ -47,6 +48,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             TipoDeDocumento = initTipoDocumento;
             ConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
             ProveedorImprentaDigital = (eProveedorImprentaDigital)LibConvert.DbValueToEnum(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "ProveedorImprentaDigital"));
+            CodigoMonedaME = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
             clsImprentaDigitalSettings vImprentaDigitalSettings = new clsImprentaDigitalSettings();
             NumeroControl = string.Empty;
             Mensaje = string.Empty;

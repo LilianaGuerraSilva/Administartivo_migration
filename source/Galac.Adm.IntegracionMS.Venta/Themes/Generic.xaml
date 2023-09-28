@@ -1,0 +1,10 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:nsCSV="clr-namespace:Galac.Adm.IntegracionMS.Venta"
+    xmlns:nsCSVM="clr-namespace:Galac.Adm.IntegracionMS.Venta">
+
+    <DataTemplate DataType="{x:Type nsCSVM:C2PMegasoftViewModel}">
+        <nsCSV:GSC2PMegasoftView />
+    </DataTemplate>
+</ResourceDictionary>

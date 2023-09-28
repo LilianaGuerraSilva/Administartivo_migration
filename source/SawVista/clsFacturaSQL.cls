@@ -666,16 +666,10 @@ Public Function fSQLDeFacturasEntreFechas(ByVal valReporteEnMonedaLocal As Boole
                                   gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.TotalFactura", _
                                   "Factura.Fecha"), True, ""), True) & " AS TotalFactura, "
    Else
-      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), _
-                                  "0", "Factura.TotalIVA", True) & " AS TotalIVA, "
-      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), _
-                                  "0", "Factura.TotalBaseImponible", True) & " AS TotalBaseImponible, "
-     SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", _
-                          gUltimaTasaDeCambio.fSQLCampoMontoPorTasaDeCambio("Factura.CambioABolivares", "Factura.Moneda", _
-                          gMonedaLocalActual.fSQLConvierteMontoSiAplica(gMonedaLocalActual.GetHoyCodigoMoneda, "Factura.TotalMontoExento", _
-                          "Factura.Fecha"), True, ""), True) & " AS TotalMontoExento, "
-     SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), _
-                                  "0", "Factura.TotalFactura", True) & " AS TotalFactura, "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", "Factura.TotalIVA", True) & " AS TotalIVA, "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", "Factura.TotalBaseImponible", True) & " AS TotalBaseImponible, "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", "Factura.TotalMontoExento", True) & " AS TotalMontoExento, "
+      SQL = SQL & gUtilSQL.getIIF("Factura.StatusFactura = " & gUtilSQL.fSQLSimpleValueForEnum(enum_StatusFactura.eSF_ANULADA), "0", "Factura.TotalFactura", True) & " AS TotalFactura, "
    End If
    SQL = SQL & "0 AS OtrosCargos, "
    SQL = SQL & "Vendedor.Nombre AS Vendedor "

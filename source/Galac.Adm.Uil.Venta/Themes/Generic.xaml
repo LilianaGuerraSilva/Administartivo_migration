@@ -101,4 +101,7 @@
     <DataTemplate DataType="{x:Type nsReportesView:clsCajaCerradaViewModel}">
         <nsReportesView:GSCajaCerrada />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:VueltoEfectivoViewModel}">
+        <nsCSV:GSVueltoEfectivoView />
+    </DataTemplate>
 </ResourceDictionary>
