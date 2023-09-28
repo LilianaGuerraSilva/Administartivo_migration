@@ -18,6 +18,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
         const string _Urlprocesar_metodo_pago = "/vpos/metodo";
         public string infoAdicional;
         public string numeroReferencia;
+        public string bancoTransaccion;
 
         public C2PMegasoftNav() {        
             _UrlBase = "http://localhost:8085";
@@ -72,6 +73,9 @@ namespace Galac.Adm.IntegracionMS.Venta {
                     if (vResponse.codRespuesta == respAprobada) {
                         LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.MessageBox.Information(null, "Transacción Aprobada.", "Conexión con plataforma de pagos");
                         // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
+                        infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
+                        numeroReferencia = vResponse.numeroReferencia;
+                        bancoTransaccion = vResponse.bancoEmisorCheque;
                         vExito = true;
                     } else {
                         throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);

@@ -21,6 +21,15 @@ using Galac.Adm.IntegracionMS.Venta;
 using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
+
+    internal class CobroConTddTdcVPOS {
+        internal decimal MontoTransaccion { get; set; }
+        internal string InfoAdicional { get; set; }
+        internal eBancoPM BancoTransaccion { get; set; }
+        internal string NumReferencia { get; set; }
+        internal int BancoTrans { get; set; }
+
+    }
     public class CobroRapidoMultimonedaViewModel: CobroRapidoVzlaViewModelBase {
         #region Variables y Constantes
         private const string NombreDeMonedaLocalPropertyName = "NombreDeMonedaLocal";
@@ -35,6 +44,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string TransferenciaEnDivisasPropertyName = "TransferenciaEnDivisas";
         private const string VueltoEnMonedaLocalPropertyName = "VueltoEnMonedaLocal";
         private const string VueltoC2pPropertyName = "VueltoC2p";
+        private const string TarjetaVPosPropertyName = "TarjetaVPos";
         private const string VueltoEnDivisasPropertyName = "VueltoEnDivisas";
         private const string MontoRestantePorPagarEnDivisasPropertyName = "MontoRestantePorPagarEnDivisas";
         private const string MontoRestantePorPagarEnMonedaLocalParaMostrarPropertyName = "MontoRestantePorPagarEnMonedaLocalParaMostrar";
@@ -84,6 +94,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private string infoAdcional;
         public decimal TotalPagosME;
         public decimal TotalPagosML;
+        private decimal _TarjetaVPos;
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -335,8 +346,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     RaisePropertyChanged(MontoRestantePorPagarEnDivisasPropertyName);
                     CobrarCommand.RaiseCanExecuteChanged();
                     VueltoConPagoMovilCommand.RaiseCanExecuteChanged();
-
-
                 }
             }
         }
@@ -404,6 +413,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public RelayCommand LimpiarCommand { get; private set; }
 
         public RelayCommand VueltoConPagoMovilCommand { get; private set; }
+
+        public RelayCommand CobroTDD_TDCCommand { get; private set; }
 
         public string IsVisibleSeccionEfectivo {
             get {
@@ -552,9 +563,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        private List<CobroConTddTdcVPOS> ListaCobrosConTddTdcVPos { get; set; }
+
+        public bool IsVisibleTotalTarjetaVPos {
+            get { return true; }//return ListaCobrosConTddTdcVPos.Count > 0; }
+        }
+
         public bool IsEnableVuelto {
             get {
-                decimal vTotalPagosML = EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TransferenciaEnMonedaLocal;
+                decimal vTotalPagosML = EfectivoEnMonedaLocal + TarjetaUno + TarjetaDos + TarjetaVPos + TransferenciaEnMonedaLocal;
                 decimal vTotalPagosME = EfectivoEnDivisas + TransferenciaEnDivisas;
                 if (VueltoEnMonedaLocal > 0 || VueltoEnDivisas > 0) { // Vuelto en exceso
                     return true;
@@ -569,6 +586,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public bool IsVisibleVuelto {
             get {
                 return TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal;
+            }
+        }
+
+        public decimal TarjetaVPos {
+            get {
+                return _TarjetaVPos;
+            }
+            set {
+                if (_TarjetaVPos != value) {
+                    _TarjetaVPos = value;
+                    RaisePropertyChanged(TarjetaVPosPropertyName);
+                }
             }
         }
         #endregion
@@ -587,6 +616,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             DeshabilitarControlesSegunTipoDeDocumento(TipoDeDocumento);
             CalcularTotales();
             _EsFacturaTradicional = valEsFacturaTradicional;
+            ListaCobrosConTddTdcVPos = new List<CobroConTddTdcVPOS>();
         }
 
         public CobroRapidoMultimonedaViewModel(eAccionSR valAction, FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobroMaster, int valAlicuotaIvaASustituir, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva) {
@@ -603,12 +633,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             DeshabilitarControlesSegunTipoDeDocumento(TipoDeDocumento);
             CalcularTotales();
             _EsFacturaTradicional = valEsFacturaTradicional;
+            ListaCobrosConTddTdcVPos = new List<CobroConTddTdcVPOS>();
         }
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
             LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
             VueltoConPagoMovilCommand = new RelayCommand(ExecuteVueltoConPagoMovilCommand, CanExecuteVueltoConPagoMovilCommand);
+            CobroTDD_TDCCommand = new RelayCommand(ExecuteCobroTDD_TDCCommand, CanExecuteCobroTDD_TDCCommand);
         }
 
         protected override void InitializeLookAndFeel() {
@@ -635,6 +667,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipTitle = "Vuelto con Pago Móvil",
                 IsVisible = IsVisiblePM,
                 KeyTip = "F10"
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "TDD/TDC",
+                Command = CobroTDD_TDCCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F11.png", UriKind.Relative),
+                ToolTipDescription = "Cobro TDD/TDC",
+                ToolTipTitle = "TDD/TDC",
+                IsVisible = IsVisiblePM,
+                KeyTip = "F11"
             });
             return vResult;
         }
@@ -697,6 +738,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             MontoRestantePorPagar = TotalFactura;
             MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
+            TarjetaVPos = 0;
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
         }
 
@@ -711,6 +753,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     ExecuteCobrarCommand();
                 }                   
             }
+        }
+
+        private void ExecuteCobroTDD_TDCCommand() {
+            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
+            clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
+            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
+            if (insVueltoMegasoft.EjecutaProcesarTarjeta(CodigoCliente, LibConvert.ToStr((MontoRestantePorPagar * -1), 2))) {
+                ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
+                    MontoTransaccion = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal),
+                    BancoTrans = insCobroNav.ObtenerCodigoBancoAsociadoACuentaBancaria(ConsecutivoCompania, insVueltoMegasoft.bancoTransaccion),
+                    NumReferencia = insVueltoMegasoft.numeroReferencia,
+                    InfoAdicional = insVueltoMegasoft.infoAdicional,
+                });
+            }      
         }
 
         protected override void ExecuteCancel() {
@@ -734,7 +790,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             bool vResult;
             CalcularTotales();
             TotalPagosME = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas) - LibMath.Abs(VueltoEnDivisas);
-            TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
+            TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TarjetaVPos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
             vResult = ((TotalPagosML == 0) && (MontoRestantePorPagar <= 0))
                    || ((TotalPagosME == 0) && (MontoRestantePorPagarEnDivisas <= 0));
             if (!vResult) {
@@ -753,7 +809,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private bool CanExecuteVueltoConPagoMovilCommand() {
             bool vResult = false;
             vResult = (MontoRestantePorPagar < 0) || (MontoRestantePorPagarEnDivisas < 0);
-            return vResult; }
+            return vResult; 
+        }
+
+        private bool CanExecuteCobroTDD_TDCCommand() { return true; }
         #endregion
 
         #region Metodos
@@ -782,7 +841,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public override void CalcularTotales() {
             decimal TotalPagosMe = LibMath.Abs(EfectivoEnDivisas) + LibMath.Abs(TransferenciaEnDivisas);
-            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal);
+            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TarjetaVPos) + LibMath.Abs(TransferenciaEnMonedaLocal);
             LimpiarVuelto(TotalPagosML, TotalPagosMe);
             TotalPagosML = TotalPagosML - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
             TotalPagosMe = TotalPagosMe - LibMath.Abs(VueltoEnDivisas);
@@ -850,7 +909,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } else {
                 vCodigoMonedaLocal = LibString.IsNullOrEmpty(vCodigoMonedaLocal) ? "VES" : vCodigoMonedaLocal;
             }
-            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
+            decimal TotalPagosML = LibMath.Abs(EfectivoEnMonedaLocal) + LibMath.Abs(TarjetaUno) + LibMath.Abs(TarjetaDos) + LibMath.Abs(TarjetaVPos) + LibMath.Abs(TransferenciaEnMonedaLocal) - LibMath.Abs(VueltoEnMonedaLocal + VueltoC2p);
             if (TotalPagosML == 0) { //Se cobró todo en ME
                 decimal vCobradoEnDivisasConvertido = 0;
                 if (EfectivoEnDivisas != 0) {
@@ -1024,6 +1083,25 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     CodigoMoneda = CodigoMonedaDivisa,
                     CambioAMonedaLocal = CambioAMonedaLocal
                 });
+            }
+            if (TarjetaVPos != 0) {
+                foreach(var TarjetaPosList in ListaCobrosConTddTdcVPos) {
+                    vConsecutivoRenglon += 1;
+                    vRenglonesDeCobro.Add(new RenglonCobroDeFactura() {
+                        ConsecutivoCompania = ConsecutivoCompania,
+                        NumeroFactura = NumeroFactura,
+                        TipoDeDocumento = LibConvert.EnumToDbValue((int)valTipoDeDocumento),
+                        ConsecutivoRenglon = vConsecutivoRenglon,
+                        CodigoFormaDelCobro = "00003",
+                        CodigoBanco = TarjetaPosList.BancoTrans,
+                        Monto = TarjetaPosList.MontoTransaccion,
+                        NumeroDocumentoAprobacion = TarjetaPosList.NumReferencia,
+                        CodigoMoneda = vCodigoMonedaLocal,
+                        CambioAMonedaLocal = 1,
+                        InfoAdicional = TarjetaPosList.InfoAdicional
+                    });
+                }
+                
             }
             return vRenglonesDeCobro;
         }

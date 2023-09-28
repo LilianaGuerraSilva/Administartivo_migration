@@ -141,6 +141,7 @@
     <Compile Include="Reportes\GSCajaCerrada.xaml.cs">
       <DependentUpon>GSCajaCerrada.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIMefVentaPagosElectronicos.cs" />
     <Compile Include="ViewModel\BuscarUbicacionDeArticuloViewModel.cs" />
     <Compile Include="clsCajaAperturaMenu.cs" />
     <Compile Include="clsCajaMenu.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="UIMefVentaFacturaRapida.cs" />
     <Compile Include="UIMefVentaFacturaRapidaCobroMultimoneda.cs" />
     <Compile Include="ViewModel\BuscarPrecioDeArticuloViewModel.cs" />
+    <Compile Include="ViewModel\PagosElectronicosMngViewModel.cs" />
     <Compile Include="ViewModel\CajaAperturaMngViewModel.cs" />
     <Compile Include="ViewModel\CajaAperturaViewModel.cs" />
     <Compile Include="ViewModel\CajaDiagnosticoViewModel.cs" />
