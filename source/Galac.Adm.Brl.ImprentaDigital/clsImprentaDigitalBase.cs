@@ -266,7 +266,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vSql.AppendLine(" ,Ciudad");
             vSql.AppendLine(" ,ZonaPostal");
             vSql.AppendLine(" ,Telefono");
-            vSql.AppendLine(" ,Email");
+            vSql.AppendLine(" ,Email, Contacto");
             vSql.AppendLine(" FROM Cliente ");
             vSql.AppendLine(" WHERE ConsecutivoCompania = @ConsecutivoCompania ");
             vSql.AppendLine(" AND Codigo = @CodigoCliente ");
@@ -288,6 +288,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ClienteImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");
                     ClienteImprentaDigital.Telefono = LibXml.GetPropertyString(vResult, "Telefono");
                     ClienteImprentaDigital.Email = LibXml.GetPropertyString(vResult, "Email");
+                    ClienteImprentaDigital.Contacto = LibXml.GetPropertyString(vResult, "Contacto");
                 } else {
                     throw new GalacException("No existen datos para el cliente del documento a enviar", eExceptionManagementType.Controlled);
                 }
