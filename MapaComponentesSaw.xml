@@ -9,14 +9,14 @@
     <LibGalacXtmCI>2201</LibGalacXtmCI>
   </Libreria>
   <ComponentesCOM>
-    <SawEnum>ND</SawEnum>
-    <SawImportExport>ND</SawImportExport>
-    <SawMaquinaFiscal>ND</SawMaquinaFiscal>
-    <SawNav>ND</SawNav>
-    <SawRpt>ND</SawRpt>
-    <SawSP>ND</SawSP>
-    <SawTbls>ND</SawTbls>
-    <SawVista>ND</SawVista>    
+    <SawEnum>2307</SawEnum>
+    <SawImportExport>2307</SawImportExport>
+    <SawMaquinaFiscal>2307</SawMaquinaFiscal>
+    <SawNav>2307</SawNav>
+    <SawRpt>2307</SawRpt>
+    <SawSP>2307</SawSP>
+    <SawTbls>2307</SawTbls>
+    <SawVista>2307</SawVista>    
     <ContabRpt>2301</ContabRpt>
     <VMAX type="ocx" LiteralName="VMAX">4.00.0008</VMAX>
     <vmax3fpi LiteralName="vmax3fpi">1.0.0.8</vmax3fpi>
@@ -176,10 +176,10 @@
     <Galac.Axi.Ccl.Balances>2.60.0.0</Galac.Axi.Ccl.Balances>
     <Galac.Axi.Uil.Balances>2.60.0.0</Galac.Axi.Uil.Balances>
     
-    <Galac.Saw.Ccl.Tablas>2.60.5.0</Galac.Saw.Ccl.Tablas>
-    <Galac.Saw.Dal.Tablas>2.60.5.0</Galac.Saw.Dal.Tablas>
-    <Galac.Saw.Brl.Tablas>2.60.5.0</Galac.Saw.Brl.Tablas>
-    <Galac.Saw.Uil.Tablas>2.60.5.0</Galac.Saw.Uil.Tablas>
+    <Galac.Saw.Ccl.Tablas>2.60.6.0</Galac.Saw.Ccl.Tablas>
+    <Galac.Saw.Dal.Tablas>2.60.6.0</Galac.Saw.Dal.Tablas>
+    <Galac.Saw.Brl.Tablas>2.60.6.0</Galac.Saw.Brl.Tablas>
+    <Galac.Saw.Uil.Tablas>2.60.6.0</Galac.Saw.Uil.Tablas>
 
     <Galac.Saw.Brl.Integracion>2.60.1.0</Galac.Saw.Brl.Integracion>
     <Galac.Saw.Dal.Integracion>2.60.1.0</Galac.Saw.Dal.Integracion>
@@ -225,7 +225,7 @@
 	
     <Galac.Adm.Ccl.ImprentaDigital>2.60.2.0</Galac.Adm.Ccl.ImprentaDigital>
     <Galac.Adm.Brl.ImprentaDigital>2.60.2.0</Galac.Adm.Brl.ImprentaDigital>    
-    <Galac.Saw.LibWebConnector>2.60.1.0</Galac.Saw.LibWebConnector>		    
+    <Galac.Saw.LibWebConnector>2.60.2.0</Galac.Saw.LibWebConnector>		    
     	
     <Galac.Adm.Ccl.CAnticipo>2.60.0.0</Galac.Adm.Ccl.CAnticipo>
     <Galac.Adm.Dal.CAnticipo>2.60.0.0</Galac.Adm.Dal.CAnticipo>
