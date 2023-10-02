@@ -743,15 +743,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteVueltoConPagoMovilCommand() {
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-            if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibConvert.ToStr((MontoRestantePorPagar * -1), 2))) {
-                VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
-                infoAdcional = insVueltoMegasoft.infoAdicional;
-                numeroReferencia = insVueltoMegasoft.numeroReferencia;
-                if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
-                    ExecuteCobrarCommand();
-                }                   
+            try {
+                C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
+                //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
+                if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibConvert.ToStr((MontoRestantePorPagar * -1), 2))) {
+                    VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
+                    infoAdcional = insVueltoMegasoft.infoAdicional;
+                    numeroReferencia = insVueltoMegasoft.numeroReferencia;
+                    if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
+                        ExecuteCobrarCommand();
+                    }
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
         }
 

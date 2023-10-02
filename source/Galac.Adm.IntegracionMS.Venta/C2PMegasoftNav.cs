@@ -157,23 +157,20 @@ namespace Galac.Adm.IntegracionMS.Venta {
         }
 
         private Tuple<bool, response> SendProcesar(request request) {
-            try {
-                bool vExito = false;
-                var requestJson = Serialize<request>(request);
-                var vResponse = Post(_Urlprocesar_metodo_pago, requestJson);
-                if (vResponse != null) {
-                    if (vResponse.codRespuesta == respAprobada) {
-                        infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
-                        numeroReferencia = vResponse.numeroReferencia;
-                        vExito = true;
-                    } else {
-                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
-                    }
+
+            bool vExito = false;
+            var requestJson = Serialize<request>(request);
+            var vResponse = Post(_Urlprocesar_metodo_pago, requestJson);
+            if (vResponse != null) {
+                if (vResponse.codRespuesta == respAprobada) {
+                    infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
+                    numeroReferencia = vResponse.numeroReferencia;
+                    vExito = true;
+                } else {
+                    throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
                 }
-                return new Tuple<bool, response>(vExito, vResponse);
-            } catch (System.Exception vEx) {
-                throw new LibGalac.Aos.Catching.GalacAlertException("Conexión con plataforma de pagos");
             }
+            return new Tuple<bool, response>(vExito, vResponse);
         }
 
         response Post(string Url, string requestjson) {
@@ -202,7 +199,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return JsonConvert.DeserializeObject<T>(json);  
         }
 
-        public static string LeerConfigKey(string valKey) {
+        string LeerConfigKey(string valKey) {
             string vResult = string.Empty;
             try {
                 if (!string.IsNullOrEmpty(LibAppSettings.ReadAppSettingsKey(valKey))) {
