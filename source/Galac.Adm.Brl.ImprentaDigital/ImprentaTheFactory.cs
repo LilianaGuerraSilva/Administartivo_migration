@@ -12,6 +12,8 @@ using Galac.Saw.LibWebConnector;
 using Galac.Saw.Ccl.Cliente;
 using LibGalac.Aos.Catching;
 using LibGalac.Aos.Cnf;
+using System.Threading;
+using Newtonsoft.Json;
 
 namespace Galac.Adm.Brl.ImprentaDigital {
     public class ImprentaTheFactory: clsImprentaDigitalBase {
@@ -85,7 +87,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 stSolicitudDeConsulta vJsonDeConsulta = new stSolicitudDeConsulta() {
                     Serie = vSerie,
                     TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
-                    NumeroDocumento = LibString.Right(NumeroFactura, 8)
+                    NumeroDocumento = NumeroFactura
                 };
                 if (vChekConeccion) {
                     vDocumentoJSON = clsConectorJson.SerializeJSON(vJsonDeConsulta);//Construir XML o JSON Con datos 
@@ -122,7 +124,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         stSolicitudDeAccion vSolicitudDeAnulacion = new stSolicitudDeAccion() {
                             Serie = vSerie,
                             TipoDocumento = GetTipoDocumento(FacturaImprentaDigital.TipoDeDocumentoAsEnum),
-                            NumeroDocumento = LibString.Right(NumeroFactura, 8),
+                            NumeroDocumento = NumeroFactura,
                             MotivoAnulacion = FacturaImprentaDigital.MotivoDeAnulacion
                         };
                         string vDocumentoJSON = clsConectorJson.SerializeJSON(vSolicitudDeAnulacion); //Construir XML o JSON Con datos                         
@@ -201,9 +203,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vDocumentoDigital.Element("encabezado").Add(vTotales);
             vDocumentoDigital.Element("encabezado").Add(vTotalesME);
             vDocumentoDigital.Add(vDetalleFactura);
-            if (_TipoDeDocumento == eTipoDocumentoFactura.Factura) {
+            //if (_TipoDeDocumento == eTipoDocumentoFactura.Factura) {
                 vDocumentoDigital.Add(vObservaciones);
-            }
+            //}
         }
         #endregion Construye  Documento
         #region Identificacion de Documento
@@ -215,7 +217,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vHoraEmision = LibString.Replace(vHoraEmision, ".", "");
             XElement vResult = new XElement("identificacionDocumento",
                     new XElement("TipoDocumento", GetTipoDocumento(_TipoDeDocumento)),
-                    new XElement("numeroDocumento", AjustarNumeroDeDocumento(FacturaImprentaDigital.Numero)),
+                    new XElement("numeroDocumento", FacturaImprentaDigital.Numero),
                     new XElement("tipoproveedor", _TipoDeProveedor),
                     new XElement("tipoTransaccion", GetTipoTransaccion(FacturaImprentaDigital.TipoDeTransaccionAsEnum)),
                     new XElement("fechaEmision", LibConvert.ToStr(FacturaImprentaDigital.Fecha)),
@@ -228,23 +230,10 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("moneda", FacturaImprentaDigital.CodigoMoneda));
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add(new XElement("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada)));
-                vResult.Add(new XElement("numeroFacturaAfectada", LibString.Right(FacturaImprentaDigital.NumeroFacturaAfectada, 11)));
+                vResult.Add(new XElement("numeroFacturaAfectada", FacturaImprentaDigital.NumeroFacturaAfectada));
                 vResult.Add(new XElement("serieFacturaAfectada", vSerie));
                 vResult.Add(new XElement("montoFacturaAfectada", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))));
                 vResult.Add(new XElement("comentarioFacturaAfectada", FacturaImprentaDigital.Observaciones));
-            }
-            return vResult;
-        }
-
-        private string AjustarNumeroDeDocumento(string valNumeroDocumento) {
-            string vResult = "";
-            if (!LibString.IsNullOrEmpty(valNumeroDocumento)) {
-                int vSeparadorPrefijo = LibString.IndexOf(valNumeroDocumento, '-');
-                if (vSeparadorPrefijo > 0) {
-                    vResult = LibText.FillWithCharToLeft(LibString.SubString(valNumeroDocumento, vSeparadorPrefijo + 1, 11), "0", 11);
-                } else {
-                    vResult = LibText.FillWithCharToLeft(LibString.SubString(valNumeroDocumento, LibString.Len(valNumeroDocumento) - 11, 11), "0", 11);
-                }
             }
             return vResult;
         }
@@ -298,20 +287,65 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         #region InfoAdicional
         private XElement GetDatosInfoAdicional() {
-            XElement vResult = new XElement("InfoAdicional",
-                new XElement("InfoAdicional",
-                    new XElement("Posicion", "1,3"),
-                    new XElement("Campo", "Información Adicional"),
-                    new XElement("Valor", "Temporal")),
-                new XElement("InfoAdicional",
-                    new XElement("Posicion", "1,1"),
-                    new XElement("Campo", "Observaciones"),
-                    new XElement("Valor", FacturaImprentaDigital.Observaciones)),
-                new XElement("InfoAdicional",
-                    new XElement("Posicion", "1,2"),
-                    new XElement("Campo", "Ciudad"),
-                    new XElement("Valor", ClienteImprentaDigital.Ciudad)));
+            string vTextoColetilla = "Este pago estará sujeto al cobro adicional del 3% del Impuesto a las Grandes Transacciones Financieras (IGTF), de conformidad con la Providencia Administrativa SNAT/2022/000013 publicada en la G.O.N 42.339 del 17-03- 2022, en caso de ser cancelado en divisas. Este impuesto no aplica en pago en Bs.";
+            string vTextoColetilla2 = "En los casos en que la base imponible de la venta o prestación de servicio estuviere expresada en moneda extranjera, se establecerá la equivalencia en moneda nacional, al tipo de cambio corriente en el mercado del día en que ocurra el hecho imponible, salvo que éste ocurra en un día hábil para el sector financiero, en cuyo caso se aplicará el vigente en el día hábil inmediatamente siguiente al de la operación. (art 25 Ley de IVA G.O 6.152 de fecha 18/11/2014).";
+            if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito) {
+                vTextoColetilla = "";
+            }
+
+            XElement vVarios = new XElement("root",
+                        new XElement("Atencion", ClienteImprentaDigital.Contacto),
+                        new XElement("Ciudad", ClienteImprentaDigital.Ciudad),
+                        new XElement("Envia", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Name
+                        ));
+            XElement vCampoPdf = new XElement("Campo", "PDF");
+
+            var vColetilla1 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla", vTextoColetilla)).ToString());
+            var vColetilla2 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla2", vTextoColetilla2)).ToString());
+            var vColetilla3 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla3", FacturaImprentaDigital.Observaciones)).ToString());
+            var vColetilla4 = XmlToJsonWithoutRoot(vVarios.ToString());
+
+            List<XElement> vInfoAdicional = new List<XElement>();
+            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla1)));
+            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla2)));
+            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla3)));
+            vInfoAdicional.Add(new XElement("InfoAdicional", vCampoPdf, new XElement("Valor", vColetilla4)));
+
+            XElement vResult = new XElement("InfoAdicional", vInfoAdicional);
             return vResult;
+
+            //XElement vAtencion = new XElement("Atencion", ClienteImprentaDigital.Contacto);
+            //XElement vCiudad = new XElement("Ciudad", ClienteImprentaDigital.Ciudad);
+            //XElement vEnvia = new XElement("Envia", ((CustomIdentity)Thread.CurrentPrincipal.Identity).Name);
+            //XElement vColetilla = new XElement("Coletilla", vTextoColetilla);
+            //XElement vColetilla2 = new XElement("Coletilla2", vTextoColetilla2);
+            //XElement vObservaciones = new XElement("Coletilla3", FacturaImprentaDigital.Observaciones);
+            //var vColetilla4 = vAtencion + "," + vCiudad + "," + vEnvia;
+
+            //XElement vResult = new XElement("InfoAdicional",
+            //    new XElement("InfoAdicional",
+            //        new XElement("InfoAdicional",
+            //            new XElement("Campo", "PDF"),
+            //            new XElement("Valor", LibString.Replace(LibString.Replace(LibString.Replace(clsConectorJson.SerializeJSON(vColetilla), @"\r", ""), @"\n", ""), @" \", @"\")
+            //            )),
+            //        new XElement("InfoAdicional",
+            //            new XElement("Campo", "PDF"),
+            //            new XElement("Valor", LibString.Replace(LibString.Replace(LibString.Replace(clsConectorJson.SerializeJSON(vColetilla2), @"\r", ""), @"\n", ""), @" \", @"\")
+            //            )),
+            //        new XElement("InfoAdicional",
+            //            new XElement("Campo", "PDF"),
+            //            new XElement("Valor", LibString.Replace(LibString.Replace(LibString.Replace(clsConectorJson.SerializeJSON(vObservaciones), @"\r", ""), @"\n", ""), @" \", @"\")
+            //            )),
+            //        new XElement("InfoAdicional",
+            //            new XElement("Campo", "PDF"),
+            //            new XElement("Valor", LibString.Replace(LibString.Replace(LibString.Replace(clsConectorJson.SerializeJSON(vColetilla4), @"\r", ""), @"\n", ""), @" \", @"\")
+            //            ))
+            //        ));
+        }
+
+        static string XmlToJsonWithoutRoot(string xml) {
+            var doc = XDocument.Parse(xml);
+            return JsonConvert.SerializeXNode(doc, Newtonsoft.Json.Formatting.None, omitRootObject: true);
         }
         #endregion InfoAdicional
 
@@ -408,7 +442,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                new XElement("totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, 2))),
                new XElement("totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA, 2))),
                new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))),
-               new XElement("montoEnLetras", LibConvert.ToNumberInLetters(FacturaImprentaDigital.TotalFactura, false, "")),
+               new XElement("montoEnLetras", LibConvert.ToNumberInLetters(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, false, "")),
                new XElement("totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1, 2))));
             vResult.Add(GetTotalImpuestos(false).Descendants("impuestosSubtotal"));
             vResult.Add(GetFormasPago().Descendants("formasPago"));
@@ -418,13 +452,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         private XElement GetTotalesME() {
             XElement vResult = new XElement("TotalesOtraMoneda",
                new XElement("moneda", CodigoMonedaME),
-               new XElement("tipoCambio", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("tipoCambio", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4))),
                new XElement("montoGravadoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("montoExentoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalMontoExento / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("subtotal", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalBaseImponible + FacturaImprentaDigital.TotalMontoExento) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
-               new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
+               new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("montoEnLetras", LibConvert.ToNumberInLetters(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2), false, "")),
                new XElement("totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1 / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))));
             vResult.Add(GetTotalImpuestos(true).Descendants("impuestosSubtotal"));
