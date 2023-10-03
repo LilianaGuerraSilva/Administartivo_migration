@@ -14,8 +14,6 @@ using LibGalac.Aos.Cnf;
 namespace Galac.Adm.IntegracionMS.Venta {
     public class C2PMegasoftNav {
         string _UrlBase;
-        const string MonedaBs = "VES";
-        const string respAprobada = "00";
         const string _Urlprocesar_metodo_pago = "/vpos/metodo";
         public string infoAdicional;
         public string numeroReferencia;
@@ -29,9 +27,9 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public bool EjecutaProcesarCambioPagoMovil(string valCedula, decimal valVuelto) {            
             request request = new request() {
                 accion = "cambio",
-                montoTransaccion = valVuelto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
+                montoTransaccion = valVuelto,
                 cedula = valCedula,
-                tipoMoneda = MonedaBs
+                tipoMoneda = Constantes.MonedaBs
             };
             var vExito = SendProcesar(request);
             if (vExito.Item1) {
@@ -43,7 +41,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public bool EjecutaProcesarTarjeta(string valCedula, decimal valMonto) {
             request request = new request() {
                 accion = "tarjeta",
-                montoTransaccion = valMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
+                montoTransaccion = valMonto,
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
@@ -57,7 +55,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public bool EjecutaProcesarZelle(string valCedula, decimal valMonto) {
                 request request = new request() {
                     accion = "tarjeta",
-                    montoTransaccion = valMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
+                    montoTransaccion = valMonto,
                     cedula = valCedula
                 };
             var vExito = SendProcesar(request);
@@ -71,7 +69,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public bool EjecutaProcesarCompraP2C(string valCedula, decimal valMonto) {
             request request = new request() {
                 accion = "tarjeta",
-                montoTransaccion = valMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
+                montoTransaccion = valMonto,
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
@@ -85,7 +83,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public bool EjecutaProcesarCompraBiopago(string valCedula, decimal valMonto) {
             request request = new request() {
                 accion = "tarjeta",
-                montoTransaccion = valMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
+                montoTransaccion = valMonto,
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
@@ -162,7 +160,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
             var requestJson = Serialize<request>(request);
             var vResponse = Post(_Urlprocesar_metodo_pago, requestJson);
             if (vResponse != null) {
-                if (vResponse.codRespuesta == respAprobada) {
+                if (vResponse.codRespuesta == Constantes.valido) {
                     infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
                     numeroReferencia = vResponse.numeroReferencia;
                     vExito = true;
@@ -212,61 +210,5 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public static bool EsVisiblePM() {
             return true;
         }
-    }
-
-    
-
-    
-        public class request {
-            public string accion { get; set; }
-            public string montoTransaccion { get; set; }
-            public string cedula { get; set; }
-            public string tipoMoneda { get; set; }
-        }
-
-        public class response {
-            public string codRespuesta { get; set; }
-            public string mensajeRespuesta { get; set; }
-            public string nombreVoucher { get; set; }
-            public int numSeq { get; set; }
-            public string numeroTarjeta { get; set; }
-            public string cedula { get; set; }
-            public string montoTransaccion { get; set; }
-            public string montoAvance { get; set; }
-            public string montoServicios { get; set; }
-            public string montoServiciosAprobado { get; set; }
-            public string montoDonativo { get; set; }
-            public string tipoCuenta { get; set; }
-            public string tipoTarjeta { get; set; }
-            public string fechaExpiracion { get; set; }
-            public bool existeCopiaVoucher { get; set; }
-            public string fechaTransaccion { get; set; }
-            public string horaTransaccion { get; set; }
-            public string terminalVirtual { get; set; }
-            public string tipoTransaccion { get; set; }
-            public string numeroAutorizacion { get; set; }
-            public string codigoAfiliacion { get; set; }
-            public string tid { get; set; }
-            public string numeroReferencia { get; set; }
-            public string nombreAutorizador { get; set; }
-            public string codigoAdquiriente { get; set; }
-            public string numeroLote { get; set; }
-            public string tipoProducto { get; set; }
-            public string bancoEmisorCheque { get; set; }
-            public string numeroCuenta { get; set; }
-            public string numeroCheque { get; set; }
-            public string tipoMonedaFiat { get; set; }
-            public string descrMonedaFiat { get; set; }
-            public string montoCriptomoneda { get; set; }
-            public string tipoCriptomoneda { get; set; }
-            public string descrCriptomoneda { get; set; }
-            public string tipoMoneda { get; set; }
-            public string montoDivisa { get; set; }
-            public string descrMoneda { get; set; }
-            public string archivoCierre { get; set; }
-            public bool flagImpresion { get; set; }
-            public int medioPago { get; set; }
-            public string voucherServicios { get; set; }
-            public object listaTransServiciosOLB { get; set; }
-        }    
+    }  
 }
