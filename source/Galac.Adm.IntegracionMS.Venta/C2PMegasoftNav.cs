@@ -21,15 +21,15 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public string numeroReferencia;
         public string bancoTransaccion;
 
-        public C2PMegasoftNav() {                    
+        public C2PMegasoftNav() {
             string vResult = LeerConfigKey("UrlVPOSLocal");
             _UrlBase = string.IsNullOrEmpty(vResult) ? "http://localhost:8085" : vResult;
         }
 
-        public bool EjecutaProcesarCambioPagoMovil(string valCedula, string valVuelto) {            
+        public bool EjecutaProcesarCambioPagoMovil(string valCedula, decimal valVuelto) {            
             request request = new request() {
                 accion = "cambio",
-                montoTransaccion = valVuelto,
+                montoTransaccion = valVuelto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
                 cedula = valCedula,
                 tipoMoneda = MonedaBs
             };
@@ -40,10 +40,10 @@ namespace Galac.Adm.IntegracionMS.Venta {
             }
             return vExito.Item1;
         }
-        public bool EjecutaProcesarTarjeta(string valCedula, string valMonto) {
+        public bool EjecutaProcesarTarjeta(string valCedula, decimal valMonto) {
             request request = new request() {
                 accion = "tarjeta",
-                montoTransaccion = valMonto,
+                montoTransaccion = valMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
@@ -54,10 +54,10 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return vExito.Item1;
         }
 
-        public bool EjecutaProcesarZelle(string valCedula, string valMonto) {
+        public bool EjecutaProcesarZelle(string valCedula, decimal valMonto) {
                 request request = new request() {
                     accion = "tarjeta",
-                    montoTransaccion = valMonto,
+                    montoTransaccion = valMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
                     cedula = valCedula
                 };
             var vExito = SendProcesar(request);
@@ -68,10 +68,10 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return vExito.Item1;
         }
 
-        public bool EjecutaProcesarCompraP2C(string valCedula, string valMonto) {
+        public bool EjecutaProcesarCompraP2C(string valCedula, decimal valMonto) {
             request request = new request() {
                 accion = "tarjeta",
-                montoTransaccion = valMonto,
+                montoTransaccion = valMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
@@ -82,10 +82,10 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return vExito.Item1;
         }
 
-        public bool EjecutaProcesarCompraBiopago(string valCedula, string valMonto) {
+        public bool EjecutaProcesarCompraBiopago(string valCedula, decimal valMonto) {
             request request = new request() {
                 accion = "tarjeta",
-                montoTransaccion = valMonto,
+                montoTransaccion = valMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture),
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
