@@ -29,10 +29,10 @@ namespace Galac.Adm.Uil.Venta {
 
         public ObservableCollection<LibRibbonTabData> RibbonTabData {
             get {
-                if(_ViewModel != null) {
-                    return _ViewModel.RibbonData.TabDataCollection;
-                } else {
+                if(_ViewModel == null) {
                     return null;
+                } else {
+                    return _ViewModel.RibbonData.TabDataCollection;
                 }
             }
         }
@@ -78,9 +78,6 @@ namespace Galac.Adm.Uil.Venta {
 
         public void Reload() {
             InitializeIfNecessary();
-            if (_ViewModel != null) {
-                //_ViewModel.ExecuteSearchAndInitLookAndFeel();
-            }
         }
         #endregion //Metodos Generados
 

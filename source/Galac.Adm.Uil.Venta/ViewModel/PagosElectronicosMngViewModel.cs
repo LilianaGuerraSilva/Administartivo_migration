@@ -91,55 +91,48 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Comandos
 
         private void ExecuteCierreCommand() {
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
+            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();            
             insVueltoMegasoft.EjecutaCierre();
         }
 
         private void ExecutePreCierreCommand() {
             C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
             insVueltoMegasoft.EjecutaPrecierre();
         }
 
         private void ExecuteReImprimirCierreCommand() {
             C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
             insVueltoMegasoft.EjecutaUltimoCierre();
         }
 
         private void ExecuteImprimirUltimoProCommand() {
             C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
             insVueltoMegasoft.EjecutaUltimoVoucherProcesado();
         }
 
         private void ExecuteImprimirUltimoAproCommand() {
             C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
             insVueltoMegasoft.EjecutaUltimoVoucherAprobado();
         }
 
         private bool CanExecuteCierreCommand() {
-            return true; //LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Asignar Caja Registradora")
-                //&& LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Modificar")
-                //&& LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Insertar");
+            return true; 
         }
 
         private bool CanExecutePreCierreCommand() {
-            return true; //base.CanUpdate;// && LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Modificar");
+            return true; 
         }
 
         private bool CanExecuteReImprimirCierreCommand() {
-            return true; //base.CanCreate && LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Insertar");
+            return true; 
         }
 
         private bool CanExecuteImprimirUltimoProCommand() {
-            return true; //LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Abrir Gaveta");
+            return true; 
         }
 
         private bool CanExecuteImprimirUltimoAproCommand() {
-            return true; //LibSecurityManager.CurrentUserHasAccessTo("Caja Registradora", "Abrir Gaveta");
+            return true; 
         }
 
         private LibRibbonGroupData CreateAccionesRibbonGroup() {
@@ -170,7 +163,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Command = ImprimirUltimoProCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/Print.png", UriKind.Relative),
                 ToolTipDescription = "Imprimir Último Voucher Procesado",
-                ToolTipTitle = "Imprimir Ultimo Voucher Procesado"
+                ToolTipTitle = "Imprimir Último Voucher Procesado"
                 //KeyTip = "A"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
@@ -178,7 +171,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Command = ImprimirUltimoAproCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/Print.png", UriKind.Relative),
                 ToolTipDescription = "Imprimir Último Voucher Aprobado",
-                ToolTipTitle = "Imprimir Ultimo Voucher Aprovado"
+                ToolTipTitle = "Imprimir Último Voucher Aprovado"
                 //KeyTip = "A"
             });
             return vResult;
