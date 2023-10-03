@@ -154,7 +154,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return null;
         }
         string Serialize<T>(T obj) {
-            return JsonConvert.SerializeObject(obj);
+            return JsonConvert.SerializeObject(obj, new CustomDecimalJsonConverter());
         }
         T Deserialize<T>(string json) {
             return JsonConvert.DeserializeObject<T>(json);  
