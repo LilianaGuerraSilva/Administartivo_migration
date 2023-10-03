@@ -18,6 +18,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public string infoAdicional;
         public string numeroReferencia;
         public string bancoTransaccion;
+        public decimal montoTransaccion;
 
         public C2PMegasoftNav() {
             string vResult = LeerConfigKey("UrlVPOSLocal");
@@ -32,10 +33,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 tipoMoneda = Constantes.MonedaBs
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
         public bool EjecutaProcesarTarjeta(string valCedula, decimal valMonto) {
@@ -45,10 +42,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -59,10 +52,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                     cedula = valCedula
                 };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -73,10 +62,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -87,10 +72,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 cedula = valCedula
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -99,10 +80,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 accion = "imprimeUltimoVoucher"
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -111,10 +88,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 accion = "imprimeUltimoVoucherP"
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -123,10 +96,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 accion = "precierre"
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -135,10 +104,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 accion = "cierre"
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -147,10 +112,6 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 accion = "ultimoCierre"
             };
             var vExito = SendProcesar(request);
-            if (vExito.Item1) {
-                //vExito.Item2;
-                // Procesar acá los valores que se van a enviar a la aplicación {Saw / G360}
-            }
             return vExito.Item1;
         }
 
@@ -163,6 +124,8 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 if (vResponse.codRespuesta == Constantes.valido) {
                     infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
                     numeroReferencia = vResponse.numeroReferencia;
+                    //montoTransaccion = LibConvert.ToDec(vResponse.montoTransaccion,2);
+                    //bancoTransaccion = vResponse.bancoEmisorCheque;
                     vExito = true;
                 } else {
                     throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
