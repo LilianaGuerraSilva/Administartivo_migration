@@ -746,7 +746,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
                 //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-                if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibConvert.ToStr((MontoRestantePorPagar * -1), 2))) {
+                if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(LibConvert.ToDec(MontoRestantePorPagar,2)))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
                     infoAdcional = insVueltoMegasoft.infoAdicional;
                     numeroReferencia = insVueltoMegasoft.numeroReferencia;
@@ -762,17 +762,23 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteCobroTDD_TDCCommand() {
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
-            //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-            if (insVueltoMegasoft.EjecutaProcesarTarjeta(CodigoCliente, LibConvert.ToStr((MontoRestantePorPagar * -1), 2))) {
-                ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
-                    MontoTransaccion = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal),
-                    BancoTrans = insCobroNav.ObtenerCodigoBancoAsociadoACuentaBancaria(ConsecutivoCompania, insVueltoMegasoft.bancoTransaccion),
-                    NumReferencia = insVueltoMegasoft.numeroReferencia,
-                    InfoAdicional = insVueltoMegasoft.infoAdicional,
-                });
-            }      
+            try {
+                C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
+                clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
+                //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
+                if (insVueltoMegasoft.EjecutaProcesarTarjeta(CodigoCliente, LibMath.Abs(LibConvert.ToDec(MontoRestantePorPagar, 2)))) {
+                    ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
+                        MontoTransaccion = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal),
+                        BancoTrans = insCobroNav.ObtenerCodigoBancoAsociadoACuentaBancaria(ConsecutivoCompania, insVueltoMegasoft.bancoTransaccion),
+                        NumReferencia = insVueltoMegasoft.numeroReferencia,
+                        InfoAdicional = insVueltoMegasoft.infoAdicional,
+                    });
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
         }
 
         protected override void ExecuteCancel() {
@@ -818,7 +824,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult; 
         }
 
-        private bool CanExecuteCobroTDD_TDCCommand() { return true; }
+        private bool CanExecuteCobroTDD_TDCCommand() { return false; }
         #endregion
 
         #region Metodos

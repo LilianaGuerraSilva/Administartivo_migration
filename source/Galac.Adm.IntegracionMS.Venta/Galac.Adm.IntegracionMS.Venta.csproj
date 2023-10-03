@@ -38,6 +38,9 @@
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Cnf">
+      <HintPath>..\..\bin\LibGalac.Aos.Cnf.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
