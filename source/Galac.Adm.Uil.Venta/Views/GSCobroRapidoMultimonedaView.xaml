@@ -514,7 +514,7 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="Collapsed" />
+                    Visibility="{Binding Path=IsVisibleTotalTarjetaVPos, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalTarjeta1"
                     Grid.Row="0"
@@ -557,8 +557,8 @@
                     IsEnabled="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="Collapsed"
-                    Value="{Binding Path=TarjetaVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Visibility="{Binding Path=IsVisibleTotalTarjetaVPos, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Value="{Binding Path=TotalCobrosConTddTdcVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
         <GroupBox
@@ -709,7 +709,7 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleMontoPM, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtVueltoPagoMovil"
                     Grid.Row="1"
@@ -724,7 +724,7 @@
                     IsEnabled="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Visibility="{Binding Path=IsVisibleMontoPM, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=VueltoC2p, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="2"

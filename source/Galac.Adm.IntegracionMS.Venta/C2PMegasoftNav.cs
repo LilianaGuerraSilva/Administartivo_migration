@@ -124,7 +124,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 if (vResponse.codRespuesta == Constantes.valido) {
                     infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
                     numeroReferencia = vResponse.numeroReferencia;
-                    //montoTransaccion = LibConvert.ToDec(vResponse.montoTransaccion,2);
+                    montoTransaccion = LibImportData.ToDec(vResponse.montoTransaccion, 2);
                     //bancoTransaccion = vResponse.bancoEmisorCheque;
                     vExito = true;
                 } else {
@@ -171,6 +171,10 @@ namespace Galac.Adm.IntegracionMS.Venta {
             return vResult;
         }
         public static bool EsVisiblePM() {
+            return true;
+        }
+
+        public static bool EsVisibleTDDTDC() {
             return true;
         }
     }  
