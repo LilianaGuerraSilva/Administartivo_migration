@@ -203,9 +203,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
             vDocumentoDigital.Element("encabezado").Add(vTotales);
             vDocumentoDigital.Element("encabezado").Add(vTotalesME);
             vDocumentoDigital.Add(vDetalleFactura);
-            //if (_TipoDeDocumento == eTipoDocumentoFactura.Factura) {
-                vDocumentoDigital.Add(vObservaciones);
-            //}
+            vDocumentoDigital.Add(vObservaciones);
         }
         #endregion Construye  Documento
         #region Identificacion de Documento
@@ -230,7 +228,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     new XElement("moneda", FacturaImprentaDigital.CodigoMoneda));
             if (_TipoDeDocumento == eTipoDocumentoFactura.NotaDeCredito || _TipoDeDocumento == eTipoDocumentoFactura.NotaDeDebito) {
                 vResult.Add(new XElement("fechaFacturaAfectada", LibConvert.ToStr(FacturaImprentaDigital.FechaDeFacturaAfectada)));
-                vResult.Add(new XElement("numeroFacturaAfectada", FacturaImprentaDigital.NumeroFacturaAfectada));
+                vResult.Add(new XElement("numeroFacturaAfectada", LibString.Replace(FacturaImprentaDigital.NumeroFacturaAfectada, "-","")));
                 vResult.Add(new XElement("serieFacturaAfectada", vSerie));
                 vResult.Add(new XElement("montoFacturaAfectada", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))));
                 vResult.Add(new XElement("comentarioFacturaAfectada", FacturaImprentaDigital.Observaciones));
@@ -293,6 +291,12 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 vTextoColetilla = "";
             }
 
+            string vObservaciones = string.Empty;
+            if (FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.NotaDeCredito || FacturaImprentaDigital.TipoDeDocumentoAsEnum == eTipoDocumentoFactura.NotaDeDebito) {
+                vObservaciones = "Nro.Fact.Afectada Original: " + FacturaImprentaDigital.NumeroFacturaAfectada + ". ";
+            }
+            vObservaciones += FacturaImprentaDigital.Observaciones;
+
             XElement vVarios = new XElement("root",
                         new XElement("Atencion", ClienteImprentaDigital.Contacto),
                         new XElement("Ciudad", ClienteImprentaDigital.Ciudad),
@@ -302,7 +306,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
             var vColetilla1 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla", vTextoColetilla)).ToString());
             var vColetilla2 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla2", vTextoColetilla2)).ToString());
-            var vColetilla3 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla3", FacturaImprentaDigital.Observaciones)).ToString());
+            var vColetilla3 = XmlToJsonWithoutRoot(new XElement("root", new XElement("Coletilla3", LibString.Left(vObservaciones, 250))).ToString());
             var vColetilla4 = XmlToJsonWithoutRoot(vVarios.ToString());
 
             List<XElement> vInfoAdicional = new List<XElement>();
@@ -434,6 +438,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         #region Totales
         private XElement GetTotales() {
             // listaDescBonificacion -> otros cargos y descuentos se debe revisar. 
+            decimal vTotalFacturaMasIGTF = FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML;
+            string vMontoEnLetrasME = MontoEnLetras(vTotalFacturaMasIGTF, FacturaImprentaDigital.CodigoMoneda);
+
             XElement vResult = new XElement("totales",
                new XElement("nroItems", DetalleFacturaImprentaDigital.Count),
                new XElement("montoGravadoTotal", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalBaseImponible, 2))),
@@ -442,7 +449,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                new XElement("totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, 2))),
                new XElement("totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA, 2))),
                new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalFactura, 2))),
-               new XElement("montoEnLetras", LibConvert.ToNumberInLetters(FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML, false, "")),
+               new XElement("montoEnLetras", vMontoEnLetrasME),
                new XElement("totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1, 2))));
             vResult.Add(GetTotalImpuestos(false).Descendants("impuestosSubtotal"));
             vResult.Add(GetFormasPago().Descendants("formasPago"));
@@ -450,6 +457,9 @@ namespace Galac.Adm.Brl.ImprentaDigital {
         }
 
         private XElement GetTotalesME() {
+            decimal vTotalFacturaMasIGTF = LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2);
+            string vMontoEnLetrasME = MontoEnLetras(vTotalFacturaMasIGTF, FacturaImprentaDigital.CodigoMonedaDeCobro);
+
             XElement vResult = new XElement("TotalesOtraMoneda",
                new XElement("moneda", CodigoMonedaME),
                new XElement("tipoCambio", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 4))),
@@ -459,9 +469,25 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                new XElement("totalAPagar", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("totalIVA", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.TotalIVA / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
                new XElement("montoTotalConIVA", LibMath.Abs(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))),
-               new XElement("montoEnLetras", LibConvert.ToNumberInLetters(LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2), false, "")),
+               new XElement("montoEnLetras", vMontoEnLetrasME),
                new XElement("totalDescuento", LibMath.Abs(LibMath.RoundToNDecimals(FacturaImprentaDigital.MontoDescuento1 / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2))));
             vResult.Add(GetTotalImpuestos(true).Descendants("impuestosSubtotal"));
+            return vResult;
+        }
+
+        private string MontoEnLetras(decimal valMonto, string valCodigoMoneda) {
+            string vResult;
+            valMonto = LibMath.Abs(valMonto);
+            if (valMonto < 1 && valMonto > 0) {//0.xx
+                string vMontoStr = LibConvert.ToStr(valMonto);
+                string vCentimos = LibText.Mid(vMontoStr, 2);
+                vResult = "Cero con " + vCentimos + "/100";
+            } else {
+                vResult = LibConvert.ToNumberInLetters(valMonto, false, "");
+            }
+            if (LibText.Len(valCodigoMoneda, true) > 0) {
+                vResult += " " + valCodigoMoneda;
+            }
             return vResult;
         }
 
