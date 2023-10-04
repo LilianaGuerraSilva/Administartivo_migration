@@ -801,8 +801,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override bool CanExecuteCobrarCommand() {
             bool vResult = false;
-            vResult = SePuedeCobrar() && base.CanExecuteCobrarCommand() &&
-                    ((TotalPagosME != 0) && (TotalPagosML != 0) && (MontoRestantePorPagar <= 0));
+            vResult = SePuedeCobrar() && (_EsFacturaTradicional || base.CanExecuteCobrarCommand());
             return vResult;
         }
 
