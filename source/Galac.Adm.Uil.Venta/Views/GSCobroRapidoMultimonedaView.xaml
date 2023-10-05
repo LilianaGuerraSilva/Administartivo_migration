@@ -24,7 +24,6 @@
         <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />
         <KeyBinding Key="F9" Command="{Binding Path=VueltoEnEfectivo}" />
         <KeyBinding Key="F10" Command="{Binding Path=VueltoConPagoMovilCommand}" />
-        <KeyBinding Key="F11" Command="{Binding Path=CobroTDD_TDCCommand}" />
     </UserControl.InputBindings>
     <Grid Width="622" Height="auto">
         <Grid.ColumnDefinitions>
@@ -558,7 +557,7 @@
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="Collapsed"
-                    Value="{Binding Path=TarjetaVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding Path=TotalCobrosConTddTdcVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
         <GroupBox
