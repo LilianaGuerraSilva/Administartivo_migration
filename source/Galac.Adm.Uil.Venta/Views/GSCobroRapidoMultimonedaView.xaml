@@ -22,7 +22,6 @@
     <UserControl.InputBindings>
         <KeyBinding Key="F6" Command="{Binding Path=CobrarCommand}" />
         <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />
-        <KeyBinding Key="F9" Command="{Binding Path=VueltoEnEfectivo}" />
         <KeyBinding Key="F10" Command="{Binding Path=VueltoConPagoMovilCommand}" />
     </UserControl.InputBindings>
     <Grid Width="622" Height="auto">
@@ -697,7 +696,7 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
-                    Height="27"
+                    Height="32"
                     Margin="2"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
