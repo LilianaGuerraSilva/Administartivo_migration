@@ -215,7 +215,10 @@ namespace Galac.Adm.Ccl.Venta {
         Anticipo,
         [LibEnumDescription("Vuelto Efectivo", Index = 0)]
         [LibEnumDescription("00007", Index = 1)]
-        VueltoEfectivo
+        VueltoEfectivo,
+        [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
+        [LibEnumDescription("00008", Index = 1)]
+        VueltoPM
     }
 
     [TypeConverter(typeof(LibEnumTypeConverter))]

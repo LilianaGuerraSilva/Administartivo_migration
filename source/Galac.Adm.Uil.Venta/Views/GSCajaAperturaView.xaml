@@ -261,6 +261,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label
                 Name="lblMovimientos"
@@ -441,9 +442,26 @@
                 IsEnabled="False"
                 Style="{StaticResource TextBoxInputStyle}"
                 Value="{Binding Path=MontoVueltoME, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Label
+                Name="lblMontoVueltoPM"
+                Grid.Row="7"
+                Grid.Column="0"
+                Content="Vuelto Pago Móvil"
+                Style="{StaticResource LabelPrompt}" />
+            <nsWpfControls:GSNumericBoxWpf
+                Name="txtMontoVueltoPM"
+                Grid.Row="7"
+                Grid.Column="1"
+                Width="150"
+                DecimalDigits="2"
+                Foreground="Black"
+                InputDataType="UDecimal"
+                IsEnabled="False"
+                Style="{StaticResource TextBoxInputStyle}"
+                Value="{Binding Path=MontoVueltoPM, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <Line
                 Name="linTotal"
-                Grid.Row="7"
+                Grid.Row="8"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Margin="0"
@@ -456,13 +474,13 @@
                 Y2="0" />
             <Label
                 Name="lblMontoCierre"
-                Grid.Row="7"
+                Grid.Row="8"
                 Grid.Column="0"
                 Content="Cierre"
                 Style="{StaticResource LabelPrompt}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoCierre"
-                Grid.Row="7"
+                Grid.Row="8"
                 Grid.Column="1"
                 Width="150"
                 Background="#FF41719C"
@@ -474,9 +492,10 @@
                 Value="{Binding Path=MontoCierre, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             <nsWpfControls:GSNumericBoxWpf
                 Name="txtMontoCierreME"
-                Grid.Row="7"
+                Grid.Row="8"
                 Grid.Column="2"
                 Width="150"
+                Margin="3,3,0,3"
                 Background="#FF41719C"
                 DecimalDigits="2"
                 Foreground="Black"
@@ -489,7 +508,7 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 Grid.ColumnSpan="2"
-                Margin="165,0,16,0"
+                Margin="168,0,-37,3"
                 StrokeThickness="1"
                 X1="0"
                 X2="178"
@@ -525,8 +544,10 @@
             </Grid.RowDefinitions>
             <Label
                 Name="lblFecha"
-                Grid.Row="0"
                 Grid.Column="0"
+                Height="24"
+                Margin="3,3,3,0"
+                VerticalAlignment="Center"
                 Content="Fecha"
                 Style="{StaticResource LabelPrompt}" />
             <Label
@@ -537,8 +558,10 @@
                 Style="{StaticResource LabelPrompt}" />
             <Label
                 Name="lblHoraCierre"
-                Grid.Row="0"
                 Grid.Column="2"
+                Margin="3,0,11,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
                 Content="Hora Cierre"
                 Style="{StaticResource LabelPrompt}"
                 Visibility="{Binding Path=ShowDetalle, Converter={StaticResource booleanToVisibilityConverter}}" />
@@ -546,12 +569,16 @@
                 Name="dtpFecha"
                 Grid.Row="1"
                 Grid.Column="0"
+                Margin="3,3,3,3"
                 IsEnabled="False"
                 SelectedDate="{Binding Path=Fecha}" />
             <Label
                 Name="lneHoraApertura"
                 Grid.Row="1"
                 Grid.Column="1"
+                Width="80"
+                Height="16"
+                Margin="3,3,3,3"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
                 Background="LightGray"
@@ -564,8 +591,8 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Width="80"
-                Margin="6,3,0,0"
-                HorizontalAlignment="Left"
+                Height="16"
+                Margin="3,3,3,3"
                 HorizontalContentAlignment="Center"
                 Background="LightGray"
                 Content="{Binding Path=HoraCierreDt}"

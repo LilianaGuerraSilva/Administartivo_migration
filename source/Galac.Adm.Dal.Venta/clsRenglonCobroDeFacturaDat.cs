@@ -51,6 +51,7 @@ namespace Galac.Adm.Dal.Venta {
             vParams.AddInString("NumeroDocumentoAprobacion", valRecord.NumeroDocumentoAprobacion, 30);
             vParams.AddInString("CodigoMoneda", valRecord.CodigoMoneda, 4);
             vParams.AddInDecimal("CambioAMonedaLocal", valRecord.CambioAMonedaLocal, 4);
+            vParams.AddInString("InfoAdicional", valRecord.InfoAdicional, 250);
             vResult = vParams.Get();
             return vResult;
         }
@@ -120,7 +121,8 @@ namespace Galac.Adm.Dal.Venta {
                     new XElement("CodigoPuntoDeVenta", vEntity.CodigoPuntoDeVenta),
                     new XElement("NumeroDocumentoAprobacion", vEntity.NumeroDocumentoAprobacion),
                     new XElement("CodigoMoneda", vEntity.CodigoMoneda),
-                    new XElement("CambioAMonedaLocal", vEntity.CambioAMonedaLocal)));
+                    new XElement("CambioAMonedaLocal", vEntity.CambioAMonedaLocal),
+                    new XElement("InfoAdicional", vEntity.InfoAdicional)));
             return vXElement;
         }
 
@@ -137,7 +139,8 @@ namespace Galac.Adm.Dal.Venta {
                     new XElement("CodigoBanco", vEntity.CodigoBanco),
                     new XElement("Monto", vEntity.Monto),
                     new XElement("CodigoPuntoDeVenta", vEntity.CodigoPuntoDeVenta),
-                    new XElement("NumeroDocumentoAprobacion", vEntity.NumeroDocumentoAprobacion)));
+                    new XElement("NumeroDocumentoAprobacion", vEntity.NumeroDocumentoAprobacion),
+                    new XElement("InfoAdicional", vEntity.InfoAdicional)));
             return vXElement;
         }
         #region Miembros de ILibDataDetailComponent<IList<RenglonCobroDeFactura>, IList<RenglonCobroDeFactura>>

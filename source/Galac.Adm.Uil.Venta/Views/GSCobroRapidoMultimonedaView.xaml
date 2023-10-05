@@ -22,8 +22,7 @@
     <UserControl.InputBindings>
         <KeyBinding Key="F6" Command="{Binding Path=CobrarCommand}" />
         <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />
-        <KeyBinding Key="F9" Command="{Binding Path=VueltoEnEfectivo}" />
-        <KeyBinding Key="F10" Command="{Binding Path=VueltoConPagoMovil}" />
+        <KeyBinding Key="F10" Command="{Binding Path=VueltoConPagoMovilCommand}" />
     </UserControl.InputBindings>
     <Grid Width="622" Height="auto">
         <Grid.ColumnDefinitions>
@@ -460,6 +459,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label
                     Grid.Row="0"
@@ -495,6 +495,24 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Height="29"
+                    Margin="3"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="Tarjeta V-Pos:"
+                    FontFamily="Calibri"
+                    FontSize="17"
+                    FontStyle="Normal"
+                    FontWeight="Bold"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="Collapsed" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalTarjeta1"
                     Grid.Row="0"
@@ -523,6 +541,22 @@
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Value="{Binding Path=TarjetaDos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <nsWpfControls:GSNumericBoxWpf
+                    Name="txtTotalTarjetaVPos"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Height="24"
+                    Margin="8,2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Right"
+                    DecimalDigits="{Binding Path=DecimalDigits}"
+                    FontSize="18"
+                    InputDataType="Decimal"
+                    IsEnabled="False"
+                    MaxLength="28"
+                    Style="{StaticResource TextBoxInputStyle}"
+                    Visibility="Collapsed"
+                    Value="{Binding Path=TotalCobrosConTddTdcVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
         <GroupBox
@@ -662,7 +696,7 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
-                    Height="27"
+                    Height="32"
                     Margin="2"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
@@ -689,7 +723,7 @@
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}"
-                    Value="{Binding Path=VueltoEnMonedaLocal, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    Value="{Binding Path=VueltoC2p, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="2"
                     Grid.Column="0"

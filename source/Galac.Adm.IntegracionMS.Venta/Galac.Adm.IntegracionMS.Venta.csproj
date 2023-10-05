@@ -38,6 +38,9 @@
     <Reference Include="LibGalac.Aos.Catching">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.Catching.dll</HintPath>
     </Reference>
+    <Reference Include="LibGalac.Aos.Cnf">
+      <HintPath>..\..\bin\LibGalac.Aos.Cnf.dll</HintPath>
+    </Reference>
     <Reference Include="LibGalac.Aos.DefGen">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.DefGen.dll</HintPath>
     </Reference>
@@ -52,6 +55,9 @@
     </Reference>
     <Reference Include="LibGalac.Aos.UI.WpfRD">
       <HintPath>..\..\bin\binLibAos\LibGalac.Aos.UI.WpfRD.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -73,6 +79,7 @@
     <Compile Include="C2PMegasoftNav.cs" />
     <Compile Include="C2PMegasoftViewModel.cs" />
     <Compile Include="C2PMegasoftModel.cs" />
+    <Compile Include="CustomDecimalJsonConverter.cs" />
     <Compile Include="GSC2PMegasoftView.xaml.cs" />
     <Compile Include="IC2PMegaSoftMng.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,6 +103,9 @@
       <Project>{f6be19ab-c04f-44fe-b68f-62bc8cc4cdb0}</Project>
       <Name>Galac.Adm.Ccl.Venta</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

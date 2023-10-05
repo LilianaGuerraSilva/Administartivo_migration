@@ -117,6 +117,7 @@ namespace Galac.Adm.Brl.Venta {
         //    vCurrentRecord.Monto = 0;
         //    vCurrentRecord.CodigoPuntoDeVenta = 0;
         //    vCurrentRecord.NumeroDocumentoAprobacion = "";
+        //    vCurrentRecord.InfoAdicional = "";
         //    vLista.Add(vCurrentRecord);
         //    return instanciaDal.Insert(vLista).Success;
         //}
@@ -157,6 +158,9 @@ namespace Galac.Adm.Brl.Venta {
                 }
                 if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("NumeroDocumentoAprobacion"), null))) {
                     vRecord.NumeroDocumentoAprobacion = vItem.Element("NumeroDocumentoAprobacion").Value;
+                }
+                if (!(System.NullReferenceException.ReferenceEquals(vItem.Element("InfoAdicional"), null))) {
+                    vRecord.InfoAdicional = vItem.Element("InfoAdicional").Value;
                 }
                 vResult.Add(vRecord);
             }

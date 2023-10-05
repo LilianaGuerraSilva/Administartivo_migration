@@ -8,150 +8,170 @@ using System.Xml.Serialization;
 using System.Xml;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.UI.Mvvm.Messaging;
+using Newtonsoft.Json;
+using LibGalac.Aos.Cnf;
 
 namespace Galac.Adm.IntegracionMS.Venta {
     public class C2PMegasoftNav {
         string _UrlBase;
-        const string _Urlpreregistr = "payment/action/v2-preregistr";
-        const string _Urlprocesar_cambio_pagomovil = "/payment/action/v2-procesar-cambio-pagomovil";
-        const string _Urlquerystatus = "/payment/action/v2-querystatus";
-        public C2PMegasoftNav() {        
-            _UrlBase = "http://payment.somee.com";
+        const string _Urlprocesar_metodo_pago = "/vpos/metodo";
+        public string infoAdicional;
+        public string numeroReferencia;
+        public string bancoTransaccion;
+        public decimal montoTransaccion;
+
+        public C2PMegasoftNav() {
+            string vResult = LeerConfigKey("UrlVPOSLocal");
+            _UrlBase = string.IsNullOrEmpty(vResult) ? "http://localhost:8085" : vResult;
         }
 
-        internal LibResponse EjecutaCambioPagoMovil(string valCedula, string valTelefono, string valCodigoBanco, string valVuelto, string valNroFactura, ref string refNumeroControl) {
-            LibResponse vResult = new LibResponse();
-            try {
-                string valCodigoAfiliacion = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoAfiliacionC2PMegasoft");
-                refNumeroControl = EjecutaPreRegistro(valCodigoAfiliacion);
-                if (!LibString.IsNullOrEmpty(refNumeroControl)) {
-                    vResult.Success  = EjecutaProcesarCambio(valCodigoAfiliacion, refNumeroControl, valCedula, valTelefono, valCodigoBanco, valVuelto, valNroFactura);
-                }
-            } catch (Exception ex) {
-                throw ex;
-            }
-            return vResult;
+        public bool EjecutaProcesarCambioPagoMovil(string valCedula, decimal valVuelto) {            
+            request request = new request() {
+                accion = "cambio",
+                montoTransaccion = valVuelto,
+                cedula = valCedula,
+                tipoMoneda = Constantes.MonedaBs
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+        public bool EjecutaProcesarTarjeta(string valCedula, decimal valMonto) {
+            request request = new request() {
+                accion = "tarjeta",
+                montoTransaccion = valMonto,
+                cedula = valCedula
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
         }
 
-        string EjecutaPreRegistro(string valCodAfiliacion) {
-            string vResult;
-            try {
-                Preregister.request request = new Preregister.request() { cod_afiliacion = valCodAfiliacion };
-                Preregister.response vResponse = SendPreregister(request);
-                if (vResponse != null) {
-                    if (vResponse.codigo == Preregister.Constantes.valido) {
-                        vResult = vResponse.control;
-                    } else if (vResponse.codigo == Preregister.Constantes.invalido) {
-                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.descripcion);
-                    } else {
-                        throw new LibGalac.Aos.Catching.GalacAlertException("No fue posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
-                    }
-                } else {
-                    throw new LibGalac.Aos.Catching.GalacAlertException("No fue posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
-                }
-            } catch {
-                throw new LibGalac.Aos.Catching.GalacAlertException("No fue posible establecer conexión con el sistema de pago. Por favor intente nuevamente.");
-            }
-            return vResult;
-        }
-
-        bool EjecutaProcesarCambio(string valCodAfiliacion, string valCodigoControl, string valCedula, string valTelefono, string valCodigoBanco, string valVuelto, string valNroFactura) {
-            const string MonedaBs = "0";
-            bool vExito = false;
-            try {
-                ProcesarCambioPagoMovil.request request2 = new ProcesarCambioPagoMovil.request() {
-                    cod_afiliacion = valCodAfiliacion,
-                    control = valCodigoControl,
-                    cid = valCedula,
-                    telefono = valTelefono,
-                    codigobanco = valCodigoBanco,
-                    tipo_moneda = MonedaBs,
-                    amount = valVuelto,
-                    factura = valNroFactura
+        public bool EjecutaProcesarZelle(string valCedula, decimal valMonto) {
+                request request = new request() {
+                    accion = "tarjeta",
+                    montoTransaccion = valMonto,
+                    cedula = valCedula
                 };
-                ProcesarCambioPagoMovil.response vResponse = SendProcesarCambioPagoMovil(request2);
-                if (vResponse != null) {
-                    if (vResponse.codigo == ProcesarCambioPagoMovil.Constantes.valido) {
-                        vExito = true;
-                    } else {
-                        throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.descripcion);
-                    }
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+
+        public bool EjecutaProcesarCompraP2C(string valCedula, decimal valMonto) {
+            request request = new request() {
+                accion = "tarjeta",
+                montoTransaccion = valMonto,
+                cedula = valCedula
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+
+        public bool EjecutaProcesarCompraBiopago(string valCedula, decimal valMonto) {
+            request request = new request() {
+                accion = "tarjeta",
+                montoTransaccion = valMonto,
+                cedula = valCedula
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+
+        public bool EjecutaUltimoVoucherAprobado() {
+            request request = new request() {
+                accion = "imprimeUltimoVoucher"
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+
+        public bool EjecutaUltimoVoucherProcesado() {
+            request request = new request() {
+                accion = "imprimeUltimoVoucherP"
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+
+        public bool EjecutaPrecierre() {
+            request request = new request() {
+                accion = "precierre"
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+
+        public bool EjecutaCierre() {
+            request request = new request() {
+                accion = "cierre"
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+
+        public bool EjecutaUltimoCierre() {
+            request request = new request() {
+                accion = "ultimoCierre"
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
+
+        private Tuple<bool, response> SendProcesar(request request) {
+
+            bool vExito = false;
+            var requestJson = Serialize<request>(request);
+            var vResponse = Post(_Urlprocesar_metodo_pago, requestJson);
+            if (vResponse != null) {
+                if (vResponse.codRespuesta == Constantes.valido) {
+                    infoAdicional = LibFile.FileNameOf(vResponse.nombreVoucher);
+                    numeroReferencia = vResponse.numeroReferencia;
+                    //montoTransaccion = LibConvert.ToDec(vResponse.montoTransaccion,2);
+                    //bancoTransaccion = vResponse.bancoEmisorCheque;
+                    vExito = true;
+                } else {
+                    throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);
                 }
-            } catch {
-                throw new LibGalac.Aos.Catching.GalacAlertException("No se recibió respuesta. Por favor valide. Número de Control: " + valCodigoControl);
             }
-            return vExito;
-
+            return new Tuple<bool, response>(vExito, vResponse);
         }
 
-        Preregister.response SendPreregister(Preregister.request valrequestObject) {
-            var requestXml = Serialize<Preregister.request>(valrequestObject);
-            var result = Post(_Urlpreregistr, requestXml);
-            if (!string.IsNullOrEmpty(result)) {
-                return Deserialize<Preregister.response>(result);
-            }
-            return null;
-        }
-
-        ProcesarCambioPagoMovil.response SendProcesarCambioPagoMovil(ProcesarCambioPagoMovil.request valrequestObject) {
-            var requestXml = Serialize<ProcesarCambioPagoMovil.request>(valrequestObject);
-            var result = Post(_Urlprocesar_cambio_pagomovil, requestXml);
-            if (!string.IsNullOrEmpty(result)) {
-                return Deserialize<ProcesarCambioPagoMovil.response>(result);
-            }
-            return null;
-        }
-
-        Querystatus.response SendQuerystatus(Querystatus.request valrequestObject) {
-            var requestXml = Serialize<Querystatus.request>(valrequestObject);
-            var result = Post(_Urlquerystatus, requestXml);
-            if (!string.IsNullOrEmpty(result)) {
-                return Deserialize<Querystatus.response>(result);
-            }
-            return null;
-        }
-
-        string Post(string Url, string requestXml) {
+        response Post(string Url, string requestjson) {
             Uri baseUri = new Uri(_UrlBase);
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(baseUri, Url));
-            byte[] bytes;
-            bytes = System.Text.Encoding.ASCII.GetBytes(requestXml);
-            request.ContentType = "application/xml";
-            request.ContentLength = bytes.Length;
+            var request = (HttpWebRequest)WebRequest.Create(new Uri(baseUri, Url));            
+            request.ContentType = "application/json";
             request.Method = "POST";
-            Stream requestStream = request.GetRequestStream();
-            requestStream.Write(bytes, 0, bytes.Length);
-            requestStream.Close();
+            using (var streamWriter = new StreamWriter(request.GetRequestStream())) {
+                streamWriter.Write(requestjson);
+            }
             HttpWebResponse response;
             response = (HttpWebResponse)request.GetResponse();
             if (response.StatusCode == HttpStatusCode.OK) {
                 Stream responseStream = response.GetResponseStream();
                 string responseStr = new StreamReader(responseStream).ReadToEnd();
-                return responseStr;
+                if (!string.IsNullOrEmpty(responseStr)) {
+                    return Deserialize<response>(responseStr);
+                }
             }
             return null;
         }
-
         string Serialize<T>(T obj) {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            using (var sw = new StringWriter()) {
-                using (XmlTextWriter writer = new XmlTextWriter(sw) { Formatting = Formatting.Indented }) {
-                    serializer.Serialize(writer, obj);
-                    return sw.ToString();
+            return JsonConvert.SerializeObject(obj, new CustomDecimalJsonConverter());
+        }
+        T Deserialize<T>(string json) {
+            return JsonConvert.DeserializeObject<T>(json);  
+        }
+
+        string LeerConfigKey(string valKey) {
+            string vResult = string.Empty;
+            try {
+                if (!string.IsNullOrEmpty(LibAppSettings.ReadAppSettingsKey(valKey))) {
+                    vResult = LibAppSettings.ReadAppSettingsKey(valKey) ?? string.Empty;
                 }
+            } catch (Exception) {
             }
+            return vResult;
         }
-
-        T Deserialize<T>(string xml) {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            TextReader sr = new StringReader(xml);
-            return (T)serializer.Deserialize(sr);
-
-        }
-
         public static bool EsVisiblePM() {
-            return false;
+            return true;
         }
-
-    }
+    }  
 }
