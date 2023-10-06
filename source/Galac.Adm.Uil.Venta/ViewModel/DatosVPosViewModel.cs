@@ -129,7 +129,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 });
                 base.ExecuteCancel();
             } else {
-                LibMessages.MessageBox.Alert(this,"Monto a cobrar debe ser Mayor que 0 y Menor o igual al monto pendiente por cobrar: " + LibMath.RoundToNDecimals(vMontoPorCobrar, 2) + ".", "Advertencia");
+                LibMessages.MessageBox.Alert(this, "El Monto debe ser mayor a 0,00 y menor igual a: " + LibMath.RoundToNDecimals(vMontoPorCobrar, 2) + ".", "Advertencia");
             }
         }
 
