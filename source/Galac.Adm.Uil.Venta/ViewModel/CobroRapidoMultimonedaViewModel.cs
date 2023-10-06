@@ -594,7 +594,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public bool IsVisibleMontoPM {
             get {
                 return true;
-                //return VueltoC2p > 0; 
             }
         }
 
@@ -615,7 +614,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public bool IsVisibleTotalTarjetaVPos {
             get {
                 return true;
-//                return TotalCobrosConTddTdcVPos > 0;
             }
         }
         #endregion
@@ -636,7 +634,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             _EsFacturaTradicional = valEsFacturaTradicional;
             ListaCobrosConTddTdcVPos = new List<CobroConTddTdcVPOS>();
             cedulaRif = valCDRIF;
-            //RaisePropertyChanged(() => TotalCobrosConTddTdcVPos);
         }
 
         public CobroRapidoMultimonedaViewModel(eAccionSR valAction, FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobroMaster, int valAlicuotaIvaASustituir, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva, string valCDRIF) {
@@ -655,7 +652,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             _EsFacturaTradicional = valEsFacturaTradicional;
             ListaCobrosConTddTdcVPos = new List<CobroConTddTdcVPOS>();
             cedulaRif = valCDRIF;
-            //RaisePropertyChanged(() => TotalCobrosConTddTdcVPos);
         }
 
         protected override void InitializeCommands() {
@@ -763,7 +759,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             try {
                 C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
                 //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-                if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(LibConvert.ToDec(MontoRestantePorPagar, 2)))) {
+                if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
                     infoAdcional = insVueltoMegasoft.infoAdicional;
                     numeroReferencia = insVueltoMegasoft.numeroReferencia;
@@ -787,7 +783,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
                     //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
                     C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
-                    if (insMegasoft.EjecutaProcesarTarjeta(vDatosVpos.CedulaRif, LibMath.Abs(LibConvert.ToDec(vDatosVpos.Monto, 2)))) {
+                    if (insMegasoft.EjecutaProcesarTarjeta(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {
                             clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                             ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
@@ -848,8 +844,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private bool CanExecuteCobroTDD_TDCCommand() {
-            bool vResult = MontoRestantePorPagar > 0;
-            return vResult; 
+            return MontoRestantePorPagar > 0; 
         }
         #endregion
 

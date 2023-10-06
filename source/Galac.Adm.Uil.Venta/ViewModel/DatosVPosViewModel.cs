@@ -145,7 +145,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Validaciones
         private ValidationResult MontoValidating() {
             ValidationResult vResult = ValidationResult.Success;
-            if ((Monto > 0 && Monto <= vMontoPorCobrar)) {
+            if (Monto > 0 && Monto <= vMontoPorCobrar) {
                 return ValidationResult.Success;
             } 
             return vResult;
