@@ -104,4 +104,7 @@
     <DataTemplate DataType="{x:Type nsCSVM:VueltoEfectivoViewModel}">
         <nsCSV:GSVueltoEfectivoView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type nsCSVM:DatosVPosViewModel}">
+        <nsCSV:GSDatosVPosView />
+    </DataTemplate>
 </ResourceDictionary>
