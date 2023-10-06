@@ -492,53 +492,9 @@ h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Des
       "fSQLFaxDeMudanza", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
-Public Function fSqlListadoDeClientesSinMovimientos(ByVal mConsecutivoCompania As String, ByVal mOrdenadoPor As String) As String
-   Dim SQL As String
-   Dim varCamposDeControl As String
+Public Function fSqlListadoDeClientesSinMovimientos(ByVal valConsecutivoCompania As String, ByVal valOrdenadoPor As String) As String
+   Dim vSql As String
    Dim gEnumProyecto As clsEnumAdministrativo
-   On Error GoTo h_ERROR
-   Set gEnumProyecto = New clsEnumAdministrativo
-   varCamposDeControl = fSQLFNCountClientesInSystemModules(mConsecutivoCompania)
-   SQL = "SELECT "
-   If varCamposDeControl <> "" Then
-      SQL = SQL & varCamposDeControl
-   End If
-   SQL = SQL & " Cliente.Codigo AS CodigoCliente, " & _
-               " Cliente.Nombre AS NombreCliente, "
-   SQL = SQL & " Cliente.Ciudad AS CiudadCliente, "
-   SQL = SQL & " Cliente.Telefono AS TelefonoCliente, "
-   SQL = SQL & " Cliente.FAX AS FaxCliente, "
-   SQL = SQL & " Cliente.Contacto AS ContactoCliente "
-   SQL = SQL & " FROM Cliente "
-   SQL = SQL & " WHERE "
-   SQL = SQL & " Cliente.ConsecutivoCompania" & _
-               " = " & mConsecutivoCompania
-   SQL = SQL & " AND Cliente.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_Cliente")
-   SQL = SQL & " ORDER BY "
-   If mOrdenadoPor = gEnumProyecto.enumFormaDeEscogerCompaniaToString(enum_FormaDeEscogerCompania.eFD_PORCODIGO) Then
-      SQL = SQL & " Cliente.Codigo"
-   Else
-      SQL = SQL & " Cliente.Nombre"
-   End If
-   fSqlListadoDeClientesSinMovimientos = SQL
-   Set gEnumProyecto = Nothing
-h_EXIT: On Error GoTo 0
-   Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSqlListadoDeClientesSinMovimientos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
-End Function
-
-Private Function fSQLFNCountClientesInSystemModules(ByVal mConsecutivoCompania As String) As String
-   Dim varSQL As String
-'   Dim insCliente As clsClienteNavigator
-'   Dim insFactura As clsFacturaNavigator
-'   Dim insCotizacion As clsFacturaNavigator
-'   Dim insContrato As clsContratoNavigator
-'   Dim insCxC As clsCxCNavigator
-'   Dim insCobranza As clsCobranzaNavigator
-'   Dim insAlmacen As clsAlmacenNavigator
-'   Dim insNotaES As clsNotaDeEntradaSalidaNavigator
-'   Dim insAnticipo As clsAnticipoNavigator
    Dim sqlCountFactura As String
    Dim sqlCountCotizacion As String
    Dim sqlCountContrato As String
@@ -548,46 +504,66 @@ Private Function fSQLFNCountClientesInSystemModules(ByVal mConsecutivoCompania A
    Dim sqlCountNotaES As String
    Dim sqlCountAnticipo As String
    On Error GoTo h_ERROR
-'   Set insCliente = New clsClienteNavigator
-'   Set insFactura = New clsFacturaNavigator
-'   insFactura.setClaseDeTrabajo eCTFC_Factura
-'   Set insCotizacion = New clsFacturaNavigator
-'   insCotizacion.setClaseDeTrabajo eCTFC_Cotizacion
-'   Set insContrato = New clsContratoNavigator
-'   Set insCxC = New clsCxCNavigator
-'   Set insCobranza = New clsCobranzaNavigator
-'   Set insAlmacen = New clsAlmacenNavigator
-'   Set insNotaES = New clsNotaDeEntradaSalidaNavigator
-'   Set insAnticipo = New clsAnticipoNavigator
-   sqlCountFactura = "(SELECT " & gUtilSQL.fCOUNT("Factura.CodigoCliente", "") & " FROM FACTURA WHERE Factura.ConsecutivoCompania = " & mConsecutivoCompania & " AND Factura.CodigoCliente =  Cliente.Codigo) > 0"
-   sqlCountCotizacion = "(SELECT " & gUtilSQL.fCOUNT("Cotizacion.CodigoCliente", "") & " FROM COTIZACION WHERE Cotizacion.ConsecutivoCompania = " & mConsecutivoCompania & " AND Cotizacion.CodigoCliente =  Cliente.Codigo) > 0"
-   sqlCountContrato = "(SELECT " & gUtilSQL.fCOUNT("Contrato.CodigoCliente", "") & " FROM CONTRATO WHERE Contrato.ConsecutivoCompania = " & mConsecutivoCompania & " AND Contrato.CodigoCliente =  Cliente.Codigo) > 0"
-   sqlCountCxC = "(SELECT " & gUtilSQL.fCOUNT("CxC.CodigoCliente", "") & " FROM CxC WHERE CxC.ConsecutivoCompania = " & mConsecutivoCompania & " AND CxC.CodigoCliente =  Cliente.Codigo) > 0"
-   sqlCountCobranza = "(SELECT " & gUtilSQL.fCOUNT("Cobranza.CodigoCliente", "") & " FROM Cobranza WHERE Cobranza.ConsecutivoCompania = " & mConsecutivoCompania & " AND Cobranza.CodigoCliente = Cliente.Codigo) > 0"
-   sqlCountAlmacen = "(SELECT " & gUtilSQL.fCOUNT("Almacen.ConsecutivoCliente", "") & " FROM Almacen WHERE Almacen.ConsecutivoCompania = " & mConsecutivoCompania & " AND Almacen.ConsecutivoCliente =  Cliente.Consecutivo) > 0"
-   sqlCountNotaES = "(SELECT " & gUtilSQL.fCOUNT("NotaDeEntradaSalida.CodigoCliente", "") & " FROM NotaDeEntradaSalida WHERE NotaDeEntradaSalida.ConsecutivoCompania = " & mConsecutivoCompania & " AND NotaDeEntradaSalida.CodigoCliente =  Cliente.Codigo) > 0"
-   sqlCountAnticipo = "(SELECT " & gUtilSQL.fCOUNT("Anticipo.CodigoCliente", "") & " FROM Anticipo WHERE Anticipo.ConsecutivoCompania = " & mConsecutivoCompania & " AND Anticipo.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_COBRADO) & " AND Anticipo.CodigoCliente = Cliente.Codigo) > 0"
-   varSQL = varSQL & gUtilSQL.getIIF(sqlCountFactura, "'1'", "'0'", True) & " AS T1, "
-   varSQL = varSQL & gUtilSQL.getIIF(sqlCountCotizacion, "'1'", "'0'", True) & " AS T2, "
-   varSQL = varSQL & gUtilSQL.getIIF(sqlCountContrato, "'1'", "'0'", True) & " AS T3, "
-   varSQL = varSQL & gUtilSQL.getIIF(sqlCountCxC, "'1'", "'0'", True) & " AS T4, "
-   varSQL = varSQL & gUtilSQL.getIIF(sqlCountCobranza, "'1'", "'0'", True) & " AS T5, "
-   varSQL = varSQL & gUtilSQL.getIIF(sqlCountAlmacen, "'1'", "'0'", True) & " AS T6, "
-   varSQL = varSQL & gUtilSQL.getIIF(sqlCountNotaES, "'1'", "'0'", True) & " AS T7, "
-   varSQL = varSQL & gUtilSQL.getIIF(sqlCountAnticipo, "'1'", "'0'", True) & " AS T8, "
-   fSQLFNCountClientesInSystemModules = varSQL
-'   Set insFactura = Nothing
-'   Set insCotizacion = Nothing
-'   Set insContrato = Nothing
-'   Set insCxC = Nothing
-'   Set insCobranza = Nothing
-'   Set insAlmacen = Nothing
-'   Set insNotaES = Nothing
-'   Set insAnticipo = Nothing
+   Set gEnumProyecto = New clsEnumAdministrativo
+   
+   sqlCountFactura = "(SELECT " & gUtilSQL.fCOUNT("Factura.CodigoCliente", "") & " FROM Factura WHERE Factura.ConsecutivoCompania = " & valConsecutivoCompania & " AND Factura.CodigoCliente =  Cliente.Codigo) AS T1, "
+   sqlCountCotizacion = "(SELECT " & gUtilSQL.fCOUNT("Cotizacion.CodigoCliente", "") & " FROM Cotizacion WHERE Cotizacion.ConsecutivoCompania = " & valConsecutivoCompania & " AND Cotizacion.CodigoCliente =  Cliente.Codigo) AS T2, "
+   sqlCountContrato = "(SELECT " & gUtilSQL.fCOUNT("Contrato.CodigoCliente", "") & " FROM Contrato WHERE Contrato.ConsecutivoCompania = " & valConsecutivoCompania & " AND Contrato.CodigoCliente =  Cliente.Codigo) AS T3, "
+   sqlCountCxC = "(SELECT " & gUtilSQL.fCOUNT("CxC.CodigoCliente", "") & " FROM CxC WHERE CxC.ConsecutivoCompania = " & valConsecutivoCompania & " AND CxC.CodigoCliente =  Cliente.Codigo) AS T4, "
+   sqlCountCobranza = "(SELECT " & gUtilSQL.fCOUNT("Cobranza.CodigoCliente", "") & " FROM Cobranza WHERE Cobranza.ConsecutivoCompania = " & valConsecutivoCompania & " AND Cobranza.CodigoCliente = Cliente.Codigo) AS T5, "
+   sqlCountAlmacen = "(SELECT " & gUtilSQL.fCOUNT("Almacen.ConsecutivoCliente", "") & " FROM Almacen WHERE Almacen.ConsecutivoCompania = " & valConsecutivoCompania & " AND Almacen.ConsecutivoCliente =  Cliente.Consecutivo) AS T6, "
+   sqlCountNotaES = "(SELECT " & gUtilSQL.fCOUNT("NotaDeEntradaSalida.CodigoCliente", "") & " FROM NotaDeEntradaSalida WHERE NotaDeEntradaSalida.ConsecutivoCompania = " & valConsecutivoCompania & " AND NotaDeEntradaSalida.CodigoCliente =  Cliente.Codigo) AS T7, "
+   sqlCountAnticipo = "(SELECT " & gUtilSQL.fCOUNT("Anticipo.CodigoCliente", "") & " FROM Anticipo WHERE Anticipo.ConsecutivoCompania = " & valConsecutivoCompania & " AND Anticipo.Tipo = " & gUtilSQL.fSQLSimpleValueForEnum(enum_TipoDeAnticipo.eTDA_COBRADO) & " AND Anticipo.CodigoCliente = Cliente.Codigo) AS T8, "
+   
+   vSql = ";WITH CTE_CountClientePorModulo AS ("
+   vSql = vSql & " SELECT "
+   vSql = vSql & sqlCountFactura
+   vSql = vSql & sqlCountCotizacion
+   vSql = vSql & sqlCountContrato
+   vSql = vSql & sqlCountCxC
+   vSql = vSql & sqlCountCobranza
+   vSql = vSql & sqlCountAlmacen
+   vSql = vSql & sqlCountNotaES
+   vSql = vSql & sqlCountAnticipo
+   vSql = vSql & " Cliente.Codigo AS CodigoCliente, "
+   vSql = vSql & " Cliente.Nombre AS NombreCliente, "
+   vSql = vSql & " Cliente.Ciudad AS CiudadCliente, "
+   vSql = vSql & " Cliente.Telefono AS TelefonoCliente, "
+   vSql = vSql & " Cliente.FAX AS FaxCliente, "
+   vSql = vSql & " Cliente.Contacto AS ContactoCliente "
+   vSql = vSql & " FROM Cliente "
+   vSql = vSql & " WHERE "
+   vSql = vSql & " Cliente.ConsecutivoCompania" & " = " & valConsecutivoCompania
+   vSql = vSql & " AND Cliente.Codigo <> " & gUtilSQL.fSimpleSqlValue("RD_Cliente")
+   vSql = vSql & ") "
+   
+   vSql = vSql & "SELECT "
+   vSql = vSql & "CASE WHEN T1 > 0 THEN 1 ELSE 0 END AS T1, "
+   vSql = vSql & "CASE WHEN T2 > 0 THEN 1 ELSE 0 END AS T2, "
+   vSql = vSql & "CASE WHEN T3 > 0 THEN 1 ELSE 0 END AS T3, "
+   vSql = vSql & "CASE WHEN T4 > 0 THEN 1 ELSE 0 END AS T4, "
+   vSql = vSql & "CASE WHEN T5 > 0 THEN 1 ELSE 0 END AS T5, "
+   vSql = vSql & "CASE WHEN T6 > 0 THEN 1 ELSE 0 END AS T6, "
+   vSql = vSql & "CASE WHEN T7 > 0 THEN 1 ELSE 0 END AS T7, "
+   vSql = vSql & "CASE WHEN T8 > 0 THEN 1 ELSE 0 END AS T8, "
+   vSql = vSql & "CodigoCliente, "
+   vSql = vSql & "NombreCliente, "
+   vSql = vSql & "CiudadCliente, "
+   vSql = vSql & "TelefonoCliente, "
+   vSql = vSql & "FaxCliente, "
+   vSql = vSql & "ContactoCliente "
+   vSql = vSql & " FROM CTE_CountClientePorModulo "
+   vSql = vSql & " ORDER BY "
+   If valOrdenadoPor = gEnumProyecto.enumFormaDeEscogerCompaniaToString(enum_FormaDeEscogerCompania.eFD_PORCODIGO) Then
+      vSql = vSql & " CodigoCliente"
+   Else
+      vSql = vSql & " NombreCliente"
+   End If
+   fSqlListadoDeClientesSinMovimientos = vSql
+   Set gEnumProyecto = Nothing
 h_EXIT: On Error GoTo 0
    Exit Function
-h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, _
-      "fSQLFNCountClientesInSystemModules", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
+h_ERROR: Err.Raise Err.Number, Err.Source, gError.fAddMethodToStackTrace(Err.Description, CM_FILE_NAME, "fSqlListadoDeClientesSinMovimientos", CM_MESSAGE_NAME, GetGender(), Err.HelpContext, Err.HelpFile, Err.LastDllError)
 End Function
 
 Public Function fSQLUpdateCambiaElNombreDeLaCompania(ByVal valNombreCiudadOriginal As String, ByVal valNuevoNombreCiudad As String, ByVal gProyCompaniaActual As Object) As String
