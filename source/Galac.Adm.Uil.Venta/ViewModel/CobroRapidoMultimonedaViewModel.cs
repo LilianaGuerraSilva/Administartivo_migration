@@ -537,13 +537,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsVisiblePM {//esto es el botón
             get {
-                return C2PMegasoftNav.EsVisiblePM();
+                return TipoDeDocumento == eTipoDocumentoFactura.Factura && C2PMegasoftNav.EsVisiblePM();
             }
         }
 
         public bool IsVisibleTDDTDC {//esto es el botón
             get {
-                return C2PMegasoftNav.EsVisibleTDDTDC();
+                return TipoDeDocumento == eTipoDocumentoFactura.Factura && C2PMegasoftNav.EsVisibleTDDTDC();
             }
         }
 
