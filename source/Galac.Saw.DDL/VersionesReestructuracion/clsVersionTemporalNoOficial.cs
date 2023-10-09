@@ -22,8 +22,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 		}
 
 		private void CamposInfoAdicionalRenglonCobroFactura() {
-			if (AddColumnString("renglonCobroDeFactura", "InfoAdicional", 250,"","")) {
-				AddDefaultConstraint("renglonCobroDeFactura", "d_RenCobDeFacInAd", "", "InfoAdicional");
+			if (AddColumnString("RenglonCobroDeFactura", "InfoAdicional", 250, "", "")) {
+				AddDefaultConstraint("RenglonCobroDeFactura", "d_RenCobDeFacInAd", "", "InfoAdicional");
 			}
 		}
 	}

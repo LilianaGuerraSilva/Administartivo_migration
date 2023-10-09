@@ -16,11 +16,11 @@ namespace Galac.Adm.Uil.Venta
     public class clsCobroRapidoMultimonedaMenu : ILibMenu {
 
         private bool cobro = false;
-        public string MostrarPantallaDeCobroRapidoEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, DateTime valFecha, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDelDocumento, string valCodigoMonedaDeCobro, string valFechaDocumento, string valTipoDeContribuyenteDelIva, ref string refIGTFParameters) {
+        public string MostrarPantallaDeCobroRapidoEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, DateTime valFecha, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDelDocumento, string valCodigoMonedaDeCobro, string valFechaDocumento, string valTipoDeContribuyenteDelIva, ref string refIGTFParameters, string valCedulaRif) {
             eTipoDocumentoFactura vTipoDeDocumento = (eTipoDocumentoFactura)LibConvert.DbValueToEnum(valTipoDeDocumento);
             eTipoDeContribuyenteDelIva vTipoDeContribuyenteDelIva = (eTipoDeContribuyenteDelIva)LibConvert.DbValueToEnum(valTipoDeContribuyenteDelIva);
             decimal vAlicuotaIGTF = new Brl.Venta.clsFacturaNav().BuscaAlicuotaImpTranscBancarias(valFecha, vTipoDeContribuyenteDelIva);
-            CobroRapidoMultimonedaViewModel vViewModel = new CobroRapidoMultimonedaViewModel(valConsecutivoCompania, valNumeroFactura, valFecha, valTotalFactura, vTipoDeDocumento, valCodigoMonedaDelDocumento, valCodigoMonedaDeCobro, true, vAlicuotaIGTF, vTipoDeContribuyenteDelIva);
+            CobroRapidoMultimonedaViewModel vViewModel = new CobroRapidoMultimonedaViewModel(valConsecutivoCompania, valNumeroFactura, valFecha, valTotalFactura, vTipoDeDocumento, valCodigoMonedaDelDocumento, valCodigoMonedaDeCobro, true, vAlicuotaIGTF, vTipoDeContribuyenteDelIva, valCedulaRif);
             vViewModel.SeCobro += (arg) => cobro = arg;
             LibMessages.EditViewModel.ShowEditor(vViewModel, true);
             string vResult = vViewModel.XmlDatosDelCobro != null ? vViewModel.XmlDatosDelCobro.ToString() : string.Empty;

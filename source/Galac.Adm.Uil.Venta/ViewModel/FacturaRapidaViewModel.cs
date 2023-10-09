@@ -2272,7 +2272,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         eTipoDeContribuyenteDelIva vTipoDeContribuyenteDelIva = (eTipoDeContribuyenteDelIva)LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetEnum("Parametros", "TipoContribuyenteIVA");
                         decimal vAlicuotaIGTF = new Brl.Venta.clsFacturaNav().BuscaAlicuotaImpTranscBancarias(Fecha, vTipoDeContribuyenteDelIva);
                         if (vUsaCobroDirectoMultimoneda || EmpresaUsaMonedaExtranjeraComoPredeterminada()) {
-                            CobroRapidoMultimonedaViewModel vViewModelCobroMultimoneda = new CobroRapidoMultimonedaViewModel(Action, FacturaRapidaACobrar, ListDeCobroMaster, _AlicuotaIvaASustituir, false, vAlicuotaIGTF, vTipoDeContribuyenteDelIva);
+                            CobroRapidoMultimonedaViewModel vViewModelCobroMultimoneda = new CobroRapidoMultimonedaViewModel(Action, FacturaRapidaACobrar, ListDeCobroMaster, _AlicuotaIvaASustituir, false, vAlicuotaIGTF, vTipoDeContribuyenteDelIva, NumeroRIF);
                             vViewModelCobroMultimoneda.XmlDatosImprFiscal = _XmlDatosImprFiscal;
                             vViewModelCobroMultimoneda.SeCobro += (arg) => vResultCobro = arg;
                             LibMessages.EditViewModel.ShowEditor(vViewModelCobroMultimoneda, true);

@@ -23,6 +23,7 @@
         <KeyBinding Key="F6" Command="{Binding Path=CobrarCommand}" />
         <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />
         <KeyBinding Key="F10" Command="{Binding Path=VueltoConPagoMovilCommand}" />
+        <KeyBinding Key="F11" Command="{Binding Path=CobroTDD_TDCCommand}" />
     </UserControl.InputBindings>
     <Grid Width="622" Height="auto">
         <Grid.ColumnDefinitions>
@@ -512,7 +513,7 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="Collapsed" />
+                    Visibility="{Binding Path=IsVisibleTotalTarjetaVPos, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtTotalTarjeta1"
                     Grid.Row="0"
@@ -555,7 +556,7 @@
                     IsEnabled="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="Collapsed"
+                    Visibility="{Binding Path=IsVisibleTotalTarjetaVPos, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=TotalCobrosConTddTdcVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
@@ -707,7 +708,7 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleMontoPM, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtVueltoPagoMovil"
                     Grid.Row="1"
@@ -722,7 +723,7 @@
                     IsEnabled="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="{Binding Path=IsVisiblePM, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Visibility="{Binding Path=IsVisibleMontoPM, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=VueltoC2p, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="2"

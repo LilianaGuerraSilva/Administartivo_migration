@@ -79,7 +79,7 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT RenglonCobroDeFactura.ConsecutivoCompania, RenglonCobroDeFactura.NumeroFactura, RenglonCobroDeFactura.TipoDeDocumento, " + DbSchema + ".Gv_EnumTipoDocumentoFactura.StrValue AS TipoDeDocumentoStr, RenglonCobroDeFactura.ConsecutivoRenglon");
             SQL.AppendLine(", RenglonCobroDeFactura.CodigoFormaDelCobro, RenglonCobroDeFactura.NumeroDelDocumento, RenglonCobroDeFactura.CodigoBanco, RenglonCobroDeFactura.Monto");
-            SQL.AppendLine(", RenglonCobroDeFactura.CodigoPuntoDeVenta, RenglonCobroDeFactura.NumeroDocumentoAprobacion, RenglonCobroDeFactura.InfoAdicional");
+            SQL.AppendLine(", RenglonCobroDeFactura.CodigoPuntoDeVenta, RenglonCobroDeFactura.NumeroDocumentoAprobacion, RenglonCobroDeFactura.CodigoMoneda, RenglonCobroDeFactura.CambioAMonedaLocal, RenglonCobroDeFactura.InfoAdicional");
             SQL.AppendLine(", RenglonCobroDeFactura.fldTimeStamp, CAST(RenglonCobroDeFactura.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".RenglonCobroDeFactura");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoDocumentoFactura");
@@ -103,6 +103,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@CodigoPuntoDeVenta" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@NumeroDocumentoAprobacion" + InsSql.VarCharTypeForDb(30) + " = '',");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
+            SQL.AppendLine("@CambioAMonedaLocal" + InsSql.NumericTypeForDb(25, 4) + ",");
             SQL.AppendLine("@InfoAdicional" + InsSql.VarCharTypeForDb(250) + " = ''");
             return SQL.ToString();
         }
@@ -126,6 +128,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            Monto,");
             SQL.AppendLine("            CodigoPuntoDeVenta,");
             SQL.AppendLine("            NumeroDocumentoAprobacion,");
+            SQL.AppendLine("            CodigoMoneda,");
+            SQL.AppendLine("            CambioAMonedaLocal,");
             SQL.AppendLine("            InfoAdicional)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @ConsecutivoCompania,");
@@ -138,6 +142,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @Monto,");
             SQL.AppendLine("            @CodigoPuntoDeVenta,");
             SQL.AppendLine("            @NumeroDocumentoAprobacion,");
+            SQL.AppendLine("            @CodigoMoneda,");
+            SQL.AppendLine("            @CambioAMonedaLocal,");
             SQL.AppendLine("            @InfoAdicional)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
@@ -161,6 +167,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@CodigoPuntoDeVenta" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@NumeroDocumentoAprobacion" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
+            SQL.AppendLine("@CambioAMonedaLocal" + InsSql.NumericTypeForDb(25, 4) + ",");
             SQL.AppendLine("@InfoAdicional" + InsSql.VarCharTypeForDb(250) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
@@ -192,6 +200,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               Monto = @Monto,");
             SQL.AppendLine("               CodigoPuntoDeVenta = @CodigoPuntoDeVenta,");
             SQL.AppendLine("               NumeroDocumentoAprobacion = @NumeroDocumentoAprobacion,");
+            SQL.AppendLine("               CodigoMoneda = @CodigoMoneda,");
+            SQL.AppendLine("               CambioAMonedaLocal = @CambioAMonedaLocal,");
             SQL.AppendLine("               InfoAdicional = @InfoAdicional");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
@@ -313,6 +323,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         Monto,");
             SQL.AppendLine("         CodigoPuntoDeVenta,");
             SQL.AppendLine("         NumeroDocumentoAprobacion,");
+            SQL.AppendLine("         CodigoMoneda,");
+            SQL.AppendLine("         CambioAMonedaLocal,");
             SQL.AppendLine("         InfoAdicional,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
@@ -348,6 +360,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("        Monto,");
             SQL.AppendLine("        CodigoPuntoDeVenta,");
             SQL.AppendLine("        NumeroDocumentoAprobacion,");
+            SQL.AppendLine("        CodigoMoneda,");
+            SQL.AppendLine("        CambioAMonedaLocal,");
             SQL.AppendLine("        InfoAdicional,");
             SQL.AppendLine("        fldTimeStamp");
             SQL.AppendLine("    FROM RenglonCobroDeFactura");
