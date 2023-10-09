@@ -47,14 +47,14 @@
             Visibility="Visible"
             Value="{Binding Path=Monto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
-            Name="lblCDRIF"
+            Name="lblCedulaRIF"
             Grid.Row="1"
             Grid.Column="0"
             Width="Auto"
             Content="Cédula / RIF"
             Visibility="Visible" />
         <nsWpfControls:GSTextBoxWpf
-            Name="txtCDRIF"
+            Name="txtCedulaRIF"
             Grid.Row="1"
             Grid.Column="1"
             Width="120"

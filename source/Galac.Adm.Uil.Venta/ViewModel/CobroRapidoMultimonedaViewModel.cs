@@ -619,7 +619,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion
 
         #region Constructores e Inicializaciores
-        public CobroRapidoMultimonedaViewModel(int valConsecutivoCompania, string valNumeroDeDocumento, DateTime valFechaDeDocumento, decimal valTotalFactura, eTipoDocumentoFactura valTipoDeDocumento, string valCodigoMonedaDeLaFactura, string valCodigoMonedaDeCobro, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva, string valCDRIF) {
+        public CobroRapidoMultimonedaViewModel(int valConsecutivoCompania, string valNumeroDeDocumento, DateTime valFechaDeDocumento, decimal valTotalFactura, eTipoDocumentoFactura valTipoDeDocumento, string valCodigoMonedaDeLaFactura, string valCodigoMonedaDeCobro, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva, string valCedulaRIF) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw(); // Se Llama  desde VB6            
             ConsecutivoCompania = valConsecutivoCompania;
             TipoDeDocumento = valTipoDeDocumento;
@@ -633,10 +633,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             CalcularTotales();
             _EsFacturaTradicional = valEsFacturaTradicional;
             ListaCobrosConTddTdcVPos = new List<CobroConTddTdcVPOS>();
-            cedulaRif = valCDRIF;
+            cedulaRif = valCedulaRIF;
         }
 
-        public CobroRapidoMultimonedaViewModel(eAccionSR valAction, FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobroMaster, int valAlicuotaIvaASustituir, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva, string valCDRIF) {
+        public CobroRapidoMultimonedaViewModel(eAccionSR valAction, FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobroMaster, int valAlicuotaIvaASustituir, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva, string valCedulaRIF) {
             _MonedaLocalNav = new clsNoComunSaw(); // Se Llama desde POS
             insFactura = valFactura;
             ConsecutivoCompania = insFactura.ConsecutivoCompania;
@@ -651,7 +651,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             CalcularTotales();
             _EsFacturaTradicional = valEsFacturaTradicional;
             ListaCobrosConTddTdcVPos = new List<CobroConTddTdcVPOS>();
-            cedulaRif = valCDRIF;
+            cedulaRif = valCedulaRIF;
         }
 
         protected override void InitializeCommands() {
