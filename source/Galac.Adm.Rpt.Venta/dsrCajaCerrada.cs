@@ -38,7 +38,7 @@ namespace Galac.Adm.Rpt.Venta {
             return "Caja Cerrada";
         }
 
-        public bool ConfigReport(DataTable valDataSource, DateTime valFechaDesde, DateTime valFechaHasta) {
+        public bool ConfigReport(DataTable valDataSource, DateTime valFechaDesde, DateTime valFechaHasta, decimal valEfectivoEnCaja, decimal valEfectivoEnCajaME) {
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -65,6 +65,9 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDec(this, "txtMontoCierreML", string.Empty, "MontoCierre");
                 LibReport.ConfigFieldDec(this, "txtMontoCierreME", string.Empty, "MontoCierreME");
                 LibReport.ConfigFieldStr(this, "txtHoraCierre", string.Empty, "HoraCierre");
+
+                LibReport.ConfigFieldDec(this, "txtEfectivoEnCaja", LibConvert.ToStr(valEfectivoEnCaja), "");
+                LibReport.ConfigFieldDec(this, "txtEfectivoEnCajaME", LibConvert.ToStr(valEfectivoEnCajaME), "");
 
                 LibReport.ConfigGroupHeader(this, "GHCajaApertura", "ConsecutivoConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
 

@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="Galac.Adm.Uil.Venta.Reportes.GSCajaCerrada"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
-             xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
-             xmlns:local="clr-namespace:Galac.Adm.Uil.Venta.Reportes"
-             mc:Ignorable="d"  >
+﻿<UserControl
+    x:Class="Galac.Adm.Uil.Venta.Reportes.GSCajaCerrada"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Galac.Adm.Uil.Venta.Reportes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:nsARRpt="clr-namespace:LibGalac.Aos.ARRpt;assembly=LibGalac.Aos.ARRpt"
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,34 +19,67 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Label
-            x:Name="lblFechaDesde"
+            Name="lblNombreCaja"
             Grid.Row="0"
             Grid.Column="0"
+            Content="Nombre Caja"
+            Style="{StaticResource LabelPrompt}" />
+        <nsWpfControls:GSSeekConnection
+            Name="txtNombreCaja"
+            Grid.Row="0"
+            Grid.Column="1"
+            Height="23"           
+            HorizontalContentAlignment="Left"
+            Background="LightGray"
+            ConnectionValue="{Binding Path=NombreCaja, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            DisplayMemberPath="NombreCaja"
+            Foreground="Black"
+            IsEnabled="{Binding Path=IsEnabled}"
+            Model="{Binding Path=ConexionNombreCaja, Mode=TwoWay}"
+            SearchCommand="{Binding Path=ChooseNombreCajaCommand}" />
+        <Label
+            x:Name="lblFechaDesde"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0"
+            VerticalAlignment="Stretch"
             Content="Fecha Desde"
-            Style="{StaticResource LabelPrompt}" Margin="0" VerticalAlignment="Stretch" />
+            Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFechaDesde"
-            Grid.Row="0"
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="Auto"
+            Margin="0"
+            HorizontalAlignment="Stretch"
             IsEnabled="{Binding IsEnabled}"
             SelectedDate="{Binding FechaDesde, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource DatePickerStyle}" Margin="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="Auto" />
+            Style="{StaticResource DatePickerStyle}" />
         <Label
             x:Name="lblFechaHasta"
+            Grid.Row="2"
             Grid.Column="0"
+            Margin="0"
+            VerticalAlignment="Stretch"
             Content="Fecha Hasta"
-            Style="{StaticResource LabelPrompt}" Margin="0" Grid.Row="1" VerticalAlignment="Stretch" />
+            Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSDatePickerWpf
             x:Name="dtpFechaHasta"
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0"
+            HorizontalAlignment="Stretch"
             IsEnabled="{Binding IsEnabled}"
             SelectedDate="{Binding FechaHasta, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Style="{StaticResource DatePickerStyle}" Margin="0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" />
+            Style="{StaticResource DatePickerStyle}" />
     </Grid>
 </UserControl>

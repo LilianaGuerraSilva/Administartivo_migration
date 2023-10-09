@@ -57,6 +57,9 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoCierreME = new DataDynamics.ActiveReports.TextBox();
             this.lblCierre = new DataDynamics.ActiveReports.Label();
             this.txtMontoCierreML = new DataDynamics.ActiveReports.TextBox();
+            this.txtEfectivoEnCaja = new DataDynamics.ActiveReports.TextBox();
+            this.txtEfectivoEnCajaME = new DataDynamics.ActiveReports.TextBox();
+            this.txtEfectivoEnDescripcion = new DataDynamics.ActiveReports.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoML)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMovimiento)).BeginInit();
@@ -84,6 +87,9 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCierreME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCierre)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCierreML)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCaja)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCajaME)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnDescripcion)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // Detail
@@ -372,7 +378,10 @@ namespace Galac.Adm.Rpt.Venta
             this.txtHoraCierre,
             this.txtMontoCierreME,
             this.lblCierre,
-            this.txtMontoCierreML});
+            this.txtMontoCierreML,
+            this.txtEfectivoEnCaja,
+            this.txtEfectivoEnCajaME,
+            this.txtEfectivoEnDescripcion});
             this.GFCajaApertura.Height = 0.7083333F;
             this.GFCajaApertura.Name = "GFCajaApertura";
             // 
@@ -384,7 +393,7 @@ namespace Galac.Adm.Rpt.Venta
             this.lblHoraCierre.Name = "lblHoraCierre";
             this.lblHoraCierre.Style = "font-size: 8pt; font-weight: bold; ddo-char-set: 1";
             this.lblHoraCierre.Text = "Hora Cierre";
-            this.lblHoraCierre.Top = 0.312F;
+            this.lblHoraCierre.Top = 0.552F;
             this.lblHoraCierre.Width = 1.437F;
             // 
             // txtHoraCierre
@@ -394,7 +403,7 @@ namespace Galac.Adm.Rpt.Venta
             this.txtHoraCierre.Name = "txtHoraCierre";
             this.txtHoraCierre.Style = "font-size: 8pt; ddo-char-set: 1";
             this.txtHoraCierre.Text = "txtHoraCierre";
-            this.txtHoraCierre.Top = 0.312F;
+            this.txtHoraCierre.Top = 0.552F;
             this.txtHoraCierre.Width = 1.437F;
             // 
             // txtMontoCierreME
@@ -430,6 +439,36 @@ namespace Galac.Adm.Rpt.Venta
             this.txtMontoCierreML.Text = "txtMontoCierreML";
             this.txtMontoCierreML.Top = 0F;
             this.txtMontoCierreML.Width = 1.437F;
+            // 
+            // txtEfectivoEnCaja
+            // 
+            this.txtEfectivoEnCaja.Height = 0.15625F;
+            this.txtEfectivoEnCaja.Left = 4.5F;
+            this.txtEfectivoEnCaja.Name = "txtEfectivoEnCaja";
+            this.txtEfectivoEnCaja.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtEfectivoEnCaja.Text = "txtEfectivoEnCaja";
+            this.txtEfectivoEnCaja.Top = 0.156F;
+            this.txtEfectivoEnCaja.Width = 1.437F;
+            // 
+            // txtEfectivoEnCajaME
+            // 
+            this.txtEfectivoEnCajaME.Height = 0.15625F;
+            this.txtEfectivoEnCajaME.Left = 5.936999F;
+            this.txtEfectivoEnCajaME.Name = "txtEfectivoEnCajaME";
+            this.txtEfectivoEnCajaME.Style = "font-size: 8pt; text-align: right; ddo-char-set: 1";
+            this.txtEfectivoEnCajaME.Text = "txtEfectivoEnCajaME";
+            this.txtEfectivoEnCajaME.Top = 0.156F;
+            this.txtEfectivoEnCajaME.Width = 1.437F;
+            // 
+            // txtEfectivoEnDescripcion
+            // 
+            this.txtEfectivoEnDescripcion.Height = 0.15625F;
+            this.txtEfectivoEnDescripcion.Left = 0F;
+            this.txtEfectivoEnDescripcion.Name = "txtEfectivoEnDescripcion";
+            this.txtEfectivoEnDescripcion.Style = "font-size: 8.25pt; font-weight: bold; text-align: left; ddo-char-set: 0";
+            this.txtEfectivoEnDescripcion.Text = "Efectivo en Caja = Apertura + Efectivo - Vuelto";
+            this.txtEfectivoEnDescripcion.Top = 0.156F;
+            this.txtEfectivoEnDescripcion.Width = 4.5F;
             // 
             // dsrCajaCerrada
             // 
@@ -475,6 +514,9 @@ namespace Galac.Adm.Rpt.Venta
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCierreME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lblCierre)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtMontoCierreML)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCaja)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnCajaME)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtEfectivoEnDescripcion)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 
         }
@@ -512,5 +554,8 @@ namespace Galac.Adm.Rpt.Venta
         private DataDynamics.ActiveReports.TextBox txtMontoAperturaML;
         private DataDynamics.ActiveReports.TextBox txtMontoAperturaME;
         private DataDynamics.ActiveReports.TextBox txtMontoCodigoMoneda;
+        private DataDynamics.ActiveReports.TextBox txtEfectivoEnCaja;
+        private DataDynamics.ActiveReports.TextBox txtEfectivoEnCajaME;
+        private DataDynamics.ActiveReports.TextBox txtEfectivoEnDescripcion;
     }
 }
