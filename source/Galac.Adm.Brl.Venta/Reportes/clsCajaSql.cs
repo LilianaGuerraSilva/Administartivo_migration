@@ -801,13 +801,14 @@ namespace Galac.Adm.Brl.Venta.Reportes {
         public string SqlEfectivoEnCajaCerrada(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaDesde, DateTime valFechaHasta) {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT");
-            vSql.AppendLine("   SUM(MontoApertura) + SUM(MontoEfectivo) - (SUM(MontoVuelto) + SUM(MontoVueltoPM)) AS EfectivoEnCaja,");
-            vSql.AppendLine("   SUM(MontoAperturaME) + SUM(MontoEfectivoME) - SUM(MontoVueltoME)  AS EfectivoEnCajaME");
+            vSql.AppendLine("   SUM(MontoApertura) + SUM(MontoEfectivo) + (SUM(MontoVuelto) + SUM(MontoVueltoPM)) AS EfectivoEnCaja,");
+            vSql.AppendLine("   SUM(MontoAperturaME) + SUM(MontoEfectivoME) + SUM(MontoVueltoME)  AS EfectivoEnCajaME");
             vSql.AppendLine("   FROM adm.cajaapertura");
             vSql.AppendLine("   WHERE ");
             vSql.AppendLine("   ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
             vSql.AppendLine("   AND ConsecutivoCaja = " + insSql.ToSqlValue(valConsecutivoCaja));
             vSql.AppendLine("   AND " + insSql.SqlDateValueBetween("", "Fecha", valFechaDesde, valFechaHasta));
+            vSql.AppendLine("   AND CajaCerrada = " + insSql.ToSqlValue(true));
             return vSql.ToString();
         }
         #endregion //Metodos Generados

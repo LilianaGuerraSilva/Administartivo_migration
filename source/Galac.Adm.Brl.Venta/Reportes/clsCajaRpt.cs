@@ -90,7 +90,7 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             string vSql = "";
             clsCajaSql insCajaAperturaSql = new clsCajaSql();
             LibGalac.Aos.Base.ILibDataRpt insCajaCerrada = new Galac.Adm.Dal.Venta.clsCajaDat();
-            vSql = insCajaAperturaSql.SqlCajaCerrada(valConsecutivoCompania, valConsecutivoCompania, valFechaDesde, valFechaHasta);
+            vSql = insCajaAperturaSql.SqlCajaCerrada(valConsecutivoCompania, valConsecutivoCaja, valFechaDesde, valFechaHasta);
 			GetEfectivoEnCaja(valConsecutivoCompania, valConsecutivoCaja, valFechaDesde, valFechaHasta, ref refEfectivoEnCaja, ref refEfectivoEnCajaME);
             return insCajaCerrada.GetDt(vSql, 0);
         }
