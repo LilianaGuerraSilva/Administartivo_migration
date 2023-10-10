@@ -74,7 +74,13 @@ namespace Galac.Adm.IntegracionMS.Venta {
             var vExito = SendProcesar(request);
             return vExito.Item1;
         }
-
+        public bool EjecutaAnularTransaccion() {
+            request  request = new request() {
+                accion = "anulacion"
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
         public bool EjecutaUltimoVoucherAprobado() {
             request request = new request() {
                 accion = "imprimeUltimoVoucher"
