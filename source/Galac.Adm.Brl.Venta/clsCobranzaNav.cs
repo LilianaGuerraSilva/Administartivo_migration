@@ -475,13 +475,14 @@ namespace Galac.Adm.Brl.Venta {
             decimal vCobradoTransferencia = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00006").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vCobradoEfectivo = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00001").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             XElement vMaxCobro = valRenglonesDeCobro.Where(t => (decimal)t.Element("Monto") == valRenglonesDeCobro.Max(x => (decimal)x.Element("Monto"))).FirstOrDefault();
+            decimal vVuelto = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00007").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             string VCodigo = LibXml.GetElementValueOrEmpty(vMaxCobro, "CodigoFormaDelCobro");
-            outTotalCobrado = vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia;
-            if (outTotalCobrado > valTotalPorCobrar) {
+            outTotalCobrado = (vCobradoEfectivo - vVuelto) + vCobradoTarjetas + vCobradoTransferencia;
+            if (outTotalCobrado > valTotalPorCobrar || vVuelto != 0) {
                 vDiferencia = outTotalCobrado - valTotalPorCobrar;
                 switch (VCodigo) {
                     case "00001":
-                        vCobradoEfectivo -= vDiferencia;
+                        vCobradoEfectivo -= vVuelto;
                         outTotalCobrado = vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia;
                         break;
                     case "00003":
@@ -543,7 +544,7 @@ namespace Galac.Adm.Brl.Venta {
                 new XElement("StatusRetencionIva", (int)eStatusRetencionIVACobranza.NoAplica),
                 new XElement("GeneraMovBancario", true),
                 new XElement("CobradoAnticipo", 0),
-                new XElement("Vuelto", 0),
+                new XElement("Vuelto", vVuelto),
                 new XElement("DescProntoPago", 0),
                 new XElement("DescProntoPagoPorc", 0),
                 new XElement("ComisionVendedor", 0),
