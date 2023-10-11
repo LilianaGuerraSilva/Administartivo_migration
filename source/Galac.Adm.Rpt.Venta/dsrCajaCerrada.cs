@@ -73,7 +73,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDec(this, "txtMontoCierreML", string.Empty, "MontoCierre");
                 LibReport.ConfigFieldDec(this, "txtMontoCierreME", string.Empty, "MontoCierreME");
                 LibReport.ConfigFieldStr(this, "txtHoraCierre", string.Empty, "HoraCierre");
-                LibReport.ConfigFieldStr(this, "txtConsecutivoCaja", string.Empty, "ConsecutivoCaja");
+                LibReport.ConfigFieldInt(this, "txtConsecutivoCaja", "0", "ConsecutivoCaja");
                 LibReport.ConfigGroupHeader(this, "GHCajaApertura", "ConsecutivoConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
