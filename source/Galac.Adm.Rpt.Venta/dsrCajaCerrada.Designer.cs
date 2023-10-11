@@ -156,7 +156,7 @@ namespace Galac.Adm.Rpt.Venta
             // txtNroDePagina
             // 
             this.txtNroDePagina.Height = 0.156F;
-            this.txtNroDePagina.Left = 6.53125F;
+            this.txtNroDePagina.Left = 6.46775F;
             this.txtNroDePagina.Name = "txtNroDePagina";
             this.txtNroDePagina.Style = "font-size: 8.25pt";
             this.txtNroDePagina.Text = "txtNroDePagina";
