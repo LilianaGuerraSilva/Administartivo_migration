@@ -31,13 +31,14 @@
             Name="lblNombreCaja"
             Grid.Row="0"
             Grid.Column="0"
+            Margin="0"
             Content="Nombre Caja"
             Style="{StaticResource LabelPrompt}" />
         <nsWpfControls:GSSeekConnection
             Name="txtNombreCaja"
             Grid.Row="0"
             Grid.Column="1"
-            Height="23"           
+            Height="23"
             HorizontalContentAlignment="Left"
             Background="LightGray"
             ConnectionValue="{Binding Path=NombreCaja, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"

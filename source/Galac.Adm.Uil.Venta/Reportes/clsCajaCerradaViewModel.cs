@@ -69,6 +69,9 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         public clsCajaCerradaViewModel() {
             FechaDesde = LibConvert.ToDate("01/" + LibDate.Today().Month.ToString() + "/" + LibDate.Today().Year.ToString());
             FechaHasta = LibDate.Today();
+            ConsecutivoCaja = 0;
+            ConexionNombreCaja = FirstConnectionRecordOrDefault<FkCajaViewModel>("Caja", LibSearchCriteria.CreateCriteria("Consecutivo", ConsecutivoCaja));
+            NombreCaja = ConexionNombreCaja.NombreCaja;
         }
         #endregion //Constructores
         #region Metodos Generados
