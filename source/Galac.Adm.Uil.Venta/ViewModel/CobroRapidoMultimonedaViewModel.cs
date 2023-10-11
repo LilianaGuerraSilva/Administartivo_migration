@@ -412,11 +412,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public RelayCommand CobrarCommand { get; private set; }
+
         public RelayCommand LimpiarCommand { get; private set; }
 
         public RelayCommand VueltoConPagoMovilCommand { get; private set; }
 
         public RelayCommand CobroTDD_TDCCommand { get; private set; }
+        
+        public RelayCommand AnularTransaccionCommand { get; private set;}
 
         public string IsVisibleSeccionEfectivo {
             get {
@@ -619,6 +623,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion
 
         #region Constructores e Inicializaciores
+        public CobroRapidoMultimonedaViewModel() { }
+
         public CobroRapidoMultimonedaViewModel(int valConsecutivoCompania, string valNumeroDeDocumento, DateTime valFechaDeDocumento, decimal valTotalFactura, eTipoDocumentoFactura valTipoDeDocumento, string valCodigoMonedaDeLaFactura, string valCodigoMonedaDeCobro, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva, string valCedulaRIF) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw(); // Se Llama  desde VB6            
             ConsecutivoCompania = valConsecutivoCompania;
@@ -654,11 +660,26 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             cedulaRif = valCedulaRIF;
         }
 
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateMegasoftRibbonButtonGroup());
+                var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
+                RibbonData.TabDataCollection[0].GroupDataCollection.Insert(4, tempRibbon);
+                //RibbonData.TabDataCollection[0].GroupDataCollection[0] = RibbonData.TabDataCollection[0].GroupDataCollection[0];
+                //RibbonData.TabDataCollection[0].GroupDataCollection[1] = tempRibbon;
+
+            }
+        }
+
         protected override void InitializeCommands() {
             base.InitializeCommands();
+            CobrarCommand = new RelayCommand(ExecuteCobrarBaseCommand, CanExecuteCobrarBaseCommand);
             LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
             VueltoConPagoMovilCommand = new RelayCommand(ExecuteVueltoConPagoMovilCommand, CanExecuteVueltoConPagoMovilCommand);
             CobroTDD_TDCCommand = new RelayCommand(ExecuteCobroTDD_TDCCommand, CanExecuteCobroTDD_TDCCommand);
+            AnularTransaccionCommand = new RelayCommand(ExecuteAnularTransaccionCommand, CanExecuteAnularTransaccionCommand);
         }
 
         protected override void InitializeLookAndFeel() {
@@ -666,8 +687,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
         }
 
-        protected override LibRibbonGroupData CreateCobrarRibbonButtonGroup() {
-            var vResult = base.CreateCobrarRibbonButtonGroup();
+        private LibRibbonGroupData CreateCobrarRibbonButtonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Comandos");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Cobrar",
+                Command = CobrarCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F6.png", UriKind.Relative),
+                ToolTipDescription = "Guarda los cambios en " + ModuleName + ".",
+                ToolTipTitle = "Ejecutar Acción (F6)",
+                IsVisible = true,
+                KeyTip = "F6"
+            });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Limpiar",
                 Command = LimpiarCommand,
@@ -677,23 +707,35 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 IsVisible = true,
                 KeyTip = "F7"
             });
+            return vResult;
+        }
+
+        protected LibRibbonGroupData CreateMegasoftRibbonButtonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Operaciones");
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Vuelto con Pago Móvil",
                 Command = VueltoConPagoMovilCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
-                ToolTipDescription = "Datos del Vuelto con Pago Móvil",
-                ToolTipTitle = "Vuelto con Pago Móvil",
+                ToolTipDescription = "Al efectuarse el Pago Móvil culminará el Cobro",
+                ToolTipTitle = "Vuelto Pago Móvil y Cobrar",
                 IsVisible = IsVisiblePM,
                 KeyTip = "F10"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "TDD/TDC",
+                Label = "Tarjeta de Débito/Crédito",
                 Command = CobroTDD_TDCCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F11.png", UriKind.Relative),
-                ToolTipDescription = "Cobro TDD/TDC",
-                ToolTipTitle = "TDD/TDC",
+                ToolTipDescription = "Cobro Tarjeta de Débito/Crédito",
+                ToolTipTitle = "Tarjeta de Débito/Crédito",
                 IsVisible = IsVisibleTDDTDC,
                 KeyTip = "F11"
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Anular Transacción",
+                Command = AnularTransaccionCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/deleteImage.png", UriKind.Relative),
+                ToolTipDescription = "Anular Transacción",
+                ToolTipTitle = "Anular Transacción"
             });
             return vResult;
         }
@@ -741,19 +783,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        protected abstract void ExecuteCobrarBaseCommand();
+
+        protected abstract bool CanExecuteCobrarBaseCommand();
+
         private void ExecuteLimpiarCommand() {
-            EfectivoEnMonedaLocal = 0;
-            EfectivoEnDivisas = 0;
-            TarjetaUno = 0;
-            TarjetaDos = 0;
-            TransferenciaEnMonedaLocal = 0;
-            TransferenciaEnDivisas = 0;
-            VueltoEnMonedaLocal = 0;
-            VueltoEnDivisas = 0;
-            MontoRestantePorPagar = TotalFactura;
-            MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
-            RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
+            Limpiar();
         }
+        private bool CanExecuteLimpiarCommand() { return true; }
 
         private void ExecuteVueltoConPagoMovilCommand() {
             try {
@@ -812,7 +849,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        protected override bool CanExecuteCobrarCommand() {
+        protected bool CanExecuteCobrarCommand() {
             bool vResult = false;
             vResult = SePuedeCobrar() && (_EsFacturaTradicional || base.CanExecuteCobrarCommand());
             return vResult;
@@ -836,7 +873,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
 
-        private bool CanExecuteLimpiarCommand() { return true; }
+        
 
         private bool CanExecuteVueltoConPagoMovilCommand() {
             bool vResult = (MontoRestantePorPagar < 0) || (MontoRestantePorPagarEnDivisas < 0);
@@ -845,6 +882,34 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool CanExecuteCobroTDD_TDCCommand() {
             return MontoRestantePorPagar > 0; 
+        }
+
+        private void ExecuteAnularTransaccionCommand() {
+            try {
+                    //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
+                    C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
+                if (insMegasoft.EjecutaAnularTransaccion()) {
+                    if (insMegasoft.montoTransaccion > 0) {
+                        clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
+                        ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
+                            MontoTransaccion = LibConvert.ToDec(insMegasoft.montoTransaccion, 2),
+                            NumReferencia = insMegasoft.numeroReferencia,
+                            InfoAdicional = insMegasoft.infoAdicional,
+                        });
+                        TotalCobrosConTddTdcVPos += LibConvert.ToDec(insMegasoft.montoTransaccion, 2);
+                    }
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
+
+            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
+            insVueltoMegasoft.EjecutaAnularTransaccion();
+        }
+        private bool CanExecuteAnularTransaccionCommand() {
+            return true;
         }
         #endregion
 
@@ -1215,6 +1280,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 default:
                     break;
             }
+        }
+
+        public void Limpiar() {
+            EfectivoEnMonedaLocal = 0;
+            EfectivoEnDivisas = 0;
+            TarjetaUno = 0;
+            TarjetaDos = 0;
+            TransferenciaEnMonedaLocal = 0;
+            TransferenciaEnDivisas = 0;
+            VueltoEnMonedaLocal = 0;
+            VueltoEnDivisas = 0;
+            MontoRestantePorPagar = TotalFactura;
+            MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
+            RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
         }
         #endregion
     }
