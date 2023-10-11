@@ -698,11 +698,13 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vSql.ToString();
         }
 
-        internal string SqlCajaCerrada(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaDesde, DateTime valFechaHasta) {
+        internal string SqlCajaCerrada(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
             StringBuilder vSql = new StringBuilder();
-            vSql.Append(SqlCTECajaAperturadaPorOperador(valConsecutivoCompania, valConsecutivoCaja, valFechaDesde, valFechaHasta));
+            vSql.Append(SqlCTECajaAperturadaPorOperador(valConsecutivoCompania, valFechaDesde, valFechaHasta));
             vSql.AppendLine("SELECT ");
             vSql.AppendLine("	CAST(Consecutivo AS varchar(10)) + '-' + CAST(ConsecutivoCaja AS varchar(10)) AS ConsecutivoConsecutivoCaja, ");
+            vSql.AppendLine("	Consecutivo, ");
+            vSql.AppendLine("	ConsecutivoCaja, ");
             vSql.AppendLine("	NombreCaja, ");
             vSql.AppendLine("	Fecha, ");
             vSql.AppendLine("	HoraApertura, ");
@@ -735,17 +737,17 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return vSql.ToString();
         }
 
-        string SqlCTECajaAperturadaPorOperador(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaDesde, DateTime valFechaHasta) {
+        string SqlCTECajaAperturadaPorOperador(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("; WITH CTE_CajaAperturadaPorOperador AS(");
-            vSql.AppendLine(SqlUNPIVOTCajaCerrada(true, valConsecutivoCompania, valConsecutivoCaja, valFechaDesde, valFechaHasta));
+            vSql.AppendLine(SqlUNPIVOTCajaCerrada(true, valConsecutivoCompania, valFechaDesde, valFechaHasta));
             vSql.AppendLine(" UNION ");
-            vSql.AppendLine(SqlUNPIVOTCajaCerrada(false, valConsecutivoCompania, valConsecutivoCaja, valFechaDesde, valFechaHasta));
+            vSql.AppendLine(SqlUNPIVOTCajaCerrada(false, valConsecutivoCompania, valFechaDesde, valFechaHasta));
             vSql.AppendLine(")");
             return vSql.ToString();
         }
 
-        string SqlUNPIVOTCajaCerrada(bool valEsPAraMonedaLocal, int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaDesde, DateTime valFechaHasta) {
+        string SqlUNPIVOTCajaCerrada(bool valEsPAraMonedaLocal, int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
             StringBuilder vSql = new StringBuilder();
             vSql.AppendLine("SELECT ");
             vSql.AppendLine("	Consecutivo, ");
@@ -787,7 +789,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             vSql.AppendLine("		ON CA.ConsecutivoCaja = c.Consecutivo");
             vSql.AppendLine("		AND CA.ConsecutivoCompania = C.ConsecutivoCompania");
             vSql.AppendLine("	WHERE CA.ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("	    AND CA.ConsecutivoCaja = " + insSql.ToSqlValue(valConsecutivoCaja));
             vSql.AppendLine("		AND " + insSql.SqlDateValueBetween("", "CA.Fecha", valFechaDesde, valFechaHasta));
             vSql.AppendLine("		AND CA.CajaCerrada = " + insSql.ToSqlValue(true) + ") BaseUnpivot");
             if (valEsPAraMonedaLocal) {
@@ -795,20 +796,6 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             } else {
                 vSql.AppendLine("	UNPIVOT (MontoME FOR Movimiento IN ([01 - Efectivo], [02 - Tarjeta], [03 - Cheque], [04 - Depósito], [05 - Anticipo], [06 - Vuelto Efectivo]))AS CajaAperturaPorOperadorME");
             }
-            return vSql.ToString();
-        }
-
-        public string SqlEfectivoEnCajaCerrada(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaDesde, DateTime valFechaHasta) {
-            StringBuilder vSql = new StringBuilder();
-            vSql.AppendLine("SELECT");
-            vSql.AppendLine("   SUM(MontoApertura) + SUM(MontoEfectivo) + (SUM(MontoVuelto) + SUM(MontoVueltoPM)) AS EfectivoEnCaja,");
-            vSql.AppendLine("   SUM(MontoAperturaME) + SUM(MontoEfectivoME) + SUM(MontoVueltoME)  AS EfectivoEnCajaME");
-            vSql.AppendLine("   FROM adm.cajaapertura");
-            vSql.AppendLine("   WHERE ");
-            vSql.AppendLine("   ConsecutivoCompania = " + insSql.ToSqlValue(valConsecutivoCompania));
-            vSql.AppendLine("   AND ConsecutivoCaja = " + insSql.ToSqlValue(valConsecutivoCaja));
-            vSql.AppendLine("   AND " + insSql.SqlDateValueBetween("", "Fecha", valFechaDesde, valFechaHasta));
-            vSql.AppendLine("   AND CajaCerrada = " + insSql.ToSqlValue(true));
             return vSql.ToString();
         }
         #endregion //Metodos Generados

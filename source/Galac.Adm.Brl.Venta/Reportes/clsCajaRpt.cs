@@ -86,24 +86,14 @@ namespace Galac.Adm.Brl.Venta.Reportes {
             return insCuadreCajaPorUsuario.GetDt(vSql, 0);
         }
 
-        System.Data.DataTable ICajaInformes.BuildCajaCerrada(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaDesde, DateTime valFechaHasta, ref decimal refEfectivoEnCaja, ref decimal refEfectivoEnCajaME) {
+        System.Data.DataTable ICajaInformes.BuildCajaCerrada(int valConsecutivoCompania, DateTime valFechaDesde, DateTime valFechaHasta) {
             string vSql = "";
             clsCajaSql insCajaAperturaSql = new clsCajaSql();
             LibGalac.Aos.Base.ILibDataRpt insCajaCerrada = new Galac.Adm.Dal.Venta.clsCajaDat();
-            vSql = insCajaAperturaSql.SqlCajaCerrada(valConsecutivoCompania, valConsecutivoCaja, valFechaDesde, valFechaHasta);
-			GetEfectivoEnCaja(valConsecutivoCompania, valConsecutivoCaja, valFechaDesde, valFechaHasta, ref refEfectivoEnCaja, ref refEfectivoEnCajaME);
+            vSql = insCajaAperturaSql.SqlCajaCerrada(valConsecutivoCompania, valFechaDesde, valFechaHasta);
             return insCajaCerrada.GetDt(vSql, 0);
         }
 
-        private void GetEfectivoEnCaja(int valConsecutivoCompania, int valConsecutivoCaja, DateTime valFechaDesde, DateTime valFechaHasta, ref decimal refEfectivoEnCaja, ref decimal refEfectivoEnCajaME) {
-            clsCajaSql insCajaAperturaSql = new clsCajaSql();
-            string vSql = insCajaAperturaSql.SqlEfectivoEnCajaCerrada(valConsecutivoCompania, valConsecutivoCaja, valFechaDesde, valFechaHasta);
-            XElement vData = LibGalac.Aos.Brl.LibBusiness.ExecuteSelect(vSql, null, "", 0);
-            if (vData != null && vData.HasElements) {
-                refEfectivoEnCaja = LibConvert.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCaja"));
-                refEfectivoEnCajaME = LibConvert.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCajaME"));
-            }
-        }
         #endregion //Metodos Generados
     } //End of class clsCajaRpt
 } //End of namespace Galac.Adm.Brl.Venta

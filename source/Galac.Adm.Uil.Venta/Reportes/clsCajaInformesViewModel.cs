@@ -191,7 +191,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
         private ILibRpt ConfigReportCajaCerrada(clsCajaCerradaViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.Venta.clsCajaCerrada(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.ConsecutivoCaja, valViewModel.FechaDesde, valViewModel.FechaHasta) {
+                vResult = new Galac.Adm.Rpt.Venta.clsCajaCerrada(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaDesde, valViewModel.FechaHasta) {
                     Worker = Manager
                 };
             }

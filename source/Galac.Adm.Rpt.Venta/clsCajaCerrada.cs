@@ -14,19 +14,14 @@ namespace Galac.Adm.Rpt.Venta {
 
     public class clsCajaCerrada: LibRptBaseMfc {
         #region Propiedades
-
         protected DataTable Data { get; set; }
-        int ConsecutivoCaja { get; set; }
         DateTime FechaDesde { get; set; }
         DateTime FechaHasta { get; set; }
-        decimal EfectivoEnCaja { get; set; }
-        decimal EfectivoEnCajaME { get; set; }
         #endregion //Propiedades
         #region Constructores
-        public clsCajaCerrada(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, int initConsecutivoCaja, DateTime initFechaDesde, DateTime initFechaHasta) : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
+        public clsCajaCerrada(ePrintingDevice initPrintingDevice, eExportFileFormat initExportFileFormat, LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc, DateTime initFechaDesde, DateTime initFechaHasta) : base(initPrintingDevice, initExportFileFormat, initAppMemInfo, initMfc) {
             FechaDesde = initFechaDesde;
             FechaHasta = initFechaHasta;
-            ConsecutivoCaja = initConsecutivoCaja;
         }
         #endregion //Constructores
         #region Metodos Generados
@@ -52,16 +47,12 @@ namespace Galac.Adm.Rpt.Venta {
         }
 
         public override void RunReport() {
-            decimal vEfectivoEnCaja = 0;
-            decimal vEfectivoEnCajaME = 0;
             if (WorkerCancellPending()) {
                 return;
             }
             WorkerReportProgress(30, "Obteniendo datos...");
             ICajaInformes vRpt = new Galac.Adm.Brl.Venta.Reportes.clsCajaRpt() as ICajaInformes;
-            Data = vRpt.BuildCajaCerrada(Mfc.GetInt("Compania"), ConsecutivoCaja, FechaDesde, FechaHasta, ref vEfectivoEnCaja, ref vEfectivoEnCajaME);
-            EfectivoEnCaja = vEfectivoEnCaja;
-            EfectivoEnCajaME = vEfectivoEnCajaME;
+            Data = vRpt.BuildCajaCerrada(Mfc.GetInt("Compania"), FechaDesde, FechaHasta);
         }
 
         public override void SendReportToDevice() {
@@ -71,7 +62,7 @@ namespace Galac.Adm.Rpt.Venta {
             if (Data == null || Data.Rows == null || Data.Rows.Count < 1) {
                 throw new GalacException("No existen datos para mostrar", eExceptionManagementType.Alert);
             }
-            if (vRpt.ConfigReport(Data, FechaDesde, FechaHasta, EfectivoEnCaja, EfectivoEnCajaME)) {
+            if (vRpt.ConfigReport(Data, FechaDesde, FechaHasta)) {
                 LibReport.SendReportToDevice(vRpt, 1, PrintingDevice, clsCajaCerrada.ReportName, true, ExportFileFormat, "", false);
             }
             WorkerReportProgress(100, "Finalizando...");
