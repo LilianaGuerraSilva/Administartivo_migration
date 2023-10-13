@@ -412,10 +412,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public RelayCommand CobrarCommand { get; private set; }
-
-        public RelayCommand LimpiarCommand { get; private set; }
-
         public RelayCommand VueltoConPagoMovilCommand { get; private set; }
 
         public RelayCommand CobroTDD_TDCCommand { get; private set; }
@@ -663,19 +659,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateMegasoftRibbonButtonGroup());
                 var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
-                RibbonData.TabDataCollection[0].GroupDataCollection.Insert(4, tempRibbon);
-                //RibbonData.TabDataCollection[0].GroupDataCollection[0] = RibbonData.TabDataCollection[0].GroupDataCollection[0];
-                //RibbonData.TabDataCollection[0].GroupDataCollection[1] = tempRibbon;
+                //RibbonData.TabDataCollection[0].GroupDataCollection.Insert(4, tempRibbon);
+                RibbonData.TabDataCollection[0].GroupDataCollection[0] = RibbonData.TabDataCollection[0].GroupDataCollection[0];
+                RibbonData.TabDataCollection[0].GroupDataCollection[1] = tempRibbon;
 
             }
         }
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            CobrarCommand = new RelayCommand(ExecuteCobrarCommand, CanExecuteCobrarCommand);
-            LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
             VueltoConPagoMovilCommand = new RelayCommand(ExecuteVueltoConPagoMovilCommand, CanExecuteVueltoConPagoMovilCommand);
             CobroTDD_TDCCommand = new RelayCommand(ExecuteCobroTDD_TDCCommand, CanExecuteCobroTDD_TDCCommand);
             AnularTransaccionCommand = new RelayCommand(ExecuteAnularTransaccionCommand, CanExecuteAnularTransaccionCommand);
@@ -758,11 +753,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     + " / " + SimboloDivisa + MontoRestantePorPagarEnDivisas, "Monto restante por pagar");
             }
         }
-
-        private void ExecuteLimpiarCommand() {
-            Limpiar();
-        }
-        private bool CanExecuteLimpiarCommand() { return true; }
 
         private void ExecuteVueltoConPagoMovilCommand() {
             try {

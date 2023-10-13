@@ -42,16 +42,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeCommands() {
             base.InitializeCommands();
             CobrarCommand = new RelayCommand(ExecuteCobrarCommand, CanExecuteCobrarCommand);
+            LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
         }
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
-            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
-                var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
-                RibbonData.TabDataCollection[0].GroupDataCollection[0] = RibbonData.TabDataCollection[0].GroupDataCollection[1];
-                RibbonData.TabDataCollection[0].GroupDataCollection[1] = tempRibbon;
-            }
+            //if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+            //    RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
+            //    var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
+            //    RibbonData.TabDataCollection[0].GroupDataCollection[0] = RibbonData.TabDataCollection[0].GroupDataCollection[1];
+            //    RibbonData.TabDataCollection[0].GroupDataCollection[1] = tempRibbon;
+            //}
         }
 
         #endregion
@@ -156,6 +157,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get;
             private set;
         }
+        public RelayCommand LimpiarCommand {
+            get;
+            private set;
+        }
 
         #endregion //Propiedades
 
@@ -186,6 +191,15 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 IsVisible = true,
                 KeyTip = "F6"
             });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Limpiar",
+                Command = LimpiarCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F7.png", UriKind.Relative),
+                ToolTipDescription = "Limpia los valores en " + ModuleName,
+                ToolTipTitle = "Limpiar pantalla (F7)",
+                IsVisible = true,
+                KeyTip = "F7"
+            });
             return vResult;
         }
 
@@ -196,6 +210,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected abstract void ExecuteCobrarCommand();
         protected abstract bool CanExecuteCobrarCommand();
         public abstract void CalcularTotales();
+
+        private void ExecuteLimpiarCommand() {
+            CobroRapidoMultimonedaViewModel Limpiar = new CobroRapidoMultimonedaViewModel();
+            Limpiar.Limpiar();
+        }
+        private bool CanExecuteLimpiarCommand() { return true; }
 
         #endregion //Metodos
     }
