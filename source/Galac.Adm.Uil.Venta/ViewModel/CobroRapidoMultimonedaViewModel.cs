@@ -663,7 +663,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateMegasoftRibbonButtonGroup());
                 var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
                 RibbonData.TabDataCollection[0].GroupDataCollection.Insert(4, tempRibbon);
@@ -675,7 +674,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
-            CobrarCommand = new RelayCommand(ExecuteCobrarBaseCommand, CanExecuteCobrarBaseCommand);
+            CobrarCommand = new RelayCommand(ExecuteCobrarCommand, CanExecuteCobrarCommand);
             LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
             VueltoConPagoMovilCommand = new RelayCommand(ExecuteVueltoConPagoMovilCommand, CanExecuteVueltoConPagoMovilCommand);
             CobroTDD_TDCCommand = new RelayCommand(ExecuteCobroTDD_TDCCommand, CanExecuteCobroTDD_TDCCommand);
@@ -685,29 +684,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeLookAndFeel() {
             base.InitializeLookAndFeel();
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
-        }
-
-        private LibRibbonGroupData CreateCobrarRibbonButtonGroup() {
-            LibRibbonGroupData vResult = new LibRibbonGroupData("Comandos");
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Cobrar",
-                Command = CobrarCommand,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F6.png", UriKind.Relative),
-                ToolTipDescription = "Guarda los cambios en " + ModuleName + ".",
-                ToolTipTitle = "Ejecutar Acción (F6)",
-                IsVisible = true,
-                KeyTip = "F6"
-            });
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Limpiar",
-                Command = LimpiarCommand,
-                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F7.png", UriKind.Relative),
-                ToolTipDescription = "Limpia los valores en " + ModuleName,
-                ToolTipTitle = "Limpiar pantalla (F7)",
-                IsVisible = true,
-                KeyTip = "F7"
-            });
-            return vResult;
         }
 
         protected LibRibbonGroupData CreateMegasoftRibbonButtonGroup() {
@@ -782,10 +758,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     + " / " + SimboloDivisa + MontoRestantePorPagarEnDivisas, "Monto restante por pagar");
             }
         }
-
-        protected abstract void ExecuteCobrarBaseCommand();
-
-        protected abstract bool CanExecuteCobrarBaseCommand();
 
         private void ExecuteLimpiarCommand() {
             Limpiar();
