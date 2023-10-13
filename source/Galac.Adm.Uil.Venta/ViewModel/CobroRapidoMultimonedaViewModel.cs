@@ -662,10 +662,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateMegasoftRibbonButtonGroup());
                 var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
-                //RibbonData.TabDataCollection[0].GroupDataCollection.Insert(4, tempRibbon);
-                RibbonData.TabDataCollection[0].GroupDataCollection[0] = RibbonData.TabDataCollection[0].GroupDataCollection[0];
-                RibbonData.TabDataCollection[0].GroupDataCollection[1] = tempRibbon;
-
+                RibbonData.TabDataCollection[0].GroupDataCollection.Remove(tempRibbon);
+                RibbonData.TabDataCollection[0].GroupDataCollection.Insert(2, tempRibbon);
             }
         }
 
@@ -682,7 +680,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         protected LibRibbonGroupData CreateMegasoftRibbonButtonGroup() {
-            LibRibbonGroupData vResult = new LibRibbonGroupData("Operaciones");
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Medios electrónicos");
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Vuelto con Pago Móvil",
                 Command = VueltoConPagoMovilCommand,
@@ -811,7 +809,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        protected bool CanExecuteCobrarCommand() {
+        protected override bool CanExecuteCobrarCommand() {
             bool vResult = false;
             vResult = SePuedeCobrar() && (_EsFacturaTradicional || base.CanExecuteCobrarCommand());
             return vResult;
@@ -834,8 +832,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
             return vResult;
         }
-
-        
 
         private bool CanExecuteVueltoConPagoMovilCommand() {
             bool vResult = (MontoRestantePorPagar < 0) || (MontoRestantePorPagarEnDivisas < 0);

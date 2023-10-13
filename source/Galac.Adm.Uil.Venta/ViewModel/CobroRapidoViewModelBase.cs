@@ -47,12 +47,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
-            //if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-            //    RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
-            //    var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
-            //    RibbonData.TabDataCollection[0].GroupDataCollection[0] = RibbonData.TabDataCollection[0].GroupDataCollection[1];
-            //    RibbonData.TabDataCollection[0].GroupDataCollection[1] = tempRibbon;
-            //}
         }
 
         #endregion
