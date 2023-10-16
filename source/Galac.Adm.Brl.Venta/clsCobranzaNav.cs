@@ -11,9 +11,19 @@ using LibGalac.Aos.Brl;
 using System.Xml;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Saw.Lib;
+using Galac.Saw.Ccl.Tablas;
 
 namespace Galac.Adm.Brl.Venta {
-    public class clsCobranzaNav : LibBaseNav<IList<Cobranza>, IList<Cobranza>>, ICobranzaPdn {
+    public class clsCobranzaNav: LibBaseNav<IList<Cobranza>, IList<Cobranza>>, ICobranzaPdn {
+        IRenglonCobroDeFacturaPdn insRenglonCobroDeFactura;
+        string _CodigoVueltoEfectivo;
+        string _CodigoVueltoC2P;
+
+        public clsCobranzaNav() {
+            insRenglonCobroDeFactura = new clsRenglonCobroDeFacturaNav();
+            _CodigoVueltoEfectivo = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo);
+            _CodigoVueltoC2P = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P);
+        }
 
         bool ICobranzaPdn.InsertarCobranzaDesdePuntoDeVenta(int valConsecutivoCompania, XElement valData, string valNumeroCobranza) {
             StringBuilder sql = new StringBuilder();
@@ -116,7 +126,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInString("CodigoCuentaBancaria", vCodigoCuentaBancaria, 5);
             vParams.AddInString("ConceptoBancario", vConceptoBancario, 8);
             vParams.AddInString("Moneda", vMoneda, 80);
-            vParams.AddInDecimal("CambioAbolivares", 1, 2);
+            vParams.AddInDecimal("CambioAbolivares", 1, 4);
             vParams.AddInDecimal("RetencionIva", 0, 2);
             vParams.AddInString("NroComprobanteRetIva", string.Empty, 20);
             vParams.AddInEnum("StatusRetencionIva", (int)eStatusRetencionIVACobranza.NoAplica);
@@ -284,7 +294,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInString("SimboloMonedaDeCxC", "Bs", 4);
             vParams.AddInDecimal("MontoTotalDeCxC", vTotalFactura, 2);
             vParams.AddInString("CodigoMonedaDeCxC", vCodigoMoneda, 12);
-            vParams.AddInDecimal("CambioAMonedaDeCobranza", 1, 2);
+            vParams.AddInDecimal("CambioAMonedaDeCobranza", 1, 4);
             vParams.AddInDecimal("MontoEnMonedaOriginalDeCxC", vTotalFactura, 2);
             vParams.AddInDecimal("MontoIvaDeCxC", 0, 2);
             vParams.AddInDecimal("MontoIvaRetenido", 0, 2);
@@ -293,7 +303,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInBoolean("SeRetuvoIva", false);
             vParams.AddInBoolean("SeContabilizoIvaDiferido", false);
             vParams.AddInDecimal("MontoAbonadoEnMonedaOriginal", vTotalFactura, 2);
-            vParams.AddInDecimal("CambioAMonedaLocal", 1, 2);
+            vParams.AddInDecimal("CambioAMonedaLocal", 1, 4);
             vParams.AddInString("SimboloMonedaDelAbono", new clsNoComunSaw().InstanceMonedaLocalActual.GetHoySimboloMoneda(), 2);
 
             string vFechaComprobanteRetIva = LibXml.GetPropertyString(valData, "Fecha");
@@ -411,6 +421,7 @@ namespace Galac.Adm.Brl.Venta {
             bool vTienePagosEnDivisas = false;
             string vCodigoMonedaCobranza = string.Empty;
             decimal vTotalAbonadoMonedaLocal = 0;
+
             if (vCodigoMonedaFactura == vCodigoMonedaLocal) {
                 vTotalFactura = LibImportData.ToDec(LibXml.GetPropertyString(valDataCxC, "TotalCXC"), 2);
                 vTotalPorCobrar = vTotalFactura;
@@ -430,7 +441,7 @@ namespace Galac.Adm.Brl.Venta {
             IEnumerable<XElement> vRenglonesEnDivisa = null;
             if (vRenglonesDeCobroPorMoneda.ContainsKey(vCodigoMonedaLocal)) {
                 vRenglonesEnMonedaLocal = vRenglonesDeCobroPorMoneda[vCodigoMonedaLocal];
-                vTotalAbonadoMonedaLocal = vRenglonesEnMonedaLocal.Sum(x => LibImportData.ToDec(x.Element("Monto").Value));
+                vTotalAbonadoMonedaLocal = vRenglonesEnMonedaLocal.Where(c => LibConvert.ToStr(c.Element("CodigoFormaDelCobro").Value) != _CodigoVueltoEfectivo && LibConvert.ToStr(c.Element("CodigoFormaDelCobro").Value) != _CodigoVueltoC2P).Sum(x => LibImportData.ToDec(x.Element("Monto").Value));
             }
             string vCodigoMonedaDivisa = vRenglonesDeCobroPorMoneda.Keys.FirstOrDefault(t => t != vCodigoMonedaLocal);
             if (vCodigoMonedaDivisa != null) {
@@ -463,7 +474,7 @@ namespace Galac.Adm.Brl.Venta {
             outNumerosDeCobranzas = vNumeroDeCobranzas;
         }
 
-        private XElement CrearXmlDeDatosCobranza(int valConsecutivoCompania, DateTime valFecha, string valCodigoCliente, int valConsecutivoCobrador,string valCodigoCobrador, decimal valTotalFactura, decimal valTotalPorCobrar, IEnumerable<XElement> valRenglonesDeCobro, bool valTienePagosEnDivisas, ref string refNumeroDeCobranza, out decimal outTotalCobrado) {
+        private XElement CrearXmlDeDatosCobranza(int valConsecutivoCompania, DateTime valFecha, string valCodigoCliente, int valConsecutivoCobrador, string valCodigoCobrador, decimal valTotalFactura, decimal valTotalPorCobrar, IEnumerable<XElement> valRenglonesDeCobro, bool valTienePagosEnDivisas, ref string refNumeroDeCobranza, out decimal outTotalCobrado) {
             string vCodigoMonedaLocal = new Saw.Lib.clsNoComunSaw().InstanceMonedaLocalActual.GetHoyCodigoMoneda();
             if (refNumeroDeCobranza == string.Empty) {
                 refNumeroDeCobranza = ((ICobranzaPdn)new clsCobranzaNav()).GenerarProximoNumeroCobranza(valConsecutivoCompania);
@@ -475,30 +486,9 @@ namespace Galac.Adm.Brl.Venta {
             decimal vCobradoTransferencia = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00006").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             decimal vCobradoEfectivo = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00001").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             XElement vMaxCobro = valRenglonesDeCobro.Where(t => (decimal)t.Element("Monto") == valRenglonesDeCobro.Max(x => (decimal)x.Element("Monto"))).FirstOrDefault();
-            decimal vVuelto = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == "00007").Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
+            decimal vVuelto = valRenglonesDeCobro.Where(w => w.Element("CodigoFormaDelCobro").Value == _CodigoVueltoEfectivo || w.Element("CodigoFormaDelCobro").Value == _CodigoVueltoC2P).Sum(s => LibImportData.ToDec(s.Element("Monto").Value));
             string VCodigo = LibXml.GetElementValueOrEmpty(vMaxCobro, "CodigoFormaDelCobro");
-            outTotalCobrado = (vCobradoEfectivo - vVuelto) + vCobradoTarjetas + vCobradoTransferencia;
-            if (outTotalCobrado > valTotalPorCobrar || vVuelto != 0) {
-                vDiferencia = outTotalCobrado - valTotalPorCobrar;
-                switch (VCodigo) {
-                    case "00001":
-                        vCobradoEfectivo -= vVuelto;
-                        outTotalCobrado = vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia;
-                        break;
-                    case "00003":
-                        vCobradoTarjetas -= vDiferencia;
-                        outTotalCobrado = vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia;
-                        break;
-                    case "00006":
-                        vCobradoTransferencia -= vDiferencia;
-                        outTotalCobrado = vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia;
-                        break;
-                    default:
-                        vCobradoTarjetas -= vDiferencia;
-                        outTotalCobrado = vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia;
-                        break;
-                }
-            }
+            outTotalCobrado = (vCobradoEfectivo + vCobradoTarjetas + vCobradoTransferencia) - vVuelto;            
             string vCodigoMoneda = valRenglonesDeCobro.Select(s => (string)s.Element("CodigoMoneda")).FirstOrDefault();
             XElement vSimboloYNombreMoneda = ObtenerSimboloYNombreMonedaDesdeCodigo(vCodigoMoneda);
             string vNombreMoneda = vSimboloYNombreMoneda.Descendants("GpResult").Select(s => s.Element("Nombre").Value).FirstOrDefault();
@@ -751,7 +741,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInString("CodigoCuentaBancaria", LibXml.GetPropertyString(valXmlCobranza, "CodigoCuentaBancaria"), 5);
             vParams.AddInString("ConceptoBancario", LibXml.GetPropertyString(valXmlCobranza, "CodigoConcepto"), 8);
             vParams.AddInString("Moneda", LibXml.GetPropertyString(valXmlCobranza, "Moneda"), 80);
-            vParams.AddInDecimal("CambioAMonedaLocal", LibImportData.ToDec(LibXml.GetPropertyString(valXmlCobranza, "CambioAMonedaLocal")), 2);
+            vParams.AddInDecimal("CambioAMonedaLocal", LibImportData.ToDec(LibXml.GetPropertyString(valXmlCobranza, "CambioAMonedaLocal")), 4);
             vParams.AddInDecimal("RetencionIva", LibImportData.ToDec(LibXml.GetPropertyString(valXmlCobranza, "RetencionIva")), 2);
             vParams.AddInString("NroComprobanteRetIva", LibXml.GetPropertyString(valXmlCobranza, "NroComprobanteRetIva"), 20);
             vParams.AddInString("StatusRetencionIva", LibXml.GetPropertyString(valXmlCobranza, "StatusRetencionIva"), 1);
@@ -862,7 +852,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInString("SimboloMonedaDeCxC", LibXml.GetPropertyString(valXmlDocumentoCobrado, "SimboloMonedaDeCxC"), 4);
             vParams.AddInDecimal("MontoTotalDeCxC", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "MontoTotalDeCxC")), 2);
             vParams.AddInString("CodigoMonedaDeCxC", LibXml.GetPropertyString(valXmlDocumentoCobrado, "CodigoMonedaDeCxC"), 12);
-            vParams.AddInDecimal("CambioAMonedaDeCobranza", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "CambioAMonedaDeCobranza")), 2);
+            vParams.AddInDecimal("CambioAMonedaDeCobranza", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "CambioAMonedaDeCobranza")), 4);
             vParams.AddInDecimal("MontoEnMonedaOriginalDeCxC", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "MontoEnMonedaOriginalDeCxC")), 2);
             vParams.AddInDecimal("MontoIvaDeCxC", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "MontoIvaDeCxC")), 2);
             vParams.AddInDecimal("MontoIvaRetenido", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "MontoIvaRetenido")), 2);
@@ -871,7 +861,7 @@ namespace Galac.Adm.Brl.Venta {
             vParams.AddInString("SeRetuvoIva", LibXml.GetPropertyString(valXmlDocumentoCobrado, "SeRetuvoIva"), 1);
             vParams.AddInString("SeContabilizoIvaDiferido", LibXml.GetPropertyString(valXmlDocumentoCobrado, "SeContabilizoIvaDiferido"), 1);
             vParams.AddInDecimal("MontoAbonadoEnMonedaOriginal", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "MontoAbonadoEnMonedaOriginal")), 2);
-            vParams.AddInDecimal("CambioAMonedaLocal", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "CambioAMonedaLocal")), 2);
+            vParams.AddInDecimal("CambioAMonedaLocal", LibImportData.ToDec(LibXml.GetPropertyString(valXmlDocumentoCobrado, "CambioAMonedaLocal")), 4);
             vParams.AddInString("SimboloMonedaDelAbono", LibXml.GetPropertyString(valXmlDocumentoCobrado, "SimboloMonedaDelAbono"), 2);
             vSql.AppendLine(" INSERT INTO dbo.DocumentoCobrado (");
             vSql.AppendLine(" ConsecutivoCompania");
