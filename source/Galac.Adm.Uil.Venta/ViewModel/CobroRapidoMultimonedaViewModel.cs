@@ -91,8 +91,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string TotalAPagarMEParaMostrarPropertyName = "TotalAPagarMEParaMostrar";
         private const string IsEnableVueltoPropertyName = "IsEnableVuelto";
         private const string IsVisibleTotalTarjetaVPosPropertyName = "IsVisibleTotalTarjetaVPos";
-        private string numeroReferencia;
-        private string infoAdcional;
+        private string numReferencia;
+        private string infoAdicional;
         public decimal TotalPagosME;
         public decimal TotalPagosML;
         private decimal _TotalCobrosConTddTdcVPos;
@@ -537,13 +537,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool IsVisiblePM {//esto es el botón
             get {
-                return TipoDeDocumento == eTipoDocumentoFactura.Factura && C2PMegasoftNav.EsVisiblePM();
+                return TipoDeDocumento == eTipoDocumentoFactura.Factura;
+            }
+        }
+
+        public bool IsVisibleAnularTransaccion {
+            get {
+                return TipoDeDocumento == eTipoDocumentoFactura.Factura;
             }
         }
 
         public bool IsVisibleTDDTDC {//esto es el botón
             get {
-                return TipoDeDocumento == eTipoDocumentoFactura.Factura && C2PMegasoftNav.EsVisibleTDDTDC();
+                return TipoDeDocumento == eTipoDocumentoFactura.Factura;
             }
         }
 
@@ -704,7 +710,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 Command = AnularTransaccionCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/deleteImage.png", UriKind.Relative),
                 ToolTipDescription = "Anular Transacción",
-                ToolTipTitle = "Anular Transacción"
+                ToolTipTitle = "Anular Transacción",
+                IsVisible = IsVisibleAnularTransaccion
             });
             return vResult;
         }
@@ -758,8 +765,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
                 if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
-                    infoAdcional = insVueltoMegasoft.infoAdicional;
-                    numeroReferencia = insVueltoMegasoft.numeroReferencia;
+                    infoAdicional = insVueltoMegasoft.infoAdicional;
+                    numReferencia = insVueltoMegasoft.numeroReferencia;
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                         ExecuteCobrarCommand();
                     }
@@ -784,11 +791,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         if (insMegasoft.montoTransaccion > 0) {
                             clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                             ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
-                                MontoTransaccion = LibConvert.ToDec(insMegasoft.montoTransaccion, 2),
-                                NumReferencia = insMegasoft.numeroReferencia,
+                                MontoTransaccion = insMegasoft.montoTransaccion,
+                                NumReferencia = insMegasoft.numeroAutorizacion,
                                 InfoAdicional = insMegasoft.infoAdicional,
                             });
-                            TotalCobrosConTddTdcVPos += LibConvert.ToDec(insMegasoft.montoTransaccion, 2);
+                            TotalCobrosConTddTdcVPos += insMegasoft.montoTransaccion;
                         }
                     }
                 }
@@ -844,8 +851,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteAnularTransaccionCommand() {
             try {
-                    //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
-                    C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
+                //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
+                C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                 if (insMegasoft.EjecutaAnularTransaccion()) {
                     if (insMegasoft.montoTransaccion > 0) {
                         clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
@@ -1121,10 +1128,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P),
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = LibMath.Abs(VueltoC2p),
-                    NumeroDocumentoAprobacion = LibConvert.ToStr(numeroReferencia),
+                    NumeroDocumentoAprobacion = numReferencia,
                     CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1,
-                    InfoAdicional = LibConvert.ToStr(infoAdcional)
+                    InfoAdicional = LibConvert.ToStr(infoAdicional)
                 });
             }
             if (VueltoEnDivisas != 0) {
@@ -1157,6 +1164,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     InfoAdicional = vItem.InfoAdicional
                 });
             }
+
             return vRenglonesDeCobro;
         }
 
@@ -1172,7 +1180,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     new XElement("CodigoBanco", Cobro.CodigoBanco),
                     new XElement("Monto", Cobro.Monto.ToString("#.##")),
                     new XElement("CodigoMoneda", Cobro.CodigoMoneda),
-                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal.ToString("#.####"))));
+                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal.ToString("#.####")),
+                    new XElement("NumeroDocumentoAprobacion", Cobro.NumeroDocumentoAprobacion),
+                    new XElement("InfoAdicional", Cobro.InfoAdicional)));
             }
             return vXmlDatosDelCobro;
         }
