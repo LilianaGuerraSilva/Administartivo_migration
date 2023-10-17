@@ -460,7 +460,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private XElement GetTotalesME() {
             decimal vTotalFacturaMasIGTF = LibMath.RoundToNDecimals((FacturaImprentaDigital.TotalFactura + FacturaImprentaDigital.IGTFML) / FacturaImprentaDigital.CambioMostrarTotalEnDivisas, 2);
-            string vMontoEnLetrasME = MontoEnLetras(vTotalFacturaMasIGTF, FacturaImprentaDigital.CodigoMonedaDeCobro);
+            string vMontoEnLetrasME = MontoEnLetras(vTotalFacturaMasIGTF, "");
 
             XElement vResult = new XElement("TotalesOtraMoneda",
                new XElement("moneda", CodigoMonedaME),
