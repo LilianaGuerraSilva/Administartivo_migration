@@ -350,6 +350,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     RaisePropertyChanged(MontoRestantePorPagarEnDivisasPropertyName);
                     CobrarCommand.RaiseCanExecuteChanged();
                     VueltoConPagoMovilCommand.RaiseCanExecuteChanged();
+                    AnularTransaccionCommand.RaiseCanExecuteChanged();
+                    CobroTDD_TDCCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -839,7 +841,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private bool CanExecuteCobroTDD_TDCCommand() {
-            bool vResult = MontoRestantePorPagar > 0;
+            bool vResult = (MontoRestantePorPagar > 0) || (MontoRestantePorPagarEnDivisas > 0);
             return vResult; 
         }
 
@@ -870,7 +872,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private bool CanExecuteAnularTransaccionCommand() {
-            bool vResult = CantidadTarjetasProcesadas > 0;
+            bool vResult = TotalCobrosConTddTdcVPos > 0;
             return vResult;
         }
         #endregion
