@@ -100,7 +100,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal montoTDDTDC;
         private bool vResultCobroTDDTDC = false;
         private const string CantidadTarjetasProcesadasPropertyName = "CantidadTarjetasProcesadas";
-        private string _CantidadTarjetasProcesadas;
+        private decimal _CantidadTarjetasProcesadas;
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -599,7 +599,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public string CantidadTarjetasProcesadas {
+        public decimal CantidadTarjetasProcesadas {
             get {
                 return _CantidadTarjetasProcesadas;
             }
@@ -839,7 +839,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private bool CanExecuteCobroTDD_TDCCommand() {
-            return MontoRestantePorPagar > 0; 
+            bool vResult = MontoRestantePorPagar > 0;
+            return vResult; 
         }
 
         private void ExecuteAnularTransaccionCommand() {
@@ -848,6 +849,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                 if (insMegasoft.EjecutaAnularTransaccion()) {
                     if (insMegasoft.montoTransaccion > 0) {
+                        LibMessages.MessageBox.Information(this, "Anulación procesada exitosamente", "Anulacion Transacción");
                         clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                         ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
                             MontoTransaccion = LibConvert.ToDec(insMegasoft.montoTransaccion, 2),
@@ -866,8 +868,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
             insVueltoMegasoft.EjecutaAnularTransaccion();
         }
+
         private bool CanExecuteAnularTransaccionCommand() {
-            return true;
+            bool vResult = CantidadTarjetasProcesadas > 0;
+            return vResult;
         }
         #endregion
 
@@ -1222,7 +1226,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
-                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.Boleta:
                     IsVisibleSeccionEfectivo = "Visible";
