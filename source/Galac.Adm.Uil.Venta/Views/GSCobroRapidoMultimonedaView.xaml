@@ -453,8 +453,8 @@
                     <ColumnDefinition Width="47*" />
                     <ColumnDefinition Width="159*" />
                     <ColumnDefinition Width="205*" />
-                    <ColumnDefinition Width="111*" />
-                    <ColumnDefinition Width="94*" />
+                    <ColumnDefinition Width="89*" />
+                    <ColumnDefinition Width="116*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -498,12 +498,12 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Margin="3,3,55,3"
+                    Margin="2,2,2,2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Content="Total Medios Elec.:"
+                    Content="Medios Electrónicos:"
                     FontFamily="Calibri"
                     FontSize="17"
                     FontStyle="Normal"
@@ -554,8 +554,24 @@
                     Value="{Binding Path=TotalCobrosConTddTdcVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Label
                     Grid.Row="2"
-                    Grid.Column="1"
-                    Margin="104,1,10,2"
+                    Grid.Column="3"
+                    Margin="0,2,0,2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="Cant. Op.:"
+                    FontFamily="Calibri"
+                    FontSize="17"
+                    FontStyle="Normal"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" Width="79" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Margin="0,0,79,3"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
@@ -567,7 +583,7 @@
                     FontWeight="Normal"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleTotalTarjetaVPos, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" />
             </Grid>
         </GroupBox>
         <GroupBox

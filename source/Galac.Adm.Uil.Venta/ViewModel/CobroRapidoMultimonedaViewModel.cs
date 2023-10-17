@@ -100,6 +100,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public decimal montoTDDTDC;
         private bool vResultCobroTDDTDC = false;
         private const string CantidadTarjetasProcesadasPropertyName = "CantidadTarjetasProcesadas";
+        private const string IsVisibleCantidadTarjetasProcesadasPropertyName = "IsVisibleCantidadTarjetasProcesadas";
         private decimal _CantidadTarjetasProcesadas;
         #endregion
 
@@ -613,6 +614,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public bool IsVisibleCantidadTarjetasProcesadas {
+            get {
+                return _CantidadTarjetasProcesadas >0;
+            }
+        }
+
         private List<CobroConTddTdcVPOS> ListaCobrosConTddTdcVPos { get; set; }
 
         public bool IsVisibleTotalTarjetaVPos {
@@ -920,6 +927,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaisePropertyChanged(TotalAPagarMEParaMostrarPropertyName);
             RaisePropertyChanged(IsEnableVueltoPropertyName);
             RaisePropertyChanged(IsVisibleTotalTarjetaVPosPropertyName);
+            RaisePropertyChanged(IsVisibleCantidadTarjetasProcesadasPropertyName);
         }
 
         private void LimpiarVuelto(decimal valTotalPagoML, decimal valTotalPagosMe) {
