@@ -99,6 +99,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public string cedulaRif;
         public decimal montoTDDTDC;
         private bool vResultCobroTDDTDC = false;
+        private const string CantidadTarjetasProcesadasPropertyName = "CantidadTarjetasProcesadas";
+        private string _CantidadTarjetasProcesadas;
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -535,24 +537,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public bool IsVisiblePM {//esto es el botón
-            get {
-                return TipoDeDocumento == eTipoDocumentoFactura.Factura;
-            }
-        }
-
-        public bool IsVisibleAnularTransaccion {
-            get {
-                return TipoDeDocumento == eTipoDocumentoFactura.Factura;
-            }
-        }
-
-        public bool IsVisibleTDDTDC {//esto es el botón
-            get {
-                return TipoDeDocumento == eTipoDocumentoFactura.Factura;
-            }
-        }
-
         private bool IsVisibleSeccionIGTF {
             get {
                 return _TipoDeContribuyenteIVA == eTipoDeContribuyenteDelIva.ContribuyenteEspecial && (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal);
@@ -615,6 +599,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string CantidadTarjetasProcesadas {
+            get {
+                return _CantidadTarjetasProcesadas;
+            }
+            set {
+                if (_CantidadTarjetasProcesadas != value) {
+                    _CantidadTarjetasProcesadas = value;
+                    RaisePropertyChanged(CantidadTarjetasProcesadasPropertyName);
+                }
+            }
+        }
+
         private List<CobroConTddTdcVPOS> ListaCobrosConTddTdcVPos { get; set; }
 
         public bool IsVisibleTotalTarjetaVPos {
@@ -662,13 +658,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             cedulaRif = valCedulaRIF;
         }
 
+
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateMegasoftRibbonButtonGroup());
                 var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
                 RibbonData.TabDataCollection[0].GroupDataCollection.Remove(tempRibbon);
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateMegasoftRibbonButtonGroup());
                 RibbonData.TabDataCollection[0].GroupDataCollection.Insert(2, tempRibbon);
             }
         }
@@ -693,8 +690,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
                 ToolTipDescription = "Al efectuarse el Pago Móvil culminará el Cobro",
                 ToolTipTitle = "Vuelto Pago Móvil y Cobrar",
-                IsVisible = IsVisiblePM,
-                KeyTip = "F10"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Tarjeta de Débito/Crédito",
@@ -702,8 +697,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F11.png", UriKind.Relative),
                 ToolTipDescription = "Cobro Tarjeta de Débito/Crédito",
                 ToolTipTitle = "Tarjeta de Débito/Crédito",
-                IsVisible = IsVisibleTDDTDC,
-                KeyTip = "F11"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Anular Transacción",
@@ -711,7 +704,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/deleteImage.png", UriKind.Relative),
                 ToolTipDescription = "Anular Transacción",
                 ToolTipTitle = "Anular Transacción",
-                IsVisible = IsVisibleAnularTransaccion
             });
             return vResult;
         }
@@ -796,6 +788,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                                 InfoAdicional = insMegasoft.infoAdicional,
                             });
                             TotalCobrosConTddTdcVPos += insMegasoft.montoTransaccion;
+                            CantidadTarjetasProcesadas += 1;
                         }
                     }
                 }
@@ -1211,12 +1204,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTransferencia = "Collapsed";
                     EfectivoEnMonedaLocal = TotalFactura;
                     IsEnabledEfectivoDivisa = false;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.NotaDeDebito:
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.ResumenDiarioDeVentas:
                     break;
@@ -1227,12 +1222,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.Boleta:
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
                     IsVisibleSeccionEfectivo = "Visible";
@@ -1240,6 +1237,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTransferencia = "Collapsed";
                     EfectivoEnMonedaLocal = TotalFactura;
                     IsEnabledEfectivoDivisa = false;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.NotaEntrega:
                     break;
