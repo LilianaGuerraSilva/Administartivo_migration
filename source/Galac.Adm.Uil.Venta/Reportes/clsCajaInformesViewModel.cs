@@ -18,24 +18,24 @@ using LibGalac.Aos.Uil;
 
 namespace Galac.Adm.Uil.Venta.Reportes {
 
-    public class clsCajaInformesViewModel : LibReportsViewModel {
+    public class clsCajaInformesViewModel: LibReportsViewModel {
         #region Constructores
 
         public clsCajaInformesViewModel()
             : this(null, null) {
         }
 
-        public clsCajaInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc) {           
+        public clsCajaInformesViewModel(LibXmlMemInfo initAppMemInfo, LibXmlMFC initMfc) {
             AppMemoryInfo = initAppMemInfo;
             Mfc = initMfc;
             AvailableReports.Add(new clsCuadreCajaCobroMultimonedaDetalladoViewModel());
-			AvailableReports.Add(new clsCuadreCajaPorUsuarioViewModel());
-			AvailableReports.Add(new clsCuadreCajaPorTipoCobroViewModel());
-			AvailableReports.Add(new clsCuadreCajaConDetalleFormaPagoViewModel());
-			AvailableReports.Add(new clsCuadreCajaPorTipoCobroYUsuarioViewModel());
-			AvailableReports.Add(new clsCajasAperturadasViewModel());
+            AvailableReports.Add(new clsCuadreCajaPorUsuarioViewModel());
+            AvailableReports.Add(new clsCuadreCajaPorTipoCobroViewModel());
+            AvailableReports.Add(new clsCuadreCajaConDetalleFormaPagoViewModel());
+            AvailableReports.Add(new clsCuadreCajaPorTipoCobroYUsuarioViewModel());
+            AvailableReports.Add(new clsCajasAperturadasViewModel());
             AvailableReports.Add(new clsCajaCerradaViewModel());
-            Mfc = initMfc;           
+            Mfc = initMfc;
             Title = "Informes de Caja";
         }
         #endregion //Constructores
@@ -73,13 +73,13 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 vSimboloMonedaExtranjera = LibString.IsNullOrEmpty(vCodigoMonedaExtranjera) ? string.Empty : MonedaExtranjera.Simbolo;
             }
             if (valViewModel != null) {
-                vResult = new Galac.Adm.Rpt.Venta.clsCuadreCajaCobroMultimonedaDetallado(PrintingDevice,  ExportFileFormat,  AppMemoryInfo,  Mfc,  valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.CantidadAImprimir, valViewModel.NombreDelUsuario, valViewModel.Moneda, valViewModel.TotalesTipoCobro, vCodigoMonedaExtranjera, vSimboloMonedaExtranjera) {
+                vResult = new Galac.Adm.Rpt.Venta.clsCuadreCajaCobroMultimonedaDetallado(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.CantidadAImprimir, valViewModel.NombreDelUsuario, valViewModel.Moneda, valViewModel.TotalesTipoCobro, vCodigoMonedaExtranjera, vSimboloMonedaExtranjera) {
                     Worker = Manager
                 };
             }
             return vResult;
         }
-		
+
         private ILibRpt ConfigReportCuadreCajaPorTipoCobro(clsCuadreCajaPorTipoCobroViewModel valViewModel) {
             Galac.Saw.Lib.clsUtilRpt vRpxUtil = new Saw.Lib.clsUtilRpt();
             ILibRpt vResult = null;
@@ -162,8 +162,8 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
             return vResult;
         }
-		
-		private ILibRpt ConfigReportCuadreCajaPorUsuario(clsCuadreCajaPorUsuarioViewModel valViewModel) {
+
+        private ILibRpt ConfigReportCuadreCajaPorUsuario(clsCuadreCajaPorUsuarioViewModel valViewModel) {
             ILibRpt vResult = null;
             bool vParametroUsaMonedaExtranjera = LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaMonedaExtranjera"));
             string vParametroCodigoMonedaExtranjera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
@@ -175,10 +175,10 @@ namespace Galac.Adm.Uil.Venta.Reportes {
                 vSimboloMonedaExtranjera = LibString.IsNullOrEmpty(vCodigoMonedaExtranjera) ? string.Empty : MonedaExtranjera.Simbolo;
             }
             if (valViewModel != null) {
-                if ( valViewModel.TipoDeInforme == Saw.Lib.eTipoDeInforme.Detallado){
+                if (valViewModel.TipoDeInforme == Saw.Lib.eTipoDeInforme.Detallado) {
                     vResult = new Galac.Adm.Rpt.Venta.clsCuadreCajaPorUsuario(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.TipoDeInforme, valViewModel.Moneda, valViewModel.CantidadAImprimir, valViewModel.NombreDelOperador, vCodigoMonedaExtranjera, vSimboloMonedaExtranjera) {
-                            Worker = Manager
-                        };
+                        Worker = Manager
+                    };
                 } else {
                     vResult = new Galac.Adm.Rpt.Venta.clsCuadreCajaPorUsuarioResumido(PrintingDevice, ExportFileFormat, AppMemoryInfo, Mfc, valViewModel.FechaInicial, valViewModel.FechaFinal, valViewModel.TipoDeInforme, valViewModel.Moneda, valViewModel.CantidadAImprimir, valViewModel.NombreDelOperador) {
                         Worker = Manager
@@ -187,7 +187,7 @@ namespace Galac.Adm.Uil.Venta.Reportes {
             }
             return vResult;
         }
-		
+
         private ILibRpt ConfigReportCajaCerrada(clsCajaCerradaViewModel valViewModel) {
             ILibRpt vResult = null;
             if (valViewModel != null) {
