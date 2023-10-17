@@ -417,6 +417,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public RelayCommand LimpiarCommand { get; private set; }
         public RelayCommand VueltoConPagoMovilCommand { get; private set; }
 
         public RelayCommand CobroTDD_TDCCommand { get; private set; }
@@ -681,6 +682,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         protected override void InitializeCommands() {
             base.InitializeCommands();
+            LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
             VueltoConPagoMovilCommand = new RelayCommand(ExecuteVueltoConPagoMovilCommand, CanExecuteVueltoConPagoMovilCommand);
             CobroTDD_TDCCommand = new RelayCommand(ExecuteCobroTDD_TDCCommand, CanExecuteCobroTDD_TDCCommand);
             AnularTransaccionCommand = new RelayCommand(ExecuteAnularTransaccionCommand, CanExecuteAnularTransaccionCommand);
@@ -689,6 +691,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeLookAndFeel() {
             base.InitializeLookAndFeel();
             RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
+        }
+
+        protected override LibRibbonGroupData CreateCobrarRibbonButtonGroup() {
+            var vResult = base.CreateCobrarRibbonButtonGroup();
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Limpiar",
+                Command = LimpiarCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F7.png", UriKind.Relative),
+                ToolTipDescription = "Limpia los valores en " + ModuleName,
+                ToolTipTitle = "Limpiar pantalla (F7)",
+                IsVisible = true,
+                KeyTip = "F7"
+            });
+            return vResult;
         }
 
         protected LibRibbonGroupData CreateMegasoftRibbonButtonGroup() {
@@ -707,13 +723,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipDescription = "Cobro Tarjeta de Débito/Crédito",
                 ToolTipTitle = "Tarjeta de Débito/Crédito",
             });
-            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Anular Transacción",
-                Command = AnularTransaccionCommand,
-                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/deleteImage.png", UriKind.Relative),
-                ToolTipDescription = "Anular Transacción",
-                ToolTipTitle = "Anular Transacción",
-            });
+            // Se comenta creación de botón Anular Transacción
+            //vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+            //    Label = "Anular Transacción",
+            //    Command = AnularTransaccionCommand,
+            //    LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/deleteImage.png", UriKind.Relative),
+            //    ToolTipDescription = "Anular Transacción",
+            //    ToolTipTitle = "Anular Transacción",
+            //});
             return vResult;
         }
         #endregion
@@ -842,6 +859,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
 
+        private bool CanExecuteLimpiarCommand() { return true; }
+
         private bool CanExecuteVueltoConPagoMovilCommand() {
             bool vResult = (MontoRestantePorPagar < 0) || (MontoRestantePorPagarEnDivisas < 0);
             return vResult;
@@ -854,7 +873,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteAnularTransaccionCommand() {
             try {
-                //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
                 C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                 if (insMegasoft.EjecutaAnularTransaccion()) {
                     if (insMegasoft.montoTransaccion > 0) {
@@ -1261,7 +1279,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public void Limpiar() {
+        private void ExecuteLimpiarCommand() {
             EfectivoEnMonedaLocal = 0;
             EfectivoEnDivisas = 0;
             TarjetaUno = 0;
