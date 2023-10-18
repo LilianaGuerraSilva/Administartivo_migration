@@ -351,7 +351,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     RaisePropertyChanged(MontoRestantePorPagarEnDivisasPropertyName);
                     CobrarCommand.RaiseCanExecuteChanged();
                     VueltoConPagoMovilCommand.RaiseCanExecuteChanged();
-                    AnularTransaccionCommand.RaiseCanExecuteChanged();
+                    //AnularTransaccionCommand.RaiseCanExecuteChanged();
                     CobroTDD_TDCCommand.RaiseCanExecuteChanged();
                 }
             }
@@ -418,11 +418,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         public RelayCommand LimpiarCommand { get; private set; }
+
         public RelayCommand VueltoConPagoMovilCommand { get; private set; }
 
         public RelayCommand CobroTDD_TDCCommand { get; private set; }
         
-        public RelayCommand AnularTransaccionCommand { get; private set;}
+        //public RelayCommand AnularTransaccionCommand { get; private set;}
 
         public string IsVisibleSeccionEfectivo {
             get {
@@ -685,7 +686,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
             VueltoConPagoMovilCommand = new RelayCommand(ExecuteVueltoConPagoMovilCommand, CanExecuteVueltoConPagoMovilCommand);
             CobroTDD_TDCCommand = new RelayCommand(ExecuteCobroTDD_TDCCommand, CanExecuteCobroTDD_TDCCommand);
-            AnularTransaccionCommand = new RelayCommand(ExecuteAnularTransaccionCommand, CanExecuteAnularTransaccionCommand);
+            //AnularTransaccionCommand = new RelayCommand(ExecuteAnularTransaccionCommand, CanExecuteAnularTransaccionCommand);
         }
 
         protected override void InitializeLookAndFeel() {
@@ -723,7 +724,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipDescription = "Cobro Tarjeta de Débito/Crédito",
                 ToolTipTitle = "Tarjeta de Débito/Crédito",
             });
-            // Se comenta creación de botón Anular Transacción
             //vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
             //    Label = "Anular Transacción",
             //    Command = AnularTransaccionCommand,
@@ -780,7 +780,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private void ExecuteVueltoConPagoMovilCommand() {
             try {
                 C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-                //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
                 if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
                     infoAdicional = insVueltoMegasoft.infoAdicional;
@@ -803,7 +802,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vDatosVpos.vResultCobroTDDTDC += (arg) => vResultCobroTDDTDC = arg;
                     vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto);
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
-                    //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
                     C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                     if (insMegasoft.EjecutaProcesarTarjeta(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {
@@ -871,35 +869,35 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult; 
         }
 
-        private void ExecuteAnularTransaccionCommand() {
-            try {
-                C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
-                if (insMegasoft.EjecutaAnularTransaccion()) {
-                    if (insMegasoft.montoTransaccion > 0) {
-                        LibMessages.MessageBox.Information(this, "Anulación procesada exitosamente", "Anulacion Transacción");
-                        clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
-                        ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
-                            MontoTransaccion = LibConvert.ToDec(insMegasoft.montoTransaccion, 2),
-                            NumReferencia = insMegasoft.numeroReferencia,
-                            InfoAdicional = insMegasoft.infoAdicional,
-                        });
-                        TotalCobrosConTddTdcVPos += LibConvert.ToDec(insMegasoft.montoTransaccion, 2);
-                    }
-                }
-            } catch (System.AccessViolationException) {
-                throw;
-            } catch (System.Exception vEx) {
-                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
-            }
+        //private void ExecuteAnularTransaccionCommand() {
+        //    try {
+        //        C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
+        //        if (insMegasoft.EjecutaAnularTransaccion()) {
+        //            if (insMegasoft.montoTransaccion > 0) {
+        //                LibMessages.MessageBox.Information(this, "Anulación procesada exitosamente", "Anulacion Transacción");
+        //                clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
+        //                ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
+        //                    MontoTransaccion = LibConvert.ToDec(insMegasoft.montoTransaccion, 2),
+        //                    NumReferencia = insMegasoft.numeroReferencia,
+        //                    InfoAdicional = insMegasoft.infoAdicional,
+        //                });
+        //                TotalCobrosConTddTdcVPos += LibConvert.ToDec(insMegasoft.montoTransaccion, 2);
+        //            }
+        //        }
+        //    } catch (System.AccessViolationException) {
+        //        throw;
+        //    } catch (System.Exception vEx) {
+        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+        //    }
 
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            insVueltoMegasoft.EjecutaAnularTransaccion();
-        }
+        //    C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
+        //    insVueltoMegasoft.EjecutaAnularTransaccion();
+        //}
 
-        private bool CanExecuteAnularTransaccionCommand() {
-            bool vResult = TotalCobrosConTddTdcVPos > 0;
-            return vResult;
-        }
+        //private bool CanExecuteAnularTransaccionCommand() {
+        //    bool vResult = TotalCobrosConTddTdcVPos > 0;
+        //    return vResult;
+        //}
         #endregion
 
         #region Metodos
