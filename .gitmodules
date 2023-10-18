@@ -66,3 +66,7 @@
 	path = source/ContabIwrp
 	url = https://github.com/GalacSoftware/ContabiWrp.git
 	branch = release/SawV24.1.0.0
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
+	url = https://github.com/GalacSoftware/BinComunAos.git
+	branch = release/V2.60.3.0
