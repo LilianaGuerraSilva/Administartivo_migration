@@ -30,10 +30,6 @@
 	path = bin/binAdministrativoVb
 	url = https://github.com/GalacSoftware/BinAdministrativoVB.git
 	branch = release/V2308
-[submodule "bin/binComunAos"]
-	path = bin/binComunAos
-	url = https://github.com/GalacSoftware/BinComunAos.git
-	branch = release/SawV24.1.0.0
 [submodule "bin/binContabilidadAos"]
 	path = bin/binContabilidadAos
 	url = https://github.com/GalacSoftware/BinContabilidadAos.git
@@ -50,14 +46,6 @@
 	path = source/ContabilidadVb
 	url = https://github.com/GalacSoftware/ContabilidadVb.git
 	branch = release/SawV24.1.0.0
-[submodule "source/ContabIwrp"]
-	path = source/ContabIwrp
-	url = https://github.com/GalacSoftware/ContabiWrp.git
-	branch = release/SawV24.1.0.0
-[submodule "source/Lib/VbaLib"]
-	path = source/Lib/VbaLib
-	url = https://github.com/GalacSoftware/vbaLib.git
-	branch = release/V2201
 [submodule "source/IvaVb"]
 	path = source/IvaVb
 	url = https://github.com/GalacSoftware/IvaVb.git
