@@ -91,14 +91,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string TotalAPagarMEParaMostrarPropertyName = "TotalAPagarMEParaMostrar";
         private const string IsEnableVueltoPropertyName = "IsEnableVuelto";
         private const string IsVisibleTotalTarjetaVPosPropertyName = "IsVisibleTotalTarjetaVPos";
-        private string numeroReferencia;
-        private string infoAdcional;
+        private string numReferencia;
+        private string infoAdicional;
         public decimal TotalPagosME;
         public decimal TotalPagosML;
         private decimal _TotalCobrosConTddTdcVPos;
         public string cedulaRif;
         public decimal montoTDDTDC;
         private bool vResultCobroTDDTDC = false;
+        private const string CantidadTarjetasProcesadasPropertyName = "CantidadTarjetasProcesadas";
+        private const string IsVisibleCantidadTarjetasProcesadasPropertyName = "IsVisibleCantidadTarjetasProcesadas";
+        private decimal _CantidadTarjetasProcesadas;
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -348,6 +351,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     RaisePropertyChanged(MontoRestantePorPagarEnDivisasPropertyName);
                     CobrarCommand.RaiseCanExecuteChanged();
                     VueltoConPagoMovilCommand.RaiseCanExecuteChanged();
+                    //AnularTransaccionCommand.RaiseCanExecuteChanged();
+                    CobroTDD_TDCCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -417,6 +422,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public RelayCommand VueltoConPagoMovilCommand { get; private set; }
 
         public RelayCommand CobroTDD_TDCCommand { get; private set; }
+        
+        //public RelayCommand AnularTransaccionCommand { get; private set;}
 
         public string IsVisibleSeccionEfectivo {
             get {
@@ -535,18 +542,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public bool IsVisiblePM {//esto es el botón
-            get {
-                return TipoDeDocumento == eTipoDocumentoFactura.Factura && C2PMegasoftNav.EsVisiblePM();
-            }
-        }
-
-        public bool IsVisibleTDDTDC {//esto es el botón
-            get {
-                return TipoDeDocumento == eTipoDocumentoFactura.Factura && C2PMegasoftNav.EsVisibleTDDTDC();
-            }
-        }
-
         private bool IsVisibleSeccionIGTF {
             get {
                 return _TipoDeContribuyenteIVA == eTipoDeContribuyenteDelIva.ContribuyenteEspecial && (TipoDeDocumento == eTipoDocumentoFactura.Factura || TipoDeDocumento == eTipoDocumentoFactura.ComprobanteFiscal);
@@ -609,6 +604,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public decimal CantidadTarjetasProcesadas {
+            get {
+                return _CantidadTarjetasProcesadas;
+            }
+            set {
+                if (_CantidadTarjetasProcesadas != value) {
+                    _CantidadTarjetasProcesadas = value;
+                    RaisePropertyChanged(CantidadTarjetasProcesadasPropertyName);
+                }
+            }
+        }
+
+        public bool IsVisibleCantidadTarjetasProcesadas {
+            get {
+                return _CantidadTarjetasProcesadas >0;
+            }
+        }
+
         private List<CobroConTddTdcVPOS> ListaCobrosConTddTdcVPos { get; set; }
 
         public bool IsVisibleTotalTarjetaVPos {
@@ -619,6 +632,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #endregion
 
         #region Constructores e Inicializaciores
+        public CobroRapidoMultimonedaViewModel() { }
+
         public CobroRapidoMultimonedaViewModel(int valConsecutivoCompania, string valNumeroDeDocumento, DateTime valFechaDeDocumento, decimal valTotalFactura, eTipoDocumentoFactura valTipoDeDocumento, string valCodigoMonedaDeLaFactura, string valCodigoMonedaDeCobro, bool valEsFacturaTradicional, decimal valAlicuotaIGTF, eTipoDeContribuyenteDelIva valTipoDeContribuyenteDelIva, string valCedulaRIF) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw(); // Se Llama  desde VB6            
             ConsecutivoCompania = valConsecutivoCompania;
@@ -654,11 +669,24 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             cedulaRif = valCedulaRIF;
         }
 
+
+        protected override void InitializeRibbon() {
+            base.InitializeRibbon();
+            if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
+                var tempRibbon = RibbonData.TabDataCollection[0].GroupDataCollection[0];
+                RibbonData.TabDataCollection[0].GroupDataCollection.Remove(tempRibbon);
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateMegasoftRibbonButtonGroup());
+                RibbonData.TabDataCollection[0].GroupDataCollection.Insert(2, tempRibbon);
+            }
+        }
+
         protected override void InitializeCommands() {
             base.InitializeCommands();
             LimpiarCommand = new RelayCommand(ExecuteLimpiarCommand, CanExecuteLimpiarCommand);
             VueltoConPagoMovilCommand = new RelayCommand(ExecuteVueltoConPagoMovilCommand, CanExecuteVueltoConPagoMovilCommand);
             CobroTDD_TDCCommand = new RelayCommand(ExecuteCobroTDD_TDCCommand, CanExecuteCobroTDD_TDCCommand);
+            //AnularTransaccionCommand = new RelayCommand(ExecuteAnularTransaccionCommand, CanExecuteAnularTransaccionCommand);
         }
 
         protected override void InitializeLookAndFeel() {
@@ -677,24 +705,32 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 IsVisible = true,
                 KeyTip = "F7"
             });
+            return vResult;
+        }
+
+        protected LibRibbonGroupData CreateMegasoftRibbonButtonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Medios electrónicos");
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Vuelto con Pago Móvil",
                 Command = VueltoConPagoMovilCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F10.png", UriKind.Relative),
-                ToolTipDescription = "Datos del Vuelto con Pago Móvil",
-                ToolTipTitle = "Vuelto con Pago Móvil",
-                IsVisible = IsVisiblePM,
-                KeyTip = "F10"
+                ToolTipDescription = "Al efectuarse el Pago Móvil culminará el Cobro",
+                ToolTipTitle = "Vuelto Pago Móvil y Cobrar",
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "TDD/TDC",
+                Label = "Tarjeta de Débito/Crédito",
                 Command = CobroTDD_TDCCommand,
                 LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F11.png", UriKind.Relative),
-                ToolTipDescription = "Cobro TDD/TDC",
-                ToolTipTitle = "TDD/TDC",
-                IsVisible = IsVisibleTDDTDC,
-                KeyTip = "F11"
+                ToolTipDescription = "Cobro Tarjeta de Débito/Crédito",
+                ToolTipTitle = "Tarjeta de Débito/Crédito",
             });
+            //vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+            //    Label = "Anular Transacción",
+            //    Command = AnularTransaccionCommand,
+            //    LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/deleteImage.png", UriKind.Relative),
+            //    ToolTipDescription = "Anular Transacción",
+            //    ToolTipTitle = "Anular Transacción",
+            //});
             return vResult;
         }
         #endregion
@@ -741,28 +777,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        private void ExecuteLimpiarCommand() {
-            EfectivoEnMonedaLocal = 0;
-            EfectivoEnDivisas = 0;
-            TarjetaUno = 0;
-            TarjetaDos = 0;
-            TransferenciaEnMonedaLocal = 0;
-            TransferenciaEnDivisas = 0;
-            VueltoEnMonedaLocal = 0;
-            VueltoEnDivisas = 0;
-            MontoRestantePorPagar = TotalFactura;
-            MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
-            RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
-        }
-
         private void ExecuteVueltoConPagoMovilCommand() {
             try {
                 C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-                //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
                 if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
-                    infoAdcional = insVueltoMegasoft.infoAdicional;
-                    numeroReferencia = insVueltoMegasoft.numeroReferencia;
+                    infoAdicional = insVueltoMegasoft.infoAdicional;
+                    numReferencia = insVueltoMegasoft.numeroReferencia;
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                         ExecuteCobrarCommand();
                     }
@@ -781,17 +802,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vDatosVpos.vResultCobroTDDTDC += (arg) => vResultCobroTDDTDC = arg;
                     vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto);
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
-                    //TODO:Se pasa código mientras tanto, va el nombre del cliente que aún no se recibe acá para pasarlo a la siguiente view
                     C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                     if (insMegasoft.EjecutaProcesarTarjeta(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {
                             clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
                             ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
-                                MontoTransaccion = LibConvert.ToDec(insMegasoft.montoTransaccion, 2),
-                                NumReferencia = insMegasoft.numeroReferencia,
+                                MontoTransaccion = insMegasoft.montoTransaccion,
+                                NumReferencia = insMegasoft.numeroAutorizacion,
                                 InfoAdicional = insMegasoft.infoAdicional,
                             });
-                            TotalCobrosConTddTdcVPos += LibConvert.ToDec(insMegasoft.montoTransaccion, 2);
+                            TotalCobrosConTddTdcVPos += insMegasoft.montoTransaccion;
+                            CantidadTarjetasProcesadas += 1;
                         }
                     }
                 }
@@ -844,8 +865,39 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private bool CanExecuteCobroTDD_TDCCommand() {
-            return MontoRestantePorPagar > 0; 
+            bool vResult = (MontoRestantePorPagar > 0) || (MontoRestantePorPagarEnDivisas > 0);
+            return vResult; 
         }
+
+        //private void ExecuteAnularTransaccionCommand() {
+        //    try {
+        //        C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
+        //        if (insMegasoft.EjecutaAnularTransaccion()) {
+        //            if (insMegasoft.montoTransaccion > 0) {
+        //                LibMessages.MessageBox.Information(this, "Anulación procesada exitosamente", "Anulacion Transacción");
+        //                clsCobroDeFacturaNav insCobroNav = new clsCobroDeFacturaNav();
+        //                ListaCobrosConTddTdcVPos.Add(new CobroConTddTdcVPOS() {
+        //                    MontoTransaccion = LibConvert.ToDec(insMegasoft.montoTransaccion, 2),
+        //                    NumReferencia = insMegasoft.numeroReferencia,
+        //                    InfoAdicional = insMegasoft.infoAdicional,
+        //                });
+        //                TotalCobrosConTddTdcVPos += LibConvert.ToDec(insMegasoft.montoTransaccion, 2);
+        //            }
+        //        }
+        //    } catch (System.AccessViolationException) {
+        //        throw;
+        //    } catch (System.Exception vEx) {
+        //        LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+        //    }
+
+        //    C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
+        //    insVueltoMegasoft.EjecutaAnularTransaccion();
+        //}
+
+        //private bool CanExecuteAnularTransaccionCommand() {
+        //    bool vResult = TotalCobrosConTddTdcVPos > 0;
+        //    return vResult;
+        //}
         #endregion
 
         #region Metodos
@@ -891,6 +943,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             RaisePropertyChanged(TotalAPagarMEParaMostrarPropertyName);
             RaisePropertyChanged(IsEnableVueltoPropertyName);
             RaisePropertyChanged(IsVisibleTotalTarjetaVPosPropertyName);
+            RaisePropertyChanged(IsVisibleCantidadTarjetasProcesadasPropertyName);
         }
 
         private void LimpiarVuelto(decimal valTotalPagoML, decimal valTotalPagosMe) {
@@ -1098,10 +1151,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     CodigoFormaDelCobro = insRenglonCobroDeFactura.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P),
                     CodigoBanco = valCodigoBancoParaMonedaLocal,
                     Monto = LibMath.Abs(VueltoC2p),
-                    NumeroDocumentoAprobacion = LibConvert.ToStr(numeroReferencia),
+                    NumeroDocumentoAprobacion = numReferencia,
                     CodigoMoneda = vCodigoMonedaLocal,
                     CambioAMonedaLocal = 1,
-                    InfoAdicional = LibConvert.ToStr(infoAdcional)
+                    InfoAdicional = LibConvert.ToStr(infoAdicional)
                 });
             }
             if (VueltoEnDivisas != 0) {
@@ -1134,6 +1187,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     InfoAdicional = vItem.InfoAdicional
                 });
             }
+
             return vRenglonesDeCobro;
         }
 
@@ -1149,7 +1203,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     new XElement("CodigoBanco", Cobro.CodigoBanco),
                     new XElement("Monto", Cobro.Monto.ToString("#.##")),
                     new XElement("CodigoMoneda", Cobro.CodigoMoneda),
-                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal.ToString("#.####"))));
+                    new XElement("CambioAMonedaLocal", Cobro.CambioAMonedaLocal.ToString("#.####")),
+                    new XElement("NumeroDocumentoAprobacion", Cobro.NumeroDocumentoAprobacion),
+                    new XElement("InfoAdicional", Cobro.InfoAdicional)));
             }
             return vXmlDatosDelCobro;
         }
@@ -1178,12 +1234,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTransferencia = "Collapsed";
                     EfectivoEnMonedaLocal = TotalFactura;
                     IsEnabledEfectivoDivisa = false;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.NotaDeDebito:
                     IsVisibleSeccionEfectivo = "Visible";
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.ResumenDiarioDeVentas:
                     break;
@@ -1200,6 +1258,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.NotaDeCreditoComprobanteFiscal:
                     IsVisibleSeccionEfectivo = "Visible";
@@ -1207,6 +1266,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTransferencia = "Collapsed";
                     EfectivoEnMonedaLocal = TotalFactura;
                     IsEnabledEfectivoDivisa = false;
+                    RibbonData.RemoveRibbonGroup("Medios electrónicos");
                     break;
                 case eTipoDocumentoFactura.NotaEntrega:
                     break;
@@ -1215,6 +1275,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 default:
                     break;
             }
+        }
+
+        private void ExecuteLimpiarCommand() {
+            EfectivoEnMonedaLocal = 0;
+            EfectivoEnDivisas = 0;
+            TarjetaUno = 0;
+            TarjetaDos = 0;
+            TransferenciaEnMonedaLocal = 0;
+            TransferenciaEnDivisas = 0;
+            VueltoEnMonedaLocal = 0;
+            VueltoEnDivisas = 0;
+            MontoRestantePorPagar = TotalFactura;
+            MontoRestantePorPagarEnDivisas = TotalFacturaEnDivisas;
+            RaiseMoveFocus(EfectivoEnMonedaLocalPropertyName);
         }
         #endregion
     }

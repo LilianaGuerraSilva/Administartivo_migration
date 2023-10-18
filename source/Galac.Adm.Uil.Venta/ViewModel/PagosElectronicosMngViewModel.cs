@@ -60,6 +60,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             private set;
         }
 
+        public RelayCommand AnularTransaccionCommand {
+            get;
+            private set;
+        }
+
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
@@ -71,6 +76,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             ReImprimirCierreCommand = new RelayCommand(ExecuteReImprimirCierreCommand, CanExecuteReImprimirCierreCommand);
             ImprimirUltimoProCommand = new RelayCommand(ExecuteImprimirUltimoProCommand, CanExecuteImprimirUltimoProCommand);
             ImprimirUltimoAproCommand = new RelayCommand(ExecuteImprimirUltimoAproCommand, CanExecuteImprimirUltimoAproCommand);
+            AnularTransaccionCommand = new RelayCommand(ExecuteAnularTransaccionCommand, CanExecuteAnularTransaccionCommand);
         }
 
         protected override void InitializeRibbon() {
@@ -115,6 +121,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             insVueltoMegasoft.EjecutaUltimoVoucherAprobado();
         }
 
+        private void ExecuteAnularTransaccionCommand() {
+            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
+            insVueltoMegasoft.EjecutaAnularTransaccion();
+        }
+
         private bool CanExecuteCierreCommand() {
             return true; 
         }
@@ -133,6 +144,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private bool CanExecuteImprimirUltimoAproCommand() {
             return true; 
+        }
+
+        private bool CanExecuteAnularTransaccionCommand() {
+            return true;
         }
 
         private LibRibbonGroupData CreateAccionesRibbonGroup() {
@@ -164,7 +179,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/Print.png", UriKind.Relative),
                 ToolTipDescription = "Imprimir Último Voucher Procesado",
                 ToolTipTitle = "Imprimir Último Voucher Procesado"
-                //KeyTip = "A"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
                 Label = "Imprimir Último Voucher Aprobado",
@@ -172,7 +186,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/Print.png", UriKind.Relative),
                 ToolTipDescription = "Imprimir Último Voucher Aprobado",
                 ToolTipTitle = "Imprimir Último Voucher Aprovado"
-                //KeyTip = "A"
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Anular Transacción",
+                Command = AnularTransaccionCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/deleteImage.png", UriKind.Relative),
+                ToolTipDescription = "Anular Transacción",
+                ToolTipTitle = "Anular Transacción"
             });
             return vResult;
         }
