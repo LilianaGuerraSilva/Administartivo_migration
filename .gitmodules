@@ -66,3 +66,7 @@
 	path = source/Lib/VbaLib
 	url = https://github.com/GalacSoftware/vbaLib.git
 	branch = releaase/V2201
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
+	url = https://github.com/GalacSoftware/BinComunAos.git
+	branch = release/V2.60.3.0
