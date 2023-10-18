@@ -58,3 +58,15 @@
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
 	branch = master
+[submodule "bin/binComunAos"]
+	path = bin/binComunAos
+	url = https://github.com/GalacSoftware/BinComunAos.git
+	branch = release/SawV24.1.0.0
+[submodule "source/ContabIwrp"]
+	path = source/ContabIwrp
+	url = https://github.com/GalacSoftware/ContabiWrp.git
+	branch = release/SawV24.1.0.0
+[submodule "source/Lib/VbaLib"]
+	path = source/Lib/VbaLib
+	url = https://github.com/GalacSoftware/vbaLib.git
+	branch = releaase/V2201
