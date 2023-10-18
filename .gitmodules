@@ -18,10 +18,6 @@
 	path = bin/binLibVb
 	url = https://github.com/Galac-Software/BinLibVb.git
 	branch = release/V2201
-[submodule "bin/binEsqNiif"]
-	path = bin/binEsqNiif
-	url = https://github.com/Galac-Software/BinEsqNiif.git
-	branch = release/SawV24.0.0.0
 [submodule "source/Axi"]
 	path = source/Axi
 	url = https://github.com/Galac-Software/Axi.git
