@@ -19,7 +19,6 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			CampoVueltoPagoMovilEnCajaApertura();
 			CamposInfoAdicionalRenglonCobroFactura();
             AgregarParametroObtenerTasaDeCambioDelBCV();
-
             DisposeConnectionNoTransaction();
             return true;
         }
