@@ -54,10 +54,6 @@
 	path = source/RetencionesVb
 	url = https://github.com/GalacSoftware/RetencionesVb.git
 	branch = release/SawV24.1.0.0
-[submodule "source/VbaComun"]
-	path = source/VbaComun
-	url = https://github.com/GalacSoftware/vbaComun.git
-	branch = release/SawV24.1.0.0
 [submodule "source/Lib/VbaLib"]
 	path = source/Lib/VbaLib
 	url = https://github.com/GalacSoftware/vbaLib.git
