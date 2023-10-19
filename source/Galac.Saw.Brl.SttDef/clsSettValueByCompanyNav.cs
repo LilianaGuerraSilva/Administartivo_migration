@@ -1383,24 +1383,24 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.CodigoMonedaLocal = valCodigoMonedaLocal;
             insEntidad.NombreMonedaLocal = valNombreMonedaLocal;
             insEntidad.CodigoMonedaExtranjera = valCodigoMonedaExtranjera;
-            insEntidad.NombreMonedaExtranjera = valNombreMonedaExtranjera;
-            insEntidad.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = eTipoDeSolicitudDeIngresoDeTasaDeCambio.SiempreAlEmitirPrimeraFactura;
+            insEntidad.NombreMonedaExtranjera = valNombreMonedaExtranjera;           
             insEntidad.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = false;
             insEntidad.UsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
             insEntidad.MaximoLimitePermitidoParaLaTasaDeCambio = 30m;
+            insEntidad.ObtenerAutomaticamenteTasaDeCambioDelBCV = false;
             return insEntidad;
         }
 
         private void LlenaListado(MonedaStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaLocal, "CodigoMonedaLocal", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaLocal, "NombreMonedaLocal", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaMonedaExtranjeraAsBool), "UsaMonedaExtranjera", valConsecutivoCompania));
-            valBusinessObject.Add(ConvierteValor(valRecord.SolicitarIngresoDeTasaDeCambioAlEmitirAsDB, "SolicitarIngresoDeTasaDeCambioAlEmitir", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaMonedaExtranjeraAsBool), "UsaMonedaExtranjera", valConsecutivoCompania));            
             valBusinessObject.Add(ConvierteValor(valRecord.CodigoMonedaExtranjera, "CodigoMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(valRecord.NombreMonedaExtranjera, "NombreMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool), "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsarLimiteMaximoParaIngresoDeTasaDeCambio), "UsarLimiteMaximoParaIngresoDeTasaDeCambio", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.MaximoLimitePermitidoParaLaTasaDeCambio), "MaximoLimitePermitidoParaLaTasaDeCambio", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.ObtenerAutomaticamenteTasaDeCambioDelBCV), "ObtenerAutomaticamenteTasaDeCambioDelBCV", valConsecutivoCompania));
         }
 
         MonedaStt GetMonedaStt(List<SettValueByCompany> valListGetSettValueByCompany) {
@@ -1409,13 +1409,13 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.GroupName = GetGroupNameSegunColumna(valListGetSettValueByCompany, "CodigoMonedaLocal");
             vResult.CodigoMonedaLocal = ValorSegunColumna(valListGetSettValueByCompany, "CodigoMonedaLocal");
             vResult.NombreMonedaLocal = ValorSegunColumna(valListGetSettValueByCompany, "NombreMonedaLocal");
-            vResult.UsaMonedaExtranjeraAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMonedaExtranjera"));
-            vResult.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = (eTipoDeSolicitudDeIngresoDeTasaDeCambio)LibConvert.DbValueToEnum(ValorSegunColumna(valListGetSettValueByCompany, "SolicitarIngresoDeTasaDeCambioAlEmitir"));
+            vResult.UsaMonedaExtranjeraAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMonedaExtranjera"));         
             vResult.CodigoMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "CodigoMonedaExtranjera");
             vResult.NombreMonedaExtranjera = ValorSegunColumna(valListGetSettValueByCompany, "NombreMonedaExtranjera");
             vResult.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"));
             vResult.UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsarLimiteMaximoParaIngresoDeTasaDeCambio"));
             vResult.MaximoLimitePermitidoParaLaTasaDeCambio = LibImportData.ToDec(ValorSegunColumna(valListGetSettValueByCompany, "MaximoLimitePermitidoParaLaTasaDeCambio"));
+            vResult.ObtenerAutomaticamenteTasaDeCambioDelBCV = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "ObtenerAutomaticamenteTasaDeCambioDelBCV"));
             return vResult;
         }
         #endregion // MonedaStt

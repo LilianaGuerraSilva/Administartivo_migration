@@ -28,14 +28,15 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         private const string CodigoMonedaLocalPropertyName = "CodigoMonedaLocal";
         private const string NombreMonedaExtranjeraPropertyName = "NombreMonedaExtranjera";
         private const string NombreMonedaLocalPropertyName = "NombreMonedaLocal";
-        private const string UsaMonedaExtranjeraPropertyName = "UsaMonedaExtranjera";
-        private const string SolicitarIngresoDeTasaDeCambioAlEmitirPropertyName = "SolicitarIngresoDeTasaDeCambioAlEmitir";
+        private const string UsaMonedaExtranjeraPropertyName = "UsaMonedaExtranjera";      
         private const string IsEnabledDatosMonedaExtrangeraPropertyName = "IsEnabledDatosMonedaExtrangera";
         private const string UsaDivisaComoMonedaPrincipalDeIngresoDeDatosPropertyName = "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos";
         private const string UsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName = "UsarLimiteMaximoParaIngresoDeTasaDeCambio";
         private const string MaximoLimitePermitidoParaLaTasaDeCambioPropertyName = "MaximoLimitePermitidoParaLaTasaDeCambio";
         private const string IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambioPropertyName = "IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambio";
         private const string IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName = "IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambio";
+        private const string ObtenerAutomaticamenteTasaDeCambioDelBCVPropertyName = "ObtenerAutomaticamenteTasaDeCambioDelBCV";
+        private const string IsEnebaledObtenerAutomaticamenteTasaDeCambioDelBCVPropertyName = "IsEnebaledObtenerAutomaticamenteTasaDeCambioDelBCV";
         #endregion
 
         #region Variables
@@ -121,10 +122,11 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                     Model.UsaMonedaExtranjeraAsBool = value;
                     UsaDivisaComoMonedaPrincipalDeIngresoDeDatos = value == false ? false : UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
                     UsarLimiteMaximoParaIngresoDeTasaDeCambio = value == false ? false : UsarLimiteMaximoParaIngresoDeTasaDeCambio;
+                    ObtenerAutomaticamenteTasaDeCambioDelBCV = value == false ? false : ObtenerAutomaticamenteTasaDeCambioDelBCV;
                     RaisePropertyChanged(UsaMonedaExtranjeraPropertyName);
                     RaisePropertyChanged(IsEnabledDatosMonedaExtrangeraPropertyName);
-                    RaisePropertyChanged(UsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName);
-                    RaisePropertyChanged(IsEnebaledUsarLimiteMaximoParaIngresoDeTasaDeCambioPropertyName);
+                    RaisePropertyChanged(ObtenerAutomaticamenteTasaDeCambioDelBCVPropertyName);
+                    RaisePropertyChanged(IsEnebaledObtenerAutomaticamenteTasaDeCambioDelBCVPropertyName);
                     LibMessages.Notification.Send<bool>(Model.UsaMonedaExtranjeraAsBool,UsaMonedaExtranjeraPropertyName);
                 }
             }
@@ -142,25 +144,7 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
                 }
             }
         }
-
-        public eTipoDeSolicitudDeIngresoDeTasaDeCambio SolicitarIngresoDeTasaDeCambioAlEmitir {
-            get {
-                return Model.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum;
-            }
-            set {
-                if(Model.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum != value) {
-                    Model.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = value;
-                    IsDirty = true;
-                    RaisePropertyChanged(SolicitarIngresoDeTasaDeCambioAlEmitirPropertyName);
-                }
-            }
-        }
-
-        public eTipoDeSolicitudDeIngresoDeTasaDeCambio[] ArrayTipoDeSolicitudDeIngresoDeTasaDeCambio {
-            get {
-                return LibEnumHelper<eTipoDeSolicitudDeIngresoDeTasaDeCambio>.GetValuesInArray();
-            }
-        }
+        
 
         public bool UsarLimiteMaximoParaIngresoDeTasaDeCambio {
             get {
@@ -190,6 +174,23 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool ObtenerAutomaticamenteTasaDeCambioDelBCV
+        {
+            get
+            {
+                return Model.ObtenerAutomaticamenteTasaDeCambioDelBCV;
+            }
+            set
+            {
+                if (Model.ObtenerAutomaticamenteTasaDeCambioDelBCV != value)
+                {
+                    Model.ObtenerAutomaticamenteTasaDeCambioDelBCV = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(ObtenerAutomaticamenteTasaDeCambioDelBCVPropertyName);
+                    RaisePropertyChanged(IsEnebaledMaximoLimitePermitidoParaLaTasaDeCambioPropertyName);
+                }
+            }
+        }
         public FkMonedaViewModel ConexionNombreMonedaExtranjera {
             get {
                 return _ConexionNombreMonedaExtranjera;
@@ -270,6 +271,13 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool IsEnebaledObtenerAutomaticamenteTasaDeCambioDelBCV
+        {
+            get
+            {
+                return IsEnabled && UsaMonedaExtranjera && AppMemoryInfo.GlobalValuesGetBool("Parametros", "EsUsuarioSupervisor");
+            }
+        }
         public ParametersViewModel ParametrosViewModel {
             get { return _ParametrosViewModel; }
             set { _ParametrosViewModel = value; }

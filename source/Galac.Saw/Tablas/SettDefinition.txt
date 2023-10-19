@@ -282,7 +282,6 @@ RedondeaMontoCreditoBancario;Bancos;7;7.1.- Bancos;1;;Bool;;N
 ConceptoCreditoBancario;Bancos;7;7.1.- Bancos;1;;String;;N
 CodigoMonedaLocal;Bancos;7;7.2-Moneda;2;;String;;S
 UsaMonedaExtranjera;Bancos;7;7.2-Moneda;2;;Bool;;N
-SolicitarIngresoDeTasaDeCambioAlEmitir;Bancos;7;7.2-Moneda;2;;Enumerativo;;N
 CodigoMonedaExtranjera;Bancos;7;7.2-Moneda;2;;String;;S
 NombreMonedaExtranjera;Bancos;7;7.2-Moneda;2;;String;;S
 NombreMonedaLocal;Bancos;7;7.2-Moneda;2;;String;;S
@@ -332,3 +331,4 @@ MaximoLimitePermitidoParaLaTasaDeCambio;Bancos;7;7.2-Moneda;2;;Decimal;;N
 UsaImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Bool;;N
 FechaInicioImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Date;;N
 ProveedorImprentaDigital;Factura;2;2.8.- Imprenta Digital;8;;Enumerativo;;N
+ObtenerAutomaticamenteTasaDeCambioDelBCV;Bancos;7;7.2-Moneda;2;;Bool;;N

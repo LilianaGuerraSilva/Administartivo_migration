@@ -21,6 +21,7 @@ using Galac.Adm.Uil.GestionCompras.Reportes;
 using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
     public class OrdenDeCompraViewModel : LibInputMasterViewModelMfc<OrdenDeCompra> {
@@ -1123,44 +1124,29 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
 
         public bool AsignaTasaDelDia(string valCodigoMoneda) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-            if(!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
-                decimal vTasa = 1;
+            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
                 ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
                 Moneda = ConexionCodigoMoneda.Nombre;
-                if(((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Fecha, out vTasa)) {
-                    CambioAMonedaLocal = vTasa;
-                    return true;
-                } else {
-                    bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
-                    bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda,vUsarLimiteMaximoParaIngresoDeTasaDeCambio,vMaximoLimitePermitidoParaLaTasaDeCambio,vElProgramaEstaEnModoAvanzado);                    
-                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
-                    vViewModel.FechaDeVigencia = Fecha;
-                    vViewModel.CodigoMoneda = CodigoMoneda;
-                    vViewModel.NombreMoneda = Moneda;
-                    vViewModel.IsEnabledFecha = false;
-                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                    if(!vResult) {
-                        if(LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
-                            return false;
-                        }
-                        AsignarValoresDeMonedaLocal();
+                bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
+                CambioAMonedaLocal = clsSawCambio.InsertaTasaDeCambioParaElDia(CodigoMoneda, Fecha, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
+                bool vResult = CambioAMonedaLocal > 0;
+                if (!vResult) {
+                    if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                        return false;
                     }
-                    return true;
+                    AsignarValoresDeMonedaLocal();
                 }
+                return true;
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
                 Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
                 CambioAMonedaLocal = 1;
                 return true;
             }
-        }
-
-        private void CambioChanged(decimal valCambio) {
-            CambioAMonedaLocal = valCambio;
         }
 
         private void AsignarValoresDeMonedaLocal() {
