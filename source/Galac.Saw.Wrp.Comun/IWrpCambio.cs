@@ -8,7 +8,7 @@ namespace Galac.Saw.Wrp.TablasGen {
         void InitializeContext(string vfwInfo);
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);
         bool ExisteTasaDeCambioParaElDia(string valMoneda, DateTime valFecha, out string outTasa);
-        string InsertaTasaDeCambioParaElDia(string valMoneda, DateTime valFechaVigencia,bool valUsarLimiteMaximoParaIngresoDeTasaDeCambio, decimal valMaximoLimitePermitidoParaLaTasaDeCambio, bool valEsModoAvanzado);
+        string InsertaTasaDeCambioParaElDia(string valMoneda, DateTime valFechaVigencia,bool valUsarLimiteMaximoParaIngresoDeTasaDeCambio, decimal valMaximoLimitePermitidoParaLaTasaDeCambio, bool valEsModoAvanzado, bool valInsertarAutomaticamenteValorDeDolarDesdePortalBCV);
         bool InsertarTasaDeCambioDelDiaDesdeSunat(string valMoneda, DateTime valFechaVigencia, decimal valCambioAMonedaLocal, decimal valCambioAMonedaLocalVenta);
         bool InsertarCambioDeMonLocalAnteriorAMonLocalActVigente(string valCodigoMonedaLocalAnterior, decimal valCambioAMonedaLocal);
         bool BuscarUltimoCambioDeMoneda(string valCodigoMoneda, out DateTime outFechaDeVigencia, out decimal outCambioAMonedaLOcal);

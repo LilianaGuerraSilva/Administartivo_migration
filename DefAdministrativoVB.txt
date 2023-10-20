@@ -1028,7 +1028,7 @@ MenuDeInformes : boolean;
     @PrimaryKey=Secuencial
 }
 
-{@S}ParametrosCompania = Record
+{@S}ParametrosCompania = Record//GENERATE
     ConsecutivoCompania    : Longint;
     usaMonedaExtranjera    : boolean;//o,g,SEARCH
     UsaPrecioSinIva        : Boolean;//o
@@ -1237,6 +1237,7 @@ MenuDeInformes : boolean;
     CampoCodigoAlternativoDeArticulo : unCampoCodigoAlternativoDeArticulo; //"Campo De Código Alterno de Artículo"
     ImprimeSerialRolloLuegoDeDescripArticulo : boolean;
     CostoTerminadoCalculadoAPartirDe : unFormaDeCalcularCostoTerminado; //"Calcular el costo del artículo terminado a partir de"
+    UsaMediosElectronicosDeCobro : boolean;//"Usa Medios Electrónicos de Cobro"	
   @PrimaryKey=ConsecutivoCompania
 }
 

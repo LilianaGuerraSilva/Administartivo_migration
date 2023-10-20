@@ -1024,60 +1024,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool AsignaTasaDelDia(string valCodigoMoneda) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
-                decimal vTasa = 1;
+            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {                
                 ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMoneda = ConexionMoneda.Codigo;
                 Moneda = ConexionMoneda.Nombre;
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Fecha, out vTasa)) {
-                    Cambio = vTasa;
-                    return true;
-                } else {
-                    bool vElProgramaEstaEnModoAvanzado = false;
-                    bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
-                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado);
-                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
-                    vViewModel.FechaDeVigencia = Fecha;
-                    vViewModel.CodigoMoneda = CodigoMoneda;
-                    vViewModel.NombreMoneda = Moneda;
-                    vViewModel.IsEnabledFecha = false;
-                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                    if (!vResult) {
-                        if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
-                            return false;
-                        }
-                        AsignarValoresDeMonedaPorDefecto();
-                    }
-                    return true;
-                }
+                bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
+                Cambio = clsSawCambio.InsertaTasaDeCambioParaElDia(valCodigoMoneda, LibDate.Today(), vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
+                return Cambio > 0;                
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
                 Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
                 Cambio = 1;
                 return true;
-            }
-        }
-
-        private void CambioChanged(decimal valCambio) {
-            Cambio = valCambio;
-        }
-
-        private void AsignarValoresDeMonedaPorDefecto() {
-            if (_UsaCobroMultimoneda) {
-                ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));
-                CodigoMoneda = ConexionMoneda.Codigo;
-                Moneda = ConexionMoneda.Nombre;
-                if (LibString.S1IsEqualToS2(CodigoMoneda, _CodigoMEInicial)) {
-                    Cambio = 1;
-                } else {
-                    AsignaTasaDelDia(_CodigoMEInicial);
-                }
-            } else {
-                CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
-                Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
-                Cambio = 1;
             }
         }
 

@@ -122,13 +122,22 @@ namespace Galac.Saw.Wrp.TablasGen {
             return vExiste;
         }
 
-        string IWrpCambio.InsertaTasaDeCambioParaElDia(string valCodigoMoneda,DateTime valFechaDeVigencia,bool valUsarLimiteMaximoParaIngresoDeTasaDeCambio,decimal valMaximoLimitePermitidoParaLaTasaDeCambio,bool valEsModoAvanzado) {
+        string IWrpCambio.InsertaTasaDeCambioParaElDia(string valCodigoMoneda, DateTime valFechaDeVigencia, bool valUsarLimiteMaximoParaIngresoDeTasaDeCambio, decimal valMaximoLimitePermitidoParaLaTasaDeCambio, bool valEsModoAvanzado, bool valInsertarAutomaticamenteValorDeDolarDesdePortalBCV) {
             clsCambioMenu vCambioMenu = new clsCambioMenu();
             string vTasaDecimal = "0";
-            if(((IWrpCambio)this).ExisteTasaDeCambioParaElDia(valCodigoMoneda,valFechaDeVigencia,out vTasaDecimal)) {
+            string vMonedaDolar = "USD";
+
+            if (((IWrpCambio)this).ExisteTasaDeCambioParaElDia(valCodigoMoneda, valFechaDeVigencia, out vTasaDecimal)) {
                 return vTasaDecimal;
-            } else {                
-                return vCambioMenu.MostrarPantallaParaInsertarCambio(valCodigoMoneda,valFechaDeVigencia,valUsarLimiteMaximoParaIngresoDeTasaDeCambio,valMaximoLimitePermitidoParaLaTasaDeCambio,valEsModoAvanzado);
+            } else {
+                if (valCodigoMoneda == vMonedaDolar && valInsertarAutomaticamenteValorDeDolarDesdePortalBCV) {
+                    vTasaDecimal = InsertaYDevuelveValorDolarDesdePortalBCV();
+                }
+                if (vTasaDecimal == "0") {
+                    return vCambioMenu.MostrarPantallaParaInsertarCambio(valCodigoMoneda, valFechaDeVigencia, valUsarLimiteMaximoParaIngresoDeTasaDeCambio, valMaximoLimitePermitidoParaLaTasaDeCambio, valEsModoAvanzado);
+                } else {
+                    return vTasaDecimal;
+                }
             }
         }
 
@@ -153,6 +162,25 @@ namespace Galac.Saw.Wrp.TablasGen {
             outCambioAMonedaLOcal = vCambioAMonedaLocal;
             return vResult;
         }
+
+        string InsertaYDevuelveValorDolarDesdePortalBCV() {
+            ICambioPdn vCambio = new clsCambioNav();
+            bool vUsarUrlDePruebas = false;
+            vUsarUrlDePruebas = UsarUrlDePruebasApiBcv();
+            string vResult = vCambio.InsertaYDevuelveTasaDeCambioDolarBCVDesdeAPI(vUsarUrlDePruebas) ;
+            return vResult;
+        }
+
+        private static bool UsarUrlDePruebasApiBcv() {
+            try {
+                string vPersonalizar = LibGalac.Aos.Cnf.LibAppSettings.ReadAppSettingsKey("UsarUrlDePruebasApiBcv");
+                bool vResult = LibString.IsNullOrEmpty(vPersonalizar) ? false : LibConvert.SNToBool(vPersonalizar);
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
         #endregion //Metodos Generados
 
 

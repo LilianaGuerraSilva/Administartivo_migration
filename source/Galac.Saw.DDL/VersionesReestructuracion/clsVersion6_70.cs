@@ -18,7 +18,9 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             StartConnectionNoTransaction();
 			CampoVueltoPagoMovilEnCajaApertura();
 			CamposInfoAdicionalRenglonCobroFactura();
-			DisposeConnectionNoTransaction();
+            AgregarParametroObtenerTasaDeCambioDelBCV();
+            AgregarParametroUsarMediosElectronicosDeCobro();
+            DisposeConnectionNoTransaction();
             return true;
         }
 
@@ -30,8 +32,16 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 
 		private void CamposInfoAdicionalRenglonCobroFactura() {
 			if (AddColumnString("RenglonCobroDeFactura", "InfoAdicional", 250, "", "")) {
-				AddDefaultConstraint("RenglonCobroDeFactura", "d_RenCobDeFacInAd", "", "InfoAdicional");
+                AddDefaultConstraint("RenglonCobroDeFactura", "d_RenCobDeFacInAd", InsSql.ToSqlValue(""), "InfoAdicional");
 			}
 		}
-	}
+
+        private void AgregarParametroObtenerTasaDeCambioDelBCV() {
+            AgregarNuevoParametro("ObtenerAutomaticamenteTasaDeCambioDelBCV", "Bancos", 7, "7.2-Moneda", 2, "", eTipoDeDatoParametros.String, "", 'N', "N");
+        }
+
+        private void AgregarParametroUsarMediosElectronicosDeCobro() {
+            AgregarNuevoParametro("UsaMediosElectronicosDeCobro", "Factura", 2, "2.2.- Facturación (Continuación) ", 2, "", eTipoDeDatoParametros.String, "", 'N', "N");
+        }
+    }
 }
