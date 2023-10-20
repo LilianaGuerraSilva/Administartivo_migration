@@ -1227,6 +1227,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
+                    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro")) {
+                        RibbonData.RemoveRibbonGroup("Medios electrónicos");
+                    }
                     break;
                 case eTipoDocumentoFactura.NotaDeCredito:
                     IsVisibleSeccionEfectivo = "Visible";
@@ -1252,6 +1255,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     IsVisibleSeccionTarjeta = "Visible";
                     IsVisibleSeccionTransferencia = "Visible";
                     IsEnabledEfectivoDivisa = true;
+                    if (!LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro")) {
+                        RibbonData.RemoveRibbonGroup("Medios electrónicos");
+                    }
                     break;
                 case eTipoDocumentoFactura.Boleta:
                     IsVisibleSeccionEfectivo = "Visible";
