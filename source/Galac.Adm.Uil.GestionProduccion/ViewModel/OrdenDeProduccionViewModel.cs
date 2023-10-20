@@ -18,6 +18,7 @@ using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
 using Galac.Saw.Ccl.SttDef;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
     public class OrdenDeProduccionViewModel : LibInputMasterViewModelMfc<OrdenDeProduccion> {
@@ -1137,42 +1138,31 @@ namespace Galac.Adm.Uil.GestionProduccion.ViewModel {
                 }
                 ExecuteActionCommand.RaiseCanExecuteChanged();
             }
-        }
-
-        private void CambioChanged(decimal valCambio) {
-            CambioMoneda = valCambio;
-        }
+        }   
 
         private bool AsignaTasaDelDia(string valCodigoMoneda, DateTime valFecha) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (!EsMonedaLocal(valCodigoMoneda)) {
+                bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
+                CambioMoneda = clsSawCambio.InsertaTasaDeCambioParaElDia(CodigoMoneda, valFecha, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
+                bool vResult = CambioMoneda > 0;
                 ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMoneda = ConexionMoneda.Codigo;
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, valFecha, out decimal vTasa)) {
-                    CambioMoneda = vTasa;
-                    return true;
-                } else {
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, false, 100, false);
-                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
-                    vViewModel.FechaDeVigencia = valFecha;
-                    vViewModel.CodigoMoneda = CodigoMoneda;
-                    vViewModel.NombreMoneda = ConexionMoneda.Nombre;
-                    vViewModel.IsEnabledFecha = false;
-                    vViewModel.IsEnabledMoneda = false;
-                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                    if (!vResult) {
-                        if (UsaDivisaComoMonedaPrincipalDeIngresoDeDatos()) {
-                            return false;
-                        }
-                        if (Action == eAccionSR.Cerrar) {
-                            CambioMoneda = CambioCostoProduccion;
-                        } else {
-                            CambioMoneda = 1;
-                        }
+                if (!vResult) {
+                    if (UsaDivisaComoMonedaPrincipalDeIngresoDeDatos()) {
+                        return false;
                     }
-                    return true;
+                    if (Action == eAccionSR.Cerrar) {
+                        CambioMoneda = CambioCostoProduccion;
+                    } else {
+                        CambioMoneda = 1;
+                    }
                 }
+                return true;
+
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(valFecha);
                 Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(valFecha);

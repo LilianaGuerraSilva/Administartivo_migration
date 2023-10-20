@@ -106,10 +106,10 @@ unProveedorImprentaDigital = (TheFactoryHKA); //e,Componente=Sttdef, GENERATE
 	UsarRenglonesEnResumenVtas						: boolean;//"Usar Renglones en Resumen Vtas"
 	UsarResumenDiarioDeVentas						: boolean;//"Usar Resumen Diario de Ventas"
 	VerificarFacturasManualesFaltantes				: boolean;//"Verificar Facturas Manuales Faltantes"
-	PermitirCambioTasaMondExtrajalEmitirFactura		: boolean;//"PermitirCambio de Tasa de Monda Extrajera al Emitir Factura"
+	PermitirCambioTasaMondExtrajalEmitirFactura		: boolean;//"PermitirCambio de Tasa de Monda Extrajera al Emitir Factura"	
 }
 
-{@F}FacturaFacturacionCont =Record//"2.2.- Facturaci�n (Continuaci�n)",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
+{@F}FacturaFacturacionCont =Record//"2.2.- Facturaci�n (Continuaci�n)",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef,GENERATE
 	ConsecutivoCompania 						: Longint; //HIDE
 	UsarOtrosCargoDeFactura						: boolean;//"Usar Otros Cargo de Factura"
 	UltimaFechaDeFacturacionHistorica			: date;//"Ultima Fecha de Facturaci�n Hist�rica"
@@ -126,7 +126,8 @@ unProveedorImprentaDigital = (TheFactoryHKA); //e,Componente=Sttdef, GENERATE
 	ConceptoBancarioCobroDirecto				: Str8://=conceptoBancario.codigo,"Concepto Bancario"
 	CuentaBancariaCobroDirecto					: Str5;//=cuentaBancaria.Codigo,"Cuenta Bancaria Cobro Directo"
 	BloquearEmision                             : unBloquearEmision; //"Bloquear Emisi�n al perder Conexi�n con la Impresora Fiscal" 
-	MostrarMtoTotalBsFEnObservaciones           : boolean; //"Mostrar Total En Bol�vares Fuertes" 
+	MostrarMtoTotalBsFEnObservaciones           : boolean; //"Mostrar Total En Bol�vares Fuertes"
+	UsaMediosElectronicosDeCobro				: boolean;//"Usa Medios Electrónicos de Cobro"	
 }
 
 {@F}FacturaImpresion =Record//"2.3.- Impresi�n de Factura",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
@@ -226,7 +227,7 @@ unProveedorImprentaDigital = (TheFactoryHKA); //e,Componente=Sttdef, GENERATE
         PrecioIncluyeIva                                        : boolean;//"El Precio en el Codigo Incluye Iva"
 }
 
-{@F}FacturaImprentaDigital =Record//"2.8.- Imprenta Digital",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef, GENERATE
+{@F}FacturaImprentaDigital =Record//"2.8.- Imprenta Digital",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
 	ConsecutivoCompania 				: Longint; //HIDE
 	UsaImprentaDigital					: boolean;//"Usa Imprenta Digital"
 	FechaInicioImprentaDigital			: date;//"Fecha de inicio del uso de Imprenta Digital"
@@ -450,8 +451,8 @@ unProveedorImprentaDigital = (TheFactoryHKA); //e,Componente=Sttdef, GENERATE
 	CodigoMonedaLocal						: str3;//"C�digo"
 	NombreMonedaExtranjera					: str50;//"Nombre Moneda Extranjera"
 	NombreMonedaLocal						: str50;//"Nombre Moneda Local"
-	UsaMonedaExtranjera						: boolean;//"Usa Moneda Extranjera"
-	SolicitarIngresoDeTasaDeCambioAlEmitir	: unTipoDeSolicitudDeIngresoDeTasaDeCambio;//""
+	UsaMonedaExtranjera						: boolean;//"Usa Moneda Extranjera"	
+	ObtenerAutomaticamenteTasaDeCambioDelBCV		: boolean;//"Obtener Automáticamente la Tasa de Cambio de Hoy Desde el BCV"
 }
 
 {@F}BancosAnticipo =Record//"7.3.- Anticipo",Male,Multiarchivo=Compania,Esquema=Comun, Componente=SttDef
