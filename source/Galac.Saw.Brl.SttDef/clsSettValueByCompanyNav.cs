@@ -385,6 +385,7 @@ namespace Galac.Saw.Brl.SttDef {
             insEntidad.UsaListaDePrecioEnMonedaExtranjeraAsBool = false;
             insEntidad.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = false;
             insEntidad.NroDiasMantenerTasaCambio = 0;
+            insEntidad.UsaMediosElectronicosDeCobroAsBool = false;
             return insEntidad;
         }
         private void LlenaListado(FacturacionContinuacionStt valRecord, ref List<SettValueByCompany> valBusinessObject, int valConsecutivoCompania) {
@@ -411,6 +412,7 @@ namespace Galac.Saw.Brl.SttDef {
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaListaDePrecioEnMonedaExtranjeraAsBool), "UsaListaDePrecioEnMonedaExtranjera", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.BoolToSN(valRecord.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool), "UsaListaDePrecioEnMonedaExtranjeraCXC", valConsecutivoCompania));
             valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.NroDiasMantenerTasaCambio), "NroDiasMantenerTasaCambio", valConsecutivoCompania));
+            valBusinessObject.Add(ConvierteValor(LibConvert.ToStr(valRecord.UsaMediosElectronicosDeCobroAsBool), "UsaMediosElectronicosDeCobro", valConsecutivoCompania));
         }
         FacturacionContinuacionStt GetFacturacionContinuacionStt(List<SettValueByCompany> valListGetSettValueByCompany) {
             FacturacionContinuacionStt vResult = new FacturacionContinuacionStt();
@@ -439,6 +441,7 @@ namespace Galac.Saw.Brl.SttDef {
             vResult.UsaListaDePrecioEnMonedaExtranjeraAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaListaDePrecioEnMonedaExtranjera"));
             vResult.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaListaDePrecioEnMonedaExtranjeraCXC"));
             vResult.NroDiasMantenerTasaCambio = LibConvert.ToInt(ValorSegunColumna(valListGetSettValueByCompany, "NroDiasMantenerTasaCambio"));
+            vResult.UsaMediosElectronicosDeCobroAsBool = LibConvert.SNToBool(ValorSegunColumna(valListGetSettValueByCompany, "UsaMediosElectronicosDeCobro"));
             return vResult;
         }
 

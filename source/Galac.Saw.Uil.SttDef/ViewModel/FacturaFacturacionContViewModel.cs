@@ -50,7 +50,8 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
         public const string NroDiasMantenerTasaCambioPropertyName = "NroDiasMantenerTasaCambio";
         private const string IsEnabledUsaImprentaDigitalPropertyName = "IsEnabledUsaImprentaDigital";
         private const string FechaInicioImprentaDigitalPropertyName = "FechaInicioImprentaDigital";
-        #endregion
+        public const string UsaMediosElectronicosDeCobroPropertyName = "UsaMediosElectronicosDeCobro";
+		#endregion
 
         #region Variables
         private FkConceptoBancarioViewModel _ConexionConceptoBancarioCobroDirecto = null;
@@ -385,6 +386,19 @@ namespace Galac.Saw.Uil.SttDef.ViewModel {
             }
         }
 
+        public bool  UsaMediosElectronicosDeCobro {
+            get {
+                return Model.UsaMediosElectronicosDeCobroAsBool;
+            }
+            set {
+                if (Model.UsaMediosElectronicosDeCobroAsBool != value) {
+                    Model.UsaMediosElectronicosDeCobroAsBool = value;
+                    IsDirty = true;
+                    RaisePropertyChanged(UsaMediosElectronicosDeCobroPropertyName);
+                }
+            }
+        }
+		
         public eMes[] ArrayMes {
             get {
                 return LibEnumHelper<eMes>.GetValuesInArray();

@@ -19,6 +19,7 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
 			CampoVueltoPagoMovilEnCajaApertura();
 			CamposInfoAdicionalRenglonCobroFactura();
             AgregarParametroObtenerTasaDeCambioDelBCV();
+            AgregarParametroUsarMediosElectronicosDeCobro();
             DisposeConnectionNoTransaction();
             return true;
         }
@@ -39,5 +40,8 @@ namespace Galac.Saw.DDL.VersionesReestructuracion {
             AgregarNuevoParametro("ObtenerAutomaticamenteTasaDeCambioDelBCV", "Bancos", 7, "7.2-Moneda", 2, "", eTipoDeDatoParametros.String, "", 'N', "N");
         }
 
+        private void AgregarParametroUsarMediosElectronicosDeCobro() {
+            AgregarNuevoParametro("UsaMediosElectronicosDeCobro", "Factura", 2, "2.2.- Facturación (Continuación) ", 2, "", eTipoDeDatoParametros.String, "", 'N', "N");
+        }
     }
 }
