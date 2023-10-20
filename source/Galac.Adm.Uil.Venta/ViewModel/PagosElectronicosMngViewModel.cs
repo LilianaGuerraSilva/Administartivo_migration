@@ -114,7 +114,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteUltimoCierreCommand() {
-            _RutaMegasoft = RutaMegasoft(true);
+            _RutaMegasoft = ObtenerRutaMegasoft(true);
             insMegasoft.EjecutaUltimoCierre();
             if (LibIO.DirExists(_RutaMegasoft)) {
                 string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
@@ -129,7 +129,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteUltimoVoucherProcesadoCommand() {
-            _RutaMegasoft = RutaMegasoft(false);
+            _RutaMegasoft = ObtenerRutaMegasoft(false);
             insMegasoft.EjecutaUltimoVoucherProcesado();
             if (LibIO.DirExists(_RutaMegasoft)) {
                 string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
@@ -144,7 +144,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteUltimoVoucherAprobadoCommand() {
-            _RutaMegasoft = RutaMegasoft(false);
+            _RutaMegasoft = ObtenerRutaMegasoft(false);
             insMegasoft.EjecutaUltimoVoucherAprobado();
             if (LibIO.DirExists(_RutaMegasoft)) {
                 string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
@@ -174,7 +174,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteRutaMegasoftCommand() {
-            _RutaMegasoft = RutaMegasoft(false);
+            _RutaMegasoft = ObtenerRutaMegasoft(false);
             if (LibIO.DirExists(_RutaMegasoft)) {
                 LibDiagnostics.Shell(vWinDir + "explorer.exe", _RutaMegasoft, false, 1, System.Diagnostics.ProcessWindowStyle.Maximized, true);
             } else {
@@ -267,7 +267,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         #region Metodos
 
-        private string RutaMegasoft(bool valUltimoCierre) {
+        private string ObtenerRutaMegasoft(bool valUltimoCierre) {
             string vRutaVPOS = LibAppSettings.ReadAppSettingsKey("RutaVPOS");
             string vRutaMegasoft = "";
             if (LibString.IsNullOrEmpty(vRutaVPOS)) {
