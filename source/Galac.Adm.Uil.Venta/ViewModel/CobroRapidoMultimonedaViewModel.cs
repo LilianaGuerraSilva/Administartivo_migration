@@ -586,9 +586,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public bool IsVisibleMontoPM {
+        public bool IsVisibleMediosElectronicosDeCobro {
             get {
-                return true;
+                return LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro");
             }
         }
 

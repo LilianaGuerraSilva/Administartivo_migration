@@ -555,6 +555,7 @@
                 <Label
                     Grid.Row="2"
                     Grid.Column="3"
+                    Width="79"
                     Margin="0,2,0,2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Stretch"
@@ -567,7 +568,7 @@
                     FontWeight="Normal"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" Width="79" />
+                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <Label
                     Grid.Row="2"
                     Grid.Column="4"
@@ -734,7 +735,7 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleMontoPM, Converter={StaticResource booleanToVisibilityConverter}}" />
+                    Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtVueltoPagoMovil"
                     Grid.Row="1"
@@ -749,7 +750,7 @@
                     IsEnabled="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="{Binding Path=IsVisibleMontoPM, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=VueltoC2p, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="2"
