@@ -23,12 +23,12 @@ using Galac.Adm.IntegracionMS.Venta;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
-    public class PagosElectronicosMngViewModel : LibGenericMngViewModel {
+    public class PagosElectronicosMngViewModel: LibGenericMngViewModel {
 
         #region Variables
         private readonly string vWinDir = LibIO.AddSlashCharToEndOfPathIfRequired(LibApp.WinDir());
         C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
-        string vRutaMegasoft;
+        string _RutaMegasoft;
         #endregion
 
         #region Propiedades
@@ -104,7 +104,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Comandos
 
         private void ExecuteCierreCommand() {
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();            
+            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
             insVueltoMegasoft.EjecutaCierre();
         }
 
@@ -114,47 +114,47 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteUltimoCierreCommand() {
-            vRutaMegasoft = RutaMegasoft(true);
+            _RutaMegasoft = RutaMegasoft(true);
             insMegasoft.EjecutaUltimoCierre();
-            if (LibIO.DirExists(vRutaMegasoft)) {
-                string valPathAndFileNameWithExtension = System.IO.Path.Combine(vRutaMegasoft, insMegasoft.infoAdicional);
-                if (LibIO.FileExists(vRutaMegasoft + @"\" + insMegasoft.infoAdicional)) {
+            if (LibIO.DirExists(_RutaMegasoft)) {
+                string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
+                if (LibIO.FileExists(_RutaMegasoft + @"\" + insMegasoft.infoAdicional)) {
                     System.Diagnostics.Process.Start(valPathAndFileNameWithExtension);
                 } else {
-                    LibMessages.MessageBox.Alert(this, "El Archivo " + vRutaMegasoft + @"\" + insMegasoft.infoAdicional + ".txt no existe", "Advertencia");
+                    LibMessages.MessageBox.Alert(this, "El Archivo " + _RutaMegasoft + @"\" + insMegasoft.infoAdicional + ".txt no existe", "Advertencia");
                 }
             } else {
-                LibMessages.MessageBox.Alert(this,"La ruta " + vRutaMegasoft + " no existe","Advertencia");
+                LibMessages.MessageBox.Alert(this, "La ruta " + _RutaMegasoft + " no existe", "Advertencia");
             }
         }
 
         private void ExecuteUltimoVoucherProcesadoCommand() {
-            vRutaMegasoft = RutaMegasoft(false);
+            _RutaMegasoft = RutaMegasoft(false);
             insMegasoft.EjecutaUltimoVoucherProcesado();
-            if (LibIO.DirExists(vRutaMegasoft)) {
-                string valPathAndFileNameWithExtension = System.IO.Path.Combine(vRutaMegasoft, insMegasoft.infoAdicional);
+            if (LibIO.DirExists(_RutaMegasoft)) {
+                string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
                 if (LibIO.FileExists(valPathAndFileNameWithExtension)) {
                     System.Diagnostics.Process.Start(valPathAndFileNameWithExtension);
                 } else {
                     LibMessages.MessageBox.Alert(this, "El archivo " + valPathAndFileNameWithExtension + " no existe o no pudo ser encontrado.", "Advertencia");
                 }
             } else {
-                LibMessages.MessageBox.Alert(this, "La ruta " + vRutaMegasoft + " no existe.", "Advertencia");
+                LibMessages.MessageBox.Alert(this, "La ruta " + _RutaMegasoft + " no existe.", "Advertencia");
             }
         }
 
         private void ExecuteUltimoVoucherAprobadoCommand() {
-            vRutaMegasoft = RutaMegasoft(false);
+            _RutaMegasoft = RutaMegasoft(false);
             insMegasoft.EjecutaUltimoVoucherAprobado();
-            if (LibIO.DirExists(vRutaMegasoft)) {
-                string valPathAndFileNameWithExtension = System.IO.Path.Combine(vRutaMegasoft, insMegasoft.infoAdicional);
+            if (LibIO.DirExists(_RutaMegasoft)) {
+                string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
                 if (LibIO.FileExists(valPathAndFileNameWithExtension)) {
                     System.Diagnostics.Process.Start(valPathAndFileNameWithExtension);
                 } else {
                     LibMessages.MessageBox.Alert(this, "El archivo " + valPathAndFileNameWithExtension + " no existe o no pudo ser encontrado.", "Advertencia");
                 }
             } else {
-                LibMessages.MessageBox.Alert(this, "La ruta " + vRutaMegasoft + " no existe.", "Advertencia");
+                LibMessages.MessageBox.Alert(this, "La ruta " + _RutaMegasoft + " no existe.", "Advertencia");
             }
         }
 
@@ -174,32 +174,32 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ExecuteRutaMegasoftCommand() {
-            vRutaMegasoft = RutaMegasoft(false);
-            if (LibIO.DirExists(vRutaMegasoft)) {
-                LibDiagnostics.Shell(vWinDir + "explorer.exe", vRutaMegasoft, false, 1, System.Diagnostics.ProcessWindowStyle.Maximized, true);
+            _RutaMegasoft = RutaMegasoft(false);
+            if (LibIO.DirExists(_RutaMegasoft)) {
+                LibDiagnostics.Shell(vWinDir + "explorer.exe", _RutaMegasoft, false, 1, System.Diagnostics.ProcessWindowStyle.Maximized, true);
             } else {
                 LibDiagnostics.Shell(vWinDir + "explorer.exe", LibWorkPaths.LogicUnitDir, false, 1, System.Diagnostics.ProcessWindowStyle.Maximized, true);
             }
         }
 
         private bool CanExecuteCierreCommand() {
-            return true; 
+            return true;
         }
 
         private bool CanExecutePreCierreCommand() {
-            return true; 
+            return true;
         }
 
         private bool CanExecuteUltimoCierreCommand() {
-            return true; 
+            return true;
         }
 
         private bool CanExecuteUltimoVoucherProcesadoCommand() {
-            return true; 
+            return true;
         }
 
         private bool CanExecuteUltimoVoucherAprobadoCommand() {
-            return true; 
+            return true;
         }
 
         private bool CanExecuteAnularTransaccionCommand() {
@@ -268,14 +268,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Metodos
 
         private string RutaMegasoft(bool valUltimoCierre) {
-            if (valUltimoCierre) {
-                vRutaMegasoft = System.IO.Path.Combine(LibWorkPaths.ProgramDir, "Megasoft", "voucher", "cierres");
+            string vRutaVPOS = LibAppSettings.ReadAppSettingsKey("RutaVPOS");
+            string vRutaMegasoft = "";
+            if (LibString.IsNullOrEmpty(vRutaVPOS)) {
+                vRutaMegasoft = @"C:\voucher";
             } else {
-                vRutaMegasoft = System.IO.Path.Combine(LibWorkPaths.ProgramDir, "Megasoft", "voucher");
+                vRutaMegasoft = vRutaVPOS;
+            }
+            if (valUltimoCierre) {
+                vRutaMegasoft = System.IO.Path.Combine(vRutaMegasoft, "cierres");
             }
             return vRutaMegasoft;
         }
-
         #endregion //Metodos 
 
     } //End of class CajaAperturaMngViewModel
