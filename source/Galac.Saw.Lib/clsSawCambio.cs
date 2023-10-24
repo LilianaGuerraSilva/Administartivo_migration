@@ -36,7 +36,7 @@ namespace Galac.Saw.Lib {
             ICambioPdn vCambio = new Galac.Comun.Brl.TablasGen.clsCambioNav();
             bool vUsarUrlDePruebas = false;
             vUsarUrlDePruebas = UsarUrlDePruebasApiBcv();
-            decimal vResult = LibImportData.ToDec(vCambio.InsertaYDevuelveTasaDeCambioDolarBCVDesdeAPI(vUsarUrlDePruebas));
+            decimal vResult = LibImportData.ToDec(vCambio.InsertaYDevuelveTasaDeCambioDolarBCVDesdeAPI(vUsarUrlDePruebas), 4);
             return vResult;
         }
 
