@@ -168,7 +168,8 @@ namespace Galac.Saw.Wrp.TablasGen {
             bool vUsarUrlDePruebas = false;
             vUsarUrlDePruebas = UsarUrlDePruebasApiBcv();
             string vResult = vCambio.InsertaYDevuelveTasaDeCambioDolarBCVDesdeAPI(vUsarUrlDePruebas) ;
-            return vResult;
+            decimal vResultDec = LibImportData.ToDec(vResult, 4);
+            return LibConvert.ToStr(vResultDec, 4);
         }
 
         private static bool UsarUrlDePruebasApiBcv() {
