@@ -19,6 +19,7 @@ namespace Galac.Adm.IntegracionMS.Venta {
         public string numeroReferencia;
         public string bancoTransaccion;
         public decimal montoTransaccion;
+        public string numeroAutorizacion;
 
         public C2PMegasoftNav() {
             string vResult = LeerConfigKey("UrlVPOSLocal");
@@ -74,7 +75,13 @@ namespace Galac.Adm.IntegracionMS.Venta {
             var vExito = SendProcesar(request);
             return vExito.Item1;
         }
-
+        public bool EjecutaAnularTransaccion() {
+            request  request = new request() {
+                accion = "anulacion"
+            };
+            var vExito = SendProcesar(request);
+            return vExito.Item1;
+        }
         public bool EjecutaUltimoVoucherAprobado() {
             request request = new request() {
                 accion = "imprimeUltimoVoucher"
@@ -126,6 +133,8 @@ namespace Galac.Adm.IntegracionMS.Venta {
                     numeroReferencia = vResponse.numeroReferencia;
                     montoTransaccion = LibImportData.ToDec(vResponse.montoTransaccion, 2);
                     //bancoTransaccion = vResponse.bancoEmisorCheque;
+                    numeroAutorizacion = vResponse.numeroAutorizacion;
+                    montoTransaccion = LibImportData.ToDec(vResponse.montoTransaccion, 2) * 0.01m;
                     vExito = true;
                 } else {
                     throw new LibGalac.Aos.Catching.GalacAlertException(vResponse.mensajeRespuesta);

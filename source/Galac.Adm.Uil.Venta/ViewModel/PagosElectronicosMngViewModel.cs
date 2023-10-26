@@ -23,10 +23,12 @@ using Galac.Adm.IntegracionMS.Venta;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
-    public class PagosElectronicosMngViewModel : LibGenericMngViewModel {
+    public class PagosElectronicosMngViewModel: LibGenericMngViewModel {
 
         #region Variables
-
+        private readonly string vWinDir = LibIO.AddSlashCharToEndOfPathIfRequired(LibApp.WinDir());
+        C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
+        string _RutaMegasoft;
         #endregion
 
         #region Propiedades
@@ -47,19 +49,28 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             private set;
         }
 
-        public RelayCommand ReImprimirCierreCommand {
+        public RelayCommand UltimoCierreCommand {
             get;
             private set;
         }
-        public RelayCommand ImprimirUltimoProCommand {
+        public RelayCommand UltimoVoucherProcesadoCommand {
             get;
             private set;
         }
-        public RelayCommand ImprimirUltimoAproCommand {
+        public RelayCommand UltimoVoucherAprobadoCommand {
             get;
             private set;
         }
 
+        public RelayCommand AnularTransaccionCommand {
+            get;
+            private set;
+        }
+
+        public RelayCommand RutaMegasoftCommand {
+            get;
+            private set;
+        }
         #endregion //Propiedades
 
         #region Constructores e Inicializadores
@@ -68,9 +79,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             base.InitializeCommands();
             CierreCommand = new RelayCommand(ExecuteCierreCommand, CanExecuteCierreCommand);
             PreCierreCommand = new RelayCommand(ExecutePreCierreCommand, CanExecutePreCierreCommand);
-            ReImprimirCierreCommand = new RelayCommand(ExecuteReImprimirCierreCommand, CanExecuteReImprimirCierreCommand);
-            ImprimirUltimoProCommand = new RelayCommand(ExecuteImprimirUltimoProCommand, CanExecuteImprimirUltimoProCommand);
-            ImprimirUltimoAproCommand = new RelayCommand(ExecuteImprimirUltimoAproCommand, CanExecuteImprimirUltimoAproCommand);
+            UltimoCierreCommand = new RelayCommand(ExecuteUltimoCierreCommand, CanExecuteUltimoCierreCommand);
+            UltimoVoucherProcesadoCommand = new RelayCommand(ExecuteUltimoVoucherProcesadoCommand, CanExecuteUltimoVoucherProcesadoCommand);
+            UltimoVoucherAprobadoCommand = new RelayCommand(ExecuteUltimoVoucherAprobadoCommand, CanExecuteUltimoVoucherAprobadoCommand);
+            AnularTransaccionCommand = new RelayCommand(ExecuteAnularTransaccionCommand, CanExecuteAnularTransaccionCommand);
+            RutaMegasoftCommand = new RelayCommand(ExecuteRutaMegasoftCommand, CanExecuteRutaMegasoftCommand);
         }
 
         protected override void InitializeRibbon() {
@@ -91,7 +104,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Comandos
 
         private void ExecuteCierreCommand() {
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();            
+            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
             insVueltoMegasoft.EjecutaCierre();
         }
 
@@ -100,39 +113,101 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             insVueltoMegasoft.EjecutaPrecierre();
         }
 
-        private void ExecuteReImprimirCierreCommand() {
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            insVueltoMegasoft.EjecutaUltimoCierre();
+        private void ExecuteUltimoCierreCommand() {
+            _RutaMegasoft = ObtenerRutaMegasoft(true);
+            insMegasoft.EjecutaUltimoCierre();
+            if (LibIO.DirExists(_RutaMegasoft)) {
+                string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
+                if (LibIO.FileExists(_RutaMegasoft + @"\" + insMegasoft.infoAdicional)) {
+                    System.Diagnostics.Process.Start(valPathAndFileNameWithExtension);
+                } else {
+                    LibMessages.MessageBox.Alert(this, "El Archivo " + _RutaMegasoft + @"\" + insMegasoft.infoAdicional + ".txt no existe", "Advertencia");
+                }
+            } else {
+                LibMessages.MessageBox.Alert(this, "La ruta " + _RutaMegasoft + " no existe", "Advertencia");
+            }
         }
 
-        private void ExecuteImprimirUltimoProCommand() {
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            insVueltoMegasoft.EjecutaUltimoVoucherProcesado();
+        private void ExecuteUltimoVoucherProcesadoCommand() {
+            _RutaMegasoft = ObtenerRutaMegasoft(false);
+            insMegasoft.EjecutaUltimoVoucherProcesado();
+            if (LibIO.DirExists(_RutaMegasoft)) {
+                string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
+                if (LibIO.FileExists(valPathAndFileNameWithExtension)) {
+                    System.Diagnostics.Process.Start(valPathAndFileNameWithExtension);
+                } else {
+                    LibMessages.MessageBox.Alert(this, "El archivo " + valPathAndFileNameWithExtension + " no existe o no pudo ser encontrado.", "Advertencia");
+                }
+            } else {
+                LibMessages.MessageBox.Alert(this, "La ruta " + _RutaMegasoft + " no existe.", "Advertencia");
+            }
         }
 
-        private void ExecuteImprimirUltimoAproCommand() {
-            C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
-            insVueltoMegasoft.EjecutaUltimoVoucherAprobado();
+        private void ExecuteUltimoVoucherAprobadoCommand() {
+            _RutaMegasoft = ObtenerRutaMegasoft(false);
+            insMegasoft.EjecutaUltimoVoucherAprobado();
+            if (LibIO.DirExists(_RutaMegasoft)) {
+                string valPathAndFileNameWithExtension = System.IO.Path.Combine(_RutaMegasoft, insMegasoft.infoAdicional);
+                if (LibIO.FileExists(valPathAndFileNameWithExtension)) {
+                    System.Diagnostics.Process.Start(valPathAndFileNameWithExtension);
+                } else {
+                    LibMessages.MessageBox.Alert(this, "El archivo " + valPathAndFileNameWithExtension + " no existe o no pudo ser encontrado.", "Advertencia");
+                }
+            } else {
+                LibMessages.MessageBox.Alert(this, "La ruta " + _RutaMegasoft + " no existe.", "Advertencia");
+            }
+        }
+
+        private void ExecuteAnularTransaccionCommand() {
+            try {
+                C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
+                if (insMegasoft.EjecutaAnularTransaccion()) {
+                    if (insMegasoft.montoTransaccion > 0) {
+                        LibMessages.MessageBox.Information(this, "Anulación procesada exitosamente", "Anulacion Transacción");
+                    }
+                }
+            } catch (System.AccessViolationException) {
+                throw;
+            } catch (System.Exception vEx) {
+                LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
+            }
+        }
+
+        private void ExecuteRutaMegasoftCommand() {
+            _RutaMegasoft = ObtenerRutaMegasoft(false);
+            if (LibIO.DirExists(_RutaMegasoft)) {
+                LibDiagnostics.Shell(vWinDir + "explorer.exe", _RutaMegasoft, false, 1, System.Diagnostics.ProcessWindowStyle.Maximized, true);
+            } else {
+                LibDiagnostics.Shell(vWinDir + "explorer.exe", LibWorkPaths.LogicUnitDir, false, 1, System.Diagnostics.ProcessWindowStyle.Maximized, true);
+            }
         }
 
         private bool CanExecuteCierreCommand() {
-            return true; 
+            return true;
         }
 
         private bool CanExecutePreCierreCommand() {
-            return true; 
+            return true;
         }
 
-        private bool CanExecuteReImprimirCierreCommand() {
-            return true; 
+        private bool CanExecuteUltimoCierreCommand() {
+            return true;
         }
 
-        private bool CanExecuteImprimirUltimoProCommand() {
-            return true; 
+        private bool CanExecuteUltimoVoucherProcesadoCommand() {
+            return true;
         }
 
-        private bool CanExecuteImprimirUltimoAproCommand() {
-            return true; 
+        private bool CanExecuteUltimoVoucherAprobadoCommand() {
+            return true;
+        }
+
+        private bool CanExecuteAnularTransaccionCommand() {
+            return true;
+        }
+
+        private bool CanExecuteRutaMegasoftCommand() {
+            return true;
         }
 
         private LibRibbonGroupData CreateAccionesRibbonGroup() {
@@ -152,27 +227,39 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipTitle = "Pre-Cierre"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Re-Imprimir Cierre",
-                Command = ReImprimirCierreCommand,
+                Label = "Ver Último Cierre",
+                Command = UltimoCierreCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/Print.png", UriKind.Relative),
-                ToolTipDescription = "Re-Imprimir Cierre",
-                ToolTipTitle = "Re-Imprimir Cierre"
+                ToolTipDescription = "Ver Último Cierre",
+                ToolTipTitle = "Ver Último Cierre"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Imprimir Último Voucher Procesado",
-                Command = ImprimirUltimoProCommand,
+                Label = "Ver Último Voucher Procesado",
+                Command = UltimoVoucherProcesadoCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/Print.png", UriKind.Relative),
-                ToolTipDescription = "Imprimir Último Voucher Procesado",
-                ToolTipTitle = "Imprimir Último Voucher Procesado"
-                //KeyTip = "A"
+                ToolTipDescription = "Ver Último Voucher Procesado",
+                ToolTipTitle = "Ver Último Voucher Procesado"
             });
             vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
-                Label = "Imprimir Último Voucher Aprobado",
-                Command = ImprimirUltimoAproCommand,
+                Label = "Ver Último Voucher Aprobado",
+                Command = UltimoVoucherAprobadoCommand,
                 LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/Print.png", UriKind.Relative),
-                ToolTipDescription = "Imprimir Último Voucher Aprobado",
-                ToolTipTitle = "Imprimir Último Voucher Aprovado"
-                //KeyTip = "A"
+                ToolTipDescription = "Ver Último Voucher Aprobado",
+                ToolTipTitle = "Ver Último Voucher Aprovado"
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Anular Transacción",
+                Command = AnularTransaccionCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/deleteImage.png", UriKind.Relative),
+                ToolTipDescription = "Anular Transacción",
+                ToolTipTitle = "Anular Transacción"
+            });
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Abrir Ubicación",
+                Command = RutaMegasoftCommand,
+                LargeImage = new Uri("/LibGalac.Aos.UI.WpfRD;component/Images/Read.png", UriKind.Relative),
+                ToolTipDescription = "Ubicación de Vouchers y Cierres",
+                ToolTipTitle = "Ubicación de Vouchers y Cierres"
             });
             return vResult;
         }
@@ -180,6 +267,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         #region Metodos
 
+        private string ObtenerRutaMegasoft(bool valUltimoCierre) {
+            string vRutaVPOS = LibAppSettings.ReadAppSettingsKey("RutaVPOS");
+            string vRutaMegasoft = "";
+            if (LibString.IsNullOrEmpty(vRutaVPOS)) {
+                vRutaMegasoft = @"C:\voucher";
+            } else {
+                vRutaMegasoft = vRutaVPOS;
+            }
+            if (valUltimoCierre) {
+                vRutaMegasoft = System.IO.Path.Combine(vRutaMegasoft, "cierres");
+            }
+            return vRutaMegasoft;
+        }
         #endregion //Metodos 
 
     } //End of class CajaAperturaMngViewModel

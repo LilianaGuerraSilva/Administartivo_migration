@@ -22,7 +22,6 @@
     <UserControl.InputBindings>
         <KeyBinding Key="F6" Command="{Binding Path=CobrarCommand}" />
         <KeyBinding Key="F7" Command="{Binding Path=LimpiarCommand}" />
-        <KeyBinding Key="F9" Command="{Binding Path=VueltoEnEfectivo}" />
         <KeyBinding Key="F10" Command="{Binding Path=VueltoConPagoMovilCommand}" />
         <KeyBinding Key="F11" Command="{Binding Path=CobroTDD_TDCCommand}" />
     </UserControl.InputBindings>
@@ -451,11 +450,11 @@
             Visibility="{Binding IsVisibleSeccionTarjeta}">
             <Grid Name="tbiSeccionTarjetas" Height="auto">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*" />
-                    <ColumnDefinition Width="17*" />
-                    <ColumnDefinition Width="22*" />
-                    <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="18*" />
+                    <ColumnDefinition Width="47*" />
+                    <ColumnDefinition Width="159*" />
+                    <ColumnDefinition Width="205*" />
+                    <ColumnDefinition Width="89*" />
+                    <ColumnDefinition Width="116*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -464,13 +463,12 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label
-                    Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Height="29"
-                    Margin="2,2,2,0"
+                    Height="30"
+                    Margin="2,0,2,0"
                     HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top"
+                    VerticalAlignment="Center"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Top"
                     Content="Tarjeta 1:"
@@ -484,8 +482,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Height="29"
-                    Margin="2"
+                    Margin="2,2,2,2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
@@ -501,13 +498,12 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Height="29"
-                    Margin="3"
+                    Margin="2,2,2,2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
                     VerticalContentAlignment="Center"
-                    Content="Tarjeta V-Pos:"
+                    Content="Medios Electrónicos:"
                     FontFamily="Calibri"
                     FontSize="17"
                     FontStyle="Normal"
@@ -519,8 +515,7 @@
                     Name="txtTotalTarjeta1"
                     Grid.Row="0"
                     Grid.Column="2"
-                    Height="24"
-                    Margin="8,2"
+                    Margin="8,4,8,3"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Right"
                     DecimalDigits="2"
@@ -533,8 +528,7 @@
                     Name="txtTotalTarjeta2"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Height="24"
-                    Margin="8,2"
+                    Margin="8,6,8,6"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Right"
                     DecimalDigits="{Binding Path=DecimalDigits}"
@@ -547,8 +541,7 @@
                     Name="txtTotalTarjetaVPos"
                     Grid.Row="2"
                     Grid.Column="2"
-                    Height="24"
-                    Margin="8,2"
+                    Margin="8,7,8,7"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Right"
                     DecimalDigits="{Binding Path=DecimalDigits}"
@@ -559,6 +552,39 @@
                     Style="{StaticResource TextBoxInputStyle}"
                     Visibility="{Binding Path=IsVisibleTotalTarjetaVPos, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=TotalCobrosConTddTdcVPos, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Width="79"
+                    Margin="0,2,0,2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Content="Cant. Op.:"
+                    FontFamily="Calibri"
+                    FontSize="17"
+                    FontStyle="Normal"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Margin="0,0,79,3"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center"
+                    Content="{Binding CantidadTarjetasProcesadas}"
+                    FontFamily="Calibri"
+                    FontSize="17"
+                    FontStyle="Normal"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    Style="{StaticResource LabelPrompt}"
+                    Visibility="{Binding Path=IsVisibleCantidadTarjetasProcesadas, Converter={StaticResource booleanToVisibilityConverter}}" />
             </Grid>
         </GroupBox>
         <GroupBox
@@ -698,7 +724,7 @@
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
-                    Height="27"
+                    Height="32"
                     Margin="2"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
@@ -709,7 +735,7 @@
                     FontWeight="Bold"
                     Foreground="Black"
                     Style="{StaticResource LabelPrompt}"
-                    Visibility="{Binding Path=IsVisibleMontoPM, Converter={StaticResource booleanToVisibilityConverter}}" />
+		    Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}" />
                 <nsWpfControls:GSNumericBoxWpf
                     Name="txtVueltoPagoMovil"
                     Grid.Row="1"
@@ -724,7 +750,7 @@
                     IsEnabled="False"
                     MaxLength="28"
                     Style="{StaticResource TextBoxInputStyle}"
-                    Visibility="{Binding Path=IsVisibleMontoPM, Converter={StaticResource booleanToVisibilityConverter}}"
+		    Visibility="{Binding Path=IsVisibleMediosElectronicosDeCobro, Converter={StaticResource booleanToVisibilityConverter}}"
                     Value="{Binding Path=VueltoC2p, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
                 <Border
                     Grid.Row="2"

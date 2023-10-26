@@ -140,7 +140,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     FacturaImprentaDigital.Fecha = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "Fecha"));
                     FacturaImprentaDigital.HoraModificacion = LibXml.GetPropertyString(vResult, "HoraModificacion");
                     FacturaImprentaDigital.FechaDeFacturaAfectada = LibConvert.ToDate(LibXml.GetPropertyString(vResult, "FechaDeFacturaAfectada"));
-                    FacturaImprentaDigital.Observaciones = LibXml.GetPropertyString(vResult, "Observaciones");
+                    FacturaImprentaDigital.Observaciones = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Observaciones"));
                     FacturaImprentaDigital.CodigoMoneda = LibXml.GetPropertyString(vResult, "MonedaDelDocumento");
                     FacturaImprentaDigital.CodigoMonedaDeCobro = LibXml.GetPropertyString(vResult, "MonedaDelCobro");
                     FacturaImprentaDigital.StatusFactura = LibXml.GetPropertyString(vResult, "StatusFactura");
@@ -229,7 +229,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         FacturaRapidaDetalle insFacturaRapidaDetalle = new FacturaRapidaDetalle();
                         insFacturaRapidaDetalle.ConsecutivoRenglon = LibConvert.ToInt(LibXml.GetElementValueOrEmpty(vRowDetaill, "ConsecutivoRenglon"));
                         insFacturaRapidaDetalle.Articulo = LibXml.GetElementValueOrEmpty(vRowDetaill, "Articulo");
-                        insFacturaRapidaDetalle.Descripcion = LibXml.GetElementValueOrEmpty(vRowDetaill, "Descripcion");
+                        insFacturaRapidaDetalle.Descripcion = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "Descripcion"));
                         insFacturaRapidaDetalle.Cantidad = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "Cantidad"));
                         insFacturaRapidaDetalle.PrecioSinIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PrecioSinIVA"));
                         insFacturaRapidaDetalle.PrecioConIVA = LibImportData.ToDec(LibXml.GetElementValueOrEmpty(vRowDetaill, "PrecioConIVA"));
@@ -240,8 +240,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                         insFacturaRapidaDetalle.AlicuotaIva = LibXml.GetElementValueOrEmpty(vRowDetaill, "AlicuotaIVA");
                         insFacturaRapidaDetalle.Serial = LibXml.GetElementValueOrEmpty(vRowDetaill, "Serial");
                         insFacturaRapidaDetalle.Rollo = LibXml.GetElementValueOrEmpty(vRowDetaill, "Rollo");
-                        insFacturaRapidaDetalle.CampoExtraEnRenglonFactura1 = LibXml.GetElementValueOrEmpty(vRowDetaill, "CampoExtraEnRenglonFactura1");
-                        insFacturaRapidaDetalle.CampoExtraEnRenglonFactura2 = LibXml.GetElementValueOrEmpty(vRowDetaill, "CampoExtraEnRenglonFactura2");
+                        insFacturaRapidaDetalle.CampoExtraEnRenglonFactura1 = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "CampoExtraEnRenglonFactura1"));
+                        insFacturaRapidaDetalle.CampoExtraEnRenglonFactura2 = LimpiarCaracteresNoValidos(LibXml.GetElementValueOrEmpty(vRowDetaill, "CampoExtraEnRenglonFactura2"));
                         DetalleFacturaImprentaDigital.Add(insFacturaRapidaDetalle);
                     }
                 } else {
@@ -282,13 +282,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                     ClienteImprentaDigital = new Cliente();
                     ClienteImprentaDigital.Codigo = LibXml.GetPropertyString(vResult, "Codigo");
                     ClienteImprentaDigital.Nombre = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Nombre"));
-                    ClienteImprentaDigital.NumeroRIF = LibXml.GetPropertyString(vResult, "NumeroRif");
-                    ClienteImprentaDigital.Direccion = LibXml.GetPropertyString(vResult, "Direccion");
+                    ClienteImprentaDigital.NumeroRIF = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "NumeroRif"));
+                    ClienteImprentaDigital.Direccion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Direccion"));
                     ClienteImprentaDigital.Ciudad = LibXml.GetPropertyString(vResult, "Ciudad");
                     ClienteImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");
-                    ClienteImprentaDigital.Telefono = LibXml.GetPropertyString(vResult, "Telefono");
-                    ClienteImprentaDigital.Email = LibXml.GetPropertyString(vResult, "Email");
-                    ClienteImprentaDigital.Contacto = LibXml.GetPropertyString(vResult, "Contacto");
+                    ClienteImprentaDigital.Telefono = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Telefono"));
+                    ClienteImprentaDigital.Email = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Email"));
+                    ClienteImprentaDigital.Contacto = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Contacto"));
                 } else {
                     throw new GalacException("No existen datos para el cliente del documento a enviar", eExceptionManagementType.Controlled);
                 }
@@ -326,13 +326,13 @@ namespace Galac.Adm.Brl.ImprentaDigital {
                 if (vResult != null && vResult.HasElements) {
                     VendedorImprentaDigital = new Vendedor();
                     VendedorImprentaDigital.Codigo = LibXml.GetPropertyString(vResult, "Codigo");
-                    VendedorImprentaDigital.Nombre = LibXml.GetPropertyString(vResult, "Nombre");
-                    VendedorImprentaDigital.RIF = LibXml.GetPropertyString(vResult, "RIF");
-                    VendedorImprentaDigital.Direccion = LibXml.GetPropertyString(vResult, "Direccion");
+                    VendedorImprentaDigital.Nombre = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Nombre"));
+                    VendedorImprentaDigital.RIF = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "RIF"));
+                    VendedorImprentaDigital.Direccion = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Direccion"));
                     VendedorImprentaDigital.Ciudad = LibXml.GetPropertyString(vResult, "Ciudad");
                     VendedorImprentaDigital.ZonaPostal = LibXml.GetPropertyString(vResult, "ZonaPostal");
-                    VendedorImprentaDigital.Telefono = LibXml.GetPropertyString(vResult, "Telefono");
-                    VendedorImprentaDigital.Email = LibXml.GetPropertyString(vResult, "Email");
+                    VendedorImprentaDigital.Telefono = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Telefono"));
+                    VendedorImprentaDigital.Email = LimpiarCaracteresNoValidos(LibXml.GetPropertyString(vResult, "Email"));
                 } else {
                     throw new GalacException("No existen datos para el vendedor del documento a enviar", eExceptionManagementType.Controlled);
                 }
@@ -433,8 +433,8 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string LimpiarCaracteresNoValidos(string valInput) {
             string vResult = "";
-            System.Text.RegularExpressions.Regex replace_otherchar = new System.Text.RegularExpressions.Regex("[´|`|~|^]", System.Text.RegularExpressions.RegexOptions.Compiled);
-            vResult = replace_otherchar.Replace(valInput, " ");
+            System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r|\t]", System.Text.RegularExpressions.RegexOptions.Compiled);
+            vResult = vListInvalidChars.Replace(valInput, "");
             return vResult;
         }
 

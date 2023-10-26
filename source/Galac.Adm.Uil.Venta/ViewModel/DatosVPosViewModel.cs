@@ -1,4 +1,5 @@
 using LibGalac.Aos.Base;
+using LibGalac.Aos.DefGen;
 using LibGalac.Aos.UI.Mvvm;
 using LibGalac.Aos.UI.Mvvm.Command;
 using LibGalac.Aos.UI.Mvvm.Messaging;
@@ -6,6 +7,7 @@ using LibGalac.Aos.UI.Mvvm.Ribbon;
 using LibGalac.Aos.UI.Mvvm.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     internal class DatosVPOS {
@@ -22,6 +24,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Variables
         string _CedulaRif;
         decimal _Monto;
+        decimal vMontoPorCobrar;
+        bool vCancel = false;
         #endregion
 
         #region Propiedades
@@ -31,6 +35,9 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo CedulaRif es requerido.")]
+            get { return "Cobro con Tajeta"; }
+        }
+
         public string CedulaRif {
             get {
                 return _CedulaRif;
@@ -44,6 +51,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         [LibRequired(ErrorMessage = "El campo Monto es requerido.")]
+        [LibCustomValidation("MontoValidating")]
         public decimal Monto {
             get {
                 return _Monto;
@@ -60,6 +68,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             get;
             private set;
         }
+        public RelayCommand ContinuarCommand { get; private set; }
 
         #endregion //Propiedades
 
@@ -72,9 +81,10 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         #region Metodos Generados
 
-        internal void InitLookAndFeel(decimal valMonto) {
-            CedulaRif = "";
+        internal void InitLookAndFeel(string cedulaRif, decimal valMonto) {
+            CedulaRif = cedulaRif;
             Monto = valMonto;
+            vMontoPorCobrar = LibConvert.ToDec(valMonto, 2);
         }
 
         protected override void InitializeCommands() {
@@ -92,9 +102,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        public void InitializeViewModel(decimal valMonto) {
+        protected override void ExecuteCancel() {
+            vCancel = true;
+            vMontoPorCobrar = 0;
+            Monto = 0;
             CedulaRif = "";
+            base.ExecuteCancel();
+        }
+
+        public void InitializeViewModel(string cedulaRif, decimal valMonto) {
+            CedulaRif = cedulaRif;
             Monto = valMonto;
+            vMontoPorCobrar = LibConvert.ToDec(valMonto,2);
         }
 
         private LibRibbonButtonData CreateActionRibbonButton() {
@@ -109,16 +128,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             return vResult;
         }
 
-
         private List<DatosVPOS> ListaDatosVPOS { get; set; }
 
         public void ExecuteInsertCommand() {
-            ListaDatosVPOS.Add(new DatosVPOS() {
-                MontoTransaccion = LibConvert.ToDec(Monto, 2),
-                CedulaRif = CedulaRif,
-            });
-            base.ExecuteCancel();
-
+            if (Monto > 0 && Monto <= vMontoPorCobrar) {
+                ListaDatosVPOS.Add(new DatosVPOS() {
+                    MontoTransaccion = LibConvert.ToDec(Monto, 2),
+                    CedulaRif = CedulaRif,
+                });
+                base.ExecuteCancel();
+            } else {
+                LibMessages.MessageBox.Alert(this, "El Monto debe ser mayor a 0,00 y menor igual a: " + LibMath.RoundToNDecimals(vMontoPorCobrar, 2) + ".", "Advertencia");
+            }
         }
 
         public DatosVPosViewModel(decimal valMonto) {
@@ -131,6 +152,14 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Métodos Programados
         #endregion
         #region Validaciones
+
+        private ValidationResult MontoValidating() {
+            ValidationResult vResult = ValidationResult.Success;
+            if (Monto > 0 && Monto <= vMontoPorCobrar) {
+                return ValidationResult.Success;
+            } 
+            return vResult;
+        }
         #endregion
     } //End of class DatosVPosViewModel
 

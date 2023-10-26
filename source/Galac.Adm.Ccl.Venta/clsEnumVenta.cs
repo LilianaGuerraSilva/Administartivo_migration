@@ -339,7 +339,8 @@ namespace Galac.Adm.Ccl.Venta {
 
     [System.ComponentModel.TypeConverter(typeof(LibEnumTypeConverter))]
     public enum eBancoPM {
-        [LibEnumDescription("0102 Banco de Venezuela S.A. Banco Universal")] Bco_0102 = 0,
+        [LibEnumDescription("No Aplica")] NoAplica = 0,
+        [LibEnumDescription("0102 Banco de Venezuela S.A. Banco Universal")] Bco_0102,
         [LibEnumDescription("0104 Banco Venezolano de Crédito S.A. Banco Universal")] Bco_0104,
         [LibEnumDescription("0105 Banco Mercantil C.A. Banco Universal")] Bco_0105,
         [LibEnumDescription("0108 Banco Provincial S.A. Banco Universal")] Bco_0108,

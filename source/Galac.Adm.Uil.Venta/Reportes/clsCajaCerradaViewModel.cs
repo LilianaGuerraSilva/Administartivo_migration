@@ -9,17 +9,19 @@ using LibGalac.Aos.UI.Mvvm.Command;
 using LibGalac.Aos.UI.Mvvm.Helpers;
 using Galac.Adm.Ccl.Venta;
 using Galac.Adm.Brl.Venta;
+using Galac.Adm.Uil.Venta.ViewModel;
+using LibGalac.Aos.UI.Mvvm.Validation;
 namespace Galac.Adm.Uil.Venta.Reportes {
 
-    public class clsCajaCerradaViewModel : LibInputRptViewModelBase<CajaApertura> {
+    public class clsCajaCerradaViewModel: LibInputRptViewModelBase<CajaApertura> {
         #region Variables
         #endregion //Variables
         #region Propiedades
         public override string DisplayName { get { return "Caja Cerrada"; } }
         public LibXmlMemInfo AppMemoryInfo { get; set; }
+
         public LibXmlMFC Mfc { get; set; }
         public override bool IsSSRS => throw new NotImplementedException();
-
         public DateTime FechaDesde { get; set; }
         public DateTime FechaHasta { get; set; }
         #endregion //Propiedades

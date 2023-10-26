@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:Galac.Adm.Uil.Venta.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:nsWpf="clr-namespace:LibGalac.Aos.UI.Wpf;assembly=LibGalac.Aos.UI.Wpf"
-    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls">
+    xmlns:nsWpfControls="clr-namespace:LibGalac.Aos.UI.WpfControls;assembly=LibGalac.Aos.UI.WpfControls"
+    Width="Auto">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,27 +16,28 @@
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid FocusManager.FocusedElement="{Binding ElementName=txtMonto}">
+    <Grid Width="200" FocusManager.FocusedElement="{Binding ElementName=txtMonto}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="75" />
-            <ColumnDefinition Width="90" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+
         </Grid.RowDefinitions>
         <Label
             Name="lblMonto"
             Grid.Row="0"
             Grid.Column="0"
-            Width="75"
+	    Width="Auto"
             Content="Monto"
             Visibility="Visible" />
         <nsWpfControls:GSNumericBoxWpf
             Name="txtMonto"
             Grid.Row="0"
             Grid.Column="1"
-            Width="80"
+	    Width="120"
             BorderThickness="1.5"
             DecimalDigits="2"
             Foreground="Black"
@@ -46,17 +48,17 @@
             Visibility="Visible"
             Value="{Binding Path=Monto, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
         <Label
-            Name="lblCDRIF"
+            Name="lblCedulaRIF"
             Grid.Row="1"
             Grid.Column="0"
-            Width="75"
-            Content="Cedula / Rif"
+            Width="Auto"
+            Content="Cédula / RIF"
             Visibility="Visible" />
         <nsWpfControls:GSTextBoxWpf
-            Name="txtCDRIF"
+            Name="txtCedulaRIF"
             Grid.Row="1"
             Grid.Column="1"
-            Width="80"
+            Width="120"
             HorizontalAlignment="Stretch"
             BorderThickness="1.5"
             Foreground="Black"

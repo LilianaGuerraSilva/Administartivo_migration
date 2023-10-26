@@ -9,15 +9,21 @@ using System.Data;
 using LibGalac.Aos.ARRpt;
 using LibGalac.Aos.Base;
 using LibGalac.Aos.DefGen;
+using System.Text;
+using System.Xml.Linq;
+using LibGalac.Aos.Base.Dal;
 
 namespace Galac.Adm.Rpt.Venta {
     /// <summary>
     /// Summary description for dsrCajaCerrada.
     /// </summary>
-    public partial class dsrCajaCerrada : DataDynamics.ActiveReports.ActiveReport {
+    public partial class dsrCajaCerrada: DataDynamics.ActiveReports.ActiveReport {
         #region Variables
         private bool _UseExternalRpx;
         private static string _RpxFileName;
+        DateTime _FechaDesde;
+        DateTime _FechaHasta;
+
         #endregion //Variables
         #region Constructores
         public dsrCajaCerrada()
@@ -39,6 +45,8 @@ namespace Galac.Adm.Rpt.Venta {
         }
 
         public bool ConfigReport(DataTable valDataSource, DateTime valFechaDesde, DateTime valFechaHasta) {
+            _FechaDesde = valFechaDesde;
+            _FechaHasta = valFechaHasta;
             if (_UseExternalRpx) {
                 string vRpxPath = LibWorkPaths.PathOfRpxFile(_RpxFileName, ReportTitle(), false, LibDefGen.ProgramInfo.ProgramInitials);
                 if (!LibString.IsNullOrEmpty(vRpxPath, true)) {
@@ -65,7 +73,7 @@ namespace Galac.Adm.Rpt.Venta {
                 LibReport.ConfigFieldDec(this, "txtMontoCierreML", string.Empty, "MontoCierre");
                 LibReport.ConfigFieldDec(this, "txtMontoCierreME", string.Empty, "MontoCierreME");
                 LibReport.ConfigFieldStr(this, "txtHoraCierre", string.Empty, "HoraCierre");
-
+                LibReport.ConfigFieldInt(this, "txtConsecutivoCaja", "0", "ConsecutivoCaja");
                 LibReport.ConfigGroupHeader(this, "GHCajaApertura", "ConsecutivoConsecutivoCaja", GroupKeepTogether.FirstDetail, RepeatStyle.All, true, NewPage.None);
 
                 LibGraphPrnMargins.SetGeneralMargins(this, DataDynamics.ActiveReports.Document.PageOrientation.Portrait);
@@ -75,8 +83,36 @@ namespace Galac.Adm.Rpt.Venta {
         }
         #endregion //Metodos Generados
 
+        private void GFCajaApertura_Format(object sender, EventArgs e) {
+            decimal vEfectivoEnCaja = 0;
+            decimal vEfectivoEnCajaME = 0;
+            string vSql = SqlEfectivoEnCajaCerrada();
+            XElement vData = LibGalac.Aos.Brl.LibBusiness.ExecuteSelect(vSql, null, "", 0);
+            if (vData != null && vData.HasElements) {
+                vEfectivoEnCaja = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCaja"), 2);
+                vEfectivoEnCajaME = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCajaME"), 2);
+            }
+            LibReport.ConfigFieldDec(this, "txtEfectivoEnCaja", LibConvert.ToStr(vEfectivoEnCaja), "");
+            LibReport.ConfigFieldDec(this, "txtEfectivoEnCajaME", LibConvert.ToStr(vEfectivoEnCajaME), "");
+        }
+
+        private string SqlEfectivoEnCajaCerrada() {
+            StringBuilder vSql = new StringBuilder();
+            QAdvSql insSql = new QAdvSql("");
+            int vConsecutivoCompania = LibGlobalValues.Instance.GetMfcInfo().GetInt("Compania");
+            int vConsecutivoCaja = LibConvert.ToInt(txtConsecutivoCaja.Value);
+            vSql.AppendLine("SELECT");
+            vSql.AppendLine("   SUM(MontoApertura) + SUM(MontoEfectivo) + (SUM(MontoVuelto) + SUM(MontoVueltoPM)) AS EfectivoEnCaja,");
+            vSql.AppendLine("   SUM(MontoAperturaME) + SUM(MontoEfectivoME) + SUM(MontoVueltoME)  AS EfectivoEnCajaME");
+            vSql.AppendLine("   FROM adm.cajaapertura");
+            vSql.AppendLine("   WHERE ");
+            vSql.AppendLine("   ConsecutivoCompania = " + insSql.ToSqlValue(vConsecutivoCompania));
+            vSql.AppendLine("   AND ConsecutivoCaja = " + insSql.ToSqlValue(vConsecutivoCaja));
+            vSql.AppendLine("   AND " + insSql.SqlDateValueBetween("", "Fecha", _FechaDesde, _FechaHasta));
+            vSql.AppendLine("   AND CajaCerrada = " + insSql.ToSqlValue(true));
+            return vSql.ToString();
+        }
 
     } //End of class dsrCajaCerrada
-
 } //End of namespace Galac.Adm.Rpt.Venta
 
