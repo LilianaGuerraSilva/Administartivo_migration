@@ -966,7 +966,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         }
 
         public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, XElement valDatosDelDocumento) {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }
