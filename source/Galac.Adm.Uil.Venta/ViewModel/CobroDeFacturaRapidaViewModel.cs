@@ -341,10 +341,11 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
                 RibbonData.TabDataCollection[0].AddTabGroupData(CreateFormasdePagoRibbonButtonGroup());
                 RibbonData.RemoveRibbonControl("Acciones", "Insertar");
-                var vAccionesGrupo = RibbonData.TabDataCollection[0].GroupDataCollection[0];
-                RibbonData.TabDataCollection[0].GroupDataCollection.Remove(vAccionesGrupo);
-                RibbonData.TabDataCollection[0].GroupDataCollection.Insert(2, vAccionesGrupo);
-                //RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection.Insert(0, CreateInsertarRibbonButtonGroup());
+                if (RibbonData.TabDataCollection[0].GroupDataCollection.Count > 0) {
+                    var vAccionesGrupo = RibbonData.TabDataCollection[0].GroupDataCollection[0];
+                    RibbonData.TabDataCollection[0].GroupDataCollection.Remove(vAccionesGrupo);
+                    RibbonData.TabDataCollection[0].GroupDataCollection.Insert(RibbonData.TabDataCollection[0].GroupDataCollection.Count - 1, vAccionesGrupo);
+                }                
             }
         }
 
