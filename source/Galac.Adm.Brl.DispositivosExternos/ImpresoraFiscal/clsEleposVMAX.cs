@@ -768,6 +768,9 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico) {
             throw new NotImplementedException();
         }
+        public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, XElement valDatosDelDocumento) {
+            throw new NotImplementedException();
+        }
     }
 }
 

@@ -1208,6 +1208,28 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         bool ILibPdn.CanBeChoosen(string valCallingModule, eAccionSR valAction, string valExtendedAction, XmlDocument valXmlRow) {
             throw new NotImplementedException();
         }
+
+        public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, XElement valDatosDelDocumento) {
+            try {
+                bool vResult = true;
+                if (AbrirConexion()) {
+                    string[] vTextBlock = LibString.Split(valTextoNoFiscal, "\r\n");
+                    string vTituloDocumento = LibXml.GetPropertyString(valDatosDelDocumento, "Descripcion");
+                    if (vTextBlock != null && vTextBlock.Count() > 0) {
+                        vResult &= _TfhkPrinter.SendCmd("800" + vTituloDocumento);
+                        foreach (string vLines in vTextBlock) {
+                            vResult = _TfhkPrinter.SendCmd("80!" + vLines);
+                        }
+                        vResult &= _TfhkPrinter.SendCmd("810");
+                    }
+                    CerrarConexion();
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
+        }
+
         #endregion //Propiedades
     }
 }
