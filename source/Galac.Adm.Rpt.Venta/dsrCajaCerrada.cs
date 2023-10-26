@@ -89,8 +89,8 @@ namespace Galac.Adm.Rpt.Venta {
             string vSql = SqlEfectivoEnCajaCerrada();
             XElement vData = LibGalac.Aos.Brl.LibBusiness.ExecuteSelect(vSql, null, "", 0);
             if (vData != null && vData.HasElements) {
-                vEfectivoEnCaja = LibConvert.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCaja"));
-                vEfectivoEnCajaME = LibConvert.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCajaME"));
+                vEfectivoEnCaja = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCaja"), 2);
+                vEfectivoEnCajaME = LibImportData.ToDec(LibXml.GetPropertyString(vData, "EfectivoEnCajaME"), 2);
             }
             LibReport.ConfigFieldDec(this, "txtEfectivoEnCaja", LibConvert.ToStr(vEfectivoEnCaja), "");
             LibReport.ConfigFieldDec(this, "txtEfectivoEnCajaME", LibConvert.ToStr(vEfectivoEnCajaME), "");

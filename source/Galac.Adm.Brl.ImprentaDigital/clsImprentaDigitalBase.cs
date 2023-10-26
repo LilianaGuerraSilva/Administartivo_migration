@@ -433,7 +433,7 @@ namespace Galac.Adm.Brl.ImprentaDigital {
 
         private string LimpiarCaracteresNoValidos(string valInput) {
             string vResult = "";
-            System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r]", System.Text.RegularExpressions.RegexOptions.Compiled);
+            System.Text.RegularExpressions.Regex vListInvalidChars = new System.Text.RegularExpressions.Regex("[´|`|~|^|¨|'|\n|\r|\t]", System.Text.RegularExpressions.RegexOptions.Compiled);
             vResult = vListInvalidChars.Replace(valInput, "");
             return vResult;
         }

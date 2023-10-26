@@ -47,6 +47,7 @@ namespace Galac.Saw.Ccl.SttDef {
         private bool _UsaListaDePrecioEnMonedaExtranjera;
         private bool _UsaListaDePrecioEnMonedaExtranjeraCXC;
         private int _NroDiasMantenerTasaCambio;
+		private bool _UsaMediosElectronicosDeCobro;
         private long _fldTimeStamp;
         XmlDocument _datos;
         #endregion //Variables
@@ -270,6 +271,15 @@ namespace Galac.Saw.Ccl.SttDef {
                 _NroDiasMantenerTasaCambio = value;
             }
         }
+		
+		public bool UsaMediosElectronicosDeCobroAsBool {
+            get { return _UsaMediosElectronicosDeCobro; }
+            set { _UsaMediosElectronicosDeCobro = value; }
+        }
+
+        public string UsaMediosElectronicosDeCobro {
+            set { _UsaMediosElectronicosDeCobro = LibConvert.SNToBool(value); }
+        }
 
         public long fldTimeStamp {
             get { return _fldTimeStamp; }
@@ -317,6 +327,7 @@ namespace Galac.Saw.Ccl.SttDef {
             UsaListaDePrecioEnMonedaExtranjeraAsBool = false;
             UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = false;
             NroDiasMantenerTasaCambio = 0;
+    		UsaMediosElectronicosDeCobroAsBool = false;
             fldTimeStamp = 0;
         }
 
@@ -345,6 +356,7 @@ namespace Galac.Saw.Ccl.SttDef {
             vResult.UsaListaDePrecioEnMonedaExtranjeraAsBool = _UsaListaDePrecioEnMonedaExtranjera;
             vResult.UsaListaDePrecioEnMonedaExtranjeraCXCAsBool = _UsaListaDePrecioEnMonedaExtranjeraCXC;
             vResult.NroDiasMantenerTasaCambio = _NroDiasMantenerTasaCambio;
+			vResult.UsaMediosElectronicosDeCobroAsBool = _UsaMediosElectronicosDeCobro;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
@@ -371,7 +383,8 @@ namespace Galac.Saw.Ccl.SttDef {
                "\nUsar Lista De Precios En Moneda Extranjera = " + _UsaListaDePrecioEnMonedaExtranjera +
                "\nGenerar CxC En Moneda Extranjera = " + _UsaListaDePrecioEnMonedaExtranjeraCXC  +
                "\nMostrar Total En Bolívares Fuertes = " + _MostrarMtoTotalBsFEnObservaciones +
-                "\nNumero De Dias a Mantener Tasa De Cambio = " + _NroDiasMantenerTasaCambio;
+               "\nNumero De Dias a Mantener Tasa De Cambio = " + _NroDiasMantenerTasaCambio +
+			   "\nUsa Medios Electrónicos de Cobro = " + _UsaMediosElectronicosDeCobro;  
         }
         #endregion //Metodos Generados
 

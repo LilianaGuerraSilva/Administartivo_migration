@@ -98,8 +98,11 @@ namespace Galac.Saw.Wrp.MenuBar {
                 vResult = new XElement("Components",
                              new XElement("UilComponents",
                                  new XElement("UilComponent", new XAttribute("Name", "UIMefVentaCaja"), new XAttribute("Module", "Caja")),
-                                 new XElement("UilComponent", new XAttribute("Name", "UIMefVentaCajaApertura"), new XAttribute("Module", "Caja")),
-                                 new XElement("UilComponent", new XAttribute("Name", "UIMefVentaPagosElectronicos"), new XAttribute("Module", "Caja"))));
+                                 new XElement("UilComponent", new XAttribute("Name", "UIMefVentaCajaApertura"), new XAttribute("Module", "Caja"))));
+                if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMediosElectronicosDeCobro")) {
+                    vResult.Element("UilComponents").Add(
+                        new XElement("UilComponent", new XAttribute("Name", "UIMefVentaPagosElectronicos"), new XAttribute("Module", "Caja")));
+                }
                 //vResult.Descendants("UilComponents").Descendants("UilComponent").First().Add(new XElement("UilComponent",new XAttribute("Name","UIMefVentaCaja"),new XAttribute("Module","Caja")));
             } else {
                 vResult = new XElement("Components",
