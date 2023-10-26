@@ -848,6 +848,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                     if (vTotalPagosME > 0) {
                         vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vTotalPagosME, 2), _EnterosMontosLargos, _Decimales2Digitos, ",");
                         vResult = Bematech_FI_IniciaCierreCuponIGTF(vTotalPagosMEConFormato);
+                        vTotalPagosME = valDocumentoFiscal.Descendants("GpResultDetailRenglonCobro").Where(x => LibConvert.ToStr(x.Element("CodigMoneda")) != vCodigoMoneda).Sum(s => LibConvert.ToDec(s.Element("Monto")));
+                        vTotalPagosMEConFormato = LibImpresoraFiscalUtil.DarFormatoNumericoParaImpresion(LibImpresoraFiscalUtil.DecimalToStringFormat(vTotalPagosME, 2), _EnterosMontosLargos, _Decimales2Digitos, ",");
                         vResult = Bematech_FI_EfectuaFormaPagoDescripcionForma("Divisas", vTotalPagosMEConFormato, "");
                     } else {
                         vResult = Bematech_FI_IniciaCierreCuponIGTF("0");

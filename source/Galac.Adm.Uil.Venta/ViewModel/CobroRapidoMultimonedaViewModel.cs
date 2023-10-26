@@ -20,6 +20,8 @@ using Galac.Adm.Ccl.CajaChica;
 using Galac.Adm.IntegracionMS.Venta;
 using Galac.Saw.Ccl.Tablas;
 using System.Linq;
+using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
+using Galac.Adm.Ccl.DispositivosExternos;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
@@ -783,9 +785,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
                     infoAdicional = insVueltoMegasoft.infoAdicional;
-                    numReferencia = insVueltoMegasoft.numeroReferencia;
+                    numReferencia = insVueltoMegasoft.numeroReferencia;                    
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                         ExecuteCobrarCommand();
+                        if (LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName)) {
+                            ImprimirComprobanteNoFiscalAdicional("", new XElement("GpResult"));
+                        }
                     }
                 }
             } catch (System.AccessViolationException) {
@@ -793,6 +798,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             } catch (System.Exception vEx) {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
+        }
+
+        private void ImprimirComprobanteNoFiscalAdicional(string valDescripcion, XElement valDatosDelDocumento) {
+            clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+            IImpresoraFiscalPdn vImpresoraFiscal = vCreatorMaquinaFiscal.Crear(XmlDatosImprFiscal);
+            vImpresoraFiscal.ImprimirDocumentoNoFiscal(valDescripcion, valDatosDelDocumento);
         }
 
         private void ExecuteCobroTDD_TDCCommand() {

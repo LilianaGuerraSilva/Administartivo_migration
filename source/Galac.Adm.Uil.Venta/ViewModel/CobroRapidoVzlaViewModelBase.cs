@@ -12,6 +12,8 @@ using System.Xml.Linq;
 using System.Text;
 using System;
 using System.Reflection;
+using System.Transactions;
+using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public abstract class CobroRapidoVzlaViewModelBase : CobroRapidoViewModelBase {
@@ -27,7 +29,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         public XElement XmlDatosImprFiscal {
-            private get {
+            get {
                 return _XmlDatosImprFiscal;
             }
             set {
@@ -58,7 +60,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 LibGalac.Aos.UI.Mvvm.Messaging.LibMessages.RaiseError.ShowError(vEx);
             }
             return vResult;
-        }
+        }      
 
         private XElement DarFormatoADatosDeFactura(FacturaRapida valFactura, List<RenglonCobroDeFactura> valListDeCobro) {
             _MonedaLocalNav = new Saw.Lib.clsNoComunSaw();
