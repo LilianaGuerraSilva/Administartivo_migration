@@ -105,6 +105,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_AbreComprobanteNoFiscalVinculado(string FormaPago, string Valor, string NumeroCupon);
         [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_AbreComprobanteNoFiscalVinculadoMFD(string FormaPago, string Valor, string NumeroCupon, string CGC, string NombreCliente, string Direccion);
+        [DllImport("BemaFi32.dll")]        
         public static extern int Bematech_FI_ImprimeComprobanteNoFiscalVinculado(string Texto);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_CierraComprobanteNoFiscalVinculado();
@@ -181,6 +183,8 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public static extern int Bematech_FI_VersionFirmwareMFD([MarshalAs(UnmanagedType.VBByRefStr)] ref string FirmwareVersion);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_VersionDll([MarshalAs(UnmanagedType.VBByRefStr)] ref string FirmwareVersion);
+        [DllImport("BemaFi32.dll")]
+        public static extern int Bematech_FI_ImprimeConfiguracionesImpresora();
         #endregion
         #endregion
 
@@ -1449,14 +1453,15 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 bool vResult = false;
                 if (AbrirConexion()) {
                     string[] vTextBlock = LibString.Split(valTextoNoFiscal,"\r\n");
-                    string vTituloDocumento = LibXml.GetPropertyString(valDatosDelDocumento, "Descripcion");
+                    string vFormaDeCobro = LibXml.GetPropertyString(valDatosDelDocumento, "FormaDeCobro");
+                    vFormaDeCobro= FormaDeCobro(vFormaDeCobro);
                     if (vTextBlock != null && vTextBlock.Count() > 0) {
-                        int vRetorno = Bematech_FI_AbreComprobanteNoFiscalVinculado("","","");
-                        foreach (string vLines in vTextBlock) { 
-                        
-                        
+                        int vRetorno = Bematech_FI_AbreComprobanteNoFiscalVinculado(vFormaDeCobro, "","");
+                        foreach (string vLines in vTextBlock) {
+                            vRetorno = Bematech_FI_ImprimeComprobanteNoFiscalVinculado(vLines);
                         }
-                        vRetorno = Bematech_FI_CierraComprobanteNoFiscalVinculado();                    }
+                        vRetorno = Bematech_FI_CierraComprobanteNoFiscalVinculado();                  
+                    }
                     CerrarConexion();
                 }
                 return vResult;
