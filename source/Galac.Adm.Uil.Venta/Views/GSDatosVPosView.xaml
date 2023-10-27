@@ -16,12 +16,13 @@
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Width="200" FocusManager.FocusedElement="{Binding ElementName=txtMonto}">
+    <Grid Width="265" FocusManager.FocusedElement="{Binding ElementName=txtMonto}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -67,6 +68,21 @@
             MaxLength="12"
             Style="{StaticResource TextBoxInputStyle}"
             Text="{Binding Path=CedulaRif, NotifyOnValidationError=True, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="Visible" />
+        <Label
+            Name="tbImprimirComprobante"
+            Grid.Row="2"
+            Grid.Column="0"
+            Width="135"
+            Content="Imprimir Comprobante"
+            Visibility="Visible" />
+        <CheckBox
+            Name="chImprimirComprobante"
+            Grid.Row="2"
+            Grid.Column="1"
+            IsChecked="{Binding Path=ImprimirComprobanteDePago}"
+            IsEnabled="True"
+            Style="{StaticResource CheckBoxStyle}"
             Visibility="Visible" />
     </Grid>
 </UserControl>
