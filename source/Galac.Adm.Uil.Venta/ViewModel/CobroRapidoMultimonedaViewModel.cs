@@ -817,7 +817,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         }
 
         private void ImprimirComprobanteNoFiscalAdicional(string valDescripcion, string valNombreVoucher) {            
-            string vPath = Path.Combine(new PagosElectronicosMngViewModel().RutaMegasoft, valNombreVoucher + ".txt");
+            string vPath = Path.Combine(new PagosElectronicosMngViewModel().RutaMegasoft,"vouchers", valNombreVoucher);
             string vTexto = string.Empty;
             if (LibFile.FileExists(vPath)) {
                 vTexto = LibFile.ReadFile(vPath);

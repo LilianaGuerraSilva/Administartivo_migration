@@ -194,6 +194,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 }
                 return vEstado;
             } catch (Exception vEx) {
+                CerrarConexion();
                 throw new GalacException("Puerto de comunicación no disponible, Revisar Conexiones " + vEx.Message, eExceptionManagementType.Controlled);
             }
         }
