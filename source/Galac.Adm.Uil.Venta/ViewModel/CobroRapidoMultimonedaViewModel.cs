@@ -796,8 +796,6 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteVueltoConPagoMovilCommand() {
             try {
-                IRenglonCobroDeFacturaPdn insRenglonCobroDeFacturaPdn = new clsRenglonCobroDeFacturaNav();
-                string vCodigoFormaDelCobro = insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Deposito);
                 C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
                 if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
