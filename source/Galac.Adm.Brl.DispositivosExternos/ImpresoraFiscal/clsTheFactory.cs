@@ -1209,14 +1209,13 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             throw new NotImplementedException();
         }
 
-        public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, XElement valDatosDelDocumento) {
+        public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, string valDescripcion) {
             try {
                 bool vResult = true;
                 if (AbrirConexion()) {
-                    string[] vTextBlock = LibString.Split(valTextoNoFiscal, "\r\n");
-                    string vTituloDocumento = LibXml.GetPropertyString(valDatosDelDocumento, "Descripcion");
+                    string[] vTextBlock = LibString.Split(valTextoNoFiscal, "\r\n");                    
                     if (vTextBlock != null && vTextBlock.Count() > 0) {
-                        vResult &= _TfhkPrinter.SendCmd("800" + vTituloDocumento);
+                        vResult &= _TfhkPrinter.SendCmd("800" + valDescripcion);                        
                         foreach (string vLines in vTextBlock) {
                             vResult = _TfhkPrinter.SendCmd("80!" + vLines);
                         }

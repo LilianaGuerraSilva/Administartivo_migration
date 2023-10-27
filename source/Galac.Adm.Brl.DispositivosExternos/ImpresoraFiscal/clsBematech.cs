@@ -106,7 +106,7 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
         public static extern int Bematech_FI_AbreComprobanteNoFiscalVinculado(string FormaPago, string Valor, string NumeroCupon);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_AbreComprobanteNoFiscalVinculadoMFD(string FormaPago, string Valor, string NumeroCupon, string CGC, string NombreCliente, string Direccion);
-        [DllImport("BemaFi32.dll")]        
+        [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_ImprimeComprobanteNoFiscalVinculado(string Texto);
         [DllImport("BemaFi32.dll")]
         public static extern int Bematech_FI_CierraComprobanteNoFiscalVinculado();
@@ -1448,28 +1448,30 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             throw new NotImplementedException();
         }
 
-        public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, XElement valDatosDelDocumento) {
+        public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, string valDescripcion) {
             try {
-                bool vResult = false;
+                bool vResult = true;
+                string vMensaje = string.Empty;
+                int vRetorno = 0;
                 if (AbrirConexion()) {
-                    string[] vTextBlock = LibString.Split(valTextoNoFiscal,"\r\n");
-                    string vFormaDeCobro = LibXml.GetPropertyString(valDatosDelDocumento, "FormaDeCobro");
-                    vFormaDeCobro= FormaDeCobro(vFormaDeCobro);
+                    string[] vTextBlock = LibString.Split(valTextoNoFiscal, "\r\n");                    
                     if (vTextBlock != null && vTextBlock.Count() > 0) {
-                        int vRetorno = Bematech_FI_AbreComprobanteNoFiscalVinculado(vFormaDeCobro, "","");
+                        vRetorno = Bematech_FI_InformeGerencial(valDescripcion + "\r\n");
                         foreach (string vLines in vTextBlock) {
-                            vRetorno = Bematech_FI_ImprimeComprobanteNoFiscalVinculado(vLines);
+                            vRetorno = Bematech_FI_InformeGerencial(vLines + "\r\n");
+                            vResult &= RevisarEstadoImpresora(ref vMensaje);
                         }
-                        vRetorno = Bematech_FI_CierraComprobanteNoFiscalVinculado();                  
+                        vRetorno = Bematech_FI_CierraInformeGerencial();
+                        vResult &= RevisarEstadoImpresora(ref vMensaje);
                     }
                     CerrarConexion();
                 }
                 return vResult;
             } catch (Exception) {
+                CerrarConexion();
                 throw;
             }
         }
-
     }
 }
 

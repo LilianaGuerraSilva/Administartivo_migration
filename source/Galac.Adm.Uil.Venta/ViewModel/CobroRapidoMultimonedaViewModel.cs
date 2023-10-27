@@ -22,6 +22,8 @@ using Galac.Saw.Ccl.Tablas;
 using System.Linq;
 using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 using Galac.Adm.Ccl.DispositivosExternos;
+using System.IO;
+using System.Windows;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
@@ -781,15 +783,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         private void ExecuteVueltoConPagoMovilCommand() {
             try {
+                IRenglonCobroDeFacturaPdn insRenglonCobroDeFacturaPdn = new clsRenglonCobroDeFacturaNav();
+                string vCodigoFormaDelCobro = insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.Deposito);
                 C2PMegasoftNav insVueltoMegasoft = new C2PMegasoftNav();
                 if (insVueltoMegasoft.EjecutaProcesarCambioPagoMovil(CodigoCliente, LibMath.Abs(MontoRestantePorPagar))) {
                     VueltoC2p = (MontoRestantePorPagar - VueltoEfectivoMonedaLocal);
                     infoAdicional = insVueltoMegasoft.infoAdicional;
-                    numReferencia = insVueltoMegasoft.numeroReferencia;                    
+                    numReferencia = insVueltoMegasoft.numeroReferencia;
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
                         ExecuteCobrarCommand();
                         if (LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName)) {
-                            ImprimirComprobanteNoFiscalAdicional("", new XElement("GpResult"));
+                            ImprimirComprobanteNoFiscalAdicional(vCodigoFormaDelCobro, "Vuelto con pago móvil", infoAdicional);
                         }
                     }
                 }
@@ -800,11 +804,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
-        private void ImprimirComprobanteNoFiscalAdicional(string valDescripcion, XElement valDatosDelDocumento) {
-            clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
-            IImpresoraFiscalPdn vImpresoraFiscal = vCreatorMaquinaFiscal.Crear(XmlDatosImprFiscal);
-            vImpresoraFiscal.ImprimirDocumentoNoFiscal(valDescripcion, valDatosDelDocumento);
-        }
+        private void ImprimirComprobanteNoFiscalAdicional(string valFormaDeCobro, string valDescripcion, string valNombreVoucher) {
+            PagosElectronicosMngViewModel insPagosElectronicosMngViewModel = new PagosElectronicosMngViewModel();
+            string vPath = Path.Combine(insPagosElectronicosMngViewModel.RutaMegasoft, valNombreVoucher + ".txt");
+            string vTexto = string.Empty;
+            if (LibFile.FileExists(vPath)) {
+                vTexto = LibFile.ReadFile(vPath);
+                clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+                IImpresoraFiscalPdn vImpresoraFiscal = vCreatorMaquinaFiscal.Crear(XmlDatosImprFiscal);              
+                vImpresoraFiscal.ImprimirDocumentoNoFiscal(vTexto, valDescripcion);
+            } else {
+                LibMessages.MessageBox.Information(this, $"el archivo de comprobante: {valNombreVoucher}.txt no fue encontrado", ModuleName);
+            }
+        }       
 
         private void ExecuteCobroTDD_TDCCommand() {
             try {
