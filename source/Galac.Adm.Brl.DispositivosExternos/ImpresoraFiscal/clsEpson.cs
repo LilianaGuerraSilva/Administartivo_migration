@@ -1226,8 +1226,32 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
             throw new NotImplementedException();
         }
         public bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, string valDescripcion) {
-            return true;
+            try {
+                bool vResult = true;
+                string vReq = string.Empty;
+                string vMensaje = string.Empty;
+                if (AbrirConexion()) {
+                    string[] vTextBlock = LibString.Split(valTextoNoFiscal, "\r\n");
+                    if (vTextBlock != null && vTextBlock.Count() > 0) {
+                        vReq = PFAbreNF();
+                        vResult = CheckRequest(vReq, ref vMensaje);
+                        foreach (string vLines in vTextBlock) {
+                            vReq = PFLineaNF(vLines);
+                            vResult &= CheckRequest(vReq, ref vMensaje);
+                        }
+                        vReq = PFCierraNF();
+                        vResult &= CheckRequest(vReq, ref vMensaje);
+                    }
+                    CerrarConexion();
+                }
+                return vResult;
+            } catch (Exception) {
+                throw;
+            }
         }
     }
 }
+
+
+
 

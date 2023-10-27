@@ -1228,7 +1228,6 @@ namespace Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal {
                 throw;
             }
         }
-
         #endregion //Propiedades
     }
 }
