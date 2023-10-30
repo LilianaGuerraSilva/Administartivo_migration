@@ -102,12 +102,6 @@
     <Compile Include="VendedorStt.cs" />
     <Compile Include="VerificadorDePreciosStt.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Galac.Saw.Lib\Galac.Saw.Lib.csproj">
-      <Project>{B04E6942-E0B8-4BA2-90E7-FBF8A95DDC86}</Project>
-      <Name>Galac.Saw.Lib</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

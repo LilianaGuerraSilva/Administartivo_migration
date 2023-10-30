@@ -17,6 +17,7 @@ using Galac.Adm.Ccl.GestionCompras;
 using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 using Galac.Comun.Uil.TablasGen.ViewModel;
+using Galac.Saw.Lib;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
     public class CompraDetalleGastoViewModel : LibInputDetailViewModelMfc<CompraDetalleGasto> {
@@ -263,23 +264,12 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     CodigoMoneda = ConexionCxpNumero.CodigoMoneda;
                     if(vMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda) &&  !vMonedaLocalActual.EsMonedaLocalDelPais(Master.CodigoMoneda)) {
                         Monto = LibMath.RoundToNDecimals(Monto / Master.CambioAMonedaLocal, 2);
-                    } else if(!vMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda) && vMonedaLocalActual.EsMonedaLocalDelPais(Master.CodigoMoneda)) {
-                        decimal vCambio;
-                        bool vExisteCambioDelDía = ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Master.Fecha, out  vCambio);
-                        if(!vExisteCambioDelDía) {
-                            vCambio = 1;
-                            bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","EsModoAvanzado");
-                            bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros","UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                            decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros","MaximoLimitePermitidoParaLaTasaDeCambio");
-                            CambioViewModel vViewModel = new CambioViewModel(CodigoMoneda,vUsarLimiteMaximoParaIngresoDeTasaDeCambio,vMaximoLimitePermitidoParaLaTasaDeCambio,vElProgramaEstaEnModoAvanzado);                            
-                            vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                            vViewModel.FechaDeVigencia = Master.Fecha;
-                            vViewModel.IsEnabledFecha = vViewModel.IsEnabledMoneda = false;
-                            bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                            if(vResult) {
-                                ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Master.Fecha, out vCambio);
-                            }
-                        }
+                    } else if(!vMonedaLocalActual.EsMonedaLocalDelPais(CodigoMoneda) && vMonedaLocalActual.EsMonedaLocalDelPais(Master.CodigoMoneda)) {                        
+                        bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                        bool  vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                        int vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                        bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
+                        decimal vCambio = clsSawCambio.InsertaTasaDeCambioParaElDia(CodigoMoneda, Master.Fecha, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
                         Monto = LibMath.RoundToNDecimals(Monto * vCambio, 2);
                     }
                 } else {

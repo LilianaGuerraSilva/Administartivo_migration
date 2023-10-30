@@ -15,6 +15,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Galac.Saw.Reconv;
+using Galac.Saw.Lib;
 
 namespace Galac.Saw.Uil.Inventario.ViewModel {
     public class VerificadorDePreciosViewModel : LibGenericViewModel, ILibInputViewModel {
@@ -525,32 +526,20 @@ namespace Galac.Saw.Uil.Inventario.ViewModel {
         }
 
         public bool AsignaTasaDelDia() {
-            var vFechaActual = LibDate.Today();
-            decimal vTasa = 1;
+            var vFechaActual = LibDate.Today();            
             bool vResult = false;
             if (ConexionMonedaDivisa != null) {
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMonedaDivisa, vFechaActual, out vTasa)) {
-                    _Tasa = vTasa;
-                    vResult = true;
-                } else {
-                    bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
-                    bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
-                    CambioViewModel vViewModel = new CambioViewModel(CodigoMonedaDivisa, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado);
-                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    vViewModel.OnCambioAMonedaLocalChanged += (cambio) => _Tasa = cambio;
-                    vViewModel.FechaDeVigencia = vFechaActual;
-                    vViewModel.CodigoMoneda = ConexionMonedaDivisa.Codigo;
-                    vViewModel.NombreMoneda = ConexionMonedaDivisa.Nombre;
-                    vViewModel.IsEnabledFecha = false;
-                    vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                    if (!vResult) {
-                        vResult = false;
-                        LibMessages.MessageBox.Alert(this, "No puede continuar sin haber introducido una tasa.", "No hay tasa asignada");
-                    }
+                bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
+                decimal vCambio = clsSawCambio.InsertaTasaDeCambioParaElDia(CodigoMonedaDivisa, vFechaActual, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
+                _Tasa = vCambio;
+                vResult = vCambio > 0;
+                if (!vResult) {
+                    vResult = false;
+                    LibMessages.MessageBox.Alert(this, "No puede continuar sin haber introducido una tasa.", "No hay tasa asignada");
                 }
-            } else {
-                LibMessages.MessageBox.Alert(this, "No puede continuar sin haber introducido una tasa.", "No hay tasa asignada");
             }
             return vResult;
         }
