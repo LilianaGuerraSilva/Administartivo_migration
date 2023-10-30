@@ -31,7 +31,7 @@ using Galac.Comun.Ccl.TablasGen;
 using Galac.Comun.Brl.TablasGen;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
-    public class CobroDeFacturaRapidaViewModel : CobroRapidoVzlaViewModelBase {
+    public class CobroDeFacturaRapidaViewModel: CobroRapidoVzlaViewModelBase {
 
         #region Constantes
 
@@ -307,6 +307,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         #region Metodos Generados
 
+
         protected override void InitializeCommands() {
             base.InitializeCommands();
             CobroEfectivoCommand = new RelayCommand(ExecuteCobroEfectivoCommand, CanExecuteCobroEfectivoCommand);
@@ -339,12 +340,13 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         protected override void InitializeRibbon() {
             base.InitializeRibbon();
             if (RibbonData.TabDataCollection != null && RibbonData.TabDataCollection.Count > 0) {
-                RibbonData.TabDataCollection[0].AddTabGroupData(CreateFormasdePagoRibbonButtonGroup());
-                RibbonData.RemoveRibbonControl("Acciones", "Insertar");
-                var vAccionesGrupo = RibbonData.TabDataCollection[0].GroupDataCollection[0];
-                RibbonData.TabDataCollection[0].GroupDataCollection.Remove(vAccionesGrupo);
-                RibbonData.TabDataCollection[0].GroupDataCollection.Insert(2, vAccionesGrupo);
-                //RibbonData.TabDataCollection[0].GroupDataCollection[0].ControlDataCollection.Insert(0, CreateInsertarRibbonButtonGroup());
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateCobrarRibbonButtonGroup());
+                RibbonData.TabDataCollection[0].AddTabGroupData(CreateFormasdePagoRibbonButtonGroup());               
+                if (RibbonData.TabDataCollection[0].GroupDataCollection.Count > 0) {
+                    var vAccionesGrupo = RibbonData.TabDataCollection[0].GroupDataCollection[1];
+                    RibbonData.TabDataCollection[0].GroupDataCollection.Remove(vAccionesGrupo);
+                    RibbonData.TabDataCollection[0].GroupDataCollection.Insert(RibbonData.TabDataCollection[0].GroupDataCollection.Count, vAccionesGrupo);
+                }
             }
         }
 
@@ -435,6 +437,20 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 ToolTipTitle = "Cobro con Anticipo",
                 IsVisible = true,
                 KeyTip = "F5"
+            });
+            return vResult;
+        }
+
+        private LibRibbonGroupData CreateCobrarRibbonButtonGroup() {
+            LibRibbonGroupData vResult = new LibRibbonGroupData("Comandos");
+            vResult.ControlDataCollection.Add(new LibRibbonButtonData() {
+                Label = "Cobrar",
+                Command = CobrarCommand,
+                LargeImage = new Uri("/Galac.Adm.Uil.Venta;component/Images/F6.png", UriKind.Relative),
+                ToolTipDescription = "Guarda los cambios en " + ModuleName + ".",
+                ToolTipTitle = "Ejecutar Acción (F6)",
+                IsVisible = true,
+                KeyTip = "F6"
             });
             return vResult;
         }

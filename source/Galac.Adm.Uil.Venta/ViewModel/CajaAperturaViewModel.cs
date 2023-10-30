@@ -39,7 +39,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoChequePropertyName = "MontoCheque";
         const string MontoDepositoPropertyName = "MontoDeposito";
         const string MontoAnticipoPropertyName = "MontoAnticipo";
-        public const string MontoVueltoPropertyName = "MontoVuelto";
+        const string MontoVueltoPropertyName = "MontoVuelto";
+        const string MontoVueltoPMPropertyName = "MontoVueltoPM";
         const string FechaPropertyName = "Fecha";
         const string HoraAperturaPropertyName = "HoraApertura";
         const string HoraCierrePropertyName = "HoraCierre";
@@ -54,7 +55,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         const string MontoChequeMEPropertyName = "MontoChequeME";
         const string MontoDepositoMEPropertyName = "MontoDepositoME";
         const string MontoAnticipoMEPropertyName = "MontoAnticipoME";
-        public const string MontoVueltoMEPropertyName = "MontoVueltoME";
+        const string MontoVueltoMEPropertyName = "MontoVueltoME";
         const string NombreOperadorPropertyName = "NombreOperador";
         const string FechaUltimaModificacionPropertyName = "FechaUltimaModificacion";
         private FkCajaViewModel _ConexionNombreCaja = null;
@@ -275,6 +276,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 if (Model.MontoVuelto != value) {
                     Model.MontoVuelto = value;
                     RaisePropertyChanged(MontoVueltoPropertyName);
+                }
+            }
+        }
+        public decimal MontoVueltoPM {
+            get {
+                return Model.MontoVueltoPM;
+            }
+            set {
+                if (Model.MontoVueltoPM != value) {
+                    Model.MontoVueltoPM = value;
+                    RaisePropertyChanged(MontoVueltoPMPropertyName);
                 }
             }
         }
@@ -986,7 +998,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 MontoDeposito = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoDeposito"));
                 MontoAnticipo = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoAnticipo"));
                 MontoVuelto = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVuelto"));
-                MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo + MontoVuelto;
+                MontoVueltoPM = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoVueltoPM"));
+                MontoCierre = MontoApertura + MontoEfectivo + MontoTarjeta + MontoCheque + MontoDeposito + MontoAnticipo + MontoVuelto + MontoVueltoPM;
                 MontoEfectivoME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoEfectivoME"));
                 MontoTarjetaME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoTarjetaME"));
                 MontoChequeME = LibImportData.ToDec(LibXml.GetPropertyString(vReq, "MontoChequeME"));
@@ -1011,60 +1024,21 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
 
         public bool AsignaTasaDelDia(string valCodigoMoneda) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
-            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
-                decimal vTasa = 1;
+            if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {                
                 ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMoneda = ConexionMoneda.Codigo;
                 Moneda = ConexionMoneda.Nombre;
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Fecha, out vTasa)) {
-                    Cambio = vTasa;
-                    return true;
-                } else {
-                    bool vElProgramaEstaEnModoAvanzado = false;
-                    bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
-                    decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado);
-                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
-                    vViewModel.FechaDeVigencia = Fecha;
-                    vViewModel.CodigoMoneda = CodigoMoneda;
-                    vViewModel.NombreMoneda = Moneda;
-                    vViewModel.IsEnabledFecha = false;
-                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                    if (!vResult) {
-                        if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
-                            return false;
-                        }
-                        AsignarValoresDeMonedaPorDefecto();
-                    }
-                    return true;
-                }
+                bool vElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+                bool vUsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+                decimal vMaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+                bool vObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
+                Cambio = clsSawCambio.InsertaTasaDeCambioParaElDia(valCodigoMoneda, LibDate.Today(), vUsarLimiteMaximoParaIngresoDeTasaDeCambio, vMaximoLimitePermitidoParaLaTasaDeCambio, vElProgramaEstaEnModoAvanzado, vObtenerAutomaticamenteTasaDeCambioDelBCV);
+                return Cambio > 0;                
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
                 Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
                 Cambio = 1;
                 return true;
-            }
-        }
-
-        private void CambioChanged(decimal valCambio) {
-            Cambio = valCambio;
-        }
-
-        private void AsignarValoresDeMonedaPorDefecto() {
-            if (_UsaCobroMultimoneda) {
-                ConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", CodigoMoneda));
-                CodigoMoneda = ConexionMoneda.Codigo;
-                Moneda = ConexionMoneda.Nombre;
-                if (LibString.S1IsEqualToS2(CodigoMoneda, _CodigoMEInicial)) {
-                    Cambio = 1;
-                } else {
-                    AsignaTasaDelDia(_CodigoMEInicial);
-                }
-            } else {
-                CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
-                Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
-                Cambio = 1;
             }
         }
 

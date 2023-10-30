@@ -18,13 +18,13 @@ namespace Galac.Saw.Ccl.SttDef {
         private string _Module = null;
         private string _CodigoMonedaLocal;
         private string _NombreMonedaLocal;
-        private bool _UsaMonedaExtranjera;
-        private eTipoDeSolicitudDeIngresoDeTasaDeCambio _SolicitarIngresoDeTasaDeCambioAlEmitir;
+        private bool _UsaMonedaExtranjera;       
         private string _CodigoMonedaExtranjera;
         private string _NombreMonedaExtranjera;
         private bool _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
         private bool _UsarLimiteMaximoParaIngresoDeTasaDeCambio;
         private decimal _MaximoLimitePermitidoParaLaTasaDeCambio;
+        private bool _ObtenerAutomaticamenteTasaDeCambioDelBCV;
         private long _fldTimeStamp;
         XmlDocument _datos;
 
@@ -59,24 +59,7 @@ namespace Galac.Saw.Ccl.SttDef {
 
         public string UsaMonedaExtranjera {
             set { _UsaMonedaExtranjera = LibConvert.SNToBool(value); }
-        }
-
-        public eTipoDeSolicitudDeIngresoDeTasaDeCambio SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum {
-            get { return _SolicitarIngresoDeTasaDeCambioAlEmitir; }
-            set { _SolicitarIngresoDeTasaDeCambioAlEmitir = value; }
-        }
-
-        public string SolicitarIngresoDeTasaDeCambioAlEmitir {
-            set { _SolicitarIngresoDeTasaDeCambioAlEmitir = (eTipoDeSolicitudDeIngresoDeTasaDeCambio)LibConvert.DbValueToEnum(value); }
-        }
-
-        public string SolicitarIngresoDeTasaDeCambioAlEmitirAsDB {
-            get { return LibConvert.EnumToDbValue((int)_SolicitarIngresoDeTasaDeCambioAlEmitir); }
-        }
-
-        public string SolicitarIngresoDeTasaDeCambioAlEmitirAsString {
-            get { return LibEnumHelper.GetDescription(_SolicitarIngresoDeTasaDeCambioAlEmitir); }
-        }
+        }        
 
         public string CodigoMonedaExtranjera {
             get { return _CodigoMonedaExtranjera; }
@@ -97,6 +80,15 @@ namespace Galac.Saw.Ccl.SttDef {
             get { return _UsarLimiteMaximoParaIngresoDeTasaDeCambio; }
             set { _UsarLimiteMaximoParaIngresoDeTasaDeCambio = value; }
         }
+
+
+        public bool ObtenerAutomaticamenteTasaDeCambioDelBCV
+        {
+            get { return _ObtenerAutomaticamenteTasaDeCambioDelBCV; }
+            set { _ObtenerAutomaticamenteTasaDeCambioDelBCV = value; }
+        }
+
+
 
         public decimal MaximoLimitePermitidoParaLaTasaDeCambio {
             get { return _MaximoLimitePermitidoParaLaTasaDeCambio; }
@@ -133,13 +125,13 @@ namespace Galac.Saw.Ccl.SttDef {
         public void Clear() {
             CodigoMonedaLocal = "";
             NombreMonedaLocal = "";
-            UsaMonedaExtranjeraAsBool = false;
-            SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = eTipoDeSolicitudDeIngresoDeTasaDeCambio.SiempreAlEmitirPrimeraFactura;
+            UsaMonedaExtranjeraAsBool = false;           
             CodigoMonedaExtranjera = "";
             NombreMonedaExtranjera = "";
             UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = false;
             UsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
             MaximoLimitePermitidoParaLaTasaDeCambio = 30m;
+            ObtenerAutomaticamenteTasaDeCambioDelBCV = false;
             fldTimeStamp = 0;
         }
 
@@ -147,13 +139,13 @@ namespace Galac.Saw.Ccl.SttDef {
             MonedaStt vResult = new MonedaStt();
             vResult.CodigoMonedaLocal = _CodigoMonedaLocal;
             vResult.NombreMonedaLocal = _NombreMonedaLocal;
-            vResult.UsaMonedaExtranjeraAsBool = _UsaMonedaExtranjera;
-            vResult.SolicitarIngresoDeTasaDeCambioAlEmitirAsEnum = _SolicitarIngresoDeTasaDeCambioAlEmitir;
+            vResult.UsaMonedaExtranjeraAsBool = _UsaMonedaExtranjera;         
             vResult.CodigoMonedaExtranjera = _CodigoMonedaExtranjera;
             vResult.NombreMonedaExtranjera = _NombreMonedaExtranjera;
             vResult.UsaDivisaComoMonedaPrincipalDeIngresoDeDatosAsBool = _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos;
             vResult.UsarLimiteMaximoParaIngresoDeTasaDeCambio = _UsarLimiteMaximoParaIngresoDeTasaDeCambio;
             vResult.MaximoLimitePermitidoParaLaTasaDeCambio = _MaximoLimitePermitidoParaLaTasaDeCambio;
+            vResult.ObtenerAutomaticamenteTasaDeCambioDelBCV = _ObtenerAutomaticamenteTasaDeCambioDelBCV;
             vResult.fldTimeStamp = _fldTimeStamp;
             return vResult;
         }
@@ -161,13 +153,13 @@ namespace Galac.Saw.Ccl.SttDef {
         public override string ToString() {
             return "Código = " + _CodigoMonedaLocal +
                 "\nNombre Moneda Local = " + _NombreMonedaLocal +
-                "\nUsa Moneda Extranjera = " + _UsaMonedaExtranjera +
-                "\nSolicitar Ingreso De Tasa De Cambio Al Emitir = " + _SolicitarIngresoDeTasaDeCambioAlEmitir.ToString() +
+                "\nUsa Moneda Extranjera = " + _UsaMonedaExtranjera + 
                 "\nCodigo Moneda Extranjera = " + _CodigoMonedaExtranjera +
                 "\nNombre Moneda Extranjera = " + _NombreMonedaExtranjera +
                 "\nUsa Divisa como Moneda Principal de Ingreso de Datos = " + _UsaDivisaComoMonedaPrincipalDeIngresoDeDatos +
                 "\nUsar Limite Máximo Para Ingreso De Tasa De Cambio = " + _UsarLimiteMaximoParaIngresoDeTasaDeCambio +
-                 "\nMáximo Limite Permitido Para La Tasa De Cambio = " + _MaximoLimitePermitidoParaLaTasaDeCambio;
+                "\nMáximo Limite Permitido Para La Tasa De Cambio = " + _MaximoLimitePermitidoParaLaTasaDeCambio +
+                "\nObtenerAutomaticamenteTasaDeCambioDelBCV  = " + _ObtenerAutomaticamenteTasaDeCambioDelBCV;
         }
         #endregion //Metodos Generados
     } //End of class MonedaStt

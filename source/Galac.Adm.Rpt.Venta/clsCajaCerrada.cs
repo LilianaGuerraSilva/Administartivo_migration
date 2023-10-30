@@ -14,7 +14,6 @@ namespace Galac.Adm.Rpt.Venta {
 
     public class clsCajaCerrada: LibRptBaseMfc {
         #region Propiedades
-
         protected DataTable Data { get; set; }
         DateTime FechaDesde { get; set; }
         DateTime FechaHasta { get; set; }
@@ -39,11 +38,11 @@ namespace Galac.Adm.Rpt.Venta {
             Dictionary<string, string> vParams = new Dictionary<string, string>();
             vParams.Add("NombreCompania", AppMemoryInfo.GlobalValuesGetString("Compania", "Nombre"));
             vParams.Add("TituloInforme", vTitulo);
-        #region Codigo Ejemplo
-        /* Codigo de Ejemplo
-            vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
-        */
-        #endregion //Codigo Ejemplo
+            #region Codigo Ejemplo
+            /* Codigo de Ejemplo
+                vParams.Add("FechaInicialYFinal", string.Format("{0} al {1}", LibConvert.ToStr(FechaDesde, "dd/MM/yyyy"), LibConvert.ToStr(FechaHasta, "dd/MM/yyyy")));
+            */
+            #endregion //Codigo Ejemplo
             return vParams;
         }
 
@@ -69,9 +68,6 @@ namespace Galac.Adm.Rpt.Venta {
             WorkerReportProgress(100, "Finalizando...");
         }
         #endregion //Metodos Generados
-
-
     } //End of class clsCajaCerrada
-
 } //End of namespace Galac.Adm.Rpt.Venta
 

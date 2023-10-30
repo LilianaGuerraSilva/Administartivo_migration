@@ -8,7 +8,7 @@ namespace Galac.Saw.Wrp.Venta {
         void InitializeComponent(string vfwLogin, string vfwPassword, string vfwPath);
         void InitializeContext(string vfwInfo);
         void InitializeDefProg(string vfwProgramInitials, string vfwProgramVersion, string vfwDbVersion, string vfwStrDateOfVersion, string vfwStrHourOfVersion, string vfwValueSpecialCharacteristic, string vfwCountry, string vfwCMTO, bool vfwUsePASOnLine);
-        string CobrarFacturaEnMultimoneda(int valConsecutivoCompania, string NumeroDeFactura, string valFechaDelDocumento, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDeFactura, string valCodigoMonedaDeCobro, string valTipoDeContribuyenteDelIva, string vfwCurrentParameters, ref string refIGTFParameters);
+        string CobrarFacturaEnMultimoneda(int valConsecutivoCompania, string NumeroDeFactura, string valFechaDelDocumento, decimal valTotalFactura, string valTipoDeDocumento, string valCodigoMonedaDeFactura, string valCodigoMonedaDeCobro, string valTipoDeContribuyenteDelIva, string vfwCurrentParameters, ref string refIGTFParameters, string valCedulaRif);
         string GenerarCobranzaYMovimientoBancarioDeCobroEnMultimoneda(int valConsecutivoCompania, string valNumeroFactura, string valTipoDeDocumento, string vfwCurrentParameters);       
     }
 }

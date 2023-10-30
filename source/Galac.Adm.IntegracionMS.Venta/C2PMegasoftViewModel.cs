@@ -213,11 +213,11 @@ namespace Galac.Adm.IntegracionMS.Venta {
                 string vCodigoBanco = LibText.Mid(LibEnumHelper.GetDescription(Banco), 0, 4);
                 string vVuelto = LibConvert.NumberWithCommasAndDot(Vuelto, LibConvert.ToByte(Vuelto.ToString().Length+1) , 2, eAlignmentType.Right).Replace(",","");
                 string vNumeroControl = "";
-                LibResponse vResult = megasoftNav.EjecutaCambioPagoMovil(vCedula, vTelefono, vCodigoBanco, vVuelto, NroFactura, ref vNumeroControl);
-                if (vResult != null) {
-                    EstadoProceso = vResult.Success;
-                    NumeroControl = vNumeroControl;
-                }
+                //LibResponse vResult = megasoftNav.EjecutaCambioPagoMovil(vCedula, vTelefono, vCodigoBanco, vVuelto, NroFactura, ref vNumeroControl);
+                //if (vResult != null) {
+                //    EstadoProceso = vResult.Success;
+                //    NumeroControl = vNumeroControl;
+                //}
                 RaiseRequestCloseEvent();
             } catch (System.AccessViolationException) {
                 throw;

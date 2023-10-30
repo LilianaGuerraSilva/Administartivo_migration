@@ -25,7 +25,7 @@ using Galac.Saw.Lib;
 using System.Text;
 
 namespace Galac.Adm.Uil.GestionCompras.ViewModel {
-    public class CompraViewModel : LibInputMasterViewModelMfc<Compra> {
+    public class CompraViewModel: LibInputMasterViewModelMfc<Compra> {
 
         #region Constantes y Variables
 
@@ -84,7 +84,8 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public event EventHandler AjustaColumnasSegunTipoEvent;
         bool _ElProgramaEstaEnModoAvanzado = false;
         bool _UsarLimiteMaximoParaIngresoDeTasaDeCambio = false;
-        int _MaximoLimitePermitidoParaLaTasaDeCambio = 0;
+        decimal _MaximoLimitePermitidoParaLaTasaDeCambio = 0;
+        bool _ObtenerAutomaticamenteTasaDeCambioDelBCV = false;
         #endregion //Constantes y Variables
 
         #region Propiedades
@@ -1048,6 +1049,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             Model.ConsecutivoCompania = Mfc.GetInt("Compania");
             ActualizarNumeroYCodigoProveedorOriginal();
             DecimalesTasaDeCambio = LibDefGen.ProgramInfo.IsCountryPeru() ? 3 : 4;
+            _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
+            _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
+            _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetDecimal("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
+            _ObtenerAutomaticamenteTasaDeCambioDelBCV = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "ObtenerAutomaticamenteTasaDeCambioDelBCV");
             InitializeDetails();
         }
 
@@ -1070,7 +1075,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 if (vIsClosingOriginal) {
                     IsClosing = false;
                 }
-                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaSegunModulo));                
+                ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", vCodigoMonedaSegunModulo));
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
                 Moneda = ConexionCodigoMoneda.Nombre;
                 CambioAMonedaLocal = 1;
@@ -1111,7 +1116,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             LibBusinessProcess.Register(this, "MensajeDeRecalcularSiEsElCaso", EjecutarProcesosMensajeDeRecalcularSiEsElCaso);
             RaiseMoveFocus(DefaultFocusedPropertyName);
             IsEnabledOrdenDeCompra = VieneDeOrdenDeCompra;
-            AsignarMensajeDeGeneracionOActualizacionDeCxP();            
+            AsignarMensajeDeGeneracionOActualizacionDeCxP();
         }
 
         protected override void InitializeCommands() {
@@ -1573,7 +1578,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                 ConexionMonedaCostoUltimaCompra = ChooseRecord<FkMonedaViewModel>("Moneda", vDefaultCriteria, vFixedCriteria, string.Empty);
                 if (ConexionMonedaCostoUltimaCompra != null) {
                     if (LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") && LibString.S1IsEqualToS2(CodigoMoneda, ConexionMonedaCostoUltimaCompra.Codigo)) {
-                        LibMessages.MessageBox.Information(this, $"La moneda para el costo ({  ConexionMonedaCostoUltimaCompra.Nombre  }) no debe ser igual a la moneda de la compra ({ Moneda })", "");
+                        LibMessages.MessageBox.Information(this, $"La moneda para el costo ({ConexionMonedaCostoUltimaCompra.Nombre}) no debe ser igual a la moneda de la compra ({Moneda})", "");
                         CodigoMonedaCostoUltimaCompra = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "CodigoMonedaExtranjera");
                         ConexionMonedaCostoUltimaCompra = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteria("Codigo", CodigoMonedaCostoUltimaCompra));
                         MonedaCostoUltimaCompra = ConexionMonedaCostoUltimaCompra.Nombre;
@@ -1685,7 +1690,7 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     decimal vTotalMontoDistribucion = DetailCompraDetalleArticuloInventario.Items.Sum(p => p.MontoDistribucion);
                     decimal vTotalGastos = DetailCompraDetalleGasto.Items.Sum(p => p.Monto);
                     if (vTotalMontoDistribucion != vTotalGastos) {
-                        vResult = new ValidationResult("El Monto Distribuido (" + 
+                        vResult = new ValidationResult("El Monto Distribuido (" +
                             LibConvert.NumToString(vTotalMontoDistribucion, 2) + DeterminarSimboloDeLaMoneda() + ") debe ser igual al Monto Total de los Gastos(" +
                             LibConvert.NumToString(vTotalGastos, 2) + DeterminarSimboloDeLaMoneda() + ").");
                     }
@@ -1903,33 +1908,17 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         public bool AsignaTasaDelDia(string valCodigoMoneda) {
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (!vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda)) {
-                decimal vTasa = 1;
                 ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
                 CodigoMoneda = ConexionCodigoMoneda.Codigo;
-                Moneda = ConexionCodigoMoneda.Nombre;
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(CodigoMoneda, Fecha, out vTasa)) {
-                    CambioAMonedaLocal = vTasa;
-                    return true;
-                } else {
-                    _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
-                    _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                    _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado);
-                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    vViewModel.OnCambioAMonedaLocalChanged += CambioChanged;
-                    vViewModel.FechaDeVigencia = Fecha;
-                    vViewModel.CodigoMoneda = CodigoMoneda;
-                    vViewModel.NombreMoneda = Moneda;
-                    vViewModel.IsEnabledFecha = false;
-                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                    if (!vResult) {
-                        if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
-                            return false;
-                        }
-                        AsignarValoresDeMonedaPorDefecto();
+                Moneda = ConexionCodigoMoneda.Nombre;                
+                CambioAMonedaLocal = clsSawCambio.InsertaTasaDeCambioParaElDia(CodigoMoneda, Fecha, _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado, _ObtenerAutomaticamenteTasaDeCambioDelBCV);
+                if (CambioAMonedaLocal == 0) {
+                    if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                        return false;
                     }
-                    return true;
+                    AsignarValoresDeMonedaPorDefecto();
                 }
+                return true;
             } else {
                 CodigoMoneda = vMonedaLocal.InstanceMonedaLocalActual.CodigoMoneda(Fecha);
                 Moneda = vMonedaLocal.InstanceMonedaLocalActual.NombreMoneda(Fecha);
@@ -1938,13 +1927,6 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
             }
         }
 
-        private void CambioChanged(decimal valCambio) {
-            CambioAMonedaLocal = valCambio;
-        }
-
-        private void CambioUltimaCompraChanged(decimal valCambio) {
-            CambioCostoUltimaCompra = valCambio;
-        }
         private void AsignarValoresDeMonedaPorDefecto() {
             if (TipoDeCompra == eTipoCompra.Importacion) {
                 ConexionCodigoMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", "USD"));
@@ -1980,20 +1962,21 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         private decimal EscogerTasaDeCambioParaLaConversion() {
+            bool vExisteCambioDelDia = false;
+            decimal vCambioDelDia = 1;            
             decimal vCambioResult = 1;
             if (Fecha == ConexionNumeroDeOrdenDeCompra.Fecha
                 && !vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(ConexionNumeroDeOrdenDeCompra.CodigoMoneda)) {
                 vCambioResult = ConexionNumeroDeOrdenDeCompra.CambioABolivares;
             } else if (Fecha != ConexionNumeroDeOrdenDeCompra.Fecha
                 && !vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(ConexionNumeroDeOrdenDeCompra.CodigoMoneda)) {
-                decimal vCambioDelDía = 1;
-                bool vExisteCambioDelDía = ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(ConexionNumeroDeOrdenDeCompra.CodigoMoneda, Fecha, out vCambioDelDía);
+                bool vExisteCambioDelDía = ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(ConexionNumeroDeOrdenDeCompra.CodigoMoneda, Fecha, out vCambioDelDia);                
                 StringBuilder vMessage = new StringBuilder();
                 vMessage.AppendLine($"La Orden de Compra {ConexionNumeroDeOrdenDeCompra.Numero}, realizada con moneda {ConexionNumeroDeOrdenDeCompra.Moneda} el día {ConexionNumeroDeOrdenDeCompra.Fecha.ToShortDateString()}, ");
-                vMessage.Append($"fue registrada con una Tasa de Cambio de {LibConvert.ToStr(ConexionNumeroDeOrdenDeCompra.CambioABolivares, 4)}. ");
-                if (vExisteCambioDelDía) {
+                vMessage.Append($"fue registrada con una Tasa de Cambio de {LibConvert.ToStr(ConexionNumeroDeOrdenDeCompra.CambioABolivares, 4)}. ");                
+                if (vExisteCambioDelDia) {
                     vMessage.Append($"Para el día de hoy la Tasa de Cambio de la moneda {ConexionNumeroDeOrdenDeCompra.Moneda} " +
-                        $"es de {LibConvert.ToStr(vCambioDelDía, 2)}");
+                        $"es de {LibConvert.ToStr(vCambioDelDia, 2)}");
                     vMessage.AppendLine();
                     vMessage.AppendLine();
                     vMessage.AppendLine("¿Desea realizar la conversíón de los montos con la tasa de Cambio del día?");
@@ -2003,22 +1986,10 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
                     vMessage.AppendLine("¿Desea ingresar la Tasa de Cambio del día de hoy para realizar la conversión de los montos con la tasa de día?");
                 }
                 if (LibMessages.MessageBox.YesNo(this, vMessage.ToString(), "")) {
-                    if (vExisteCambioDelDía) {
-                        vCambioResult = vCambioDelDía;
+                    if (vExisteCambioDelDia) {
+                        vCambioResult = vCambioDelDia;
                     } else {
-                        _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
-                        _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                        _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
-                        CambioViewModel vViewModel = new CambioViewModel(ConexionNumeroDeOrdenDeCompra.CodigoMoneda, _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado);
-                        vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                        vViewModel.FechaDeVigencia = LibDate.Today();
-                        vViewModel.IsEnabledFecha = false;
-                        bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                        if (!vResult) {
-                            vCambioResult = 0;
-                        } else {
-                            ((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(ConexionNumeroDeOrdenDeCompra.CodigoMoneda, Fecha, out vCambioResult);
-                        }
+                        vCambioResult = clsSawCambio.InsertaTasaDeCambioParaElDia(ConexionNumeroDeOrdenDeCompra.CodigoMoneda, LibDate.Today(), _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado, _ObtenerAutomaticamenteTasaDeCambioDelBCV);
                     }
                 } else {
                     vCambioResult = ConexionNumeroDeOrdenDeCompra.CambioABolivares;
@@ -2059,38 +2030,27 @@ namespace Galac.Adm.Uil.GestionCompras.ViewModel {
         }
 
         private bool AsignaTasaCostoUltimaCompraDelDia(string valCodigoMoneda) {
+            bool vResult = false;
             bool vUsaMonedaExtranejera = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaMonedaExtranjera") || LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsaListaDePrecioEnMonedaExtranjera");
             vMonedaLocal.InstanceMonedaLocalActual.CargarTodasEnMemoriaYAsignarValoresDeLaActual(LibDefGen.ProgramInfo.Country, LibDate.Today());
             if (vMonedaLocal.InstanceMonedaLocalActual.EsMonedaLocalDelPais(valCodigoMoneda) || !vUsaMonedaExtranejera) {
                 CambioCostoUltimaCompra = 1;
                 return true;
             } else {
-                decimal vTasa = 1;
-                FkMonedaViewModel vConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));
-                if (((ICambioPdn)new clsCambioNav()).ExisteTasaDeCambioParaElDia(vConexionMoneda.Codigo, Fecha, out vTasa)) {
-                    CambioCostoUltimaCompra = vTasa;
-                    return true;
-                } else {
-                    _ElProgramaEstaEnModoAvanzado = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "EsModoAvanzado");
-                    _UsarLimiteMaximoParaIngresoDeTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetBool("Parametros", "UsarLimiteMaximoParaIngresoDeTasaDeCambio");
-                    _MaximoLimitePermitidoParaLaTasaDeCambio = LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetInt("Parametros", "MaximoLimitePermitidoParaLaTasaDeCambio");
-                    CambioViewModel vViewModel = new CambioViewModel(valCodigoMoneda, _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado);
-                    vViewModel.InitializeViewModel(eAccionSR.Insertar);
-                    vViewModel.OnCambioAMonedaLocalChanged += CambioUltimaCompraChanged;
-                    vViewModel.FechaDeVigencia = Fecha;
-                    vViewModel.CodigoMoneda = vConexionMoneda.Codigo;
-                    vViewModel.NombreMoneda = vConexionMoneda.Nombre;
-                    vViewModel.IsEnabledFecha = false;
-                    bool vResult = LibMessages.EditViewModel.ShowEditor(vViewModel, true);
-                    if (!vResult) {
-                        if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
-                            return false;
-                        }
-                        CambioCostoUltimaCompra = 1;
+                FkMonedaViewModel vConexionMoneda = FirstConnectionRecordOrDefault<FkMonedaViewModel>("Moneda", LibSearchCriteria.CreateCriteriaFromText("Codigo", valCodigoMoneda));                
+                CambioCostoUltimaCompra = clsSawCambio.InsertaTasaDeCambioParaElDia(valCodigoMoneda, Fecha, _UsarLimiteMaximoParaIngresoDeTasaDeCambio, _MaximoLimitePermitidoParaLaTasaDeCambio, _ElProgramaEstaEnModoAvanzado, _ObtenerAutomaticamenteTasaDeCambioDelBCV);
+                if (CambioCostoUltimaCompra == 0) {
+                    if (LibConvert.SNToBool(LibGlobalValues.Instance.GetAppMemInfo().GlobalValuesGetString("Parametros", "UsaDivisaComoMonedaPrincipalDeIngresoDeDatos"))) {
+                        vResult = false;
+                    } else {
+                        vResult = true;
                     }
-                    return true;
+                    CambioCostoUltimaCompra = 1;
+                } else {
+                    vResult = CambioCostoUltimaCompra > 0;
                 }
             }
+            return vResult;
         }
         public bool IsEnabledCambioCostoUltimaCompra {
             get {

@@ -1100,7 +1100,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
     @PrimaryKey=ConsecutivoCompania,NumeroFactura,TipoDeDocumento,ConsecutivoRenglon
 }
 
-{@D Factura}RenglonCobroDeFactura = record //Multiarchivo=Compania,
+{@D Factura}RenglonCobroDeFactura = record //Multiarchivo=Compania, GENERATE
     ConsecutivoCompania		    : Longint; //HIDE
     NumeroFactura			    : str11;//HIDE,o
     TipoDeDocumento		        : unTipoDocumentoFactura;//HIDE,o
@@ -1113,6 +1113,7 @@ unBancoPM = (Bco_0102 "0102 Banco de Venezuela S.A. Banco Universal", Bco_0104 "
     NumeroDocumentoAprobacion   : str30;
     CodigoMoneda                : str4;
     CambioAMonedaLocal          : double;
+	InfoAdicional          		: str250;
     @PrimaryKey=ConsecutivoCompania,NumeroFactura,TipoDeDocumento,ConsecutivoRenglon
 }
 

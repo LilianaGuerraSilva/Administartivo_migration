@@ -54,6 +54,7 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("NumeroDocumentoAprobacion" + InsSql.VarCharTypeForDb(30) + " CONSTRAINT d_RenCobDeFacNuDoAp DEFAULT (''), ");
             SQL.AppendLine("CodigoMoneda" + InsSql.VarCharTypeForDb(4) + " CONSTRAINT d_RenCobDeFacCoMon DEFAULT ('VES'), ");
             SQL.AppendLine("CambioAMonedaLocal" + InsSql.NumericTypeForDb(25, 4) + " CONSTRAINT d_RenCobDeFacCaAMonLoc DEFAULT (1), ");
+            SQL.AppendLine("InfoAdicional" + InsSql.VarCharTypeForDb(250) + " CONSTRAINT d_RenCobDeFacInAd DEFAULT (''), ");
             SQL.AppendLine("fldTimeStamp" + InsSql.TimeStampTypeForDb() + ",");
             SQL.AppendLine("CONSTRAINT p_RenglonCobroDeFactura PRIMARY KEY CLUSTERED");
             SQL.AppendLine("(ConsecutivoCompania ASC, NumeroFactura ASC, TipoDeDocumento ASC, ConsecutivoRenglon ASC)");
@@ -78,7 +79,7 @@ namespace Galac.Adm.Dal.Venta {
             StringBuilder SQL = new StringBuilder();
             SQL.AppendLine("SELECT RenglonCobroDeFactura.ConsecutivoCompania, RenglonCobroDeFactura.NumeroFactura, RenglonCobroDeFactura.TipoDeDocumento, " + DbSchema + ".Gv_EnumTipoDocumentoFactura.StrValue AS TipoDeDocumentoStr, RenglonCobroDeFactura.ConsecutivoRenglon");
             SQL.AppendLine(", RenglonCobroDeFactura.CodigoFormaDelCobro, RenglonCobroDeFactura.NumeroDelDocumento, RenglonCobroDeFactura.CodigoBanco, RenglonCobroDeFactura.Monto");
-            SQL.AppendLine(", RenglonCobroDeFactura.CodigoPuntoDeVenta, RenglonCobroDeFactura.NumeroDocumentoAprobacion");
+            SQL.AppendLine(", RenglonCobroDeFactura.CodigoPuntoDeVenta, RenglonCobroDeFactura.NumeroDocumentoAprobacion, RenglonCobroDeFactura.CodigoMoneda, RenglonCobroDeFactura.CambioAMonedaLocal, RenglonCobroDeFactura.InfoAdicional");
             SQL.AppendLine(", RenglonCobroDeFactura.fldTimeStamp, CAST(RenglonCobroDeFactura.fldTimeStamp AS bigint) AS fldTimeStampBigint");
             SQL.AppendLine("FROM " + DbSchema + ".RenglonCobroDeFactura");
             SQL.AppendLine("INNER JOIN " + DbSchema + ".Gv_EnumTipoDocumentoFactura");
@@ -101,7 +102,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@CodigoBanco" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + " = 0,");
             SQL.AppendLine("@CodigoPuntoDeVenta" + InsSql.NumericTypeForDb(10, 0) + ",");
-            SQL.AppendLine("@NumeroDocumentoAprobacion" + InsSql.VarCharTypeForDb(30) + " = ''");
+            SQL.AppendLine("@NumeroDocumentoAprobacion" + InsSql.VarCharTypeForDb(30) + " = '',");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
+            SQL.AppendLine("@CambioAMonedaLocal" + InsSql.NumericTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@InfoAdicional" + InsSql.VarCharTypeForDb(250) + " = ''");
             return SQL.ToString();
         }
 
@@ -123,7 +127,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            CodigoBanco,");
             SQL.AppendLine("            Monto,");
             SQL.AppendLine("            CodigoPuntoDeVenta,");
-            SQL.AppendLine("            NumeroDocumentoAprobacion)");
+            SQL.AppendLine("            NumeroDocumentoAprobacion,");
+            SQL.AppendLine("            CodigoMoneda,");
+            SQL.AppendLine("            CambioAMonedaLocal,");
+            SQL.AppendLine("            InfoAdicional)");
             SQL.AppendLine("            VALUES(");
             SQL.AppendLine("            @ConsecutivoCompania,");
             SQL.AppendLine("            @NumeroFactura,");
@@ -134,7 +141,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("            @CodigoBanco,");
             SQL.AppendLine("            @Monto,");
             SQL.AppendLine("            @CodigoPuntoDeVenta,");
-            SQL.AppendLine("            @NumeroDocumentoAprobacion)");
+            SQL.AppendLine("            @NumeroDocumentoAprobacion,");
+            SQL.AppendLine("            @CodigoMoneda,");
+            SQL.AppendLine("            @CambioAMonedaLocal,");
+            SQL.AppendLine("            @InfoAdicional)");
             SQL.AppendLine("            SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("        COMMIT TRAN");
             SQL.AppendLine("        RETURN @ReturnValue ");
@@ -157,6 +167,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("@Monto" + InsSql.DecimalTypeForDb(25, 4) + ",");
             SQL.AppendLine("@CodigoPuntoDeVenta" + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("@NumeroDocumentoAprobacion" + InsSql.VarCharTypeForDb(30) + ",");
+            SQL.AppendLine("@CodigoMoneda" + InsSql.VarCharTypeForDb(4) + ",");
+            SQL.AppendLine("@CambioAMonedaLocal" + InsSql.NumericTypeForDb(25, 4) + ",");
+            SQL.AppendLine("@InfoAdicional" + InsSql.VarCharTypeForDb(250) + ",");
             SQL.AppendLine("@TimeStampAsInt" + InsSql.BigintTypeForDb());
             return SQL.ToString();
         }
@@ -186,7 +199,10 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("               CodigoBanco = @CodigoBanco,");
             SQL.AppendLine("               Monto = @Monto,");
             SQL.AppendLine("               CodigoPuntoDeVenta = @CodigoPuntoDeVenta,");
-            SQL.AppendLine("               NumeroDocumentoAprobacion = @NumeroDocumentoAprobacion");
+            SQL.AppendLine("               NumeroDocumentoAprobacion = @NumeroDocumentoAprobacion,");
+            SQL.AppendLine("               CodigoMoneda = @CodigoMoneda,");
+            SQL.AppendLine("               CambioAMonedaLocal = @CambioAMonedaLocal,");
+            SQL.AppendLine("               InfoAdicional = @InfoAdicional");
             SQL.AppendLine("            WHERE fldTimeStamp = @CurrentTimeStamp");
             SQL.AppendLine("               AND ConsecutivoCompania = @ConsecutivoCompania");
             SQL.AppendLine("               AND NumeroFactura = @NumeroFactura");
@@ -307,6 +323,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("         Monto,");
             SQL.AppendLine("         CodigoPuntoDeVenta,");
             SQL.AppendLine("         NumeroDocumentoAprobacion,");
+            SQL.AppendLine("         CodigoMoneda,");
+            SQL.AppendLine("         CambioAMonedaLocal,");
+            SQL.AppendLine("         InfoAdicional,");
             SQL.AppendLine("         CAST(fldTimeStamp AS bigint) AS fldTimeStampBigint,");
             SQL.AppendLine("         fldTimeStamp");
             SQL.AppendLine("      FROM " + DbSchema + ".RenglonCobroDeFactura");
@@ -341,6 +360,9 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("        Monto,");
             SQL.AppendLine("        CodigoPuntoDeVenta,");
             SQL.AppendLine("        NumeroDocumentoAprobacion,");
+            SQL.AppendLine("        CodigoMoneda,");
+            SQL.AppendLine("        CambioAMonedaLocal,");
+            SQL.AppendLine("        InfoAdicional,");
             SQL.AppendLine("        fldTimeStamp");
             SQL.AppendLine("    FROM RenglonCobroDeFactura");
             SQL.AppendLine(" 	WHERE TipoDeDocumento = @TipoDeDocumento");
@@ -402,7 +424,8 @@ namespace Galac.Adm.Dal.Venta {
 			SQL.AppendLine("	        CodigoPuntoDeVenta,");
 			SQL.AppendLine("	        NumeroDocumentoAprobacion,");
 			SQL.AppendLine("	        CodigoMoneda,");
-			SQL.AppendLine("	        CambioAMonedaLocal)");
+			SQL.AppendLine("	        CambioAMonedaLocal,");
+			SQL.AppendLine("	        InfoAdicional)");
 		    SQL.AppendLine("	    SELECT ");
 			SQL.AppendLine("	        @ConsecutivoCompania,");
 			SQL.AppendLine("	        @NumeroFactura,");
@@ -413,9 +436,10 @@ namespace Galac.Adm.Dal.Venta {
 			SQL.AppendLine("	        CodigoBanco,");
 			SQL.AppendLine("	        Monto,");
 			SQL.AppendLine("	        CodigoPuntoDeVenta,");
-            SQL.AppendLine("	        NumeroDocumentoAprobacion,");
-            SQL.AppendLine("	        CodigoMoneda,");
-            SQL.AppendLine("	        CambioAMonedaLocal");
+			SQL.AppendLine("	        NumeroDocumentoAprobacion,");
+			SQL.AppendLine("	        CodigoMoneda,");
+			SQL.AppendLine("	        CambioAMonedaLocal,");
+			SQL.AppendLine("	        InfoAdicional");
             SQL.AppendLine("	    FROM OPENXML( @hdoc, 'GpData/GpResult',2) ");
             SQL.AppendLine("	    WITH (");
             SQL.AppendLine("	        TipoDeDocumento " + InsSql.CharTypeForDb(1) + ",");
@@ -427,7 +451,8 @@ namespace Galac.Adm.Dal.Venta {
             SQL.AppendLine("	        CodigoPuntoDeVenta " + InsSql.NumericTypeForDb(10, 0) + ",");
             SQL.AppendLine("	        NumeroDocumentoAprobacion " + InsSql.VarCharTypeForDb(30) + ",");
             SQL.AppendLine("	        CodigoMoneda " + InsSql.VarCharTypeForDb(4) + ",");
-            SQL.AppendLine("	        CambioAMonedaLocal " + InsSql.DecimalTypeForDb(25,4) + ") AS XmlDocDetailOfFactura");
+            SQL.AppendLine("	        CambioAMonedaLocal " + InsSql.DecimalTypeForDb(25, 4) + ",");
+            SQL.AppendLine("	        InfoAdicional " + InsSql.VarCharTypeForDb(250) + ") AS XmlDocDetailOfFactura");
             SQL.AppendLine("	    EXEC sp_xml_removedocument @hdoc");
             SQL.AppendLine("	    SET @ReturnValue = @@ROWCOUNT");
             SQL.AppendLine("	    RETURN @ReturnValue");

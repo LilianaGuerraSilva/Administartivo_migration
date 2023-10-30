@@ -141,6 +141,7 @@
     <Compile Include="Reportes\GSCajaCerrada.xaml.cs">
       <DependentUpon>GSCajaCerrada.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UIMefVentaPagosElectronicos.cs" />
     <Compile Include="ViewModel\BuscarUbicacionDeArticuloViewModel.cs" />
     <Compile Include="clsCajaAperturaMenu.cs" />
     <Compile Include="clsCajaMenu.cs" />
@@ -252,10 +253,12 @@
     <Compile Include="ViewModel\CobroRapidoVzlaViewModelBase.cs" />
     <Compile Include="ViewModel\CuadroDeBusquedaDeArticulosViewModel.cs" />
     <Compile Include="ViewModel\CuadroDeBusquedaDeClientesViewModel.cs" />
+    <Compile Include="ViewModel\DatosVPosViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaDetalleMngViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaDetalleViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaMngViewModel.cs" />
     <Compile Include="ViewModel\FacturaRapidaViewModel.cs" />
+    <Compile Include="ViewModel\PagosElectronicosMngViewModel.cs" />
     <Compile Include="ViewModel\VueltoEfectivoViewModel.cs" />
     <Compile Include="Views\GSBuscarPrecioDeArticuloView.xaml.cs">
       <DependentUpon>GSBuscarPrecioDeArticuloView.xaml</DependentUpon>
@@ -301,6 +304,9 @@
     </Compile>
     <Compile Include="Views\GSCobroRapidoMultimonedaView.xaml.cs">
       <DependentUpon>GSCobroRapidoMultimonedaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GSDatosVPosView.xaml.cs">
+      <DependentUpon>GSDatosVPosView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GSFacturaRapidaDetalleView.xaml.cs">
       <DependentUpon>GSFacturaRapidaDetalleView.xaml</DependentUpon>
@@ -447,6 +453,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GSCobroRapidoMultimonedaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GSDatosVPosView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
