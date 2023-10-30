@@ -823,7 +823,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 IImpresoraFiscalPdn vImpresoraFiscal = vCreatorMaquinaFiscal.Crear(XmlDatosImprFiscal);              
                 vImpresoraFiscal.ImprimirDocumentoNoFiscal(vTexto, valDescripcion);
             } else {
-                LibMessages.MessageBox.Information(this, $"el archivo de comprobante: {valNombreVoucher}.txt no fue encontrado", ModuleName);
+                LibMessages.MessageBox.Information(this, $"el archivo de comprobante: {valNombreVoucher} no fue encontrado", ModuleName);
             }
         }       
 
