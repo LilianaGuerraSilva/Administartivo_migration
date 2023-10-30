@@ -12,8 +12,6 @@ using System.Xml.Linq;
 using System.Text;
 using System;
 using System.Reflection;
-using System.Transactions;
-using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
     public abstract class CobroRapidoVzlaViewModelBase : CobroRapidoViewModelBase {
