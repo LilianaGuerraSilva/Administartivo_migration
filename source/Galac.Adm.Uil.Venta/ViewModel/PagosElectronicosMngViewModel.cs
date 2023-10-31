@@ -39,6 +39,12 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        public string RutaMegasoft {
+            get {
+                return ObtenerRutaMegasoft(false);
+            }
+        }
+
         public RelayCommand CierreCommand {
             get;
             private set;

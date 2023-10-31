@@ -20,6 +20,10 @@ using Galac.Adm.Ccl.CajaChica;
 using Galac.Adm.IntegracionMS.Venta;
 using Galac.Saw.Ccl.Tablas;
 using System.Linq;
+using Galac.Adm.Brl.DispositivosExternos.ImpresoraFiscal;
+using Galac.Adm.Ccl.DispositivosExternos;
+using System.IO;
+using System.Windows;
 
 namespace Galac.Adm.Uil.Venta.ViewModel {
 
@@ -106,6 +110,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         private const string CantidadTarjetasProcesadasPropertyName = "CantidadTarjetasProcesadas";
         private const string IsVisibleCantidadTarjetasProcesadasPropertyName = "IsVisibleCantidadTarjetasProcesadas";
         private decimal _CantidadTarjetasProcesadas;
+        private bool _ImprimirComprobante;
+        private bool _EsVueltoPagoMovil;
         #endregion
 
         public enum eBorderBackMontoXPagarColor {
@@ -781,6 +787,17 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                         if (DialogResult) {
                             vListaDecobro.RemoveAll(x => x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoEfectivo) || x.CodigoFormaDelCobro == insRenglonCobroDeFacturaPdn.BuscarCodigoFormaDelCobro(eTipoDeFormaDePago.VueltoC2P));
                             SeImprimio = ImprimirFacturaFiscal(vListaDecobro);
+                            if (_ImprimirComprobante) {
+                                if (_EsVueltoPagoMovil) {
+                                    ImprimirComprobanteNoFiscalAdicional("Vuelto con Pago Móvil", infoAdicional);
+                                    _EsVueltoPagoMovil = false;
+                                } else {
+                                    foreach (var vTarjeta in ListaCobrosConTddTdcVPos) {
+                                        ImprimirComprobanteNoFiscalAdicional("Cobro con Medios Electrónicos", vTarjeta.InfoAdicional);
+                                    }
+                                }
+                                _ImprimirComprobante = false;
+                            }
                         }
                         if (SeCobro != null)
                             SeCobro.Invoke(SeImprimio);
@@ -803,6 +820,8 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     infoAdicional = insVueltoMegasoft.infoAdicional;
                     numReferencia = insVueltoMegasoft.numeroReferencia;
                     if (MontoRestantePorPagar <= 0 || (MontoRestantePorPagar > 0 && MontoRestantePorPagarEnDivisas == 0)) {
+                        _ImprimirComprobante = LibMessages.MessageBox.YesNo(this, "¿Desea imprimir comprobante de Vuelto Pago Móvil?", ModuleName);
+                        _EsVueltoPagoMovil = true;
                         ExecuteCobrarCommand();
                     }
                 }
@@ -813,6 +832,19 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
             }
         }
 
+        private void ImprimirComprobanteNoFiscalAdicional(string valDescripcion, string valNombreVoucher) {            
+            string vPath = Path.Combine(new PagosElectronicosMngViewModel().RutaMegasoft,"vouchers", valNombreVoucher);
+            string vTexto = string.Empty;
+            if (LibFile.FileExists(vPath)) {
+                vTexto = LibFile.ReadFile(vPath);
+                clsImpresoraFiscalCreator vCreatorMaquinaFiscal = new clsImpresoraFiscalCreator();
+                IImpresoraFiscalPdn vImpresoraFiscal = vCreatorMaquinaFiscal.Crear(XmlDatosImprFiscal);              
+                vImpresoraFiscal.ImprimirDocumentoNoFiscal(vTexto, valDescripcion);
+            } else {
+                LibMessages.MessageBox.Information(this, $"el archivo de comprobante: {valNombreVoucher} no fue encontrado", ModuleName);
+            }
+        }       
+
         private void ExecuteCobroMediosElectonicosCommand() {
             try {
                 if (MontoRestantePorPagar > 0) {
@@ -821,6 +853,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                     vDatosVpos.vResultCobroTDDTDC += (arg) => vResultCobroTDDTDC = arg;
                     vDatosVpos.InitializeViewModel(cedulaRif, vDatosVpos.Monto);
                     LibMessages.EditViewModel.ShowEditor(vDatosVpos, true);
+                    _ImprimirComprobante = vDatosVpos.ImprimirComprobanteDePago;
                     C2PMegasoftNav insMegasoft = new C2PMegasoftNav();
                     if (insMegasoft.EjecutarCobroMediosElectonicos(vDatosVpos.CedulaRif, LibMath.Abs(vDatosVpos.Monto))) {
                         if (insMegasoft.montoTransaccion > 0) {

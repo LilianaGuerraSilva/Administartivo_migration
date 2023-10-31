@@ -32,5 +32,6 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         bool ConsultarConfiguracion(IFDiagnostico iFDiagnostico);
         bool FechaYHora(IFDiagnostico vDiagnostico);
         bool ColaDeImpresion(IFDiagnostico vDiagnostico);
+        bool ImprimirDocumentoNoFiscal(string valTextoNoFiscal, string valDescripcion);
     }
 }

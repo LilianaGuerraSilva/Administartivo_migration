@@ -18,6 +18,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Constantes
         public const string CedulaRifPropertyName = "CedulaRif";
         public const string MontoPropertyName = "Monto";
+        public const string ImprimirComprobanteDePagoPropertyName = "ImprimirComprobanteDePago";
         public Action<bool> vResultCobroTDDTDC;
         #endregion
 
@@ -25,6 +26,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         string _CedulaRif;
         decimal _Monto;
         decimal vMontoPorCobrar;
+        bool _ImprimirComprobanteDePago;
         bool vCancel = false;
         #endregion
 
@@ -58,6 +60,18 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
                 }
             }
         }
+       
+        public bool ImprimirComprobanteDePago {
+            get {
+                return _ImprimirComprobanteDePago;
+            }
+            set {
+                if (_ImprimirComprobanteDePago != value) {
+                    _ImprimirComprobanteDePago = value;
+                    RaisePropertyChanged(ImprimirComprobanteDePagoPropertyName);
+                }
+            }        
+        }
 
         public RelayCommand ContinuarCommand { get; private set; }
 
@@ -66,7 +80,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         #region Constructores
 
         public DatosVPosViewModel()
-            : base() {
+            : base() {           
         }
         #endregion //Constructores
 
@@ -75,7 +89,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         internal void InitLookAndFeel(string cedulaRif, decimal valMonto) {
             CedulaRif = cedulaRif;
             Monto = valMonto;
-            vMontoPorCobrar = LibConvert.ToDec(valMonto, 2);
+            vMontoPorCobrar = LibConvert.ToDec(valMonto, 2);           
         }
 
         protected override void InitializeCommands() {
@@ -136,6 +150,7 @@ namespace Galac.Adm.Uil.Venta.ViewModel {
         public DatosVPosViewModel(decimal valMonto) {
             Monto = valMonto;
             CedulaRif = "";
+            ImprimirComprobanteDePago = true;
             ListaDatosVPOS = new List<DatosVPOS>();
         }
         #endregion //Metodos Generados
