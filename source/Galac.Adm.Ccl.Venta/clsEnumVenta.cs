@@ -222,9 +222,9 @@ namespace Galac.Adm.Ccl.Venta {
         [LibEnumDescription("Vuelto Pago Móvil", Index = 0)]
         [LibEnumDescription("00008", Index = 1)]
         VueltoPM,
-        [LibEnumDescription("Cobro con Tarjeta")]
+        [LibEnumDescription("Cobro Con Tarjeta")]
         [LibEnumDescription("00009", Index = 1)]
-        CobroconTarjeta,
+        CobroConTarjeta,
         [LibEnumDescription("Cobro Zelle")]
         [LibEnumDescription("00010", Index = 1)]
         CobroZelle,
