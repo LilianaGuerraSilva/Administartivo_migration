@@ -9202,7 +9202,7 @@ Public Function enumTipoDeFormaDePagoToString(tipoDeFormaDePago As enum_TipoDeFo
       Case eTDA_ANTICIPO: enumTipoDeFormaDePagoToString = "Anticipo"
       Case eTDA_VUELTO_EFECTIVO: enumTipoDeFormaDePagoToString = "Vuelto Efectivo"
       Case eTDA_VUELTO_C2P: enumTipoDeFormaDePagoToString = "Vuelto C2P"
-      Case eTDA_COBRO_CON_TARJETA: enumTipoDeFormaDePagoToString = "Cobro Con Tarjeta"
+      Case eTDA_COBRO_CON_TARJETA: enumTipoDeFormaDePagoToString = "Cobro con Tarjeta"
       Case eTDA_COBRO_ZELLE: enumTipoDeFormaDePagoToString = "Cobro Zelle"
       Case eTDA_COBRO_PAGO_MOVIL: enumTipoDeFormaDePagoToString = "Cobro Pago Movil"
       Case eTDA_COBRO_TRANSFERENCIA: enumTipoDeFormaDePagoToString = "Cobro Transferencia"

@@ -288,7 +288,7 @@ namespace Galac.Adm.Ccl.DispositivosExternos {
         [LibEnumDescription("Transferencia",Index = 0)]
         [LibEnumDescription("00006",Index = 1)]
         Transferencia,
-        [LibEnumDescription("Cobro Con Tarjeta")]
+        [LibEnumDescription("Cobro con Tarjeta")]
         [LibEnumDescription("00009", Index = 1)]
         CobroConTarjeta,
         [LibEnumDescription("Cobro Zelle")]
